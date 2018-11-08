@@ -1,7 +1,7 @@
 # lhcb-ntuples-gen
 DaVinci scripts for ntuples generation
 
-## Split bookkeep files
+## Split bookkeeping files
 The motivation to do this is that we can split long bookkeeping files (~1000
 lines) into many smaller files, each has 50 lines, so that we can use
 `LHCbDirac` to download these `dst` files from one of these files to our EOS
