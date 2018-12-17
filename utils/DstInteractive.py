@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 #
 # Author: Yipeng Sun <syp at umd dot edu>
-# Last Change: Mon Dec 17, 2018 at 02:14 AM -0500
+# Last Change: Mon Dec 17, 2018 at 02:00 PM -0500
 
 import sys
 
@@ -9,9 +9,8 @@ import GaudiPython as GP
 from GaudiConf import IOHelper
 from Configurables import DaVinci
 
-dv = DaVinci()
-dv.DataType = '2016'
-dv.Simulation = True
+DaVinci().DataType = '2012'
+DaVinci().Simulation = False
 
 # Pass file to open as first command line argument
 inputFiles = [sys.argv[-1]]
