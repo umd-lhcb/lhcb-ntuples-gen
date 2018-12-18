@@ -1,5 +1,5 @@
 # Author: Yipeng Sun <syp at umd dot edu>
-# Last Change: Mon Dec 17, 2018 at 01:40 AM -0500
+# Last Change: Tue Dec 18, 2018 at 03:20 PM -0500
 
 ############################################
 # Stream and stripping line we want to use #
@@ -9,7 +9,7 @@ from Configurables import DecayTreeTuple
 from DecayTreeTuple.Configuration import *
 
 stream = 'AllStreams'
-line = 'Strippingb2D0MuXB2DMuForTauMuLine'
+line = 'Strippingb2D0MuXB2DMuNuForTauMuLine'
 
 # Create an ntuple to capture semileptonic B decays from the stripping line
 dtt = DecayTreeTuple('TupleDstToD*Mu+Nu(NuNu)')
