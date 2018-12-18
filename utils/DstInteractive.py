@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 #
 # Author: Yipeng Sun <syp at umd dot edu>
-# Last Change: Mon Dec 17, 2018 at 02:00 PM -0500
+# Last Change: Mon Dec 17, 2018 at 11:55 PM -0500
 
 import sys
 
@@ -47,7 +47,7 @@ def nodes(evt, node=None):
     return nodenames
 
 
-def advance(decision):
+def advance(decision, prefix='Stripping', suffix='Decision'):
     """Advance until stripping decision is true, returns
     number of events by which we advanced"""
     n = 0
@@ -60,7 +60,7 @@ def advance(decision):
 
         n += 1
         dec = evt['/Event/Strip/Phys/DecReports']
-        if dec.hasDecisionName('Stripping{0}Decision'.format(decision)):
+        if dec.hasDecisionName('{0}{1}{2}'.format(prefix, decision, suffix)):
             break
 
     return n
