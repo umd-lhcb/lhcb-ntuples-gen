@@ -13,7 +13,7 @@ DaVinci().EvtMax = -1
 DaVinci().SkipEvents = 0
 DaVinci().Simulation = False
 
-DaVinci().PrintFreq = 1000
+DaVinci().PrintFreq = 100
 
 # Output filename
 DaVinci().TupleFile = 'DVntuple.root'
@@ -26,7 +26,7 @@ DaVinci().Lumi = not DaVinci().Simulation
 # Define stripping lines #
 ##########################
 
-line_data = 'Strippingb2D0MuXB2DMuNuForTauMuLine'
+line_data = 'b2D0MuXB2DMuNuForTauMuLine'
 
 
 ############################################
@@ -36,12 +36,20 @@ line_data = 'Strippingb2D0MuXB2DMuNuForTauMuLine'
 from Configurables import DecayTreeTuple
 from DecayTreeTuple.Configuration import *
 
-stream = 'AllStreams'
+stream = 'Semileptonic'
 
 # Create an ntuple to capture semileptonic B decays from the stripping line
-dtt = DecayTreeTuple('TupleDstToD*Mu+Nu(NuNu)')
-dtt.Inputs = ['/Event/{0}/Phys/{1}/Particles'.format(stream, line)]
-dtt.Decay = '[D*(2010)+ -> (D0 -> K- K+) pi+]CC'
+dtt = DecayTreeTuple('LFUv')
+dtt.Inputs = ['/Event/{0}/Phys/{1}/Particles'.format(stream, line_data)]
+dtt.Decay = '[B~0 -> ^(D*(2010)+ -> ^(D0 -> ^K- ^pi+) ^pi+) ^mu-]CC'
+# dtt.addBranches({
+#     "Y" : "^([B0 -> (D*(2010)- -> (D~0 -> K+ pi-) pi-) mu+]CC)",
+#     "Dst_2010_minus" : "[B0 -> ^(D*(2010)- -> (D~0 -> K+ pi-) pi-) mu+]CC",
+#     "D0" : "[B0 -> (D*(2010)- -> ^(D~0 -> K+ pi-) pi-) mu+]CC",
+#     "piminus" : "[B0 -> (D*(2010)- -> (D~0 -> K+ pi-) ^pi-) mu+]CC",
+#     "piminus0" : "[B0 -> (D*(2010)- -> (D~0 -> K+ ^pi-) pi-) mu+]CC",
+#     "Kplus" : "[B0 -> (D*(2010)- -> (D~0 -> ^K+ pi-) pi-) mu+]CC",
+#     "muplus" : "[B0 -> (D*(2010)- -> (D~0 -> K+ pi-) pi-) ^mu+]CC"})
 
 DaVinci().UserAlgorithms += [dtt]
 
@@ -55,9 +63,9 @@ from PhysConf.Filters import LoKi_Filters
 
 
 # fltrs = LoKi_Filters(
-    # STRIP_Code="HLT_PASS_RE('StrippingD2hhPromptDst2D2KKLineDecision')"
+#   STRIP_Code="HLT_PASS_RE('StrippingD2hhPromptDst2D2KKLineDecision')"
 # )
-
+# 
 # DaVinci().EventPreFilters = fltrs.filters('Filters')
 
 
@@ -68,5 +76,6 @@ from PhysConf.Filters import LoKi_Filters
 from GaudiConf import IOHelper
 
 IOHelper().inputFiles([
-    './data/mag_down/00041836_00006100_1.semileptonic.dst'
+    #'./data/mag_down/00041836_00006100_1.semileptonic.dst'
+    './data/mag_down/00041836_00011435_1.semileptonic.dst'
 ], clear=True)
