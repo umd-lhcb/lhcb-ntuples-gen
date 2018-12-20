@@ -9,6 +9,9 @@ import GaudiPython as GP
 from GaudiConf import IOHelper
 from Configurables import DaVinci
 
+# define commonly-used lines
+line_2012_mag_down = 'b2D0MuXB2DMuNuForTauMuLine'
+
 DaVinci().DataType = '2012'
 DaVinci().Simulation = False
 
