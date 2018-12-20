@@ -1,5 +1,5 @@
-# Author: Yipeng Sun <syp at umd dot edu>
-# Last Change: Tue Dec 18, 2018 at 03:20 PM -0500
+# License: BSD 2-clause
+# Last Change: Thu Dec 20, 2018 at 02:54 PM -0500
 
 ############################################
 # Stream and stripping line we want to use #
@@ -50,5 +50,5 @@ DaVinci().Lumi = not DaVinci().Simulation
 from GaudiConf import IOHelper
 
 IOHelper().inputFiles([
-    './00062514_00000001_7.AllStreams.dst'
+    './data/mag_down/00041836_00006100_1.semileptonic.dst'
 ], clear=True)

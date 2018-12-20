@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 #
-# Author: Yipeng Sun <syp at umd dot edu>
-# Last Change: Mon Dec 17, 2018 at 11:55 PM -0500
+# License: BSD 2-clause
+# Last Change: Thu Dec 20, 2018 at 02:54 PM -0500
 
 import sys
 
