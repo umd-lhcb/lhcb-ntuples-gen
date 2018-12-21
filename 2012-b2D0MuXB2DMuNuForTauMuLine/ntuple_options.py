@@ -1,5 +1,5 @@
 # License: BSD 2-clause
-# Last Change: Thu Dec 20, 2018 at 03:09 PM -0500
+# Last Change: Fri Dec 21, 2018 at 11:13 AM -0500
 
 #####################
 # Configure DaVinci #
@@ -34,15 +34,15 @@ line_data = 'b2D0MuXB2DMuNuForTauMuLine'
 ############################################
 
 from Configurables import DecayTreeTuple
-from DecayTreeTuple.Configuration import *
+# from DecayTreeTuple.Configuration import *
 
 stream = 'Semileptonic'
 
 # Create an ntuple to capture semileptonic B decays from the stripping line
 dtt = DecayTreeTuple('LFUv')
 dtt.Inputs = ['/Event/{0}/Phys/{1}/Particles'.format(stream, line_data)]
-#dtt.Decay = '[B~0 -> ^(D*(2010)+ -> ^(D0 -> ^K- ^pi+) ^pi+) ^mu-]CC'  ## Decay from Phoebe's script
-dtt.Decay = '[B+ ->  ^(D~0 -> ^K+ ^pi-) ^mu+]CC'   ## The D* is not reconstructed by the stripping line
+# dtt.Decay = '[B~0 -> ^(D*(2010)+ -> ^(D0 -> ^K- ^pi+) ^pi+) ^mu-]CC'  # Decay from Phoebe's script
+dtt.Decay = '[B+ ->  ^(D~0 -> ^K+ ^pi-) ^mu+]CC'  # The D* is not reconstructed by the stripping line
 
 # dtt.addBranches({
 #     "Y" : "^([B0 -> (D*(2010)- -> (D~0 -> K+ pi-) pi-) mu+]CC)",
@@ -62,13 +62,11 @@ DaVinci().UserAlgorithms += [dtt]
 
 from PhysConf.Filters import LoKi_Filters
 
+fltrs = LoKi_Filters(
+    STRIP_Code="HLT_PASS_RE('Stripping{0}Decision')".format(line_data)
+)
 
-
-# fltrs = LoKi_Filters(
-#   STRIP_Code="HLT_PASS_RE('StrippingD2hhPromptDst2D2KKLineDecision')"
-# )
-# 
-# DaVinci().EventPreFilters = fltrs.filters('Filters')
+DaVinci().EventPreFilters = fltrs.filters('Filters')
 
 
 ####################
@@ -78,6 +76,6 @@ from PhysConf.Filters import LoKi_Filters
 from GaudiConf import IOHelper
 
 IOHelper().inputFiles([
-    './data/mag_down/00041836_00006100_1.semileptonic.dst'
-    #'./data/mag_down/00041836_00011435_1.semileptonic.dst'
+    './data/mag_down/00041836_00006100_1.semileptonic.dst',
+    './data/mag_down/00041836_00011435_1.semileptonic.dst'
 ], clear=True)
