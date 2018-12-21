@@ -41,7 +41,9 @@ stream = 'Semileptonic'
 # Create an ntuple to capture semileptonic B decays from the stripping line
 dtt = DecayTreeTuple('LFUv')
 dtt.Inputs = ['/Event/{0}/Phys/{1}/Particles'.format(stream, line_data)]
-dtt.Decay = '[B~0 -> ^(D*(2010)+ -> ^(D0 -> ^K- ^pi+) ^pi+) ^mu-]CC'
+#dtt.Decay = '[B~0 -> ^(D*(2010)+ -> ^(D0 -> ^K- ^pi+) ^pi+) ^mu-]CC'  ## Decay from Phoebe's script
+dtt.Decay = '[B+ ->  ^(D~0 -> ^K+ ^pi-) ^mu+]CC'   ## The D* is not reconstructed by the stripping line
+
 # dtt.addBranches({
 #     "Y" : "^([B0 -> (D*(2010)- -> (D~0 -> K+ pi-) pi-) mu+]CC)",
 #     "Dst_2010_minus" : "[B0 -> ^(D*(2010)- -> (D~0 -> K+ pi-) pi-) mu+]CC",
@@ -76,6 +78,6 @@ from PhysConf.Filters import LoKi_Filters
 from GaudiConf import IOHelper
 
 IOHelper().inputFiles([
-    #'./data/mag_down/00041836_00006100_1.semileptonic.dst'
-    './data/mag_down/00041836_00011435_1.semileptonic.dst'
+    './data/mag_down/00041836_00006100_1.semileptonic.dst'
+    #'./data/mag_down/00041836_00011435_1.semileptonic.dst'
 ], clear=True)
