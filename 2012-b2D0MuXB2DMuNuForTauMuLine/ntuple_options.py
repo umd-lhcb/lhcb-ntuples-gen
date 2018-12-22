@@ -1,5 +1,5 @@
 # License: BSD 2-clause
-# Last Change: Fri Dec 21, 2018 at 09:29 PM -0500
+# Last Change: Fri Dec 21, 2018 at 09:51 PM -0500
 
 #####################
 # Configure DaVinci #
@@ -29,9 +29,9 @@ DaVinci().Lumi = not DaVinci().Simulation
 line_data = 'b2D0MuXB2DMuNuForTauMuLine'
 
 
-############################################
-# Stream and stripping line we want to use #
-############################################
+###################
+# Define n-tuples #
+###################
 
 from Configurables import DecayTreeTuple
 # from DecayTreeTuple.Configuration import *
