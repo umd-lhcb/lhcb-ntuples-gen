@@ -1,5 +1,5 @@
 # License: BSD 2-clause
-# Last Change: Fri Dec 21, 2018 at 09:51 PM -0500
+# Last Change: Tue Jan 01, 2019 at 03:07 AM -0500
 
 #####################
 # Configure DaVinci #
@@ -15,8 +15,9 @@ DaVinci().Simulation = False
 
 DaVinci().PrintFreq = 100
 
-# Output filename
+# Output filenames
 DaVinci().TupleFile = './gen/DVntuple.root'
+DaVinci().HistogramFile = './gen/DVHisto.root'
 
 # Only ask for luminosity information when not using simulated data
 DaVinci().Lumi = not DaVinci().Simulation
