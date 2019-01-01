@@ -1,5 +1,5 @@
 # License: BSD 2-clause
-# Last Change: Tue Jan 01, 2019 at 03:42 AM -0500
+# Last Change: Tue Jan 01, 2019 at 03:46 AM -0500
 
 #####################
 # Configure DaVinci #
@@ -28,7 +28,8 @@ DaVinci().Lumi = not DaVinci().Simulation
 ###################################
 # These algorithms are executed before any of the selection algorithms.
 #
-# algorithms/methods defined here will be available to all selection algorithms.
+# algorithms defined here will set up stuffs that will be available for all
+# selection algorithms.
 
 from Configurables import ChargedProtoParticleMaker
 
