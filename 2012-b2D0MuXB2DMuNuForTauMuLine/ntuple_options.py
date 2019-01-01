@@ -1,5 +1,5 @@
 # License: BSD 2-clause
-# Last Change: Tue Jan 01, 2019 at 03:07 AM -0500
+# Last Change: Tue Jan 01, 2019 at 03:42 AM -0500
 
 #####################
 # Configure DaVinci #
@@ -23,6 +23,22 @@ DaVinci().HistogramFile = './gen/DVHisto.root'
 DaVinci().Lumi = not DaVinci().Simulation
 
 
+###################################
+# Customize DaVinci main sequence #
+###################################
+# These algorithms are executed before any of the selection algorithms.
+#
+# algorithms/methods defined here will be available to all selection algorithms.
+
+from Configurables import ChargedProtoParticleMaker
+
+veloprotos = ChargedProtoParticleMaker(name='myProtoPMaker')
+veloprotos.Input = ['Rec/Track/Best']
+veloprotos.Output = ['Rec/ProtoP/myProtoPMaker/ProtoParticles']  # This TES location will be accessible for all selection algorithms
+
+DaVinci().appendToMainSequence([veloprotos])
+
+
 ##########################
 # Define stripping lines #
 ##########################
@@ -30,9 +46,26 @@ DaVinci().Lumi = not DaVinci().Simulation
 line_data = 'b2D0MuXB2DMuNuForTauMuLine'
 
 
-###################
-# Define n-tuples #
-###################
+######################
+# Define pre-filters #
+######################
+# These filters are executed *before* the main selection algorithms to ignore
+# obviously uninteresting events.
+#
+# This should speed up the execution time.
+
+from PhysConf.Filters import LoKi_Filters
+
+fltrs = LoKi_Filters(
+    STRIP_Code="HLT_PASS_RE('Stripping{0}Decision')".format(line_data)
+)
+
+DaVinci().EventPreFilters = fltrs.filters('Filters')
+
+
+#####################
+# Define selections #
+#####################
 
 from Configurables import DecayTreeTuple
 # from DecayTreeTuple.Configuration import *
@@ -55,19 +88,6 @@ dtt.Decay = '[B+ ->  ^(D~0 -> ^K+ ^pi-) ^mu+]CC'  # The D* is not reconstructed 
 #     "muplus" : "[B0 -> (D*(2010)- -> (D~0 -> K+ pi-) pi-) ^mu+]CC"})
 
 DaVinci().UserAlgorithms += [dtt]
-
-
-##################
-# Define filters #
-##################
-
-from PhysConf.Filters import LoKi_Filters
-
-fltrs = LoKi_Filters(
-    STRIP_Code="HLT_PASS_RE('Stripping{0}Decision')".format(line_data)
-)
-
-DaVinci().EventPreFilters = fltrs.filters('Filters')
 
 
 ####################
