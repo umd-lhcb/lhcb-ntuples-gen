@@ -1,5 +1,5 @@
 # License: BSD 2-clause
-# Last Change: Fri Jan 04, 2019 at 01:28 PM -0500
+# Last Change: Fri Jan 04, 2019 at 02:08 PM -0500
 
 #####################
 # Configure DaVinci #
@@ -40,12 +40,20 @@ line_hlt = 'Hlt2CharmHadD0HH_D02KPi'
 # selection algorithms.
 
 from Configurables import ChargedProtoParticleMaker
+from Configurables import TrackScaleState as TrkSS
 
-veloprotos = ChargedProtoParticleMaker(name='myProtoPMaker')
-veloprotos.Inputs = ['Rec/Track/Best']
-veloprotos.Output = 'Rec/ProtoP/myProtoPMaker/ProtoParticles'  # This TES location will be accessible for all selection algorithms
+ms_veloprotos = ChargedProtoParticleMaker(name='myProtoPMaker')
+ms_veloprotos.Inputs = ['Rec/Track/Best']
+ms_veloprotos.Output = 'Rec/ProtoP/myProtoPMaker/ProtoParticles'  # This TES location will be accessible for all selection algorithms
 
-DaVinci().appendToMainSequence([veloprotos])
+
+# According to the source code (available in 'Analysis/Phys/DaVinciTrackScaling/src/TrackScaleState.cpp'):
+# Scale the state. Use on DST to scale the track states *before* your user
+# algorithms sequence.
+# FIXME: don't understand
+ms_scaler = TrkSS('StateScale')
+
+DaVinci().appendToMainSequence([ms_veloprotos, ms_scaler])
 
 
 ######################
@@ -66,8 +74,8 @@ fltr_strip = HDRFilter('StrippedBCands',
                        Code="HLT_PASS('Stripping{0}Decision')".format(
                            line_strip))
 
-fltr_trig = HDRFilter('TriggeredD0',
-                      Code="HLT_PASS('{0}Decision')".format(line_hlt))
+fltr_hlt = HDRFilter('TriggeredD0',
+                     Code="HLT_PASS('{0}Decision')".format(line_hlt))
 
 # DaVinci().EventPreFilters = fltrs.filters('Filters')
 
