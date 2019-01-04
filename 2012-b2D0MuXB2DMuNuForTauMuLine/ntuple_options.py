@@ -1,5 +1,5 @@
 # License: BSD 2-clause
-# Last Change: Fri Jan 04, 2019 at 04:39 PM -0500
+# Last Change: Fri Jan 04, 2019 at 04:40 PM -0500
 
 #####################
 # Configure DaVinci #
@@ -108,7 +108,7 @@ from Configurables import FilterDesktop, FilterInTrees
 sel_stripped_filtered = Selection(
     'SelMyStrippedFiltered',
     Algorithm=FilterDesktop(
-        'SelMyStrippedFiltered',
+        'MyStrippedFiltered',
         Code="INTREE((ABSID == 'mu+') & (TIS('L0.*', 'L0TriggerTisTos')))"
     ),
     RequiredSelections=[pr_stripped]
