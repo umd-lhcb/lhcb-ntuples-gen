@@ -1,5 +1,5 @@
 # License: BSD 2-clause
-# Last Change: Fri Jan 04, 2019 at 01:09 PM -0500
+# Last Change: Fri Jan 04, 2019 at 01:28 PM -0500
 
 #####################
 # Configure DaVinci #
@@ -42,8 +42,8 @@ line_hlt = 'Hlt2CharmHadD0HH_D02KPi'
 from Configurables import ChargedProtoParticleMaker
 
 veloprotos = ChargedProtoParticleMaker(name='myProtoPMaker')
-veloprotos.Input = ['Rec/Track/Best']
-veloprotos.Output = ['Rec/ProtoP/myProtoPMaker/ProtoParticles']  # This TES location will be accessible for all selection algorithms
+veloprotos.Inputs = ['Rec/Track/Best']
+veloprotos.Output = 'Rec/ProtoP/myProtoPMaker/ProtoParticles'  # This TES location will be accessible for all selection algorithms
 
 DaVinci().appendToMainSequence([veloprotos])
 
@@ -70,6 +70,11 @@ fltr_trig = HDRFilter('TriggeredD0',
                       Code="HLT_PASS('{0}Decision')".format(line_hlt))
 
 # DaVinci().EventPreFilters = fltrs.filters('Filters')
+
+
+###############
+# Define cuts #
+###############
 
 
 #####################
