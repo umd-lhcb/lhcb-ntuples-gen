@@ -1,5 +1,5 @@
 # License: BSD 2-clause
-# Last Change: Fri Jan 04, 2019 at 04:40 PM -0500
+# Last Change: Fri Jan 04, 2019 at 04:54 PM -0500
 
 #####################
 # Configure DaVinci #
@@ -219,13 +219,13 @@ sel_Dst = Selection(
 )
 
 sel_Bd = Selection(
-    'SelMyWSBd',
+    'SelMyBd',
     Algorithm=algo_Bd,
     RequiredSelections=[sel_Dst, sel_charged_mu]
 )
 
 sel_refit_b2DstMu = Selection(
-    'SelMyYDTF',
+    'SelMyRefitb2DstMu',
     Algorithm=FitDecayTrees(
         'MyRefitb2DstMu',
         Code="DECTREE('[B~0 -> (D*(2010)+ -> (D0->K- pi+) pi+) mu-]CC')",
@@ -244,7 +244,7 @@ from PhysSelPython.Wrappers import SelectionSequence
 
 selseq_y_maker = SelectionSequence(
     'SelSeqMyYMaker',
-    EventPreSelector=[fltr_hlt, fltr_strip],
+    EventPreSelector=[fltr_strip],
     TopSelection=sel_refit_b2DstMu
 )
 
