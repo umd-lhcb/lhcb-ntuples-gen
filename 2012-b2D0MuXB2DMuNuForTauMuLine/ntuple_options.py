@@ -1,5 +1,5 @@
 # License: BSD 2-clause
-# Last Change: Fri Jan 04, 2019 at 04:33 PM -0500
+# Last Change: Fri Jan 04, 2019 at 04:39 PM -0500
 
 #####################
 # Configure DaVinci #
@@ -204,6 +204,8 @@ algo_Bd.MotherCut = "(M < 10000*MeV) & (BPVDIRA > 0.9995) &" + \
 # Define selections #
 #####################
 
+from Configurables import FitDecayTrees
+
 sel_D0 = Selection(
     'SelMyD0',
     Algorithm=algo_D0,
@@ -222,9 +224,14 @@ sel_Bd = Selection(
     RequiredSelections=[sel_Dst, sel_charged_mu]
 )
 
-sel_ydtf = Selection(
+sel_refit_b2DstMu = Selection(
     'SelMyYDTF',
-    Algorithm=refitB2Dstmu,
+    Algorithm=FitDecayTrees(
+        'MyRefitb2DstMu',
+        Code="DECTREE('[B~0 -> (D*(2010)+ -> (D0->K- pi+) pi+) mu-]CC')",
+        UsePVConstraint=False,
+        Inputs=[sel_Bd.outputLocation()]
+    ),
     RequiredSelections=[sel_Bd]
 )
 
@@ -238,7 +245,7 @@ from PhysSelPython.Wrappers import SelectionSequence
 selseq_y_maker = SelectionSequence(
     'SelSeqMyYMaker',
     EventPreSelector=[fltr_hlt, fltr_strip],
-    TopSelection=sel_ydtf
+    TopSelection=sel_refit_b2DstMu
 )
 
 
