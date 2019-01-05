@@ -1,5 +1,5 @@
 # License: BSD 2-clause
-# Last Change: Sat Jan 05, 2019 at 03:08 AM -0500
+# Last Change: Sat Jan 05, 2019 at 03:23 AM -0500
 
 #####################
 # Configure DaVinci #
@@ -262,10 +262,10 @@ from Configurables import DecayTreeTuple
 stream = 'Semileptonic'
 
 # Create an ntuple to capture semileptonic B decays from the stripping line
-dtt = DecayTreeTuple('LFUv')
-dtt.Inputs = ['/Event/{0}/Phys/{1}/Particles'.format(stream, line_strip)]
-# dtt.Decay = '[B~0 -> ^(D*(2010)+ -> ^(D0 -> ^K- ^pi+) ^pi+) ^mu-]CC'  # Decay from Phoebe's script
-dtt.Decay = '[B+ ->  ^(D~0 -> ^K+ ^pi-) ^mu+]CC'  # The D* is not reconstructed by the stripping line
+tp_D0 = DecayTreeTuple('TupleD0')
+tp_D0.Inputs = ['/Event/{0}/Phys/{1}/Particles'.format(stream, line_strip)]
+# tp_D0.Decay = '[B~0 -> ^(D*(2010)+ -> ^(D0 -> ^K- ^pi+) ^pi+) ^mu-]CC'  # Decay from Phoebe's script
+tp_D0.Decay = '[B+ ->  ^(D~0 -> ^K+ ^pi-) ^mu+]CC'  # The D* is not reconstructed by the stripping line
 
 # dtt.addBranches({
 #     "Y" : "^([B0 -> (D*(2010)- -> (D~0 -> K+ pi-) pi-) mu+]CC)",
@@ -277,7 +277,7 @@ dtt.Decay = '[B+ ->  ^(D~0 -> ^K+ ^pi-) ^mu+]CC'  # The D* is not reconstructed 
 #     "muplus" : "[B0 -> (D*(2010)- -> (D~0 -> K+ pi-) pi-) ^mu+]CC"})
 
 
-DaVinci().UserAlgorithms += [dtt]
+DaVinci().UserAlgorithms += [tp_D0]
 
 
 ####################
