@@ -1,5 +1,5 @@
 # License: BSD 2-clause
-# Last Change: Fri Jan 04, 2019 at 04:54 PM -0500
+# Last Change: Sat Jan 05, 2019 at 02:03 AM -0500
 
 #####################
 # Configure DaVinci #
@@ -142,7 +142,7 @@ from Configurables import CombineParticles
 
 # D0 ###########################################################################
 algo_D0 = CombineParticles('MyD0')
-algo_D0.DecayDescriptor = '[D0 -> K- pi+]CC'
+algo_D0.DecayDescriptor = '[D0 -> K- pi+]cc'
 
 algo_D0.DaughtersCuts = {
     # PT: transverse momentum
@@ -172,7 +172,7 @@ algo_D0.MotherCut = "(ADMASS('D0') < 100*MeV) & (VFASPF(VCHI2/VDOF) < 100)"
 
 # Dstar ########################################################################
 algo_Dst = CombineParticles("MyDstar")
-algo_Dst.DecayDescriptor = '[D*(2010)+ -> D0 pi+]CC'
+algo_Dst.DecayDescriptor = '[D*(2010)+ -> D0 pi+]cc'
 
 algo_Dst.DaughtersCuts = {
     'pi+': '(MIPCHI2DV(PRIMARY) > 0.0) & (TRCHI2DOF < 3) & (TRGHOSTPROB < 0.25)'
@@ -182,7 +182,7 @@ algo_Dst.MotherCut = "(ADMASS('D*(2010)+') < 220*MeV)"
 
 # Bd ###########################################################################
 algo_Bd = CombineParticles("MyBd")
-algo_Bd.DecayDescriptor = "[B~0 -> D*(2010)+ mu-]CC"
+algo_Bd.DecayDescriptor = "[B~0 -> D*(2010)+ mu-]cc"
 
 # ALL: trivial select all
 algo_Bd.DaughtersCuts = {
