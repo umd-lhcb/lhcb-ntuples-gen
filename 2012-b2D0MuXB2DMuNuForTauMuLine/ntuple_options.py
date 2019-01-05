@@ -1,5 +1,5 @@
 # License: BSD 2-clause
-# Last Change: Sat Jan 05, 2019 at 02:03 AM -0500
+# Last Change: Sat Jan 05, 2019 at 03:08 AM -0500
 
 #####################
 # Configure DaVinci #
@@ -28,7 +28,7 @@ DaVinci().Lumi = not DaVinci().Simulation
 ###############################
 
 line_strip = 'b2D0MuXB2DMuNuForTauMuLine'
-line_hlt = 'Hlt2CharmHadD0HH_D02KPi'
+# line_hlt = 'Hlt2CharmHadD02HH_D02KPi'
 
 
 ###################################
@@ -75,9 +75,9 @@ fltr_strip = HDRFilter(
     'StrippedBCands',
     Code="HLT_PASS('Stripping{0}Decision')".format(line_strip))
 
-fltr_hlt = HDRFilter(
-    'TriggeredD0',
-    Code="HLT_PASS('{0}Decision')".format(line_hlt))
+# fltr_hlt = HDRFilter(
+#     'TriggeredD0',
+#     Code="HLT_PASS('{0}Decision')".format(line_hlt))
 
 
 #######################
