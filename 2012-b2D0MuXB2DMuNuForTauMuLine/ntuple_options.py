@@ -23,14 +23,6 @@ DaVinci().HistogramFile = './gen/DVHisto.root'
 DaVinci().Lumi = not DaVinci().Simulation
 
 
-###############################
-# Define stripping lines, etc #
-###############################
-
-line_strip = 'b2D0MuXB2DMuNuForTauMuLine'
-# line_hlt = 'Hlt2CharmHadD02HH_D02KPi'
-
-
 ###################################
 # Customize DaVinci main sequence #
 ###################################
@@ -71,10 +63,13 @@ from Configurables import LoKi__HDRFilter as HDRFilter
 #   'HLT_PASS' matches the line *exactly*
 #   'HLT_PASS_RE' (which was used in the starter kit) use regular expression to
 #   check if line given is a part of the lines of the events.
+line_strip = 'b2D0MuXB2DMuNuForTauMuLine'
 fltr_strip = HDRFilter(
     'StrippedBCands',
     Code="HLT_PASS('Stripping{0}Decision')".format(line_strip))
 
+## This is how HLT was done in Phoebe's release but does not currently work
+# line_hlt = 'Hlt2CharmHadD02HH_D02KPi'
 # fltr_hlt = HDRFilter(
 #     'TriggeredD0',
 #     Code="HLT_PASS('{0}Decision')".format(line_hlt))
@@ -92,8 +87,9 @@ pr_stripped = AutomaticData(
 
 pr_all_pi = AutomaticData(Location='Phys/StdAllLoosePions/Particles')
 
-# standard NoPIDs upstream pions
-pr_up_pi = AutomaticData(Location='Phys/StdNoPIDsUpPions/Particles')
+# # standard NoPIDs upstream pions (VELO + TT hits, no T-layers).
+# # They only added 10% with terrible mass resolution, so they didn't use them in the end
+# pr_up_pi = AutomaticData(Location='Phys/StdNoPIDsUpPions/Particles')
 
 
 ############################
@@ -105,6 +101,7 @@ pr_up_pi = AutomaticData(Location='Phys/StdNoPIDsUpPions/Particles')
 from PhysSelPython.Wrappers import Selection
 from Configurables import FilterDesktop, FilterInTrees
 
+# This selects events that have a muon and was triggered regardless of the muon
 sel_stripped_filtered = Selection(
     'SelMyStrippedFiltered',
     Algorithm=FilterDesktop(
@@ -144,6 +141,8 @@ from Configurables import CombineParticles
 algo_D0 = CombineParticles('MyD0')
 algo_D0.DecayDescriptor = '[D0 -> K- pi+]cc'
 
+# These cuts are imposed by the stripping line
+# http://lhcbdoc.web.cern.ch/lhcbdoc/stripping/config/stripping21/semileptonic/strippingb2d0muxb2dmunufortaumuline.html
 algo_D0.DaughtersCuts = {
     # PT: transverse momentum
     # MIPCHI2DV: minimum IP-chi^2
@@ -158,13 +157,15 @@ algo_D0.DaughtersCuts = {
 }
 
 # ADAMASS: the absolute mass difference to the PDG reference value
+# .CombinationCut are cuts made before the vertex fit, so it saves time
 algo_D0.CombinationCut = "(ADAMASS('D0') < 200*MeV)"
 
-# ADMASS: the absolute mass difference to the reference value
+# ADMASS: the absolute mass difference to the PDG reference value, but it is used after the vertex fit
 # VFASPF: vertex function as particle function
 #         Allow to apply vertex functors to the particle's `endVertex()`
 # VCHI2: vertex chi^2
 # VDOF: vertex fit number of degree of freedom
+# .MotherCut are cuts after the vertex fit, that's why the mass cut is tighter
 algo_D0.MotherCut = "(ADMASS('D0') < 100*MeV) & (VFASPF(VCHI2/VDOF) < 100)"
 
 # This is the default setting now, and should be no longer needed
@@ -212,10 +213,11 @@ sel_D0 = Selection(
     RequiredSelections=[sel_charged_K, sel_charged_pi]
 )
 
+# Removed the upstream pions, which were not used by Greg/Phoebe
 sel_Dst = Selection(
     'SelMyDst',
     Algorithm=algo_Dst,
-    RequiredSelections=[sel_D0, pr_all_pi, pr_up_pi]
+    RequiredSelections=[sel_D0, pr_all_pi]
 )
 
 sel_Bd = Selection(
@@ -248,7 +250,6 @@ selseq_y_maker = SelectionSequence(
     TopSelection=sel_refit_b2DstMu
 )
 
-
 DaVinci().UserAlgorithms += [selseq_y_maker.sequence()]
 
 
@@ -263,9 +264,10 @@ stream = 'Semileptonic'
 
 # Create an ntuple to capture semileptonic B decays from the stripping line
 tp_D0 = DecayTreeTuple('TupleD0')
-tp_D0.Inputs = ['/Event/{0}/Phys/{1}/Particles'.format(stream, line_strip)]
-# tp_D0.Decay = '[B~0 -> ^(D*(2010)+ -> ^(D0 -> ^K- ^pi+) ^pi+) ^mu-]CC'  # Decay from Phoebe's script
-tp_D0.Decay = '[B+ ->  ^(D~0 -> ^K+ ^pi-) ^mu+]CC'  # The D* is not reconstructed by the stripping line
+
+# The new particles created in the sequence can be found in .outputLocation()
+tp_D0.Inputs = [selseq_y_maker.outputLocation()]
+tp_D0.Decay = '[B~0 -> ^(D*(2010)+ -> ^(D0 -> ^K- ^pi+) ^pi+) ^mu-]CC'  # Decay from Phoebe's script
 
 # dtt.addBranches({
 #     "Y" : "^([B0 -> (D*(2010)- -> (D~0 -> K+ pi-) pi-) mu+]CC)",
@@ -287,6 +289,7 @@ DaVinci().UserAlgorithms += [tp_D0]
 from GaudiConf import IOHelper
 
 IOHelper().inputFiles([
-    './data/mag_down/00041836_00006100_1.semileptonic.dst',
-    './data/mag_down/00041836_00011435_1.semileptonic.dst'
+#    './data/mag_down/00041836_00011435_1.semileptonic.dst',
+    './data/mag_down/00041836_00006100_1.semileptonic.dst'
 ], clear=True)
+
