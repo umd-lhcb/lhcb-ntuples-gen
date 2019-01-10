@@ -1,5 +1,5 @@
 # License: BSD 2-clause
-# Last Change: Wed Jan 09, 2019 at 11:13 PM -0500
+# Last Change: Thu Jan 10, 2019 at 12:04 AM -0500
 
 #####################
 # Configure DaVinci #
@@ -212,6 +212,7 @@ algo_Bd.MotherCut = "(M < 10000*MeV) & (BPVDIRA > 0.9995) &" + \
 
 from Configurables import FitDecayTrees
 
+# RequiredSelections takes a union of supplied selections, thus orderless.
 sel_D0 = Selection(
     'SelMyD0',
     Algorithm=algo_D0,
