@@ -1,5 +1,5 @@
 # License: BSD 2-clause
-# Last Change: Sat Jan 05, 2019 at 03:23 AM -0500
+# Last Change: Wed Jan 09, 2019 at 10:53 PM -0500
 
 #####################
 # Configure DaVinci #
@@ -43,7 +43,6 @@ ms_veloprotos.Output = 'Rec/ProtoP/myProtoPMaker/ProtoParticles'  # This TES loc
 # According to the source code (available in 'Analysis/Phys/DaVinciTrackScaling/src/TrackScaleState.cpp'):
 # Scale the state. Use on DST to scale the track states *before* your user
 # algorithms sequence.
-# FIXME: don't understand
 ms_scaler = TrkSS('StateScale')
 
 DaVinci().appendToMainSequence([ms_veloprotos, ms_scaler])
@@ -68,7 +67,8 @@ fltr_strip = HDRFilter(
     'StrippedBCands',
     Code="HLT_PASS('Stripping{0}Decision')".format(line_strip))
 
-## This is how HLT was done in Phoebe's release but does not currently work
+# FIXME: This is how HLT was done in Phoebe's release but does not currently
+#        work.
 # line_hlt = 'Hlt2CharmHadD02HH_D02KPi'
 # fltr_hlt = HDRFilter(
 #     'TriggeredD0',
@@ -87,8 +87,9 @@ pr_stripped = AutomaticData(
 
 pr_all_pi = AutomaticData(Location='Phys/StdAllLoosePions/Particles')
 
-# # standard NoPIDs upstream pions (VELO + TT hits, no T-layers).
-# # They only added 10% with terrible mass resolution, so they didn't use them in the end
+# standard NoPIDs upstream pions (VELO + TT hits, no T-layers).
+# They only added 10% with terrible mass resolution, so they didn't use them in
+# the end.
 # pr_up_pi = AutomaticData(Location='Phys/StdNoPIDsUpPions/Particles')
 
 
@@ -156,11 +157,13 @@ algo_D0.DaughtersCuts = {
            '(TRCHI2DOF < 4) & (PIDK < 2) & (TRGHOSTPROB < 0.5)'
 }
 
-# ADAMASS: the absolute mass difference to the PDG reference value
+# ADAMASS: the absolute mass difference to the PDG reference value, this functor
+#          takes an array as input, unlike ADMASS, which takes a scaler.
 # .CombinationCut are cuts made before the vertex fit, so it saves time
 algo_D0.CombinationCut = "(ADAMASS('D0') < 200*MeV)"
 
-# ADMASS: the absolute mass difference to the PDG reference value, but it is used after the vertex fit
+# ADMASS: the absolute mass difference to the PDG reference value, but it is
+#         used after the vertex fit
 # VFASPF: vertex function as particle function
 #         Allow to apply vertex functors to the particle's `endVertex()`
 # VCHI2: vertex chi^2
@@ -171,6 +174,7 @@ algo_D0.MotherCut = "(ADMASS('D0') < 100*MeV) & (VFASPF(VCHI2/VDOF) < 100)"
 # This is the default setting now, and should be no longer needed
 # algo_D0.ParticleCombiners.update({'': 'LoKi::VertexFitter'})
 
+
 # Dstar ########################################################################
 algo_Dst = CombineParticles("MyDstar")
 algo_Dst.DecayDescriptor = '[D*(2010)+ -> D0 pi+]cc'
@@ -180,6 +184,7 @@ algo_Dst.DaughtersCuts = {
 }
 
 algo_Dst.MotherCut = "(ADMASS('D*(2010)+') < 220*MeV)"
+
 
 # Bd ###########################################################################
 algo_Bd = CombineParticles("MyBd")
@@ -198,7 +203,7 @@ algo_Bd.CombinationCut = '(AM < 10200*MeV)'
 #          Compute the cosine of the angle between the momentum of the particle
 #          and the direction to flight from the best PV to the decay vertex.
 algo_Bd.MotherCut = "(M < 10000*MeV) & (BPVDIRA > 0.9995) &" + \
-                    "(VFASPF(VCHI2/VDOF)<6.0)"
+                    "(VFASPF(VCHI2/VDOF) < 6.0)"
 
 
 #####################
@@ -244,13 +249,14 @@ sel_refit_b2DstMu = Selection(
 
 from PhysSelPython.Wrappers import SelectionSequence
 
-selseq_y_maker = SelectionSequence(
-    'SelSeqMyYMaker',
+seq_y_maker = SelectionSequence(
+    'SeqMyYMaker',
     EventPreSelector=[fltr_strip],
     TopSelection=sel_refit_b2DstMu
 )
 
-DaVinci().UserAlgorithms += [selseq_y_maker.sequence()]
+
+DaVinci().UserAlgorithms += [seq_y_maker.sequence()]
 
 
 ###################
@@ -263,23 +269,23 @@ from Configurables import DecayTreeTuple
 stream = 'Semileptonic'
 
 # Create an ntuple to capture semileptonic B decays from the stripping line
-tp_D0 = DecayTreeTuple('TupleD0')
+tp_Y = DecayTreeTuple('TupleD0')
 
 # The new particles created in the sequence can be found in .outputLocation()
-tp_D0.Inputs = [selseq_y_maker.outputLocation()]
-tp_D0.Decay = '[B~0 -> ^(D*(2010)+ -> ^(D0 -> ^K- ^pi+) ^pi+) ^mu-]CC'  # Decay from Phoebe's script
+tp_Y.Inputs = [seq_y_maker.outputLocation()]
+tp_Y.Decay = '[B~0 -> ^(D*(2010)+ -> ^(D0 -> ^K- ^pi+) ^pi+) ^mu-]CC'  # Decay from Phoebe's script
 
-# dtt.addBranches({
-#     "Y" : "^([B0 -> (D*(2010)- -> (D~0 -> K+ pi-) pi-) mu+]CC)",
-#     "Dst_2010_minus" : "[B0 -> ^(D*(2010)- -> (D~0 -> K+ pi-) pi-) mu+]CC",
-#     "D0" : "[B0 -> (D*(2010)- -> ^(D~0 -> K+ pi-) pi-) mu+]CC",
-#     "piminus" : "[B0 -> (D*(2010)- -> (D~0 -> K+ pi-) ^pi-) mu+]CC",
-#     "piminus0" : "[B0 -> (D*(2010)- -> (D~0 -> K+ ^pi-) pi-) mu+]CC",
-#     "Kplus" : "[B0 -> (D*(2010)- -> (D~0 -> ^K+ pi-) pi-) mu+]CC",
-#     "muplus" : "[B0 -> (D*(2010)- -> (D~0 -> K+ pi-) pi-) ^mu+]CC"})
+tp_Y.addBranches({
+    "Y": "^([B0 -> (D*(2010)- -> (D~0 -> K+ pi-) pi-) mu+]CC)",
+    "Dst_2010_minus": "[B0 -> ^(D*(2010)- -> (D~0 -> K+ pi-) pi-) mu+]CC",
+    "D0": "[B0 -> (D*(2010)- -> ^(D~0 -> K+ pi-) pi-) mu+]CC",
+    "piminus": "[B0 -> (D*(2010)- -> (D~0 -> K+ pi-) ^pi-) mu+]CC",
+    "piminus0": "[B0 -> (D*(2010)- -> (D~0 -> K+ ^pi-) pi-) mu+]CC",
+    "Kplus": "[B0 -> (D*(2010)- -> (D~0 -> ^K+ pi-) pi-) mu+]CC",
+    "muplus": "[B0 -> (D*(2010)- -> (D~0 -> K+ pi-) pi-) ^mu+]CC"})
 
 
-DaVinci().UserAlgorithms += [tp_D0]
+DaVinci().UserAlgorithms += [tp_Y]
 
 
 ####################
@@ -289,7 +295,6 @@ DaVinci().UserAlgorithms += [tp_D0]
 from GaudiConf import IOHelper
 
 IOHelper().inputFiles([
-#    './data/mag_down/00041836_00011435_1.semileptonic.dst',
+    # './data/mag_down/00041836_00011435_1.semileptonic.dst',
     './data/mag_down/00041836_00006100_1.semileptonic.dst'
 ], clear=True)
-
