@@ -1,5 +1,5 @@
 # License: BSD 2-clause
-# Last Change: Wed Jan 09, 2019 at 10:53 PM -0500
+# Last Change: Wed Jan 09, 2019 at 11:13 PM -0500
 
 #####################
 # Configure DaVinci #
@@ -264,12 +264,15 @@ DaVinci().UserAlgorithms += [seq_y_maker.sequence()]
 ###################
 
 from Configurables import DecayTreeTuple
-# from DecayTreeTuple.Configuration import *
+from DecayTreeTuple.Configuration import *  # for addTupleTool
 
 stream = 'Semileptonic'
 
 # Create an ntuple to capture semileptonic B decays from the stripping line
-tp_Y = DecayTreeTuple('TupleD0')
+tp_Y = DecayTreeTuple('TupleY')
+
+# Add tools to this tuple
+tp_Y.addTupleTool('TupleToolTrackInfo')  # For addBranches.
 
 # The new particles created in the sequence can be found in .outputLocation()
 tp_Y.Inputs = [seq_y_maker.outputLocation()]
