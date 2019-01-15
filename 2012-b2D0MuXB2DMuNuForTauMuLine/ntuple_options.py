@@ -1,5 +1,5 @@
 # License: BSD 2-clause
-# Last Change: Mon Jan 14, 2019 at 10:38 PM -0500
+# Last Change: Mon Jan 14, 2019 at 10:42 PM -0500
 
 #####################
 # Configure DaVinci #
@@ -313,22 +313,21 @@ from DecayTreeTuple.Configuration import *  # for addTupleTool
 
 stream = 'Semileptonic'
 
-def tuple_initializer(name, sel_seq):
+
+def tuple_initializer(name, sel_seq, decay):
     tp = DecayTreeTuple(name)
-    tp.addTupleTool('')
+    tp.addTupleTool('TupleToolTrackInfo')  # For addBranches
+    tp.Inputs = [sel_seq.outputLocation()]
+    tp.Decay = decay
+    return tp
 
 
 # Y ############################################################################
-
-# Create an ntuple to capture semileptonic B decays from the stripping line
-tp_Y = DecayTreeTuple('TupleY')
-
-# Add tools to this tuple
-tp_Y.addTupleTool('TupleToolTrackInfo')  # For addBranches.
-
-# The new particles created in the sequence can be found in .outputLocation()
-tp_Y.Inputs = [seq_y_maker.outputLocation()]
-tp_Y.Decay = '[B~0 -> ^(D*(2010)+ -> ^(D0 -> ^K- ^pi+) ^pi+) ^mu-]CC'
+tp_Y = tuple_initializer(
+    'TupleY',
+    seq_y_maker,
+    '[B~0 -> ^(D*(2010)+ -> ^(D0 -> ^K- ^pi+) ^pi+) ^mu-]CC'
+)
 
 tp_Y.addBranches({
     "Y": "^([B0 -> (D*(2010)- -> (D~0 -> K+ pi-) pi-) mu+]CC)",
