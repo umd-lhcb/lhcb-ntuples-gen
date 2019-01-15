@@ -1,5 +1,5 @@
 # License: BSD 2-clause
-# Last Change: Tue Jan 15, 2019 at 12:30 AM -0500
+# Last Change: Tue Jan 15, 2019 at 12:43 AM -0500
 
 #####################
 # Configure DaVinci #
@@ -16,8 +16,8 @@ DaVinci().Simulation = False
 DaVinci().PrintFreq = 100
 
 # Output filenames
-DaVinci().TupleFile = './gen/DVntuple.root'
-DaVinci().HistogramFile = './gen/DVHisto.root'
+DaVinci().TupleFile = './gen/YCands.root'
+DaVinci().HistogramFile = './gen/YCandsTauHistos.root'
 
 # Only ask for luminosity information when not using simulated data
 DaVinci().Lumi = not DaVinci().Simulation
@@ -436,6 +436,6 @@ DaVinci().UserAlgorithms += [tp_Y, tp_Y_ws_Mu, tp_Y_ws_Pi]
 from GaudiConf import IOHelper
 
 IOHelper().inputFiles([
-    # './data/mag_down/00041836_00011435_1.semileptonic.dst',
+    './data/mag_down/00041836_00011435_1.semileptonic.dst',
     './data/mag_down/00041836_00006100_1.semileptonic.dst'
 ], clear=True)
