@@ -1,5 +1,5 @@
 # License: BSD 2-clause
-# Last Change: Mon Jan 14, 2019 at 11:47 PM -0500
+# Last Change: Tue Jan 15, 2019 at 12:13 AM -0500
 
 #####################
 # Configure DaVinci #
@@ -188,7 +188,19 @@ algo_Dst.DaughtersCuts = {
     'pi+': '(MIPCHI2DV(PRIMARY) > 0.0) & (TRCHI2DOF < 3) & (TRGHOSTPROB < 0.25)'
 }
 
-algo_Dst.MotherCut = "(ADMASS('D*(2010)+') < 220*MeV)"
+algo_Dst.CombinationCut = "(ADAMASS('D*(2010)+') < 220*MeV)"
+algo_Dst.MotherCut = "(ADMASS('D*(2010)+') < 125*MeV) &" + \
+    "(M-MAXTREE(ABSID=='D0', M) < 160*MeV) &" + \
+    "(VFASPF(VCHI2/VDOF) < 100)"
+
+
+# DstarWS ######################################################################
+algo_Dst_ws = CombineParticles('MyDstarWS')
+algo_Dst_ws.DecayDescriptor = '[D*(2010)- -> D0 pi-]cc'
+
+algo_Dst_ws.DaughtersCuts = algo_Dst.DaughtersCuts
+algo_Dst_ws.CombinationCut = algo_Dst.CombinationCut
+algo_Dst.MotherCut = algo_Dst.MotherCut
 
 
 # Bd ###########################################################################
@@ -219,6 +231,15 @@ algo_Bd_ws_Mu.DaughtersCuts = {
     "mu+": "ALL"
 }
 
+algo_Bd_ws_Mu.CombinationCut = algo_Bd.CombinationCut
+algo_Bd_ws_Mu.MotherCut = algo_Bd.MotherCut
+
+
+# BdWSPi #######################################################################
+algo_Bd_ws_Pi = CombineParticles('MyBdWSPi')
+algo_Bd_ws_Pi.DecayDescriptor = "[B0 -> D*(2010)+ mu+]cc"
+
+algo_Bd_ws_Pi.DaughtersCuts = algo_Bd_ws_Mu.DaughtersCuts
 algo_Bd_ws_Mu.CombinationCut = algo_Bd.CombinationCut
 algo_Bd_ws_Mu.MotherCut = algo_Bd.MotherCut
 
@@ -279,6 +300,30 @@ sel_refit_b2DstMu_ws_Mu = Selection(
         Inputs=[sel_Bd_ws_Mu.outputLocation()]
     ),
     RequiredSelections=[sel_Bd_ws_Mu]
+)
+
+# For SeqMyYMakerWSPi ##########################################################
+sel_Dst_ws = Selection(
+    'SelMyDst2',
+    Algorithm=algo_Dst_ws,
+    RequiredSelections=[sel_D0, pr_all_pi]
+)
+
+sel_Bd_ws_Pi = Selection(
+    'SelMyBdWSPi',
+    Algorithm=algo_Bd_ws_Pi,
+    RequiredSelections=[sel_Dst_ws, sel_charged_Mu]
+)
+
+sel_refit_b2DstMu_ws_Pi = Selection(
+    'SelMyRefitb2DstMuWSPi',
+    Algorithm=FitDecayTrees(
+        'MyRefitb2DstMuWSPi',
+        Code="DECTREE('[B~0 -> (D*(2010)+ -> (D0->K- pi+) pi-) mu-]CC')",
+        UsePVConstraint=False,
+        Inputs=[sel_Bd_ws_Pi.outputLocation()]
+    ),
+    RequiredSelections=[sel_Bd_ws_Pi]
 )
 
 
