@@ -1,5 +1,5 @@
 # License: BSD 2-clause
-# Last Change: Tue Jan 15, 2019 at 12:43 AM -0500
+# Last Change: Tue Jan 15, 2019 at 01:53 PM -0500
 
 #####################
 # Configure DaVinci #
@@ -74,10 +74,10 @@ fltr_strip = HDRFilter(
 
 # FIXME: This is how HLT was done in Phoebe's release but does not currently
 #        work.
-# line_hlt = 'Hlt2CharmHadD02HH_D02KPi'
-# fltr_hlt = HDRFilter(
-#     'TriggeredD0',
-#     Code="HLT_PASS('{0}Decision')".format(line_hlt))
+line_hlt = 'Hlt2CharmHadD02HH_D02KPi'
+fltr_hlt = HDRFilter(
+    'Hlt2TriggeredD0',
+    Code="HLT_PASS('{0}Decision')".format(line_hlt))
 
 
 #######################
@@ -335,19 +335,19 @@ from PhysSelPython.Wrappers import SelectionSequence
 
 seq_y = SelectionSequence(
     'SeqMyY',
-    EventPreSelector=[fltr_strip],
+    EventPreSelector=[fltr_hlt, fltr_strip],
     TopSelection=sel_refit_b2DstMu
 )
 
 seq_y_ws_Mu = SelectionSequence(
     'SeqMyYWSMu',
-    EventPreSelector=[fltr_strip],
+    EventPreSelector=[fltr_hlt, fltr_strip],
     TopSelection=sel_refit_b2DstMu_ws_Mu
 )
 
 seq_y_ws_Pi = SelectionSequence(
     'SeqMyYWSPi',
-    EventPreSelector=[fltr_strip],
+    EventPreSelector=[fltr_hlt, fltr_strip],
     TopSelection=sel_refit_b2DstMu_ws_Pi
 )
 
