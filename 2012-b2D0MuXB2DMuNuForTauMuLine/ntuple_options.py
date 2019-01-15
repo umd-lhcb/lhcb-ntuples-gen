@@ -1,5 +1,5 @@
 # License: BSD 2-clause
-# Last Change: Tue Jan 15, 2019 at 12:26 AM -0500
+# Last Change: Tue Jan 15, 2019 at 12:30 AM -0500
 
 #####################
 # Configure DaVinci #
@@ -200,7 +200,7 @@ algo_Dst_ws.DecayDescriptor = '[D*(2010)- -> D0 pi-]cc'
 
 algo_Dst_ws.DaughtersCuts = algo_Dst.DaughtersCuts
 algo_Dst_ws.CombinationCut = algo_Dst.CombinationCut
-algo_Dst.MotherCut = algo_Dst.MotherCut
+algo_Dst_ws.MotherCut = algo_Dst.MotherCut
 
 
 # Bd ###########################################################################
