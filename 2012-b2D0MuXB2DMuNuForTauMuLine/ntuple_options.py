@@ -1,5 +1,5 @@
 # License: BSD 2-clause
-# Last Change: Mon Jan 14, 2019 at 11:01 PM -0500
+# Last Change: Mon Jan 14, 2019 at 11:47 PM -0500
 
 #####################
 # Configure DaVinci #
@@ -124,13 +124,13 @@ sel_charged_K = Selection(
     RequiredSelections=[sel_stripped_filtered]
 )
 
-sel_charged_pi = Selection(
+sel_charged_Pi = Selection(
     'SelMyChargedPi',
     Algorithm=FilterInTrees('MyChargedPi', Code="(ABSID == 'pi+')"),
     RequiredSelections=[sel_stripped_filtered]
 )
 
-sel_charged_mu = Selection(
+sel_charged_Mu = Selection(
     'SelMyChargedMu',
     Algorithm=FilterInTrees('MyChargedMu', Code="(ABSID == 'mu+')"),
     RequiredSelections=[sel_stripped_filtered]
@@ -211,7 +211,7 @@ algo_Bd.MotherCut = "(M < 10000*MeV) & (BPVDIRA > 0.9995) &" + \
                     "(VFASPF(VCHI2/VDOF) < 6.0)"
 
 
-# Bd_ws_Mu #####################################################################
+# BdWSMu #######################################################################
 algo_Bd_ws_Mu = CombineParticles('MyBdWSMu')
 algo_Bd_ws_Mu.DecayDescriptor = "[B~0 -> D*(2010)+ mu+]cc"
 
@@ -235,7 +235,7 @@ from Configurables import FitDecayTrees
 sel_D0 = Selection(
     'SelMyD0',
     Algorithm=algo_D0,
-    RequiredSelections=[sel_charged_K, sel_charged_pi]
+    RequiredSelections=[sel_charged_K, sel_charged_Pi]
 )
 
 # Removed the upstream pions, which were not used by Greg/Phoebe
@@ -248,7 +248,7 @@ sel_Dst = Selection(
 sel_Bd = Selection(
     'SelMyBd',
     Algorithm=algo_Bd,
-    RequiredSelections=[sel_Dst, sel_charged_mu]
+    RequiredSelections=[sel_Dst, sel_charged_Mu]
 )
 
 sel_refit_b2DstMu = Selection(
@@ -263,11 +263,11 @@ sel_refit_b2DstMu = Selection(
 )
 
 
-# For SeqMyYMakerWS ############################################################
+# For SeqMyYMakerWSMu ##########################################################
 sel_Bd_ws_Mu = Selection(
     'SelMyBdWSMu',
     Algorithm=algo_Bd_ws_Mu,
-    RequiredSelections=[sel_Dst, sel_charged_mu]
+    RequiredSelections=[sel_Dst, sel_charged_Mu]
 )
 
 sel_refit_b2DstMu_ws_Mu = Selection(
@@ -295,14 +295,21 @@ seq_y_maker = SelectionSequence(
 )
 
 seq_y_maker_ws_Mu = SelectionSequence(
-    'SeqMyYMakerWS',
+    'SeqMyYMakerWSMu',
     EventPreSelector=[fltr_strip],
     TopSelection=sel_refit_b2DstMu_ws_Mu
 )
 
+seq_y_maker_ws_Pi = SelectionSequence(
+    'SeqMyYMakerWSPi',
+    EventPreSelector=[fltr_strip],
+    TopSelection=sel_refit_b2DstMu_ws_Pi
+)
+
 
 DaVinci().UserAlgorithms += [seq_y_maker.sequence(),
-                             seq_y_maker_ws_Mu.sequence()]
+                             seq_y_maker_ws_Mu.sequence(),
+                             seq_y_maker_ws_Pi.sequence()]
 
 
 ###################
@@ -357,7 +364,24 @@ tp_Y_ws_Mu.addBranches({
     "muplus": "[B0 -> (D*(2010)- -> (D~0 -> K+ pi-) pi-) ^mu-]CC"})
 
 
-DaVinci().UserAlgorithms += [tp_Y, tp_Y_ws_Mu]
+# Y_ws_Pi ######################################################################
+tp_Y_ws_Pi = tuple_initializer(
+    'TupleYWSPi',
+    seq_y_maker_ws_Pi,
+    '[B~0 -> ^(D*(2010)+ -> ^(D0 -> ^K- ^pi+) ^pi-) ^mu-]CC'
+)
+
+tp_Y_ws_Pi.addBranches({
+    "Y": "^([B0 -> (D*(2010)- -> (D~0 -> K+ pi-) pi+) mu+]CC)",
+    "Dst_2010_minus": "[B0 -> ^(D*(2010)- -> (D~0 -> K+ pi-) pi+) mu+]CC",
+    "D0": "[B0 -> (D*(2010)- -> ^(D~0 -> K+ pi-) pi+) mu+]CC",
+    "piminus": "[B0 -> (D*(2010)- -> (D~0 -> K+ pi-) ^pi+) mu+]CC",
+    "piminus0": "[B0 -> (D*(2010)- -> (D~0 -> K+ ^pi-) pi+) mu+]CC",
+    "Kplus": "[B0 -> (D*(2010)- -> (D~0 -> ^K+ pi-) pi+) mu+]CC",
+    "muplus": "[B0 -> (D*(2010)- -> (D~0 -> K+ pi-) pi+) ^mu+]CC"})
+
+
+DaVinci().UserAlgorithms += [tp_Y, tp_Y_ws_Mu, tp_Y_ws_Pi]
 
 
 ####################
