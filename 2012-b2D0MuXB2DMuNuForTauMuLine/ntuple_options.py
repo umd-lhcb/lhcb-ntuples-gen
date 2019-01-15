@@ -1,5 +1,5 @@
 # License: BSD 2-clause
-# Last Change: Thu Jan 10, 2019 at 12:04 AM -0500
+# Last Change: Mon Jan 14, 2019 at 10:13 PM -0500
 
 #####################
 # Configure DaVinci #
@@ -32,20 +32,25 @@ DaVinci().Lumi = not DaVinci().Simulation
 # selection algorithms.
 
 from Configurables import ChargedProtoParticleMaker
+from Configurables import NoPIDsParticleMaker
 from Configurables import TrackScaleState as TrkSS
 
 # Provide required information for Greg's TupleTool.
-ms_veloprotos = ChargedProtoParticleMaker(name='myProtoPMaker')
-ms_veloprotos.Inputs = ['Rec/Track/Best']
-ms_veloprotos.Output = 'Rec/ProtoP/myProtoPMaker/ProtoParticles'  # This TES location will be accessible for all selection algorithms
+ms_velo_protos = ChargedProtoParticleMaker(name='myProtoPMaker')
+ms_velo_protos.Inputs = ['Rec/Track/Best']
+ms_velo_protos.Output = 'Rec/ProtoP/myProtoPMaker/ProtoParticles'  # This TES location will be accessible for all selection algorithms
 
+# VELO pions for Greg's isolation tool.
+ms_velo_pions = NoPIDsParticleMaker('StdNoPIDsVeloPions', Particle='pion')
+ms_velo_pions.Input = 'Rec/ProtoP/myProtoPMaker/ProtoParticles'
 
 # According to the source code (available in 'Analysis/Phys/DaVinciTrackScaling/src/TrackScaleState.cpp'):
 # Scale the state. Use on DST to scale the track states *before* your user
 # algorithms sequence.
 ms_scaler = TrkSS('StateScale')
 
-DaVinci().appendToMainSequence([ms_veloprotos, ms_scaler])
+
+DaVinci().appendToMainSequence([ms_velo_protos, ms_velo_pions, ms_scaler])
 
 
 ######################
