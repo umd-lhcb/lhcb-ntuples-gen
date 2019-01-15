@@ -1,5 +1,5 @@
 # License: BSD 2-clause
-# Last Change: Mon Jan 14, 2019 at 10:42 PM -0500
+# Last Change: Mon Jan 14, 2019 at 11:01 PM -0500
 
 #####################
 # Configure DaVinci #
@@ -294,14 +294,15 @@ seq_y_maker = SelectionSequence(
     TopSelection=sel_refit_b2DstMu
 )
 
-seq_y_maker_ws = SelectionSequence(
+seq_y_maker_ws_Mu = SelectionSequence(
     'SeqMyYMakerWS',
     EventPreSelector=[fltr_strip],
     TopSelection=sel_refit_b2DstMu_ws_Mu
 )
 
 
-DaVinci().UserAlgorithms += [seq_y_maker.sequence()]
+DaVinci().UserAlgorithms += [seq_y_maker.sequence(),
+                             seq_y_maker_ws_Mu.sequence()]
 
 
 ###################
@@ -340,11 +341,23 @@ tp_Y.addBranches({
 
 
 # Y_ws_Mu ######################################################################
+tp_Y_ws_Mu = tuple_initializer(
+    'TupleYWSMu',
+    seq_y_maker_ws_Mu,
+    '[B~0 -> ^(D*(2010)+ -> ^(D0 -> ^K- ^pi+) ^pi+) ^mu+]CC'
+)
 
-tp_Y_ws_Mu = DecayTreeTuple('TupleYWSMu')
+tp_Y_ws_Mu.addBranches({
+    "Y": "^([B0 -> (D*(2010)- -> (D~0 -> K+ pi-) pi-) mu-]CC)",
+    "Dst_2010_minus": "[B0 -> ^(D*(2010)- -> (D~0 -> K+ pi-) pi-) mu-]CC",
+    "D0": "[B0 -> (D*(2010)- -> ^(D~0 -> K+ pi-) pi-) mu-]CC",
+    "piminus": "[B0 -> (D*(2010)- -> (D~0 -> K+ pi-) ^pi-) mu-]CC",
+    "piminus0": "[B0 -> (D*(2010)- -> (D~0 -> K+ ^pi-) pi-) mu-]CC",
+    "Kplus": "[B0 -> (D*(2010)- -> (D~0 -> ^K+ pi-) pi-) mu-]CC",
+    "muplus": "[B0 -> (D*(2010)- -> (D~0 -> K+ pi-) pi-) ^mu-]CC"})
 
 
-DaVinci().UserAlgorithms += [tp_Y]
+DaVinci().UserAlgorithms += [tp_Y, tp_Y_ws_Mu]
 
 
 ####################
