@@ -1,5 +1,5 @@
 # License: BSD 2-clause
-# Last Change: Tue Jan 15, 2019 at 12:13 AM -0500
+# Last Change: Tue Jan 15, 2019 at 12:26 AM -0500
 
 #####################
 # Configure DaVinci #
@@ -240,8 +240,8 @@ algo_Bd_ws_Pi = CombineParticles('MyBdWSPi')
 algo_Bd_ws_Pi.DecayDescriptor = "[B0 -> D*(2010)+ mu+]cc"
 
 algo_Bd_ws_Pi.DaughtersCuts = algo_Bd_ws_Mu.DaughtersCuts
-algo_Bd_ws_Mu.CombinationCut = algo_Bd.CombinationCut
-algo_Bd_ws_Mu.MotherCut = algo_Bd.MotherCut
+algo_Bd_ws_Pi.CombinationCut = algo_Bd.CombinationCut
+algo_Bd_ws_Pi.MotherCut = algo_Bd.MotherCut
 
 
 #####################
@@ -304,7 +304,7 @@ sel_refit_b2DstMu_ws_Mu = Selection(
 
 # For SeqMyYMakerWSPi ##########################################################
 sel_Dst_ws = Selection(
-    'SelMyDst2',
+    'SelMyDstWS',
     Algorithm=algo_Dst_ws,
     RequiredSelections=[sel_D0, pr_all_pi]
 )
@@ -333,28 +333,28 @@ sel_refit_b2DstMu_ws_Pi = Selection(
 
 from PhysSelPython.Wrappers import SelectionSequence
 
-seq_y_maker = SelectionSequence(
-    'SeqMyYMaker',
+seq_y = SelectionSequence(
+    'SeqMyY',
     EventPreSelector=[fltr_strip],
     TopSelection=sel_refit_b2DstMu
 )
 
-seq_y_maker_ws_Mu = SelectionSequence(
-    'SeqMyYMakerWSMu',
+seq_y_ws_Mu = SelectionSequence(
+    'SeqMyYWSMu',
     EventPreSelector=[fltr_strip],
     TopSelection=sel_refit_b2DstMu_ws_Mu
 )
 
-seq_y_maker_ws_Pi = SelectionSequence(
-    'SeqMyYMakerWSPi',
+seq_y_ws_Pi = SelectionSequence(
+    'SeqMyYWSPi',
     EventPreSelector=[fltr_strip],
     TopSelection=sel_refit_b2DstMu_ws_Pi
 )
 
 
-DaVinci().UserAlgorithms += [seq_y_maker.sequence(),
-                             seq_y_maker_ws_Mu.sequence(),
-                             seq_y_maker_ws_Pi.sequence()]
+DaVinci().UserAlgorithms += [seq_y.sequence(),
+                             seq_y_ws_Mu.sequence(),
+                             seq_y_ws_Pi.sequence()]
 
 
 ###################
@@ -378,7 +378,7 @@ def tuple_initializer(name, sel_seq, decay):
 # Y ############################################################################
 tp_Y = tuple_initializer(
     'TupleY',
-    seq_y_maker,
+    seq_y,
     '[B~0 -> ^(D*(2010)+ -> ^(D0 -> ^K- ^pi+) ^pi+) ^mu-]CC'
 )
 
@@ -395,7 +395,7 @@ tp_Y.addBranches({
 # Y_ws_Mu ######################################################################
 tp_Y_ws_Mu = tuple_initializer(
     'TupleYWSMu',
-    seq_y_maker_ws_Mu,
+    seq_y_ws_Mu,
     '[B~0 -> ^(D*(2010)+ -> ^(D0 -> ^K- ^pi+) ^pi+) ^mu+]CC'
 )
 
@@ -412,7 +412,7 @@ tp_Y_ws_Mu.addBranches({
 # Y_ws_Pi ######################################################################
 tp_Y_ws_Pi = tuple_initializer(
     'TupleYWSPi',
-    seq_y_maker_ws_Pi,
+    seq_y_ws_Pi,
     '[B~0 -> ^(D*(2010)+ -> ^(D0 -> ^K- ^pi+) ^pi-) ^mu-]CC'
 )
 
