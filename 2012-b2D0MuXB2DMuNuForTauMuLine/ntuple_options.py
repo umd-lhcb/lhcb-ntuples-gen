@@ -1,5 +1,5 @@
 # License: BSD 2-clause
-# Last Change: Mon Jan 14, 2019 at 10:13 PM -0500
+# Last Change: Mon Jan 14, 2019 at 10:38 PM -0500
 
 #####################
 # Configure DaVinci #
@@ -181,7 +181,7 @@ algo_D0.MotherCut = "(ADMASS('D0') < 100*MeV) & (VFASPF(VCHI2/VDOF) < 100)"
 
 
 # Dstar ########################################################################
-algo_Dst = CombineParticles("MyDstar")
+algo_Dst = CombineParticles('MyDstar')
 algo_Dst.DecayDescriptor = '[D*(2010)+ -> D0 pi+]cc'
 
 algo_Dst.DaughtersCuts = {
@@ -192,7 +192,7 @@ algo_Dst.MotherCut = "(ADMASS('D*(2010)+') < 220*MeV)"
 
 
 # Bd ###########################################################################
-algo_Bd = CombineParticles("MyBd")
+algo_Bd = CombineParticles('MyBd')
 algo_Bd.DecayDescriptor = "[B~0 -> D*(2010)+ mu-]cc"
 
 # ALL: trivial select all
@@ -211,11 +211,25 @@ algo_Bd.MotherCut = "(M < 10000*MeV) & (BPVDIRA > 0.9995) &" + \
                     "(VFASPF(VCHI2/VDOF) < 6.0)"
 
 
+# Bd_ws_Mu #####################################################################
+algo_Bd_ws_Mu = CombineParticles('MyBdWSMu')
+algo_Bd_ws_Mu.DecayDescriptor = "[B~0 -> D*(2010)+ mu+]cc"
+
+algo_Bd_ws_Mu.DaughtersCuts = {
+    "mu+": "ALL"
+}
+
+algo_Bd_ws_Mu.CombinationCut = algo_Bd.CombinationCut
+algo_Bd_ws_Mu.MotherCut = algo_Bd.MotherCut
+
+
 #####################
 # Define selections #
 #####################
 
 from Configurables import FitDecayTrees
+
+# For SeqMyYMaker ##############################################################
 
 # RequiredSelections takes a union of supplied selections, thus orderless.
 sel_D0 = Selection(
@@ -249,6 +263,25 @@ sel_refit_b2DstMu = Selection(
 )
 
 
+# For SeqMyYMakerWS ############################################################
+sel_Bd_ws_Mu = Selection(
+    'SelMyBdWSMu',
+    Algorithm=algo_Bd_ws_Mu,
+    RequiredSelections=[sel_Dst, sel_charged_mu]
+)
+
+sel_refit_b2DstMu_ws_Mu = Selection(
+    'SelMyRefitb2DstMuWSMu',
+    Algorithm=FitDecayTrees(
+        'MyRefitb2DstMuWSMu',
+        Code="DECTREE('[B~0 -> (D*(2010)+ -> (D0->K- pi+) pi+) mu+]CC')",
+        UsePVConstraint=False,
+        Inputs=[sel_Bd_ws_Mu.outputLocation()]
+    ),
+    RequiredSelections=[sel_Bd_ws_Mu]
+)
+
+
 ##############################
 # Define selection sequences #
 ##############################
@@ -259,6 +292,12 @@ seq_y_maker = SelectionSequence(
     'SeqMyYMaker',
     EventPreSelector=[fltr_strip],
     TopSelection=sel_refit_b2DstMu
+)
+
+seq_y_maker_ws = SelectionSequence(
+    'SeqMyYMakerWS',
+    EventPreSelector=[fltr_strip],
+    TopSelection=sel_refit_b2DstMu_ws_Mu
 )
 
 
@@ -274,6 +313,13 @@ from DecayTreeTuple.Configuration import *  # for addTupleTool
 
 stream = 'Semileptonic'
 
+def tuple_initializer(name, sel_seq):
+    tp = DecayTreeTuple(name)
+    tp.addTupleTool('')
+
+
+# Y ############################################################################
+
 # Create an ntuple to capture semileptonic B decays from the stripping line
 tp_Y = DecayTreeTuple('TupleY')
 
@@ -282,7 +328,7 @@ tp_Y.addTupleTool('TupleToolTrackInfo')  # For addBranches.
 
 # The new particles created in the sequence can be found in .outputLocation()
 tp_Y.Inputs = [seq_y_maker.outputLocation()]
-tp_Y.Decay = '[B~0 -> ^(D*(2010)+ -> ^(D0 -> ^K- ^pi+) ^pi+) ^mu-]CC'  # Decay from Phoebe's script
+tp_Y.Decay = '[B~0 -> ^(D*(2010)+ -> ^(D0 -> ^K- ^pi+) ^pi+) ^mu-]CC'
 
 tp_Y.addBranches({
     "Y": "^([B0 -> (D*(2010)- -> (D~0 -> K+ pi-) pi-) mu+]CC)",
@@ -292,6 +338,11 @@ tp_Y.addBranches({
     "piminus0": "[B0 -> (D*(2010)- -> (D~0 -> K+ ^pi-) pi-) mu+]CC",
     "Kplus": "[B0 -> (D*(2010)- -> (D~0 -> ^K+ pi-) pi-) mu+]CC",
     "muplus": "[B0 -> (D*(2010)- -> (D~0 -> K+ pi-) pi-) ^mu+]CC"})
+
+
+# Y_ws_Mu ######################################################################
+
+tp_Y_ws_Mu = DecayTreeTuple('TupleYWSMu')
 
 
 DaVinci().UserAlgorithms += [tp_Y]
