@@ -1,5 +1,5 @@
 # License: BSD 2-clause
-# Last Change: Wed Jan 16, 2019 at 03:36 PM -0500
+# Last Change: Wed Jan 16, 2019 at 04:25 PM -0500
 
 #####################
 # Configure DaVinci #
@@ -434,6 +434,6 @@ DaVinci().UserAlgorithms += [tp_Y, tp_Y_ws_Mu, tp_Y_ws_Pi]
 from GaudiConf import IOHelper
 
 IOHelper().inputFiles([
-    './data/mag_down/00041836_00011435_1.semileptonic.dst',
-    './data/mag_down/00041836_00006100_1.semileptonic.dst'
+    './data/mag_down/00041836_00006100_1.semileptonic.dst',  # 95 MB
+    './data/mag_down/00041836_00011435_1.semileptonic.dst',  # 1.3 GB
 ], clear=True)
