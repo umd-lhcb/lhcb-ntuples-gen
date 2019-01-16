@@ -1,5 +1,5 @@
 # License: BSD 2-clause
-# Last Change: Wed Jan 16, 2019 at 04:25 PM -0500
+# Last Change: Wed Jan 16, 2019 at 04:35 PM -0500
 
 #####################
 # Configure DaVinci #
@@ -436,4 +436,5 @@ from GaudiConf import IOHelper
 IOHelper().inputFiles([
     './data/mag_down/00041836_00006100_1.semileptonic.dst',  # 95 MB
     './data/mag_down/00041836_00011435_1.semileptonic.dst',  # 1.3 GB
+    './data/mag_down/00041836_00013110_1.semileptonic.dst',  # 2.9 GB
 ], clear=True)
