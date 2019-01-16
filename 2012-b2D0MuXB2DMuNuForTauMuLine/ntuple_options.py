@@ -1,5 +1,5 @@
 # License: BSD 2-clause
-# Last Change: Tue Jan 15, 2019 at 01:53 PM -0500
+# Last Change: Wed Jan 16, 2019 at 03:36 PM -0500
 
 #####################
 # Configure DaVinci #
@@ -72,8 +72,6 @@ fltr_strip = HDRFilter(
     'StrippedBCands',
     Code="HLT_PASS('Stripping{0}Decision')".format(line_strip))
 
-# FIXME: This is how HLT was done in Phoebe's release but does not currently
-#        work.
 line_hlt = 'Hlt2CharmHadD02HH_D02KPi'
 fltr_hlt = HDRFilter(
     'Hlt2TriggeredD0',
