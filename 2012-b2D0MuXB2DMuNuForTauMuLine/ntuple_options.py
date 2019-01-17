@@ -1,5 +1,5 @@
 # License: BSD 2-clause
-# Last Change: Thu Jan 17, 2019 at 12:02 AM -0500
+# Last Change: Thu Jan 17, 2019 at 12:45 AM -0500
 
 #####################
 # Configure DaVinci #
@@ -411,17 +411,17 @@ tp_Y_ws_Mu.addBranches({
 tp_Y_ws_Pi = tuple_initializer(
     'TupleYWSPi',
     seq_Y_ws_Pi,
-    '[B~0 -> ^(D*(2010)+ -> ^(D0 -> ^K- ^pi+) ^pi-) ^mu-]CC'
+    '[B~0 -> ^(D*(2010)- -> ^(D0 -> ^K- ^pi+) ^pi-) ^mu-]CC'
 )
 
 tp_Y_ws_Pi.addBranches({
-    "Y": "^([B0 -> (D*(2010)- -> (D~0 -> K+ pi-) pi+) mu+]CC)",
-    "Dst_2010_minus": "[B0 -> ^(D*(2010)- -> (D~0 -> K+ pi-) pi+) mu+]CC",
-    "D0": "[B0 -> (D*(2010)- -> ^(D~0 -> K+ pi-) pi+) mu+]CC",
-    "piminus": "[B0 -> (D*(2010)- -> (D~0 -> K+ pi-) ^pi+) mu+]CC",
-    "piminus0": "[B0 -> (D*(2010)- -> (D~0 -> K+ ^pi-) pi+) mu+]CC",
-    "Kplus": "[B0 -> (D*(2010)- -> (D~0 -> ^K+ pi-) pi+) mu+]CC",
-    "muplus": "[B0 -> (D*(2010)- -> (D~0 -> K+ pi-) pi+) ^mu+]CC"})
+    "Y": "^([B0 -> (D*(2010)+ -> (D~0 -> K+ pi-) pi+) mu+]CC)",
+    "Dst_2010_minus": "[B0 -> ^(D*(2010)+ -> (D~0 -> K+ pi-) pi+) mu+]CC",
+    "D0": "[B0 -> (D*(2010)+ -> ^(D~0 -> K+ pi-) pi+) mu+]CC",
+    "piminus": "[B0 -> (D*(2010)+ -> (D~0 -> K+ pi-) ^pi+) mu+]CC",
+    "piminus0": "[B0 -> (D*(2010)+ -> (D~0 -> K+ ^pi-) pi+) mu+]CC",
+    "Kplus": "[B0 -> (D*(2010)+ -> (D~0 -> ^K+ pi-) pi+) mu+]CC",
+    "muplus": "[B0 -> (D*(2010)+ -> (D~0 -> K+ pi-) pi+) ^mu+]CC"})
 
 
 DaVinci().UserAlgorithms += [tp_Y, tp_Y_ws_Mu, tp_Y_ws_Pi]
