@@ -1,5 +1,5 @@
 # License: BSD 2-clause
-# Last Change: Wed Jan 16, 2019 at 11:54 PM -0500
+# Last Change: Thu Jan 17, 2019 at 12:02 AM -0500
 
 #####################
 # Configure DaVinci #
@@ -317,7 +317,7 @@ sel_refit_b2DstMu_ws_Pi = Selection(
     'SelMyRefitb2DstMuWSPi',
     Algorithm=FitDecayTrees(
         'MyRefitb2DstMuWSPi',
-        Code="DECTREE('[B~0 -> (D*(2010)+ -> (D0->K- pi+) pi-) mu-]CC')",
+        Code="DECTREE('[B~0 -> (D*(2010)- -> (D0->K- pi+) pi-) mu-]CC')",
         UsePVConstraint=False,
         Inputs=[sel_Bd_ws_Pi.outputLocation()]
     ),
