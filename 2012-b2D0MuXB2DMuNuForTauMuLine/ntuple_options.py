@@ -1,5 +1,5 @@
 # License: BSD 2-clause
-# Last Change: Wed Jan 16, 2019 at 04:35 PM -0500
+# Last Change: Wed Jan 16, 2019 at 11:54 PM -0500
 
 #####################
 # Configure DaVinci #
@@ -331,28 +331,28 @@ sel_refit_b2DstMu_ws_Pi = Selection(
 
 from PhysSelPython.Wrappers import SelectionSequence
 
-seq_y = SelectionSequence(
+seq_Y = SelectionSequence(
     'SeqMyY',
     EventPreSelector=[fltr_hlt, fltr_strip],
     TopSelection=sel_refit_b2DstMu
 )
 
-seq_y_ws_Mu = SelectionSequence(
+seq_Y_ws_Mu = SelectionSequence(
     'SeqMyYWSMu',
     EventPreSelector=[fltr_hlt, fltr_strip],
     TopSelection=sel_refit_b2DstMu_ws_Mu
 )
 
-seq_y_ws_Pi = SelectionSequence(
+seq_Y_ws_Pi = SelectionSequence(
     'SeqMyYWSPi',
     EventPreSelector=[fltr_hlt, fltr_strip],
     TopSelection=sel_refit_b2DstMu_ws_Pi
 )
 
 
-DaVinci().UserAlgorithms += [seq_y.sequence(),
-                             seq_y_ws_Mu.sequence(),
-                             seq_y_ws_Pi.sequence()]
+DaVinci().UserAlgorithms += [seq_Y.sequence(),
+                             seq_Y_ws_Mu.sequence(),
+                             seq_Y_ws_Pi.sequence()]
 
 
 ###################
@@ -376,7 +376,7 @@ def tuple_initializer(name, sel_seq, decay):
 # Y ############################################################################
 tp_Y = tuple_initializer(
     'TupleY',
-    seq_y,
+    seq_Y,
     '[B~0 -> ^(D*(2010)+ -> ^(D0 -> ^K- ^pi+) ^pi+) ^mu-]CC'
 )
 
@@ -393,7 +393,7 @@ tp_Y.addBranches({
 # Y_ws_Mu ######################################################################
 tp_Y_ws_Mu = tuple_initializer(
     'TupleYWSMu',
-    seq_y_ws_Mu,
+    seq_Y_ws_Mu,
     '[B~0 -> ^(D*(2010)+ -> ^(D0 -> ^K- ^pi+) ^pi+) ^mu+]CC'
 )
 
@@ -410,7 +410,7 @@ tp_Y_ws_Mu.addBranches({
 # Y_ws_Pi ######################################################################
 tp_Y_ws_Pi = tuple_initializer(
     'TupleYWSPi',
-    seq_y_ws_Pi,
+    seq_Y_ws_Pi,
     '[B~0 -> ^(D*(2010)+ -> ^(D0 -> ^K- ^pi+) ^pi-) ^mu-]CC'
 )
 
