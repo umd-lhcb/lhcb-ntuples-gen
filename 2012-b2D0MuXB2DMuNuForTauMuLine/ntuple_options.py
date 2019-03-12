@@ -1,5 +1,5 @@
 # License: BSD 2-clause
-# Last Change: Tue Mar 12, 2019 at 12:15 AM -0400
+# Last Change: Tue Mar 12, 2019 at 12:38 AM -0400
 
 #####################
 # Configure DaVinci #
@@ -317,7 +317,7 @@ sel_refit_b2DstMu_ws_Pi = Selection(
     'SelMyRefitb2DstMuWSPi',
     Algorithm=FitDecayTrees(
         'MyRefitb2DstMuWSPi',
-        Code="DECTREE('[B~0 -> (D*(2010)+ -> (D0->K- pi+) pi-) mu-]CC')",
+        Code="DECTREE('[B~0 -> (D*(2010)- -> (D0->K- pi+) pi-) mu-]CC')",
         UsePVConstraint=False,
         Inputs=[sel_Bd_ws_Pi.outputLocation()]
     ),
@@ -331,28 +331,28 @@ sel_refit_b2DstMu_ws_Pi = Selection(
 
 from PhysSelPython.Wrappers import SelectionSequence
 
-seq_y = SelectionSequence(
+seq_Y = SelectionSequence(
     'SeqMyY',
     EventPreSelector=[fltr_hlt, fltr_strip],
     TopSelection=sel_refit_b2DstMu
 )
 
-seq_y_ws_Mu = SelectionSequence(
+seq_Y_ws_Mu = SelectionSequence(
     'SeqMyYWSMu',
     EventPreSelector=[fltr_hlt, fltr_strip],
     TopSelection=sel_refit_b2DstMu_ws_Mu
 )
 
-seq_y_ws_Pi = SelectionSequence(
+seq_Y_ws_Pi = SelectionSequence(
     'SeqMyYWSPi',
     EventPreSelector=[fltr_hlt, fltr_strip],
     TopSelection=sel_refit_b2DstMu_ws_Pi
 )
 
 
-DaVinci().UserAlgorithms += [seq_y.sequence(),
-                             seq_y_ws_Mu.sequence(),
-                             seq_y_ws_Pi.sequence()]
+DaVinci().UserAlgorithms += [seq_Y.sequence(),
+                             seq_Y_ws_Mu.sequence(),
+                             seq_Y_ws_Pi.sequence()]
 
 
 ###################
@@ -390,7 +390,7 @@ def tuple_postpocess(tp, weights='./weights_soft.xml'):
 # Y ############################################################################
 tp_Y = tuple_initializer(
     'TupleY',
-    seq_y,
+    seq_Y,
     '[B~0 -> ^(D*(2010)+ -> ^(D0 -> ^K- ^pi+) ^pi+) ^mu-]CC'
 )
 
@@ -409,7 +409,7 @@ tuple_postpocess(tp_Y)
 # Y_ws_Mu ######################################################################
 tp_Y_ws_Mu = tuple_initializer(
     'TupleYWSMu',
-    seq_y_ws_Mu,
+    seq_Y_ws_Mu,
     '[B~0 -> ^(D*(2010)+ -> ^(D0 -> ^K- ^pi+) ^pi+) ^mu+]CC'
 )
 
@@ -428,18 +428,18 @@ tuple_postpocess(tp_Y_ws_Mu)
 # Y_ws_Pi ######################################################################
 tp_Y_ws_Pi = tuple_initializer(
     'TupleYWSPi',
-    seq_y_ws_Pi,
-    '[B~0 -> ^(D*(2010)+ -> ^(D0 -> ^K- ^pi+) ^pi-) ^mu-]CC'
+    seq_Y_ws_Pi,
+    '[B~0 -> ^(D*(2010)- -> ^(D0 -> ^K- ^pi+) ^pi-) ^mu-]CC'
 )
 
 tp_Y_ws_Pi.addBranches({
-    "Y": "^([B0 -> (D*(2010)- -> (D~0 -> K+ pi-) pi+) mu+]CC)",
-    "Dst_2010_minus": "[B0 -> ^(D*(2010)- -> (D~0 -> K+ pi-) pi+) mu+]CC",
-    "D0": "[B0 -> (D*(2010)- -> ^(D~0 -> K+ pi-) pi+) mu+]CC",
-    "piminus": "[B0 -> (D*(2010)- -> (D~0 -> K+ pi-) ^pi+) mu+]CC",
-    "piminus0": "[B0 -> (D*(2010)- -> (D~0 -> K+ ^pi-) pi+) mu+]CC",
-    "Kplus": "[B0 -> (D*(2010)- -> (D~0 -> ^K+ pi-) pi+) mu+]CC",
-    "muplus": "[B0 -> (D*(2010)- -> (D~0 -> K+ pi-) pi+) ^mu+]CC"})
+    "Y": "^([B0 -> (D*(2010)+ -> (D~0 -> K+ pi-) pi+) mu+]CC)",
+    "Dst_2010_minus": "[B0 -> ^(D*(2010)+ -> (D~0 -> K+ pi-) pi+) mu+]CC",
+    "D0": "[B0 -> (D*(2010)+ -> ^(D~0 -> K+ pi-) pi+) mu+]CC",
+    "piminus": "[B0 -> (D*(2010)+ -> (D~0 -> K+ pi-) ^pi+) mu+]CC",
+    "piminus0": "[B0 -> (D*(2010)+ -> (D~0 -> K+ ^pi-) pi+) mu+]CC",
+    "Kplus": "[B0 -> (D*(2010)+ -> (D~0 -> ^K+ pi-) pi+) mu+]CC",
+    "muplus": "[B0 -> (D*(2010)+ -> (D~0 -> K+ pi-) pi+) ^mu+]CC"})
 
 tuple_postpocess(tp_Y_ws_Pi)
 
@@ -456,4 +456,5 @@ from GaudiConf import IOHelper
 IOHelper().inputFiles([
     './data/mag_down/00041836_00006100_1.semileptonic.dst',  # 95 MB
     './data/mag_down/00041836_00011435_1.semileptonic.dst',  # 1.3 GB
+    './data/mag_down/00041836_00013110_1.semileptonic.dst',  # 2.9 GB
 ], clear=True)
