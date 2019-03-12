@@ -1,5 +1,5 @@
 # License: BSD 2-clause
-# Last Change: Wed Jan 16, 2019 at 04:25 PM -0500
+# Last Change: Tue Mar 12, 2019 at 12:15 AM -0400
 
 #####################
 # Configure DaVinci #
@@ -360,6 +360,9 @@ DaVinci().UserAlgorithms += [seq_y.sequence(),
 ###################
 
 from Configurables import DecayTreeTuple
+from Configurables import TupleToolApplyIsolation
+from Configurables import TupleToolTagDiscardDstMu
+from Configurables import TupleToolANNPIDTraining
 from DecayTreeTuple.Configuration import *  # for addTupleTool
 
 stream = 'Semileptonic'
@@ -371,6 +374,17 @@ def tuple_initializer(name, sel_seq, decay):
     tp.Inputs = [sel_seq.outputLocation()]
     tp.Decay = decay
     return tp
+
+
+def tuple_postpocess(tp, weights='./weights_soft.xml'):
+    tp.Y.addTool(TupleToolTagDiscardDstMu, name='MyDiscardDstMu')
+    tp.Y.ToolList += ['TupleToolTagDiscardDstMu/MyDiscardDstMu']
+
+    tp.Y.addTool(TupleToolApplyIsolation, name='TTAIS')
+    tp.Y.TTAIS.WeightsFile = weights
+    tp.Y.ToolList += ['TupleToolApplyIsolation/TTAIS']
+
+    tp.muplus.ToolList += ['TupleToolANNPIDTraining']
 
 
 # Y ############################################################################
@@ -389,6 +403,8 @@ tp_Y.addBranches({
     "Kplus": "[B0 -> (D*(2010)- -> (D~0 -> ^K+ pi-) pi-) mu+]CC",
     "muplus": "[B0 -> (D*(2010)- -> (D~0 -> K+ pi-) pi-) ^mu+]CC"})
 
+tuple_postpocess(tp_Y)
+
 
 # Y_ws_Mu ######################################################################
 tp_Y_ws_Mu = tuple_initializer(
@@ -406,6 +422,8 @@ tp_Y_ws_Mu.addBranches({
     "Kplus": "[B0 -> (D*(2010)- -> (D~0 -> ^K+ pi-) pi-) mu-]CC",
     "muplus": "[B0 -> (D*(2010)- -> (D~0 -> K+ pi-) pi-) ^mu-]CC"})
 
+tuple_postpocess(tp_Y_ws_Mu)
+
 
 # Y_ws_Pi ######################################################################
 tp_Y_ws_Pi = tuple_initializer(
@@ -422,6 +440,8 @@ tp_Y_ws_Pi.addBranches({
     "piminus0": "[B0 -> (D*(2010)- -> (D~0 -> K+ ^pi-) pi+) mu+]CC",
     "Kplus": "[B0 -> (D*(2010)- -> (D~0 -> ^K+ pi-) pi+) mu+]CC",
     "muplus": "[B0 -> (D*(2010)- -> (D~0 -> K+ pi-) pi+) ^mu+]CC"})
+
+tuple_postpocess(tp_Y_ws_Pi)
 
 
 DaVinci().UserAlgorithms += [tp_Y, tp_Y_ws_Mu, tp_Y_ws_Pi]
