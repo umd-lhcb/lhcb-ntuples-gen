@@ -1,5 +1,5 @@
 # License: BSD 2-clause
-# Last Change: Tue Mar 12, 2019 at 12:38 AM -0400
+# Last Change: Wed Mar 27, 2019 at 11:37 AM -0400
 
 #####################
 # Configure DaVinci #
@@ -363,6 +363,7 @@ from Configurables import DecayTreeTuple
 from Configurables import TupleToolApplyIsolation
 from Configurables import TupleToolTagDiscardDstMu
 from Configurables import TupleToolANNPIDTraining
+from Configurables import TupleToolTauMuDiscrVars
 from DecayTreeTuple.Configuration import *  # for addTupleTool
 
 stream = 'Semileptonic'
@@ -383,6 +384,9 @@ def tuple_postpocess(tp, weights='./weights_soft.xml'):
     tp.Y.addTool(TupleToolApplyIsolation, name='TTAIS')
     tp.Y.TTAIS.WeightsFile = weights
     tp.Y.ToolList += ['TupleToolApplyIsolation/TTAIS']
+
+    tp.Y.addTool(TupleToolTauMuDiscrVars, name='RFA')
+    tp.Y.ToolList += ['TupleToolTauMuDiscrVars/RFA']
 
     tp.muplus.ToolList += ['TupleToolANNPIDTraining']
 
