@@ -1,5 +1,5 @@
 # License: BSD 2-clause
-# Last Change: Wed Mar 27, 2019 at 11:37 AM -0400
+# Last Change: Sat Apr 06, 2019 at 02:08 PM -0400
 
 #####################
 # Configure DaVinci #
@@ -365,8 +365,6 @@ from Configurables import TupleToolTagDiscardDstMu
 from Configurables import TupleToolANNPIDTraining
 from Configurables import TupleToolTauMuDiscrVars
 from DecayTreeTuple.Configuration import *  # for addTupleTool
-
-stream = 'Semileptonic'
 
 
 def tuple_initializer(name, sel_seq, decay):
