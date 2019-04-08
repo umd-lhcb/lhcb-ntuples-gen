@@ -1,5 +1,5 @@
 # License: BSD 2-clause
-# Last Change: Sat Apr 06, 2019 at 02:08 PM -0400
+# Last Change: Mon Apr 08, 2019 at 12:28 PM -0400
 
 #####################
 # Configure DaVinci #
@@ -376,15 +376,15 @@ def tuple_initializer(name, sel_seq, decay):
 
 
 def tuple_postpocess(tp, weights='./weights_soft.xml'):
-    tp.Y.addTool(TupleToolTagDiscardDstMu, name='MyDiscardDstMu')
-    tp.Y.ToolList += ['TupleToolTagDiscardDstMu/MyDiscardDstMu']
+    tp.Y.addTool(TupleToolTagDiscardDstMu, name='TupleMyDiscardDstMu')
+    tp.Y.ToolList += ['TupleToolTagDiscardDstMu/TupleMyDiscardDstMu']
 
-    tp.Y.addTool(TupleToolApplyIsolation, name='TTAIS')
+    tp.Y.addTool(TupleToolApplyIsolation, name='TupleMyApplyIso')
     tp.Y.TTAIS.WeightsFile = weights
-    tp.Y.ToolList += ['TupleToolApplyIsolation/TTAIS']
+    tp.Y.ToolList += ['TupleToolApplyIsolation/TupleMyApplyIso']
 
-    tp.Y.addTool(TupleToolTauMuDiscrVars, name='RFA')
-    tp.Y.ToolList += ['TupleToolTauMuDiscrVars/RFA']
+    tp.Y.addTool(TupleToolTauMuDiscrVars, name='TupleMyRFA')
+    tp.Y.ToolList += ['TupleToolTauMuDiscrVars/TupleMyRFA']
 
     tp.muplus.ToolList += ['TupleToolANNPIDTraining']
 
