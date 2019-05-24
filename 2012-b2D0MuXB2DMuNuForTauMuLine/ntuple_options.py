@@ -1,5 +1,5 @@
 # License: BSD 2-clause
-# Last Change: Wed May 22, 2019 at 02:45 PM -0400
+# Last Change: Fri May 24, 2019 at 05:10 PM -0400
 
 #####################
 # Configure DaVinci #
@@ -380,7 +380,7 @@ def tuple_postpocess(tp, weights='./weights_soft.xml'):
     tp.Y.ToolList += ['TupleToolTagDiscardDstMu/TupleMyDiscardDstMu']
 
     tp.Y.addTool(TupleToolApplyIsolation, name='TupleMyApplyIso')
-    tp.Y.TTAIS.WeightsFile = weights
+    tp.Y.TupleMyApplyIso.WeightsFile = weights
     tp.Y.ToolList += ['TupleToolApplyIsolation/TupleMyApplyIso']
 
     tp.Y.addTool(TupleToolTauMuDiscrVars, name='TupleMyRFA')
