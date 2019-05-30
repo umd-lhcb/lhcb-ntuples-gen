@@ -4,7 +4,7 @@
 #include "TH1D.h"
 
 
-void treematch() {
+void crossmatch() {
 	//read in the .root files
 	TFile *f1 = new TFile("BDslnu_small.root");
 	TFile *f2 = new TFile("BDslnu_small2.root");
@@ -14,13 +14,16 @@ void treematch() {
 	TTree *t2 = (TTree*)f2->Get("DecayTree");
 
 	//initialize the values to be read in from each file
+	UInt_t run1, run2;
 	ULong64_t event1, event2;
 	Double_t Bplus_P1, Bplus_P2;
 	//Double_t BPlus_Pdiff;
 
 	//set address of values to read in
+	t1->SetBranchAddress("runNumber",&run1);
 	t1->SetBranchAddress("eventNumber",&event1);
 	t1->SetBranchAddress("Bplus_P",&Bplus_P1);
+	t2->SetBranchAddress("runNumber",&run2);
 	t2->SetBranchAddress("eventNumber",&event2);
 	t2->SetBranchAddress("Bplus_P",&Bplus_P2);
 
@@ -39,7 +42,7 @@ void treematch() {
 
 		for (Int_t j=0; j<nentries2; j++) {
 			t2->GetEntry(j);
-			if (event1 == event2) {
+			if (run1 == run2 && event1 == event2) {
 				Double_t Bplus_Pdiff = Bplus_P1 - Bplus_P2;
 				hBplus_diff->Fill(Bplus_Pdiff);
 
