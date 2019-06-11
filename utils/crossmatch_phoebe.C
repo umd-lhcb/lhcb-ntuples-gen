@@ -16,6 +16,20 @@ void crossmatch_phoebe(const char *file1, const char *file2) {
   TTree *t1 = (TTree*)f1->Get("TupleY/DecayTree");
   TTree *t2 = (TTree*)f2->Get("YCands/DecayTree");
 
+  //make a new file and a new tree which will have same form as t2
+  //new file will be a smaller matched root file
+  TFile *newfile = new TFile("small_matched_phoebe.root","RECREATE");
+  TTree *MatchTree = t2->CloneTree(0);
+
+  //set branch status of each tree to only read in eventNumber and runNumber
+  t1->SetBranchStatus("*",0);
+  t1->SetBranchStatus("runNumber",1);
+  t1->SetBranchStatus("eventNumber",1);
+
+  t2->SetBranchStatus("*",0);
+  t2->SetBranchStatus("runNumber",1);
+  t2->SetBranchStatus("eventNumber",1);
+
   //initialize the values to be read in from each file
   UInt_t run1, run2;
   ULong64_t event1, event2;
@@ -25,11 +39,6 @@ void crossmatch_phoebe(const char *file1, const char *file2) {
   t1->SetBranchAddress("eventNumber",&event1);
   t2->SetBranchAddress("runNumber",&run2);
   t2->SetBranchAddress("eventNumber",&event2);
-
-  //make a new file and a new tree which will have same form as t2
-  //new file will be a smaller matched root file
-  TFile *newfile = new TFile("small_matched_phoebe.root","RECREATE");
-  TTree *MatchTree = t2->CloneTree(0);
 
   //read all entries and cross match
   Int_t nentries1 = (Int_t)t1->GetEntries();
@@ -43,7 +52,10 @@ void crossmatch_phoebe(const char *file1, const char *file2) {
     for (Int_t j=0; j<nentries2; j++) {
       t2->GetEntry(j);
       if (run1 == run2 && event1 == event2) {
-      	//fill the new tree with values matching the given condition
+        //get the entry for t2 for ALL branches (i.e. set getall=1)
+        t2->GetEntry(j,1);
+
+      	//fill the new tree with values from t2 matching the given condition
         MatchTree->Fill();
 
       }
