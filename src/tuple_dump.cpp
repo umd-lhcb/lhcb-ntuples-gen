@@ -1,17 +1,20 @@
 // Author: Yipeng Sun <syp at umd dot edu>
 // License: BSD 2-clause
-// Last Change: Fri Jun 28, 2019 at 05:56 AM -0400
+// Last Change: Fri Jun 28, 2019 at 03:59 PM -0400
 
 #include <TFile.h>
+#include <TLeaf.h>
 #include <TList.h>
 #include <TObjArray.h>
 #include <TTree.h>
+#include <fstream>
 #include <iostream>
 #include <iterator>
 #include <set>
 #include <string>
 
 const std::set<std::string> BLACKLISTED = {"GetIntegratedLuminosity"};
+const std::string INDENT = "    ";
 
 ////////////////////////////////////////////////////////////////////////////////
 // Declarations
@@ -21,28 +24,38 @@ bool in_blacklist(std::string);
 
 TList *get_top_trees(TFile *);
 TObjArray *get_branches(TTree *);
+std::string get_branch_datatype(TBranch *);
 
 ////////////////////////////////////////////////////////////////////////////////
 // Main
 ////////////////////////////////////////////////////////////////////////////////
 
 int main(int argc, char **argv) {
-  char *input_file = argv[1];
-  char *output_file = argv[2];
+  char *input_filename = argv[1];
+  std::string output_filename = argv[2];
   std::string subfolder = argv[3];
 
-  TFile *ntuple = new TFile(input_file, "read");
+  TFile *ntuple = new TFile(input_filename, "read");
+  std::ofstream output_file;
+  output_file.open(output_filename);
 
   // Get top-level tree/folder names
   for (const auto &&obj : *get_top_trees(ntuple)) {
-    std::string name = obj->GetName();
-    if (!in_blacklist(name)) {
-      name += subfolder;
+    std::string name_top = obj->GetName();
+    if (!in_blacklist(name_top)) {
+      name_top += subfolder;
 
-      TTree *tree = (TTree *)ntuple->Get(name.c_str());
+      output_file << name_top << ":" << std::endl;
+
+      TTree *tree = (TTree *)ntuple->Get(name_top.c_str());
       for (const auto &&branch : *get_branches(tree)) {
-        std::cout << branch->GetName() << '\n';
+        const std::string name_branch = branch->GetName();
+        const std::string datatype = get_branch_datatype((TBranch *)branch);
+
+        output_file << INDENT << name_branch << ": " << datatype << std::endl;
       }
+
+      output_file << std::endl;
     }
   }
 
@@ -69,6 +82,20 @@ bool in_blacklist(std::string name) {
 
 TList *get_top_trees(TFile *ntuple) { return ntuple->GetListOfKeys(); }
 TObjArray *get_branches(TTree *tree) { return tree->GetListOfBranches(); }
+
+std::string get_branch_datatype(TBranch *branch) {
+  TObjArray *leaves = branch->GetListOfLeaves();
+  std::string datatype;
+
+  for (const auto &&leaf : *leaves) {
+    datatype =
+        ((TLeaf *)leaf)->GetTypeName();  // We assume the branch is
+                                         // filled with homogeneous objects
+    break;
+  }
+
+  return datatype;
+}
 
 /*
  *void get_folders(TFolder *folder) {
