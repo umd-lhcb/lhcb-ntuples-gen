@@ -1,22 +1,35 @@
 # Author: Yipeng Sun <syp at umd dot edu>
 # License: BSD 2-clause
-# Last Change: Thu Jun 27, 2019 at 04:35 AM -0400
+# Last Change: Fri Jun 28, 2019 at 04:36 PM -0400
 
 BINPATH	:=	bin
 SRCPATH	:=	src
 
 # Compiler settings
 COMPILER	:=	$(shell root-config --cxx)
-CXXFLAGS	:=	$(shell root-config --cflags) -ggdb
+CXXFLAGS	:=	$(shell root-config --cflags)
+ADDFLAGS	:=	-ggdb
 LINKFLAGS	:=	$(shell root-config --libs)
 
-.PHONY: all
+.PHONY: all utils
 
-all: $(BINPATH)/tuple_dump
+all: 2012-b2D0MuXB2DMuNuForTauMuLine/gen/YCands.yml
+
+utils: $(BINPATH)/tuple_dump
 
 clean:
 	@rm -rf $(BINPATH)/*
 
-# Utilities
+####################
+# Generic patterns #
+####################
+
+%.yml: %.root $(BINPATH)/tuple_dump
+	$(BINPATH)/tuple_dump $(@D)/$(basename $(@F)).root $@ "/DecayTree"
+
+#############
+# Utilities #
+#############
+
 $(BINPATH)/%: $(SRCPATH)/%.cpp
-	$(COMPILER) $(CXXFLAGS) -o $(BINPATH)/$(@F) $(SRCPATH)/$(@F).cpp $(LINKFLAGS)
+	$(COMPILER) $(CXXFLAGS) $(ADDFLAGS) -o $(BINPATH)/$(@F) $(SRCPATH)/$(@F).cpp $(LINKFLAGS)
