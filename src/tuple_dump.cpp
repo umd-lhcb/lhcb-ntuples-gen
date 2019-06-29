@@ -1,6 +1,6 @@
 // Author: Yipeng Sun <syp at umd dot edu>
 // License: BSD 2-clause
-// Last Change: Fri Jun 28, 2019 at 03:59 PM -0400
+// Last Change: Fri Jun 28, 2019 at 08:58 PM -0400
 
 #include <TFile.h>
 #include <TLeaf.h>
@@ -30,7 +30,7 @@ std::string get_branch_datatype(TBranch *);
 // Main
 ////////////////////////////////////////////////////////////////////////////////
 
-int main(int argc, char **argv) {
+int main(int, char **argv) {
   char *input_filename = argv[1];
   std::string output_filename = argv[2];
   std::string subfolder = argv[3];
