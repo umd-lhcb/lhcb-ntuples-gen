@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun <syp at umd dot edu>
 # License: BSD 2-clause
-# Last Change: Sun Jun 30, 2019 at 01:21 PM -0400
+# Last Change: Sun Jun 30, 2019 at 01:29 PM -0400
 
 import abc
 import yaml
@@ -30,11 +30,12 @@ class CppWriter(metaclass=abc.ABCMeta):
         Write generated C++ file to 'cpp_file'.
         '''
 
-    @abc.abstractmethod
-    def parse_ntuple_structure(yaml_ntuple):
+    def read_ntuple_structure(yaml_ntuple):
         '''
-        Parse ntuple data structure.
+        Read ntuple data structure.
         '''
+        with open(yaml_ntuple) as f:
+            return yaml.safe_load(f)
 
     @staticmethod
     def cpp_gen_date(strpformat):
@@ -61,11 +62,11 @@ int main(int, char** argv) {{
 class PostProcess(CppWriter):
     def __init__(self,
                  include=['TFile.h', 'TTreeReader.h'],
-                 drop=[],
-                 keep=['*'],
-                 rename=[]
+                 tree_keep=['*'],
+                 tree_drop=[],
+                 tree_rename=[],
+                 branch_drop=[],
+                 branch_keep=['*'],
+                 branch_rename=[]
                  ):
         self.include = include
-
-    def template(self):
-        return ''
