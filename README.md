@@ -8,7 +8,7 @@ For each stripping line, `ntuple_options.py` is the DaVinci script that
 generates a ntuple.
 
 
-## babymaker
+## `babymaker`
 All ntuple postprocessing are done in the `babymaker` framework.
 
 ### Prerequisite
