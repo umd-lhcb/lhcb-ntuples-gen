@@ -1,25 +1,33 @@
-TupleYTest:
-    TupleY/DecayTree:
-        keep:
-            - ^Y_P\w$
-        rename:
-            Y_PT: y_pt
-            Y_PX: y_px
-        selection:
-            Y_PT: "> 10000"
+ATuple:
+    input:
+        - TupleY/DecayTree
+    keep:
+        - ^Y_P\w$
+    rename:
+        Y_PT: y_pt
+        Y_PX: y_px
+        Y_PY: y_py
+        Y_PZ: y_pz
+    selection:
+        Y_PT: "> 10000"
 
 AnotherTuple:
-    TupleY/DecayTree:
-        keep:
-            - Y_P.*
-        rename:
-            Y_PT: y_pt
-            Y_PX: y_px
-        selection:
-            Y_PT: "> 10000"
-            Y_PE: "> (100 * pow(10, 3))"
+    headers:
+        - cmath
+    input:
+        - TupleY/DecayTree
+    keep:
+        - Y_P.*
+    selection:
+        Y_PT: "> 10000"
+        Y_PE: "> (100 * pow(10, 3))"
 
-    TupleYWSPi/DecayTree:
-        keep:
-            - Y_OWNPV_.*
-            - Y_ISOLATION_.*
+YetAnotherTuple:
+    headers:
+        - cmath
+    input:
+        - TupleY/DecayTree
+        - TupleYWSPi/DecayTree
+    keep:
+        - Y_OWNPV_.*
+        - Y_ISOLATION_.*
