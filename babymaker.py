@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun <syp at umd dot edu>
 # License: BSD 2-clause
-# Last Change: Sun Jun 30, 2019 at 09:35 PM -0400
+# Last Change: Sun Jun 30, 2019 at 09:54 PM -0400
 
 import abc
 import yaml
@@ -125,8 +125,8 @@ class PostProcess(CppWriter):
 
     def cpp_tfiles(self, loops):
         return '''
-TFile *{0} = new TFile(argv[1]);
-TFile *{1} = new TFile(argv[2]);
+TFile *{0} = new TFile(argv[1], "read");
+TFile *{1} = new TFile(argv[2], "recreate");
 
 {2}
 
