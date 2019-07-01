@@ -2,10 +2,11 @@
 #
 # Author: Yipeng Sun <syp at umd dot edu>
 # License: BSD 2-clause
-# Last Change: Sun Jun 30, 2019 at 05:24 PM -0400
+# Last Change: Sun Jun 30, 2019 at 09:06 PM -0400
 
 import abc
 import yaml
+import re
 
 from datetime import datetime
 
@@ -42,7 +43,7 @@ class CppWriter(metaclass=abc.ABCMeta):
 
     @staticmethod
     def cpp_gen_date(time_format='%Y-%m-%d %H:%M:%S.%f'):
-        return '// Generated on: {}'.format(
+        return '// Generated on: {}\n'.format(
             datetime.now().strftime(time_format))
 
     @staticmethod
@@ -64,22 +65,28 @@ int main(int, char** argv) {{
 #################################
 
 class PostProcess(CppWriter):
+    input_file = 'input_file'
+    output_file = 'output_file'
+
     def __init__(self,
                  include=['TFile.h', 'TTreeReader.h'],
-                 tree_keep=['*'],
-                 tree_drop=[],
-                 tree_rename=[],
-                 branch_drop=[],
-                 branch_keep=['*'],
-                 branch_rename=[]
+                 drop=[],
+                 keep=['*'],
+                 rename=[],
+                 selection={}
                  ):
         self.include = include
+        self.keep = keep
+        self.drop = drop
+        self.rename = rename
+        self.selection = selection
 
     def parse_conf(self, yaml_conf):
         pass
 
     def write(self, cpp_file):
-        filecontent = ('\n').join([self.cpp_header(h) for h in self.include])
+        filecontent = self.cpp_gen_date()
+        filecontent += ('\n').join([self.cpp_header(h) for h in self.include])
         filecontent += '\n'
 
         main = self.cpp_main(self.cpp_tfiles(''))
@@ -88,17 +95,43 @@ class PostProcess(CppWriter):
         with open(cpp_file, 'w') as f:
             f.write(filecontent)
 
-    @staticmethod
-    def cpp_tfiles(loops):
+    def cpp_tfiles(self, loops):
         return '''
-TFile *input_file = new TFile(argv[1]);
-TFile *output_file = new TFile(argv[2]);
+TFile *{0} = new TFile(argv[1]);
+TFile *{1} = new TFile(argv[2]);
 
-{}
+{2}
 
-delete input_file;
-delete input_file;
-'''.format(loops)
+delete {0};
+delete {1};
+'''.format(self.input_file, self.output_file, loops)
+
+    def cpp_tree_handler(self, input_tree, branches):
+        branch_names = [
+            'TTreeReaderValue<{}> {};\n'.format(branches[b]['type'], b) for b in
+            branches.keys()]
+        branch_loops = ''
+        return '''
+TTreeReader {0}("{1}", {2});
+{3}
+
+while ({0}.Next()) {
+  {4}
+}
+'''.format(self.cpp_tree_variable(input_tree), input_tree, self.input_file,
+           branch_names, branch_loops)
+
+    def cpp_branch_handler(self, output_tree, branch, selection=None):
+        if not selection:
+            return '''
+'''
+        else:
+            return '''
+'''
+
+    @staticmethod
+    def cpp_tree_variable(tree):
+        return re.sub('/', '_', tree)
 
 
 ########
