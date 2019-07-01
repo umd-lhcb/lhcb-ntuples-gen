@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun <syp at umd dot edu>
 # License: BSD 2-clause
-# Last Change: Sun Jun 30, 2019 at 09:54 PM -0400
+# Last Change: Sun Jun 30, 2019 at 10:54 PM -0400
 
 import abc
 import yaml
@@ -23,21 +23,25 @@ generate compilable C++ source file for ntuple processing.''')
     parser.add_argument('-g', '--generator',
                         nargs='?',
                         choices=['PostProcess', 'Compare'],
+                        required=True,
                         help='''
 choose a C++ code generator.''')
 
     parser.add_argument('-i', '--input',
                         nargs='?',
+                        required=True,
                         help='''
 path to input YAML file.''')
 
     parser.add_argument('-o', '--output',
                         nargs='?',
+                        required=True,
                         help='''
 path to output C++ file.''')
 
     parser.add_argument('-d', '--datatype',
                         nargs='?',
+                        required=True,
                         help='''
 path to ntuple datatype YAML file.''')
 
