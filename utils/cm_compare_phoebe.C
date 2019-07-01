@@ -2,24 +2,51 @@
 #include "TTree.h"
 #include "TDirectory.h"
 #include "TStopwatch.h"
+#include "TBranch.h"
+#include "TCanvas.h"
+#include "TH1D.h"
 #include <vector>
+
+//==========================================
+//THIS IS THE FINALIZED VERSION OF THIS CODE
+//final of my (Ben's) versions for GitHub
+//==========================================
+
+//=======================================================================
+//This macro will do the following:
+//1. Extract the unique and duplicate event IDs from Manuel's file
+//2. Save the unique and duplicate extracted IDs to their own respective
+//   .root files
+//3. Read in these two .root files and convert the event IDs into vectors
+//   following the format described below
+//4. Crossmatch Manuel and Phoebe's ntuples ONLY for the unique ID events
+//5. Compare a single branch present in both Manuel and Phoebe's ntuples
+//   (as of now this branch must be of type Double_t but this will be
+//   changed after implementation with Yipeng's code)
+//=======================================================================
 
 //for crossmatching of Manuel's and Phoebe's files, must have the following
 //file1="src/lhcb-ntuples-gen/2012-b2D0MuXB2DMuNuForTauMuLine/gen/YCands.root"
 //file2="src/lhcb-ntuples-gen/2012-b2D0MuXB2DMuNuForTauMuLine/data/sample/YCan
 //ds_sample-mag_down-data.root"
 
+
+//These definitions will need to change depending upon the directory
+//structure of one's own computer!
 #define infile1 \
   "src/lhcb-ntuples-gen/2012-b2D0MuXB2DMuNuForTauMuLine/gen/YCands.root"
 #define infile2 \
   "src/lhcb-ntuples-gen/2012-b2D0MuXB2DMuNuForTauMuLine/data/sample/YCands_" \
   "sample-mag_down-data.root"
 
+
 void extract_unique_id(TFile *file);
 std::vector<std::vector<ULong64_t>> convert_to_vec(TFile *file);
 void crossmatch_phoebe_fast(TFile *file1, TFile *file2);
+void compare_branch(TFile *file1, TFile *file2, const char *branch_name);
 
-int extract_cm_phoebe() {
+
+int cm_compare_phoebe() {
 
   //read in the .root files
   TFile *f1 = new TFile(infile1);
@@ -49,6 +76,17 @@ int extract_cm_phoebe() {
 
   //crossmatch Manuel and Phoebe's files, only for unique IDs in Manuel's file
   crossmatch_phoebe_fast(uid, f2);
+
+  //open the file that is Phoebe's ntuple crossmatched with Manuel's ntuple
+  TFile *match_phoebe = new TFile("small_matched_phoebe.root");
+  
+  //must redefine the unique IDs file or else the compare_branch function
+  //will not work, not deleting file yields a plot but no results on plot
+  //hence keep the code this way with a redefinition (even though it's ugly)
+  TFile *uid2 = new TFile("unique_id_YCands.root");
+
+  //compare Manuel and Phoebe's branches, output saved in histogram
+  compare_branch(uid2, match_phoebe, "D0_P");
 
   return 0;
 }
@@ -140,8 +178,8 @@ void extract_unique_id(TFile *file) {
   timer.Stop();
 
   //print out the real time and the CPU time taken to make the new file
-  cout << " Total CPU Time to Extract = " << timer.CpuTime() << endl;
-  cout << " Total Real Time to Extract = " << timer.RealTime() << endl;
+  cout << " Total CPU Time = " << timer.CpuTime() << endl;
+  cout << " Total Real Time = " << timer.RealTime() << endl;
 
   delete file;
   delete newfile;
@@ -256,10 +294,98 @@ void crossmatch_phoebe_fast(TFile *file1, TFile *file2) {
   timer.Stop();
 
   //print out the real time and the CPU time taken to make the new file
-  cout << " Total CPU Time to Crossmatch = " << timer.CpuTime() << endl;
-  cout << " Total Real Time to Crossmatch = " << timer.RealTime() << endl;
+  cout << " Total CPU Time = " << timer.CpuTime() << endl;
+  cout << " Total Real Time = " << timer.RealTime() << endl;
 
   delete file1;
   delete file2;
   delete newfile;
+}
+
+void compare_branch(TFile *file1, TFile *file2, const char *branch_name) {
+  
+  //define the trees for each file
+  //file1 must be the unique IDs file and file2 must be the crossmatched file
+  //input branch name can only be of type Double_t
+  TTree *t1 = (TTree*)file1->Get("TupleY/DecayTree");
+  TTree *t2 = (TTree*)file2->Get("DecayTree");
+
+  //get the branch for the given branch name
+  TBranch *testb1 = t1->GetBranch(branch_name);
+  TBranch *testb2 = t2->GetBranch(branch_name);
+
+  //test if given branch exists in both files
+  //if it does not exist in both files then exit program
+  if (!testb1 || !testb2) {
+    cout << "The given branch name is not a branch in one or both files." 
+    << endl;
+
+    cout << "Try running the program again stating a diffrent branch name." 
+    << endl;
+
+    cout << "The program has terminated." << endl;
+
+    exit(0);
+  } else {
+    cout << "The given branch is a branch in both files." << endl;
+
+    cout << "Further analysis to come..." << endl;
+
+    //initialize the values to be read in from each file
+    UInt_t run1, run2;
+    ULong64_t event1, event2;
+    Double_t branch1, branch2;
+
+    //set address of values to read in
+    t1->SetBranchAddress("runNumber",&run1);
+    t1->SetBranchAddress("eventNumber",&event1);
+    t2->SetBranchAddress("runNumber",&run2);
+    t2->SetBranchAddress("eventNumber",&event2);
+
+    //set address for each file of value to compare
+    t1->SetBranchAddress(branch_name,&branch1);
+    t2->SetBranchAddress(branch_name,&branch2);
+
+    //define 2nd halves of inputs to TCanvas, TH1D and SaveAs
+    const char *title2 = " Difference";
+    const char *file_name2 = "_diff_manuel_phoebe.png";
+
+    //define title of the histogram
+    char title[100];
+    strcpy(title,branch_name);
+    strcat(title,title2);
+
+    //define the file name to have histogram saved to
+    char file_name[100];
+    strcpy(file_name,branch_name);
+    strcat(file_name,file_name2);
+
+    //make a new canvas to plot histogram on
+    TCanvas *ct = new TCanvas("ct",title,0,0,600,600);
+    ct->cd();
+
+    TH1D *h_diff = new TH1D("h_diff",title,500,-150.0,150.0);
+
+    //read all entries and cross match
+    Int_t nentries1 = (Int_t)t1->GetEntries();
+    Int_t nentries2 = (Int_t)t2->GetEntries();
+
+    for (Int_t i=0; i<nentries1; i++) {
+      t1->GetEntry(i);
+
+      for (Int_t j=0; j<nentries2; j++) {
+        t2->GetEntry(j);
+        if (run1 == run2 && event1 == event2) {
+          //fill histogram with difference of values
+          Double_t diff = branch1 - branch2;
+          h_diff->Fill(diff);
+        }
+      }
+    }
+    //draw and save the histogram in current directory
+    h_diff->Draw();
+    ct->SaveAs(file_name);
+  }
+  delete file1;
+  delete file2;
 }
