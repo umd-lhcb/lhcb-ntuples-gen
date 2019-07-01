@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun <syp at umd dot edu>
 # License: BSD 2-clause
-# Last Change: Mon Jul 01, 2019 at 03:28 AM -0400
+# Last Change: Mon Jul 01, 2019 at 04:23 AM -0400
 
 import abc
 import yaml
@@ -161,7 +161,8 @@ class PostProcess(CppGenerator):
         filecontent += ('\n').join([self.cpp_header(h) for h in self.headers])
         filecontent += '\n'
 
-        main = self.cpp_main(self.cpp_tfiles(self.cpp_variables(), ''))
+        main = self.cpp_main(self.cpp_tfiles(
+            self.cpp_variables(), self.cpp_loops()))
         filecontent += main
 
         with open(cpp_file, 'w') as f:
@@ -187,9 +188,9 @@ delete {1};
         variables = ''
         tree_readers = []
 
-        for branch, input_settings in self.output_directive.items():
+        for tree, input_settings in self.output_directive.items():
             variables += 'TTree {0}("{1}", "{1}");\n'.format(
-                self.cpp_make_variable(branch), branch)
+                self.cpp_make_variable(tree), tree)
             for s in input_settings:
                 if s['input_tree'] not in tree_readers:
                     tree_readers.append(s['input_tree'])
@@ -204,7 +205,7 @@ delete {1};
                     s['datatype'], self.cpp_make_variable(s['output_branch']))
 
                 variables += '{0}.Branch("{1}", &{2});\n'.format(
-                    self.cpp_make_variable(branch),
+                    self.cpp_make_variable(tree),
                     s['output_branch'],
                     self.cpp_make_variable(s['output_branch'])
                 )
@@ -219,20 +220,30 @@ delete {1};
 
         return variables
 
-    def cpp_loops(self, input_tree, branches):
-        reader = self.cpp_tree_variable(input_tree)
-        variables = '\n'.join(['TTreeReaderValue<{}> {}({}, "{}");'.format(
-            t, b, reader, input_tree) for b, t in branches])
+    def cpp_loops(self):
+        loops = ''
+        tree_readers = []
 
-        return '''
-TTreeReader {0}("{1}", {2});
-{3}
+        for tree, input_settings in self.output_directive.items():
+            for s in input_settings:
+                if s['input_tree'] not in tree_readers:
+                    tree_readers.append(s['input_tree'])
+                    loops += 'while ({0}.Next()) {{\n'.format(
+                        self.cpp_make_variable(s['input_tree']),
+                        s['input_tree'],
+                        self.input_file
+                    )
 
-while ({0}.Next()) {{
-  {4}
-}}
-'''.format(reader, input_tree, self.input_file,
-           variables, 'loops')
+                loops += '{0} = *{1};\n'.format(
+                    self.cpp_make_variable(s['output_branch']),
+                    self.cpp_make_variable(s['input_branch'], suffix='_src')
+                )
+
+            loops += '''
+{}.Fill();
+}}\n'''.format(self.cpp_make_variable(tree))
+
+        return loops
 
     def cpp_branch_handler(self, output_tree, branch, selection=None):
         if not selection:
