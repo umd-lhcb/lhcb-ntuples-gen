@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun <syp at umd dot edu>
 # License: BSD 2-clause
-# Last Change: Sun Jun 30, 2019 at 10:54 PM -0400
+# Last Change: Mon Jul 01, 2019 at 12:21 AM -0400
 
 import abc
 import yaml
@@ -44,6 +44,12 @@ path to output C++ file.''')
                         required=True,
                         help='''
 path to ntuple datatype YAML file.''')
+
+    parser.add_argument('-H', '--headers',
+                        nargs='+',
+                        default=[],
+                        help='''
+additional headers to be included in generated C++.''')
 
     return parser.parse_args()
 
@@ -99,29 +105,22 @@ int main(int, char** argv) {{
 class PostProcess(CppWriter):
     input_file = 'input_file'
     output_file = 'output_file'
+    headers = ['TFile.h', 'TTree.h', 'TTreeReader.h', 'TBranch.h']
 
-    def __init__(self,
-                 include=['TFile.h', 'TTreeReader.h'],
-                 drop=[],
-                 keep=['*'],
-                 rename=[],
-                 selection={}
-                 ):
-        self.include = include
-        self.keep = keep
-        self.drop = drop
-        self.rename = rename
-        self.selection = selection
+    def __init__(self, headers):
+        self.headers += headers
 
     def parse_conf(self, yaml_conf):
         pass
 
     def write(self, cpp_file):
         filecontent = self.cpp_gen_date()
-        filecontent += ('\n').join([self.cpp_header(h) for h in self.include])
+        filecontent += ('\n').join([self.cpp_header(h) for h in self.headers])
         filecontent += '\n'
 
-        main = self.cpp_main(self.cpp_tfiles(''))
+        loops = self.cpp_tree_handler('Good/stuff', (('P_X', 'Double_t'),
+                                                     ('P_Y', 'Int_t')))
+        main = self.cpp_main(self.cpp_tfiles(loops))
         filecontent += main
 
         with open(cpp_file, 'w') as f:
@@ -139,19 +138,19 @@ delete {1};
 '''.format(self.input_file, self.output_file, loops)
 
     def cpp_tree_handler(self, input_tree, branches):
-        branch_names = [
-            'TTreeReaderValue<{}> {};\n'.format(branches[b]['type'], b) for b in
-            branches.keys()]
-        branch_loops = ''
+        reader = self.cpp_tree_variable(input_tree)
+        variables = '\n'.join(['TTreeReaderValue<{}> {}({}, "{}");'.format(
+            t, b, reader, input_tree) for b, t in branches])
+
         return '''
 TTreeReader {0}("{1}", {2});
 {3}
 
-while ({0}.Next()) {
+while ({0}.Next()) {{
   {4}
-}
-'''.format(self.cpp_tree_variable(input_tree), input_tree, self.input_file,
-           branch_names, branch_loops)
+}}
+'''.format(reader, input_tree, self.input_file,
+           variables, 'loops')
 
     def cpp_branch_handler(self, output_tree, branch, selection=None):
         if not selection:
@@ -172,3 +171,8 @@ while ({0}.Next()) {
 
 if __name__ == '__main__':
     args = parse_input()
+
+    if args.generator == 'PostProcess':
+        generator = PostProcess(args.headers)
+
+    generator.write(args.output)
