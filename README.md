@@ -12,8 +12,8 @@ generates a ntuple.
 All ntuple postprocessing are done in the `babymaker` framework.
 
 ### Prerequisite
-Install `gcc`, `clang-format` (which normally comes with `clang`) and `python`.
-Then install required `Python` packages with:
+Install `gcc`, `root`, `clang-format` (which normally comes with `clang`) and
+`python`. Then install required `Python` packages with:
 ```
 pip install -r requirements.txt
 ```
