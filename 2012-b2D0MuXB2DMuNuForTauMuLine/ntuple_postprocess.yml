@@ -1,0 +1,9 @@
+TupleYTest:
+    TupleY/DecayTree:
+        keep:
+            - ^Y_P\w$
+        rename:
+            Y_PT: y_pt
+            Y_PX: y_px
+        selection:
+            Y_PT: "> 10000"
