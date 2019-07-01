@@ -8,13 +8,18 @@ TupleYTest:
         selection:
             Y_PT: "> 10000"
 
-DuplicatedStuff:
+AnotherTuple:
     TupleY/DecayTree:
         keep:
-            - ^Y_P\w$
+            - Y_P.*
         rename:
             Y_PT: y_pt
             Y_PX: y_px
         selection:
             Y_PT: "> 10000"
             Y_PE: "> (100 * pow(10, 3))"
+
+    TupleYWSPi/DecayTree:
+        keep:
+            - Y_OWNPV_.*
+            - Y_ISOLATION_.*
