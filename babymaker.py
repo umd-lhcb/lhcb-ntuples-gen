@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun <syp at umd dot edu>
 # License: BSD 2-clause
-# Last Change: Mon Jul 01, 2019 at 01:23 PM -0400
+# Last Change: Mon Jul 01, 2019 at 01:26 PM -0400
 
 import abc
 import yaml
@@ -29,7 +29,6 @@ choose a C++ code generator.''')
 
     parser.add_argument('-i', '--input',
                         nargs='?',
-                        required=True,
                         help='''
 path to input YAML file.''')
 
@@ -41,7 +40,6 @@ path to output C++ file.''')
 
     parser.add_argument('-d', '--datatype',
                         nargs='?',
-                        required=True,
                         help='''
 path to ntuple datatype YAML file.''')
 
