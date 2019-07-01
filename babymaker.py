@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun <syp at umd dot edu>
 # License: BSD 2-clause
-# Last Change: Mon Jul 01, 2019 at 01:14 PM -0400
+# Last Change: Mon Jul 01, 2019 at 01:23 PM -0400
 
 import abc
 import yaml
@@ -114,7 +114,7 @@ int main(int, char** argv) {{
 class PostProcess(CppGenerator):
     input_file = 'input_file'
     output_file = 'output_file'
-    headers = ['TFile.h', 'TTree.h', 'TTreeReader.h', 'TBranch.h']
+    headers = ['TFile.h', 'TTree.h', 'TTreeReader.h', 'TBranch.h', 'cmath']
 
     def __init__(self, yaml_datatype, headers):
         self.raw_datatype = self.read_yaml(yaml_datatype)
@@ -202,7 +202,7 @@ delete {1};
             tuple_generators += self.cpp_variables(tree)
             tuple_generators += self.cpp_loops(tree)
             tuple_generators += '{}->Write();'.format(self.output_file)
-            tuple_generators += '}\n'
+            tuple_generators += '}\n\n'
 
         return tuple_generators
 

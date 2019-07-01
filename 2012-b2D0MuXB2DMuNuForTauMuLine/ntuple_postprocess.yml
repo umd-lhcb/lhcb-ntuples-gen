@@ -7,3 +7,14 @@ TupleYTest:
             Y_PX: y_px
         selection:
             Y_PT: "> 10000"
+
+DuplicatedStuff:
+    TupleY/DecayTree:
+        keep:
+            - ^Y_P\w$
+        rename:
+            Y_PT: y_pt
+            Y_PX: y_px
+        selection:
+            Y_PT: "> 10000"
+            Y_PE: "> (100 * pow(10, 3))"
