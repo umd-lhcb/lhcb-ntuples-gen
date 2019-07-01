@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun <syp at umd dot edu>
 # License: BSD 2-clause
-# Last Change: Mon Jul 01, 2019 at 12:21 AM -0400
+# Last Change: Mon Jul 01, 2019 at 02:43 AM -0400
 
 import abc
 import yaml
@@ -58,7 +58,7 @@ additional headers to be included in generated C++.''')
 # C++ generator template #
 ##########################
 
-class CppWriter(metaclass=abc.ABCMeta):
+class CppGenerator(metaclass=abc.ABCMeta):
     @abc.abstractmethod
     def parse_conf(self, yaml_conf):
         '''
@@ -72,12 +72,19 @@ class CppWriter(metaclass=abc.ABCMeta):
         '''
 
     @staticmethod
-    def read_ntuple_structure(yaml_ntuple):
+    def read_yaml(yaml_file):
         '''
         Read ntuple data structure.
         '''
-        with open(yaml_ntuple) as f:
+        with open(yaml_file) as f:
             return yaml.safe_load(f)
+
+    @staticmethod
+    def match(patterns, string, return_value=True):
+        for p in patterns:
+            if bool(re.search(p, string)):
+                return return_value
+        return not return_value
 
     @staticmethod
     def cpp_gen_date(time_format='%Y-%m-%d %H:%M:%S.%f'):
@@ -102,16 +109,52 @@ int main(int, char** argv) {{
 # C++ generator implementations #
 #################################
 
-class PostProcess(CppWriter):
+class PostProcess(CppGenerator):
     input_file = 'input_file'
     output_file = 'output_file'
     headers = ['TFile.h', 'TTree.h', 'TTreeReader.h', 'TBranch.h']
 
-    def __init__(self, headers):
+    def __init__(self, yaml_datatype, headers):
+        self.raw_datatype = self.read_yaml(yaml_datatype)
         self.headers += headers
+        self.output_directive = {}
 
     def parse_conf(self, yaml_conf):
-        pass
+        conf = self.read_yaml(yaml_conf)
+
+        for tree, tree_settings in conf.items():
+            self.output_directive[tree] = []
+            for input_tree, branche_settings in tree_settings.items():
+                if input_tree in self.raw_datatype.keys():
+                    for input_branch, datatype \
+                            in self.raw_datatype[input_tree].items():
+                        if 'drop' in branche_settings.keys() and self.match(
+                                branche_settings['drop'], input_branch):
+                            print('Dropping branch: {}'.format(input_branch))
+
+                        elif self.match(branche_settings['keep'], input_branch):
+                            directive = {
+                                'input_tree': input_tree, 'output_tree': tree,
+                                'input_branch': input_branch,
+                                'datatype': datatype
+                            }
+                            try:
+                                directive['output_branch'] = \
+                                    branche_settings['rename'][input_branch]
+                            except KeyError:
+                                directive['output_branch'] = input_branch
+                            try:
+                                directive['selection'] = \
+                                    branche_settings['selection'][input_branch]
+                            except KeyError:
+                                directive['selection'] = None
+
+                            self.output_directive[tree].append(directive)
+
+                else:
+                    print('Warning: tree {} not found in input file.'.format(
+                        input_tree
+                    ))
 
     def write(self, cpp_file):
         filecontent = self.cpp_gen_date()
@@ -173,6 +216,7 @@ if __name__ == '__main__':
     args = parse_input()
 
     if args.generator == 'PostProcess':
-        generator = PostProcess(args.headers)
+        generator = PostProcess(args.datatype, args.headers)
 
+    generator.parse_conf(args.input)
     generator.write(args.output)
