@@ -1,6 +1,6 @@
-# Author: Yipeng Sun <syp at umd dot edu>
+# Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Jul 01, 2019 at 11:36 AM -0400
+# Last Change: Mon Jul 01, 2019 at 03:58 PM -0400
 
 BINPATH	:=	bin
 SRCPATH	:=	src

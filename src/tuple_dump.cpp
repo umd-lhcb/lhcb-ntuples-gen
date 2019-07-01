@@ -1,6 +1,6 @@
-// Author: Yipeng Sun <syp at umd dot edu>
+// Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Mon Jul 01, 2019 at 05:02 AM -0400
+// Last Change: Mon Jul 01, 2019 at 03:58 PM -0400
 
 #include <TFile.h>
 #include <TLeaf.h>
