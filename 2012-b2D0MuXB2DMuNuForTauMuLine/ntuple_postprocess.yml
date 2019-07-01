@@ -1,4 +1,5 @@
 ATuple:
+    force_lowercase: false
     input:
         - TupleY/DecayTree
     keep:
@@ -12,6 +13,7 @@ ATuple:
         Y_PT: "> 10000"
 
 AnotherTuple:
+    force_lowercase: true
     headers:
         - cmath
     input:
@@ -23,6 +25,7 @@ AnotherTuple:
         Y_PE: "> (100 * pow(10, 3))"
 
 YetAnotherTuple:
+    force_lowercase: true
     headers:
         - cmath
     input:

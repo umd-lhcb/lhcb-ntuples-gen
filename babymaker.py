@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun <syp at umd dot edu>
 # License: BSD 2-clause
-# Last Change: Mon Jul 01, 2019 at 03:22 PM -0400
+# Last Change: Mon Jul 01, 2019 at 03:49 PM -0400
 
 import abc
 import yaml
@@ -129,6 +129,11 @@ class PostProcess(CppGenerator):
             except KeyError:
                 pass
 
+            if opts['force_lowercase']:
+                normalizer = lambda x: x.lower()
+            else:
+                normalizer = lambda x: x
+
             for input_tree in opts['input']:
                 if input_tree in self.raw_datatype.keys():
                     self.output_directive[output_tree][input_tree] = []
@@ -143,9 +148,10 @@ class PostProcess(CppGenerator):
                                          'datatype': datatype}
                             try:
                                 directive['output_branch'] = \
-                                    opts['rename'][input_branch]
+                                    normalizer(opts['rename'][input_branch])
                             except KeyError:
-                                directive['output_branch'] = input_branch
+                                directive['output_branch'] = \
+                                    normalizer(input_branch)
                             try:
                                 directive['selection'] = \
                                     opts['selection'][input_branch]
