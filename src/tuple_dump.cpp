@@ -1,6 +1,6 @@
 // Author: Yipeng Sun <syp at umd dot edu>
 // License: BSD 2-clause
-// Last Change: Fri Jun 28, 2019 at 08:58 PM -0400
+// Last Change: Mon Jul 01, 2019 at 05:02 AM -0400
 
 #include <TFile.h>
 #include <TLeaf.h>
@@ -30,10 +30,15 @@ std::string get_branch_datatype(TBranch *);
 // Main
 ////////////////////////////////////////////////////////////////////////////////
 
-int main(int, char **argv) {
+int main(int argc, char **argv) {
   char *input_filename = argv[1];
   std::string output_filename = argv[2];
-  std::string subfolder = argv[3];
+  std::string subfolder;
+  if (argc > 3) {
+    subfolder = argv[3];
+  } else {
+    subfolder = "";
+  }
 
   TFile *ntuple = new TFile(input_filename, "read");
   std::ofstream output_file;
