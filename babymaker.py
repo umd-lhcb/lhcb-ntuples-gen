@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Jul 01, 2019 at 03:57 PM -0400
+# Last Change: Mon Jul 01, 2019 at 04:48 PM -0400
 
 import abc
 import yaml
@@ -225,9 +225,7 @@ delete {1};
         return tuple_generators
 
     def cpp_variables(self, output_tree, input_tree):
-        variables = ''
-
-        variables += 'TTree {0}("{1}", "{1}");\n'.format(
+        variables = 'TTree {0}("{1}", "{1}");\n'.format(
             self.cpp_make_variable(output_tree), output_tree)
         variables += 'TTreeReader {0}("{1}", {2});\n'.format(
             self.cpp_make_variable(input_tree),
@@ -250,8 +248,7 @@ delete {1};
                 self.cpp_make_variable(s['input_branch'], suffix='_src'),
                 self.cpp_make_variable(input_tree),
                 s['input_branch']
-            )
-            variables += '\n'
+            ) + '\n'
 
         return variables
 
