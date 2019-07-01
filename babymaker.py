@@ -2,18 +2,46 @@
 #
 # Author: Yipeng Sun <syp at umd dot edu>
 # License: BSD 2-clause
-# Last Change: Sun Jun 30, 2019 at 09:06 PM -0400
+# Last Change: Sun Jun 30, 2019 at 09:35 PM -0400
 
 import abc
 import yaml
 import re
 
+from argparse import ArgumentParser
 from datetime import datetime
 
 
 ################################
 # Comand line arguments parser #
 ################################
+
+def parse_input():
+    parser = ArgumentParser(description='''
+generate compilable C++ source file for ntuple processing.''')
+
+    parser.add_argument('-g', '--generator',
+                        nargs='?',
+                        choices=['PostProcess', 'Compare'],
+                        help='''
+choose a C++ code generator.''')
+
+    parser.add_argument('-i', '--input',
+                        nargs='?',
+                        help='''
+path to input YAML file.''')
+
+    parser.add_argument('-o', '--output',
+                        nargs='?',
+                        help='''
+path to output C++ file.''')
+
+    parser.add_argument('-d', '--datatype',
+                        nargs='?',
+                        help='''
+path to ntuple datatype YAML file.''')
+
+    return parser.parse_args()
 
 
 ##########################
@@ -139,5 +167,4 @@ while ({0}.Next()) {
 ########
 
 if __name__ == '__main__':
-    generator = PostProcess()
-    generator.write('test.cpp')
+    args = parse_input()
