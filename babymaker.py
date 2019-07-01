@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun <syp at umd dot edu>
 # License: BSD 2-clause
-# Last Change: Mon Jul 01, 2019 at 04:23 AM -0400
+# Last Change: Mon Jul 01, 2019 at 11:33 AM -0400
 
 import abc
 import yaml
@@ -222,36 +222,38 @@ delete {1};
 
     def cpp_loops(self):
         loops = ''
-        tree_readers = []
 
         for tree, input_settings in self.output_directive.items():
+            loops += 'while ({0}.Next()) {{\n'.format(
+                self.cpp_make_variable(input_settings[0]['input_tree']),
+                input_settings[0]['input_tree'],
+                self.input_file
+            )
+            loops += 'if ({}) {{\n'.format(self.cpp_selections(tree))
             for s in input_settings:
-                if s['input_tree'] not in tree_readers:
-                    tree_readers.append(s['input_tree'])
-                    loops += 'while ({0}.Next()) {{\n'.format(
-                        self.cpp_make_variable(s['input_tree']),
-                        s['input_tree'],
-                        self.input_file
-                    )
 
                 loops += '{0} = *{1};\n'.format(
                     self.cpp_make_variable(s['output_branch']),
                     self.cpp_make_variable(s['input_branch'], suffix='_src')
                 )
 
-            loops += '''
-{}.Fill();
-}}\n'''.format(self.cpp_make_variable(tree))
+            loops += '{}.Fill();'.format(self.cpp_make_variable(tree))
+            loops += '}\n'
+            loops += '}\n'
 
         return loops
 
-    def cpp_branch_handler(self, output_tree, branch, selection=None):
-        if not selection:
-            return '''
-'''
-        else:
-            return '''
-'''
+    def cpp_selections(self, tree):
+        selections = ''
+
+        for s in self.output_directive[tree]:
+            if s['selection']:
+                selections += '*{0} {1} &&'.format(
+                    self.cpp_make_variable(s['input_branch'], suffix='_src'),
+                    s['selection']
+                )
+
+        return 'true' if selections == '' else selections[:-3]
 
     @staticmethod
     def cpp_make_variable(string, prefix='', suffix=''):
