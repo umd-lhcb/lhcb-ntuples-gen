@@ -31,6 +31,9 @@ YetAnotherTuple:
     input:
         - TupleY/DecayTree
         - TupleYWSPi/DecayTree
+    # Drop arrays. We don't support them (yet).
+    drop:
+        - Y_OWNPV_COV_
     keep:
         - Y_OWNPV_.*
         - Y_ISOLATION_.*
