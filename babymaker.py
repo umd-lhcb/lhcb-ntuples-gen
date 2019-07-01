@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun <syp at umd dot edu>
 # License: BSD 2-clause
-# Last Change: Mon Jul 01, 2019 at 02:43 AM -0400
+# Last Change: Mon Jul 01, 2019 at 03:28 AM -0400
 
 import abc
 import yaml
@@ -161,26 +161,65 @@ class PostProcess(CppGenerator):
         filecontent += ('\n').join([self.cpp_header(h) for h in self.headers])
         filecontent += '\n'
 
-        loops = self.cpp_tree_handler('Good/stuff', (('P_X', 'Double_t'),
-                                                     ('P_Y', 'Int_t')))
-        main = self.cpp_main(self.cpp_tfiles(loops))
+        main = self.cpp_main(self.cpp_tfiles(self.cpp_variables(), ''))
         filecontent += main
 
         with open(cpp_file, 'w') as f:
             f.write(filecontent)
 
-    def cpp_tfiles(self, loops):
+    def cpp_tfiles(self, variables, loops):
         return '''
 TFile *{0} = new TFile(argv[1], "read");
 TFile *{1} = new TFile(argv[2], "recreate");
 
 {2}
 
+{3}
+
+{1}->Write();
+{1}->Close();
+
 delete {0};
 delete {1};
-'''.format(self.input_file, self.output_file, loops)
+'''.format(self.input_file, self.output_file, variables, loops)
 
-    def cpp_tree_handler(self, input_tree, branches):
+    def cpp_variables(self):
+        variables = ''
+        tree_readers = []
+
+        for branch, input_settings in self.output_directive.items():
+            variables += 'TTree {0}("{1}", "{1}");\n'.format(
+                self.cpp_make_variable(branch), branch)
+            for s in input_settings:
+                if s['input_tree'] not in tree_readers:
+                    tree_readers.append(s['input_tree'])
+                    variables += 'TTreeReader {0}("{1}", {2});\n'.format(
+                        self.cpp_make_variable(s['input_tree']),
+                        s['input_tree'],
+                        self.input_file
+                    )
+                    variables += '\n'
+
+                variables += '{0} {1};\n'.format(
+                    s['datatype'], self.cpp_make_variable(s['output_branch']))
+
+                variables += '{0}.Branch("{1}", &{2});\n'.format(
+                    self.cpp_make_variable(branch),
+                    s['output_branch'],
+                    self.cpp_make_variable(s['output_branch'])
+                )
+
+                variables += 'TTreeReaderValue<{0}> {1}({2}, "{3}");\n'.format(
+                    s['datatype'],
+                    self.cpp_make_variable(s['input_branch'], suffix='_src'),
+                    self.cpp_make_variable(s['input_tree']),
+                    s['input_branch']
+                )
+                variables += '\n'
+
+        return variables
+
+    def cpp_loops(self, input_tree, branches):
         reader = self.cpp_tree_variable(input_tree)
         variables = '\n'.join(['TTreeReaderValue<{}> {}({}, "{}");'.format(
             t, b, reader, input_tree) for b, t in branches])
@@ -204,8 +243,8 @@ while ({0}.Next()) {{
 '''
 
     @staticmethod
-    def cpp_tree_variable(tree):
-        return re.sub('/', '_', tree)
+    def cpp_make_variable(string, prefix='', suffix=''):
+        return prefix + re.sub('/', '_', string) + suffix
 
 
 ########
