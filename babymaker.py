@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Jul 02, 2019 at 02:28 AM -0400
+# Last Change: Tue Jul 02, 2019 at 02:55 AM -0400
 
 import abc
 import yaml
@@ -173,14 +173,17 @@ class PostProcess(CppGenerator):
                     ))
 
                 if 'calculation' in opts.keys():
+                    self.calc_directive[output_tree][input_tree] = []
                     for output_branch, instruction in \
                             opts['calculation'].items():
                         directive = {'output_branch': normalizer(output_branch)}
 
                         parsed = re.match(r'^(\w*)\((.*)\)', instruction)
                         directive['functor'] = parsed.group(1)
+
                         arguments = [a.strip()
                                      for a in parsed.group(2).split(',')]
+                        directive['arguments'] = arguments
 
                         directive['datatype'] = \
                             self.raw_datatype[input_tree][arguments[0]]
@@ -188,13 +191,12 @@ class PostProcess(CppGenerator):
                         directive['init'] = []
                         for arg in arguments:
                             if arg not in initialized_vars:
-                                directive['init'].append({
-                                    'input_branch': arg,
-                                    'datatype':
-                                    self.raw_datatype[input_tree][arg]
-                                })
+                                directive['init'].append(
+                                    (arg, self.raw_datatype[input_tree][arg]))
 
-                        print(directive)
+                        self.calc_directive[output_tree][input_tree].append(
+                            directive
+                        )
 
     def write(self, cpp_file):
         filecontent = self.cpp_gen_date()
@@ -281,6 +283,31 @@ delete {1};
                 s['input_branch']
             ) + '\n'
 
+        try:
+            for s in self.calc_directive[output_tree][input_tree]:
+                variables += '{0} {1};\n'.format(
+                    s['datatype'],
+                    s['output_branch'])
+
+                variables += '{0}.Branch("{1}", &{2});\n'.format(
+                    self.cpp_make_variable(output_tree),
+                    s['output_branch'],
+                    self.cpp_make_variable(s['output_branch'])
+                )
+
+                for var in s['init']:
+                    variables += \
+                        'TTreeReaderValue<{0}> {1}({2}, "{3}");\n'.format(
+                            var[1],
+                            var[0]+'_src',
+                            self.cpp_make_variable(input_tree),
+                            var[0]
+                        )
+
+            variables += '\n'
+        except KeyError:
+            pass
+
         return variables
 
     def cpp_loops(self, output_tree, input_tree):
@@ -298,6 +325,17 @@ delete {1};
                 self.cpp_make_variable(s['input_branch'], suffix='_src')
             )
 
+        try:
+            for s in self.calc_directive[output_tree][input_tree]:
+                loops += '{0} = {1}({2});\n'.format(
+                    self.cpp_make_variable(s['output_branch']),
+                    s['functor'],
+                    self.cpp_functor_args(s['arguments'])
+                )
+
+        except KeyError:
+            pass
+
         loops += '{}.Fill();'.format(self.cpp_make_variable(output_tree))
         loops += '}\n}\n'
 
@@ -314,6 +352,11 @@ delete {1};
                 )
 
         return 'true' if selections == '' else selections[:-3]
+
+    def cpp_functor_args(self, arguments):
+        return ', '.join(['*{}'.format(self.cpp_make_variable(
+            a, suffix='_src'))
+            for a in arguments])
 
     @staticmethod
     def cpp_make_variable(string, prefix='', suffix=''):
