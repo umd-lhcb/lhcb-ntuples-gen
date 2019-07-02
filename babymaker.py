@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Jul 01, 2019 at 04:48 PM -0400
+# Last Change: Tue Jul 02, 2019 at 02:28 AM -0400
 
 import abc
 import yaml
@@ -117,13 +117,16 @@ class PostProcess(CppGenerator):
     def __init__(self, yaml_datatype, headers):
         self.raw_datatype = self.read_yaml(yaml_datatype)
         self.headers += headers
-        self.output_directive = {}
+        self.io_directive = {}
+        self.calc_directive = {}
 
     def parse_conf(self, yaml_conf):
         conf = self.read_yaml(yaml_conf)
 
         for output_tree, opts in conf.items():
-            self.output_directive[output_tree] = {}
+            self.io_directive[output_tree] = {}
+            self.calc_directive[output_tree] = {}
+
             try:
                 self.headers += opts['headers']
             except KeyError:
@@ -135,8 +138,10 @@ class PostProcess(CppGenerator):
                 normalizer = lambda x: x
 
             for input_tree in opts['input']:
+                initialized_vars = []
                 if input_tree in self.raw_datatype.keys():
-                    self.output_directive[output_tree][input_tree] = []
+                    self.io_directive[output_tree][input_tree] = []
+
                     for input_branch, datatype \
                             in self.raw_datatype[input_tree].items():
                         if 'drop' in opts.keys() and self.match(
@@ -146,6 +151,8 @@ class PostProcess(CppGenerator):
                         elif self.match(opts['keep'], input_branch):
                             directive = {'input_branch': input_branch,
                                          'datatype': datatype}
+                            initialized_vars.append(input_branch)
+
                             try:
                                 directive['output_branch'] = \
                                     normalizer(opts['rename'][input_branch])
@@ -158,12 +165,36 @@ class PostProcess(CppGenerator):
                             except KeyError:
                                 directive['selection'] = None
 
-                            self.output_directive[output_tree][input_tree].append(directive)
+                            self.io_directive[output_tree][input_tree].append(directive)
 
                 else:
                     print('Warning: tree {} not found in input file.'.format(
                         input_tree
                     ))
+
+                if 'calculation' in opts.keys():
+                    for output_branch, instruction in \
+                            opts['calculation'].items():
+                        directive = {'output_branch': normalizer(output_branch)}
+
+                        parsed = re.match(r'^(\w*)\((.*)\)', instruction)
+                        directive['functor'] = parsed.group(1)
+                        arguments = [a.strip()
+                                     for a in parsed.group(2).split(',')]
+
+                        directive['datatype'] = \
+                            self.raw_datatype[input_tree][arguments[0]]
+
+                        directive['init'] = []
+                        for arg in arguments:
+                            if arg not in initialized_vars:
+                                directive['init'].append({
+                                    'input_branch': arg,
+                                    'datatype':
+                                    self.raw_datatype[input_tree][arg]
+                                })
+
+                        print(directive)
 
     def write(self, cpp_file):
         filecontent = self.cpp_gen_date()
@@ -193,7 +224,7 @@ delete {1};
     def cpp_calls(self):
         calls = ''
 
-        for output_tree, input_trees in self.output_directive.items():
+        for output_tree, input_trees in self.io_directive.items():
             for input_tree in input_trees:
                 calls += '{0}_{1}({2}, {3});\n'.format(
                     self.cpp_make_variable(output_tree, prefix='generator_'),
@@ -207,7 +238,7 @@ delete {1};
     def cpp_tuple_generators(self):
         tuple_generators = ''
 
-        for output_tree, input_trees in self.output_directive.items():
+        for output_tree, input_trees in self.io_directive.items():
             for input_tree in input_trees:
                 tuple_generators += \
                     'void {0}_{1}(TFile *{2}, TFile *{3}) {{\n'.format(
@@ -233,7 +264,7 @@ delete {1};
             self.input_file
         ) + '\n'
 
-        for s in self.output_directive[output_tree][input_tree]:
+        for s in self.io_directive[output_tree][input_tree]:
             variables += '{0} {1};\n'.format(
                 s['datatype'], self.cpp_make_variable(s['output_branch']))
 
@@ -261,7 +292,7 @@ delete {1};
         loops += 'if ({}) {{\n'.format(self.cpp_selections(output_tree,
                                                            input_tree))
 
-        for s in self.output_directive[output_tree][input_tree]:
+        for s in self.io_directive[output_tree][input_tree]:
             loops += '{0} = *{1};\n'.format(
                 self.cpp_make_variable(s['output_branch']),
                 self.cpp_make_variable(s['input_branch'], suffix='_src')
@@ -275,7 +306,7 @@ delete {1};
     def cpp_selections(self, output_tree, input_tree):
         selections = ''
 
-        for s in self.output_directive[output_tree][input_tree]:
+        for s in self.io_directive[output_tree][input_tree]:
             if s['selection']:
                 selections += '*{0} {1} &&'.format(
                     self.cpp_make_variable(s['input_branch'], suffix='_src'),
