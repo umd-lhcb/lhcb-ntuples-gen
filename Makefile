@@ -1,6 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Jul 02, 2019 at 02:56 AM -0400
+# Last Change: Tue Jul 02, 2019 at 03:30 AM -0400
 
 BINPATH	:=	bin
 SRCPATH	:=	src
@@ -26,12 +26,14 @@ clean:
 ###################################
 
 2012-b2D0MuXB2DMuNuForTauMuLine/gen/YCands_postprocess.root: \
-	2012-b2D0MuXB2DMuNuForTauMuLine/gen/YCands.root $(BINPATH)/YCands_postprocess
+	2012-b2D0MuXB2DMuNuForTauMuLine/gen/YCands.root \
+	$(BINPATH)/YCands_postprocess
 	$(BINPATH)/YCands_postprocess $< $@
 
 $(SRCPATH)/YCands_postprocess.cpp: \
 	2012-b2D0MuXB2DMuNuForTauMuLine/ntuple_postprocess.yml \
 	2012-b2D0MuXB2DMuNuForTauMuLine/gen/YCands.yml \
+	include/functor/*.h \
 	babymaker.py
 	./babymaker.py \
 		-i $< -d 2012-b2D0MuXB2DMuNuForTauMuLine/gen/YCands.yml \
