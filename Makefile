@@ -1,6 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Jul 01, 2019 at 03:58 PM -0400
+# Last Change: Tue Jul 02, 2019 at 12:51 AM -0400
 
 BINPATH	:=	bin
 SRCPATH	:=	src
@@ -43,7 +43,7 @@ $(SRCPATH)/YCands_postprocess.cpp: \
 ####################
 
 %.yml: %.root $(BINPATH)/tuple_dump
-	$(BINPATH)/tuple_dump $(@D)/$(basename $(@F)).root $@ "/DecayTree"
+	$(BINPATH)/tuple_dump $(@D)/$(basename $(@F)).root $@
 
 $(BINPATH)/%: $(SRCPATH)/%.cpp
 	$(COMPILER) $(CXXFLAGS) $(ADDFLAGS) -o $(BINPATH)/$(@F) $(SRCPATH)/$(@F).cpp $(LINKFLAGS)
