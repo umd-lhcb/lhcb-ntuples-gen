@@ -1,6 +1,6 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Tue Jul 02, 2019 at 12:50 AM -0400
+// Last Change: Tue Jul 02, 2019 at 12:55 AM -0400
 
 #include <TDirectoryFile.h>
 #include <TFile.h>
@@ -40,14 +40,15 @@ int main(int argc, char **argv) {
   auto tree_names = traverse_ntuples(get_keys(ntuple));
 
   for (auto &&tree_name : tree_names) {
-    output_file << tree_name << ":" << std::endl;
     auto tree = dynamic_cast<TTree *>(ntuple->Get(tree_name.c_str()));
+    output_file << tree_name << ":" << std::endl;
+
     for (const auto &&branch : *get_branches(tree)) {
       const std::string branch_name = branch->GetName();
       const std::string datatype = get_branch_datatype((TBranch *)branch);
-
       output_file << INDENT << branch_name << ": " << datatype << std::endl;
     }
+
     output_file << std::endl;
   }
 
