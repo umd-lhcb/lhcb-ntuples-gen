@@ -37,3 +37,18 @@ YetAnotherTuple:
     keep:
         - Y_OWNPV_.*
         - Y_ISOLATION_.*
+
+YetYetAnotherTuple:
+    force_lowercase: true
+    headers:
+        - functor/basic.h
+    input:
+        - TupleY/DecayTree
+    drop:
+        - Y_PE
+    keep:
+        - Y_P.*
+    selection:
+        Y_PT: "> 10000"
+    calculation:
+        SUM: "SUM(Y_PE, Y_P)"

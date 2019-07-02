@@ -1,6 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Jul 02, 2019 at 12:51 AM -0400
+# Last Change: Tue Jul 02, 2019 at 02:56 AM -0400
 
 BINPATH	:=	bin
 SRCPATH	:=	src
@@ -8,8 +8,8 @@ SRCPATH	:=	src
 # Compiler settings
 COMPILER	:=	$(shell root-config --cxx)
 CXXFLAGS	:=	$(shell root-config --cflags)
-ADDFLAGS	:=	-ggdb
 LINKFLAGS	:=	$(shell root-config --libs)
+ADDFLAGS	:=	-ggdb -Iinclude
 
 .PHONY: all utils clean
 
