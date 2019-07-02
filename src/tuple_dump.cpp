@@ -1,30 +1,28 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Mon Jul 01, 2019 at 03:58 PM -0400
+// Last Change: Tue Jul 02, 2019 at 12:50 AM -0400
 
+#include <TDirectoryFile.h>
 #include <TFile.h>
+#include <TKey.h>
 #include <TLeaf.h>
 #include <TList.h>
 #include <TObjArray.h>
 #include <TTree.h>
 #include <fstream>
 #include <iostream>
-#include <iterator>
-#include <set>
 #include <string>
 
-const std::set<std::string> BLACKLISTED = {"GetIntegratedLuminosity"};
-const std::string INDENT = "    ";
+std::string INDENT = "    ";
 
 ////////////////////////////////////////////////////////////////////////////////
 // Declarations
 ////////////////////////////////////////////////////////////////////////////////
 
-bool in_blacklist(std::string);
-
-TList *get_top_trees(TFile *);
+TList *get_keys(TFile *);
 TObjArray *get_branches(TTree *);
 std::string get_branch_datatype(TBranch *);
+std::vector<std::string> traverse_ntuples(TList *);
 
 ////////////////////////////////////////////////////////////////////////////////
 // Main
@@ -33,35 +31,24 @@ std::string get_branch_datatype(TBranch *);
 int main(int argc, char **argv) {
   char *input_filename = argv[1];
   std::string output_filename = argv[2];
-  std::string subfolder;
-  if (argc > 3) {
-    subfolder = argv[3];
-  } else {
-    subfolder = "";
-  }
 
   TFile *ntuple = new TFile(input_filename, "read");
   std::ofstream output_file;
   output_file.open(output_filename);
 
-  // Get top-level tree/folder names
-  for (const auto &&obj : *get_top_trees(ntuple)) {
-    std::string name_top = obj->GetName();
-    if (!in_blacklist(name_top)) {
-      name_top += subfolder;
+  // Traverse through the whole TFile and find all tree names inside.
+  auto tree_names = traverse_ntuples(get_keys(ntuple));
 
-      output_file << name_top << ":" << std::endl;
+  for (auto &&tree_name : tree_names) {
+    output_file << tree_name << ":" << std::endl;
+    auto tree = dynamic_cast<TTree *>(ntuple->Get(tree_name.c_str()));
+    for (const auto &&branch : *get_branches(tree)) {
+      const std::string branch_name = branch->GetName();
+      const std::string datatype = get_branch_datatype((TBranch *)branch);
 
-      TTree *tree = (TTree *)ntuple->Get(name_top.c_str());
-      for (const auto &&branch : *get_branches(tree)) {
-        const std::string name_branch = branch->GetName();
-        const std::string datatype = get_branch_datatype((TBranch *)branch);
-
-        output_file << INDENT << name_branch << ": " << datatype << std::endl;
-      }
-
-      output_file << std::endl;
+      output_file << INDENT << branch_name << ": " << datatype << std::endl;
     }
+    output_file << std::endl;
   }
 
   delete ntuple;
@@ -69,23 +56,10 @@ int main(int argc, char **argv) {
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// Helpers
+// ROOT objects handlers
 ////////////////////////////////////////////////////////////////////////////////
 
-bool in_blacklist(std::string name) {
-  std::set<std::string>::iterator it = BLACKLISTED.find(name);
-  if (it != BLACKLISTED.end()) {
-    return true;
-  } else {
-    return false;
-  }
-}
-
-////////////////////////////////////////////////////////////////////////////////
-// TTree/TBranch/TFolder handlers
-////////////////////////////////////////////////////////////////////////////////
-
-TList *get_top_trees(TFile *ntuple) { return ntuple->GetListOfKeys(); }
+TList *get_keys(TFile *ntuple) { return ntuple->GetListOfKeys(); }
 TObjArray *get_branches(TTree *tree) { return tree->GetListOfBranches(); }
 
 std::string get_branch_datatype(TBranch *branch) {
@@ -102,14 +76,31 @@ std::string get_branch_datatype(TBranch *branch) {
   return datatype;
 }
 
-/*
- *void get_folders(TFolder *folder) {
- *  TCollection *folders = folder->GetListOfFolders();
- *  TIter nextobj(folders);  // For some reason, this segfaults
- *  TObject *obj;
- *
- *  while ((obj = (TObject *)nextobj())) {
- *    std::cout << obj->GetName() << std::endl;
- *  }
- *}
- */
+// This is a recursion.
+std::vector<std::string> traverse_ntuples(TList *keys) {
+  std::vector<std::string> result;
+
+  for (const auto &&obj : *keys) {
+    auto key = dynamic_cast<TKey *>(obj);
+    std::string name = key->GetName();
+    std::string class_name = key->GetClassName();
+
+    if (class_name.compare("TDirectoryFile") == 0) {
+      auto sub_obj = dynamic_cast<TDirectoryFile *>(key->ReadObj());
+      std::vector<std::string> sub_result =
+          traverse_ntuples(sub_obj->GetListOfKeys());
+
+      for (auto &&sub_dir : sub_result) {
+        result.insert(result.end(), name + "/" + sub_dir);
+      }
+
+    } else if (class_name.compare("TTree") == 0) {
+      result.insert(result.end(), name);
+
+    } else {
+      std::cout << "Unknown datatype: " << class_name << ". Skip." << std::endl;
+    }
+  }
+
+  return result;
+}
