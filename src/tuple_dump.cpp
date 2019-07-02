@@ -1,6 +1,6 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Tue Jul 02, 2019 at 12:55 AM -0400
+// Last Change: Tue Jul 02, 2019 at 01:01 AM -0400
 
 #include <TDirectoryFile.h>
 #include <TFile.h>
@@ -29,12 +29,10 @@ std::vector<std::string> traverse_ntuples(TList *);
 ////////////////////////////////////////////////////////////////////////////////
 
 int main(int argc, char **argv) {
-  char *input_filename = argv[1];
-  std::string output_filename = argv[2];
+  TFile *ntuple = new TFile(argv[1], "read");
 
-  TFile *ntuple = new TFile(input_filename, "read");
   std::ofstream output_file;
-  output_file.open(output_filename);
+  output_file.open(argv[2]);
 
   // Traverse through the whole TFile and find all tree names inside.
   auto tree_names = traverse_ntuples(get_keys(ntuple));
