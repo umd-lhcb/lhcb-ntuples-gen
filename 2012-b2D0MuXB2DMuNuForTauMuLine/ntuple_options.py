@@ -1,5 +1,6 @@
+# Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Jul 03, 2019 at 02:47 PM -0400
+# Last Change: Wed Jul 03, 2019 at 04:33 PM -0400
 
 #####################
 # Configure DaVinci #
@@ -17,7 +18,7 @@ DaVinci().PrintFreq = 100
 
 # Output filenames
 DaVinci().TupleFile = './gen/YCands.root'
-DaVinci().HistogramFile = './gen/YCandsTauHistos.root'
+# DaVinci().HistogramFile = './gen/YCands_hist.root'
 
 # Only ask for luminosity information when not using simulated data
 DaVinci().Lumi = not DaVinci().Simulation
