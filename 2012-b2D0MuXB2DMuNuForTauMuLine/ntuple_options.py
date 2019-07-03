@@ -1,5 +1,5 @@
 # License: BSD 2-clause
-# Last Change: Fri May 24, 2019 at 05:10 PM -0400
+# Last Change: Wed Jul 03, 2019 at 02:47 PM -0400
 
 #####################
 # Configure DaVinci #
@@ -28,7 +28,7 @@ DaVinci().Lumi = not DaVinci().Simulation
 ###################################
 # These algorithms are executed before any of the selection algorithms.
 #
-# algorithms defined here will set up stuffs that will be available for all
+# algorithms defined here will set up locations that will be available for all
 # selection algorithms.
 
 from Configurables import ChargedProtoParticleMaker
@@ -248,7 +248,7 @@ algo_Bd_ws_Pi.MotherCut = algo_Bd.MotherCut
 
 from Configurables import FitDecayTrees
 
-# For SeqMyYMaker ##############################################################
+# For SeqMyY ###################################################################
 
 # RequiredSelections takes a union of supplied selections, thus orderless.
 sel_D0 = Selection(
@@ -282,7 +282,7 @@ sel_refit_b2DstMu = Selection(
 )
 
 
-# For SeqMyYMakerWSMu ##########################################################
+# For SeqMyYWSMu ###############################################################
 sel_Bd_ws_Mu = Selection(
     'SelMyBdWSMu',
     Algorithm=algo_Bd_ws_Mu,
@@ -300,7 +300,7 @@ sel_refit_b2DstMu_ws_Mu = Selection(
     RequiredSelections=[sel_Bd_ws_Mu]
 )
 
-# For SeqMyYMakerWSPi ##########################################################
+# For SeqMyYWSPi ###############################################################
 sel_Dst_ws = Selection(
     'SelMyDstWS',
     Algorithm=algo_Dst_ws,
