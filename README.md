@@ -24,7 +24,7 @@ Here we track the original filenames and their providers in the `*/sample` folde
 
 ### 2012-b2D0MuXB2DMuNuForTauMuLine
 
-| name in this repo | original name | provider |
-|---|---|---|
-| `YCands_D0-2012-mag_down-data.root` | ? | P. Hamilton |
-| `YCands_Dstar-2012-mag_down-data.root` | `newTFYCands_DATA_2012_MD.root` | P. Hamilton |
+| name in this repo | original name | provider | MD5 sum |
+|---|---|---|---|
+| `YCands_D0-2012-mag_down-data.root` | ? | P. Hamilton | `73bfbc7b9d0e1eea19572fa42b28ebc6` |
+| `YCands_Dstar-2012-mag_down-data.root` | `newTFYCands_DATA_2012_MD.root` | P. Hamilton | `16c4750761d75b8b37e5bff521139887` |
