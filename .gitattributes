@@ -1,3 +1,6 @@
 * annex.largefiles=(largerthan=2000kb)
 *.py annex.largefiles=nothing
 *.root annex.largefiles=anything
+*.png annex.largefiles=nothing
+
+*.png binary
