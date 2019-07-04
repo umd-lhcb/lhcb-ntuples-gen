@@ -1,0 +1,22 @@
+site_name: 'lhcb-ntuples-gen wiki'
+site_url: https://umd-lhcb.github.io/lhcb-ntuples-gen
+
+repo_name: umd-lhcb/lhcb-ntuples-gen
+repo_url: https://github.com/umd-lhcb/lhcb-ntuples-gen
+
+theme:
+    name: 'material'
+    include_search_page: false
+    feature:
+        tabs: true
+
+nav:
+    - Home:
+        - Getting started: index.md
+        - Install dependencies: installation.md
+    - Data:
+        - "Comparison between ntuples - run 1 R(D)": data/comparison_between_run1_rd_rdstar/comparison.md
+
+markdown_extensions:
+    - admonition
+    - pymdownx.critic
