@@ -11,17 +11,17 @@ occur in both ntuples, and find their:
 ## Comparison between `YCands_Dstar-2012-mag_down-data` and `YCands`
 
 * Phoebe used [this DaVinci script](https://github.com/umd-lhcb/lhcb-ntuples-gen/blob/0.1/2012-b2D0MuXB2DMuNuForTauMuLine/ntuple_options-sample.py)
-  to generate her ntuple, with `DaVinci v36r1p2`. The full filepath is:
-
+  to generate her ntuple, with `DaVinci v36r1p2`. The generated ntuple can be
+  found at:
     ```
-    <project_root>/2012-b2D0MuXB2DMuNuForTauMuLine/data/sample/YCands_Dstar-2012-mag_down-data
+    <project_root>/2012-b2D0MuXB2DMuNuForTauMuLine/data/sample/YCands_Dstar-2012-mag_down-data.root
     ```
 
 * We used [our script](https://github.com/umd-lhcb/lhcb-ntuples-gen/blob/master/2012-b2D0MuXB2DMuNuForTauMuLine/ntuple_options.py)[^2], and
-  `DaVinci v42r8p1`. The filepath is:
+  `DaVinci v42r8p1`. The ntuple can be found at:
 
     ```
-    <project_root>/2012-b2D0MuXB2DMuNuForTauMuLine/data/sample/YCands_Dstar-2012-mag_down-data
+    <project_root>/2012-b2D0MuXB2DMuNuForTauMuLine/gen/YCands.root
     ```
 
 
