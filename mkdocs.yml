@@ -14,8 +14,12 @@ nav:
     - Home:
         - Getting started: index.md
         - Install dependencies: installation.md
+    - Software:
+        - git-annex: software_manuals/git_annex.md
+        - DaVinci: software_manuals/davinci.md
+        - babymaker: software_manuals/babymaker.md
     - Data:
-        - "Comparison between ntuples - run 1 R(D*)": data/comparison_between_run1_rd_rdstar/comparison.md
+        - "Comparison between ntuples - run 1 `R(D^{\\star})`": data/comparison_between_run1_rd_rdstar/comparison.md
 
 markdown_extensions:
     - admonition

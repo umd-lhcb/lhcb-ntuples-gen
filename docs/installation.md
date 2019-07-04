@@ -1,4 +1,4 @@
-## Install version control software
+## Install VCS
 
 
 ## Install dependencies for `DaVinci`
