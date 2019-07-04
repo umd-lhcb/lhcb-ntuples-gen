@@ -15,8 +15,15 @@ nav:
         - Getting started: index.md
         - Install dependencies: installation.md
     - Data:
-        - "Comparison between ntuples - run 1 R(D)": data/comparison_between_run1_rd_rdstar/comparison.md
+        - "Comparison between ntuples - run 1 R(D*)": data/comparison_between_run1_rd_rdstar/comparison.md
 
 markdown_extensions:
     - admonition
     - pymdownx.critic
+    - pymdownx.arithmatex
+    - pymdownx.superfences
+    - footnotes
+    - codehilite
+
+extra_javascript:
+    - 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML'
