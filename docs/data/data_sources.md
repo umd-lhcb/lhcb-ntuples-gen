@@ -28,18 +28,16 @@ The data source for this analysis note can be found on `DIRAC`:
 ### Monte-Carlo
 In `DIRAC`, make sure to switch from **Simulation Condition** to **Event type**. Then the event will be available at `MC/2012/<event_type_uid>`.
 
-In the analysis note, we used the following event types
+In the analysis note, we used the following event types:
 
-| event type |
-|---|
-| `11574020` |
-| `11574010` |
-| `11874060` |
-| `11874080` |
-| `12874040` |
-| `12874020` |
-| `13874000` |
-| `11874050` |
-| `11874070` |
-| `12874010` |
-| `12874030` |
+* `11574020`
+* `11574010`
+* `11874060`
+* `11874080`
+* `12874040`
+* `12874020`
+* `13874000`
+* `11874050`
+* `11874070`
+* `12874010`
+* `12874030`
