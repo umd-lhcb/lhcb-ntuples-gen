@@ -1,0 +1,986 @@
+
+
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      
+      
+        <link rel="canonical" href="https://umd-lhcb.github.io/lhcb-ntuples-gen/software_manuals/davinci/">
+      
+      
+      
+        <meta name="lang:clipboard.copy" content="Copy to clipboard">
+      
+        <meta name="lang:clipboard.copied" content="Copied to clipboard">
+      
+        <meta name="lang:search.language" content="en">
+      
+        <meta name="lang:search.pipeline.stopwords" content="True">
+      
+        <meta name="lang:search.pipeline.trimmer" content="True">
+      
+        <meta name="lang:search.result.none" content="No matching documents">
+      
+        <meta name="lang:search.result.one" content="1 matching document">
+      
+        <meta name="lang:search.result.other" content="# matching documents">
+      
+        <meta name="lang:search.tokenizer" content="[\s\-]+">
+      
+      <link rel="shortcut icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.4.0">
+    
+    
+      
+        <title>DaVinci - lhcb-ntuples-gen wiki</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/application.0284f74d.css">
+      
+      
+    
+    
+      <script src="../../assets/javascripts/modernizr.74668098.js"></script>
+    
+    
+      
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono&display=fallback">
+        <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
+      
+    
+    <link rel="stylesheet" href="../../assets/fonts/material-icons.css">
+    
+    
+    
+      
+    
+    
+  </head>
+  
+    <body dir="ltr">
+  
+    <svg class="md-svg">
+      <defs>
+        
+        
+          <svg xmlns="http://www.w3.org/2000/svg" width="416" height="448" viewBox="0 0 416 448" id="__github"><path fill="currentColor" d="M160 304q0 10-3.125 20.5t-10.75 19T128 352t-18.125-8.5-10.75-19T96 304t3.125-20.5 10.75-19T128 256t18.125 8.5 10.75 19T160 304zm160 0q0 10-3.125 20.5t-10.75 19T288 352t-18.125-8.5-10.75-19T256 304t3.125-20.5 10.75-19T288 256t18.125 8.5 10.75 19T320 304zm40 0q0-30-17.25-51T296 232q-10.25 0-48.75 5.25Q229.5 240 208 240t-39.25-2.75Q130.75 232 120 232q-29.5 0-46.75 21T56 304q0 22 8 38.375t20.25 25.75 30.5 15 35 7.375 37.25 1.75h42q20.5 0 37.25-1.75t35-7.375 30.5-15 20.25-25.75T360 304zm56-44q0 51.75-15.25 82.75-9.5 19.25-26.375 33.25t-35.25 21.5-42.5 11.875-42.875 5.5T212 416q-19.5 0-35.5-.75t-36.875-3.125-38.125-7.5-34.25-12.875T37 371.5t-21.5-28.75Q0 312 0 260q0-59.25 34-99-6.75-20.5-6.75-42.5 0-29 12.75-54.5 27 0 47.5 9.875t47.25 30.875Q171.5 96 212 96q37 0 70 8 26.25-20.5 46.75-30.25T376 64q12.75 25.5 12.75 54.5 0 21.75-6.75 42 34 40 34 99.5z"/></svg>
+        
+      </defs>
+    </svg>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
+    
+      <a href="#davinci-docker-image-usage" tabindex="1" class="md-skip">
+        Skip to content
+      </a>
+    
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <a href="https://umd-lhcb.github.io/lhcb-ntuples-gen" title="lhcb-ntuples-gen wiki" class="md-header-nav__button md-logo">
+          
+            <i class="md-icon"></i>
+          
+        </a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="__drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
+          
+            <span class="md-header-nav__topic">
+              lhcb-ntuples-gen wiki
+            </span>
+            <span class="md-header-nav__topic">
+              
+                DaVinci
+              
+            </span>
+          
+        </div>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          <label class="md-icon md-icon--search md-header-nav__button" for="__search"></label>
+          
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
+      <label class="md-icon md-search__icon" for="__search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
+        &#xE5CD;
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="result">
+          <div class="md-search-result__meta">
+            Type to start searching
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+        
+      </div>
+      
+        <div class="md-flex__cell md-flex__cell--shrink">
+          <div class="md-header-nav__source">
+            
+
+
+  
+
+<a href="https://github.com/umd-lhcb/lhcb-ntuples-gen/" title="Go to repository" class="md-source" data-md-source="github">
+  
+    <div class="md-source__icon">
+      <svg viewBox="0 0 24 24" width="24" height="24">
+        <use xlink:href="#__github" width="24" height="24"></use>
+      </svg>
+    </div>
+  
+  <div class="md-source__repository">
+    umd-lhcb/lhcb-ntuples-gen
+  </div>
+</a>
+          </div>
+        </div>
+      
+    </div>
+  </nav>
+</header>
+    
+    <div class="md-container">
+      
+        
+      
+      
+        
+
+  
+
+<nav class="md-tabs md-tabs--active" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../.." title="Home" class="md-tabs__link">
+          Home
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../git_annex/" title="Software" class="md-tabs__link md-tabs__link--active">
+          Software
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../physics/momentum_scaling/" title="Physics" class="md-tabs__link">
+          Physics
+        </a>
+      
+    </li>
+  
+
+      
+        
+  
+  
+    <li class="md-tabs__item">
+      
+        <a href="../../data/data_management/" title="Data" class="md-tabs__link">
+          Data
+        </a>
+      
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+      
+      <main class="md-main">
+        <div class="md-main__inner md-grid" data-md-component="container">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="__drawer">
+    <a href="https://umd-lhcb.github.io/lhcb-ntuples-gen" title="lhcb-ntuples-gen wiki" class="md-nav__button md-logo">
+      
+        <i class="md-icon"></i>
+      
+    </a>
+    lhcb-ntuples-gen wiki
+  </label>
+  
+    <div class="md-nav__source">
+      
+
+
+  
+
+<a href="https://github.com/umd-lhcb/lhcb-ntuples-gen/" title="Go to repository" class="md-source" data-md-source="github">
+  
+    <div class="md-source__icon">
+      <svg viewBox="0 0 24 24" width="24" height="24">
+        <use xlink:href="#__github" width="24" height="24"></use>
+      </svg>
+    </div>
+  
+  <div class="md-source__repository">
+    umd-lhcb/lhcb-ntuples-gen
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-1" type="checkbox" id="nav-1">
+    
+    <label class="md-nav__link" for="nav-1">
+      Home
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-1">
+        Home
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../.." title="Getting started" class="md-nav__link">
+      Getting started
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../installation/" title="Install dependencies" class="md-nav__link">
+      Install dependencies
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2" checked>
+    
+    <label class="md-nav__link" for="nav-2">
+      Software
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-2">
+        Software
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../git_annex/" title="git-annex" class="md-nav__link">
+      git-annex
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        DaVinci
+      </label>
+    
+    <a href="./" title="DaVinci" class="md-nav__link md-nav__link--active">
+      DaVinci
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#davinci-docker-image-usage" title="DaVinci docker image usage" class="md-nav__link">
+    DaVinci docker image usage
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#launch-a-davinci-container" title="Launch a DaVinci container" class="md-nav__link">
+    Launch a DaVinci container
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#use-davinci-inside-container" title="Use DaVinci inside container" class="md-nav__link">
+    Use DaVinci inside container
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#additional-tupletool" title="Additional TupleTool" class="md-nav__link">
+    Additional TupleTool
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#remove-old-docker-images" title="Remove old docker images" class="md-nav__link">
+    Remove old docker images
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#davinci-tips-and-tricks" title="DaVinci tips and tricks" class="md-nav__link">
+    DaVinci tips and tricks
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#about-gaudisequencer" title="About GaudiSequencer" class="md-nav__link">
+    About GaudiSequencer
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#difference-between-mainsequence-and-useralgorithms" title="Difference between MainSequence and UserAlgorithms" class="md-nav__link">
+    Difference between MainSequence and UserAlgorithms
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#difference-cc-and-cc-in-a-decay-descriptor" title="Difference CC and cc in a decay descriptor" class="md-nav__link">
+    Difference CC and cc in a decay descriptor
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tis-functor" title="TIS functor" class="md-nav__link">
+    TIS functor
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#functor-usage" title="Functor usage" class="md-nav__link">
+    Functor usage
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#an-example-from-lhcb-ana-2014-052-v2r1" title="An example from lhcb-ana-2014-052-v2r1" class="md-nav__link">
+    An example from lhcb-ana-2014-052-v2r1
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../babymaker/" title="babymaker" class="md-nav__link">
+      babymaker
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3">
+    
+    <label class="md-nav__link" for="nav-3">
+      Physics
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-3">
+        Physics
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../physics/momentum_scaling/" title="Momentum scaling" class="md-nav__link">
+      Momentum scaling
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../physics/wrong_sign_particles/" title="Wrong-sign particles" class="md-nav__link">
+      Wrong-sign particles
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4">
+    
+    <label class="md-nav__link" for="nav-4">
+      Data
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-4">
+        Data
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../data/data_management/" title="Data management" class="md-nav__link">
+      Data management
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../data/data_sources/" title="Data sources" class="md-nav__link">
+      Data sources
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-4-3" type="checkbox" id="nav-4-3">
+    
+    <label class="md-nav__link" for="nav-4-3">
+      Comparisons
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="2">
+      <label class="md-nav__title" for="nav-4-3">
+        Comparisons
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../data/comparison_between_run1_rd_rdstar/comparison/" title="Run 1 `R(D^{\star})`" class="md-nav__link">
+      Run 1 `R(D^{\star})`
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#davinci-docker-image-usage" title="DaVinci docker image usage" class="md-nav__link">
+    DaVinci docker image usage
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#launch-a-davinci-container" title="Launch a DaVinci container" class="md-nav__link">
+    Launch a DaVinci container
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#use-davinci-inside-container" title="Use DaVinci inside container" class="md-nav__link">
+    Use DaVinci inside container
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#additional-tupletool" title="Additional TupleTool" class="md-nav__link">
+    Additional TupleTool
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#remove-old-docker-images" title="Remove old docker images" class="md-nav__link">
+    Remove old docker images
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#davinci-tips-and-tricks" title="DaVinci tips and tricks" class="md-nav__link">
+    DaVinci tips and tricks
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#about-gaudisequencer" title="About GaudiSequencer" class="md-nav__link">
+    About GaudiSequencer
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#difference-between-mainsequence-and-useralgorithms" title="Difference between MainSequence and UserAlgorithms" class="md-nav__link">
+    Difference between MainSequence and UserAlgorithms
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#difference-cc-and-cc-in-a-decay-descriptor" title="Difference CC and cc in a decay descriptor" class="md-nav__link">
+    Difference CC and cc in a decay descriptor
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tis-functor" title="TIS functor" class="md-nav__link">
+    TIS functor
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#functor-usage" title="Functor usage" class="md-nav__link">
+    Functor usage
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#an-example-from-lhcb-ana-2014-052-v2r1" title="An example from lhcb-ana-2014-052-v2r1" class="md-nav__link">
+    An example from lhcb-ana-2014-052-v2r1
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/umd-lhcb/lhcb-ntuples-gen/edit/master/docs/software_manuals/davinci.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                
+                
+                  <h1>DaVinci</h1>
+                
+                <p><code>DaVinci</code> is a LHCb software package that run various preliminary selections
+and calculations on the raw <code>.dst</code> file, and produce a <code>.root</code> file.</p>
+<p>Normally it is run on LHCb remote Linux nodes <code>lxplus</code>. However, it is much
+more convenient to have a local <code>DaVinci</code> environment.</p>
+<h2 id="davinci-docker-image-usage"><code>DaVinci</code> <code>docker</code> image usage</h2>
+<h3 id="launch-a-davinci-container">Launch a <code>DaVinci</code> container</h3>
+<p>To launch a <code>DaVinci</code> <code>docker</code> container, type in:
+<div class="codehilite"><pre><span></span><span class="n">docker</span> <span class="n">run</span> <span class="c1">--rm -it -v &lt;src_path&gt;:/data -e UID=$(id -u) -e GID=$(id -g) --net=host umdlhcb/lhcb-stack-cc7:DaVinci-v42r8p1-SL</span>
+</pre></div>
+note that <code>&lt;src_path&gt;</code> should be an absolute path pointing to the folder that we want to mount inside the container.</p>
+<p>If you are in the folder you want to mount, you can just type:
+<div class="codehilite"><pre><span></span><span class="n">docker</span> <span class="n">run</span> <span class="o">--</span><span class="n">rm</span> <span class="o">-</span><span class="n">it</span> <span class="o">-</span><span class="n">v</span> <span class="ss">`pwd`</span><span class="p">:</span><span class="o">/</span><span class="n">data</span> <span class="o">-</span><span class="n">e</span> <span class="n">UID</span><span class="o">=</span><span class="err">$</span><span class="p">(</span><span class="n">id</span> <span class="o">-</span><span class="n">u</span><span class="p">)</span> <span class="o">-</span><span class="n">e</span> <span class="n">GID</span><span class="o">=</span><span class="err">$</span><span class="p">(</span><span class="n">id</span> <span class="o">-</span><span class="n">g</span><span class="p">)</span> <span class="o">--</span><span class="n">net</span><span class="o">=</span><span class="n">host</span> <span class="n">umdlhcb</span><span class="o">/</span><span class="n">lhcb</span><span class="o">-</span><span class="n">stack</span><span class="o">-</span><span class="n">cc7</span><span class="p">:</span><span class="n">DaVinci</span><span class="o">-</span><span class="n">v42r8p1</span><span class="o">-</span><span class="n">SL</span>
+</pre></div></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><code>docker</code> <em>images</em> are read-only. When we launch a <code>docker</code> <em>container</em>, a
+writable layer is placed on top of the image.</p>
+</div>
+<h3 id="use-davinci-inside-container">Use DaVinci inside container</h3>
+<p>The command is very similar to the one used on <code>lxplus</code>:
+<div class="codehilite"><pre><span></span><span class="n">lb</span><span class="o">-</span><span class="n">run</span> <span class="n">DaVinci</span><span class="o">/</span><span class="n">latest</span> <span class="n">gaudirun</span><span class="p">.</span><span class="n">py</span> <span class="n">ntuple_options</span><span class="p">.</span><span class="n">py</span>
+</pre></div>
+since we have only 1 version of <code>DaVinci</code> inside the container,
+<code>DaVinci/latest</code> would always work.</p>
+<h3 id="additional-tupletool">Additional <code>TupleTool</code></h3>
+<p>The <code>docker</code> image with <code>-SL</code> suffix also contains a special <code>DaVinci</code> version
+that contains additional <code>TupleTool</code><sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup> for semileptonic analysis.
+To access the special <code>DaVinci</code>, just substitute <code>lb-run DaVinci/latest</code> with
+<code>run</code>. For instance:
+<div class="codehilite"><pre><span></span><span class="n">run</span> <span class="n">gaudirun</span><span class="p">.</span><span class="n">py</span> <span class="n">ntuple_options</span><span class="p">.</span><span class="n">py</span>
+</pre></div></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>To make our lives easier, a <code>run.sh</code> command is typically created in each
+stripping lines, such as:
+<div class="codehilite"><pre><span></span><span class="o">&lt;</span><span class="n">project_root</span><span class="o">&gt;/</span><span class="mi">2012</span><span class="o">-</span><span class="n">b2D0MuXB2DMuNuForTauMuLine</span><span class="o">/</span><span class="n">gen</span><span class="p">.</span><span class="n">sh</span>
+</pre></div></p>
+<p>If you see this file, just run it inside the <code>docker</code> container:
+<div class="codehilite"><pre><span></span>./run.sh  <span class="c1"># inside docker</span>
+</pre></div></p>
+</div>
+<h3 id="remove-old-docker-images">Remove old docker images</h3>
+<p>To list all local <code>docker</code> images:
+<div class="codehilite"><pre><span></span><span class="n">docker</span> <span class="n">images</span>
+</pre></div></p>
+<p>If you download a newer version of <code>docker</code> image, and want to remove the old
+ones to save disk space, you can:
+<div class="codehilite"><pre><span></span><span class="n">docker</span> <span class="n">rmi</span> <span class="o">&lt;</span><span class="n">docker_image_tag</span><span class="o">&gt;</span>
+<span class="n">docker</span> <span class="n">image</span> <span class="n">prune</span>
+</pre></div>
+here <code>&lt;docker_image_tag&gt;</code> should be something like
+<code>umdlhcb/lhcb-stack-cc7:DaVinci-v42r8p1-SL</code>.</p>
+<h2 id="davinci-tips-and-tricks"><code>DaVinci</code> tips and tricks</h2>
+<h3 id="about-gaudisequencer">About <code>GaudiSequencer</code></h3>
+<p><code>GaudiSequencer</code> is an <em>per-event algorithm</em>, such as <code>DecayTreeTuple</code>, in the
+sense that <code>Gaudi</code> knows that it should run on every event.</p>
+<p><code>GaudiSequencer</code> is used to chain related algorithms, and it's default behavior
+is to only run an algorithm if the preceding algorithm <em>passed</em> (this is done
+in the <code>c++</code> class for the algorithm by returning <code>StatusCode::SUCCESS</code>).</p>
+<p>This default can be overridden by setting <code>GaudiSequencer.IgnoreFilterPassed</code>
+to <code>True</code>, which will run all the algorithms regardless of whether the preceding
+one passed or failed. The list of algorithms to run is defined by the
+<code>GaudiSequencer.Members</code> list.</p>
+<h3 id="difference-between-mainsequence-and-useralgorithms">Difference between <code>MainSequence</code> and <code>UserAlgorithms</code></h3>
+<ul>
+<li>
+<p><code>MainSequence</code>: Use <code>DaVinci().addToMainSequence([&lt;a list of algorithms&gt;])</code>
+  to customize the initialization of <code>DaVinci</code>. This should be used to provide
+  custom functions/TESs<sup id="fnref:2"><a class="footnote-ref" href="#fn:2">2</a></sup> that will be visible to all selection algorithms.</p>
+</li>
+<li>
+<p><code>UserAlgorithms</code>: Actual selection algorithms. This is always appended at the
+  end of the <code>MainSequence</code> of a <code>DaVinci</code> session.</p>
+</li>
+</ul>
+<h3 id="difference-cc-and-cc-in-a-decay-descriptor">Difference <code>CC</code> and <code>cc</code> in a decay descriptor</h3>
+<ul>
+<li><code>LoKi</code> and <code>DecayTreeTuple</code> use uppercase <code>CC</code> for charge conjugation.</li>
+<li><code>CombineParticles</code> uses lowercase <code>cc</code>.</li>
+</ul>
+<p>This is just an inconsistency in the <code>DaVinci</code> code base and there's nothing we
+can do as a user.</p>
+<h3 id="tis-functor"><code>TIS</code> functor</h3>
+<p><code>TIS</code> is a (undocumented) <code>LoKi</code> functor， and it stands for <em>Trigger
+Independent Signal</em>. There's another similar term: <em>TOS: Trigger On Signal</em>.</p>
+<h4 id="functor-usage">Functor usage</h4>
+<div class="codehilite"><pre><span></span><span class="n">TIS</span><span class="p">(</span><span class="o">&lt;</span><span class="n">trigger_line_to_look</span><span class="o">&gt;</span><span class="p">,</span> <span class="o">&lt;</span><span class="n">trigger_decision_storage_location</span><span class="o">&gt;</span><span class="p">)</span>
+</pre></div>
+
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><code>&lt;trigger_decision_storage_location&gt;</code> is a <code>TES</code> location</p>
+</div>
+<h4 id="an-example-from-lhcb-ana-2014-052-v2r1">An example from <em>lhcb-ana-2014-052-v2r1</em></h4>
+<div class="codehilite"><pre><span></span><span class="n">INTREE</span><span class="p">((</span><span class="n">ABSID</span> <span class="o">==</span> <span class="s1">&#39;mu+&#39;</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">TIS</span><span class="p">(</span><span class="s1">&#39;L0.*&#39;</span><span class="p">,</span> <span class="s1">&#39;L0TriggerTisTos&#39;</span><span class="p">)))</span>
+</pre></div>
+
+<p>The line above should be interpreted as following:</p>
+<ol>
+<li>In the decay tree, find a <span><span class="MathJax_Preview">\mu</span><script type="math/tex">\mu</script></span>.</li>
+<li>We look over all <code>L0.*</code> trigger lines with <code>TES</code> <code>L0TriggerTisTos</code>, and
+   require to have a trigger independent signal:<ul>
+<li>Since we are triggering on <span><span class="MathJax_Preview">\mu</span><script type="math/tex">\mu</script></span>, this requires that the trigger cannot
+  be due to the <span><span class="MathJax_Preview">\mu</span><script type="math/tex">\mu</script></span>.</li>
+<li>Also note that the whole decay tree is just a <span><span class="MathJax_Preview">\mu</span><script type="math/tex">\mu</script></span> and a <span><span class="MathJax_Preview">D</span><script type="math/tex">D</script></span>, so it
+  means that we are either TOS on <span><span class="MathJax_Preview">D</span><script type="math/tex">D</script></span>, TIS in the <strong>whole</strong> event, or both.</li>
+</ul>
+</li>
+</ol>
+<div class="footnote">
+<hr />
+<ol>
+<li id="fn:1">
+<p>Such as <code>TupleToolApplyIsolation</code> and <code>TupleToolTauMuDiscVars</code>.&#160;<a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+<li id="fn:2">
+<p>TES: Transient Event Storage.&#160;<a class="footnote-backref" href="#fnref:2" title="Jump back to footnote 2 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div>
+                
+                  
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+        
+          <a href="../git_annex/" title="git-annex" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
+            </div>
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                git-annex
+              </span>
+            </div>
+          </a>
+        
+        
+          <a href="../babymaker/" title="babymaker" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                babymaker
+              </span>
+            </div>
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        powered by
+        <a href="https://www.mkdocs.org">MkDocs</a>
+        and
+        <a href="https://squidfunk.github.io/mkdocs-material/">
+          Material for MkDocs</a>
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../../assets/javascripts/application.245445c6.js"></script>
+      
+      <script>app.initialize({version:"1.0.4",url:{base:"../.."}})</script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+      
+    
+  </body>
+</html>
