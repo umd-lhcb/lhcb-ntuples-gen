@@ -18,8 +18,12 @@ nav:
         - git-annex: software_manuals/git_annex.md
         - DaVinci: software_manuals/davinci.md
         - babymaker: software_manuals/babymaker.md
+    - Physics:
+        - Momentum scaling: physics/momentum_scaling.md
+        - Wrong-sign particles: physics/wrong_sign_particles.md
     - Data:
-        - "Comparison between ntuples - run 1 `R(D^{\\star})`": data/comparison_between_run1_rd_rdstar/comparison.md
+        - Comparisons:
+            - "Run 1 `R(D^{\\star})`": data/comparison_between_run1_rd_rdstar/comparison.md
 
 markdown_extensions:
     - admonition
