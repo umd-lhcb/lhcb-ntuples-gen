@@ -24,18 +24,74 @@ brew install git git-annex
 
 
 ## Install dependencies for `DaVinci`
+We use `docker` to run a pre-built `DaVinci` image locally. To install
+`docker`:
+
+On Arch linux:
+```
+sudo pacman -S docker
+```
+then follow this [Arch wiki entry](https://wiki.archlinux.org/index.php/Docker)
+to finish setup.
+
+On macOS, with `homebrew`:
+```
+brew install docker
+```
+
+!!! note
+    The virtual machine image already has `docker` installed.
+
+Now it's time to pull (download) the pre-built `DaVinci` docker:
+```
+docker pull umdlhcb/lhcb-stack-cc7:DaVinci-v42r8p1-SL
+```
 
 
 ## Install dependencies for `babymaker`
+`babymaker` requires `gcc`[^1], `ROOT`, `clang-format`[^2], `python3`, and a
+couple of `Python` packages[^3].
+
+!!! note
+    As you may have guessed it, the virtual machine image has these packages
+    installed (including `pip`).
+
+Install these tools with your choice of package manager. To install python
+packages, you can use the following command:
+```
+pip install -r --user requirements.txt
+```
+
+
+[^1]: `gcc` must be recent enough to support `c++17` standard. Effectively,
+      `gcc 6` or newer is required.
+[^2]: `clang-format` usually comes with `clang`. A notable exception is on
+      macOS. In that case, just type in `brew install clang-format`.
+[^3]: These packages are listed in `<project_root>/requirements.txt`. It is
+      highly recommended to install `pip` to manage `Python` packages.
+
+      It is also highly recommended to use `pyenv` and `pyenv-virtualenv` to
+      manage `Python` enviroments. Please google the installation instructions
+      for your OS.
 
 
 ## Use a pre-built `VirtualBox` image on Windows
-Please following these steps:
+The pre-built `VirtualBox` image is based on Arch Linux.
+It contains `git`, `git-annex`;
+`docker` (`DaVinci` image _not_ downloaded);
+all `babymaker` dependencies (`Python` packages _not_ installed);
+`sublime` text editor.
 
-* Download and install the latest `VirtualBox` from [here](https://www.virtualbox.org/wiki/Downloads).
-* Download the pre-built image from [here](https://www.dropbox.com/sh/xfioontn9auv081/AADK5wflwcKy8GA_FD6Xa7Joa?dl=0) (download both `.ovf` and `.vmdk` files).
-* Launch `VirtualBox`, click **Tools**, then click **Import**, choose the `ovf`
-  file, and proceed with default settings.
+To use the virtual machine image, Please follow these steps on Microsoft
+Windows:
+
+1. Download and install the latest `VirtualBox` from [here](https://www.virtualbox.org/wiki/Downloads).
+2. Download the pre-built image from [here](https://www.dropbox.com/sh/xfioontn9auv081/AADK5wflwcKy8GA_FD6Xa7Joa?dl=0) (download both `.ovf` and `.vmdk` files).
+3. Launch `VirtualBox`, click **Tools**, then click **Import**, choose the `ovf`
+  file, then proceed with default settings.
+
+!!! note
+    Both the username and password of the virtual machine are `vagrant`.
 
 !!! note
     By default the virtual machine can maximally use 4 GB of RAM. If your
