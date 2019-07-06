@@ -59,7 +59,7 @@ couple of `Python` packages[^3].
 Install these tools with your choice of package manager. To install python
 packages, you can use the following command:
 ```
-pip install -r --user requirements.txt
+pip3 install -r --user requirements.txt
 ```
 
 
