@@ -9,6 +9,8 @@ branches:
     only: master
 
 install:
+    # Don't install pyBabyMaker, as we don't have ROOT installed
+    - sed -i '1d' ./requirements.txt
     - pip install -r ./requirements.txt
 
 script:
