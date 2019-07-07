@@ -91,7 +91,7 @@ To use the virtual machine image, Please follow these steps on Microsoft
 Windows:
 
 1. Download and install the latest `VirtualBox` from [here](https://www.virtualbox.org/wiki/Downloads).
-2. Download the pre-built image from [here](https://www.dropbox.com/sh/xfioontn9auv081/AADK5wflwcKy8GA_FD6Xa7Joa?dl=0) (download both `.ovf` and `.vmdk` files).
+2. Download the pre-built image from [here](https://www.dropbox.com/sh/83deuk98mb8ckxi/AAAXUIuqiXN6_atuDzx5Whm6a?dl=0) (download both `.ovf` and `.vmdk` files).
 3. Launch `VirtualBox`, click **Tools**, then click **Import**, choose the `ovf`
   file, then proceed with default settings.
 
