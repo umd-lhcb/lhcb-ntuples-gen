@@ -50,14 +50,14 @@ docker pull umdlhcb/lhcb-stack-cc7:DaVinci-v42r8p1-SL
 
 ## Install dependencies for `babymaker`
 `babymaker` is part of the `pyBabyMaker` `Python` package. It requires
-`gcc`[^1], `ROOT`, `python3`, and a couple of other `Python` packages[^3].
+`gcc`[^1], `ROOT`, `python3`, and a couple of other `Python` packages[^2].
 
 !!! note
     As you may have guessed it, the virtual machine image has these packages,
     except `pyBabyMaker`, installed, including `pip`.
 
 !!! note
-    It is strongly recommended to install `clang-format`[^2], so the generated
+    It is strongly recommended to install `clang-format`[^3], so the generated
     `C++` code looks much nicer.
 
 Install these tools with your choice of package manager. To install
@@ -70,14 +70,14 @@ pip3 install -r --user requirements.txt
 
 [^1]: `gcc` must be recent enough to support `c++17` standard. Effectively,
       `gcc 6` or newer is required.
-[^2]: `clang-format` usually comes with `clang`. A notable exception is on
-      macOS. In that case, just type in `brew install clang-format`.
-[^3]: These packages are listed in `<project_root>/requirements.txt`. It is
+[^2]: These packages are listed in `<project_root>/requirements.txt`. It is
       highly recommended to install `pip` to manage `Python` packages.
 
       It is also highly recommended to use `pyenv` and `pyenv-virtualenv` to
       manage `Python` enviroments. Please google the installation instructions
       for your OS.
+[^3]: `clang-format` usually comes with `clang`. A notable exception is on
+      macOS. In that case, just type in `brew install clang-format`.
 
 
 ## Use a pre-built `VirtualBox` image on Windows
