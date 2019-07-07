@@ -79,10 +79,6 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
-      <a href="#detect-root-file-tree-structure" tabindex="1" class="md-skip">
-        Skip to content
-      </a>
-    
     
       <header class="md-header" data-md-component="header">
   <nav class="md-header-nav md-grid">
@@ -379,43 +375,9 @@
     <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
     
     
-      <label class="md-nav__link md-nav__link--active" for="__toc">
-        babymaker
-      </label>
-    
     <a href="./" title="babymaker" class="md-nav__link md-nav__link--active">
       babymaker
     </a>
-    
-      
-<nav class="md-nav md-nav--secondary">
-  
-  
-  
-    <label class="md-nav__title" for="__toc">Table of contents</label>
-    <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#detect-root-file-tree-structure" title="Detect .root file tree structure" class="md-nav__link">
-    Detect .root file tree structure
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#use-babymakerpy-to-generate-c-file" title="Use babymaker.py to generate c++ file" class="md-nav__link">
-    Use babymaker.py to generate c++ file
-  </a>
-  
-</li>
-      
-      
-      
-      
-      
-    </ul>
-  
-</nav>
     
   </li>
 
@@ -564,42 +526,6 @@
               </div>
             
             
-              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
-                <div class="md-sidebar__scrollwrap">
-                  <div class="md-sidebar__inner">
-                    
-<nav class="md-nav md-nav--secondary">
-  
-  
-  
-    <label class="md-nav__title" for="__toc">Table of contents</label>
-    <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#detect-root-file-tree-structure" title="Detect .root file tree structure" class="md-nav__link">
-    Detect .root file tree structure
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#use-babymakerpy-to-generate-c-file" title="Use babymaker.py to generate c++ file" class="md-nav__link">
-    Use babymaker.py to generate c++ file
-  </a>
-  
-</li>
-      
-      
-      
-      
-      
-    </ul>
-  
-</nav>
-                  </div>
-                </div>
-              </div>
-            
           
           <div class="md-content">
             <article class="md-content__inner md-typeset">
@@ -610,132 +536,15 @@
                 
                   <h1>babymaker</h1>
                 
-                <p><code>babymaker</code> was original conceived by Manuel Franco Sevilla and his colleagues
-at UCSB<sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup>. It was later rewritten by Yipeng Sun to make it simpler<sup id="fnref:2"><a class="footnote-ref" href="#fn:2">2</a></sup>.</p>
-<p><code>babymaker</code> takes a <code>.root</code> file, and producing a new <code>.root</code> file by:</p>
+                <p><code>babymaker</code> is a part of the <code>pyBabyMaker</code> library. Please refer to the
+<a href="https://github.com/yipengsun/pyBabyMaker">official document</a> for more info.</p>
+<p>The general idea is that <code>babymaker</code> takes:</p>
 <ul>
-<li>renaming,</li>
-<li>making selections</li>
-<li>dropping</li>
-<li>doing additional calculations</li>
+<li>a <code>YAML</code> file as configuration</li>
+<li>a <code>.root</code> ntuple file to dump its tree structure and datatype.</li>
 </ul>
-<p>on selected branches of the input <code>.root</code> file.</p>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>Please use <code>clang-format</code> to reformat all <code>c++</code> code before commit. To do
-so, go th the <code>&lt;project_root&gt;</code>, and:
-<div class="codehilite"><pre><span></span><span class="n">clang</span><span class="o">-</span><span class="n">format</span> <span class="o">-</span><span class="n">i</span> <span class="o">&lt;</span><span class="n">path_to_cpp_file</span><span class="o">&gt;</span>
-</pre></div></p>
-</div>
-<h2 id="detect-root-file-tree-structure">Detect <code>.root</code> file tree structure</h2>
-<p>This is done by the auxiliary <code>c++</code> program <code>tuple_dump</code>, with its source located at:
-<div class="codehilite"><pre><span></span><span class="o">&lt;</span><span class="n">project_root</span><span class="o">&gt;/</span><span class="n">src</span><span class="o">/</span><span class="n">tuple_dump</span><span class="p">.</span><span class="n">cpp</span>
-</pre></div></p>
-<p><code>tuple_dump</code> usage is very simple:
-<div class="codehilite"><pre><span></span><span class="n">usage</span><span class="o">:</span> <span class="n">tuple_dump</span> <span class="o">[</span><span class="n">INPUT</span> <span class="n">ROOT</span> <span class="n">FILE</span><span class="o">]</span> <span class="o">[</span><span class="n">OUTPUT</span> <span class="n">YAML</span> <span class="n">ROOT</span> <span class="n">FILE</span> <span class="n">TREE</span> <span class="n">STRUCTURE</span><span class="o">]</span>
-</pre></div></p>
-<h2 id="use-babymakerpy-to-generate-c-file">Use <code>babymaker.py</code> to generate <code>c++</code> file</h2>
-<p><code>babymaker.py</code> takes a <code>YAML</code> file that specify the output <code>.root</code> file tree
-structure, as well as the <code>YAML</code> file generated by the <code>tuple_dump</code> on the
-input <code>.root</code> file, so that it understands the tree structure of the input file.</p>
-<p>You also need to specify the output location of the <code>c++</code> file. After compiling
-the <code>c++</code> file, it will generate the output <code>.root</code> file.</p>
-<p><code>babymaker</code> usage is listed below:
-<div class="codehilite"><pre><span></span><span class="nv">usage</span>: <span class="nv">babymaker</span>.<span class="nv">py</span> [<span class="o">-</span><span class="nv">h</span>] <span class="o">-</span><span class="nv">g</span> [{<span class="nv">PostProcess</span>,<span class="nv">Compare</span>}] [<span class="o">-</span><span class="nv">i</span> [<span class="nv">INPUT</span>]] <span class="o">-</span><span class="nv">o</span> [<span class="nv">OUTPUT</span>]
-                    [<span class="o">-</span><span class="nv">d</span> [<span class="nv">DATATYPE</span>]] [<span class="o">-</span><span class="nv">H</span> <span class="nv">HEADERS</span> [<span class="nv">HEADERS</span> ...]]
-
-<span class="nv">generate</span> <span class="nv">compilable</span> <span class="nv">C</span><span class="o">++</span> <span class="nv">source</span> <span class="nv">file</span> <span class="k">for</span> <span class="nv">ntuple</span> <span class="nv">processing</span>.
-
-<span class="nv">optional</span> <span class="nv">arguments</span>:
-  <span class="o">-</span><span class="nv">h</span>, <span class="o">--</span><span class="nv">help</span>            <span class="k">show</span> <span class="nv">this</span> <span class="nv">help</span> <span class="nv">message</span> <span class="nv">and</span> <span class="k">exit</span>
-  <span class="o">-</span><span class="nv">g</span> [{<span class="nv">PostProcess</span>,<span class="nv">Compare</span>}], <span class="o">--</span><span class="nv">generator</span> [{<span class="nv">PostProcess</span>,<span class="nv">Compare</span>}]
-                        <span class="nv">choose</span> <span class="nv">a</span> <span class="nv">C</span><span class="o">++</span> <span class="nv">code</span> <span class="nv">generator</span>.
-  <span class="o">-</span><span class="nv">i</span> [<span class="nv">INPUT</span>], <span class="o">--</span><span class="nv">input</span> [<span class="nv">INPUT</span>]
-                        <span class="nv">path</span> <span class="nv">to</span> <span class="nv">input</span> <span class="nv">YAML</span> <span class="nv">file</span>.
-  <span class="o">-</span><span class="nv">o</span> [<span class="nv">OUTPUT</span>], <span class="o">--</span><span class="nv">output</span> [<span class="nv">OUTPUT</span>]
-                        <span class="nv">path</span> <span class="nv">to</span> <span class="nv">output</span> <span class="nv">C</span><span class="o">++</span> <span class="nv">file</span>.
-  <span class="o">-</span><span class="nv">d</span> [<span class="nv">DATATYPE</span>], <span class="o">--</span><span class="nv">datatype</span> [<span class="nv">DATATYPE</span>]
-                        <span class="nv">path</span> <span class="nv">to</span> <span class="nv">ntuple</span> <span class="nv">datatype</span> <span class="nv">YAML</span> <span class="nv">file</span>.
-  <span class="o">-</span><span class="nv">H</span> <span class="nv">HEADERS</span> [<span class="nv">HEADERS</span> ...], <span class="o">--</span><span class="nv">headers</span> <span class="nv">HEADERS</span> [<span class="nv">HEADERS</span> ...]
-                        <span class="nv">additional</span> <span class="nv">headers</span> <span class="nv">to</span> <span class="nv">be</span> <span class="nv">included</span> <span class="nv">in</span> <span class="nv">generated</span> <span class="nv">C</span><span class="o">++</span>.
-</pre></div></p>
-<p>You can take a look at <code>Makefile</code> to see how we glue <code>tuple_dump</code> and
-<code>babymaker.py</code> together.</p>
-<p>Finally, we list a sample <code>YAML</code> file for output <code>.root</code> file tree structure:
-<div class="codehilite"><pre><span></span><span class="nt">ATuple</span><span class="p">:</span>
-    <span class="nt">force_lowercase</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">false</span>
-    <span class="nt">input</span><span class="p">:</span>
-        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">TupleY/DecayTree</span>
-    <span class="nt">keep</span><span class="p">:</span>
-        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">^Y_P\w$</span>
-    <span class="nt">rename</span><span class="p">:</span>
-        <span class="nt">Y_PT</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">y_pt</span>
-        <span class="nt">Y_PX</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">y_px</span>
-        <span class="nt">Y_PY</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">y_py</span>
-        <span class="nt">Y_PZ</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">y_pz</span>
-        <span class="nt">selection</span><span class="p">:</span>
-    <span class="nt">Y_PT</span><span class="p">:</span> <span class="s">&quot;&gt;</span><span class="nv"> </span><span class="s">10000&quot;</span>
-
-<span class="nt">AnotherTuple</span><span class="p">:</span>
-    <span class="nt">force_lowercase</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
-    <span class="nt">headers</span><span class="p">:</span>
-        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">cmath</span>
-    <span class="nt">input</span><span class="p">:</span>
-        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">TupleY/DecayTree</span>
-    <span class="nt">keep</span><span class="p">:</span>
-        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">Y_P.*</span>
-    <span class="nt">selection</span><span class="p">:</span>
-        <span class="nt">Y_PT</span><span class="p">:</span> <span class="s">&quot;&gt;</span><span class="nv"> </span><span class="s">10000&quot;</span>
-        <span class="nt">Y_PE</span><span class="p">:</span> <span class="s">&quot;&gt;</span><span class="nv"> </span><span class="s">(100</span><span class="nv"> </span><span class="s">*</span><span class="nv"> </span><span class="s">pow(10,</span><span class="nv"> </span><span class="s">3))&quot;</span>
-
-<span class="nt">YetAnotherTuple</span><span class="p">:</span>
-    <span class="nt">force_lowercase</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
-    <span class="nt">headers</span><span class="p">:</span>
-        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">cmath</span>
-    <span class="nt">input</span><span class="p">:</span>
-        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">TupleY/DecayTree</span>
-        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">TupleYWSPi/DecayTree</span>
-    <span class="c1"># Drop arrays. We don&#39;t support them (yet).</span>
-    <span class="nt">drop</span><span class="p">:</span>
-        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">Y_OWNPV_COV_</span>
-    <span class="nt">keep</span><span class="p">:</span>
-        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">Y_OWNPV_.*</span>
-        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">Y_ISOLATION_.*</span>
-
-<span class="nt">YetYetAnotherTuple</span><span class="p">:</span>
-    <span class="nt">force_lowercase</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
-    <span class="nt">headers</span><span class="p">:</span>
-        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">functor/basic.h</span>
-    <span class="nt">input</span><span class="p">:</span>
-        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">TupleY/DecayTree</span>
-    <span class="nt">drop</span><span class="p">:</span>
-        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">Y_PE</span>
-    <span class="nt">keep</span><span class="p">:</span>
-        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">Y_P.*</span>
-    <span class="nt">selection</span><span class="p">:</span>
-        <span class="nt">Y_PT</span><span class="p">:</span> <span class="s">&quot;&gt;</span><span class="nv"> </span><span class="s">10000&quot;</span>
-    <span class="nt">calculation</span><span class="p">:</span>
-        <span class="nt">SUM</span><span class="p">:</span> <span class="s">&quot;SUM(Y_PE,</span><span class="nv"> </span><span class="s">Y_P)&quot;</span>
-</pre></div></p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>The <code>drop</code> section will always execute before <code>keep</code>. Also, they both fully
-utilize regualr expressions so the expressons.
-<code>Y_P*</code> should not be used in most cases.</p>
-</div>
-<div class="footnote">
-<hr />
-<ol>
-<li id="fn:1">
-<p>The original <code>babymaker</code> project can be found <a href="https://github.com/manuelfs/babymaker">here</a>.&#160;<a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 1 in the text">&#8617;</a></p>
-</li>
-<li id="fn:2">
-<p>The original one uses <code>c++</code> to write <code>c++</code>, the new one uses <code>Python</code> to
-  write <code>c++</code>. Also, the tree structures of the <code>.root</code> files are
-  semi-automatically detected by the new <code>babymaker.py</code>.&#160;<a class="footnote-backref" href="#fnref:2" title="Jump back to footnote 2 in the text">&#8617;</a></p>
-</li>
-</ol>
-</div>
+<p>and generates a <code>C++</code> file. The generated file then will be compiled, and the
+compiled binary will be used to generate second stage <code>.root</code> ntuples.</p>
                 
                   
                 
