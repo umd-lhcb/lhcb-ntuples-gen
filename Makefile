@@ -1,6 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sat Jul 06, 2019 at 10:02 PM -0400
+# Last Change: Sat Jul 06, 2019 at 11:43 PM -0400
 
 BINPATH	:=	bin
 SRCPATH	:=	gen
@@ -11,11 +11,9 @@ CXXFLAGS	:=	$(shell root-config --cflags)
 LINKFLAGS	:=	$(shell root-config --libs)
 ADDFLAGS	:=	-Iinclude
 
-.PHONY: all utils clean
+.PHONY: all clean
 
 all: 2012-b2D0MuXB2DMuNuForTauMuLine/gen/YCands_postprocess.root
-
-utils: $(BINPATH)/tuple_dump
 
 clean:
 	@rm -rf $(BINPATH)/*.exe
