@@ -1,13 +1,11 @@
-*.root
-*.yml
-
-bin
-.lvimrc
-.python-version
-site
-
 __pycache__
 *.pyc
+*.yml
 
+bin/*.exe
+gen
+site
+
+.lvimrc
+.python-version
 compile_commands.json
-src/*.cpp
