@@ -27,7 +27,7 @@ brew install git git-annex
 We use `docker` to run a pre-built `DaVinci` image locally. To install
 `docker`:
 
-On Arch linux:
+On Arch Linux:
 ```
 sudo pacman -S docker
 ```
@@ -49,15 +49,20 @@ docker pull umdlhcb/lhcb-stack-cc7:DaVinci-v42r8p1-SL
 
 
 ## Install dependencies for `babymaker`
-`babymaker` requires `gcc`[^1], `ROOT`, `clang-format`[^2], `python3`, and a
-couple of `Python` packages[^3].
+`babymaker` is part of the `pyBabyMaker` `Python` package. It requires
+`gcc`[^1], `ROOT`, `python3`, and a couple of other `Python` packages[^3].
 
 !!! note
-    As you may have guessed it, the virtual machine image has these packages
-    installed (including `pip`).
+    As you may have guessed it, the virtual machine image has these packages,
+    except `pyBabyMaker`, installed, including `pip`.
 
-Install these tools with your choice of package manager. To install python
-packages, you can use the following command:
+!!! note
+    It is strongly recommended to install `clang-format`[^2], so the generated
+    `C++` code looks much nicer.
+
+Install these tools with your choice of package manager. To install
+`pyBabyMaker` and other required `Python` packages, you can use the following
+command:
 ```
 pip3 install -r --user requirements.txt
 ```
