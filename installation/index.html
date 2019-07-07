@@ -661,7 +661,7 @@ Note that <code>VirtualBox</code> needs to be installed on Ubuntu manually first
 <h2 id="install-dependencies-for-davinci">Install dependencies for <code>DaVinci</code></h2>
 <p>We use <code>docker</code> to run a pre-built <code>DaVinci</code> image locally. To install
 <code>docker</code>:</p>
-<p>On Arch linux:
+<p>On Arch Linux:
 <div class="codehilite"><pre><span></span><span class="n">sudo</span> <span class="n">pacman</span> <span class="o">-</span><span class="n">S</span> <span class="n">docker</span>
 </pre></div>
 then follow this <a href="https://wiki.archlinux.org/index.php/Docker">Arch wiki entry</a>
@@ -677,15 +677,21 @@ to finish setup.</p>
 <div class="codehilite"><pre><span></span><span class="n">docker</span> <span class="n">pull</span> <span class="n">umdlhcb</span><span class="o">/</span><span class="n">lhcb</span><span class="o">-</span><span class="n">stack</span><span class="o">-</span><span class="n">cc7</span><span class="p">:</span><span class="n">DaVinci</span><span class="o">-</span><span class="n">v42r8p1</span><span class="o">-</span><span class="n">SL</span>
 </pre></div></p>
 <h2 id="install-dependencies-for-babymaker">Install dependencies for <code>babymaker</code></h2>
-<p><code>babymaker</code> requires <code>gcc</code><sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup>, <code>ROOT</code>, <code>clang-format</code><sup id="fnref:2"><a class="footnote-ref" href="#fn:2">2</a></sup>, <code>python3</code>, and a
-couple of <code>Python</code> packages<sup id="fnref:3"><a class="footnote-ref" href="#fn:3">3</a></sup>.</p>
+<p><code>babymaker</code> is part of the <code>pyBabyMaker</code> <code>Python</code> package. It requires
+<code>gcc</code><sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup>, <code>ROOT</code>, <code>python3</code>, and a couple of other <code>Python</code> packages<sup id="fnref:3"><a class="footnote-ref" href="#fn:3">3</a></sup>.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>As you may have guessed it, the virtual machine image has these packages
-installed (including <code>pip</code>).</p>
+<p>As you may have guessed it, the virtual machine image has these packages,
+except <code>pyBabyMaker</code>, installed, including <code>pip</code>.</p>
 </div>
-<p>Install these tools with your choice of package manager. To install python
-packages, you can use the following command:
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>It is strongly recommended to install <code>clang-format</code><sup id="fnref:2"><a class="footnote-ref" href="#fn:2">2</a></sup>, so the generated
+<code>C++</code> code looks much nicer.</p>
+</div>
+<p>Install these tools with your choice of package manager. To install
+<code>pyBabyMaker</code> and other required <code>Python</code> packages, you can use the following
+command:
 <div class="codehilite"><pre><span></span><span class="n">pip3</span> <span class="n">install</span> <span class="o">-</span><span class="n">r</span> <span class="c1">--user requirements.txt</span>
 </pre></div></p>
 <h2 id="use-a-pre-built-virtualbox-image-on-windows">Use a pre-built <code>VirtualBox</code> image on Windows</h2>
