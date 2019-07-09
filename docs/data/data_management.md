@@ -31,3 +31,8 @@ To download all dst files listed in a bookkeeping file:
 lhcb-proxy-init
 lb-run LHCbDIRAC dirac-dms-get-file -D <target_dir> --File=<filename.dst>
 ```
+
+If you know a `LFN`, instead of a file that contains a list of `LFN`s, you can:
+```
+lb-run LHCbDIRAC dirac-dms-get-file -D <target_dir> -l <lfn>
+```
