@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Jul 10, 2019 at 04:48 PM -0400
+# Last Change: Wed Jul 10, 2019 at 04:56 PM -0400
 
 #####################
 # Configure DaVinci #
@@ -9,7 +9,6 @@
 from Configurables import DaVinci
 
 DaVinci().InputType = 'DST'
-DaVinci().DataType = '2012'
 # DaVinci().EvtMax = 10
 DaVinci().EvtMax = -1
 DaVinci().SkipEvents = 0
@@ -578,23 +577,3 @@ from Configurables import ReadHltReport
 
 if DaVinci().Simulation:
     DaVinci().UserAlgorithms += [ReadHltReport()]
-
-
-####################
-# Local input file #
-####################
-
-from GaudiConf import IOHelper
-
-if not DaVinci().Simulation:
-    IOHelper().inputFiles([
-        './data/data-mag_down/00041836_00006100_1.semileptonic.dst',  # 95 MB
-        './data/data-mag_down/00041836_00011435_1.semileptonic.dst',  # 1.3 GB
-        './data/data-mag_down/00041836_00013110_1.semileptonic.dst',  # 2.9 GB
-    ], clear=True)
-
-else:
-    IOHelper().inputFiles([
-        './data/mc-py6-sim08a-mag_down/00028778_00000009_1.dsttaunu.safestriptrig.dst',
-        './data/mc-py6-sim08a-mag_down/00028778_00000010_1.dsttaunu.safestriptrig.dst',
-    ], clear=True)
