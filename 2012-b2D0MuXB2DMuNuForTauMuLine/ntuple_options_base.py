@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Jul 10, 2019 at 04:56 PM -0400
+# Last Change: Wed Jul 10, 2019 at 04:59 PM -0400
 
 #####################
 # Configure DaVinci #
@@ -503,7 +503,7 @@ if not DaVinci().Simulation:
     tuple_initialize = tuple_initialize_data
 else:
     tuple_postpocess = tuple_postpocess_mc
-    tuple_initialize = tuple_initialize_data
+    tuple_initialize = tuple_initialize_mc
 
 
 # Y ############################################################################
