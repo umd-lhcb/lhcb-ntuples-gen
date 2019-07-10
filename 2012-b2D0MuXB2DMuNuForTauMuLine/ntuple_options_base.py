@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Jul 10, 2019 at 05:00 PM -0400
+# Last Change: Wed Jul 10, 2019 at 05:51 PM -0400
 
 #####################
 # Configure DaVinci #
@@ -442,6 +442,7 @@ def tuple_initialize_mc(name, sel_seq, decay):
     ]
 
     tt_mcbi = tp.addTupleTool('TupleToolMCBackgroundInfo')
+    tt_mcbi.addTool(BackgroundCategory, name="BackgroundCategory")
     tt_mcbi.BackgroundCategory.SemileptonicDecay = True
     tt_mcbi.BackgroundCategory.NumNeutrinos = 3
 
