@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Jul 10, 2019 at 03:15 AM -0400
+# Last Change: Wed Jul 10, 2019 at 02:45 PM -0400
 
 #####################
 # Configure DaVinci #
@@ -156,61 +156,60 @@ sel_charged_Mu = Selection(
 
 from Configurables import CombineParticles
 
+algo_mcMatch_Preambulo = [
+    'from LoKiPhysMC.decorators import *',
+    'from LoKiPhysMC.functions import mcMatch'
+]
+
 # D0 ###########################################################################
 algo_D0 = CombineParticles('MyD0')
 algo_D0.DecayDescriptor = '[D0 -> K- pi+]cc'
 
-if not DaVinci().Simulation:
-    # These cuts are imposed by the stripping line
-    # http://lhcbdoc.web.cern.ch/lhcbdoc/stripping/config/stripping21/semileptonic/strippingb2d0muxb2dmunufortaumuline.html
+# These cuts are imposed by the stripping line
+# http://lhcbdoc.web.cern.ch/lhcbdoc/stripping/config/stripping21/semileptonic/strippingb2d0muxb2dmunufortaumuline.html
 
-    # PT: transverse momentum
-    # MIPCHI2DV: minimum IP-chi^2
-    # TRCHI2DOF: chi^2 per degree of freedom of the track fit
-    # PIDK: combined delta-log-likelihood for the given hypothesis (wrt the
-    #       pion)
-    # TRGHOSTPROB: track ghost probability
-    algo_D0.DaughtersCuts = {
-        'K+': '(PT > 300*MeV) & (MIPCHI2DV(PRIMARY) > 45.0) &' +
-              '(TRCHI2DOF < 4) & (PIDK > 4) & (TRGHOSTPROB < 0.5)',
-        'pi-': '(PT > 300*MeV) & (MIPCHI2DV(PRIMARY) > 45.0) &' +
-               '(TRCHI2DOF < 4) & (PIDK < 2) & (TRGHOSTPROB < 0.5)'
-    }
+# PT: transverse momentum
+# MIPCHI2DV: minimum IP-chi^2
+# TRCHI2DOF: chi^2 per degree of freedom of the track fit
+# PIDK: combined delta-log-likelihood for the given hypothesis (wrt the
+#       pion)
+# TRGHOSTPROB: track ghost probability
+algo_D0.DaughtersCuts = {
+    'K+': '(PT > 300*MeV) & (MIPCHI2DV(PRIMARY) > 45.0) &' +
+          '(TRCHI2DOF < 4) & (PIDK > 4) & (TRGHOSTPROB < 0.5)',
+    'pi-': '(PT > 300*MeV) & (MIPCHI2DV(PRIMARY) > 45.0) &' +
+           '(TRCHI2DOF < 4) & (PIDK < 2) & (TRGHOSTPROB < 0.5)'
+}
 
-    # ADAMASS: the absolute mass difference to the PDG reference value, this functor
-    #          takes an array as input, unlike ADMASS, which takes a scaler.
-    # .CombinationCut are cuts made before the vertex fit, so it saves time
-    algo_D0.CombinationCut = "(ADAMASS('D0') < 200*MeV)"
+# ADAMASS: the absolute mass difference to the PDG reference value, this functor
+#          takes an array as input, unlike ADMASS, which takes a scaler.
+# .CombinationCut are cuts made before the vertex fit, so it saves time
+algo_D0.CombinationCut = "(ADAMASS('D0') < 200*MeV)"
 
-    # ADMASS: the absolute mass difference to the PDG reference value, but it is
-    #         used after the vertex fit
-    # VFASPF: vertex function as particle function
-    #         Allow to apply vertex functors to the particle's `endVertex()`
-    # VCHI2: vertex chi^2
-    # VDOF: vertex fit number of degree of freedom
-    # .MotherCut are cuts after the vertex fit, that's why the mass cut is tighter
-    algo_D0.MotherCut = "(ADMASS('D0') < 100*MeV) & (VFASPF(VCHI2/VDOF) < 100)"
+# ADMASS: the absolute mass difference to the PDG reference value, but it is
+#         used after the vertex fit
+# VFASPF: vertex function as particle function
+#         Allow to apply vertex functors to the particle's `endVertex()`
+# VCHI2: vertex chi^2
+# VDOF: vertex fit number of degree of freedom
+# .MotherCut are cuts after the vertex fit, that's why the mass cut is tighter
+algo_D0.MotherCut = "(ADMASS('D0') < 100*MeV) & (VFASPF(VCHI2/VDOF) < 100)"
 
-else:
-    algo_D0.Preambulo += [
-        'from LoKiPhysMC.decorators import *',
-        'from LoKiPhysMC.functions import mcMatch'
-    ]
+if DaVinci().Simulation:
+    algo_D0.Preambulo += algo_mcMatch_Preambulo
 
-    algo_D0.DaughtersCuts = {
-        "K+": "(mcMatch('[^K+]CC')) & (PT > 300*MeV) &" +
-              "(MIPCHI2DV(PRIMARY)>45.0) & (TRCHI2DOF < 4)",
-        "pi-": "(PT > 300*MeV) & (MIPCHI2DV(PRIMARY)>45.0) & (TRCHI2DOF < 4)"
-    }
-
-    algo_D0.CombinationCut = "(ADAMASS('D0') < 200*MeV) &" + \
-                             "(ACHILD(PT, 1)+ACHILD(PT, 2) > 1*GeV)"
+    algo_D0.DaughtersCuts['K+'] = \
+        "(mcMatch('[^K+]CC')) & (P > 2.0*GeV) &" + \
+        "(MCSELMATCH(MCNINANCESTORS(BEAUTY) > 0)) &" + \
+        algo_D0.DaughtersCuts['K+']
+    algo_D0.DaughtersCuts['pi-'] = \
+        '(P > 2.0*GeV) &' + \
+        '(MCSELMATCH(MCNINANCESTORS(BEAUTY) > 0)) &' + \
+        algo_D0.DaughtersCuts['pi-']
 
     algo_D0.MotherCut = \
         "(mcMatch('[Charm ->K- pi+ {gamma}{gamma}{gamma}]CC')) &" + \
-        "(ADMASS('D0') < 100*MeV) & (VFASPF(VCHI2/VDOF) < 100) &" + \
-        "(BPVVDCHI2 > 250.0) & (BPVDIRA > 0.9998)"
-
+        algo_D0.MotherCut
 
 # This is the default setting now, and should be no longer needed
 # algo_D0.ParticleCombiners.update({'': 'LoKi::VertexFitter'})
@@ -243,39 +242,32 @@ algo_Dst_ws.MotherCut = algo_Dst.MotherCut
 algo_Bd = CombineParticles('MyBd')
 algo_Bd.DecayDescriptor = "[B~0 -> D*(2010)+ mu-]cc"
 
-if not DaVinci().Simulation:
-    # ALL: trivial select all
-    algo_Bd.DaughtersCuts = {
-        "mu-": "ALL"
-    }
+# ALL: trivial select all
+algo_Bd.DaughtersCuts = {
+    "mu-": "ALL"
+}
 
-    # AM: mass of the combination
-    #     Return sqrt(E^2 - p^2)
-    algo_Bd.CombinationCut = '(AM < 10200*MeV)'
+# AM: mass of the combination
+#     Return sqrt(E^2 - p^2)
+algo_Bd.CombinationCut = '(AM < 10200*MeV)'
 
-    # BPVDIRA: direction angle
-    #          Compute the cosine of the angle between the momentum of the particle
-    #          and the direction to flight from the best PV to the decay vertex.
-    algo_Bd.MotherCut = "(M < 10000*MeV) & (BPVDIRA > 0.9995) &" + \
-                        "(VFASPF(VCHI2/VDOF) < 6.0)"
-else:
-    algo_Bd.Preambulo += [
-        'from LoKiPhysMC.decorators import *',
-        'from LoKiPhysMC.functions import mcMatch'
-    ]
+# BPVDIRA: direction angle
+#          Compute the cosine of the angle between the momentum of the particle
+#          and the direction to flight from the best PV to the decay vertex.
+algo_Bd.MotherCut = "(M < 10000*MeV) & (BPVDIRA > 0.9995) &" + \
+                    "(VFASPF(VCHI2/VDOF) < 6.0)"
+
+if DaVinci().Simulation:
+    algo_Bd.Preambulo += algo_mcMatch_Preambulo
 
     # algo_Bd.HistoProduce = True
     # algo_Bd.addTool(PlotTool("MotherPlots"))
     # algo_Bd.MotherPlots.Histos = {
     #    "AMAXDOCA(FLATTEN((ABSID=='D0') | (ABSID=='mu-')))" : ("DOCA",0,2)}
 
-    algo_Bd.DaughtersCuts = {
-        'mu-': "(mcMatch('[^mu+]CC')) & (TRGHOSTPROB < 0.5) &" +
-        "(MIPCHI2DV(PRIMARY)>45) & (TRCHI2DOF < 3.0)"}
-
-    algo_Bd.CombinationCut = '(AM < 5650*MeV)'
-    algo_Bd.MotherCut = "(M < 5400*MeV) & (BPVDIRA > 0.9995) &" + \
-                        "(VFASPF(VCHI2/VDOF) < 8.0)"
+    algo_Bd.DaughtersCuts['mu-'] = \
+        "(mcMatch('[^mu+]CC')) & (TRGHOSTPROB < 0.5) &" + \
+        "(MIPCHI2DV(PRIMARY)>45) & (TRCHI2DOF < 3.0)"
 
 
 # BdWSMu #######################################################################
@@ -391,7 +383,7 @@ from PhysSelPython.Wrappers import SelectionSequence
 if not DaVinci().Simulation:
     event_pre_selectors = [fltr_hlt, fltr_strip]
 else:
-    event_pre_selectors = [fltr_hlt, fltr_strip]
+    event_pre_selectors = []
 
 seq_Y = SelectionSequence(
     'SeqMyY',
