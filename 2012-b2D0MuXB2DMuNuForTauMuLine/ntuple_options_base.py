@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Jul 10, 2019 at 02:45 PM -0400
+# Last Change: Wed Jul 10, 2019 at 03:11 PM -0400
 
 #####################
 # Configure DaVinci #
@@ -423,16 +423,59 @@ from DecayTreeTuple.Configuration import *  # for addTupleTool
 
 # Additional tools for MC
 from Configurables import TupleToolMCTruth
-from Configurables import TupleToolKinematic
 from Configurables import TupleToolMCBackgroundInfo
+from Configurables import TupleToolKinematic
 from Configurables import BackgroundCategory
+from Configurables import LoKi__Hybrid__EvtTupleTool as LokiEvtTool
 
 
-def tuple_initializer(name, sel_seq, decay):
+def tuple_initialize_data(name, sel_seq, decay):
     tp = DecayTreeTuple(name)
     tp.addTupleTool('TupleToolTrackInfo')  # For addBranches
     tp.Inputs = [sel_seq.outputLocation()]
     tp.Decay = decay
+    return tp
+
+
+def tuple_initialize_mc(name, sel_seq, decay):
+    tp = tuple_initialize_data(name, sel_seq, decay)
+
+    tp.ToolList += [
+        'TupleToolKinematic',
+        'TupleToolAngles',
+        'TupleToolPid',
+        'TupleToolMuonPid',
+        'TupleToolL0Calo',
+    ]
+
+    tt_mcbi = tp.addTupleTool('TupleToolMCBackgroundInfo')
+    tt_mcbi.BackgroundCategory.SemileptonicDecay = True
+    tt_mcbi.BackgroundCategory.NumNeutrinos = 3
+
+    tt_tistos = tp.addTupleTool('TupleToolTISTOS')
+    tt_tistos.TriggerList = [
+        'L0MuonDecision',
+        'L0HadronDecision',
+        'Hlt1TrackAllL0Decision',
+        'Hlt2CharmHadD02HH_D02KPiDecision'
+    ]
+    tt_tistos.VerboseL0 = True
+    tt_tistos.VerboseHlt1 = True
+    tt_tistos.VerboseHlt2 = True
+
+    tt_loki_evt = tp.addTupleTool(LokiEvtTool, "TupleMyLokiEvtTool")
+    tt_loki_evt.Preambulo += ['from LoKiCore.functions import *']
+    tt_loki_evt.VOID_Variables = {
+        'nTracks': "CONTAINS('Rec/Track/Best')",
+        'nSPDhits': "CONTAINS('Raw/Spd/Digits')",
+    }
+
+    tt_truth = tp.addTupleTool('TupleToolMCTruth')
+    tt_truth.ToolList = [
+        'MCTupleToolKinematic',
+        # 'MCTupleToolHierarchy'
+    ]
+
     return tp
 
 
@@ -451,21 +494,19 @@ def tuple_postpocess_data(tp, weights='./weights_soft.xml'):
 
 
 def tuple_postpocess_mc(tp, weights='./weights_soft.xml'):
-    truth = tp.addTupleTool('TupleToolMCTruth')
-    truth.ToolList = [
-        'MCTupleToolKinematic',
-        'MCTupleToolHierarchy'
-    ]
+    tuple_postpocess_data(tp, weights)
 
 
 if not DaVinci().Simulation:
     tuple_postpocess = tuple_postpocess_data
+    tuple_initialize = tuple_initialize_data
 else:
     tuple_postpocess = tuple_postpocess_mc
+    tuple_initialize = tuple_initialize_data
 
 
 # Y ############################################################################
-tp_Y = tuple_initializer(
+tp_Y = tuple_initialize(
     'TupleY',
     seq_Y,
     '[B~0 -> ^(D*(2010)+ -> ^(D0 -> ^K- ^pi+) ^pi+) ^mu-]CC'
@@ -484,7 +525,7 @@ tuple_postpocess(tp_Y)
 
 
 # Y_ws_Mu ######################################################################
-tp_Y_ws_Mu = tuple_initializer(
+tp_Y_ws_Mu = tuple_initialize(
     'TupleYWSMu',
     seq_Y_ws_Mu,
     '[B~0 -> ^(D*(2010)+ -> ^(D0 -> ^K- ^pi+) ^pi+) ^mu+]CC'
@@ -503,7 +544,7 @@ tuple_postpocess(tp_Y_ws_Mu)
 
 
 # Y_ws_Pi ######################################################################
-tp_Y_ws_Pi = tuple_initializer(
+tp_Y_ws_Pi = tuple_initialize(
     'TupleYWSPi',
     seq_Y_ws_Pi,
     '[B~0 -> ^(D*(2010)- -> ^(D0 -> ^K- ^pi+) ^pi-) ^mu-]CC'
