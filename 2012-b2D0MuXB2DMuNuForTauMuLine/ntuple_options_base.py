@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Jul 10, 2019 at 04:35 PM -0400
+# Last Change: Wed Jul 10, 2019 at 04:37 PM -0400
 
 #####################
 # Configure DaVinci #
@@ -10,8 +10,8 @@ from Configurables import DaVinci
 
 DaVinci().InputType = 'DST'
 DaVinci().DataType = '2012'
-DaVinci().EvtMax = 10
-# DaVinci().EvtMax = -1
+# DaVinci().EvtMax = 10
+DaVinci().EvtMax = -1
 DaVinci().SkipEvents = 0
 DaVinci().PrintFreq = 100
 
