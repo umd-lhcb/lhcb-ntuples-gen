@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Jul 09, 2019 at 09:25 PM -0400
+# Last Change: Wed Jul 10, 2019 at 01:31 AM -0400
 
 #####################
 # Configure DaVinci #
@@ -10,18 +10,20 @@ from Configurables import DaVinci
 
 DaVinci().InputType = 'DST'
 DaVinci().DataType = '2012'
-DaVinci().EvtMax = -1
+DaVinci().EvtMax = 10
+# DaVinci().EvtMax = -1
 DaVinci().SkipEvents = 0
-DaVinci().Simulation = False
-
 DaVinci().PrintFreq = 100
 
-# Output filenames
-DaVinci().TupleFile = './gen/YCands.root'
-# DaVinci().HistogramFile = './gen/YCands_hist.root'
+# By default, DaVinci().Simulation is set to False.
+# DaVinci().Simulation = False
 
 # Only ask for luminosity information when not using simulated data
 DaVinci().Lumi = not DaVinci().Simulation
+
+# Output filenames
+DaVinci().TupleFile = './gen/YCands.root'
+# DaVinci().HistogramFile = './gen/YCands_histo.root'
 
 
 ###################################
@@ -34,7 +36,8 @@ DaVinci().Lumi = not DaVinci().Simulation
 
 from Configurables import ChargedProtoParticleMaker
 from Configurables import NoPIDsParticleMaker
-from Configurables import TrackScaleState as TrkSS
+from Configurables import TrackScaleState
+from Configurables import TrackSmearState
 
 # Provide required information for Greg's TupleTool.
 ms_velo_protos = ChargedProtoParticleMaker(name='MyProtoPMaker')
@@ -48,10 +51,17 @@ ms_velo_pions.Input = 'Rec/ProtoP/MyProtoPMaker/ProtoParticles'
 # According to the source code (available in 'Analysis/Phys/DaVinciTrackScaling/src/TrackScaleState.cpp'):
 # Scale the state. Use on DST to scale the track states *before* your user
 # algorithms sequence.
-ms_scaler = TrkSS('StateScale')
+ms_scale = TrackScaleState('StateScale')
+
+ms_smear = TrackSmearState('StateSmear')
 
 
-DaVinci().appendToMainSequence([ms_velo_protos, ms_velo_pions, ms_scaler])
+DaVinci().appendToMainSequence([ms_velo_protos, ms_velo_pions])
+
+if not DaVinci().Simulation:
+    DaVinci().appendToMainSequence([ms_scale])
+else:
+    DaVinci().appendToMainSequence([ms_smear])
 
 
 ######################
@@ -332,21 +342,26 @@ sel_refit_b2DstMu_ws_Pi = Selection(
 
 from PhysSelPython.Wrappers import SelectionSequence
 
+if not DaVinci().Simulation:
+    event_pre_selectors = [fltr_hlt, fltr_strip]
+else:
+    event_pre_selectors = [fltr_hlt, fltr_strip]
+
 seq_Y = SelectionSequence(
     'SeqMyY',
-    EventPreSelector=[fltr_hlt, fltr_strip],
+    EventPreSelector=event_pre_selectors,
     TopSelection=sel_refit_b2DstMu
 )
 
 seq_Y_ws_Mu = SelectionSequence(
     'SeqMyYWSMu',
-    EventPreSelector=[fltr_hlt, fltr_strip],
+    EventPreSelector=event_pre_selectors,
     TopSelection=sel_refit_b2DstMu_ws_Mu
 )
 
 seq_Y_ws_Pi = SelectionSequence(
     'SeqMyYWSPi',
-    EventPreSelector=[fltr_hlt, fltr_strip],
+    EventPreSelector=event_pre_selectors,
     TopSelection=sel_refit_b2DstMu_ws_Pi
 )
 
@@ -360,12 +375,19 @@ DaVinci().UserAlgorithms += [seq_Y.sequence(),
 # Define n-tuples #
 ###################
 
+# Tools for data
 from Configurables import DecayTreeTuple
 from Configurables import TupleToolApplyIsolation
 from Configurables import TupleToolTagDiscardDstMu
 from Configurables import TupleToolANNPIDTraining
 from Configurables import TupleToolTauMuDiscrVars
 from DecayTreeTuple.Configuration import *  # for addTupleTool
+
+# Additional tools for MC
+from Configurables import TupleToolMCTruth
+from Configurables import TupleToolKinematic
+from Configurables import TupleToolMCBackgroundInfo
+from Configurables import BackgroundCategory
 
 
 def tuple_initializer(name, sel_seq, decay):
@@ -376,7 +398,7 @@ def tuple_initializer(name, sel_seq, decay):
     return tp
 
 
-def tuple_postpocess(tp, weights='./weights_soft.xml'):
+def tuple_postpocess_data(tp, weights='./weights_soft.xml'):
     tp.Y.addTool(TupleToolTagDiscardDstMu, name='TupleMyDiscardDstMu')
     tp.Y.ToolList += ['TupleToolTagDiscardDstMu/TupleMyDiscardDstMu']
 
@@ -388,6 +410,18 @@ def tuple_postpocess(tp, weights='./weights_soft.xml'):
     tp.Y.ToolList += ['TupleToolTauMuDiscrVars/TupleMyRFA']
 
     tp.muplus.ToolList += ['TupleToolANNPIDTraining']
+
+
+def tuple_postpocess_mc(tp):
+    truth = tp.addTupleTool('TupleToolMCTruth')
+    truth.ToolList = [
+        'MCTupleToolKinematic',
+        'MCTupleToolHierarchy'
+    ]
+
+
+if not DaVinci().Simulation:
+    tuple_postpocess = tuple_postpocess_data
 
 
 # Y ############################################################################
