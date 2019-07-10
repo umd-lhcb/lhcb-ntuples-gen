@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Jul 10, 2019 at 04:22 PM -0400
+# Last Change: Wed Jul 10, 2019 at 04:35 PM -0400
 
 #####################
 # Configure DaVinci #
@@ -22,8 +22,12 @@ DaVinci().PrintFreq = 100
 DaVinci().Lumi = not DaVinci().Simulation
 
 # Output filenames
-DaVinci().TupleFile = './gen/YCands.root'
-# DaVinci().HistogramFile = './gen/YCands_histo.root'
+if not DaVinci().Simulation:
+    DaVinci().TupleFile = './gen/YCands-data.root'
+    DaVinci().HistogramFile = './gen/YCands_histo-data.root'
+else:
+    DaVinci().TupleFile = './gen/YCands-mc.root'
+    DaVinci().HistogramFile = './gen/YCands_histo-mc.root'
 
 
 ###################################
@@ -157,8 +161,9 @@ sel_charged_Mu = Selection(
 from Configurables import CombineParticles
 
 algo_mcMatch_Preambulo = [
+    'from LoKiMC.functions import *',
     'from LoKiPhysMC.decorators import *',
-    'from LoKiPhysMC.functions import mcMatch'
+    'from LoKiPhysMC.functions import *'
 ]
 
 # D0 ###########################################################################
@@ -575,8 +580,7 @@ else:
 from Configurables import ReadHltReport
 
 if DaVinci().Simulation:
-    DaVinci().UserAlgorithms += [ReadHltReport(
-        RequiredObjects=[seq_Y.outputLocation()])]
+    DaVinci().UserAlgorithms += [ReadHltReport()]
 
 
 ####################
@@ -594,6 +598,6 @@ if not DaVinci().Simulation:
 
 else:
     IOHelper().inputFiles([
-        './data/mc-py6-sim08a-mag_down/00028778_00000009_1.dsttaunu.safestriptrig.dst'
-        './data/mc-py6-sim08a-mag_down/00028778_00000010_1.dsttaunu.safestriptrig.dst'
+        './data/mc-py6-sim08a-mag_down/00028778_00000009_1.dsttaunu.safestriptrig.dst',
+        './data/mc-py6-sim08a-mag_down/00028778_00000010_1.dsttaunu.safestriptrig.dst',
     ], clear=True)
