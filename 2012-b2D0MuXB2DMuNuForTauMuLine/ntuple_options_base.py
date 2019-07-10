@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Jul 10, 2019 at 03:11 PM -0400
+# Last Change: Wed Jul 10, 2019 at 04:22 PM -0400
 
 #####################
 # Configure DaVinci #
@@ -574,7 +574,6 @@ else:
 
 from Configurables import ReadHltReport
 
-
 if DaVinci().Simulation:
     DaVinci().UserAlgorithms += [ReadHltReport(
         RequiredObjects=[seq_Y.outputLocation()])]
@@ -586,8 +585,15 @@ if DaVinci().Simulation:
 
 from GaudiConf import IOHelper
 
-IOHelper().inputFiles([
-    './data/mag_down/00041836_00006100_1.semileptonic.dst',  # 95 MB
-    './data/mag_down/00041836_00011435_1.semileptonic.dst',  # 1.3 GB
-    './data/mag_down/00041836_00013110_1.semileptonic.dst',  # 2.9 GB
-], clear=True)
+if not DaVinci().Simulation:
+    IOHelper().inputFiles([
+        './data/data-mag_down/00041836_00006100_1.semileptonic.dst',  # 95 MB
+        './data/data-mag_down/00041836_00011435_1.semileptonic.dst',  # 1.3 GB
+        './data/data-mag_down/00041836_00013110_1.semileptonic.dst',  # 2.9 GB
+    ], clear=True)
+
+else:
+    IOHelper().inputFiles([
+        './data/mc-py6-sim08a-mag_down/00028778_00000009_1.dsttaunu.safestriptrig.dst'
+        './data/mc-py6-sim08a-mag_down/00028778_00000010_1.dsttaunu.safestriptrig.dst'
+    ], clear=True)
