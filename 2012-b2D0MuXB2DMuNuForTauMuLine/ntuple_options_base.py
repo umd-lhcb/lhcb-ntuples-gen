@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Jul 10, 2019 at 04:37 PM -0400
+# Last Change: Wed Jul 10, 2019 at 04:48 PM -0400
 
 #####################
 # Configure DaVinci #
@@ -14,9 +14,6 @@ DaVinci().DataType = '2012'
 DaVinci().EvtMax = -1
 DaVinci().SkipEvents = 0
 DaVinci().PrintFreq = 100
-
-# By default, DaVinci().Simulation is set to False.
-# DaVinci().Simulation = False
 
 # Only ask for luminosity information when not using simulated data
 DaVinci().Lumi = not DaVinci().Simulation
