@@ -4,14 +4,13 @@ from Configurables import DaVinci, LHCbApp, CombineParticles
 from PhysSelPython.Wrappers import MergedSelection, Selection, SelectionSequence, DataOnDemand, AutomaticData
 from Configurables import CheckPV
 from Configurables import ReadHltReport
-from Configurables import LoKi__Hybrid__TupleTool as lokitool
+from Configurables import LoKi__Hybrid__TupleTool
 from Configurables import LoKi__HDRFilter as HDRFilter
 from Configurables import ChargedProtoParticleMaker
 from Configurables import ProtoParticleCALOFilter
 from Configurables import CombinedParticleMaker
 from Configurables import NoPIDsParticleMaker
 from Configurables import TupleToolApplyIsolation
-from Configurables import TupleToolApplyIsolationDD
 from CommonParticles.Utils import *
 
 DaVinci()
@@ -28,13 +27,13 @@ trigfltr = HDRFilter('TriggeredD0', Code = "HLT_PASS('Hlt2CharmHadD02HH_D02KPiDe
 DaVinci().HistogramFile = "YCandTauHistos.root"
 DaVinci().TupleFile = "YCands.root"
 DaVinci().DataType = "2012"
-DaVinci().EvtMax = -1#500#50000#500
+DaVinci().EvtMax = 250
 DaVinci().SkipEvents = 0
-DaVinci().PrintFreq = 50
+DaVinci().PrintFreq = 100
 DaVinci().Simulation = True
 #DaVinci().EventPreFilters/ = [CheckPV()]
 #importOptions('Dstmunu_filteredMC.py')
-#from Configurables import CondDB
+from Configurables import CondDB
 #CondDB().useLatestTags("2012")
 
 #MessageSvc().OutputLevel = DEBUG
@@ -42,8 +41,8 @@ DaVinci().Simulation = True
 #LHCbApp().DDDBtag = "dddb-20130503-1"
 #LHCbApp().CondDBtag = "sim-20130503-1-vc-md100"
 
-mufake=False
-
+line = 'Bd2DstarMuNuTight'
+location = '/Event/Semileptonic/Phys/'+line+'/Particles'
 
 from Configurables import TrackSmearState
 
@@ -75,21 +74,13 @@ mulist = Selection("TISMuons", Algorithm=myTagger, RequiredSelections=[mulist_pr
 #D0#
 _MyD0 = CombineParticles("MyD0")
 _MyD0.Preambulo += ["from LoKiPhysMC.decorators import *",
-                   "from LoKiMC.functions import *",
-                   "from LoKiPhysMC.functions import *"]
+                   "from LoKiPhysMC.functions import mcMatch"]
 _MyD0.DecayDescriptor = "[D0 -> K- pi+]cc"
-_MyD0.DaughtersCuts = {"K+" : "(mcMatch('[^K+]CC')) & (MIPCHI2DV(PRIMARY)> 45.0) & (P>2.0*GeV) & (PT > 300.0 *MeV) & (TRGHOSTPROB < 0.5) & (MCSELMATCH(MCNINANCESTORS(BEAUTY) > 0))",
-                       "pi-" : "(PT > 300*MeV) & (P>2.0*GeV) & (PT > 300.0 *MeV)& (MIPCHI2DV(PRIMARY)> 45.0) & (TRGHOSTPROB < 0.5) & (MCSELMATCH(MCNINANCESTORS(BEAUTY) > 0))"
+_MyD0.DaughtersCuts = {"K+" : "(mcMatch('[^K+]CC')) & (PT > 300*MeV) & (MIPCHI2DV(PRIMARY)>45.0) & (TRCHI2DOF < 4)",
+                       "pi-" : "(PT > 300*MeV) & (MIPCHI2DV(PRIMARY)>45.0) & (TRCHI2DOF < 4)"
                        }
-#_MyD0.DaughtersCuts = {"K+" : "(mcMatch('[^K+]CC')) & (MIPCHI2DV(PRIMARY)> 45.0) & (PT > 300.0 *MeV)",
-#                       "pi-" : " (PT > 300.0 *MeV)& (MIPCHI2DV(PRIMARY)> 45.0)"
-#                       }
-if(mufake):
-	_MyD0.DaughtersCuts = {"K+" : "(mcMatch('[^K+]CC')) & (MIPCHI2DV(PRIMARY)> 5.0) & (P>2.0*GeV) & (PT > 300.0 *MeV) & (TRGHOSTPROB < 0.5) & (MCSELMATCH(MCNINANCESTORS(BEAUTY) > 0))",
-        	               "pi-" : "(PT > 300*MeV) & (P>2.0*GeV) & (PT > 300.0 *MeV)& (MIPCHI2DV(PRIMARY)> 5.0) & (TRGHOSTPROB < 0.5) & (MCSELMATCH(MCNINANCESTORS(BEAUTY) > 0))"
-                	       }
-_MyD0.CombinationCut = "(ADAMASS('D0') < 100.0 *MeV) & (ACHILD(PT,1)+ACHILD(PT,2) > 1400.0 *MeV)"
-_MyD0.MotherCut = "(mcMatch('[Charm ->K- pi+ {gamma}{gamma}{gamma}]CC')) & (SUMTREE( PT, ISBASIC )> 1400.0 * MeV) &(ADMASS('D0') < 80.0 *MeV) & (VFASPF(VCHI2/VDOF) < 4.0) & (BPVVDCHI2 > 250.0) & (BPVDIRA> 0.9998)"
+_MyD0.CombinationCut = "(ADAMASS('D0') < 200*MeV) & (ACHILD(PT,1)+ACHILD(PT,2) > 1*GeV)"
+_MyD0.MotherCut = "(mcMatch('[Charm ->K- pi+ {gamma}{gamma}{gamma}]CC')) & (ADMASS('D0') < 100*MeV) & (VFASPF(VCHI2/VDOF) < 100) & (BPVVDCHI2 > 250.0) & (BPVDIRA > 0.9998)"
 
 SelMyD0 = Selection("SelMyD0",Algorithm = _MyD0, RequiredSelections = [chargedK, chargedPi])
 
@@ -142,18 +133,14 @@ from Configurables import LoKi__Hybrid__PlotTool as PlotTool
 #Bd#
 _MyBd = CombineParticles("MyBu")
 _MyBd.Preambulo += ["from LoKiPhysMC.decorators import *",
-                   "from LoKiPhysMC.functions import *"]
-_MyBd.DecayDescriptor = "[B- -> D0 mu-]cc"
+                   "from LoKiPhysMC.functions import mcMatch"]
+_MyBd.DecayDescriptor = "[B~0 -> D*(2010)+ mu-]cc"
 #_MyBd.HistoProduce = True
 #_MyBd.addTool(PlotTool("MotherPlots"))
 #_MyBd.MotherPlots.Histos = { "AMAXDOCA(FLATTEN((ABSID=='D0') | (ABSID=='mu-')))" : ("DOCA",0,2)}
-_MyBd.DaughtersCuts = {"mu-" : "(mcMatch('[^mu+]CC')) & (MIPCHI2DV(PRIMARY)> 45.0) &(TRGHOSTPROB < 0.5) & (P> 3.0*GeV) & (MCSELMATCH(MCNINANCESTORS(BEAUTY) > 0))"}
-#_MyBd.DaughtersCuts = {"mu-" : "(mcMatch('[^mu+]CC')) & (MIPCHI2DV(PRIMARY)> 45.0) "}
-if(mufake):
-	_MyBd.DaughtersCuts = {"mu-" : "(MIPCHI2DV(PRIMARY)> 5.0) & (TRGHOSTPROB < 0.5) & (P> 3.0*GeV)"}
-#_MyBd.DaughtersCuts = {"mu-" : "(mcMatch('[^mu+]CC')) & (TRGHOSTPROB < 0.5) & (MIPCHI2DV(PRIMARY)>45) & (TRCHI2DOF < 3.0)"}
-_MyBd.CombinationCut = "(AM < 10.2*GeV)"
-_MyBd.MotherCut = "(MM<10.0*GeV) & (MM>0.0*GeV) & (VFASPF(VCHI2/VDOF)< 6.0) & (BPVDIRA> 0.9995)"
+_MyBd.DaughtersCuts = {"mu-" : "(mcMatch('[^mu+]CC')) & (TRGHOSTPROB < 0.5) & (MIPCHI2DV(PRIMARY)>45) & (TRCHI2DOF < 3.0)"}
+_MyBd.CombinationCut = "(AM < 5650*MeV)"
+_MyBd.MotherCut = "(M < 5400*MeV) & (BPVDIRA > 0.9995) & (VFASPF(VCHI2/VDOF)<8)"
 
 #BdWS
 _MyWSBd = CombineParticles("MyWSBd")
@@ -162,10 +149,16 @@ _MyWSBd.DaughtersCuts = {"mu+" : "(PT > 100*MeV) & (P > 1*GeV) & (MIPCHI2DV(PRIM
 _MyWSBd.CombinationCut = "(AM < 5650*MeV)"
 _MyWSBd.MotherCut = "(M < 5400*MeV) & (BPVDIRA > 0.9995)"
 
+#Bd3pi
+_MyB2DstPiPiPi = CombineParticles("MyDstPiPiPi")
+_MyB2DstPiPiPi.DecayDescriptor = "[B*_00 -> B0 pi+ pi-]cc"
+_MyB2DstPiPiPi.DaughtersCuts = {"pi+" : "(TRGHOSTPROB < 0.5) & (MIPCHI2DV(PRIMARY) > 4)"}
+_MyB2DstPiPiPi.CombinationCut = "(AM < 5700*MeV) & (AM > 4800*MeV)"
+_MyB2DstPiPiPi.MotherCut = "(M < 5500*MeV) & (M > 5000*MeV) & (BPVDIRA > 0.9995) & (VFASPF(VCHI2/VDOF) < 6)"
 
-SelMyBd = Selection("SelMyBd", Algorithm = _MyBd, RequiredSelections = [SelMyD0, mulist_pre])
-refitB = FitDecayTrees("refitB", Code = "DECTREE('[B- -> (D0->K- pi+) mu-]CC')", UsePVConstraint = False, Inputs = [SelMyBd.outputLocation()])
-DTFSelB = Selection("DTFSelB", Algorithm = refitB, RequiredSelections = [SelMyBd])
+
+#SelMyBd = Selection("SelMyBd", Algorithm = _MyBd, RequiredSelections = [DTFSel, mulist_pre])
+SelMyBd = Selection("SelMyBd", Algorithm = _MyBd, RequiredSelections = [SelMyDst, mulist_pre])
 
 SelMyWSBd = Selection("SelMyWSBd", Algorithm = _MyWSBd, RequiredSelections = [DTFSel, mulist_pre])
 
@@ -175,14 +168,18 @@ MySelectionWS = SeqYMaker2.sequence()
 
 from Configurables import FitDecayTrees
 
-#refitB2Dstmu = FitDecayTrees("refitB2Dstmu", Code = "DECTREE('[B~0 -> D*(2010)+ mu- ]CC')", UsePVConstraint = False, Inputs = [SelMyBd.outputLocation()])
-#YDTFSel = Selection("YDTFSel", Algorithm = refitB2Dstmu, RequiredSelections = [SelMyBd])
+refitB2Dstmu = FitDecayTrees("refitB2Dstmu", Code = "DECTREE('[B~0 -> (D*(2010)+ -> (D0->K- pi+) pi+) mu- ]CC')", UsePVConstraint = False, Inputs = [SelMyBd.outputLocation()])
+YDTFSel = Selection("YDTFSel", Algorithm = refitB2Dstmu, RequiredSelections = [SelMyBd])
 
-#refitB2Dmu = FitDecayTrees("refitB2Dmu", Code = "DECTREE('[B- -> D0 mu- ]CC')", UsePVConstraint = False, Inputs = [SelMyBd.outputLocation()])
-#YDTFSel2 = Selection("YDTFSel2", Algorithm = refitB2Dmu, RequiredSelections = [SelMyBd])
-
-SeqYMaker = SelectionSequence('SeqYMaker', TopSelection = DTFSelB)#, EventPreSelector=[fltr])
+#SeqYMaker = SelectionSequence('SeqYMaker', TopSelection = SelMyBd)#, EventPreSelector=[fltr])
+SeqYMaker = SelectionSequence('SeqYMaker', TopSelection = YDTFSel)#, EventPreSelector=[fltr])
 MySelection = SeqYMaker.sequence()
+
+SelMyB2DstPiPiPi = Selection("SelMyB2DstPiPiPi",Algorithm = _MyB2DstPiPiPi, RequiredSelections = [chargedPi, SelMyBd])
+
+SeqBdMaker = SelectionSequence('SeqBdMaker', EventPreSelector = [], TopSelection = SelMyB2DstPiPiPi)
+MySelectionB2DstPiPiPi = SeqBdMaker.sequence()
+
 
 algorithm = NoPIDsParticleMaker('StdNoPIDsVeloPions', Particle = 'pion')
 algorithm.Input = "Rec/ProtoP/myProtoPMaker/ProtoParticles"
@@ -198,82 +195,89 @@ tuple.ToolList += [
     "TupleToolKinematic",
     "TupleToolTrackInfo",
     "TupleToolAngles",
-    "TupleToolPid"
+    "TupleToolPid",
+    "TupleToolMuonPid",
+    "TupleToolL0Calo"
    ]
-from Configurables import TupleToolMCTruth, TupleToolMCBackgroundInfo, BackgroundCategory, TupleToolKinematic, TupleToolTagDiscardDstMu, TupleToolApplyIsolationVetoDst
+from Configurables import TupleToolMCTruth, TupleToolMCBackgroundInfo, BackgroundCategory, TupleToolKinematic, TupleToolTagDiscardDstMu
 from Configurables import LoKi__Hybrid__EvtTupleTool as LoKiEvtTool
 TTMCBI = tuple.addTupleTool("TupleToolMCBackgroundInfo")
 TTMCBI.addTool(BackgroundCategory, name="BackgroundCategory")
 TTMCBI.BackgroundCategory.SemileptonicDecay = True
 TTMCBI.BackgroundCategory.NumNeutrinos=3
 tuple.addTupleTool("TupleToolTISTOS")
-tuple.TupleToolTISTOS.TriggerList = ['L0MuonDecision','L0HadronDecision','Hlt2CharmHadD02HH_D02KPiDecision','Hlt1TrackAllL0Decision']
+tuple.TupleToolTISTOS.TriggerList = ['L0MuonDecision','L0HadronDecision','Hlt1TrackAllL0Decision','Hlt2CharmHadD02HH_D02KPiDecision']
 tuple.TupleToolTISTOS.VerboseHlt2 = True
 tuple.TupleToolTISTOS.VerboseHlt1 = True
 tuple.TupleToolTISTOS.VerboseL0 = True
-tuple.Decay = "[B- -> ^(D0 -> ^K- ^pi+) ^mu-]CC"
+#isol=tuple.addTupleTool("TupleToolTrackIsolation/Isolation")
+#isol.FillAsymmetry = True
+#isol.MinConeAngle=0.6
+#isol.MaxConeAngle=1.0
+#isol.StepSize=0.2
+tuple.Decay = "[B~0 -> ^(D*(2010)+ -> ^(D0 -> ^K- ^pi+) ^pi+) ^mu-]CC"
 tuple.Inputs = [SeqYMaker.outputLocation()]
 tuple.addBranches({
-    "Y" : "^([B- -> (D0 -> K- pi+) mu-]CC)",
-    "D0" : "[B- -> ^(D0 -> K- pi+) mu-]CC",
-    "piminus0" : "[B- -> (D0 -> K- ^pi+) mu-]CC",
-    "Kplus" : "[B- -> (D0 -> ^K- pi+) mu-]CC",
-    "muplus" : "[B- -> (D0 -> K- pi+) ^mu-]CC"})
-if(mufake==False):
-	tuple.Y.addTool(TupleToolApplyIsolationVetoDst,name="TupleToolApplyIsolationSoft")
-	tuple.Y.TupleToolApplyIsolationSoft.WeightsFile="weightsSoft.xml"
-	tuple.Y.TupleToolApplyIsolationSoft.TrueIDs=True
-	tuple.Y.ToolList+=["TupleToolApplyIsolationVetoDst/TupleToolApplyIsolationSoft"]
-	#tuple.Y.addTool(TupleToolApplyIsolationDD, name="TTAISDD")
-	#tuple.Y.TTAISDD.OutputSuffix="DD"
-	#tuple.Y.TTAISDD.WeightsFile="weightsDD.xml"
-	#tuple.Y.ToolList+=["TupleToolApplyIsolationDD/TTAISDD"]
+    "Y" : "^([B~0 -> (D*(2010)+ -> (D0 -> K- pi+) pi+) mu-]CC)",
+    "D0" : "[B~0 -> (D*(2010)+ -> ^(D0 -> K- pi+) pi+) mu-]CC",
+    "piminus" : "[B~0 -> (D*(2010)+ -> (D0 -> K- pi+) ^pi+) mu-]CC",
+    "piminus0" : "[B~0 -> (D*(2010)+ -> (D0 -> K- ^pi+) pi+) mu-]CC",
+    "Kplus" : "[B~0 -> (D*(2010)+ -> (D0 -> ^K- pi+) pi+) mu-]CC",
+    "muplus" : "[B~0 -> (D*(2010)+ -> (D0 -> K- pi+) pi+) ^mu-]CC"})
+tuple.Y.addTool(TupleToolTagDiscardDstMu,name="MyDiscardDstMu")
+tuple.Y.ToolList+=["TupleToolTagDiscardDstMu/MyDiscardDstMu"]
+tuple.Y.addTool(TupleToolApplyIsolation,name="TupleToolApplyIsolationSoft")
+tuple.Y.TupleToolApplyIsolationSoft.WeightsFile="weightsSoft.xml"
+tuple.Y.ToolList+=["TupleToolApplyIsolation/TupleToolApplyIsolationSoft"]
+
 tuple.addTupleTool(LoKiEvtTool,"LHETT")
 tuple.LHETT.Preambulo += ["from LoKiCore.functions import *"]
 tuple.LHETT.VOID_Variables = {
     "nTracks" : "CONTAINS ('Rec/Track/Best')",
     "nSPDhits" : "CONTAINS('Raw/Spd/Digits')"
     }
-#tuple.Y.addTupleTool("TupleToolDecayTreeFitter/DTF")
-#tuple.Y.DTF.constrainToOriginVertex=False
-#tuple.Y.DTF.Verbose=True
-#tuple.Y.DTF.UpdateDaughters=True
-#tuple.muplus.addTupleTool(lokitool,"TTinfo")
-#tuple.muplus.TTinfo.Variables = {"hasTT" : "TrHASTT",
-#                    "isTT" : "0 < TrIDC('isTT')"}
-#tuple.Y.addTupleTool(lokitool,"MoreMC")
-#tuple.Y.MoreMC.Preambulo += ["from LoKiPhysMC.decorators import *",
-#                   "from LoKiPhysMC.functions import *"]
-#tuple.Y.MoreMC.Variables= {
-#			"isDD" : "switch(mcMatch('([ (Beauty) --> (D~0) Xc ... ]CC) '),1,0)"
-#			}
-tuple.Kplus.ToolList+=["TupleToolL0Calo"]
-tuple.piminus0.ToolList+=["TupleToolL0Calo"]
-
-#tuple.Kplus.addTupleTool(lokitool,"KfromB")
-#tuple.Kplus.KfromB.Preambulo= ["from LoKiPhysMC.decorators import *",
-#                   "from LoKiMC.functions import *",
-#                   "from LoKiPhysMC.functions import *"]
-#tuple.Kplus.KfromB.Variables={ "fromB" : "switch(MCSELMATCH(MCNINANCESTORS(BEAUTY) > 0),1,0)"}
-
-#tuple.piminus0.addTupleTool(lokitool,"pifromB")
-#tuple.piminus0.pifromB.Preambulo=tuple.Kplus.KfromB.Preambulo
-#tuple.piminus0.pifromB.Variables={ "fromB" : "switch(MCSELMATCH(MCNINANCESTORS(BEAUTY) > 0),1,0)"}
-
-#tuple.muplus.addTupleTool(lokitool,"mufromB")
-#tuple.muplus.mufromB.Preambulo=tuple.Kplus.KfromB.Preambulo
-#tuple.muplus.mufromB.Variables={ "fromB" : "switch(MCSELMATCH(MCNINANCESTORS(BEAUTY) > 0),1,0)"}
-if(mufake):
-	tuple.muplus.ToolList+=["TupleToolANNPIDTraining"]
 truth=tuple.addTupleTool('TupleToolMCTruth')
 truth.ToolList =  [
           "MCTupleToolKinematic",
           "MCTupleToolHierarchy"
           ]
 
+TuplePiPiPi = DecayTreeTuple("B2DstPiPiPi")
+TuplePiPiPi.ToolList+=[
+    "TupleToolKinematic",
+    "TupleToolTrackInfo"
+]
+TTMCBI2 = TuplePiPiPi.addTupleTool("TupleToolMCBackgroundInfo")
+TTMCBI2.addTool(BackgroundCategory, name="BackgroundCategory")
+#TTMCBI2.BackgroundCategory.SemileptonicDecay = True
+#TTMCBI2.BackgroundCategory.NumNeutrinos=3
+TuplePiPiPi.addTupleTool(LoKiEvtTool,"LHETTPiPiPi")
+TuplePiPiPi.LHETTPiPiPi.Preambulo += ["from LoKiCore.functions import *"]
+TuplePiPiPi.LHETTPiPiPi.VOID_Variables = {
+    "nTracks" : "CONTAINS ('Rec/Track/Best')"
+    }
+TuplePiPiPi.addTupleTool("TupleToolTISTOS")
+TuplePiPiPi.TupleToolTISTOS.TriggerList = ['L0MuonDecision','L0HadronDecision','Hlt2CharmHadD02HH_D02KPiDecision']
+TuplePiPiPi.Inputs = [SeqBdMaker.outputLocation()]
+TuplePiPiPi.Decay = "[B*_0~0 -> (^B~0 -> (^D*(2010)+ -> (^D0 => ^K- ^pi+) ^pi+) ^mu-) ^pi+ ^pi-]cc"
+
+TuplePiPiPi.addBranches({
+    "Y" : "[B0]cc : [B0 -> (D*(2010)- -> (D0 -> K- pi+) pi-)]cc",
+    "D0" : "[D0]cc : [B0 -> (D*(2010)- -> (^D0 -> K- pi+) pi-)]cc",
+    "piminus" : "[B0 -> (D*(2010)- => (D0 -> K- pi+) ^pi-) mu-]cc",
+    "piminus0" : "[B0 -> (D*(2010)- => (D0 -> K- ^pi+) pi-) mu-]cc",
+    "Kplus" : "[K-]cc : [B0 -> (D*(2010)- => (D0 -> ^K- pi+) pi-)]cc",
+    "muplus" : "[[B0]cc -> D*(2010)- ^mu-]cc"})
+
+truth2=TuplePiPiPi.addTupleTool('TupleToolMCTruth')
+truth2.ToolList =  [
+          "MCTupleToolKinematic",
+          "MCTupleToolHierarchy"
+          ]
+
 
 #DaVinci().appendToMainSequence([smear,MyPreSelection, MyWSPreSelection, MySelection, tuple, ReadHltReport()])
-DaVinci().appendToMainSequence([smear,MySelection, tuple, ReadHltReport(RequireObjects=[SeqYMaker.outputLocation()])])
+DaVinci().appendToMainSequence([smear,MySelection, tuple, ReadHltReport()])
 
 #appConf=ApplicationMgr(OutputLevel=INFO, AppName='myBrunel')
 
