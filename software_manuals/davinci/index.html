@@ -806,7 +806,7 @@ writable layer is placed on top of the image.</p>
 </div>
 <h3 id="use-davinci-inside-container">Use DaVinci inside container</h3>
 <p>The command is very similar to the one used on <code>lxplus</code>:
-<div class="codehilite"><pre><span></span><span class="n">lb</span><span class="o">-</span><span class="n">run</span> <span class="n">DaVinci</span><span class="o">/</span><span class="n">latest</span> <span class="n">gaudirun</span><span class="p">.</span><span class="n">py</span> <span class="n">ntuple_options</span><span class="p">.</span><span class="n">py</span>
+<div class="codehilite"><pre><span></span><span class="n">lb</span><span class="o">-</span><span class="n">run</span> <span class="n">DaVinci</span><span class="o">/</span><span class="n">latest</span> <span class="n">gaudirun</span><span class="p">.</span><span class="n">py</span> <span class="o">&lt;</span><span class="n">ntuple_options1</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">ntuple_options2</span><span class="o">&gt;</span> <span class="p">...</span>
 </pre></div>
 since we have only 1 version of <code>DaVinci</code> inside the container,
 <code>DaVinci/latest</code> would always work.</p>
@@ -815,7 +815,7 @@ since we have only 1 version of <code>DaVinci</code> inside the container,
 that contains additional <code>TupleTool</code><sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup> for semileptonic analysis.
 To access the special <code>DaVinci</code>, just substitute <code>lb-run DaVinci/latest</code> with
 <code>run</code>. For instance:
-<div class="codehilite"><pre><span></span><span class="n">run</span> <span class="n">gaudirun</span><span class="p">.</span><span class="n">py</span> <span class="n">ntuple_options</span><span class="p">.</span><span class="n">py</span>
+<div class="codehilite"><pre><span></span><span class="n">run</span> <span class="n">gaudirun</span><span class="p">.</span><span class="n">py</span> <span class="o">&lt;</span><span class="n">ntuple_options1</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">ntuple_options2</span><span class="o">&gt;</span> <span class="p">...</span>
 </pre></div></p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -823,8 +823,9 @@ To access the special <code>DaVinci</code>, just substitute <code>lb-run DaVinci
 stripping lines, such as:
 <div class="codehilite"><pre><span></span><span class="o">&lt;</span><span class="n">project_root</span><span class="o">&gt;/</span><span class="mi">2012</span><span class="o">-</span><span class="n">b2D0MuXB2DMuNuForTauMuLine</span><span class="o">/</span><span class="n">gen</span><span class="p">.</span><span class="n">sh</span>
 </pre></div></p>
-<p>If you see this file, just run it inside the <code>docker</code> container:
-<div class="codehilite"><pre><span></span>./run.sh  <span class="c1"># inside docker</span>
+<p>If you see this file, take a look at it to see the availabe commands, and
+run it inside the <code>docker</code> container:
+<div class="codehilite"><pre><span></span>./run.sh &lt;argument1&gt; &lt;argument2&gt; ...  <span class="c1"># inside docker</span>
 </pre></div></p>
 </div>
 <h3 id="remove-old-docker-images">Remove old docker images</h3>
