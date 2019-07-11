@@ -1,11 +1,8 @@
 #!/bin/bash
 
 case $1 in
-    'data')
-        run gaudirun.py ./ntuple_options_data_conf.py ./ntuple_options_base.py
-        ;;
-    'mc')
-        run gaudirun.py ./ntuple_options_mc_conf.py ./ntuple_options_base.py
+    'Dstar')
+        run gaudirun.py ./reco_$1.py ./reco_$1_conf-$2.py
         ;;
     *)
         echo "Unknown argument: ${1}"

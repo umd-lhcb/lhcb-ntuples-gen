@@ -1,6 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sat Jul 06, 2019 at 11:43 PM -0400
+# Last Change: Thu Jul 11, 2019 at 02:53 AM -0400
 
 BINPATH	:=	bin
 SRCPATH	:=	gen
@@ -13,29 +13,29 @@ ADDFLAGS	:=	-Iinclude
 
 .PHONY: all clean
 
-all: 2012-b2D0MuXB2DMuNuForTauMuLine/gen/YCands_postprocess.root
+all: 2012-b2D0MuXB2DMuNuForTauMuLine/gen/YCands_Dstar-data-postprocess.root
 
 clean:
 	@rm -rf $(BINPATH)/*.exe
 	@rm -rf $(SRCPATH)/*
-	@find . -name '*_postprocess.root' -delete
+	@find . -name '*-postprocess.root' -delete
 
 ###################################
 # 2012-b2D0MuXB2DMuNuForTauMuLine #
 ###################################
 
-2012-b2D0MuXB2DMuNuForTauMuLine/gen/YCands_postprocess.root: \
-	2012-b2D0MuXB2DMuNuForTauMuLine/gen/YCands.root \
-	$(BINPATH)/YCands_postprocess.exe
-	$(BINPATH)/YCands_postprocess.exe $< $@
+2012-b2D0MuXB2DMuNuForTauMuLine/gen/YCands_Dstar-data-postprocess.root: \
+	2012-b2D0MuXB2DMuNuForTauMuLine/gen/YCands_Dstar-data.root \
+	$(BINPATH)/YCands_Dstar-data-postprocess.exe
+	$(BINPATH)/YCands_Dstar-data-postprocess.exe $< $@
 
-$(SRCPATH)/YCands_postprocess.cpp: \
-	2012-b2D0MuXB2DMuNuForTauMuLine/ntuple_postprocess.yml \
-	2012-b2D0MuXB2DMuNuForTauMuLine/gen/YCands.root \
+$(SRCPATH)/YCands_Dstar-data-postprocess.cpp: \
+	2012-b2D0MuXB2DMuNuForTauMuLine/postprocess-sample.yml \
+	2012-b2D0MuXB2DMuNuForTauMuLine/gen/YCands_Dstar-data.root \
 	include/functor/*.h
 	babymaker \
 		-i $< -o $@ \
-		-d 2012-b2D0MuXB2DMuNuForTauMuLine/gen/YCands.root
+		-d 2012-b2D0MuXB2DMuNuForTauMuLine/gen/YCands_Dstar-data.root
 
 ####################
 # Generic patterns #
