@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Jul 10, 2019 at 05:51 PM -0400
+# Last Change: Thu Jul 11, 2019 at 02:32 AM -0400
 
 #####################
 # Configure DaVinci #
@@ -48,12 +48,12 @@ ms_scale = TrackScaleState('StateScale')
 ms_smear = TrackSmearState('StateSmear')
 
 
-DaVinci().appendToMainSequence([ms_velo_protos, ms_velo_pions])
-
 if not DaVinci().Simulation:
     DaVinci().appendToMainSequence([ms_scale])
 else:
     DaVinci().appendToMainSequence([ms_smear])
+
+DaVinci().appendToMainSequence([ms_velo_protos, ms_velo_pions])
 
 
 ######################
@@ -169,9 +169,10 @@ algo_D0.DecayDescriptor = '[D0 -> K- pi+]cc'
 # TRGHOSTPROB: track ghost probability
 algo_D0.DaughtersCuts = {
     'K+': '(PT > 300*MeV) & (MIPCHI2DV(PRIMARY) > 45.0) &' +
-          '(TRCHI2DOF < 4) & (PIDK > 4) & (TRGHOSTPROB < 0.5)',
+          '(PIDK > 4) & (TRGHOSTPROB < 0.5)',
+          # '(TRCHI2DOF < 4) & (PIDK > 4) & (TRGHOSTPROB < 0.5)',
     'pi-': '(PT > 300*MeV) & (MIPCHI2DV(PRIMARY) > 45.0) &' +
-           '(TRCHI2DOF < 4) & (PIDK < 2) & (TRGHOSTPROB < 0.5)'
+           '(PIDK < 2) & (TRGHOSTPROB < 0.5)'
 }
 
 # ADAMASS: the absolute mass difference to the PDG reference value, this functor
