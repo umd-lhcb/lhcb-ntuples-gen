@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Jul 11, 2019 at 02:32 AM -0400
+# Last Change: Thu Jul 11, 2019 at 01:28 PM -0400
 
 #####################
 # Configure DaVinci #
@@ -9,8 +9,8 @@
 from Configurables import DaVinci
 
 DaVinci().InputType = 'DST'
-# DaVinci().EvtMax = 10
-DaVinci().EvtMax = -1
+DaVinci().EvtMax = 30
+# DaVinci().EvtMax = -1
 DaVinci().SkipEvents = 0
 DaVinci().PrintFreq = 100
 
@@ -93,7 +93,7 @@ pr_stripped = AutomaticData(
 
 pr_charged_K = AutomaticData(Location='Phys/StdAllNoPIDsKaons/Particles')
 
-pr_charged_pi = AutomaticData(Location='Phys/StdAllNoPIDsPions/Particles')
+pr_charged_Pi = AutomaticData(Location='Phys/StdAllNoPIDsPions/Particles')
 
 pr_all_pi = AutomaticData(Location='Phys/StdAllLoosePions/Particles')
 
@@ -101,6 +101,8 @@ pr_all_pi = AutomaticData(Location='Phys/StdAllLoosePions/Particles')
 # They only added 10% with terrible mass resolution, so they didn't use them in
 # the end.
 # pr_up_pi = AutomaticData(Location='Phys/StdNoPIDsUpPions/Particles')
+
+pr_Mu = AutomaticData(Location='Phys/StdAllNoPIDsMuons/Particles')
 
 
 ############################
@@ -122,24 +124,34 @@ sel_stripped_filtered = Selection(
     RequiredSelections=[pr_stripped]
 )
 
-# NOTE: 'charged' means +/-.
-sel_charged_K = Selection(
+# NOTE: 'stripped' selections require the existence of a stripping line, which
+#       only exists in data, not MC.
+sel_stripped_charged_K = Selection(
     'SelMyChargedK',
     Algorithm=FilterInTrees('MyChargedK', Code="(ABSID == 'K+')"),
     RequiredSelections=[sel_stripped_filtered]
 )
 
-sel_charged_Pi = Selection(
+sel_stripped_Pi = Selection(
     'SelMyChargedPi',
     Algorithm=FilterInTrees('MyChargedPi', Code="(ABSID == 'pi+')"),
     RequiredSelections=[sel_stripped_filtered]
 )
 
-sel_charged_Mu = Selection(
+sel_stripped_Mu = Selection(
     'SelMyChargedMu',
     Algorithm=FilterInTrees('MyChargedMu', Code="(ABSID == 'mu+')"),
     RequiredSelections=[sel_stripped_filtered]
 )
+
+if not DaVinci().Simulation:
+    sel_charged_K = sel_stripped_charged_K
+    sel_charged_Pi = sel_stripped_Pi
+    sel_Mu = sel_stripped_Mu
+else:
+    sel_charged_K = pr_charged_K
+    sel_charged_Pi = pr_charged_Pi
+    sel_Mu = pr_Mu
 
 
 #####################
@@ -310,7 +322,7 @@ sel_Dst = Selection(
 sel_Bd = Selection(
     'SelMyBd',
     Algorithm=algo_Bd,
-    RequiredSelections=[sel_Dst, sel_charged_Mu]
+    RequiredSelections=[sel_Dst, sel_Mu]
 )
 
 sel_refit_b2DstMu = Selection(
@@ -329,7 +341,7 @@ sel_refit_b2DstMu = Selection(
 sel_Bd_ws_Mu = Selection(
     'SelMyBdWSMu',
     Algorithm=algo_Bd_ws_Mu,
-    RequiredSelections=[sel_Dst, sel_charged_Mu]
+    RequiredSelections=[sel_Dst, sel_Mu]
 )
 
 sel_refit_b2DstMu_ws_Mu = Selection(
@@ -353,7 +365,7 @@ sel_Dst_ws = Selection(
 sel_Bd_ws_Pi = Selection(
     'SelMyBdWSPi',
     Algorithm=algo_Bd_ws_Pi,
-    RequiredSelections=[sel_Dst_ws, sel_charged_Mu]
+    RequiredSelections=[sel_Dst_ws, sel_Mu]
 )
 
 sel_refit_b2DstMu_ws_Pi = Selection(
@@ -468,7 +480,7 @@ def tuple_initialize_mc(name, sel_seq, decay):
     tt_truth = tp.addTupleTool('TupleToolMCTruth')
     tt_truth.ToolList = [
         'MCTupleToolKinematic',
-        # 'MCTupleToolHierarchy'
+        'MCTupleToolHierarchy'
     ]
 
     return tp
@@ -496,8 +508,8 @@ if not DaVinci().Simulation:
     tuple_postpocess = tuple_postpocess_data
     tuple_initialize = tuple_initialize_data
 else:
-    tuple_postpocess = tuple_postpocess_mc
-    tuple_initialize = tuple_initialize_mc
+    tuple_postpocess = tuple_postpocess_data
+    tuple_initialize = tuple_initialize_data
 
 
 # Y ############################################################################
