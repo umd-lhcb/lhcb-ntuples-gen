@@ -26,7 +26,7 @@ docker run --rm -it -v `pwd`:/data -e UID=$(id -u) -e GID=$(id -g) --net=host um
 ### Use DaVinci inside container
 The command is very similar to the one used on `lxplus`:
 ```
-lb-run DaVinci/latest gaudirun.py ntuple_options.py
+lb-run DaVinci/latest gaudirun.py <ntuple_options1> <ntuple_options2> ...
 ```
 since we have only 1 version of `DaVinci` inside the container,
 `DaVinci/latest` would always work.
@@ -38,7 +38,7 @@ that contains additional `TupleTool`[^1] for semileptonic analysis.
 To access the special `DaVinci`, just substitute `lb-run DaVinci/latest` with
 `run`. For instance:
 ```
-run gaudirun.py ntuple_options.py
+run gaudirun.py <ntuple_options1> <ntuple_options2> ...
 ```
 
 !!! note
@@ -48,9 +48,10 @@ run gaudirun.py ntuple_options.py
     <project_root>/2012-b2D0MuXB2DMuNuForTauMuLine/gen.sh
     ```
 
-    If you see this file, just run it inside the `docker` container:
+    If you see this file, take a look at it to see the availabe commands, and
+    run it inside the `docker` container:
     ```bash
-    ./run.sh  # inside docker
+    ./run.sh <argument1> <argument2> ...  # inside docker
     ```
 
 
