@@ -42,7 +42,7 @@
 void extract_unique_id(TFile *file);
 std::vector<std::vector<ULong64_t>> convert_to_vec(TFile *file);
 void crossmatch_phoebe_fast(TFile *file1, TFile *file2);
-void compare_branch(TFile *file1, TFile *file2, const char *branch_name1,
+void compare_branch(TFile *file1, TFile *file2, const char *branch_name1, 
   const char *branch_name2);
 
 
@@ -312,7 +312,7 @@ void crossmatch_phoebe_fast(TFile *file1, TFile *file2) {
   delete newfile;
 }
 
-void compare_branch(TFile *file1, TFile *file2, const char *branch_name1
+void compare_branch(TFile *file1, TFile *file2, const char *branch_name1, 
   const char *branch_name2) {
   
   //define the trees for each file
