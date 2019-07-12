@@ -9,7 +9,8 @@ folder.
 | `BCands_D0-data-2012-mag_down.root` | ? | P. Hamilton | `v36r1p2` | `73bfbc7b9d0e1eea19572fa42b28ebc6` |
 | `BCands_Dst-data-2012-mag_down.root` | `newTFYCands_DATA_2012_MD.root` | P. Hamilton | `v36r1p2` | `16c4750761d75b8b37e5bff521139887` |
 | `BCands_Dst-data-2012-mag_down-davinci_v36r1p2-subset.root` | `ycands_dvv36r1p2.root` | P. Hamilton | `v36r1p2` | `fdb64ca03803a363c484934cff338986` |
-| `BCands_Dst-data-2012-mag_down-davinci_v42r8p1-subset.root` | `YCands_Dst-data.root` | Y. Sun | `v42r8p1` | `23348a3bbdbe0ba09b1a3b22f2833614` |
+| `BCands_Dst-data-2012-mag_down-davinci_v42r8p1-subset.root` | N/A | Y. Sun | `v42r8p1` | `23348a3bbdbe0ba09b1a3b22f2833614` |
+| `BCands_Dst-mc-py6-sim08a-mag_down-subset.root` | N/A | Y. Sun | `v42r8p1` | `c71b1386b662a7b9b4bb7002ab89a9b9` |
 
 
 ## _lhcb-ana-2014-052-v2r1_
