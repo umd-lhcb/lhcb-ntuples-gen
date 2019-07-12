@@ -6,9 +6,9 @@ Please refer to [project wiki](https://umd-lhcb.github.io/lhcb-ntuples-gen/) for
 ## Utilities
 In `utils` folder, we have some utility `ROOT` macros.
 
-### `extract_uid.C`
+### `extract_uid.cxx`
 This utility extract shared events between two files that are unique to each
 one of them. To use:
 ```
-root -q -l 'extract_uid.C("file1", "file2", "output", "tree1", "tree2")'
+root -q -l 'extract_uid.cxx("file1", "file2", "output", "tree1", "tree2")'
 ```
