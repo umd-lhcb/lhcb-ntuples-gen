@@ -1,7 +1,7 @@
 #!/bin/bash
 
 case $1 in
-    'Dstar')
+    'Dst')
         run gaudirun.py ./reco_$1_conf-$2.py ./reco_$1.py
         ;;
     *)

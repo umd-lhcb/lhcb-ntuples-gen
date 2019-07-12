@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Jul 11, 2019 at 04:20 PM -0400
+# Last Change: Thu Jul 11, 2019 at 10:44 PM -0400
 
 #####################
 # Configure DaVinci #
@@ -221,8 +221,8 @@ if DaVinci().Simulation:
 # algo_D0.ParticleCombiners.update({'': 'LoKi::VertexFitter'})
 
 
-# Dstar ########################################################################
-algo_Dst = CombineParticles('MyDstar')
+# Dst ##########################################################################
+algo_Dst = CombineParticles('MyDst')
 algo_Dst.DecayDescriptor = '[D*(2010)+ -> D0 pi+]cc'
 
 algo_Dst.DaughtersCuts = {
@@ -235,8 +235,8 @@ algo_Dst.MotherCut = "(ADMASS('D*(2010)+') < 125*MeV) &" + \
                      "(VFASPF(VCHI2/VDOF) < 100)"
 
 
-# DstarWS ######################################################################
-algo_Dst_ws = CombineParticles('MyDstarWS')
+# DstWS ########################################################################
+algo_Dst_ws = CombineParticles('MyDstWS')
 algo_Dst_ws.DecayDescriptor = '[D*(2010)- -> D0 pi-]cc'
 
 algo_Dst_ws.DaughtersCuts = algo_Dst.DaughtersCuts
