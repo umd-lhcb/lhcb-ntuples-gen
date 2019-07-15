@@ -115,27 +115,26 @@ def conf_job_app(davinci_path, options):
 # Main #
 ########
 
-if __name__ == '__main__':
-    args = parse_input()
+args = parse_input()
 
-    if args.type == 'all':
-        modes = list(PARAMETERS.keys())
-    else:
-        modes = [PARAMETERS[args.type]]
+if args.type == 'all':
+    modes = list(PARAMETERS.keys())
+else:
+    modes = [PARAMETERS[args.type]]
 
-    for m in modes:
-        j = Job(name=m)
+for m in modes:
+    j = Job(name=m)
 
-        options = PARAMETERS[m]['options'] + [BASE_OPTION_FILE]
-        app = conf_job_app(args.davinci, options)
-        j.application = app
+    options = PARAMETERS[m]['options'] + [BASE_OPTION_FILE]
+    app = conf_job_app(args.davinci, options)
+    j.application = app
 
-        dirac_path = PARAMETERS[m]['dirac_path'].format(args.polarity)
-        data = BKQuery(dirac_path, dqflag=['OK']).getDataset()
-        j.inputdata = data
+    dirac_path = PARAMETERS[m]['dirac_path'].format(args.polarity)
+    data = BKQuery(dirac_path, dqflag=['OK']).getDataset()
+    j.inputdata = data
 
-        j.backend = Dirac()
-        j.splitter = SplitByFiles(filesPerJob=PARAMETERS[m]['files_per_job'])
-        j.outputfiles = [LocalFile('*.root')]
+    j.backend = Dirac()
+    j.splitter = SplitByFiles(filesPerJob=PARAMETERS[m]['files_per_job'])
+    j.outputfiles = [LocalFile('*.root')]
 
-        j.submit()
+    j.submit()
