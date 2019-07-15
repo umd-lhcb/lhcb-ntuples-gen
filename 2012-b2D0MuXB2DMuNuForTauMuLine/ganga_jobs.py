@@ -1,6 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Jul 15, 2019 at 02:27 AM -0400
+# Last Change: Mon Jul 15, 2019 at 01:07 PM -0400
 
 from argparse import ArgumentParser
 from os.path import expanduser
@@ -12,6 +12,7 @@ from os.path import expanduser
 
 PLATFORM = 'x86_64-centos7-gcc62-opt'
 BASE_OPTION_FILE = './reco_Dst.py'
+WEIGHT_FILE = './weights_soft.xml'
 MC_FILE = "/DSTTAUNU.SAFESTRIPTRIG.DST"
 
 MC_CONDS = {
@@ -115,13 +116,14 @@ else:
 for m in modes:
     j = Job(name=m)
 
-    options = PARAMETERS[m]['options'] + [BASE_OPTION_FILE]
+    options = PARAMETERS[m]['options'] + [BASE_OPTION_FILE] + [WEIGHT_FILE]
     app = conf_job_app(args.davinci, options)
     j.application = app
 
     dirac_path = PARAMETERS[m]['dirac_path'].format(args.polarity)
     data = BKQuery(dirac_path, dqflag=['OK']).getDataset()
-    j.inputdata = data
+    # j.inputdata = data
+    j.inputdata = data[0]  # Running on 1 file only.
 
     j.backend = Dirac()
     j.splitter = SplitByFiles(filesPerJob=PARAMETERS[m]['files_per_job'])
