@@ -1,6 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Jul 15, 2019 at 01:07 PM -0400
+# Last Change: Mon Jul 15, 2019 at 01:12 PM -0400
 
 from argparse import ArgumentParser
 from os.path import expanduser
@@ -116,7 +116,7 @@ else:
 for m in modes:
     j = Job(name=m)
 
-    options = PARAMETERS[m]['options'] + [BASE_OPTION_FILE] + [WEIGHT_FILE]
+    options = PARAMETERS[m]['options'] + [BASE_OPTION_FILE]
     app = conf_job_app(args.davinci, options)
     j.application = app
 
@@ -124,6 +124,9 @@ for m in modes:
     data = BKQuery(dirac_path, dqflag=['OK']).getDataset()
     # j.inputdata = data
     j.inputdata = data[0]  # Running on 1 file only.
+
+    # Provide weight file
+    j.inputfiles = [LocalFile(WEIGHT_FILE)]
 
     j.backend = Dirac()
     j.splitter = SplitByFiles(filesPerJob=PARAMETERS[m]['files_per_job'])
