@@ -120,7 +120,7 @@ args = parse_input()
 if args.type == 'all':
     modes = list(PARAMETERS.keys())
 else:
-    modes = [PARAMETERS[args.type]]
+    modes = [args.type]
 
 for m in modes:
     j = Job(name=m)
