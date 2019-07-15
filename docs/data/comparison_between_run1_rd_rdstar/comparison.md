@@ -28,51 +28,81 @@ occur in both ntuples, and find their:
 [^2]: Based on Phoebe's original script.
 
 ### `D0_P`
-| difference [MeV] | difference (normalized) |
-|---|---|
-| ![](YCands_Dstar-2012-mag_down-data_vs_YCands/D0_P_diff.png) | ![](YCands_Dstar-2012-mag_down-data_vs_YCands/D0_P_diff_norm.png) |
+| difference [MeV] | difference (normalized) | phoebe (original) |
+|---|---|---|
+| ![](YCands_Dstar-2012-mag_down-data_vs_YCands/D0_P_diff.png) | ![](YCands_Dstar-2012-mag_down-data_vs_YCands/D0_P_diff_norm.png) | ![](YCands_Dstar-2012-mag_down-data_vs_YCands/D0_P_phoebe.png) |
 
 ### `Dst_2010_minus_P`
-| difference [MeV] | difference (normalized) |
-|---|---|
-| ![](YCands_Dstar-2012-mag_down-data_vs_YCands/Dst_2010_minus_P_diff.png) | ![](YCands_Dstar-2012-mag_down-data_vs_YCands/Dst_2010_minus_P_diff_norm.png) | ? |
+| difference [MeV] | difference (normalized) | phoebe (original) |
+|---|---|---|
+| ![](YCands_Dstar-2012-mag_down-data_vs_YCands/Dst_2010_minus_P_diff.png) | ![](YCands_Dstar-2012-mag_down-data_vs_YCands/Dst_2010_minus_P_diff_norm.png) |  ![](YCands_Dstar-2012-mag_down-data_vs_YCands/Dst_2010_minus_P_phoebe.png) |
 
 ### `Kplus_P`
-| difference [MeV] | difference (normalized) |
-|---|---|
-| ![](YCands_Dstar-2012-mag_down-data_vs_YCands/Kplus_P_diff.png) | ![](YCands_Dstar-2012-mag_down-data_vs_YCands/Kplus_P_diff_norm.png) |
+| difference [MeV] | difference (normalized) | phoebe (original) |
+|---|---|---|
+| ![](YCands_Dstar-2012-mag_down-data_vs_YCands/Kplus_P_diff.png) | ![](YCands_Dstar-2012-mag_down-data_vs_YCands/Kplus_P_diff_norm.png) | ![](YCands_Dstar-2012-mag_down-data_vs_YCands/Kplus_P_phoebe.png) |
 
 ### `Kplus_PX`
-| difference [MeV] | difference (normalized) |
-|---|---|
-| ![](YCands_Dstar-2012-mag_down-data_vs_YCands/Kplus_PX_diff.png) | ![](YCands_Dstar-2012-mag_down-data_vs_YCands/Kplus_PX_diff_norm.png) |
+| difference [MeV] | difference (normalized) | phoebe (original) |
+|---|---|---|
+| ![](YCands_Dstar-2012-mag_down-data_vs_YCands/Kplus_PX_diff.png) | ![](YCands_Dstar-2012-mag_down-data_vs_YCands/Kplus_PX_diff_norm.png) | ![](YCands_Dstar-2012-mag_down-data_vs_YCands/Kplus_PX_phoebe.png) |
 
 ### `Kplus_PY`
-| difference [MeV] | difference (normalized) |
-|---|---|
-| ![](YCands_Dstar-2012-mag_down-data_vs_YCands/Kplus_PY_diff.png) | ![](YCands_Dstar-2012-mag_down-data_vs_YCands/Kplus_PY_diff_norm.png) |
+| difference [MeV] | difference (normalized) | phoebe (original) |
+|---|---|---|
+| ![](YCands_Dstar-2012-mag_down-data_vs_YCands/Kplus_PY_diff.png) | ![](YCands_Dstar-2012-mag_down-data_vs_YCands/Kplus_PY_diff_norm.png) |![](YCands_Dstar-2012-mag_down-data_vs_YCands/Kplus_PY_phoebe.png) |
 
 ### `Kplus_PZ`
-| difference [MeV] | difference (normalized) |
-|---|---|
-| ![](YCands_Dstar-2012-mag_down-data_vs_YCands/Kplus_PZ_diff.png) | ![](YCands_Dstar-2012-mag_down-data_vs_YCands/Kplus_PZ_diff_norm.png) |
+| difference [MeV] | difference (normalized) | phoebe (original) |
+|---|---|---|
+| ![](YCands_Dstar-2012-mag_down-data_vs_YCands/Kplus_PZ_diff.png) | ![](YCands_Dstar-2012-mag_down-data_vs_YCands/Kplus_PZ_diff_norm.png) |![](YCands_Dstar-2012-mag_down-data_vs_YCands/Kplus_PZ_phoebe.png) |
 
 ### `muplus_P`
-| difference [MeV] | difference (normalized) |
-|---|---|
-| ![](YCands_Dstar-2012-mag_down-data_vs_YCands/muplus_P_diff.png) | ![](YCands_Dstar-2012-mag_down-data_vs_YCands/muplus_P_diff_norm.png) |
+| difference [MeV] | difference (normalized) | phoebe (original) |
+|---|---|---|
+| ![](YCands_Dstar-2012-mag_down-data_vs_YCands/muplus_P_diff.png) | ![](YCands_Dstar-2012-mag_down-data_vs_YCands/muplus_P_diff_norm.png) | ![](YCands_Dstar-2012-mag_down-data_vs_YCands/muplus_P_phoebe.png) |
 
 ### `muplus_PX`
-| difference [MeV] | difference (normalized) |
-|---|---|
-| ![](YCands_Dstar-2012-mag_down-data_vs_YCands/muplus_PX_diff.png) | ![](YCands_Dstar-2012-mag_down-data_vs_YCands/muplus_PX_diff_norm.png) | ? |
+| difference [MeV] | difference (normalized) | phoebe (original) |
+|---|---|---|
+| ![](YCands_Dstar-2012-mag_down-data_vs_YCands/muplus_PX_diff.png) | ![](YCands_Dstar-2012-mag_down-data_vs_YCands/muplus_PX_diff_norm.png) | ![](YCands_Dstar-2012-mag_down-data_vs_YCands/muplus_PX_phoebe.png) |
 
 ### `muplus_PY`
-| difference [MeV] | difference (normalized) |
-|---|---|
-| ![](YCands_Dstar-2012-mag_down-data_vs_YCands/muplus_PY_diff.png) | ![](YCands_Dstar-2012-mag_down-data_vs_YCands/muplus_PY_diff_norm.png) | ? |
+| difference [MeV] | difference (normalized) | phoebe (original) |
+|---|---|---|
+| ![](YCands_Dstar-2012-mag_down-data_vs_YCands/muplus_PY_diff.png) | ![](YCands_Dstar-2012-mag_down-data_vs_YCands/muplus_PY_diff_norm.png) | ![](YCands_Dstar-2012-mag_down-data_vs_YCands/muplus_PY_phoebe.png) |
 
 ### `muplus_PZ`
-| difference [MeV] | difference (normalized) |
-|---|---|
-| ![](YCands_Dstar-2012-mag_down-data_vs_YCands/muplus_PZ_diff.png) | ![](YCands_Dstar-2012-mag_down-data_vs_YCands/muplus_PZ_diff_norm.png) | ? |
+| difference [MeV] | difference (normalized) | phoebe (original) |
+|---|---|---|
+| ![](YCands_Dstar-2012-mag_down-data_vs_YCands/muplus_PZ_diff.png) | ![](YCands_Dstar-2012-mag_down-data_vs_YCands/muplus_PZ_diff_norm.png) | ![](YCands_Dstar-2012-mag_down-data_vs_YCands/muplus_PZ_phoebe.png) |
+
+### `FitVar_Mmiss2`
+| difference [?] | difference (normalized) | phoebe (original) |
+|---|---|---|
+| ![](YCands_Dstar-2012-mag_down-data_vs_YCands/FitVar_Mmiss2_diff_manuel_phoebe.png) | ![](YCands_Dstar-2012-mag_down-data_vs_YCands/FitVar_Mmiss2_diff_norm_manuel_phoebe.png) | ![](YCands_Dstar-2012-mag_down-data_vs_YCands/mmiss_phoebe.png) |
+
+### `FitVar_q2`
+| difference [?] | difference (normalized) | phoebe (original) |
+|---|---|---|
+| ![](YCands_Dstar-2012-mag_down-data_vs_YCands/FitVar_q2_diff_manuel_phoebe.png) | ![](YCands_Dstar-2012-mag_down-data_vs_YCands/FitVar_q2_diff_norm_manuel_phoebe.png) | ![](YCands_Dstar-2012-mag_down-data_vs_YCands/q2_phoebe.png) |
+
+### `FitVar_El`
+| difference [?] | difference (normalized) | phoebe (original) |
+|---|---|---|
+| ![](YCands_Dstar-2012-mag_down-data_vs_YCands/FitVar_El_diff_manuel_phoebe.png) | ![](YCands_Dstar-2012-mag_down-data_vs_YCands/FitVar_El_diff_norm_manuel_phoebe.png) | ![](YCands_Dstar-2012-mag_down-data_vs_YCands/El_phoebe.png) |
+
+### `Y_ISOLATION_BDT`
+| difference [?] | difference (normalized) | phoebe (original) |
+|---|---|---|
+| ![](YCands_Dstar-2012-mag_down-data_vs_YCands/Y_ISOLATION_BDT_diff_manuel_phoebe.png) | ![](YCands_Dstar-2012-mag_down-data_vs_YCands/Y_ISOLATION_BDT_diff_norm_manuel_phoebe.png) | ![](YCands_Dstar-2012-mag_down-data_vs_YCands/iso_BDT_phoebe.png) |
+
+### `Y_ISOLATION_BDT2`
+| difference [?] | difference (normalized) | phoebe (original) |
+|---|---|---|
+| ![](YCands_Dstar-2012-mag_down-data_vs_YCands/Y_ISOLATION_BDT2_diff_manuel_phoebe.png) | ![](YCands_Dstar-2012-mag_down-data_vs_YCands/Y_ISOLATION_BDT2_diff_norm_manuel_phoebe.png) | ![](YCands_Dstar-2012-mag_down-data_vs_YCands/iso_BDT2_phoebe.png) |
+
+### `Y_ISOLATION_BDT3`
+| difference [?] | difference (normalized) | phoebe (original) |
+|---|---|---|
+| ![](YCands_Dstar-2012-mag_down-data_vs_YCands/Y_ISOLATION_BDT3_diff_manuel_phoebe.png) | ![](YCands_Dstar-2012-mag_down-data_vs_YCands/Y_ISOLATION_BDT3_diff_norm_manuel_phoebe.png) | ![](YCands_Dstar-2012-mag_down-data_vs_YCands/iso_BDT3_phoebe.png) |
