@@ -1,6 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sun Jul 14, 2019 at 11:17 PM -0400
+# Last Change: Sun Jul 14, 2019 at 11:25 PM -0400
 
 from argparse import ArgumentParser
 from os.path import expanduser
@@ -10,6 +10,7 @@ from os.path import expanduser
 # Parameters for data/MC #
 ##########################
 
+PLATFORM = 'x86_64-centos7-gcc62-opt'
 BASE_OPTION_FILE = './reco_Dst.py'
 MC_FILE = "/DSTTAUNU.SAFESTRIPTRIG.DST"
 
@@ -106,6 +107,7 @@ def conf_job_app(davinci_path, options):
     app = GaudiExec()
     app.directory = expanduser(davinci_path)
     app.options = options
+    app.platform = PLATFORM
     return app
 
 
@@ -135,4 +137,5 @@ if __name__ == '__main__':
         j.backend = Dirac()
         j.splitter = SplitByFiles(filesPerJob=PARAMETERS[m]['files_per_job'])
         j.outputfiles = [LocalFile('*.root')]
+
         j.submit()
