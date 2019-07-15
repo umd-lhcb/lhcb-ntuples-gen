@@ -14,7 +14,6 @@ folder.
 
 
 ## 2011/2012 $R(D^*)$ / _lhcb-ana-2014-052-v2r1_
-### Data
 The data source for this analysis note can be found on `DIRAC`:
 
 | stripping line (in note) | stripping line (updated) | `DIRAC` path |
@@ -25,21 +24,31 @@ The data source for this analysis note can be found on `DIRAC`:
     we have to use `Stripping21` instead of `Stripping20` as mentioned in the
     notes, because the latter one is no longer _fully_ exist.
 
-    Also `Stripping21` contains 2012 data, and `Stripping21r1` contains 2011 data.
+    Also `Stripping21` contains 2012 data, and `Stripping21r1` contains 2011
+    data.
 
-### Monte-Carlo
-In `DIRAC`, make sure to switch from **Simulation Condition** to **Event type**. Then the event will be available at `MC/2012/<event_type_uid>`.
+
+## Run 1 Monte-Carlo
+In `DIRAC`, make sure to switch from **Simulation Condition** to **Event
+type**. Then the event will be available at `MC/2012/<event_type_uid>`.
 
 In the analysis note, we used the following event types:
 
-* `11574020`
-* `11574010`
-* `11874060`
-* `11874080`
-* `12874040`
-* `12874020`
-* `13874000`
-* `11874050`
-* `11874070`
-* `12874010`
-* `12874030`
+### With $D^{**}$ in intermediate product
+* `11873010`, `11873030`: $B^0 \rightarrow D^{**} \mu \nu \rightarrow D^0$
+* `13873000`: $B_s \rightarrow D^{**} \mu \nu \rightarrow D^0$
+* `12873010`: $B^+ \rightarrow D^{**} \mu \nu \rightarrow D^0$
+
+### With $D^{*}$ in intermediate product
+* `11574010`: $B^0 \rightarrow D^* \tau \nu$
+* `11574020`: $B^0 \rightarrow D^* \mu \nu$
+* `12573020`: $B^+ \rightarrow D^{*0} \tau \nu$
+* `12573030`: $B^+ \rightarrow D^{*0} \mu \nu$
+
+### With $D^0$ in intermediate product
+* `12573000`: $B^+ \rightarrow D^0 \tau \nu$
+* `12573010`: $B^+ \rightarrow D^0 \mu \nu$
+* `11873000`: $B^0 \rightarrow D^0 DX \rightarrow \mu X$
+* `12873000`: $B^+ \rightarrow D^0 DX \rightarrow \mu X$
+* `11873020`: $B^0 \rightarrow D^0 D_s X \rightarrow \tau \nu$
+* `12873020`: $B^+ \rightarrow D^0 D_s X \rightarrow \tau \nu$

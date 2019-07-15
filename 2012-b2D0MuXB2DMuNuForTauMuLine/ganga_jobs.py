@@ -1,6 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sun Jul 14, 2019 at 11:25 PM -0400
+# Last Change: Mon Jul 15, 2019 at 02:27 AM -0400
 
 from argparse import ArgumentParser
 from os.path import expanduser
@@ -22,33 +22,23 @@ MC_CONDS = {
 MC_DSTST_IDS = {
     'Bd2Dststmunu2D0': '11873010',
     'Bd2Dststtaunu2D0': '11873030',
+    'Bs2Dststmunu2D0': '13873000',
     'Bu2Dststmunu2D0': '12873010',
-    'Bs2Dststmunu2D0': '13873000'
 }
 
 MC_DST_IDS = {
     'Bd2Dsttaunu': '11574010',
     'Bd2Dstmunu': '11574020',
-    'Bd2D0DX2muX': '11873000',
-    'Bu2D0DX2muX': '12873000',
-    'Bd2D0DsX2taunu': '11873020',
-    'Bu2D0taunu': '12573000',
-    'Bu2D0munu': '12573010',
     'Bu2Dst0taunu': '12573020',
     'Bu2Dst0munu': '12573030',
-    'Bu2D0DsX2taunu': '12873020',
-    'Bd2Dststmunu2D0': '11873010',
-    'Bd2Dststtaunu2D0': '11873030',
-    'Bu2Dststmunu2D0': '12873010',
-    'Bs2Dststmunu2D0': '13873000'
 }
 
 MC_D0_IDS = {
+    'Bu2D0taunu': '12573000',
+    'Bu2D0munu': '12573010',
     'Bd2D0DX2muX': '11873000',
     'Bu2D0DX2muX': '12873000',
     'Bd2D0DsX2taunu': '11873020',
-    'Bu2D0taunu': '12573000',
-    'Bu2D0munu': '12573010',
     'Bu2D0DsX2taunu': '12873020',
 }
 
