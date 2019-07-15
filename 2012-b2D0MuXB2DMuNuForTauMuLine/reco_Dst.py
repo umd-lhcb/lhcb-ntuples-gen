@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Jul 11, 2019 at 10:44 PM -0400
+# Last Change: Mon Jul 15, 2019 at 12:43 PM -0400
 
 #####################
 # Configure DaVinci #
@@ -410,9 +410,12 @@ seq_Y_ws_Pi = SelectionSequence(
 )
 
 
-DaVinci().UserAlgorithms += [seq_Y.sequence(),
-                             seq_Y_ws_Mu.sequence(),
-                             seq_Y_ws_Pi.sequence()]
+if not DaVinci().Simulation:
+    DaVinci().UserAlgorithms += [seq_Y.sequence(),
+                                 seq_Y_ws_Mu.sequence(),
+                                 seq_Y_ws_Pi.sequence()]
+else:
+    DaVinci().UserAlgorithms += [seq_Y.sequence()]
 
 
 ###################
