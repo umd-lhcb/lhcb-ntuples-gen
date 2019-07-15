@@ -13,7 +13,7 @@ folder.
 | `BCands_Dst-mc-py6-sim08a-mag_down-subset.root` | N/A | Y. Sun | `v42r8p1` | `c71b1386b662a7b9b4bb7002ab89a9b9` |
 
 
-## _lhcb-ana-2014-052-v2r1_
+## 2011/2012 $R(D^*)$ / _lhcb-ana-2014-052-v2r1_
 ### Data
 The data source for this analysis note can be found on `DIRAC`:
 
