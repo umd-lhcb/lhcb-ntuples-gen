@@ -57,7 +57,7 @@ for cond in MC_CONDS.keys():
         key = 'mc-{}-sim08a-{}'.format(cond, id)
         PARAMETERS[key] = {
             'dirac_path': MC_CONDS[cond] + MC_DST_IDS[id] + MC_FILE,
-            'options': ['./conds/reco_Dst_conf-mc-{}-sim08a.py'.format(cond)],
+            'options': ['./conds/cond_Dst-mc-{}-sim08a.py'.format(cond)],
             'files_per_job': 1
         }
 
