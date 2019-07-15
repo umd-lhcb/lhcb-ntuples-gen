@@ -1,18 +1,138 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sun Jul 14, 2019 at 01:05 AM -0400
+# Last Change: Sun Jul 14, 2019 at 11:17 PM -0400
 
 from argparse import ArgumentParser
+from os.path import expanduser
 
-j = Job(name='First ganga job')
-myApp = GaudiExec()
-myApp.directory = "./DaVinciDev_v44r6"
-j.application = myApp
-j.application.options = ['ntuple_options.py']
-bkPath = '/MC/2016/Beam6500GeV-2016-MagDown-Nu1.6-25ns-Pythia8/Sim09c/Trig0x6138160F/Reco16/Turbo03/Stripping28r1NoPrescalingFlagged/27163002/ALLSTREAMS.DST'
-data  = BKQuery(bkPath, dqflag=['OK']).getDataset()
-j.inputdata = data[0:2]
-j.backend = Dirac()
-j.splitter = SplitByFiles(filesPerJob=1)
-j.outputfiles = [LocalFile('DVntuple.root')]
-j.submit()
+
+##########################
+# Parameters for data/MC #
+##########################
+
+BASE_OPTION_FILE = './reco_Dst.py'
+MC_FILE = "/DSTTAUNU.SAFESTRIPTRIG.DST"
+
+MC_CONDS = {
+    "py6": "/MC/2012/Beam4000GeV-2012-Mag{}-Nu2.5-Pythia6/Sim08a/Digi13/Trig0x409f0045/Reco14a/Stripping20Filtered/",
+    "py8": "/MC/2012/Beam4000GeV-2012-Mag{}-Nu2.5-Pythia8/Sim08a/Digi13/Trig0x409f0045/Reco14a/Strip ping20Filtered/"
+}
+
+MC_DSTST_IDS = {
+    'Bd2Dststmunu2D0': '11873010',
+    'Bd2Dststtaunu2D0': '11873030',
+    'Bu2Dststmunu2D0': '12873010',
+    'Bs2Dststmunu2D0': '13873000'
+}
+
+MC_DST_IDS = {
+    'Bd2Dsttaunu': '11574010',
+    'Bd2Dstmunu': '11574020',
+    'Bd2D0DX2muX': '11873000',
+    'Bu2D0DX2muX': '12873000',
+    'Bd2D0DsX2taunu': '11873020',
+    'Bu2D0taunu': '12573000',
+    'Bu2D0munu': '12573010',
+    'Bu2Dst0taunu': '12573020',
+    'Bu2Dst0munu': '12573030',
+    'Bu2D0DsX2taunu': '12873020',
+    'Bd2Dststmunu2D0': '11873010',
+    'Bd2Dststtaunu2D0': '11873030',
+    'Bu2Dststmunu2D0': '12873010',
+    'Bs2Dststmunu2D0': '13873000'
+}
+
+MC_D0_IDS = {
+    'Bd2D0DX2muX': '11873000',
+    'Bu2D0DX2muX': '12873000',
+    'Bd2D0DsX2taunu': '11873020',
+    'Bu2D0taunu': '12573000',
+    'Bu2D0munu': '12573010',
+    'Bu2D0DsX2taunu': '12873020',
+}
+
+PARAMETERS = {
+    'data-2012': {
+        'dirac_path': '/LHCb/Collision12/Beam4000GeV-VeloClosed-Mag{}/Real Data/Reco14/Stripping21/90000000/SEMILEPTONIC.DST',
+        'options': ['./conds/reco_Dst_conf-data.py'],
+        'files_per_job': 4
+    },
+}
+
+# Add reconstruction parameters for D*
+for cond in MC_CONDS.keys():
+    for id in MC_DST_IDS.keys():
+        key = 'mc-{}-sim08a-{}'.format(cond, id)
+        PARAMETERS[key] = {
+            'dirac_path': MC_CONDS[cond] + MC_DST_IDS[id] + MC_FILE,
+            'options': ['./conds/reco_Dst_conf-mc-{}-sim08a.py'.format(cond)],
+            'files_per_job': 1
+        }
+
+
+#################################
+# Command line arguments parser #
+#################################
+
+def parse_input():
+    parser = ArgumentParser(description='''
+ganga script to process R(D*) run 1 data/MC.''')
+
+    parser.add_argument('type',
+                        choices=['all']+list(PARAMETERS.keys()),
+                        help='''
+specify data type.''')
+
+    parser.add_argument('--davinci',
+                        default='~/build/DaVinciDev_v42r8p1',
+                        help='''
+specify path to local DaVinci build.''')
+
+    parser.add_argument('-p', '--polarity',
+                        nargs='?',
+                        choices=['Up', 'Down'],
+                        default='Down',
+                        help='''
+specify polarity.''')
+
+    return parser.parse_args()
+
+
+#################
+# Configurators #
+#################
+
+def conf_job_app(davinci_path, options):
+    app = GaudiExec()
+    app.directory = expanduser(davinci_path)
+    app.options = options
+    return app
+
+
+########
+# Main #
+########
+
+if __name__ == '__main__':
+    args = parse_input()
+
+    if args.type == 'all':
+        modes = list(PARAMETERS.keys())
+    else:
+        modes = [PARAMETERS[args.type]]
+
+    for m in modes:
+        j = Job(name=m)
+
+        options = PARAMETERS[m]['options'] + [BASE_OPTION_FILE]
+        app = conf_job_app(args.davinci, options)
+        j.application = app
+
+        dirac_path = PARAMETERS[m]['dirac_path'].format(args.polarity)
+        data = BKQuery(dirac_path, dqflag=['OK']).getDataset()
+        j.inputdata = data
+
+        j.backend = Dirac()
+        j.splitter = SplitByFiles(filesPerJob=PARAMETERS[m]['files_per_job'])
+        j.outputfiles = [LocalFile('*.root')]
+        j.submit()
