@@ -122,8 +122,8 @@ for m in modes:
 
     dirac_path = PARAMETERS[m]['dirac_path'].format(args.polarity)
     data = BKQuery(dirac_path, dqflag=['OK']).getDataset()
-    # j.inputdata = data
-    j.inputdata = [data[0]]  # Running on 1 file only.
+    j.inputdata = data
+    # j.inputdata = [data[0]]  # Running on 1 file only.
 
     # Provide weight file
     j.inputfiles = [LocalFile(WEIGHT_FILE)]
