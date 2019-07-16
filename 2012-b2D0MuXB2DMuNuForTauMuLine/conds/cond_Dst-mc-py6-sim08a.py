@@ -3,8 +3,8 @@ from Configurables import DaVinci
 DaVinci().DataType = '2012'
 DaVinci().Simulation = True
 
-DaVinci().TupleFile = './gen/BCands_Dst-mc.root'
-DaVinci().HistogramFile = './gen/BCands_Dst_histo-mc.root'
+DaVinci().TupleFile = 'BCands_Dst-mc.root'
+DaVinci().HistogramFile = 'BCands_Dst_histo-mc.root'
 
 
 from Configurables import CondDB

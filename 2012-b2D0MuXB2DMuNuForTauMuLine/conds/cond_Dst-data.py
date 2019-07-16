@@ -3,8 +3,8 @@ from Configurables import DaVinci
 DaVinci().DataType = '2012'
 DaVinci().Simulation = False
 
-DaVinci().TupleFile = './gen/BCands_Dst-data.root'
-DaVinci().HistogramFile = './gen/BCands_Dst_histo-data.root'
+DaVinci().TupleFile = 'BCands_Dst-data.root'
+DaVinci().HistogramFile = 'BCands_Dst_histo-data.root'
 
 
 from GaudiConf import IOHelper
