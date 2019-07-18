@@ -1,6 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Jul 15, 2019 at 01:12 PM -0400
+# Last Change: Wed Jul 17, 2019 at 10:00 PM -0400
 
 from argparse import ArgumentParser
 from os.path import expanduser
@@ -47,7 +47,7 @@ PARAMETERS = {
     'data-2012': {
         'dirac_path': '/LHCb/Collision12/Beam4000GeV-VeloClosed-Mag{}/Real Data/Reco14/Stripping21/90000000/SEMILEPTONIC.DST',
         'options': ['./conds/cond_Dst-data.py'],
-        'files_per_job': 4
+        'files_per_job': 5
     },
 }
 
