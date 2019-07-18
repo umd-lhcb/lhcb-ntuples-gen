@@ -46,7 +46,7 @@ MC_D0_IDS = {
 PARAMETERS = {
     'data-2012': {
         'dirac_path': '/LHCb/Collision12/Beam4000GeV-VeloClosed-Mag{}/Real Data/Reco14/Stripping21/90000000/SEMILEPTONIC.DST',
-        'options': ['./conds/reco_Dst_conf-data.py'],
+        'options': ['./conds/cond_Dst-data.py'],
         'files_per_job': 4
     },
 }
