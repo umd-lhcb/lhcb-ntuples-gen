@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Jul 15, 2019 at 12:43 PM -0400
+# Last Change: Sat Jul 27, 2019 at 11:02 AM -0400
 
 #####################
 # Configure DaVinci #
@@ -95,7 +95,7 @@ pr_charged_K = AutomaticData(Location='Phys/StdAllNoPIDsKaons/Particles')
 
 pr_charged_Pi = AutomaticData(Location='Phys/StdAllNoPIDsPions/Particles')
 
-pr_all_pi = AutomaticData(Location='Phys/StdAllLoosePions/Particles')
+pr_all_Pi = AutomaticData(Location='Phys/StdAllLoosePions/Particles')
 
 # standard NoPIDs upstream pions (VELO + TT hits, no T-layers).
 # They only added 10% with terrible mass resolution, so they didn't use them in
@@ -316,7 +316,7 @@ sel_D0 = Selection(
 sel_Dst = Selection(
     'SelMyDst',
     Algorithm=algo_Dst,
-    RequiredSelections=[sel_D0, pr_all_pi]
+    RequiredSelections=[sel_D0, pr_all_Pi]
 )
 
 sel_Bd = Selection(
@@ -359,7 +359,7 @@ sel_refit_b2DstMu_ws_Mu = Selection(
 sel_Dst_ws = Selection(
     'SelMyDstWS',
     Algorithm=algo_Dst_ws,
-    RequiredSelections=[sel_D0, pr_all_pi]
+    RequiredSelections=[sel_D0, pr_all_Pi]
 )
 
 sel_Bd_ws_Pi = Selection(
