@@ -32,7 +32,7 @@ optional arguments:
   -s {py8,py6}, --simulation {py8,py6}
                         specify simulation (typically Pythia) software package
                         version.
-  -p [{Up,Down}], --polarity [{Up,Down}]
+  -p {Up,Down}, --polarity {Up,Down}
                         specify polarity.
 ```
 

@@ -1,6 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sat Jul 27, 2019 at 06:43 PM -0400
+# Last Change: Sat Jul 27, 2019 at 06:50 PM -0400
 
 from argparse import ArgumentParser
 from os.path import expanduser
@@ -92,7 +92,6 @@ specify path to local DaVinci build.''')
 specify simulation (typically Pythia) software package version.''')
 
     parser.add_argument('-p', '--polarity',
-                        nargs='?',
                         choices=['Up', 'Down'],
                         default='Down',
                         help='''
