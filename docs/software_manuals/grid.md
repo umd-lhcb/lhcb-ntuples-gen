@@ -21,12 +21,17 @@ $ ganga ganga_jobs.py --help
 ganga script to process R(D*) run 1 data/MC.
 
 positional arguments:
-  {all,mc-py6-sim08a-Bu2D0DsX2taunu,mc-py8-sim08a-Bu2Dststmunu2D0,mc-py6-sim08a-Bd2Dststtaunu2D0,mc-py8-sim08a-Bd2D0DsX2taunu,mc-py8-sim08a-Bu2D0DX2muX,mc-py6-sim08a-Bu2D0DX2muX,mc-py6-sim08a-Bu2D0taunu,mc-py8-sim08a-Bu2Dst0munu,mc-py6-sim08a-Bu2D0munu,mc-py8-sim08a-Bd2Dstmunu,mc-py6-sim08a-Bu2Dst0munu,mc-py8-sim08a-Bd2Dststtaunu2D0,mc-py6-sim08a-Bd2Dststmunu2D0,mc-py6-sim08a-Bs2Dststmunu2D0,mc-py6-sim08a-Bd2D0DX2muX,mc-py6-sim08a-Bu2Dststmunu2D0,data-2012,mc-py6-sim08a-Bu2Dst0taunu,mc-py8-sim08a-Bu2D0DsX2taunu,mc-py8-sim08a-Bu2Dst0taunu,mc-py6-sim08a-Bd2D0DsX2taunu,mc-py8-sim08a-Bd2D0DX2muX,mc-py8-sim08a-Bd2Dststmunu2D0,mc-py8-sim08a-Bu2D0taunu,mc-py8-sim08a-Bu2D0munu,mc-py6-sim08a-Bd2Dstmunu,mc-py8-sim08a-Bs2Dststmunu2D0,mc-py8-sim08a-Bd2Dsttaunu,mc-py6-sim08a-Bd2Dsttaunu}
+  {all,mc-Bd2DstTauNu,mc-Bu2Dst0MuNu,mc-Bu2Dst0TauNu,mc-Bd2DstMuNu,data-2012}
                         specify data type.
 
 optional arguments:
   -h, --help            show this help message and exit
+  --inverse             if this flag is supplied, all types except specified
+                        in "type" will be processed.
   --davinci DAVINCI     specify path to local DaVinci build.
+  -s {py8,py6}, --simulation {py8,py6}
+                        specify simulation (typically Pythia) software package
+                        version.
   -p [{Up,Down}], --polarity [{Up,Down}]
                         specify polarity.
 ```
