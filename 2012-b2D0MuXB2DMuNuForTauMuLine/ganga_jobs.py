@@ -70,7 +70,7 @@ def parse_input():
 ganga script to process R(D*) run 1 data/MC.''')
 
     parser.add_argument('type',
-                        nargs='+'
+                        nargs='+',
                         choices=['all']+list(PARAMETERS.keys()),
                         help='''
 specify data type.''')
