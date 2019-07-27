@@ -1,6 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sat Jul 27, 2019 at 06:18 PM -0400
+# Last Change: Sat Jul 27, 2019 at 06:43 PM -0400
 
 from argparse import ArgumentParser
 from os.path import expanduser
@@ -55,7 +55,7 @@ PARAMETERS = {
 for id in MC_DST_IDS.keys():
     key = 'mc-{}'.format(id)
     PARAMETERS[key] = {
-        'dirac_path': '{1}' + MC_DST_IDS[id] + MC_FILE,
+        'dirac_path': '{}' + MC_DST_IDS[id] + MC_FILE,
         'options': './conds/cond_Dst-mc-{}-sim08a.py',
         'files_per_job': 1
     }
@@ -129,13 +129,17 @@ else:
 for m in modes:
     j = Job(name=m)
 
-    options = [PARAMETERS[m]['options'].format(MC_CONDS[args.simulation])] + \
+    options = [PARAMETERS[m]['options'].format(args.simulation)] + \
         [BASE_OPTION_FILE]
     app = conf_job_app(args.davinci, options)
     j.application = app
 
-    dirac_path = PARAMETERS[m]['dirac_path'].format(
-        args.polarity, MC_CONDS[args.simulation])
+    if 'mc' in m:
+        mc_cond = MC_CONDS[args.simulation].format(args.polarity)
+        dirac_path = PARAMETERS[m]['dirac_path'].format(mc_cond)
+    else:
+        dirac_path = PARAMETERS[m]['dirac_path'].format(args.polarity)
+
     data = BKQuery(dirac_path, dqflag=['OK']).getDataset()
     j.inputdata = data
     # j.inputdata = [data[0]]  # Running on 1 file only.

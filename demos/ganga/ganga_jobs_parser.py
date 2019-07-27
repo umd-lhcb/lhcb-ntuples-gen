@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sat Jul 27, 2019 at 06:12 PM -0400
+# Last Change: Sat Jul 27, 2019 at 06:43 PM -0400
 #
 # Description: A demonstration on ganga option file with parser.
 #              This demo runs stand-alone, provided that Python is installed:
@@ -20,11 +20,11 @@ from argparse import ArgumentParser
 PLATFORM = 'x86_64-centos7-gcc62-opt'
 BASE_OPTION_FILE = './reco_Dst.py'
 WEIGHT_FILE = './weights_soft.xml'
-MC_FILE = "/DSTTAUNU.SAFESTRIPTRIG.DST"
+MC_FILE = '/DSTTAUNU.SAFESTRIPTRIG.DST'
 
 MC_CONDS = {
-    "py6": "/MC/2012/Beam4000GeV-2012-Mag{0}-Nu2.5-Pythia6/Sim08a/Digi13/Trig0x409f0045/Reco14a/Stripping20Filtered/",
-    "py8": "/MC/2012/Beam4000GeV-2012-Mag{0}-Nu2.5-Pythia8/Sim08a/Digi13/Trig0x409f0045/Reco14a/Stripping20Filtered/"
+    'py6': '/MC/2012/Beam4000GeV-2012-Mag{0}-Nu2.5-Pythia6/Sim08a/Digi13/Trig0x409f0045/Reco14a/Stripping20Filtered/',
+    'py8': '/MC/2012/Beam4000GeV-2012-Mag{0}-Nu2.5-Pythia8/Sim08a/Digi13/Trig0x409f0045/Reco14a/Stripping20Filtered/'
 }
 
 MC_DSTST_IDS = {
@@ -67,7 +67,7 @@ PARAMETERS = {
 for id in MC_MODE_IDS.keys():
     key = 'mc-{}'.format(id)
     PARAMETERS[key] = {
-        'dirac_path': '{1}' + MC_MODE_IDS[id] + MC_FILE,
+        'dirac_path': '{}' + MC_MODE_IDS[id] + MC_FILE,
         'options': './conds/cond_Dst-mc-{}-sim08a.py',
         'files_per_job': 1
     }
@@ -128,10 +128,14 @@ else:
 
 for m in modes:
     print('Processing mode: {}'.format(m))
-    options = [PARAMETERS[m]['options'].format(MC_CONDS[args.simulation])] + \
+
+    options = [PARAMETERS[m]['options'].format(args.simulation)] + \
         [BASE_OPTION_FILE]
     print(options)
 
-    dirac_path = PARAMETERS[m]['dirac_path'].format(
-        args.polarity, MC_CONDS[args.simulation])
+    if 'mc' in m:
+        mc_cond = MC_CONDS[args.simulation].format(args.polarity)
+        dirac_path = PARAMETERS[m]['dirac_path'].format(mc_cond)
+    else:
+        dirac_path = PARAMETERS[m]['dirac_path'].format(args.polarity)
     print(dirac_path)
