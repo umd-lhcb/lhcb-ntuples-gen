@@ -1,6 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sat Jul 27, 2019 at 01:49 PM -0400
+# Last Change: Sat Jul 27, 2019 at 06:18 PM -0400
 
 from argparse import ArgumentParser
 from os.path import expanduser
@@ -13,11 +13,11 @@ from os.path import expanduser
 PLATFORM = 'x86_64-centos7-gcc62-opt'
 BASE_OPTION_FILE = './reco_Dst.py'
 WEIGHT_FILE = './weights_soft.xml'
-MC_FILE = "/DSTTAUNU.SAFESTRIPTRIG.DST"
+MC_FILE = '/DSTTAUNU.SAFESTRIPTRIG.DST'
 
 MC_CONDS = {
-    "py6": "/MC/2012/Beam4000GeV-2012-Mag{}-Nu2.5-Pythia6/Sim08a/Digi13/Trig0x409f0045/Reco14a/Stripping20Filtered/",
-    "py8": "/MC/2012/Beam4000GeV-2012-Mag{}-Nu2.5-Pythia8/Sim08a/Digi13/Trig0x409f0045/Reco14a/Stripping20Filtered/"
+    'py6': '/MC/2012/Beam4000GeV-2012-Mag{0}-Nu2.5-Pythia6/Sim08a/Digi13/Trig0x409f0045/Reco14a/Stripping20Filtered/',
+    'py8': '/MC/2012/Beam4000GeV-2012-Mag{0}-Nu2.5-Pythia8/Sim08a/Digi13/Trig0x409f0045/Reco14a/Stripping20Filtered/'
 }
 
 MC_DSTST_IDS = {
@@ -45,21 +45,20 @@ MC_D0_IDS = {
 
 PARAMETERS = {
     'data-2012': {
-        'dirac_path': '/LHCb/Collision12/Beam4000GeV-VeloClosed-Mag{}/Real Data/Reco14/Stripping21/90000000/SEMILEPTONIC.DST',
+        'dirac_path': '/LHCb/Collision12/Beam4000GeV-VeloClosed-Mag{0}/Real Data/Reco14/Stripping21/90000000/SEMILEPTONIC.DST',
         'options': './conds/cond_Dst-data.py',
         'files_per_job': 5
     },
 }
 
 # Add reconstruction parameters for D*
-for cond in MC_CONDS.keys():
-    for id in MC_DST_IDS.keys():
-        key = 'mc-{}-sim08a-{}'.format(cond, id)
-        PARAMETERS[key] = {
-            'dirac_path': MC_CONDS[cond] + MC_DST_IDS[id] + MC_FILE,
-            'options': './conds/cond_Dst-mc-{}-sim08a.py',
-            'files_per_job': 1
-        }
+for id in MC_DST_IDS.keys():
+    key = 'mc-{}'.format(id)
+    PARAMETERS[key] = {
+        'dirac_path': '{1}' + MC_DST_IDS[id] + MC_FILE,
+        'options': './conds/cond_Dst-mc-{}-sim08a.py',
+        'files_per_job': 1
+    }
 
 
 #################################
@@ -71,6 +70,7 @@ def parse_input():
 ganga script to process R(D*) run 1 data/MC.''')
 
     parser.add_argument('type',
+                        nargs='+'
                         choices=['all']+list(PARAMETERS.keys()),
                         help='''
 specify data type.''')
@@ -86,10 +86,10 @@ if this flag is supplied, all types except specified in "type" will be processed
 specify path to local DaVinci build.''')
 
     parser.add_argument('-s', '--simulation',
-                        nargs='?',
+                        choices=list(MC_CONDS.keys()),
                         default='py6',
                         help='''
-specify simulation (typically Pythia) package version.''')
+specify simulation (typically Pythia) software package version.''')
 
     parser.add_argument('-p', '--polarity',
                         nargs='?',
@@ -119,19 +119,23 @@ def conf_job_app(davinci_path, options):
 
 args = parse_input()
 
-if args.type == 'all':
+if args.type == ['all']:
     modes = list(PARAMETERS.keys())
 elif args.inverse:
-    modes = [m for m in PARAMETERS.keys() if m not in args.modes]
+    modes = [m for m in PARAMETERS.keys() if m not in args.type]
+else:
+    modes = args.type
 
 for m in modes:
     j = Job(name=m)
 
-    options = PARAMETERS[m]['options'] + [BASE_OPTION_FILE]
+    options = [PARAMETERS[m]['options'].format(MC_CONDS[args.simulation])] + \
+        [BASE_OPTION_FILE]
     app = conf_job_app(args.davinci, options)
     j.application = app
 
-    dirac_path = PARAMETERS[m]['dirac_path'].format(args.polarity)
+    dirac_path = PARAMETERS[m]['dirac_path'].format(
+        args.polarity, MC_CONDS[args.simulation])
     data = BKQuery(dirac_path, dqflag=['OK']).getDataset()
     j.inputdata = data
     # j.inputdata = [data[0]]  # Running on 1 file only.
