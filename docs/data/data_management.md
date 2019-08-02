@@ -21,7 +21,7 @@ To split, we use `split`, a linux tool that should have been installed by defaul
 ```
 split --lines=50 <filename.txt>
 ```
-In this case, the `<filename.dst>` will be sliced for every 50 lines, and the
+In this case, the `<filename.txt>` will be sliced for every 50 lines, and the
 output filenames will be `x??`.
 
 
