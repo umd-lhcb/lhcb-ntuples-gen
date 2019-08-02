@@ -19,7 +19,7 @@ storage space in `lxplus`, even with `EOS`.
 
 To split, we use `split`, a linux tool that should have been installed by default:
 ```
-split --lines=50 <filename.dst>
+split --lines=50 <filename.txt>
 ```
 In this case, the `<filename.dst>` will be sliced for every 50 lines, and the
 output filenames will be `x??`.
