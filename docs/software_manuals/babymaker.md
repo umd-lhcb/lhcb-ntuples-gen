@@ -1,5 +1,5 @@
 `babymaker` is a part of the `pyBabyMaker` library. Please refer to the
-[official document](https://github.com/yipengsun/pyBabyMaker) for more info.
+[official document](https://github.com/umd-lhcb/pyBabyMaker) for more info.
 
 The general idea is that `babymaker` takes:
 
