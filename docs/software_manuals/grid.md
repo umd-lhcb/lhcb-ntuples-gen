@@ -18,10 +18,15 @@ ganga ganga_jobs.py <arguments>
 ### `2012-b2D0MuXB2DMuNuForTauMuLine`
 ```
 $ ganga ganga_jobs.py --help
+usage: ganga_jobs.py [-h] [--inverse] [--davinci DAVINCI]
+                     [-s {py6,py8}] [-p {Up,Down}]
+                     {all,data-2012,mc-Bd2DststMuNu2D0,mc-Bd2DststTauNu2D0,mc-Bs2DststMuNu2D0,mc-Bu2DststMuNu2D0,mc-Bd2DstTauNu,mc-Bd2DstMuNu,mc-Bu2Dst0TauNu,mc-Bu2Dst0MuNu,mc-Bu2D0TauNu,mc-Bu2D0MuNu,mc-Bd2D0DX2MuX,mc-Bu2D0DX2MuX,mc-Bd2D0DsX2TauNu,mc-Bu2D0DsX2TauNu}
+                     [{all,data-2012,mc-Bd2DststMuNu2D0,mc-Bd2DststTauNu2D0,mc-Bs2DststMuNu2D0,mc-Bu2DststMuNu2D0,mc-Bd2DstTauNu,mc-Bd2DstMuNu,mc-Bu2Dst0TauNu,mc-Bu2Dst0MuNu,mc-Bu2D0TauNu,mc-Bu2D0MuNu,mc-Bd2D0DX2MuX,mc-Bu2D0DX2MuX,mc-Bd2D0DsX2TauNu,mc-Bu2D0DsX2TauNu} ...]
+
 ganga script to process R(D*) run 1 data/MC.
 
 positional arguments:
-  {all,mc-Bd2DstTauNu,mc-Bu2Dst0MuNu,mc-Bu2Dst0TauNu,mc-Bd2DstMuNu,data-2012}
+  {all,data-2012,mc-Bd2DststMuNu2D0,mc-Bd2DststTauNu2D0,mc-Bs2DststMuNu2D0,mc-Bu2DststMuNu2D0,mc-Bd2DstTauNu,mc-Bd2DstMuNu,mc-Bu2Dst0TauNu,mc-Bu2Dst0MuNu,mc-Bu2D0TauNu,mc-Bu2D0MuNu,mc-Bd2D0DX2MuX,mc-Bu2D0DX2MuX,mc-Bd2D0DsX2TauNu,mc-Bu2D0DsX2TauNu}
                         specify data type.
 
 optional arguments:
@@ -29,7 +34,7 @@ optional arguments:
   --inverse             if this flag is supplied, all types except specified
                         in "type" will be processed.
   --davinci DAVINCI     specify path to local DaVinci build.
-  -s {py8,py6}, --simulation {py8,py6}
+  -s {py6,py8}, --simulation {py6,py8}
                         specify simulation (typically Pythia) software package
                         version.
   -p {Up,Down}, --polarity {Up,Down}

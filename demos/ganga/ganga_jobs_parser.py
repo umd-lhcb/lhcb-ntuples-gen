@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sat Jul 27, 2019 at 06:49 PM -0400
+# Last Change: Tue Aug 06, 2019 at 01:12 PM -0400
 #
 # Description: A demonstration on ganga option file with parser.
 #              This demo runs stand-alone, provided that Python is installed:
@@ -20,13 +20,26 @@ from argparse import ArgumentParser
 PLATFORM = 'x86_64-centos7-gcc62-opt'
 BASE_OPTION_FILE = './reco_Dst.py'
 WEIGHT_FILE = './weights_soft.xml'
-MC_FILE = '/DSTTAUNU.SAFESTRIPTRIG.DST'
+
+# Example for a fully constructed MC file path:
+# '/MC/2012/Beam4000GeV-2012-MagDown-Nu2.5-Pythia6/Sim08a/Digi13/Trig0x409f0045/Reco14a/Stripping20Filtered/DSTTAUNU.SAFESTRIPTRIG'
+MC_FILE = '/MC/2012/Beam4000GeV-2012-Mag{0}-Nu2.5-{1}/{2}/Digi13/Trig0x409f0045/Reco14a/Stripping20Filtered/DSTTAUNU.SAFESTRIPTRIG.DST'
+
+MC_GEN = ['Pythia6', 'Pythia8']
 
 MC_CONDS = {
-    'py6': '/MC/2012/Beam4000GeV-2012-Mag{0}-Nu2.5-Pythia6/Sim08a/Digi13/Trig0x409f0045/Reco14a/Stripping20Filtered/',
-    'py8': '/MC/2012/Beam4000GeV-2012-Mag{0}-Nu2.5-Pythia8/Sim08a/Digi13/Trig0x409f0045/Reco14a/Stripping20Filtered/'
+    'Sim08a': '/conds/cond-mc-sim08a-{}.py',
+    'Sim08e': '/conds/cond-mc-sim08e-{}.py',
+    'Sim08h': '/conds/cond-mc-sim08h-{}.py',
+    'Sim08i': '/conds/cond-mc-sim08h-{}.py',
 }
 
+MC_POLARITIES = {
+    'Up': 'mag_up',
+    'Down': 'mag_down'
+}
+
+# Decay mode IDs.
 MC_DSTST_IDS = {
     'Bd2DststMuNu2D0': '11873010',
     'Bd2DststTauNu2D0': '11873030',
@@ -68,7 +81,6 @@ for id in MC_MODE_IDS.keys():
     key = 'mc-{}'.format(id)
     PARAMETERS[key] = {
         'dirac_path': '{}' + MC_MODE_IDS[id] + MC_FILE,
-        'options': './conds/cond_Dst-mc-{}-sim08a.py',
         'files_per_job': 1
     }
 
@@ -98,13 +110,19 @@ if this flag is supplied, all types except specified in "type" will be processed
 specify path to local DaVinci build.''')
 
     parser.add_argument('-s', '--simulation',
-                        choices=list(MC_CONDS.keys()),
-                        default='py6',
+                        choices=MC_GEN,
+                        default=MC_GEN[0],
                         help='''
 specify simulation (typically Pythia) software package version.''')
 
+    parser.add_argument('-c', '--condition',
+                        choices=list(MC_CONDS.keys()),
+                        default='Sim08a',
+                        help='''
+specify simulation condition.''')
+
     parser.add_argument('-p', '--polarity',
-                        choices=['Up', 'Down'],
+                        choices=list(MC_POLARITIES.keys()),
                         default='Down',
                         help='''
 specify polarity.''')
