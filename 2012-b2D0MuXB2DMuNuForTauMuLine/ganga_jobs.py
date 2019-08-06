@@ -217,16 +217,6 @@ for base, mode, polarity, simulaiton, condition in \
         print('Preparing job {}...'.format(name))
         j = Job(name=name)
 
-        # Get path to option files
-        base_option_file = MC_BASE[base]
-        try:
-            options_file = PARAMETERS[mode]['options']
-        except KeyError:
-            options_file = MC_CONDITION[condition].format(MC_POLARITIES[polarity])
-        options = [options_file, base_option_file]
-        app = conf_job_app(args.davinci, options)
-        j.application = app
-
         # Get input data
         decay = gen_decay(mode)
         dirac_path = gen_dirac_path(PARAMETERS[mode]['dirac_path'],
@@ -241,6 +231,16 @@ for base, mode, polarity, simulaiton, condition in \
         j.backend = Dirac()
         j.splitter = SplitByFiles(filesPerJob=PARAMETERS[mode]['files_per_job'])
         j.outputfiles = [LocalFile('*.root')]
+
+        # Get path to option files, also prepare DaVinci
+        base_option_file = MC_BASE[base]
+        try:
+            options_file = PARAMETERS[mode]['options']
+        except KeyError:
+            options_file = MC_CONDITION[condition].format(MC_POLARITIES[polarity])
+        options = [options_file, base_option_file]
+        app = conf_job_app(args.davinci, options)
+        j.application = app
 
         # Submit!
         j.submit()
