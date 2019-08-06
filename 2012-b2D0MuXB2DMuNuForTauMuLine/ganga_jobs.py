@@ -1,25 +1,50 @@
+#!/usr/bin/env python
+#
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Aug 06, 2019 at 12:44 PM -0400
+# Last Change: Tue Aug 06, 2019 at 06:00 PM -0400
+#
+# Description: A demonstration on ganga option file with parser.
+#              This demo runs stand-alone, provided that Python is installed:
+#                  python ./ganga_jobs_parser.py [options]
+#
+#              Alternatively, in lxplus:
+#                  ganga ./ganga_job_parser.py [options]
 
 from argparse import ArgumentParser
-from os.path import expanduser
-
+from itertools import product
 
 ##########################
 # Parameters for data/MC #
 ##########################
 
 PLATFORM = 'x86_64-centos7-gcc62-opt'
-BASE_OPTION_FILE = './reco_Dst.py'
 WEIGHT_FILE = './weights_soft.xml'
-MC_FILE = '/DSTTAUNU.SAFESTRIPTRIG.DST'
 
-MC_CONDS = {
-    'py6': '/MC/2012/Beam4000GeV-2012-Mag{0}-Nu2.5-Pythia6/Sim08a/Digi13/Trig0x409f0045/Reco14a/Stripping20Filtered/',
-    'py8': '/MC/2012/Beam4000GeV-2012-Mag{0}-Nu2.5-Pythia8/Sim08a/Digi13/Trig0x409f0045/Reco14a/Stripping20Filtered/'
+# Example for a fully constructed MC file path:
+# '/MC/2012/Beam4000GeV-2012-MagDown-Nu2.5-Pythia6/Sim08a/Digi13/Trig0x409f0045/Reco14a/Stripping20Filtered/11873010/DSTTAUNU.SAFESTRIPTRIG'
+MC_FILE = '/MC/2012/Beam4000GeV-2012-Mag{polarity}-Nu2.5-{simulation}/{condition}/Digi13/Trig0x409f0045/Reco14a/Stripping20Filtered/{decay}/DSTTAUNU.SAFESTRIPTRIG.DST'
+
+MC_SIMULATION = ['Pythia6', 'Pythia8']
+
+MC_BASE = {
+    'Dst': './reco_Dst.py',
+    'D0': './reco_D0.py'
 }
 
+MC_CONDITION = {
+    'Sim08a': './conds/cond-mc-sim08a-{}.py',
+    'Sim08e': './conds/cond-mc-sim08e-{}.py',
+    'Sim08h': './conds/cond-mc-sim08h-{}.py',
+    'Sim08i': './conds/cond-mc-sim08h-{}.py',
+}
+
+MC_POLARITIES = {
+    'Up': 'mag_up',
+    'Down': 'mag_down'
+}
+
+# Decay mode IDs.
 MC_DSTST_IDS = {
     'Bd2DststMuNu2D0': '11873010',
     'Bd2DststTauNu2D0': '11873030',
@@ -44,30 +69,52 @@ MC_D0_IDS = {
 }
 
 PARAMETERS = {
-    'data-2012': {
-        'dirac_path': '/LHCb/Collision12/Beam4000GeV-VeloClosed-Mag{0}/Real Data/Reco14/Stripping21/90000000/SEMILEPTONIC.DST',
-        'options': './conds/cond-data.py',
+    'data-2012-Dst': {
+        'dirac_path': '/LHCb/Collision12/Beam4000GeV-VeloClosed-Mag{}/Real Data/Reco14/Stripping21/90000000/SEMILEPTONIC.DST',
+        'options': './conds/cond-data-Dst.py',
         'files_per_job': 5
     },
 }
 
+
+###########
+# Helpers #
+###########
+
+# Combine all MC modes into a single dictionary.
+MC_MODE_IDS = MC_DSTST_IDS
+MC_MODE_IDS.update(MC_DST_IDS)
+MC_MODE_IDS.update(MC_D0_IDS)
+
 # Add reconstruction parameters for D*
-for id in MC_DST_IDS.keys():
+for id in MC_MODE_IDS.keys():
     key = 'mc-{}'.format(id)
     PARAMETERS[key] = {
-        'dirac_path': '{}' + MC_DST_IDS[id] + MC_FILE,
-        'options': './conds/cond-mc-sim08a.py',
-        'files_per_job': 1
+        'files_per_job': 1,
+        'dirac_path': MC_FILE
     }
 
-# Add reconstruction parameters for D**
-for id in MC_DSTST_IDS.keys():
-    key = 'mc-{}'.format(id)
-    PARAMETERS[key] = {
-        'dirac_path': '{}' + MC_DSTST_IDS[id] + MC_FILE,
-        'options': './conds/cond-mc-{}-sim08a.py',
-        'files_per_job': 1
-    }
+
+def gen_job_name(base, mode, polarity, simulaiton, condition):
+    if 'data' in mode:
+        return '-'.join([base, mode, polarity])
+    else:
+        return '-'.join([base, mode, polarity, simulaiton, condition])
+
+
+def gen_decay(mode, reference=MC_MODE_IDS):
+    try:
+        return MC_MODE_IDS[mode.replace('mc-', '')]
+    except KeyError:
+        return ''
+
+
+def gen_dirac_path(raw, polarity, simulation, condition, decay):
+    if 'Real Data' in raw:
+        return raw.format(polarity)
+    else:
+        return raw.format(polarity=polarity, simulation=simulation,
+                          condition=condition, decay=decay)
 
 
 #################################
@@ -78,31 +125,47 @@ def parse_input():
     parser = ArgumentParser(description='''
 ganga script to process R(D*) run 1 data/MC.''')
 
-    parser.add_argument('type',
+    parser.add_argument('mode',
                         nargs='+',
                         choices=['all']+list(PARAMETERS.keys()),
                         help='''
 specify data type.''')
 
-    parser.add_argument('--inverse',
+    parser.add_argument('--force',
                         action='store_true',
                         help='''
-if this flag is supplied, all types except specified in "type" will be processed.''')
+if this flag is supplied, don't skip existing jobs with the same name.''')
 
     parser.add_argument('--davinci',
                         default='~/build/DaVinciDev_v42r8p1',
                         help='''
 specify path to local DaVinci build.''')
 
+    parser.add_argument('-b', '--base',
+                        nargs='+',
+                        choices=['all']+list(MC_BASE.keys()),
+                        default=['Dst'],
+                        help='''
+specify base decay mode (e.g. D* or D0).''')
+
     parser.add_argument('-s', '--simulation',
-                        choices=list(MC_CONDS.keys()),
-                        default='py6',
+                        nargs='+',
+                        choices=['all']+MC_SIMULATION,
+                        default=['Pythia6'],
                         help='''
 specify simulation (typically Pythia) software package version.''')
 
+    parser.add_argument('-c', '--condition',
+                        nargs='+',
+                        choices=['all']+list(MC_CONDITION.keys()),
+                        default=['Sim08a'],
+                        help='''
+specify simulation condition.''')
+
     parser.add_argument('-p', '--polarity',
-                        choices=['Up', 'Down'],
-                        default='Down',
+                        nargs='+',
+                        choices=['all']+list(MC_POLARITIES.keys()),
+                        default=['Down'],
                         help='''
 specify polarity.''')
 
@@ -127,36 +190,58 @@ def conf_job_app(davinci_path, options):
 
 args = parse_input()
 
-if args.type == ['all']:
-    modes = list(PARAMETERS.keys())
-elif args.inverse:
-    modes = [m for m in PARAMETERS.keys() if m not in args.type]
-else:
-    modes = args.type
+if args.base == ['all']:
+    args.base = list(MC_BASE.keys())
+if args.mode == ['all']:
+    args.mode = list(PARAMETERS.keys())
+if args.polarity == ['all']:
+    args.polarity = list(MC_POLARITIES.keys())
+if args.simulation == ['all']:
+    args.simulation = MC_SIMULATION
+if args.condition == ['all']:
+    args.condition = list(MC_CONDITION.keys())
 
-for m in modes:
-    j = Job(name=m)
+for base, mode, polarity, simulaiton, condition in \
+        product(
+            args.base, args.mode, args.polarity, args.simulation,
+            args.condition):
+    # College all known job names
+    job_names = [j.name for j in jobs]
 
-    options = [PARAMETERS[m]['options'].format(args.simulation)] + \
-        [BASE_OPTION_FILE]
-    app = conf_job_app(args.davinci, options)
-    j.application = app
+    # Generate job name
+    name = gen_job_name(base, mode, polarity, simulaiton, condition)
 
-    if 'mc' in m:
-        mc_cond = MC_CONDS[args.simulation].format(args.polarity)
-        dirac_path = PARAMETERS[m]['dirac_path'].format(mc_cond)
+    # Only create job if no existing job has the same name or force create
+    if args.force or (name not in job_names):
+        j = Job(name=name)
+
+        # Get path to option files
+        base_option_file = MC_BASE[base]
+        try:
+            options_file = PARAMETERS[mode]['options']
+        except KeyError:
+            options_file = MC_CONDITION[condition].format(MC_POLARITIES[polarity])
+        options = [options_file, base_option_file]
+        app = conf_job_app(args.davinci, options)
+        j.application = app
+
+        # Get input data
+        decay = gen_decay(mode)
+        dirac_path = gen_dirac_path(PARAMETERS[mode]['dirac_path'],
+                                    polarity, simulaiton, condition, decay)
+        data = BKQuery(dirac_path, dqflag=['OK'].getDataset())
+        j.inputdata = data
+
+        # Provide weight file
+        j.inputfiles = [LocalFile(WEIGHT_FILE)]
+
+        # Use DIRAC backend
+        j.backend = Dirac()
+        j.splitter = SplitByFiles(filesPerJob=PARAMETERS[mode]['files_per_job'])
+        j.outputfiles = [LocalFile('*.root')]
+
+        # Submit!
+        j.submit()
+
     else:
-        dirac_path = PARAMETERS[m]['dirac_path'].format(args.polarity)
-
-    data = BKQuery(dirac_path, dqflag=['OK']).getDataset()
-    j.inputdata = data
-    # j.inputdata = [data[0]]  # Running on 1 file only.
-
-    # Provide weight file
-    j.inputfiles = [LocalFile(WEIGHT_FILE)]
-
-    j.backend = Dirac()
-    j.splitter = SplitByFiles(filesPerJob=PARAMETERS[m]['files_per_job'])
-    j.outputfiles = [LocalFile('*.root')]
-
-    j.submit()
+        print('Job with name {} already exist, skipping...'.format(name))
