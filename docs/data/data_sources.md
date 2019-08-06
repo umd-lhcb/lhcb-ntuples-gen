@@ -36,7 +36,8 @@ type**. Then the event will be available at `MC/2012/<event_type_uid>`.
 In the analysis note, we used the following event types:
 
 ### With $D^{**}$ in intermediate product
-* `11873010`, `11873030`: $B^0 \rightarrow D^{**} \mu \nu \rightarrow D^0$
+* `11873010`: $B^0 \rightarrow D^{**} \mu \nu \rightarrow D^0$
+* `11873030`: $B^0 \rightarrow D^{**} \tau \nu \rightarrow D^0$
 * `13873000`: $B_s \rightarrow D^{**} \mu \nu \rightarrow D^0$
 * `12873010`: $B^+ \rightarrow D^{**} \mu \nu \rightarrow D^0$
 
