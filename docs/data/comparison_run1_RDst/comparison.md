@@ -189,8 +189,8 @@ Files used:
 ## Comparison between MC (Pythia 6)
 Files used:
 
-* `BCands_Dst-mc-py6-mag_down`
-* `BCands_Dst-mc-py6-mag_down-subset`
+* `BCands_Dst-mc-mag_down-py6`
+* `BCands_Dst-mc-mag_down-py6-sim08a-subset`
 
 ### `D0_P`
 | difference [MeV] | difference (normalized) |

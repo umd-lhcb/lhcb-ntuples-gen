@@ -21,6 +21,6 @@ LHCbApp().DDDBtag = "dddb-20130503-1"
 from GaudiConf import IOHelper
 
 IOHelper().inputFiles([
-    './data/mc-py6-sim08a-mag_down/00028778_00000009_1.dsttaunu.safestriptrig.dst',
-    './data/mc-py6-sim08a-mag_down/00028778_00000010_1.dsttaunu.safestriptrig.dst',
+    './data/mc-mag_down-py6-sim08a/00028778_00000009_1.dsttaunu.safestriptrig.dst',
+    './data/mc-mag_down-py6-sim08a/00028778_00000010_1.dsttaunu.safestriptrig.dst',
 ], clear=True)
