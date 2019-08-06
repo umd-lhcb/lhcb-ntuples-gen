@@ -214,6 +214,7 @@ for base, mode, polarity, simulaiton, condition in \
 
     # Only create job if no existing job has the same name or force create
     if args.force or (name not in job_names):
+        print('Preparing job {}...'.format(name))
         j = Job(name=name)
 
         # Get path to option files
