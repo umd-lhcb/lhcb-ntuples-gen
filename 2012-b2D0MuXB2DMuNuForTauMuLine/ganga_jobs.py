@@ -13,6 +13,7 @@
 
 from argparse import ArgumentParser
 from itertools import product
+from os.path import expanduser
 
 ##########################
 # Parameters for data/MC #
@@ -229,7 +230,7 @@ for base, mode, polarity, simulaiton, condition in \
         decay = gen_decay(mode)
         dirac_path = gen_dirac_path(PARAMETERS[mode]['dirac_path'],
                                     polarity, simulaiton, condition, decay)
-        data = BKQuery(dirac_path, dqflag=['OK'].getDataset())
+        data = BKQuery(dirac_path, dqflag=['OK']).getDataset()
         j.inputdata = data
 
         # Provide weight file
