@@ -18,26 +18,33 @@ ganga ganga_jobs.py <arguments>
 ### `2012-b2D0MuXB2DMuNuForTauMuLine`
 ```
 $ ganga ganga_jobs.py --help
-usage: ganga_jobs.py [-h] [--inverse] [--davinci DAVINCI]
-                     [-s {py6,py8}] [-p {Up,Down}]
-                     {all,data-2012,mc-Bd2DststMuNu2D0,mc-Bd2DststTauNu2D0,mc-Bs2DststMuNu2D0,mc-Bu2DststMuNu2D0,mc-Bd2DstTauNu,mc-Bd2DstMuNu,mc-Bu2Dst0TauNu,mc-Bu2Dst0MuNu,mc-Bu2D0TauNu,mc-Bu2D0MuNu,mc-Bd2D0DX2MuX,mc-Bu2D0DX2MuX,mc-Bd2D0DsX2TauNu,mc-Bu2D0DsX2TauNu}
-                     [{all,data-2012,mc-Bd2DststMuNu2D0,mc-Bd2DststTauNu2D0,mc-Bs2DststMuNu2D0,mc-Bu2DststMuNu2D0,mc-Bd2DstTauNu,mc-Bd2DstMuNu,mc-Bu2Dst0TauNu,mc-Bu2Dst0MuNu,mc-Bu2D0TauNu,mc-Bu2D0MuNu,mc-Bd2D0DX2MuX,mc-Bu2D0DX2MuX,mc-Bd2D0DsX2TauNu,mc-Bu2D0DsX2TauNu} ...]
+usage: ganga_jobs.py [-h] [--force] [--davinci DAVINCI]
+                     [-b {all,Dst,D0} [{all,Dst,D0} ...]]
+                     [-s {all,Pythia6,Pythia8} [{all,Pythia6,Pythia8} ...]]
+                     [-c {all,Sim08a,Sim08e,Sim08h,Sim08i} [{all,Sim08a,Sim08e,Sim08h,Sim08i} ...]]
+                     [-p {all,Up,Down} [{all,Up,Down} ...]]
+                     {all,data-2012-Dst,mc-Bd2DststMuNu2D0,mc-Bd2DststTauNu2D0,mc-Bs2DststMuNu2D0,mc-Bu2DststMuNu2D0,mc-Bd2DstTauNu,mc-Bd2DstMuNu,mc-Bu2Dst0TauNu,mc-Bu2Dst0MuNu,mc-Bu2D0TauNu,mc-Bu2D0MuNu,mc-Bd2D0DX2MuX,mc-Bu2D0DX2MuX,mc-Bd2D0DsX2TauNu,mc-Bu2D0DsX2TauNu}
+                     [{all,data-2012-Dst,mc-Bd2DststMuNu2D0,mc-Bd2DststTauNu2D0,mc-Bs2DststMuNu2D0,mc-Bu2DststMuNu2D0,mc-Bd2DstTauNu,mc-Bd2DstMuNu,mc-Bu2Dst0TauNu,mc-Bu2Dst0MuNu,mc-Bu2D0TauNu,mc-Bu2D0MuNu,mc-Bd2D0DX2MuX,mc-Bu2D0DX2MuX,mc-Bd2D0DsX2TauNu,mc-Bu2D0DsX2TauNu} ...]
 
 ganga script to process R(D*) run 1 data/MC.
 
 positional arguments:
-  {all,data-2012,mc-Bd2DststMuNu2D0,mc-Bd2DststTauNu2D0,mc-Bs2DststMuNu2D0,mc-Bu2DststMuNu2D0,mc-Bd2DstTauNu,mc-Bd2DstMuNu,mc-Bu2Dst0TauNu,mc-Bu2Dst0MuNu,mc-Bu2D0TauNu,mc-Bu2D0MuNu,mc-Bd2D0DX2MuX,mc-Bu2D0DX2MuX,mc-Bd2D0DsX2TauNu,mc-Bu2D0DsX2TauNu}
+  {all,data-2012-Dst,mc-Bd2DststMuNu2D0,mc-Bd2DststTauNu2D0,mc-Bs2DststMuNu2D0,mc-Bu2DststMuNu2D0,mc-Bd2DstTauNu,mc-Bd2DstMuNu,mc-Bu2Dst0TauNu,mc-Bu2Dst0MuNu,mc-Bu2D0TauNu,mc-Bu2D0MuNu,mc-Bd2D0DX2MuX,mc-Bu2D0DX2MuX,mc-Bd2D0DsX2TauNu,mc-Bu2D0DsX2TauNu}
                         specify data type.
 
 optional arguments:
   -h, --help            show this help message and exit
-  --inverse             if this flag is supplied, all types except specified
-                        in "type" will be processed.
+  --force               if this flag is supplied, don't skip existing jobs
+                        with the same name.
   --davinci DAVINCI     specify path to local DaVinci build.
-  -s {py6,py8}, --simulation {py6,py8}
+  -b {all,Dst,D0} [{all,Dst,D0} ...], --base {all,Dst,D0} [{all,Dst,D0} ...]
+                        specify base decay mode (e.g. D* or D0).
+  -s {all,Pythia6,Pythia8} [{all,Pythia6,Pythia8} ...], --simulation {all,Pythia6,Pythia8} [{all,Pythia6,Pythia8} ...]
                         specify simulation (typically Pythia) software package
                         version.
-  -p {Up,Down}, --polarity {Up,Down}
+  -c {all,Sim08a,Sim08e,Sim08h,Sim08i} [{all,Sim08a,Sim08e,Sim08h,Sim08i} ...], --condition {all,Sim08a,Sim08e,Sim08h,Sim08i} [{all,Sim08a,Sim08e,Sim08h,Sim08i} ...]
+                        specify simulation condition.
+  -p {all,Up,Down} [{all,Up,Down} ...], --polarity {all,Up,Down} [{all,Up,Down} ...]
                         specify polarity.
 ```
 
