@@ -1,6 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sat Jul 27, 2019 at 06:50 PM -0400
+# Last Change: Tue Aug 06, 2019 at 12:44 PM -0400
 
 from argparse import ArgumentParser
 from os.path import expanduser
@@ -46,7 +46,7 @@ MC_D0_IDS = {
 PARAMETERS = {
     'data-2012': {
         'dirac_path': '/LHCb/Collision12/Beam4000GeV-VeloClosed-Mag{0}/Real Data/Reco14/Stripping21/90000000/SEMILEPTONIC.DST',
-        'options': './conds/cond_Dst-data.py',
+        'options': './conds/cond-data.py',
         'files_per_job': 5
     },
 }
@@ -56,7 +56,16 @@ for id in MC_DST_IDS.keys():
     key = 'mc-{}'.format(id)
     PARAMETERS[key] = {
         'dirac_path': '{}' + MC_DST_IDS[id] + MC_FILE,
-        'options': './conds/cond_Dst-mc-{}-sim08a.py',
+        'options': './conds/cond-mc-sim08a.py',
+        'files_per_job': 1
+    }
+
+# Add reconstruction parameters for D**
+for id in MC_DSTST_IDS.keys():
+    key = 'mc-{}'.format(id)
+    PARAMETERS[key] = {
+        'dirac_path': '{}' + MC_DSTST_IDS[id] + MC_FILE,
+        'options': './conds/cond-mc-{}-sim08a.py',
         'files_per_job': 1
     }
 
