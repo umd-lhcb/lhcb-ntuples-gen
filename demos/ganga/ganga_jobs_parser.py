@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Aug 06, 2019 at 05:37 PM -0400
+# Last Change: Tue Aug 06, 2019 at 05:52 PM -0400
 #
 # Description: A demonstration on ganga option file with parser.
 #              This demo runs stand-alone, provided that Python is installed:
@@ -196,11 +196,6 @@ for base, mode, polarity, simulaiton, condition in \
     job_name = gen_job_name(base, mode, polarity, simulaiton, condition)
     print('Job name: {}'.format(job_name))
 
-    decay = gen_decay(mode)
-    dirac_path = gen_dirac_path(PARAMETERS[mode]['dirac_path'],
-                                polarity, simulaiton, condition, decay)
-    print(dirac_path)
-
     base_option_file = MC_BASE[base]
     print(base_option_file)
 
@@ -209,5 +204,10 @@ for base, mode, polarity, simulaiton, condition in \
     except KeyError:
         options_file = MC_CONDITION[condition].format(MC_POLARITIES[polarity])
     print(options_file)
+
+    decay = gen_decay(mode)
+    dirac_path = gen_dirac_path(PARAMETERS[mode]['dirac_path'],
+                                polarity, simulaiton, condition, decay)
+    print(dirac_path)
 
     print('----')
