@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri Aug 23, 2019 at 05:48 PM -0400
+# Last Change: Fri Aug 23, 2019 at 07:53 PM -0400
 
 #####################
 # Configure DaVinci #
@@ -460,6 +460,7 @@ def tuple_initialize_data(name, sel_seq, decay):
         'TupleToolL0Calo',
     ]
 
+    # Save trigger decisions.
     tt_tistos = tp.addTupleTool('TupleToolTISTOS')
     tt_tistos.TriggerList = [
         'L0MuonDecision',
@@ -471,6 +472,7 @@ def tuple_initialize_data(name, sel_seq, decay):
     tt_tistos.VerboseHlt1 = True
     tt_tistos.VerboseHlt2 = True
 
+    # Add event-level information.
     tt_loki_evt = tp.addTupleTool(LokiEvtTool, "TupleMyLokiEvtTool")
     tt_loki_evt.Preambulo += ['from LoKiCore.functions import *']
     tt_loki_evt.VOID_Variables = {
