@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sat Jul 27, 2019 at 11:02 AM -0400
+# Last Change: Fri Aug 23, 2019 at 12:43 PM -0400
 
 #####################
 # Configure DaVinci #
@@ -37,6 +37,8 @@ ms_velo_protos.Inputs = ['Rec/Track/Best']
 ms_velo_protos.Output = 'Rec/ProtoP/MyProtoPMaker/ProtoParticles'  # This TES location will be accessible for all selection algorithms
 
 # VELO pions for Greg's isolation tool.
+# NOTE: The name 'StdNoPIDsVeloPions' is hard-coded in the tuple tool, so the
+#       name should not be changed.
 ms_velo_pions = NoPIDsParticleMaker('StdNoPIDsVeloPions', Particle='pion')
 ms_velo_pions.Input = 'Rec/ProtoP/MyProtoPMaker/ProtoParticles'
 
@@ -45,6 +47,7 @@ ms_velo_pions.Input = 'Rec/ProtoP/MyProtoPMaker/ProtoParticles'
 # algorithms sequence.
 ms_scale = TrackScaleState('StateScale')
 
+# Smear the momentum of MC particles, because the resolution is too good.
 ms_smear = TrackSmearState('StateSmear')
 
 
