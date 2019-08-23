@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri Aug 23, 2019 at 03:26 PM -0400
+# Last Change: Fri Aug 23, 2019 at 05:44 PM -0400
 
 #####################
 # Configure DaVinci #
@@ -163,7 +163,7 @@ else:
 
 from Configurables import CombineParticles
 
-algo_mcMatch_Preambulo = [
+algo_mc_match_preambulo = [
     'from LoKiMC.functions import *',
     'from LoKiPhysMC.decorators import *',
     'from LoKiPhysMC.functions import *'
@@ -205,12 +205,13 @@ algo_D0.CombinationCut = "(ADAMASS('D0') < 200*MeV)"
 algo_D0.MotherCut = "(ADMASS('D0') < 100*MeV) & (VFASPF(VCHI2/VDOF) < 100)"
 
 if DaVinci().Simulation:
-    algo_D0.Preambulo += algo_mcMatch_Preambulo
+    algo_D0.Preambulo += algo_mc_match_preambulo
 
     algo_D0.DaughtersCuts['K+'] = \
         "(mcMatch('[^K+]CC')) & (P > 2.0*GeV) &" + \
         "(MCSELMATCH(MCNINANCESTORS(BEAUTY) > 0)) &" + \
         algo_D0.DaughtersCuts['K+']
+
     algo_D0.DaughtersCuts['pi-'] = \
         '(P > 2.0*GeV) &' + \
         '(MCSELMATCH(MCNINANCESTORS(BEAUTY) > 0)) &' + \
@@ -248,56 +249,56 @@ algo_Dst_ws.MotherCut = algo_Dst.MotherCut
 
 
 # Bd ###########################################################################
-algo_Bd = CombineParticles('MyBd')
-algo_Bd.DecayDescriptor = "[B~0 -> D*(2010)+ mu-]cc"
+algo_B0 = CombineParticles('MyB0')
+algo_B0.DecayDescriptor = "[B~0 -> D*(2010)+ mu-]cc"
 
 # ALL: trivial select all
-algo_Bd.DaughtersCuts = {
+algo_B0.DaughtersCuts = {
     "mu-": "ALL"
 }
 
 # AM: mass of the combination
 #     Return sqrt(E^2 - p^2)
-algo_Bd.CombinationCut = '(AM < 10200*MeV)'
+algo_B0.CombinationCut = '(AM < 10200*MeV)'
 
 # BPVDIRA: direction angle
 #          Compute the cosine of the angle between the momentum of the particle
 #          and the direction to flight from the best PV to the decay vertex.
-algo_Bd.MotherCut = "(M < 10000*MeV) & (BPVDIRA > 0.9995) &" + \
+algo_B0.MotherCut = "(M < 10000*MeV) & (BPVDIRA > 0.9995) &" + \
                     "(VFASPF(VCHI2/VDOF) < 6.0)"
 
 if DaVinci().Simulation:
-    algo_Bd.Preambulo += algo_mcMatch_Preambulo
+    algo_B0.Preambulo += algo_mc_match_preambulo
 
     # algo_Bd.HistoProduce = True
     # algo_Bd.addTool(PlotTool("MotherPlots"))
     # algo_Bd.MotherPlots.Histos = {
     #    "AMAXDOCA(FLATTEN((ABSID=='D0') | (ABSID=='mu-')))" : ("DOCA",0,2)}
 
-    algo_Bd.DaughtersCuts['mu-'] = \
+    algo_B0.DaughtersCuts['mu-'] = \
         "(mcMatch('[^mu+]CC')) & (TRGHOSTPROB < 0.5) &" + \
         "(MIPCHI2DV(PRIMARY)>45) & (TRCHI2DOF < 3.0)"
 
 
 # BdWSMu #######################################################################
-algo_Bd_ws_Mu = CombineParticles('MyBdWSMu')
-algo_Bd_ws_Mu.DecayDescriptor = "[B~0 -> D*(2010)+ mu+]cc"
+algo_B0_ws_Mu = CombineParticles('MyB0WSMu')
+algo_B0_ws_Mu.DecayDescriptor = "[B~0 -> D*(2010)+ mu+]cc"
 
-algo_Bd_ws_Mu.DaughtersCuts = {
+algo_B0_ws_Mu.DaughtersCuts = {
     "mu+": "ALL"
 }
 
-algo_Bd_ws_Mu.CombinationCut = algo_Bd.CombinationCut
-algo_Bd_ws_Mu.MotherCut = algo_Bd.MotherCut
+algo_B0_ws_Mu.CombinationCut = algo_B0.CombinationCut
+algo_B0_ws_Mu.MotherCut = algo_B0.MotherCut
 
 
 # BdWSPi #######################################################################
-algo_Bd_ws_Pi = CombineParticles('MyBdWSPi')
-algo_Bd_ws_Pi.DecayDescriptor = "[B0 -> D*(2010)+ mu+]cc"
+algo_B0_ws_Pi = CombineParticles('MyB0WSPi')
+algo_B0_ws_Pi.DecayDescriptor = "[B0 -> D*(2010)+ mu+]cc"
 
-algo_Bd_ws_Pi.DaughtersCuts = algo_Bd_ws_Mu.DaughtersCuts
-algo_Bd_ws_Pi.CombinationCut = algo_Bd.CombinationCut
-algo_Bd_ws_Pi.MotherCut = algo_Bd.MotherCut
+algo_B0_ws_Pi.DaughtersCuts = algo_B0_ws_Mu.DaughtersCuts
+algo_B0_ws_Pi.CombinationCut = algo_B0.CombinationCut
+algo_B0_ws_Pi.MotherCut = algo_B0.MotherCut
 
 
 #####################
@@ -322,9 +323,9 @@ sel_Dst = Selection(
     RequiredSelections=[sel_D0, pr_all_Pi]
 )
 
-sel_Bd = Selection(
-    'SelMyBd',
-    Algorithm=algo_Bd,
+sel_B0 = Selection(
+    'SelMyB0',
+    Algorithm=algo_B0,
     RequiredSelections=[sel_Dst, sel_Mu]
 )
 
@@ -334,16 +335,16 @@ sel_refit_b2DstMu = Selection(
         'MyRefitb2DstMu',
         Code="DECTREE('[B~0 -> (D*(2010)+ -> (D0->K- pi+) pi+) mu-]CC')",
         UsePVConstraint=False,
-        Inputs=[sel_Bd.outputLocation()]
+        Inputs=[sel_B0.outputLocation()]
     ),
-    RequiredSelections=[sel_Bd]
+    RequiredSelections=[sel_B0]
 )
 
 
 # For SeqMyYWSMu ###############################################################
-sel_Bd_ws_Mu = Selection(
-    'SelMyBdWSMu',
-    Algorithm=algo_Bd_ws_Mu,
+sel_B0_ws_Mu = Selection(
+    'SelMyB0WSMu',
+    Algorithm=algo_B0_ws_Mu,
     RequiredSelections=[sel_Dst, sel_Mu]
 )
 
@@ -353,9 +354,9 @@ sel_refit_b2DstMu_ws_Mu = Selection(
         'MyRefitb2DstMuWSMu',
         Code="DECTREE('[B~0 -> (D*(2010)+ -> (D0->K- pi+) pi+) mu+]CC')",
         UsePVConstraint=False,
-        Inputs=[sel_Bd_ws_Mu.outputLocation()]
+        Inputs=[sel_B0_ws_Mu.outputLocation()]
     ),
-    RequiredSelections=[sel_Bd_ws_Mu]
+    RequiredSelections=[sel_B0_ws_Mu]
 )
 
 # For SeqMyYWSPi ###############################################################
@@ -365,21 +366,21 @@ sel_Dst_ws = Selection(
     RequiredSelections=[sel_D0, pr_all_Pi]
 )
 
-sel_Bd_ws_Pi = Selection(
-    'SelMyBdWSPi',
-    Algorithm=algo_Bd_ws_Pi,
+sel_B0_ws_Pi = Selection(
+    'SelMyB0WSPi',
+    Algorithm=algo_B0_ws_Pi,
     RequiredSelections=[sel_Dst_ws, sel_Mu]
 )
 
-sel_refit_b2DstMu_ws_Pi = Selection(
-    'SelMyRefitb2DstMuWSPi',
+sel_refit_B02DstMu_ws_Pi = Selection(
+    'SelMyRefitB02DstMuWSPi',
     Algorithm=FitDecayTrees(
-        'MyRefitb2DstMuWSPi',
+        'MyRefitB02DstMuWSPi',
         Code="DECTREE('[B~0 -> (D*(2010)- -> (D0->K- pi+) pi-) mu-]CC')",
         UsePVConstraint=False,
-        Inputs=[sel_Bd_ws_Pi.outputLocation()]
+        Inputs=[sel_B0_ws_Pi.outputLocation()]
     ),
-    RequiredSelections=[sel_Bd_ws_Pi]
+    RequiredSelections=[sel_B0_ws_Pi]
 )
 
 
@@ -409,7 +410,7 @@ seq_Y_ws_Mu = SelectionSequence(
 seq_Y_ws_Pi = SelectionSequence(
     'SeqMyYWSPi',
     EventPreSelector=event_pre_selectors,
-    TopSelection=sel_refit_b2DstMu_ws_Pi
+    TopSelection=sel_refit_B02DstMu_ws_Pi
 )
 
 
