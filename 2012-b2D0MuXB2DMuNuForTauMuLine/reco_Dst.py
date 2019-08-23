@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri Aug 23, 2019 at 05:44 PM -0400
+# Last Change: Fri Aug 23, 2019 at 05:48 PM -0400
 
 #####################
 # Configure DaVinci #
@@ -84,6 +84,12 @@ fltr_hlt = HDRFilter(
     Code="HLT_PASS('{0}Decision')".format(line_hlt))
 
 
+if not DaVinci().Simulation:
+    event_pre_selectors = [fltr_hlt, fltr_strip]
+else:
+    event_pre_selectors = []
+
+
 #######################
 # Particle references #
 #######################
@@ -147,6 +153,7 @@ sel_stripped_Mu = Selection(
     RequiredSelections=[sel_stripped_filtered]
 )
 
+
 if not DaVinci().Simulation:
     sel_charged_K = sel_stripped_charged_K
     sel_charged_Pi = sel_stripped_Pi
@@ -204,6 +211,10 @@ algo_D0.CombinationCut = "(ADAMASS('D0') < 200*MeV)"
 # .MotherCut are cuts after the vertex fit, that's why the mass cut is tighter
 algo_D0.MotherCut = "(ADMASS('D0') < 100*MeV) & (VFASPF(VCHI2/VDOF) < 100)"
 
+# This is the default setting now, and should be no longer needed
+# algo_D0.ParticleCombiners.update({'': 'LoKi::VertexFitter'})
+
+
 if DaVinci().Simulation:
     algo_D0.Preambulo += algo_mc_match_preambulo
 
@@ -220,9 +231,6 @@ if DaVinci().Simulation:
     algo_D0.MotherCut = \
         "(mcMatch('[Charm ->K- pi+ {gamma}{gamma}{gamma}]CC')) &" + \
         algo_D0.MotherCut
-
-# This is the default setting now, and should be no longer needed
-# algo_D0.ParticleCombiners.update({'': 'LoKi::VertexFitter'})
 
 
 # Dst ##########################################################################
@@ -266,6 +274,7 @@ algo_B0.CombinationCut = '(AM < 10200*MeV)'
 #          and the direction to flight from the best PV to the decay vertex.
 algo_B0.MotherCut = "(M < 10000*MeV) & (BPVDIRA > 0.9995) &" + \
                     "(VFASPF(VCHI2/VDOF) < 6.0)"
+
 
 if DaVinci().Simulation:
     algo_B0.Preambulo += algo_mc_match_preambulo
@@ -329,10 +338,10 @@ sel_B0 = Selection(
     RequiredSelections=[sel_Dst, sel_Mu]
 )
 
-sel_refit_b2DstMu = Selection(
-    'SelMyRefitb2DstMu',
+sel_refit_B02DstMu = Selection(
+    'SelMyRefitB02DstMu',
     Algorithm=FitDecayTrees(
-        'MyRefitb2DstMu',
+        'MyRefitB02DstMu',
         Code="DECTREE('[B~0 -> (D*(2010)+ -> (D0->K- pi+) pi+) mu-]CC')",
         UsePVConstraint=False,
         Inputs=[sel_B0.outputLocation()]
@@ -348,10 +357,10 @@ sel_B0_ws_Mu = Selection(
     RequiredSelections=[sel_Dst, sel_Mu]
 )
 
-sel_refit_b2DstMu_ws_Mu = Selection(
-    'SelMyRefitb2DstMuWSMu',
+sel_refit_B02DstMu_ws_Mu = Selection(
+    'SelMyRefitB02DstMuWSMu',
     Algorithm=FitDecayTrees(
-        'MyRefitb2DstMuWSMu',
+        'MyRefitB02DstMuWSMu',
         Code="DECTREE('[B~0 -> (D*(2010)+ -> (D0->K- pi+) pi+) mu+]CC')",
         UsePVConstraint=False,
         Inputs=[sel_B0_ws_Mu.outputLocation()]
@@ -390,21 +399,16 @@ sel_refit_B02DstMu_ws_Pi = Selection(
 
 from PhysSelPython.Wrappers import SelectionSequence
 
-if not DaVinci().Simulation:
-    event_pre_selectors = [fltr_hlt, fltr_strip]
-else:
-    event_pre_selectors = []
-
 seq_Y = SelectionSequence(
     'SeqMyY',
     EventPreSelector=event_pre_selectors,
-    TopSelection=sel_refit_b2DstMu
+    TopSelection=sel_refit_B02DstMu
 )
 
 seq_Y_ws_Mu = SelectionSequence(
     'SeqMyYWSMu',
     EventPreSelector=event_pre_selectors,
-    TopSelection=sel_refit_b2DstMu_ws_Mu
+    TopSelection=sel_refit_B02DstMu_ws_Mu
 )
 
 seq_Y_ws_Pi = SelectionSequence(
