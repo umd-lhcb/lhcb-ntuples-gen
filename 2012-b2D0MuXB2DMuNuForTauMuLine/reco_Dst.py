@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri Aug 23, 2019 at 12:43 PM -0400
+# Last Change: Fri Aug 23, 2019 at 03:26 PM -0400
 
 #####################
 # Configure DaVinci #
@@ -446,11 +446,6 @@ def tuple_initialize_data(name, sel_seq, decay):
     tp.addTupleTool('TupleToolTrackInfo')  # For addBranches
     tp.Inputs = [sel_seq.outputLocation()]
     tp.Decay = decay
-    return tp
-
-
-def tuple_initialize_mc(name, sel_seq, decay):
-    tp = tuple_initialize_data(name, sel_seq, decay)
 
     tp.ToolList += [
         'TupleToolKinematic',
@@ -459,11 +454,6 @@ def tuple_initialize_mc(name, sel_seq, decay):
         'TupleToolMuonPid',
         'TupleToolL0Calo',
     ]
-
-    tt_mcbi = tp.addTupleTool('TupleToolMCBackgroundInfo')
-    tt_mcbi.addTool(BackgroundCategory, name="BackgroundCategory")
-    tt_mcbi.BackgroundCategory.SemileptonicDecay = True
-    tt_mcbi.BackgroundCategory.NumNeutrinos = 3
 
     tt_tistos = tp.addTupleTool('TupleToolTISTOS')
     tt_tistos.TriggerList = [
@@ -482,6 +472,17 @@ def tuple_initialize_mc(name, sel_seq, decay):
         'nTracks': "CONTAINS('Rec/Track/Best')",
         'nSPDhits': "CONTAINS('Raw/Spd/Digits')",
     }
+
+    return tp
+
+
+def tuple_initialize_mc(name, sel_seq, decay):
+    tp = tuple_initialize_data(name, sel_seq, decay)
+
+    tt_mcbi = tp.addTupleTool('TupleToolMCBackgroundInfo')
+    tt_mcbi.addTool(BackgroundCategory, name="BackgroundCategory")
+    tt_mcbi.BackgroundCategory.SemileptonicDecay = True
+    tt_mcbi.BackgroundCategory.NumNeutrinos = 3
 
     tt_truth = tp.addTupleTool('TupleToolMCTruth')
     tt_truth.ToolList = [
@@ -511,11 +512,11 @@ def tuple_postpocess_mc(tp, weights='./weights_soft.xml'):
 
 
 if not DaVinci().Simulation:
-    tuple_postpocess = tuple_postpocess_data
     tuple_initialize = tuple_initialize_data
+    tuple_postpocess = tuple_postpocess_data
 else:
-    tuple_postpocess = tuple_postpocess_data
-    tuple_initialize = tuple_initialize_data
+    tuple_initialize = tuple_initialize_mc
+    tuple_postpocess = tuple_postpocess_mc
 
 
 # Y ############################################################################
