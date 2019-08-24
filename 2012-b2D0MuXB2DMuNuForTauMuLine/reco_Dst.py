@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri Aug 23, 2019 at 08:05 PM -0400
+# Last Change: Fri Aug 23, 2019 at 09:02 PM -0400
 
 #####################
 # Configure DaVinci #
@@ -141,22 +141,22 @@ sel_stripped_charged_K = Selection(
     RequiredSelections=[sel_stripped_filtered]
 )
 
-sel_stripped_Pi = Selection(
+sel_stripped_charged_Pi = Selection(
     'SelMyChargedPi',
     Algorithm=FilterInTrees('MyChargedPi', Code="(ABSID == 'pi+')"),
     RequiredSelections=[sel_stripped_filtered]
 )
 
 sel_stripped_Mu = Selection(
-    'SelMyChargedMu',
-    Algorithm=FilterInTrees('MyChargedMu', Code="(ABSID == 'mu+')"),
+    'SelMyMu',
+    Algorithm=FilterInTrees('MyMu', Code="(ABSID == 'mu+')"),
     RequiredSelections=[sel_stripped_filtered]
 )
 
 
 if not DaVinci().Simulation:
     sel_charged_K = sel_stripped_charged_K
-    sel_charged_Pi = sel_stripped_Pi
+    sel_charged_Pi = sel_stripped_charged_Pi
     sel_Mu = sel_stripped_Mu
 else:
     sel_charged_K = pr_charged_K
@@ -248,6 +248,7 @@ algo_Dst.MotherCut = "(ADMASS('D*(2010)+') < 125*MeV) &" + \
 
 
 # DstWS ########################################################################
+# 'WS' stands for 'wrong sign'
 algo_Dst_ws = CombineParticles('MyDstWS')
 algo_Dst_ws.DecayDescriptor = '[D*(2010)- -> D0 pi-]cc'
 
@@ -256,9 +257,9 @@ algo_Dst_ws.CombinationCut = algo_Dst.CombinationCut
 algo_Dst_ws.MotherCut = algo_Dst.MotherCut
 
 
-# Bd ###########################################################################
+# B0 ###########################################################################
 algo_B0 = CombineParticles('MyB0')
-algo_B0.DecayDescriptor = "[B~0 -> D*(2010)+ mu-]cc"
+algo_B0.DecayDescriptor = "[B~0 -> D*(2010)+ mu-]cc"  # B~0 is the CC of B0
 
 # ALL: trivial select all
 algo_B0.DaughtersCuts = {
@@ -289,7 +290,8 @@ if DaVinci().Simulation:
         "(MIPCHI2DV(PRIMARY)>45) & (TRCHI2DOF < 3.0)"
 
 
-# BdWSMu #######################################################################
+# B0WSMu #######################################################################
+# Here the muon has the wrong sign---charge not conserved.
 algo_B0_ws_Mu = CombineParticles('MyB0WSMu')
 algo_B0_ws_Mu.DecayDescriptor = "[B~0 -> D*(2010)+ mu+]cc"
 
@@ -301,7 +303,10 @@ algo_B0_ws_Mu.CombinationCut = algo_B0.CombinationCut
 algo_B0_ws_Mu.MotherCut = algo_B0.MotherCut
 
 
-# BdWSPi #######################################################################
+# B0WSPi #######################################################################
+# Here, due to the wrong quark content of B0, instead of B~0, the pion (not
+# listed here) will have wrong sign.
+# In other words, this time, D* has the wrong sign.
 algo_B0_ws_Pi = CombineParticles('MyB0WSPi')
 algo_B0_ws_Pi.DecayDescriptor = "[B0 -> D*(2010)+ mu+]cc"
 
@@ -360,7 +365,7 @@ sel_B0_ws_Mu = Selection(
 sel_refit_B02DstMu_ws_Mu = Selection(
     'SelMyRefitB02DstMuWSMu',
     Algorithm=FitDecayTrees(
-        'MyRefitB02DstMuWSMu',
+        'MyRefitB02DstMuwsMu',
         Code="DECTREE('[B~0 -> (D*(2010)+ -> (D0->K- pi+) pi+) mu+]CC')",
         UsePVConstraint=False,
         Inputs=[sel_B0_ws_Mu.outputLocation()]
@@ -406,13 +411,13 @@ seq_B0 = SelectionSequence(
 )
 
 seq_B0_ws_Mu = SelectionSequence(
-    'SeqMyB0wsMu',
+    'SeqMyB0WSMu',
     EventPreSelector=event_pre_selectors,
     TopSelection=sel_refit_B02DstMu_ws_Mu
 )
 
 seq_B0_ws_Pi = SelectionSequence(
-    'SeqMyB0wsPi',
+    'SeqMyB0WSPi',
     EventPreSelector=event_pre_selectors,
     TopSelection=sel_refit_B02DstMu_ws_Pi
 )
@@ -547,7 +552,7 @@ tuple_postpocess(tp_B0)
 
 # B0_ws_Mu #####################################################################
 tp_B0_ws_Mu = tuple_initialize(
-    'TupleB0wsMu',
+    'TupleB0WSMu',
     seq_B0_ws_Mu,
     '[B~0 -> ^(D*(2010)+ -> ^(D0 -> ^K- ^pi+) ^pi+) ^mu+]CC'
 )
@@ -566,7 +571,7 @@ tuple_postpocess(tp_B0_ws_Mu)
 
 # B0_ws_Pi #####################################################################
 tp_B0_ws_Pi = tuple_initialize(
-    'TupleB0wsPi',
+    'TupleB0WSPi',
     seq_B0_ws_Pi,
     '[B~0 -> ^(D*(2010)- -> ^(D0 -> ^K- ^pi+) ^pi-) ^mu-]CC'
 )
