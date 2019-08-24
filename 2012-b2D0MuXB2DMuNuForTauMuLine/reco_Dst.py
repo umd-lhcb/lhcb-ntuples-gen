@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri Aug 23, 2019 at 07:53 PM -0400
+# Last Change: Fri Aug 23, 2019 at 08:05 PM -0400
 
 #####################
 # Configure DaVinci #
@@ -316,7 +316,7 @@ algo_B0_ws_Pi.MotherCut = algo_B0.MotherCut
 
 from Configurables import FitDecayTrees
 
-# For SeqMyY ###################################################################
+# For SeqMyB0 ###################################################################
 
 # RequiredSelections takes a union of supplied selections, thus orderless.
 sel_D0 = Selection(
@@ -350,7 +350,7 @@ sel_refit_B02DstMu = Selection(
 )
 
 
-# For SeqMyYWSMu ###############################################################
+# For SeqMyB0WSMu ###############################################################
 sel_B0_ws_Mu = Selection(
     'SelMyB0WSMu',
     Algorithm=algo_B0_ws_Mu,
@@ -368,7 +368,7 @@ sel_refit_B02DstMu_ws_Mu = Selection(
     RequiredSelections=[sel_B0_ws_Mu]
 )
 
-# For SeqMyYWSPi ###############################################################
+# For SeqMyB0WSPi ###############################################################
 sel_Dst_ws = Selection(
     'SelMyDstWS',
     Algorithm=algo_Dst_ws,
@@ -399,31 +399,31 @@ sel_refit_B02DstMu_ws_Pi = Selection(
 
 from PhysSelPython.Wrappers import SelectionSequence
 
-seq_Y = SelectionSequence(
-    'SeqMyY',
+seq_B0 = SelectionSequence(
+    'SeqMyB0',
     EventPreSelector=event_pre_selectors,
     TopSelection=sel_refit_B02DstMu
 )
 
-seq_Y_ws_Mu = SelectionSequence(
-    'SeqMyYWSMu',
+seq_B0_ws_Mu = SelectionSequence(
+    'SeqMyB0wsMu',
     EventPreSelector=event_pre_selectors,
     TopSelection=sel_refit_B02DstMu_ws_Mu
 )
 
-seq_Y_ws_Pi = SelectionSequence(
-    'SeqMyYWSPi',
+seq_B0_ws_Pi = SelectionSequence(
+    'SeqMyB0wsPi',
     EventPreSelector=event_pre_selectors,
     TopSelection=sel_refit_B02DstMu_ws_Pi
 )
 
 
 if not DaVinci().Simulation:
-    DaVinci().UserAlgorithms += [seq_Y.sequence(),
-                                 seq_Y_ws_Mu.sequence(),
-                                 seq_Y_ws_Pi.sequence()]
+    DaVinci().UserAlgorithms += [seq_B0.sequence(),
+                                 seq_B0_ws_Mu.sequence(),
+                                 seq_B0_ws_Pi.sequence()]
 else:
-    DaVinci().UserAlgorithms += [seq_Y.sequence()]
+    DaVinci().UserAlgorithms += [seq_B0.sequence()]
 
 
 ###################
@@ -526,14 +526,14 @@ else:
     tuple_postpocess = tuple_postpocess_mc
 
 
-# Y ############################################################################
-tp_Y = tuple_initialize(
-    'TupleY',
-    seq_Y,
+# B0 ###########################################################################
+tp_B0 = tuple_initialize(
+    'TupleB0',
+    seq_B0,
     '[B~0 -> ^(D*(2010)+ -> ^(D0 -> ^K- ^pi+) ^pi+) ^mu-]CC'
 )
 
-tp_Y.addBranches({
+tp_B0.addBranches({
     "Y": "^([B0 -> (D*(2010)- -> (D~0 -> K+ pi-) pi-) mu+]CC)",
     "Dst_2010_minus": "[B0 -> ^(D*(2010)- -> (D~0 -> K+ pi-) pi-) mu+]CC",
     "D0": "[B0 -> (D*(2010)- -> ^(D~0 -> K+ pi-) pi-) mu+]CC",
@@ -542,17 +542,17 @@ tp_Y.addBranches({
     "Kplus": "[B0 -> (D*(2010)- -> (D~0 -> ^K+ pi-) pi-) mu+]CC",
     "muplus": "[B0 -> (D*(2010)- -> (D~0 -> K+ pi-) pi-) ^mu+]CC"})
 
-tuple_postpocess(tp_Y)
+tuple_postpocess(tp_B0)
 
 
-# Y_ws_Mu ######################################################################
-tp_Y_ws_Mu = tuple_initialize(
-    'TupleYWSMu',
-    seq_Y_ws_Mu,
+# B0_ws_Mu #####################################################################
+tp_B0_ws_Mu = tuple_initialize(
+    'TupleB0wsMu',
+    seq_B0_ws_Mu,
     '[B~0 -> ^(D*(2010)+ -> ^(D0 -> ^K- ^pi+) ^pi+) ^mu+]CC'
 )
 
-tp_Y_ws_Mu.addBranches({
+tp_B0_ws_Mu.addBranches({
     "Y": "^([B0 -> (D*(2010)- -> (D~0 -> K+ pi-) pi-) mu-]CC)",
     "Dst_2010_minus": "[B0 -> ^(D*(2010)- -> (D~0 -> K+ pi-) pi-) mu-]CC",
     "D0": "[B0 -> (D*(2010)- -> ^(D~0 -> K+ pi-) pi-) mu-]CC",
@@ -561,17 +561,17 @@ tp_Y_ws_Mu.addBranches({
     "Kplus": "[B0 -> (D*(2010)- -> (D~0 -> ^K+ pi-) pi-) mu-]CC",
     "muplus": "[B0 -> (D*(2010)- -> (D~0 -> K+ pi-) pi-) ^mu-]CC"})
 
-tuple_postpocess(tp_Y_ws_Mu)
+tuple_postpocess(tp_B0_ws_Mu)
 
 
-# Y_ws_Pi ######################################################################
-tp_Y_ws_Pi = tuple_initialize(
-    'TupleYWSPi',
-    seq_Y_ws_Pi,
+# B0_ws_Pi #####################################################################
+tp_B0_ws_Pi = tuple_initialize(
+    'TupleB0wsPi',
+    seq_B0_ws_Pi,
     '[B~0 -> ^(D*(2010)- -> ^(D0 -> ^K- ^pi+) ^pi-) ^mu-]CC'
 )
 
-tp_Y_ws_Pi.addBranches({
+tp_B0_ws_Pi.addBranches({
     "Y": "^([B0 -> (D*(2010)+ -> (D~0 -> K+ pi-) pi+) mu+]CC)",
     "Dst_2010_minus": "[B0 -> ^(D*(2010)+ -> (D~0 -> K+ pi-) pi+) mu+]CC",
     "D0": "[B0 -> (D*(2010)+ -> ^(D~0 -> K+ pi-) pi+) mu+]CC",
@@ -580,13 +580,13 @@ tp_Y_ws_Pi.addBranches({
     "Kplus": "[B0 -> (D*(2010)+ -> (D~0 -> ^K+ pi-) pi+) mu+]CC",
     "muplus": "[B0 -> (D*(2010)+ -> (D~0 -> K+ pi-) pi+) ^mu+]CC"})
 
-tuple_postpocess(tp_Y_ws_Pi)
+tuple_postpocess(tp_B0_ws_Pi)
 
 
 if not DaVinci().Simulation:
-    DaVinci().UserAlgorithms += [tp_Y, tp_Y_ws_Mu, tp_Y_ws_Pi]
+    DaVinci().UserAlgorithms += [tp_B0, tp_B0_ws_Mu, tp_B0_ws_Pi]
 else:
-    DaVinci().UserAlgorithms += [tp_Y]
+    DaVinci().UserAlgorithms += [tp_B0]
 
 
 ###########
