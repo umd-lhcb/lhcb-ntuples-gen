@@ -19,5 +19,5 @@ for branch in "${BRANCHES[@]}"; do
     root -q -l 'make_histo_float.cxx(
         "'"${NTP_DV42}"'", "'"${OUTPUT_DIR}"'",
         "_dv42r8p1",
-        "TupleY/DecayTree", "'"${branch}"'", 40, 0, 5)'
+        "TupleB0/DecayTree", "'"${branch}"'", 40, 0, 5)'
 done
