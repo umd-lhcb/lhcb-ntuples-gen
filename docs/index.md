@@ -19,7 +19,7 @@ The ntuples[^1] generation is separated into **2 steps**:
 
 1. Use `DaVinci` to generate ntuples from raw data[^2].
    Follow [this section](installation/#install-dependencies-for-davinci) to install required programs.
-   Use [this manual](software_manuals/davinci.md) to learn how to use `DaVinci` locally.
+   Use [this manual](software_manuals/davinci/docker_image_usage.md) to learn how to use `DaVinci` locally.
 2. Use `babymaker` frame work to do slimming, skimming, and additional
    calculation on previous ntuples, generating new ntuples.
    Use [this section](installation/#install-dependencies-for-babymaker) for installation.

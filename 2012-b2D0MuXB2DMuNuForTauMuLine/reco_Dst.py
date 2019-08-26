@@ -56,7 +56,7 @@ if not DaVinci().Simulation:
 else:
     DaVinci().appendToMainSequence([ms_smear])
 
-DaVinci().appendToMainSequence([ms_velo_protos, ms_velo_pions])
+#DaVinci().appendToMainSequence([ms_velo_protos, ms_velo_pions])
 
 
 ######################
