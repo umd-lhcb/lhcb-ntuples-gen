@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri Aug 23, 2019 at 09:02 PM -0400
+# Last Change: Mon Aug 26, 2019 at 04:49 PM -0400
 
 #####################
 # Configure DaVinci #
@@ -56,7 +56,7 @@ if not DaVinci().Simulation:
 else:
     DaVinci().appendToMainSequence([ms_smear])
 
-#DaVinci().appendToMainSequence([ms_velo_protos, ms_velo_pions])
+DaVinci().appendToMainSequence([ms_velo_protos, ms_velo_pions])
 
 
 ######################
