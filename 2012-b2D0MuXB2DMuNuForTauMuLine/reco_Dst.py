@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Aug 26, 2019 at 04:49 PM -0400
+# Last Change: Wed Aug 28, 2019 at 01:01 PM -0400
 
 #####################
 # Configure DaVinci #
@@ -122,6 +122,10 @@ pr_Mu = AutomaticData(Location='Phys/StdAllNoPIDsMuons/Particles')
 
 from PhysSelPython.Wrappers import Selection
 from Configurables import FilterDesktop, FilterInTrees
+from Configurables import TisTosParticleTagger
+
+# NOTE: 'stripped' selections require the existence of a stripping line, which
+#       only exists in data, not MC.
 
 # This selects events that have a muon and was triggered regardless of the muon
 sel_stripped_filtered = Selection(
@@ -133,24 +137,32 @@ sel_stripped_filtered = Selection(
     RequiredSelections=[pr_stripped]
 )
 
-# NOTE: 'stripped' selections require the existence of a stripping line, which
-#       only exists in data, not MC.
 sel_stripped_charged_K = Selection(
-    'SelMyChargedK',
+    'SelMyStrippedChargedK',
     Algorithm=FilterInTrees('MyChargedK', Code="(ABSID == 'K+')"),
     RequiredSelections=[sel_stripped_filtered]
 )
 
 sel_stripped_charged_Pi = Selection(
-    'SelMyChargedPi',
+    'SelMyStrippedChargedPi',
     Algorithm=FilterInTrees('MyChargedPi', Code="(ABSID == 'pi+')"),
     RequiredSelections=[sel_stripped_filtered]
 )
 
 sel_stripped_Mu = Selection(
-    'SelMyMu',
+    'SelMyStrippedMu',
     Algorithm=FilterInTrees('MyMu', Code="(ABSID == 'mu+')"),
     RequiredSelections=[sel_stripped_filtered]
+)
+
+# Muon selection for unstripped (MC) data
+sel_unstripped_Mu = Selection(
+    'SelMyUnstrippedMu',
+    Algorithm=TisTosParticleTagger(
+        'MyMuTisTagger',
+        Inputs=['Phys/StdAllNoPIDsMuons/Particles'],
+        TisTosSpecs={'L0Global%TIS': 0}),
+    RequiredSelections=[pr_Mu]
 )
 
 
@@ -161,7 +173,7 @@ if not DaVinci().Simulation:
 else:
     sel_charged_K = pr_charged_K
     sel_charged_Pi = pr_charged_Pi
-    sel_Mu = pr_Mu
+    sel_Mu = sel_unstripped_Mu
 
 
 #####################
