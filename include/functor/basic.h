@@ -1,6 +1,6 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Thu Sep 05, 2019 at 03:10 AM -0400
+// Last Change: Thu Sep 05, 2019 at 03:39 AM -0400
 
 #ifndef _LNG_FUNCTOR_BASIC_H_
 #define _LNG_FUNCTOR_BASIC_H_
@@ -17,7 +17,7 @@ T GEV(T x) {
 
 template <typename T>
 T GEV2(T x) {
-  return x / (1000*1000);
+  return GEV(GEV(x));
 }
 
 #endif
