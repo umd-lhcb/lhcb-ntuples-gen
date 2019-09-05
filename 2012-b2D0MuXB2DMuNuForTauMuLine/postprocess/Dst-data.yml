@@ -4,6 +4,8 @@ ntp:
         - runNumber
         - eventNumber
         - GpsTime
+    selection:
+        - "Y_ISOLATION_BDT < 0.15"
     calculation:
         # Convert to GeV
         m2_miss: "Double_t;FitVar_Mmiss2 / 1000"
