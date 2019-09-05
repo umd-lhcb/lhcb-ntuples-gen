@@ -1,6 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Sep 05, 2019 at 12:20 AM -0400
+# Last Change: Thu Sep 05, 2019 at 12:34 AM -0400
 
 BINPATH	:=	bin
 SRCPATH	:=	gen
@@ -16,9 +16,9 @@ ADDFLAGS	:=	-Iinclude
 all: gen/run1-Dst-step2/BCands_Dst-data-2012-mag_down-step2.root
 
 clean:
-	@rm -rf $(BINPATH)/*.exe
+	@rm -rf $(BINPATH)/*
 	@rm -rf $(SRCPATH)/*
-	@find . -name '*-postprocess.root' -delete
+	@find . -name '*-step2.root' -delete
 
 ###################################
 # 2012-b2D0MuXB2DMuNuForTauMuLine #
