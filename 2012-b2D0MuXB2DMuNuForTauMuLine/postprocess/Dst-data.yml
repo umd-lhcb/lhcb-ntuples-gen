@@ -12,5 +12,5 @@ ntp:
     calculation:
         # Convert to GeV
         m2_miss: "Double_t;GEV2(FitVar_Mmiss2)"
-        q2: "Double_t;GEV2(FitVar_q2)"
+        q2: "Double_t;GEV(GEV(FitVar_q2))"
         e_l: "Double_t;GEV(FitVar_El)"
