@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Sep 05, 2019 at 01:02 AM -0400
+# Last Change: Thu Sep 05, 2019 at 01:52 AM -0400
 
 #####################
 # Configure DaVinci #
@@ -86,7 +86,7 @@ fltr_hlt = HDRFilter(
 
 if not DaVinci().Simulation:
     # event_pre_selectors = [fltr_hlt, fltr_strip]
-    event_pre_selectors = []
+    event_pre_selectors = [fltr_hlt]
 else:
     event_pre_selectors = []
 
@@ -196,12 +196,6 @@ algo_D0.DecayDescriptor = '[D0 -> K- pi+]cc'
 # These cuts are imposed by the stripping line
 # http://lhcbdoc.web.cern.ch/lhcbdoc/stripping/config/stripping21/semileptonic/strippingb2d0muxb2dmunufortaumuline.html
 
-# PT: transverse momentum
-# MIPCHI2DV: minimum IP-chi^2
-# TRCHI2DOF: chi^2 per degree of freedom of the track fit
-# PIDK: combined delta-log-likelihood for the given hypothesis (wrt the
-#       pion)
-# TRGHOSTPROB: track ghost probability
 algo_D0.DaughtersCuts = {
     'K+': '(PT > 300*MeV) & (MIPCHI2DV(PRIMARY) > 45.0) &' +
           '(PIDK > 4) & (TRGHOSTPROB < 0.5)',
@@ -209,23 +203,8 @@ algo_D0.DaughtersCuts = {
     'pi-': '(PT > 300*MeV) & (MIPCHI2DV(PRIMARY) > 45.0) &' +
            '(PIDK < 2) & (TRGHOSTPROB < 0.5)'
 }
-
-# ADAMASS: the absolute mass difference to the PDG reference value, this functor
-#          takes an array as input, unlike ADMASS, which takes a scaler.
-# .CombinationCut are cuts made before the vertex fit, so it saves time
 algo_D0.CombinationCut = "(ADAMASS('D0') < 200*MeV)"
-
-# ADMASS: the absolute mass difference to the PDG reference value, but it is
-#         used after the vertex fit
-# VFASPF: vertex function as particle function
-#         Allow to apply vertex functors to the particle's `endVertex()`
-# VCHI2: vertex chi^2
-# VDOF: vertex fit number of degree of freedom
-# .MotherCut are cuts after the vertex fit, that's why the mass cut is tighter
 algo_D0.MotherCut = "(ADMASS('D0') < 100*MeV) & (VFASPF(VCHI2/VDOF) < 100)"
-
-# This is the default setting now, and should be no longer needed
-# algo_D0.ParticleCombiners.update({'': 'LoKi::VertexFitter'})
 
 
 if DaVinci().Simulation:
@@ -274,18 +253,8 @@ algo_Dst_ws.MotherCut = algo_Dst.MotherCut
 algo_B0 = CombineParticles('MyB0')
 algo_B0.DecayDescriptor = "[B~0 -> D*(2010)+ mu-]cc"  # B~0 is the CC of B0
 
-# ALL: trivial select all
-algo_B0.DaughtersCuts = {
-    "mu-": "ALL"
-}
-
-# AM: mass of the combination
-#     Return sqrt(E^2 - p^2)
+algo_B0.DaughtersCuts = {"mu-": "ALL"}
 algo_B0.CombinationCut = '(AM < 10200*MeV)'
-
-# BPVDIRA: direction angle
-#          Compute the cosine of the angle between the momentum of the particle
-#          and the direction to flight from the best PV to the decay vertex.
 algo_B0.MotherCut = "(M < 10000*MeV) & (BPVDIRA > 0.9995) &" + \
                     "(VFASPF(VCHI2/VDOF) < 6.0)"
 
@@ -343,7 +312,6 @@ sel_D0 = Selection(
     RequiredSelections=[sel_charged_K, sel_charged_Pi]
 )
 
-# Removed the upstream pions, which were not used by Greg/Phoebe
 sel_Dst = Selection(
     'SelMyDst',
     Algorithm=algo_Dst,
