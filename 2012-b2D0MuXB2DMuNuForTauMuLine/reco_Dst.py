@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Aug 28, 2019 at 01:01 PM -0400
+# Last Change: Thu Sep 05, 2019 at 02:56 PM -0400
 
 #####################
 # Configure DaVinci #
@@ -472,8 +472,8 @@ def tuple_initialize_data(name, sel_seq, decay):
     tp.ToolList += [
         'TupleToolKinematic',
         'TupleToolAngles',
-        'TupleToolPid',
-        'TupleToolMuonPid',
+        'TupleToolPid',  # This one produces 'PIDmu', and other PID variables
+        'TupleToolMuonPid',  # This write out NN mu inputs
         'TupleToolL0Calo',
     ]
 
