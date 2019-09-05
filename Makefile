@@ -1,6 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Sep 05, 2019 at 03:21 AM -0400
+# Last Change: Thu Sep 05, 2019 at 03:41 AM -0400
 
 BINPATH	:=	bin
 SRCPATH	:=	gen
@@ -20,9 +20,9 @@ clean:
 	@rm -rf $(SRCPATH)/*
 	@find . -name '*-step2.root' -delete
 
-###################################
-# 2012-b2D0MuXB2DMuNuForTauMuLine #
-###################################
+###############
+# Run 1: 2012 #
+###############
 
 gen/run1-Dst-step2/BCands_Dst-data-2012-mag_down-step2.root: \
 	2012-b2D0MuXB2DMuNuForTauMuLine/ntuples/run1-Dst/BCands_Dst-yipeng-data-2012-mag_down.root \
@@ -31,7 +31,7 @@ gen/run1-Dst-step2/BCands_Dst-data-2012-mag_down-step2.root: \
 
 $(SRCPATH)/Dst-data.cpp: \
 	2012-b2D0MuXB2DMuNuForTauMuLine/postprocess/Dst-data.yml \
-	2012-b2D0MuXB2DMuNuForTauMuLine/BCands_Dst-data.root \
+	2012-b2D0MuXB2DMuNuForTauMuLine/ntuples/run1-Dst/BCands_Dst-yipeng-data-2012-mag_down.root \
 	include/functor/*.h
 	babymaker \
 		-i $< -o $@ \
