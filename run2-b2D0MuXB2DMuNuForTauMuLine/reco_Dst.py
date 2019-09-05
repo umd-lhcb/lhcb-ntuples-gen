@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Sep 05, 2019 at 01:52 AM -0400
+# Last Change: Thu Sep 05, 2019 at 06:29 PM -0400
 
 #####################
 # Configure DaVinci #
@@ -69,24 +69,21 @@ DaVinci().appendToMainSequence([ms_velo_protos, ms_velo_pions])
 
 from Configurables import LoKi__HDRFilter as HDRFilter
 
-# Differences between 'HLT_PASS' and 'HLT_PASS_RE':
-#   'HLT_PASS' matches the line *exactly*
-#   'HLT_PASS_RE' (which was used in the starter kit) use regular expression to
-#   check if line given is a part of the lines of the events.
-line_strip = 'b2D0MuXB2DMuNuForTauMuLine'
+line_strip = 'b2D0MuXB2DMuForTauMuLine'
 fltr_strip = HDRFilter(
     'StrippedBCands',
-    Code="HLT_PASS('Stripping{0}Decision')".format(line_strip))
+    Code="HLT_PASS_RE('Stripping{0}Decision')".format(line_strip))
 
-line_hlt = 'Hlt2CharmHadD02HH_D02KPi'
-fltr_hlt = HDRFilter(
-    'Hlt2TriggeredD0',
-    Code="HLT_PASS('{0}Decision')".format(line_hlt))
+# NOTE: Since the HLT line below is part of the stripping line for run 2,
+#       there's no need to filter on it separately.
+# line_hlt = 'Hlt2XcMuXForTauB2XcMu'
+# fltr_hlt = HDRFilter(
+#     'Hlt2TriggeredD0',
+#     Code="HLT_PASS_RE('{0}Decision')".format(line_hlt))
 
 
 if not DaVinci().Simulation:
-    # event_pre_selectors = [fltr_hlt, fltr_strip]
-    event_pre_selectors = [fltr_hlt]
+    event_pre_selectors = [fltr_strip]
 else:
     event_pre_selectors = []
 
@@ -125,35 +122,36 @@ from PhysSelPython.Wrappers import Selection
 from Configurables import FilterDesktop, FilterInTrees
 from Configurables import TisTosParticleTagger
 
+# NOTE: This selects events that have a muon and was triggered regardless of the
+#       muon.
+#       We disable this temporarily to preserve the PT bias.
+# sel_stripped_filtered = Selection(
+#     'SelMyStrippedFiltered',
+#     Algorithm=FilterDesktop(
+#         'MyStrippedFiltered',
+#         Code="INTREE((ABSID == 'mu+') & (TIS('L0.*', 'L0TriggerTisTos')))"
+#     ),
+#     RequiredSelections=[pr_stripped]
+# )
+
 # NOTE: 'stripped' selections require the existence of a stripping line, which
 #       only exists in data, not MC.
-
-# This selects events that have a muon and was triggered regardless of the muon
-sel_stripped_filtered = Selection(
-    'SelMyStrippedFiltered',
-    Algorithm=FilterDesktop(
-        'MyStrippedFiltered',
-        Code="INTREE((ABSID == 'mu+') & (TIS('L0.*', 'L0TriggerTisTos')))"
-    ),
-    RequiredSelections=[pr_stripped]
-)
-
 sel_stripped_charged_K = Selection(
     'SelMyStrippedChargedK',
     Algorithm=FilterInTrees('MyChargedK', Code="(ABSID == 'K+')"),
-    RequiredSelections=[sel_stripped_filtered]
+    RequiredSelections=[pr_stripped]
 )
 
 sel_stripped_charged_Pi = Selection(
     'SelMyStrippedChargedPi',
     Algorithm=FilterInTrees('MyChargedPi', Code="(ABSID == 'pi+')"),
-    RequiredSelections=[sel_stripped_filtered]
+    RequiredSelections=[pr_stripped]
 )
 
 sel_stripped_Mu = Selection(
     'SelMyStrippedMu',
     Algorithm=FilterInTrees('MyMu', Code="(ABSID == 'mu+')"),
-    RequiredSelections=[sel_stripped_filtered]
+    RequiredSelections=[pr_stripped]
 )
 
 # Muon selection for unstripped (MC) data
@@ -197,14 +195,16 @@ algo_D0.DecayDescriptor = '[D0 -> K- pi+]cc'
 # http://lhcbdoc.web.cern.ch/lhcbdoc/stripping/config/stripping21/semileptonic/strippingb2d0muxb2dmunufortaumuline.html
 
 algo_D0.DaughtersCuts = {
-    'K+': '(PT > 300*MeV) & (MIPCHI2DV(PRIMARY) > 45.0) &' +
+    'K+': '(PT > 300*MeV) & (MIPCHI2DV(PRIMARY) > 9.0) &' +
           '(PIDK > 4) & (TRGHOSTPROB < 0.5)',
-          # '(TRCHI2DOF < 4) & (PIDK > 4) & (TRGHOSTPROB < 0.5)',
-    'pi-': '(PT > 300*MeV) & (MIPCHI2DV(PRIMARY) > 45.0) &' +
+    'pi-': '(PT > 300*MeV) & (MIPCHI2DV(PRIMARY) > 9.0) &' +
            '(PIDK < 2) & (TRGHOSTPROB < 0.5)'
 }
-algo_D0.CombinationCut = "(ADAMASS('D0') < 200*MeV)"
-algo_D0.MotherCut = "(ADMASS('D0') < 100*MeV) & (VFASPF(VCHI2/VDOF) < 100)"
+algo_D0.CombinationCut = "(ADAMASS('D0') < 100*MeV) &" + \
+    "(ACHILD(PT, 1) + ACHILD(PT, 2) > 2500*MeV)"
+algo_D0.MotherCut = "(ADMASS('D0') < 80*MeV) & (VFASPF(VCHI2/VDOF) < 4) &" + \
+    "(SUMTREE(PT, ISBASIC) > 2500*MeV) & (BPVVDCHI2 > 25.0) &" + \
+    "(BPVDIRA > 0.999)"
 
 
 if DaVinci().Simulation:
