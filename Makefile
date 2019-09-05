@@ -1,6 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Sep 05, 2019 at 12:34 AM -0400
+# Last Change: Thu Sep 05, 2019 at 03:21 AM -0400
 
 BINPATH	:=	bin
 SRCPATH	:=	gen
@@ -42,4 +42,4 @@ $(SRCPATH)/Dst-data.cpp: \
 ####################
 
 $(BINPATH)/%: $(SRCPATH)/%.cpp
-	$(COMPILER) $(CXXFLAGS) $(ADDFLAGS) -o $@ $(SRCPATH)/$(basename $(@F)).cpp $(LINKFLAGS)
+	$(COMPILER) $(CXXFLAGS) $(ADDFLAGS) -o $@ $< $(LINKFLAGS)
