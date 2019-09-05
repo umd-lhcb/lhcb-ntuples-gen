@@ -1,0 +1,7 @@
+ntp:
+    input_tree: TupleY/DecayTree
+    calculation:
+        # Convert to GeV
+        m2_miss: "Double_t;FitVar_Mmiss2 / 1000"
+        q2: "Double_t;FitVar_q2 / 1000"
+        el: "Double_t;FitVar_El / 1000"
