@@ -1,4 +1,7 @@
 ntp:
+    headers:
+        user:
+            - functor/basic.h
     input_tree: TupleY/DecayTree
     keep:
         - runNumber
@@ -8,6 +11,6 @@ ntp:
         - "Y_ISOLATION_BDT < 0.15"
     calculation:
         # Convert to GeV
-        m2_miss: "Double_t;FitVar_Mmiss2 / 1000"
-        q2: "Double_t;FitVar_q2 / 1000"
-        e_l: "Double_t;FitVar_El / 1000"
+        m2_miss: "Double_t;GEV2(FitVar_Mmiss2)"
+        q2: "Double_t;GEV2(FitVar_q2)"
+        e_l: "Double_t;GEV(FitVar_El)"
