@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri Aug 09, 2019 at 04:06 AM -0400
+# Last Change: Thu Sep 05, 2019 at 06:49 PM -0400
 #
 # Description: A demonstration on ganga option file with parser.
 #              This demo runs stand-alone, provided that Python is installed:
@@ -72,7 +72,7 @@ MC_D0_IDS = {
 PARAMETERS = {
     'data-2012-Dst': {
         'dirac_path': '/LHCb/Collision12/Beam4000GeV-VeloClosed-Mag{}/Real Data/Reco14/Stripping21/90000000/SEMILEPTONIC.DST',
-        'options': './conds/cond-data-Dst.py',
+        'options': './conds/cond-data-2012-Dst.py',
         'files_per_job': 5
     },
 }
