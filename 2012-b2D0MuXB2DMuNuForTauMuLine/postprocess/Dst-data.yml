@@ -1,5 +1,9 @@
 ntp:
     input_tree: TupleY/DecayTree
+    keep:
+        - runNumber
+        - eventNumber
+        - GpsTime
     calculation:
         # Convert to GeV
         m2_miss: "Double_t;FitVar_Mmiss2 / 1000"
