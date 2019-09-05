@@ -1,11 +1,11 @@
 __pycache__
 *.pyc
-*.yml
 
-bin/*.exe
-20*/*.root
+bin
 gen
 site
+20*/*.root
+*.yml
 
 .lvimrc
 .python-version
