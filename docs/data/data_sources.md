@@ -45,3 +45,7 @@
 | stripping line | sample `DIRAC` path |
 |---|---|
 | `Strippingb2D0MuXB2DMuForTaoMuLine` | `/LHCb/Collision16/Beam6500GeV-VeloClosed-MagDown/Real Data/Reco16/Stripping28r1/90000000/SEMILEPTONIC.DST`
+
+!!! warning
+    The run 2 stripping line name is **different** from that of run 1!
+    The run 2 stripping line omits `Nu`.
