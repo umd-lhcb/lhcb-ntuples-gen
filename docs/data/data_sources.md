@@ -5,18 +5,19 @@
 | `Strippingb2D0MuXB2DMuForTaoMuLine` | `Strippingb2D0MuXB2DMuNuForTauMuLine` | `/LHCb/Collision12/Beam4000GeV-VeloClosed-MagDown/Real Data/Reco14/Stripping21/90000000/SEMILEPTONIC.DST`
 
 !!! note
-    we have to use `Stripping21` instead of `Stripping20` as mentioned in the
+    We have to use `Stripping21` instead of `Stripping20` as mentioned in the
     notes, because the latter one is no longer _fully_ exist.
 
-    Also `Stripping21` contains 2012 data, and `Stripping21r1` contains 2011
+    Also, `Stripping21` contains 2012 data, and `Stripping21r1` contains 2011
     data.
 
 
 ## Run 1 Monte-Carlo
-In `DIRAC`, make sure to switch from **Simulation Condition** to **Event
-type**. Then the event will be available at `MC/2012/<event_type_uid>`.
 
-In the analysis note, we used the following event types:
+!!! tip
+    In `DIRAC`, make sure to switch from **Simulation Condition** to **Event
+    type**. Then the event will be available at `MC/2012/<event_type_uid>`.
+
 
 ### With $D^{**}$ in intermediate product
 * `11873030`: $B^0 \rightarrow D^{**} \tau \nu \rightarrow D^0$

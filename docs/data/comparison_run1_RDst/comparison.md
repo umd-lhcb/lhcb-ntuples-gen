@@ -19,7 +19,7 @@ The files being compared are:
     * Phoebe used [this DaVinci script](https://github.com/umd-lhcb/lhcb-ntuples-gen/blob/0.1/2012-b2D0MuXB2DMuNuForTauMuLine/ntuple_options-sample.py)
       to generate her ntuple, with `DaVinci v36r1p2`.
 
-    * We used [our script](https://github.com/umd-lhcb/lhcb-ntuples-gen/blob/0.5.3/2012-b2D0MuXB2DMuNuForTauMuLine/ntuple_options.py)[^2], and
+    * We used [our script](https://github.com/umd-lhcb/lhcb-ntuples-gen/blob/0.3/2012-b2D0MuXB2DMuNuForTauMuLine/ntuple_options.py)[^2], and
       `DaVinci v42r8p1`.
 
 
