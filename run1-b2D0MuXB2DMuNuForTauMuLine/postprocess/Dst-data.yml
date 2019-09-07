@@ -4,13 +4,16 @@ ntp:
             - functor/basic.h
     input_tree: TupleY/DecayTree
     rename:
+        # Event uid
         runNumber: run
         eventNumber: event
         GpsTime: time
+        # Isolation variables
+        Y_ISOLATION_BDT: iso_bdt
     selection:
         - "Y_ISOLATION_BDT < 0.15"
     calculation:
-        # Convert to GeV
+        # NOTE: Convert to GeV!
         m2miss: "Double_t;GEV2(FitVar_Mmiss2)"
         q2: "Double_t;GEV(GEV(FitVar_q2))"
         el: "Double_t;GEV(FitVar_El)"

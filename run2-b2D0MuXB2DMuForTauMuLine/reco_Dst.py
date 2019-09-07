@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Sep 05, 2019 at 06:29 PM -0400
+# Last Change: Sat Sep 07, 2019 at 12:20 PM -0400
 
 #####################
 # Configure DaVinci #
@@ -99,7 +99,6 @@ pr_stripped = AutomaticData(
     Location='/Event/Semileptonic/Phys/{0}/Particles'.format(line_strip))
 
 pr_charged_K = AutomaticData(Location='Phys/StdAllNoPIDsKaons/Particles')
-
 pr_charged_Pi = AutomaticData(Location='Phys/StdAllNoPIDsPions/Particles')
 
 pr_all_Pi = AutomaticData(Location='Phys/StdAllLoosePions/Particles')

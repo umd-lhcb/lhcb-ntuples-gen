@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Sep 05, 2019 at 02:56 PM -0400
+# Last Change: Sat Sep 07, 2019 at 12:19 PM -0400
 
 #####################
 # Configure DaVinci #
@@ -97,13 +97,13 @@ else:
 # It seems that 'DataOnDemand' is a misnomer of 'AutomaticData'
 from PhysSelPython.Wrappers import AutomaticData
 
+# Events tagged with our stripping line
 pr_stripped = AutomaticData(
     Location='/Event/Semileptonic/Phys/{0}/Particles'.format(line_strip))
 
 pr_charged_K = AutomaticData(Location='Phys/StdAllNoPIDsKaons/Particles')
 
 pr_charged_Pi = AutomaticData(Location='Phys/StdAllNoPIDsPions/Particles')
-
 pr_all_Pi = AutomaticData(Location='Phys/StdAllLoosePions/Particles')
 
 # standard NoPIDs upstream pions (VELO + TT hits, no T-layers).
