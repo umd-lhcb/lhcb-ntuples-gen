@@ -1,6 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Sep 05, 2019 at 06:56 PM -0400
+# Last Change: Sat Sep 07, 2019 at 01:18 PM -0400
 
 BINPATH	:=	bin
 SRCPATH	:=	gen
@@ -17,8 +17,8 @@ all: gen/run1-Dst-step2/BCands_Dst-data-2012-mag_down-step2.root
 
 clean:
 	@rm -rf $(BINPATH)/*
-	@rm -rf $(SRCPATH)/*
-	@find . -name '*-step2.root' -delete
+	@find ./gen -name '*-step2.root' -delete
+	@find ./gen -name '*.cpp' -delete
 
 ###############
 # Run 1: 2012 #
