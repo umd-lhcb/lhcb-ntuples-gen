@@ -17,9 +17,9 @@ ntp:
         muplus_ID: muminus_id
         Y_M: B0_m
     calculation:
-        Dst_idprod: "Double_t;PROD(D0_ID, piminus_ID)"  # for a physical process, -
+        Dst_idprod: "Double_t;PROD(D0_ID, piminus_ID)"  # - for a physical process
         B0_idprod: "Double_t;PROD(D0_ID, muplus_ID)"    # +
-        mu_pid: "Bool_t;MU_PID(muplus_isMuon, muplus_PIDmu)"
+        muminus_pid: "Bool_t;MU_PID(muplus_isMuon, muplus_PIDmu)"
         _isdata: "^Bool_t;ISDATA(GpsTime)"
         isdata: "Bool_t;_isdata"
         # Missing mass related
