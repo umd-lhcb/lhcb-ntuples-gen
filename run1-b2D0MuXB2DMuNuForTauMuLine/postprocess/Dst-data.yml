@@ -10,10 +10,15 @@ ntp:
         GpsTime: time
         # Isolation variables
         Y_ISOLATION_BDT: iso_bdt
+        # Particle identification
+        D0_ID: D0_id
+        piminus_ID: piminus_id
     selection:
         - "Y_ISOLATION_BDT < 0.15"
     calculation:
-        # NOTE: Convert to GeV!
+        Dst_idprod: "Double_t;PROD(D0_ID, piminus_ID)"  # for a physical process, -
+        B0_idprod: "Double_t;PROD(D0_ID, muplus_ID)"    # +
+        # Missing mass related
         m2miss: "Double_t;GEV2(FitVar_Mmiss2)"
         q2: "Double_t;GEV(GEV(FitVar_q2))"
         el: "Double_t;GEV(FitVar_El)"
