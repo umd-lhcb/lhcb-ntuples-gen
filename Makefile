@@ -1,6 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sat Sep 07, 2019 at 01:18 PM -0400
+# Last Change: Sun Sep 08, 2019 at 02:04 PM -0400
 
 BINPATH	:=	bin
 SRCPATH	:=	gen
@@ -13,7 +13,7 @@ ADDFLAGS	:=	-Iinclude
 
 .PHONY: all clean
 
-all: gen/run1-Dst-step2/BCands_Dst-data-2012-mag_down-step2.root
+all: gen/run1-Dst-step2/BCands_Dst-yipeng-data-2012-mag_down-step2.root
 
 clean:
 	@rm -rf $(BINPATH)/*
@@ -24,7 +24,7 @@ clean:
 # Run 1: 2012 #
 ###############
 
-gen/run1-Dst-step2/BCands_Dst-data-2012-mag_down-step2.root: \
+gen/run1-Dst-step2/BCands_Dst-yipeng-data-2012-mag_down-step2.root: \
 	run1-b2D0MuXB2DMuNuForTauMuLine/ntuples/run1-Dst/BCands_Dst-yipeng-data-2012-mag_down.root \
 	$(BINPATH)/run1-Dst-data
 	$(BINPATH)/run1-Dst-data $< $@
