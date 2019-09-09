@@ -1,11 +1,12 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Mon Sep 09, 2019 at 02:50 AM -0400
+// Last Change: Mon Sep 09, 2019 at 12:49 PM -0400
 
 #ifndef _LNG_FUNCTOR_PARTICLE_H_
 #define _LNG_FUNCTOR_PARTICLE_H_
 
 #include <TLorentzVector.h>
+#include <TMath.h>
 #include <TROOT.h>
 #include <TVector3.h>
 
@@ -33,16 +34,18 @@ TVector3 B0_FLIGHT_VECTOR(Double_t Xf, Double_t Yf, Double_t Zf, Double_t Xi,
   return v;
 }
 
-Double_t M2_MISS(Double_t E, Double_t PX, Double_t PY, Double_t PZ,
+Double_t M2_MISS(Double_t E, Double_t PX, Double_t PY, Double_t PZ, Double_t m,
                  TVector3 flight) {
   const Double_t B_M = 5279.61;
-  const Double_t PT  = 5800;
-
-  TLorentzVector P;
-  P.SetPtEtaPhiM(PT, flight.Unit().Eta(), flight.Unit().Phi(), B_M);
 
   TLorentzVector P_reco;
   P_reco.SetXYZT(PX, PY, PZ, E);
+
+  Double_t Tan_theta = flight.Unit().Perp() / flight.Unit().Z();
+  Double_t PT        = TMath::Power((B_M / m), 1) * Tan_theta * PZ;
+
+  TLorentzVector P;
+  P.SetPtEtaPhiM(PT, flight.Unit().Eta(), flight.Unit().Phi(), B_M);
 
   TLorentzVector P_miss = P - P_reco;
   return P_miss.M2();

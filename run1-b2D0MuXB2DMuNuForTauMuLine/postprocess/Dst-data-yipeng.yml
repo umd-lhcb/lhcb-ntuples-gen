@@ -24,14 +24,14 @@ B0:
         isdata: "Bool_t;_isdata"
         # Missing mass related
         _flight: "^TVector3;B0_FLIGHT_VECTOR(Y_ENDVERTEX_X, Y_ENDVERTEX_Y, Y_ENDVERTEX_Z, Y_OWNPV_X, Y_OWNPV_Y, Y_OWNPV_Z)"
-        _m2miss_alt: "^Double_t;M2_MISS(Y_PE, Y_PX, Y_PY, Y_PZ, _flight)"
+        _m2miss_alt: "^Double_t;M2_MISS(Y_PE, Y_PX, Y_PY, Y_PZ, Y_M, _flight)"
         m2miss_alt: "Double_t;GEV2(_m2miss_alt)"
         m2miss: "Double_t;GEV2(FitVar_Mmiss2)"
         q2: "Double_t;GEV(GEV(FitVar_q2))"
         el: "Double_t;GEV(FitVar_El)"
     selection:
-        #- "(Y_ISOLATION_BDT < 0.15)"
-        #- "&&"
+        - "(Y_ISOLATION_BDT < 0.15)"
+        - "&&"
         - "!(GpsTime > 1345.7332e12 && GpsTime < 1345.7335e12)"
         - "&&"
         - "_isdata"
