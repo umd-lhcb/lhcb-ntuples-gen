@@ -17,9 +17,12 @@ B0:
         muplus_ID: muminus_id
         Y_M: B0_m
     calculation:
+        # PID
         Dst_idprod: "Double_t;PROD(D0_ID, piminus_ID)"  # - for a physical process
         B0_idprod: "Double_t;PROD(D0_ID, muplus_ID)"    # +
-        muminus_pid: "Bool_t;MU_PID(muplus_isMuon, muplus_PIDmu)"
+        _muminus_pid: "^Bool_t;MU_PID(muplus_isMuon, muplus_PIDmu)"
+        muminus_pid: "Bool_t;_muminus_pid"
+        # Other flags
         _isdata: "^Bool_t;ISDATA(GpsTime)"
         isdata: "Bool_t;_isdata"
         # Transient variables for missing mass calculation
@@ -40,6 +43,8 @@ B0:
         m2miss_diff: "Double_t;GEV2(SUB(FitVar_Mmiss2, _m2miss_alt))"
         q2_diff: "Double_t;GEV2(SUB(FitVar_q2, _q2_alt))"
     selection:
+        - "_muminus_pid"
+        - "&&"
         - "(Y_ISOLATION_BDT < 0.15)"
         - "&&"
         - "_isdata"
