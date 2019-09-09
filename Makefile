@@ -1,6 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sun Sep 08, 2019 at 02:04 PM -0400
+# Last Change: Mon Sep 09, 2019 at 12:25 AM -0400
 
 BINPATH	:=	bin
 SRCPATH	:=	gen
@@ -13,29 +13,31 @@ ADDFLAGS	:=	-Iinclude
 
 .PHONY: all clean
 
-all: gen/run1-Dst-step2/BCands_Dst-yipeng-data-2012-mag_down-step2.root
+all: \
+	gen/run1-Dst-step2/BCands_Dst-yipeng-data-2012-mag_down-step2.root
 
 clean:
 	@rm -rf $(BINPATH)/*
 	@find ./gen -name '*-step2.root' -delete
 	@find ./gen -name '*.cpp' -delete
 
+
 ###############
 # Run 1: 2012 #
 ###############
 
+# MagDown
 gen/run1-Dst-step2/BCands_Dst-yipeng-data-2012-mag_down-step2.root: \
 	run1-b2D0MuXB2DMuNuForTauMuLine/ntuples/run1-Dst/BCands_Dst-yipeng-data-2012-mag_down.root \
-	$(BINPATH)/run1-Dst-data
-	$(BINPATH)/run1-Dst-data $< $@
+	$(BINPATH)/run1-Dst-data-yipeng
+	$(word 2, $^) $< $@
 
-$(SRCPATH)/run1-Dst-data.cpp: \
-	run1-b2D0MuXB2DMuNuForTauMuLine/postprocess/Dst-data.yml \
+$(SRCPATH)/run1-Dst-data-yipeng.cpp: \
+	run1-b2D0MuXB2DMuNuForTauMuLine/postprocess/Dst-data-yipeng.yml \
 	run1-b2D0MuXB2DMuNuForTauMuLine/ntuples/run1-Dst/BCands_Dst-yipeng-data-2012-mag_down.root \
 	include/functor/*.h
-	babymaker \
-		-i $< -o $@ \
-		-d run1-b2D0MuXB2DMuNuForTauMuLine/ntuples/run1-Dst/BCands_Dst-yipeng-data-2012-mag_down.root
+	babymaker -i $< -o $@ -d $(word 2, $^)
+
 
 ####################
 # Generic patterns #
