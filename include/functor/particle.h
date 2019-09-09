@@ -1,6 +1,6 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Mon Sep 09, 2019 at 01:03 PM -0400
+// Last Change: Mon Sep 09, 2019 at 01:27 PM -0400
 
 #ifndef _LNG_FUNCTOR_PARTICLE_H_
 #define _LNG_FUNCTOR_PARTICLE_H_
@@ -32,7 +32,7 @@ TLorentzVector FOUR_VEC(Double_t X, Double_t Y, Double_t Z, Double_t T) {
   return v;
 }
 
-Double_t M(TLorentzVector v) { return v.M2(); }
+Double_t M2(TLorentzVector v) { return v.M2(); }
 
 // Muon-related ////////////////////////////////////////////////////////////////
 
@@ -42,18 +42,16 @@ Bool_t MU_PID(Bool_t id_correctness, Double_t PID) {
 
 // Rest frame approximation ////////////////////////////////////////////////////
 
-TLorentzVector P_MISS(Double_t E, Double_t PX, Double_t PY, Double_t PZ,
-                      Double_t m, TVector3 flight) {
+TLorentzVector P_EST(Double_t PZ, Double_t m, TVector3 flight) {
   const Double_t B_M = 5279.61;
 
-  TLorentzVector P_reco    = FOUR_VEC(PX, PY, PZ, E);
-  Double_t       Tan_theta = flight.Unit().Perp() / flight.Unit().Z();
-  Double_t       PT        = TMath::Power((B_M / m), 1) * Tan_theta * PZ;
+  Double_t Tan_theta = flight.Unit().Perp() / flight.Unit().Z();
+  Double_t PT        = TMath::Power((B_M / m), 1) * Tan_theta * PZ;
 
   TLorentzVector P;
   P.SetPtEtaPhiM(PT, flight.Unit().Eta(), flight.Unit().Phi(), B_M);
 
-  return P - P_reco;
+  return P;
 }
 
 #endif

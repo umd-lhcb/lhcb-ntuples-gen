@@ -22,12 +22,14 @@ B0:
         muminus_pid: "Bool_t;MU_PID(muplus_isMuon, muplus_PIDmu)"
         _isdata: "^Bool_t;ISDATA(GpsTime)"
         isdata: "Bool_t;_isdata"
-        # Calculated missing mass variables
+        # Transient variables for missing mass calculation
         _flight: "^TVector3;VEC_DELTA(Y_ENDVERTEX_X, Y_ENDVERTEX_Y, Y_ENDVERTEX_Z, Y_OWNPV_X, Y_OWNPV_Y, Y_OWNPV_Z)"
-        _Dst_pmu: "^TLorentzVector;FOUR_VEC(Dst_2010_minus_PX, Dst_2010_minus_PY, Dst_2010_minus_PZ, Dst_2010_minus_PE)"
-        _pmiss: "^TLorentzVector;P_MISS(Y_PE, Y_PX, Y_PY, Y_PZ, Y_M, _flight)"
-        _q2_alt: "^Double_t;M(_pmiss-_Dst_pmu)"
-        _m2miss_alt: "^Double_t;M(_pmiss)"
+        _Dst_p: "^TLorentzVector;FOUR_VEC(Dst_2010_minus_PX, Dst_2010_minus_PY, Dst_2010_minus_PZ, Dst_2010_minus_PE)"
+        _B0_p_est: "^TLorentzVector;P_EST(Y_PZ, Y_M, _flight)"
+        # Alternative (Unofficial) missing mass calculation
+        _q2_alt: "^Double_t;M2(_B0_p_est-_Dst_p)"
+        _m2miss_alt: "^Double_t;M2(_B0_p_est - FOUR_VEC(Y_PX, Y_PY, Y_PZ, Y_PE))"
+        # Fill these variables in the tree
         m2miss_alt: "Double_t;GEV2(_m2miss_alt)"
         q2_alt: "Double_t;GEV2(_q2_alt)"
         # Missing mass variables that come with the ntuple
