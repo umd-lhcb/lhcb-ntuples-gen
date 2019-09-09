@@ -1,6 +1,6 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Mon Sep 09, 2019 at 02:45 AM -0400
+// Last Change: Mon Sep 09, 2019 at 02:50 AM -0400
 
 #ifndef _LNG_FUNCTOR_PARTICLE_H_
 #define _LNG_FUNCTOR_PARTICLE_H_
@@ -26,10 +26,10 @@ Bool_t MU_PID(Bool_t id_correctness, Double_t PID) {
 
 // Rest frame approximation ////////////////////////////////////////////////////
 
-TVector3 B0_FLIGHT_VECTOR(Double_t X_f, Double_t Y_f, Double_t Z_f,
-                          Double_t X_i, Double_t Y_i, Double_t Z_i) {
+TVector3 B0_FLIGHT_VECTOR(Double_t Xf, Double_t Yf, Double_t Zf, Double_t Xi,
+                          Double_t Yi, Double_t Zi) {
   TVector3 v;
-  v.SetXYZ(X_f - X_i, Y_f - Y_i, Z_f - Z_i);
+  v.SetXYZ(Xf - Xi, Yf - Yi, Zf - Zi);
   return v;
 }
 
