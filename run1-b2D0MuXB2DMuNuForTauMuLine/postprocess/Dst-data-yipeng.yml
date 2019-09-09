@@ -1,0 +1,39 @@
+B0:
+    headers:
+        user:
+            - functor/basic.h
+            - functor/particle.h
+    input_tree: TupleY/DecayTree
+    rename:
+        # Event uid
+        runNumber: run
+        eventNumber: event
+        GpsTime: time
+        # Isolation variables
+        Y_ISOLATION_BDT: iso_bdt
+        # Particles
+        D0_ID: D0_id
+        piminus_ID: piplus_id
+        muplus_ID: muminus_id
+        Y_M: B0_m
+    calculation:
+        Dst_idprod: "Double_t;PROD(D0_ID, piminus_ID)"  # - for a physical process
+        B0_idprod: "Double_t;PROD(D0_ID, muplus_ID)"    # +
+        muminus_pid: "Bool_t;MU_PID(muplus_isMuon, muplus_PIDmu)"
+        _isdata: "^Bool_t;ISDATA(GpsTime)"
+        isdata: "Bool_t;_isdata"
+        # Missing mass related
+        _flight: "^TVector3;B0_FLIGHT_VECTOR(Y_ENDVERTEX_X, Y_ENDVERTEX_Y, Y_ENDVERTEX_Z, Y_OWNPV_X, Y_OWNPV_Y, Y_OWNPV_Z)"
+        _m2miss_alt: "^Double_t;M2_MISS(Y_M, Y_PX, Y_PY, Y_PZ, _flight)"
+        m2miss_alt: "Double_t;_m2miss_alt"
+        m2miss: "Double_t;GEV2(FitVar_Mmiss2)"
+        q2: "Double_t;GEV(GEV(FitVar_q2))"
+        el: "Double_t;GEV(FitVar_El)"
+    selection:
+        - "(Y_ISOLATION_BDT < 0.15)"
+        - "&&"
+        - "!(GpsTime > 1345.7332e12 && GpsTime < 1345.7335e12)"
+        - "&&"
+        - "_isdata"
+        - "&&"
+        - "(Y_M < 5280)"
