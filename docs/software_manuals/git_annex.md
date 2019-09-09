@@ -99,28 +99,36 @@ Files added via `git add` can be changed just like a regular file.
 
 
 ## Synchronize files between local and remote repositories
-This is a **two-step** process:
+The simplest, but potentially dangerous because it may cause merge conflicts,
+method is:
+```
+git annex sync julian
+```
+
+A safer, **two-step** process is:
 ```
 git annex sync --no-pull julian
-git annex sync --content julian
+git annex sync julian
 ```
 
 !!! warning
     The two separate steps are needed to avoid unnecessary merge conflicts.
 
-If you do not want to download every single file from the `git-annex` repo (which is
-probably a couple of GBs), drop the `--content` flag in the second step and
-download the metadata only:
+If you want to download **every single file** from the `git-annex` repo (which is
+probably a couple of GBs), add the `--content` flag in the second step and
+download not only the metadata, but also the data:
 ```
 git annex sync --no-pull julian
-git annex sync julian
+git annex sync --content julian
 ```
+
 
 ## Download individual files
 This is simple:
 ```
 git annex get <path_to_files>
 ```
+
 
 ## Drop local files
 The following command will remove the local copy of the file **only**, and will
