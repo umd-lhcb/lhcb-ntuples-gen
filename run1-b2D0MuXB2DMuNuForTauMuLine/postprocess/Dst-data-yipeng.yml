@@ -30,8 +30,8 @@ B0:
         q2: "Double_t;GEV(GEV(FitVar_q2))"
         el: "Double_t;GEV(FitVar_El)"
     selection:
-        - "(Y_ISOLATION_BDT < 0.15)"
-        - "&&"
+        #- "(Y_ISOLATION_BDT < 0.15)"
+        #- "&&"
         - "!(GpsTime > 1345.7332e12 && GpsTime < 1345.7335e12)"
         - "&&"
         - "_isdata"
