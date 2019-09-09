@@ -48,3 +48,5 @@ B0:
         # Apply TIS('LO.*', 'LoTriggerTisTos')
         - "&&"
         - "(Y_L0Global_TIS || Dst_2010_minus_L0HadronDecision_TOS)"
+        - "&&"
+        - "muplus_L0Global_TIS"
