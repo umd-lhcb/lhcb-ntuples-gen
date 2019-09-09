@@ -814,19 +814,23 @@ content will go to <code>git-annex</code>.</p>
 </div>
 <p>Files added via <code>git add</code> can be changed just like a regular file.</p>
 <h2 id="synchronize-files-between-local-and-remote-repositories">Synchronize files between local and remote repositories</h2>
-<p>This is a <strong>two-step</strong> process:
+<p>The simplest, but potentially dangerous because it may cause merge conflicts,
+method is:
+<div class="codehilite"><pre><span></span><span class="n">git</span> <span class="n">annex</span> <span class="n">sync</span> <span class="n">julian</span>
+</pre></div></p>
+<p>A safer, <strong>two-step</strong> process is:
 <div class="codehilite"><pre><span></span><span class="n">git</span> <span class="n">annex</span> <span class="n">sync</span> <span class="c1">--no-pull julian</span>
-<span class="n">git</span> <span class="n">annex</span> <span class="n">sync</span> <span class="c1">--content julian</span>
+<span class="n">git</span> <span class="n">annex</span> <span class="n">sync</span> <span class="n">julian</span>
 </pre></div></p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>The two separate steps are needed to avoid unnecessary merge conflicts.</p>
 </div>
-<p>If you do not want to download every single file from the <code>git-annex</code> repo (which is
-probably a couple of GBs), drop the <code>--content</code> flag in the second step and
-download the metadata only:
+<p>If you want to download <strong>every single file</strong> from the <code>git-annex</code> repo (which is
+probably a couple of GBs), add the <code>--content</code> flag in the second step and
+download not only the metadata, but also the data:
 <div class="codehilite"><pre><span></span><span class="n">git</span> <span class="n">annex</span> <span class="n">sync</span> <span class="c1">--no-pull julian</span>
-<span class="n">git</span> <span class="n">annex</span> <span class="n">sync</span> <span class="n">julian</span>
+<span class="n">git</span> <span class="n">annex</span> <span class="n">sync</span> <span class="c1">--content julian</span>
 </pre></div></p>
 <h2 id="download-individual-files">Download individual files</h2>
 <p>This is simple:
