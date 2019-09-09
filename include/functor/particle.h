@@ -1,10 +1,11 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Mon Sep 09, 2019 at 02:03 AM -0400
+// Last Change: Mon Sep 09, 2019 at 02:45 AM -0400
 
 #ifndef _LNG_FUNCTOR_PARTICLE_H_
 #define _LNG_FUNCTOR_PARTICLE_H_
 
+#include <TLorentzVector.h>
 #include <TROOT.h>
 #include <TVector3.h>
 
@@ -32,14 +33,19 @@ TVector3 B0_FLIGHT_VECTOR(Double_t X_f, Double_t Y_f, Double_t Z_f,
   return v;
 }
 
-Double_t M2_MISS(Double_t m, Double_t PX, Double_t PY, Double_t PZ,
+Double_t M2_MISS(Double_t E, Double_t PX, Double_t PY, Double_t PZ,
                  TVector3 flight) {
-  TVector3 P_vec;
-  P_vec.SetXYZ(PX, PY, PZ);
-  P_vec           = P_vec - flight.Unit() * (P_vec.Dot(flight.Unit()));
-  Double_t P      = P_vec.Mag();
-  Double_t m_miss = sqrt(m * m + P * P) + P;
-  return m_miss * m_miss;
+  const Double_t B_M = 5279.61;
+  const Double_t PT  = 5800;
+
+  TLorentzVector P;
+  P.SetPtEtaPhiM(PT, flight.Unit().Eta(), flight.Unit().Phi(), B_M);
+
+  TLorentzVector P_reco;
+  P_reco.SetXYZT(PX, PY, PZ, E);
+
+  TLorentzVector P_miss = P - P_reco;
+  return P_miss.M2();
 }
 
 #endif
