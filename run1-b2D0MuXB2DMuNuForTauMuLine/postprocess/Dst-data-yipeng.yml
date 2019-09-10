@@ -37,7 +37,7 @@ B0:
         q2_alt: "Double_t;GEV2(_q2_alt)"
         # Missing mass variables that come with the ntuple
         m2miss: "Double_t;GEV2(FitVar_Mmiss2)"
-        q2: "Double_t;GEV(GEV(FitVar_q2))"
+        q2: "Double_t;GEV2(FitVar_q2)"
         el: "Double_t;GEV(FitVar_El)"
         # See if these two methods agree
         m2miss_diff: "Double_t;GEV2(SUB(FitVar_Mmiss2, _m2miss_alt))"
