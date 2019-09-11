@@ -198,6 +198,33 @@ Files used:
 | ![](data-2012-mag_down-dv36r1p2_vs_dv42r8p1/Y_ISOLATION_Type4_dv36r1p2.png) | ![](data-2012-mag_down-dv36r1p2_vs_dv42r8p1/Y_ISOLATION_Type4_dv42r8p1.png) |
 
 
+## Comparison between `DaVinci` version, without VELO pions
+Files used:
+
+* `BCands_Dst-phoebe-data-2012-mag_down-davinci_v36r1p2-subset-no_velo_pions.root`
+* `BCands_Dst-yipeng-data-2012-mag_down-davinci_v42r8p1-subset-no_velo_pions.root`
+
+### `Y_ISOLATION_Type`
+| `v36r1p2` | `v42r8p1` |
+|---|---|
+| ![](data-2012-mag_down-dv36r1p2_vs_dv42r8p1-no_velo_pions/Y_ISOLATION_Type_dv36r1p2-no_velo_pions.png) | ![](data-2012-mag_down-dv36r1p2_vs_dv42r8p1-no_velo_pions/Y_ISOLATION_Type_dv42r8p1-no_velo_pions.png) |
+
+### `Y_ISOLATION_Type2`
+| `v36r1p2` | `v42r8p1` |
+|---|---|
+| ![](data-2012-mag_down-dv36r1p2_vs_dv42r8p1-no_velo_pions/Y_ISOLATION_Type2_dv36r1p2-no_velo_pions.png) | ![](data-2012-mag_down-dv36r1p2_vs_dv42r8p1-no_velo_pions/Y_ISOLATION_Type2_dv42r8p1-no_velo_pions.png) |
+
+### `Y_ISOLATION_Type3`
+| `v36r1p2` | `v42r8p1` |
+|---|---|
+| ![](data-2012-mag_down-dv36r1p2_vs_dv42r8p1-no_velo_pions/Y_ISOLATION_Type3_dv36r1p2-no_velo_pions.png) | ![](data-2012-mag_down-dv36r1p2_vs_dv42r8p1-no_velo_pions/Y_ISOLATION_Type3_dv42r8p1-no_velo_pions.png) |
+
+### `Y_ISOLATION_Type4`
+| `v36r1p2` | `v42r8p1` |
+|---|---|
+| ![](data-2012-mag_down-dv36r1p2_vs_dv42r8p1-no_velo_pions/Y_ISOLATION_Type4_dv36r1p2-no_velo_pions.png) | ![](data-2012-mag_down-dv36r1p2_vs_dv42r8p1-no_velo_pions/Y_ISOLATION_Type4_dv42r8p1-no_velo_pions.png) |
+
+
 ## Comparison between MC (Pythia 6)
 Files used:
 
