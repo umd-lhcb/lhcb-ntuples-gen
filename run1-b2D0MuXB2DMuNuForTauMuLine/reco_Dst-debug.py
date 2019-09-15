@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sat Sep 14, 2019 at 09:37 PM -0400
+# Last Change: Sat Sep 14, 2019 at 09:46 PM -0400
 
 #####################
 # Configure DaVinci #
@@ -14,12 +14,12 @@ DaVinci().EvtMax = -1
 DaVinci().SkipEvents = 0
 DaVinci().PrintFreq = 100
 
-# Only ask for luminosity information when not using simulated data
-DaVinci().Lumi = not DaVinci().Simulation
-
-# Embed 2012 data MagDown config
+# Embed 2012 data MagDown configuration ########################################
 DaVinci().DataType = '2012'
 DaVinci().Simulation = False
+
+# Only ask for luminosity information when not using simulated data
+DaVinci().Lumi = not DaVinci().Simulation
 
 DaVinci().TupleFile = 'BCands_Dst-data.root'
 
