@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sat Sep 14, 2019 at 09:46 PM -0400
+# Last Change: Tue Sep 17, 2019 at 12:18 AM -0400
 
 #####################
 # Configure DaVinci #
@@ -87,7 +87,7 @@ from Configurables import LoKi__HDRFilter as HDRFilter
 #   'HLT_PASS' matches the line *exactly*
 #   'HLT_PASS_RE' (which was used in the starter kit) use regular expression to
 #   check if line given is a part of the lines of the events.
-line_strip = 'b2D0MuXB2DMuNuForTauMuLine'
+line_strip = 'b2D0MuXB2DMuForTauMuLine'
 fltr_strip = HDRFilter(
     'StrippedBCands',
     Code="HLT_PASS('Stripping{0}Decision')".format(line_strip))
@@ -537,7 +537,7 @@ def tuple_initialize_mc(name, sel_seq, decay):
     return tp
 
 
-def tuple_postpocess_data(tp, weights='./weights_soft.xml'):
+def tuple_postpocess_data(tp, weights='./weightsSoft.xml'):
     tp.Y.addTool(TupleToolTagDiscardDstMu, name='TupleMyDiscardDstMu')
     tp.Y.ToolList += ['TupleToolTagDiscardDstMu/TupleMyDiscardDstMu']
 
