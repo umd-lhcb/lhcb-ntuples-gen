@@ -1,15 +1,8 @@
-#include <string>
-#include <vector>
-#include "TBranch.h"
-#include "TCanvas.h"
-#include "TDirectory.h"
-#include "TFile.h"
-#include "TH1D.h"
-#include "TStopwatch.h"
-#include "TTree.h"
-#include "TTreeReader.h"
-
-//=========================================================================
+// Author: Ben Flaggs
+// License: BSD 2-clause
+// Last Change: Tue Sep 24, 2019 at 11:38 PM -0400
+//
+//==============================================================================
 // This macro will do the following:
 // 1. Extract the unique event IDs from two ntuples
 // 2. Save the unique extracted IDs to their own respective ntuples
@@ -21,7 +14,22 @@
 // 5. Compare a single branch present in both ntuples (as of now this
 //    branch must be of type Double_t but this will be changed after
 //    implementation with Yipeng's code)
-//=========================================================================
+//==============================================================================
+
+#include "TBranch.h"
+#include "TCanvas.h"
+#include "TDirectory.h"
+#include "TFile.h"
+#include "TH1D.h"
+#include "TStopwatch.h"
+#include "TTree.h"
+#include "TTreeReader.h"
+
+#include <iostream>
+#include <string>
+#include <vector>
+
+using namespace std;
 
 /*
 Vectors of the event IDs have the following form
