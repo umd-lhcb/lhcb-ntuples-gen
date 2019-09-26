@@ -10,7 +10,7 @@ Unless specified, all ntuples are located in `run1-b2D0MuXB2DMuNuForTauMuLine/sa
 [^1]: Typically by the combination of `runNumber` and `eventNumber`.
 
 
-## Comparison between 2012 data
+## Comparison between data
 The files being compared are, located in `run1-b2D0MuXB2DMuNuForTauMuLine/ntuples/run1-Dst`:
 
 * `BCands_Dst-phoebe-data-2012-mag_down.root`
