@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 #
 # Author: Yipeng Sun
-# Last Change: Thu Sep 26, 2019 at 11:52 AM -0400
+# Last Change: Thu Sep 26, 2019 at 12:42 PM -0400
 
 import uproot
 import numpy as np
+import matplotlib as mp
 
 from argparse import ArgumentParser
 from functools import partial
@@ -18,7 +19,7 @@ from matplotlib import pyplot as plt
 BINS = 200
 
 FONT_FAMILY = 'monospace'
-FONT_SIZE = '14'
+FONT_SIZE = '12'
 PLT_STYLE = 'classic'
 
 
@@ -88,6 +89,14 @@ def gen_histo(array, bins=BINS, scale=1.05):
 # Plot #
 ########
 
+def tick_formatter(x, p):
+    X = str(x)
+    if len(X) > 4:
+        return '{:2g}'.format(x)
+    else:
+        return x
+
+
 def plot(histo, bins, output, title, mean, std, yAxisScale='linear'):
     plt.style.use(PLT_STYLE)
     plt.rcParams.update({'font.family': FONT_FAMILY})
@@ -102,6 +111,10 @@ def plot(histo, bins, output, title, mean, std, yAxisScale='linear'):
            label='mean: {:.2g} std: {:.2g}'.format(mean, std))
     ax.legend()
     ax.set_title(title)
+    # Reformat x-ticks
+    ax.get_xaxis().set_major_formatter(
+        mp.ticker.FuncFormatter(tick_formatter)
+    )
 
     plt.tight_layout(pad=0.1)  # Remove all paddings
     fig.savefig(output)
