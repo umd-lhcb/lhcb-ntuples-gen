@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
 # Author: Yipeng Sun
-# Last Change: Thu Sep 26, 2019 at 02:39 PM -0400
+# Last Change: Thu Sep 26, 2019 at 02:52 PM -0400
 
 import sys
 import os
@@ -116,7 +116,7 @@ if __name__ == '__main__':
 
         # Plot the normalized difference
         diff_norm = diff / ref_branch
-        diff_norm[np.isinf(diff_norm)] = 0  # Remove infinities
+        diff_norm[np.isinf(diff_norm)] = 1  # Remove infinities
         mean = diff_norm.mean()
         std = diff_norm.std()
         histo, bins = gen_histo(diff_norm, args.bins)
