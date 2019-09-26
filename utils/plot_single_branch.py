@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
 # Author: Yipeng Sun
-# Last Change: Thu Sep 26, 2019 at 12:42 PM -0400
+# Last Change: Thu Sep 26, 2019 at 12:53 PM -0400
 
 import uproot
 import numpy as np
@@ -97,7 +97,7 @@ def tick_formatter(x, p):
         return x
 
 
-def plot(histo, bins, output, title, mean, std, yAxisScale='linear'):
+def plot(histo, bins, output, title, num, mean, std, yAxisScale='linear'):
     plt.style.use(PLT_STYLE)
     plt.rcParams.update({'font.family': FONT_FAMILY})
     plt.rcParams.update({'font.size': FONT_SIZE})
@@ -108,7 +108,7 @@ def plot(histo, bins, output, title, mean, std, yAxisScale='linear'):
 
     ax.bar(bins[:-1], histo, width=np.diff(bins),
            align='edge', color='blue', edgecolor='blue',
-           label='mean: {:.2g} std: {:.2g}'.format(mean, std))
+           label='tot: {:.4g} mean: {:.2g} std: {:.2g}'.format(num, mean, std))
     ax.legend()
     ax.set_title(title)
     # Reformat x-ticks
@@ -118,6 +118,10 @@ def plot(histo, bins, output, title, mean, std, yAxisScale='linear'):
 
     plt.tight_layout(pad=0.1)  # Remove all paddings
     fig.savefig(output)
+
+    # Close figure
+    fig.clf()
+    plt.close(fig)
 
 
 ########
@@ -133,4 +137,5 @@ if __name__ == '__main__':
     std = branch.std()
     histo, bins = gen_histo(branch, args.bins)
 
-    plot(histo, bins, args.output, args.branch, mean, std, args.yAxisScale)
+    plot(histo, bins, args.output, args.branch, branch.size, mean, std,
+         args.yAxisScale)
