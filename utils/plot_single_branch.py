@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
 # Author: Yipeng Sun
-# Last Change: Thu Sep 26, 2019 at 01:31 AM -0400
+# Last Change: Thu Sep 26, 2019 at 02:01 AM -0400
 
 import uproot
 import numpy as np
@@ -19,7 +19,7 @@ BINS = 200
 
 FONT_FAMILY = 'monospace'
 FONT_SIZE = '14'
-PLT_STYLE = 'ggplot'
+PLT_STYLE = 'classic'
 
 
 #################################
@@ -74,9 +74,14 @@ def read_branch(ntuple, tree=None, branch=None):
     return ntp[tree].array(branch)
 
 
-def gen_histo(array, bins=BINS):
-    histo_range = (array.min(), array.max())
-    return np.histogram(array, bins, histo_range)
+def gen_histo(array, bins=BINS, scale=1.05):
+    min = array.min()
+    max = array.max()
+
+    min = min*scale if min < 0 else min/scale
+    max = max/scale if min < 0 else max*scale
+
+    return np.histogram(array, bins, (min, max))
 
 
 ########
@@ -84,9 +89,9 @@ def gen_histo(array, bins=BINS):
 ########
 
 def plot(histo, bins, output, title, mean, std, yAxisScale='linear'):
+    plt.style.use(PLT_STYLE)
     plt.rcParams.update({'font.family': FONT_FAMILY})
     plt.rcParams.update({'font.size': FONT_SIZE})
-    plt.style.use(PLT_STYLE)
 
     fig = plt.figure()
     ax = fig.add_subplot()

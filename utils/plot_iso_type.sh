@@ -1,6 +1,6 @@
 #!/bin/bash
 
-OUTPUT_DIR="../gen/"
+OUTPUT_DIR="../docs/data/comparison_run1_RDst/data-2012-mag_down-dv36r1p2_vs_dv42r8p1"
 NTP_DV36="../run1-b2D0MuXB2DMuNuForTauMuLine/samples/BCands_Dst-phoebe-data-2012-mag_down-davinci_v36r1p2-subset.root"
 NTP_DV42="../run1-b2D0MuXB2DMuNuForTauMuLine/samples/BCands_Dst-yipeng-data-2012-mag_down-davinci_v42r8p1-subset.root"
 
@@ -12,12 +12,8 @@ BRANCHES=(
 )
 
 for branch in "${BRANCHES[@]}"; do
-    root -q -l 'make_histo_float.cxx(
-        "'"${NTP_DV36}"'", "'"${OUTPUT_DIR}"'",
-        "_dv36r1p2",
-        "TupleY/DecayTree", "'"${branch}"'", 40, 0, 5)'
-    root -q -l 'make_histo_float.cxx(
-        "'"${NTP_DV42}"'", "'"${OUTPUT_DIR}"'",
-        "_dv42r8p1",
-        "TupleB0/DecayTree", "'"${branch}"'", 40, 0, 5)'
+    ./plot_single_branch.py "${NTP_DV36}" "TupleY/DecayTree" "${branch}" \
+        -o "${OUTPUT_DIR}/${branch}_dv36r1p2.png"
+    ./plot_single_branch.py "${NTP_DV42}" "TupleB0/DecayTree" "${branch}" \
+        -o "${OUTPUT_DIR}/${branch}_dv42r8p1.png"
 done
