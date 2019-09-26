@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Sep 17, 2019 at 12:18 AM -0400
+# Last Change: Thu Sep 26, 2019 at 04:11 PM -0400
 
 #####################
 # Configure DaVinci #
@@ -18,9 +18,7 @@ DaVinci().PrintFreq = 100
 DaVinci().DataType = '2012'
 DaVinci().Simulation = False
 
-# Only ask for luminosity information when not using simulated data
 DaVinci().Lumi = not DaVinci().Simulation
-
 DaVinci().TupleFile = 'BCands_Dst-data.root'
 
 from GaudiConf import IOHelper
@@ -35,10 +33,6 @@ IOHelper().inputFiles([
 ###################################
 # Customize DaVinci main sequence #
 ###################################
-# These algorithms are executed before any of the selection algorithms.
-#
-# algorithms defined here will set up locations that will be available for all
-# selection algorithms.
 
 from Configurables import ChargedProtoParticleMaker
 from Configurables import NoPIDsParticleMaker
@@ -50,18 +44,10 @@ ms_velo_protos = ChargedProtoParticleMaker(name='MyProtoPMaker')
 ms_velo_protos.Inputs = ['Rec/Track/Best']
 ms_velo_protos.Output = 'Rec/ProtoP/MyProtoPMaker/ProtoParticles'  # This TES location will be accessible for all selection algorithms
 
-# VELO pions for Greg's isolation tool.
-# NOTE: The name 'StdNoPIDsVeloPions' is hard-coded in the tuple tool, so the
-#       name should not be changed.
 ms_velo_pions = NoPIDsParticleMaker('StdNoPIDsVeloPions', Particle='pion')
 ms_velo_pions.Input = 'Rec/ProtoP/MyProtoPMaker/ProtoParticles'
 
-# According to the source code (available in 'Analysis/Phys/DaVinciTrackScaling/src/TrackScaleState.cpp'):
-# Scale the state. Use on DST to scale the track states *before* your user
-# algorithms sequence.
 ms_scale = TrackScaleState('StateScale')
-
-# Smear the momentum of MC particles, because the resolution is too good.
 ms_smear = TrackSmearState('StateSmear')
 
 
@@ -76,17 +62,9 @@ DaVinci().appendToMainSequence([ms_velo_protos, ms_velo_pions])
 ######################
 # Define pre-filters #
 ######################
-# These filters are executed *before* the main selection algorithms to ignore
-# obviously uninteresting events.
-#
-# This should speed up the execution time.
 
 from Configurables import LoKi__HDRFilter as HDRFilter
 
-# Differences between 'HLT_PASS' and 'HLT_PASS_RE':
-#   'HLT_PASS' matches the line *exactly*
-#   'HLT_PASS_RE' (which was used in the starter kit) use regular expression to
-#   check if line given is a part of the lines of the events.
 line_strip = 'b2D0MuXB2DMuForTauMuLine'
 fltr_strip = HDRFilter(
     'StrippedBCands',
@@ -111,7 +89,6 @@ else:
 # It seems that 'DataOnDemand' is a misnomer of 'AutomaticData'
 from PhysSelPython.Wrappers import DataOnDemand
 
-# Events tagged with our stripping line
 pr_stripped = DataOnDemand(
     Location='/Event/Semileptonic/Phys/{0}/Particles'.format(line_strip))
 
@@ -120,28 +97,17 @@ pr_charged_K = DataOnDemand(Location='Phys/StdAllNoPIDsKaons/Particles')
 pr_charged_Pi = DataOnDemand(Location='Phys/StdAllNoPIDsPions/Particles')
 pr_all_Pi = DataOnDemand(Location='Phys/StdAllLoosePions/Particles')
 
-# standard NoPIDs upstream pions (VELO + TT hits, no T-layers).
-# They only added 10% with terrible mass resolution, so they didn't use them in
-# the end.
-# pr_up_pi = DataOnDemand(Location='Phys/StdNoPIDsUpPions/Particles')
-
 pr_Mu = DataOnDemand(Location='Phys/StdAllNoPIDsMuons/Particles')
 
 
 ############################
 # Define simple selections #
 ############################
-# 'simple' means that algorithms for these selections are effectively one-
-# liners.
 
 from PhysSelPython.Wrappers import Selection
 from Configurables import FilterDesktop, FilterInTrees
 from Configurables import TisTosParticleTagger
 
-# NOTE: 'stripped' selections require the existence of a stripping line, which
-#       only exists in data, not MC.
-
-# This selects events that have a muon and was triggered regardless of the muon
 sel_stripped_filtered = Selection(
     'SelMyStrippedFiltered',
     Algorithm=FilterDesktop(
@@ -169,7 +135,6 @@ sel_stripped_Mu = Selection(
     RequiredSelections=[sel_stripped_filtered]
 )
 
-# Muon selection for unstripped (MC) data
 sel_unstripped_Mu = Selection(
     'SelMyUnstrippedMu',
     Algorithm=TisTosParticleTagger(
@@ -206,15 +171,6 @@ algo_mc_match_preambulo = [
 algo_D0 = CombineParticles('MyD0')
 algo_D0.DecayDescriptor = '[D0 -> K- pi+]cc'
 
-# These cuts are imposed by the stripping line
-# http://lhcbdoc.web.cern.ch/lhcbdoc/stripping/config/stripping21/semileptonic/strippingb2d0muxb2dmunufortaumuline.html
-
-# PT: transverse momentum
-# MIPCHI2DV: minimum IP-chi^2
-# TRCHI2DOF: chi^2 per degree of freedom of the track fit
-# PIDK: combined delta-log-likelihood for the given hypothesis (wrt the
-#       pion)
-# TRGHOSTPROB: track ghost probability
 algo_D0.DaughtersCuts = {
     'K+': '(PT > 300*MeV) & (MIPCHI2DV(PRIMARY) > 45.0) &' +
           '(PIDK > 4) & (TRGHOSTPROB < 0.5)',
@@ -223,21 +179,8 @@ algo_D0.DaughtersCuts = {
            '(PIDK < 2) & (TRGHOSTPROB < 0.5)'
 }
 
-# ADAMASS: the absolute mass difference to the PDG reference value, this functor
-#          takes an array as input, unlike ADMASS, which takes a scaler.
-# .CombinationCut are cuts made before the vertex fit, so it saves time
 algo_D0.CombinationCut = "(ADAMASS('D0') < 200*MeV)"
-
-# ADMASS: the absolute mass difference to the PDG reference value, but it is
-#         used after the vertex fit
-# VFASPF: vertex function as particle function
-#         Allow to apply vertex functors to the particle's `endVertex()`
-# VCHI2: vertex chi^2
-# VDOF: vertex fit number of degree of freedom
-# .MotherCut are cuts after the vertex fit, that's why the mass cut is tighter
 algo_D0.MotherCut = "(ADMASS('D0') < 100*MeV) & (VFASPF(VCHI2/VDOF) < 100)"
-
-# This is the default setting now, and should be no longer needed
 algo_D0.ParticleCombiners.update({'': 'LoKi::VertexFitter'})
 
 
@@ -275,7 +218,6 @@ algo_Dst.MotherCut = "(ADMASS('D*(2010)+') < 125*MeV) &" + \
 algo_Dst.ParticleCombiners.update({'': 'LoKi::VertexFitter'})
 
 # DstWS ########################################################################
-# 'WS' stands for 'wrong sign'
 algo_Dst_ws = CombineParticles('MyDstWS')
 algo_Dst_ws.DecayDescriptor = '[D*(2010)- -> D0 pi-]cc'
 
@@ -287,40 +229,25 @@ algo_Dst_ws.ParticleCombiners.update({'': 'LoKi::VertexFitter'})
 
 # B0 ###########################################################################
 algo_B0 = CombineParticles('MyB0')
-algo_B0.DecayDescriptor = "[B~0 -> D*(2010)+ mu-]cc"  # B~0 is the CC of B0
+algo_B0.DecayDescriptor = "[B~0 -> D*(2010)+ mu-]cc"
 
-# ALL: trivial select all
 algo_B0.DaughtersCuts = {
     "mu-": "ALL"
 }
 
-# AM: mass of the combination
-#     Return sqrt(E^2 - p^2)
 algo_B0.CombinationCut = '(AM < 10200*MeV)'
-
-# BPVDIRA: direction angle
-#          Compute the cosine of the angle between the momentum of the particle
-#          and the direction to flight from the best PV to the decay vertex.
 algo_B0.MotherCut = "(M < 10000*MeV) & (BPVDIRA > 0.9995) &" + \
                     "(VFASPF(VCHI2/VDOF) < 6.0)"
-
 algo_B0.ParticleCombiners.update({'': 'LoKi::VertexFitter'})
 
 if DaVinci().Simulation:
     algo_B0.Preambulo += algo_mc_match_preambulo
-
-    # algo_Bd.HistoProduce = True
-    # algo_Bd.addTool(PlotTool("MotherPlots"))
-    # algo_Bd.MotherPlots.Histos = {
-    #    "AMAXDOCA(FLATTEN((ABSID=='D0') | (ABSID=='mu-')))" : ("DOCA",0,2)}
-
     algo_B0.DaughtersCuts['mu-'] = \
         "(mcMatch('[^mu+]CC')) & (TRGHOSTPROB < 0.5) &" + \
         "(MIPCHI2DV(PRIMARY)>45) & (TRCHI2DOF < 3.0)"
 
 
 # B0WSMu #######################################################################
-# Here the muon has the wrong sign---charge not conserved.
 algo_B0_ws_Mu = CombineParticles('MyB0WSMu')
 algo_B0_ws_Mu.DecayDescriptor = "[B~0 -> D*(2010)+ mu+]cc"
 
@@ -334,9 +261,6 @@ algo_B0_ws_Mu.MotherCut = algo_B0.MotherCut
 algo_B0_ws_Mu.ParticleCombiners.update({'': 'LoKi::VertexFitter'})
 
 # B0WSPi #######################################################################
-# Here, due to the wrong quark content of B0, instead of B~0, the pion (not
-# listed here) will have wrong sign.
-# In other words, this time, D* has the wrong sign.
 algo_B0_ws_Pi = CombineParticles('MyB0WSPi')
 algo_B0_ws_Pi.DecayDescriptor = "[B0 -> D*(2010)+ mu+]cc"
 
@@ -354,15 +278,12 @@ algo_B0_ws_Pi.ParticleCombiners.update({'': 'LoKi::VertexFitter'})
 from Configurables import FitDecayTrees
 
 # For SeqMyB0 ###################################################################
-
-# RequiredSelections takes a union of supplied selections, thus orderless.
 sel_D0 = Selection(
     'SelMyD0',
     Algorithm=algo_D0,
     RequiredSelections=[sel_charged_K, sel_charged_Pi]
 )
 
-# Removed the upstream pions, which were not used by Greg/Phoebe
 sel_Dst = Selection(
     'SelMyDst',
     Algorithm=algo_Dst,
@@ -492,12 +413,11 @@ def tuple_initialize_data(name, sel_seq, decay):
     tp.ToolList += [
         'TupleToolKinematic',
         'TupleToolAngles',
-        'TupleToolPid',  # This one produces 'PIDmu', and other PID variables
-        'TupleToolMuonPid',  # This write out NN mu inputs
+        'TupleToolPid',
+        'TupleToolMuonPid',
         'TupleToolL0Calo',
     ]
 
-    # Save trigger decisions.
     tt_tistos = tp.addTupleTool('TupleToolTISTOS')
     tt_tistos.TriggerList = [
         'L0MuonDecision',
@@ -509,7 +429,6 @@ def tuple_initialize_data(name, sel_seq, decay):
     tt_tistos.VerboseHlt1 = True
     tt_tistos.VerboseHlt2 = True
 
-    # Add event-level information.
     tt_loki_evt = tp.addTupleTool(LokiEvtTool, "TupleMyLokiEvtTool")
     tt_loki_evt.Preambulo += ['from LoKiCore.functions import *']
     tt_loki_evt.VOID_Variables = {
