@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Sep 25, 2019 at 11:14 PM -0400
+# Last Change: Wed Sep 25, 2019 at 11:57 PM -0400
 
 import uproot
 import numpy as np
@@ -18,13 +18,14 @@ def extract_uid(filename, tree,
     mid = np.char.add(run, event)
 
     uid, idx, count = np.unique(mid, return_index=True, return_counts=True)
-    uid_idx = idx[count == 1]
+    uid = uid[count == 1]
+    idx = idx[count == 1]
 
     total_size = mid.size
     uniq_size = uid.size
     dupl_size = total_size - uniq_size
 
-    return (uid, uid_idx, total_size, uniq_size, dupl_size)
+    return (uid, idx, total_size, uniq_size, dupl_size)
 
 
 if __name__ == '__main__':
@@ -32,5 +33,5 @@ if __name__ == '__main__':
     filename = sys.argv[1]
     tree = sys.argv[2]
 
-    _, _, total_size, _, dupl_size = extract_uid(filename, tree)
+    uid, idx, total_size, _, dupl_size = extract_uid(filename, tree)
     print('Total # of event: {}, duplicate: {}'.format(total_size, dupl_size))
