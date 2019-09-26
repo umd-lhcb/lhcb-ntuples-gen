@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
 # Author: Yipeng Sun
-# Last Change: Thu Sep 26, 2019 at 02:04 AM -0400
+# Last Change: Thu Sep 26, 2019 at 11:52 AM -0400
 
 import uproot
 import numpy as np
@@ -28,7 +28,7 @@ PLT_STYLE = 'classic'
 
 def parse_input():
     parser = ArgumentParser(description='''
-generate a pdf plot from a branch of tree contained in a n-tuple.'''
+generate a plot from a branch of tree contained in a n-tuple.'''
                             )
 
     parser.add_argument('ntuple',
@@ -47,7 +47,7 @@ branch name in tree.''')
                         nargs='?',
                         required=True,
                         help='''
-path to output pdf file.''')
+path to output file.''')
 
     parser.add_argument('--bins',
                         nargs='?',
