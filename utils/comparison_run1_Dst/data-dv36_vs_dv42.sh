@@ -1,8 +1,8 @@
 #!/bin/bash
 
 OUTPUT_DIR="../../docs/data/comparison_run1_Dst/data-dv36_vs_dv42"
-NTP_REF="../../run1-b2D0MuXB2DMuNuForTauMuLine/samples/BCands_Dst-phoebe-data-2012-mag_down-davinci_v36r1p2-subset.root"
-NTP_COM="../../run1-b2D0MuXB2DMuNuForTauMuLine/samples/BCands_Dst-yipeng-data-2012-mag_down-davinci_v42r8p1-subset.root"
+NTP_REF="../../run1-b2D0MuXB2DMuNuForTauMuLine/samples/BCands_Dst-phoebe-data-2012-mag_down-dv36-subset.root"
+NTP_COM="../../run1-b2D0MuXB2DMuNuForTauMuLine/samples/BCands_Dst-yipeng-data-2012-mag_down-dv42-subset.root"
 
 # Diff
 BRANCHES="D0_P,Dst_2010_minus_P,"
@@ -25,7 +25,7 @@ BRANCHES=(
 
 for branch in "${BRANCHES[@]}"; do
     ../plot_single_branch.py "${NTP_REF}" "TupleY/DecayTree" "${branch}" \
-        -o "${OUTPUT_DIR}/${branch}_dv36r1p2.png"
+        -o "${OUTPUT_DIR}/${branch}_dv36.png"
     ../plot_single_branch.py "${NTP_COM}" "TupleB0/DecayTree" "${branch}" \
-        -o "${OUTPUT_DIR}/${branch}_dv42r8p1.png"
+        -o "${OUTPUT_DIR}/${branch}_dv42.png"
 done
