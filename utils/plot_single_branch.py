@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
 # Author: Yipeng Sun
-# Last Change: Thu Sep 26, 2019 at 02:01 AM -0400
+# Last Change: Thu Sep 26, 2019 at 02:04 AM -0400
 
 import uproot
 import numpy as np
@@ -101,6 +101,7 @@ def plot(histo, bins, output, title, mean, std, yAxisScale='linear'):
            align='edge', color='blue', edgecolor='blue',
            label='mean: {:.2g} std: {:.2g}'.format(mean, std))
     ax.legend()
+    ax.set_title(title)
 
     plt.tight_layout(pad=0.1)  # Remove all paddings
     fig.savefig(output)
