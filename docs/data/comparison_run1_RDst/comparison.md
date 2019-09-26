@@ -4,15 +4,17 @@ occur in both ntuples, and find their:
 1. absolute difference
 2. normalized difference, with one of them used as normalization
 
+Unless specified, all ntuples are located in `run1-b2D0MuXB2DMuNuForTauMuLine/samples`.
+
 
 [^1]: Typically by the combination of `runNumber` and `eventNumber`.
 
 
 ## Comparison between 2012 data
-The files being compared are:
+The files being compared are, located in `run1-b2D0MuXB2DMuNuForTauMuLine/ntuples/run1-Dst`:
 
-* `BCands_Dst-phoebe-data-2012-mag_down-step2.root`
-* `BCands_Dst-yipeng-data-2012-mag_down-davinci_v42r8p1-subset.root`
+* `BCands_Dst-phoebe-data-2012-mag_down.root`
+* `BCands_Dst-yipeng-data-2012-mag_down.root`
 
 
 !!! note
@@ -74,21 +76,6 @@ The files being compared are:
 | difference [MeV] | difference (normalized) |
 |---|---|
 | ![](data-2012-mag_down-phoebe_vs_yipeng/muplus_PZ_diff.png) | ![](data-2012-mag_down-phoebe_vs_yipeng/muplus_PZ_diff_norm.png) |
-
-### `FitVar_Mmiss2`
-| difference [MeV] | difference (normalized) |
-|---|---|
-| ![](data-2012-mag_down-phoebe_vs_yipeng/FitVar_Mmiss2_diff.png) | ![](data-2012-mag_down-phoebe_vs_yipeng/FitVar_Mmiss2_diff_norm.png) |
-
-### `FitVar_q2`
-| difference [MeV] | difference (normalized) |
-|---|---|
-| ![](data-2012-mag_down-phoebe_vs_yipeng/FitVar_q2_diff.png) | ![](data-2012-mag_down-phoebe_vs_yipeng/FitVar_q2_diff_norm.png) |
-
-### `FitVar_El`
-| difference [MeV] | difference (normalized) |
-|---|---|
-| ![](data-2012-mag_down-phoebe_vs_yipeng/FitVar_El_diff.png) | ![](data-2012-mag_down-phoebe_vs_yipeng/FitVar_El_diff_norm.png) |
 
 ### `Y_ISOLATION_BDT`
 | difference [MeV] | difference (normalized) |
@@ -240,21 +227,6 @@ Files used:
 | difference [MeV] | difference (normalized) |
 |---|---|
 | ![](mc-py6-mag_down-phoebe_vs_yipeng/Kplus_P_diff.png) | ![](mc-py6-mag_down-phoebe_vs_yipeng/Kplus_P_diff_norm.png) |
-
-### `FitVar_Mmiss2`
-| difference [MeV] | difference (normalized) |
-|---|---|
-| ![](mc-py6-mag_down-phoebe_vs_yipeng/FitVar_Mmiss2_diff.png) | ![](mc-py6-mag_down-phoebe_vs_yipeng/FitVar_Mmiss2_diff_norm.png) |
-
-### `FitVar_q2`
-| difference [MeV] | difference (normalized) |
-|---|---|
-| ![](mc-py6-mag_down-phoebe_vs_yipeng/FitVar_q2_diff.png) | ![](mc-py6-mag_down-phoebe_vs_yipeng/FitVar_q2_diff_norm.png) |
-
-### `FitVar_El`
-| difference [MeV] | difference (normalized) |
-|---|---|
-| ![](mc-py6-mag_down-phoebe_vs_yipeng/FitVar_El_diff.png) | ![](mc-py6-mag_down-phoebe_vs_yipeng/FitVar_El_diff_norm.png) |
 
 ### `Y_ISOLATION_BDT`
 | difference [MeV] | difference (normalized) |

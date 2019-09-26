@@ -9,6 +9,7 @@ BRANCHES+="Kplus_P,Kplus_PX,Kplus_PY,Kplus_PZ,"
 BRANCHES+="muplus_P,muplus_PX,muplus_PY,muplus_PZ,"
 BRANCHES+="Y_ISOLATION_BDT,Y_ISOLATION_BDT2,Y_ISOLATION_BDT3"
 
-./plot_diff_two_branches.py -n "${NTP_DV36}" -N "${NTP_DV42}" \
-    -t "TupleY/DecayTree" -T "TupleB0/DecayTree" -b "${BRANCHES}" \
+./plot_diff_two_ntuples.py -n "${NTP_DV36}" -N "${NTP_DV42}" \
+    -t "TupleY/DecayTree" -T "TupleB0/DecayTree" \
+    -b "${BRANCHES}" -B ${BRANCHES} \
     -o "${OUTPUT_DIR}"

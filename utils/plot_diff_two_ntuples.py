@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
 # Author: Yipeng Sun
-# Last Change: Thu Sep 26, 2019 at 12:54 PM -0400
+# Last Change: Thu Sep 26, 2019 at 02:39 PM -0400
 
 import sys
 import os
@@ -48,11 +48,17 @@ supply tree name in the reference n-tuple.''')
                         help='''
 supply tree name in the comparison n-tuple.''')
 
-    parser.add_argument('-b', '--branches',
+    parser.add_argument('-b', '--refBranches',
                         nargs='?',
                         required=True,
                         help='''
-supply all branches for comparison in both n-tuples. separated by ","''')
+supply all branches for comparison in reference n-tuple. separated by ","''')
+
+    parser.add_argument('-B', '--compBranches',
+                        nargs='?',
+                        required=True,
+                        help='''
+supply all branches for comparison in comparison n-tuple. separated by ","''')
 
     parser.add_argument('-o', '--output',
                         nargs='?',
@@ -86,9 +92,9 @@ if __name__ == '__main__':
     _, ref_idx, comp_idx = find_common_uid(args.ref, args.comp, args.refTree,
                                            args.compTree)
 
-    for b in args.branches.split(','):
+    for b, B in zip(args.refBranches.split(','), args.compBranches.split(',')):
         ref_branch = read_branch(args.ref, args.refTree, b)
-        comp_branch = read_branch(args.comp, args.compTree, b)
+        comp_branch = read_branch(args.comp, args.compTree, B)
 
         # Keep the intersection between the two branches, also only keep events
         # that are unique
@@ -110,6 +116,7 @@ if __name__ == '__main__':
 
         # Plot the normalized difference
         diff_norm = diff / ref_branch
+        diff_norm[np.isinf(diff_norm)] = 0  # Remove infinities
         mean = diff_norm.mean()
         std = diff_norm.std()
         histo, bins = gen_histo(diff_norm, args.bins)
