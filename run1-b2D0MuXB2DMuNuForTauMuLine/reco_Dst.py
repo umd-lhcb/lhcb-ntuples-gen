@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Sep 26, 2019 at 11:31 PM -0400
+# Last Change: Fri Sep 27, 2019 at 04:20 PM -0400
 
 #####################
 # Configure DaVinci #
@@ -10,9 +10,9 @@ from Configurables import DaVinci
 from Gaudi.Configuration import *
 
 # Debug options
-DaVinci().EvtMax = 300
-MessageSvc().OutputLevel = DEBUG
-# DaVinci().EvtMax = -1
+# DaVinci().EvtMax = 300
+# MessageSvc().OutputLevel = DEBUG
+DaVinci().EvtMax = -1
 
 DaVinci().InputType = 'DST'
 DaVinci().SkipEvents = 0
