@@ -83,17 +83,20 @@ To change them, we need to unlock them first:
 git annex unlock <path_to_annexed_file>
 ```
 
-Now you can edit the unlocked file as you wish. After editing, use `git commit`
-to keep the changes.
-
-If you don't need to modify the file after all, or want to discard
-modifications, just use `git annex lock`.
+Now you can edit the unlocked file as you wish. After editing, use
+`git annex add` to keep the changes and lock it again.
 
 !!! note
     When you commit, `git-annex` will notice that you are committing an
     unlocked file, add its new content.
     A pointer to that content is what gets committed to `git`; the actual
     content will go to `git-annex`.
+
+!!! warning
+    If you don't need to modify the file after all, or want to discard
+    modifications, use `git annex lock`.
+    Doing so will result in all modifications discarded. Proceed with care!
+
 
 Files added via `git add` can be changed just like a regular file.
 
