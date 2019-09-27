@@ -801,16 +801,20 @@ for more information on configuring <code>.gitattributes</code>.</p>
 <p>To change them, we need to unlock them first:
 <div class="codehilite"><pre><span></span><span class="n">git</span> <span class="n">annex</span> <span class="n">unlock</span> <span class="o">&lt;</span><span class="n">path_to_annexed_file</span><span class="o">&gt;</span>
 </pre></div></p>
-<p>Now you can edit the unlocked file as you wish. After editing, use <code>git commit</code>
-to keep the changes.</p>
-<p>If you don't need to modify the file after all, or want to discard
-modifications, just use <code>git annex lock</code>.</p>
+<p>Now you can edit the unlocked file as you wish. After editing, use
+<code>git annex add</code> to keep the changes and lock it again.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>When you commit, <code>git-annex</code> will notice that you are committing an
 unlocked file, add its new content.
 A pointer to that content is what gets committed to <code>git</code>; the actual
 content will go to <code>git-annex</code>.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>If you don't need to modify the file after all, or want to discard
+modifications, use <code>git annex lock</code>.
+Doing so will result in all modifications discarded. Proceed with care!</p>
 </div>
 <p>Files added via <code>git add</code> can be changed just like a regular file.</p>
 <h2 id="synchronize-files-between-local-and-remote-repositories">Synchronize files between local and remote repositories</h2>
