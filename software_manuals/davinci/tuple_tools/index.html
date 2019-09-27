@@ -701,19 +701,23 @@
 decays. This allows us to identify actual <span><span class="MathJax_Preview">B</span><script type="math/tex">B</script></span> meson decay vertices more
 readily.</p>
 <h3 id="_isolation_type"><code>_ISOLATION_Type</code></h3>
-<p>Among the many variables produced by this tool, these four are about isolation
-track type:</p>
+<p>Among the many variables produced by this tool, these four are about track type
+of each track:</p>
 <ul>
 <li><code>_ISOLATION_Type</code></li>
 <li><code>_ISOLATION_Type2</code></li>
 <li><code>_ISOLATION_Type3</code></li>
 <li><code>_ISOLATION_Type4</code></li>
 </ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>These four tracks are the ones with the best BDT scores.</p>
+</div>
 <p>For each of these variables, it admits 4 possible values of type <code>float</code>:</p>
 <ul>
 <li><code>1.0</code>: VELO only, with no other compatible segments found</li>
 <li><code>2.0</code>: ?</li>
-<li><code>3.0</code>: Forward tracks, which are VELO+(TT)+downstream segment (TT his
+<li><code>3.0</code>: Forward tracks, which are VELO+(TT)+downstream segment (TT hits
          optional)</li>
 <li><code>4.0</code>: Upstream tracks, VELO+TT</li>
 </ul>
