@@ -1,8 +1,8 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Sep 25, 2019 at 11:57 PM -0400
+# Last Change: Sat Sep 28, 2019 at 11:44 AM -0400
 
 import uproot
 import numpy as np
