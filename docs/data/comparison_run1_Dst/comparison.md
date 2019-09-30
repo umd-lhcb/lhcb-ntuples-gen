@@ -91,6 +91,21 @@ The files being compared are, located in `run1-b2D0MuXB2DMuNuForTauMuLine/ntuple
 |---|---|
 | ![](data-phoebe_vs_yipeng/Y_ISOLATION_BDT3_diff.png) | ![](data-phoebe_vs_yipeng/Y_ISOLATION_BDT3_diff_norm.png) |
 
+### `Y_ENDVERTEX_X`
+| difference [MeV] | difference (normalized) |
+|---|---|
+| ![](data-phoebe_vs_yipeng/Y_ENDVERTEX_X_diff.png) | ![](data-phoebe_vs_yipeng/Y_ENDVERTEX_X_diff_norm.png) |
+
+### `Y_ENDVERTEX_Y`
+| difference [MeV] | difference (normalized) |
+|---|---|
+| ![](data-phoebe_vs_yipeng/Y_ENDVERTEX_Y_diff.png) | ![](data-phoebe_vs_yipeng/Y_ENDVERTEX_Y_diff_norm.png) |
+
+### `Y_ENDVERTEX_Z`
+| difference [MeV] | difference (normalized) |
+|---|---|
+| ![](data-phoebe_vs_yipeng/Y_ENDVERTEX_Z_diff.png) | ![](data-phoebe_vs_yipeng/Y_ENDVERTEX_Z_diff_norm.png) |
+
 
 ## Comparison between `DaVinci` `v36r1p2` and `v42r8p1`
 Files used:
