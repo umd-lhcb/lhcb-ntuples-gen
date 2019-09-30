@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
 # Author: Yipeng Sun
-# Last Change: Sat Sep 28, 2019 at 04:22 PM -0400
+# Last Change: Sun Sep 29, 2019 at 10:05 PM -0400
 
 import sys
 import os
@@ -29,6 +29,7 @@ BRANCHS = {
     'ISOLATION_TRACK3': ['Y_ISOLATION_PE3', 'Y_ISOLATION_PX3',
                          'Y_ISOLATION_PY3', 'Y_ISOLATION_PZ3'],
 }
+BRANCH_NAMES = list(BRANCHS.keys())
 
 
 #################################
@@ -98,12 +99,30 @@ def match(val, ref_dict):
     return 0
 
 
-def four_momenta(tree, brach_dict=BRANCHS):
+def four_momenta(tree, idx, brach_dict=BRANCHS):
     momenta = {}
-    for k, v in brach_dict.items():
-        p = tree.arrays(v).values()
-        momenta[k] = np.column_stack(list(p))
+    for k, v in enumerate(brach_dict.values(), start=1):
+        raw_events = tree.arrays(v).values()
+        # Keep events with indices specified in 'idx' only
+        events = []
+        for e in raw_events:
+            events.append(e[idx])
+        momenta[k] = np.column_stack(events)
     return momenta
+
+
+def plot_comparison(ref_mom, comp_mom, titlenames, filename_suffix):
+    for key, val in comp_mom.items():
+        title = titlenames[key-1]
+        filename = title + filename_suffix
+
+        result = np.fromiter((match(v, ref_mom) for v in val), val.dtype)
+        mean = result.mean()
+        std = result.std()
+
+        histo, bins = gen_histo(result, bins=args.bins)
+        plot(histo, bins, filename, title, result.size, mean, std,
+             args.yAxisScale)
 
 
 ########
@@ -119,37 +138,7 @@ if __name__ == '__main__':
     ref_ntp, comp_ntp = map(uproot.open, [args.ref, args.comp])
     ref_mom, comp_mom = map(four_momenta, [ref_ntp[args.refTree],
                                            comp_ntp[args.compTree]])
+    suffix_names = args.suffix.split(',')
 
-    # for suffix in args.suffix.split(','):
-
-
-        # ref_branch = read_branch(args.ref, args.refTree, b)
-        # comp_branch = read_branch(args.comp, args.compTree, B)
-
-        # # Keep the intersection between the two branches, also only keep events
-        # # that are unique
-        # ref_branch = ref_branch[ref_idx]
-        # comp_branch = comp_branch[comp_idx]
-
-        # diff_filename = b + '_diff.png'
-        # diff_norm_filename = b + '_diff_norm.png'
-
-        # # Plot the difference
-        # diff = comp_branch - ref_branch
-        # mean = diff.mean()
-        # std = diff.std()
-        # histo, bins = gen_histo(diff, args.bins)
-        # num = ref_branch.size
-
-        # plot(histo, bins, os.path.join(args.output, diff_filename),
-             # b+' (diff)', num, mean, std, args.yAxisScale)
-
-        # # Plot the normalized difference
-        # diff_norm = diff / ref_branch
-        # diff_norm[np.isinf(diff_norm)] = 1  # Remove infinities
-        # mean = diff_norm.mean()
-        # std = diff_norm.std()
-        # histo, bins = gen_histo(diff_norm, args.bins)
-
-        # plot(histo, bins, os.path.join(args.output, diff_norm_filename),
-             # b+' (diff norm)', num, mean, std, args.yAxisScale)
+    plot_comparison(ref_mom, comp_mom, BRANCH_NAMES, suffix_names[0])
+    plot_comparison(comp_mom, ref_mom, BRANCH_NAMES, suffix_names[1])
