@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
 # Author: Yipeng Sun
-# Last Change: Sun Sep 29, 2019 at 10:14 PM -0400
+# Last Change: Sun Sep 29, 2019 at 10:45 PM -0400
 
 import sys
 import os
@@ -119,7 +119,7 @@ def four_momenta(tree, idx, brach_dict=BRANCHS):
 def plot_comparison(ref_mom, comp_mom, titlenames, filename_suffix):
     for key, val in comp_mom.items():
         title = titlenames[key-1]
-        filename = title + filename_suffix
+        filename = os.path.join(args.output, title + filename_suffix)
 
         result = np.fromiter((match(v, ref_mom) for v in val), val.dtype)
         mean = result.mean()
