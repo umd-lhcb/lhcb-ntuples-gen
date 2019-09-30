@@ -302,6 +302,31 @@ Files used:
 |---|---|
 | ![](data-dv36_vs_dv42-no_refit/Y_ISOLATION_Type4_dv36-no_refit.png) | ![](data-dv36_vs_dv42-no_refit/Y_ISOLATION_Type4_dv42-no_refit.png) |
 
+### `ISOLATION_TRACK1`
+
+!!! note
+    The version should be interpreted in this way: `v36r1p2` means matching
+    `v36` tracks with `v42` tracks as references.
+
+    Also, for track $i$, if the match is 100%, then all datapoints should be at
+    $i$.
+
+    Track 0 indicates no match at all.
+
+| `v36r1p2` | `v42r8p1` |
+|---|---|
+| ![](data-dv36_vs_dv42-no_refit/ISOLATION_TRACK1_dv36.png) | ![](data-dv36_vs_dv42-no_refit/ISOLATION_TRACK1_dv42.png) |
+
+### `ISOLATION_TRACK2`
+| `v36r1p2` | `v42r8p1` |
+|---|---|
+| ![](data-dv36_vs_dv42-no_refit/ISOLATION_TRACK2_dv36.png) | ![](data-dv36_vs_dv42-no_refit/ISOLATION_TRACK2_dv42.png) |
+
+### `ISOLATION_TRACK3`
+| `v36r1p2` | `v42r8p1` |
+|---|---|
+| ![](data-dv36_vs_dv42-no_refit/ISOLATION_TRACK3_dv36.png) | ![](data-dv36_vs_dv42-no_refit/ISOLATION_TRACK3_dv42.png) |
+
 
 ## Comparison between MC (Pythia 6)
 Files used, located in `run1-b2D0MuXB2DMuNuForTauMuLine/ntuples/mc`:
