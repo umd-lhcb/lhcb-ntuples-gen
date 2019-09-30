@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
 # Author: Yipeng Sun
-# Last Change: Sun Sep 29, 2019 at 10:45 PM -0400
+# Last Change: Mon Sep 30, 2019 at 12:10 AM -0400
 
 import sys
 import os
@@ -91,25 +91,29 @@ number of bins. default to {}.'''.format(BINS))
 #########
 
 # NOTE: 'val' and 'ref_val' are four momenta
-def match(val, ref_dict):
-    for ref_key, ref_vals in ref_dict.items():
-        for ref_val in ref_vals:
-            if abs(val[0]-ref_val[0]) <= DELTA and \
-                    np.linalg.norm(ref_val[1:] - val[1:]) <= DELTA:
-                return ref_key
+def match(mom, ref_mom_list):
+    for track_idx, ref_val in enumerate(ref_mom_list, start=1):
+        if abs(mom[0]-ref_val[0]) <= DELTA and \
+                np.linalg.norm(ref_val[1:] - mom[1:]) <= DELTA:
+            return track_idx
     return 0
 
 
-def four_momenta(tree, idx, brach_dict=BRANCHS):
-    momenta = {}
-    for k, v in enumerate(brach_dict.values(), start=1):
-        raw_events = tree.arrays(v).values()
+def four_momenta(tree, idx, branch_dict=BRANCHS):
+    momenta = []
+    for b in branch_dict.values():
+        raw_event_array = tree.arrays(b).values()
         # Keep events with indices specified in 'idx' only
-        events = []
-        for e in raw_events:
-            events.append(e[idx])
-        momenta[k] = np.column_stack(events)
+        # NOTE: 'event_array' looks like:
+        #       [[E1, E2, E3, ...], [PX1, PX2, PX3, ...], [PY1, PY2, PY3, ...],
+        #        ...]
+        event_array = [e[idx] for e in raw_event_array]
+        momenta.append(np.column_stack(event_array))
     return momenta
+
+
+def find_ref_mom_with_the_same_idx(ref_mom, idx):
+    return [t[idx] for t in ref_mom]
 
 
 ########
@@ -117,11 +121,14 @@ def four_momenta(tree, idx, brach_dict=BRANCHS):
 ########
 
 def plot_comparison(ref_mom, comp_mom, titlenames, filename_suffix):
-    for key, val in comp_mom.items():
-        title = titlenames[key-1]
+    for track_idx in range(0, len(comp_mom)):
+        title = titlenames[track_idx]
         filename = os.path.join(args.output, title + filename_suffix)
 
-        result = np.fromiter((match(v, ref_mom) for v in val), val.dtype)
+        result = np.fromiter(
+            (match(comp_mom[track_idx][i],
+                   find_ref_mom_with_the_same_idx(ref_mom, i))
+             for i in range(0, comp_mom[track_idx].shape[0])), int)
         mean = result.mean()
         std = result.std()
 
