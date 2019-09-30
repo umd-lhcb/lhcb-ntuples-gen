@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
 # Author: Yipeng Sun
-# Last Change: Sun Sep 29, 2019 at 10:05 PM -0400
+# Last Change: Sun Sep 29, 2019 at 10:14 PM -0400
 
 import sys
 import os
@@ -92,10 +92,11 @@ number of bins. default to {}.'''.format(BINS))
 
 # NOTE: 'val' and 'ref_val' are four momenta
 def match(val, ref_dict):
-    for ref_key, ref_val in ref_dict.items():
-        if abs(val[0]-ref_val[0]) <= DELTA and \
-                np.linalg.norm(ref_val[1:] - val[1:]) <= DELTA:
-            return ref_key
+    for ref_key, ref_vals in ref_dict.items():
+        for ref_val in ref_vals:
+            if abs(val[0]-ref_val[0]) <= DELTA and \
+                    np.linalg.norm(ref_val[1:] - val[1:]) <= DELTA:
+                return ref_key
     return 0
 
 
@@ -111,6 +112,10 @@ def four_momenta(tree, idx, brach_dict=BRANCHS):
     return momenta
 
 
+########
+# Plot #
+########
+
 def plot_comparison(ref_mom, comp_mom, titlenames, filename_suffix):
     for key, val in comp_mom.items():
         title = titlenames[key-1]
@@ -121,8 +126,7 @@ def plot_comparison(ref_mom, comp_mom, titlenames, filename_suffix):
         std = result.std()
 
         histo, bins = gen_histo(result, bins=args.bins)
-        plot(histo, bins, filename, title, result.size, mean, std,
-             args.yAxisScale)
+        plot(histo, bins, filename, title, result.size, mean, std)
 
 
 ########
@@ -136,8 +140,8 @@ if __name__ == '__main__':
                                            args.compTree)
 
     ref_ntp, comp_ntp = map(uproot.open, [args.ref, args.comp])
-    ref_mom, comp_mom = map(four_momenta, [ref_ntp[args.refTree],
-                                           comp_ntp[args.compTree]])
+    ref_mom = four_momenta(ref_ntp[args.refTree], ref_idx)
+    comp_mom = four_momenta(comp_ntp[args.compTree], comp_idx)
     suffix_names = args.suffix.split(',')
 
     plot_comparison(ref_mom, comp_mom, BRANCH_NAMES, suffix_names[0])
