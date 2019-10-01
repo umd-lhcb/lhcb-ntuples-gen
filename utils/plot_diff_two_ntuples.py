@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
 # Author: Yipeng Sun
-# Last Change: Thu Sep 26, 2019 at 02:52 PM -0400
+# Last Change: Tue Oct 01, 2019 at 01:26 PM -0400
 
 import sys
 import os
@@ -12,7 +12,8 @@ sys.path.insert(0, os.path.dirname(os.path.realpath(__file__)))
 from argparse import ArgumentParser
 from find_common_uid import find_common_uid
 from plot_single_branch import BINS
-from plot_single_branch import read_branch, gen_histo, plot
+from plot_single_branch import read_branch, gen_histo
+from plot_single_branch import plot_single_branch as plot
 
 
 #################################
