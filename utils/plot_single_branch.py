@@ -1,14 +1,13 @@
 #!/usr/bin/env python3
 #
 # Author: Yipeng Sun
-# Last Change: Thu Sep 26, 2019 at 12:53 PM -0400
+# Last Change: Tue Oct 01, 2019 at 03:40 PM -0400
 
 import uproot
 import numpy as np
 import matplotlib as mp
 
 from argparse import ArgumentParser
-from functools import partial
 from matplotlib import pyplot as plt
 
 
@@ -97,7 +96,8 @@ def tick_formatter(x, p):
         return x
 
 
-def plot(histo, bins, output, title, num, mean, std, yAxisScale='linear'):
+def plot_single_branch(histo, bins, output, title, num, mean, std,
+                       yAxisScale='linear'):
     plt.style.use(PLT_STYLE)
     plt.rcParams.update({'font.family': FONT_FAMILY})
     plt.rcParams.update({'font.size': FONT_SIZE})
@@ -137,5 +137,5 @@ if __name__ == '__main__':
     std = branch.std()
     histo, bins = gen_histo(branch, args.bins)
 
-    plot(histo, bins, args.output, args.branch, branch.size, mean, std,
-         args.yAxisScale)
+    plot_single_branch(histo, bins, args.output, args.branch, branch.size, mean,
+                       std, args.yAxisScale)
