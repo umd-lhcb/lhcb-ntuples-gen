@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
 # Author: Yipeng Sun
-# Last Change: Tue Oct 01, 2019 at 03:51 PM -0400
+# Last Change: Tue Oct 01, 2019 at 04:22 PM -0400
 
 import uproot
 import numpy as np
@@ -116,11 +116,15 @@ def plot_single_branch_two_ntuples(
     ax = fig.add_subplot()
     ax.set_yscale(yAxisScale)
 
+    # Transparent colors
+    BLUE = mp.colors.colorConverter.to_rgba('blue', alpha=.5)
+    RED = mp.colors.colorConverter.to_rgba('red', alpha=.5)
+
     ax.bar(bins1[:-1], histo1, width=np.diff(bins1),
-           align='edge', color='blue', edgecolor='blue', alpha=0.7,
+           align='edge', color=BLUE, edgecolor=BLUE,
            label='tot: {:.4g}'.format(num1))
     ax.bar(bins2[:-1], histo2, width=np.diff(bins1),
-           align='edge', color='red', edgecolor='red', alpha=0.7,
+           align='edge', color=RED, edgecolor=RED,
            label='tot: {:.4g}'.format(num2))
     ax.legend()
     ax.set_title(title)
