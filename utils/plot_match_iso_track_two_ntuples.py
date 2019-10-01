@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
 # Author: Yipeng Sun
-# Last Change: Tue Oct 01, 2019 at 03:54 PM -0400
+# Last Change: Tue Oct 01, 2019 at 04:47 PM -0400
 
 import sys
 import os
@@ -22,7 +22,7 @@ from plot_single_branch import plot_single_branch as plot
 ################
 
 DELTA = 1E-5
-BRANCHS = {
+BRANCHS_MOMENTA = {
     'ISOLATION_TRACK1': ['Y_ISOLATION_PE', 'Y_ISOLATION_PX', 'Y_ISOLATION_PY',
                          'Y_ISOLATION_PZ'],
     'ISOLATION_TRACK2': ['Y_ISOLATION_PE2', 'Y_ISOLATION_PX2',
@@ -30,7 +30,7 @@ BRANCHS = {
     'ISOLATION_TRACK3': ['Y_ISOLATION_PE3', 'Y_ISOLATION_PX3',
                          'Y_ISOLATION_PY3', 'Y_ISOLATION_PZ3'],
 }
-BRANCH_NAMES = list(BRANCHS.keys())
+MOMENTA_NAMES = list(BRANCHS_MOMENTA.keys())
 
 
 #################################
@@ -100,7 +100,7 @@ def match(mom, ref_mom_list):
     return 0
 
 
-def four_momenta(tree, idx, branch_dict=BRANCHS):
+def get_branches(tree, idx, branch_dict=BRANCHS_MOMENTA):
     momenta = []
     for b in branch_dict.values():
         raw_event_array = tree.arrays(b).values()
@@ -148,9 +148,9 @@ if __name__ == '__main__':
                                            args.compTree)
 
     ref_ntp, comp_ntp = map(uproot.open, [args.ref, args.comp])
-    ref_mom = four_momenta(ref_ntp[args.refTree], ref_idx)
-    comp_mom = four_momenta(comp_ntp[args.compTree], comp_idx)
+    ref_mom = get_branches(ref_ntp[args.refTree], ref_idx)
+    comp_mom = get_branches(comp_ntp[args.compTree], comp_idx)
     suffix_names = args.suffix.split(',')
 
-    plot_comparison(ref_mom, comp_mom, BRANCH_NAMES, suffix_names[0])
-    plot_comparison(comp_mom, ref_mom, BRANCH_NAMES, suffix_names[1])
+    plot_comparison(ref_mom, comp_mom, MOMENTA_NAMES, suffix_names[0])
+    plot_comparison(comp_mom, ref_mom, MOMENTA_NAMES, suffix_names[1])
