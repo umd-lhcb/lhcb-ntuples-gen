@@ -306,8 +306,9 @@ Files used:
 #### Matched diff
 
 !!! note
-    These are difference in track _type_, with the track present in both `v36`
-    and `v42` ntuples with the same UID.
+    These are the difference in track _type_ for momentum-matched tracks in events matched by the `event` and `run` numbers.
+    The momentum matching is performed for each track $i = 1,2,3$ in release r=`v36`, `v42` by finding a track in the opposite release
+    for any index 1, 2, or 3 whose differences in energy and 3-momentum magnitude are smaller than an eV.
 
     The version should be interpreted in this way: `v36r1p2` means `v42` track
     type is used as a reference, and the difference is calculated with:
