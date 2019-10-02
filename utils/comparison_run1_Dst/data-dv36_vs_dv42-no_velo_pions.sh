@@ -11,9 +11,21 @@ BRANCHES=(
     "Y_ISOLATION_Type4"
 )
 
+BRANCHES_DIFF="Y_ISOLATION_BDT,Y_ISOLATION_BDT2,Y_ISOLATION_BDT3"
+
 for branch in "${BRANCHES[@]}"; do
     ../plot_single_branch.py "${NTP_REF}" "TupleY/DecayTree" "${branch}" \
         -o "${OUTPUT_DIR}/${branch}_dv36.png"
     ../plot_single_branch.py "${NTP_COM}" "TupleB0/DecayTree" "${branch}" \
         -o "${OUTPUT_DIR}/${branch}_dv42.png"
 done
+
+# Comparison between track types
+../plot_match_iso_track_two_ntuples.py -n ${NTP_REF} -N ${NTP_COM} \
+    -t 'TupleY/DecayTree' -T 'TupleB0/DecayTree' -s '_dv42,_dv36' \
+    -o ${OUTPUT_DIR}
+
+../plot_diff_two_ntuples.py -n "${NTP_REF}" -N "${NTP_COM}" \
+    -t "TupleY/DecayTree" -T "TupleB0/DecayTree" \
+    -b "${BRANCHES_DIFF}" -B "${BRANCHES_DIFF}" \
+    -o "${OUTPUT_DIR}"
