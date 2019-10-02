@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
 # Author: Yipeng Sun
-# Last Change: Wed Oct 02, 2019 at 02:14 AM -0400
+# Last Change: Wed Oct 02, 2019 at 03:15 PM -0400
 
 import sys
 import os
@@ -103,7 +103,9 @@ number of bins. default to {}.'''.format(BINS))
 def match(mom, ref_mom_list):
     for track_idx, ref_val in enumerate(ref_mom_list, start=1):
         if abs(mom[0]-ref_val[0]) <= DELTA and \
-                np.linalg.norm(ref_val[1:] - mom[1:]) <= DELTA:
+                abs(mom[1]-ref_val[1]) <= DELTA and \
+                abs(mom[2]-ref_val[2]) <= DELTA and \
+                abs(mom[3]-ref_val[3]) <= DELTA:
             return int(track_idx)
     return 0
 
