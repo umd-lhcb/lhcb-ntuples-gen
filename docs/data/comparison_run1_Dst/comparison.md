@@ -164,17 +164,17 @@ Files used:
 | ![](data-dv36_vs_dv42/muplus_PZ_diff.png) | ![](data-dv36_vs_dv42/muplus_PZ_diff_norm.png) |
 
 ### `Y_ISOLATION_BDT`
-| difference [MeV] | difference (normalized) |
+| difference (DL) | difference (normalized) |
 |---|---|
 | ![](data-dv36_vs_dv42/Y_ISOLATION_BDT_diff.png) | ![](data-dv36_vs_dv42/Y_ISOLATION_BDT_diff_norm.png) |
 
 ### `Y_ISOLATION_BDT2`
-| difference [MeV] | difference (normalized) |
+| difference (DL) | difference (normalized) |
 |---|---|
 | ![](data-dv36_vs_dv42/Y_ISOLATION_BDT2_diff.png) | ![](data-dv36_vs_dv42/Y_ISOLATION_BDT2_diff_norm.png) |
 
 ### `Y_ISOLATION_BDT3`
-| difference [MeV] | difference (normalized) |
+| difference (DL) | difference (normalized) |
 |---|---|
 | ![](data-dv36_vs_dv42/Y_ISOLATION_BDT3_diff.png) | ![](data-dv36_vs_dv42/Y_ISOLATION_BDT3_diff_norm.png) |
 
@@ -205,25 +205,99 @@ Files used:
 * `BCands_Dst-phoebe-data-dv36-subset-no_velo_pions.root`
 * `BCands_Dst-yipeng-data-dv42-subset-no_velo_pions.root`
 
+### `Y_ISOLATION_BDT`
+| difference (DL) | difference (normalized) |
+|---|---|
+| ![](data-dv36_vs_dv42-no_velo_pions/Y_ISOLATION_BDT_diff.png) | ![](data-dv36_vs_dv42-no_velo_pions/Y_ISOLATION_BDT_diff_norm.png) |
+
+### `Y_ISOLATION_BDT2`
+| difference (DL) | difference (normalized) |
+|---|---|
+| ![](data-dv36_vs_dv42-no_velo_pions/Y_ISOLATION_BDT2_diff.png) | ![](data-dv36_vs_dv42-no_velo_pions/Y_ISOLATION_BDT2_diff_norm.png) |
+
+### `Y_ISOLATION_BDT3`
+| difference (DL) | difference (normalized) |
+|---|---|
+| ![](data-dv36_vs_dv42-no_velo_pions/Y_ISOLATION_BDT3_diff.png) | ![](data-dv36_vs_dv42-no_velo_pions/Y_ISOLATION_BDT3_diff_norm.png) |
+
 ### `Y_ISOLATION_Type`
+#### Raw
 | `v36r1p2` | `v42r8p1` |
 |---|---|
 | ![](data-dv36_vs_dv42-no_velo_pions/Y_ISOLATION_Type_dv36.png) | ![](data-dv36_vs_dv42-no_velo_pions/Y_ISOLATION_Type_dv42.png) |
 
+#### Matched diff
+
+!!! note
+    These are the difference in track _type_ for momentum-matched tracks in
+    events matched by the `event` and `run` numbers.  The momentum matching is
+    performed for each track $i = 1,2,3$ in release r=`v36`, `v42` by finding a
+    track in the opposite release for any index $1$, $2$, or $3$ whose
+    difference in every 4-momentum component is smaller than 10 eV.
+
+    The version should be interpreted in this way: `v36r1p2` means `v42` track
+    type is used as a reference, and the difference is calculated with:
+    $TrackType_{v42} - TrackType_{v36}$.
+
+| `v36r1p2` | `v42r8p1` |
+|---|---|
+| ![](data-dv36_vs_dv42-no_velo_pions/Y_ISOLATION_Type_matched_diff_dv36.png) | ![](data-dv36_vs_dv42-no_velo_pions/Y_ISOLATION_Type_matched_diff_dv42.png) |
+
 ### `Y_ISOLATION_Type2`
+#### Raw
 | `v36r1p2` | `v42r8p1` |
 |---|---|
 | ![](data-dv36_vs_dv42-no_velo_pions/Y_ISOLATION_Type2_dv36.png) | ![](data-dv36_vs_dv42-no_velo_pions/Y_ISOLATION_Type2_dv42.png) |
 
+#### Matched diff
+| `v36r1p2` | `v42r8p1` |
+|---|---|
+| ![](data-dv36_vs_dv42-no_velo_pions/Y_ISOLATION_Type2_matched_diff_dv36.png) | ![](data-dv36_vs_dv42-no_velo_pions/Y_ISOLATION_Type2_matched_diff_dv42.png) |
+
 ### `Y_ISOLATION_Type3`
+#### Raw
 | `v36r1p2` | `v42r8p1` |
 |---|---|
 | ![](data-dv36_vs_dv42-no_velo_pions/Y_ISOLATION_Type3_dv36.png) | ![](data-dv36_vs_dv42-no_velo_pions/Y_ISOLATION_Type3_dv42.png) |
+
+#### Matched diff
+| `v36r1p2` | `v42r8p1` |
+|---|---|
+| ![](data-dv36_vs_dv42-no_velo_pions/Y_ISOLATION_Type3_matched_diff_dv36.png) | ![](data-dv36_vs_dv42-no_velo_pions/Y_ISOLATION_Type3_matched_diff_dv42.png) |
 
 ### `Y_ISOLATION_Type4`
 | `v36r1p2` | `v42r8p1` |
 |---|---|
 | ![](data-dv36_vs_dv42-no_velo_pions/Y_ISOLATION_Type4_dv36.png) | ![](data-dv36_vs_dv42-no_velo_pions/Y_ISOLATION_Type4_dv42.png) |
+
+### `ISOLATION_TRACK1`
+
+!!! note
+    `ISOLATION_TRACK{1,2,3}` represent the best 3 tracks selected by the BDT.
+    A value of $1$ represents `ISOLATION_TRACK1`. $2$ and $3$ are interpreted
+    in the same way.
+    A value of $0$ indicates no match at all.
+
+    The version should be interpreted in this way: `v36r1p2` means matching a
+    `v36` track with all 3 `v42` tracks with the same UID. The `v42` tracks act
+    as references.
+
+    Also, for track $i$, if the match is 100%, then all datapoints should be at
+    $i$.
+
+| `v36r1p2` | `v42r8p1` |
+|---|---|
+| ![](data-dv36_vs_dv42-no_velo_pions/ISOLATION_TRACK1_dv36.png) | ![](data-dv36_vs_dv42-no_velo_pions/ISOLATION_TRACK1_dv42.png) |
+
+### `ISOLATION_TRACK2`
+| `v36r1p2` | `v42r8p1` |
+|---|---|
+| ![](data-dv36_vs_dv42-no_velo_pions/ISOLATION_TRACK2_dv36.png) | ![](data-dv36_vs_dv42-no_velo_pions/ISOLATION_TRACK2_dv42.png) |
+
+### `ISOLATION_TRACK3`
+| `v36r1p2` | `v42r8p1` |
+|---|---|
+| ![](data-dv36_vs_dv42-no_velo_pions/ISOLATION_TRACK3_dv36.png) | ![](data-dv36_vs_dv42-no_velo_pions/ISOLATION_TRACK3_dv42.png) |
 
 
 ## Comparison between `DaVinci` `v36r1p2` and `v42r8p1`, without refitting
@@ -283,96 +357,39 @@ Files used:
 | ![](data-dv36_vs_dv42-no_refit/muplus_PZ_diff.png) | ![](data-dv36_vs_dv42-no_refit/muplus_PZ_diff_norm.png) |
 
 ### `Y_ISOLATION_BDT`
-| difference [MeV] | difference (normalized) |
+| difference (DL) | difference (normalized) |
 |---|---|
 | ![](data-dv36_vs_dv42-no_refit/Y_ISOLATION_BDT_diff.png) | ![](data-dv36_vs_dv42-no_refit/Y_ISOLATION_BDT_diff_norm.png) |
 
 ### `Y_ISOLATION_BDT2`
-| difference [MeV] | difference (normalized) |
+| difference (DL) | difference (normalized) |
 |---|---|
 | ![](data-dv36_vs_dv42-no_refit/Y_ISOLATION_BDT2_diff.png) | ![](data-dv36_vs_dv42-no_refit/Y_ISOLATION_BDT2_diff_norm.png) |
 
 ### `Y_ISOLATION_BDT3`
-| difference [MeV] | difference (normalized) |
+| difference (DL) | difference (normalized) |
 |---|---|
 | ![](data-dv36_vs_dv42-no_refit/Y_ISOLATION_BDT3_diff.png) | ![](data-dv36_vs_dv42-no_refit/Y_ISOLATION_BDT3_diff_norm.png) |
 
 ### `Y_ISOLATION_Type`
-#### Raw
 | `v36r1p2` | `v42r8p1` |
 |---|---|
 | ![](data-dv36_vs_dv42-no_refit/Y_ISOLATION_Type_dv36.png) | ![](data-dv36_vs_dv42-no_refit/Y_ISOLATION_Type_dv42.png) |
 
-#### Matched diff
-
-!!! note
-    These are the difference in track _type_ for momentum-matched tracks in events matched by the `event` and `run` numbers.
-    The momentum matching is performed for each track $i = 1,2,3$ in release r=`v36`, `v42` by finding a track in the opposite release
-    for any index 1, 2, or 3 whose differences in energy and 3-momentum magnitude are smaller than an eV.
-
-    The version should be interpreted in this way: `v36r1p2` means `v42` track
-    type is used as a reference, and the difference is calculated with:
-    $TrackType_{v42} - TrackType_{v36}$.
-
-| `v36r1p2` | `v42r8p1` |
-|---|---|
-| ![](data-dv36_vs_dv42-no_refit/Y_ISOLATION_Type_matched_diff_dv36.png) | ![](data-dv36_vs_dv42-no_refit/Y_ISOLATION_Type_matched_diff_dv42.png) |
-
 ### `Y_ISOLATION_Type2`
-#### Raw
 | `v36r1p2` | `v42r8p1` |
 |---|---|
 | ![](data-dv36_vs_dv42-no_refit/Y_ISOLATION_Type2_dv36.png) | ![](data-dv36_vs_dv42-no_refit/Y_ISOLATION_Type2_dv42.png) |
 
-#### Matched diff
-| `v36r1p2` | `v42r8p1` |
-|---|---|
-| ![](data-dv36_vs_dv42-no_refit/Y_ISOLATION_Type2_matched_diff_dv36.png) | ![](data-dv36_vs_dv42-no_refit/Y_ISOLATION_Type2_matched_diff_dv42.png) |
-
 ### `Y_ISOLATION_Type3`
-#### Raw
 | `v36r1p2` | `v42r8p1` |
 |---|---|
 | ![](data-dv36_vs_dv42-no_refit/Y_ISOLATION_Type3_dv36.png) | ![](data-dv36_vs_dv42-no_refit/Y_ISOLATION_Type3_dv42.png) |
-
-#### Matched diff
-| `v36r1p2` | `v42r8p1` |
-|---|---|
-| ![](data-dv36_vs_dv42-no_refit/Y_ISOLATION_Type3_matched_diff_dv36.png) | ![](data-dv36_vs_dv42-no_refit/Y_ISOLATION_Type3_matched_diff_dv42.png) |
 
 ### `Y_ISOLATION_Type4`
 | `v36r1p2` | `v42r8p1` |
 |---|---|
 | ![](data-dv36_vs_dv42-no_refit/Y_ISOLATION_Type4_dv36.png) | ![](data-dv36_vs_dv42-no_refit/Y_ISOLATION_Type4_dv42.png) |
-
-### `ISOLATION_TRACK1`
-
-!!! note
-    `ISOLATION_TRACK{1,2,3}` represent the best 3 tracks selected by the BDT.
-    A `1.0` value represents `ISOLATION_TRACK1`. The `2.0` and `3.0` are
-    interpreted in the same way.
-    A value `0` indicates no match at all.
-
-    The version should be interpreted in this way: `v36r1p2` means matching a
-    `v36` track with all 3 `v42` tracks with the same UID. The `v42` tracks act
-    as references.
-
-    Also, for track $i$, if the match is 100%, then all datapoints should be at
-    $i$.
-
-| `v36r1p2` | `v42r8p1` |
-|---|---|
-| ![](data-dv36_vs_dv42-no_refit/ISOLATION_TRACK1_dv36.png) | ![](data-dv36_vs_dv42-no_refit/ISOLATION_TRACK1_dv42.png) |
-
-### `ISOLATION_TRACK2`
-| `v36r1p2` | `v42r8p1` |
-|---|---|
-| ![](data-dv36_vs_dv42-no_refit/ISOLATION_TRACK2_dv36.png) | ![](data-dv36_vs_dv42-no_refit/ISOLATION_TRACK2_dv42.png) |
-
-### `ISOLATION_TRACK3`
-| `v36r1p2` | `v42r8p1` |
-|---|---|
-| ![](data-dv36_vs_dv42-no_refit/ISOLATION_TRACK3_dv36.png) | ![](data-dv36_vs_dv42-no_refit/ISOLATION_TRACK3_dv42.png) |
 
 
 ## Comparison between MC (Pythia 6)
