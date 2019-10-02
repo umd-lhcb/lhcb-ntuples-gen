@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
 # Author: Yipeng Sun
-# Last Change: Tue Oct 01, 2019 at 09:29 PM -0400
+# Last Change: Wed Oct 02, 2019 at 02:14 AM -0400
 
 import sys
 import os
@@ -104,7 +104,7 @@ def match(mom, ref_mom_list):
     for track_idx, ref_val in enumerate(ref_mom_list, start=1):
         if abs(mom[0]-ref_val[0]) <= DELTA and \
                 np.linalg.norm(ref_val[1:] - mom[1:]) <= DELTA:
-            return track_idx
+            return int(track_idx)
     return 0
 
 
@@ -147,7 +147,7 @@ def plot_comparison(ref_mom, comp_mom, ref_type, comp_type, title_names,
             track_match_result = np.append(track_match_result,
                                            matched_track_idx)
 
-            if matched_track_idx:
+            if matched_track_idx > 0:
                 type_self = np.append(type_self, ref_type[track_idx][i])
                 type_match = np.append(type_match,
                                        comp_type[matched_track_idx-1][i][0])
@@ -170,7 +170,7 @@ def plot_comparison(ref_mom, comp_mom, ref_type, comp_type, title_names,
 
         histo, bins = gen_histo(result, bins=args.bins)
         plot(histo, bins, filename, type_title + ' (matched diff)',
-             track_match_result.size, mean, std)
+             result.size, mean, std)
 
 
 ########
