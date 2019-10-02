@@ -2593,8 +2593,9 @@ occur in both ntuples, and find their:</p>
 <h4 id="matched-diff">Matched diff</h4>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>These are difference in track <em>type</em>, with the track present in both <code>v36</code>
-and <code>v42</code> ntuples with the same UID.</p>
+<p>These are the difference in track <em>type</em> for momentum-matched tracks in events matched by the <code>event</code> and <code>run</code> numbers.
+The momentum matching is performed for each track <span><span class="MathJax_Preview">i = 1,2,3</span><script type="math/tex">i = 1,2,3</script></span> in release r=<code>v36</code>, <code>v42</code> by finding a track in the opposite release
+for any index 1, 2, or 3 whose differences in energy and 3-momentum magnitude are smaller than an eV.</p>
 <p>The version should be interpreted in this way: <code>v36r1p2</code> means <code>v42</code> track
 type is used as a reference, and the difference is calculated with:
 <span><span class="MathJax_Preview">TrackType_{v42} - TrackType_{v36}</span><script type="math/tex">TrackType_{v42} - TrackType_{v36}</script></span>.</p>
