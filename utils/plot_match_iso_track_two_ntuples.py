@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
 # Author: Yipeng Sun
-# Last Change: Tue Oct 01, 2019 at 04:47 PM -0400
+# Last Change: Tue Oct 01, 2019 at 09:29 PM -0400
 
 import sys
 import os
@@ -22,6 +22,7 @@ from plot_single_branch import plot_single_branch as plot
 ################
 
 DELTA = 1E-5
+
 BRANCHS_MOMENTA = {
     'ISOLATION_TRACK1': ['Y_ISOLATION_PE', 'Y_ISOLATION_PX', 'Y_ISOLATION_PY',
                          'Y_ISOLATION_PZ'],
@@ -30,7 +31,14 @@ BRANCHS_MOMENTA = {
     'ISOLATION_TRACK3': ['Y_ISOLATION_PE3', 'Y_ISOLATION_PX3',
                          'Y_ISOLATION_PY3', 'Y_ISOLATION_PZ3'],
 }
+BRANCHES_TYPES = {
+    'ISOLATION_TRACK1': ['Y_ISOLATION_Type'],
+    'ISOLATION_TRACK2': ['Y_ISOLATION_Type2'],
+    'ISOLATION_TRACK3': ['Y_ISOLATION_Type3'],
+}
+
 MOMENTA_NAMES = list(BRANCHS_MOMENTA.keys())
+TYPE_NAMES = [i[0] for i in BRANCHES_TYPES.values()]
 
 
 #################################
@@ -121,20 +129,48 @@ def find_ref_mom_with_the_same_idx(ref_mom, idx):
 # Plot #
 ########
 
-def plot_comparison(ref_mom, comp_mom, titlenames, filename_suffix):
+def plot_comparison(ref_mom, comp_mom, ref_type, comp_type, title_names,
+                    type_names, filename_suffix):
     for track_idx in range(0, len(comp_mom)):
-        title = titlenames[track_idx]
-        filename = os.path.join(args.output, title + filename_suffix)
+        track_title = title_names[track_idx]
+        type_title = type_names[track_idx]
 
-        result = np.fromiter(
-            (match(comp_mom[track_idx][i],
-                   find_ref_mom_with_the_same_idx(ref_mom, i))
-             for i in range(0, comp_mom[track_idx].shape[0])), int)
+        track_match_result = np.array([], int)
+        type_self = np.array([])
+        type_match = np.array([])
+
+        for i in range(0, comp_mom[track_idx].shape[0]):
+            matched_track_idx = match(
+                comp_mom[track_idx][i],
+                find_ref_mom_with_the_same_idx(ref_mom, i)
+            )
+            track_match_result = np.append(track_match_result,
+                                           matched_track_idx)
+
+            if matched_track_idx:
+                type_self = np.append(type_self, ref_type[track_idx][i])
+                type_match = np.append(type_match,
+                                       comp_type[matched_track_idx-1][i][0])
+
+        # Plot track matching results
+        filename = os.path.join(args.output, track_title + filename_suffix)
+        mean = track_match_result.mean()
+        std = track_match_result.std()
+
+        histo, bins = gen_histo(track_match_result, bins=args.bins)
+        plot(histo, bins, filename, track_title, track_match_result.size, mean,
+             std)
+
+        # Plot matched track type differences
+        filename = os.path.join(args.output, type_title + '_matched_diff' +
+                                filename_suffix)
+        result = type_match - type_self
         mean = result.mean()
         std = result.std()
 
         histo, bins = gen_histo(result, bins=args.bins)
-        plot(histo, bins, filename, title, result.size, mean, std)
+        plot(histo, bins, filename, type_title + ' (matched diff)',
+             track_match_result.size, mean, std)
 
 
 ########
@@ -150,7 +186,11 @@ if __name__ == '__main__':
     ref_ntp, comp_ntp = map(uproot.open, [args.ref, args.comp])
     ref_mom = get_branches(ref_ntp[args.refTree], ref_idx)
     comp_mom = get_branches(comp_ntp[args.compTree], comp_idx)
+    ref_type = get_branches(ref_ntp[args.refTree], ref_idx, BRANCHES_TYPES)
+    comp_type = get_branches(comp_ntp[args.compTree], comp_idx, BRANCHES_TYPES)
     suffix_names = args.suffix.split(',')
 
-    plot_comparison(ref_mom, comp_mom, MOMENTA_NAMES, suffix_names[0])
-    plot_comparison(comp_mom, ref_mom, MOMENTA_NAMES, suffix_names[1])
+    plot_comparison(ref_mom, comp_mom, ref_type, comp_type,
+                    MOMENTA_NAMES, TYPE_NAMES, suffix_names[0])
+    plot_comparison(comp_mom, ref_mom, comp_type, ref_type,
+                    MOMENTA_NAMES, TYPE_NAMES, suffix_names[1])
