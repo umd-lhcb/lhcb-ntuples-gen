@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
 # Author: Yipeng Sun
-# Last Change: Tue Oct 01, 2019 at 04:22 PM -0400
+# Last Change: Wed Oct 02, 2019 at 04:50 PM -0400
 
 import uproot
 import numpy as np
@@ -121,10 +121,10 @@ def plot_single_branch_two_ntuples(
     RED = mp.colors.colorConverter.to_rgba('red', alpha=.5)
 
     ax.bar(bins1[:-1], histo1, width=np.diff(bins1),
-           align='edge', color=BLUE, edgecolor=BLUE,
+           align='edge', color=BLUE, edgecolor=(0, 0, 0, 0),
            label='tot: {:.4g}'.format(num1))
-    ax.bar(bins2[:-1], histo2, width=np.diff(bins1),
-           align='edge', color=RED, edgecolor=RED,
+    ax.bar(bins2[:-1], histo2, width=np.diff(bins2),
+           align='edge', color=RED, edgecolor=(0, 0, 0, 0),
            label='tot: {:.4g}'.format(num2))
     ax.legend()
     ax.set_title(title)
