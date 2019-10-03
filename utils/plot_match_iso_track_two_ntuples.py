@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
 # Author: Yipeng Sun
-# Last Change: Wed Oct 02, 2019 at 03:15 PM -0400
+# Last Change: Thu Oct 03, 2019 at 12:51 AM -0400
 
 import sys
 import os
@@ -106,7 +106,7 @@ def match(mom, ref_mom_list):
                 abs(mom[1]-ref_val[1]) <= DELTA and \
                 abs(mom[2]-ref_val[2]) <= DELTA and \
                 abs(mom[3]-ref_val[3]) <= DELTA:
-            return int(track_idx)
+            return track_idx
     return 0
 
 
@@ -132,7 +132,7 @@ def find_ref_mom_with_the_same_idx(ref_mom, idx):
 ########
 
 def plot_comparison(ref_mom, comp_mom, ref_type, comp_type, title_names,
-                    type_names, filename_suffix):
+                    type_names, filename_suffix, counter=None):
     for track_idx in range(0, len(comp_mom)):
         track_title = title_names[track_idx]
         type_title = type_names[track_idx]
@@ -153,6 +153,9 @@ def plot_comparison(ref_mom, comp_mom, ref_type, comp_type, title_names,
                 type_self = np.append(type_self, ref_type[track_idx][i])
                 type_match = np.append(type_match,
                                        comp_type[matched_track_idx-1][i][0])
+                # Counter
+                if counter is not None:
+                    counter[matched_track_idx-1] += 1
 
         # Plot track matching results
         filename = os.path.join(args.output, track_title + filename_suffix)
@@ -192,7 +195,9 @@ if __name__ == '__main__':
     comp_type = get_branches(comp_ntp[args.compTree], comp_idx, BRANCHES_TYPES)
     suffix_names = args.suffix.split(',')
 
+    counter = [0, 0, 0]
     plot_comparison(ref_mom, comp_mom, ref_type, comp_type,
-                    MOMENTA_NAMES, TYPE_NAMES, suffix_names[0])
+                    MOMENTA_NAMES, TYPE_NAMES, suffix_names[0], counter)
     plot_comparison(comp_mom, ref_mom, comp_type, ref_type,
                     MOMENTA_NAMES, TYPE_NAMES, suffix_names[1])
+    print('Matched track types: {} {} {}'.format(*counter))
