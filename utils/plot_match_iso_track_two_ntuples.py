@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
 # Author: Yipeng Sun
-# Last Change: Thu Oct 03, 2019 at 12:51 AM -0400
+# Last Change: Thu Oct 03, 2019 at 04:14 PM -0400
 
 import sys
 import os
@@ -23,22 +23,25 @@ from plot_single_branch import plot_single_branch as plot
 
 DELTA = 1E-5
 
-BRANCHS_MOMENTA = {
+BRANCHES_MATCH = {
     'ISOLATION_TRACK1': ['Y_ISOLATION_PE', 'Y_ISOLATION_PX', 'Y_ISOLATION_PY',
-                         'Y_ISOLATION_PZ'],
+                         'Y_ISOLATION_PZ', 'Y_ISOLATION_ANGLE',
+                         'Y_ISOLATION_BDT'],
     'ISOLATION_TRACK2': ['Y_ISOLATION_PE2', 'Y_ISOLATION_PX2',
-                         'Y_ISOLATION_PY2', 'Y_ISOLATION_PZ2'],
+                         'Y_ISOLATION_PY2', 'Y_ISOLATION_PZ2',
+                         'Y_ISOLATION_ANGLE2', 'Y_ISOLATION_BDT2'],
     'ISOLATION_TRACK3': ['Y_ISOLATION_PE3', 'Y_ISOLATION_PX3',
-                         'Y_ISOLATION_PY3', 'Y_ISOLATION_PZ3'],
+                         'Y_ISOLATION_PY3', 'Y_ISOLATION_PZ3',
+                         'Y_ISOLATION_ANGLE3', 'Y_ISOLATION_BDT3'],
 }
-BRANCHES_TYPES = {
+BRANCHES_AUX = {
     'ISOLATION_TRACK1': ['Y_ISOLATION_Type'],
     'ISOLATION_TRACK2': ['Y_ISOLATION_Type2'],
     'ISOLATION_TRACK3': ['Y_ISOLATION_Type3'],
 }
 
-MOMENTA_NAMES = list(BRANCHS_MOMENTA.keys())
-TYPE_NAMES = [i[0] for i in BRANCHES_TYPES.values()]
+MOMENTA_NAMES = list(BRANCHES_MATCH.keys())
+TYPE_NAMES = [i[0] for i in BRANCHES_AUX.values()]
 
 
 #################################
@@ -99,18 +102,40 @@ number of bins. default to {}.'''.format(BINS))
 # Match #
 #########
 
+def TAN(val, i, j):
+    if val[j] != 0.0:
+        return val[i] / val[j]
+    else:
+        return 0
+
+
+def PXPZ(val):
+    return TAN(val, 1, 3)
+
+
+def PYPZ(val):
+    return TAN(val, 2, 3)
+
+
 # NOTE: 'val' and 'ref_val' are four momenta
-def match(mom, ref_mom_list):
-    for track_idx, ref_val in enumerate(ref_mom_list, start=1):
-        if abs(mom[0]-ref_val[0]) <= DELTA and \
-                abs(mom[1]-ref_val[1]) <= DELTA and \
-                abs(mom[2]-ref_val[2]) <= DELTA and \
-                abs(mom[3]-ref_val[3]) <= DELTA:
+def match(val, ref_val_list):
+    for track_idx, ref_val in enumerate(ref_val_list, start=1):
+        pxpz = PXPZ(val)
+        pypz = PYPZ(val)
+        angle = val[4]
+
+        ref_pxpz = PXPZ(ref_val)
+        ref_pypz = PYPZ(ref_val)
+        ref_angle = ref_val[4]
+
+        if abs(pxpz-ref_pxpz) <= DELTA and \
+                abs(pypz-ref_pypz) <= DELTA and \
+                abs(angle-ref_angle) <= DELTA:
             return track_idx
     return 0
 
 
-def get_branches(tree, idx, branch_dict=BRANCHS_MOMENTA):
+def get_branches(tree, idx, branch_dict=BRANCHES_MATCH):
     momenta = []
     for b in branch_dict.values():
         raw_event_array = tree.arrays(b).values()
@@ -123,7 +148,7 @@ def get_branches(tree, idx, branch_dict=BRANCHS_MOMENTA):
     return momenta
 
 
-def find_ref_mom_with_the_same_idx(ref_mom, idx):
+def find_ref_val_list(ref_mom, idx):
     return [t[idx] for t in ref_mom]
 
 
@@ -131,9 +156,9 @@ def find_ref_mom_with_the_same_idx(ref_mom, idx):
 # Plot #
 ########
 
-def plot_comparison(ref_mom, comp_mom, ref_type, comp_type, title_names,
+def plot_comparison(ref_val, comp_val, ref_type, comp_type, title_names,
                     type_names, filename_suffix, counter=None):
-    for track_idx in range(0, len(comp_mom)):
+    for track_idx in range(0, len(comp_val)):
         track_title = title_names[track_idx]
         type_title = type_names[track_idx]
 
@@ -141,11 +166,16 @@ def plot_comparison(ref_mom, comp_mom, ref_type, comp_type, title_names,
         type_self = np.array([])
         type_match = np.array([])
 
-        for i in range(0, comp_mom[track_idx].shape[0]):
-            matched_track_idx = match(
-                comp_mom[track_idx][i],
-                find_ref_mom_with_the_same_idx(ref_mom, i)
-            )
+        for i in range(0, comp_val[track_idx].shape[0]):
+            bdt_score = int(comp_val[track_idx][i][5])
+            if bdt_score != -2:
+                matched_track_idx = match(
+                    comp_val[track_idx][i],
+                    find_ref_val_list(ref_val, i)
+                )
+            else:
+                matched_track_idx = bdt_score
+
             track_match_result = np.append(track_match_result,
                                            matched_track_idx)
 
@@ -189,15 +219,15 @@ if __name__ == '__main__':
                                            args.compTree)
 
     ref_ntp, comp_ntp = map(uproot.open, [args.ref, args.comp])
-    ref_mom = get_branches(ref_ntp[args.refTree], ref_idx)
-    comp_mom = get_branches(comp_ntp[args.compTree], comp_idx)
-    ref_type = get_branches(ref_ntp[args.refTree], ref_idx, BRANCHES_TYPES)
-    comp_type = get_branches(comp_ntp[args.compTree], comp_idx, BRANCHES_TYPES)
+    ref_val = get_branches(ref_ntp[args.refTree], ref_idx)
+    comp_val = get_branches(comp_ntp[args.compTree], comp_idx)
+    ref_type = get_branches(ref_ntp[args.refTree], ref_idx, BRANCHES_AUX)
+    comp_type = get_branches(comp_ntp[args.compTree], comp_idx, BRANCHES_AUX)
     suffix_names = args.suffix.split(',')
 
     counter = [0, 0, 0]
-    plot_comparison(ref_mom, comp_mom, ref_type, comp_type,
+    plot_comparison(ref_val, comp_val, ref_type, comp_type,
                     MOMENTA_NAMES, TYPE_NAMES, suffix_names[0], counter)
-    plot_comparison(comp_mom, ref_mom, comp_type, ref_type,
+    plot_comparison(comp_val, ref_val, comp_type, ref_type,
                     MOMENTA_NAMES, TYPE_NAMES, suffix_names[1])
     print('Matched track types: {} {} {}'.format(*counter))
