@@ -29,3 +29,8 @@ for branch in "${BRANCHES[@]}"; do
     ../plot_single_branch.py "${NTP_COM}" "TupleB0/DecayTree" "${branch}" \
         -o "${OUTPUT_DIR}/${branch}_dv42.png"
 done
+
+# Comparison between track types
+../plot_match_iso_track_two_ntuples.py -n ${NTP_REF} -N ${NTP_COM} \
+    -t 'TupleB0/DecayTree' -T 'TupleB0/DecayTree' -s '_dv42,_dv36' \
+    -o ${OUTPUT_DIR}

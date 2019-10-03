@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
 # Author: Yipeng Sun
-# Last Change: Thu Oct 03, 2019 at 04:14 PM -0400
+# Last Change: Thu Oct 03, 2019 at 04:58 PM -0400
 
 import sys
 import os
@@ -128,7 +128,8 @@ def match(val, ref_val_list):
         ref_pypz = PYPZ(ref_val)
         ref_angle = ref_val[4]
 
-        if abs(pxpz-ref_pxpz) <= DELTA and \
+        if pxpz != 0 and pypz != 0 and \
+                abs(pxpz-ref_pxpz) <= DELTA and \
                 abs(pypz-ref_pypz) <= DELTA and \
                 abs(angle-ref_angle) <= DELTA:
             return track_idx
@@ -180,7 +181,7 @@ def plot_comparison(ref_val, comp_val, ref_type, comp_type, title_names,
                                            matched_track_idx)
 
             if matched_track_idx > 0:
-                type_self = np.append(type_self, ref_type[track_idx][i])
+                type_self = np.append(type_self, ref_type[track_idx][i][0])
                 type_match = np.append(type_match,
                                        comp_type[matched_track_idx-1][i][0])
                 # Counter
