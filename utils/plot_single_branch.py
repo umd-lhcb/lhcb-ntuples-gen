@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
 # Author: Yipeng Sun
-# Last Change: Tue Oct 01, 2019 at 03:40 PM -0400
+# Last Change: Thu Oct 03, 2019 at 04:22 PM -0400
 
 import uproot
 import numpy as np
@@ -79,7 +79,7 @@ def gen_histo(array, bins=BINS, scale=1.05):
     max = array.max()
 
     min = min*scale if min < 0 else min/scale
-    max = max/scale if min < 0 else max*scale
+    max = max/scale if max < 0 else max*scale
 
     return np.histogram(array, bins, (min, max))
 
