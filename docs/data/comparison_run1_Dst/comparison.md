@@ -292,6 +292,8 @@ Files used:
     A value of $1$ represents `ISOLATION_TRACK1`. $2$ and $3$ are interpreted
     in the same way.
     A value of $0$ indicates no match at all.
+    A value of $-2$ indicates no actual track exists, and is only assigned
+    when the BDT score is $-2$.
 
     The version should be interpreted in this way: `v36r1p2` means matching a
     `v36` track with all 3 `v42` tracks with the same UID. The `v42` tracks act
@@ -387,24 +389,57 @@ Files used:
 | ![](data-dv36_vs_dv42-no_refit/Y_ISOLATION_BDT3_diff.png) | ![](data-dv36_vs_dv42-no_refit/Y_ISOLATION_BDT3_diff_norm.png) |
 
 ### `Y_ISOLATION_Type`
+#### Raw
 | `v36r1p2` | `v42r8p1` |
 |---|---|
 | ![](data-dv36_vs_dv42-no_refit/Y_ISOLATION_Type_dv36.png) | ![](data-dv36_vs_dv42-no_refit/Y_ISOLATION_Type_dv42.png) |
 
+#### Matched diff
+| `v36r1p2` | `v42r8p1` |
+|---|---|
+| ![](data-dv36_vs_dv42-no_refit/Y_ISOLATION_Type_matched_diff_dv36.png) | ![](data-dv36_vs_dv42-no_refit/Y_ISOLATION_Type_matched_diff_dv42.png) |
+
 ### `Y_ISOLATION_Type2`
+#### Raw
 | `v36r1p2` | `v42r8p1` |
 |---|---|
 | ![](data-dv36_vs_dv42-no_refit/Y_ISOLATION_Type2_dv36.png) | ![](data-dv36_vs_dv42-no_refit/Y_ISOLATION_Type2_dv42.png) |
 
+#### Matched diff
+| `v36r1p2` | `v42r8p1` |
+|---|---|
+| ![](data-dv36_vs_dv42-no_refit/Y_ISOLATION_Type2_matched_diff_dv36.png) | ![](data-dv36_vs_dv42-no_refit/Y_ISOLATION_Type2_matched_diff_dv42.png) |
+
 ### `Y_ISOLATION_Type3`
+#### Raw
 | `v36r1p2` | `v42r8p1` |
 |---|---|
 | ![](data-dv36_vs_dv42-no_refit/Y_ISOLATION_Type3_dv36.png) | ![](data-dv36_vs_dv42-no_refit/Y_ISOLATION_Type3_dv42.png) |
+
+#### Matched diff
+| `v36r1p2` | `v42r8p1` |
+|---|---|
+| ![](data-dv36_vs_dv42-no_refit/Y_ISOLATION_Type3_matched_diff_dv36.png) | ![](data-dv36_vs_dv42-no_refit/Y_ISOLATION_Type3_matched_diff_dv42.png) |
 
 ### `Y_ISOLATION_Type4`
 | `v36r1p2` | `v42r8p1` |
 |---|---|
 | ![](data-dv36_vs_dv42-no_refit/Y_ISOLATION_Type4_dv36.png) | ![](data-dv36_vs_dv42-no_refit/Y_ISOLATION_Type4_dv42.png) |
+
+### `ISOLATION_TRACK1`
+| `v36r1p2` | `v42r8p1` |
+|---|---|
+| ![](data-dv36_vs_dv42-no_refit/ISOLATION_TRACK1_dv36.png) | ![](data-dv36_vs_dv42-no_refit/ISOLATION_TRACK1_dv42.png) |
+
+### `ISOLATION_TRACK2`
+| `v36r1p2` | `v42r8p1` |
+|---|---|
+| ![](data-dv36_vs_dv42-no_refit/ISOLATION_TRACK2_dv36.png) | ![](data-dv36_vs_dv42-no_refit/ISOLATION_TRACK2_dv42.png) |
+
+### `ISOLATION_TRACK3`
+| `v36r1p2` | `v42r8p1` |
+|---|---|
+| ![](data-dv36_vs_dv42-no_refit/ISOLATION_TRACK3_dv36.png) | ![](data-dv36_vs_dv42-no_refit/ISOLATION_TRACK3_dv42.png) |
 
 
 ## Comparison between MC (Pythia 6)
