@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Oct 03, 2019 at 09:04 PM -0400
+# Last Change: Thu Oct 03, 2019 at 09:42 PM -0400
 
 #####################
 # Configure DaVinci #
@@ -49,8 +49,8 @@ ms_velo_pions.Input = ms_all_protos.Output
 
 # NOTE: These two lines are needed to select particles in VELO only.
 # NOTE: DARK MAGIC.
-selector = trackSelector(ms_velo_pions, trackTypes=['Velo'])
-locations = updateDoD(ms_velo_pions)
+trackSelector(ms_velo_pions, trackTypes=['Velo'])
+updateDoD(ms_velo_pions)
 
 # According to the source code (available in 'Analysis/Phys/DaVinciTrackScaling/src/TrackScaleState.cpp'):
 # Scale the state. Use on DST to scale the track states *before* your user
