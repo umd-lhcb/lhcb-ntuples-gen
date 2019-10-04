@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Oct 03, 2019 at 08:42 PM -0400
+# Last Change: Thu Oct 03, 2019 at 09:04 PM -0400
 
 #####################
 # Configure DaVinci #
@@ -45,7 +45,7 @@ ms_all_protos.Output = 'Rec/ProtoP/MyProtoPMaker/ProtoParticles'  # This TES loc
 # NOTE: The name 'StdNoPIDsVeloPions' is hard-coded in the tuple tool, so the
 #       name should not be changed.
 ms_velo_pions = NoPIDsParticleMaker('StdNoPIDsVeloPions', Particle='pion')
-ms_velo_pions.Input = 'Rec/ProtoP/MyProtoPMaker/ProtoParticles'
+ms_velo_pions.Input = ms_all_protos.Output
 
 # NOTE: These two lines are needed to select particles in VELO only.
 # NOTE: DARK MAGIC.
