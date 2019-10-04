@@ -725,18 +725,23 @@ of each track:</p>
 <p class="admonition-title">Note</p>
 <p>The type <code>1.0</code> tracks can be turned off by commenting out the following
 lines in <code>reco_Dst.py</code>:</p>
-<div class="codehilite"><pre><span></span><span class="c1"># Provide required information for Greg&#39;s TupleTool.</span>
-<span class="n">ms_velo_protos</span> <span class="o">=</span> <span class="n">ChargedProtoParticleMaker</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;MyProtoPMaker&#39;</span><span class="p">)</span>
-<span class="n">ms_velo_protos</span><span class="o">.</span><span class="n">Inputs</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Rec/Track/Best&#39;</span><span class="p">]</span>
-<span class="n">ms_velo_protos</span><span class="o">.</span><span class="n">Output</span> <span class="o">=</span> <span class="s1">&#39;Rec/ProtoP/MyProtoPMaker/ProtoParticles&#39;</span>  <span class="c1"># This TES location will be accessible for all selection algorithms</span>
+<div class="codehilite"><pre><span></span><span class="c1"># Provide required information for VELO pions.</span>
+<span class="n">ms_all_protos</span> <span class="o">=</span> <span class="n">ChargedProtoParticleMaker</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;MyProtoPMaker&#39;</span><span class="p">)</span>
+<span class="n">ms_all_protos</span><span class="o">.</span><span class="n">Inputs</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Rec/Track/Best&#39;</span><span class="p">]</span>
+<span class="n">ms_all_protos</span><span class="o">.</span><span class="n">Output</span> <span class="o">=</span> <span class="s1">&#39;Rec/ProtoP/MyProtoPMaker/ProtoParticles&#39;</span>  <span class="c1"># This TES location will be accessible for all selection algorithms</span>
 
 <span class="c1"># VELO pions for Greg&#39;s isolation tool.</span>
 <span class="c1"># NOTE: The name &#39;StdNoPIDsVeloPions&#39; is hard-coded in the tuple tool, so the</span>
 <span class="c1">#       name should not be changed.</span>
 <span class="n">ms_velo_pions</span> <span class="o">=</span> <span class="n">NoPIDsParticleMaker</span><span class="p">(</span><span class="s1">&#39;StdNoPIDsVeloPions&#39;</span><span class="p">,</span> <span class="n">Particle</span><span class="o">=</span><span class="s1">&#39;pion&#39;</span><span class="p">)</span>
-<span class="n">ms_velo_pions</span><span class="o">.</span><span class="n">Input</span> <span class="o">=</span> <span class="s1">&#39;Rec/ProtoP/MyProtoPMaker/ProtoParticles&#39;</span>
+<span class="n">ms_velo_pions</span><span class="o">.</span><span class="n">Input</span> <span class="o">=</span> <span class="n">ms_all_protos</span><span class="o">.</span><span class="n">Output</span>
 
-<span class="n">DaVinci</span><span class="p">()</span><span class="o">.</span><span class="n">appendToMainSequence</span><span class="p">([</span><span class="n">ms_velo_protos</span><span class="p">,</span> <span class="n">ms_velo_pions</span><span class="p">])</span>
+<span class="c1"># NOTE: These two lines are needed to select particles in VELO only.</span>
+<span class="c1"># NOTE: DARK MAGIC.</span>
+<span class="n">trackSelector</span><span class="p">(</span><span class="n">ms_velo_pions</span><span class="p">,</span> <span class="n">trackTypes</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Velo&#39;</span><span class="p">])</span>
+<span class="n">updateDoD</span><span class="p">(</span><span class="n">ms_velo_pions</span><span class="p">)</span>
+
+<span class="n">DaVinci</span><span class="p">()</span><span class="o">.</span><span class="n">appendToMainSequence</span><span class="p">([</span><span class="n">ms_all_protos</span><span class="p">,</span> <span class="n">ms_velo_pions</span><span class="p">])</span>
 </pre></div>
 
 </div>
