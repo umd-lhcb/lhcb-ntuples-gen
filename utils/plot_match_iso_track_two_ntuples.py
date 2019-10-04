@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
 # Author: Yipeng Sun
-# Last Change: Thu Oct 03, 2019 at 04:58 PM -0400
+# Last Change: Fri Oct 04, 2019 at 06:12 PM -0400
 
 import sys
 import os
@@ -226,9 +226,12 @@ if __name__ == '__main__':
     comp_type = get_branches(comp_ntp[args.compTree], comp_idx, BRANCHES_AUX)
     suffix_names = args.suffix.split(',')
 
-    counter = [0, 0, 0]
+    # Typically for v42
     plot_comparison(ref_val, comp_val, ref_type, comp_type,
-                    MOMENTA_NAMES, TYPE_NAMES, suffix_names[0], counter)
+                    MOMENTA_NAMES, TYPE_NAMES, suffix_names[0])
+
+    # Typically for v36
+    counter = [0, 0, 0]
     plot_comparison(comp_val, ref_val, comp_type, ref_type,
-                    MOMENTA_NAMES, TYPE_NAMES, suffix_names[1])
+                    MOMENTA_NAMES, TYPE_NAMES, suffix_names[1], counter)
     print('Matched track types: {} {} {}'.format(*counter))
