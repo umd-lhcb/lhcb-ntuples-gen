@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri Sep 27, 2019 at 05:01 PM -0400
+# Last Change: Thu Oct 03, 2019 at 08:42 PM -0400
 
 #####################
 # Configure DaVinci #
@@ -34,17 +34,23 @@ from Configurables import ChargedProtoParticleMaker
 from Configurables import NoPIDsParticleMaker
 from Configurables import TrackScaleState
 from Configurables import TrackSmearState
+from CommonParticles.Utils import trackSelector, updateDoD
 
-# Provide required information for Greg's TupleTool.
-ms_velo_protos = ChargedProtoParticleMaker(name='MyProtoPMaker')
-ms_velo_protos.Inputs = ['Rec/Track/Best']
-ms_velo_protos.Output = 'Rec/ProtoP/MyProtoPMaker/ProtoParticles'  # This TES location will be accessible for all selection algorithms
+# Provide required information VELO pions.
+ms_all_protos = ChargedProtoParticleMaker(name='MyProtoPMaker')
+ms_all_protos.Inputs = ['Rec/Track/Best']
+ms_all_protos.Output = 'Rec/ProtoP/MyProtoPMaker/ProtoParticles'  # This TES location will be accessible for all selection algorithms
 
 # VELO pions for Greg's isolation tool.
 # NOTE: The name 'StdNoPIDsVeloPions' is hard-coded in the tuple tool, so the
 #       name should not be changed.
 ms_velo_pions = NoPIDsParticleMaker('StdNoPIDsVeloPions', Particle='pion')
 ms_velo_pions.Input = 'Rec/ProtoP/MyProtoPMaker/ProtoParticles'
+
+# NOTE: These two lines are needed to select particles in VELO only.
+# NOTE: DARK MAGIC.
+selector = trackSelector(ms_velo_pions, trackTypes=['Velo'])
+locations = updateDoD(ms_velo_pions)
 
 # According to the source code (available in 'Analysis/Phys/DaVinciTrackScaling/src/TrackScaleState.cpp'):
 # Scale the state. Use on DST to scale the track states *before* your user
@@ -60,7 +66,7 @@ if not DaVinci().Simulation:
 else:
     DaVinci().appendToMainSequence([ms_smear])
 
-DaVinci().appendToMainSequence([ms_velo_protos, ms_velo_pions])
+DaVinci().appendToMainSequence([ms_all_protos, ms_velo_pions])
 
 
 ######################
