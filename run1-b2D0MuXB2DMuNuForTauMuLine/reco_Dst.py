@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Oct 03, 2019 at 09:43 PM -0400
+# Last Change: Fri Oct 04, 2019 at 06:39 PM -0400
 
 #####################
 # Configure DaVinci #
@@ -36,7 +36,7 @@ from Configurables import TrackScaleState
 from Configurables import TrackSmearState
 from CommonParticles.Utils import trackSelector, updateDoD
 
-# Provide required information VELO pions.
+# Provide required information for VELO pions.
 ms_all_protos = ChargedProtoParticleMaker(name='MyProtoPMaker')
 ms_all_protos.Inputs = ['Rec/Track/Best']
 ms_all_protos.Output = 'Rec/ProtoP/MyProtoPMaker/ProtoParticles'  # This TES location will be accessible for all selection algorithms
