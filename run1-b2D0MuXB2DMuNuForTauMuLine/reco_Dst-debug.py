@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Sep 26, 2019 at 04:11 PM -0400
+# Last Change: Thu Oct 03, 2019 at 08:44 PM -0400
 
 #####################
 # Configure DaVinci #
@@ -20,6 +20,10 @@ DaVinci().Simulation = False
 
 DaVinci().Lumi = not DaVinci().Simulation
 DaVinci().TupleFile = 'BCands_Dst-data.root'
+
+# Specify tags
+DaVinci().DDDBtag = 'dddb-20130929-1'
+DaVinci().CondDBtag = 'cond-20141007'
 
 from GaudiConf import IOHelper
 

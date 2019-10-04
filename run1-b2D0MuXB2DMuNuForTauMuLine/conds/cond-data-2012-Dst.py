@@ -6,7 +6,7 @@ DaVinci().Simulation = False
 DaVinci().TupleFile = 'BCands_Dst-data.root'
 # DaVinci().HistogramFile = 'BCands_Dst_histo-data.root'
 
-# Debug: specify tags
+# Specify tags
 DaVinci().DDDBtag = 'dddb-20130929-1'
 DaVinci().CondDBtag = 'cond-20141007'
 
