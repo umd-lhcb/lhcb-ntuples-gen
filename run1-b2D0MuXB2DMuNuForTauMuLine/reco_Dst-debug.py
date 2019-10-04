@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Oct 03, 2019 at 08:44 PM -0400
+# Last Change: Thu Oct 03, 2019 at 09:45 PM -0400
 
 #####################
 # Configure DaVinci #
@@ -42,6 +42,7 @@ from Configurables import ChargedProtoParticleMaker
 from Configurables import NoPIDsParticleMaker
 from Configurables import TrackScaleState
 from Configurables import TrackSmearState
+from CommonParticles.Utils import trackSelector, updateDoD
 
 # Provide required information for Greg's TupleTool.
 ms_velo_protos = ChargedProtoParticleMaker(name='MyProtoPMaker')
@@ -50,6 +51,9 @@ ms_velo_protos.Output = 'Rec/ProtoP/MyProtoPMaker/ProtoParticles'  # This TES lo
 
 ms_velo_pions = NoPIDsParticleMaker('StdNoPIDsVeloPions', Particle='pion')
 ms_velo_pions.Input = 'Rec/ProtoP/MyProtoPMaker/ProtoParticles'
+
+trackSelector(ms_velo_pions, trackTypes=['Velo'])
+updateDoD(ms_velo_pions)
 
 ms_scale = TrackScaleState('StateScale')
 ms_smear = TrackSmearState('StateSmear')
