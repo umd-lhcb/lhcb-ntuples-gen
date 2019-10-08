@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
 # Author: Yipeng Sun
-# Last Change: Tue Oct 08, 2019 at 01:41 AM -0400
+# Last Change: Tue Oct 08, 2019 at 03:41 PM -0400
 
 import sys
 import os
@@ -39,6 +39,13 @@ BRANCHES_AUX = {
     'ISOLATION_TRACK2': ['Y_ISOLATION_Type2', 'Y_ISOLATION_BDT2'],
     'ISOLATION_TRACK3': ['Y_ISOLATION_Type3', 'Y_ISOLATION_BDT3'],
 }
+AUX_ADDON = [
+    'totCandidates',
+    'Y_P'
+]
+
+for k in BRANCHES_AUX.keys():
+    BRANCHES_AUX[k] = BRANCHES_AUX[k] + AUX_ADDON
 
 MOMENTA_NAMES = list(BRANCHES_MATCH.keys())
 TYPE_NAMES = [i[0] for i in BRANCHES_AUX.values()]
@@ -157,15 +164,15 @@ def find_ref_val_list(ref_mom, idx):
 # Plot #
 ########
 
-def plot_comparison(ref_val, comp_val, ref_type, comp_type, title_names,
+def plot_comparison(ref_val, comp_val, ref_aux, comp_aux, title_names,
                     type_names, filename_suffix, args, counter=None):
     for track_idx in range(0, len(comp_val)):
         track_title = title_names[track_idx]
         type_title = type_names[track_idx]
 
         track_match_result = np.array([], int)
-        type_self = np.array([])
-        type_match = np.array([])
+        comp_type_arr = []
+        ref_type_arr = []
 
         for i in range(0, comp_val[track_idx].shape[0]):
             bdt_score = int(comp_val[track_idx][i][5])
@@ -181,12 +188,15 @@ def plot_comparison(ref_val, comp_val, ref_type, comp_type, title_names,
                                            matched_track_idx)
 
             if matched_track_idx > 0:
-                type_self = np.append(type_self, ref_type[track_idx][i][0])
-                type_match = np.append(type_match,
-                                       comp_type[matched_track_idx-1][i][0])
+                comp_type_arr.append(comp_aux[track_idx][i][0])
+                ref_type_arr.append(ref_aux[matched_track_idx-1][i][0])
                 # Counter
                 if counter is not None:
                     counter[matched_track_idx-1] += 1
+
+        # Convert difference lists to numpy arrays
+        ref_type_arr = np.array(ref_type_arr)
+        comp_type_arr = np.array(comp_type_arr)
 
         # Plot track matching results
         filename = os.path.join(args.output, track_title + filename_suffix)
@@ -200,7 +210,7 @@ def plot_comparison(ref_val, comp_val, ref_type, comp_type, title_names,
         # Plot matched track type differences
         filename = os.path.join(args.output, type_title + '_matched_diff' +
                                 filename_suffix)
-        result = type_match - type_self
+        result = ref_type_arr - comp_type_arr
         mean = result.mean()
         std = result.std()
 
@@ -222,16 +232,16 @@ if __name__ == '__main__':
     ref_ntp, comp_ntp = map(uproot.open, [args.ref, args.comp])
     ref_val = get_branches(ref_ntp[args.refTree], ref_idx)
     comp_val = get_branches(comp_ntp[args.compTree], comp_idx)
-    ref_type = get_branches(ref_ntp[args.refTree], ref_idx, BRANCHES_AUX)
-    comp_type = get_branches(comp_ntp[args.compTree], comp_idx, BRANCHES_AUX)
+    ref_aux = get_branches(ref_ntp[args.refTree], ref_idx, BRANCHES_AUX)
+    comp_aux = get_branches(comp_ntp[args.compTree], comp_idx, BRANCHES_AUX)
     suffix_names = args.suffix.split(',')
 
     # Typically for v42
-    plot_comparison(ref_val, comp_val, ref_type, comp_type,
+    plot_comparison(ref_val, comp_val, ref_aux, comp_aux,
                     MOMENTA_NAMES, TYPE_NAMES, suffix_names[0], args)
 
     # Typically for v36
     counter = [0, 0, 0]
-    plot_comparison(comp_val, ref_val, comp_type, ref_type,
+    plot_comparison(comp_val, ref_val, comp_aux, ref_aux,
                     MOMENTA_NAMES, TYPE_NAMES, suffix_names[1], args, counter)
     print('Matched track types: {} {} {}'.format(*counter))
