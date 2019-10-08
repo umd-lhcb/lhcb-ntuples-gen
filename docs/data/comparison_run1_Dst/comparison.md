@@ -441,6 +441,11 @@ Files used:
 |---|---|
 | ![](data-dv36_vs_dv42-no_refit/ISOLATION_TRACK3_dv36.png) | ![](data-dv36_vs_dv42-no_refit/ISOLATION_TRACK3_dv42.png) |
 
+### Track type difference vs. BDT score difference
+| `v36r1p2` | `v42r8p1` |
+|---|---|
+| ![](data-dv36_vs_dv42-no_refit/ISOLATION_TRACK_vs_BDT_dv36.png) | ![](data-dv36_vs_dv42-no_refit/ISOLATION_TRACK_vs_BDT_dv42.png) |
+
 
 ## Comparison between MC (Pythia 6)
 Files used, located in `run1-b2D0MuXB2DMuNuForTauMuLine/ntuples/mc`:
