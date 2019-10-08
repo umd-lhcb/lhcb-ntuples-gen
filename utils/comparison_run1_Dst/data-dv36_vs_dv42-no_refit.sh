@@ -34,3 +34,8 @@ done
 ../plot_match_iso_track_two_ntuples.py -n ${NTP_REF} -N ${NTP_COM} \
     -t 'TupleB0/DecayTree' -T 'TupleB0/DecayTree' -s '_dv42,_dv36' \
     -o ${OUTPUT_DIR}
+
+# Draw 2D histogram between track type difference and BDT score difference
+../plot_match_iso_track_hexbin.py -n ${NTP_REF} -N ${NTP_COM} \
+    -t 'TupleB0/DecayTree' -T 'TupleB0/DecayTree' -s '_dv42,_dv36' \
+    -o ${OUTPUT_DIR} --bins 30
