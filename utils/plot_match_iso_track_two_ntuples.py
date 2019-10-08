@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
 # Author: Yipeng Sun
-# Last Change: Tue Oct 08, 2019 at 03:41 PM -0400
+# Last Change: Tue Oct 08, 2019 at 04:15 PM -0400
 
 import sys
 import os
@@ -175,14 +175,14 @@ def plot_comparison(ref_val, comp_val, ref_aux, comp_aux, title_names,
         ref_type_arr = []
 
         for i in range(0, comp_val[track_idx].shape[0]):
-            bdt_score = int(comp_val[track_idx][i][5])
-            if bdt_score != -2:
+            comp_bdt_score = int(comp_val[track_idx][i][5])
+            if comp_bdt_score != -2:
                 matched_track_idx = match(
                     comp_val[track_idx][i],
                     find_ref_val_list(ref_val, i)
                 )
             else:
-                matched_track_idx = bdt_score
+                matched_track_idx = -2
 
             track_match_result = np.append(track_match_result,
                                            matched_track_idx)

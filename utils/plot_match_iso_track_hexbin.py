@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Oct 08, 2019 at 02:30 AM -0400
+# Last Change: Tue Oct 08, 2019 at 04:19 PM -0400
 
 import sys
 import os
@@ -54,31 +54,50 @@ def plot_hexbin(x, y, gridsize, output, xlabel, ylabel):
 
 
 def plot_comparison_2d(ref_val, comp_val, ref_aux, comp_aux, filename, args):
-    track_type_diff = np.array([])
-    iso_score_diff = np.array([])
+    track_type_diff_arr = []
+    bdt_score_diff_arr = []
 
+    print('comp_TrackType,ref_TrackType,comp_BDT,ref_BDT,comp_totCandidates,ref_totCandidates,comp_Y_P,ref_Y_P')
     for track_idx in range(0, len(comp_val)):
         for i in range(0, comp_val[track_idx].shape[0]):
-            bdt_score = int(comp_val[track_idx][i][5])
-            if bdt_score != -2:
+            comp_bdt_score = comp_val[track_idx][i][5]
+            if int(comp_bdt_score) != -2:
                 matched_track_idx = match(
                     comp_val[track_idx][i],
                     find_ref_val_list(ref_val, i)
                 )
+            elif comp_aux[track_idx][i][2] != 1:
+                matched_track_idx = -2
             else:
-                matched_track_idx = bdt_score
+                matched_track_idx = -2
 
             if matched_track_idx > 0:
-                type_diff = ref_aux[track_idx][i][0] - \
-                    comp_aux[matched_track_idx-1][i][0]
-                score_diff = ref_aux[track_idx][i][1] - \
-                    comp_aux[matched_track_idx-1][i][1]
+                comp_type = comp_aux[track_idx][i][0]
+                ref_type = ref_aux[matched_track_idx-1][i][0]
+                ref_bdt_score = ref_aux[matched_track_idx-1][i][1]
 
-                track_type_diff = np.append(track_type_diff, type_diff)
-                iso_score_diff = np.append(iso_score_diff, score_diff)
+                track_type_diff = ref_type - comp_type
+                bdt_score_diff = ref_bdt_score - comp_bdt_score
 
+                track_type_diff_arr.append(track_type_diff)
+                bdt_score_diff_arr.append(bdt_score_diff)
+
+                # NOTE: For debugging purpose
+                if abs(bdt_score_diff) > 0.1:
+                    print('{},{},{},{},{},{},{},{}'.format(
+                        comp_type, ref_type,
+                        comp_bdt_score, ref_bdt_score,
+                        comp_aux[track_idx][i][2],
+                        ref_aux[matched_track_idx-1][i][2],
+                        comp_aux[track_idx][i][3],
+                        ref_aux[matched_track_idx-1][i][3],
+                    ))
+
+    track_type_diff_arr = np.array(track_type_diff_arr)
+    bdt_score_diff_arr = np.array(bdt_score_diff_arr)
     filename = os.path.join(args.output, filename)
-    plot_hexbin(track_type_diff, iso_score_diff, args.bins, filename,
+
+    plot_hexbin(track_type_diff_arr, bdt_score_diff_arr, args.bins, filename,
                 'Track type diff', 'BDT score diff')
 
 
