@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
 # Author: Yipeng Sun
-# Last Change: Fri Oct 04, 2019 at 06:12 PM -0400
+# Last Change: Tue Oct 08, 2019 at 01:41 AM -0400
 
 import sys
 import os
@@ -35,9 +35,9 @@ BRANCHES_MATCH = {
                          'Y_ISOLATION_ANGLE3', 'Y_ISOLATION_BDT3'],
 }
 BRANCHES_AUX = {
-    'ISOLATION_TRACK1': ['Y_ISOLATION_Type'],
-    'ISOLATION_TRACK2': ['Y_ISOLATION_Type2'],
-    'ISOLATION_TRACK3': ['Y_ISOLATION_Type3'],
+    'ISOLATION_TRACK1': ['Y_ISOLATION_Type', 'Y_ISOLATION_BDT'],
+    'ISOLATION_TRACK2': ['Y_ISOLATION_Type2', 'Y_ISOLATION_BDT2'],
+    'ISOLATION_TRACK3': ['Y_ISOLATION_Type3', 'Y_ISOLATION_BDT3'],
 }
 
 MOMENTA_NAMES = list(BRANCHES_MATCH.keys())
@@ -158,7 +158,7 @@ def find_ref_val_list(ref_mom, idx):
 ########
 
 def plot_comparison(ref_val, comp_val, ref_type, comp_type, title_names,
-                    type_names, filename_suffix, counter=None):
+                    type_names, filename_suffix, args, counter=None):
     for track_idx in range(0, len(comp_val)):
         track_title = title_names[track_idx]
         type_title = type_names[track_idx]
@@ -228,10 +228,10 @@ if __name__ == '__main__':
 
     # Typically for v42
     plot_comparison(ref_val, comp_val, ref_type, comp_type,
-                    MOMENTA_NAMES, TYPE_NAMES, suffix_names[0])
+                    MOMENTA_NAMES, TYPE_NAMES, suffix_names[0], args)
 
     # Typically for v36
     counter = [0, 0, 0]
     plot_comparison(comp_val, ref_val, comp_type, ref_type,
-                    MOMENTA_NAMES, TYPE_NAMES, suffix_names[1], counter)
+                    MOMENTA_NAMES, TYPE_NAMES, suffix_names[1], args, counter)
     print('Matched track types: {} {} {}'.format(*counter))
