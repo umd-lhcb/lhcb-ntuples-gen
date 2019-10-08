@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
 # Author: Yipeng Sun
-# Last Change: Tue Oct 08, 2019 at 04:15 PM -0400
+# Last Change: Tue Oct 08, 2019 at 04:47 PM -0400
 
 import sys
 import os
@@ -164,8 +164,9 @@ def find_ref_val_list(ref_mom, idx):
 # Plot #
 ########
 
-def plot_comparison(ref_val, comp_val, ref_aux, comp_aux, title_names,
-                    type_names, filename_suffix, args, counter=None):
+def plot_match_iso_track(ref_val, comp_val, ref_aux, comp_aux,
+                         title_names, type_names, filename_suffix, args,
+                         counter=None):
     for track_idx in range(0, len(comp_val)):
         track_title = title_names[track_idx]
         type_title = type_names[track_idx]
@@ -237,11 +238,13 @@ if __name__ == '__main__':
     suffix_names = args.suffix.split(',')
 
     # Typically for v42
-    plot_comparison(ref_val, comp_val, ref_aux, comp_aux,
-                    MOMENTA_NAMES, TYPE_NAMES, suffix_names[0], args)
+    plot_match_iso_track(
+        ref_val, comp_val, ref_aux, comp_aux, MOMENTA_NAMES, TYPE_NAMES,
+        suffix_names[0], args)
 
     # Typically for v36
     counter = [0, 0, 0]
-    plot_comparison(comp_val, ref_val, comp_aux, ref_aux,
-                    MOMENTA_NAMES, TYPE_NAMES, suffix_names[1], args, counter)
+    plot_match_iso_track(
+        comp_val, ref_val, comp_aux, ref_aux, MOMENTA_NAMES, TYPE_NAMES,
+        suffix_names[1], args, counter)
     print('Matched track types: {} {} {}'.format(*counter))

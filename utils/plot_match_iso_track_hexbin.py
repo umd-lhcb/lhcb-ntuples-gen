@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Oct 08, 2019 at 04:19 PM -0400
+# Last Change: Tue Oct 08, 2019 at 04:48 PM -0400
 
 import sys
 import os
@@ -15,10 +15,10 @@ from argparse import ArgumentParser
 from matplotlib import pyplot as plt
 from find_common_uid import find_common_uid
 from plot_single_branch import FONT_FAMILY, FONT_SIZE
-from plot_match_iso_track_two_ntuples import parse_input
-from plot_match_iso_track_two_ntuples import match, get_branches
-from plot_match_iso_track_two_ntuples import find_ref_val_list
-from plot_match_iso_track_two_ntuples import BRANCHES_MATCH, BRANCHES_AUX
+from plot_match_iso_track import parse_input
+from plot_match_iso_track import match, get_branches
+from plot_match_iso_track import find_ref_val_list
+from plot_match_iso_track import BRANCHES_MATCH, BRANCHES_AUX
 
 
 ################
@@ -53,7 +53,8 @@ def plot_hexbin(x, y, gridsize, output, xlabel, ylabel):
     plt.close(fig)
 
 
-def plot_comparison_2d(ref_val, comp_val, ref_aux, comp_aux, filename, args):
+def plot_match_iso_track_hexbin(ref_val, comp_val, ref_aux, comp_aux, filename,
+                                args):
     track_type_diff_arr = []
     bdt_score_diff_arr = []
 
@@ -119,11 +120,11 @@ if __name__ == '__main__':
     suffix_names = args.suffix.split(',')
 
     # Typically for v42
-    plot_comparison_2d(
+    plot_match_iso_track_hexbin(
         ref_val, comp_val, ref_aux, comp_aux,
         'ISOLATION_TRACK_vs_BDT' + suffix_names[0] + '.png', args)
 
     # Typically for v36
-    plot_comparison_2d(
+    plot_match_iso_track_hexbin(
         comp_val, ref_val, comp_aux, ref_aux,
         'ISOLATION_TRACK_vs_BDT' + suffix_names[1] + '.png', args)

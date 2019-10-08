@@ -31,7 +31,7 @@ for branch in "${BRANCHES[@]}"; do
 done
 
 # Comparison between track types
-../plot_match_iso_track_two_ntuples.py -n ${NTP_REF} -N ${NTP_COM} \
+../plot_match_iso_track.py -n ${NTP_REF} -N ${NTP_COM} \
     -t 'TupleB0/DecayTree' -T 'TupleB0/DecayTree' -s '_dv42,_dv36' \
     -o ${OUTPUT_DIR}
 
