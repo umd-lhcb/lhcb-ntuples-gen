@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
 # Author: Yipeng Sun
-# Last Change: Tue Oct 08, 2019 at 04:47 PM -0400
+# Last Change: Thu Oct 10, 2019 at 02:30 PM -0400
 
 import sys
 import os
@@ -41,7 +41,10 @@ BRANCHES_AUX = {
 }
 AUX_ADDON = [
     'totCandidates',
-    'Y_P'
+    'Y_P',
+    'Y_PT',
+    'Y_ENDVERTEX_X',
+    'Y_ENDVERTEX_Z'
 ]
 
 for k in BRANCHES_AUX.keys():

@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Oct 08, 2019 at 04:48 PM -0400
+# Last Change: Thu Oct 10, 2019 at 02:33 PM -0400
 
 import sys
 import os
@@ -58,7 +58,7 @@ def plot_match_iso_track_hexbin(ref_val, comp_val, ref_aux, comp_aux, filename,
     track_type_diff_arr = []
     bdt_score_diff_arr = []
 
-    print('comp_TrackType,ref_TrackType,comp_BDT,ref_BDT,comp_totCandidates,ref_totCandidates,comp_Y_P,ref_Y_P')
+    print('comp_TrackType,ref_TrackType,comp_BDT,ref_BDT,comp_totCandidates,ref_totCandidates,comp_Y_P,ref_Y_P,comp_Y_PT,ref_Y_PT,comp_Y_ENDVERTEX_X,ref_Y_ENDVERTEX_X,comp_Y_ENDVERTEX_Z,ref_Y_ENDVERTEX_Z')
     for track_idx in range(0, len(comp_val)):
         for i in range(0, comp_val[track_idx].shape[0]):
             comp_bdt_score = comp_val[track_idx][i][5]
@@ -85,13 +85,19 @@ def plot_match_iso_track_hexbin(ref_val, comp_val, ref_aux, comp_aux, filename,
 
                 # NOTE: For debugging purpose
                 if abs(bdt_score_diff) > 0.1:
-                    print('{},{},{},{},{},{},{},{}'.format(
+                    print('{},{},{},{},{},{},{},{},{},{},{},{},{},{}'.format(
                         comp_type, ref_type,
                         comp_bdt_score, ref_bdt_score,
                         comp_aux[track_idx][i][2],
                         ref_aux[matched_track_idx-1][i][2],
                         comp_aux[track_idx][i][3],
                         ref_aux[matched_track_idx-1][i][3],
+                        comp_aux[track_idx][i][4],
+                        ref_aux[matched_track_idx-1][i][4],
+                        comp_aux[track_idx][i][5],
+                        ref_aux[matched_track_idx-1][i][5],
+                        comp_aux[track_idx][i][6],
+                        ref_aux[matched_track_idx-1][i][6],
                     ))
 
     track_type_diff_arr = np.array(track_type_diff_arr)
