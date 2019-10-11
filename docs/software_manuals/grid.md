@@ -15,7 +15,7 @@ For each of the stripping line folder inside this project, there should be a
 ganga ganga_jobs.py <arguments>
 ```
 
-### `2012-b2D0MuXB2DMuNuForTauMuLine`
+### `run1-b2D0MuXB2DMuNuForTauMuLine`
 ```
 $ ganga ganga_jobs.py --help
 usage: ganga_jobs.py [-h] [--force] [--davinci DAVINCI]
