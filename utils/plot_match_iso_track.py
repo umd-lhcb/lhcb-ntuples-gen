@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
 # Author: Yipeng Sun
-# Last Change: Thu Oct 10, 2019 at 02:30 PM -0400
+# Last Change: Fri Oct 11, 2019 at 01:30 AM -0400
 
 import sys
 import os
@@ -43,7 +43,7 @@ AUX_ADDON = [
     'totCandidates',
     'Y_P',
     'Y_PT',
-    'Y_ENDVERTEX_X',
+    'Y_ENDVERTEX_Y',
     'Y_ENDVERTEX_Z'
 ]
 
