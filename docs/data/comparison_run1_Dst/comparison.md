@@ -468,6 +468,16 @@ Files used:
 * `BCands_Dst-phoebe-data-2012-mag_down-dv36-subset-no_refit-no_rescale.root`
 * `BCands_Dst-yipeng-data-2012-mag_down-dv42-subset-no_refit-no_rescale.root`
 
+### `D0_P`
+| difference [MeV] | difference (normalized) |
+|---|---|
+| ![](data-dv36_vs_dv42-no_refit/D0_P_diff.png) | ![](data-dv36_vs_dv42-no_refit/D0_P_diff_norm.png) |
+
+### `Dst_2010_minus_P`
+| difference [MeV] | difference (normalized) |
+|---|---|
+| ![](data-dv36_vs_dv42-no_refit/Dst_2010_minus_P_diff.png) | ![](data-dv36_vs_dv42-no_refit/Dst_2010_minus_P_diff_norm.png) |
+
 ### `Y_ISOLATION_BDT`
 | difference (DL) | difference (normalized) |
 |---|---|
