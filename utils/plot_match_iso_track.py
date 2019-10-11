@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
 # Author: Yipeng Sun
-# Last Change: Fri Oct 11, 2019 at 03:19 AM -0400
+# Last Change: Fri Oct 11, 2019 at 03:37 AM -0400
 
 import sys
 import os
@@ -172,6 +172,10 @@ def find_ref_val_list(ref_mom, idx):
 def plot_match_iso_track(ref_val, comp_val, ref_aux, comp_aux,
                          title_names, type_names, filename_suffix, args,
                          counter=None):
+    chi2_type_1 = []
+    chi2_type_3 = []
+    chi2_type_4 = []
+
     for track_idx in range(0, len(comp_val)):
         track_title = title_names[track_idx]
         type_title = type_names[track_idx]
@@ -179,9 +183,6 @@ def plot_match_iso_track(ref_val, comp_val, ref_aux, comp_aux,
         track_match_result = np.array([], int)
         comp_type_arr = []
         ref_type_arr = []
-        chi2_type_1 = []
-        chi2_type_3 = []
-        chi2_type_4 = []
 
         for i in range(0, comp_val[track_idx].shape[0]):
             comp_bdt_score = int(comp_val[track_idx][i][5])
@@ -221,10 +222,6 @@ def plot_match_iso_track(ref_val, comp_val, ref_aux, comp_aux,
         ref_type_arr = np.array(ref_type_arr)
         comp_type_arr = np.array(comp_type_arr)
 
-        chi2_type_1 = np.array(chi2_type_1)
-        chi2_type_3 = np.array(chi2_type_3)
-        chi2_type_4 = np.array(chi2_type_4)
-
         # Plot track matching results
         filename = os.path.join(args.output, track_title + filename_suffix)
         mean = track_match_result.mean()
@@ -245,18 +242,22 @@ def plot_match_iso_track(ref_val, comp_val, ref_aux, comp_aux,
         plot(histo, bins, filename, type_title + ' (matched diff)',
              result.size, mean, std)
 
-        # Plot chi^2 of each track type
-        for data, title in zip(
-            [chi2_type_1, chi2_type_3, chi2_type_4],
-            ['TRACK_TYPE1_CHI2', 'TRACK_TYPE3_CHI2', 'TRACK_TYPE4_CHI2']
-        ):
-            filename = os.path.join(args.output, title + filename_suffix)
-            mean = data.mean()
-            std = data.std()
+    # Plot chi^2 of each track type
+    chi2_type_1 = np.array(chi2_type_1)
+    chi2_type_3 = np.array(chi2_type_3)
+    chi2_type_4 = np.array(chi2_type_4)
 
-            histo, bins = gen_histo(data, bins=args.bins)
-            plot(histo, bins, filename, title,
-                 data.size, mean, std)
+    for data, title in zip(
+        [chi2_type_1, chi2_type_3, chi2_type_4],
+        ['TRACK_TYPE1_CHI2', 'TRACK_TYPE3_CHI2', 'TRACK_TYPE4_CHI2']
+    ):
+        filename = os.path.join(args.output, title + filename_suffix)
+        mean = data.mean()
+        std = data.std()
+
+        histo, bins = gen_histo(data, bins=args.bins)
+        plot(histo, bins, filename, title,
+             data.size, mean, std)
 
 
 ########
