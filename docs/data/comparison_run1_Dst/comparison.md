@@ -471,100 +471,85 @@ Files used:
 ### `D0_P`
 | difference [MeV] | difference (normalized) |
 |---|---|
-| ![](data-dv36_vs_dv42-no_refit/D0_P_diff.png) | ![](data-dv36_vs_dv42-no_refit/D0_P_diff_norm.png) |
+| ![](data-dv36_vs_dv42-no_refit-no_rescale/D0_P_diff.png) | ![](data-dv36_vs_dv42-no_refit-no_rescale/D0_P_diff_norm.png) |
 
 ### `Dst_2010_minus_P`
 | difference [MeV] | difference (normalized) |
 |---|---|
-| ![](data-dv36_vs_dv42-no_refit/Dst_2010_minus_P_diff.png) | ![](data-dv36_vs_dv42-no_refit/Dst_2010_minus_P_diff_norm.png) |
-
-### `Y_ISOLATION_BDT`
-| difference (DL) | difference (normalized) |
-|---|---|
-| ![](data-dv36_vs_dv42-no_refit/Y_ISOLATION_BDT_diff.png) | ![](data-dv36_vs_dv42-no_refit/Y_ISOLATION_BDT_diff_norm.png) |
-
-### `Y_ISOLATION_BDT2`
-| difference (DL) | difference (normalized) |
-|---|---|
-| ![](data-dv36_vs_dv42-no_refit/Y_ISOLATION_BDT2_diff.png) | ![](data-dv36_vs_dv42-no_refit/Y_ISOLATION_BDT2_diff_norm.png) |
-
-### `Y_ISOLATION_BDT3`
-| difference (DL) | difference (normalized) |
-|---|---|
-| ![](data-dv36_vs_dv42-no_refit/Y_ISOLATION_BDT3_diff.png) | ![](data-dv36_vs_dv42-no_refit/Y_ISOLATION_BDT3_diff_norm.png) |
+| ![](data-dv36_vs_dv42-no_refit-no_rescale/Dst_2010_minus_P_diff.png) | ![](data-dv36_vs_dv42-no_refit-no_rescale/Dst_2010_minus_P_diff_norm.png) |
 
 ### `Y_ISOLATION_Type`
 #### Raw
 | `v36r1p2` | `v42r8p1` |
 |---|---|
-| ![](data-dv36_vs_dv42-no_refit/Y_ISOLATION_Type_dv36.png) | ![](data-dv36_vs_dv42-no_refit/Y_ISOLATION_Type_dv42.png) |
+| ![](data-dv36_vs_dv42-no_refit-no_rescale/Y_ISOLATION_Type_dv36.png) | ![](data-dv36_vs_dv42-no_refit-no_rescale/Y_ISOLATION_Type_dv42.png) |
 
 #### Matched diff
 | `v36r1p2` | `v42r8p1` |
 |---|---|
-| ![](data-dv36_vs_dv42-no_refit/Y_ISOLATION_Type_matched_diff_dv36.png) | ![](data-dv36_vs_dv42-no_refit/Y_ISOLATION_Type_matched_diff_dv42.png) |
+| ![](data-dv36_vs_dv42-no_refit-no_rescale/Y_ISOLATION_Type_matched_diff_dv36.png) | ![](data-dv36_vs_dv42-no_refit-no_rescale/Y_ISOLATION_Type_matched_diff_dv42.png) |
 
 ### `Y_ISOLATION_Type2`
 #### Raw
 | `v36r1p2` | `v42r8p1` |
 |---|---|
-| ![](data-dv36_vs_dv42-no_refit/Y_ISOLATION_Type2_dv36.png) | ![](data-dv36_vs_dv42-no_refit/Y_ISOLATION_Type2_dv42.png) |
+| ![](data-dv36_vs_dv42-no_refit-no_rescale/Y_ISOLATION_Type2_dv36.png) | ![](data-dv36_vs_dv42-no_refit-no_rescale/Y_ISOLATION_Type2_dv42.png) |
 
 #### Matched diff
 | `v36r1p2` | `v42r8p1` |
 |---|---|
-| ![](data-dv36_vs_dv42-no_refit/Y_ISOLATION_Type2_matched_diff_dv36.png) | ![](data-dv36_vs_dv42-no_refit/Y_ISOLATION_Type2_matched_diff_dv42.png) |
+| ![](data-dv36_vs_dv42-no_refit-no_rescale/Y_ISOLATION_Type2_matched_diff_dv36.png) | ![](data-dv36_vs_dv42-no_refit-no_rescale/Y_ISOLATION_Type2_matched_diff_dv42.png) |
 
 ### `Y_ISOLATION_Type3`
 #### Raw
 | `v36r1p2` | `v42r8p1` |
 |---|---|
-| ![](data-dv36_vs_dv42-no_refit/Y_ISOLATION_Type3_dv36.png) | ![](data-dv36_vs_dv42-no_refit/Y_ISOLATION_Type3_dv42.png) |
+| ![](data-dv36_vs_dv42-no_refit-no_rescale/Y_ISOLATION_Type3_dv36.png) | ![](data-dv36_vs_dv42-no_refit-no_rescale/Y_ISOLATION_Type3_dv42.png) |
 
 #### Matched diff
 | `v36r1p2` | `v42r8p1` |
 |---|---|
-| ![](data-dv36_vs_dv42-no_refit/Y_ISOLATION_Type3_matched_diff_dv36.png) | ![](data-dv36_vs_dv42-no_refit/Y_ISOLATION_Type3_matched_diff_dv42.png) |
+| ![](data-dv36_vs_dv42-no_refit-no_rescale/Y_ISOLATION_Type3_matched_diff_dv36.png) | ![](data-dv36_vs_dv42-no_refit-no_rescale/Y_ISOLATION_Type3_matched_diff_dv42.png) |
 
 ### `Y_ISOLATION_Type4`
 | `v36r1p2` | `v42r8p1` |
 |---|---|
-| ![](data-dv36_vs_dv42-no_refit/Y_ISOLATION_Type4_dv36.png) | ![](data-dv36_vs_dv42-no_refit/Y_ISOLATION_Type4_dv42.png) |
+| ![](data-dv36_vs_dv42-no_refit-no_rescale/Y_ISOLATION_Type4_dv36.png) | ![](data-dv36_vs_dv42-no_refit-no_rescale/Y_ISOLATION_Type4_dv42.png) |
 
 ### `ISOLATION_TRACK1`
 | `v36r1p2` | `v42r8p1` |
 |---|---|
-| ![](data-dv36_vs_dv42-no_refit/ISOLATION_TRACK1_dv36.png) | ![](data-dv36_vs_dv42-no_refit/ISOLATION_TRACK1_dv42.png) |
+| ![](data-dv36_vs_dv42-no_refit-no_rescale/ISOLATION_TRACK1_dv36.png) | ![](data-dv36_vs_dv42-no_refit-no_rescale/ISOLATION_TRACK1_dv42.png) |
 
 ### `ISOLATION_TRACK2`
 | `v36r1p2` | `v42r8p1` |
 |---|---|
-| ![](data-dv36_vs_dv42-no_refit/ISOLATION_TRACK2_dv36.png) | ![](data-dv36_vs_dv42-no_refit/ISOLATION_TRACK2_dv42.png) |
+| ![](data-dv36_vs_dv42-no_refit-no_rescale/ISOLATION_TRACK2_dv36.png) | ![](data-dv36_vs_dv42-no_refit-no_rescale/ISOLATION_TRACK2_dv42.png) |
 
 ### `ISOLATION_TRACK3`
 | `v36r1p2` | `v42r8p1` |
 |---|---|
-| ![](data-dv36_vs_dv42-no_refit/ISOLATION_TRACK3_dv36.png) | ![](data-dv36_vs_dv42-no_refit/ISOLATION_TRACK3_dv42.png) |
+| ![](data-dv36_vs_dv42-no_refit-no_rescale/ISOLATION_TRACK3_dv36.png) | ![](data-dv36_vs_dv42-no_refit-no_rescale/ISOLATION_TRACK3_dv42.png) |
 
 ### `TRACK_TYPE1_CHI2`
 | `v36r1p2` | `v42r8p1` |
 |---|---|
-| ![](data-dv36_vs_dv42-no_refit/TRACK_TYPE1_CHI2_dv36.png) | ![](data-dv36_vs_dv42-no_refit/TRACK_TYPE1_CHI2_dv42.png) |
+| ![](data-dv36_vs_dv42-no_refit-no_rescale/TRACK_TYPE1_CHI2_dv36.png) | ![](data-dv36_vs_dv42-no_refit-no_rescale/TRACK_TYPE1_CHI2_dv42.png) |
 
 ### `TRACK_TYPE3_CHI2`
 | `v36r1p2` | `v42r8p1` |
 |---|---|
-| ![](data-dv36_vs_dv42-no_refit/TRACK_TYPE3_CHI2_dv36.png) | ![](data-dv36_vs_dv42-no_refit/TRACK_TYPE3_CHI2_dv42.png) |
+| ![](data-dv36_vs_dv42-no_refit-no_rescale/TRACK_TYPE3_CHI2_dv36.png) | ![](data-dv36_vs_dv42-no_refit-no_rescale/TRACK_TYPE3_CHI2_dv42.png) |
 
 ### `TRACK_TYPE4_CHI2`
 | `v36r1p2` | `v42r8p1` |
 |---|---|
-| ![](data-dv36_vs_dv42-no_refit/TRACK_TYPE4_CHI2_dv36.png) | ![](data-dv36_vs_dv42-no_refit/TRACK_TYPE4_CHI2_dv42.png) |
+| ![](data-dv36_vs_dv42-no_refit-no_rescale/TRACK_TYPE4_CHI2_dv36.png) | ![](data-dv36_vs_dv42-no_refit-no_rescale/TRACK_TYPE4_CHI2_dv42.png) |
 
 ### Track type difference vs. BDT score difference
 | `v36r1p2` | `v42r8p1` |
 |---|---|
-| ![](data-dv36_vs_dv42-no_refit/ISOLATION_TRACK_vs_BDT_dv36.png) | ![](data-dv36_vs_dv42-no_refit/ISOLATION_TRACK_vs_BDT_dv42.png) |
+| ![](data-dv36_vs_dv42-no_refit-no_rescale/ISOLATION_TRACK_vs_BDT_dv36.png) | ![](data-dv36_vs_dv42-no_refit-no_rescale/ISOLATION_TRACK_vs_BDT_dv42.png) |
 
 
 ## Comparison between MC (Pythia 6)
