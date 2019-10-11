@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Oct 03, 2019 at 09:47 PM -0400
+# Last Change: Fri Oct 11, 2019 at 03:29 AM -0400
 
 #####################
 # Configure DaVinci #
@@ -59,7 +59,8 @@ ms_smear = TrackSmearState('StateSmear')
 
 
 if not DaVinci().Simulation:
-    DaVinci().appendToMainSequence([ms_scale])
+    pass
+    # DaVinci().appendToMainSequence([ms_scale])
 else:
     DaVinci().appendToMainSequence([ms_smear])
 
