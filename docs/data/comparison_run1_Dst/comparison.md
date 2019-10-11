@@ -441,6 +441,21 @@ Files used:
 |---|---|
 | ![](data-dv36_vs_dv42-no_refit/ISOLATION_TRACK3_dv36.png) | ![](data-dv36_vs_dv42-no_refit/ISOLATION_TRACK3_dv42.png) |
 
+### `TRACK_TYPE1_CHI2`
+| `v36r1p2` | `v42r8p1` |
+|---|---|
+| ![](data-dv36_vs_dv42-no_refit/TRACK_TYPE1_CHI2_dv36.png) | ![](data-dv36_vs_dv42-no_refit/TRACK_TYPE1_CHI2_dv42.png) |
+
+### `TRACK_TYPE3_CHI2`
+| `v36r1p2` | `v42r8p1` |
+|---|---|
+| ![](data-dv36_vs_dv42-no_refit/TRACK_TYPE3_CHI2_dv36.png) | ![](data-dv36_vs_dv42-no_refit/TRACK_TYPE3_CHI2_dv42.png) |
+
+### `TRACK_TYPE4_CHI2`
+| `v36r1p2` | `v42r8p1` |
+|---|---|
+| ![](data-dv36_vs_dv42-no_refit/TRACK_TYPE4_CHI2_dv36.png) | ![](data-dv36_vs_dv42-no_refit/TRACK_TYPE4_CHI2_dv42.png) |
+
 ### Track type difference vs. BDT score difference
 | `v36r1p2` | `v42r8p1` |
 |---|---|
