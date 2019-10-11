@@ -4,6 +4,14 @@ OUTPUT_DIR="../../docs/data/comparison_run1_Dst/data-dv36_vs_dv42-no_refit-no_re
 NTP_REF="../../run1-b2D0MuXB2DMuNuForTauMuLine/samples/BCands_Dst-phoebe-data-2012-mag_down-dv36-subset-no_refit-no_rescale.root"
 NTP_COM="../../run1-b2D0MuXB2DMuNuForTauMuLine/samples/BCands_Dst-yipeng-data-2012-mag_down-dv42-subset-no_refit-no_rescale.root"
 
+# Diff
+BRANCHES="D0_P,Dst_2010_minus_P"
+
+../plot_diff_two_ntuples.py -n "${NTP_REF}" -N "${NTP_COM}" \
+    -t "TupleB0/DecayTree" -T "TupleB0/DecayTree" \
+    -b "${BRANCHES}" -B ${BRANCHES} \
+    -o "${OUTPUT_DIR}"
+
 # Individual branches
 BRANCHES=(
     "Y_ISOLATION_Type"
