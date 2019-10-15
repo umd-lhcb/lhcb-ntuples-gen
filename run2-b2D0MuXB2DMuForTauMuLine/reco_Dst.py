@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri Oct 04, 2019 at 06:40 PM -0400
+# Last Change: Mon Oct 14, 2019 at 09:32 PM -0400
 
 #####################
 # Configure DaVinci #
@@ -451,17 +451,19 @@ def tuple_initialize_data(name, sel_seq, decay):
         'TupleToolL0Calo',
     ]
 
-    # Save trigger decisions.
-    tt_tistos = tp.addTupleTool('TupleToolTISTOS')
-    tt_tistos.TriggerList = [
+    trigger_list = [
         'L0MuonDecision',
         'L0HadronDecision',
         'Hlt1TrackAllL0Decision',
-        'Hlt2CharmHadD02HH_D02KPiDecision'
+        'Hlt2XcMuXForTauB2XcMuDecision'
     ]
+
+    # Save trigger decisions.
+    tt_tistos = tp.addTupleTool('TupleToolTISTOS')
     tt_tistos.VerboseL0 = True
     tt_tistos.VerboseHlt1 = True
     tt_tistos.VerboseHlt2 = True
+    tt_tistos.TriggerList = trigger_list
 
     # Add event-level information.
     tt_loki_evt = tp.addTupleTool(LokiEvtTool, "TupleMyLokiEvtTool")
@@ -586,5 +588,4 @@ else:
 
 from Configurables import ReadHltReport
 
-if DaVinci().Simulation:
-    DaVinci().UserAlgorithms += [ReadHltReport()]
+seq_B0.sequence().Members += [ReadHltReport()]
