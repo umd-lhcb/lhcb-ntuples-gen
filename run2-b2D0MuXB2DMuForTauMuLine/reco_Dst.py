@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Oct 14, 2019 at 09:32 PM -0400
+# Last Change: Tue Oct 15, 2019 at 05:02 PM -0400
 
 #####################
 # Configure DaVinci #
@@ -459,10 +459,12 @@ def tuple_initialize_data(name, sel_seq, decay):
     ]
 
     # Save trigger decisions.
+    tt_trigger = tp.addTupleTool('TupleToolTrigger')
+    tt_trigger.Verbose = True
+    tt_trigger.TriggerList = trigger_list
+
     tt_tistos = tp.addTupleTool('TupleToolTISTOS')
-    tt_tistos.VerboseL0 = True
-    tt_tistos.VerboseHlt1 = True
-    tt_tistos.VerboseHlt2 = True
+    tt_tistos.Verbose = True
     tt_tistos.TriggerList = trigger_list
 
     # Add event-level information.
@@ -580,12 +582,3 @@ if not DaVinci().Simulation:
     DaVinci().UserAlgorithms += [tp_B0, tp_B0_ws_Mu, tp_B0_ws_Pi]
 else:
     DaVinci().UserAlgorithms += [tp_B0]
-
-
-###########
-# Reports #
-###########
-
-from Configurables import ReadHltReport
-
-seq_B0.sequence().Members += [ReadHltReport()]
