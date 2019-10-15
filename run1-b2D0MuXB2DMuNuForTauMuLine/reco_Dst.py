@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri Oct 04, 2019 at 06:39 PM -0400
+# Last Change: Tue Oct 15, 2019 at 05:10 PM -0400
 
 #####################
 # Configure DaVinci #
@@ -614,13 +614,3 @@ if not DaVinci().Simulation:
     DaVinci().UserAlgorithms += [tp_B0, tp_B0_ws_Mu, tp_B0_ws_Pi]
 else:
     DaVinci().UserAlgorithms += [tp_B0]
-
-
-###########
-# Reports #
-###########
-
-from Configurables import ReadHltReport
-
-if DaVinci().Simulation:
-    DaVinci().UserAlgorithms += [ReadHltReport()]
