@@ -1,5 +1,7 @@
-* annex.largefiles=(largerthan=2000kb)
+* annex.largefiles=(largerthan=5000kb)
 *.py annex.largefiles=nothing
+*.cpp annex.largefiles=nothing
+*.h annex.largefiles=nothing
 *.root annex.largefiles=anything
 *.png annex.largefiles=nothing
 *.log annex.largefiles=nothing
