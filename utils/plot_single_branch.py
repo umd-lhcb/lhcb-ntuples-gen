@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
 # Author: Yipeng Sun
-# Last Change: Mon Oct 21, 2019 at 03:05 AM -0400
+# Last Change: Mon Oct 21, 2019 at 03:34 AM -0400
 
 import uproot
 
@@ -39,7 +39,7 @@ y axis scale (linear or log).''')
 if __name__ == '__main__':
     args = parse_input().parse_args()
 
-    plot_style(True, style='ggplot')
+    plot_style()
 
     ntp = uproot.open(args.ref)
     branch = read_branch(ntp, args.ref_tree, args.ref_branch)
