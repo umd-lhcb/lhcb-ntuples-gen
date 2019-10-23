@@ -1,11 +1,9 @@
 #!/usr/bin/env python3
 #
 # Author: Yipeng Sun
-# Last Change: Wed Oct 23, 2019 at 02:22 AM -0400
+# Last Change: Wed Oct 23, 2019 at 02:33 AM -0400
 
 import uproot
-import numpy as np
-import matplotlib as mp
 
 from pyTuplingUtils.parse import double_ntuple_parser
 from pyTuplingUtils.io import read_branch
