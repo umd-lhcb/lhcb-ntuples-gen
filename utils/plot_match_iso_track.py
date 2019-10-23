@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
 # Author: Yipeng Sun
-# Last Change: Wed Oct 23, 2019 at 04:39 AM -0400
+# Last Change: Wed Oct 23, 2019 at 04:57 AM -0400
 
 import uproot
 import numpy as np
@@ -78,18 +78,15 @@ output filename suffix, separated by ",".''')
 #########
 
 def TAN(val, i, j):
-    if val[j] != 0:
-        return val[i] / val[j]
-    else:
-        return 0
+    return val[i] / val[j] if val[j] != 0 else 0
 
 
-def PXPZ(val):
-    return TAN(val, 0, 2)
+def PXPZ(val, px_idx=0, pz_idx=2):
+    return TAN(val, px_idx, pz_idx)
 
 
-def PYPZ(val):
-    return TAN(val, 1, 2)
+def PYPZ(val, py_idx=1, pz_idx=2):
+    return TAN(val, py_idx, pz_idx)
 
 
 # NOTE: 'val' and 'ref_val' are four momenta
@@ -119,16 +116,25 @@ def read_branch_dict(ntp, tree, idx, branch_dict=BRANCHES_MATCH):
     return value
 
 
-def find_ref_val_list(ref_mom, idx):
-    return [t[idx] for t in ref_mom]
+def find_ref_val_list(ref_val, idx):
+    return [t[idx] for t in ref_val]
 
 
 ########
 # Plot #
 ########
 
-def plot_track_type_diff(
-    ref_val, comp_val, chi2_type_1, chi2_type_3, chi2_type_4, filename_suffix,
+def plot_histo_wrapper(data, title, output_dir, filename):
+    output_path = os.path.join(output_dir, filename)
+    histo, bins = gen_histo(data)
+
+    plot_add_args = ax_add_args_default(data.size, data.mean(), data.std())
+    plot_histo(histo, bins, plot_add_args, title=title, output=output_path)
+
+
+def plot_track_type_and_diff(
+    ref_val, comp_val, output_dir, filename_suffix,
+        chi2_types,
         track_names=ISOLATION_TRACK_NAMES, type_names=ISOLATION_TYPE_NAMES,
         counter=None):
     for track_idx in range(0, len(comp_val)):
@@ -160,12 +166,10 @@ def plot_track_type_diff(
 
                 chi_square = comp_val[track_idx][i][-1]
 
-                if comp_type == 1:
-                    chi2_type_1.append(chi_square)
-                elif comp_type == 3:
-                    chi2_type_3.append(chi_square)
-                elif comp_type == 4:
-                    chi2_type_4.append(chi_square)
+                try:
+                    chi2_types[comp_type].append(chi_square)
+                except KeyError:
+                    pass
 
                 # Counter
                 if counter is not None:
@@ -176,24 +180,14 @@ def plot_track_type_diff(
         comp_type_arr = np.array(comp_type_arr)
 
         # Plot track matching results
-        filename = os.path.join(args.output, track_name+filename_suffix)
-        histo, bins = gen_histo(track_match_result)
-
-        plot_add_args = ax_add_args_default(
-            track_match_result.size, track_match_result.mean(),
-            track_match_result.std())
-        plot_histo(histo, bins, filename, track_name, plot_add_args)
+        plot_histo_wrapper(track_match_result, track_name,
+                           output_dir, track_name+filename_suffix)
 
         # Plot matched track type differences
-        filename = os.path.join(
-            args.output, type_name+'_matched_diff'+filename_suffix)
         result = ref_type_arr - comp_type_arr
-        histo, bins = gen_histo(result, bins=args.bins)
-
-        plot_add_args = ax_add_args_default(result.size, result.mean(),
-                                            result.std())
-        plot_histo(histo, bins, filename, type_name+' (matched diff)',
-                   plot_add_args)
+        plot_histo_wrapper(result, type_name+' (matched diff)',
+                           output_dir,
+                           type_name+'_matched_diff'+filename_suffix)
 
 
 def plot_match_iso_track(ref_val, comp_val, ref_aux, comp_aux,
@@ -203,8 +197,8 @@ def plot_match_iso_track(ref_val, comp_val, ref_aux, comp_aux,
     chi2_type_3 = []
     chi2_type_4 = []
 
-    plot_track_type_diff(ref_val, comp_val,
-                         chi2_type_1, chi2_type_3, chi2_type_4, **kwargs)
+    plot_track_type_and_diff(ref_val, comp_val,
+                             chi2_type_1, chi2_type_3, chi2_type_4, **kwargs)
 
     # Plot chi^2 of each track type
     chi2_type_1 = np.array(chi2_type_1)
