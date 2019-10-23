@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
 # Author: Yipeng Sun
-# Last Change: Wed Oct 23, 2019 at 04:57 AM -0400
+# Last Change: Wed Oct 23, 2019 at 03:27 PM -0400
 
 import uproot
 import numpy as np
@@ -73,6 +73,18 @@ output filename suffix, separated by ",".''')
     return parser
 
 
+######
+# IO #
+######
+
+def read_branch_dict(ntp, tree, idx, branch_dict=BRANCHES_MATCH):
+    value = []
+    for b in branch_dict.values():
+        data = read_branches(ntp, tree, b, idx, transpose=True)
+        value.append(data)
+    return value
+
+
 #########
 # Match #
 #########
@@ -89,7 +101,6 @@ def PYPZ(val, py_idx=1, pz_idx=2):
     return TAN(val, py_idx, pz_idx)
 
 
-# NOTE: 'val' and 'ref_val' are four momenta
 def match(val, ref_val_list, angle_idx=3):
     for track_idx, ref_val in enumerate(ref_val_list, start=1):
         pxpz = PXPZ(val)
@@ -106,14 +117,6 @@ def match(val, ref_val_list, angle_idx=3):
                 abs(angle-ref_angle) <= DELTA:
             return track_idx
     return 0
-
-
-def read_branch_dict(ntp, tree, idx, branch_dict=BRANCHES_MATCH):
-    value = []
-    for b in branch_dict.values():
-        data = read_branches(ntp, tree, b, idx, transpose=True)
-        value.append(data)
-    return value
 
 
 def find_ref_val_list(ref_val, idx):
