@@ -1,20 +1,17 @@
 #!/usr/bin/env python3
 #
 # Author: Yipeng Sun
-# Last Change: Fri Oct 11, 2019 at 03:37 AM -0400
+# Last Change: Wed Oct 23, 2019 at 04:39 AM -0400
 
-import sys
-import os
 import uproot
 import numpy as np
+import os
 
-sys.path.insert(0, os.path.dirname(os.path.realpath(__file__)))
-
-from argparse import ArgumentParser
-from find_common_uid import find_common_uid
-from plot_single_branch import BINS
-from plot_single_branch import read_branch, gen_histo
-from plot_single_branch import plot_single_branch as plot
+from pyTuplingUtils.parse import double_ntuple_parser
+from pyTuplingUtils.utils import find_common_uid
+from pyTuplingUtils.io import read_branches
+from pyTuplingUtils.utils import gen_histo
+from pyTuplingUtils.plot import plot_style, plot_histo, ax_add_args_default
 
 
 ################
@@ -24,24 +21,23 @@ from plot_single_branch import plot_single_branch as plot
 DELTA = 1E-5
 
 BRANCHES_MATCH = {
-    'ISOLATION_TRACK1': ['Y_ISOLATION_PE', 'Y_ISOLATION_PX', 'Y_ISOLATION_PY',
-                         'Y_ISOLATION_PZ', 'Y_ISOLATION_ANGLE',
+    'ISOLATION_TRACK1': ['Y_ISOLATION_PX', 'Y_ISOLATION_PY', 'Y_ISOLATION_PZ',
+                         'Y_ISOLATION_ANGLE',
                          'Y_ISOLATION_BDT', 'Y_ISOLATION_CHI2'],
-    'ISOLATION_TRACK2': ['Y_ISOLATION_PE2', 'Y_ISOLATION_PX2',
-                         'Y_ISOLATION_PY2', 'Y_ISOLATION_PZ2',
-                         'Y_ISOLATION_ANGLE2', 'Y_ISOLATION_BDT2',
-                         'Y_ISOLATION_CHI22'],
-    'ISOLATION_TRACK3': ['Y_ISOLATION_PE3', 'Y_ISOLATION_PX3',
-                         'Y_ISOLATION_PY3', 'Y_ISOLATION_PZ3',
-                         'Y_ISOLATION_ANGLE3', 'Y_ISOLATION_BDT3',
-                         'Y_ISOLATION_CHI23'],
+    'ISOLATION_TRACK2': ['Y_ISOLATION_PX2', 'Y_ISOLATION_PY2',
+                         'Y_ISOLATION_PZ2', 'Y_ISOLATION_ANGLE2',
+                         'Y_ISOLATION_BDT2', 'Y_ISOLATION_CHI22'],
+    'ISOLATION_TRACK3': ['Y_ISOLATION_PX3', 'Y_ISOLATION_PY3',
+                         'Y_ISOLATION_PZ3', 'Y_ISOLATION_ANGLE3',
+                         'Y_ISOLATION_BDT3', 'Y_ISOLATION_CHI23'],
 }
+
 BRANCHES_AUX = {
     'ISOLATION_TRACK1': ['Y_ISOLATION_Type', 'Y_ISOLATION_BDT'],
     'ISOLATION_TRACK2': ['Y_ISOLATION_Type2', 'Y_ISOLATION_BDT2'],
     'ISOLATION_TRACK3': ['Y_ISOLATION_Type3', 'Y_ISOLATION_BDT3'],
 }
-AUX_ADDON = [
+AUX_VAL_ADDONS = [
     'totCandidates',
     'Y_P',
     'Y_PT',
@@ -50,43 +46,23 @@ AUX_ADDON = [
 ]
 
 for k in BRANCHES_AUX.keys():
-    BRANCHES_AUX[k] = BRANCHES_AUX[k] + AUX_ADDON
+    BRANCHES_AUX[k] = BRANCHES_AUX[k] + AUX_VAL_ADDONS
 
-MOMENTA_NAMES = list(BRANCHES_MATCH.keys())
-TYPE_NAMES = [i[0] for i in BRANCHES_AUX.values()]
+ISOLATION_TRACK_NAMES = list(BRANCHES_MATCH.keys())
+ISOLATION_TYPE_NAMES = [i[0] for i in BRANCHES_AUX.values()]
 
 
 #################################
 # Command line arguments parser #
 #################################
 
+DESCR = '''
+generate two plots with the momentum matching results from two n-tuples.
+'''
+
+
 def parse_input():
-    parser = ArgumentParser(description='''
-generate two plots with the momentum matching results from two n-tuples.''')
-
-    parser.add_argument('-n', '--ref',
-                        nargs='?',
-                        required=True,
-                        help='''
-path to reference n-tuple.''')
-
-    parser.add_argument('-N', '--comp',
-                        nargs='?',
-                        required=True,
-                        help='''
-path to comparison n-tuple.''')
-
-    parser.add_argument('-t', '--refTree',
-                        nargs='?',
-                        required=True,
-                        help='''
-supply tree name in the reference n-tuple.''')
-
-    parser.add_argument('-T', '--compTree',
-                        nargs='?',
-                        required=True,
-                        help='''
-supply tree name in the comparison n-tuple.''')
+    parser = double_ntuple_parser(DESCR)
 
     parser.add_argument('-s', '--suffix',
                         nargs='?',
@@ -94,20 +70,7 @@ supply tree name in the comparison n-tuple.''')
                         help='''
 output filename suffix, separated by ",".''')
 
-    parser.add_argument('-o', '--output',
-                        nargs='?',
-                        required=True,
-                        help='''
-path to output directory.''')
-
-    parser.add_argument('--bins',
-                        nargs='?',
-                        type=int,
-                        default=BINS,
-                        help='''
-number of bins. default to {}.'''.format(BINS))
-
-    return parser.parse_args()
+    return parser
 
 
 #########
@@ -115,30 +78,30 @@ number of bins. default to {}.'''.format(BINS))
 #########
 
 def TAN(val, i, j):
-    if val[j] != 0.0:
+    if val[j] != 0:
         return val[i] / val[j]
     else:
         return 0
 
 
 def PXPZ(val):
-    return TAN(val, 1, 3)
+    return TAN(val, 0, 2)
 
 
 def PYPZ(val):
-    return TAN(val, 2, 3)
+    return TAN(val, 1, 2)
 
 
 # NOTE: 'val' and 'ref_val' are four momenta
-def match(val, ref_val_list):
+def match(val, ref_val_list, angle_idx=3):
     for track_idx, ref_val in enumerate(ref_val_list, start=1):
         pxpz = PXPZ(val)
         pypz = PYPZ(val)
-        angle = val[4]
+        angle = val[angle_idx]
 
         ref_pxpz = PXPZ(ref_val)
         ref_pypz = PYPZ(ref_val)
-        ref_angle = ref_val[4]
+        ref_angle = ref_val[angle_idx]
 
         if pxpz != 0 and pypz != 0 and \
                 abs(pxpz-ref_pxpz) <= DELTA and \
@@ -148,17 +111,12 @@ def match(val, ref_val_list):
     return 0
 
 
-def get_branches(tree, idx, branch_dict=BRANCHES_MATCH):
-    momenta = []
+def read_branch_dict(ntp, tree, idx, branch_dict=BRANCHES_MATCH):
+    value = []
     for b in branch_dict.values():
-        raw_event_array = tree.arrays(b).values()
-        # Keep events with indices specified in 'idx' only
-        # NOTE: 'event_array' looks like:
-        #       [[E1, E2, E3, ...], [PX1, PX2, PX3, ...], [PY1, PY2, PY3, ...],
-        #        ...]
-        event_array = [e[idx] for e in raw_event_array]
-        momenta.append(np.column_stack(event_array))
-    return momenta
+        data = read_branches(ntp, tree, b, idx, transpose=True)
+        value.append(data)
+    return value
 
 
 def find_ref_val_list(ref_mom, idx):
@@ -169,16 +127,13 @@ def find_ref_val_list(ref_mom, idx):
 # Plot #
 ########
 
-def plot_match_iso_track(ref_val, comp_val, ref_aux, comp_aux,
-                         title_names, type_names, filename_suffix, args,
-                         counter=None):
-    chi2_type_1 = []
-    chi2_type_3 = []
-    chi2_type_4 = []
-
+def plot_track_type_diff(
+    ref_val, comp_val, chi2_type_1, chi2_type_3, chi2_type_4, filename_suffix,
+        track_names=ISOLATION_TRACK_NAMES, type_names=ISOLATION_TYPE_NAMES,
+        counter=None):
     for track_idx in range(0, len(comp_val)):
-        track_title = title_names[track_idx]
-        type_title = type_names[track_idx]
+        track_name = track_names[track_idx]
+        type_name = type_names[track_idx]
 
         track_match_result = np.array([], int)
         comp_type_arr = []
@@ -188,10 +143,8 @@ def plot_match_iso_track(ref_val, comp_val, ref_aux, comp_aux,
             comp_bdt_score = int(comp_val[track_idx][i][5])
 
             if comp_bdt_score != -2:
-                matched_track_idx = match(
-                    comp_val[track_idx][i],
-                    find_ref_val_list(ref_val, i)
-                )
+                matched_track_idx = match(comp_val[track_idx][i],
+                                          find_ref_val_list(ref_val, i))
             else:
                 matched_track_idx = -2
 
@@ -223,24 +176,35 @@ def plot_match_iso_track(ref_val, comp_val, ref_aux, comp_aux,
         comp_type_arr = np.array(comp_type_arr)
 
         # Plot track matching results
-        filename = os.path.join(args.output, track_title + filename_suffix)
-        mean = track_match_result.mean()
-        std = track_match_result.std()
+        filename = os.path.join(args.output, track_name+filename_suffix)
+        histo, bins = gen_histo(track_match_result)
 
-        histo, bins = gen_histo(track_match_result, bins=args.bins)
-        plot(histo, bins, filename, track_title, track_match_result.size, mean,
-             std)
+        plot_add_args = ax_add_args_default(
+            track_match_result.size, track_match_result.mean(),
+            track_match_result.std())
+        plot_histo(histo, bins, filename, track_name, plot_add_args)
 
         # Plot matched track type differences
-        filename = os.path.join(args.output, type_title + '_matched_diff' +
-                                filename_suffix)
+        filename = os.path.join(
+            args.output, type_name+'_matched_diff'+filename_suffix)
         result = ref_type_arr - comp_type_arr
-        mean = result.mean()
-        std = result.std()
-
         histo, bins = gen_histo(result, bins=args.bins)
-        plot(histo, bins, filename, type_title + ' (matched diff)',
-             result.size, mean, std)
+
+        plot_add_args = ax_add_args_default(result.size, result.mean(),
+                                            result.std())
+        plot_histo(histo, bins, filename, type_name+' (matched diff)',
+                   plot_add_args)
+
+
+def plot_match_iso_track(ref_val, comp_val, ref_aux, comp_aux,
+                         track_names, type_names, filename_suffix, args,
+                         **kwargs):
+    chi2_type_1 = []
+    chi2_type_3 = []
+    chi2_type_4 = []
+
+    plot_track_type_diff(ref_val, comp_val,
+                         chi2_type_1, chi2_type_3, chi2_type_4, **kwargs)
 
     # Plot chi^2 of each track type
     chi2_type_1 = np.array(chi2_type_1)
@@ -251,11 +215,9 @@ def plot_match_iso_track(ref_val, comp_val, ref_aux, comp_aux,
         [chi2_type_1, chi2_type_3, chi2_type_4],
         ['TRACK_TYPE1_CHI2', 'TRACK_TYPE3_CHI2', 'TRACK_TYPE4_CHI2']
     ):
-        filename = os.path.join(args.output, title + filename_suffix)
-        mean = data.mean()
-        std = data.std()
+        filename = os.path.join(args.output, title+filename_suffix)
+        histo, bins = gen_histo(data)
 
-        histo, bins = gen_histo(data, bins=args.bins)
         plot(histo, bins, filename, title,
              data.size, mean, std)
 
@@ -266,6 +228,8 @@ def plot_match_iso_track(ref_val, comp_val, ref_aux, comp_aux,
 
 if __name__ == '__main__':
     args = parse_input()
+
+    plot_style()
 
     _, ref_idx, comp_idx = find_common_uid(args.ref, args.comp, args.refTree,
                                            args.compTree)
