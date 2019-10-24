@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 #
 # Author: Yipeng Sun
-# Last Change: Thu Oct 24, 2019 at 02:40 AM -0400
+# Last Change: Thu Oct 24, 2019 at 03:25 AM -0400
 
+import os
 import uproot
 import numpy as np
-import os
 
 from pyTuplingUtils.parse import double_ntuple_parser
 from pyTuplingUtils.utils import find_common_uid
@@ -47,7 +47,7 @@ ISOLATION_TYPE_NAMES = ['Y_ISOLATION_Type',
 #################################
 
 DESCR = '''
-generate two plots with the momentum matching results from two n-tuples.
+generate various plots for isolation variables from two n-tuples.
 '''
 
 
