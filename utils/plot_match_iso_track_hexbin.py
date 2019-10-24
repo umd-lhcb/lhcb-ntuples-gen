@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
 # Author: Yipeng Sun
-# Last Change: Thu Oct 24, 2019 at 04:12 AM -0400
+# Last Change: Thu Oct 24, 2019 at 04:24 AM -0400
 
 import sys
 import os
@@ -13,7 +13,7 @@ sys.path.insert(0, os.path.dirname(os.path.realpath(__file__)))
 from pyTuplingUtils.utils import find_common_uid
 from pyTuplingUtils.plot import plot_style, plot_hexbin
 
-from plot_match_iso_track import BRANCHES_DICT
+from plot_match_iso_track import BRANCHES_DICT, FILE_EXTENSION
 from plot_match_iso_track import parse_input as parse_input_base
 from plot_match_iso_track import match, find_ref_val_list
 from plot_match_iso_track import read_branch_dict
@@ -55,6 +55,7 @@ def parse_input(descr=DESCR):
     parser.add_argument('--bins',
                         nargs='?',
                         default=30,
+                        type=int,
                         help='''
 number of bins along each axis.''')
 
@@ -131,9 +132,9 @@ if __name__ == '__main__':
     # Typically for v42
     plot_match_iso_track_hexbin(
         ref_val, comp_val, args.bins,
-        args.output, 'ISOLATION_TRACK_vs_BDT'+suffix_names[0])
+        args.output, 'ISOLATION_TRACK_vs_BDT'+suffix_names[0]+FILE_EXTENSION)
 
     # Typically for v36
     plot_match_iso_track_hexbin(
         comp_val, ref_val, args.bins,
-        args.output, 'ISOLATION_TRACK_vs_BDT'+suffix_names[1])
+        args.output, 'ISOLATION_TRACK_vs_BDT'+suffix_names[1]+FILE_EXTENSION)
