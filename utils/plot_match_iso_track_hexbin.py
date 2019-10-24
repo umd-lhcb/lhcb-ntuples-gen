@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri Oct 11, 2019 at 01:30 AM -0400
+# Last Change: Thu Oct 24, 2019 at 01:39 AM -0400
 
 import sys
 import os
@@ -27,6 +27,15 @@ from plot_match_iso_track import BRANCHES_MATCH, BRANCHES_AUX
 
 HB_STYLE = 'inferno'
 BIN_SCALE = 'log'
+
+AUX_VAL_ADDONS = [
+    'totCandidates',
+    'Y_P',
+    'Y_PT',
+    'Y_ENDVERTEX_Y',
+    'Y_ENDVERTEX_Z'
+]
+
 
 
 ########
