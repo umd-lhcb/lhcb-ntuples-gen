@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
 # Author: Yipeng Sun
-# Last Change: Thu Oct 24, 2019 at 03:25 AM -0400
+# Last Change: Thu Oct 24, 2019 at 04:40 AM -0400
 
 import os
 import uproot
@@ -194,7 +194,8 @@ def plot_match_iso_track(ref_val, comp_val, output_dir, filename_suffix,
         map(np.array, chi2_types.values()),
         ['TRACK_TYPE1_CHI2', 'TRACK_TYPE3_CHI2', 'TRACK_TYPE4_CHI2']
     ):
-        plot_histo_wrapper(data, title, output_dir, title+filename_suffix)
+        if data.size > 0:
+            plot_histo_wrapper(data, title, output_dir, title+filename_suffix)
 
 
 ########
