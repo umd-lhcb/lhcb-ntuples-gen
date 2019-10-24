@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 #
 # Author: Yipeng Sun
-# License: BSD 2-clause
-# Last Change: Thu Oct 24, 2019 at 01:39 AM -0400
+# Last Change: Thu Oct 24, 2019 at 04:12 AM -0400
 
 import sys
 import os
@@ -11,80 +10,82 @@ import numpy as np
 
 sys.path.insert(0, os.path.dirname(os.path.realpath(__file__)))
 
-from argparse import ArgumentParser
-from matplotlib import pyplot as plt
-from find_common_uid import find_common_uid
-from plot_single_branch import FONT_FAMILY, FONT_SIZE
-from plot_match_iso_track import parse_input
-from plot_match_iso_track import match, get_branches
-from plot_match_iso_track import find_ref_val_list
-from plot_match_iso_track import BRANCHES_MATCH, BRANCHES_AUX
+from pyTuplingUtils.utils import find_common_uid
+from pyTuplingUtils.plot import plot_style, plot_hexbin
+
+from plot_match_iso_track import BRANCHES_DICT
+from plot_match_iso_track import parse_input as parse_input_base
+from plot_match_iso_track import match, find_ref_val_list
+from plot_match_iso_track import read_branch_dict
 
 
 ################
 # Configurable #
 ################
 
-HB_STYLE = 'inferno'
-BIN_SCALE = 'log'
+ISO_VARS_LEN = len(list(BRANCHES_DICT.values())[0])
 
-AUX_VAL_ADDONS = [
-    'totCandidates',
-    'Y_P',
-    'Y_PT',
-    'Y_ENDVERTEX_Y',
-    'Y_ENDVERTEX_Z'
-]
+AUX_BRANCHES = ['totCandidates',
+                'Y_P',
+                'Y_PT',
+                'Y_ENDVERTEX_Y',
+                'Y_ENDVERTEX_Z'
+                ]
+for k in BRANCHES_DICT.keys():
+    BRANCHES_DICT[k] += AUX_BRANCHES
 
+CSV_HEADERS = 'comp_TrackType,ref_TrackType,comp_BDT,ref_BDT'
+for b in AUX_BRANCHES:
+    CSV_HEADERS += ',comp_{},ref_{}'.format(b, b)
+
+
+#################################
+# Command line arguments parser #
+#################################
+
+DESCR = '''
+generate two hexbin plots of track type difference vs. BDT score difference from
+two n-tuples.
+'''
+
+
+def parse_input(descr=DESCR):
+    parser = parse_input_base(descr)
+
+    parser.add_argument('--bins',
+                        nargs='?',
+                        default=30,
+                        help='''
+number of bins along each axis.''')
+
+    return parser
 
 
 ########
 # Plot #
 ########
 
-def plot_hexbin(x, y, gridsize, output, xlabel, ylabel):
-    plt.rcParams.update({'font.family': FONT_FAMILY})
-    plt.rcParams.update({'font.size': FONT_SIZE})
+def plot_match_iso_track_hexbin(
+    ref_val, comp_val, gridsize, output_dir, filename,
+        bdt_score_idx=4, track_type_idx=6,
+        debug=True, **kwargs):
+    track_type_diff_arr, bdt_score_diff_arr = ([] for l in range(2))
+    if debug:
+        print(CSV_HEADERS)
 
-    fig = plt.figure()
-    ax = fig.add_subplot()
-    ax.set_xlabel(xlabel)
-    ax.set_ylabel(ylabel)
-
-    hb = ax.hexbin(x, y, gridsize=gridsize, cmap=HB_STYLE, bins=BIN_SCALE)
-    cb = fig.colorbar(hb, ax=ax)
-    cb.set_label('tot: {}'.format(x.size))
-
-    plt.tight_layout(pad=0.1)
-    fig.savefig(output)
-
-    fig.clf()
-    plt.close(fig)
-
-
-def plot_match_iso_track_hexbin(ref_val, comp_val, ref_aux, comp_aux, filename,
-                                args):
-    track_type_diff_arr = []
-    bdt_score_diff_arr = []
-
-    print('comp_TrackType,ref_TrackType,comp_BDT,ref_BDT,comp_totCandidates,ref_totCandidates,comp_Y_P,ref_Y_P,comp_Y_PT,ref_Y_PT,comp_Y_ENDVERTEX_Y,ref_Y_ENDVERTEX_Y,comp_Y_ENDVERTEX_Z,ref_Y_ENDVERTEX_Z')
     for track_idx in range(0, len(comp_val)):
         for i in range(0, comp_val[track_idx].shape[0]):
-            comp_bdt_score = comp_val[track_idx][i][5]
-            if int(comp_bdt_score) != -2:
-                matched_track_idx = match(
-                    comp_val[track_idx][i],
-                    find_ref_val_list(ref_val, i)
-                )
-            elif comp_aux[track_idx][i][2] != 1:
-                matched_track_idx = -2
-            else:
-                matched_track_idx = -2
+            matched_track_idx = comp_bdt_score = \
+                comp_val[track_idx][i][bdt_score_idx]
+
+            if comp_bdt_score != -2:
+                matched_track_idx = match(comp_val[track_idx][i],
+                                          find_ref_val_list(ref_val, i))
 
             if matched_track_idx > 0:
-                comp_type = comp_aux[track_idx][i][0]
-                ref_type = ref_aux[matched_track_idx-1][i][0]
-                ref_bdt_score = ref_aux[matched_track_idx-1][i][1]
+                comp_type = comp_val[track_idx][i][track_type_idx]
+                ref_type = ref_val[matched_track_idx-1][i][track_type_idx]
+                ref_bdt_score = ref_val[matched_track_idx-1][i][bdt_score_idx]
 
                 track_type_diff = ref_type - comp_type
                 bdt_score_diff = ref_bdt_score - comp_bdt_score
@@ -92,29 +93,22 @@ def plot_match_iso_track_hexbin(ref_val, comp_val, ref_aux, comp_aux, filename,
                 track_type_diff_arr.append(track_type_diff)
                 bdt_score_diff_arr.append(bdt_score_diff)
 
-                # NOTE: For debugging purpose
-                if abs(bdt_score_diff) > 0.1:
-                    print('{},{},{},{},{},{},{},{},{},{},{},{},{},{}'.format(
-                        comp_type, ref_type,
-                        comp_bdt_score, ref_bdt_score,
-                        comp_aux[track_idx][i][2],
-                        ref_aux[matched_track_idx-1][i][2],
-                        comp_aux[track_idx][i][3],
-                        ref_aux[matched_track_idx-1][i][3],
-                        comp_aux[track_idx][i][4],
-                        ref_aux[matched_track_idx-1][i][4],
-                        comp_aux[track_idx][i][5],
-                        ref_aux[matched_track_idx-1][i][5],
-                        comp_aux[track_idx][i][6],
-                        ref_aux[matched_track_idx-1][i][6],
-                    ))
+                if debug and abs(bdt_score_diff) > 0.1:
+                    data = [comp_type, ref_type, comp_bdt_score, ref_bdt_score]
+                    for idx in range(ISO_VARS_LEN,
+                                     ISO_VARS_LEN+len(AUX_BRANCHES)):
+                        data += [comp_val[track_idx][i][idx],
+                                 ref_val[matched_track_idx-1][i][idx]]
+                    print(','.join(map(str, data)))
 
-    track_type_diff_arr = np.array(track_type_diff_arr)
-    bdt_score_diff_arr = np.array(bdt_score_diff_arr)
-    filename = os.path.join(args.output, filename)
+    track_type_diff_arr, bdt_score_diff_arr = \
+        map(np.array, (track_type_diff_arr, bdt_score_diff_arr))
 
-    plot_hexbin(track_type_diff_arr, bdt_score_diff_arr, args.bins, filename,
-                'Track type diff', 'BDT score diff')
+    plot_hexbin(track_type_diff_arr, bdt_score_diff_arr,
+                gridsize, {},
+                output=os.path.join(output_dir, filename),
+                xlabel='Track type diff', ylabel='BDT score diff',
+                colorbar_label='tot: {}'.format(track_type_diff_arr.size))
 
 
 ########
@@ -122,24 +116,24 @@ def plot_match_iso_track_hexbin(ref_val, comp_val, ref_aux, comp_aux, filename,
 ########
 
 if __name__ == '__main__':
-    args = parse_input()
+    args = parse_input().parse_args()
 
-    _, ref_idx, comp_idx = find_common_uid(args.ref, args.comp, args.refTree,
-                                           args.compTree)
+    plot_style()
 
     ref_ntp, comp_ntp = map(uproot.open, [args.ref, args.comp])
-    ref_val = get_branches(ref_ntp[args.refTree], ref_idx)
-    comp_val = get_branches(comp_ntp[args.compTree], comp_idx)
-    ref_aux = get_branches(ref_ntp[args.refTree], ref_idx, BRANCHES_AUX)
-    comp_aux = get_branches(comp_ntp[args.compTree], comp_idx, BRANCHES_AUX)
+    _, ref_idx, comp_idx = find_common_uid(
+        ref_ntp, comp_ntp, args.ref_tree, args.comp_tree)
+
+    ref_val = read_branch_dict(ref_ntp, args.ref_tree, ref_idx)
+    comp_val = read_branch_dict(comp_ntp, args.comp_tree, comp_idx)
     suffix_names = args.suffix.split(',')
 
     # Typically for v42
     plot_match_iso_track_hexbin(
-        ref_val, comp_val, ref_aux, comp_aux,
-        'ISOLATION_TRACK_vs_BDT' + suffix_names[0] + '.png', args)
+        ref_val, comp_val, args.bins,
+        args.output, 'ISOLATION_TRACK_vs_BDT'+suffix_names[0])
 
     # Typically for v36
     plot_match_iso_track_hexbin(
-        comp_val, ref_val, comp_aux, ref_aux,
-        'ISOLATION_TRACK_vs_BDT' + suffix_names[1] + '.png', args)
+        comp_val, ref_val, args.bins,
+        args.output, 'ISOLATION_TRACK_vs_BDT'+suffix_names[1])
