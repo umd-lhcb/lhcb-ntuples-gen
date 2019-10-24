@@ -24,8 +24,10 @@ BRANCHES=(
 )
 
 for branch in "${BRANCHES[@]}"; do
-    ../plot_single_branch.py "${NTP_REF}" "TupleY/DecayTree" "${branch}" \
+    ../plot_single_branch.py \
+        -n "${NTP_REF}" -t "TupleY/DecayTree" -b "${branch}" \
         -o "${OUTPUT_DIR}/${branch}_dv36.png"
-    ../plot_single_branch.py "${NTP_COM}" "TupleB0/DecayTree" "${branch}" \
+    ../plot_single_branch.py \
+        -n "${NTP_COM}" -t "TupleB0/DecayTree" -b "${branch}" \
         -o "${OUTPUT_DIR}/${branch}_dv42.png"
 done
