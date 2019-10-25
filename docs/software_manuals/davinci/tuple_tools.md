@@ -15,10 +15,9 @@ of each track:
 !!! note
     These four tracks are the ones with the best BDT scores.
 
-For each of these variables, it admits 4 possible values of type `float`:
+For each of these variables, it admits 3 possible values of type `float`:
 
 * `1.0`: VELO only, with no other compatible segments found
-* `2.0`: ?
 * `3.0`: Forward tracks, which are VELO+(TT)+downstream segment (TT hits
          optional)
 * `4.0`: Upstream tracks, VELO+TT
