@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Oct 15, 2019 at 05:02 PM -0400
+# Last Change: Wed Oct 30, 2019 at 01:21 AM -0400
 
 #####################
 # Configure DaVinci #
@@ -453,9 +453,11 @@ def tuple_initialize_data(name, sel_seq, decay):
 
     trigger_list = [
         'L0MuonDecision',
+        'L0ElectronDecision',  # Add from trigger study
         'L0HadronDecision',
         'Hlt1TrackAllL0Decision',
-        'Hlt2XcMuXForTauB2XcMuDecision'
+        'Hlt2XcMuXForTauB2XcMuDecision',
+        'Hlt1TwoTrackMVADecision'  # Add from trigger study
     ]
 
     # Save trigger decisions.
