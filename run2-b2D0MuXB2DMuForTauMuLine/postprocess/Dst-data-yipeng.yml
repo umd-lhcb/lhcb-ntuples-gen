@@ -50,7 +50,7 @@ B0:
         - "_isdata"
         - "&&"
         - "(Y_M < 5280)"
-        # Apply TIS('LO.*', 'LoTriggerTisTos')
+        # Apply TIS('LO.*', 'L0TriggerTisTos')
         - "&&"
         - "(Y_L0Global_TIS || Dst_2010_minus_L0HadronDecision_TOS)"
         - "&&"
