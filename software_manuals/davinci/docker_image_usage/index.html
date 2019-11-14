@@ -762,8 +762,10 @@ stripping lines, such as:
 </pre></div></p>
 <p>If you see this file, take a look at it to see the availabe commands, and
 run it inside the <code>docker</code> container:
-<div class="codehilite"><pre><span></span>./run.sh &lt;argument1&gt; &lt;argument2&gt; ...  <span class="c1"># inside docker</span>
-</pre></div></p>
+<div class="codehilite"><pre><span></span>./run.sh &lt;path_to_cond_file&gt; &lt;path_to_reco_file&gt;  <span class="c1"># inside docker</span>
+</pre></div>
+optionally, a <code>debug</code> flag can be supplied so that only the first couple of
+events will be considered.</p>
 </div>
 <h2 id="remove-old-docker-images">Remove old docker images</h2>
 <p>To list all local <code>docker</code> images:
