@@ -50,8 +50,10 @@ run gaudirun.py <ntuple_options1> <ntuple_options2> ...
     If you see this file, take a look at it to see the availabe commands, and
     run it inside the `docker` container:
     ```bash
-    ./run.sh <argument1> <argument2> ...  # inside docker
+    ./run.sh <path_to_cond_file> <path_to_reco_file>  # inside docker
     ```
+    optionally, a `debug` flag can be supplied so that only the first couple of
+    events will be considered.
 
 
 [^1]: Such as `TupleToolApplyIsolation` and `TupleToolTauMuDiscVars`.
