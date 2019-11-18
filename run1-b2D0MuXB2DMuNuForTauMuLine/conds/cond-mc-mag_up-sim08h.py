@@ -14,4 +14,4 @@ CondDB().useLatestTags("2012")
 from Configurables import LHCbApp
 
 LHCbApp().CondDBtag = "sim-20130522-1-vc-mu100"
-LHCbApp().DDDBtag = "dddb-20130929-1"
+LHCbApp().DDDBtag = "dddb-20130829-1"
