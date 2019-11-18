@@ -6,11 +6,6 @@ DaVinci().Simulation = True
 DaVinci().TupleFile = 'BCands-mc.root'
 
 
-from Configurables import CondDB
-
-CondDB().useLatestTags("2016")
-
-
 from Configurables import LHCbApp
 
 LHCbApp().CondDBtag = "sim-20161124-2-vc-md100"

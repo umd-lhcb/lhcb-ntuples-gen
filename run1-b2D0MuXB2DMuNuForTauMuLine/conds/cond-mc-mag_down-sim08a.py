@@ -7,11 +7,6 @@ DaVinci().TupleFile = 'BCands-mc.root'
 # DaVinci().HistogramFile = 'BCands_histo-mc.root'
 
 
-from Configurables import CondDB
-
-CondDB().useLatestTags("2012")
-
-
 from Configurables import LHCbApp
 
 LHCbApp().CondDBtag = "sim-20130503-1-vc-md100"
