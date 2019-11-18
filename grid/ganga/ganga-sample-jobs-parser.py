@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Sep 05, 2019 at 10:11 PM -0400
+# Last Change: Mon Nov 18, 2019 at 03:53 PM -0500
 #
 # Description: A demonstration on ganga option file with parser.
 #              This demo runs stand-alone, provided that Python is installed:
@@ -33,10 +33,10 @@ MC_BASE = {
 }
 
 MC_CONDITION = {
-    'Sim08a': './conds/cond-mc-sim08a-{}.py',
-    'Sim08e': './conds/cond-mc-sim08e-{}.py',
-    'Sim08h': './conds/cond-mc-sim08h-{}.py',
-    'Sim08i': './conds/cond-mc-sim08h-{}.py',
+    'Sim08a': './conds/cond-mc-{}-sim08a.py',
+    'Sim08e': './conds/cond-mc-{}-sim08e.py',
+    'Sim08h': './conds/cond-mc-{}-sim08h.py',
+    'Sim08i': './conds/cond-mc-{}-sim08h.py',
 }
 
 MC_POLARITIES = {
