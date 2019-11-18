@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Nov 18, 2019 at 03:48 PM -0500
+# Last Change: Mon Nov 18, 2019 at 04:51 PM -0500
 #
 # Description: A demonstration on ganga option file with parser.
 #              This demo runs stand-alone, provided that Python is installed:
@@ -239,7 +239,8 @@ for base, mode, polarity, simulaiton, condition in \
         try:
             options_file = PARAMETERS[mode]['options']
         except KeyError:
-            options_file = MC_CONDITION[condition].format(MC_POLARITIES[polarity])
+            options_file = MC_CONDITION[condition].format(
+                MC_POLARITIES[polarity])
         options = [options_file, base_option_file]
         app = conf_job_app(args.davinci, options)
         j.application = app
