@@ -1,3 +1,5 @@
+# NOTE: Copy this file to your lxplus $HOME, and rename it as .ganga.py
+
 ###########
 # Helpers #
 ###########
@@ -97,8 +99,8 @@ def print_job_hadd_filename(init_idx=0):
 
 
 def hadd_completed_job_output(
-        init_idx=0, 
-        output_script='~/batch_hadd.sh', 
+        init_idx=0,
+        output_script='~/batch_hadd.sh',
         input_dir='~/eos/gangadir-workspace/suny/LocalXML'
     ):
     instructions = []
