@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Nov 20, 2019 at 02:43 AM -0500
+# Last Change: Fri Nov 22, 2019 at 03:21 AM -0500
 
 import re
 import sys
@@ -44,31 +44,47 @@ class Selection(object):
 #################
 # For parsing.
 
-class State(ABC):
-    @abstractmethod
+# NOTE: This should be used as a metaclass only.
+class State(type):
+    def __init__(cls, name, bases, dict):
+        super().__init__(name, bases, dict)
+        cls.instance = None
+
+    def __call__(cls, *args, **kw):
+        if cls.instance is None:
+            cls.instance = super().__call__(*args, **kw)
+        return cls.instance
+
     def run(self, data):
         '''
         Action on current data.
         '''
+        raise NotImplementedError
 
-    @abstractmethod
     def next(self, data):
         '''
         Determine next state
         '''
+        raise NotImplementedError
 
 
 class StateMachine(ABC):
     def __init__(self, filename, init_state):
         self.filename = filename
-        self.init_state = init_state
         self.current_state = init_state
 
     def run_all(self):
         with open(self.filename) as f:
             for line in f:
                 data = self.data(line)
-                self.current_state = self.current_state.next(data)
+                # We create states on the fly, because we want 'state.next' to
+                # be able to return arbitrary name, not just some already
+                # defined state.
+                #
+                # Note that 'state' should be a singleton to avoid recreating.
+                # As long as the 'state' uses State (defined above) as its
+                # metaclass, averting should be fine.
+                self.current_state = globals()[self.current_state.next(data)]()
                 self.current_state.run(data)
 
     @abstractmethod
@@ -81,6 +97,14 @@ class StateMachine(ABC):
 ##########
 # Parser #
 ##########
+
+class DaVinciLogInit(metaclass=State):
+    def run(self, data):
+        data
+
+    def next(self, data):
+        return 'somenextstate'
+
 
 class DaVinciLogParser(StateMachine):
     def __init__(self, *args):
