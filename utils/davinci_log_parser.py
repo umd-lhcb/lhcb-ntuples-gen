@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Nov 25, 2019 at 10:48 PM -0500
+# Last Change: Tue Nov 26, 2019 at 01:22 AM -0500
 
 import re
 import sys
@@ -22,7 +22,7 @@ class Selection(object):
         self.selection = selection
 
         self.headers = None
-        self.result = dict()
+        self.result = odict()
 
     def parse_headers(self, headers_line):
         self.headers = self.split_entries(headers_line)
@@ -84,7 +84,8 @@ class StateMachine(ABC):
                 # Note that 'state' should be a singleton to avoid recreating.
                 # As long as the 'state' uses State (defined above) as its
                 # metaclass, averting should be fine.
-                self.current_state = globals()[self.current_state.next(data)]()
+                state, args = self.current_state.next(data)
+                self.current_state = globals()[state](*args)
 
     @abstractmethod
     def data(self, raw_data):
@@ -101,12 +102,11 @@ class DaVinciLogInit(metaclass=State):
     def next(self, data):
         line, parsed = data
         total_num = self.find_total_num_of_event(line)
-
         if total_num:
             parsed['Total'] = total_num
-            return 'DaVinciSelInit'
+            return ('DaVinciSelInit', ())
         else:
-            return 'DaVinciLogInit'
+            return ('DaVinciLogInit', ())
 
     def find_total_num_of_event(self, line):
         result = re.match(r'DaVinciInitAlg    SUCCESS (\d+) events processed',
@@ -117,13 +117,51 @@ class DaVinciLogInit(metaclass=State):
 
 class DaVinciSelInit(metaclass=State):
     def next(self, data):
-        return 'DaVinciSelInit'
+        line, _ = data
+        try:
+            name, counter = self.find_selection_name_and_counter(line)
+            return ('DaVinciSelHeaders', (name, counter))
+        except TypeError:
+            return ('DaVinciSelInit', ())
+
+    def find_selection_name_and_counter(self, line):
+        result = re.match(r'([\w\.]+)\s*SUCCESS Number of counters : (\d+)', line)
+        if result:
+            return (result.group(1), int(result.group(2)))
+
+
+class DaVinciSelHeaders(metaclass=State):
+    def __init__(self, name, counter):
+        self.name = name
+        self.counter = counter
+
+    def next(self, data):
+        line, _ = data
+        selection = Selection(self.name)
+        selection.parse_headers(line)
+        return ('DaVinciSelCounter', (selection, self.counter))
+
+
+class DaVinciSelCounter(metaclass=State):
+    def __init__(self, selection, counter):
+        self.selection = selection
+        self.counter = counter
+
+    def next(self, data):
+        line, parsed = data
+        if self.counter > 0:
+            self.counter -= 1
+            self.selection.parse_counter(line)
+            return ('DaVinciSelCounter', (self.selection, self.counter))
+        else:
+            parsed[self.selection.selection] = self.selection.result
+            return ('DaVinciSelInit', ())
 
 
 class DaVinciLogParser(StateMachine):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.parsed = {}
+        self.parsed = odict()
 
     def data(self, line):
         return (line, self.parsed)
