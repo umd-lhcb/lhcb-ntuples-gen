@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Nov 26, 2019 at 01:22 AM -0500
+# Last Change: Tue Nov 26, 2019 at 01:26 AM -0500
 
 import re
 import sys
@@ -125,12 +125,13 @@ class DaVinciSelInit(metaclass=State):
             return ('DaVinciSelInit', ())
 
     def find_selection_name_and_counter(self, line):
-        result = re.match(r'([\w\.]+)\s*SUCCESS Number of counters : (\d+)', line)
+        result = re.match(r'([\w\.]+)\s*SUCCESS Number of counters : (\d+)',
+                          line)
         if result:
             return (result.group(1), int(result.group(2)))
 
 
-class DaVinciSelHeaders(metaclass=State):
+class DaVinciSelHeaders(object):
     def __init__(self, name, counter):
         self.name = name
         self.counter = counter
@@ -142,7 +143,7 @@ class DaVinciSelHeaders(metaclass=State):
         return ('DaVinciSelCounter', (selection, self.counter))
 
 
-class DaVinciSelCounter(metaclass=State):
+class DaVinciSelCounter(object):
     def __init__(self, selection, counter):
         self.selection = selection
         self.counter = counter
