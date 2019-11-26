@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Nov 26, 2019 at 02:45 AM -0500
+# Last Change: Tue Nov 26, 2019 at 02:53 AM -0500
 
 import re
 import sys
@@ -30,15 +30,24 @@ class Selection(object):
 
     def parse_counter(self, counter_line):
         entries = self.split_entries(counter_line)
-        counter_name = entries[0]
+        counter_name = self.regularize_name(entries[0])
         counter_vals = {k: v for k, v in zip(self.headers[1:], entries[1:])}
-        counter_vals = {self.regularize(k): float(v)
+        counter_vals = {self.regularize_counter(k): float(v)
                         for k, v in counter_vals.items()
                         if k in self.headers_to_keep}
         self.result[counter_name] = counter_vals
 
     @staticmethod
-    def regularize(key):
+    def regularize_name(name):
+        if name.startswith('*'):
+            return name[1:]
+        elif name.startswith('"') and not name.endswith('"'):
+            return name+'"'
+        else:
+            return name
+
+    @staticmethod
+    def regularize_counter(key):
         return 'tot' if key == '#' else key
 
     @staticmethod
