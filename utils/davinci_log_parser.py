@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Nov 26, 2019 at 01:50 AM -0500
+# Last Change: Tue Nov 26, 2019 at 02:45 AM -0500
 
 import re
 import sys
@@ -32,9 +32,14 @@ class Selection(object):
         entries = self.split_entries(counter_line)
         counter_name = entries[0]
         counter_vals = {k: v for k, v in zip(self.headers[1:], entries[1:])}
-        counter_vals = {k: float(v) for k, v in counter_vals.items()
+        counter_vals = {self.regularize(k): float(v)
+                        for k, v in counter_vals.items()
                         if k in self.headers_to_keep}
         self.result[counter_name] = counter_vals
+
+    @staticmethod
+    def regularize(key):
+        return 'tot' if key == '#' else key
 
     @staticmethod
     def split_entries(line, splitter='|'):
@@ -173,8 +178,26 @@ class DaVinciLogParser(StateMachine):
         return (line, self.parsed)
 
 
+##########
+# Output #
+##########
+
+def yaml_gen(data, indent='', indent_increment=' '*4):
+    result = ''
+    for key, items in data.items():
+        result += '{}{}:'.format(indent, key)
+        if type(items) in [dict, odict]:
+            result += '\n'
+            result += yaml_gen(items, indent=indent+indent_increment)
+        else:
+            result += ' {}\n'.format(items)
+    return result
+
+
 if __name__ == '__main__':
-    filename = sys.argv[1]
+    output = sys.argv[1]
+    filename = sys.argv[2]
     parser = DaVinciLogParser(filename, DaVinciLogInit())
     parser.run_all()
-    print(parser.parsed)
+    with open(output, 'w') as f:
+        f.write(yaml_gen(parser.parsed))
