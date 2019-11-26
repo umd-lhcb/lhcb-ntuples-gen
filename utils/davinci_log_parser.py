@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Nov 26, 2019 at 01:26 AM -0500
+# Last Change: Tue Nov 26, 2019 at 01:40 AM -0500
 
 import re
 import sys
@@ -18,8 +18,9 @@ from abc import ABC, abstractmethod
 # selection.
 
 class Selection(object):
-    def __init__(self, selection):
+    def __init__(self, selection, headers_to_keep=['#', 'sum']):
         self.selection = selection
+        self.headers_to_keep = headers_to_keep
 
         self.headers = None
         self.result = odict()
@@ -31,6 +32,8 @@ class Selection(object):
         entries = self.split_entries(counter_line)
         counter_name = entries[0]
         counter_vals = {k: v for k, v in zip(self.headers[1:], entries[1:])}
+        counter_vals = {k: float(v) for k, v in counter_vals.items()
+                        if k in self.headers_to_keep}
         self.result[counter_name] = counter_vals
 
     @staticmethod
