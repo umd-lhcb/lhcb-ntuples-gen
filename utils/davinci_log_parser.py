@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Nov 26, 2019 at 01:40 AM -0500
+# Last Change: Tue Nov 26, 2019 at 01:50 AM -0500
 
 import re
 import sys
@@ -48,7 +48,7 @@ class Selection(object):
 # For parsing.
 
 # NOTE: This should be used as a metaclass only.
-class State(type):
+class StateSingleton(type):
     def __init__(cls, name, bases, dict):
         super().__init__(name, bases, dict)
         cls.instance = None
@@ -58,17 +58,19 @@ class State(type):
             cls.instance = super().__call__(*args, **kw)
         return cls.instance
 
-    def run(self, data):
+    def next(self, data):
         '''
-        Action on current data.
+        Determine next state after performing action on current data.
         '''
         raise NotImplementedError
 
+
+class State(ABC):
+    @abstractmethod
     def next(self, data):
         '''
-        Determine next state
+        Determine next state after performing action on current data.
         '''
-        raise NotImplementedError
 
 
 class StateMachine(ABC):
@@ -101,7 +103,7 @@ class StateMachine(ABC):
 # Parser #
 ##########
 
-class DaVinciLogInit(metaclass=State):
+class DaVinciLogInit(metaclass=StateSingleton):
     def next(self, data):
         line, parsed = data
         total_num = self.find_total_num_of_event(line)
@@ -118,7 +120,7 @@ class DaVinciLogInit(metaclass=State):
             return result.group(1)
 
 
-class DaVinciSelInit(metaclass=State):
+class DaVinciSelInit(metaclass=StateSingleton):
     def next(self, data):
         line, _ = data
         try:
@@ -134,7 +136,7 @@ class DaVinciSelInit(metaclass=State):
             return (result.group(1), int(result.group(2)))
 
 
-class DaVinciSelHeaders(object):
+class DaVinciSelHeaders(State):
     def __init__(self, name, counter):
         self.name = name
         self.counter = counter
@@ -146,7 +148,7 @@ class DaVinciSelHeaders(object):
         return ('DaVinciSelCounter', (selection, self.counter))
 
 
-class DaVinciSelCounter(object):
+class DaVinciSelCounter(State):
     def __init__(self, selection, counter):
         self.selection = selection
         self.counter = counter
