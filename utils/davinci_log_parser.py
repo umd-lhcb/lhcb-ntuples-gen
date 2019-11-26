@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Nov 26, 2019 at 03:01 AM -0500
+# Last Change: Tue Nov 26, 2019 at 03:28 AM -0500
 
 import re
 import sys
@@ -140,7 +140,7 @@ class DaVinciLogInit(metaclass=StateSingleton):
         result = re.match(r'DaVinciInitAlg    SUCCESS (\d+) events processed',
                           line)
         if result:
-            return result.group(1)
+            return int(result.group(1))
 
 
 class DaVinciSelInit(metaclass=StateSingleton):
@@ -212,10 +212,28 @@ def yaml_gen(data, indent='', indent_increment=' '*4):
     return result
 
 
+def update_dict(orig, new):
+    for key, items in new.items():
+        if type(items) in [dict, odict]:
+            try:
+                update_dict(orig[key], items)
+            except KeyError:
+                orig[key] = items
+        else:
+            try:
+                orig[key] += items
+            except KeyError:
+                orig[key] = items
+
+
 if __name__ == '__main__':
     output = sys.argv[1]
-    filename = sys.argv[2]
-    parser = DaVinciLogParser(filename, DaVinciLogInit())
-    parser.run_all()
+    result = odict()
+
+    for log_filename in sys.argv[2:]:
+        parser = DaVinciLogParser(log_filename, DaVinciLogInit())
+        parser.run_all()
+        update_dict(result, parser.parsed)
+
     with open(output, 'w') as f:
-        f.write(yaml_gen(parser.parsed))
+        f.write(yaml_gen(result))
