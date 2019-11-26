@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri Nov 22, 2019 at 03:21 AM -0500
+# Last Change: Mon Nov 25, 2019 at 10:48 PM -0500
 
 import re
 import sys
@@ -85,7 +85,6 @@ class StateMachine(ABC):
                 # As long as the 'state' uses State (defined above) as its
                 # metaclass, averting should be fine.
                 self.current_state = globals()[self.current_state.next(data)]()
-                self.current_state.run(data)
 
     @abstractmethod
     def data(self, raw_data):
@@ -99,13 +98,39 @@ class StateMachine(ABC):
 ##########
 
 class DaVinciLogInit(metaclass=State):
-    def run(self, data):
-        data
-
     def next(self, data):
-        return 'somenextstate'
+        line, parsed = data
+        total_num = self.find_total_num_of_event(line)
+
+        if total_num:
+            parsed['Total'] = total_num
+            return 'DaVinciSelInit'
+        else:
+            return 'DaVinciLogInit'
+
+    def find_total_num_of_event(self, line):
+        result = re.match(r'DaVinciInitAlg    SUCCESS (\d+) events processed',
+                          line)
+        if result:
+            return result.group(1)
+
+
+class DaVinciSelInit(metaclass=State):
+    def next(self, data):
+        return 'DaVinciSelInit'
 
 
 class DaVinciLogParser(StateMachine):
-    def __init__(self, *args):
-        super().__init__(*args)
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.parsed = {}
+
+    def data(self, line):
+        return (line, self.parsed)
+
+
+if __name__ == '__main__':
+    filename = sys.argv[1]
+    parser = DaVinciLogParser(filename, DaVinciLogInit())
+    parser.run_all()
+    print(parser.parsed)
