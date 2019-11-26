@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Nov 26, 2019 at 02:53 AM -0500
+# Last Change: Tue Nov 26, 2019 at 03:01 AM -0500
 
 import re
 import sys
@@ -32,7 +32,7 @@ class Selection(object):
         entries = self.split_entries(counter_line)
         counter_name = self.regularize_name(entries[0])
         counter_vals = {k: v for k, v in zip(self.headers[1:], entries[1:])}
-        counter_vals = {self.regularize_counter(k): float(v)
+        counter_vals = {self.regularize_counter(k): self.int_or_float(v)
                         for k, v in counter_vals.items()
                         if k in self.headers_to_keep}
         self.result[counter_name] = counter_vals
@@ -43,12 +43,21 @@ class Selection(object):
             return name[1:]
         elif name.startswith('"') and not name.endswith('"'):
             return name+'"'
+        elif name.endswith(' "'):
+            return name[:-2]+'"'
         else:
             return name
 
     @staticmethod
     def regularize_counter(key):
         return 'tot' if key == '#' else key
+
+    @staticmethod
+    def int_or_float(n):
+        try:
+            return int(n)
+        except ValueError:
+            return float(n)
 
     @staticmethod
     def split_entries(line, splitter='|'):
