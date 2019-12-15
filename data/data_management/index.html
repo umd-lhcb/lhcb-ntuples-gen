@@ -34,7 +34,7 @@
         <meta name="lang:search.tokenizer" content="[\s\-]+">
       
       <link rel="shortcut icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.5.0">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.6.0">
     
     
       
@@ -52,7 +52,7 @@
     
       
         <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono&display=fallback">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
         <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
       
     
@@ -697,34 +697,35 @@
                 <h2 id="split-book-keeping-files">Split book-keeping files</h2>
 <p>The <code>.dst</code> description files downloaded directly from <code>Dirac</code> contains a list with
 a large number of files (700 files or more). For example, this file contains 1690 lines:
-<div class="codehilite"><pre><span></span><span class="o">/</span><span class="n">lhcb</span><span class="o">/</span><span class="n">LHCb</span><span class="o">/</span><span class="n">Collision12</span><span class="o">/</span><span class="n">SEMILEPTONIC</span><span class="p">.</span><span class="n">DST</span><span class="o">/</span><span class="mi">00067251</span><span class="o">/</span><span class="mi">0000</span><span class="o">/</span><span class="mi">00067251</span><span class="n">_00001536_1</span><span class="p">.</span><span class="n">Semileptonic</span><span class="p">.</span><span class="n">dst</span>
-<span class="o">/</span><span class="n">lhcb</span><span class="o">/</span><span class="n">LHCb</span><span class="o">/</span><span class="n">Collision12</span><span class="o">/</span><span class="n">SEMILEPTONIC</span><span class="p">.</span><span class="n">DST</span><span class="o">/</span><span class="mi">00067251</span><span class="o">/</span><span class="mi">0000</span><span class="o">/</span><span class="mi">00067251</span><span class="n">_00001039_1</span><span class="p">.</span><span class="n">Semileptonic</span><span class="p">.</span><span class="n">dst</span>
-<span class="o">/</span><span class="n">lhcb</span><span class="o">/</span><span class="n">LHCb</span><span class="o">/</span><span class="n">Collision12</span><span class="o">/</span><span class="n">SEMILEPTONIC</span><span class="p">.</span><span class="n">DST</span><span class="o">/</span><span class="mi">00067251</span><span class="o">/</span><span class="mi">0000</span><span class="o">/</span><span class="mi">00067251</span><span class="n">_00000344_1</span><span class="p">.</span><span class="n">Semileptonic</span><span class="p">.</span><span class="n">dst</span>
-<span class="o">/</span><span class="n">lhcb</span><span class="o">/</span><span class="n">LHCb</span><span class="o">/</span><span class="n">Collision12</span><span class="o">/</span><span class="n">SEMILEPTONIC</span><span class="p">.</span><span class="n">DST</span><span class="o">/</span><span class="mi">00067251</span><span class="o">/</span><span class="mi">0000</span><span class="o">/</span><span class="mi">00067251</span><span class="n">_00000301_1</span><span class="p">.</span><span class="n">Semileptonic</span><span class="p">.</span><span class="n">dst</span>
-<span class="o">/</span><span class="n">lhcb</span><span class="o">/</span><span class="n">LHCb</span><span class="o">/</span><span class="n">Collision12</span><span class="o">/</span><span class="n">SEMILEPTONIC</span><span class="p">.</span><span class="n">DST</span><span class="o">/</span><span class="mi">00067251</span><span class="o">/</span><span class="mi">0000</span><span class="o">/</span><span class="mi">00067251</span><span class="n">_00000850_1</span><span class="p">.</span><span class="n">Semileptonic</span><span class="p">.</span><span class="n">dst</span>
-<span class="o">/</span><span class="n">lhcb</span><span class="o">/</span><span class="n">LHCb</span><span class="o">/</span><span class="n">Collision12</span><span class="o">/</span><span class="n">SEMILEPTONIC</span><span class="p">.</span><span class="n">DST</span><span class="o">/</span><span class="mi">00067251</span><span class="o">/</span><span class="mi">0000</span><span class="o">/</span><span class="mi">00067251</span><span class="n">_00000988_1</span><span class="p">.</span><span class="n">Semileptonic</span><span class="p">.</span><span class="n">dst</span>
-<span class="o">/</span><span class="n">lhcb</span><span class="o">/</span><span class="n">LHCb</span><span class="o">/</span><span class="n">Collision12</span><span class="o">/</span><span class="n">SEMILEPTONIC</span><span class="p">.</span><span class="n">DST</span><span class="o">/</span><span class="mi">00067251</span><span class="o">/</span><span class="mi">0000</span><span class="o">/</span><span class="mi">00067251</span><span class="n">_00001423_1</span><span class="p">.</span><span class="n">Semileptonic</span><span class="p">.</span><span class="n">dst</span>
-<span class="o">/</span><span class="n">lhcb</span><span class="o">/</span><span class="n">LHCb</span><span class="o">/</span><span class="n">Collision12</span><span class="o">/</span><span class="n">SEMILEPTONIC</span><span class="p">.</span><span class="n">DST</span><span class="o">/</span><span class="mi">00067251</span><span class="o">/</span><span class="mi">0000</span><span class="o">/</span><span class="mi">00067251</span><span class="n">_00000841_1</span><span class="p">.</span><span class="n">Semileptonic</span><span class="p">.</span><span class="n">dst</span>
-<span class="p">...</span>
-<span class="o">/</span><span class="n">lhcb</span><span class="o">/</span><span class="n">LHCb</span><span class="o">/</span><span class="n">Collision12</span><span class="o">/</span><span class="n">SEMILEPTONIC</span><span class="p">.</span><span class="n">DST</span><span class="o">/</span><span class="mi">00067251</span><span class="o">/</span><span class="mi">0000</span><span class="o">/</span><span class="mi">00067251</span><span class="n">_00001096_1</span><span class="p">.</span><span class="n">Semileptonic</span><span class="p">.</span><span class="n">dst</span>
+<div class="codehilite"><pre><span></span><span class="err">/lhcb/LHCb/Collision12/SEMILEPTONIC.DST/00067251/0000/00067251_00001536_1.Semileptonic.dst</span>
+<span class="err">/lhcb/LHCb/Collision12/SEMILEPTONIC.DST/00067251/0000/00067251_00001039_1.Semileptonic.dst</span>
+<span class="err">/lhcb/LHCb/Collision12/SEMILEPTONIC.DST/00067251/0000/00067251_00000344_1.Semileptonic.dst</span>
+<span class="err">/lhcb/LHCb/Collision12/SEMILEPTONIC.DST/00067251/0000/00067251_00000301_1.Semileptonic.dst</span>
+<span class="err">/lhcb/LHCb/Collision12/SEMILEPTONIC.DST/00067251/0000/00067251_00000850_1.Semileptonic.dst</span>
+<span class="err">/lhcb/LHCb/Collision12/SEMILEPTONIC.DST/00067251/0000/00067251_00000988_1.Semileptonic.dst</span>
+<span class="err">/lhcb/LHCb/Collision12/SEMILEPTONIC.DST/00067251/0000/00067251_00001423_1.Semileptonic.dst</span>
+<span class="err">/lhcb/LHCb/Collision12/SEMILEPTONIC.DST/00067251/0000/00067251_00000841_1.Semileptonic.dst</span>
+<span class="err">...</span>
+<span class="err">/lhcb/LHCb/Collision12/SEMILEPTONIC.DST/00067251/0000/00067251_00001096_1.Semileptonic.dst</span>
 </pre></div></p>
 <p>It is impractical to download every single one of them, as we don't have enough
 storage space in <code>lxplus</code>, even with <code>EOS</code>.</p>
 <p>To split, we use <code>split</code>, a linux tool that should have been installed by default:
-<div class="codehilite"><pre><span></span><span class="n">split</span> <span class="c1">--lines=50 &lt;filename.txt&gt;</span>
+<div class="codehilite"><pre><span></span><span class="err">split --lines=50 &lt;filename.txt&gt;</span>
 </pre></div>
 In this case, the <code>&lt;filename.txt&gt;</code> will be sliced for every 50 lines, and the
 output filenames will be <code>x??</code>.</p>
 <h2 id="download-data-files-with-lxplus">Download data files with <code>lxplus</code></h2>
 <p>To download all dst files listed in a bookkeeping file:
-<div class="codehilite"><pre><span></span><span class="n">lhcb</span><span class="o">-</span><span class="n">proxy</span><span class="o">-</span><span class="n">init</span>
-<span class="n">lb</span><span class="o">-</span><span class="n">run</span> <span class="n">LHCbDIRAC</span> <span class="n">dirac</span><span class="o">-</span><span class="n">dms</span><span class="o">-</span><span class="k">get</span><span class="o">-</span><span class="n">file</span> <span class="o">-</span><span class="n">D</span> <span class="o">&lt;</span><span class="n">target_dir</span><span class="o">&gt;</span> <span class="c1">--File &lt;file_with_list_of_lfns&gt;</span>
+<div class="codehilite"><pre><span></span><span class="err">lhcb-proxy-init</span>
+<span class="err">lb-run LHCbDIRAC dirac-dms-get-file -D &lt;target_dir&gt; --File &lt;file_with_list_of_lfns&gt;</span>
 </pre></div></p>
 <p>If you know a <code>LFN</code>, instead of a file that contains a list of <code>LFN</code>s, you can:
-<div class="codehilite"><pre><span></span><span class="n">lb</span><span class="o">-</span><span class="n">run</span> <span class="n">LHCbDIRAC</span> <span class="n">dirac</span><span class="o">-</span><span class="n">dms</span><span class="o">-</span><span class="k">get</span><span class="o">-</span><span class="n">file</span> <span class="o">-</span><span class="n">D</span> <span class="o">&lt;</span><span class="n">target_dir</span><span class="o">&gt;</span> <span class="o">-</span><span class="n">l</span> <span class="o">&lt;</span><span class="n">lfn</span><span class="o">&gt;</span>
+<div class="codehilite"><pre><span></span><span class="err">lb-run LHCbDIRAC dirac-dms-get-file -D &lt;target_dir&gt; -l &lt;lfn&gt;</span>
 </pre></div></p>
                 
                   
+                
                 
               
               
@@ -792,7 +793,7 @@ output filenames will be <code>x??</code>.</p>
       
     </div>
     
-      <script src="../../assets/javascripts/application.a8b5e56f.js"></script>
+      <script src="../../assets/javascripts/application.808e90bb.js"></script>
       
       <script>app.initialize({version:"1.0.4",url:{base:"../.."}})</script>
       

@@ -34,7 +34,7 @@
         <meta name="lang:search.tokenizer" content="[\s\-]+">
       
       <link rel="shortcut icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.5.0">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.6.0">
     
     
       
@@ -52,7 +52,7 @@
     
       
         <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono&display=fallback">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
         <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
       
     
@@ -683,7 +683,7 @@
                 <p><code>bender</code> is a tool to interactively explore <code>.dst</code> files.</p>
 <h2 id="find-all-trigger-lines-and-hit-ratios-in-a-dst-file">Find all trigger lines and hit ratios in a <code>.dst</code> file</h2>
 <p>There is a simple one-liner to find these info:
-<div class="codehilite"><pre><span></span><span class="n">lb</span><span class="o">-</span><span class="n">run</span> <span class="n">Bender</span><span class="o">/</span><span class="n">latest</span> <span class="n">trg</span><span class="o">-</span><span class="k">check</span> <span class="o">-</span><span class="n">n</span> <span class="o">-</span><span class="mi">1</span> <span class="o">-</span><span class="n">d</span> <span class="mi">2012</span> <span class="c1">--teslocation /Event/Semileptonic/Phys/b2D0MuXB2DMuNuForTauMuLine/Particles ~/cmtuser/DaVinci_v36r1p2/data/mag_down/00041836_00011435_1.semileptonic.dst</span>
+<div class="codehilite"><pre><span></span><span class="err">lb-run Bender/latest trg-check -n -1 -d 2012 --teslocation /Event/Semileptonic/Phys/b2D0MuXB2DMuNuForTauMuLine/Particles ~/cmtuser/DaVinci_v36r1p2/data/mag_down/00041836_00011435_1.semileptonic.dst</span>
 </pre></div></p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -695,6 +695,7 @@
 </div>
                 
                   
+                
                 
               
               
@@ -762,7 +763,7 @@
       
     </div>
     
-      <script src="../../assets/javascripts/application.a8b5e56f.js"></script>
+      <script src="../../assets/javascripts/application.808e90bb.js"></script>
       
       <script>app.initialize({version:"1.0.4",url:{base:"../.."}})</script>
       

@@ -34,7 +34,7 @@
         <meta name="lang:search.tokenizer" content="[\s\-]+">
       
       <link rel="shortcut icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.5.0">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.6.0">
     
     
       
@@ -52,7 +52,7 @@
     
       
         <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono&display=fallback">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
         <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
       
     
@@ -724,10 +724,10 @@
                 
                 <h2 id="install-vcs">Install VCS</h2>
 <p>On Arch Linux, simply issue the following command:
-<div class="codehilite"><pre><span></span><span class="n">sudo</span> <span class="n">pacman</span> <span class="o">-</span><span class="n">S</span> <span class="n">git</span> <span class="n">git</span><span class="o">-</span><span class="n">annex</span>
+<div class="codehilite"><pre><span></span><span class="err">sudo pacman -S git git-annex</span>
 </pre></div></p>
 <p>On macOS, if you have <code>homebrew</code> installed:
-<div class="codehilite"><pre><span></span><span class="n">brew</span> <span class="n">install</span> <span class="n">git</span> <span class="n">git</span><span class="o">-</span><span class="n">annex</span>
+<div class="codehilite"><pre><span></span><span class="err">brew install git git-annex</span>
 </pre></div></p>
 <div class="admonition warning">
 <p class="admonition-title">Microsoft Windows not supported</p>
@@ -746,19 +746,19 @@ Note that <code>VirtualBox</code> needs to be installed on Ubuntu manually first
 <p>We use <code>docker</code> to run a pre-built <code>DaVinci</code> image locally. To install
 <code>docker</code>:</p>
 <p>On Arch Linux:
-<div class="codehilite"><pre><span></span><span class="n">sudo</span> <span class="n">pacman</span> <span class="o">-</span><span class="n">S</span> <span class="n">docker</span>
+<div class="codehilite"><pre><span></span><span class="err">sudo pacman -S docker</span>
 </pre></div>
 then follow this <a href="https://wiki.archlinux.org/index.php/Docker">Arch wiki entry</a>
 to finish setup.</p>
 <p>On macOS, with <code>homebrew</code>:
-<div class="codehilite"><pre><span></span><span class="n">brew</span> <span class="n">install</span> <span class="n">docker</span>
+<div class="codehilite"><pre><span></span><span class="err">brew install docker</span>
 </pre></div></p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>The virtual machine image already has <code>docker</code> installed.</p>
 </div>
 <p>Now it's time to pull (download) the pre-built <code>DaVinci</code> docker:
-<div class="codehilite"><pre><span></span><span class="n">docker</span> <span class="n">pull</span> <span class="n">umdlhcb</span><span class="o">/</span><span class="n">lhcb</span><span class="o">-</span><span class="n">stack</span><span class="o">-</span><span class="n">cc7</span><span class="p">:</span><span class="n">DaVinci</span><span class="o">-</span><span class="n">v42r8p1</span><span class="o">-</span><span class="n">SL</span>
+<div class="codehilite"><pre><span></span><span class="err">docker pull umdlhcb/lhcb-stack-cc7:DaVinci-v42r8p1-SL</span>
 </pre></div></p>
 <h2 id="install-dependencies-for-babymaker">Install dependencies for <code>babymaker</code></h2>
 <p><code>babymaker</code> is part of the <code>pyBabyMaker</code> <code>Python</code> package. It requires
@@ -776,7 +776,7 @@ except <code>pyBabyMaker</code>, installed, including <code>pip</code>.</p>
 <p>Install these tools with your choice of package manager. To install
 <code>pyBabyMaker</code> and other required <code>Python</code> packages, you can use the following
 command:
-<div class="codehilite"><pre><span></span><span class="n">pip3</span> <span class="n">install</span> <span class="o">-</span><span class="n">r</span> <span class="c1">--user requirements.txt</span>
+<div class="codehilite"><pre><span></span><span class="err">pip3 install -r --user requirements.txt</span>
 </pre></div></p>
 <h2 id="use-a-pre-built-virtualbox-image-on-windows">Use a pre-built <code>VirtualBox</code> image on Windows</h2>
 <p>The pre-built <code>VirtualBox</code> image is based on Arch Linux.
@@ -824,6 +824,7 @@ to the virtual machine.</p>
 </div>
                 
                   
+                
                 
               
               
@@ -891,7 +892,7 @@ to the virtual machine.</p>
       
     </div>
     
-      <script src="../assets/javascripts/application.a8b5e56f.js"></script>
+      <script src="../assets/javascripts/application.808e90bb.js"></script>
       
       <script>app.initialize({version:"1.0.4",url:{base:".."}})</script>
       
