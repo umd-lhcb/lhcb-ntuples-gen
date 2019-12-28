@@ -344,6 +344,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#modifying-this-wiki" class="md-nav__link">
+    Modifying this wiki
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#version-control-systems-vcs" class="md-nav__link">
     Version control systems (VCS)
   </a>
@@ -704,6 +711,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#modifying-this-wiki" class="md-nav__link">
+    Modifying this wiki
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#version-control-systems-vcs" class="md-nav__link">
     Version control systems (VCS)
   </a>
@@ -731,7 +745,7 @@
                 
                   <h1>Getting started</h1>
                 
-                <p>Welcome to the wiki for <code>lhcb-ntuples-gen</code>, the repository that generates the ntuples for the <span><span class="MathJax_Preview">R^{(*)}</span><script type="math/tex">R^{(*)}</script></span> UMD
+                <p>Welcome to the wiki for <code>lhcb-ntuples-gen</code>, the repository that generates the ntuples for the <span><span class="MathJax_Preview">R(D^{(*)})</span><script type="math/tex">R(D^{(*)})</script></span> UMD
 analysis. In this section, you'll find useful information for installing the required dependencies for this
 project, as well as the usage of some tools, such as <code>git-annex</code>, that will be used in this project.</p>
 <h2 id="ntuple-generation">Ntuple generation</h2>
@@ -750,6 +764,22 @@ project, as well as the usage of some tools, such as <code>git-annex</code>, tha
 <p>These two steps have separate dependencies. If you only need to run one
 step, just follow the installation instruction for that particular step.</p>
 </div>
+<h2 id="modifying-this-wiki">Modifying this wiki</h2>
+<p>This wiki is written in a series of markdown files (<code>.md</code>) committed to the
+<a href="https://github.com/umd-lhcb/lhcb-ntuples-gen/tree/master/docs">docs</a> folder of the
+<code>lhcb-ntuples-gen</code> repository. The structure of the wiki is defined in
+<a href="https://github.com/umd-lhcb/lhcb-ntuples-gen/blob/master/mkdocs.yml"><code>mkdocs.yml</code></a>. This file contains the
+title of each page in the wiki, and the markdown file that defines that page.</p>
+<p>To modify the wiki just modify <code>mkdocs.yml</code> or the <code>.md</code> files, and commit the changes to the repo. In about
+a minute Travis will deploy the new website to <a href="https://umd-lhcb.github.io/lhcb-ntuples-gen/">https://umd-lhcb.github.io/lhcb-ntuples-gen/</a>.</p>
+<p>To view the website locally (for instance, before committing), you will need to install <code>mkdocs</code> and
+the <code>material</code> theme
+<div class="codehilite"><pre><span></span><span class="err">pip install mkdocs</span>
+<span class="err">pip install mkdocs-material</span>
+</pre></div>
+Then, from <code>lhcb-ntuples-gen</code> you generate the website at the local address <a href="http://127.0.0.1:8000">http://127.0.0.1:8000</a> with the command
+<div class="codehilite"><pre><span></span><span class="err">mkdocs serve</span>
+</pre></div></p>
 <h2 id="version-control-systems-vcs">Version control systems (VCS)</h2>
 <p>This project requires the following VCS to be installed in your system:</p>
 <ul>

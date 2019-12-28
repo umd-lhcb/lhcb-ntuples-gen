@@ -394,6 +394,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#install-dependencies-for-plotting" class="md-nav__link">
+    Install dependencies for plotting
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#use-a-pre-built-virtualbox-image-on-windows-and-ubuntu" class="md-nav__link">
     Use a pre-built VirtualBox image on Windows and Ubuntu
   </a>
@@ -732,6 +739,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#install-dependencies-for-plotting" class="md-nav__link">
+    Install dependencies for plotting
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#use-a-pre-built-virtualbox-image-on-windows-and-ubuntu" class="md-nav__link">
     Use a pre-built VirtualBox image on Windows and Ubuntu
   </a>
@@ -815,6 +829,13 @@ to finish the setup:
 <code>pyBabyMaker</code> and other required <code>Python</code> packages, you can use the following
 command:
 <div class="codehilite"><pre><span></span><span class="err">pip3 install -r --user requirements.txt</span>
+</pre></div></p>
+<h2 id="install-dependencies-for-plotting">Install dependencies for plotting</h2>
+<p>The comparison plots in this <a href="">page</a> require <code>pyTuplingUtils</code>, which is install as follows
+<div class="codehilite"><pre><span></span><span class="err">git clone git@github.com:umd-lhcb/pyTuplingUtils</span>
+<span class="err">cd pyTuplingUtils/</span>
+<span class="err">python3 setup.py build</span>
+<span class="err">python3 setup.py install</span>
 </pre></div></p>
 <h2 id="use-a-pre-built-virtualbox-image-on-windows-and-ubuntu">Use a pre-built <code>VirtualBox</code> image on Windows and Ubuntu</h2>
 <p>The pre-built <code>VirtualBox</code> image is based on Arch Linux.
