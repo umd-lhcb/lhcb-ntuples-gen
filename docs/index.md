@@ -1,6 +1,22 @@
-Welcome to the wiki for `lhcb-ntuples-gen`. In this section, you'll find useful
-information on installing required dependencies for this project, as well the
-usage of some tools, such as `git-annex`, that will be used in this project.
+Welcome to the wiki for `lhcb-ntuples-gen`, the repository that generates the ntuples for the $R^{(*)}$ UMD
+analysis. In this section, you'll find useful information for installing the required dependencies for this
+project, as well as the usage of some tools, such as `git-annex`, that will be used in this project.
+
+
+## Ntuple generation
+The ntuples[^1] generation is separated into **2 steps**:
+
+1. Use `DaVinci` to generate ntuples from raw data[^2].
+   Follow [this section](ntupling/installation/#install-dependencies-for-davinci) to install required programs.
+   Use [this manual](ntupling/step1_davinci.md) to learn how to use `DaVinci` locally.
+2. Use `babymaker` frame work to do slimming, skimming, and additional
+   calculation on previous ntuples, generating new ntuples.
+   Use [this section](ntupling/installation/#install-dependencies-for-babymaker) for installation.
+   The `babymaker` manual can be found [here](ntupling/step2_babymaker.md).
+
+!!! note
+    These two steps have separate dependencies. If you only need to run one
+    step, just follow the installation instruction for that particular step.
 
 
 ## Version control systems (VCS)
@@ -10,24 +26,8 @@ This project requires the following VCS to be installed in your system:
 * `git-annex` (that supports `v7` repository format): for data file version
   control
 
-To install these programs, please follow [this section](installation/#install-version-control-software).
+To install these programs, please follow [this section](ntupling/installation/#install-version-control-software).
 In addition, we provide [a brief introduction](software_manuals/git_annex) on the usage of `git-annex`.
-
-
-## Dependencies for ntuple generation
-The ntuples[^1] generation is separated into **2 steps**:
-
-1. Use `DaVinci` to generate ntuples from raw data[^2].
-   Follow [this section](installation/#install-dependencies-for-davinci) to install required programs.
-   Use [this manual](software_manuals/davinci/docker_image_usage.md) to learn how to use `DaVinci` locally.
-2. Use `babymaker` frame work to do slimming, skimming, and additional
-   calculation on previous ntuples, generating new ntuples.
-   Use [this section](installation/#install-dependencies-for-babymaker) for installation.
-   The `babymaker` manual can be found [here](software_manuals/babymaker.md).
-
-!!! note
-    These two steps have separate dependencies. If you only need to run one
-    step, just follow the installation instruction for that particular step.
 
 
 [^1]: `.root` files that can be processed by `DaVinci`, `ROOT`, and many other tools.

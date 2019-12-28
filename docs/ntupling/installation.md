@@ -1,5 +1,10 @@
-## Install VCS
-On Arch Linux, simply issue the following command:
+## Install VCS (`git` and `git-annex`)
+
+We use `git` to version-control the ntupling code and the wiki, and `git-annex` to version-control
+large files, mostly the input `.dst` files or important `.root` outputs. For more details on
+`git-annex`, see [this brief introduction](software_manuals/git_annex).
+
+On Arch Linux, simply issue the following command to install both programs:
 ```
 sudo pacman -S git git-annex
 ```
@@ -9,38 +14,47 @@ On macOS, if you have `homebrew` installed:
 brew install git git-annex
 ```
 
-!!! warning "Microsoft Windows not supported"
-    This is because Windows filesystems don't support symbolic links, which
-    makes `git-annex` almost unusable.
+Now clone the repository and set up the `annex` component. We have a private server, `julian`, that hosts
+`git-annex` files. You will need to send us a SSH key so that we can give your read/write permission to the
+server.
+```
+git clone git@github.com:umd-lhcb/lhcb-ntuples-gen
+cd lhcb-ntuples-gen
+git remote add julian git@129.2.92.92:lhcb-ntuples-gen
+git annex init --version=7
+git annex sync --no-pull julian
+git annex sync julian
+```
+Note that these commands will only initialize the files controlled by `git-annex` (several GB in total)
+with symbolic links. You typically will download individual files as you need them with
+```
+git annex get <path_to_file>
+```
 
-    If you are a Windows user, please follow [this section](#use-a-pre-built-virtualbox-image-on-windows)
-    to set up a Linux virtual machine that has everything installed.
 
-!!! warning "Ubuntu not supported"
-    This is because there is no easy way to install an up-to-date `git-annex`.
+!!! warning "Microsoft Windows and Ubuntu not supported, require pre-build image below"
+    Windows filesystems don't support symbolic links, which
+    makes `git-annex` almost unusable. In Ubuntu there is no easy way to install an up-to-date `git-annex`.
 
-    Please use the same pre-built image listed in [this section](#use-a-pre-built-virtualbox-image-on-windows).
-    Note that `VirtualBox` needs to be installed on Ubuntu manually first.
+    Please use the pre-built image listed in [this section](#use-a-pre-built-virtualbox-image-on-windows) that
+    has everything installed.  Note that `VirtualBox` needs to be installed on Ubuntu manually first.
 
 
-## Install dependencies for `DaVinci`
+
+## Install `docker` to run `DaVinci` locally
 We use `docker` to run a pre-built `DaVinci` image locally. To install
 `docker`:
 
-On Arch Linux:
+On Arch Linux run the command below and follow this [Arch wiki entry](https://wiki.archlinux.org/index.php/Docker)
+to finish the setup:
 ```
 sudo pacman -S docker
 ```
-then follow this [Arch wiki entry](https://wiki.archlinux.org/index.php/Docker)
-to finish setup.
 
 On macOS, with `homebrew`:
 ```
 brew install docker
 ```
-
-!!! note
-    The virtual machine image already has `docker` installed.
 
 Now it's time to pull (download) the pre-built `DaVinci` docker:
 ```
@@ -51,10 +65,6 @@ docker pull umdlhcb/lhcb-stack-cc7:DaVinci-v42r8p1-SL
 ## Install dependencies for `babymaker`
 `babymaker` is part of the `pyBabyMaker` `Python` package. It requires
 `gcc`[^1], `ROOT`, `python3`, and a couple of other `Python` packages[^2].
-
-!!! note
-    As you may have guessed it, the virtual machine image has these packages,
-    except `pyBabyMaker`, installed, including `pip`.
 
 !!! note
     It is strongly recommended to install `clang-format`[^3], so the generated
@@ -80,7 +90,7 @@ pip3 install -r --user requirements.txt
       macOS. In that case, just type in `brew install clang-format`.
 
 
-## Use a pre-built `VirtualBox` image on Windows
+## Use a pre-built `VirtualBox` image on Windows and Ubuntu
 The pre-built `VirtualBox` image is based on Arch Linux.
 It contains `git`, `git-annex`;
 `docker` (`DaVinci` image _not_ downloaded);
@@ -102,3 +112,11 @@ Windows:
     By default the virtual machine can maximally use 4 GB of RAM. If your
     computer has 16 GB or more RAM, it is recommended to allocate 8 GB of RAM
     to the virtual machine.
+    
+!!! note
+    The virtual machine image already has `docker` installed.
+
+!!! note
+    As you may have guessed, the virtual machine image has `gcc`[^1], `ROOT`, `python3`, and a couple
+    of other `Python` packages[^2], already installed, including `pip`.
+

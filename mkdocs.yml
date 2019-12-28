@@ -13,7 +13,10 @@ theme:
 nav:
     - Home:
         - Getting started: index.md
-        - Install dependencies: installation.md
+    - Ntupling:
+        - Installing dependencies: ntupling/installation.md
+        - Step 1 ntuples with Davinci: ntupling/step1_davinci.md
+        - Step 2 ntuples with babymaker: ntupling/step2_babymaker.md
     - Software:
         - git-annex: software_manuals/git_annex.md
         - DaVinci:
@@ -22,8 +25,6 @@ nav:
             - "LoKi functors": software_manuals/davinci/loki_functors.md
             - "TupleTools": software_manuals/davinci/tuple_tools.md
         - bender: software_manuals/bender.md
-        - babymaker: software_manuals/babymaker.md
-        - GRID: software_manuals/grid.md
     - Physics:
         - Momentum scaling: physics/momentum_scaling.md
         - Wrong-sign particles: physics/wrong_sign_particles.md

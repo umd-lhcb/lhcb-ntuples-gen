@@ -10,7 +10,7 @@ the expected locations.
 ## Initialize `git-annex` repository
 We have a private server[^1] that hosts `git` repositories with `git-annex`
 capabilities.
-After clone this repository from github, please also add our private repository:
+After cloning the `umd-lhcb/lhcb-ntuples-gen` repository from github, add our private repository:
 ```
 git remote add julian git@129.2.92.92:lhcb-ntuples-gen
 ```
