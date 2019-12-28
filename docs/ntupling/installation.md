@@ -90,6 +90,15 @@ pip3 install -r --user requirements.txt
       macOS. In that case, just type in `brew install clang-format`.
 
 
+## Install dependencies for plotting
+The comparison plots in this [page]() require `pyTuplingUtils`, which is install as follows
+```
+git clone git@github.com:umd-lhcb/pyTuplingUtils
+cd pyTuplingUtils/
+python3 setup.py build
+python3 setup.py install
+```
+
 ## Use a pre-built `VirtualBox` image on Windows and Ubuntu
 The pre-built `VirtualBox` image is based on Arch Linux.
 It contains `git`, `git-annex`;

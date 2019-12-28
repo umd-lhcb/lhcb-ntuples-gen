@@ -1,4 +1,4 @@
-Welcome to the wiki for `lhcb-ntuples-gen`, the repository that generates the ntuples for the $R^{(*)}$ UMD
+Welcome to the wiki for `lhcb-ntuples-gen`, the repository that generates the ntuples for the $R(D^{(*)})$ UMD
 analysis. In this section, you'll find useful information for installing the required dependencies for this
 project, as well as the usage of some tools, such as `git-annex`, that will be used in this project.
 
@@ -18,6 +18,27 @@ The ntuples[^1] generation is separated into **2 steps**:
     These two steps have separate dependencies. If you only need to run one
     step, just follow the installation instruction for that particular step.
 
+
+## Modifying this wiki
+This wiki is written in a series of markdown files (`.md`) committed to the
+[docs](https://github.com/umd-lhcb/lhcb-ntuples-gen/tree/master/docs) folder of the
+`lhcb-ntuples-gen` repository. The structure of the wiki is defined in
+[`mkdocs.yml`](https://github.com/umd-lhcb/lhcb-ntuples-gen/blob/master/mkdocs.yml). This file contains the
+title of each page in the wiki, and the markdown file that defines that page.
+
+To modify the wiki just modify `mkdocs.yml` or the `.md` files, and commit the changes to the repo. In about
+a minute Travis will deploy the new website to [https://umd-lhcb.github.io/lhcb-ntuples-gen/](https://umd-lhcb.github.io/lhcb-ntuples-gen/).
+
+To view the website locally (for instance, before committing), you will need to install `mkdocs` and
+the `material` theme
+```
+pip install mkdocs
+pip install mkdocs-material
+```
+Then, from `lhcb-ntuples-gen` you generate the website at the local address [http://127.0.0.1:8000](http://127.0.0.1:8000) with the command
+```
+mkdocs serve
+```
 
 ## Version control systems (VCS)
 This project requires the following VCS to be installed in your system:
