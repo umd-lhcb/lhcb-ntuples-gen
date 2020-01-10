@@ -774,8 +774,7 @@ title of each page in the wiki, and the markdown file that defines that page.</p
 a minute Travis will deploy the new website to <a href="https://umd-lhcb.github.io/lhcb-ntuples-gen/">https://umd-lhcb.github.io/lhcb-ntuples-gen/</a>.</p>
 <p>To view the website locally (for instance, before committing), you will need to install <code>mkdocs</code> and
 the <code>material</code> theme
-<div class="codehilite"><pre><span></span><span class="err">pip install mkdocs</span>
-<span class="err">pip install mkdocs-material</span>
+<div class="codehilite"><pre><span></span><span class="err">pip3 install --user -r docs/requirements.txt</span>
 </pre></div>
 Then, from <code>lhcb-ntuples-gen</code> you generate the website at the local address <a href="http://127.0.0.1:8000">http://127.0.0.1:8000</a> with the command
 <div class="codehilite"><pre><span></span><span class="err">mkdocs serve</span>
