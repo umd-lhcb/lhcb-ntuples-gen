@@ -32,8 +32,7 @@ a minute Travis will deploy the new website to [https://umd-lhcb.github.io/lhcb-
 To view the website locally (for instance, before committing), you will need to install `mkdocs` and
 the `material` theme
 ```
-pip install mkdocs
-pip install mkdocs-material
+pip3 install --user -r docs/requirements.txt
 ```
 Then, from `lhcb-ntuples-gen` you generate the website at the local address [http://127.0.0.1:8000](http://127.0.0.1:8000) with the command
 ```

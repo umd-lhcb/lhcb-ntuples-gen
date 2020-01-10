@@ -58,7 +58,7 @@ brew install docker
 
 Now it's time to pull (download) the pre-built `DaVinci` docker:
 ```
-docker pull umdlhcb/lhcb-stack-cc7:DaVinci-v42r8p1-SL
+docker pull umdlhcb/lhcb-stack-cc7:DaVinci-v45r3-SL
 ```
 
 
@@ -74,7 +74,7 @@ Install these tools with your choice of package manager. To install
 `pyBabyMaker` and other required `Python` packages, you can use the following
 command:
 ```
-pip3 install -r --user requirements.txt
+pip3 install --user -r requirements.txt
 ```
 
 
