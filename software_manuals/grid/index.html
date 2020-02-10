@@ -34,7 +34,7 @@
         <meta name="lang:search.tokenizer" content="[\s\-]+">
       
       <link rel="shortcut icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.6.0">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.6.2">
     
     
       
@@ -42,12 +42,12 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/application.1b62728e.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/application.adb8469c.css">
       
       
     
     
-      <script src="../../assets/javascripts/modernizr.268332fc.js"></script>
+      <script src="../../assets/javascripts/modernizr.86422ebf.js"></script>
     
     
       
@@ -79,7 +79,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
-      <a href="#prepare-a-local-davinci" tabindex="1" class="md-skip">
+      <a href="#prepare-a-local-davinci" tabindex="0" class="md-skip">
         Skip to content
       </a>
     
@@ -88,7 +88,7 @@
   <nav class="md-header-nav md-grid">
     <div class="md-flex">
       <div class="md-flex__cell md-flex__cell--shrink">
-        <a href="https://umd-lhcb.github.io/lhcb-ntuples-gen" title="lhcb-ntuples-gen wiki" class="md-header-nav__button md-logo">
+        <a href="https://umd-lhcb.github.io/lhcb-ntuples-gen" title="lhcb-ntuples-gen wiki" aria-label="lhcb-ntuples-gen wiki" class="md-header-nav__button md-logo">
           
             <i class="md-icon"></i>
           
@@ -119,7 +119,7 @@
   <label class="md-search__overlay" for="__search"></label>
   <div class="md-search__inner" role="search">
     <form class="md-search__form" name="search">
-      <input type="text" class="md-search__input" name="query" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
+      <input type="text" class="md-search__input" aria-label="search" name="query" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
       <label class="md-icon md-search__icon" for="__search"></label>
       <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
         &#xE5CD;
@@ -710,10 +710,10 @@ then be sent to the <code>GRID</code> by <code>ganga</code> automatically.</p>
 <h2 id="send-job-to-the-grid-with-ganga">Send job to the <code>GRID</code> with <code>ganga</code></h2>
 <p>For each of the stripping line folder inside this project, there should be a
 <code>Python</code> scripted named <code>ganga_jobs.py</code>. The general sematics is:
-<div class="codehilite"><pre><span></span><span class="err">ganga ganga_jobs.py &lt;arguments&gt;</span>
-</pre></div></p>
+<div class="codehilite"><pre><span></span><code><span class="err">ganga ganga_jobs.py &lt;arguments&gt;</span>
+</code></pre></div></p>
 <h3 id="run1-b2d0muxb2dmunufortaumuline"><code>run1-b2D0MuXB2DMuNuForTauMuLine</code></h3>
-<div class="codehilite"><pre><span></span>$ ganga ganga_jobs.py --help
+<div class="codehilite"><pre><span></span><code>$ ganga ganga_jobs.py --help
 usage: ganga_jobs.py <span class="o">[</span>-h<span class="o">]</span> <span class="o">[</span>--force<span class="o">]</span> <span class="o">[</span>--davinci DAVINCI<span class="o">]</span>
                      <span class="o">[</span>-b <span class="o">{</span>all,Dst,D0<span class="o">}</span> <span class="o">[{</span>all,Dst,D0<span class="o">}</span> ...<span class="o">]]</span>
                      <span class="o">[</span>-s <span class="o">{</span>all,Pythia6,Pythia8<span class="o">}</span> <span class="o">[{</span>all,Pythia6,Pythia8<span class="o">}</span> ...<span class="o">]]</span>
@@ -742,11 +742,11 @@ optional arguments:
                         specify simulation condition.
   -p <span class="o">{</span>all,Up,Down<span class="o">}</span> <span class="o">[{</span>all,Up,Down<span class="o">}</span> ...<span class="o">]</span>, --polarity <span class="o">{</span>all,Up,Down<span class="o">}</span> <span class="o">[{</span>all,Up,Down<span class="o">}</span> ...<span class="o">]</span>
                         specify polarity.
-</pre></div>
+</code></pre></div>
 
 <p>An example would be:
-<div class="codehilite"><pre><span></span><span class="err">ganga ganga_jobs.py mc-py6-sim08a-Bd2Dsttaunu</span>
-</pre></div></p>
+<div class="codehilite"><pre><span></span><code><span class="err">ganga ganga_jobs.py mc-py6-sim08a-Bd2Dsttaunu</span>
+</code></pre></div></p>
                 
                   
                 
@@ -770,9 +770,9 @@ optional arguments:
       <div class="md-footer-copyright">
         
         powered by
-        <a href="https://www.mkdocs.org">MkDocs</a>
+        <a href="https://www.mkdocs.org" target="_blank" rel="noopener">MkDocs</a>
         and
-        <a href="https://squidfunk.github.io/mkdocs-material/">
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
           Material for MkDocs</a>
       </div>
       
@@ -782,7 +782,7 @@ optional arguments:
       
     </div>
     
-      <script src="../../assets/javascripts/application.808e90bb.js"></script>
+      <script src="../../assets/javascripts/application.c33a9706.js"></script>
       
       <script>app.initialize({version:"1.0.4",url:{base:"../.."}})</script>
       

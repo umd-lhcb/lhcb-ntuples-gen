@@ -34,7 +34,7 @@
         <meta name="lang:search.tokenizer" content="[\s\-]+">
       
       <link rel="shortcut icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.6.0">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.6.2">
     
     
       
@@ -42,12 +42,12 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/application.1b62728e.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/application.adb8469c.css">
       
       
     
     
-      <script src="../../assets/javascripts/modernizr.268332fc.js"></script>
+      <script src="../../assets/javascripts/modernizr.86422ebf.js"></script>
     
     
       
@@ -79,7 +79,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
-      <a href="#install-vcs-git-and-git-annex" tabindex="1" class="md-skip">
+      <a href="#install-vcs-git-and-git-annex" tabindex="0" class="md-skip">
         Skip to content
       </a>
     
@@ -88,7 +88,7 @@
   <nav class="md-header-nav md-grid">
     <div class="md-flex">
       <div class="md-flex__cell md-flex__cell--shrink">
-        <a href="https://umd-lhcb.github.io/lhcb-ntuples-gen" title="lhcb-ntuples-gen wiki" class="md-header-nav__button md-logo">
+        <a href="https://umd-lhcb.github.io/lhcb-ntuples-gen" title="lhcb-ntuples-gen wiki" aria-label="lhcb-ntuples-gen wiki" class="md-header-nav__button md-logo">
           
             <i class="md-icon"></i>
           
@@ -119,7 +119,7 @@
   <label class="md-search__overlay" for="__search"></label>
   <div class="md-search__inner" role="search">
     <form class="md-search__form" name="search">
-      <input type="text" class="md-search__input" name="query" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
+      <input type="text" class="md-search__input" aria-label="search" name="query" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
       <label class="md-icon md-search__icon" for="__search"></label>
       <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
         &#xE5CD;
@@ -778,25 +778,25 @@
 large files, mostly the input <code>.dst</code> files or important <code>.root</code> outputs. For more details on
 <code>git-annex</code>, see <a href="software_manuals/git_annex">this brief introduction</a>.</p>
 <p>On Arch Linux, simply issue the following command to install both programs:
-<div class="codehilite"><pre><span></span><span class="err">sudo pacman -S git git-annex</span>
-</pre></div></p>
+<div class="codehilite"><pre><span></span><code><span class="err">sudo pacman -S git git-annex</span>
+</code></pre></div></p>
 <p>On macOS, if you have <code>homebrew</code> installed:
-<div class="codehilite"><pre><span></span><span class="err">brew install git git-annex</span>
-</pre></div></p>
+<div class="codehilite"><pre><span></span><code><span class="err">brew install git git-annex</span>
+</code></pre></div></p>
 <p>Now clone the repository and set up the <code>annex</code> component. We have a private server, <code>julian</code>, that hosts
 <code>git-annex</code> files. You will need to send us a SSH key so that we can give your read/write permission to the
 server.
-<div class="codehilite"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="n">git</span><span class="p">@</span><span class="n">github</span><span class="p">.</span><span class="nl">com</span><span class="p">:</span><span class="n">umd</span><span class="o">-</span><span class="n">lhcb</span><span class="o">/</span><span class="n">lhcb</span><span class="o">-</span><span class="n">ntuples</span><span class="o">-</span><span class="n">gen</span>
+<div class="codehilite"><pre><span></span><code><span class="n">git</span> <span class="n">clone</span> <span class="n">git</span><span class="p">@</span><span class="n">github</span><span class="p">.</span><span class="nl">com</span><span class="p">:</span><span class="n">umd</span><span class="o">-</span><span class="n">lhcb</span><span class="o">/</span><span class="n">lhcb</span><span class="o">-</span><span class="n">ntuples</span><span class="o">-</span><span class="n">gen</span>
 <span class="n">cd</span> <span class="n">lhcb</span><span class="o">-</span><span class="n">ntuples</span><span class="o">-</span><span class="n">gen</span>
 <span class="n">git</span> <span class="n">remote</span> <span class="n">add</span> <span class="n">julian</span> <span class="n">git</span><span class="mf">@129.2.92.92</span><span class="o">:</span><span class="n">lhcb</span><span class="o">-</span><span class="n">ntuples</span><span class="o">-</span><span class="n">gen</span>
 <span class="n">git</span> <span class="n">annex</span> <span class="n">init</span> <span class="o">--</span><span class="n">version</span><span class="o">=</span><span class="mi">7</span>
 <span class="n">git</span> <span class="n">annex</span> <span class="n">sync</span> <span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">pull</span> <span class="n">julian</span>
 <span class="n">git</span> <span class="n">annex</span> <span class="n">sync</span> <span class="n">julian</span>
-</pre></div>
+</code></pre></div>
 Note that these commands will only initialize the files controlled by <code>git-annex</code> (several GB in total)
 with symbolic links. You typically will download individual files as you need them with
-<div class="codehilite"><pre><span></span><span class="err">git annex get &lt;path_to_file&gt;</span>
-</pre></div></p>
+<div class="codehilite"><pre><span></span><code><span class="err">git annex get &lt;path_to_file&gt;</span>
+</code></pre></div></p>
 <div class="admonition warning">
 <p class="admonition-title">Microsoft Windows and Ubuntu not supported, require pre-build image below</p>
 <p>Windows filesystems don't support symbolic links, which
@@ -809,14 +809,14 @@ has everything installed.  Note that <code>VirtualBox</code> needs to be install
 <code>docker</code>:</p>
 <p>On Arch Linux run the command below and follow this <a href="https://wiki.archlinux.org/index.php/Docker">Arch wiki entry</a>
 to finish the setup:
-<div class="codehilite"><pre><span></span><span class="err">sudo pacman -S docker</span>
-</pre></div></p>
+<div class="codehilite"><pre><span></span><code><span class="err">sudo pacman -S docker</span>
+</code></pre></div></p>
 <p>On macOS, with <code>homebrew</code>:
-<div class="codehilite"><pre><span></span><span class="err">brew install docker</span>
-</pre></div></p>
+<div class="codehilite"><pre><span></span><code><span class="err">brew install docker</span>
+</code></pre></div></p>
 <p>Now it's time to pull (download) the pre-built <code>DaVinci</code> docker:
-<div class="codehilite"><pre><span></span><span class="err">docker pull umdlhcb/lhcb-stack-cc7:DaVinci-v45r3-SL</span>
-</pre></div></p>
+<div class="codehilite"><pre><span></span><code><span class="err">docker pull umdlhcb/lhcb-stack-cc7:DaVinci-v45r3-SL</span>
+</code></pre></div></p>
 <h2 id="install-dependencies-for-babymaker">Install dependencies for <code>babymaker</code></h2>
 <p><code>babymaker</code> is part of the <code>pyBabyMaker</code> <code>Python</code> package. It requires
 <code>gcc</code><sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup>, <code>ROOT</code>, <code>python3</code>, and a couple of other <code>Python</code> packages<sup id="fnref:2"><a class="footnote-ref" href="#fn:2">2</a></sup>.</p>
@@ -828,15 +828,15 @@ to finish the setup:
 <p>Install these tools with your choice of package manager. To install
 <code>pyBabyMaker</code> and other required <code>Python</code> packages, you can use the following
 command:
-<div class="codehilite"><pre><span></span><span class="err">pip3 install --user -r requirements.txt</span>
-</pre></div></p>
+<div class="codehilite"><pre><span></span><code><span class="err">pip3 install --user -r requirements.txt</span>
+</code></pre></div></p>
 <h2 id="install-dependencies-for-plotting">Install dependencies for plotting</h2>
 <p>The comparison plots in this <a href="">page</a> require <code>pyTuplingUtils</code>, which is install as follows
-<div class="codehilite"><pre><span></span><span class="err">git clone git@github.com:umd-lhcb/pyTuplingUtils</span>
+<div class="codehilite"><pre><span></span><code><span class="err">git clone git@github.com:umd-lhcb/pyTuplingUtils</span>
 <span class="err">cd pyTuplingUtils/</span>
 <span class="err">python3 setup.py build</span>
 <span class="err">python3 setup.py install</span>
-</pre></div></p>
+</code></pre></div></p>
 <h2 id="use-a-pre-built-virtualbox-image-on-windows-and-ubuntu">Use a pre-built <code>VirtualBox</code> image on Windows and Ubuntu</h2>
 <p>The pre-built <code>VirtualBox</code> image is based on Arch Linux.
 It contains <code>git</code>, <code>git-annex</code>;
@@ -949,9 +949,9 @@ of other <code>Python</code> packages<sup id="fnref2:2"><a class="footnote-ref" 
       <div class="md-footer-copyright">
         
         powered by
-        <a href="https://www.mkdocs.org">MkDocs</a>
+        <a href="https://www.mkdocs.org" target="_blank" rel="noopener">MkDocs</a>
         and
-        <a href="https://squidfunk.github.io/mkdocs-material/">
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
           Material for MkDocs</a>
       </div>
       
@@ -961,7 +961,7 @@ of other <code>Python</code> packages<sup id="fnref2:2"><a class="footnote-ref" 
       
     </div>
     
-      <script src="../../assets/javascripts/application.808e90bb.js"></script>
+      <script src="../../assets/javascripts/application.c33a9706.js"></script>
       
       <script>app.initialize({version:"1.0.4",url:{base:"../.."}})</script>
       
