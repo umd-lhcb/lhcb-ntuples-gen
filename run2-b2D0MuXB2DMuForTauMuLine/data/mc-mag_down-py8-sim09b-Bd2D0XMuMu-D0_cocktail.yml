@@ -1,0 +1,171 @@
+Total: 26633
+StateSmear:
+    "#CONDB update":
+        tot: 1
+        sum: 1
+    "SMEAR[%]":
+        tot: 3386488
+        sum: 585977.8
+StdNoPIDsVeloPions:
+    "#accept":
+        tot: 26633
+        sum: 26616
+SelMyD0:
+    "# D0 -> K-  pi+":
+        tot: 26619
+        sum: 1153
+    "# D~0 -> K+  pi-":
+        tot: 26619
+        sum: 1191
+    "# K+":
+        tot: 26619
+        sum: 7097
+    "# K-":
+        tot: 26619
+        sum: 6966
+    "# Phys/StdAllNoPIDsKaons":
+        tot: 26619
+        sum: 1098551
+    "# Phys/StdAllNoPIDsPions":
+        tot: 26619
+        sum: 1098551
+    "# input particles":
+        tot: 26619
+        sum: 2197102
+    "# pi+":
+        tot: 26619
+        sum: 25171
+    "# pi-":
+        tot: 26619
+        sum: 25057
+    "# selected":
+        tot: 26619
+        sum: 2344
+    "#accept":
+        tot: 26619
+        sum: 2343
+    "#pass combcut":
+        tot: 17608
+        sum: 3236
+    "#pass mother cut":
+        tot: 3236
+        sum: 2344
+SelMyDst:
+    "# D*(2010)+ -> D0  pi+":
+        tot: 2343
+        sum: 660
+    "# D*(2010)- -> D~0  pi-":
+        tot: 2343
+        sum: 678
+    "# D0":
+        tot: 2343
+        sum: 1153
+    "# D~0":
+        tot: 2343
+        sum: 1191
+    "# Phys/SelMyD0":
+        tot: 2343
+        sum: 2344
+    "# Phys/StdAllLoosePions":
+        tot: 2343
+        sum: 99398
+    "# input particles":
+        tot: 2343
+        sum: 101742
+    "# pi+":
+        tot: 2343
+        sum: 47293
+    "# pi-":
+        tot: 2343
+        sum: 46282
+    "# selected":
+        tot: 2343
+        sum: 1338
+    "#accept":
+        tot: 2343
+        sum: 1231
+    "#pass combcut":
+        tot: 46852
+        sum: 5892
+    "#pass mother cut":
+        tot: 5892
+        sum: 1338
+    "Error from IParticleCombiner, skip the combinat":
+        tot: 50
+        sum: 50
+SelMyUnstrippedMu:
+    "# Phys/StdAllNoPIDsMuons":
+        tot: 1231
+        sum: 52382
+    "# input particles":
+        tot: 1231
+        sum: 52382
+    "#accept":
+        tot: 1231
+        sum: 741
+SelMyRefitB02DstMu:
+    "# Phys/SelMyB0":
+        tot: 224
+        sum: 231
+    "# input particles":
+        tot: 224
+        sum: 231
+    "#accept":
+        tot: 224
+        sum: 222
+    "#passed":
+        tot: 224
+        sum: 1589
+TupleB0:
+    "# Phys/SelMyRefitB02DstMu":
+        tot: 26633
+        sum: 1589
+    "# input particles":
+        tot: 26633
+        sum: 1589
+    "#accept":
+        tot: 26633
+        sum: 222
+    "Event":
+        tot: 26633
+        sum: 26633
+SplitClustersRe...:
+    "Delta(Z)":
+        tot: 678216
+        sum: 85568760.0
+ToolSvc.CoreFac...:
+    "# loaded from CACHE":
+        tot: 4
+        sum: 4
+    "# loaded from PYTHON":
+        tot: 2
+        sum: 2
+DaVinciInitAlg....:
+    "Delta Memory/MB":
+        tot: 26623
+        sum: 621.764
+    "Total Memory/MB":
+        tot: 26633
+        sum: 60272070.0
+TupleB0.Y.Tuple...:
+    "#iterations/1":
+        tot: 227
+        sum: 227
+    "#iterations/Opt":
+        tot: 227
+        sum: 0
+EcalShare.Photo...:
+    "Delta(Z)":
+        tot: 5506759
+        sum: 624653500.0
+ToolSvc.FilterTool:
+    "offset scale (SpdMult)":
+        tot: 106476
+        sum: 3892936
+ToolSvc.TrackSt...:
+    "Number of states added":
+        tot: 26156
+        sum: 475614
+    "Number of tracks seen":
+        tot: 26633
+        sum: 1370969
