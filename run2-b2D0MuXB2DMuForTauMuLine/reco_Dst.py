@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Oct 30, 2019 at 01:21 AM -0400
+# Last Change: Wed Feb 26, 2020 at 11:48 PM +0800
 
 #####################
 # Configure DaVinci #
@@ -173,11 +173,13 @@ sel_unstripped_Mu = Selection(
 if not DaVinci().Simulation:
     sel_charged_K = sel_stripped_charged_K
     sel_charged_Pi = sel_stripped_charged_Pi
-    sel_Mu = sel_stripped_Mu
 else:
     sel_charged_K = pr_charged_K
     sel_charged_Pi = pr_charged_Pi
-    sel_Mu = sel_unstripped_Mu
+
+# Use unstripped unless we are doing a cut flow.
+# Because we want to enforce L0 global TIS on the Muon.
+sel_Mu = sel_unstripped_Mu
 
 
 #####################
