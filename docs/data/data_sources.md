@@ -39,6 +39,9 @@
 * `11873020`: $B^0 \rightarrow D^0 D_s X \rightarrow \tau \nu$
 * `12873020`: $B^+ \rightarrow D^0 D_s X \rightarrow \tau \nu$
 
+### Cocktail sample for cut-flow study
+* `11874091`: $B_d \rightarrow D^0 X \mu \mu$, $D^0 = cocktail$.
+
 
 ## Run 2 data
 
@@ -49,3 +52,9 @@
 !!! warning
     The run 2 stripping line name is **different** from that of run 1!
     The run 2 stripping line omits `Nu`.
+
+
+## Run 2 Monte-Carlo
+
+### Cocktail sample for cut-flow study
+* `11874091`: $B_d \rightarrow D^0 X \mu \mu$, $D^0 = cocktail$.
