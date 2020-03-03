@@ -13,12 +13,9 @@ SELECT:Phys/StdAllLoosePions:
 SelMyDst:
     input: 2343
     output: 1231
-SELECT:Phys/StdAllNoPIDsMuons:
-    input: 1231
-    output: 1231
 SelMyB0:
-    input: 741
-    output: 224
+    input: 0
+    output: 0
 SelMyRefitB02DstMu:
-    input: 224
+    input: 0
     output: None
