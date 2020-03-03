@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Mar 03, 2020 at 06:29 PM +0800
+# Last Change: Wed Mar 04, 2020 at 12:59 AM +0800
 
 #####################
 # Configure DaVinci #
@@ -112,7 +112,7 @@ pr_all_Pi = AutomaticData(Location='Phys/StdAllLoosePions/Particles')
 # standard NoPIDs upstream pions (VELO + TT hits, no T-layers).
 # They only added 10% with terrible mass resolution, so they didn't use them in
 # the end.
-# pr_up_pi = AutomaticData(Location='Phys/StdNoPIDsUpPions/Particles')
+# pr_up_Pi = AutomaticData(Location='Phys/StdNoPIDsUpPions/Particles')
 
 pr_Mu = AutomaticData(Location='Phys/StdAllNoPIDsMuons/Particles')
 
@@ -159,12 +159,16 @@ sel_stripped_Mu = Selection(
     RequiredSelections=[pr_stripped]
 )
 
-# Muon selection for unstripped (MC) data
+# We build our own Muons, instead of using stripping line Muons.
+# Because: 1. For MC, No stripping line presents
+#          2. For data, we choose to not use stripping line muon for some reason
+#             that I forgot. FIXME
 sel_unstripped_Mu = Selection(
     'SelMyUnstrippedMu',
     Algorithm=TisTosParticleTagger(
         'MyMuTisTagger',
         Inputs=['Phys/StdAllNoPIDsMuons/Particles'],
+        # We want to enforce L0 global TIS on the Muon.
         TisTosSpecs={'L0Global%TIS': 0}),
     RequiredSelections=[pr_Mu]
 )
@@ -178,9 +182,8 @@ else:
     sel_charged_Pi = pr_charged_Pi
 
 # Use unstripped unless we are doing a cut flow.
-# Because we want to enforce L0 global TIS on the Muon.
-# sel_Mu = sel_unstripped_Mu
-sel_Mu = sel_stripped_Mu
+sel_Mu = pr_Mu  # Cut flow
+# sel_Mu = sel_unstripped_Mu  # Everything else
 
 
 #####################
