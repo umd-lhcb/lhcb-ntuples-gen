@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Feb 26, 2020 at 11:48 PM +0800
+# Last Change: Wed Mar 04, 2020 at 01:02 AM +0800
 
 #####################
 # Configure DaVinci #
@@ -119,7 +119,7 @@ pr_all_Pi = AutomaticData(Location='Phys/StdAllLoosePions/Particles')
 # standard NoPIDs upstream pions (VELO + TT hits, no T-layers).
 # They only added 10% with terrible mass resolution, so they didn't use them in
 # the end.
-# pr_up_pi = AutomaticData(Location='Phys/StdNoPIDsUpPions/Particles')
+# pr_up_Pi = AutomaticData(Location='Phys/StdNoPIDsUpPions/Particles')
 
 pr_Mu = AutomaticData(Location='Phys/StdAllNoPIDsMuons/Particles')
 
