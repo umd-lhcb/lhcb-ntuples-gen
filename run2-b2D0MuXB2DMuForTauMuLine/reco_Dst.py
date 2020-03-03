@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Feb 26, 2020 at 11:48 PM +0800
+# Last Change: Tue Mar 03, 2020 at 06:29 PM +0800
 
 #####################
 # Configure DaVinci #
@@ -179,7 +179,8 @@ else:
 
 # Use unstripped unless we are doing a cut flow.
 # Because we want to enforce L0 global TIS on the Muon.
-sel_Mu = sel_unstripped_Mu
+# sel_Mu = sel_unstripped_Mu
+sel_Mu = sel_stripped_Mu
 
 
 #####################
