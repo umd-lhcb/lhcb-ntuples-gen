@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Mar 03, 2020 at 05:03 PM +0800
+# Last Change: Tue Mar 03, 2020 at 05:44 PM +0800
 
 import re
 import sys
@@ -96,7 +96,7 @@ def update_dict(orig, new):
         else:
             try:
                 orig[key] += items
-            except KeyError:
+            except Exception:
                 orig[key] = items
 
 
