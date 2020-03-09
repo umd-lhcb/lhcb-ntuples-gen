@@ -1,16 +1,20 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Mar 09, 2020 at 09:41 PM +0800
+# Last Change: Mon Mar 09, 2020 at 09:46 PM +0800
 
 #####################
 # Configure DaVinci #
 #####################
 
 from Configurables import DaVinci
+from Gaudi.Configuration import *
+
+# Debug options
+# DaVinci().EvtMax = 300
+# MessageSvc().OutputLevel = DEBUG
+DaVinci().EvtMax = -1
 
 DaVinci().InputType = 'DST'
-# DaVinci().EvtMax = 30
-DaVinci().EvtMax = -1
 DaVinci().SkipEvents = 0
 DaVinci().PrintFreq = 100
 
@@ -75,14 +79,23 @@ DaVinci().appendToMainSequence([ms_all_protos, ms_velo_pions])
 
 from Configurables import LoKi__HDRFilter as HDRFilter
 
-line_strip = 'b2D0MuXB2DMuForTauMuLine'
+# Differences between 'HLT_PASS' and 'HLT_PASS_RE':
+#   'HLT_PASS' matches the line *exactly*
+#   'HLT_PASS_RE' (which was used in the starter kit) use regular expression to
+#   check if line given is a part of the lines of the events.
+line_strip = 'b2D0MuXB2DMuNuForTauMuLine'
 fltr_strip = HDRFilter(
     'StrippedBCands',
-    Code="HLT_PASS_RE('Stripping{0}Decision')".format(line_strip))
+    Code="HLT_PASS('Stripping{0}Decision')".format(line_strip))
+
+line_hlt = 'Hlt2CharmHadD02HH_D02KPi'
+fltr_hlt = HDRFilter(
+    'Hlt2TriggeredD0',
+    Code="HLT_PASS('{0}Decision')".format(line_hlt))
 
 
 # The cocktail MC has stripping line. We should use these filters to save time.
-event_pre_selectors = [fltr_strip]
+event_pre_selectors = [fltr_hlt, fltr_strip]
 
 
 #######################
@@ -92,12 +105,13 @@ event_pre_selectors = [fltr_strip]
 # It seems that 'DataOnDemand' is a misnomer of 'AutomaticData'
 from PhysSelPython.Wrappers import AutomaticData
 
+# Events tagged with our stripping line
 pr_stripped = AutomaticData(
     Location='/Event/Semileptonic/Phys/{0}/Particles'.format(line_strip))
 
 pr_charged_K = AutomaticData(Location='Phys/StdAllNoPIDsKaons/Particles')
-pr_charged_Pi = AutomaticData(Location='Phys/StdAllNoPIDsPions/Particles')
 
+pr_charged_Pi = AutomaticData(Location='Phys/StdAllNoPIDsPions/Particles')
 pr_all_Pi = AutomaticData(Location='Phys/StdAllLoosePions/Particles')
 
 # standard NoPIDs upstream pions (VELO + TT hits, no T-layers).
@@ -120,6 +134,19 @@ from Configurables import TisTosParticleTagger
 
 # NOTE: 'stripped' selections require the existence of a stripping line, which
 #       only exists in data, not MC.
+
+# This selects events that have a muon and was triggered regardless of the muon
+sel_stripped_filtered = Selection(
+    'SelMyStrippedFiltered',
+    Algorithm=FilterDesktop(
+        'MyStrippedFiltered',
+        Code="INTREE((ABSID == 'mu+') & (TIS('L0.*', 'L0TriggerTisTos')))"
+    ),
+    RequiredSelections=[pr_stripped]
+)
+
+# NOTE: Since the L0 requirement doesn't present in run 1, include it later
+# explicitly for cut flow studies.
 sel_stripped_charged_K = Selection(
     'SelMyStrippedChargedK',
     Algorithm=FilterInTrees('MyChargedK', Code="(ABSID == 'K+')"),
@@ -136,6 +163,16 @@ sel_stripped_Mu = Selection(
     'SelMyStrippedMu',
     Algorithm=FilterInTrees('MyMu', Code="(ABSID == 'mu+')"),
     RequiredSelections=[pr_stripped]
+)
+
+# Muon selection for unstripped (MC) data
+sel_unstripped_Mu = Selection(
+    'SelMyUnstrippedMu',
+    Algorithm=TisTosParticleTagger(
+        'MyMuTisTagger',
+        Inputs=['Phys/StdAllNoPIDsMuons/Particles'],
+        TisTosSpecs={'L0Global%TIS': 0}),
+    RequiredSelections=[pr_Mu]
 )
 
 
@@ -166,17 +203,36 @@ algo_D0.DecayDescriptor = '[D0 -> K- pi+]cc'
 # These cuts are imposed by the stripping line
 # http://lhcbdoc.web.cern.ch/lhcbdoc/stripping/config/stripping21/semileptonic/strippingb2d0muxb2dmunufortaumuline.html
 
+# PT: transverse momentum
+# MIPCHI2DV: minimum IP-chi^2
+# TRCHI2DOF: chi^2 per degree of freedom of the track fit
+# PIDK: combined delta-log-likelihood for the given hypothesis (wrt the
+#       pion)
+# TRGHOSTPROB: track ghost probability
 algo_D0.DaughtersCuts = {
-    'K+': '(PT > 300*MeV) & (MIPCHI2DV(PRIMARY) > 9.0) &' +
+    'K+': '(PT > 300*MeV) & (MIPCHI2DV(PRIMARY) > 45.0) &' +
           '(PIDK > 4) & (TRGHOSTPROB < 0.5)',
-    'pi-': '(PT > 300*MeV) & (MIPCHI2DV(PRIMARY) > 9.0) &' +
+          # '(TRCHI2DOF < 4) & (PIDK > 4) & (TRGHOSTPROB < 0.5)',
+    'pi-': '(PT > 300*MeV) & (MIPCHI2DV(PRIMARY) > 45.0) &' +
            '(PIDK < 2) & (TRGHOSTPROB < 0.5)'
 }
-algo_D0.CombinationCut = "(ADAMASS('D0') < 100*MeV) &" + \
-    "(ACHILD(PT, 1) + ACHILD(PT, 2) > 2500*MeV)"
-algo_D0.MotherCut = "(ADMASS('D0') < 80*MeV) & (VFASPF(VCHI2/VDOF) < 4) &" + \
-    "(SUMTREE(PT, ISBASIC) > 2500*MeV) & (BPVVDCHI2 > 25.0) &" + \
-    "(BPVDIRA > 0.999)"
+
+# ADAMASS: the absolute mass difference to the PDG reference value, this functor
+#          takes an array as input, unlike ADMASS, which takes a scaler.
+# .CombinationCut are cuts made before the vertex fit, so it saves time
+algo_D0.CombinationCut = "(ADAMASS('D0') < 200*MeV)"
+
+# ADMASS: the absolute mass difference to the PDG reference value, but it is
+#         used after the vertex fit
+# VFASPF: vertex function as particle function
+#         Allow to apply vertex functors to the particle's `endVertex()`
+# VCHI2: vertex chi^2
+# VDOF: vertex fit number of degree of freedom
+# .MotherCut are cuts after the vertex fit, that's why the mass cut is tighter
+algo_D0.MotherCut = "(ADMASS('D0') < 100*MeV) & (VFASPF(VCHI2/VDOF) < 100)"
+
+# This is the default setting now, and should be no longer needed
+# algo_D0.ParticleCombiners.update({'': 'LoKi::VertexFitter'})
 
 
 if DaVinci().Simulation:
@@ -225,8 +281,18 @@ algo_Dst_ws.MotherCut = algo_Dst.MotherCut
 algo_B0 = CombineParticles('MyB0')
 algo_B0.DecayDescriptor = "[B~0 -> D*(2010)+ mu-]cc"  # B~0 is the CC of B0
 
-algo_B0.DaughtersCuts = {"mu-": "ALL"}
+# ALL: trivial select all
+algo_B0.DaughtersCuts = {
+    "mu-": "ALL"
+}
+
+# AM: mass of the combination
+#     Return sqrt(E^2 - p^2)
 algo_B0.CombinationCut = '(AM < 10200*MeV)'
+
+# BPVDIRA: direction angle
+#          Compute the cosine of the angle between the momentum of the particle
+#          and the direction to flight from the best PV to the decay vertex.
 algo_B0.MotherCut = "(M < 10000*MeV) & (BPVDIRA > 0.9995) &" + \
                     "(VFASPF(VCHI2/VDOF) < 6.0)"
 
@@ -284,6 +350,7 @@ sel_D0 = Selection(
     RequiredSelections=[sel_charged_K, sel_charged_Pi]
 )
 
+# Removed the upstream pions, which were not used by Greg/Phoebe
 sel_Dst = Selection(
     'SelMyDst',
     Algorithm=algo_Dst,
@@ -413,28 +480,22 @@ def tuple_initialize_data(name, sel_seq, decay):
     tp.ToolList += [
         'TupleToolKinematic',
         'TupleToolAngles',
-        'TupleToolPid',
-        'TupleToolMuonPid',
+        'TupleToolPid',  # This one produces 'PIDmu', and other PID variables
+        'TupleToolMuonPid',  # This write out NN mu inputs
         'TupleToolL0Calo',
     ]
 
-    trigger_list = [
+    # Save trigger decisions.
+    tt_tistos = tp.addTupleTool('TupleToolTISTOS')
+    tt_tistos.TriggerList = [
         'L0MuonDecision',
-        'L0ElectronDecision',  # Add from trigger study
         'L0HadronDecision',
         'Hlt1TrackAllL0Decision',
-        'Hlt2XcMuXForTauB2XcMuDecision',
-        'Hlt1TwoTrackMVADecision'  # Add from trigger study
+        'Hlt2CharmHadD02HH_D02KPiDecision'
     ]
-
-    # Save trigger decisions.
-    tt_trigger = tp.addTupleTool('TupleToolTrigger')
-    tt_trigger.Verbose = True
-    tt_trigger.TriggerList = trigger_list
-
-    tt_tistos = tp.addTupleTool('TupleToolTISTOS')
-    tt_tistos.Verbose = True
-    tt_tistos.TriggerList = trigger_list
+    tt_tistos.VerboseL0 = True
+    tt_tistos.VerboseHlt1 = True
+    tt_tistos.VerboseHlt2 = True
 
     # Add event-level information.
     tt_loki_evt = tp.addTupleTool(LokiEvtTool, "TupleMyLokiEvtTool")

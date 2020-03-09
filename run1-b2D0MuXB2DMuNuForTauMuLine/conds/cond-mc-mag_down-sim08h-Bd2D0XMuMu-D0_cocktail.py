@@ -1,0 +1,20 @@
+from Configurables import DaVinci
+
+DaVinci().DataType = '2016'
+DaVinci().Simulation = True
+
+DaVinci().TupleFile = 'BCands-mc.root'
+
+
+from Configurables import LHCbApp
+
+LHCbApp().CondDBtag = "sim-20130522-vc-md100"
+LHCbApp().DDDBtag = "dddb-20130929"
+
+
+from GaudiConf import IOHelper
+
+IOHelper().inputFiles([
+    './data/mc-mag_down-py8-sim08h-Bd2D0XMuMu-D0_cocktail/00046785_00000003_2.AllStreams.dst',
+    './data/mc-mag_down-py8-sim08h-Bd2D0XMuMu-D0_cocktail/00046785_00000016_2.AllStreams.dst',
+], clear=True)
