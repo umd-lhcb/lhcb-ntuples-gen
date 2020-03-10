@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Mar 10, 2020 at 10:42 PM +0800
+# Last Change: Tue Mar 10, 2020 at 10:46 PM +0800
 
 import fileinput
 
@@ -19,8 +19,8 @@ def parse_input(descr='table generator taking stdin as input.'):
 
     parser.add_argument('-f', '--format',
                         nargs='?',
-                        choices=['latex', 'simple', 'github'],
-                        default='latex_booktab',
+                        choices=['latex', 'simple', 'github', 'latex_booktabs'],
+                        default='latex_booktabs',
                         help='specify the output table format.'
                         )
 
@@ -39,4 +39,4 @@ if __name__ == '__main__':
     for l in fileinput.input():
         output.append(l.rstrip().split(','))
 
-    print(tabulate(output, tablefmt=args.format, headers='firstrow'))
+    print(tabulate(output, headers='firstrow', tablefmt=args.format))
