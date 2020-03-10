@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Mar 10, 2020 at 10:46 PM +0800
+# Last Change: Tue Mar 10, 2020 at 10:49 PM +0800
 
 import fileinput
 
@@ -36,7 +36,7 @@ if __name__ == '__main__':
     args = parse_input()
 
     output = []
-    for l in fileinput.input():
+    for l in fileinput.input(files=('-',)):
         output.append(l.rstrip().split(','))
 
     print(tabulate(output, headers='firstrow', tablefmt=args.format))
