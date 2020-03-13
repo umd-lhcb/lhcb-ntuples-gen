@@ -523,6 +523,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#dump-tes-info-from-a-dst-file" class="md-nav__link">
+    Dump TES info from a .dst file
+  </a>
+  
+</li>
+      
       
       
       
@@ -708,6 +715,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#dump-tes-info-from-a-dst-file" class="md-nav__link">
+    Dump TES info from a .dst file
+  </a>
+  
+</li>
+      
       
       
       
@@ -732,7 +746,7 @@
                 <p><code>bender</code> is a tool to interactively explore <code>.dst</code> files.</p>
 <h2 id="find-all-trigger-lines-and-hit-ratios-in-a-dst-file">Find all trigger lines and hit ratios in a <code>.dst</code> file</h2>
 <p>There is a simple one-liner to find these info:
-<div class="codehilite"><pre><span></span><code><span class="err">lb-run Bender/latest trg-check -n -1 -d 2012 --teslocation /Event/Semileptonic/Phys/b2D0MuXB2DMuNuForTauMuLine/Particles ~/cmtuser/DaVinci_v36r1p2/data/mag_down/00041836_00011435_1.semileptonic.dst</span>
+<div class="codehilite"><pre><span></span><code><span class="err">lb-run Bender/latest trg-check -n -1 -d 2012 --teslocation /Event/Semileptonic/Phys/b2D0MuXB2DMuNuForTauMuLine/Particles &lt;path_to_dst&gt;</span>
 </code></pre></div></p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -742,6 +756,9 @@
 <li><code>-d 2012</code> specify the data type (year).</li>
 </ul>
 </div>
+<h2 id="dump-tes-info-from-a-dst-file">Dump TES info from a <code>.dst</code> file</h2>
+<div class="codehilite"><pre><span></span><code><span class="err">lb-run Bender/latest dst-dump -d 2016 &lt;path_to_dst&gt;</span>
+</code></pre></div>
                 
                   
                 
