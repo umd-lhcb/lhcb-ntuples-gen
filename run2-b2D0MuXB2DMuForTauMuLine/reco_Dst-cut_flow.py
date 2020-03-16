@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Mar 09, 2020 at 09:41 PM +0800
+# Last Change: Tue Mar 17, 2020 at 03:24 AM +0800
 
 #####################
 # Configure DaVinci #
@@ -93,7 +93,7 @@ event_pre_selectors = [fltr_strip]
 from PhysSelPython.Wrappers import AutomaticData
 
 pr_stripped = AutomaticData(
-    Location='/Event/Semileptonic/Phys/{0}/Particles'.format(line_strip))
+    Location='AllStreams/Phys/{0}/Particles'.format(line_strip))
 
 pr_charged_K = AutomaticData(Location='Phys/StdAllNoPIDsKaons/Particles')
 pr_charged_Pi = AutomaticData(Location='Phys/StdAllNoPIDsPions/Particles')
