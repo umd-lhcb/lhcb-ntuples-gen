@@ -757,8 +757,15 @@
 </ul>
 </div>
 <h2 id="dump-tes-info-from-a-dst-file">Dump TES info from a <code>.dst</code> file</h2>
-<div class="codehilite"><pre><span></span><code><span class="err">lb-run Bender/latest dst-dump -d 2016 &lt;path_to_dst&gt;</span>
+<div class="codehilite"><pre><span></span><code><span class="err">lb-run Bender/latest dst-dump -d 2016 -f -n 100 &lt;path_to_dst&gt;</span>
 </code></pre></div>
+
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<ul>
+<li><code>-f</code> means that try to unpack all TES locations.</li>
+</ul>
+</div>
                 
                   
                 
