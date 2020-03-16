@@ -1,0 +1,695 @@
+# setting LC_ALL to "C"
+# --> Including file '/data/run1-b2D0MuXB2DMuNuForTauMuLine/conds/cond-mc-mag_down-sim08h-Bd2D0XMuMu-D0_cocktail.py'
+# <-- End of file '/data/run1-b2D0MuXB2DMuNuForTauMuLine/conds/cond-mc-mag_down-sim08h-Bd2D0XMuMu-D0_cocktail.py'
+# --> Including file '/data/run1-b2D0MuXB2DMuNuForTauMuLine/reco_Dst-cut_flow.py'
+# DaVinci                   INFO    Append to Main Sequence has been called
+# DaVinci                   INFO    Append to Main Sequence has been called
+# <-- End of file '/data/run1-b2D0MuXB2DMuNuForTauMuLine/reco_Dst-cut_flow.py'
+# applying configuration of RawEventFormatConf
+# /***** User RawEventFormatConf/RawEventFormatConf **************************************************
+# |-RecoDict               = {'Stripping17': 1.0, 'Reco12': 1.0, 'Reco14': 2.0, 'Reco15': 4.2, 'LHCb': 0.1, 'Reconstruction12': 1.0, 'Hlt': 0.1, 'S17': 1.0, 'R14': 2.0, 'Reconstruction14': 2.0, 'Boole': 0.0, 'S20': 2.0, 'S21': 4.0, 'Stripping20': 2.0, 'Moore': 0.3, 'L0': 0.0, 'R12': 1.0, 'Strip20': 2.0, 'Pit': 0.1, 'Strip17': 1.0}
+# |                        (default: None)
+# |-Locations              = {0.0: {'HltSelReports': 'DAQ/RawEvent', 'OTError': 'DAQ/RawEvent', 'VeloError': 'DAQ/RawEvent', 'UTFull': 'DAQ/RawEvent', 'UTPedestal': 'DAQ/RawEvent', 'PrsTrig': 'DAQ/RawEvent', 'HcalPackedError': 'DAQ/RawEvent', 'L0PUFull': 'DAQ/RawEvent', 'HltDecReports': 'DAQ/RawEvent', 'Rich': 'DAQ/RawEvent', 'VeloProcFull': 'DAQ/RawEvent', 'HltRoutingBits': 'DAQ/RawEvent', 'L0MuonError': 'DAQ/RawEvent', 'VL': 'DAQ/RawEvent', 'L0MuonProcCand': 'DAQ/RawEvent', 'TTPedestal': 'DAQ/RawEvent', 'L0DUError': 'DAQ/RawEvent', 'DstBank': 'DAQ/RawEvent', 'TT': 'DAQ/RawEvent', 'L0MuonProcData': 'DAQ/RawEvent', 'OTRaw': 'DAQ/RawEvent', 'EcalPacked': 'DAQ/RawEvent', 'PrsPacked': 'DAQ/RawEvent', 'VeloPedestal': 'DAQ/RawEvent', 'DAQ': 'DAQ/RawEvent', 'ITError': 'DAQ/RawEvent', 'FileID': 'DAQ/RawEvent', 'EcalTrig': 'DAQ/RawEvent', 'FTCluster': 'DAQ/RawEvent', 'L0PUError': 'DAQ/RawEvent', 'L0Calo': 'DAQ/RawEvent', 'VeloFull': 'DAQ/RawEvent', 'L0MuonCtrlAll': 'DAQ/RawEvent', 'HltVertexReports': 'DAQ/RawEvent', 'EcalE': 'DAQ/RawEvent', 'ITProcFull': 'DAQ/RawEvent', 'HltLumiSummary': 'DAQ/RawEvent', 'TestDet': 'DAQ/RawEvent', 'IT': 'DAQ/RawEvent', 'VP': 'DAQ/RawEvent', 'HcalTrig': 'DAQ/RawEvent', 'HcalE': 'DAQ/RawEvent', 'L0PU': 'DAQ/RawEvent', 'DstAddress': 'DAQ/RawEvent', 'UT': 'DAQ/RawEvent', 'TAEHeader': 'DAQ/RawEvent', 'ODIN': 'DAQ/RawEvent', 'PrsE': 'DAQ/RawEvent', 'PrsPackedError': 'DAQ/RawEvent', 'Velo': 'DAQ/RawEvent', 'Muon': 'DAQ/RawEvent', 'ITPedestal': 'DAQ/RawEvent', 'TTProcFull': 'DAQ/RawEvent', 'DstData': 'DAQ/RawEvent', 'GaudiSerialize': 'DAQ/RawEvent', 'TTFull': 'DAQ/RawEvent', 'L0MuonRaw': 'DAQ/RawEvent', 'UTError': 'DAQ/RawEvent', 'TTError': 'DAQ/RawEvent', 'EcalPackedError': 'DAQ/RawEvent', 'HcalPacked': 'DAQ/RawEvent', 'MuonFull': 'DAQ/RawEvent', 'L0CaloError': 'DAQ/RawEvent', 'GaudiHeader': 'DAQ/RawEvent', 'L0DU': 'DAQ/RawEvent', 'ITFull': 'DAQ/RawEvent', 'OT': 'DAQ/RawEvent', 'MuonError': 'DAQ/RawEvent', 'L0CaloFull': 'DAQ/RawEvent', 'L0Muon': 'DAQ/RawEvent'}, 1.0: {'HltSelReports': ['Trigger/RawEvent', 'DAQ/RawEvent'], 'OTError': 'DAQ/RawEvent', 'VeloError': 'DAQ/RawEvent', 'UTFull': 'DAQ/RawEvent', 'UTPedestal': 'DAQ/RawEvent', 'PrsTrig': 'DAQ/RawEvent', 'HcalPackedError': 'DAQ/RawEvent', 'L0PUFull': 'DAQ/RawEvent', 'HltDecReports': ['Trigger/RawEvent', 'DAQ/RawEvent'], 'Rich': 'DAQ/RawEvent', 'VeloProcFull': 'DAQ/RawEvent', 'HltRoutingBits': ['Trigger/RawEvent', 'DAQ/RawEvent'], 'L0MuonError': 'DAQ/RawEvent', 'VL': 'DAQ/RawEvent', 'L0MuonProcCand': ['Trigger/RawEvent', 'DAQ/RawEvent'], 'TTPedestal': 'DAQ/RawEvent', 'L0DUError': 'DAQ/RawEvent', 'DstBank': 'DAQ/RawEvent', 'TT': 'DAQ/RawEvent', 'L0MuonProcData': 'DAQ/RawEvent', 'OTRaw': 'DAQ/RawEvent', 'EcalPacked': 'DAQ/RawEvent', 'PrsPacked': 'DAQ/RawEvent', 'VeloPedestal': 'DAQ/RawEvent', 'DAQ': 'DAQ/RawEvent', 'ITError': 'DAQ/RawEvent', 'FileID': 'DAQ/RawEvent', 'EcalTrig': 'DAQ/RawEvent', 'FTCluster': 'DAQ/RawEvent', 'L0PUError': 'DAQ/RawEvent', 'L0Calo': ['Trigger/RawEvent', 'DAQ/RawEvent'], 'VeloFull': 'DAQ/RawEvent', 'L0MuonCtrlAll': 'DAQ/RawEvent', 'HltVertexReports': ['Trigger/RawEvent', 'DAQ/RawEvent'], 'EcalE': 'DAQ/RawEvent', 'ITProcFull': 'DAQ/RawEvent', 'HltLumiSummary': 'DAQ/RawEvent', 'TestDet': 'DAQ/RawEvent', 'IT': 'DAQ/RawEvent', 'VP': 'DAQ/RawEvent', 'HcalTrig': 'DAQ/RawEvent', 'HcalE': 'DAQ/RawEvent', 'L0PU': ['Trigger/RawEvent', 'DAQ/RawEvent'], 'DstAddress': 'DAQ/RawEvent', 'UT': 'DAQ/RawEvent', 'TAEHeader': 'DAQ/RawEvent', 'ODIN': ['Trigger/RawEvent', 'DAQ/RawEvent'], 'PrsE': 'DAQ/RawEvent', 'PrsPackedError': 'DAQ/RawEvent', 'Velo': 'DAQ/RawEvent', 'Muon': 'DAQ/RawEvent', 'ITPedestal': 'DAQ/RawEvent', 'TTProcFull': 'DAQ/RawEvent', 'DstData': 'DAQ/RawEvent', 'GaudiSerialize': 'DAQ/RawEvent', 'TTFull': 'DAQ/RawEvent', 'L0MuonRaw': 'DAQ/RawEvent', 'UTError': 'DAQ/RawEvent', 'TTError': 'DAQ/RawEvent', 'EcalPackedError': 'DAQ/RawEvent', 'HcalPacked': 'DAQ/RawEvent', 'MuonFull': 'DAQ/RawEvent', 'L0CaloError': 'DAQ/RawEvent', 'GaudiHeader': 'DAQ/RawEvent', 'L0DU': ['Trigger/RawEvent', 'DAQ/RawEvent'], 'ITFull': 'DAQ/RawEvent', 'OT': 'DAQ/RawEvent', 'MuonError': 'DAQ/RawEvent', 'L0CaloFull': ['Trigger/RawEvent', 'DAQ/RawEvent'], 'L0Muon': ['Trigger/RawEvent', 'DAQ/RawEvent']}, 2.0: {'HltSelReports': 'Trigger/RawEvent', 'OTError': 'Other/RawEvent', 'VeloError': 'Other/RawEvent', 'UTFull': 'Other/RawEvent', 'UTPedestal': 'Other/RawEvent', 'PrsTrig': 'Calo/RawEvent', 'HcalPackedError': 'Calo/RawEvent', 'L0PUFull': 'Other/RawEvent', 'HltDecReports': 'Trigger/RawEvent', 'Rich': 'Rich/RawEvent', 'VeloProcFull': 'Other/RawEvent', 'HltRoutingBits': 'Trigger/RawEvent', 'L0MuonError': 'Other/RawEvent', 'VL': 'Other/RawEvent', 'L0MuonProcCand': 'Trigger/RawEvent', 'TTPedestal': 'Other/RawEvent', 'L0DUError': 'Other/RawEvent', 'DstBank': 'Other/RawEvent', 'TT': 'Other/RawEvent', 'L0MuonProcData': 'Other/RawEvent', 'OTRaw': 'Other/RawEvent', 'EcalPacked': 'Calo/RawEvent', 'PrsPacked': 'Calo/RawEvent', 'VeloPedestal': 'Other/RawEvent', 'DAQ': 'Other/RawEvent', 'ITError': 'Other/RawEvent', 'FileID': 'Other/RawEvent', 'EcalTrig': 'Calo/RawEvent', 'FTCluster': 'Other/RawEvent', 'L0PUError': 'Other/RawEvent', 'L0Calo': 'Trigger/RawEvent', 'VeloFull': 'Other/RawEvent', 'L0MuonCtrlAll': 'Other/RawEvent', 'HltVertexReports': 'Trigger/RawEvent', 'EcalE': 'Calo/RawEvent', 'ITProcFull': 'Other/RawEvent', 'HltLumiSummary': 'Other/RawEvent', 'TestDet': 'Other/RawEvent', 'IT': 'Other/RawEvent', 'VP': 'Other/RawEvent', 'HcalTrig': 'Calo/RawEvent', 'HcalE': 'Calo/RawEvent', 'L0PU': 'Trigger/RawEvent', 'DstAddress': 'Other/RawEvent', 'UT': 'Other/RawEvent', 'TAEHeader': 'Other/RawEvent', 'ODIN': 'Trigger/RawEvent', 'PrsE': 'Calo/RawEvent', 'PrsPackedError': 'Calo/RawEvent', 'Velo': 'Other/RawEvent', 'Muon': 'Muon/RawEvent', 'ITPedestal': 'Other/RawEvent', 'TTProcFull': 'Other/RawEvent', 'DstData': 'Other/RawEvent', 'GaudiSerialize': 'Other/RawEvent', 'TTFull': 'Other/RawEvent', 'L0MuonRaw': 'Other/RawEvent', 'UTError': 'Other/RawEvent', 'TTError': 'Other/RawEvent', 'EcalPackedError': 'Calo/RawEvent', 'HcalPacked': 'Calo/RawEvent', 'MuonFull': 'Other/RawEvent', 'L0CaloError': 'Other/RawEvent', 'GaudiHeader': 'Other/RawEvent', 'L0DU': 'Trigger/RawEvent', 'ITFull': 'Other/RawEvent', 'OT': 'Other/RawEvent', 'MuonError': 'Other/RawEvent', 'L0CaloFull': 'Trigger/RawEvent', 'L0Muon': 'Trigger/RawEvent'}, 3.0: {'HltSelReports': 'Trigger/#TCK#/RawEvent', 'OTError': 'DAQ/RawEvent', 'VeloError': 'DAQ/RawEvent', 'UTFull': 'DAQ/RawEvent', 'UTPedestal': 'DAQ/RawEvent', 'PrsTrig': 'DAQ/RawEvent', 'HcalPackedError': 'DAQ/RawEvent', 'L0PUFull': 'DAQ/RawEvent', 'HltDecReports': 'Trigger/#TCK#/RawEvent', 'Rich': 'DAQ/RawEvent', 'VeloProcFull': 'DAQ/RawEvent', 'HltRoutingBits': 'Trigger/#TCK#/RawEvent', 'L0MuonError': 'DAQ/RawEvent', 'VL': 'DAQ/RawEvent', 'L0MuonProcCand': 'Trigger/#TCK#/RawEvent', 'TTPedestal': 'DAQ/RawEvent', 'L0DUError': 'DAQ/RawEvent', 'DstBank': 'DAQ/RawEvent', 'TT': 'DAQ/RawEvent', 'L0MuonProcData': 'DAQ/RawEvent', 'OTRaw': 'DAQ/RawEvent', 'EcalPacked': 'DAQ/RawEvent', 'PrsPacked': 'DAQ/RawEvent', 'VeloPedestal': 'DAQ/RawEvent', 'DAQ': 'DAQ/RawEvent', 'ITError': 'DAQ/RawEvent', 'FileID': 'DAQ/RawEvent', 'EcalTrig': 'DAQ/RawEvent', 'FTCluster': 'DAQ/RawEvent', 'L0PUError': 'DAQ/RawEvent', 'L0Calo': 'Trigger/#TCK#/RawEvent', 'VeloFull': 'DAQ/RawEvent', 'L0MuonCtrlAll': 'DAQ/RawEvent', 'HltVertexReports': 'Trigger/#TCK#/RawEvent', 'EcalE': 'DAQ/RawEvent', 'ITProcFull': 'DAQ/RawEvent', 'HltLumiSummary': 'DAQ/RawEvent', 'TestDet': 'DAQ/RawEvent', 'IT': 'DAQ/RawEvent', 'VP': 'DAQ/RawEvent', 'HcalTrig': 'DAQ/RawEvent', 'HcalE': 'DAQ/RawEvent', 'L0PU': 'Trigger/#TCK#/RawEvent', 'DstAddress': 'DAQ/RawEvent', 'UT': 'DAQ/RawEvent', 'TAEHeader': 'DAQ/RawEvent', 'ODIN': 'DAQ/RawEvent', 'PrsE': 'DAQ/RawEvent', 'PrsPackedError': 'DAQ/RawEvent', 'Velo': 'DAQ/RawEvent', 'Muon': 'DAQ/RawEvent', 'ITPedestal': 'DAQ/RawEvent', 'TTProcFull': 'DAQ/RawEvent', 'DstData': 'DAQ/RawEvent', 'GaudiSerialize': 'DAQ/RawEvent', 'TTFull': 'DAQ/RawEvent', 'L0MuonRaw': 'DAQ/RawEvent', 'UTError': 'DAQ/RawEvent', 'TTError': 'DAQ/RawEvent', 'EcalPackedError': 'DAQ/RawEvent', 'HcalPacked': 'DAQ/RawEvent', 'MuonFull': 'DAQ/RawEvent', 'L0CaloError': 'DAQ/RawEvent', 'GaudiHeader': 'DAQ/RawEvent', 'L0DU': 'Trigger/#TCK#/RawEvent', 'ITFull': 'DAQ/RawEvent', 'OT': 'DAQ/RawEvent', 'MuonError': 'DAQ/RawEvent', 'L0CaloFull': 'Trigger/#TCK#/RawEvent', 'L0Muon': 'Trigger/#TCK#/RawEvent'}, 4.0: {'HltSelReports': 'Trigger/RawEvent', 'OTError': 'Unstripped/RawEvent', 'VeloError': 'Unstripped/RawEvent', 'UTFull': 'Unstripped/RawEvent', 'UTPedestal': 'Unstripped/RawEvent', 'PrsTrig': 'Calo/RawEvent', 'HcalPackedError': 'Unstripped/RawEvent', 'L0PUFull': 'Unstripped/RawEvent', 'HltDecReports': 'Trigger/RawEvent', 'Rich': 'Rich/RawEvent', 'VeloProcFull': 'Unstripped/RawEvent', 'HltRoutingBits': 'Trigger/RawEvent', 'L0MuonError': 'Unstripped/RawEvent', 'VL': 'Unstripped/RawEvent', 'L0MuonProcCand': 'Trigger/RawEvent', 'TTPedestal': 'Unstripped/RawEvent', 'L0DUError': 'Unstripped/RawEvent', 'DstBank': 'Unstripped/RawEvent', 'TT': 'Tracker/RawEvent', 'L0MuonProcData': 'Unstripped/RawEvent', 'OTRaw': 'Unstripped/RawEvent', 'EcalPacked': 'Calo/RawEvent', 'PrsPacked': 'Calo/RawEvent', 'VeloPedestal': 'Unstripped/RawEvent', 'DAQ': 'Unstripped/RawEvent', 'ITError': 'Unstripped/RawEvent', 'FileID': 'Unstripped/RawEvent', 'EcalTrig': 'Calo/RawEvent', 'FTCluster': 'Tracker/RawEvent', 'L0PUError': 'Unstripped/RawEvent', 'L0Calo': 'Trigger/RawEvent', 'VeloFull': 'Unstripped/RawEvent', 'L0MuonCtrlAll': 'Unstripped/RawEvent', 'HltVertexReports': 'Trigger/RawEvent', 'EcalE': 'Calo/RawEvent', 'ITProcFull': 'Unstripped/RawEvent', 'HltLumiSummary': 'Unstripped/RawEvent', 'TestDet': 'Unstripped/RawEvent', 'IT': 'Tracker/RawEvent', 'VP': 'Velo/RawEvent', 'HcalTrig': 'Calo/RawEvent', 'HcalE': 'Calo/RawEvent', 'L0PU': 'Trigger/RawEvent', 'DstAddress': 'Unstripped/RawEvent', 'UT': 'Tracker/RawEvent', 'TAEHeader': 'Unstripped/RawEvent', 'ODIN': ['Trigger/RawEvent'], 'PrsE': 'Calo/RawEvent', 'PrsPackedError': 'Unstripped/RawEvent', 'Velo': 'Velo/RawEvent', 'Muon': 'Muon/RawEvent', 'ITPedestal': 'Unstripped/RawEvent', 'TTProcFull': 'Unstripped/RawEvent', 'DstData': 'Unstripped/RawEvent', 'GaudiSerialize': 'Unstripped/RawEvent', 'TTFull': 'Unstripped/RawEvent', 'L0MuonRaw': 'Unstripped/RawEvent', 'UTError': 'Unstripped/RawEvent', 'TTError': 'Unstripped/RawEvent', 'EcalPackedError': 'Unstripped/RawEvent', 'HcalPacked': 'Calo/RawEvent', 'MuonFull': 'Unstripped/RawEvent', 'L0CaloError': 'Unstripped/RawEvent', 'GaudiHeader': 'Unstripped/RawEvent', 'L0DU': 'Trigger/RawEvent', 'ITFull': 'Unstripped/RawEvent', 'OT': 'Tracker/RawEvent', 'MuonError': 'Unstripped/RawEvent', 'HltTrackReports': 'Trigger/RawEvent', 'L0CaloFull': 'Trigger/RawEvent', 'L0Muon': 'Trigger/RawEvent'}, 0.2: {'HltRoutingBits': 'DAQ/RawEvent', 'L0PUFull': 'DAQ/RawEvent', 'HltDecReports': 'DAQ/RawEvent', 'HltSelReports': 'DAQ/RawEvent', 'L0MuonError': 'DAQ/RawEvent', 'DstBank': 'DAQ/RawEvent', 'L0MuonProcCand': 'DAQ/RawEvent', 'L0CaloError': 'DAQ/RawEvent', 'TAEHeader': 'DAQ/RawEvent', 'L0MuonProcData': 'DAQ/RawEvent', 'DAQ': 'DAQ/RawEvent', 'DstAddress': 'DAQ/RawEvent', 'L0PUError': 'DAQ/RawEvent', 'L0Calo': 'DAQ/RawEvent', 'L0MuonCtrlAll': 'DAQ/RawEvent', 'HltVertexReports': 'DAQ/RawEvent', 'HltLumiSummary': 'DAQ/RawEvent', 'TestDet': 'DAQ/RawEvent', 'L0PU': 'DAQ/RawEvent', 'L0DUError': 'DAQ/RawEvent', 'ODIN': 'DAQ/RawEvent', 'FileID': 'DAQ/RawEvent', 'DstData': 'DAQ/RawEvent', 'GaudiSerialize': 'DAQ/RawEvent', 'L0MuonRaw': 'DAQ/RawEvent', 'GaudiHeader': 'DAQ/RawEvent', 'L0DU': 'DAQ/RawEvent', 'L0CaloFull': 'DAQ/RawEvent', 'L0Muon': 'DAQ/RawEvent'}, 0.1: {'HltSelReports': 'DAQ/RawEvent', 'OTError': 'DAQ/RawEvent', 'VeloError': 'DAQ/RawEvent', 'UTFull': 'DAQ/RawEvent', 'UTPedestal': 'DAQ/RawEvent', 'PrsTrig': 'DAQ/RawEvent', 'HcalPackedError': 'DAQ/RawEvent', 'L0PUFull': 'DAQ/RawEvent', 'HltDecReports': 'DAQ/RawEvent', 'Rich': 'DAQ/RawEvent', 'VeloProcFull': 'DAQ/RawEvent', 'HltRoutingBits': 'DAQ/RawEvent', 'L0MuonError': 'DAQ/RawEvent', 'VL': 'DAQ/RawEvent', 'L0MuonProcCand': 'DAQ/RawEvent', 'TTPedestal': 'DAQ/RawEvent', 'L0DUError': 'DAQ/RawEvent', 'DstBank': 'DAQ/RawEvent', 'TT': 'DAQ/RawEvent', 'L0MuonProcData': 'DAQ/RawEvent', 'OTRaw': 'DAQ/RawEvent', 'EcalPacked': 'DAQ/RawEvent', 'PrsPacked': 'DAQ/RawEvent', 'VeloPedestal': 'DAQ/RawEvent', 'DAQ': 'DAQ/RawEvent', 'ITError': 'DAQ/RawEvent', 'FileID': 'DAQ/RawEvent', 'EcalTrig': 'DAQ/RawEvent', 'FTCluster': 'DAQ/RawEvent', 'L0PUError': 'DAQ/RawEvent', 'L0Calo': 'DAQ/RawEvent', 'VeloFull': 'DAQ/RawEvent', 'L0MuonCtrlAll': 'DAQ/RawEvent', 'HltVertexReports': 'DAQ/RawEvent', 'EcalE': 'DAQ/RawEvent', 'ITProcFull': 'DAQ/RawEvent', 'HltLumiSummary': 'DAQ/RawEvent', 'TestDet': 'DAQ/RawEvent', 'IT': 'DAQ/RawEvent', 'VP': 'DAQ/RawEvent', 'HcalTrig': 'DAQ/RawEvent', 'HcalE': 'DAQ/RawEvent', 'L0PU': 'DAQ/RawEvent', 'DstAddress': 'DAQ/RawEvent', 'UT': 'DAQ/RawEvent', 'TAEHeader': 'DAQ/RawEvent', 'ODIN': 'DAQ/RawEvent', 'PrsE': 'DAQ/RawEvent', 'PrsPackedError': 'DAQ/RawEvent', 'Velo': 'DAQ/RawEvent', 'Muon': 'DAQ/RawEvent', 'ITPedestal': 'DAQ/RawEvent', 'TTProcFull': 'DAQ/RawEvent', 'DstData': 'DAQ/RawEvent', 'GaudiSerialize': 'DAQ/RawEvent', 'TTFull': 'DAQ/RawEvent', 'L0MuonRaw': 'DAQ/RawEvent', 'UTError': 'DAQ/RawEvent', 'TTError': 'DAQ/RawEvent', 'EcalPackedError': 'DAQ/RawEvent', 'HcalPacked': 'DAQ/RawEvent', 'MuonFull': 'DAQ/RawEvent', 'L0CaloError': 'DAQ/RawEvent', 'GaudiHeader': 'DAQ/RawEvent', 'L0DU': 'DAQ/RawEvent', 'ITFull': 'DAQ/RawEvent', 'OT': 'DAQ/RawEvent', 'MuonError': 'DAQ/RawEvent', 'HltTrackReports': 'DAQ/RawEvent', 'L0CaloFull': 'DAQ/RawEvent', 'L0Muon': 'DAQ/RawEvent'}, 2.2: {'HltSelReports': 'Trigger/RawEvent', 'OTError': 'Other/RawEvent', 'VeloError': 'Other/RawEvent', 'UTFull': 'Other/RawEvent', 'UTPedestal': 'Other/RawEvent', 'PrsTrig': 'Calo/RawEvent', 'HcalPackedError': 'Calo/RawEvent', 'L0PUFull': 'Other/RawEvent', 'HltDecReports': 'Trigger/RawEvent', 'Rich': 'Rich/RawEvent', 'VeloProcFull': 'Other/RawEvent', 'HltRoutingBits': 'Trigger/RawEvent', 'L0MuonError': 'Other/RawEvent', 'VL': 'Other/RawEvent', 'L0MuonProcCand': 'Trigger/RawEvent', 'TTPedestal': 'Other/RawEvent', 'L0DUError': 'Other/RawEvent', 'HC': 'Other/RawEvent', 'DstBank': 'Other/RawEvent', 'TT': 'Other/RawEvent', 'L0MuonProcData': 'Other/RawEvent', 'OTRaw': 'Other/RawEvent', 'EcalPacked': 'Calo/RawEvent', 'PrsPacked': 'Calo/RawEvent', 'VeloPedestal': 'Other/RawEvent', 'DAQ': 'Other/RawEvent', 'ITError': 'Other/RawEvent', 'FileID': 'Other/RawEvent', 'EcalTrig': 'Calo/RawEvent', 'FTCluster': 'Other/RawEvent', 'L0PUError': 'Other/RawEvent', 'L0Calo': 'Trigger/RawEvent', 'VeloFull': 'Other/RawEvent', 'L0MuonCtrlAll': 'Other/RawEvent', 'HltVertexReports': 'Trigger/RawEvent', 'EcalE': 'Calo/RawEvent', 'ITProcFull': 'Other/RawEvent', 'HltLumiSummary': 'Other/RawEvent', 'TestDet': 'Other/RawEvent', 'IT': 'Other/RawEvent', 'VP': 'Other/RawEvent', 'HcalTrig': 'Calo/RawEvent', 'HcalE': 'Calo/RawEvent', 'L0PU': 'Trigger/RawEvent', 'DstAddress': 'Other/RawEvent', 'UT': 'Other/RawEvent', 'TAEHeader': 'Other/RawEvent', 'ODIN': 'Trigger/RawEvent', 'PrsE': 'Calo/RawEvent', 'PrsPackedError': 'Calo/RawEvent', 'Velo': 'Other/RawEvent', 'Muon': 'Muon/RawEvent', 'ITPedestal': 'Other/RawEvent', 'TTProcFull': 'Other/RawEvent', 'DstData': 'Other/RawEvent', 'GaudiSerialize': 'Other/RawEvent', 'TTFull': 'Other/RawEvent', 'L0MuonRaw': 'Other/RawEvent', 'UTError': 'Other/RawEvent', 'TTError': 'Other/RawEvent', 'EcalPackedError': 'Calo/RawEvent', 'HcalPacked': 'Calo/RawEvent', 'MuonFull': 'Other/RawEvent', 'L0CaloError': 'Other/RawEvent', 'GaudiHeader': 'Other/RawEvent', 'L0DU': 'Trigger/RawEvent', 'ITFull': 'Other/RawEvent', 'OT': 'Other/RawEvent', 'MuonError': 'Other/RawEvent', 'HltTrackReports': 'Trigger/RawEvent', 'L0CaloFull': 'Trigger/RawEvent', 'L0Muon': 'Trigger/RawEvent'}, 3.1: {'HltSelReports': 'Trigger/#TCK#/RawEvent', 'OTError': 'Other/RawEvent', 'VeloError': 'Other/RawEvent', 'UTFull': 'Other/RawEvent', 'UTPedestal': 'Other/RawEvent', 'PrsTrig': 'Calo/RawEvent', 'HcalPackedError': 'Calo/RawEvent', 'L0PUFull': 'Other/RawEvent', 'HltDecReports': 'Trigger/#TCK#/RawEvent', 'Rich': 'Rich/RawEvent', 'VeloProcFull': 'Other/RawEvent', 'HltRoutingBits': 'Trigger/#TCK#/RawEvent', 'L0MuonError': 'Other/RawEvent', 'VL': 'Other/RawEvent', 'L0MuonProcCand': 'Trigger/#TCK#/RawEvent', 'TTPedestal': 'Other/RawEvent', 'L0DUError': 'Other/RawEvent', 'DstBank': 'Other/RawEvent', 'TT': 'Other/RawEvent', 'L0MuonProcData': 'Other/RawEvent', 'OTRaw': 'Other/RawEvent', 'EcalPacked': 'Calo/RawEvent', 'PrsPacked': 'Calo/RawEvent', 'VeloPedestal': 'Other/RawEvent', 'DAQ': 'Other/RawEvent', 'ITError': 'Other/RawEvent', 'FileID': 'Other/RawEvent', 'EcalTrig': 'Calo/RawEvent', 'FTCluster': 'Other/RawEvent', 'L0PUError': 'Other/RawEvent', 'L0Calo': 'Trigger/#TCK#/RawEvent', 'VeloFull': 'Other/RawEvent', 'L0MuonCtrlAll': 'Other/RawEvent', 'HltVertexReports': 'Trigger/#TCK#/RawEvent', 'EcalE': 'Calo/RawEvent', 'ITProcFull': 'Other/RawEvent', 'HltLumiSummary': 'Other/RawEvent', 'TestDet': 'Other/RawEvent', 'IT': 'Other/RawEvent', 'VP': 'Other/RawEvent', 'HcalTrig': 'Calo/RawEvent', 'HcalE': 'Calo/RawEvent', 'L0PU': 'Trigger/#TCK#/RawEvent', 'DstAddress': 'Other/RawEvent', 'UT': 'Other/RawEvent', 'TAEHeader': 'Other/RawEvent', 'ODIN': 'Trigger/#TCK#/RawEvent', 'PrsE': 'Calo/RawEvent', 'PrsPackedError': 'Calo/RawEvent', 'Velo': 'Other/RawEvent', 'Muon': 'Muon/RawEvent', 'ITPedestal': 'Other/RawEvent', 'TTProcFull': 'Other/RawEvent', 'DstData': 'Other/RawEvent', 'GaudiSerialize': 'Other/RawEvent', 'TTFull': 'Other/RawEvent', 'L0MuonRaw': 'Other/RawEvent', 'UTError': 'Other/RawEvent', 'TTError': 'Other/RawEvent', 'EcalPackedError': 'Calo/RawEvent', 'HcalPacked': 'Calo/RawEvent', 'MuonFull': 'Other/RawEvent', 'L0CaloError': 'Other/RawEvent', 'GaudiHeader': 'Other/RawEvent', 'L0DU': 'Trigger/#TCK#/RawEvent', 'ITFull': 'Other/RawEvent', 'OT': 'Other/RawEvent', 'MuonError': 'Other/RawEvent', 'L0CaloFull': 'Trigger/#TCK#/RawEvent', 'L0Muon': 'Trigger/#TCK#/RawEvent'}, 0.3: {'HltSelReports': 'DAQ/RawEvent', 'OTError': 'DAQ/RawEvent', 'VeloError': 'DAQ/RawEvent', 'UTFull': 'DAQ/RawEvent', 'UTPedestal': 'DAQ/RawEvent', 'PrsTrig': 'DAQ/RawEvent', 'HcalPackedError': 'DAQ/RawEvent', 'L0PUFull': 'DAQ/RawEvent', 'HltDecReports': 'DAQ/RawEvent', 'Rich': 'DAQ/RawEvent', 'VeloProcFull': 'DAQ/RawEvent', 'HltRoutingBits': 'DAQ/RawEvent', 'L0MuonError': 'DAQ/RawEvent', 'VL': 'DAQ/RawEvent', 'L0MuonProcCand': 'DAQ/RawEvent', 'TTPedestal': 'DAQ/RawEvent', 'L0DUError': 'DAQ/RawEvent', 'HC': 'DAQ/RawEvent', 'DstBank': 'DAQ/RawEvent', 'TT': 'DAQ/RawEvent', 'L0MuonProcData': 'DAQ/RawEvent', 'OTRaw': 'DAQ/RawEvent', 'EcalPacked': 'DAQ/RawEvent', 'PrsPacked': 'DAQ/RawEvent', 'VeloPedestal': 'DAQ/RawEvent', 'DAQ': 'DAQ/RawEvent', 'ITError': 'DAQ/RawEvent', 'FileID': 'DAQ/RawEvent', 'EcalTrig': 'DAQ/RawEvent', 'FTCluster': 'DAQ/RawEvent', 'L0PUError': 'DAQ/RawEvent', 'L0Calo': 'DAQ/RawEvent', 'VeloFull': 'DAQ/RawEvent', 'L0MuonCtrlAll': 'DAQ/RawEvent', 'HltVertexReports': 'DAQ/RawEvent', 'EcalE': 'DAQ/RawEvent', 'ITProcFull': 'DAQ/RawEvent', 'HltLumiSummary': 'DAQ/RawEvent', 'TestDet': 'DAQ/RawEvent', 'IT': 'DAQ/RawEvent', 'VP': 'DAQ/RawEvent', 'HcalTrig': 'DAQ/RawEvent', 'HcalE': 'DAQ/RawEvent', 'L0PU': 'DAQ/RawEvent', 'DstAddress': 'DAQ/RawEvent', 'UT': 'DAQ/RawEvent', 'TAEHeader': 'DAQ/RawEvent', 'ODIN': 'DAQ/RawEvent', 'PrsE': 'DAQ/RawEvent', 'PrsPackedError': 'DAQ/RawEvent', 'Velo': 'DAQ/RawEvent', 'Muon': 'DAQ/RawEvent', 'ITPedestal': 'DAQ/RawEvent', 'TTProcFull': 'DAQ/RawEvent', 'DstData': 'DAQ/RawEvent', 'GaudiSerialize': 'DAQ/RawEvent', 'TTFull': 'DAQ/RawEvent', 'L0MuonRaw': 'DAQ/RawEvent', 'UTError': 'DAQ/RawEvent', 'TTError': 'DAQ/RawEvent', 'EcalPackedError': 'DAQ/RawEvent', 'HcalPacked': 'DAQ/RawEvent', 'MuonFull': 'DAQ/RawEvent', 'L0CaloError': 'DAQ/RawEvent', 'GaudiHeader': 'DAQ/RawEvent', 'L0DU': 'DAQ/RawEvent', 'ITFull': 'DAQ/RawEvent', 'OT': 'DAQ/RawEvent', 'MuonError': 'DAQ/RawEvent', 'HltTrackReports': 'DAQ/RawEvent', 'L0CaloFull': 'DAQ/RawEvent', 'L0Muon': 'DAQ/RawEvent'}, 0.4: {'HltRoutingBits': 'DAQ/RawEvent', 'L0PUFull': 'DAQ/RawEvent', 'HltDecReports': 'DAQ/RawEvent', 'HC': 'DAQ/RawEvent', 'HltSelReports': 'DAQ/RawEvent', 'L0MuonError': 'DAQ/RawEvent', 'DstBank': 'DAQ/RawEvent', 'L0MuonProcCand': 'DAQ/RawEvent', 'L0CaloError': 'DAQ/RawEvent', 'TAEHeader': 'DAQ/RawEvent', 'L0MuonProcData': 'DAQ/RawEvent', 'DAQ': 'DAQ/RawEvent', 'DstAddress': 'DAQ/RawEvent', 'L0PUError': 'DAQ/RawEvent', 'L0Calo': 'DAQ/RawEvent', 'L0MuonCtrlAll': 'DAQ/RawEvent', 'HltVertexReports': 'DAQ/RawEvent', 'HltLumiSummary': 'DAQ/RawEvent', 'TestDet': 'DAQ/RawEvent', 'L0PU': 'DAQ/RawEvent', 'L0DUError': 'DAQ/RawEvent', 'ODIN': 'DAQ/RawEvent', 'FileID': 'DAQ/RawEvent', 'DstData': 'DAQ/RawEvent', 'GaudiSerialize': 'DAQ/RawEvent', 'L0MuonRaw': 'DAQ/RawEvent', 'GaudiHeader': 'DAQ/RawEvent', 'L0DU': 'DAQ/RawEvent', 'L0CaloFull': 'DAQ/RawEvent', 'L0Muon': 'DAQ/RawEvent'}, 4.3: {'HltSelReports': 'Trigger/RawEvent', 'OTError': 'Unstripped/RawEvent', 'VeloError': 'Unstripped/RawEvent', 'UTFull': 'Unstripped/RawEvent', 'UTPedestal': 'Unstripped/RawEvent', 'PrsTrig': 'Calo/RawEvent', 'HcalPackedError': 'Unstripped/RawEvent', 'L0PUFull': 'Unstripped/RawEvent', 'HltDecReports': 'Trigger/RawEvent', 'Rich': 'Rich/RawEvent', 'VeloProcFull': 'Unstripped/RawEvent', 'HltRoutingBits': 'Trigger/RawEvent', 'L0MuonError': 'Unstripped/RawEvent', 'VL': 'Unstripped/RawEvent', 'L0MuonProcCand': 'Trigger/RawEvent', 'TTPedestal': 'Unstripped/RawEvent', 'L0DUError': 'Unstripped/RawEvent', 'HC': 'HC/RawEvent', 'DstBank': 'Unstripped/RawEvent', 'TT': 'Tracker/RawEvent', 'L0MuonProcData': 'Unstripped/RawEvent', 'OTRaw': 'Unstripped/RawEvent', 'EcalPacked': 'Calo/RawEvent', 'PrsPacked': 'Calo/RawEvent', 'VeloPedestal': 'Unstripped/RawEvent', 'DAQ': 'Unstripped/RawEvent', 'ITError': 'Tracker/RawEvent', 'FileID': 'Unstripped/RawEvent', 'EcalTrig': 'Calo/RawEvent', 'FTCluster': 'Tracker/RawEvent', 'L0PUError': 'Unstripped/RawEvent', 'L0Calo': 'Trigger/RawEvent', 'VeloFull': 'Unstripped/RawEvent', 'L0MuonCtrlAll': 'Unstripped/RawEvent', 'HltVertexReports': 'Trigger/RawEvent', 'EcalE': 'Calo/RawEvent', 'ITProcFull': 'Unstripped/RawEvent', 'HltLumiSummary': 'Unstripped/RawEvent', 'TestDet': 'Unstripped/RawEvent', 'IT': 'Tracker/RawEvent', 'VP': 'Velo/RawEvent', 'HcalTrig': 'Calo/RawEvent', 'HcalE': 'Calo/RawEvent', 'L0PU': 'Trigger/RawEvent', 'DstAddress': 'Unstripped/RawEvent', 'UT': 'Tracker/RawEvent', 'TAEHeader': 'Unstripped/RawEvent', 'ODIN': ['Trigger/RawEvent'], 'PrsE': 'Calo/RawEvent', 'PrsPackedError': 'Unstripped/RawEvent', 'Velo': 'Velo/RawEvent', 'Muon': 'Muon/RawEvent', 'ITPedestal': 'Unstripped/RawEvent', 'TTProcFull': 'Unstripped/RawEvent', 'DstData': 'PersistReco/RawEvent', 'GaudiSerialize': 'Unstripped/RawEvent', 'TTFull': 'Unstripped/RawEvent', 'L0MuonRaw': 'Unstripped/RawEvent', 'UTError': 'Unstripped/RawEvent', 'TTError': 'Tracker/RawEvent', 'EcalPackedError': 'Unstripped/RawEvent', 'HcalPacked': 'Calo/RawEvent', 'MuonFull': 'Unstripped/RawEvent', 'L0CaloError': 'Unstripped/RawEvent', 'GaudiHeader': 'Unstripped/RawEvent', 'L0DU': 'Trigger/RawEvent', 'ITFull': 'Unstripped/RawEvent', 'OT': 'Tracker/RawEvent', 'MuonError': 'Unstripped/RawEvent', 'HltTrackReports': 'Trigger/RawEvent', 'L0CaloFull': 'Trigger/RawEvent', 'L0Muon': 'Trigger/RawEvent'}, 2.1: {'HltSelReports': 'Trigger/RawEvent', 'OTError': 'Other/RawEvent', 'VeloError': 'Other/RawEvent', 'UTFull': 'Other/RawEvent', 'UTPedestal': 'Other/RawEvent', 'PrsTrig': 'Calo/RawEvent', 'HcalPackedError': 'Calo/RawEvent', 'L0PUFull': 'Other/RawEvent', 'HltDecReports': 'Trigger/RawEvent', 'Rich': 'Rich/RawEvent', 'VeloProcFull': 'Other/RawEvent', 'HltRoutingBits': 'Trigger/RawEvent', 'L0MuonError': 'Other/RawEvent', 'VL': 'Other/RawEvent', 'L0MuonProcCand': 'Trigger/RawEvent', 'TTPedestal': 'Other/RawEvent', 'L0DUError': 'Other/RawEvent', 'DstBank': 'Other/RawEvent', 'TT': 'Other/RawEvent', 'L0MuonProcData': 'Other/RawEvent', 'OTRaw': 'Other/RawEvent', 'EcalPacked': 'Calo/RawEvent', 'PrsPacked': 'Calo/RawEvent', 'VeloPedestal': 'Other/RawEvent', 'DAQ': 'Other/RawEvent', 'ITError': 'Other/RawEvent', 'FileID': 'Other/RawEvent', 'EcalTrig': 'Calo/RawEvent', 'FTCluster': 'Other/RawEvent', 'L0PUError': 'Other/RawEvent', 'L0Calo': 'Trigger/RawEvent', 'VeloFull': 'Other/RawEvent', 'L0MuonCtrlAll': 'Other/RawEvent', 'HltVertexReports': 'Trigger/RawEvent', 'EcalE': 'Calo/RawEvent', 'ITProcFull': 'Other/RawEvent', 'HltLumiSummary': 'Other/RawEvent', 'TestDet': 'Other/RawEvent', 'IT': 'Other/RawEvent', 'VP': 'Other/RawEvent', 'HcalTrig': 'Calo/RawEvent', 'HcalE': 'Calo/RawEvent', 'L0PU': 'Trigger/RawEvent', 'DstAddress': 'Other/RawEvent', 'UT': 'Other/RawEvent', 'TAEHeader': 'Other/RawEvent', 'ODIN': 'Trigger/RawEvent', 'PrsE': 'Calo/RawEvent', 'PrsPackedError': 'Calo/RawEvent', 'Velo': 'Other/RawEvent', 'Muon': 'Muon/RawEvent', 'ITPedestal': 'Other/RawEvent', 'TTProcFull': 'Other/RawEvent', 'DstData': 'Other/RawEvent', 'GaudiSerialize': 'Other/RawEvent', 'TTFull': 'Other/RawEvent', 'L0MuonRaw': 'Other/RawEvent', 'UTError': 'Other/RawEvent', 'TTError': 'Other/RawEvent', 'EcalPackedError': 'Calo/RawEvent', 'HcalPacked': 'Calo/RawEvent', 'MuonFull': 'Other/RawEvent', 'L0CaloError': 'Other/RawEvent', 'GaudiHeader': 'Other/RawEvent', 'L0DU': 'Trigger/RawEvent', 'ITFull': 'Other/RawEvent', 'OT': 'Other/RawEvent', 'MuonError': 'Other/RawEvent', 'HltTrackReports': 'Trigger/RawEvent', 'L0CaloFull': 'Trigger/RawEvent', 'L0Muon': 'Trigger/RawEvent'}, 4.1: {'HltSelReports': 'Trigger/RawEvent', 'OTError': 'Unstripped/RawEvent', 'VeloError': 'Unstripped/RawEvent', 'UTFull': 'Unstripped/RawEvent', 'UTPedestal': 'Unstripped/RawEvent', 'PrsTrig': 'Calo/RawEvent', 'HcalPackedError': 'Unstripped/RawEvent', 'L0PUFull': 'Unstripped/RawEvent', 'HltDecReports': 'Trigger/RawEvent', 'Rich': 'Rich/RawEvent', 'VeloProcFull': 'Unstripped/RawEvent', 'HltRoutingBits': 'Trigger/RawEvent', 'L0MuonError': 'Unstripped/RawEvent', 'VL': 'Unstripped/RawEvent', 'L0MuonProcCand': 'Trigger/RawEvent', 'TTPedestal': 'Unstripped/RawEvent', 'L0DUError': 'Unstripped/RawEvent', 'HC': 'HC/RawEvent', 'DstBank': 'Unstripped/RawEvent', 'TT': 'Tracker/RawEvent', 'L0MuonProcData': 'Unstripped/RawEvent', 'OTRaw': 'Unstripped/RawEvent', 'EcalPacked': 'Calo/RawEvent', 'PrsPacked': 'Calo/RawEvent', 'VeloPedestal': 'Unstripped/RawEvent', 'DAQ': 'Unstripped/RawEvent', 'ITError': 'Unstripped/RawEvent', 'FileID': 'Unstripped/RawEvent', 'EcalTrig': 'Calo/RawEvent', 'FTCluster': 'Tracker/RawEvent', 'L0PUError': 'Unstripped/RawEvent', 'L0Calo': 'Trigger/RawEvent', 'VeloFull': 'Unstripped/RawEvent', 'L0MuonCtrlAll': 'Unstripped/RawEvent', 'HltVertexReports': 'Trigger/RawEvent', 'EcalE': 'Calo/RawEvent', 'ITProcFull': 'Unstripped/RawEvent', 'HltLumiSummary': 'Unstripped/RawEvent', 'TestDet': 'Unstripped/RawEvent', 'IT': 'Tracker/RawEvent', 'VP': 'Velo/RawEvent', 'HcalTrig': 'Calo/RawEvent', 'HcalE': 'Calo/RawEvent', 'L0PU': 'Trigger/RawEvent', 'DstAddress': 'Unstripped/RawEvent', 'UT': 'Tracker/RawEvent', 'TAEHeader': 'Unstripped/RawEvent', 'ODIN': ['Trigger/RawEvent'], 'PrsE': 'Calo/RawEvent', 'PrsPackedError': 'Unstripped/RawEvent', 'Velo': 'Velo/RawEvent', 'Muon': 'Muon/RawEvent', 'ITPedestal': 'Unstripped/RawEvent', 'TTProcFull': 'Unstripped/RawEvent', 'DstData': 'Unstripped/RawEvent', 'GaudiSerialize': 'Unstripped/RawEvent', 'TTFull': 'Unstripped/RawEvent', 'L0MuonRaw': 'Unstripped/RawEvent', 'UTError': 'Unstripped/RawEvent', 'TTError': 'Unstripped/RawEvent', 'EcalPackedError': 'Unstripped/RawEvent', 'HcalPacked': 'Calo/RawEvent', 'MuonFull': 'Unstripped/RawEvent', 'L0CaloError': 'Unstripped/RawEvent', 'GaudiHeader': 'Unstripped/RawEvent', 'L0DU': 'Trigger/RawEvent', 'ITFull': 'Unstripped/RawEvent', 'OT': 'Tracker/RawEvent', 'MuonError': 'Unstripped/RawEvent', 'HltTrackReports': 'Trigger/RawEvent', 'L0CaloFull': 'Trigger/RawEvent', 'L0Muon': 'Trigger/RawEvent'}, 3.3: {'HltSelReports': 'Trigger/#TCK#/RawEvent', 'OTError': 'Other/RawEvent', 'VeloError': 'Other/RawEvent', 'UTFull': 'Other/RawEvent', 'UTPedestal': 'Other/RawEvent', 'PrsTrig': 'Calo/RawEvent', 'HcalPackedError': 'Calo/RawEvent', 'L0PUFull': 'Other/RawEvent', 'HltDecReports': 'Trigger/#TCK#/RawEvent', 'Rich': 'Rich/RawEvent', 'VeloProcFull': 'Other/RawEvent', 'HltRoutingBits': 'Trigger/#TCK#/RawEvent', 'L0MuonError': 'Other/RawEvent', 'VL': 'Other/RawEvent', 'L0MuonProcCand': 'Trigger/#L0TCK#/RawEvent', 'TTPedestal': 'Other/RawEvent', 'L0DUError': 'Other/RawEvent', 'DstBank': 'Other/RawEvent', 'TT': 'Other/RawEvent', 'L0MuonProcData': 'Other/RawEvent', 'OTRaw': 'Other/RawEvent', 'EcalPacked': 'Calo/RawEvent', 'PrsPacked': 'Calo/RawEvent', 'VeloPedestal': 'Other/RawEvent', 'DAQ': 'Other/RawEvent', 'ITError': 'Other/RawEvent', 'FileID': 'Other/RawEvent', 'EcalTrig': 'Calo/RawEvent', 'FTCluster': 'Other/RawEvent', 'L0PUError': 'Other/RawEvent', 'L0Calo': 'Trigger/#L0TCK#/RawEvent', 'VeloFull': 'Other/RawEvent', 'L0MuonCtrlAll': 'Other/RawEvent', 'HltVertexReports': 'Trigger/#TCK#/RawEvent', 'EcalE': 'Calo/RawEvent', 'ITProcFull': 'Other/RawEvent', 'HltLumiSummary': 'Other/RawEvent', 'TestDet': 'Other/RawEvent', 'IT': 'Other/RawEvent', 'VP': 'Other/RawEvent', 'HcalTrig': 'Calo/RawEvent', 'HcalE': 'Calo/RawEvent', 'L0PU': 'Trigger/#L0TCK#/RawEvent', 'DstAddress': 'Other/RawEvent', 'UT': 'Other/RawEvent', 'TAEHeader': 'Other/RawEvent', 'ODIN': ['Trigger/#TCK#/RawEvent', 'Trigger/#L0TCK#/RawEvent'], 'PrsE': 'Calo/RawEvent', 'PrsPackedError': 'Calo/RawEvent', 'Velo': 'Other/RawEvent', 'Muon': 'Muon/RawEvent', 'ITPedestal': 'Other/RawEvent', 'TTProcFull': 'Other/RawEvent', 'DstData': 'Other/RawEvent', 'GaudiSerialize': 'Other/RawEvent', 'TTFull': 'Other/RawEvent', 'L0MuonRaw': 'Other/RawEvent', 'UTError': 'Other/RawEvent', 'TTError': 'Other/RawEvent', 'EcalPackedError': 'Calo/RawEvent', 'HcalPacked': 'Calo/RawEvent', 'MuonFull': 'Other/RawEvent', 'L0CaloError': 'Other/RawEvent', 'GaudiHeader': 'Other/RawEvent', 'L0DU': 'Trigger/#L0TCK#/RawEvent', 'ITFull': 'Other/RawEvent', 'OT': 'Other/RawEvent', 'MuonError': 'Other/RawEvent', 'L0CaloFull': 'Trigger/#L0TCK#/RawEvent', 'L0Muon': 'Trigger/#L0TCK#/RawEvent'}, 4.2: {'HltSelReports': 'Trigger/RawEvent', 'OTError': 'Unstripped/RawEvent', 'VeloError': 'Unstripped/RawEvent', 'UTFull': 'Unstripped/RawEvent', 'UTPedestal': 'Unstripped/RawEvent', 'PrsTrig': 'Calo/RawEvent', 'HcalPackedError': 'Unstripped/RawEvent', 'L0PUFull': 'Unstripped/RawEvent', 'HltDecReports': 'Trigger/RawEvent', 'Rich': 'Rich/RawEvent', 'VeloProcFull': 'Unstripped/RawEvent', 'HltRoutingBits': 'Trigger/RawEvent', 'L0MuonError': 'Unstripped/RawEvent', 'VL': 'Unstripped/RawEvent', 'L0MuonProcCand': 'Trigger/RawEvent', 'TTPedestal': 'Unstripped/RawEvent', 'L0DUError': 'Unstripped/RawEvent', 'HC': 'HC/RawEvent', 'DstBank': 'Unstripped/RawEvent', 'TT': 'Tracker/RawEvent', 'L0MuonProcData': 'Unstripped/RawEvent', 'OTRaw': 'Unstripped/RawEvent', 'EcalPacked': 'Calo/RawEvent', 'PrsPacked': 'Calo/RawEvent', 'VeloPedestal': 'Unstripped/RawEvent', 'DAQ': 'Unstripped/RawEvent', 'ITError': 'Tracker/RawEvent', 'FileID': 'Unstripped/RawEvent', 'EcalTrig': 'Calo/RawEvent', 'FTCluster': 'Tracker/RawEvent', 'L0PUError': 'Unstripped/RawEvent', 'L0Calo': 'Trigger/RawEvent', 'VeloFull': 'Unstripped/RawEvent', 'L0MuonCtrlAll': 'Unstripped/RawEvent', 'HltVertexReports': 'Trigger/RawEvent', 'EcalE': 'Calo/RawEvent', 'ITProcFull': 'Unstripped/RawEvent', 'HltLumiSummary': 'Unstripped/RawEvent', 'TestDet': 'Unstripped/RawEvent', 'IT': 'Tracker/RawEvent', 'VP': 'Velo/RawEvent', 'HcalTrig': 'Calo/RawEvent', 'HcalE': 'Calo/RawEvent', 'L0PU': 'Trigger/RawEvent', 'DstAddress': 'Unstripped/RawEvent', 'UT': 'Tracker/RawEvent', 'TAEHeader': 'Unstripped/RawEvent', 'ODIN': ['Trigger/RawEvent'], 'PrsE': 'Calo/RawEvent', 'PrsPackedError': 'Unstripped/RawEvent', 'Velo': 'Velo/RawEvent', 'Muon': 'Muon/RawEvent', 'ITPedestal': 'Unstripped/RawEvent', 'TTProcFull': 'Unstripped/RawEvent', 'DstData': 'Unstripped/RawEvent', 'GaudiSerialize': 'Unstripped/RawEvent', 'TTFull': 'Unstripped/RawEvent', 'L0MuonRaw': 'Unstripped/RawEvent', 'UTError': 'Unstripped/RawEvent', 'TTError': 'Tracker/RawEvent', 'EcalPackedError': 'Unstripped/RawEvent', 'HcalPacked': 'Calo/RawEvent', 'MuonFull': 'Unstripped/RawEvent', 'L0CaloError': 'Unstripped/RawEvent', 'GaudiHeader': 'Unstripped/RawEvent', 'L0DU': 'Trigger/RawEvent', 'ITFull': 'Unstripped/RawEvent', 'OT': 'Tracker/RawEvent', 'MuonError': 'Unstripped/RawEvent', 'HltTrackReports': 'Trigger/RawEvent', 'L0CaloFull': 'Trigger/RawEvent', 'L0Muon': 'Trigger/RawEvent'}, 3.2: {'OTError': 'Other/RawEvent', 'VeloError': 'Other/RawEvent', 'UTFull': 'Other/RawEvent', 'UTPedestal': 'Other/RawEvent', 'PrsTrig': 'Calo/RawEvent', 'HcalPackedError': 'Calo/RawEvent', 'L0PUFull': 'Other/RawEvent', 'UT': 'Other/RawEvent', 'Rich': 'Rich/RawEvent', 'VeloProcFull': 'Other/RawEvent', 'L0MuonError': 'Other/RawEvent', 'VL': 'Other/RawEvent', 'L0MuonProcCand': 'Trigger/#L0TCK#/RawEvent', 'TTPedestal': 'Other/RawEvent', 'L0DUError': 'Other/RawEvent', 'DstBank': 'Other/RawEvent', 'TT': 'Other/RawEvent', 'OTRaw': 'Other/RawEvent', 'EcalPacked': 'Calo/RawEvent', 'PrsPacked': 'Calo/RawEvent', 'VeloPedestal': 'Other/RawEvent', 'DAQ': 'Other/RawEvent', 'ITError': 'Other/RawEvent', 'FileID': 'Other/RawEvent', 'EcalTrig': 'Calo/RawEvent', 'FTCluster': 'Other/RawEvent', 'L0PUError': 'Other/RawEvent', 'L0Calo': 'Trigger/#L0TCK#/RawEvent', 'VeloFull': 'Other/RawEvent', 'L0MuonCtrlAll': 'Other/RawEvent', 'L0MuonProcData': 'Other/RawEvent', 'EcalE': 'Calo/RawEvent', 'ITProcFull': 'Other/RawEvent', 'HltLumiSummary': 'Other/RawEvent', 'TestDet': 'Other/RawEvent', 'IT': 'Other/RawEvent', 'VP': 'Other/RawEvent', 'HcalTrig': 'Calo/RawEvent', 'HcalE': 'Calo/RawEvent', 'L0PU': 'Trigger/#L0TCK#/RawEvent', 'DstAddress': 'Other/RawEvent', 'TAEHeader': 'Other/RawEvent', 'ODIN': 'Trigger/#L0TCK#/RawEvent', 'PrsE': 'Calo/RawEvent', 'PrsPackedError': 'Calo/RawEvent', 'Velo': 'Other/RawEvent', 'Muon': 'Muon/RawEvent', 'ITPedestal': 'Other/RawEvent', 'TTProcFull': 'Other/RawEvent', 'DstData': 'Other/RawEvent', 'GaudiSerialize': 'Other/RawEvent', 'TTFull': 'Other/RawEvent', 'L0MuonRaw': 'Other/RawEvent', 'UTError': 'Other/RawEvent', 'TTError': 'Other/RawEvent', 'EcalPackedError': 'Calo/RawEvent', 'HcalPacked': 'Calo/RawEvent', 'MuonFull': 'Other/RawEvent', 'L0CaloError': 'Other/RawEvent', 'GaudiHeader': 'Other/RawEvent', 'L0DU': 'Trigger/#L0TCK#/RawEvent', 'ITFull': 'Other/RawEvent', 'OT': 'Other/RawEvent', 'MuonError': 'Other/RawEvent', 'L0CaloFull': 'Trigger/#L0TCK#/RawEvent', 'L0Muon': 'Trigger/#L0TCK#/RawEvent'}}
+# |                        (default: None)
+# |-TCKReplacePattern      = '#TCK#'
+# |-GenericReplacePatterns = {}  (default: {})
+# |-TCK                    = None
+# \----- (End of User RawEventFormatConf/RawEventFormatConf) -----------------------------------------
+# applying configuration of DaVinci
+# DaVinci                   INFO    Applying DaVinci configuration
+# DaVinci                   INFO    /***** User DaVinci/DaVinci ************************************************************************
+|-MainOptions          = ''
+|-TupleFile            = 'BCands-mc.root'  (default: '')
+|-SkipEvents           = 0  (default: 0)
+|-RootCompressionLevel = 'LZMA:6'
+|-Input                = []  (default: [])
+|-Turbo                = False
+|-DDDBtag              = ''
+|-UserAlgorithms       = [GaudiSequencer('SeqMyB0'), DecayTreeTuple('TupleB0')]  (default: [])
+|-RootInTES            = ''
+|-DQFLAGStag           = ''
+|-Lumi                 = False  (default: False)
+|-MoniSequence         = []  (default: [])
+|-VerboseMessages      = False
+|-InputType            = 'DST'  (default: 'DST')
+|-ProductionType       = 'None'
+|-PrintFreq            = 100  (default: 1000)
+|-Detectors            = ['Velo', 'PuVeto', 'Rich1', 'Rich2', 'TT', 'IT', 'OT', 'Spd', 'Prs', 'Ecal', 'Hcal', 'Muon', 'Magnet', 'Tr']
+|                      (default: ['Velo', 'PuVeto', 'Rich1', 'Rich2', 'TT', 'IT', 'OT', 'Spd', 'Prs', 'Ecal', 'Hcal', 'Muon', 'Magnet', 'Tr'])
+|-EvtMax               = -1  (default: -1)
+|-CondDBtag            = ''
+|-MergeGenFSR          = False
+|-Simulation           = True  (default: False)
+|-DataType             = '2016'  (default: '')
+|-RedoMCLinks          = False
+|-IgnoreDQFlags        = False
+|-HistogramFile        = ''
+|-WriteFSR             = True
+|-EnableUnpack         = None
+|-EventPreFilters      = []  (default: [])
+\----- (End of User DaVinci/DaVinci) ---------------------------------------------------------------
+# DaVinci                   WARNING ``DDDBtag''   is not specified for simulated data
+# DaVinci                   WARNING ``CondDBtag'' is not specified for simulated data
+# --> Including file '/opt/lhcb/lhcb/LHCB/LHCB_v45r2/GaudiConf/options/PreloadUnits.opts'
+# --> Including file '/opt/lhcb/lhcb/LHCB/LHCB_v45r2/GaudiConf/options/units.opts'
+# <-- End of file '/opt/lhcb/lhcb/LHCB/LHCB_v45r2/GaudiConf/options/units.opts'
+# <-- End of file '/opt/lhcb/lhcb/LHCB/LHCB_v45r2/GaudiConf/options/PreloadUnits.opts'
+# Apply CaloProcessor configuration for ['Digits', 'Clusters'] and ['InAcceptance', 'Match', 'Energy', 'Chi2', 'DLL', 'NeutralPID']
+# Configurabe : Counter level is 1 
+# CaloDigits onDemand for ['Ecal', 'Hcal', 'Prs', 'Spd']
+# ClusterReco onDemand
+# Configured Ecal Clusters Reco : ClusterReco 
+# Configured Calo PIDs           : CaloPIDsCaloPIDsForCaloProcessor 
+# CaloProcessor onDemand enabled
+# CaloReProcessing cannot be processed on reduced (m)DST data
+# DaVinci                   INFO    Creating Lumi Algorithms
+# DaVinci                   INFO    No MainOptions specified. DaVinci() will import no options file!
+# DaVinci                   INFO    Creating User Algorithms
+# DaVinci                   INFO    Append to Main Sequence has been called
+# DaVinci                   INFO    Creating Moni Algorithms
+# DaVinci                   INFO    Append to Moni Sequence has been called
+# /***** User DaVinci/DaVinci ************************************************************************
+# |-MainOptions          = ''
+# |-TupleFile            = 'BCands-mc.root'  (default: '')
+# |-SkipEvents           = 0  (default: 0)
+# |-RootCompressionLevel = 'LZMA:6'
+# |-Input                = []  (default: [])
+# |-Turbo                = False
+# |-DDDBtag              = ''
+# |-UserAlgorithms       = [GaudiSequencer('SeqMyB0'), DecayTreeTuple('TupleB0')]  (default: [])
+# |-RootInTES            = ''
+# |-DQFLAGStag           = ''
+# |-Lumi                 = False  (default: False)
+# |-MoniSequence         = []  (default: [])
+# |-VerboseMessages      = False
+# |-InputType            = 'DST'  (default: 'DST')
+# |-ProductionType       = 'None'
+# |-PrintFreq            = 100  (default: 1000)
+# |-Detectors            = ['Velo', 'PuVeto', 'Rich1', 'Rich2', 'TT', 'IT', 'OT', 'Spd', 'Prs', 'Ecal', 'Hcal', 'Muon', 'Magnet', 'Tr']
+# |                      (default: ['Velo', 'PuVeto', 'Rich1', 'Rich2', 'TT', 'IT', 'OT', 'Spd', 'Prs', 'Ecal', 'Hcal', 'Muon', 'Magnet', 'Tr'])
+# |-EvtMax               = -1  (default: -1)
+# |-CondDBtag            = ''
+# |-MergeGenFSR          = False
+# |-Simulation           = True  (default: False)
+# |-DataType             = '2016'  (default: '')
+# |-RedoMCLinks          = False
+# |-IgnoreDQFlags        = True  (default: False)
+# |-HistogramFile        = ''
+# |-WriteFSR             = True
+# |-EnableUnpack         = None
+# |-EventPreFilters      = []  (default: [])
+# \----- (End of User DaVinci/DaVinci) ---------------------------------------------------------------
+# applying configuration of PhysConf
+# Applying Phys configuration
+# --> Including file '/opt/lhcb/lhcb/DBASE/TCK/L0TCK/v5r32/options/L0DUConfig.opts'
+# <-- End of file '/opt/lhcb/lhcb/DBASE/TCK/L0TCK/v5r32/options/L0DUConfig.opts'
+# PhysConf: Configuring EventClockSvc to use RecHeader
+# /***** User PhysConf/PhysConf **********************************************************************
+# |-CaloReProcessing  = False
+# |-DataType          = '2016'  (default: '')
+# |-AllowPIDRecalib   = True
+# |-OutputLevel       = 3
+# |-Simulation        = True  (default: False)
+# |-UpdateCaloMCLinks = True
+# |-Detectors         = ['Velo', 'PuVeto', 'Rich1', 'Rich2', 'TT', 'IT', 'OT', 'Spd', 'Prs', 'Ecal', 'Hcal', 'Muon', 'Magnet', 'Tr']
+# |                   (default: ['Velo', 'PuVeto', 'Rich1', 'Rich2', 'TT', 'IT', 'OT', 'Spd', 'Prs', 'Ecal', 'Hcal', 'Muon', 'Magnet', 'Tr'])
+# |-EnableUnpack      = ['Reconstruction', 'Stripping']  (default: None)
+# |-InputType         = 'DST'  (default: 'DST')
+# |-AllowPIDRerunning = True
+# \----- (End of User PhysConf/PhysConf) -------------------------------------------------------------
+# applying configuration of DefaultTrackingCuts
+# /***** User DefaultTrackingCuts/DefaultTrackingCuts ************************************************
+# |-Types = ['Long']  (default: ['Long'])
+# |-Cuts  = {'CloneDistCut': [5000, 9e+99], 'Chi2Cut': [0, 5]}
+# |       (default: {'CloneDistCut': [5000, 9e+99], 'Chi2Cut': [0, 5]})
+# \----- (End of User DefaultTrackingCuts/DefaultTrackingCuts) ---------------------------------------
+# applying configuration of AnalysisConf
+# Applying Analysis configuration
+# /***** User AnalysisConf/AnalysisConf **************************************************************
+# |-DataType    = '2016'  (default: '')
+# |-OutputLevel = 3
+# |-RedoMCLinks = False  (default: False)
+# |-RootInTES   = ''
+# |-Simulation  = True  (default: False)
+# |-InputType   = 'DST'  (default: '')
+# \----- (End of User AnalysisConf/AnalysisConf) -----------------------------------------------------
+# WARNING: file '/opt/lhcb/lhcb/DBASE/TCK/L0TCK/v5r32/options/L0DUConfig.opts' already included, ignored.
+# WARNING: something else configured a decoder already, Raw/Spd/Digits CaloDigitsFromRaw/SpdFromRaw
+# WARNING: something else configured a decoder already, Trig/L0/Calo L0CaloCandidatesFromRaw/L0CaloFromRaw
+# WARNING: something else configured a decoder already, Trig/L0/FullCalo L0CaloCandidatesFromRaw/L0CaloFromRaw
+# WARNING: something else configured a decoder already, Trig/L0/L0DUReport L0DUFromRawAlg/L0DUFromRaw
+# WARNING: something else configured a decoder already, Raw/Prs/Digits CaloDigitsFromRaw/PrsFromRaw
+# WARNING: something else configured a decoder already, Raw/Ecal/Digits CaloZSupAlg/EcalZSup
+# WARNING: something else configured a decoder already, Raw/Hcal/Digits CaloZSupAlg/HcalZSup
+# WARNING: something else configured a decoder already, Trig/L0/MuonCtrl L0MuonCandidatesFromRaw/L0MuonFromRaw
+# WARNING: something else configured a decoder already, Trig/L0/MuonBCSU L0MuonCandidatesFromRaw/L0MuonFromRaw
+# WARNING: something else configured a decoder already, Trig/L0/MuonData L0MuonCandidatesFromRaw/L0MuonFromRaw
+# WARNING: Property 'EnableUnpack' is set in both 'DigiConf' and 'SimConf', using 'DigiConf.EnableUnpack'
+# WARNING: Property 'DataType' is set in both 'DigiConf' and 'SimConf', using 'DigiConf.DataType'
+# No Writer defined for DIGI
+ApplicationMgr    SUCCESS 
+====================================================================================================================================
+                                                   Welcome to DaVinciDev version v45r3
+                                          running on docker-desktop on Mon Mar 16 15:47:59 2020
+====================================================================================================================================
+ApplicationMgr       INFO Application Manager Configured successfully
+ToolSvc.GitDDDB      INFO opening Git repository '/opt/lhcb/lhcb/git-conddb/DDDB.git'
+ToolSvc.GitDDDB      INFO using commit 'dddb-20130929' corresponding to 6427f8664c1305addde53247fe9270bc05cd4647
+ToolSvc.GitSIMCOND   INFO opening Git repository '/opt/lhcb/lhcb/git-conddb/SIMCOND.git'
+ToolSvc.GitSIMCOND   INFO using commit 'sim-20130522-vc-md100' corresponding to 491b6cab0faee702d5a5d98a374442cad0c8f852
+DetectorPersist...   INFO Added successfully Conversion service:XmlCnvSvc
+DetectorDataSvc   SUCCESS Detector description database: git:/lhcb.xml
+RndmGenSvc.Engine    INFO Generator engine type:CLHEP::RanluxEngine
+RndmGenSvc.Engine    INFO Current Seed:1234567 Luxury:3
+RndmGenSvc           INFO Using Random engine:HepRndm::Engine<CLHEP::RanluxEngine>
+TimingAuditor.T...   INFO This machine has a speed about   4.35 times the speed of a 2.8 GHz Xeon.
+NTupleSvc            INFO Added stream file:BCands-mc.root as FILE1
+TransportSvc         INFO Initialize the static pointer to DetDesc::IGeometryErrorSvc
+TransportSvc         INFO Recovery of geometry errors is  ENABLED
+DaVinciEventSeq      INFO Member list: DaVinciInit/DaVinciInitAlg, GaudiSequencer/FilteredEventSeq, GaudiSequencer/LumiSeq
+DaVinciInitAlg    SUCCESS ==================================================================
+DaVinciInitAlg    SUCCESS Requested to process all events on input file(s)
+DaVinciInitAlg    SUCCESS ==================================================================
+RootHistSvc          INFO Writing ROOT histograms to: UndefinedROOTOutputFileName
+HistogramPersis...   INFO Added successfully Conversion service:RootHistSvc
+HistogramDataSvc     INFO Added stream file:/opt/lhcb/lhcb/PARAM/ParamFiles/v8r27p1/data/PhotonPdf.root as CaloNeutralPIDs
+HistogramDataSvc     INFO Added stream file:/opt/lhcb/lhcb/PARAM/ParamFiles/v8r27p1/data/CaloPIDs_DC09_v1.root as CaloPIDs
+HistogramDataSvc     INFO Added stream file:/opt/lhcb/lhcb/PARAM/ParamFiles/v8r27p1/data/JetEnergyCorrections_R05_v3.root as JEC14R05
+HistogramDataSvc     INFO Added stream file:/opt/lhcb/lhcb/PARAM/ParamFiles/v8r27p1/data/JetEnergyCorrections_R07_v3.root as JEC14R07
+FilteredEventSeq     INFO Member list: GaudiSequencer/DaVinciEventInitSeq, GaudiSequencer/DaVinciAnalysisSeq
+DaVinciEventIni...   INFO Member list: GaudiSequencer/PhysInitSeq, GaudiSequencer/AnalysisInitSeq
+PhysInitSeq          INFO Member list: 
+AnalysisInitSeq      INFO Member list: 
+DaVinciAnalysisSeq   INFO Member list: GaudiSequencer/DaVinciUserSequence, GaudiSequencer/MonitoringSequence
+DaVinciUserSequ...   INFO Member list: TrackSmearState/StateSmear, ChargedProtoParticleMaker/MyProtoPMaker, NoPIDsParticleMaker/StdNoPIDsVeloPions, GaudiSequencer/SeqMyB0, DecayTreeTuple/TupleB0
+StateSmear           INFO  Condition: /MomentumSmear     Valid;   Validity: Thu Jan  1 00:00:00 1970 -> Fri Apr 11 23:47:16 2262
+StateSmear           INFO Use the momentum smearing from CONDDB
+MagneticFieldSvc     INFO Opened magnetic field file : /opt/lhcb/lhcb/DBASE/FieldMap/v5r7/cdf/c1_onemap_down.cdf
+MagneticFieldSvc     INFO Opened magnetic field file : /opt/lhcb/lhcb/DBASE/FieldMap/v5r7/cdf/c2_onemap_down.cdf
+MagneticFieldSvc     INFO Opened magnetic field file : /opt/lhcb/lhcb/DBASE/FieldMap/v5r7/cdf/c3_onemap_down.cdf
+MagneticFieldSvc     INFO Opened magnetic field file : /opt/lhcb/lhcb/DBASE/FieldMap/v5r7/cdf/c4_onemap_down.cdf
+MagneticFieldSvc     INFO Map scaled by factor 1 with polarity internally used: -1 signed relative current: -1
+StdNoPIDsVeloPions   INFO Particle/AntiParticle to be created : 'pi+'/'pi-'
+SeqMyB0              INFO Member list: LoKi::HDRFilter/Hlt2TriggeredD0, LoKi::HDRFilter/StrippedBCands, LoKi::VoidFilter/SELECT:/Allstreams/Phys/b2D0MuXB2DMuForTauMuLine, FilterInTrees/SelMyStrippedChargedK, FilterInTrees/SelMyStrippedChargedPi, CombineParticles/SelMyD0, LoKi::VoidFilter/SELECT:Phys/StdAllLoosePions, CombineParticles/SelMyDst, FilterInTrees/SelMyStrippedMu, CombineParticles/SelMyB0, FitDecayTrees/SelMyRefitB02DstMu
+TupleB0              INFO Will look for  ( ( B~0  -> ^( ( D*(2010)+  -> ^( ( D0  -> ^( K- ) ^( pi+ )) ) ^( pi+ )) ) ^( mu- )) || ( B0  -> ^( ( D*(2010)-  -> ^( ( D~0  -> ^( K+ ) ^( pi- )) ) ^( pi- )) ) ^( mu+ )) ) 
+TupleB0              INFO Explicit sub decays :7
+TupleB0.D0           INFO TupleB0.D0 : ( ( B0  -> ( D*(2010)-  -> ^( ( D~0  -> K+  pi- ) ) pi- )  mu+ ) || ( B~0  -> ( D*(2010)+  -> ^( ( D0  -> K-  pi+ ) ) pi+ )  mu- ) ) 
+TupleB0.Dst_201...   INFO TupleB0.Dst_2010_minus : ( ( B0  -> ^( ( D*(2010)-  -> ( D~0  -> K+  pi- )  pi- ) ) mu+ ) || ( B~0  -> ^( ( D*(2010)+  -> ( D0  -> K-  pi+ )  pi+ ) ) mu- ) ) 
+TupleB0.Kplus        INFO TupleB0.Kplus : ( ( B0  -> ( D*(2010)-  -> ( D~0  -> ^( K+ ) pi- )  pi- )  mu+ ) || ( B~0  -> ( D*(2010)+  -> ( D0  -> ^( K- ) pi+ )  pi+ )  mu- ) ) 
+TupleB0.Y            INFO TupleB0.Y : ^( ( ( B0  -> ( D*(2010)-  -> ( D~0  -> K+  pi- )  pi- )  mu+ ) || ( B~0  -> ( D*(2010)+  -> ( D0  -> K-  pi+ )  pi+ )  mu- ) ) )
+TupleB0.muplus       INFO TupleB0.muplus : ( ( B0  -> ( D*(2010)-  -> ( D~0  -> K+  pi- )  pi- )  ^( mu+ )) || ( B~0  -> ( D*(2010)+  -> ( D0  -> K-  pi+ )  pi+ )  ^( mu- )) ) 
+TupleB0.piminus      INFO TupleB0.piminus : ( ( B0  -> ( D*(2010)-  -> ( D~0  -> K+  pi- )  ^( pi- ))  mu+ ) || ( B~0  -> ( D*(2010)+  -> ( D0  -> K-  pi+ )  ^( pi+ ))  mu- ) ) 
+TupleB0.piminus0     INFO TupleB0.piminus0 : ( ( B0  -> ( D*(2010)-  -> ( D~0  -> K+  ^( pi- ))  pi- )  mu+ ) || ( B~0  -> ( D*(2010)+  -> ( D0  -> K-  ^( pi+ ))  pi+ )  mu- ) ) 
+MonitoringSequence   INFO Member list: 
+LumiSeq              INFO OR Member list: EventAccounting/EventAccount
+EventPersistenc...   INFO Added successfully Conversion service:RootCnvSvc
+EventSelector        INFO Stream:EventSelector.DataStreamTool_1 Def:DATAFILE='./data/mc-mag_down-py8-sim08h-Bd2D0XMuMu-D0_cocktail/00046785_00000003_2.AllStreams.dst' SVC='Gaudi::RootEvtSelector' OPT='READ'
+ApplicationMgr       INFO Application Manager Initialized successfully
+ApplicationMgr       INFO Application Manager Started successfully
+FileRecordPersi...   INFO Added successfully Conversion service:FileRecordCnvSvc
+EventSelector     SUCCESS Reading Event record 1. Record number within stream 1: 1
+ConfigCDBAccessSvc   INFO  opening /opt/lhcb/lhcb/DBASE/TCK/HltTCK/v3r19p28/config.cdb in mode ReadOnly
+PropertyConfigSvc    INFO  resolved TCK/0x40760037 to 39f03c5182d55e6621d1a64c6fb984c7
+DaVinciInitAlg       INFO Memory has changed from 1818044 to 1953712 KB (135668KB, 7.46231%) in last  'Increment':100 events
+EventSelector     SUCCESS Reading Event record 101. Record number within stream 1: 101
+EventSelector     SUCCESS Reading Event record 201. Record number within stream 1: 201
+EventSelector     SUCCESS Reading Event record 301. Record number within stream 1: 301
+EventSelector     SUCCESS Reading Event record 401. Record number within stream 1: 401
+EventSelector     SUCCESS Reading Event record 501. Record number within stream 1: 501
+EventSelector     SUCCESS Reading Event record 601. Record number within stream 1: 601
+EventSelector     SUCCESS Reading Event record 701. Record number within stream 1: 701
+EventSelector     SUCCESS Reading Event record 801. Record number within stream 1: 801
+EventSelector     SUCCESS Reading Event record 901. Record number within stream 1: 901
+EventSelector     SUCCESS Reading Event record 1001. Record number within stream 1: 1001
+EventSelector     SUCCESS Reading Event record 1101. Record number within stream 1: 1101
+EventSelector     SUCCESS Reading Event record 1201. Record number within stream 1: 1201
+EventSelector     SUCCESS Reading Event record 1301. Record number within stream 1: 1301
+EventSelector     SUCCESS Reading Event record 1401. Record number within stream 1: 1401
+EventSelector     SUCCESS Reading Event record 1501. Record number within stream 1: 1501
+EventSelector     SUCCESS Reading Event record 1601. Record number within stream 1: 1601
+EventSelector     SUCCESS Reading Event record 1701. Record number within stream 1: 1701
+EventSelector     SUCCESS Reading Event record 1801. Record number within stream 1: 1801
+EventSelector     SUCCESS Reading Event record 1901. Record number within stream 1: 1901
+EventSelector     SUCCESS Reading Event record 2001. Record number within stream 1: 2001
+EventSelector     SUCCESS Reading Event record 2101. Record number within stream 1: 2101
+EventSelector     SUCCESS Reading Event record 2201. Record number within stream 1: 2201
+EventSelector     SUCCESS Reading Event record 2301. Record number within stream 1: 2301
+EventSelector     SUCCESS Reading Event record 2401. Record number within stream 1: 2401
+EventSelector     SUCCESS Reading Event record 2501. Record number within stream 1: 2501
+EventSelector     SUCCESS Reading Event record 2601. Record number within stream 1: 2601
+EventSelector     SUCCESS Reading Event record 2701. Record number within stream 1: 2701
+EventSelector     SUCCESS Reading Event record 2801. Record number within stream 1: 2801
+EventSelector     SUCCESS Reading Event record 2901. Record number within stream 1: 2901
+EventSelector     SUCCESS Reading Event record 3001. Record number within stream 1: 3001
+EventSelector     SUCCESS Reading Event record 3101. Record number within stream 1: 3101
+EventSelector     SUCCESS Reading Event record 3201. Record number within stream 1: 3201
+EventSelector     SUCCESS Reading Event record 3301. Record number within stream 1: 3301
+EventSelector     SUCCESS Reading Event record 3401. Record number within stream 1: 3401
+EventSelector     SUCCESS Reading Event record 3501. Record number within stream 1: 3501
+EventSelector     SUCCESS Reading Event record 3601. Record number within stream 1: 3601
+EventSelector     SUCCESS Reading Event record 3701. Record number within stream 1: 3701
+EventSelector     SUCCESS Reading Event record 3801. Record number within stream 1: 3801
+EventSelector     SUCCESS Reading Event record 3901. Record number within stream 1: 3901
+EventSelector     SUCCESS Reading Event record 4001. Record number within stream 1: 4001
+EventSelector     SUCCESS Reading Event record 4101. Record number within stream 1: 4101
+EventSelector     SUCCESS Reading Event record 4201. Record number within stream 1: 4201
+EventSelector     SUCCESS Reading Event record 4301. Record number within stream 1: 4301
+EventSelector     SUCCESS Reading Event record 4401. Record number within stream 1: 4401
+EventSelector     SUCCESS Reading Event record 4501. Record number within stream 1: 4501
+EventSelector     SUCCESS Reading Event record 4601. Record number within stream 1: 4601
+EventSelector     SUCCESS Reading Event record 4701. Record number within stream 1: 4701
+EventSelector     SUCCESS Reading Event record 4801. Record number within stream 1: 4801
+EventSelector     SUCCESS Reading Event record 4901. Record number within stream 1: 4901
+EventSelector     SUCCESS Reading Event record 5001. Record number within stream 1: 5001
+EventSelector     SUCCESS Reading Event record 5101. Record number within stream 1: 5101
+EventSelector     SUCCESS Reading Event record 5201. Record number within stream 1: 5201
+EventSelector     SUCCESS Reading Event record 5301. Record number within stream 1: 5301
+EventSelector     SUCCESS Reading Event record 5401. Record number within stream 1: 5401
+EventSelector     SUCCESS Reading Event record 5501. Record number within stream 1: 5501
+EventSelector     SUCCESS Reading Event record 5601. Record number within stream 1: 5601
+EventSelector     SUCCESS Reading Event record 5701. Record number within stream 1: 5701
+EventSelector     SUCCESS Reading Event record 5801. Record number within stream 1: 5801
+EventSelector     SUCCESS Reading Event record 5901. Record number within stream 1: 5901
+EventSelector     SUCCESS Reading Event record 6001. Record number within stream 1: 6001
+EventSelector     SUCCESS Reading Event record 6101. Record number within stream 1: 6101
+EventSelector     SUCCESS Reading Event record 6201. Record number within stream 1: 6201
+EventSelector     SUCCESS Reading Event record 6301. Record number within stream 1: 6301
+EventSelector     SUCCESS Reading Event record 6401. Record number within stream 1: 6401
+EventSelector     SUCCESS Reading Event record 6501. Record number within stream 1: 6501
+EventSelector     SUCCESS Reading Event record 6601. Record number within stream 1: 6601
+EventSelector     SUCCESS Reading Event record 6701. Record number within stream 1: 6701
+EventSelector     SUCCESS Reading Event record 6801. Record number within stream 1: 6801
+EventSelector     SUCCESS Reading Event record 6901. Record number within stream 1: 6901
+EventSelector     SUCCESS Reading Event record 7001. Record number within stream 1: 7001
+EventSelector     SUCCESS Reading Event record 7101. Record number within stream 1: 7101
+EventSelector     SUCCESS Reading Event record 7201. Record number within stream 1: 7201
+EventSelector     SUCCESS Reading Event record 7301. Record number within stream 1: 7301
+EventSelector     SUCCESS Reading Event record 7401. Record number within stream 1: 7401
+EventSelector     SUCCESS Reading Event record 7501. Record number within stream 1: 7501
+EventSelector     SUCCESS Reading Event record 7601. Record number within stream 1: 7601
+EventSelector     SUCCESS Reading Event record 7701. Record number within stream 1: 7701
+EventSelector     SUCCESS Reading Event record 7801. Record number within stream 1: 7801
+EventSelector     SUCCESS Reading Event record 7901. Record number within stream 1: 7901
+EventSelector     SUCCESS Reading Event record 8001. Record number within stream 1: 8001
+EventSelector     SUCCESS Reading Event record 8101. Record number within stream 1: 8101
+EventSelector     SUCCESS Reading Event record 8201. Record number within stream 1: 8201
+EventSelector     SUCCESS Reading Event record 8301. Record number within stream 1: 8301
+EventSelector     SUCCESS Reading Event record 8401. Record number within stream 1: 8401
+EventSelector     SUCCESS Reading Event record 8501. Record number within stream 1: 8501
+EventSelector     SUCCESS Reading Event record 8601. Record number within stream 1: 8601
+EventSelector     SUCCESS Reading Event record 8701. Record number within stream 1: 8701
+EventSelector     SUCCESS Reading Event record 8801. Record number within stream 1: 8801
+EventSelector     SUCCESS Reading Event record 8901. Record number within stream 1: 8901
+EventSelector     SUCCESS Reading Event record 9001. Record number within stream 1: 9001
+EventSelector     SUCCESS Reading Event record 9101. Record number within stream 1: 9101
+EventSelector     SUCCESS Reading Event record 9201. Record number within stream 1: 9201
+EventSelector     SUCCESS Reading Event record 9301. Record number within stream 1: 9301
+EventSelector     SUCCESS Reading Event record 9401. Record number within stream 1: 9401
+EventSelector     SUCCESS Reading Event record 9501. Record number within stream 1: 9501
+EventSelector     SUCCESS Reading Event record 9601. Record number within stream 1: 9601
+EventSelector     SUCCESS Reading Event record 9701. Record number within stream 1: 9701
+EventSelector     SUCCESS Reading Event record 9801. Record number within stream 1: 9801
+EventSelector     SUCCESS Reading Event record 9901. Record number within stream 1: 9901
+EventSelector     SUCCESS Reading Event record 10001. Record number within stream 1: 10001
+EventSelector     SUCCESS Reading Event record 10101. Record number within stream 1: 10101
+EventSelector     SUCCESS Reading Event record 10201. Record number within stream 1: 10201
+EventSelector     SUCCESS Reading Event record 10301. Record number within stream 1: 10301
+EventSelector     SUCCESS Reading Event record 10401. Record number within stream 1: 10401
+EventSelector     SUCCESS Reading Event record 10501. Record number within stream 1: 10501
+EventSelector     SUCCESS Reading Event record 10601. Record number within stream 1: 10601
+EventSelector     SUCCESS Reading Event record 10701. Record number within stream 1: 10701
+EventSelector     SUCCESS Reading Event record 10801. Record number within stream 1: 10801
+EventSelector     SUCCESS Reading Event record 10901. Record number within stream 1: 10901
+EventSelector     SUCCESS Reading Event record 11001. Record number within stream 1: 11001
+EventSelector     SUCCESS Reading Event record 11101. Record number within stream 1: 11101
+EventSelector     SUCCESS Reading Event record 11201. Record number within stream 1: 11201
+EventSelector     SUCCESS Reading Event record 11301. Record number within stream 1: 11301
+EventSelector     SUCCESS Reading Event record 11401. Record number within stream 1: 11401
+EventSelector     SUCCESS Reading Event record 11501. Record number within stream 1: 11501
+EventSelector     SUCCESS Reading Event record 11601. Record number within stream 1: 11601
+EventSelector     SUCCESS Reading Event record 11701. Record number within stream 1: 11701
+EventSelector     SUCCESS Reading Event record 11801. Record number within stream 1: 11801
+EventSelector     SUCCESS Reading Event record 11901. Record number within stream 1: 11901
+EventSelector     SUCCESS Reading Event record 12001. Record number within stream 1: 12001
+EventSelector     SUCCESS Reading Event record 12101. Record number within stream 1: 12101
+EventSelector     SUCCESS Reading Event record 12201. Record number within stream 1: 12201
+EventSelector     SUCCESS Reading Event record 12301. Record number within stream 1: 12301
+EventSelector     SUCCESS Reading Event record 12401. Record number within stream 1: 12401
+EventSelector     SUCCESS Reading Event record 12501. Record number within stream 1: 12501
+EventSelector     SUCCESS Reading Event record 12601. Record number within stream 1: 12601
+EventSelector     SUCCESS Reading Event record 12701. Record number within stream 1: 12701
+EventSelector     SUCCESS Reading Event record 12801. Record number within stream 1: 12801
+EventSelector     SUCCESS Reading Event record 12901. Record number within stream 1: 12901
+EventSelector     SUCCESS Reading Event record 13001. Record number within stream 1: 13001
+EventSelector     SUCCESS Reading Event record 13101. Record number within stream 1: 13101
+EventSelector     SUCCESS Reading Event record 13201. Record number within stream 1: 13201
+EventSelector     SUCCESS Reading Event record 13301. Record number within stream 1: 13301
+EventSelector     SUCCESS Reading Event record 13401. Record number within stream 1: 13401
+EventSelector     SUCCESS Reading Event record 13501. Record number within stream 1: 13501
+EventSelector     SUCCESS Reading Event record 13601. Record number within stream 1: 13601
+EventSelector     SUCCESS Reading Event record 13701. Record number within stream 1: 13701
+EventSelector     SUCCESS Reading Event record 13801. Record number within stream 1: 13801
+EventSelector     SUCCESS Reading Event record 13901. Record number within stream 1: 13901
+EventSelector     SUCCESS Reading Event record 14001. Record number within stream 1: 14001
+EventSelector     SUCCESS Reading Event record 14101. Record number within stream 1: 14101
+EventSelector     SUCCESS Reading Event record 14201. Record number within stream 1: 14201
+EventSelector     SUCCESS Reading Event record 14301. Record number within stream 1: 14301
+EventSelector     SUCCESS Reading Event record 14401. Record number within stream 1: 14401
+EventSelector     SUCCESS Reading Event record 14501. Record number within stream 1: 14501
+EventSelector     SUCCESS Reading Event record 14601. Record number within stream 1: 14601
+EventSelector     SUCCESS Reading Event record 14701. Record number within stream 1: 14701
+EventSelector     SUCCESS Reading Event record 14801. Record number within stream 1: 14801
+EventSelector     SUCCESS Reading Event record 14901. Record number within stream 1: 14901
+EventSelector     SUCCESS Reading Event record 15001. Record number within stream 1: 15001
+EventSelector     SUCCESS Reading Event record 15101. Record number within stream 1: 15101
+EventSelector     SUCCESS Reading Event record 15201. Record number within stream 1: 15201
+EventSelector     SUCCESS Reading Event record 15301. Record number within stream 1: 15301
+EventSelector     SUCCESS Reading Event record 15401. Record number within stream 1: 15401
+EventSelector     SUCCESS Reading Event record 15501. Record number within stream 1: 15501
+EventSelector     SUCCESS Reading Event record 15601. Record number within stream 1: 15601
+EventSelector     SUCCESS Reading Event record 15701. Record number within stream 1: 15701
+EventSelector     SUCCESS Reading Event record 15801. Record number within stream 1: 15801
+EventSelector     SUCCESS Reading Event record 15901. Record number within stream 1: 15901
+EventSelector     SUCCESS Reading Event record 16001. Record number within stream 1: 16001
+EventSelector     SUCCESS Reading Event record 16101. Record number within stream 1: 16101
+EventSelector     SUCCESS Reading Event record 16201. Record number within stream 1: 16201
+EventSelector     SUCCESS Reading Event record 16301. Record number within stream 1: 16301
+EventSelector     SUCCESS Reading Event record 16401. Record number within stream 1: 16401
+EventSelector     SUCCESS Reading Event record 16501. Record number within stream 1: 16501
+EventSelector     SUCCESS Reading Event record 16601. Record number within stream 1: 16601
+EventSelector     SUCCESS Reading Event record 16701. Record number within stream 1: 16701
+EventSelector     SUCCESS Reading Event record 16801. Record number within stream 1: 16801
+EventSelector     SUCCESS Reading Event record 16901. Record number within stream 1: 16901
+EventSelector     SUCCESS Reading Event record 17001. Record number within stream 1: 17001
+EventSelector     SUCCESS Reading Event record 17101. Record number within stream 1: 17101
+DaVinciInitAlg       INFO Memory has changed from 1953712 to 1953844 KB (132KB, 0.00675637%) in last  'Increment':100 events
+EventSelector     SUCCESS Reading Event record 17201. Record number within stream 1: 17201
+EventSelector        INFO Stream:EventSelector.DataStreamTool_2 Def:DATAFILE='./data/mc-mag_down-py8-sim08h-Bd2D0XMuMu-D0_cocktail/00046785_00000016_2.AllStreams.dst' SVC='Gaudi::RootEvtSelector' OPT='READ'
+IODataManager        INFO Disconnect from dataset ./data/mc-mag_down-py8-sim08h-Bd2D0XMuMu-D0_cocktail/00046785_00000003_2.AllStreams.dst [A6A67731-2B39-E511-8C4A-6CC2173BBF60]
+DaVinciInitAlg       INFO Memory has changed from 1953844 to 1942332 KB (-11512KB, -0.589197%) in last  'Increment':100 events
+EventSelector     SUCCESS Reading Event record 17301. Record number within stream 2: 64
+EventSelector     SUCCESS Reading Event record 17401. Record number within stream 2: 164
+EventSelector     SUCCESS Reading Event record 17501. Record number within stream 2: 264
+EventSelector     SUCCESS Reading Event record 17601. Record number within stream 2: 364
+EventSelector     SUCCESS Reading Event record 17701. Record number within stream 2: 464
+EventSelector     SUCCESS Reading Event record 17801. Record number within stream 2: 564
+EventSelector     SUCCESS Reading Event record 17901. Record number within stream 2: 664
+EventSelector     SUCCESS Reading Event record 18001. Record number within stream 2: 764
+EventSelector     SUCCESS Reading Event record 18101. Record number within stream 2: 864
+EventSelector     SUCCESS Reading Event record 18201. Record number within stream 2: 964
+EventSelector     SUCCESS Reading Event record 18301. Record number within stream 2: 1064
+EventSelector     SUCCESS Reading Event record 18401. Record number within stream 2: 1164
+EventSelector     SUCCESS Reading Event record 18501. Record number within stream 2: 1264
+EventSelector     SUCCESS Reading Event record 18601. Record number within stream 2: 1364
+EventSelector     SUCCESS Reading Event record 18701. Record number within stream 2: 1464
+EventSelector     SUCCESS Reading Event record 18801. Record number within stream 2: 1564
+EventSelector     SUCCESS Reading Event record 18901. Record number within stream 2: 1664
+EventSelector     SUCCESS Reading Event record 19001. Record number within stream 2: 1764
+EventSelector     SUCCESS Reading Event record 19101. Record number within stream 2: 1864
+EventSelector     SUCCESS Reading Event record 19201. Record number within stream 2: 1964
+EventSelector     SUCCESS Reading Event record 19301. Record number within stream 2: 2064
+EventSelector     SUCCESS Reading Event record 19401. Record number within stream 2: 2164
+EventSelector     SUCCESS Reading Event record 19501. Record number within stream 2: 2264
+EventSelector     SUCCESS Reading Event record 19601. Record number within stream 2: 2364
+EventSelector     SUCCESS Reading Event record 19701. Record number within stream 2: 2464
+EventSelector     SUCCESS Reading Event record 19801. Record number within stream 2: 2564
+EventSelector     SUCCESS Reading Event record 19901. Record number within stream 2: 2664
+EventSelector     SUCCESS Reading Event record 20001. Record number within stream 2: 2764
+EventSelector     SUCCESS Reading Event record 20101. Record number within stream 2: 2864
+EventSelector     SUCCESS Reading Event record 20201. Record number within stream 2: 2964
+EventSelector     SUCCESS Reading Event record 20301. Record number within stream 2: 3064
+EventSelector     SUCCESS Reading Event record 20401. Record number within stream 2: 3164
+EventSelector     SUCCESS Reading Event record 20501. Record number within stream 2: 3264
+EventSelector     SUCCESS Reading Event record 20601. Record number within stream 2: 3364
+EventSelector     SUCCESS Reading Event record 20701. Record number within stream 2: 3464
+EventSelector     SUCCESS Reading Event record 20801. Record number within stream 2: 3564
+EventSelector     SUCCESS Reading Event record 20901. Record number within stream 2: 3664
+EventSelector     SUCCESS Reading Event record 21001. Record number within stream 2: 3764
+EventSelector     SUCCESS Reading Event record 21101. Record number within stream 2: 3864
+EventSelector     SUCCESS Reading Event record 21201. Record number within stream 2: 3964
+EventSelector     SUCCESS Reading Event record 21301. Record number within stream 2: 4064
+EventSelector     SUCCESS Reading Event record 21401. Record number within stream 2: 4164
+EventSelector     SUCCESS Reading Event record 21501. Record number within stream 2: 4264
+EventSelector     SUCCESS Reading Event record 21601. Record number within stream 2: 4364
+EventSelector     SUCCESS Reading Event record 21701. Record number within stream 2: 4464
+EventSelector     SUCCESS Reading Event record 21801. Record number within stream 2: 4564
+EventSelector     SUCCESS Reading Event record 21901. Record number within stream 2: 4664
+EventSelector     SUCCESS Reading Event record 22001. Record number within stream 2: 4764
+EventSelector     SUCCESS Reading Event record 22101. Record number within stream 2: 4864
+EventSelector     SUCCESS Reading Event record 22201. Record number within stream 2: 4964
+EventSelector     SUCCESS Reading Event record 22301. Record number within stream 2: 5064
+EventSelector     SUCCESS Reading Event record 22401. Record number within stream 2: 5164
+EventSelector     SUCCESS Reading Event record 22501. Record number within stream 2: 5264
+EventSelector     SUCCESS Reading Event record 22601. Record number within stream 2: 5364
+EventSelector     SUCCESS Reading Event record 22701. Record number within stream 2: 5464
+EventSelector     SUCCESS Reading Event record 22801. Record number within stream 2: 5564
+EventSelector     SUCCESS Reading Event record 22901. Record number within stream 2: 5664
+EventSelector     SUCCESS Reading Event record 23001. Record number within stream 2: 5764
+EventSelector     SUCCESS Reading Event record 23101. Record number within stream 2: 5864
+EventSelector     SUCCESS Reading Event record 23201. Record number within stream 2: 5964
+EventSelector     SUCCESS Reading Event record 23301. Record number within stream 2: 6064
+EventSelector     SUCCESS Reading Event record 23401. Record number within stream 2: 6164
+EventSelector     SUCCESS Reading Event record 23501. Record number within stream 2: 6264
+EventSelector     SUCCESS Reading Event record 23601. Record number within stream 2: 6364
+EventSelector     SUCCESS Reading Event record 23701. Record number within stream 2: 6464
+EventSelector     SUCCESS Reading Event record 23801. Record number within stream 2: 6564
+EventSelector     SUCCESS Reading Event record 23901. Record number within stream 2: 6664
+EventSelector     SUCCESS Reading Event record 24001. Record number within stream 2: 6764
+EventSelector     SUCCESS Reading Event record 24101. Record number within stream 2: 6864
+EventSelector     SUCCESS Reading Event record 24201. Record number within stream 2: 6964
+EventSelector     SUCCESS Reading Event record 24301. Record number within stream 2: 7064
+EventSelector     SUCCESS Reading Event record 24401. Record number within stream 2: 7164
+EventSelector     SUCCESS Reading Event record 24501. Record number within stream 2: 7264
+EventSelector     SUCCESS Reading Event record 24601. Record number within stream 2: 7364
+EventSelector     SUCCESS Reading Event record 24701. Record number within stream 2: 7464
+EventSelector     SUCCESS Reading Event record 24801. Record number within stream 2: 7564
+EventSelector     SUCCESS Reading Event record 24901. Record number within stream 2: 7664
+EventSelector     SUCCESS Reading Event record 25001. Record number within stream 2: 7764
+EventSelector     SUCCESS Reading Event record 25101. Record number within stream 2: 7864
+EventSelector     SUCCESS Reading Event record 25201. Record number within stream 2: 7964
+EventSelector     SUCCESS Reading Event record 25301. Record number within stream 2: 8064
+EventSelector     SUCCESS Reading Event record 25401. Record number within stream 2: 8164
+EventSelector     SUCCESS Reading Event record 25501. Record number within stream 2: 8264
+EventSelector     SUCCESS Reading Event record 25601. Record number within stream 2: 8364
+EventSelector     SUCCESS Reading Event record 25701. Record number within stream 2: 8464
+EventSelector     SUCCESS Reading Event record 25801. Record number within stream 2: 8564
+EventSelector     SUCCESS Reading Event record 25901. Record number within stream 2: 8664
+EventSelector     SUCCESS Reading Event record 26001. Record number within stream 2: 8764
+EventSelector     SUCCESS Reading Event record 26101. Record number within stream 2: 8864
+EventSelector     SUCCESS Reading Event record 26201. Record number within stream 2: 8964
+EventSelector     SUCCESS Reading Event record 26301. Record number within stream 2: 9064
+EventSelector     SUCCESS Reading Event record 26401. Record number within stream 2: 9164
+EventSelector     SUCCESS Reading Event record 26501. Record number within stream 2: 9264
+EventSelector     SUCCESS Reading Event record 26601. Record number within stream 2: 9364
+EventSelector     SUCCESS Reading Event record 26701. Record number within stream 2: 9464
+EventSelector     SUCCESS Reading Event record 26801. Record number within stream 2: 9564
+EventSelector     SUCCESS Reading Event record 26901. Record number within stream 2: 9664
+EventSelector     SUCCESS Reading Event record 27001. Record number within stream 2: 9764
+EventSelector     SUCCESS Reading Event record 27101. Record number within stream 2: 9864
+EventSelector     SUCCESS Reading Event record 27201. Record number within stream 2: 9964
+EventSelector     SUCCESS Reading Event record 27301. Record number within stream 2: 10064
+EventSelector     SUCCESS Reading Event record 27401. Record number within stream 2: 10164
+EventSelector     SUCCESS Reading Event record 27501. Record number within stream 2: 10264
+EventSelector     SUCCESS Reading Event record 27601. Record number within stream 2: 10364
+EventSelector     SUCCESS Reading Event record 27701. Record number within stream 2: 10464
+EventSelector     SUCCESS Reading Event record 27801. Record number within stream 2: 10564
+EventSelector     SUCCESS Reading Event record 27901. Record number within stream 2: 10664
+EventSelector     SUCCESS Reading Event record 28001. Record number within stream 2: 10764
+EventSelector     SUCCESS Reading Event record 28101. Record number within stream 2: 10864
+EventSelector     SUCCESS Reading Event record 28201. Record number within stream 2: 10964
+EventSelector     SUCCESS Reading Event record 28301. Record number within stream 2: 11064
+EventSelector     SUCCESS Reading Event record 28401. Record number within stream 2: 11164
+EventSelector     SUCCESS Reading Event record 28501. Record number within stream 2: 11264
+EventSelector     SUCCESS Reading Event record 28601. Record number within stream 2: 11364
+EventSelector     SUCCESS Reading Event record 28701. Record number within stream 2: 11464
+EventSelector     SUCCESS Reading Event record 28801. Record number within stream 2: 11564
+EventSelector     SUCCESS Reading Event record 28901. Record number within stream 2: 11664
+EventSelector     SUCCESS Reading Event record 29001. Record number within stream 2: 11764
+EventSelector     SUCCESS Reading Event record 29101. Record number within stream 2: 11864
+EventSelector     SUCCESS Reading Event record 29201. Record number within stream 2: 11964
+EventSelector     SUCCESS Reading Event record 29301. Record number within stream 2: 12064
+EventSelector     SUCCESS Reading Event record 29401. Record number within stream 2: 12164
+EventSelector     SUCCESS Reading Event record 29501. Record number within stream 2: 12264
+EventSelector     SUCCESS Reading Event record 29601. Record number within stream 2: 12364
+EventSelector     SUCCESS Reading Event record 29701. Record number within stream 2: 12464
+DaVinciInitAlg       INFO Memory has changed from 1942332 to 1942672 KB (340KB, 0.0175047%) in last  'Increment':100 events
+EventSelector     SUCCESS Reading Event record 29801. Record number within stream 2: 12564
+EventSelector     SUCCESS Reading Event record 29901. Record number within stream 2: 12664
+EventSelector     SUCCESS Reading Event record 30001. Record number within stream 2: 12764
+EventSelector     SUCCESS Reading Event record 30101. Record number within stream 2: 12864
+EventSelector     SUCCESS Reading Event record 30201. Record number within stream 2: 12964
+EventSelector     SUCCESS Reading Event record 30301. Record number within stream 2: 13064
+EventSelector     SUCCESS Reading Event record 30401. Record number within stream 2: 13164
+EventSelector     SUCCESS Reading Event record 30501. Record number within stream 2: 13264
+EventSelector     SUCCESS Reading Event record 30601. Record number within stream 2: 13364
+EventSelector     SUCCESS Reading Event record 30701. Record number within stream 2: 13464
+EventSelector     SUCCESS Reading Event record 30801. Record number within stream 2: 13564
+DaVinciInitAlg       INFO Memory has changed from 1942672 to 1942808 KB (136KB, 0.00700067%) in last  'Increment':100 events
+EventSelector     SUCCESS Reading Event record 30901. Record number within stream 2: 13664
+DaVinciInitAlg       INFO Memory has changed from 1942808 to 1943032 KB (224KB, 0.0115297%) in last  'Increment':100 events
+EventSelector     SUCCESS Reading Event record 31001. Record number within stream 2: 13764
+DaVinciInitAlg       INFO Memory has changed from 1943032 to 1943164 KB (132KB, 0.00679351%) in last  'Increment':100 events
+EventSelector     SUCCESS Reading Event record 31101. Record number within stream 2: 13864
+EventSelector     SUCCESS Reading Event record 31201. Record number within stream 2: 13964
+EventSelector     SUCCESS Reading Event record 31301. Record number within stream 2: 14064
+EventSelector     SUCCESS Reading Event record 31401. Record number within stream 2: 14164
+EventSelector     SUCCESS Reading Event record 31501. Record number within stream 2: 14264
+EventSelector     SUCCESS Reading Event record 31601. Record number within stream 2: 14364
+EventSelector     SUCCESS Reading Event record 31701. Record number within stream 2: 14464
+EventSelector     SUCCESS Reading Event record 31801. Record number within stream 2: 14564
+EventSelector     SUCCESS Reading Event record 31901. Record number within stream 2: 14664
+DaVinciInitAlg       INFO Memory has changed from 1943164 to 1943296 KB (132KB, 0.00679304%) in last  'Increment':100 events
+EventSelector     SUCCESS Reading Event record 32001. Record number within stream 2: 14764
+EventSelector     SUCCESS Reading Event record 32101. Record number within stream 2: 14864
+DaVinciInitAlg       INFO Memory has changed from 1943296 to 1943428 KB (132KB, 0.00679258%) in last  'Increment':100 events
+EventSelector     SUCCESS Reading Event record 32201. Record number within stream 2: 14964
+EventSelector     SUCCESS Reading Event record 32301. Record number within stream 2: 15064
+EventSelector     SUCCESS Reading Event record 32401. Record number within stream 2: 15164
+EventSelector     SUCCESS Reading Event record 32501. Record number within stream 2: 15264
+EventSelector     SUCCESS Reading Event record 32601. Record number within stream 2: 15364
+EventSelector     SUCCESS Reading Event record 32701. Record number within stream 2: 15464
+DaVinciInitAlg       INFO Memory has changed from 1943428 to 1943608 KB (180KB, 0.00926198%) in last  'Increment':100 events
+EventSelector     SUCCESS Reading Event record 32801. Record number within stream 2: 15564
+DaVinciInitAlg       INFO Memory has changed from 1943608 to 1943760 KB (152KB, 0.00782051%) in last  'Increment':100 events
+EventSelector     SUCCESS Reading Event record 32901. Record number within stream 2: 15664
+EventSelector     SUCCESS Reading Event record 33001. Record number within stream 2: 15764
+DaVinciInitAlg       INFO Memory has changed from 1943760 to 1943892 KB (132KB, 0.00679096%) in last  'Increment':100 events
+EventSelector     SUCCESS Reading Event record 33101. Record number within stream 2: 15864
+EventSelector     SUCCESS Reading Event record 33201. Record number within stream 2: 15964
+EventSelector     SUCCESS Reading Event record 33301. Record number within stream 2: 16064
+EventSelector     SUCCESS Reading Event record 33401. Record number within stream 2: 16164
+EventSelector     SUCCESS Reading Event record 33501. Record number within stream 2: 16264
+EventSelector     SUCCESS Reading Event record 33601. Record number within stream 2: 16364
+DaVinciInitAlg       INFO Memory has changed from 1943892 to 1944024 KB (132KB, 0.0067905%) in last  'Increment':100 events
+EventSelector     SUCCESS Reading Event record 33701. Record number within stream 2: 16464
+EventSelector     SUCCESS Reading Event record 33801. Record number within stream 2: 16564
+DaVinciInitAlg       INFO Memory has changed from 1944024 to 1944156 KB (132KB, 0.00679004%) in last  'Increment':100 events
+EventSelector     SUCCESS Reading Event record 33901. Record number within stream 2: 16664
+DaVinciInitAlg       INFO Memory has changed from 1944156 to 1944288 KB (132KB, 0.00678958%) in last  'Increment':100 events
+EventSelector     SUCCESS Reading Event record 34001. Record number within stream 2: 16764
+EventSelector     SUCCESS Reading Event record 34101. Record number within stream 2: 16864
+EventSelector     SUCCESS Reading Event record 34201. Record number within stream 2: 16964
+DaVinciInitAlg       INFO Memory has changed from 1944288 to 1944440 KB (152KB, 0.00781777%) in last  'Increment':100 events
+EventSelector     SUCCESS Reading Event record 34301. Record number within stream 2: 17064
+EventSelector     SUCCESS Reading Event record 34401. Record number within stream 2: 17164
+EventSelector     SUCCESS Reading Event record 34501. Record number within stream 2: 17264
+EventSelector     SUCCESS Reading Event record 34601. Record number within stream 2: 17364
+EventSelector     SUCCESS Reading Event record 34701. Record number within stream 2: 17464
+EventSelector     SUCCESS Reading Event record 34801. Record number within stream 2: 17564
+EventSelector     SUCCESS Reading Event record 34901. Record number within stream 2: 17664
+DaVinciInitAlg       INFO Memory has changed from 1944440 to 1944692 KB (252KB, 0.01296%) in last  'Increment':100 events
+EventSelector     SUCCESS Reading Event record 35001. Record number within stream 2: 17764
+EventSelector     SUCCESS Reading Event record 35101. Record number within stream 2: 17864
+EventLoopMgr         INFO No more events in event selection 
+ApplicationMgr       INFO Application Manager Stopped successfully
+UnpackTrack       SUCCESS Number of counters : 1
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ | "# Unpacked Tracks"                             |     35131 |    4325865 |     123.14 |     69.223 |      6.0000 |      774.00 |
+DaVinciInitAlg    SUCCESS ==================================================================
+DaVinciInitAlg    SUCCESS 35131 events processed
+DaVinciInitAlg    SUCCESS ==================================================================
+StateSmear        SUCCESS Number of counters : 2
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ | "#CONDB update"                                 |         1 |          1 |     1.0000 |     0.0000 |      1.0000 |      1.0000 |
+ | "SMEAR[%]"                                      |   4009666 |   705343.2 |    0.17591 |    0.76101 |     0.10850 |      252.09 |
+MyProtoPMaker     SUCCESS Number of counters : 1
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ | "Rec/Track/Best ==> Rec/ProtoP/MyProtoPMaker/Pro|     35131 |    4325865 |     123.14 |     69.223 |      6.0000 |      774.00 |
+StdNoPIDsVeloPions   INFO ********************************************************************************
+StdNoPIDsVeloPions   INFO  created 'pi+' and 'pi- : 603154 per 35131 calls (17.1687+-10.247)/event
+StdNoPIDsVeloPionsSUCCESS Number of counters : 1
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ |*"#accept"                                       |     35131 |      35085 |( 99.86906 +- 0.01929318)%|   -------   |   -------   |
+Hlt2TriggeredD0   SUCCESS Number of counters : 1
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ |*"#passed"                                       |     35131 |        770 |( 2.191796 +- 0.07811645)%|   -------   |   -------   |
+StrippedBCands    SUCCESS Number of counters : 1
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ |*"#passed"                                       |       770 |        231 |( 30.00000 +- 1.651446)%|   -------   |   -------   |
+SELECT:/Allstre...SUCCESS Number of counters : 1
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ |*"#passed"                                       |       231 |          0 |( 0.000000 +- 0.000000)%|   -------   |   -------   |
+TupleB0           SUCCESS Number of counters : 4
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ | "# Phys/SelMyRefitB02DstMu"                     |     35131 |          0 |     0.0000 |     0.0000 |      0.0000 |      0.0000 |
+ | "# input particles"                             |     35131 |          0 |     0.0000 |     0.0000 |      0.0000 |      0.0000 |
+ |*"#accept"                                       |     35131 |          0 |( 0.000000 +- 0.000000)%|   -------   |   -------   |
+ | "Event"                                         |     35131 |      35131 |     1.0000 |     0.0000 |      1.0000 |      1.0000 |
+RootHistSvc       WARNING no ROOT output file name, Histograms cannot be persistified
+EventLoopMgr         INFO Histograms converted successfully according to request.
+FileRecordCnvSvc     INFO Disconnected data IO:A6A67731-2B39-E511-8C4A-6CC2173BBF60 [./data/mc-mag_down-py8-sim08h-Bd2D0XMuMu-D0_cocktail/00046785_00000003_2.AllStreams.dst]
+RootCnvSvc           INFO Disconnected data IO:221AF46A-A73A-E511-A181-008CFA000744 [./data/mc-mag_down-py8-sim08h-Bd2D0XMuMu-D0_cocktail/00046785_00000016_2.AllStreams.dst]
+TransportSvc      SUCCESS  GEOMETRY ERRORS: 'Skip'     map has the size 0
+
+TransportSvc      SUCCESS  GEOMETRY ERRORS: 'Recover'  map has the size 0
+
+TransportSvc      SUCCESS  GEOMETRY ERRORS: 'Codes'    map has the size 0
+
+TransportSvc         INFO Reset the static pointer to DetDesc::IGeometyrErrorSvc
+DataOnDemandSvc      INFO Handled "DataFault" incidents: 141248/141248/2507478(Alg/Node/Total).
+ToolSvc              INFO Removing all tools created by ToolSvc
+ToolSvc.HybridF...SUCCESS Number of counters : 2
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ | "# loaded from CACHE"                           |         2 |          2 |     1.0000 |     0.0000 |      1.0000 |      1.0000 |
+ | "# loaded from PYTHON"                          |        20 |         20 |     1.0000 |     0.0000 |      1.0000 |      1.0000 |
+ToolSvc.CoreFac...SUCCESS Number of counters : 2
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ | "# loaded from CACHE"                           |         1 |          1 |     1.0000 |     0.0000 |      1.0000 |      1.0000 |
+ | "# loaded from PYTHON"                          |         1 |          1 |     1.0000 |     0.0000 |      1.0000 |      1.0000 |
+ToolSvc.HltFactorySUCCESS Number of counters : 1
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ | "# loaded from PYTHON"                          |         1 |          1 |     1.0000 |     0.0000 |      1.0000 |      1.0000 |
+ToolSvc.Hlt2Hlt...SUCCESS Number of counters : 1
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ | "# loaded from PYTHON"                          |         1 |          1 |     1.0000 |     0.0000 |      1.0000 |      1.0000 |
+DaVinciInitAlg....SUCCESS Booked 4 Histogram(s) : 1D=4 
+DaVinciInitAlg....SUCCESS Number of counters : 2
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ | "Delta Memory/MB"                               |     35121 |      -9.02 |-0.00025683 |   0.062329 |     -11.660 |     0.34000 |
+ | "Total Memory/MB"                               |     35131 |6.843854e+07 |     1948.1 |     5.5728 |      1818.0 |      1954.0 |
+DaVinciInitAlg....SUCCESS Exceptions/Errors/Warnings/Infos Statistics : 0/0/1/0
+DaVinciInitAlg....SUCCESS  #WARNINGS   = 5        Message = 'Delta Memory for the event exceeds 3*sigma'
+ToolSvc.TrackSt...SUCCESS Number of counters : 2
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ | "Number of states added"                        |     23780 |     484734 |     20.384 |     10.392 |      1.0000 |      92.000 |
+ | "Number of tracks seen"                         |     35131 |     484734 |     13.798 |     12.805 |      0.0000 |      92.000 |
+TimingAuditor.T...   INFO ----------------------------------------------------------------------------------------------------------------------
+TimingAuditor.T...   INFO This machine has a speed about   4.35 times the speed of a 2.8 GHz Xeon.
+TimingAuditor.T...   INFO Algorithm                              (millisec) |    <user> |   <clock> |      min       max    sigma | entries | total (s) |
+TimingAuditor.T...   INFO ----------------------------------------------------------------------------------------------------------------------
+TimingAuditor.T...   INFO EVENT LOOP                                        |     1.817 |     1.840 |    0.517    1813.7     9.96 |   35131 |    64.656 |
+TimingAuditor.T...   INFO  DaVinciEventSeq                                  |     1.617 |     1.635 |    0.418    1782.9     9.71 |   35131 |    57.462 |
+TimingAuditor.T...   INFO   DaVinciInitAlg                                  |     0.049 |     0.052 |    0.028      28.3     0.22 |   35131 |     1.838 |
+TimingAuditor.T...   INFO   FilteredEventSeq                                |     1.553 |     1.570 |    0.378    1775.6     9.66 |   35131 |    55.157 |
+TimingAuditor.T...   INFO    DaVinciEventInitSeq                            |     0.007 |     0.006 |    0.005       3.9     0.02 |   35131 |     0.225 |
+TimingAuditor.T...   INFO     PhysInitSeq                                   |     0.002 |     0.001 |    0.001       0.2     0.00 |   35131 |     0.059 |
+TimingAuditor.T...   INFO     AnalysisInitSeq                               |     0.001 |     0.001 |    0.001       1.1     0.01 |   35131 |     0.060 |
+TimingAuditor.T...   INFO    DaVinciAnalysisSeq                             |     1.541 |     1.560 |    0.370    1775.4     9.66 |   35131 |    54.807 |
+TimingAuditor.T...   INFO     DaVinciUserSequence                           |     1.535 |     1.555 |    0.366    1775.4     9.66 |   35131 |    54.630 |
+TimingAuditor.T...   INFO      StateSmear                                   |     0.419 |     0.429 |    0.072      42.9     0.67 |   35131 |    15.072 |
+TimingAuditor.T...   INFO      MyProtoPMaker                                |     0.188 |     0.187 |    0.092      17.6     0.27 |   35131 |     6.594 |
+TimingAuditor.T...   INFO      StdNoPIDsVeloPions                           |     0.019 |     0.022 |    0.002      13.0     0.10 |   35131 |     0.796 |
+TimingAuditor.T...   INFO      SeqMyB0                                      |     0.141 |     0.156 |    0.082    1447.8     7.73 |   35131 |     5.502 |
+TimingAuditor.T...   INFO       Hlt2TriggeredD0                             |     0.135 |     0.147 |    0.078    1447.7     7.73 |   35131 |     5.195 |
+TimingAuditor.T...   INFO       StrippedBCands                              |     0.116 |     0.168 |    0.073       5.6     0.25 |     770 |     0.130 |
+TimingAuditor.T...   INFO       SELECT:/Allstreams/Phys/b2D0MuXB2DMuForTauMu|     0.000 |     0.024 |    0.018       0.3     0.02 |     231 |     0.006 |
+TimingAuditor.T...   INFO       SelMyStrippedChargedK                       |     0.000 |     0.000 |    0.000       0.0     0.00 |       0 |     0.000 |
+TimingAuditor.T...   INFO       SelMyStrippedChargedPi                      |     0.000 |     0.000 |    0.000       0.0     0.00 |       0 |     0.000 |
+TimingAuditor.T...   INFO       SelMyD0                                     |     0.000 |     0.000 |    0.000       0.0     0.00 |       0 |     0.000 |
+TimingAuditor.T...   INFO       SELECT:Phys/StdAllLoosePions                |     0.000 |     0.000 |    0.000       0.0     0.00 |       0 |     0.000 |
+TimingAuditor.T...   INFO       SelMyDst                                    |     0.000 |     0.000 |    0.000       0.0     0.00 |       0 |     0.000 |
+TimingAuditor.T...   INFO       SelMyStrippedMu                             |     0.000 |     0.000 |    0.000       0.0     0.00 |       0 |     0.000 |
+TimingAuditor.T...   INFO       SelMyB0                                     |     0.000 |     0.000 |    0.000       0.0     0.00 |       0 |     0.000 |
+TimingAuditor.T...   INFO       SelMyRefitB02DstMu                          |     0.000 |     0.000 |    0.000       0.0     0.00 |       0 |     0.000 |
+TimingAuditor.T...   INFO      TupleB0                                      |     0.001 |     0.003 |    0.002       2.9     0.02 |   35131 |     0.123 |
+TimingAuditor.T...   INFO     MonitoringSequence                            |     0.000 |     0.001 |    0.001       0.2     0.00 |   35131 |     0.060 |
+TimingAuditor.T...   INFO   LumiSeq                                         |     0.003 |     0.005 |    0.003       4.4     0.03 |   35131 |     0.188 |
+TimingAuditor.T...   INFO    EventAccount                                   |     0.001 |     0.002 |    0.001       4.2     0.02 |   35131 |     0.073 |
+TimingAuditor.T...   INFO * createODIN                                      |     0.083 |     0.093 |    0.026     168.9     1.05 |   35131 |     3.291 |
+TimingAuditor.T...   INFO *      UnpackTrack                                |     0.354 |     0.363 |    0.051      40.0     0.62 |   35131 |    12.754 |
+TimingAuditor.T...   INFO *     UnpackRecVertex                             |     0.098 |     0.094 |    0.030     158.9     0.88 |   35085 |     3.323 |
+TimingAuditor.T...   INFO *       Hlt2DecReportsDecoder                     |     0.094 |     0.105 |    0.059     897.7     4.79 |   35131 |     3.692 |
+TimingAuditor.T...   INFO *       Strip_pPhys_DecReports_Converter          |     0.077 |     0.092 |    0.032       4.2     0.18 |     770 |     0.071 |
+TimingAuditor.T...   INFO ----------------------------------------------------------------------------------------------------------------------
+ApplicationMgr       INFO Application Manager Finalized successfully
+ApplicationMgr       INFO Application Manager Terminated successfully
