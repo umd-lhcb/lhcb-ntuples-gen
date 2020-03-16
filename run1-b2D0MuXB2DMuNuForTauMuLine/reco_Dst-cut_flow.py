@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Mar 09, 2020 at 09:46 PM +0800
+# Last Change: Tue Mar 17, 2020 at 03:13 AM +0800
 
 #####################
 # Configure DaVinci #
@@ -83,7 +83,7 @@ from Configurables import LoKi__HDRFilter as HDRFilter
 #   'HLT_PASS' matches the line *exactly*
 #   'HLT_PASS_RE' (which was used in the starter kit) use regular expression to
 #   check if line given is a part of the lines of the events.
-line_strip = 'b2D0MuXB2DMuNuForTauMuLine'
+line_strip = 'b2D0MuXB2DMuForTauMuLine'
 fltr_strip = HDRFilter(
     'StrippedBCands',
     Code="HLT_PASS('Stripping{0}Decision')".format(line_strip))
@@ -106,8 +106,9 @@ event_pre_selectors = [fltr_hlt, fltr_strip]
 from PhysSelPython.Wrappers import AutomaticData
 
 # Events tagged with our stripping line
+# NOTE: The TES location is UNUSUAL!
 pr_stripped = AutomaticData(
-    Location='/Event/Semileptonic/Phys/{0}/Particles'.format(line_strip))
+    Location='AllStreams/Phys/{0}/Particles'.format(line_strip))
 
 pr_charged_K = AutomaticData(Location='Phys/StdAllNoPIDsKaons/Particles')
 
