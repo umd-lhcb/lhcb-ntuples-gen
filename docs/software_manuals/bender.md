@@ -14,5 +14,8 @@ lb-run Bender/latest trg-check -n -1 -d 2012 --teslocation /Event/Semileptonic/P
 
 ## Dump TES info from a `.dst` file
 ```
-lb-run Bender/latest dst-dump -d 2016 <path_to_dst>
+lb-run Bender/latest dst-dump -d 2016 -f -n 100 <path_to_dst>
 ```
+
+!!! note
+    * `-f` means that try to unpack all TES locations.
