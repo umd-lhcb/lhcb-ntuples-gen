@@ -40,7 +40,7 @@
 * `12873020`: $B^+ \rightarrow D^0 D_s X \rightarrow \tau \nu$
 
 ### Cocktail sample for cut-flow study
-* `11874091`: $B_d \rightarrow D^0 X \mu \mu$, $D^0 = cocktail$.
+* `11874091`: $B_d \rightarrow D^0 X \mu \nu, $D^0 = cocktail$.
 
 
 ## Run 2 data
@@ -57,4 +57,4 @@
 ## Run 2 Monte-Carlo
 
 ### Cocktail sample for cut-flow study
-* `11874091`: $B_d \rightarrow D^0 X \mu \mu$, $D^0 = cocktail$.
+* `11874091`: $B_d \rightarrow D^0 X \mu \nu, $D^0 = cocktail$.
