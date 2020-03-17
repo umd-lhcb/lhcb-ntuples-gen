@@ -1,0 +1,15 @@
+SelMyD0:
+    input: 754
+    output: 720
+SELECT:Phys/StdAllLoosePions:
+    input: 720
+    output: 720
+SelMyDst:
+    input: 720
+    output: 410
+SelMyB0:
+    input: 410
+    output: 333
+SelMyRefitB02DstMu:
+    input: 333
+    output: None

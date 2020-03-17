@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Mar 03, 2020 at 09:46 PM +0800
+# Last Change: Wed Mar 18, 2020 at 02:39 AM +0800
 
 import uproot
 import sys
@@ -63,17 +63,18 @@ def Hlt2_cuts(ntp, tree):
 
 
 if __name__ == '__main__':
-    ntp = uproot.open('../ntuples/mc/BCands-yipeng-mc-mag_down-py8-sim09b-Bd2D0XMuMu-D0_cocktail.root')
+    ntp = uproot.open('../ntuples/mc/BCands-yipeng-mc-mag_down-py8-sim09b-Bd2D0XMuNu-D0_cocktail.root')
     tree = 'TupleB0/DecayTree'
     size = total_num(ntp, tree)
 
-    input_yml = 'input-mc-mag_down-py8-sim09b-Bd2D0XMuMu-D0_cocktail.yml'
-    output_yml = 'output-mc-mag_down-py8-sim09b-Bd2D0XMuMu-D0_cocktail.yml'
+    input_yml = 'input-run2.yml'
+    output_yml = 'output-run2.yml'
 
     L0_eff, L0_result = L0_cuts(ntp, tree)
     Hlt1_eff, Hlt1_result = Hlt1_cuts(ntp, tree)
     Hlt2_eff, Hlt2_result = Hlt2_cuts(ntp, tree)
 
+    L0_Hlt1_eff = sum(logical_and(L0_result, Hlt1_result))
     trigger_eff = sum(logical_and(L0_result,
                                   logical_and(Hlt1_result, Hlt2_result)))
 
@@ -88,9 +89,8 @@ if __name__ == '__main__':
 
     # Update the L0/Hlt cuts
     result['L0'] = {'input': size, 'output': L0_eff}
-    result['Hlt1'] = {'input': size, 'output': Hlt1_eff}
-    result['Hlt2'] = {'input': size, 'output': Hlt2_eff}
-    result['Trigger'] = {'input': size, 'output': trigger_eff}
+    result['Hlt1'] = {'input': size, 'output': L0_Hlt1_eff}
+    result['Hlt2'] = {'input': size, 'output': trigger_eff}
 
     with open(output_yml, 'w') as f:
         f.write(yaml_gen(result))
