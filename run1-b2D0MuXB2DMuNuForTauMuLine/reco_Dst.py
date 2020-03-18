@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Mar 19, 2020 at 02:36 AM +0800
+# Last Change: Thu Mar 19, 2020 at 02:50 AM +0800
 
 #####################
 # Configure DaVinci #
@@ -189,7 +189,7 @@ else:
 #   have stripping lines
 #
 #   For data, we always have a stripping line, and this is equivalent to:
-#     stripped + TIS filtered
+#     stripped && TIS filtered
 sel_Mu = sel_unstripped_tis_filtered_Mu
 
 
