@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Mar 19, 2020 at 02:33 AM +0800
+# Last Change: Thu Mar 19, 2020 at 02:36 AM +0800
 
 #####################
 # Configure DaVinci #
@@ -165,7 +165,8 @@ sel_stripped_Mu = Selection(
     RequiredSelections=[sel_stripped_filtered]
 )
 
-# Muon selection for unstripped (MC) data
+# We build our own Muons, instead of using stripping line Muons.
+# See https://github.com/umd-lhcb/lhcb-ntuples-gen/issues/25 for an explanation.
 sel_unstripped_tis_filtered_Mu = Selection(
     'SelMyUnstrippedMu',
     Algorithm=TisTosParticleTagger(
