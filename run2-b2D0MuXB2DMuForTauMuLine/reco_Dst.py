@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sat Mar 07, 2020 at 12:03 AM +0800
+# Last Change: Thu Mar 19, 2020 at 02:33 AM +0800
 
 #####################
 # Configure DaVinci #
@@ -160,10 +160,8 @@ sel_stripped_Mu = Selection(
 )
 
 # We build our own Muons, instead of using stripping line Muons.
-# Because: 1. For some MC, No stripping line presents
-#          2. For data, we choose to not use stripping line muon for some reason
-#             that I forgot. FIXME
-sel_unstripped_Mu = Selection(
+# See https://github.com/umd-lhcb/lhcb-ntuples-gen/issues/25 for an explanation.
+sel_unstripped_tis_filtered_Mu = Selection(
     'SelMyUnstrippedMu',
     Algorithm=TisTosParticleTagger(
         'MyMuTisTagger',
@@ -181,9 +179,9 @@ else:
     sel_charged_K = pr_charged_K
     sel_charged_Pi = pr_charged_Pi
 
-# Use unstripped unless we are doing a cut flow.
-sel_Mu = sel_stripped_Mu  # Cut flow
-# sel_Mu = sel_unstripped_Mu  # Everything else
+# For run 2, don't put additional cut on Muons yet.
+# We can always to TIS-filtering in step 2.
+sel_Mu = pr_Mu
 
 
 #####################

@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri Oct 11, 2019 at 03:29 AM -0400
+# Last Change: Thu Mar 19, 2020 at 02:35 AM +0800
 
 #####################
 # Configure DaVinci #
@@ -143,7 +143,7 @@ sel_stripped_Mu = Selection(
     RequiredSelections=[sel_stripped_filtered]
 )
 
-sel_unstripped_Mu = Selection(
+sel_unstripped_tis_filtered_Mu = Selection(
     'SelMyUnstrippedMu',
     Algorithm=TisTosParticleTagger(
         'MyMuTisTagger',
@@ -160,7 +160,7 @@ if not DaVinci().Simulation:
 else:
     sel_charged_K = pr_charged_K
     sel_charged_Pi = pr_charged_Pi
-    sel_Mu = sel_unstripped_Mu
+    sel_Mu = sel_unstripped_tis_filtered_Mu
 
 
 #####################

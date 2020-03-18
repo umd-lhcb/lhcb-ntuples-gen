@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Mar 04, 2020 at 01:02 AM +0800
+# Last Change: Thu Mar 19, 2020 at 02:33 AM +0800
 
 #####################
 # Configure DaVinci #
@@ -166,7 +166,7 @@ sel_stripped_Mu = Selection(
 )
 
 # Muon selection for unstripped (MC) data
-sel_unstripped_Mu = Selection(
+sel_unstripped_tis_filtered_Mu = Selection(
     'SelMyUnstrippedMu',
     Algorithm=TisTosParticleTagger(
         'MyMuTisTagger',
@@ -183,9 +183,13 @@ else:
     sel_charged_K = pr_charged_K
     sel_charged_Pi = pr_charged_Pi
 
-# Use unstripped unless we are doing a cut flow.
-# Because we want to enforce L0 global TIS on the Muon.
-sel_Mu = sel_unstripped_Mu
+# For run 1:
+#   Build Muon from scratch for MC because semileptonic production MC doesn't
+#   have stripping lines
+#
+#   For data, we always have a stripping line, and this is equivalent to:
+#     stripped + TIS filtered
+sel_Mu = sel_unstripped_tis_filtered_Mu
 
 
 #####################

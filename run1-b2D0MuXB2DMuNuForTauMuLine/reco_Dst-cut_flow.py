@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Mar 17, 2020 at 03:13 AM +0800
+# Last Change: Thu Mar 19, 2020 at 02:34 AM +0800
 
 #####################
 # Configure DaVinci #
@@ -164,16 +164,6 @@ sel_stripped_Mu = Selection(
     'SelMyStrippedMu',
     Algorithm=FilterInTrees('MyMu', Code="(ABSID == 'mu+')"),
     RequiredSelections=[pr_stripped]
-)
-
-# Muon selection for unstripped (MC) data
-sel_unstripped_Mu = Selection(
-    'SelMyUnstrippedMu',
-    Algorithm=TisTosParticleTagger(
-        'MyMuTisTagger',
-        Inputs=['Phys/StdAllNoPIDsMuons/Particles'],
-        TisTosSpecs={'L0Global%TIS': 0}),
-    RequiredSelections=[pr_Mu]
 )
 
 
