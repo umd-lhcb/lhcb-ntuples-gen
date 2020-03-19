@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Mar 18, 2020 at 02:39 AM +0800
+# Last Change: Thu Mar 19, 2020 at 05:12 PM +0800
 
 import uproot
 import sys
@@ -89,8 +89,8 @@ if __name__ == '__main__':
 
     # Update the L0/Hlt cuts
     result['L0'] = {'input': size, 'output': L0_eff}
-    result['Hlt1'] = {'input': size, 'output': L0_Hlt1_eff}
-    result['Hlt2'] = {'input': size, 'output': trigger_eff}
+    result['Hlt1'] = {'input': L0_eff, 'output': L0_Hlt1_eff}
+    result['Hlt2'] = {'input': L0_Hlt1_eff, 'output': trigger_eff}
 
     with open(output_yml, 'w') as f:
         f.write(yaml_gen(result))
