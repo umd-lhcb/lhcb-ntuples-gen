@@ -2,12 +2,19 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Mar 10, 2020 at 11:04 PM +0800
+# Last Change: Thu Mar 19, 2020 at 08:21 PM +0800
 
 import fileinput
+import tabulate as TAB
 
 from argparse import ArgumentParser, Action
-from tabulate import tabulate
+
+
+####################
+# Tabulate-related #
+####################
+
+TAB.LATEX_ESCAPE_RULES = {}  # Disable escape
 
 
 ################################
@@ -32,7 +39,7 @@ def parse_input(descr='table generator taking stdin as input.'):
                                  'github',
                                  'latex_booktabs',
                                  'latex_raw'],
-                        default='latex_raw',
+                        default='github',
                         help='specify the output table format.'
                         )
 
@@ -55,7 +62,7 @@ if __name__ == '__main__':
         output.append(row)
 
     if args.alignment is not None:
-        print(tabulate(output, headers='firstrow', tablefmt=args.format,
-                       colalign=args.alignment))
+        print(TAB.tabulate(output, headers='firstrow', tablefmt=args.format,
+                           colalign=args.alignment))
     else:
-        print(tabulate(output, headers='firstrow', tablefmt=args.format))
+        print(TAB.tabulate(output, headers='firstrow', tablefmt=args.format))
