@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Mar 03, 2020 at 05:44 PM +0800
+# Last Change: Thu Mar 19, 2020 at 04:28 PM +0800
 
 import re
 import sys
@@ -55,12 +55,15 @@ def normalize_data(lst):
 def extract_data(lst,
                  name_idx=0,
                  num_idx=4,
-                 names=['SELECT:Phys/StdAllNoPIDsKaons',
-                        'SELECT:Phys/StdAllNoPIDsPions',
+                 names=['SeqMyB0',
+                        'Hlt2TriggeredD0',
+                        'StrippedBCands',
+                        'SelMyStrippedChargedK',
+                        'SelMyStrippedChargedPi',
                         'SelMyD0',
                         'SELECT:Phys/StdAllLoosePions',
                         'SelMyDst',
-                        'SELECT:Phys/StdAllNoPIDsMuons',
+                        'SelMyStrippedMu',
                         'SelMyB0'
                         ],
                  last_name='SelMyRefitB02DstMu'):
