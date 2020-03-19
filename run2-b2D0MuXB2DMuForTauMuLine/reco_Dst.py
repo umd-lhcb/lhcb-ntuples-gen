@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Mar 19, 2020 at 02:33 AM +0800
+# Last Change: Thu Mar 19, 2020 at 05:22 PM +0800
 
 #####################
 # Configure DaVinci #
@@ -180,7 +180,7 @@ else:
     sel_charged_Pi = pr_charged_Pi
 
 # For run 2, don't put additional cut on Muons yet.
-# We can always to TIS-filtering in step 2.
+# We can always do TIS-filtering in step 2.
 sel_Mu = pr_Mu
 
 
