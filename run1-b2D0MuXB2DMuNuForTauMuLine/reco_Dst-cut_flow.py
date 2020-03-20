@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Mar 19, 2020 at 02:34 AM +0800
+# Last Change: Thu Mar 19, 2020 at 09:14 PM +0800
 
 #####################
 # Configure DaVinci #
@@ -95,7 +95,7 @@ fltr_hlt = HDRFilter(
 
 
 # The cocktail MC has stripping line. We should use these filters to save time.
-event_pre_selectors = [fltr_hlt, fltr_strip]
+event_pre_selectors = [fltr_strip]
 
 
 #######################
