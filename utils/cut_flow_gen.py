@@ -2,10 +2,12 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri Mar 20, 2020 at 08:27 PM +0800
+# Last Change: Sat Mar 21, 2020 at 01:32 AM +0800
 
 from yaml import safe_load
 from argparse import ArgumentParser
+from uncertainties import ufloat, UFloat
+from statsmodels.stats.proportion import proportion_confint
 
 
 ###############
@@ -16,11 +18,30 @@ CSV_HEADERS = ['cut name', 'run 1 yield', 'run 2 yield',
                'run 1 efficiency', 'run 2 efficiency', 'double ratio']
 
 
-def div_by_zero_handler(num, denom):
-    try:
-        result = float(num) / float(denom)
-    except ZeroDivisionError:
+def div_with_confint(num, denom):
+    ratio = num / denom
+    intv = proportion_confint(num, denom, method='beta')  # Clopper-Pearson
+    # Use the larger error bar and pretend its a Gaussian
+    err_bar = max([abs(x - ratio) for x in intv])
+    return ufloat(ratio, err_bar)
+
+
+def div(num, denom):
+    if type(num) == type(denom):
+        if isinstance(num, UFloat):
+            result = num / denom
+
+        elif isinstance(num, (int, float)):
+            try:
+                result = div_with_confint(num, denom)
+            except ZeroDivisionError:
+                result = 'naN'
+
+        else:
+            result = 'naN'
+    else:
         result = 'naN'
+
     return result
 
 
@@ -44,10 +65,10 @@ def list_gen(run1_descr, run2_descr, header=CSV_HEADERS):
         run1_yield = val['output']
         run2_yield = run2_row['output']
 
-        run1_eff = div_by_zero_handler(val['output'], val['input'])
-        run2_eff = div_by_zero_handler(run2_row['output'], run2_row['input'])
+        run1_eff = div(val['output'], val['input'])
+        run2_eff = div(run2_row['output'], run2_row['input'])
 
-        double_ratio = div_by_zero_handler(run2_eff, run1_eff)
+        double_ratio = div(run2_eff, run1_eff)
         total_ratio = total_ratio * double_ratio
 
         row += [run1_yield, run2_yield, run1_eff, run2_eff, double_ratio]
