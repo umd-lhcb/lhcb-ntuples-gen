@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri Mar 20, 2020 at 08:05 PM +0800
+# Last Change: Fri Mar 20, 2020 at 08:27 PM +0800
 
 from yaml import safe_load
 from argparse import ArgumentParser
@@ -26,6 +26,7 @@ def div_by_zero_handler(num, denom):
 
 def list_gen(run1_descr, run2_descr, header=CSV_HEADERS):
     result = [CSV_HEADERS]
+    total_ratio = 1
 
     for key, val in run1_descr.items():
         row = []
@@ -47,9 +48,14 @@ def list_gen(run1_descr, run2_descr, header=CSV_HEADERS):
         run2_eff = div_by_zero_handler(run2_row['output'], run2_row['input'])
 
         double_ratio = div_by_zero_handler(run2_eff, run1_eff)
+        total_ratio = total_ratio * double_ratio
 
         row += [run1_yield, run2_yield, run1_eff, run2_eff, double_ratio]
         result.append(row)
+
+    # Append the total ratio
+    result.append(['Total ratio (run 2/run 1)'] + ['-']*(len(header)-2) +
+                  [total_ratio])
 
     return result
 
