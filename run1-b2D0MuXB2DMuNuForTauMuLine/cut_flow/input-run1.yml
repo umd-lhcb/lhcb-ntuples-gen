@@ -1,33 +1,30 @@
 SeqMyB0:
     input: 35131
     output: 35131
-Hlt2TriggeredD0:
-    input: 35131
-    output: 770
 StrippedBCands:
-    input: 770
-    output: 231
+    input: 35131
+    output: 749
 SelMyStrippedChargedK:
-    input: 231
-    output: 231
+    input: 749
+    output: 749
 SelMyStrippedChargedPi:
-    input: 231
-    output: 231
+    input: 749
+    output: 749
 SelMyD0:
-    input: 231
-    output: 228
+    input: 749
+    output: 725
 SELECT:Phys/StdAllLoosePions:
-    input: 228
-    output: 228
+    input: 725
+    output: 725
 SelMyDst:
-    input: 228
-    output: 158
+    input: 725
+    output: 437
 SelMyStrippedMu:
-    input: 158
-    output: 158
+    input: 437
+    output: 437
 SelMyB0:
-    input: 158
-    output: 152
+    input: 437
+    output: 410
 SelMyRefitB02DstMu:
-    input: 152
+    input: 410
     output: None
