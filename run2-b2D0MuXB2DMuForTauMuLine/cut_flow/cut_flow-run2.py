@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri Mar 20, 2020 at 07:30 PM +0800
+# Last Change: Fri Mar 20, 2020 at 07:53 PM +0800
 
 import uproot
 import sys
@@ -51,9 +51,9 @@ def Hlt1_cuts(ntp, tree):
 
 
 # Hlt2Cuts (run 1): D0_Hlt2CharmHadD02HH_D02KPiDecision_TOS
-# Hlt2Cuts (run 2): D0_Hlt2XcMuXForTauB2XcMuDecision_TOS
+# Hlt2Cuts (run 2): D0_Hlt2XcMuXForTauB2XcMuDecision_Dec
 def Hlt2_cuts(ntp, tree):
-    result = read_branch(ntp, tree, 'D0_Hlt2XcMuXForTauB2XcMuDecision_TOS')
+    result = read_branch(ntp, tree, 'D0_Hlt2XcMuXForTauB2XcMuDecision_Dec')
     return sum(result), result
 
 

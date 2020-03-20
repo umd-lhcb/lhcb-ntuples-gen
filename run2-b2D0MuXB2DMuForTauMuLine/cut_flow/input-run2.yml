@@ -4,23 +4,11 @@ SeqMyB0:
 StrippedBCands:
     input: 26633
     output: 754
-SelMyStrippedChargedK:
-    input: 754
-    output: 754
-SelMyStrippedChargedPi:
-    input: 754
-    output: 754
 SelMyD0:
     input: 754
     output: 720
-SELECT:Phys/StdAllLoosePions:
-    input: 720
-    output: 720
 SelMyDst:
     input: 720
-    output: 410
-SelMyStrippedMu:
-    input: 410
     output: 410
 SelMyB0:
     input: 410
