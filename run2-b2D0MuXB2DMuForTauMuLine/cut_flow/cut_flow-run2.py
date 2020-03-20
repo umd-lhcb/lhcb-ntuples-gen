@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Mar 19, 2020 at 05:12 PM +0800
+# Last Change: Fri Mar 20, 2020 at 07:30 PM +0800
 
 import uproot
 import sys
@@ -40,15 +40,13 @@ def L0_cuts(ntp, tree):
     return sum(result), result
 
 
-# Hlt1Cuts: (K_Hlt1TrackAllL0Decision_TOS || pi_Hlt1TrackAllL0Decision_TOS) (pi from D0)
+# Hlt1Cuts (run 1): (K_Hlt1TrackAllL0Decision_TOS || pi_Hlt1TrackAllL0Decision_TOS) (pi from D0)
+# Hlt1Cuts (run 2): (K_Hlt1Phys_Dec || pi_Hlt1Phys_Dec) (pi from D0)
 def Hlt1_cuts(ntp, tree):
-    K_Hlt1TrackAllL0Decision_TOS = read_branch(
-        ntp, tree, 'Kplus_Hlt1TrackAllL0Decision_TOS')
-    pi_Hlt1TrackAllL0Decision_TOS = read_branch(
-        ntp, tree, 'piminus0_Hlt1TrackAllL0Decision_TOS')
+    K_Hlt1Phys_Dec = read_branch(ntp, tree, 'Kplus_Hlt1Phys_Dec')
+    pi_Hlt1Phys_Dec = read_branch(ntp, tree, 'piminus0_Hlt1Phys_Dec')
 
-    result = logical_or(K_Hlt1TrackAllL0Decision_TOS,
-                        pi_Hlt1TrackAllL0Decision_TOS)
+    result = logical_or(K_Hlt1Phys_Dec, pi_Hlt1Phys_Dec)
     return sum(result), result
 
 
