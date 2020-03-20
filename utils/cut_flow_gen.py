@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Mar 19, 2020 at 08:37 PM +0800
+# Last Change: Fri Mar 20, 2020 at 08:05 PM +0800
 
 from yaml import safe_load
 from argparse import ArgumentParser
@@ -46,7 +46,7 @@ def list_gen(run1_descr, run2_descr, header=CSV_HEADERS):
         run1_eff = div_by_zero_handler(val['output'], val['input'])
         run2_eff = div_by_zero_handler(run2_row['output'], run2_row['input'])
 
-        double_ratio = div_by_zero_handler(run1_eff, run2_eff)
+        double_ratio = div_by_zero_handler(run2_eff, run1_eff)
 
         row += [run1_yield, run2_yield, run1_eff, run2_eff, double_ratio]
         result.append(row)
