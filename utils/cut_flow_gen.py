@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sat Mar 21, 2020 at 01:32 AM +0800
+# Last Change: Mon Mar 23, 2020 at 08:34 PM +0800
 
 from yaml import safe_load
 from argparse import ArgumentParser
@@ -81,9 +81,22 @@ def list_gen(run1_descr, run2_descr, header=CSV_HEADERS):
     return result
 
 
-def csv_gen(lst):
+def csv_gen(lst, latex_wrapper=True):
     for row in lst:
-        print(','.join(map(str, row)))
+        formatted = []
+
+        for elem in row:
+            if isinstance(elem, float):
+                formatted.append('{:.3f}'.format(elem))
+            elif isinstance(elem, UFloat):
+                if latex_wrapper:
+                    formatted.append('{:.3uL}'.format(elem))
+                else:
+                    formatted.append('{:.3uP}'.format(elem))
+            else:
+                formatted.append(str(elem))
+
+        print(','.join(formatted))
 
 
 ################################
@@ -103,6 +116,11 @@ def parse_input(descr='Generate cut flow CSV from YAML files.'):
                         help='specify the alignment for each column (right, center, left).'
                         )
 
+    parser.add_argument('-n', '--noLaTeX',
+                        action='store_true',
+                        help='disable LaTeX wrapping.'
+                        )
+
     return parser.parse_args()
 
 
@@ -116,4 +134,4 @@ if __name__ == '__main__':
         run2_descr = safe_load(f)
 
     tab = list_gen(run1_descr, run2_descr)
-    csv_gen(tab)
+    csv_gen(tab, not args.noLaTeX)
