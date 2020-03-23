@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri Mar 20, 2020 at 06:57 PM +0800
+# Last Change: Mon Mar 23, 2020 at 08:10 PM +0800
 
 import uproot
 import sys
@@ -12,6 +12,7 @@ sys.path.insert(0, '../../utils')
 
 from davinci_log_parser import yaml_gen
 from pyTuplingUtils.io import read_branch
+from pyTuplingUtils.utils import extract_uid
 from numpy import logical_and, logical_or
 from numpy import sum
 
@@ -22,6 +23,11 @@ from numpy import sum
 
 def total_num(ntp, tree, branch='Y_ISOLATION_Type'):
     return read_branch(ntp, tree, branch).size
+
+
+def total_num_dedupl(ntp, tree):
+    _, _, _, uniq_size, _ = extract_uid(ntp, tree)
+    return uniq_size
 
 
 ####################################
@@ -65,6 +71,7 @@ if __name__ == '__main__':
     ntp = uproot.open('../ntuples/mc/BCands-yipeng-mc-mag_down-py8-sim08h-Bd2D0XMuNu-D0_cocktail.root')
     tree = 'TupleB0/DecayTree'
     size = total_num(ntp, tree)
+    uniq_size = total_num_dedupl(ntp, tree)
 
     input_yml = 'input-run1.yml'
     output_yml = 'output-run1.yml'
@@ -83,7 +90,7 @@ if __name__ == '__main__':
     # Update the output of the final DaVinci cut
     for k, v in result.items():
         if v['output'] == 'None':
-            v['output'] = size
+            v['output'] = uniq_size
         result[k] = v
 
     # Update the L0/Hlt cuts
