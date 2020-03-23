@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Mar 23, 2020 at 08:34 PM +0800
+# Last Change: Mon Mar 23, 2020 at 08:37 PM +0800
 
 from yaml import safe_load
 from argparse import ArgumentParser
@@ -90,7 +90,7 @@ def csv_gen(lst, latex_wrapper=True):
                 formatted.append('{:.3f}'.format(elem))
             elif isinstance(elem, UFloat):
                 if latex_wrapper:
-                    formatted.append('{:.3uL}'.format(elem))
+                    formatted.append('${:.3uL}$'.format(elem))
                 else:
                     formatted.append('{:.3uP}'.format(elem))
             else:
