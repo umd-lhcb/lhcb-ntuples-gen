@@ -1,6 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Sep 09, 2019 at 05:07 PM -0400
+# Last Change: Mon Mar 23, 2020 at 09:13 PM +0800
 
 BINPATH	:=	bin
 SRCPATH	:=	gen
@@ -11,7 +11,7 @@ CXXFLAGS	:=	$(shell root-config --cflags)
 LINKFLAGS	:=	$(shell root-config --libs)
 ADDFLAGS	:=	-Iinclude
 
-.PHONY: all clean
+.PHONY: all clean cutflow-RDst cutflow-RDst-web
 
 all: \
 	gen/run1-Dst-step2/BCands_Dst-phoebe-data-2012-mag_down-step2.root \
@@ -22,6 +22,22 @@ clean:
 	@rm -rf $(BINPATH)/*
 	@find ./gen -name '*-step2.root' -delete
 	@find ./gen -name '*.cpp' -delete
+
+
+#############
+# Cut flows #
+#############
+
+# Cut flow for R(D(*))
+cutflow-RDst: \
+	run1-b2D0MuXB2DMuNuForTauMuLine/cut_flow/output-run1.yml \
+	run2-b2D0MuXB2DMuForTauMuLine/cut_flow/output-run2.yml
+	@./utils/cut_flow_gen.py -o $(word 1, $^) -t $(word 2, $^) | ./utils/tab_gen.py
+
+cutflow-RDst-web: \
+	run1-b2D0MuXB2DMuNuForTauMuLine/cut_flow/output-run1.yml \
+	run2-b2D0MuXB2DMuForTauMuLine/cut_flow/output-run2.yml
+	@./utils/cut_flow_gen.py -o $(word 1, $^) -t $(word 2, $^) -n | ./utils/tab_gen.py -f github
 
 
 #########################
