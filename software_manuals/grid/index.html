@@ -785,17 +785,20 @@ then be sent to the <code>GRID</code> by <code>ganga</code> automatically.</p>
 <h3 id="run1-b2d0muxb2dmunufortaumuline"><code>run1-b2D0MuXB2DMuNuForTauMuLine</code></h3>
 <div class="codehilite"><pre><span></span><code>$ ganga ganga_jobs.py --help
 usage: ganga_jobs.py <span class="o">[</span>-h<span class="o">]</span> <span class="o">[</span>--force<span class="o">]</span> <span class="o">[</span>--davinci DAVINCI<span class="o">]</span>
-                     <span class="o">[</span>-b <span class="o">{</span>all,Dst,D0<span class="o">}</span> <span class="o">[{</span>all,Dst,D0<span class="o">}</span> ...<span class="o">]]</span>
+                     <span class="o">[</span>-b <span class="o">{</span>all,Dst,D0,Dst-cutflow<span class="o">}</span> <span class="o">[{</span>all,Dst,D0,Dst-cutflow<span class="o">}</span> ...<span class="o">]]</span>
                      <span class="o">[</span>-s <span class="o">{</span>all,Pythia6,Pythia8<span class="o">}</span> <span class="o">[{</span>all,Pythia6,Pythia8<span class="o">}</span> ...<span class="o">]]</span>
                      <span class="o">[</span>-c <span class="o">{</span>all,Sim08a,Sim08e,Sim08h,Sim08i<span class="o">}</span> <span class="o">[{</span>all,Sim08a,Sim08e,Sim08h,Sim08i<span class="o">}</span> ...<span class="o">]]</span>
                      <span class="o">[</span>-p <span class="o">{</span>all,Up,Down<span class="o">}</span> <span class="o">[{</span>all,Up,Down<span class="o">}</span> ...<span class="o">]]</span>
-                     <span class="o">{</span>all,data-2012-Dst,mc-Bd2DststMuNu2D0,mc-Bd2DststTauNu2D0,mc-Bs2DststMuNu2D0,mc-Bu2DststMuNu2D0,mc-Bd2DstTauNu,mc-Bd2DstMuNu,mc-Bu2Dst0TauNu,mc-Bu2Dst0MuNu,mc-Bu2D0TauNu,mc-Bu2D0MuNu,mc-Bd2D0DX2MuX,mc-Bu2D0DX2MuX,mc-Bd2D0DsX2TauNu,mc-Bu2D0DsX2TauNu<span class="o">}</span>
-                     <span class="o">[{</span>all,data-2012-Dst,mc-Bd2DststMuNu2D0,mc-Bd2DststTauNu2D0,mc-Bs2DststMuNu2D0,mc-Bu2DststMuNu2D0,mc-Bd2DstTauNu,mc-Bd2DstMuNu,mc-Bu2Dst0TauNu,mc-Bu2Dst0MuNu,mc-Bu2D0TauNu,mc-Bu2D0MuNu,mc-Bd2D0DX2MuX,mc-Bu2D0DX2MuX,mc-Bd2D0DsX2TauNu,mc-Bu2D0DsX2TauNu<span class="o">}</span> ...<span class="o">]</span>
+                     <span class="o">{</span>all,data-2012-Dst,cocktail-2011-Dst-cutflow,mc-Bd2DststMuNu2D0,mc-Bd2DststTauNu2D0,mc-Bs2DststMuNu2D0,mc-Bu2DststMuNu2D0,mc-Bd2DstTauNu,mc-Bd2DstMuNu,mc-Bu2Dst0TauNu,mc-Bu2Dst0MuNu,mc-Bu2D0TauNu,mc-Bu2D0MuNu,mc-Bd2D0DX2MuX,mc-Bu2D0DX2MuX,mc-Bd2D0
+DsX2TauNu,mc-Bu2D0DsX2TauNu<span class="o">}</span>
+                     <span class="o">[{</span>all,data-2012-Dst,cocktail-2011-Dst-cutflow,mc-Bd2DststMuNu2D0,mc-Bd2DststTauNu2D0,mc-Bs2DststMuNu2D0,mc-Bu2DststMuNu2D0,mc-Bd2DstTauNu,mc-Bd2DstMuNu,mc-Bu2Dst0TauNu,mc-Bu2Dst0MuNu,mc-Bu2D0TauNu,mc-Bu2D0MuNu,mc-Bd2D0DX2MuX,mc-Bu2D0DX2MuX,mc-Bd2D
+0DsX2TauNu,mc-Bu2D0DsX2TauNu<span class="o">}</span> ...<span class="o">]</span>
 
 ganga script to process R<span class="o">(</span>D*<span class="o">)</span> run <span class="m">1</span> data/MC.
 
 positional arguments:
-  <span class="o">{</span>all,data-2012-Dst,mc-Bd2DststMuNu2D0,mc-Bd2DststTauNu2D0,mc-Bs2DststMuNu2D0,mc-Bu2DststMuNu2D0,mc-Bd2DstTauNu,mc-Bd2DstMuNu,mc-Bu2Dst0TauNu,mc-Bu2Dst0MuNu,mc-Bu2D0TauNu,mc-Bu2D0MuNu,mc-Bd2D0DX2MuX,mc-Bu2D0DX2MuX,mc-Bd2D0DsX2TauNu,mc-Bu2D0DsX2TauNu<span class="o">}</span>
+  <span class="o">{</span>all,data-2012-Dst,cocktail-2011-Dst-cutflow,mc-Bd2DststMuNu2D0,mc-Bd2DststTauNu2D0,mc-Bs2DststMuNu2D0,mc-Bu2DststMuNu2D0,mc-Bd2DstTauNu,mc-Bd2DstMuNu,mc-Bu2Dst0TauNu,mc-Bu2Dst0MuNu,mc-Bu2D0TauNu,mc-Bu2D0MuNu,mc-Bd2D0DX2MuX,mc-Bu2D0DX2MuX,mc-Bd2D0DsX2TauNu,mc-Bu2D0D
+sX2TauNu<span class="o">}</span>
                         specify data type.
 
 optional arguments:
@@ -803,7 +806,7 @@ optional arguments:
   --force               <span class="k">if</span> this flag is supplied, don<span class="err">&#39;</span>t skip existing <span class="nb">jobs</span>
                         with the same name.
   --davinci DAVINCI     specify path to <span class="nb">local</span> DaVinci build.
-  -b <span class="o">{</span>all,Dst,D0<span class="o">}</span> <span class="o">[{</span>all,Dst,D0<span class="o">}</span> ...<span class="o">]</span>, --base <span class="o">{</span>all,Dst,D0<span class="o">}</span> <span class="o">[{</span>all,Dst,D0<span class="o">}</span> ...<span class="o">]</span>
+  -b <span class="o">{</span>all,Dst,D0,Dst-cutflow<span class="o">}</span> <span class="o">[{</span>all,Dst,D0,Dst-cutflow<span class="o">}</span> ...<span class="o">]</span>, --base <span class="o">{</span>all,Dst,D0,Dst-cutflow<span class="o">}</span> <span class="o">[{</span>all,Dst,D0,Dst-cutflow<span class="o">}</span> ...<span class="o">]</span>
                         specify base decay mode <span class="o">(</span>e.g. D* or D0<span class="o">)</span>.
   -s <span class="o">{</span>all,Pythia6,Pythia8<span class="o">}</span> <span class="o">[{</span>all,Pythia6,Pythia8<span class="o">}</span> ...<span class="o">]</span>, --simulation <span class="o">{</span>all,Pythia6,Pythia8<span class="o">}</span> <span class="o">[{</span>all,Pythia6,Pythia8<span class="o">}</span> ...<span class="o">]</span>
                         specify simulation <span class="o">(</span>typically Pythia<span class="o">)</span> software package
