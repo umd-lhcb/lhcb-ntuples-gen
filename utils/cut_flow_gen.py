@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Mar 23, 2020 at 08:37 PM +0800
+# Last Change: Mon Mar 23, 2020 at 10:20 PM +0800
 
 from yaml import safe_load
 from argparse import ArgumentParser
@@ -20,7 +20,7 @@ CSV_HEADERS = ['cut name', 'run 1 yield', 'run 2 yield',
 
 def div_with_confint(num, denom):
     ratio = num / denom
-    intv = proportion_confint(num, denom, method='beta')  # Clopper-Pearson
+    intv = proportion_confint(num, denom, method='beta', alpha=0.32)  # Clopper-Pearson
     # Use the larger error bar and pretend its a Gaussian
     err_bar = max([abs(x - ratio) for x in intv])
     return ufloat(ratio, err_bar)
