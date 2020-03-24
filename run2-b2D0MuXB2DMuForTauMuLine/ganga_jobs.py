@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Nov 19, 2019 at 06:32 PM -0500
+# Last Change: Wed Mar 25, 2020 at 03:26 AM +0800
 #
 # Description: A demonstration on ganga option file with parser.
 #              This demo runs stand-alone, provided that Python is installed:
@@ -26,11 +26,12 @@ WEIGHT_FILE = './weights_soft.xml'
 # '/MC/2012/Beam4000GeV-2012-MagDown-Nu2.5-Pythia6/Sim08a/Digi13/Trig0x409f0045/Reco14a/Stripping20Filtered/11873010/DSTTAUNU.SAFESTRIPTRIG'
 MC_FILE = '/MC/2012/Beam4000GeV-2012-Mag{polarity}-Nu2.5-{simulation}/{condition}/Digi13/Trig0x409f0045/Reco14a/Stripping20Filtered/{decay}/DSTTAUNU.SAFESTRIPTRIG.DST'
 
-MC_SIMULATION = ['Pythia6', 'Pythia8']
+MC_SIMULATION = ['Pythia8']
 
 MC_BASE = {
     'Dst': './reco_Dst.py',
-    'D0': './reco_D0.py'
+    'D0': './reco_D0.py',
+    'Dst-cutflow': './reco_Dst-cut_flow.py'
 }
 
 MC_CONDITION = {
@@ -72,7 +73,14 @@ PARAMETERS = {
         'options': './conds/cond-data-2016-Dst.py',
         'files_per_job': 5
     },
+    'cocktail-2016-Dst-cutflow': {
+        'dirac_path': '/MC/2016/Beam6500GeV-2016-Mag{}-Nu1.6-25ns-Pythia8/Sim09b/Trig0x6138160F/Reco16/Turbo03/Stripping26NoPrescalingFlagged/11874091/ALLSTREAMS.DST',
+        'options': './conds/cond-mc-mag_down-sim09b-Bd2D0XMuNu-D0_cocktail.py',
+        'files_per_job': 8
+    },
 }
+
+PREDEFINED_PARAMETER_KEYS = list(PARAMETERS.keys())
 
 
 ###########
@@ -94,10 +102,11 @@ MC_MODE_IDS.update(MC_D0_IDS)
 
 
 def gen_job_name(base, mode, polarity, simulaiton, condition):
-    if 'data' in mode:
+    if mode in PREDEFINED_PARAMETER_KEYS:
         # Drop the duplicate 'base' indicator
         mode = mode.replace('-'+base, '')
         return '-'.join([base, mode, polarity])
+
     else:
         return '-'.join([base, mode, polarity, simulaiton, condition])
 
@@ -110,11 +119,11 @@ def gen_decay(mode, reference=MC_MODE_IDS):
 
 
 def gen_dirac_path(raw, polarity, simulation, condition, decay):
-    if 'Real Data' in raw:
-        return raw.format(polarity)
-    else:
+    try:
         return raw.format(polarity=polarity, simulation=simulation,
                           condition=condition, decay=decay)
+    except IndexError:
+        return raw.format(polarity)
 
 
 #################################
@@ -137,7 +146,7 @@ specify data type.''')
 if this flag is supplied, don't skip existing jobs with the same name.''')
 
     parser.add_argument('--davinci',
-                        default='~/build/DaVinciDev_v42r8p1',
+                        default='~/build/DaVinciDev_v45r3',
                         help='''
 specify path to local DaVinci build.''')
 

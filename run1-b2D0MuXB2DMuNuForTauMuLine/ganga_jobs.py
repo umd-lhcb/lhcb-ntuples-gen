@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Mar 25, 2020 at 03:13 AM +0800
+# Last Change: Wed Mar 25, 2020 at 03:19 AM +0800
 #
 # Description: A demonstration on ganga option file with parser.
 #              This demo runs stand-alone, provided that Python is installed:
@@ -30,7 +30,8 @@ MC_SIMULATION = ['Pythia6', 'Pythia8']
 
 MC_BASE = {
     'Dst': './reco_Dst.py',
-    'D0': './reco_D0.py'
+    'D0': './reco_D0.py',
+    'Dst-cutflow': './reco_Dst-cut_flow.py'
 }
 
 MC_CONDITION = {
@@ -75,7 +76,7 @@ PARAMETERS = {
         'options': './conds/cond-data-2012-Dst.py',
         'files_per_job': 5
     },
-    'cocktail-2011-Dst': {
+    'cocktail-2011-Dst-cutflow': {
         'dirac_path': '/MC/2011/Beam3500GeV-2011-Mag{}-Nu2-Pythia8/Sim08h/Digi13/Trig0x40760037/Reco14c/Stripping20r1NoPrescalingFlagged/11874091/ALLSTREAMS.DST',
         'options': './conds/cond-mc-mag_down-sim08h-Bd2D0XMuNu-D0_cocktail.py',
         'files_per_job': 8
