@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Mar 25, 2020 at 03:26 AM +0800
+# Last Change: Wed Mar 25, 2020 at 03:34 AM +0800
 #
 # Description: A demonstration on ganga option file with parser.
 #              This demo runs stand-alone, provided that Python is installed:
@@ -19,7 +19,7 @@ from os.path import expanduser
 # Parameters for data/MC #
 ##########################
 
-PLATFORM = 'x86_64-centos7-gcc62-opt'
+PLATFORM = 'x86_64-centos7-gcc8-opt'
 WEIGHT_FILE = './weights_soft.xml'
 
 # Example for a fully constructed MC file path:
