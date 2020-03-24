@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Mar 19, 2020 at 02:50 AM +0800
+# Last Change: Tue Mar 24, 2020 at 04:00 PM +0800
 
 #####################
 # Configure DaVinci #
@@ -188,8 +188,9 @@ else:
 #   Build Muon from scratch for MC because semileptonic production MC doesn't
 #   have stripping lines
 #
-#   For data, we always have a stripping line, and this is equivalent to:
-#     stripped && TIS filtered
+#   For data, we always have a stripping line, so all events contains *some*
+#   Muons that pass the stripping criteria. However, the Muons that do not pass
+#   (unstripped) still get saved and we still want to use them.
 sel_Mu = sel_unstripped_tis_filtered_Mu
 
 
