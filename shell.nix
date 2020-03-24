@@ -1,7 +1,9 @@
+with import <nixpkgs> {};
+
 let
-  pkgs = import <nixpkgs> {};
-  python = pkgs.python3;
+  python = enableDebugging pkgs.python3;
   pythonPackages = python.pkgs;
+  root = enableDebugging pkgs.root;
 in
 
 pkgs.mkShell {
@@ -9,7 +11,7 @@ pkgs.mkShell {
   buildInputs = with pythonPackages; [
     # Compilers and other build dependencies
     pkgs.clang
-    pkgs.root
+    root
 
     # Auto completion
     jedi
