@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Nov 18, 2019 at 04:51 PM -0500
+# Last Change: Wed Mar 25, 2020 at 02:20 AM +0800
 #
 # Description: A demonstration on ganga option file with parser.
 #              This demo runs stand-alone, provided that Python is installed:
@@ -75,6 +75,11 @@ PARAMETERS = {
         'options': './conds/cond-data-2012-Dst.py',
         'files_per_job': 5
     },
+    'cocktail-2011-Dst': {
+        'dirac_path': '/MC/2011/11874091/Beam3500GeV-2011-Mag{}-Nu2-Pythia8/Sim08h/Digi13/Trig0x40760037/Reco14c/Stripping20r1NoPrescalingFlagged/ALLSTREAMS.DST',
+        'options': './conds/cond-mc-mag_down-sim08h-Bd2D0XMuNu-D0_cocktail.py',
+        'files_per_job': 8
+    },
 }
 
 
@@ -97,10 +102,11 @@ for id in MC_MODE_IDS.keys():
 
 
 def gen_job_name(base, mode, polarity, simulaiton, condition):
-    if 'data' in mode:
+    if 'data' in mode or 'cocktail' in mode:
         # Drop the duplicate 'base' indicator
         mode = mode.replace('-'+base, '')
         return '-'.join([base, mode, polarity])
+
     else:
         return '-'.join([base, mode, polarity, simulaiton, condition])
 
@@ -140,7 +146,7 @@ specify data type.''')
 if this flag is supplied, don't skip existing jobs with the same name.''')
 
     parser.add_argument('--davinci',
-                        default='~/build/DaVinciDev_v42r8p1',
+                        default='~/build/DaVinciDev_v45r3',
                         help='''
 specify path to local DaVinci build.''')
 
