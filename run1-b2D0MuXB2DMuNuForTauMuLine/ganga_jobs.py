@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Mar 25, 2020 at 02:26 AM +0800
+# Last Change: Wed Mar 25, 2020 at 02:34 AM +0800
 #
 # Description: A demonstration on ganga option file with parser.
 #              This demo runs stand-alone, provided that Python is installed:
@@ -119,11 +119,11 @@ def gen_decay(mode, reference=MC_MODE_IDS):
 
 
 def gen_dirac_path(raw, polarity, simulation, condition, decay):
-    if 'Real Data' in raw:
-        return raw.format(polarity)
-    else:
+    try:
         return raw.format(polarity=polarity, simulation=simulation,
                           condition=condition, decay=decay)
+    except IndexError:
+        return raw.format(polarity)
 
 
 #################################
