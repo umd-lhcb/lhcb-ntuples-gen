@@ -28,3 +28,13 @@
 | Hlt1                 | 24            | 24            | 0.8276±0.0993       | 1.0000±0.0735       | 1.208±0.170         |
 | Hlt2                 | 19            | 24            | 0.792±0.116         | 1.0000±0.0735       | 1.263±0.207         |
 | Total ratio          | -             | -             | 0.000541±0.000154   | 0.000901±0.000223   | 1.666±0.628         |
+
+!!! note
+    - With run 1 `DaVinci` script plus the run 2 stripping condition, we find
+      2016 (run 2 year) ntuple contains ~5x candidates than that of 2012 (run 1
+      year). See [released figures in this project](https://github.com/umd-lhcb/RDRDstRun2AnalysisPreservation/releases/latest).
+    - The luminosity between 2016 and 2012 are similar. We figured this out with DaVinci and DIRAC.
+    - We have a factor of 2 from the cross section. See [this paper](https://arxiv.org/pdf/1612.05140.pdf)
+    - This leaves a factor of 2.5. We are expecting ~1.7.
+    - Meanwhile, cut flow generated with very similar script and cocktail MC
+      data agrees with the expected ~1.7 factor.
