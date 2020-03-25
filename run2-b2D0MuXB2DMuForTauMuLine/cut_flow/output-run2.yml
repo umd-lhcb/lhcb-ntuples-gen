@@ -16,15 +16,21 @@ SelMyB0:
 SelMyRefitB02DstMu:
     input: 333
     output: 321
-step2:
-    input: 342
-    output: 238
 L0:
-    input: 238
-    output: 24
+    input: 342
+    output: 33
 Hlt1:
-    input: 24
-    output: 24
+    input: 33
+    output: 33
 Hlt2:
+    input: 33
+    output: 33
+Mu_pid:
+    input: 33
+    output: 31
+Y_isolation:
+    input: 31
+    output: 24
+Y_mass:
     input: 24
     output: 24
