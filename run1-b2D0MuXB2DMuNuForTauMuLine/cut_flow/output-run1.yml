@@ -1,32 +1,45 @@
 SeqMyB0:
     input: 35131
     output: 35131
-    name: Total events
+    name: Total candidates
 StrippedBCands:
     input: 35131
     output: 749
+    name: Stripped $B$
 SelMyD0:
     input: 749
     output: 725
+    name: $D^0 \rightarrow K^- \pi^+$
 SelMyDst:
     input: 725
     output: 437
+    name: $D^{*+} \rightarrow D^0 \pi^+$
 SelMyB0:
     input: 437
     output: 410
+    name: $B^0 \rightarrow D^{*+} \tau^-$
 SelMyRefitB02DstMu:
     input: 410
     output: 391
-step2:
-    input: 429
-    output: 328
-    name: Step 2 cuts
+    name: Refit $B^0$ decay tree
 L0:
-    input: 328
-    output: 29
+    input: 429
+    output: 39
 Hlt1:
-    input: 29
-    output: 24
+    input: 39
+    output: 32
 Hlt2:
-    input: 24
+    input: 32
+    output: 25
+Mu_pid:
+    input: 25
+    output: 25
+    name: $\mu$ PID
+Y_isolation:
+    input: 25
     output: 19
+    name: $\Upsilon(\text{4s})$ isolation cut
+Y_mass:
+    input: 19
+    output: 19
+    name: $m_{\Upsilon(\text{4s})}$ cut
