@@ -1,7 +1,7 @@
 SeqMyB0:
     input: 35131
     output: 35131
-    name: Total number of events
+    name: Total events
 StrippedBCands:
     input: 35131
     output: 749
@@ -17,12 +17,16 @@ SelMyB0:
 SelMyRefitB02DstMu:
     input: 410
     output: 391
-L0:
+step2:
     input: 429
-    output: 39
+    output: 328
+    name: Step 2 cuts
+L0:
+    input: 328
+    output: 29
 Hlt1:
-    input: 39
-    output: 32
+    input: 29
+    output: 24
 Hlt2:
-    input: 32
-    output: 25
+    input: 24
+    output: 19

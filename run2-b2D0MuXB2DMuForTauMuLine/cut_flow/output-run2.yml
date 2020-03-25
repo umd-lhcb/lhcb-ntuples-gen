@@ -16,12 +16,15 @@ SelMyB0:
 SelMyRefitB02DstMu:
     input: 333
     output: 321
-L0:
+step2:
     input: 342
-    output: 33
+    output: 238
+L0:
+    input: 238
+    output: 24
 Hlt1:
-    input: 33
-    output: 33
+    input: 24
+    output: 24
 Hlt2:
-    input: 33
-    output: 33
+    input: 24
+    output: 24
