@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Mar 25, 2020 at 06:12 PM +0800
+# Last Change: Wed Mar 25, 2020 at 08:40 PM +0800
 
 from yaml import safe_load
 from argparse import ArgumentParser
@@ -83,7 +83,7 @@ def list_gen(run1_descr, run2_descr, header=CSV_HEADERS):
     # Append the total ratio
     run1_total_eff = div(run1_yield, run1_total_input)
     run2_total_eff = div(run2_yield, run2_total_input)
-    result.append(['Total ratio (run 2/run 1)'] + ['-']*(len(header)-4) +
+    result.append(['Total ratio'] + ['-']*(len(header)-4) +
                   [run1_total_eff, run2_total_eff,
                    run2_total_eff / run1_total_eff])
 
