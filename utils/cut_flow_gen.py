@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Mar 23, 2020 at 10:20 PM +0800
+# Last Change: Wed Mar 25, 2020 at 06:12 PM +0800
 
 from yaml import safe_load
 from argparse import ArgumentParser
@@ -47,7 +47,8 @@ def div(num, denom):
 
 def list_gen(run1_descr, run2_descr, header=CSV_HEADERS):
     result = [CSV_HEADERS]
-    total_ratio = 1
+    run1_total_input = None
+    run2_total_input = None
 
     for key, val in run1_descr.items():
         row = []
@@ -65,18 +66,26 @@ def list_gen(run1_descr, run2_descr, header=CSV_HEADERS):
         run1_yield = val['output']
         run2_yield = run2_row['output']
 
+        # Store total number of events in the raw data.
+        if not run1_total_input:
+            run1_total_input = run1_yield
+        if not run2_total_input:
+            run2_total_input = run2_yield
+
         run1_eff = div(val['output'], val['input'])
         run2_eff = div(run2_row['output'], run2_row['input'])
 
         double_ratio = div(run2_eff, run1_eff)
-        total_ratio = total_ratio * double_ratio
 
         row += [run1_yield, run2_yield, run1_eff, run2_eff, double_ratio]
         result.append(row)
 
     # Append the total ratio
-    result.append(['Total ratio (run 2/run 1)'] + ['-']*(len(header)-2) +
-                  [total_ratio])
+    run1_total_eff = div(run1_yield, run1_total_input)
+    run2_total_eff = div(run2_yield, run2_total_input)
+    result.append(['Total ratio (run 2/run 1)'] + ['-']*(len(header)-4) +
+                  [run1_total_eff, run2_total_eff,
+                   run2_total_eff / run1_total_eff])
 
     return result
 
