@@ -5,11 +5,11 @@ SeqMyB0:
 StrippedBCands:
     input: 35131
     output: 749
-    name: Stripped $B$
+    name: Stripped $D^0 \mu^-$
 SelMyD0:
     input: 749
     output: 725
-    name: $D^0 \rightarrow K^- \pi^+$
+    name: $D^0 \rightarrow K^- \pi^+$ (tigter $K \pi$)
 SelMyDst:
     input: 725
     output: 437
@@ -17,11 +17,11 @@ SelMyDst:
 SelMyB0:
     input: 437
     output: 410
-    name: $B^0 \rightarrow D^{*+} \tau^-$
+    name: $\bar{B}^0 \rightarrow D^{*+} \mu^-$
 SelMyRefitB02DstMu:
     input: 410
     output: 391
-    name: Refit $B^0$ decay tree
+    name: Refit $\bar{B}^0$ decay tree
 L0:
     input: 429
     output: 39
@@ -38,8 +38,8 @@ Mu_pid:
 Y_isolation:
     input: 25
     output: 19
-    name: $\Upsilon(\text{4s})$ isolation cut
+    name: $\text{IsoBDT}_{\Upsilon(\text{4s})} < 0.15$
 Y_mass:
     input: 19
     output: 19
-    name: $m_{\Upsilon(\text{4s})}$ cut
+    name: $m_{\Upsilon(\text{4s})} < 5280$
