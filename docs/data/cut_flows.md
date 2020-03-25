@@ -41,3 +41,7 @@
     - This leaves a factor of 2.5. We are expecting ~1.7.
     - Meanwhile, cut flow generated with very similar script and cocktail MC
       data agrees with the expected ~1.7 factor.
+
+!!! info
+    - Run 1 stripping conditions can be found at [`Strippingb2D0MuXB2DMuNuForTauMuLine`](http://lhcbdoc.web.cern.ch/lhcbdoc/stripping/config/stripping21/semileptonic/strippingb2d0muxb2dmunufortaumuline.html)
+    - Run 2 stripping conditions can be found at [`Strippingb2D0MuXB2DMuForTauMuLine`](http://lhcbdoc.web.cern.ch/lhcbdoc/stripping/config/stripping28r2/semileptonic/strippingb2d0muxb2dmufortaumuline.html)
