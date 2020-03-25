@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Mar 25, 2020 at 08:19 PM +0800
+# Last Change: Thu Mar 26, 2020 at 02:14 AM +0800
 
 import uproot
 import sys
@@ -101,28 +101,36 @@ if __name__ == '__main__':
     input_yml = 'input-run2.yml'
     output_yml = 'output-run2.yml'
 
-    Mu_pid_eff, Mu_pid_result = Mu_pid(ntp, tree)
-    Y_isolation_cut_eff, Y_isolation_cut_result = Y_isolation_cut(ntp, tree)
-    Y_mass_cut_eff, Y_mass_cut_result = Y_mass_cut(ntp, tree)
-
-    step2_result = logical_and(Mu_pid_result, logical_and(
-        Y_isolation_cut_result, Y_mass_cut_result))
-    step2_eff = sum(step2_result)
-
+    # Trigger cuts #############################################################
     L0_eff, L0_result = L0_cuts(ntp, tree)
     Hlt1_eff, Hlt1_result = Hlt1_cuts(ntp, tree)
     Hlt2_eff, Hlt2_result = Hlt2_cuts(ntp, tree)
 
-    # L0 on top of step 2
-    L0_result = logical_and(L0_result, step2_result)
-    L0_eff = sum(L0_result)
-
     # HLT 1 on top of L0
-    L0_Hlt1_result = logical_and(L0_result, Hlt1_result)
-    L0_Hlt1_eff = sum(L0_Hlt1_result)
+    Hlt1_L0_result = logical_and(L0_result, Hlt1_result)
+    Hlt1_L0_eff = sum(Hlt1_L0_result)
 
-    # HLT 2 on top of HLT 1
-    trigger_eff = sum(logical_and(L0_Hlt1_result, Hlt2_result))
+    # HLT 2 on top of HLT 1 (a.k.a: trigger cuts)
+    trigger_result = logical_and(Hlt1_L0_result, Hlt2_result)
+    trigger_eff = sum(trigger_result)
+
+    # Step 2 cuts ##############################################################
+    Mu_pid_eff, Mu_pid_result = Mu_pid(ntp, tree)
+    Y_isolation_cut_eff, Y_isolation_cut_result = Y_isolation_cut(ntp, tree)
+    Y_mass_cut_eff, Y_mass_cut_result = Y_mass_cut(ntp, tree)
+
+    # Muon PID cuts on top of trigger cuts
+    Mu_pid_trigger_result = logical_and(trigger_result, Mu_pid_result)
+    Mu_pid_trigger_eff = sum(Mu_pid_trigger_result)
+
+    # Y isolation cut on top of Muon PID
+    Y_isolation_cut_Mu_pid_result = logical_and(Mu_pid_trigger_result,
+                                                Y_isolation_cut_result)
+    Y_isolation_cut_Mu_pid_eff = sum(Y_isolation_cut_Mu_pid_result)
+
+    # Y mass cut on top of Y isolation (a.k.a: step 2 cuts)
+    step2_result = logical_and(Y_isolation_cut_Mu_pid_result, Y_mass_cut_result)
+    step2_eff = sum(step2_result)
 
     with open(input_yml) as f:
         result = yaml.safe_load(f)
@@ -133,13 +141,17 @@ if __name__ == '__main__':
             v['output'] = uniq_size  # Here we are only considering events passing the refitting procedure
         result[k] = v
 
-    # Update step-2 cuts
-    result['step2'] = {'input': size, 'output': step2_eff}
-
     # Update the L0/Hlt cuts
-    result['L0'] = {'input': step2_eff, 'output': L0_eff}
-    result['Hlt1'] = {'input': L0_eff, 'output': L0_Hlt1_eff}
-    result['Hlt2'] = {'input': L0_Hlt1_eff, 'output': trigger_eff}
+    result['L0'] = {'input': size, 'output': L0_eff}
+    result['Hlt1'] = {'input': L0_eff, 'output': Hlt1_L0_eff}
+    result['Hlt2'] = {'input': Hlt1_L0_eff, 'output': trigger_eff}
+
+    # Update step-2 cuts
+    result['Mu_pid'] = {'input': trigger_eff, 'output': Mu_pid_trigger_eff}
+    result['Y_isolation'] = {'input': Mu_pid_trigger_eff,
+                             'output': Y_isolation_cut_Mu_pid_eff}
+    result['Y_mass'] = {'input': Y_isolation_cut_Mu_pid_eff,
+                        'output': step2_eff}
 
     with open(output_yml, 'w') as f:
         f.write(yaml_gen(result))
