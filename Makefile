@@ -1,6 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Mar 23, 2020 at 09:13 PM +0800
+# Last Change: Wed Mar 25, 2020 at 03:39 PM +0800
 
 BINPATH	:=	bin
 SRCPATH	:=	gen
@@ -32,7 +32,7 @@ clean:
 cutflow-RDst: \
 	run1-b2D0MuXB2DMuNuForTauMuLine/cut_flow/output-run1.yml \
 	run2-b2D0MuXB2DMuForTauMuLine/cut_flow/output-run2.yml
-	@./utils/cut_flow_gen.py -o $(word 1, $^) -t $(word 2, $^) | ./utils/tab_gen.py
+	@./utils/cut_flow_gen.py -o $(word 1, $^) -t $(word 2, $^) | ./utils/tab_gen.py -f latex_booktabs_raw
 
 cutflow-RDst-web: \
 	run1-b2D0MuXB2DMuNuForTauMuLine/cut_flow/output-run1.yml \

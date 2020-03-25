@@ -2,11 +2,12 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Mar 19, 2020 at 08:21 PM +0800
+# Last Change: Wed Mar 25, 2020 at 03:38 PM +0800
 
 import fileinput
 import tabulate as TAB
 
+from functools import partial
 from argparse import ArgumentParser, Action
 
 
@@ -14,7 +15,17 @@ from argparse import ArgumentParser, Action
 # Tabulate-related #
 ####################
 
-TAB.LATEX_ESCAPE_RULES = {}  # Disable escape
+# Disable LaTeX character escaping
+TAB._table_formats["latex_booktabs_raw"] = TAB.TableFormat(
+    lineabove=partial(TAB._latex_line_begin_tabular, booktabs=True),
+    linebelowheader=TAB.Line("\\midrule", "", "", ""),
+    linebetweenrows=None,
+    linebelow=TAB.Line("\\bottomrule\n\\end{tabular}", "", "", ""),
+    headerrow=partial(TAB._latex_row, escrules={}),
+    datarow=partial(TAB._latex_row, escrules={}),
+    padding=1,
+    with_header_hide=None,
+)
 
 
 ################################
@@ -38,6 +49,7 @@ def parse_input(descr='table generator taking stdin as input.'):
                                  'simple',
                                  'github',
                                  'latex_booktabs',
+                                 'latex_booktabs_raw',
                                  'latex_raw'],
                         default='github',
                         help='specify the output table format.'
