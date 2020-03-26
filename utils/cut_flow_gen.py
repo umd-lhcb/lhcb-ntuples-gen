@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Mar 26, 2020 at 02:01 AM +0800
+# Last Change: Thu Mar 26, 2020 at 05:37 PM +0800
 
 from yaml import safe_load
 from argparse import ArgumentParser
@@ -72,10 +72,14 @@ def list_gen(run1_descr, run2_descr, header=CSV_HEADERS):
         if not run2_total_input:
             run2_total_input = run2_yield
 
-        run1_eff = div(val['output'], val['input'])
-        run2_eff = div(run2_row['output'], run2_row['input'])
+        if len(result) > 1:
+            run1_eff = div(val['output'], val['input'])
+            run2_eff = div(run2_row['output'], run2_row['input'])
 
-        double_ratio = div(run2_eff, run1_eff)
+            double_ratio = div(run2_eff, run1_eff)
+
+        else:  # Don't calculate ratios for the total number of candidates
+            run1_eff = run2_eff = double_ratio = '-'
 
         row += [run1_yield, run2_yield, run1_eff, run2_eff, double_ratio]
         result.append(row)
