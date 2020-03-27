@@ -2,12 +2,13 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri Mar 20, 2020 at 07:32 PM +0800
+# Last Change: Sat Mar 28, 2020 at 01:32 AM +0800
 
 import re
 import sys
 
 from collections import OrderedDict as odict
+from glob import glob
 
 
 #############
@@ -125,8 +126,12 @@ def file_parse(filename):
 if __name__ == '__main__':
     output = sys.argv[1]
     result = odict()
+    log_filepaths = []
 
-    for log_filename in sys.argv[2:]:
+    for log in sys.argv[2:]:
+        log_filepaths += glob(log)
+
+    for log_filename in log_filepaths:
         parsed = file_parse(log_filename)
         update_dict(result, parsed)
 
