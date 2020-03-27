@@ -10,7 +10,7 @@ SIMULATION = {'Pythia6': 'py6', 'Pythia8': 'py8'}
 
 def normalize_hadd_filename(job_name, prefix='BCands', author='yipeng'):
     fields = job_name.split('-')
-    if 'mc' in fields:
+    try:
         base, mode, decay, polarity, simulation, condition = fields
         filename = '{prefix}_{base}-{author}-{mode}-{polarity}-{simulation}-{condition}-{decay}.root'.format(
             prefix=prefix,
@@ -22,7 +22,8 @@ def normalize_hadd_filename(job_name, prefix='BCands', author='yipeng'):
             condition=condition.lower(),
             decay=decay
         )
-    else:
+
+    except ValueError
         base, mode, year, polarity = fields
         filename = '{prefix}_{base}-{author}-{mode}-{year}-{polarity}.root'.format(
             prefix=prefix,
