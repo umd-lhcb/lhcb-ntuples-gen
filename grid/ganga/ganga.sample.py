@@ -23,7 +23,7 @@ def normalize_hadd_filename(job_name, prefix='BCands', author='yipeng'):
             decay=decay
         )
 
-    except ValueError
+    except ValueError:
         base, mode, year, polarity = fields
         filename = '{prefix}_{base}-{author}-{mode}-{year}-{polarity}.root'.format(
             prefix=prefix,
