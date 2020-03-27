@@ -9,7 +9,9 @@ SIMULATION = {'Pythia6': 'py6', 'Pythia8': 'py8'}
 
 
 def normalize_hadd_filename(job_name, prefix='BCands', author='yipeng'):
+    job_name = job_name.replace('-cutflow', '_cutflow')  # Workaround for names like 'Dst-cutflow'
     fields = job_name.split('-')
+
     try:
         base, mode, decay, polarity, simulation, condition = fields
         filename = '{prefix}_{base}-{author}-{mode}-{polarity}-{simulation}-{condition}-{decay}.root'.format(
