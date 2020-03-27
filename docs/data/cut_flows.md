@@ -15,21 +15,22 @@
 
 
 ### Cut flow table
-| cut name                                     | run 1 yield   | run 2 yield   | run 1 efficiency   | run 2 efficiency   | double ratio      |
-|----------------------------------------------|---------------|---------------|--------------------|--------------------|-------------------|
-| Total events                                 | 35131         | 26633         | -                  | -                  | -                 |
-| Stripped $D^0 \mu^-$                         | 749           | 754           | 0.02132±0.00079    | 0.0283±0.0010      | 1.328±0.070       |
-| $D^0 \rightarrow K^- \pi^+$ (tigter $K \pi$) | 725           | 720           | 0.9680±0.0078      | 0.9549±0.0088      | 0.987±0.012       |
-| $D^{*+} \rightarrow D^0 \pi^+$               | 437           | 410           | 0.603±0.019        | 0.569±0.019        | 0.945±0.043       |
-| $\bar{B}^0 \rightarrow D^{*+} \mu^-$         | 410           | 333           | 0.938±0.014        | 0.812±0.021        | 0.866±0.026       |
-| Refit $\bar{B}^0$ decay tree                 | 391           | 321           | 0.954±0.013        | 0.964±0.013        | 1.011±0.019       |
-| L0                                           | 39            | 33            | 0.091±0.016        | 0.096±0.019        | 1.06±0.28         |
-| Hlt1                                         | 32            | 33            | 0.821±0.083        | 1.000±0.054        | 1.22±0.14         |
-| Hlt2                                         | 25            | 33            | 0.781±0.097        | 1.000±0.054        | 1.28±0.17         |
-| $\mu$ PID                                    | 25            | 31            | 1.000±0.071        | 0.939±0.074        | 0.939±0.099       |
-| $\text{IsoBDT}_{\Upsilon(\text{4s})} < 0.15$ | 19            | 24            | 0.76±0.12          | 0.77±0.10          | 1.02±0.20         |
-| $m_{\Upsilon(\text{4s})} < 5280$             | 19            | 24            | 1.000±0.092        | 1.000±0.074        | 1.00±0.12         |
-| Total ratio                                  | -             | -             | 0.00054±0.00015    | 0.00090±0.00022    | 1.67±0.63         |
+
+| cut name                                     | run 1 yield   | run 2 yield   | run 1 efficiency   | run 2 efficiency   | double ratio   |
+|----------------------------------------------|---------------|---------------|--------------------|--------------------|----------------|
+| Total events                                 | 502736        | 520046        | -                  | -                  | -              |
+| Stripped $D^0 \mu^-$                         | 10422         | 13807         | 0.02073±0.00020    | 0.02655±0.00022    | 1.281±0.016    |
+| $D^0 \rightarrow K^- \pi^+$ (tigter $K \pi$) | 10080         | 13398         | 0.9672±0.0018      | 0.9704±0.0015      | 1.0033±0.0025  |
+| $D^{*+} \rightarrow D^0 \pi^+$               | 5987          | 7893          | 0.5939±0.0049      | 0.5891±0.0043      | 0.992±0.011    |
+| $\bar{B}^0 \rightarrow D^{*+} \mu^-$         | 5498          | 6454          | 0.9183±0.0037      | 0.8177±0.0044      | 0.8904±0.0060  |
+| Refit $\bar{B}^0$ decay tree                 | 5197          | 6139          | 0.9453±0.0032      | 0.9512±0.0028      | 1.0063±0.0045  |
+| L0                                           | 488           | 579           | 0.0842±0.0038      | 0.0859±0.0035      | 1.020±0.062    |
+| Hlt1                                         | 419           | 579           | 0.859±0.017        | 1.0000±0.0032      | 1.165±0.024    |
+| Hlt2                                         | 310           | 579           | 0.740±0.023        | 1.0000±0.0032      | 1.352±0.042    |
+| $\mu$ PID                                    | 310           | 527           | 1.0000±0.0059      | 0.910±0.013        | 0.910±0.014    |
+| $\text{IsoBDT}_{\Upsilon(\text{4s})} < 0.15$ | 241           | 392           | 0.777±0.026        | 0.744±0.020        | 0.957±0.041    |
+| $m_{\Upsilon(\text{4s})} < 5280$             | 241           | 392           | 1.0000±0.0076      | 1.0000±0.0047      | 1.0000±0.0089  |
+| Total ratio                                  | -             | -             | 0.000479±0.000033  | 0.000754±0.000040  | 1.57±0.14      |
 
 !!! note
     - With run 1 `DaVinci` script plus the run 2 stripping condition, we find
@@ -40,6 +41,7 @@
     - This leaves a factor of 2.5. We are expecting ~1.7.
     - Meanwhile, cut flow generated with very similar script and cocktail MC
       data agrees with the expected ~1.7 factor.
+    - This table uses **full** run 1 and 2 cocktail MC.
 
 !!! info
     - Run 1 stripping conditions can be found at [`Strippingb2D0MuXB2DMuNuForTauMuLine`](http://lhcbdoc.web.cern.ch/lhcbdoc/stripping/config/stripping21/semileptonic/strippingb2d0muxb2dmunufortaumuline.html)
