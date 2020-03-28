@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Mar 26, 2020 at 02:12 AM +0800
+# Last Change: Sun Mar 29, 2020 at 12:59 AM +0800
 
 import uproot
 import sys
@@ -93,13 +93,12 @@ def Hlt2_cuts(ntp, tree):
 
 
 if __name__ == '__main__':
-    ntp = uproot.open('../ntuples/mc/BCands-yipeng-mc-mag_down-py8-sim08h-Bd2D0XMuNu-D0_cocktail.root')
+    ntp_path, input_yml, output_yml = sys.argv[1:]
+
+    ntp = uproot.open(ntp_path)
     tree = 'TupleB0/DecayTree'
     size = total_num(ntp, tree)
     uniq_size = total_num_dedupl(ntp, tree)
-
-    input_yml = 'input-run1.yml'
-    output_yml = 'output-run1.yml'
 
     # Trigger cuts #############################################################
     L0_eff, L0_result = L0_cuts(ntp, tree)
