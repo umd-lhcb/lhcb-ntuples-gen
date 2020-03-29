@@ -2,7 +2,7 @@
 
 We use `git` to version-control the ntupling code and the wiki, and `git-annex` to version-control
 large files, mostly the input `.dst` files or important `.root` outputs. For more details on
-`git-annex`, see [this brief introduction](software_manuals/git_annex).
+`git-annex`, see [this brief introduction](/software_manuals/git_annex).
 
 On Arch Linux, simply issue the following command to install both programs:
 ```
