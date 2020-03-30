@@ -652,8 +652,15 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#cut-flow-table" class="md-nav__link">
-    Cut flow table
+  <a href="#cut-flow-table-with-cocktail-mc" class="md-nav__link">
+    Cut flow table with cocktail MC
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cut-flow-table-with-real-data" class="md-nav__link">
+    Cut flow table with real data
   </a>
   
 </li>
@@ -749,8 +756,15 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#cut-flow-table" class="md-nav__link">
-    Cut flow table
+  <a href="#cut-flow-table-with-cocktail-mc" class="md-nav__link">
+    Cut flow table with cocktail MC
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cut-flow-table-with-real-data" class="md-nav__link">
+    Cut flow table with real data
   </a>
   
 </li>
@@ -793,7 +807,7 @@
 </code></pre></div>
     Please refer to the <a href="https://github.com/umd-lhcb/lhcb-ntuples-gen/blob/master/Makefile"><code>Makefile</code></a> on the implementation details.</li>
 </ol>
-<h3 id="cut-flow-table">Cut flow table</h3>
+<h3 id="cut-flow-table-with-cocktail-mc">Cut flow table with cocktail MC</h3>
 <table>
 <thead>
 <tr>
@@ -931,6 +945,131 @@
 <ul>
 <li>Run 1 stripping conditions can be found at <a href="http://lhcbdoc.web.cern.ch/lhcbdoc/stripping/config/stripping21/semileptonic/strippingb2d0muxb2dmunufortaumuline.html"><code>Strippingb2D0MuXB2DMuNuForTauMuLine</code></a></li>
 <li>Run 2 stripping conditions can be found at <a href="http://lhcbdoc.web.cern.ch/lhcbdoc/stripping/config/stripping28r2/semileptonic/strippingb2d0muxb2dmufortaumuline.html"><code>Strippingb2D0MuXB2DMuForTauMuLine</code></a></li>
+</ul>
+</div>
+<h3 id="cut-flow-table-with-real-data">Cut flow table with real data</h3>
+<table>
+<thead>
+<tr>
+<th>cut name</th>
+<th>run 1 yield</th>
+<th>run 2 yield</th>
+<th>run 1 efficiency</th>
+<th>run 2 efficiency</th>
+<th>double ratio</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Total events</td>
+<td>86365</td>
+<td>70611</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>Stripped <span><span class="MathJax_Preview">D^0 \mu^-</span><script type="math/tex">D^0 \mu^-</script></span></td>
+<td>4926</td>
+<td>5191</td>
+<td>0.05704±0.00080</td>
+<td>0.07352±0.00099</td>
+<td>1.289±0.025</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^0 \rightarrow K^- \pi^+</span><script type="math/tex">D^0 \rightarrow K^- \pi^+</script></span> (tigter <span><span class="MathJax_Preview">K \pi</span><script type="math/tex">K \pi</script></span>)</td>
+<td>4925</td>
+<td>5191</td>
+<td>0.99980±0.00046</td>
+<td>1.00000±0.00035</td>
+<td>1.00020±0.00058</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^{*+} \rightarrow D^0 \pi^+</span><script type="math/tex">D^{*+} \rightarrow D^0 \pi^+</script></span></td>
+<td>1061</td>
+<td>1087</td>
+<td>0.2154±0.0060</td>
+<td>0.2094±0.0058</td>
+<td>0.972±0.038</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">\bar{B}^0 \rightarrow D^{*+} \mu^-</span><script type="math/tex">\bar{B}^0 \rightarrow D^{*+} \mu^-</script></span></td>
+<td>778</td>
+<td>669</td>
+<td>0.733±0.014</td>
+<td>0.615±0.015</td>
+<td>0.839±0.026</td>
+</tr>
+<tr>
+<td>Refit <span><span class="MathJax_Preview">\bar{B}^0</span><script type="math/tex">\bar{B}^0</script></span> decay tree</td>
+<td>723</td>
+<td>609</td>
+<td>0.929±0.010</td>
+<td>0.910±0.012</td>
+<td>0.980±0.017</td>
+</tr>
+<tr>
+<td>L0</td>
+<td>79</td>
+<td>49</td>
+<td>0.096±0.011</td>
+<td>0.069±0.011</td>
+<td>0.72±0.14</td>
+</tr>
+<tr>
+<td>Hlt1</td>
+<td>69</td>
+<td>49</td>
+<td>0.873±0.049</td>
+<td>1.000±0.037</td>
+<td>1.145±0.077</td>
+</tr>
+<tr>
+<td>Hlt2</td>
+<td>51</td>
+<td>49</td>
+<td>0.739±0.063</td>
+<td>1.000±0.037</td>
+<td>1.35±0.13</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">\mu</span><script type="math/tex">\mu</script></span> PID</td>
+<td>51</td>
+<td>35</td>
+<td>1.000±0.035</td>
+<td>0.714±0.079</td>
+<td>0.714±0.083</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">\text{IsoBDT}_{\Upsilon(\text{4s})} &lt; 0.15</span><script type="math/tex">\text{IsoBDT}_{\Upsilon(\text{4s})} < 0.15</script></span></td>
+<td>37</td>
+<td>26</td>
+<td>0.725±0.076</td>
+<td>0.743±0.095</td>
+<td>1.02±0.17</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">m_{\Upsilon(\text{4s})} &lt; 5280</span><script type="math/tex">m_{\Upsilon(\text{4s})} < 5280</script></span></td>
+<td>36</td>
+<td>26</td>
+<td>0.973±0.059</td>
+<td>1.000±0.068</td>
+<td>1.028±0.094</td>
+</tr>
+<tr>
+<td>Total ratio</td>
+<td>-</td>
+<td>-</td>
+<td>0.000417±0.000081</td>
+<td>0.000368±0.000087</td>
+<td>0.88±0.27</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<ul>
+<li>This table uses <strong>a small subset of MagDown</strong> 2012 and 2016 real data.</li>
 </ul>
 </div>
                 
