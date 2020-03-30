@@ -1,6 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Mar 25, 2020 at 03:39 PM +0800
+# Last Change: Mon Mar 30, 2020 at 10:51 PM +0800
 
 BINPATH	:=	bin
 SRCPATH	:=	gen
@@ -11,7 +11,9 @@ CXXFLAGS	:=	$(shell root-config --cflags)
 LINKFLAGS	:=	$(shell root-config --libs)
 ADDFLAGS	:=	-Iinclude
 
-.PHONY: all clean cutflow-RDst cutflow-RDst-web
+.PHONY: all clean \
+	cutflow-RDst cutflow-RDst-web \
+	cutflow-RDst-data cutflow-RDst-data-web \
 
 all: \
 	gen/run1-Dst-step2/BCands_Dst-phoebe-data-2012-mag_down-step2.root \
@@ -37,6 +39,17 @@ cutflow-RDst: \
 cutflow-RDst-web: \
 	run1-b2D0MuXB2DMuNuForTauMuLine/cut_flow/output-run1.yml \
 	run2-b2D0MuXB2DMuForTauMuLine/cut_flow/output-run2.yml
+	@./utils/cut_flow_gen.py -o $(word 1, $^) -t $(word 2, $^) -n | ./utils/tab_gen.py -f github
+
+# Cut flow for R(D(*)), with real data
+cutflow-RDst-data: \
+	run1-b2D0MuXB2DMuNuForTauMuLine/cut_flow/output-run1-data.yml \
+	run2-b2D0MuXB2DMuForTauMuLine/cut_flow/output-run2-data.yml
+	@./utils/cut_flow_gen.py -o $(word 1, $^) -t $(word 2, $^) | ./utils/tab_gen.py -f latex_booktabs_raw
+
+cutflow-RDst-data-web: \
+	run1-b2D0MuXB2DMuNuForTauMuLine/cut_flow/output-run1-data.yml \
+	run2-b2D0MuXB2DMuForTauMuLine/cut_flow/output-run2-data.yml
 	@./utils/cut_flow_gen.py -o $(word 1, $^) -t $(word 2, $^) -n | ./utils/tab_gen.py -f github
 
 
