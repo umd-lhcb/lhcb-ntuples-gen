@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Mar 17, 2020 at 03:24 AM +0800
+# Last Change: Mon Mar 30, 2020 at 09:59 PM +0800
 
 #####################
 # Configure DaVinci #
@@ -92,8 +92,16 @@ event_pre_selectors = [fltr_strip]
 # It seems that 'DataOnDemand' is a misnomer of 'AutomaticData'
 from PhysSelPython.Wrappers import AutomaticData
 
-pr_stripped = AutomaticData(
-    Location='AllStreams/Phys/{0}/Particles'.format(line_strip))
+
+# Events tagged with our stripping line
+if not DaVinci().Simulation:
+    pr_stripped = AutomaticData(
+        Location='/Event/Semileptonic/Phys/{0}/Particles'.format(line_strip))
+else:
+    # NOTE: The TES location is UNUSUAL!
+    pr_stripped = AutomaticData(
+        Location='AllStreams/Phys/{0}/Particles'.format(line_strip))
+
 
 pr_charged_K = AutomaticData(Location='Phys/StdAllNoPIDsKaons/Particles')
 pr_charged_Pi = AutomaticData(Location='Phys/StdAllNoPIDsPions/Particles')
@@ -376,12 +384,7 @@ seq_B0_ws_Pi = SelectionSequence(
 )
 
 
-if not DaVinci().Simulation:
-    DaVinci().UserAlgorithms += [seq_B0.sequence(),
-                                 seq_B0_ws_Mu.sequence(),
-                                 seq_B0_ws_Pi.sequence()]
-else:
-    DaVinci().UserAlgorithms += [seq_B0.sequence()]
+DaVinci().UserAlgorithms += [seq_B0.sequence()]
 
 
 ###################
@@ -547,7 +550,4 @@ tp_B0_ws_Pi.addBranches({
 tuple_postpocess(tp_B0_ws_Pi)
 
 
-if not DaVinci().Simulation:
-    DaVinci().UserAlgorithms += [tp_B0, tp_B0_ws_Mu, tp_B0_ws_Pi]
-else:
-    DaVinci().UserAlgorithms += [tp_B0]
+DaVinci().UserAlgorithms += [tp_B0]

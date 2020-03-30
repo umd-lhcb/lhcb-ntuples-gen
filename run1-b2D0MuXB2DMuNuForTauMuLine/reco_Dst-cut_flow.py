@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Mar 30, 2020 at 09:30 PM +0800
+# Last Change: Mon Mar 30, 2020 at 09:59 PM +0800
 
 #####################
 # Configure DaVinci #
@@ -80,14 +80,11 @@ DaVinci().appendToMainSequence([ms_all_protos, ms_velo_pions])
 from Configurables import LoKi__HDRFilter as HDRFilter
 
 
-# Differences between 'HLT_PASS' and 'HLT_PASS_RE':
-#   'HLT_PASS' matches the line *exactly*
-#   'HLT_PASS_RE' (which was used in the starter kit) use regular expression to
-#   check if line given is a part of the lines of the events.
 if not DaVinci().Simulation:
     line_strip = 'b2D0MuXB2DMuNuForTauMuLine'
 else:
     line_strip = 'b2D0MuXB2DMuForTauMuLine'
+
 
 fltr_strip = HDRFilter(
     'StrippedBCands',
@@ -440,12 +437,7 @@ seq_B0_ws_Pi = SelectionSequence(
 )
 
 
-if not DaVinci().Simulation:
-    DaVinci().UserAlgorithms += [seq_B0.sequence(),
-                                 seq_B0_ws_Mu.sequence(),
-                                 seq_B0_ws_Pi.sequence()]
-else:
-    DaVinci().UserAlgorithms += [seq_B0.sequence()]
+DaVinci().UserAlgorithms += [seq_B0.sequence()]
 
 
 ###################
@@ -605,7 +597,4 @@ tp_B0_ws_Pi.addBranches({
 tuple_postpocess(tp_B0_ws_Pi)
 
 
-if not DaVinci().Simulation:
-    DaVinci().UserAlgorithms += [tp_B0, tp_B0_ws_Mu, tp_B0_ws_Pi]
-else:
-    DaVinci().UserAlgorithms += [tp_B0]
+DaVinci().UserAlgorithms += [tp_B0]
