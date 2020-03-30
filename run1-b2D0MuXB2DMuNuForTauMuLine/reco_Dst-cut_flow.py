@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Mar 19, 2020 at 09:14 PM +0800
+# Last Change: Mon Mar 30, 2020 at 09:30 PM +0800
 
 #####################
 # Configure DaVinci #
@@ -79,19 +79,19 @@ DaVinci().appendToMainSequence([ms_all_protos, ms_velo_pions])
 
 from Configurables import LoKi__HDRFilter as HDRFilter
 
+
 # Differences between 'HLT_PASS' and 'HLT_PASS_RE':
 #   'HLT_PASS' matches the line *exactly*
 #   'HLT_PASS_RE' (which was used in the starter kit) use regular expression to
 #   check if line given is a part of the lines of the events.
-line_strip = 'b2D0MuXB2DMuForTauMuLine'
+if not DaVinci().Simulation:
+    line_strip = 'b2D0MuXB2DMuNuForTauMuLine'
+else:
+    line_strip = 'b2D0MuXB2DMuForTauMuLine'
+
 fltr_strip = HDRFilter(
     'StrippedBCands',
     Code="HLT_PASS('Stripping{0}Decision')".format(line_strip))
-
-line_hlt = 'Hlt2CharmHadD02HH_D02KPi'
-fltr_hlt = HDRFilter(
-    'Hlt2TriggeredD0',
-    Code="HLT_PASS('{0}Decision')".format(line_hlt))
 
 
 # The cocktail MC has stripping line. We should use these filters to save time.
@@ -105,10 +105,16 @@ event_pre_selectors = [fltr_strip]
 # It seems that 'DataOnDemand' is a misnomer of 'AutomaticData'
 from PhysSelPython.Wrappers import AutomaticData
 
+
 # Events tagged with our stripping line
-# NOTE: The TES location is UNUSUAL!
-pr_stripped = AutomaticData(
-    Location='AllStreams/Phys/{0}/Particles'.format(line_strip))
+if not DaVinci().Simulation:
+    pr_stripped = AutomaticData(
+        Location='/Event/Semileptonic/Phys/{0}/Particles'.format(line_strip))
+else:
+    # NOTE: The TES location is UNUSUAL!
+    pr_stripped = AutomaticData(
+        Location='AllStreams/Phys/{0}/Particles'.format(line_strip))
+
 
 pr_charged_K = AutomaticData(Location='Phys/StdAllNoPIDsKaons/Particles')
 
