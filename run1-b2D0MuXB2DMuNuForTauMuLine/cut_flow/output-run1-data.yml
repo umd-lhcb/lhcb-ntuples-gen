@@ -1,0 +1,44 @@
+SeqMyB0:
+    input: 86365
+    output: 86365
+    name: Total events
+StrippedBCands:
+    input: 86365
+    output: 4926
+    name: Stripped $D^0 \mu^-$
+SelMyD0:
+    input: 4926
+    output: 4925
+    name: $D^0 \rightarrow K^- \pi^+$ (tigter $K \pi$)
+SelMyDst:
+    input: 4925
+    output: 1061
+    name: $D^{*+} \rightarrow D^0 \pi^+$
+SelMyB0:
+    input: 1061
+    output: 778
+SelMyRefitB02DstMu:
+    input: 778
+    output: 723
+    name: Refit $\bar{B}^0$ decay tree
+L0:
+    input: 825
+    output: 79
+Hlt1:
+    input: 79
+    output: 69
+Hlt2:
+    input: 69
+    output: 51
+Mu_pid:
+    input: 51
+    output: 51
+    name: $\mu$ PID
+Y_isolation:
+    input: 51
+    output: 37
+    name: $\text{IsoBDT}_{\Upsilon(\text{4s})} < 0.15$
+Y_mass:
+    input: 37
+    output: 36
+    name: $m_{\Upsilon(\text{4s})} < 5280$
