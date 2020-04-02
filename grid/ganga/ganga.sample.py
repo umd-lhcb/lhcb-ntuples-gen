@@ -27,7 +27,7 @@ def normalize_hadd_filename(job_name, prefix='BCands', author='yipeng'):
 
     except ValueError:
         # NOTE: This is a workaround for ganga jobs with incorrect names.
-        fields = fields[0:6] if len(fields) == 6 else fields
+        fields = fields[0:4] if len(fields) != 4 else fields
 
         base, mode, year, polarity = fields
         filename = '{prefix}_{base}-{author}-{mode}-{year}-{polarity}.root'.format(
