@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Mar 25, 2020 at 03:19 AM +0800
+# Last Change: Fri Apr 03, 2020 at 02:45 AM +0800
 #
 # Description: A demonstration on ganga option file with parser.
 #              This demo runs stand-alone, provided that Python is installed:
@@ -106,8 +106,9 @@ for id in MC_MODE_IDS.keys():
 
 def gen_job_name(base, mode, polarity, simulaiton, condition):
     if mode in PREDEFINED_PARAMETER_KEYS:
-        # Drop the duplicate 'base' indicator
-        mode = mode.replace('-'+base, '')
+        # NOTE: Only keep the first two fields!
+        # e.g. 'data-2012-Dst' -> 'data-2012'
+        mode = '-'.join(mode.split('-')[0:2])
         return '-'.join([base, mode, polarity])
 
     else:
