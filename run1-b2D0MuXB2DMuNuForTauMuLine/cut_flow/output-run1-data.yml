@@ -24,22 +24,22 @@ SelMyRefitB02DstMu:
     name: Refit $\bar{B}^0$ decay tree
 L0:
     input: 1242960
-    output: 99719
+    output: 674011
 Hlt1:
-    input: 99719
-    output: 86378
+    input: 674011
+    output: 533012
 Hlt2:
-    input: 86378
-    output: 66875
+    input: 533012
+    output: 385887
 Mu_pid:
-    input: 66875
-    output: 66875
+    input: 385887
+    output: 385887
     name: $\mu$ PID
 Y_isolation:
-    input: 66875
-    output: 46820
+    input: 385887
+    output: 264931
     name: $\text{IsoBDT}_{\Upsilon(\text{4s})} < 0.15$
 Y_mass:
-    input: 46820
-    output: 45990
+    input: 264931
+    output: 261200
     name: $m_{\Upsilon(\text{4s})} < 5280$
