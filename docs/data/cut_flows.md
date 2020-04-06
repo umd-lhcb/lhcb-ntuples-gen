@@ -67,4 +67,10 @@
 | Total ratio                                  | -             | -             | 0.0003538±0.0000016 | 0.00036944±0.00000087 | 1.0442±0.0054       |
 
 !!! note
-    - This table uses **a small subset of MagDown** 2012 and 2016 real data.
+    - This table uses **full MagDown** 2012 and 2016 real data.
+    - The ntuples used to generated the comparison plot have 258438 (2012) and
+      1218948 (2016) events.
+    - The main difference between the cut flow ntuples and the plotting ntuples
+      is:
+      Cut flow ntuples use **stripping line $\mu$** but plotting ntuples use
+      **all available $\mu$**.
