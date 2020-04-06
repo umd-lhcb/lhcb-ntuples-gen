@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Apr 06, 2020 at 08:08 PM +0800
+# Last Change: Mon Apr 06, 2020 at 09:05 PM +0800
 
 import uproot
 import sys
@@ -86,7 +86,7 @@ def L0_cuts(ntp, tree):
         ntp, tree, 'Dst_2010_minus_L0HadronDecision_TOS')
 
     result = logical_and(muplus_L0Global_TIS,
-                         logical_and(Y_L0Global_TIS, Dst_L0HadronDecision_TOS))
+                         logical_or(Y_L0Global_TIS, Dst_L0HadronDecision_TOS))
     return sum(result), result
 
 
