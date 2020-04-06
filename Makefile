@@ -1,6 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Mar 30, 2020 at 10:51 PM +0800
+# Last Change: Mon Apr 06, 2020 at 08:42 PM +0800
 
 BINPATH	:=	bin
 SRCPATH	:=	gen
@@ -18,7 +18,9 @@ ADDFLAGS	:=	-Iinclude
 all: \
 	gen/run1-Dst-step2/BCands_Dst-phoebe-data-2012-mag_down-step2.root \
 	gen/run1-Dst-step2/BCands_Dst-yipeng-data-2012-mag_down-step2.root \
-	gen/run2-Dst-step2/BCands_Dst-yipeng-data-2016-mag_down-step2.root
+	gen/run2-Dst-step2/BCands_Dst-yipeng-data-2016-mag_down-step2.root \
+	gen/run1-Dst-step2/BCands_Dst_cutflow-yipeng-data-2012-mag_down-step2.root \
+	gen/run2-Dst-step2/BCands_Dst_cutflow-yipeng-data-2016-mag_down-step2.root
 
 clean:
 	@rm -rf $(BINPATH)/*
@@ -78,6 +80,11 @@ gen/run1-Dst-step2/BCands_Dst-yipeng-data-2012-mag_down-step2.root: \
 	$(BINPATH)/run1-Dst-data-yipeng
 	$(word 2, $^) $< $@
 
+gen/run1-Dst-step2/BCands_Dst_cutflow-yipeng-data-2012-mag_down-step2.root: \
+	run1-b2D0MuXB2DMuNuForTauMuLine/ntuples/run1-Dst/BCands_Dst_cutflow-yipeng-data-2012-mag_down.root \
+	$(BINPATH)/run2-Dst-data-yipeng  # NOTE the binary name here!
+	$(word 2, $^) $< $@
+
 $(SRCPATH)/run1-Dst-data-yipeng.cpp: \
 	run1-b2D0MuXB2DMuNuForTauMuLine/postprocess/Dst-data-yipeng.yml \
 	run1-b2D0MuXB2DMuNuForTauMuLine/ntuples/run1-Dst/BCands_Dst-yipeng-data-2012-mag_down.root \
@@ -91,6 +98,11 @@ $(SRCPATH)/run1-Dst-data-yipeng.cpp: \
 
 gen/run2-Dst-step2/BCands_Dst-yipeng-data-2016-mag_down-step2.root: \
 	run2-b2D0MuXB2DMuForTauMuLine/ntuples/run2-Dst/BCands_Dst-yipeng-data-2016-mag_down.root \
+	$(BINPATH)/run2-Dst-data-yipeng
+	$(word 2, $^) $< $@
+
+gen/run2-Dst-step2/BCands_Dst_cutflow-yipeng-data-2016-mag_down-step2.root: \
+	run2-b2D0MuXB2DMuForTauMuLine/ntuples/run2-Dst/BCands_Dst_cutflow-yipeng-data-2016-mag_down.root \
 	$(BINPATH)/run2-Dst-data-yipeng
 	$(word 2, $^) $< $@
 
