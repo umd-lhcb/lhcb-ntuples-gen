@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sun Mar 29, 2020 at 01:01 AM +0800
+# Last Change: Mon Apr 06, 2020 at 08:08 PM +0800
 
 import uproot
 import sys
@@ -28,6 +28,24 @@ def total_num(ntp, tree, branch='runNumber'):
 def total_num_dedupl(ntp, tree):
     _, _, _, uniq_size, _ = extract_uid(ntp, tree)
     return uniq_size
+
+
+def alt_name(dct):
+    rename = {
+        'SeqMyB0': 'Total events',
+        'StrippedBCands': r'Stripped $D^0 \mu^-$',
+        'SelMyD0': r'$D^0 \rightarrow K^- \pi^+$ (tigter $K \pi$)',
+        'SelMyDst': r'$D^{*+} \rightarrow D^0 \pi^+$',
+        'SelMyB0': r'$\bar{B}^0 \rightarrow D^{*+} \mu^-$',
+        'SelMyRefitB02DstMu': r'Refit $\bar{B}^0$ decay tree',
+        'Mu_pid': r'$\mu$ PID',
+        'Y_isolation': r'$\text{IsoBDT}_{\Upsilon(\text{4s})} < 0.15$',
+        'Y_mass': r'$m_{\Upsilon(\text{4s})} < 5280$'
+    }
+
+    for key, val in dct.items():
+        if key in rename.keys():
+            val['name'] = rename[key]
 
 
 #######################
@@ -151,6 +169,8 @@ if __name__ == '__main__':
                              'output': Y_isolation_cut_Mu_pid_eff}
     result['Y_mass'] = {'input': Y_isolation_cut_Mu_pid_eff,
                         'output': step2_eff}
+
+    alt_name(result)
 
     with open(output_yml, 'w') as f:
         f.write(yaml_gen(result))
