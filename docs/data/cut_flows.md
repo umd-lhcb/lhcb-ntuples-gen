@@ -39,8 +39,8 @@
     - The luminosity between 2016 and 2012 are similar. We figured this out with DaVinci and DIRAC.
     - We have a factor of 2 from the cross section. See [this paper](https://arxiv.org/pdf/1612.05140.pdf)
     - This leaves a factor of 2.5. We are expecting ~1.7.
-    - Meanwhile, cut flow generated with very similar script and cocktail MC
-      data agrees with the expected ~1.7 factor.
+    - Cut flow generated with very similar script and cocktail MC data agrees
+      with **the result from real data**.
     - This table uses **full MagDown** run 1 and 2 cocktail MC.
 
 !!! info
