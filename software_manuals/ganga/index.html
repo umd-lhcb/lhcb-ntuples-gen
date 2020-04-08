@@ -9,7 +9,7 @@
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
       
-        <link rel="canonical" href="https://umd-lhcb.github.io/lhcb-ntuples-gen/software_manuals/grid/">
+        <link rel="canonical" href="https://umd-lhcb.github.io/lhcb-ntuples-gen/software_manuals/ganga/">
       
       
       <link rel="shortcut icon" href="../../assets/images/favicon.png">
@@ -17,7 +17,7 @@
     
     
       
-        <title>GRID - lhcb-ntuples-gen wiki</title>
+        <title>ganga - lhcb-ntuples-gen wiki</title>
       
     
     
@@ -78,7 +78,7 @@
           </span>
           <span class="md-header-nav__topic md-ellipsis">
             
-              GRID
+              ganga
             
           </span>
         </div>
@@ -422,14 +422,14 @@
     
     
       <label class="md-nav__link md-nav__link--active" for="__toc">
-        GRID
+        ganga
         <span class="md-nav__icon md-icon">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3,9H17V7H3V9M3,13H17V11H3V13M3,17H17V15H3V17M19,17H21V15H19V17M19,7V9H21V7H19M19,13H21V11H19V13Z" /></svg>
         </span>
       </label>
     
-    <a href="./" title="GRID" class="md-nav__link md-nav__link--active">
-      GRID
+    <a href="./" title="ganga" class="md-nav__link md-nav__link--active">
+      ganga
     </a>
     
       
@@ -454,10 +454,10 @@
       
         <li class="md-nav__item">
   <a href="#send-job-to-the-grid-with-ganga" class="md-nav__link">
-    Send job to the GRID with ganga
+    Send job to the grid with ganga
   </a>
   
-    <nav class="md-nav" aria-label="Send job to the GRID with ganga">
+    <nav class="md-nav" aria-label="Send job to the grid with ganga">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -690,10 +690,10 @@
       
         <li class="md-nav__item">
   <a href="#send-job-to-the-grid-with-ganga" class="md-nav__link">
-    Send job to the GRID with ganga
+    Send job to the grid with ganga
   </a>
   
-    <nav class="md-nav" aria-label="Send job to the GRID with ganga">
+    <nav class="md-nav" aria-label="Send job to the grid with ganga">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -720,7 +720,7 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/umd-lhcb/lhcb-ntuples-gen/edit/master/docs/software_manuals/grid.md" title="Edit this page" class="md-content__button md-icon">
+                  <a href="https://github.com/umd-lhcb/lhcb-ntuples-gen/edit/master/docs/software_manuals/ganga.md" title="Edit this page" class="md-content__button md-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18,2.9 17.35,2.9 16.96,3.29L15.12,5.12L18.87,8.87M3,17.25V21H6.75L17.81,9.93L14.06,6.18L3,17.25Z" /></svg>
                   </a>
                 
@@ -728,17 +728,18 @@
                   
                 
                 
-                  <h1>GRID</h1>
+                  <h1>ganga</h1>
                 
-                <p>To run <code>DaVinci</code> jobs on the <code>GRID</code>, please follow these steps.</p>
+                <p>We use <code>ganga</code> and other tools to submit our <code>DaVinci</code> jobs to LHCb grid.</p>
 <h2 id="prepare-a-local-davinci">Prepare a local <code>DaVinci</code></h2>
 <p>We need to build a local <code>DaVinci</code> to add our tools. This local verison will
-then be sent to the <code>GRID</code> by <code>ganga</code> automatically.</p>
+then be sent to the grid by <code>ganga</code> automatically.</p>
 <ul>
 <li>For <code>DaVinci-v42r8p1</code>, please refer to <a href="https://github.com/umd-lhcb/docker-images/blob/davinci-v42r8p1/lhcb-stack-cc7/Dockerfile-DaVinci-SL">this <code>Dockerfile</code></a>
   for build instructions.</li>
+<li>For newer version of <code>DaVinci</code>, please refer to the <a href="https://github.com/umd-lhcb/docker-images/blob/master/lhcb-stack-cc7/Dockerfile-DaVinci-SL"><code>master</code> branch <code>Dockerfile</code></a></li>
 </ul>
-<h2 id="send-job-to-the-grid-with-ganga">Send job to the <code>GRID</code> with <code>ganga</code></h2>
+<h2 id="send-job-to-the-grid-with-ganga">Send job to the grid with <code>ganga</code></h2>
 <p>For each of the stripping line folder inside this project, there should be a
 <code>Python</code> scripted named <code>ganga_jobs.py</code>. The general sematics is:
 <div class="highlight"><pre><span></span><code>ganga ganga_jobs.py &lt;arguments&gt;
