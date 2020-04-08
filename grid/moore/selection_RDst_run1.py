@@ -2,7 +2,8 @@
 #   https://gitlab.cern.ch/snippets/704
 #
 # Usage:
-#   lb-run -c best Moore/latest python <this_script>
+#   export CMTCONFIG=x86_64-centos7-gcc62-opt
+#   lb-run -c best Moore/v28r3p1 python <this_script>
 
 import sys
 
