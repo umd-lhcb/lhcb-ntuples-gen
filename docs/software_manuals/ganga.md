@@ -1,14 +1,15 @@
-To run `DaVinci` jobs on the `GRID`, please follow these steps.
+We use `ganga` and other tools to submit our `DaVinci` jobs to LHCb grid.
 
 ## Prepare a local `DaVinci`
 We need to build a local `DaVinci` to add our tools. This local verison will
-then be sent to the `GRID` by `ganga` automatically.
+then be sent to the grid by `ganga` automatically.
 
 * For `DaVinci-v42r8p1`, please refer to [this `Dockerfile`](https://github.com/umd-lhcb/docker-images/blob/davinci-v42r8p1/lhcb-stack-cc7/Dockerfile-DaVinci-SL)
   for build instructions.
+* For newer version of `DaVinci`, please refer to the [`master` branch `Dockerfile`](https://github.com/umd-lhcb/docker-images/blob/master/lhcb-stack-cc7/Dockerfile-DaVinci-SL)
 
 
-## Send job to the `GRID` with `ganga`
+## Send job to the grid with `ganga`
 For each of the stripping line folder inside this project, there should be a
 `Python` scripted named `ganga_jobs.py`. The general sematics is:
 ```
