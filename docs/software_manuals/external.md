@@ -2,7 +2,8 @@
 
 - [This TWiki](https://twiki.cern.ch/twiki/bin/view/LHCb/TCK#TCKsh) explains
   briefly how to use `TCKsh` to study TCKs.
-- [This page](https://lbtriggerreport.cern.ch/reports/) some TCK info for LHCb.
+- [This page](https://lbtriggerreport.cern.ch/reports/) has all TCK info for
+  LHCb.
 
     !!! note
         This link have `.pdf` files that list all TCKs for a given period of
