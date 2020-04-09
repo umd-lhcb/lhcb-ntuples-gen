@@ -10,7 +10,7 @@ pkgs.mkShell {
   name = "pip-env";
   buildInputs = with pythonPackages; [
     # Compilers and other build dependencies
-    pkgs.clang
+    pkgs.stdenv
     root
 
     # Auto completion
