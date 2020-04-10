@@ -76,9 +76,9 @@ def selections(tck, line):
 
 
 if __name__ == '__main__':
-    tck = 0x990042
+    tck = 0x1138160E
     lines = [
-        'Hlt2CharmHadD02HH_D02KPi'
+        'Hlt2XcMuXForTauB2XcMuTurbo'
     ]
 
     filename_addon = os.path.basename(__file__).replace('.py', '')
