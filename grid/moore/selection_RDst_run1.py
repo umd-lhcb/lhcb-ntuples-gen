@@ -10,44 +10,41 @@ import sys
 from TCKUtils.utils import getProperties
 
 
-def describe(tck, name, props, indentation=0):
+def describe(tck, name, props, header_level=2):
     """Recurse down into this algorithm's properties, printing information on
     its inputs."""
-    indent = indentation*' '
-
-    def iprint(s):
-        print('{}{}'.format(indent, s))
+    header = header_level*'#'
 
     if 'Particle' in props:
         # Have a Particle maker, no need to descend further
-        iprint(props['Output'])
+        print(props['Output'])
         return
 
-    header_name = '\n{0}{1}\n{0}{2}'.format(indent, name, len(name)*'=')
+    header_name = '\n{0} {1}'.format(header, name)
     print(header_name)
 
-    header_sel = '\n{0}Selection\n{0}---------'.format(indent)
+    header_sel = '\n{} Selection'.format(header)
     print(header_sel)
 
     if 'Code' in props:
         # We have a FilterDesktop
-        iprint('Code: {}'.format(props['Code']))
+        print('- Code: `{}`'.format(props['Code']))
     elif 'DaughtersCuts' in props:
         # We have a CombineParticles
         preambulo = eval(props['Preambulo'])
-        iprint('DecayDescriptors: {}'.format(props['DecayDescriptors']))
+        print('- DecayDescriptors: `{}`'.format(props['DecayDescriptors']))
         if preambulo:
-            iprint('Preambulo:        {}'.format(preambulo))
-        iprint('DaughtersCuts:    {}'.format(props['DaughtersCuts']))
-        iprint('CombinationCut:   {}'.format(props['CombinationCut']))
-        iprint('MotherCut:        {}'.format(props['MotherCut']))
+            print('- Preambulo: `{}`'.format(preambulo))
+        print('- DaughtersCuts: `{}`'.format(props['DaughtersCuts']))
+        print('- CombinationCut: `{}`'.format(props['CombinationCut']))
+        print('- MotherCut: `{}`'.format(props['MotherCut']))
     elif 'TisTosSpecs' in props:
         # We have a TisTosTagger
-        iprint('TisTosSpecs:  {}'.format(props['TisTosSpecs']))
+        print('- TisTosSpecs: `{}`'.format(props['TisTosSpecs']))
     else:
         assert False, 'Do not know the type of {}'.format(props)
 
-    header_inputs = '\n{0}Inputs\n{0}------'.format(indent)
+    header_inputs = '\n{0} Inputs'.format(header)
     print(header_inputs)
 
     inputs = eval(props['Inputs'])
@@ -57,7 +54,7 @@ def describe(tck, name, props, indentation=0):
         input_props = getProperties(tck, input_name)
         assert len(input_props) == 1
         input_name, input_props = getProperties(tck, input_name).items()[0]
-        describe(tck, input_name, input_props, indentation + 4)
+        describe(tck, input_name, input_props, header_level+1)
 
 
 def selections(tck, line):
@@ -74,7 +71,7 @@ def selections(tck, line):
     filter_props = getProperties(tck, filter_name)
     assert len(filter_props) == 1
     filter_name, filter_props = filter_props.items()[0]
-    describe(tck, filter_name, filter_props, indentation=0)
+    describe(tck, filter_name, filter_props)
 
 
 if __name__ == '__main__':
