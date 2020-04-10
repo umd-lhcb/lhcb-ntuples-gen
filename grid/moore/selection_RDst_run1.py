@@ -6,6 +6,7 @@
 #   lb-run -c best Moore/v28r3p1 python <this_script>
 
 import sys
+import os
 
 from TCKUtils.utils import getProperties
 
@@ -80,7 +81,9 @@ if __name__ == '__main__':
         'Hlt2CharmHadD02HH_D02KPi'
     ]
 
+    filename_addon = os.path.basename(__file__).replace('.py', '')
+
     for line in lines:
-        with open('{}.selections.txt'.format(line), 'w') as f:
+        with open('{}.{}.txt'.format(line, filename_addon), 'w') as f:
             sys.stdout = f
             selections(tck, line)
