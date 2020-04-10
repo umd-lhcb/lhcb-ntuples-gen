@@ -75,18 +75,9 @@ def selections(tck, line):
 
 
 if __name__ == '__main__':
-    tck = 0x217718a2
+    tck = 0x990042
     lines = [
-        'Hlt2CharmHadDpToKmKpPipTurbo',
-        'Hlt2CharmHadDstp2D0Pip_D02KmKpPimPipTurbo',
-        'Hlt2CharmHadDstp2D0Pip_D02KS0PimPip_KS0DDTurbo',
-        'Hlt2CharmHadDstp2D0Pip_D02KS0PimPip_KS0LLTurbo',
-        'Hlt2CharmHadDstp2D0Pip_D02KS0PimPip_KS0DD_LTUNBTurbo',
-        'Hlt2CharmHadDstp2D0Pip_D02KS0PimPip_KS0LL_LTUNBTurbo',
-        'Hlt2CharmHadDstp2D0Pip_D02KS0KmKp_KS0DDTurbo',
-        'Hlt2CharmHadDstp2D0Pip_D02KS0KmKp_KS0LLTurbo',
-        'Hlt2CharmHadDstp2D0Pip_D02KS0KmKp_KS0DD_LTUNBTurbo',
-        'Hlt2CharmHadDstp2D0Pip_D02KS0KmKp_KS0LL_LTUNBTurbo'
+        'Hlt2CharmHadD02HH_D02KPi'
     ]
 
     for line in lines:
