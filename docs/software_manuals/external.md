@@ -1,8 +1,8 @@
 ## Trigger Configuration Key (TCK)
 
-- [This TWiki](https://twiki.cern.ch/twiki/bin/view/LHCb/TCK#TCKsh) explains
+- This [TWiki](https://twiki.cern.ch/twiki/bin/view/LHCb/TCK#TCKsh) explains
   briefly how to use `TCKsh` to study TCKs.
-- [This page](https://lbtriggerreport.cern.ch/reports/) has all TCK info for
+- This [page](https://lbtriggerreport.cern.ch/reports/) has all TCK info for
   LHCb.
 
     !!! note
@@ -11,8 +11,8 @@
 
         For example, in the [2016 year-end report](https://lbtriggerreport.cern.ch/reports/2016/last_report_2016_6500_summary.pdf):
 
-        - All TCKs in this period, such as `0x1138160E`, are listed in page 6.
-        - TCK vs. fill number are listed in page 18. The fill number is related
+        - All TCKs in this period, such as `0x1138160E`, are listed in **page 6**.
+        - TCK vs. fill number are listed in **page 18**. The fill number is related
           to time, but the relationship is unknown to us[^1].
 
 
