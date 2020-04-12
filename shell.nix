@@ -3,7 +3,7 @@ with import <nixpkgs> {};
 let
   python = enableDebugging pkgs.python3;
   pythonPackages = python.pkgs;
-  root = enableDebugging pkgs.root;
+  root = pkgs.root;
 in
 
 pkgs.mkShell {
