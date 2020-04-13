@@ -2,7 +2,7 @@
 L0, HLT 1 and 2 lines are extracted with `TCKsh`.
 See [here](../../software_manuals/external.md#trigger-configuration-key-tck) for more info.
 
-### L0
+### L0 (24 lines)
 ```
 L0B1gasDecision
 L0B2gasDecision
@@ -30,7 +30,7 @@ L0PhotonHiDecision
 L0PhotonNoSPDDecision
 ```
 
-### HLT 1
+### HLT 1 (33 lines)
 ```
 Hlt1TrackAllL0TightDecision
 Hlt1TrackMuonDecision
@@ -67,7 +67,7 @@ Hlt1ErrorEventDecision
 Hlt1GlobalDecision
 ```
 
-### HLT 2
+### HLT 2 (33 lines)
 ```
 Hlt2LambdaC_LambdaC2Lambda0LLKDecision
 Hlt2LambdaC_LambdaC2Lambda0DDPiDecision
@@ -107,7 +107,7 @@ Hlt2GlobalDecision
 
 ## 2016 data, MagDown, TCK
 
-### L0
+### L0 (17 lines)
 ```
 L0B1gasDecision
 L0B2gasDecision
@@ -189,7 +189,7 @@ Hlt1ErrorEventDecision
 Hlt1GlobalDecision
 ```
 
-### HLT 2
+### HLT 2 (57 lines)
 
 `TCKsh` can no longer extract HLT 2 line info for run 2. Please refer to
 [the relevant part of the HLT project](https://gitlab.cern.ch/lhcb/Hlt/-/tree/2018-patches/Hlt/Hlt2Lines/python/Hlt2Lines)
