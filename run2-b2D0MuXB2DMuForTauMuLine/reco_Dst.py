@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Mar 24, 2020 at 04:05 PM +0800
+# Last Change: Tue Apr 14, 2020 at 03:24 AM +0800
 
 #####################
 # Configure DaVinci #
@@ -439,6 +439,8 @@ from Configurables import TupleToolMCBackgroundInfo
 from Configurables import TupleToolKinematic
 from Configurables import BackgroundCategory
 from Configurables import LoKi__Hybrid__EvtTupleTool as LokiEvtTool
+from Configurables import TupleToolTrigger
+from Configurables import TupleToolTISTOS
 
 
 def tuple_initialize_data(name, sel_seq, decay):
@@ -456,10 +458,13 @@ def tuple_initialize_data(name, sel_seq, decay):
     ]
 
     trigger_list = [
+        # L0 triggers
         'L0MuonDecision',
-        'L0ElectronDecision',  # Add from trigger study
+        'L0ElectronDecision',
         'L0HadronDecision',
+        # HLT 1 lines
         'Hlt1TrackAllL0Decision',
+        # HLT 2 lines
         'Hlt2XcMuXForTauB2XcMuDecision',
         'Hlt1TwoTrackMVADecision'  # Add from trigger study
     ]

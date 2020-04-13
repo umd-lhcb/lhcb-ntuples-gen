@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Mar 30, 2020 at 09:59 PM +0800
+# Last Change: Mon Apr 13, 2020 at 10:44 PM +0800
 
 #####################
 # Configure DaVinci #
@@ -458,6 +458,8 @@ from Configurables import TupleToolMCBackgroundInfo
 from Configurables import TupleToolKinematic
 from Configurables import BackgroundCategory
 from Configurables import LoKi__Hybrid__EvtTupleTool as LokiEvtTool
+from Configurables import TupleToolTrigger
+from Configurables import TupleToolTISTOS
 
 
 def tuple_initialize_data(name, sel_seq, decay):
