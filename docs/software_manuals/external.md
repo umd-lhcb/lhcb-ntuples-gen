@@ -2,6 +2,8 @@
 
 - This [TWiki](https://twiki.cern.ch/twiki/bin/view/LHCb/TCK#TCKsh) explains
   briefly how to use `TCKsh` to study TCKs.
+- This [starter kit page](https://lhcb.github.io/starterkit-lessons/second-analysis-steps/hlt-intro.html#exploring-a-tck-list-of-trigger-lines)
+  provides some sample usage for `TCKsh`
 - This [page](https://lbtriggerreport.cern.ch/reports/) has all TCK info for
   LHCb.
 
