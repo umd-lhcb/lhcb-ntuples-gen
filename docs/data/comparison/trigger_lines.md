@@ -128,7 +128,7 @@ L0PhotonDecision
 L0Photon,lowMultDecision
 ```
 
-### HLT 1
+### HLT 1 (57 lines)
 ```
 Hlt1TrackMVADecision
 Hlt1TwoTrackMVADecision
@@ -189,7 +189,7 @@ Hlt1ErrorEventDecision
 Hlt1GlobalDecision
 ```
 
-### HLT 2 (57 lines)
+### HLT 2
 
 `TCKsh` can no longer extract HLT 2 line info for run 2. Please refer to
 [the relevant part of the HLT project](https://gitlab.cern.ch/lhcb/Hlt/-/tree/2018-patches/Hlt/Hlt2Lines/python/Hlt2Lines)
