@@ -1,6 +1,6 @@
 #!/bin/bash
 
-OUTPUT_DIR="../../docs/data/comparison_run1_Dst/data-dv36_vs_dv42-no_velo_pions"
+OUTPUT_DIR="../../docs/data/comparison/Dst_vars_run1/data-dv36_vs_dv42-no_velo_pions"
 NTP_REF="../../run1-b2D0MuXB2DMuNuForTauMuLine/samples/BCands_Dst-phoebe-data-2012-mag_down-dv36-subset-no_velo_pions.root"
 NTP_COM="../../run1-b2D0MuXB2DMuNuForTauMuLine/samples/BCands_Dst-yipeng-data-2012-mag_down-dv42-subset-no_velo_pions.root"
 

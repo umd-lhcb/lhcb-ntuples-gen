@@ -1,14 +1,11 @@
 #!/bin/bash
 
-OUTPUT_DIR="../../docs/data/comparison_run1_Dst/data-dv36_vs_dv45-no_refit"
-NTP_REF="../../run1-b2D0MuXB2DMuNuForTauMuLine/samples/BCands_Dst-phoebe-data-2012-mag_down-dv36-subset-no_refit.root"
-NTP_COM="../../run1-b2D0MuXB2DMuNuForTauMuLine/samples/BCands_Dst-yipeng-data-2012-mag_down-dv45-subset-no_refit.root"
+OUTPUT_DIR="../../docs/data/comparison/Dst_vars/data-dv36_vs_dv42-no_refit-no_rescale"
+NTP_REF="../../run1-b2D0MuXB2DMuNuForTauMuLine/samples/BCands_Dst-phoebe-data-2012-mag_down-dv36-subset-no_refit-no_rescale.root"
+NTP_COM="../../run1-b2D0MuXB2DMuNuForTauMuLine/samples/BCands_Dst-yipeng-data-2012-mag_down-dv42-subset-no_refit-no_rescale.root"
 
 # Diff
-BRANCHES="D0_P,Dst_2010_minus_P,"
-BRANCHES+="Kplus_P,Kplus_PX,Kplus_PY,Kplus_PZ,"
-BRANCHES+="muplus_P,muplus_PX,muplus_PY,muplus_PZ,"
-BRANCHES+="Y_ISOLATION_BDT,Y_ISOLATION_BDT2,Y_ISOLATION_BDT3"
+BRANCHES="D0_P,Dst_2010_minus_P"
 
 ../plot_diff_two_ntuples.py -n "${NTP_REF}" -N "${NTP_COM}" \
     -t "TupleB0/DecayTree" -T "TupleB0/DecayTree" \
@@ -29,15 +26,15 @@ for branch in "${BRANCHES[@]}"; do
         -o "${OUTPUT_DIR}/${branch}_dv36.png"
     ../plot_single_branch.py \
         -n "${NTP_COM}" -t "TupleB0/DecayTree" -b "${branch}" \
-        -o "${OUTPUT_DIR}/${branch}_dv45.png"
+        -o "${OUTPUT_DIR}/${branch}_dv42.png"
 done
 
 # Comparison between track types
 ../plot_match_iso_track.py -n ${NTP_REF} -N ${NTP_COM} \
-    -t 'TupleB0/DecayTree' -T 'TupleB0/DecayTree' -s '_dv45,_dv36' \
+    -t 'TupleB0/DecayTree' -T 'TupleB0/DecayTree' -s '_dv42,_dv36' \
     -o ${OUTPUT_DIR}
 
 # Draw 2D histogram between track type difference and BDT score difference
 ../plot_match_iso_track_hexbin.py -n ${NTP_REF} -N ${NTP_COM} \
-    -t 'TupleB0/DecayTree' -T 'TupleB0/DecayTree' -s '_dv45,_dv36' \
+    -t 'TupleB0/DecayTree' -T 'TupleB0/DecayTree' -s '_dv42,_dv36' \
     -o ${OUTPUT_DIR} --bins 30
