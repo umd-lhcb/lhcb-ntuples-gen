@@ -1,25 +1,9 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Apr 13, 2020 at 10:44 PM +0800
-
-#####################
-# Configure DaVinci #
-#####################
-
-from Configurables import DaVinci
-from Gaudi.Configuration import *
-
-# Debug options
-# DaVinci().EvtMax = 300
-# MessageSvc().OutputLevel = DEBUG
-DaVinci().EvtMax = -1
-
-DaVinci().InputType = 'DST'
-DaVinci().SkipEvents = 0
-DaVinci().PrintFreq = 100
-
-# Only ask for luminosity information when not using simulated data
-DaVinci().Lumi = not DaVinci().Simulation
+# Last Change: Wed Apr 15, 2020 at 02:28 AM +0800
+#
+# Description: Definitions of selection and reconstruction procedures for Dst in
+#              run 1, with thorough comments.
 
 
 ###################################
@@ -61,21 +45,13 @@ ms_scale = TrackScaleState('StateScale')
 ms_smear = TrackSmearState('StateSmear')
 
 
-if not DaVinci().Simulation:
-    DaVinci().appendToMainSequence([ms_scale])
-else:
-    DaVinci().appendToMainSequence([ms_smear])
-
-DaVinci().appendToMainSequence([ms_all_protos, ms_velo_pions])
-
-
 ######################
 # Define pre-filters #
 ######################
 # These filters are executed *before* the main selection algorithms to ignore
 # obviously uninteresting events.
 #
-# This should speed up the execution time.
+# Applying these filters should speed up the execution time.
 
 from Configurables import LoKi__HDRFilter as HDRFilter
 
@@ -94,10 +70,8 @@ fltr_hlt = HDRFilter(
     Code="HLT_PASS('{0}Decision')".format(line_hlt))
 
 
-if not DaVinci().Simulation:
-    event_pre_selectors = [fltr_hlt, fltr_strip]
-else:
-    event_pre_selectors = []
+# Placeholder
+event_pre_selectors = []
 
 
 #######################
@@ -127,8 +101,8 @@ pr_Mu = AutomaticData(Location='Phys/StdAllNoPIDsMuons/Particles')
 ############################
 # Define simple selections #
 ############################
-# 'simple' means that algorithms for these selections are effectively one-
-# liners.
+# Here we define selections that apply to various TES locations directly, thus
+# 'simple'.
 
 from PhysSelPython.Wrappers import Selection
 from Configurables import FilterDesktop, FilterInTrees
@@ -624,3 +598,38 @@ if not DaVinci().Simulation:
     DaVinci().UserAlgorithms += [tp_B0, tp_B0_ws_Mu, tp_B0_ws_Pi]
 else:
     DaVinci().UserAlgorithms += [tp_B0]
+
+
+#####################
+# DaVinci sequences #
+#####################
+# These are executed only if this script is *not* imported as a library.
+
+if __name__ == '__main':
+    # Configure DaVinci ########################################################
+    from Configurables import DaVinci
+    from Gaudi.Configuration import *
+
+    # Debug options
+    # DaVinci().EvtMax = 300
+    # MessageSvc().OutputLevel = DEBUG
+    DaVinci().EvtMax = -1
+
+    DaVinci().InputType = 'DST'
+    DaVinci().SkipEvents = 0
+    DaVinci().PrintFreq = 100
+
+    # Only ask for luminosity information when not using simulated data
+    DaVinci().Lumi = not DaVinci().Simulation
+
+    # Main sequence ############################################################
+    if not DaVinci().Simulation:
+        DaVinci().appendToMainSequence([ms_scale])
+    else:
+        DaVinci().appendToMainSequence([ms_smear])
+
+    DaVinci().appendToMainSequence([ms_all_protos, ms_velo_pions])
+
+    # Pre-filters ##############################################################
+    if not DaVinci().Simulation:
+        event_pre_selectors += [fltr_hlt, fltr_strip]
