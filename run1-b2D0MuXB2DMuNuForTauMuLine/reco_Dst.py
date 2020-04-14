@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Apr 15, 2020 at 02:56 AM +0800
+# Last Change: Wed Apr 15, 2020 at 03:04 AM +0800
 #
 # Description: Definitions of selection and reconstruction procedures for Dst in
 #              run 1, with thorough comments.
@@ -615,13 +615,12 @@ tp_B0_ws_Pi.addBranches({
 tuple_postpocess(tp_B0_ws_Pi)
 
 
-#####################
-# DaVinci sequences #
-#####################
+################################################
+# Configure and add user algorithms to DaVinci #
+################################################
 # These are executed only if this script is *not* imported as a library.
 
-
-if __name__ == '__main':
+if __name__ == '__main__':
     if not DaVinci().Simulation:
         event_pre_selectors += [fltr_hlt, fltr_strip]
 
