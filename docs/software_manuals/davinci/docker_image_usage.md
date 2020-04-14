@@ -8,13 +8,13 @@ more convenient to have a local `DaVinci` environment.
 ## Launch a `DaVinci` container
 To launch a `DaVinci` `docker` container, type in:
 ```
-docker run --rm -it -v <src_path>:/data -e UID=$(id -u) -e GID=$(id -g) --net=host umdlhcb/lhcb-stack-cc7:DaVinci-v42r8p1-SL
+docker run --rm -it -v <src_path>:/data -e UID=$(id -u) -e GID=$(id -g) --net=host umdlhcb/lhcb-stack-cc7:DaVinci-{{ davinci_sl_ver }}
 ```
 note that `<src_path>` should be an absolute path pointing to the folder that we want to mount inside the container.
 
 If you are in the folder you want to mount, you can just type:
 ```
-docker run --rm -it -v `pwd`:/data -e UID=$(id -u) -e GID=$(id -g) --net=host umdlhcb/lhcb-stack-cc7:DaVinci-v42r8p1-SL
+docker run --rm -it -v `pwd`:/data -e UID=$(id -u) -e GID=$(id -g) --net=host umdlhcb/lhcb-stack-cc7:DaVinci-{{ davinci_sl_ver }}
 ```
 
 !!! note
@@ -72,4 +72,4 @@ docker rmi <docker_image_tag>
 docker image prune
 ```
 here `<docker_image_tag>` should be something like
-`umdlhcb/lhcb-stack-cc7:DaVinci-v42r8p1-SL`.
+`umdlhcb/lhcb-stack-cc7:DaVinci-{{ davinci_sl_ver }}`.
