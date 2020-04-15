@@ -1,12 +1,26 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Apr 15, 2020 at 04:36 PM +0800
+# Last Change: Wed Apr 15, 2020 at 09:46 PM +0800
+#
+# Description: Definitions of selection and reconstruction procedures for Dst in
+#              run 1, with thorough comments.
+
+
+#########################################
+# Load user-defined configuration flags #
+#########################################
+
+from Configurables import DaVinci
+
+# NOTE: We *abuse* DaVinci's MoniSequence to pass additional flags
+user_config = DaVinci().MoniSequence
+DaVinci().MoniSequence = []
+
 
 #####################
 # Configure DaVinci #
 #####################
 
-from Configurables import DaVinci
 from Gaudi.Configuration import *
 
 # Debug options
@@ -94,10 +108,8 @@ fltr_hlt = HDRFilter(
     Code="HLT_PASS('{0}Decision')".format(line_hlt))
 
 
-if not DaVinci().Simulation:
-    event_pre_selectors = [fltr_hlt, fltr_strip]
-else:
-    event_pre_selectors = []
+if not DaVinci().Simulation or 'CUTFLOW' in user_config:
+    DaVinci().EventPreFilters = [fltr_hlt, fltr_strip]
 
 
 #######################
@@ -436,19 +448,16 @@ from PhysSelPython.Wrappers import SelectionSequence
 
 seq_B0 = SelectionSequence(
     'SeqMyB0',
-    EventPreSelector=event_pre_selectors,
     TopSelection=sel_refit_B02DstMu
 )
 
 seq_B0_ws_Mu = SelectionSequence(
     'SeqMyB0WSMu',
-    EventPreSelector=event_pre_selectors,
     TopSelection=sel_refit_B02DstMu_ws_Mu
 )
 
 seq_B0_ws_Pi = SelectionSequence(
     'SeqMyB0WSPi',
-    EventPreSelector=event_pre_selectors,
     TopSelection=sel_refit_B02DstMu_ws_Pi
 )
 
