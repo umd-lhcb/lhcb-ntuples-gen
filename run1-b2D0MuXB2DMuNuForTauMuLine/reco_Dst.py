@@ -1,10 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Apr 15, 2020 at 03:04 AM +0800
-#
-# Description: Definitions of selection and reconstruction procedures for Dst in
-#              run 1, with thorough comments.
-
+# Last Change: Wed Apr 15, 2020 at 04:36 PM +0800
 
 #####################
 # Configure DaVinci #
@@ -79,7 +75,7 @@ DaVinci().appendToMainSequence([ms_all_protos, ms_velo_pions])
 # These filters are executed *before* the main selection algorithms to ignore
 # obviously uninteresting events.
 #
-# Applying these filters should speed up the execution time.
+# This should speed up the execution time.
 
 from Configurables import LoKi__HDRFilter as HDRFilter
 
@@ -98,8 +94,10 @@ fltr_hlt = HDRFilter(
     Code="HLT_PASS('{0}Decision')".format(line_hlt))
 
 
-# Placeholder
-event_pre_selectors = []
+if not DaVinci().Simulation:
+    event_pre_selectors = [fltr_hlt, fltr_strip]
+else:
+    event_pre_selectors = []
 
 
 #######################
@@ -129,8 +127,8 @@ pr_Mu = AutomaticData(Location='Phys/StdAllNoPIDsMuons/Particles')
 ############################
 # Define simple selections #
 ############################
-# Here we define selections that apply to various TES locations directly, thus
-# 'simple'.
+# 'simple' means that algorithms for these selections are effectively one-
+# liners.
 
 from PhysSelPython.Wrappers import Selection
 from Configurables import FilterDesktop, FilterInTrees
@@ -199,7 +197,6 @@ sel_Mu = sel_unstripped_tis_filtered_Mu
 #####################
 # Define algorithms #
 #####################
-# These algorithms are used to reconstruct non-final state particles.
 
 from Configurables import CombineParticles
 
@@ -456,6 +453,14 @@ seq_B0_ws_Pi = SelectionSequence(
 )
 
 
+if not DaVinci().Simulation:
+    DaVinci().UserAlgorithms += [seq_B0.sequence(),
+                                 seq_B0_ws_Mu.sequence(),
+                                 seq_B0_ws_Pi.sequence()]
+else:
+    DaVinci().UserAlgorithms += [seq_B0.sequence()]
+
+
 ###################
 # Define n-tuples #
 ###################
@@ -474,8 +479,6 @@ from Configurables import TupleToolMCBackgroundInfo
 from Configurables import TupleToolKinematic
 from Configurables import BackgroundCategory
 from Configurables import LoKi__Hybrid__EvtTupleTool as LokiEvtTool
-from Configurables import TupleToolTrigger
-from Configurables import TupleToolTISTOS
 
 
 def tuple_initialize_data(name, sel_seq, decay):
@@ -615,20 +618,7 @@ tp_B0_ws_Pi.addBranches({
 tuple_postpocess(tp_B0_ws_Pi)
 
 
-################################################
-# Configure and add user algorithms to DaVinci #
-################################################
-# These are executed only if this script is *not* imported as a library.
-
-if __name__ == '__main__':
-    if not DaVinci().Simulation:
-        event_pre_selectors += [fltr_hlt, fltr_strip]
-
-        DaVinci().UserAlgorithms += [seq_B0.sequence(),
-                                     seq_B0_ws_Mu.sequence(),
-                                     seq_B0_ws_Pi.sequence()]
-        DaVinci().UserAlgorithms += [tp_B0, tp_B0_ws_Mu, tp_B0_ws_Pi]
-
-    else:
-        DaVinci().UserAlgorithms += [seq_B0.sequence()]
-        DaVinci().UserAlgorithms += [tp_B0]
+if not DaVinci().Simulation:
+    DaVinci().UserAlgorithms += [tp_B0, tp_B0_ws_Mu, tp_B0_ws_Pi]
+else:
+    DaVinci().UserAlgorithms += [tp_B0]
