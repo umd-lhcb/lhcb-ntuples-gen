@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Apr 15, 2020 at 10:00 PM +0800
+# Last Change: Thu Apr 16, 2020 at 01:38 AM +0800
 #
 # Description: Definitions of selection and reconstruction procedures for Dst in
 #              run 1, with thorough comments.
@@ -13,12 +13,8 @@
 from Configurables import DaVinci
 
 # NOTE: We *abuse* DaVinci's MoniSequence to pass additional flags
-try:
-    user_config = DaVinci().MoniSequence[0]
-except IndexError:
-    user_config = []
-finally:
-    DaVinci().MoniSequence = []  # Nothing should be in the sequence after all!
+user_config = DaVinci().MoniSequence
+DaVinci().MoniSequence = []  # Nothing should be in the sequence after all!
 
 
 def has_flag(flg):
@@ -154,11 +150,9 @@ from PhysSelPython.Wrappers import Selection
 from Configurables import FilterDesktop, FilterInTrees
 from Configurables import TisTosParticleTagger
 
-# NOTE: 'stripped' selections require the existence of a stripping line, which
-#       only exists in data, not MC.
-
-# This selects events that have a muon and was triggered regardless of the muon
-sel_stripped_filtered = Selection(
+# This selects events that have a Muon satisfying stripping requirements and was
+# triggered regardless of the muon.
+sel_stripped_Mu_filtered_evt = Selection(
     'SelMyStrippedFiltered',
     Algorithm=FilterDesktop(
         'MyStrippedFiltered',
@@ -167,28 +161,37 @@ sel_stripped_filtered = Selection(
     RequiredSelections=[pr_stripped]
 )
 
+
+if has_flag('CUTFLOW'):
+    sel_stripped_req = pr_stripped
+else:
+    sel_stripped_req = sel_stripped_Mu_filtered_evt
+
+
+# NOTE: 'stripped' selections require the existence of a stripping line, which
+#       only exists in data, not MC.
 sel_stripped_charged_K = Selection(
     'SelMyStrippedChargedK',
     Algorithm=FilterInTrees('MyChargedK', Code="(ABSID == 'K+')"),
-    RequiredSelections=[sel_stripped_filtered]
+    RequiredSelections=[sel_stripped_req]
 )
 
 sel_stripped_charged_Pi = Selection(
     'SelMyStrippedChargedPi',
     Algorithm=FilterInTrees('MyChargedPi', Code="(ABSID == 'pi+')"),
-    RequiredSelections=[sel_stripped_filtered]
+    RequiredSelections=[sel_stripped_req]
 )
 
 sel_stripped_Mu = Selection(
     'SelMyStrippedMu',
     Algorithm=FilterInTrees('MyMu', Code="(ABSID == 'mu+')"),
-    RequiredSelections=[sel_stripped_filtered]
+    RequiredSelections=[sel_stripped_req]
 )
 
-# We build our own Muons, instead of using stripping line Muons.
+# We build our own Muons, instead of using stripping line Muons for MC.
 # See https://github.com/umd-lhcb/lhcb-ntuples-gen/issues/25 for an explanation.
 sel_unstripped_tis_filtered_Mu = Selection(
-    'SelMyUnstrippedMu',
+    'SelMyUnstrippedFilteredMu',
     Algorithm=TisTosParticleTagger(
         'MyMuTisTagger',
         Inputs=['Phys/StdAllNoPIDsMuons/Particles'],
@@ -197,23 +200,20 @@ sel_unstripped_tis_filtered_Mu = Selection(
 )
 
 
-if not DaVinci().Simulation or has_flag('CUTFLOW'):
-    sel_charged_K = sel_stripped_charged_K
-    sel_charged_Pi = sel_stripped_charged_Pi
-else:
-    sel_charged_K = pr_charged_K
-    sel_charged_Pi = pr_charged_Pi
-
 # For run 1:
 #   Build Muon from scratch for MC because semileptonic production MC doesn't
 #   have stripping lines
 #
 #   For data, we always have a stripping line, so all events contains *some*
 #   Muons that pass the stripping criteria. However, the Muons that do not pass
-#   (unstripped) still get saved and we still want to use them.
-if has_flag('CUTFLOW'):
+#   (unstripped) still get saved *but we don't want to use them*.
+if not DaVinci().Simulation or has_flag('CUTFLOW'):
+    sel_charged_K = sel_stripped_charged_K
+    sel_charged_Pi = sel_stripped_charged_Pi
     sel_Mu = sel_stripped_Mu
 else:
+    sel_charged_K = pr_charged_K
+    sel_charged_Pi = pr_charged_Pi
     sel_Mu = sel_unstripped_tis_filtered_Mu
 
 
