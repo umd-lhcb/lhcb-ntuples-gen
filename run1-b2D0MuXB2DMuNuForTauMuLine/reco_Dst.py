@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Apr 15, 2020 at 09:54 PM +0800
+# Last Change: Wed Apr 15, 2020 at 10:00 PM +0800
 #
 # Description: Definitions of selection and reconstruction procedures for Dst in
 #              run 1, with thorough comments.
@@ -19,6 +19,10 @@ except IndexError:
     user_config = []
 finally:
     DaVinci().MoniSequence = []  # Nothing should be in the sequence after all!
+
+
+def has_flag(flg):
+    return True if flg in user_config else False
 
 
 #####################
@@ -112,7 +116,7 @@ fltr_hlt = HDRFilter(
     Code="HLT_PASS('{0}Decision')".format(line_hlt))
 
 
-if not DaVinci().Simulation or 'CUTFLOW' in user_config:
+if not DaVinci().Simulation or has_flag('CUTFLOW'):
     DaVinci().EventPreFilters = [fltr_hlt, fltr_strip]
 
 
@@ -193,7 +197,7 @@ sel_unstripped_tis_filtered_Mu = Selection(
 )
 
 
-if not DaVinci().Simulation or 'CUTFLOW' in user_config:
+if not DaVinci().Simulation or has_flag('CUTFLOW'):
     sel_charged_K = sel_stripped_charged_K
     sel_charged_Pi = sel_stripped_charged_Pi
 else:
@@ -207,7 +211,10 @@ else:
 #   For data, we always have a stripping line, so all events contains *some*
 #   Muons that pass the stripping criteria. However, the Muons that do not pass
 #   (unstripped) still get saved and we still want to use them.
-sel_Mu = sel_unstripped_tis_filtered_Mu
+if has_flag('CUTFLOW'):
+    sel_Mu = sel_stripped_Mu
+else:
+    sel_Mu = sel_unstripped_tis_filtered_Mu
 
 
 #####################
@@ -634,7 +641,7 @@ tp_B0_ws_Pi.addBranches({
 tuple_postpocess(tp_B0_ws_Pi)
 
 
-if not DaVinci().Simulation:
-    DaVinci().UserAlgorithms += [tp_B0, tp_B0_ws_Mu, tp_B0_ws_Pi]
-else:
+if has_flag('CUTFLOW') or DaVinci().Simulation:
     DaVinci().UserAlgorithms += [tp_B0]
+else:
+    DaVinci().UserAlgorithms += [tp_B0, tp_B0_ws_Mu, tp_B0_ws_Pi]
