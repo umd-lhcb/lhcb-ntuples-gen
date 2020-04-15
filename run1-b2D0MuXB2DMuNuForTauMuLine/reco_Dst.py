@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Apr 16, 2020 at 01:38 AM +0800
+# Last Change: Thu Apr 16, 2020 at 01:46 AM +0800
 #
 # Description: Definitions of selection and reconstruction procedures for Dst in
 #              run 1, with thorough comments.
@@ -205,8 +205,10 @@ sel_unstripped_tis_filtered_Mu = Selection(
 #   have stripping lines
 #
 #   For data, we always have a stripping line, so all events contains *some*
-#   Muons that pass the stripping criteria. However, the Muons that do not pass
-#   (unstripped) still get saved *but we don't want to use them*.
+#   Muons that pass the stripping criteria.
+#
+# NOTE: that the Muons that do not pass (unstripped) still get saved *but we
+#       don't want to use them*.
 if not DaVinci().Simulation or has_flag('CUTFLOW'):
     sel_charged_K = sel_stripped_charged_K
     sel_charged_Pi = sel_stripped_charged_Pi
@@ -641,7 +643,7 @@ tp_B0_ws_Pi.addBranches({
 tuple_postpocess(tp_B0_ws_Pi)
 
 
-if has_flag('CUTFLOW') or DaVinci().Simulation:
+if DaVinci().Simulation or has_flag('CUTFLOW'):
     DaVinci().UserAlgorithms += [tp_B0]
 else:
     DaVinci().UserAlgorithms += [tp_B0, tp_B0_ws_Mu, tp_B0_ws_Pi]
