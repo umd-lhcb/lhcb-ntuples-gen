@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Apr 15, 2020 at 09:46 PM +0800
+# Last Change: Wed Apr 15, 2020 at 09:54 PM +0800
 #
 # Description: Definitions of selection and reconstruction procedures for Dst in
 #              run 1, with thorough comments.
@@ -13,8 +13,12 @@
 from Configurables import DaVinci
 
 # NOTE: We *abuse* DaVinci's MoniSequence to pass additional flags
-user_config = DaVinci().MoniSequence
-DaVinci().MoniSequence = []
+try:
+    user_config = DaVinci().MoniSequence[0]
+except IndexError:
+    user_config = []
+finally:
+    DaVinci().MoniSequence = []  # Nothing should be in the sequence after all!
 
 
 #####################
@@ -89,7 +93,7 @@ DaVinci().appendToMainSequence([ms_all_protos, ms_velo_pions])
 # These filters are executed *before* the main selection algorithms to ignore
 # obviously uninteresting events.
 #
-# This should speed up the execution time.
+# Applying these filters should speed up the execution time.
 
 from Configurables import LoKi__HDRFilter as HDRFilter
 
@@ -116,7 +120,7 @@ if not DaVinci().Simulation or 'CUTFLOW' in user_config:
 # Particle references #
 #######################
 
-# It seems that 'DataOnDemand' is a misnomer of 'AutomaticData'
+# 'DataOnDemand' == 'AutomaticData'
 from PhysSelPython.Wrappers import AutomaticData
 
 # Events tagged with our stripping line
@@ -139,8 +143,8 @@ pr_Mu = AutomaticData(Location='Phys/StdAllNoPIDsMuons/Particles')
 ############################
 # Define simple selections #
 ############################
-# 'simple' means that algorithms for these selections are effectively one-
-# liners.
+# Here we define selections that apply to various TES locations directly, thus
+# 'simple'.
 
 from PhysSelPython.Wrappers import Selection
 from Configurables import FilterDesktop, FilterInTrees
@@ -189,7 +193,7 @@ sel_unstripped_tis_filtered_Mu = Selection(
 )
 
 
-if not DaVinci().Simulation:
+if not DaVinci().Simulation or 'CUTFLOW' in user_config:
     sel_charged_K = sel_stripped_charged_K
     sel_charged_Pi = sel_stripped_charged_Pi
 else:
@@ -209,6 +213,7 @@ sel_Mu = sel_unstripped_tis_filtered_Mu
 #####################
 # Define algorithms #
 #####################
+# These algorithms are used to reconstruct non-final state particles.
 
 from Configurables import CombineParticles
 
@@ -488,6 +493,8 @@ from Configurables import TupleToolMCBackgroundInfo
 from Configurables import TupleToolKinematic
 from Configurables import BackgroundCategory
 from Configurables import LoKi__Hybrid__EvtTupleTool as LokiEvtTool
+from Configurables import TupleToolTrigger
+from Configurables import TupleToolTISTOS
 
 
 def tuple_initialize_data(name, sel_seq, decay):
