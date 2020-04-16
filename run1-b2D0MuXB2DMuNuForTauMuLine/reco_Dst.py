@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Apr 16, 2020 at 08:47 PM +0800
+# Last Change: Fri Apr 17, 2020 at 12:52 AM +0800
 #
 # Description: Definitions of selection and reconstruction procedures for Dst in
 #              run 1, with thorough comments.
@@ -119,9 +119,11 @@ fltr_hlt = HDRFilter(
 
 
 if has_flag('CUTFLOW'):
-    DaVinci().EventPreFilters = [fltr_strip]
+    event_pre_selectors = [fltr_strip]
 elif not DaVinci().Simulation:
-    DaVinci().EventPreFilters = [fltr_hlt, fltr_strip]
+    event_pre_selectors = [fltr_hlt, fltr_strip]
+else:
+    event_pre_selectors = []
 
 
 
@@ -167,7 +169,7 @@ from Configurables import TisTosParticleTagger
 # This selects events that have a Muon satisfying stripping requirements and was
 # triggered regardless of the muon.
 sel_stripped_Mu_filtered_evt = Selection(
-    'SelMyStrippedFiltered',
+    'SelMyStrippedMuFilteredEvent',
     Algorithm=FilterDesktop(
         'MyStrippedFiltered',
         Code="INTREE((ABSID == 'mu+') & (TIS('L0.*', 'L0TriggerTisTos')))"
@@ -476,16 +478,19 @@ from PhysSelPython.Wrappers import SelectionSequence
 
 seq_B0 = SelectionSequence(
     'SeqMyB0',
+    EventPreSelector=event_pre_selectors,
     TopSelection=sel_refit_B02DstMu
 )
 
 seq_B0_ws_Mu = SelectionSequence(
     'SeqMyB0WSMu',
+    EventPreSelector=event_pre_selectors,
     TopSelection=sel_refit_B02DstMu_ws_Mu
 )
 
 seq_B0_ws_Pi = SelectionSequence(
     'SeqMyB0WSPi',
+    EventPreSelector=event_pre_selectors,
     TopSelection=sel_refit_B02DstMu_ws_Pi
 )
 
