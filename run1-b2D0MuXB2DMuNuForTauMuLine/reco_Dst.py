@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri Apr 17, 2020 at 12:52 AM +0800
+# Last Change: Fri Apr 17, 2020 at 02:33 AM +0800
 #
 # Description: Definitions of selection and reconstruction procedures for Dst in
 #              run 1, with thorough comments.
@@ -539,18 +539,6 @@ def tuple_initialize_data(name, sel_seq, decay):
         'TupleToolL0Calo',
     ]
 
-    # Save trigger decisions.
-    tt_tistos = tp.addTupleTool('TupleToolTISTOS')
-    tt_tistos.TriggerList = [
-        'L0MuonDecision',
-        'L0HadronDecision',
-        'Hlt1TrackAllL0Decision',
-        'Hlt2CharmHadD02HH_D02KPiDecision'
-    ]
-    tt_tistos.VerboseL0 = True
-    tt_tistos.VerboseHlt1 = True
-    tt_tistos.VerboseHlt2 = True
-
     # Add event-level information.
     tt_loki_evt = tp.addTupleTool(LokiEvtTool, "TupleMyLokiEvtTool")
     tt_loki_evt.Preambulo += ['from LoKiCore.functions import *']
@@ -562,8 +550,8 @@ def tuple_initialize_data(name, sel_seq, decay):
     return tp
 
 
-def tuple_initialize_mc(name, sel_seq, decay):
-    tp = tuple_initialize_data(name, sel_seq, decay)
+def tuple_initialize_mc(*args):
+    tp = tuple_initialize_data(*args)
 
     tt_mcbi = tp.addTupleTool('TupleToolMCBackgroundInfo')
     tt_mcbi.addTool(BackgroundCategory, name="BackgroundCategory")
@@ -579,7 +567,28 @@ def tuple_initialize_mc(name, sel_seq, decay):
     return tp
 
 
-def tuple_postpocess_data(tp, weights='./weights_soft.xml'):
+def tuple_postpocess_data(tp,
+                          weights='./weights_soft.xml',
+                          trigger_list_global=[
+                              # L0
+                              'L0HadronDecision',
+                              # HLT 1
+                              'Hlt1TrackAllL0Decision',
+                              # HLT 2
+                              'Hlt2CharmHadD02HH_D02KPiDecision'
+                          ],
+                          trigger_list_Y=[
+                              # HLT 1
+                              'L0MuonDecision',
+                              'L0ElectronDecision',
+                              'L0ElectronHiDecision',
+                              'L0HighSumETJetDecision',
+                              'L0MuonDecision',
+                              'L0NoPVFlagDecision',
+                              'L0PhotonDecision',
+                              'L0PhotonHiDecision'
+                          ]
+                          ):
     tp.Y.addTool(TupleToolTagDiscardDstMu, name='TupleMyDiscardDstMu')
     tp.Y.ToolList += ['TupleToolTagDiscardDstMu/TupleMyDiscardDstMu']
 
@@ -592,9 +601,35 @@ def tuple_postpocess_data(tp, weights='./weights_soft.xml'):
 
     tp.muplus.ToolList += ['TupleToolANNPIDTraining']
 
+    # Trigger decisions to be saved for every particle
+    tp.addTool(TupleToolTrigger, name='TupleMyTriggerGlobal')
+    tp.TupleMyTriggerGlobal.Verbose = True
+    tp.TupleMyTriggerGlobal.TriggerList = trigger_list_global
+    tp.ToolList += ['TupleToolTrigger/TupleMyTisTosGlobal']
 
-def tuple_postpocess_mc(tp, weights='./weights_soft.xml'):
-    tuple_postpocess_data(tp, weights)
+    tp.addTool(TupleToolTISTOS, name='TupleMyTisTosGlobal')
+    tp.TupleMyTisTosGlobal.TriggerList = trigger_list_global
+    tp.TupleMyTisTosGlobal.VerboseL0 = True
+    tp.TupleMyTisTosGlobal.VerboseHlt1 = True
+    tp.TupleMyTisTosGlobal.VerboseHlt2 = True
+    tp.ToolList += ['TupleToolTISTOS/TupleMyTisTosGlobal']
+
+    # Trigger decisions to be saved for Y
+    tp.Y.addTool(TupleToolTrigger, name='TupleMyTriggerY')
+    tp.Y.TupleMyTriggerY.Verbose = True
+    tp.Y.TupleMyTriggerY.TriggerList = trigger_list_Y
+    tp.Y.ToolList += ['TupleToolTrigger/TupleMyTriggerY']
+
+    tp.Y.addTool(TupleToolTISTOS, name='TupleMyTisTosY')
+    tp.Y.TupleMyTisTosY.TriggerList = trigger_list_Y
+    tp.Y.TupleMyTisTosY.VerboseL0 = True
+    tp.Y.TupleMyTisTosY.VerboseHlt1 = True
+    tp.Y.TupleMyTisTosY.VerboseHlt2 = True
+    tp.Y.ToolList += ['TupleToolTISTOS/TupleMyTisTosY']
+
+
+def tuple_postpocess_mc(*args, **kwargs):
+    tuple_postpocess_data(*args, **kwargs)
 
 
 if not DaVinci().Simulation:
