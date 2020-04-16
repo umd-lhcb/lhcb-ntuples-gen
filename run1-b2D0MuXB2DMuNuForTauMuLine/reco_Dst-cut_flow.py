@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Apr 13, 2020 at 10:44 PM +0800
+# Last Change: Thu Apr 16, 2020 at 08:42 PM +0800
 
 #####################
 # Configure DaVinci #
@@ -8,6 +8,8 @@
 
 from Configurables import DaVinci
 from Gaudi.Configuration import *
+
+DaVinci().MoniSequence = []
 
 # Debug options
 # DaVinci().EvtMax = 300

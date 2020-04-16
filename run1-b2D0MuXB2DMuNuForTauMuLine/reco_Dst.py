@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Apr 16, 2020 at 01:46 AM +0800
+# Last Change: Thu Apr 16, 2020 at 08:47 PM +0800
 #
 # Description: Definitions of selection and reconstruction procedures for Dst in
 #              run 1, with thorough comments.
@@ -97,11 +97,17 @@ DaVinci().appendToMainSequence([ms_all_protos, ms_velo_pions])
 
 from Configurables import LoKi__HDRFilter as HDRFilter
 
+
+if DaVinci.Simulation and has_flag('CUTFLOW'):
+    line_strip = 'b2D0MuXB2DMuForTauMuLine'  # Name of the stripping line back in 2011.
+else:
+    line_strip = 'b2D0MuXB2DMuNuForTauMuLine'
+
+
 # Differences between 'HLT_PASS' and 'HLT_PASS_RE':
 #   'HLT_PASS' matches the line *exactly*
 #   'HLT_PASS_RE' (which was used in the starter kit) use regular expression to
 #   check if line given is a part of the lines of the events.
-line_strip = 'b2D0MuXB2DMuNuForTauMuLine'
 fltr_strip = HDRFilter(
     'StrippedBCands',
     Code="HLT_PASS('Stripping{0}Decision')".format(line_strip))
@@ -112,8 +118,11 @@ fltr_hlt = HDRFilter(
     Code="HLT_PASS('{0}Decision')".format(line_hlt))
 
 
-if not DaVinci().Simulation or has_flag('CUTFLOW'):
+if has_flag('CUTFLOW'):
+    DaVinci().EventPreFilters = [fltr_strip]
+elif not DaVinci().Simulation:
     DaVinci().EventPreFilters = [fltr_hlt, fltr_strip]
+
 
 
 #######################
@@ -123,16 +132,21 @@ if not DaVinci().Simulation or has_flag('CUTFLOW'):
 # 'DataOnDemand' == 'AutomaticData'
 from PhysSelPython.Wrappers import AutomaticData
 
+
 # Events tagged with our stripping line
-pr_stripped = AutomaticData(
-    Location='/Event/Semileptonic/Phys/{0}/Particles'.format(line_strip))
+if DaVinci().Simulation and has_flag('CUTFLOW'):
+    pr_stripped = AutomaticData(
+        Location='AllStreams/Phys/{0}/Particles'.format(line_strip))
+else:
+    pr_stripped = AutomaticData(
+        Location='/Event/Semileptonic/Phys/{0}/Particles'.format(line_strip))
+
 
 pr_charged_K = AutomaticData(Location='Phys/StdAllNoPIDsKaons/Particles')
 
 pr_charged_Pi = AutomaticData(Location='Phys/StdAllNoPIDsPions/Particles')
 pr_all_Pi = AutomaticData(Location='Phys/StdAllLoosePions/Particles')
-
-# standard NoPIDs upstream pions (VELO + TT hits, no T-layers).
+# Standard NoPIDs upstream pions (VELO + TT hits, no T-layers).
 # They only added 10% with terrible mass resolution, so they didn't use them in
 # the end.
 # pr_up_Pi = AutomaticData(Location='Phys/StdNoPIDsUpPions/Particles')
@@ -476,12 +490,12 @@ seq_B0_ws_Pi = SelectionSequence(
 )
 
 
-if not DaVinci().Simulation:
+if DaVinci().Simulation or has_flag('CUTFLOW'):
+    DaVinci().UserAlgorithms += [seq_B0.sequence()]
+else:
     DaVinci().UserAlgorithms += [seq_B0.sequence(),
                                  seq_B0_ws_Mu.sequence(),
                                  seq_B0_ws_Pi.sequence()]
-else:
-    DaVinci().UserAlgorithms += [seq_B0.sequence()]
 
 
 ###################
