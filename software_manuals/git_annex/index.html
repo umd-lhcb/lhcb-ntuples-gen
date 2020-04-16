@@ -856,13 +856,11 @@ Doing so will result in all modifications discarded. Proceed with care!</p>
 method is:
 <div class="highlight"><pre><span></span><code>git annex sync julian
 </code></pre></div></p>
-<p>A safer, <strong>two-step</strong> process is:
-<div class="highlight"><pre><span></span><code>git annex sync --no-pull julian
-git annex sync julian
-</code></pre></div></p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>The two separate steps are needed to avoid unnecessary merge conflicts.</p>
+<p><code>git annex sync</code> will commit all <strong>previously uncommitted</strong> changes before
+synchronizing! It is highly recommended that the working tree of your
+project is clean before doing a <code>git annex sync</code>.</p>
 </div>
 <p>If you want to download <strong>every single file</strong> from the <code>git-annex</code> repo (which is
 probably a couple of GBs), add the <code>--content</code> flag in the second step and
