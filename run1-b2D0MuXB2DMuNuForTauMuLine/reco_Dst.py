@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri Apr 17, 2020 at 02:33 AM +0800
+# Last Change: Fri Apr 17, 2020 at 02:44 AM +0800
 #
 # Description: Definitions of selection and reconstruction procedures for Dst in
 #              run 1, with thorough comments.
@@ -572,13 +572,22 @@ def tuple_postpocess_data(tp,
                           trigger_list_global=[
                               # L0
                               'L0HadronDecision',
+                              # FIXME: L0 below should be added to Y only
+                              'L0MuonDecision',
+                              'L0ElectronDecision',
+                              'L0ElectronHiDecision',
+                              'L0HighSumETJetDecision',
+                              'L0MuonDecision',
+                              'L0NoPVFlagDecision',
+                              'L0PhotonDecision',
+                              'L0PhotonHiDecision'
                               # HLT 1
                               'Hlt1TrackAllL0Decision',
                               # HLT 2
                               'Hlt2CharmHadD02HH_D02KPiDecision'
                           ],
                           trigger_list_Y=[
-                              # HLT 1
+                              # L0
                               'L0MuonDecision',
                               'L0ElectronDecision',
                               'L0ElectronHiDecision',
@@ -602,30 +611,25 @@ def tuple_postpocess_data(tp,
     tp.muplus.ToolList += ['TupleToolANNPIDTraining']
 
     # Trigger decisions to be saved for every particle
-    tp.addTool(TupleToolTrigger, name='TupleMyTriggerGlobal')
-    tp.TupleMyTriggerGlobal.Verbose = True
-    tp.TupleMyTriggerGlobal.TriggerList = trigger_list_global
-    tp.ToolList += ['TupleToolTrigger/TupleMyTisTosGlobal']
+    tt_trigger = tp.addTupleTool('TupleToolTrigger')
+    tt_trigger.Verbose = True
+    tt_trigger.TriggerList = trigger_list_global
 
-    tp.addTool(TupleToolTISTOS, name='TupleMyTisTosGlobal')
-    tp.TupleMyTisTosGlobal.TriggerList = trigger_list_global
-    tp.TupleMyTisTosGlobal.VerboseL0 = True
-    tp.TupleMyTisTosGlobal.VerboseHlt1 = True
-    tp.TupleMyTisTosGlobal.VerboseHlt2 = True
-    tp.ToolList += ['TupleToolTISTOS/TupleMyTisTosGlobal']
+    tt_tistos = tp.addTupleTool('TupleToolTISTOS')
+    tt_tistos.Verbose = True
+    tt_tistos.TriggerList = trigger_list_global
 
+    # FIXME: These tools can't be added to Y only
     # Trigger decisions to be saved for Y
-    tp.Y.addTool(TupleToolTrigger, name='TupleMyTriggerY')
-    tp.Y.TupleMyTriggerY.Verbose = True
-    tp.Y.TupleMyTriggerY.TriggerList = trigger_list_Y
-    tp.Y.ToolList += ['TupleToolTrigger/TupleMyTriggerY']
+    # tp.Y.addTool(TupleToolTrigger, name='TupleMyTriggerY')
+    # tp.Y.TupleMyTriggerY.Verbose = True
+    # tp.Y.TupleMyTriggerY.TriggerList = trigger_list_Y
+    # tp.Y.ToolList += ['TupleToolTrigger/TupleMyTriggerY']
 
-    tp.Y.addTool(TupleToolTISTOS, name='TupleMyTisTosY')
-    tp.Y.TupleMyTisTosY.TriggerList = trigger_list_Y
-    tp.Y.TupleMyTisTosY.VerboseL0 = True
-    tp.Y.TupleMyTisTosY.VerboseHlt1 = True
-    tp.Y.TupleMyTisTosY.VerboseHlt2 = True
-    tp.Y.ToolList += ['TupleToolTISTOS/TupleMyTisTosY']
+    # tp.Y.addTool(TupleToolTISTOS, name='TupleMyTisTosY')
+    # tp.Y.TupleMyTisTosY.TriggerList = trigger_list_Y
+    # tp.Y.TupleMyTisTosY.Verbose = True
+    # tp.Y.ToolList += ['TupleToolTISTOS/TupleMyTisTosY']
 
 
 def tuple_postpocess_mc(*args, **kwargs):
