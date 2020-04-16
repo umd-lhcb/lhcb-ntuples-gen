@@ -108,14 +108,10 @@ method is:
 git annex sync julian
 ```
 
-A safer, **two-step** process is:
-```
-git annex sync --no-pull julian
-git annex sync julian
-```
-
 !!! warning
-    The two separate steps are needed to avoid unnecessary merge conflicts.
+    `git annex sync` will commit all **previously uncommitted** changes before
+    synchronizing! It is highly recommended that the working tree of your
+    project is clean before doing a `git annex sync`.
 
 If you want to download **every single file** from the `git-annex` repo (which is
 probably a couple of GBs), add the `--content` flag in the second step and
