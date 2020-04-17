@@ -1,16 +1,39 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Apr 14, 2020 at 03:24 AM +0800
+# Last Change: Sat Apr 18, 2020 at 12:37 AM +0800
+#
+# Description: Definitions of selection and reconstruction procedures for Dst in
+#              run 2. For more thorough comments, take a look at:
+#                run1-b2D0MuXB2DMuNuForTauMuLine/reco_Dst.py
+
+
+#########################################
+# Load user-defined configuration flags #
+#########################################
+
+from Configurables import DaVinci
+
+# NOTE: We *abuse* DaVinci's MoniSequence to pass additional flags
+user_config = DaVinci().MoniSequence
+DaVinci().MoniSequence = []  # Nothing should be in the sequence after all!
+
+
+def has_flag(flg):
+    return True if flg in user_config else False
+
 
 #####################
 # Configure DaVinci #
 #####################
 
-from Configurables import DaVinci
+from Gaudi.Configuration import *
+
+# Debug options
+# DaVinci().EvtMax = 300
+# MessageSvc().OutputLevel = DEBUG
+DaVinci().EvtMax = -1
 
 DaVinci().InputType = 'DST'
-# DaVinci().EvtMax = 30
-DaVinci().EvtMax = -1
 DaVinci().SkipEvents = 0
 DaVinci().PrintFreq = 100
 
@@ -21,10 +44,6 @@ DaVinci().Lumi = not DaVinci().Simulation
 ###################################
 # Customize DaVinci main sequence #
 ###################################
-# These algorithms are executed before any of the selection algorithms.
-#
-# algorithms defined here will set up locations that will be available for all
-# selection algorithms.
 
 from Configurables import ChargedProtoParticleMaker
 from Configurables import NoPIDsParticleMaker
@@ -68,17 +87,13 @@ DaVinci().appendToMainSequence([ms_all_protos, ms_velo_pions])
 ######################
 # Define pre-filters #
 ######################
-# These filters are executed *before* the main selection algorithms to ignore
-# obviously uninteresting events.
-#
-# This should speed up the execution time.
 
 from Configurables import LoKi__HDRFilter as HDRFilter
 
 line_strip = 'b2D0MuXB2DMuForTauMuLine'
 fltr_strip = HDRFilter(
     'StrippedBCands',
-    Code="HLT_PASS_RE('Stripping{0}Decision')".format(line_strip))
+    Code="HLT_PASS('Stripping{0}Decision')".format(line_strip))
 
 # NOTE: Since the HLT line below is part of the stripping line for run 2,
 #       there's no need to filter on it separately.
@@ -88,7 +103,7 @@ fltr_strip = HDRFilter(
 #     Code="HLT_PASS_RE('{0}Decision')".format(line_hlt))
 
 
-if not DaVinci().Simulation:
+if not DaVinci().Simulation or has_flag('CUTFLOW'):
     event_pre_selectors = [fltr_strip]
 else:
     event_pre_selectors = []
@@ -98,20 +113,15 @@ else:
 # Particle references #
 #######################
 
-# It seems that 'DataOnDemand' is a misnomer of 'AutomaticData'
 from PhysSelPython.Wrappers import AutomaticData
 
 pr_stripped = AutomaticData(
     Location='/Event/Semileptonic/Phys/{0}/Particles'.format(line_strip))
 
 pr_charged_K = AutomaticData(Location='Phys/StdAllNoPIDsKaons/Particles')
+
 pr_charged_Pi = AutomaticData(Location='Phys/StdAllNoPIDsPions/Particles')
-
 pr_all_Pi = AutomaticData(Location='Phys/StdAllLoosePions/Particles')
-
-# standard NoPIDs upstream pions (VELO + TT hits, no T-layers).
-# They only added 10% with terrible mass resolution, so they didn't use them in
-# the end.
 # pr_up_Pi = AutomaticData(Location='Phys/StdNoPIDsUpPions/Particles')
 
 pr_Mu = AutomaticData(Location='Phys/StdAllNoPIDsMuons/Particles')
@@ -120,24 +130,19 @@ pr_Mu = AutomaticData(Location='Phys/StdAllNoPIDsMuons/Particles')
 ############################
 # Define simple selections #
 ############################
-# 'simple' means that algorithms for these selections are effectively one-
-# liners.
 
 from PhysSelPython.Wrappers import Selection
 from Configurables import FilterDesktop, FilterInTrees
 from Configurables import TisTosParticleTagger
 
-# NOTE: This selects events that have a muon and was triggered regardless of the
-#       muon.
-#       We disable this temporarily to preserve the PT bias.
-# sel_stripped_filtered = Selection(
-#     'SelMyStrippedFiltered',
-#     Algorithm=FilterDesktop(
-#         'MyStrippedFiltered',
-#         Code="INTREE((ABSID == 'mu+') & (TIS('L0.*', 'L0TriggerTisTos')))"
-#     ),
-#     RequiredSelections=[pr_stripped]
-# )
+sel_stripped_Mu_filtered_evt = Selection(
+    'SelMyStrippedMuFilteredEvent',
+    Algorithm=FilterDesktop(
+        'MyStrippedFiltered',
+        Code="INTREE((ABSID == 'mu+') & (TIS('L0.*', 'L0TriggerTisTos')))"
+    ),
+    RequiredSelections=[pr_stripped]
+)
 
 # NOTE: 'stripped' selections require the existence of a stripping line, which
 #       only exists in data, not MC.
@@ -159,34 +164,36 @@ sel_stripped_Mu = Selection(
     RequiredSelections=[pr_stripped]
 )
 
-# We build our own Muons, instead of using stripping line Muons.
+# We build our own Muons, instead of using stripping line Muons for MC.
 # See https://github.com/umd-lhcb/lhcb-ntuples-gen/issues/25 for an explanation.
 sel_unstripped_tis_filtered_Mu = Selection(
-    'SelMyUnstrippedMu',
+    'SelMyUnstrippedFilteredMu',
     Algorithm=TisTosParticleTagger(
         'MyMuTisTagger',
         Inputs=['Phys/StdAllNoPIDsMuons/Particles'],
-        # We want to enforce L0 global TIS on the Muon.
         TisTosSpecs={'L0Global%TIS': 0}),
     RequiredSelections=[pr_Mu]
 )
 
 
-if not DaVinci().Simulation:
+# For run 2, use unstripped Muon and don't put additional cut on Muons yet.
+# We can always do TIS-filtering in step 2.
+if not DaVinci().Simulation or has_flag('CUTFLOW'):
     sel_charged_K = sel_stripped_charged_K
     sel_charged_Pi = sel_stripped_charged_Pi
+    sel_Mu = sel_stripped_Mu
 else:
     sel_charged_K = pr_charged_K
     sel_charged_Pi = pr_charged_Pi
-
-# For run 2, use unstripped Muon and don't put additional cut on Muons yet.
-# We can always do TIS-filtering in step 2.
-sel_Mu = pr_Mu
+    sel_Mu = pr_Mu
 
 
 #####################
 # Define algorithms #
 #####################
+# These cuts are imposed by the stripping line
+#   http://lhcbdoc.web.cern.ch/lhcbdoc/stripping/config/stripping28r2/semileptonic/strippingb2d0muxb2dmufortaumuline.html
+
 
 from Configurables import CombineParticles
 
@@ -199,9 +206,6 @@ algo_mc_match_preambulo = [
 # D0 ###########################################################################
 algo_D0 = CombineParticles('MyD0')
 algo_D0.DecayDescriptor = '[D0 -> K- pi+]cc'
-
-# These cuts are imposed by the stripping line
-# http://lhcbdoc.web.cern.ch/lhcbdoc/stripping/config/stripping21/semileptonic/strippingb2d0muxb2dmunufortaumuline.html
 
 algo_D0.DaughtersCuts = {
     'K+': '(PT > 300*MeV) & (MIPCHI2DV(PRIMARY) > 9.0) &' +
@@ -241,7 +245,6 @@ algo_Dst.DecayDescriptor = '[D*(2010)+ -> D0 pi+]cc'
 algo_Dst.DaughtersCuts = {
     'pi+': '(MIPCHI2DV(PRIMARY) > 0.0) & (TRCHI2DOF < 3) & (TRGHOSTPROB < 0.25)'
 }
-
 algo_Dst.CombinationCut = "(ADAMASS('D*(2010)+') < 220*MeV)"
 algo_Dst.MotherCut = "(ADMASS('D*(2010)+') < 125*MeV) &" + \
                      "(M-MAXTREE(ABSID=='D0', M) < 160*MeV) &" + \
@@ -413,12 +416,12 @@ seq_B0_ws_Pi = SelectionSequence(
 )
 
 
-if not DaVinci().Simulation:
+if DaVinci().Simulation or has_flag('CUTFLOW'):
+    DaVinci().UserAlgorithms += [seq_B0.sequence()]
+else:
     DaVinci().UserAlgorithms += [seq_B0.sequence(),
                                  seq_B0_ws_Mu.sequence(),
                                  seq_B0_ws_Pi.sequence()]
-else:
-    DaVinci().UserAlgorithms += [seq_B0.sequence()]
 
 
 ###################
@@ -457,27 +460,6 @@ def tuple_initialize_data(name, sel_seq, decay):
         'TupleToolL0Calo',
     ]
 
-    trigger_list = [
-        # L0 triggers
-        'L0MuonDecision',
-        'L0ElectronDecision',
-        'L0HadronDecision',
-        # HLT 1 lines
-        'Hlt1TrackAllL0Decision',
-        # HLT 2 lines
-        'Hlt2XcMuXForTauB2XcMuDecision',
-        'Hlt1TwoTrackMVADecision'  # Add from trigger study
-    ]
-
-    # Save trigger decisions.
-    tt_trigger = tp.addTupleTool('TupleToolTrigger')
-    tt_trigger.Verbose = True
-    tt_trigger.TriggerList = trigger_list
-
-    tt_tistos = tp.addTupleTool('TupleToolTISTOS')
-    tt_tistos.Verbose = True
-    tt_tistos.TriggerList = trigger_list
-
     # Add event-level information.
     tt_loki_evt = tp.addTupleTool(LokiEvtTool, "TupleMyLokiEvtTool")
     tt_loki_evt.Preambulo += ['from LoKiCore.functions import *']
@@ -489,8 +471,8 @@ def tuple_initialize_data(name, sel_seq, decay):
     return tp
 
 
-def tuple_initialize_mc(name, sel_seq, decay):
-    tp = tuple_initialize_data(name, sel_seq, decay)
+def tuple_initialize_mc(*args):
+    tp = tuple_initialize_data(*args)
 
     tt_mcbi = tp.addTupleTool('TupleToolMCBackgroundInfo')
     tt_mcbi.addTool(BackgroundCategory, name="BackgroundCategory")
@@ -506,7 +488,28 @@ def tuple_initialize_mc(name, sel_seq, decay):
     return tp
 
 
-def tuple_postpocess_data(tp, weights='./weights_soft.xml'):
+def tuple_postpocess_data(tp,
+                          weights='./weights_soft.xml',
+                          trigger_list_global=[
+                              # L0
+                              'L0HadronDecision',
+                              # HLT 1
+                              'Hlt1TrackAllL0Decision',
+                              # HLT 2
+                              'Hlt2CharmHadD02HH_D02KPiDecision'
+                          ],
+                          trigger_list_Y=[
+                              # L0
+                              'L0MuonDecision',
+                              'L0ElectronDecision',
+                              'L0ElectronHiDecision',
+                              'L0HighSumETJetDecision',
+                              'L0MuonDecision',
+                              'L0NoPVFlagDecision',
+                              'L0PhotonDecision',
+                              'L0PhotonHiDecision'
+                          ]
+                          ):
     tp.Y.addTool(TupleToolTagDiscardDstMu, name='TupleMyDiscardDstMu')
     tp.Y.ToolList += ['TupleToolTagDiscardDstMu/TupleMyDiscardDstMu']
 
@@ -519,9 +522,22 @@ def tuple_postpocess_data(tp, weights='./weights_soft.xml'):
 
     tp.muplus.ToolList += ['TupleToolANNPIDTraining']
 
+    tt_trigger = tp.addTupleTool('TupleToolTrigger')
+    tt_trigger.Verbose = True
+    tt_trigger.TriggerList = trigger_list_global
 
-def tuple_postpocess_mc(tp, weights='./weights_soft.xml'):
-    tuple_postpocess_data(tp, weights)
+    tt_tistos = tp.addTupleTool('TupleToolTISTOS')
+    tt_tistos.Verbose = True
+    tt_tistos.TriggerList = trigger_list_global
+
+    # Trigger decisions to be saved for Y
+    tt_tistos_Y = tp.Y.addTupleTool('TupleToolTISTOS')
+    tt_tistos_Y.Verbose = True
+    tt_tistos_Y.TriggerList = trigger_list_Y
+
+
+def tuple_postpocess_mc(*args, **kwargs):
+    tuple_postpocess_data(*args, **kwargs)
 
 
 if not DaVinci().Simulation:
@@ -589,7 +605,7 @@ tp_B0_ws_Pi.addBranches({
 tuple_postpocess(tp_B0_ws_Pi)
 
 
-if not DaVinci().Simulation:
-    DaVinci().UserAlgorithms += [tp_B0, tp_B0_ws_Mu, tp_B0_ws_Pi]
-else:
+if DaVinci().Simulation or has_flag('CUTFLOW'):
     DaVinci().UserAlgorithms += [tp_B0]
+else:
+    DaVinci().UserAlgorithms += [tp_B0, tp_B0_ws_Mu, tp_B0_ws_Pi]
