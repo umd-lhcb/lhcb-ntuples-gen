@@ -5,6 +5,9 @@ DaVinci().Simulation = True
 
 DaVinci().TupleFile = 'BCands-mc.root'
 
+# Additional global flags
+DaVinci().MoniSequence += ['CUTFLOW']
+
 
 from Configurables import LHCbApp
 
