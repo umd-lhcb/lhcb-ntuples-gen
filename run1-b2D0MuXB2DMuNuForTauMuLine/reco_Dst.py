@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri Apr 17, 2020 at 10:04 PM +0800
+# Last Change: Fri Apr 17, 2020 at 11:34 PM +0800
 #
 # Description: Definitions of selection and reconstruction procedures for Dst in
 #              run 1, with thorough comments.
@@ -572,15 +572,6 @@ def tuple_postpocess_data(tp,
                           trigger_list_global=[
                               # L0
                               'L0HadronDecision',
-                              # FIXME: L0 below should be added to Y only
-                              'L0MuonDecision',
-                              'L0ElectronDecision',
-                              'L0ElectronHiDecision',
-                              'L0HighSumETJetDecision',
-                              'L0MuonDecision',
-                              'L0NoPVFlagDecision',
-                              'L0PhotonDecision',
-                              'L0PhotonHiDecision'
                               # HLT 1
                               'Hlt1TrackAllL0Decision',
                               # HLT 2
@@ -619,15 +610,10 @@ def tuple_postpocess_data(tp,
     tt_tistos.Verbose = True
     tt_tistos.TriggerList = trigger_list_global
 
-    # FIXME: These tools can't be added to Y only
     # Trigger decisions to be saved for Y
-    # tt_trigger_Y = tp.Y.addTupleTool('TupleToolTrigger')
-    # tt_trigger_Y.Verbose = True
-    # tt_trigger_Y.TriggerList = trigger_list_Y
-
-    # tt_tistos_Y = tp.Y.addTupleTool('TupleToolTISTOS')
-    # tt_tistos_Y.Verbose = True
-    # tt_tistos_Y.TriggerList = trigger_list_global
+    tt_tistos_Y = tp.Y.addTupleTool('TupleToolTISTOS')
+    tt_tistos_Y.Verbose = True
+    tt_tistos_Y.TriggerList = trigger_list_Y
 
 
 def tuple_postpocess_mc(*args, **kwargs):
