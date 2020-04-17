@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sat Apr 18, 2020 at 12:37 AM +0800
+# Last Change: Sat Apr 18, 2020 at 03:13 AM +0800
 #
 # Description: Definitions of selection and reconstruction procedures for Dst in
 #              run 2. For more thorough comments, take a look at:
@@ -495,19 +495,24 @@ def tuple_postpocess_data(tp,
                               'L0HadronDecision',
                               # HLT 1
                               'Hlt1TrackAllL0Decision',
+                              'Hlt1TwoTrackMVADecision',
+                              'Hlt1TrackMVALooseDecision',
+                              'Hlt1TwoTrackMVALooseDecision',
+                              'Hlt1TrackMuonDecision',
+                              'Hlt1TrackMuonMVADecision',
+                              'Hlt1SingleMuonHighPTDecision',
                               # HLT 2
-                              'Hlt2CharmHadD02HH_D02KPiDecision'
+                              'Hlt2XcMuXForTauB2XcMuDecision'
                           ],
                           trigger_list_Y=[
                               # L0
-                              'L0MuonDecision',
+                              'L0DiMuonDecision',
                               'L0ElectronDecision',
-                              'L0ElectronHiDecision',
-                              'L0HighSumETJetDecision',
+                              'L0JetElDecision',
+                              'L0JetPhDecision',
                               'L0MuonDecision',
-                              'L0NoPVFlagDecision',
+                              'L0MuonEWDecision',
                               'L0PhotonDecision',
-                              'L0PhotonHiDecision'
                           ]
                           ):
     tp.Y.addTool(TupleToolTagDiscardDstMu, name='TupleMyDiscardDstMu')
