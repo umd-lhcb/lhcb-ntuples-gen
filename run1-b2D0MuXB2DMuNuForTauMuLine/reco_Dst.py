@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri Apr 17, 2020 at 11:34 PM +0800
+# Last Change: Sat Apr 18, 2020 at 12:37 AM +0800
 #
 # Description: Definitions of selection and reconstruction procedures for Dst in
 #              run 1, with thorough comments.
@@ -239,6 +239,9 @@ else:
 # Define algorithms #
 #####################
 # These algorithms are used to reconstruct non-final state particles.
+# These cuts are imposed by the stripping line
+#   http://lhcbdoc.web.cern.ch/lhcbdoc/stripping/config/stripping21/semileptonic/strippingb2d0muxb2dmunufortaumuline.html
+
 
 from Configurables import CombineParticles
 
@@ -251,9 +254,6 @@ algo_mc_match_preambulo = [
 # D0 ###########################################################################
 algo_D0 = CombineParticles('MyD0')
 algo_D0.DecayDescriptor = '[D0 -> K- pi+]cc'
-
-# These cuts are imposed by the stripping line
-# http://lhcbdoc.web.cern.ch/lhcbdoc/stripping/config/stripping21/semileptonic/strippingb2d0muxb2dmunufortaumuline.html
 
 # PT: transverse momentum
 # MIPCHI2DV: minimum IP-chi^2
@@ -312,7 +312,6 @@ algo_Dst.DecayDescriptor = '[D*(2010)+ -> D0 pi+]cc'
 algo_Dst.DaughtersCuts = {
     'pi+': '(MIPCHI2DV(PRIMARY) > 0.0) & (TRCHI2DOF < 3) & (TRGHOSTPROB < 0.25)'
 }
-
 algo_Dst.CombinationCut = "(ADAMASS('D*(2010)+') < 220*MeV)"
 algo_Dst.MotherCut = "(ADMASS('D*(2010)+') < 125*MeV) &" + \
                      "(M-MAXTREE(ABSID=='D0', M) < 160*MeV) &" + \
@@ -334,9 +333,7 @@ algo_B0 = CombineParticles('MyB0')
 algo_B0.DecayDescriptor = "[B~0 -> D*(2010)+ mu-]cc"  # B~0 is the CC of B0
 
 # ALL: trivial select all
-algo_B0.DaughtersCuts = {
-    "mu-": "ALL"
-}
+algo_B0.DaughtersCuts = {"mu-": "ALL"}
 
 # AM: mass of the combination
 #     Return sqrt(E^2 - p^2)
