@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri Apr 17, 2020 at 02:44 AM +0800
+# Last Change: Fri Apr 17, 2020 at 10:04 PM +0800
 #
 # Description: Definitions of selection and reconstruction procedures for Dst in
 #              run 1, with thorough comments.
@@ -621,15 +621,13 @@ def tuple_postpocess_data(tp,
 
     # FIXME: These tools can't be added to Y only
     # Trigger decisions to be saved for Y
-    # tp.Y.addTool(TupleToolTrigger, name='TupleMyTriggerY')
-    # tp.Y.TupleMyTriggerY.Verbose = True
-    # tp.Y.TupleMyTriggerY.TriggerList = trigger_list_Y
-    # tp.Y.ToolList += ['TupleToolTrigger/TupleMyTriggerY']
+    # tt_trigger_Y = tp.Y.addTupleTool('TupleToolTrigger')
+    # tt_trigger_Y.Verbose = True
+    # tt_trigger_Y.TriggerList = trigger_list_Y
 
-    # tp.Y.addTool(TupleToolTISTOS, name='TupleMyTisTosY')
-    # tp.Y.TupleMyTisTosY.TriggerList = trigger_list_Y
-    # tp.Y.TupleMyTisTosY.Verbose = True
-    # tp.Y.ToolList += ['TupleToolTISTOS/TupleMyTisTosY']
+    # tt_tistos_Y = tp.Y.addTupleTool('TupleToolTISTOS')
+    # tt_tistos_Y.Verbose = True
+    # tt_tistos_Y.TriggerList = trigger_list_global
 
 
 def tuple_postpocess_mc(*args, **kwargs):
