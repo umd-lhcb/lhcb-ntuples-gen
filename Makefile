@@ -1,6 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Apr 06, 2020 at 09:24 PM +0800
+# Last Change: Mon Apr 20, 2020 at 09:10 PM +0800
 
 BINPATH	:=	bin
 SRCPATH	:=	gen
@@ -19,8 +19,8 @@ all: \
 	gen/run1-Dst-step2/BCands_Dst-phoebe-data-2012-mag_down-step2.root \
 	gen/run1-Dst-step2/BCands_Dst-yipeng-data-2012-mag_down-step2.root \
 	gen/run2-Dst-step2/BCands_Dst-yipeng-data-2016-mag_down-step2.root \
-	gen/run1-Dst-step2/BCands_Dst_cutflow-yipeng-data-2012-mag_down-step2.root \
-	gen/run2-Dst-step2/BCands_Dst_cutflow-yipeng-data-2016-mag_down-step2.root
+	gen/run1-Dst-step2/BCands_Dst-yipeng-cutflow_data-2012-mag_down-step2.root \
+	gen/run2-Dst-step2/BCands_Dst-yipeng-cutflow_data-2016-mag_down-step2.root
 
 clean:
 	@rm -rf $(BINPATH)/*
@@ -34,25 +34,25 @@ clean:
 
 # Cut flow for R(D(*))
 cutflow-RDst: \
-	run1-b2D0MuXB2DMuNuForTauMuLine/cut_flow/output-run1.yml \
-	run2-b2D0MuXB2DMuForTauMuLine/cut_flow/output-run2.yml
-	@./utils/cut_flow_gen.py -o $(word 1, $^) -t $(word 2, $^) | ./utils/tab_gen.py -f latex_booktabs_raw
+	run1-b2D0MuXB2DMuNuForTauMuLine/cutflow/output-run1.yml \
+	run2-b2D0MuXB2DMuForTauMuLine/cutflow/output-run2.yml
+	@./utils/cutflow_gen.py -o $(word 1, $^) -t $(word 2, $^) | ./utils/tab_gen.py -f latex_booktabs_raw
 
 cutflow-RDst-web: \
-	run1-b2D0MuXB2DMuNuForTauMuLine/cut_flow/output-run1.yml \
-	run2-b2D0MuXB2DMuForTauMuLine/cut_flow/output-run2.yml
-	@./utils/cut_flow_gen.py -o $(word 1, $^) -t $(word 2, $^) -n | ./utils/tab_gen.py -f github
+	run1-b2D0MuXB2DMuNuForTauMuLine/cutflow/output-run1.yml \
+	run2-b2D0MuXB2DMuForTauMuLine/cutflow/output-run2.yml
+	@./utils/cutflow_gen.py -o $(word 1, $^) -t $(word 2, $^) -n | ./utils/tab_gen.py -f github
 
 # Cut flow for R(D(*)), with real data
 cutflow-RDst-data: \
-	run1-b2D0MuXB2DMuNuForTauMuLine/cut_flow/output-run1-data.yml \
-	run2-b2D0MuXB2DMuForTauMuLine/cut_flow/output-run2-data.yml
-	@./utils/cut_flow_gen.py -o $(word 1, $^) -t $(word 2, $^) | ./utils/tab_gen.py -f latex_booktabs_raw
+	run1-b2D0MuXB2DMuNuForTauMuLine/cutflow/output-run1-data.yml \
+	run2-b2D0MuXB2DMuForTauMuLine/cutflow/output-run2-data.yml
+	@./utils/cutflow_gen.py -o $(word 1, $^) -t $(word 2, $^) | ./utils/tab_gen.py -f latex_booktabs_raw
 
 cutflow-RDst-data-web: \
-	run1-b2D0MuXB2DMuNuForTauMuLine/cut_flow/output-run1-data.yml \
-	run2-b2D0MuXB2DMuForTauMuLine/cut_flow/output-run2-data.yml
-	@./utils/cut_flow_gen.py -o $(word 1, $^) -t $(word 2, $^) -n | ./utils/tab_gen.py -f github
+	run1-b2D0MuXB2DMuNuForTauMuLine/cutflow/output-run1-data.yml \
+	run2-b2D0MuXB2DMuForTauMuLine/cutflow/output-run2-data.yml
+	@./utils/cutflow_gen.py -o $(word 1, $^) -t $(word 2, $^) -n | ./utils/tab_gen.py -f github
 
 
 #########################
@@ -80,9 +80,9 @@ gen/run1-Dst-step2/BCands_Dst-yipeng-data-2012-mag_down-step2.root: \
 	$(BINPATH)/run1-Dst-data-yipeng
 	$(word 2, $^) $< $@
 
-gen/run1-Dst-step2/BCands_Dst_cutflow-yipeng-data-2012-mag_down-step2.root: \
-	run1-b2D0MuXB2DMuNuForTauMuLine/ntuples/run1-Dst/BCands_Dst_cutflow-yipeng-data-2012-mag_down.root \
-	$(BINPATH)/run1-Dst-cutflow-data-yipeng  # NOTE the binary name here!
+gen/run1-Dst-step2/BCands_Dst-yipeng-cutflow_data-2012-mag_down-step2.root: \
+	run1-b2D0MuXB2DMuNuForTauMuLine/ntuples/cutflow-Dst/BCands_Dst-yipeng-cutflow_data-2012-mag_down.root \
+	$(BINPATH)/run1-Dst-cutflow_data-yipeng  # NOTE the binary name here!
 	$(word 2, $^) $< $@
 
 $(SRCPATH)/run1-Dst-data-yipeng.cpp: \
@@ -91,9 +91,9 @@ $(SRCPATH)/run1-Dst-data-yipeng.cpp: \
 	include/functor/*.h
 	babymaker -i $< -o $@ -d $(word 2, $^)
 
-$(SRCPATH)/run1-Dst-cutflow-data-yipeng.cpp: \
-	run1-b2D0MuXB2DMuNuForTauMuLine/postprocess/Dst-cutflow-data-yipeng.yml \
-	run1-b2D0MuXB2DMuNuForTauMuLine/ntuples/run1-Dst/BCands_Dst_cutflow-yipeng-data-2012-mag_down.root \
+$(SRCPATH)/run1-Dst-cutflow_data-yipeng.cpp: \
+	run1-b2D0MuXB2DMuNuForTauMuLine/postprocess/Dst-cutflow_data-yipeng.yml \
+	run1-b2D0MuXB2DMuNuForTauMuLine/ntuples/cutflow-Dst/BCands_Dst-yipeng-cutflow_data-2012-mag_down.root \
 	include/functor/*.h
 	babymaker -i $< -o $@ -d $(word 2, $^)
 
@@ -107,8 +107,8 @@ gen/run2-Dst-step2/BCands_Dst-yipeng-data-2016-mag_down-step2.root: \
 	$(BINPATH)/run2-Dst-data-yipeng
 	$(word 2, $^) $< $@
 
-gen/run2-Dst-step2/BCands_Dst_cutflow-yipeng-data-2016-mag_down-step2.root: \
-	run2-b2D0MuXB2DMuForTauMuLine/ntuples/run2-Dst/BCands_Dst_cutflow-yipeng-data-2016-mag_down.root \
+gen/run2-Dst-step2/BCands_Dst-yipeng-cutflow_data-2016-mag_down-step2.root: \
+	run2-b2D0MuXB2DMuForTauMuLine/ntuples/cutflow-Dst/BCands_Dst-yipeng-cutflow_data-2016-mag_down.root \
 	$(BINPATH)/run2-Dst-data-yipeng
 	$(word 2, $^) $< $@
 
