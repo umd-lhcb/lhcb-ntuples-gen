@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Apr 20, 2020 at 08:22 PM +0800
+# Last Change: Mon Apr 20, 2020 at 08:28 PM +0800
 #
 # Description: A demonstration on ganga option file with parser.
 #              This demo runs stand-alone, provided that Python is installed:
@@ -77,12 +77,12 @@ PARAMETERS = {
     },
     'cutflow_data-2012-Dst': {
         'dirac_path': '/LHCb/Collision12/Beam4000GeV-VeloClosed-Mag{}/Real Data/Reco14/Stripping21/90000000/SEMILEPTONIC.DST',
-        'options': './conds/cond-data-2012-Dst-cutflow.py',
+        'options': './conds/cond-cutflow_data-2012-Dst.py',
         'files_per_job': 5
     },
-    'cutflow_cocktail-2011-Dst': {
+    'cutflow_mc-2011-Dst': {
         'dirac_path': '/MC/2011/Beam3500GeV-2011-Mag{}-Nu2-Pythia8/Sim08h/Digi13/Trig0x40760037/Reco14c/Stripping20r1NoPrescalingFlagged/11874091/ALLSTREAMS.DST',
-        'options': './conds/cond-mc-mag_down-sim08h-Bd2D0XMuNu-D0_cocktail.py',
+        'options': './conds/cond-cutflow_mc-mag_down-sim08h-Bd2D0XMuNu-D0_cocktail.py',
         'files_per_job': 8
     },
 }
