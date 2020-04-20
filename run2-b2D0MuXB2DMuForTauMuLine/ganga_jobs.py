@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Apr 20, 2020 at 08:16 PM +0800
+# Last Change: Mon Apr 20, 2020 at 08:23 PM +0800
 #
 # Description: A demonstration on ganga option file with parser.
 #              This demo runs stand-alone, provided that Python is installed:
@@ -31,7 +31,6 @@ MC_SIMULATION = ['Pythia8']
 MC_BASE = {
     'Dst': './reco_Dst.py',
     'D0': './reco_D0.py',
-    'Dst-cutflow': './reco_Dst-cut_flow.py'
 }
 
 MC_CONDITION = {
@@ -73,12 +72,12 @@ PARAMETERS = {
         'options': './conds/cond-data-2016-Dst.py',
         'files_per_job': 5
     },
-    'data-2016-Dst-cutflow': {
+    'cutflow_data-2016-Dst': {
         'dirac_path': '/LHCb/Collision16/Beam6500GeV-VeloClosed-Mag{}/Real Data/Reco16/Stripping28r1/90000000/SEMILEPTONIC.DST',
         'options': './conds/cond-data-2016-Dst-cutflow.py',
         'files_per_job': 5
     },
-    'cocktail-2016-Dst-cutflow': {
+    'cutflow_cocktail-2016-Dst': {
         'dirac_path': '/MC/2016/Beam6500GeV-2016-Mag{}-Nu1.6-25ns-Pythia8/Sim09b/Trig0x6138160F/Reco16/Turbo03/Stripping26NoPrescalingFlagged/11874091/ALLSTREAMS.DST',
         'options': './conds/cond-mc-mag_down-sim09b-Bd2D0XMuNu-D0_cocktail.py',
         'files_per_job': 8
