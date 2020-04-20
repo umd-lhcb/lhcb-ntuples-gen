@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sat Apr 18, 2020 at 03:13 AM +0800
+# Last Change: Mon Apr 20, 2020 at 08:45 PM +0800
 #
 # Description: Definitions of selection and reconstruction procedures for Dst in
 #              run 2. For more thorough comments, take a look at:
@@ -115,10 +115,14 @@ else:
 
 from PhysSelPython.Wrappers import AutomaticData
 
-pr_stripped = AutomaticData(
-    Location='/Event/Semileptonic/Phys/{0}/Particles'.format(line_strip))
 
-pr_charged_K = AutomaticData(Location='Phys/StdAllNoPIDsKaons/Particles')
+if DaVinci().Simulation and has_flag('CUTFLOW'):
+    pr_stripped = AutomaticData(
+        Location='AllStreams/Phys/{0}/Particles'.format(line_strip))
+else:
+    pr_stripped = AutomaticData(
+        Location='/Event/Semileptonic/Phys/{0}/Particles'.format(line_strip))
+
 
 pr_charged_Pi = AutomaticData(Location='Phys/StdAllNoPIDsPions/Particles')
 pr_all_Pi = AutomaticData(Location='Phys/StdAllLoosePions/Particles')
