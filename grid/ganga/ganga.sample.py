@@ -9,7 +9,6 @@ SIMULATION = {'Pythia6': 'py6', 'Pythia8': 'py8'}
 
 
 def normalize_hadd_filename(job_name, prefix='BCands', author='yipeng'):
-    job_name = job_name.replace('-cutflow', '_cutflow')  # Workaround for names like 'Dst-cutflow'
     fields = job_name.split('-')
 
     try:
@@ -26,9 +25,6 @@ def normalize_hadd_filename(job_name, prefix='BCands', author='yipeng'):
         )
 
     except ValueError:
-        # NOTE: This is a workaround for ganga jobs with incorrect names.
-        fields = fields[0:3]+[fields[4]] if len(fields) != 4 else fields
-
         base, mode, year, polarity = fields
         filename = '{prefix}_{base}-{author}-{mode}-{year}-{polarity}.root'.format(
             prefix=prefix,
