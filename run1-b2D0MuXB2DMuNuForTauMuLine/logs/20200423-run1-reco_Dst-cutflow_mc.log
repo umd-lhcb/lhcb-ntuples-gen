@@ -150,7 +150,7 @@
 ApplicationMgr    SUCCESS 
 ====================================================================================================================================
                                                    Welcome to DaVinciDev version v45r3
-                                          running on docker-desktop on Thu Apr 23 06:07:31 2020
+                                          running on docker-desktop on Thu Apr 23 06:38:12 2020
 ====================================================================================================================================
 ApplicationMgr       INFO Application Manager Configured successfully
 ToolSvc.GitDDDB      INFO opening Git repository '/opt/lhcb/lhcb/git-conddb/DDDB.git'
@@ -326,10 +326,10 @@ RCWNTupleCnv         INFO Booked TTree with ID: DecayTree "DecayTree" in directo
 LoKiSvc.REPORT      ERROR The   ERROR message is suppressed : 'LoKi::PhysMCParticles::MCTreeMatch: 	No valid relation table at 'Relations/Rec/ProtoP/Upstream' [SelMyB0]' StatusCode=FAILURE
 TupleB0.TupleTo...WARNING TupleToolEventInfo:: No algorithms to time, skipping the addition of chronoDelta branch! StatusCode=FAILURE
 TupleB0.TupleTo...WARNING TupleToolEventInfo:: No algorithms to time, skipping the addition of chronoDelta branch! StatusCode=FAILURE
-DaVinciInitAlg       INFO Memory has changed from 1818044 to 2509704 KB (691660KB, 38.0442%) in last  'Increment':100 events
+DaVinciInitAlg       INFO Memory has changed from 1818036 to 2509788 KB (691752KB, 38.0494%) in last  'Increment':100 events
 EventSelector     SUCCESS Reading Event record 101. Record number within stream 1: 101
 TupleB0.TupleTo...WARNING TupleToolEventInfo:: No algorithms to time, skipping the addition of chronoDelta branch! StatusCode=FAILURE
-DaVinciInitAlg       INFO Memory has changed from 2509704 to 2483516 KB (-26188KB, -1.04347%) in last  'Increment':100 events
+DaVinciInitAlg       INFO Memory has changed from 2509788 to 2483600 KB (-26188KB, -1.04343%) in last  'Increment':100 events
 EventSelector     SUCCESS Reading Event record 201. Record number within stream 1: 201
 EventSelector     SUCCESS Reading Event record 301. Record number within stream 1: 301
 EventSelector     SUCCESS Reading Event record 401. Record number within stream 1: 401
@@ -583,7 +583,6 @@ EventSelector     SUCCESS Reading Event record 23801. Record number within strea
 EventSelector     SUCCESS Reading Event record 23901. Record number within stream 2: 6664
 EventSelector     SUCCESS Reading Event record 24001. Record number within stream 2: 6764
 EventSelector     SUCCESS Reading Event record 24101. Record number within stream 2: 6864
-DaVinciInitAlg       INFO Memory has changed from 2483516 to 2505856 KB (22340KB, 0.899531%) in last  'Increment':100 events
 EventSelector     SUCCESS Reading Event record 24201. Record number within stream 2: 6964
 EventSelector     SUCCESS Reading Event record 24301. Record number within stream 2: 7064
 EventSelector     SUCCESS Reading Event record 24401. Record number within stream 2: 7164
@@ -642,10 +641,8 @@ EventSelector     SUCCESS Reading Event record 29401. Record number within strea
 EventSelector     SUCCESS Reading Event record 29501. Record number within stream 2: 12264
 EventSelector     SUCCESS Reading Event record 29601. Record number within stream 2: 12364
 EventSelector     SUCCESS Reading Event record 29701. Record number within stream 2: 12464
-DaVinciInitAlg       INFO Memory has changed from 2505856 to 2506116 KB (260KB, 0.0103757%) in last  'Increment':100 events
 EventSelector     SUCCESS Reading Event record 29801. Record number within stream 2: 12564
 EventSelector     SUCCESS Reading Event record 29901. Record number within stream 2: 12664
-DaVinciInitAlg       INFO Memory has changed from 2506116 to 2507136 KB (1020KB, 0.0407004%) in last  'Increment':100 events
 EventSelector     SUCCESS Reading Event record 30001. Record number within stream 2: 12764
 EventSelector     SUCCESS Reading Event record 30101. Record number within stream 2: 12864
 EventSelector     SUCCESS Reading Event record 30201. Record number within stream 2: 12964
@@ -891,7 +888,7 @@ SelMyRefitB02DstMuSUCCESS Number of counters : 4
  | "#passed"                                       |       410 |       3003 |     7.3244 |     1.4716 |      7.0000 |      14.000 |
 TupleB0           SUCCESS Booked 1 N-Tuples and 0 Event Tag Collections
 TupleB0           SUCCESS List of booked N-Tuples in directory "FILE1/TupleB0"
-TupleB0           SUCCESS  ID=DecayTree     Title="DecayTree"                               #items=1082{Y_ENDVERTEX_X,Y_ENDVERTEX_Y,Y_ENDVERTEX_Z,Y_ENDVERTEX_XERR,Y_ENDVERTEX_YERR,Y_END}
+TupleB0           SUCCESS  ID=DecayTree     Title="DecayTree"                               #items=1085{Y_ENDVERTEX_X,Y_ENDVERTEX_Y,Y_ENDVERTEX_Z,Y_ENDVERTEX_XERR,Y_ENDVERTEX_YERR,Y_END}
 TupleB0           SUCCESS Number of counters : 4
  |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
  | "# Phys/SelMyRefitB02DstMu"                     |     35131 |       3003 |   0.085480 |    0.80253 |      0.0000 |      14.000 |
@@ -943,10 +940,8 @@ ToolSvc.HltFactorySUCCESS Number of counters : 1
 DaVinciInitAlg....SUCCESS Booked 4 Histogram(s) : 1D=4 
 DaVinciInitAlg....SUCCESS Number of counters : 2
  |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
- | "Delta Memory/MB"                               |     35121 |     -2.568 |-7.3119e-05 |    0.18376 |     -26.188 |      22.340 |
- | "Total Memory/MB"                               |     35131 |8.74971e+07 |     2490.6 |     15.163 |      1818.0 |      2509.7 |
-DaVinciInitAlg....SUCCESS Exceptions/Errors/Warnings/Infos Statistics : 0/0/1/0
-DaVinciInitAlg....SUCCESS  #WARNINGS   = 2        Message = 'Delta Memory for the event exceeds 3*sigma'
+ | "Delta Memory/MB"                               |     35121 |    -26.188 |-0.00074565 |    0.13974 |     -26.188 |      0.0000 |
+ | "Total Memory/MB"                               |     35131 |8.724775e+07 |     2483.5 |     10.729 |      1818.0 |      2509.8 |
 LoKiSvc.REPORT    SUCCESS Exceptions/Errors/Warnings/Infos Statistics : 0/3/0/0
 LoKiSvc.REPORT    SUCCESS  #ERRORS     = 1484     Message = 'LoKi::PhysMCParticles::MCSelMatch: 	No valid relation table at 'Relations/Rec/ProtoP/Upstream' [SelMyD0]'
 LoKiSvc.REPORT    SUCCESS  #ERRORS     = 438      Message = 'LoKi::PhysMCParticles::MCTreeMatch: 	No valid relation table at 'Relations/Rec/ProtoP/Upstream' [SelMyB0]'
@@ -1008,88 +1003,88 @@ TimingAuditor.T...   INFO ------------------------------------------------------
 TimingAuditor.T...   INFO This machine has a speed about   4.35 times the speed of a 2.8 GHz Xeon.
 TimingAuditor.T...   INFO Algorithm                              (millisec) |    <user> |   <clock> |      min       max    sigma | entries | total (s) |
 TimingAuditor.T...   INFO ----------------------------------------------------------------------------------------------------------------------
-TimingAuditor.T...   INFO EVENT LOOP                                        |     2.713 |     2.699 |    0.532 18446744949882880.0    15.44 |   35131 |    94.839 |
-TimingAuditor.T...   INFO  DaVinciEventSeq                                  |     2.532 |     2.520 |    0.426 18446744949882880.0    15.43 |   35131 |    88.564 |
-TimingAuditor.T...   INFO   DaVinciInitAlg                                  |     0.037 |     0.038 |    0.029       1.5     0.01 |   35131 |     1.353 |
-TimingAuditor.T...   INFO   FilteredEventSeq                                |     2.485 |     2.471 |    0.384 18446744949882880.0    15.43 |   35131 |    86.833 |
-TimingAuditor.T...   INFO    DaVinciEventInitSeq                            |     0.003 |     0.006 |    0.005       0.1     0.00 |   35131 |     0.213 |
-TimingAuditor.T...   INFO     PhysInitSeq                                   |     0.001 |     0.001 |    0.001       0.1     0.00 |   35131 |     0.059 |
-TimingAuditor.T...   INFO     AnalysisInitSeq                               |     0.000 |     0.001 |    0.001       0.1     0.00 |   35131 |     0.057 |
-TimingAuditor.T...   INFO    DaVinciAnalysisSeq                             |     2.475 |     2.462 |    0.375 18446744949882880.0    15.43 |   35131 |    86.509 |
-TimingAuditor.T...   INFO     DaVinciUserSequence                           |     2.469 |     2.457 |    0.371 18446744949882880.0    15.43 |   35131 |    86.347 |
-TimingAuditor.T...   INFO      StateSmear                                   |     0.409 |     0.403 |    0.082 18446744949882880.0     0.39 |   35131 |    14.182 |
-TimingAuditor.T...   INFO      MyProtoPMaker                                |     0.170 |     0.185 |    0.103       1.0     0.05 |   35131 |     6.526 |
-TimingAuditor.T...   INFO      StdNoPIDsVeloPions                           |     0.019 |     0.020 |    0.002       0.6     0.01 |   35131 |     0.725 |
-TimingAuditor.T...   INFO      SeqMyB0                                      |     0.585 |     0.587 |    0.059     256.6     3.80 |   35131 |    20.649 |
-TimingAuditor.T...   INFO       StrippedBCands                              |     0.081 |     0.085 |    0.056       1.4     0.02 |   35131 |     3.004 |
-TimingAuditor.T...   INFO       SELECT:AllStreams/Phys/b2D0MuXB2DMuForTauMuL|     3.244 |     3.391 |    1.163      15.9     1.59 |     749 |     2.540 |
-TimingAuditor.T...   INFO       SelMyStrippedChargedK                       |     0.000 |     0.010 |    0.008       0.1     0.00 |     749 |     0.008 |
-TimingAuditor.T...   INFO       SelMyStrippedChargedPi                      |     0.000 |     0.004 |    0.003       0.0     0.00 |     749 |     0.004 |
-TimingAuditor.T...   INFO       SelMyD0                                     |    17.489 |    17.223 |    4.313     228.8    10.41 |     749 |    12.901 |
-TimingAuditor.T...   INFO       SELECT:Phys/StdAllLoosePions                |     0.910 |     0.770 |    0.123       7.4     0.50 |     725 |     0.559 |
-TimingAuditor.T...   INFO       SelMyDst                                    |     0.151 |     0.203 |    0.101       0.9     0.08 |     725 |     0.148 |
+TimingAuditor.T...   INFO EVENT LOOP                                        |     2.753 |     2.730 |    0.072 18446744949882880.0    14.29 |   35131 |    95.933 |
+TimingAuditor.T...   INFO  DaVinciEventSeq                                  |     2.570 |     2.546 |    0.158 18446744949882880.0    14.28 |   35131 |    89.461 |
+TimingAuditor.T...   INFO   DaVinciInitAlg                                  |     0.035 |     0.039 |    0.029       1.5     0.02 |   35131 |     1.391 |
+TimingAuditor.T...   INFO   FilteredEventSeq                                |     2.524 |     2.496 |    0.090 18446744949882880.0    14.28 |   35131 |    87.692 |
+TimingAuditor.T...   INFO    DaVinciEventInitSeq                            |     0.007 |     0.006 |    0.005       0.4     0.00 |   35131 |     0.215 |
+TimingAuditor.T...   INFO     PhysInitSeq                                   |     0.000 |     0.001 |    0.001       0.1     0.00 |   35131 |     0.060 |
+TimingAuditor.T...   INFO     AnalysisInitSeq                               |     0.001 |     0.001 |    0.001       0.1     0.00 |   35131 |     0.056 |
+TimingAuditor.T...   INFO    DaVinciAnalysisSeq                             |     2.515 |     2.486 |    0.080 18446744949882880.0    14.28 |   35131 |    87.362 |
+TimingAuditor.T...   INFO     DaVinciUserSequence                           |     2.510 |     2.482 |    0.076 18446744949882880.0    14.28 |   35131 |    87.196 |
+TimingAuditor.T...   INFO      StateSmear                                   |     0.413 |     0.412 |    0.085       3.1     0.39 |   35131 |    14.484 |
+TimingAuditor.T...   INFO      MyProtoPMaker                                |     0.185 |     0.188 |    0.105       1.6     0.05 |   35131 |     6.606 |
+TimingAuditor.T...   INFO      StdNoPIDsVeloPions                           |     0.021 |     0.021 |    0.002       0.8     0.01 |   35131 |     0.741 |
+TimingAuditor.T...   INFO      SeqMyB0                                      |     0.593 |     0.595 |    0.058     208.2     3.75 |   35131 |    20.925 |
+TimingAuditor.T...   INFO       StrippedBCands                              |     0.089 |     0.088 |    0.054       1.7     0.03 |   35131 |     3.117 |
+TimingAuditor.T...   INFO       SELECT:AllStreams/Phys/b2D0MuXB2DMuForTauMuL|     3.578 |     3.411 |    1.150      16.7     1.61 |     749 |     2.555 |
+TimingAuditor.T...   INFO       SelMyStrippedChargedK                       |     0.000 |     0.010 |    0.008       0.0     0.00 |     749 |     0.008 |
+TimingAuditor.T...   INFO       SelMyStrippedChargedPi                      |     0.000 |     0.005 |    0.003       1.0     0.04 |     749 |     0.004 |
+TimingAuditor.T...   INFO       SelMyD0                                     |    17.356 |    17.395 |    4.277     186.3     9.29 |     749 |    13.029 |
+TimingAuditor.T...   INFO       SELECT:Phys/StdAllLoosePions                |     0.675 |     0.769 |    0.124       5.0     0.47 |     725 |     0.558 |
+TimingAuditor.T...   INFO       SelMyDst                                    |     0.206 |     0.206 |    0.101       0.9     0.08 |     725 |     0.150 |
 TimingAuditor.T...   INFO       SelMyStrippedMu                             |     0.000 |     0.005 |    0.004       0.0     0.00 |     437 |     0.003 |
-TimingAuditor.T...   INFO       SelMyB0                                     |     0.366 |     0.500 |    0.354       1.0     0.09 |     437 |     0.219 |
-TimingAuditor.T...   INFO       SelMyRefitB02DstMu                          |     0.292 |     0.224 |    0.198       0.6     0.04 |     410 |     0.092 |
-TimingAuditor.T...   INFO      TupleB0                                      |     0.589 |     0.572 |    0.002    2004.5    12.89 |   35131 |    20.107 |
-TimingAuditor.T...   INFO     MonitoringSequence                            |     0.001 |     0.001 |    0.001       0.1     0.00 |   35131 |     0.058 |
-TimingAuditor.T...   INFO   LumiSeq                                         |     0.003 |     0.004 |    0.004       0.1     0.00 |   35131 |     0.174 |
-TimingAuditor.T...   INFO    EventAccount                                   |     0.000 |     0.001 |    0.001       0.1     0.00 |   35131 |     0.064 |
-TimingAuditor.T...   INFO * createODIN                                      |     0.072 |     0.076 |    0.027      49.4     0.27 |   35131 |     2.697 |
-TimingAuditor.T...   INFO *      UnpackTrack                                |     0.341 |     0.344 |    0.056 18446744949882880.0     0.38 |   35131 |    12.101 |
-TimingAuditor.T...   INFO *     UnpackRecVertex                             |     0.068 |     0.072 |    0.035       0.7     0.02 |   35085 |     2.557 |
-TimingAuditor.T...   INFO *       Strip_pPhys_DecReports_Converter          |     0.035 |     0.039 |    0.023       0.3     0.01 |   35131 |     1.384 |
-TimingAuditor.T...   INFO *       AllStreams_PsAndVsUnpack                  |     0.035 |     0.040 |    0.025       2.5     0.06 |   44695 |     1.811 |
-TimingAuditor.T...   INFO *         AllStreams_pRec_Vertex_Primary_Converter|     0.053 |     0.101 |    0.021       0.2     0.02 |     749 |     0.076 |
-TimingAuditor.T...   INFO *      UnpackChargedProtosSeq                     |     0.947 |     1.025 |    0.333       2.5     0.25 |     749 |     0.768 |
-TimingAuditor.T...   INFO *       UnpackChargedProtos                       |     0.520 |     0.598 |    0.076       1.1     0.19 |     749 |     0.448 |
-TimingAuditor.T...   INFO *       ProtoParticleCombDLLs                     |     0.427 |     0.419 |    0.244       2.0     0.11 |     749 |     0.314 |
-TimingAuditor.T...   INFO *        CheckChargedProtosExist                  |     0.000 |     0.004 |    0.003       0.0     0.00 |     749 |     0.003 |
-TimingAuditor.T...   INFO *        ChargedProtoPAddMuon                     |     0.160 |     0.158 |    0.094       1.0     0.04 |     749 |     0.119 |
-TimingAuditor.T...   INFO *        ChargedProtoPAddRich                     |     0.160 |     0.190 |    0.096       0.8     0.05 |     749 |     0.143 |
-TimingAuditor.T...   INFO *        ChargedProtoPCombDLL                     |     0.106 |     0.055 |    0.014       0.2     0.02 |     749 |     0.041 |
-TimingAuditor.T...   INFO *         UnpackMuonPIDSeq                        |     0.093 |     0.099 |    0.055       0.3     0.02 |     749 |     0.075 |
-TimingAuditor.T...   INFO *          UnpackMuonPIDs                         |     0.093 |     0.088 |    0.046       0.3     0.02 |     749 |     0.067 |
-TimingAuditor.T...   INFO *          CheckMuonPIDs                          |     0.000 |     0.004 |    0.003       0.0     0.00 |     749 |     0.003 |
-TimingAuditor.T...   INFO *         UnpackRichPIDSeq                        |     0.053 |     0.119 |    0.057       0.3     0.03 |     749 |     0.090 |
-TimingAuditor.T...   INFO *          UnpackRichPIDs                         |     0.026 |     0.109 |    0.048       0.3     0.02 |     749 |     0.082 |
-TimingAuditor.T...   INFO *          CheckRichPIDs                          |     0.000 |     0.003 |    0.003       0.0     0.00 |     749 |     0.003 |
-TimingAuditor.T...   INFO *       ChargedPP2MC                              |     0.089 |     0.089 |    0.021       6.5     0.44 |   39661 |     3.551 |
-TimingAuditor.T...   INFO *        UnpackMCParticles                        |     2.189 |     2.320 |    0.287       5.8     0.71 |     749 |     1.738 |
-TimingAuditor.T...   INFO *       NeutralPP2MC                              |     8.985 |     8.951 |    1.258     197.5     8.64 |     749 |     6.704 |
-TimingAuditor.T...   INFO *        CaloClusterMCTruth                       |     7.957 |     7.838 |    1.028     188.1     7.93 |     749 |     5.871 |
-TimingAuditor.T...   INFO *         CaloDigitMCTruth                        |     3.444 |     3.038 |    0.493       9.7     1.21 |     749 |     2.276 |
-TimingAuditor.T...   INFO *          EcalZSup                               |     1.014 |     0.791 |    0.199       1.3     0.17 |     749 |     0.593 |
-TimingAuditor.T...   INFO *          CaloDigitMCLinks2Table                 |     2.429 |     2.227 |    0.278       8.4     1.10 |     749 |     1.668 |
-TimingAuditor.T...   INFO *         ClusterReco                             |     3.377 |     3.721 |    0.248      16.9     2.71 |     749 |     2.788 |
-TimingAuditor.T...   INFO *          CaloDigits                             |     0.267 |     0.239 |    0.071       0.5     0.08 |     749 |     0.179 |
-TimingAuditor.T...   INFO *           SpdFromRaw                            |     0.080 |     0.062 |    0.020       0.1     0.02 |     749 |     0.047 |
-TimingAuditor.T...   INFO *           PrsFromRaw                            |     0.080 |     0.102 |    0.021       0.3     0.04 |     749 |     0.077 |
-TimingAuditor.T...   INFO *           HcalZSup                              |     0.106 |     0.064 |    0.022       0.2     0.02 |     749 |     0.049 |
-TimingAuditor.T...   INFO *          CaloDigitFilter                        |     0.053 |     0.082 |    0.024       2.7     0.10 |     749 |     0.062 |
-TimingAuditor.T...   INFO *          EcalClust                              |     0.734 |     0.666 |    0.076       2.6     0.40 |     749 |     0.499 |
-TimingAuditor.T...   INFO *          EcalShare                              |     2.162 |     2.571 |    0.010      13.4     2.18 |     749 |     1.926 |
-TimingAuditor.T...   INFO *          EcalCovar                              |     0.133 |     0.141 |    0.021       0.9     0.07 |     749 |     0.106 |
-TimingAuditor.T...   INFO *         SplitClusterReco                        |     0.347 |     0.337 |    0.029       2.6     0.34 |     749 |     0.252 |
-TimingAuditor.T...   INFO *          SplitClustersRec                       |     0.347 |     0.331 |    0.025       2.6     0.33 |     749 |     0.248 |
-TimingAuditor.T...   INFO *        UnpackNeutralProtos                      |     0.213 |     0.198 |    0.038       0.4     0.04 |     749 |     0.149 |
-TimingAuditor.T...   INFO *        UnpackPhotons                            |     0.106 |     0.173 |    0.057       0.3     0.03 |     749 |     0.130 |
-TimingAuditor.T...   INFO *       UnpackMCVertices                          |     1.775 |     1.871 |    0.213       5.1     0.56 |     749 |     1.402 |
-TimingAuditor.T...   INFO *       StdAllLoosePions                          |     0.110 |     0.078 |    0.019       0.3     0.04 |     725 |     0.057 |
-TimingAuditor.T...   INFO *      StdAllNoPIDsPions                          |     0.073 |     0.046 |    0.013       0.3     0.02 |     410 |     0.019 |
-TimingAuditor.T...   INFO *      StdNoPIDsUpPions                           |     0.048 |     0.021 |    0.004       0.1     0.01 |     410 |     0.009 |
-TimingAuditor.T...   INFO *      UnpackMuonTracks                           |     0.146 |     0.122 |    0.064       0.2     0.03 |     410 |     0.050 |
-TimingAuditor.T...   INFO *      L0DecReportsMaker                          |     0.365 |     0.234 |    0.139      28.8     1.41 |     410 |     0.096 |
-TimingAuditor.T...   INFO *       L0DUFromRaw                               |     0.268 |     0.137 |    0.110       2.7     0.13 |     410 |     0.056 |
-TimingAuditor.T...   INFO *      L0SelReportsMaker                          |     1.609 |     1.635 |    0.252     531.6    26.24 |     410 |     0.671 |
-TimingAuditor.T...   INFO *       L0MuonFromRaw                             |     0.219 |     0.149 |    0.120       0.5     0.03 |     410 |     0.061 |
-TimingAuditor.T...   INFO *       L0CaloFromRaw                             |     0.024 |     0.063 |    0.042       0.2     0.01 |     410 |     0.026 |
-TimingAuditor.T...   INFO *      Hlt1DecReportsDecoder                      |     0.317 |     0.499 |    0.026     192.1     9.49 |     410 |     0.205 |
-TimingAuditor.T...   INFO *      Hlt1SelReportsDecoder                      |     0.219 |     0.201 |    0.038       2.2     0.18 |     410 |     0.083 |
-TimingAuditor.T...   INFO *      Hlt2SelReportsDecoder                      |     0.073 |     0.195 |    0.033       2.0     0.18 |     410 |     0.080 |
-TimingAuditor.T...   INFO *      Hlt2DecReportsDecoder                      |     0.048 |     0.078 |    0.066       0.4     0.02 |     410 |     0.032 |
-TimingAuditor.T...   INFO *        UnpackMergedPi0s                         |     0.034 |     0.061 |    0.033       0.2     0.02 |     292 |     0.018 |
-TimingAuditor.T...   INFO *        UnpackSplitPhotons                       |     0.034 |     0.046 |    0.029       0.1     0.01 |     292 |     0.014 |
+TimingAuditor.T...   INFO       SelMyB0                                     |     0.663 |     0.504 |    0.353       1.1     0.09 |     437 |     0.221 |
+TimingAuditor.T...   INFO       SelMyRefitB02DstMu                          |     0.268 |     0.226 |    0.198       0.6     0.05 |     410 |     0.093 |
+TimingAuditor.T...   INFO      TupleB0                                      |     0.600 |     0.567 |    0.002    1754.6    11.85 |   35131 |    19.940 |
+TimingAuditor.T...   INFO     MonitoringSequence                            |     0.000 |     0.001 |    0.001       0.1     0.00 |   35131 |     0.059 |
+TimingAuditor.T...   INFO   LumiSeq                                         |     0.002 |     0.004 |    0.004       1.4     0.01 |   35131 |     0.175 |
+TimingAuditor.T...   INFO    EventAccount                                   |     0.000 |     0.001 |    0.001       1.3     0.01 |   35131 |     0.065 |
+TimingAuditor.T...   INFO * createODIN                                      |     0.072 |     0.078 |    0.028      49.9     0.27 |   35131 |     2.752 |
+TimingAuditor.T...   INFO *      UnpackTrack                                |     0.356 |     0.352 |    0.059       2.9     0.39 |   35131 |    12.374 |
+TimingAuditor.T...   INFO *     UnpackRecVertex                             |     0.075 |     0.075 |    0.034 18446744949882880.0     0.03 |   35085 |     2.660 |
+TimingAuditor.T...   INFO *       Strip_pPhys_DecReports_Converter          |     0.039 |     0.040 |    0.024       1.6     0.02 |   35131 |     1.432 |
+TimingAuditor.T...   INFO *       AllStreams_PsAndVsUnpack                  |     0.041 |     0.040 |    0.025       2.6     0.06 |   44695 |     1.818 |
+TimingAuditor.T...   INFO *         AllStreams_pRec_Vertex_Primary_Converter|     0.106 |     0.104 |    0.023       0.2     0.02 |     749 |     0.078 |
+TimingAuditor.T...   INFO *      UnpackChargedProtosSeq                     |     0.761 |     1.044 |    0.340       3.0     0.25 |     749 |     0.783 |
+TimingAuditor.T...   INFO *       UnpackChargedProtos                       |     0.480 |     0.606 |    0.074       1.0     0.19 |     749 |     0.454 |
+TimingAuditor.T...   INFO *       ProtoParticleCombDLLs                     |     0.267 |     0.430 |    0.231       2.3     0.11 |     749 |     0.322 |
+TimingAuditor.T...   INFO *        CheckChargedProtosExist                  |     0.013 |     0.004 |    0.003       0.0     0.00 |     749 |     0.003 |
+TimingAuditor.T...   INFO *        ChargedProtoPAddMuon                     |     0.120 |     0.163 |    0.099       1.1     0.05 |     749 |     0.123 |
+TimingAuditor.T...   INFO *        ChargedProtoPAddRich                     |     0.093 |     0.195 |    0.103       1.0     0.05 |     749 |     0.146 |
+TimingAuditor.T...   INFO *        ChargedProtoPCombDLL                     |     0.040 |     0.055 |    0.013       0.2     0.02 |     749 |     0.042 |
+TimingAuditor.T...   INFO *         UnpackMuonPIDSeq                        |     0.066 |     0.103 |    0.062       0.4     0.02 |     749 |     0.078 |
+TimingAuditor.T...   INFO *          UnpackMuonPIDs                         |     0.066 |     0.092 |    0.051       0.4     0.02 |     749 |     0.069 |
+TimingAuditor.T...   INFO *          CheckMuonPIDs                          |     0.000 |     0.004 |    0.003       0.1     0.00 |     749 |     0.003 |
+TimingAuditor.T...   INFO *         UnpackRichPIDSeq                        |     0.066 |     0.123 |    0.065       0.4     0.03 |     749 |     0.092 |
+TimingAuditor.T...   INFO *          UnpackRichPIDs                         |     0.066 |     0.112 |    0.056       0.4     0.03 |     749 |     0.085 |
+TimingAuditor.T...   INFO *          CheckRichPIDs                          |     0.000 |     0.003 |    0.002       0.0     0.00 |     749 |     0.003 |
+TimingAuditor.T...   INFO *       ChargedPP2MC                              |     0.089 |     0.090 |    0.022       7.0     0.45 |   39661 |     3.607 |
+TimingAuditor.T...   INFO *        UnpackMCParticles                        |     2.403 |     2.366 |    0.296       6.3     0.73 |     749 |     1.772 |
+TimingAuditor.T...   INFO *       NeutralPP2MC                              |     9.252 |     9.020 |    1.304     162.4     7.63 |     749 |     6.756 |
+TimingAuditor.T...   INFO *        CaloClusterMCTruth                       |     8.144 |     7.892 |    1.046     156.6     7.04 |     749 |     5.911 |
+TimingAuditor.T...   INFO *         CaloDigitMCTruth                        |     3.244 |     3.068 |    0.502      10.6     1.23 |     749 |     2.298 |
+TimingAuditor.T...   INFO *          EcalZSup                               |     0.974 |     0.807 |    0.193       2.3     0.19 |     749 |     0.605 |
+TimingAuditor.T...   INFO *          CaloDigitMCLinks2Table                 |     2.256 |     2.239 |    0.295       9.2     1.10 |     749 |     1.677 |
+TimingAuditor.T...   INFO *         ClusterReco                             |     3.765 |     3.781 |    0.216      17.3     2.75 |     749 |     2.832 |
+TimingAuditor.T...   INFO *          CaloDigits                             |     0.200 |     0.245 |    0.065       0.6     0.08 |     749 |     0.184 |
+TimingAuditor.T...   INFO *           SpdFromRaw                            |     0.026 |     0.064 |    0.018       0.2     0.03 |     749 |     0.048 |
+TimingAuditor.T...   INFO *           PrsFromRaw                            |     0.093 |     0.105 |    0.019       0.3     0.04 |     749 |     0.079 |
+TimingAuditor.T...   INFO *           HcalZSup                              |     0.053 |     0.066 |    0.021       0.1     0.02 |     749 |     0.050 |
+TimingAuditor.T...   INFO *          CaloDigitFilter                        |     0.146 |     0.085 |    0.026       3.1     0.11 |     749 |     0.064 |
+TimingAuditor.T...   INFO *          EcalClust                              |     0.627 |     0.684 |    0.073       2.7     0.42 |     749 |     0.513 |
+TimingAuditor.T...   INFO *          EcalShare                              |     2.576 |     2.601 |    0.009      13.7     2.21 |     749 |     1.948 |
+TimingAuditor.T...   INFO *          EcalCovar                              |     0.186 |     0.142 |    0.020       0.9     0.07 |     749 |     0.107 |
+TimingAuditor.T...   INFO *         SplitClusterReco                        |     0.453 |     0.338 |    0.029       2.5     0.34 |     749 |     0.253 |
+TimingAuditor.T...   INFO *          SplitClustersRec                       |     0.453 |     0.332 |    0.025       2.5     0.33 |     749 |     0.249 |
+TimingAuditor.T...   INFO *        UnpackNeutralProtos                      |     0.213 |     0.203 |    0.038       0.4     0.05 |     749 |     0.152 |
+TimingAuditor.T...   INFO *        UnpackPhotons                            |     0.133 |     0.174 |    0.056       0.4     0.03 |     749 |     0.131 |
+TimingAuditor.T...   INFO *       UnpackMCVertices                          |     2.096 |     1.891 |    0.237       5.0     0.57 |     749 |     1.417 |
+TimingAuditor.T...   INFO *       StdAllLoosePions                          |     0.096 |     0.078 |    0.020       0.3     0.04 |     725 |     0.057 |
+TimingAuditor.T...   INFO *      StdAllNoPIDsPions                          |     0.024 |     0.048 |    0.013       0.4     0.03 |     410 |     0.020 |
+TimingAuditor.T...   INFO *      StdNoPIDsUpPions                           |     0.000 |     0.023 |    0.004       0.1     0.01 |     410 |     0.010 |
+TimingAuditor.T...   INFO *      UnpackMuonTracks                           |     0.073 |     0.130 |    0.068       1.7     0.08 |     410 |     0.053 |
+TimingAuditor.T...   INFO *      L0DecReportsMaker                          |     0.317 |     0.207 |    0.139      17.4     0.85 |     410 |     0.085 |
+TimingAuditor.T...   INFO *       L0DUFromRaw                               |     0.219 |     0.137 |    0.110       2.5     0.12 |     410 |     0.056 |
+TimingAuditor.T...   INFO *      L0SelReportsMaker                          |     1.512 |     1.584 |    0.249     508.5    25.10 |     410 |     0.650 |
+TimingAuditor.T...   INFO *       L0MuonFromRaw                             |     0.195 |     0.149 |    0.121       0.5     0.03 |     410 |     0.061 |
+TimingAuditor.T...   INFO *       L0CaloFromRaw                             |     0.048 |     0.065 |    0.043       0.2     0.01 |     410 |     0.027 |
+TimingAuditor.T...   INFO *      Hlt1DecReportsDecoder                      |     0.341 |     0.306 |    0.027     112.8     5.57 |     410 |     0.126 |
+TimingAuditor.T...   INFO *      Hlt1SelReportsDecoder                      |     0.146 |     0.206 |    0.039       2.2     0.20 |     410 |     0.085 |
+TimingAuditor.T...   INFO *      Hlt2SelReportsDecoder                      |     0.268 |     0.197 |    0.034       2.1     0.18 |     410 |     0.081 |
+TimingAuditor.T...   INFO *      Hlt2DecReportsDecoder                      |     0.048 |     0.077 |    0.067       0.4     0.02 |     410 |     0.032 |
+TimingAuditor.T...   INFO *        UnpackMergedPi0s                         |     0.068 |     0.062 |    0.032       0.3     0.02 |     292 |     0.018 |
+TimingAuditor.T...   INFO *        UnpackSplitPhotons                       |     0.034 |     0.047 |    0.030       0.5     0.03 |     292 |     0.014 |
 TimingAuditor.T...   INFO ----------------------------------------------------------------------------------------------------------------------
 NTupleSvc            INFO NTuples saved successfully
 ApplicationMgr       INFO Application Manager Finalized successfully

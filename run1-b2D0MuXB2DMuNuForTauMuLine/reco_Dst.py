@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Apr 23, 2020 at 02:05 PM +0800
+# Last Change: Thu Apr 23, 2020 at 03:15 PM +0800
 #
 # Description: Definitions of selection and reconstruction procedures for Dst in
 #              run 1, with thorough comments.
@@ -573,8 +573,9 @@ def tuple_postpocess_data(tp,
                               # HLT 2
                               'Hlt2CharmHadD02HH_D02KPiDecision'
                           ],
-                          trigger_list_addon_Y=[
+                          trigger_list_Y=[
                               # L0
+                              'L0HadronDecision',  # Hadron decision needed everywhere.
                               'L0MuonDecision',
                               'L0ElectronDecision',
                               'L0ElectronHiDecision',
@@ -609,7 +610,7 @@ def tuple_postpocess_data(tp,
     # Trigger decisions to be saved for Y
     tt_tistos_Y = tp.Y.addTupleTool('TupleToolTISTOS')
     tt_tistos_Y.Verbose = True
-    tt_tistos_Y.TriggerList += trigger_list_addon_Y
+    tt_tistos_Y.TriggerList = trigger_list_Y
 
 
 def tuple_postpocess_mc(*args, **kwargs):

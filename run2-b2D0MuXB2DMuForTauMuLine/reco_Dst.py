@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Apr 23, 2020 at 02:04 PM +0800
+# Last Change: Thu Apr 23, 2020 at 05:21 PM +0800
 #
 # Description: Definitions of selection and reconstruction procedures for Dst in
 #              run 2. For more thorough comments, take a look at:
@@ -499,6 +499,13 @@ def tuple_postpocess_data(tp,
                           trigger_list_global=[
                               # L0
                               'L0HadronDecision',
+                              'L0DiMuonDecision',
+                              'L0ElectronDecision',
+                              'L0JetElDecision',
+                              'L0JetPhDecision',
+                              'L0MuonDecision',
+                              'L0MuonEWDecision',
+                              'L0PhotonDecision',
                               # HLT 1
                               'Hlt1TrackAllL0Decision',
                               'Hlt1TwoTrackMVADecision',
@@ -510,8 +517,10 @@ def tuple_postpocess_data(tp,
                               # HLT 2
                               'Hlt2XcMuXForTauB2XcMuDecision'
                           ],
-                          trigger_list_addon_Y=[
+                          # NOTE: This is is unused for run 2
+                          trigger_list_Y=[
                               # L0
+                              'L0HadronDecision',
                               'L0DiMuonDecision',
                               'L0ElectronDecision',
                               'L0JetElDecision',
@@ -519,6 +528,14 @@ def tuple_postpocess_data(tp,
                               'L0MuonDecision',
                               'L0MuonEWDecision',
                               'L0PhotonDecision',
+                              # HLT 1
+                              'Hlt1TrackAllL0Decision',
+                              'Hlt1TwoTrackMVADecision',
+                              'Hlt1TrackMVALooseDecision',
+                              'Hlt1TwoTrackMVALooseDecision',
+                              'Hlt1TrackMuonDecision',
+                              'Hlt1TrackMuonMVADecision',
+                              'Hlt1SingleMuonHighPTDecision',
                           ]
                           ):
     tp.Y.addTool(TupleToolTagDiscardDstMu, name='TupleMyDiscardDstMu')
@@ -541,10 +558,12 @@ def tuple_postpocess_data(tp,
     tt_tistos.Verbose = True
     tt_tistos.TriggerList = trigger_list_global
 
+    # NOTE: This has to be disabled, otherwise the TupleToolTrigger will NOT
+    # act on Y
     # Trigger decisions to be saved for Y
-    tt_tistos_Y = tp.Y.addTupleTool('TupleToolTISTOS')
-    tt_tistos_Y.Verbose = True
-    tt_tistos_Y.TriggerList += trigger_list_addon_Y
+    # tt_tistos_Y = tp.Y.addTupleTool('TupleToolTISTOS')
+    # tt_tistos_Y.Verbose = True
+    # tt_tistos_Y.TriggerList += trigger_list_Y
 
 
 def tuple_postpocess_mc(*args, **kwargs):
