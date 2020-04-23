@@ -758,21 +758,10 @@ then be sent to the grid by <code>ganga</code> automatically.</p>
 </code></pre></div></p>
 <h3 id="run1-b2d0muxb2dmunufortaumuline"><code>run1-b2D0MuXB2DMuNuForTauMuLine</code></h3>
 <div class="highlight"><pre><span></span><code>$ ganga ganga_jobs.py --help
-usage: ganga_jobs.py [-h] [--force] [--davinci DAVINCI]
-                     [-b {all,Dst,D0,Dst-cutflow} [{all,Dst,D0,Dst-cutflow} ...]]
-                     [-s {all,Pythia6,Pythia8} [{all,Pythia6,Pythia8} ...]]
-                     [-c {all,Sim08a,Sim08e,Sim08h,Sim08i} [{all,Sim08a,Sim08e,Sim08h,Sim08i} ...]]
-                     [-p {all,Up,Down} [{all,Up,Down} ...]]
-                     {all,data-2012-Dst,cocktail-2011-Dst-cutflow,mc-Bd2DststMuNu2D0,mc-Bd2DststTauNu2D0,mc-Bs2DststMuNu2D0,mc-Bu2DststMuNu2D0,mc-Bd2DstTauNu,mc-Bd2DstMuNu,mc-Bu2Dst0TauNu,mc-Bu2Dst0MuNu,mc-Bu2D0TauNu,mc-Bu2D0MuNu,mc-Bd2D0DX2MuX,mc-Bu2D0DX2MuX,mc-Bd2D0
-DsX2TauNu,mc-Bu2D0DsX2TauNu}
-                     [{all,data-2012-Dst,cocktail-2011-Dst-cutflow,mc-Bd2DststMuNu2D0,mc-Bd2DststTauNu2D0,mc-Bs2DststMuNu2D0,mc-Bu2DststMuNu2D0,mc-Bd2DstTauNu,mc-Bd2DstMuNu,mc-Bu2Dst0TauNu,mc-Bu2Dst0MuNu,mc-Bu2D0TauNu,mc-Bu2D0MuNu,mc-Bd2D0DX2MuX,mc-Bu2D0DX2MuX,mc-Bd2D
-0DsX2TauNu,mc-Bu2D0DsX2TauNu} ...]
-
 ganga script to process R(D*) run 1 data/MC.
 
 positional arguments:
-  {all,data-2012-Dst,cocktail-2011-Dst-cutflow,mc-Bd2DststMuNu2D0,mc-Bd2DststTauNu2D0,mc-Bs2DststMuNu2D0,mc-Bu2DststMuNu2D0,mc-Bd2DstTauNu,mc-Bd2DstMuNu,mc-Bu2Dst0TauNu,mc-Bu2Dst0MuNu,mc-Bu2D0TauNu,mc-Bu2D0MuNu,mc-Bd2D0DX2MuX,mc-Bu2D0DX2MuX,mc-Bd2D0DsX2TauNu,mc-Bu2D0D
-sX2TauNu}
+  {all,data-2012-Dst,cutflow_data-2012-Dst,cutflow_mc-2011-Dst,mc-Bd2DststMuNu2D0,mc-Bd2DststTauNu2D0,mc-Bs2DststMuNu2D0,mc-Bu2DststMuNu2D0,mc-Bd2DstTauNu,mc-Bd2DstMuNu,mc-Bu2Dst0TauNu,mc-Bu2Dst0MuNu,mc-Bu2D0TauNu,mc-Bu2D0MuNu,mc-Bd2D0DX2MuX,mc-Bu2D0DX2MuX,mc-Bd2D0DsX2TauNu,mc-Bu2D0DsX2TauNu}
                         specify data type.
 
 optional arguments:
@@ -780,7 +769,7 @@ optional arguments:
   --force               if this flag is supplied, don&#39;t skip existing jobs
                         with the same name.
   --davinci DAVINCI     specify path to local DaVinci build.
-  -b {all,Dst,D0,Dst-cutflow} [{all,Dst,D0,Dst-cutflow} ...], --base {all,Dst,D0,Dst-cutflow} [{all,Dst,D0,Dst-cutflow} ...]
+  -b {all,Dst,D0} [{all,Dst,D0} ...], --base {all,Dst,D0} [{all,Dst,D0} ...]
                         specify base decay mode (e.g. D* or D0).
   -s {all,Pythia6,Pythia8} [{all,Pythia6,Pythia8} ...], --simulation {all,Pythia6,Pythia8} [{all,Pythia6,Pythia8} ...]
                         specify simulation (typically Pythia) software package
