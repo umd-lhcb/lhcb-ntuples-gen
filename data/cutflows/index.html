@@ -766,13 +766,27 @@
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p><code>&lt;output_yaml_filename&gt;</code> is the generated file. Same below.</p>
+<p>For input logs files, wildcard <code>*</code> is supported. So instead of
+providing a list of log files, you can just provide a single
+<strong>pattern</strong> that matches to all log files.</p>
+<p>Example usage:
+<div class="highlight"><pre><span></span><code>./davinci_log_parser.py test_output.yml $INPUT_DIR/53/*/output/*.log
+</code></pre></div></p>
 </div>
 </li>
 <li>
 <p>Run the <a href="https://github.com/umd-lhcb/lhcb-ntuples-gen/blob/master/run1-b2D0MuXB2DMuNuForTauMuLine/cutflow/cutflow-run1.py"><code>cutflow-run1.py</code></a> and <a href="https://github.com/umd-lhcb/lhcb-ntuples-gen/blob/master/run2-b2D0MuXB2DMuForTauMuLine/cutflow/cutflow-run2.py"><code>cutflow-run2.py</code></a>.</p>
-<p>Note that these scripts take the following arguments:
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The <code>&lt;output_yaml_filename&gt;</code> generated in the previous step is used as
+<code>&lt;input_yaml_filename&gt;</code> in this step.</p>
+<p>These scripts take the following arguments:
 <div class="highlight"><pre><span></span><code>cutflow_script &lt;cutflow_ntuple&gt; &lt;input_yaml_filename&gt; &lt;output_yaml_filename&gt;
 </code></pre></div></p>
+<p>Example usage:
+<div class="highlight"><pre><span></span><code>./cut_flow-run2.py ../ntuples/cutflow-Dst/BCands_Dst-yipeng-cutflow_mc-2016-mag_down.root input-run2-data.yml output-run2-data.yml
+</code></pre></div></p>
+</div>
 </li>
 <li>
 <p>Generate cut flow table with:
