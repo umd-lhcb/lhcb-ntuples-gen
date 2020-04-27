@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Mar 26, 2020 at 05:37 PM +0800
+# Last Change: Mon Apr 27, 2020 at 10:43 PM +0800
 
 from yaml import safe_load
 from argparse import ArgumentParser
@@ -121,12 +121,12 @@ def parse_input(descr='Generate cut flow CSV from YAML files.'):
 
     parser.add_argument('-o', '--runOne',
                         required=True,
-                        help='specify the output table format.'
+                        help='specify the run 1 cutflow YAML file.'
                         )
 
     parser.add_argument('-t', '--runTwo',
                         required=True,
-                        help='specify the alignment for each column (right, center, left).'
+                        help='specify the run 2 cutflow YAML file.'
                         )
 
     parser.add_argument('-n', '--noLaTeX',
