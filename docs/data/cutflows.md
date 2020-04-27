@@ -32,7 +32,7 @@
 
         Example usage:
         ```
-        ./cut_flow-run2.py ../ntuples/cutflow-Dst/BCands_Dst-yipeng-cutflow_mc-2016-mag_down.root input-run2-data.yml output-run2-data.yml
+        ./cut_flow-run2.py ../ntuples/cutflow-Dst/BCands_Dst-yipeng-cutflow_mc-2016-mag_down.root input-run2.yml output-run2.yml
         ```
 
 3. Generate cut flow table with:
