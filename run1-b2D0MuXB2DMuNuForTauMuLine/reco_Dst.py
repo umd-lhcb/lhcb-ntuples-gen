@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Apr 27, 2020 at 05:25 PM +0800
+# Last Change: Tue Apr 28, 2020 at 12:49 AM +0800
 #
 # Description: Definitions of selection and reconstruction procedures for Dst in
 #              run 1, with thorough comments.
@@ -177,10 +177,12 @@ sel_stripped_Mu_filtered_evt = Selection(
 )
 
 
-if has_flag('CUTFLOW'):
-    sel_stripped_req = pr_stripped
-else:
-    sel_stripped_req = sel_stripped_Mu_filtered_evt
+# if has_flag('CUTFLOW'):
+#     sel_stripped_req = pr_stripped
+# else:
+#     sel_stripped_req = sel_stripped_Mu_filtered_evt
+# NOTE: We don't want to do Muon TIS-filtering on data for now so we have this:
+sel_stripped_req = pr_stripped
 
 
 # NOTE: 'stripped' selections require the existence of a stripping line, which
