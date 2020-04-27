@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Apr 23, 2020 at 03:15 PM +0800
+# Last Change: Mon Apr 27, 2020 at 05:25 PM +0800
 #
 # Description: Definitions of selection and reconstruction procedures for Dst in
 #              run 1, with thorough comments.
@@ -300,7 +300,7 @@ if DaVinci().Simulation:
         algo_D0.DaughtersCuts['pi-']
 
     algo_D0.MotherCut = \
-        "(mcMatch('[Charm ->K- pi+ {gamma}{gamma}{gamma}]CC')) &" + \
+        "(mcMatch('[Charm -> K- pi+ {gamma}{gamma}{gamma}]CC')) &" + \
         algo_D0.MotherCut
 
 
