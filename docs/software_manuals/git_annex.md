@@ -108,6 +108,10 @@ method is:
 git annex sync julian
 ```
 
+!!! note
+    The command above don't download the actual data; rather, it only download
+    the metadata so that `git annex` _knows_ how to download the actual data.
+
 !!! warning
     `git annex sync` will commit all **previously uncommitted** changes before
     synchronizing! It is highly recommended that the working tree of your
@@ -117,17 +121,20 @@ If you want to download **every single file** from the `git-annex` repo (which i
 probably a couple of GBs), add the `--content` flag in the second step and
 download not only the metadata, but also the data:
 ```
-git annex sync --no-pull julian
 git annex sync --content julian
 ```
 
 
-## Download individual files
-This is simple:
+## Download and upload individual files
+Downloading is simple:
 ```
 git annex get <path_to_files>
 ```
 
+So is uploading:
+```
+git annex copy --to <remote> <path_to_files>
+```
 
 ## Drop local files
 The following command will remove the local copy of the file **only**, and will
