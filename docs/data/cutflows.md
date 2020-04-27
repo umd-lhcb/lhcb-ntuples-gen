@@ -10,12 +10,30 @@
     !!! note
         `<output_yaml_filename>` is the generated file. Same below.
 
+        For input logs files, wildcard `*` is supported. So instead of
+        providing a list of log files, you can just provide a single
+        **pattern** that matches to all log files.
+
+        Example usage:
+        ```
+        ./davinci_log_parser.py test_output.yml $INPUT_DIR/53/*/output/*.log
+        ```
+
 2. Run the [`cutflow-run1.py`](https://github.com/umd-lhcb/lhcb-ntuples-gen/blob/master/run1-b2D0MuXB2DMuNuForTauMuLine/cutflow/cutflow-run1.py) and [`cutflow-run2.py`](https://github.com/umd-lhcb/lhcb-ntuples-gen/blob/master/run2-b2D0MuXB2DMuForTauMuLine/cutflow/cutflow-run2.py).
 
-    Note that these scripts take the following arguments:
-    ```
-    cutflow_script <cutflow_ntuple> <input_yaml_filename> <output_yaml_filename>
-    ```
+    !!! note
+        The `<output_yaml_filename>` generated in the previous step is used as
+        `<input_yaml_filename>` in this step.
+
+        These scripts take the following arguments:
+        ```
+        cutflow_script <cutflow_ntuple> <input_yaml_filename> <output_yaml_filename>
+        ```
+
+        Example usage:
+        ```
+        ./cut_flow-run2.py ../ntuples/cutflow-Dst/BCands_Dst-yipeng-cutflow_mc-2016-mag_down.root input-run2-data.yml output-run2-data.yml
+        ```
 
 3. Generate cut flow table with:
     ```
