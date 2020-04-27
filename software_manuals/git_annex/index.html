@@ -372,8 +372,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#download-individual-files" class="md-nav__link">
-    Download individual files
+  <a href="#download-and-upload-individual-files" class="md-nav__link">
+    Download and upload individual files
   </a>
   
 </li>
@@ -737,8 +737,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#download-individual-files" class="md-nav__link">
-    Download individual files
+  <a href="#download-and-upload-individual-files" class="md-nav__link">
+    Download and upload individual files
   </a>
   
 </li>
@@ -856,6 +856,11 @@ Doing so will result in all modifications discarded. Proceed with care!</p>
 method is:
 <div class="highlight"><pre><span></span><code>git annex sync julian
 </code></pre></div></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The command above don't download the actual data; rather, it only download
+the metadata so that <code>git annex</code> <em>knows</em> how to download the actual data.</p>
+</div>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p><code>git annex sync</code> will commit all <strong>previously uncommitted</strong> changes before
@@ -865,12 +870,14 @@ project is clean before doing a <code>git annex sync</code>.</p>
 <p>If you want to download <strong>every single file</strong> from the <code>git-annex</code> repo (which is
 probably a couple of GBs), add the <code>--content</code> flag in the second step and
 download not only the metadata, but also the data:
-<div class="highlight"><pre><span></span><code>git annex sync --no-pull julian
-git annex sync --content julian
+<div class="highlight"><pre><span></span><code>git annex sync --content julian
 </code></pre></div></p>
-<h2 id="download-individual-files">Download individual files</h2>
-<p>This is simple:
+<h2 id="download-and-upload-individual-files">Download and upload individual files</h2>
+<p>Downloading is simple:
 <div class="highlight"><pre><span></span><code>git annex get &lt;path_to_files&gt;
+</code></pre></div></p>
+<p>So is uploading:
+<div class="highlight"><pre><span></span><code>git annex copy --to &lt;remote&gt; &lt;path_to_files&gt;
 </code></pre></div></p>
 <h2 id="drop-local-files">Drop local files</h2>
 <p>The following command will remove the local copy of the file <strong>only</strong>, and will
