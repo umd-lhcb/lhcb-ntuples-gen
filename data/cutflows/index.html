@@ -9,7 +9,7 @@
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
       
-        <link rel="canonical" href="https://umd-lhcb.github.io/lhcb-ntuples-gen/data/cut_flows/">
+        <link rel="canonical" href="https://umd-lhcb.github.io/lhcb-ntuples-gen/data/cutflows/">
       
       
       <link rel="shortcut icon" href="../../assets/images/favicon.png">
@@ -17,7 +17,7 @@
     
     
       
-        <title>Cut flows - lhcb-ntuples-gen wiki</title>
+        <title>Cutflows - lhcb-ntuples-gen wiki</title>
       
     
     
@@ -78,7 +78,7 @@
           </span>
           <span class="md-header-nav__topic md-ellipsis">
             
-              Cut flows
+              Cutflows
             
           </span>
         </div>
@@ -554,14 +554,14 @@
     
     
       <label class="md-nav__link md-nav__link--active" for="__toc">
-        Cut flows
+        Cutflows
         <span class="md-nav__icon md-icon">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3,9H17V7H3V9M3,13H17V11H3V13M3,17H17V15H3V17M19,17H21V15H19V17M19,7V9H21V7H19M19,13H21V11H19V13Z" /></svg>
         </span>
       </label>
     
-    <a href="./" title="Cut flows" class="md-nav__link md-nav__link--active">
-      Cut flows
+    <a href="./" title="Cutflows" class="md-nav__link md-nav__link--active">
+      Cutflows
     </a>
     
       
@@ -746,7 +746,7 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/umd-lhcb/lhcb-ntuples-gen/edit/master/docs/data/cut_flows.md" title="Edit this page" class="md-content__button md-icon">
+                  <a href="https://github.com/umd-lhcb/lhcb-ntuples-gen/edit/master/docs/data/cutflows.md" title="Edit this page" class="md-content__button md-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18,2.9 17.35,2.9 16.96,3.29L15.12,5.12L18.87,8.87M3,17.25V21H6.75L17.81,9.93L14.06,6.18L3,17.25Z" /></svg>
                   </a>
                 
@@ -754,19 +754,32 @@
                   
                 
                 
-                  <h1>Cut flows</h1>
+                  <h1>Cutflows</h1>
                 
                 <h2 id="rdrd-cut-flow-comparison-between-run-1-and-2"><span><span class="MathJax_Preview">R(D^{*})</span><script type="math/tex">R(D^{*})</script></span> cut flow comparison between run 1 and 2</h2>
 <h3 id="generation-steps">Generation steps</h3>
 <ol>
-<li>Extract DaVinci-level cut efficiencies with <a href="https://github.com/umd-lhcb/lhcb-ntuples-gen/blob/master/utils/davinci_log_parser.py"><code>davinci_log_parser.py</code></a>:
+<li>
+<p>Extract DaVinci-level cut efficiencies with <a href="https://github.com/umd-lhcb/lhcb-ntuples-gen/blob/master/utils/davinci_log_parser.py"><code>davinci_log_parser.py</code></a>:
     <div class="highlight"><pre><span></span><code>./davinci_log_parser.py &lt;output_yaml_filename&gt; &lt;input_log1&gt; &lt;input_log2&gt; ...
-</code></pre></div></li>
-<li>Run the <a href="https://github.com/umd-lhcb/lhcb-ntuples-gen/blob/master/run1-b2D0MuXB2DMuNuForTauMuLine/cut_flow/cut_flow-run1.py"><code>cut_flow-run1.py</code></a> and <a href="https://github.com/umd-lhcb/lhcb-ntuples-gen/blob/master/run2-b2D0MuXB2DMuForTauMuLine/cut_flow/cut_flow-run2.py"><code>cut_flow-run2.py</code></a>. Note that all required files are hard-coded in the scripts.</li>
-<li>Generate cut flow table with:
+</code></pre></div></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><code>&lt;output_yaml_filename&gt;</code> is the generated file. Same below.</p>
+</div>
+</li>
+<li>
+<p>Run the <a href="https://github.com/umd-lhcb/lhcb-ntuples-gen/blob/master/run1-b2D0MuXB2DMuNuForTauMuLine/cutflow/cutflow-run1.py"><code>cutflow-run1.py</code></a> and <a href="https://github.com/umd-lhcb/lhcb-ntuples-gen/blob/master/run2-b2D0MuXB2DMuForTauMuLine/cutflow/cutflow-run2.py"><code>cutflow-run2.py</code></a>.</p>
+<p>Note that these scripts take the following arguments:
+<div class="highlight"><pre><span></span><code>cutflow_script &lt;cutflow_ntuple&gt; &lt;input_yaml_filename&gt; &lt;output_yaml_filename&gt;
+</code></pre></div></p>
+</li>
+<li>
+<p>Generate cut flow table with:
     <div class="highlight"><pre><span></span><code>make cutflow-RDst
 </code></pre></div>
-    Please refer to the <a href="https://github.com/umd-lhcb/lhcb-ntuples-gen/blob/master/Makefile"><code>Makefile</code></a> on the implementation details.</li>
+    Please refer to the <a href="https://github.com/umd-lhcb/lhcb-ntuples-gen/blob/master/Makefile"><code>Makefile</code></a> on the implementation details.</p>
+</li>
 </ol>
 <h3 id="cut-flow-table-with-cocktail-mc">Cut flow table with cocktail MC</h3>
 <table>
