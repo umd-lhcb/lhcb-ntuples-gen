@@ -6,7 +6,17 @@
     ```
     ./davinci_log_parser.py <output_yaml_filename> <input_log1> <input_log2> ...
     ```
-2. Run the [`cut_flow-run1.py`](https://github.com/umd-lhcb/lhcb-ntuples-gen/blob/master/run1-b2D0MuXB2DMuNuForTauMuLine/cut_flow/cut_flow-run1.py) and [`cut_flow-run2.py`](https://github.com/umd-lhcb/lhcb-ntuples-gen/blob/master/run2-b2D0MuXB2DMuForTauMuLine/cut_flow/cut_flow-run2.py). Note that all required files are hard-coded in the scripts.
+
+    !!! note
+        `<output_yaml_filename>` is the generated file. Same below.
+
+2. Run the [`cutflow-run1.py`](https://github.com/umd-lhcb/lhcb-ntuples-gen/blob/master/run1-b2D0MuXB2DMuNuForTauMuLine/cutflow/cutflow-run1.py) and [`cutflow-run2.py`](https://github.com/umd-lhcb/lhcb-ntuples-gen/blob/master/run2-b2D0MuXB2DMuForTauMuLine/cutflow/cutflow-run2.py).
+
+    Note that these scripts take the following arguments:
+    ```
+    cutflow_script <cutflow_ntuple> <input_yaml_filename> <output_yaml_filename>
+    ```
+
 3. Generate cut flow table with:
     ```
     make cutflow-RDst
