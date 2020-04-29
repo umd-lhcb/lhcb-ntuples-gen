@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Apr 29, 2020 at 10:40 PM +0800
+# Last Change: Wed Apr 29, 2020 at 10:56 PM +0800
 
 import uproot
 import sys
@@ -34,7 +34,7 @@ def remove_from(lst, remove=None):
 
 
 def comb_cut(ntp, tree, basename, base_result, line,
-             particle='Y', tistos='TIS', particle_print=r'$\upsilon(4s)$'):
+             particle='Y', tistos='TIS', particle_print=r'$\Upsilon(4s)$'):
     add_branch = read_branch(ntp, tree,
                              '{}_{}_{}'.format(particle, line, tistos))
     result = AND(add_branch, base_result)
@@ -107,7 +107,7 @@ def tab_breakdown_cutflow(ntp, tree, marginal=True):
         if marginal and line != 'Hlt1Phys':
             for lline in rest_of_Hlt1:
                 row, _ = comb_cut(ntp, tree, Hlt1_add_name, Hlt1_add_result,
-                                  lline)
+                                  lline, tistos='Dec')
                 result.append(row)
 
     return result
