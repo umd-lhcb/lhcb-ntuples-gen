@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Apr 29, 2020 at 10:22 PM +0800
+# Last Change: Wed Apr 29, 2020 at 10:30 PM +0800
 
 import uproot
 import sys
@@ -69,7 +69,7 @@ Hlt1_lines = [
 ]
 
 
-def tab_marginal_impact(ntp, tree):
+def tab_breakdown_cutflow(ntp, tree, marginal=True):
     result = [['name', 'number of B']]
 
     result.append(['DaVinci cuts (DV)', total_num(ntp, tree)])
@@ -81,13 +81,18 @@ def tab_marginal_impact(ntp, tree):
     result.append(row)
     basename = row[0]
 
+    if not marginal:
+        for line in L0_lines:
+            alt_row, _ = comb_cut(ntp, tree, 'DV', True, line)
+            result.append(alt_row)
+
     for line in L0_lines:
         row, L0_add_result = comb_cut(ntp, tree, basename, base_result, line)
         result.append(row)
         rest_of_L0 = remove_from(L0_lines, line)
         L0_add_name = row[0]
 
-        if line != 'L0Global':
+        if marginal and line != 'L0Global':
             for lline in rest_of_L0:
                 row, _ = comb_cut(ntp, tree, L0_add_name, L0_add_result, lline)
                 result.append(row)
@@ -99,7 +104,7 @@ def tab_marginal_impact(ntp, tree):
         rest_of_Hlt1 = remove_from(Hlt1_lines, line)
         Hlt1_add_name = row[0]
 
-        if line != 'Hlt1Phys':
+        if marginal and line != 'Hlt1Phys':
             for lline in rest_of_Hlt1:
                 row, _ = comb_cut(ntp, tree, Hlt1_add_name, Hlt1_add_result,
                                   lline)
@@ -118,6 +123,9 @@ if __name__ == '__main__':
     ntp = uproot.open(ntp_path)
     tree = 'TupleB0/DecayTree'
 
-    table = tab_marginal_impact(ntp, tree)
+    tab_marginal = tab_breakdown_cutflow(ntp, tree)
+    tab_individual = tab_breakdown_cutflow(ntp, tree, marginal=False)
 
-    print(TAB.tabulate(table, headers='firstrow', tablefmt=fmt))
+    print(TAB.tabulate(tab_marginal, headers='firstrow', tablefmt=fmt))
+    print()
+    print(TAB.tabulate(tab_individual, headers='firstrow', tablefmt=fmt))
