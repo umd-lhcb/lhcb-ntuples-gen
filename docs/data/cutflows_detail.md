@@ -12,6 +12,100 @@ and [`cutflow-run2-detail.py`](https://github.com/umd-lhcb/lhcb-ntuples-gen/blob
 
     The output will be printed out to terminal.
 
+### Marginal impact
+
+| name                                                                                    |   number of B |
+|-----------------------------------------------------------------------------------------|---------------|
+| DaVinci cuts (DV)                                                                       |          5796 |
+| DV+$D^*$ L0Hadron TOS                                                                   |          1205 |
+| DV+$D^*$ L0Hadron TOS+$\upsilon(4s)$ L0Electron TIS                                     |           113 |
+| DV+$D^*$ L0Hadron TOS+$\upsilon(4s)$ L0Electron TIS+$\upsilon(4s)$ L0ElectronHi TIS     |            35 |
+| DV+$D^*$ L0Hadron TOS+$\upsilon(4s)$ L0Electron TIS+$\upsilon(4s)$ L0Hadron TIS         |            65 |
+| DV+$D^*$ L0Hadron TOS+$\upsilon(4s)$ L0Electron TIS+$\upsilon(4s)$ L0HighSumETJet TIS   |             0 |
+| DV+$D^*$ L0Hadron TOS+$\upsilon(4s)$ L0Electron TIS+$\upsilon(4s)$ L0Muon TIS           |            16 |
+| DV+$D^*$ L0Hadron TOS+$\upsilon(4s)$ L0Electron TIS+$\upsilon(4s)$ L0NoPVFlag TIS       |             0 |
+| DV+$D^*$ L0Hadron TOS+$\upsilon(4s)$ L0Electron TIS+$\upsilon(4s)$ L0Photon TIS         |            17 |
+| DV+$D^*$ L0Hadron TOS+$\upsilon(4s)$ L0Electron TIS+$\upsilon(4s)$ L0PhotonHi TIS       |            10 |
+| DV+$D^*$ L0Hadron TOS+$\upsilon(4s)$ L0ElectronHi TIS                                   |            35 |
+| DV+$D^*$ L0Hadron TOS+$\upsilon(4s)$ L0ElectronHi TIS+$\upsilon(4s)$ L0Electron TIS     |            35 |
+| DV+$D^*$ L0Hadron TOS+$\upsilon(4s)$ L0ElectronHi TIS+$\upsilon(4s)$ L0Hadron TIS       |            22 |
+| DV+$D^*$ L0Hadron TOS+$\upsilon(4s)$ L0ElectronHi TIS+$\upsilon(4s)$ L0HighSumETJet TIS |             0 |
+| DV+$D^*$ L0Hadron TOS+$\upsilon(4s)$ L0ElectronHi TIS+$\upsilon(4s)$ L0Muon TIS         |             4 |
+| DV+$D^*$ L0Hadron TOS+$\upsilon(4s)$ L0ElectronHi TIS+$\upsilon(4s)$ L0NoPVFlag TIS     |             0 |
+| DV+$D^*$ L0Hadron TOS+$\upsilon(4s)$ L0ElectronHi TIS+$\upsilon(4s)$ L0Photon TIS       |             6 |
+| DV+$D^*$ L0Hadron TOS+$\upsilon(4s)$ L0ElectronHi TIS+$\upsilon(4s)$ L0PhotonHi TIS     |             4 |
+| DV+$D^*$ L0Hadron TOS+$\upsilon(4s)$ L0Hadron TIS                                       |           330 |
+| DV+$D^*$ L0Hadron TOS+$\upsilon(4s)$ L0Hadron TIS+$\upsilon(4s)$ L0Electron TIS         |            65 |
+| DV+$D^*$ L0Hadron TOS+$\upsilon(4s)$ L0Hadron TIS+$\upsilon(4s)$ L0ElectronHi TIS       |            22 |
+| DV+$D^*$ L0Hadron TOS+$\upsilon(4s)$ L0Hadron TIS+$\upsilon(4s)$ L0HighSumETJet TIS     |             0 |
+| DV+$D^*$ L0Hadron TOS+$\upsilon(4s)$ L0Hadron TIS+$\upsilon(4s)$ L0Muon TIS             |            40 |
+| DV+$D^*$ L0Hadron TOS+$\upsilon(4s)$ L0Hadron TIS+$\upsilon(4s)$ L0NoPVFlag TIS         |             0 |
+| DV+$D^*$ L0Hadron TOS+$\upsilon(4s)$ L0Hadron TIS+$\upsilon(4s)$ L0Photon TIS           |            36 |
+| DV+$D^*$ L0Hadron TOS+$\upsilon(4s)$ L0Hadron TIS+$\upsilon(4s)$ L0PhotonHi TIS         |            12 |
+| DV+$D^*$ L0Hadron TOS+$\upsilon(4s)$ L0HighSumETJet TIS                                 |             0 |
+| DV+$D^*$ L0Hadron TOS+$\upsilon(4s)$ L0HighSumETJet TIS+$\upsilon(4s)$ L0Electron TIS   |             0 |
+| DV+$D^*$ L0Hadron TOS+$\upsilon(4s)$ L0HighSumETJet TIS+$\upsilon(4s)$ L0ElectronHi TIS |             0 |
+| DV+$D^*$ L0Hadron TOS+$\upsilon(4s)$ L0HighSumETJet TIS+$\upsilon(4s)$ L0Hadron TIS     |             0 |
+| DV+$D^*$ L0Hadron TOS+$\upsilon(4s)$ L0HighSumETJet TIS+$\upsilon(4s)$ L0Muon TIS       |             0 |
+| DV+$D^*$ L0Hadron TOS+$\upsilon(4s)$ L0HighSumETJet TIS+$\upsilon(4s)$ L0NoPVFlag TIS   |             0 |
+| DV+$D^*$ L0Hadron TOS+$\upsilon(4s)$ L0HighSumETJet TIS+$\upsilon(4s)$ L0Photon TIS     |             0 |
+| DV+$D^*$ L0Hadron TOS+$\upsilon(4s)$ L0HighSumETJet TIS+$\upsilon(4s)$ L0PhotonHi TIS   |             0 |
+| DV+$D^*$ L0Hadron TOS+$\upsilon(4s)$ L0Muon TIS                                         |           135 |
+| DV+$D^*$ L0Hadron TOS+$\upsilon(4s)$ L0Muon TIS+$\upsilon(4s)$ L0Electron TIS           |            16 |
+| DV+$D^*$ L0Hadron TOS+$\upsilon(4s)$ L0Muon TIS+$\upsilon(4s)$ L0ElectronHi TIS         |             4 |
+| DV+$D^*$ L0Hadron TOS+$\upsilon(4s)$ L0Muon TIS+$\upsilon(4s)$ L0Hadron TIS             |            40 |
+| DV+$D^*$ L0Hadron TOS+$\upsilon(4s)$ L0Muon TIS+$\upsilon(4s)$ L0HighSumETJet TIS       |             0 |
+| DV+$D^*$ L0Hadron TOS+$\upsilon(4s)$ L0Muon TIS+$\upsilon(4s)$ L0NoPVFlag TIS           |             0 |
+| DV+$D^*$ L0Hadron TOS+$\upsilon(4s)$ L0Muon TIS+$\upsilon(4s)$ L0Photon TIS             |             7 |
+| DV+$D^*$ L0Hadron TOS+$\upsilon(4s)$ L0Muon TIS+$\upsilon(4s)$ L0PhotonHi TIS           |             3 |
+| DV+$D^*$ L0Hadron TOS+$\upsilon(4s)$ L0NoPVFlag TIS                                     |             0 |
+| DV+$D^*$ L0Hadron TOS+$\upsilon(4s)$ L0NoPVFlag TIS+$\upsilon(4s)$ L0Electron TIS       |             0 |
+| DV+$D^*$ L0Hadron TOS+$\upsilon(4s)$ L0NoPVFlag TIS+$\upsilon(4s)$ L0ElectronHi TIS     |             0 |
+| DV+$D^*$ L0Hadron TOS+$\upsilon(4s)$ L0NoPVFlag TIS+$\upsilon(4s)$ L0Hadron TIS         |             0 |
+| DV+$D^*$ L0Hadron TOS+$\upsilon(4s)$ L0NoPVFlag TIS+$\upsilon(4s)$ L0HighSumETJet TIS   |             0 |
+| DV+$D^*$ L0Hadron TOS+$\upsilon(4s)$ L0NoPVFlag TIS+$\upsilon(4s)$ L0Muon TIS           |             0 |
+| DV+$D^*$ L0Hadron TOS+$\upsilon(4s)$ L0NoPVFlag TIS+$\upsilon(4s)$ L0Photon TIS         |             0 |
+| DV+$D^*$ L0Hadron TOS+$\upsilon(4s)$ L0NoPVFlag TIS+$\upsilon(4s)$ L0PhotonHi TIS       |             0 |
+| DV+$D^*$ L0Hadron TOS+$\upsilon(4s)$ L0Photon TIS                                       |            68 |
+| DV+$D^*$ L0Hadron TOS+$\upsilon(4s)$ L0Photon TIS+$\upsilon(4s)$ L0Electron TIS         |            17 |
+| DV+$D^*$ L0Hadron TOS+$\upsilon(4s)$ L0Photon TIS+$\upsilon(4s)$ L0ElectronHi TIS       |             6 |
+| DV+$D^*$ L0Hadron TOS+$\upsilon(4s)$ L0Photon TIS+$\upsilon(4s)$ L0Hadron TIS           |            36 |
+| DV+$D^*$ L0Hadron TOS+$\upsilon(4s)$ L0Photon TIS+$\upsilon(4s)$ L0HighSumETJet TIS     |             0 |
+| DV+$D^*$ L0Hadron TOS+$\upsilon(4s)$ L0Photon TIS+$\upsilon(4s)$ L0Muon TIS             |             7 |
+| DV+$D^*$ L0Hadron TOS+$\upsilon(4s)$ L0Photon TIS+$\upsilon(4s)$ L0NoPVFlag TIS         |             0 |
+| DV+$D^*$ L0Hadron TOS+$\upsilon(4s)$ L0Photon TIS+$\upsilon(4s)$ L0PhotonHi TIS         |            19 |
+| DV+$D^*$ L0Hadron TOS+$\upsilon(4s)$ L0PhotonHi TIS                                     |            19 |
+| DV+$D^*$ L0Hadron TOS+$\upsilon(4s)$ L0PhotonHi TIS+$\upsilon(4s)$ L0Electron TIS       |            10 |
+| DV+$D^*$ L0Hadron TOS+$\upsilon(4s)$ L0PhotonHi TIS+$\upsilon(4s)$ L0ElectronHi TIS     |             4 |
+| DV+$D^*$ L0Hadron TOS+$\upsilon(4s)$ L0PhotonHi TIS+$\upsilon(4s)$ L0Hadron TIS         |            12 |
+| DV+$D^*$ L0Hadron TOS+$\upsilon(4s)$ L0PhotonHi TIS+$\upsilon(4s)$ L0HighSumETJet TIS   |             0 |
+| DV+$D^*$ L0Hadron TOS+$\upsilon(4s)$ L0PhotonHi TIS+$\upsilon(4s)$ L0Muon TIS           |             3 |
+| DV+$D^*$ L0Hadron TOS+$\upsilon(4s)$ L0PhotonHi TIS+$\upsilon(4s)$ L0NoPVFlag TIS       |             0 |
+| DV+$D^*$ L0Hadron TOS+$\upsilon(4s)$ L0PhotonHi TIS+$\upsilon(4s)$ L0Photon TIS         |            19 |
+
+### Individual impact
+
+| name                                                    |   number of B |
+|---------------------------------------------------------|---------------|
+| DaVinci cuts (DV)                                       |          5796 |
+| DV+$D^*$ L0Hadron TOS                                   |          1205 |
+| DV+$\upsilon(4s)$ L0Electron TIS                        |           387 |
+| DV+$\upsilon(4s)$ L0ElectronHi TIS                      |            94 |
+| DV+$\upsilon(4s)$ L0Hadron TIS                          |          1245 |
+| DV+$\upsilon(4s)$ L0HighSumETJet TIS                    |             0 |
+| DV+$\upsilon(4s)$ L0Muon TIS                            |           565 |
+| DV+$\upsilon(4s)$ L0NoPVFlag TIS                        |             0 |
+| DV+$\upsilon(4s)$ L0Photon TIS                          |           260 |
+| DV+$\upsilon(4s)$ L0PhotonHi TIS                        |            63 |
+| DV+$D^*$ L0Hadron TOS+$\upsilon(4s)$ L0Electron TIS     |           113 |
+| DV+$D^*$ L0Hadron TOS+$\upsilon(4s)$ L0ElectronHi TIS   |            35 |
+| DV+$D^*$ L0Hadron TOS+$\upsilon(4s)$ L0Hadron TIS       |           330 |
+| DV+$D^*$ L0Hadron TOS+$\upsilon(4s)$ L0HighSumETJet TIS |             0 |
+| DV+$D^*$ L0Hadron TOS+$\upsilon(4s)$ L0Muon TIS         |           135 |
+| DV+$D^*$ L0Hadron TOS+$\upsilon(4s)$ L0NoPVFlag TIS     |             0 |
+| DV+$D^*$ L0Hadron TOS+$\upsilon(4s)$ L0Photon TIS       |            68 |
+| DV+$D^*$ L0Hadron TOS+$\upsilon(4s)$ L0PhotonHi TIS     |            19 |
+
 
 ## $R(D^*)$ cutflow, details, run 2
 
