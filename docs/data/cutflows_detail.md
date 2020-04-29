@@ -189,47 +189,47 @@ and [`cutflow-run2-detail.py`](https://github.com/umd-lhcb/lhcb-ntuples-gen/blob
 | DV+$D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Photon TIS+$\Upsilon(4s)$ L0Global TIS                                                     |            72 |
 | DV+$D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS                                                                                 |           578 |
 | DV+$D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1TwoTrackMVA Dec                                              |           565 |
-| DV+$D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1TwoTrackMVA Dec+$\Upsilon(4s)$ Hlt1TrackMVALoose TIS         |           183 |
-| DV+$D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1TwoTrackMVA Dec+$\Upsilon(4s)$ Hlt1TwoTrackMVALoose TIS      |           167 |
-| DV+$D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1TwoTrackMVA Dec+$\Upsilon(4s)$ Hlt1TrackMuon TIS             |            39 |
-| DV+$D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1TwoTrackMVA Dec+$\Upsilon(4s)$ Hlt1TrackMuonMVA TIS          |            29 |
-| DV+$D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1TwoTrackMVA Dec+$\Upsilon(4s)$ Hlt1SingleMuonHighPT TIS      |             5 |
-| DV+$D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1TwoTrackMVA Dec+$\Upsilon(4s)$ Hlt1Phys TIS                  |           563 |
+| DV+$D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1TwoTrackMVA Dec+$\Upsilon(4s)$ Hlt1TrackMVALoose Dec         |           545 |
+| DV+$D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1TwoTrackMVA Dec+$\Upsilon(4s)$ Hlt1TwoTrackMVALoose Dec      |           565 |
+| DV+$D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1TwoTrackMVA Dec+$\Upsilon(4s)$ Hlt1TrackMuon Dec             |           345 |
+| DV+$D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1TwoTrackMVA Dec+$\Upsilon(4s)$ Hlt1TrackMuonMVA Dec          |           316 |
+| DV+$D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1TwoTrackMVA Dec+$\Upsilon(4s)$ Hlt1SingleMuonHighPT Dec      |            79 |
+| DV+$D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1TwoTrackMVA Dec+$\Upsilon(4s)$ Hlt1Phys Dec                  |           565 |
 | DV+$D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1TrackMVALoose Dec                                            |           557 |
-| DV+$D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1TrackMVALoose Dec+$\Upsilon(4s)$ Hlt1TwoTrackMVA TIS         |           164 |
-| DV+$D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1TrackMVALoose Dec+$\Upsilon(4s)$ Hlt1TwoTrackMVALoose TIS    |           164 |
-| DV+$D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1TrackMVALoose Dec+$\Upsilon(4s)$ Hlt1TrackMuon TIS           |            39 |
-| DV+$D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1TrackMVALoose Dec+$\Upsilon(4s)$ Hlt1TrackMuonMVA TIS        |            29 |
-| DV+$D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1TrackMVALoose Dec+$\Upsilon(4s)$ Hlt1SingleMuonHighPT TIS    |             5 |
-| DV+$D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1TrackMVALoose Dec+$\Upsilon(4s)$ Hlt1Phys TIS                |           555 |
+| DV+$D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1TrackMVALoose Dec+$\Upsilon(4s)$ Hlt1TwoTrackMVA Dec         |           545 |
+| DV+$D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1TrackMVALoose Dec+$\Upsilon(4s)$ Hlt1TwoTrackMVALoose Dec    |           545 |
+| DV+$D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1TrackMVALoose Dec+$\Upsilon(4s)$ Hlt1TrackMuon Dec           |           347 |
+| DV+$D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1TrackMVALoose Dec+$\Upsilon(4s)$ Hlt1TrackMuonMVA Dec        |           321 |
+| DV+$D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1TrackMVALoose Dec+$\Upsilon(4s)$ Hlt1SingleMuonHighPT Dec    |            81 |
+| DV+$D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1TrackMVALoose Dec+$\Upsilon(4s)$ Hlt1Phys Dec                |           557 |
 | DV+$D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1TwoTrackMVALoose Dec                                         |           565 |
-| DV+$D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1TwoTrackMVALoose Dec+$\Upsilon(4s)$ Hlt1TwoTrackMVA TIS      |           167 |
-| DV+$D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1TwoTrackMVALoose Dec+$\Upsilon(4s)$ Hlt1TrackMVALoose TIS    |           183 |
-| DV+$D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1TwoTrackMVALoose Dec+$\Upsilon(4s)$ Hlt1TrackMuon TIS        |            39 |
-| DV+$D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1TwoTrackMVALoose Dec+$\Upsilon(4s)$ Hlt1TrackMuonMVA TIS     |            29 |
-| DV+$D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1TwoTrackMVALoose Dec+$\Upsilon(4s)$ Hlt1SingleMuonHighPT TIS |             5 |
-| DV+$D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1TwoTrackMVALoose Dec+$\Upsilon(4s)$ Hlt1Phys TIS             |           563 |
+| DV+$D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1TwoTrackMVALoose Dec+$\Upsilon(4s)$ Hlt1TwoTrackMVA Dec      |           565 |
+| DV+$D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1TwoTrackMVALoose Dec+$\Upsilon(4s)$ Hlt1TrackMVALoose Dec    |           545 |
+| DV+$D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1TwoTrackMVALoose Dec+$\Upsilon(4s)$ Hlt1TrackMuon Dec        |           345 |
+| DV+$D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1TwoTrackMVALoose Dec+$\Upsilon(4s)$ Hlt1TrackMuonMVA Dec     |           316 |
+| DV+$D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1TwoTrackMVALoose Dec+$\Upsilon(4s)$ Hlt1SingleMuonHighPT Dec |            79 |
+| DV+$D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1TwoTrackMVALoose Dec+$\Upsilon(4s)$ Hlt1Phys Dec             |           565 |
 | DV+$D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1TrackMuon Dec                                                |           350 |
-| DV+$D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1TrackMuon Dec+$\Upsilon(4s)$ Hlt1TwoTrackMVA TIS             |           105 |
-| DV+$D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1TrackMuon Dec+$\Upsilon(4s)$ Hlt1TrackMVALoose TIS           |           121 |
-| DV+$D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1TrackMuon Dec+$\Upsilon(4s)$ Hlt1TwoTrackMVALoose TIS        |           105 |
-| DV+$D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1TrackMuon Dec+$\Upsilon(4s)$ Hlt1TrackMuonMVA TIS            |            28 |
-| DV+$D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1TrackMuon Dec+$\Upsilon(4s)$ Hlt1SingleMuonHighPT TIS        |             5 |
-| DV+$D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1TrackMuon Dec+$\Upsilon(4s)$ Hlt1Phys TIS                    |           350 |
+| DV+$D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1TrackMuon Dec+$\Upsilon(4s)$ Hlt1TwoTrackMVA Dec             |           345 |
+| DV+$D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1TrackMuon Dec+$\Upsilon(4s)$ Hlt1TrackMVALoose Dec           |           347 |
+| DV+$D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1TrackMuon Dec+$\Upsilon(4s)$ Hlt1TwoTrackMVALoose Dec        |           345 |
+| DV+$D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1TrackMuon Dec+$\Upsilon(4s)$ Hlt1TrackMuonMVA Dec            |           320 |
+| DV+$D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1TrackMuon Dec+$\Upsilon(4s)$ Hlt1SingleMuonHighPT Dec        |            81 |
+| DV+$D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1TrackMuon Dec+$\Upsilon(4s)$ Hlt1Phys Dec                    |           350 |
 | DV+$D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1TrackMuonMVA Dec                                             |           321 |
-| DV+$D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1TrackMuonMVA Dec+$\Upsilon(4s)$ Hlt1TwoTrackMVA TIS          |            92 |
-| DV+$D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1TrackMuonMVA Dec+$\Upsilon(4s)$ Hlt1TrackMVALoose TIS        |           110 |
-| DV+$D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1TrackMuonMVA Dec+$\Upsilon(4s)$ Hlt1TwoTrackMVALoose TIS     |            92 |
-| DV+$D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1TrackMuonMVA Dec+$\Upsilon(4s)$ Hlt1TrackMuon TIS            |            33 |
-| DV+$D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1TrackMuonMVA Dec+$\Upsilon(4s)$ Hlt1SingleMuonHighPT TIS     |             5 |
-| DV+$D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1TrackMuonMVA Dec+$\Upsilon(4s)$ Hlt1Phys TIS                 |           321 |
+| DV+$D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1TrackMuonMVA Dec+$\Upsilon(4s)$ Hlt1TwoTrackMVA Dec          |           316 |
+| DV+$D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1TrackMuonMVA Dec+$\Upsilon(4s)$ Hlt1TrackMVALoose Dec        |           321 |
+| DV+$D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1TrackMuonMVA Dec+$\Upsilon(4s)$ Hlt1TwoTrackMVALoose Dec     |           316 |
+| DV+$D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1TrackMuonMVA Dec+$\Upsilon(4s)$ Hlt1TrackMuon Dec            |           320 |
+| DV+$D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1TrackMuonMVA Dec+$\Upsilon(4s)$ Hlt1SingleMuonHighPT Dec     |            81 |
+| DV+$D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1TrackMuonMVA Dec+$\Upsilon(4s)$ Hlt1Phys Dec                 |           321 |
 | DV+$D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1SingleMuonHighPT Dec                                         |            81 |
-| DV+$D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1SingleMuonHighPT Dec+$\Upsilon(4s)$ Hlt1TwoTrackMVA TIS      |            27 |
-| DV+$D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1SingleMuonHighPT Dec+$\Upsilon(4s)$ Hlt1TrackMVALoose TIS    |            29 |
-| DV+$D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1SingleMuonHighPT Dec+$\Upsilon(4s)$ Hlt1TwoTrackMVALoose TIS |            27 |
-| DV+$D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1SingleMuonHighPT Dec+$\Upsilon(4s)$ Hlt1TrackMuon TIS        |             6 |
-| DV+$D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1SingleMuonHighPT Dec+$\Upsilon(4s)$ Hlt1TrackMuonMVA TIS     |             6 |
-| DV+$D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1SingleMuonHighPT Dec+$\Upsilon(4s)$ Hlt1Phys TIS             |            81 |
+| DV+$D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1SingleMuonHighPT Dec+$\Upsilon(4s)$ Hlt1TwoTrackMVA Dec      |            79 |
+| DV+$D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1SingleMuonHighPT Dec+$\Upsilon(4s)$ Hlt1TrackMVALoose Dec    |            81 |
+| DV+$D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1SingleMuonHighPT Dec+$\Upsilon(4s)$ Hlt1TwoTrackMVALoose Dec |            79 |
+| DV+$D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1SingleMuonHighPT Dec+$\Upsilon(4s)$ Hlt1TrackMuon Dec        |            81 |
+| DV+$D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1SingleMuonHighPT Dec+$\Upsilon(4s)$ Hlt1TrackMuonMVA Dec     |            81 |
+| DV+$D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1SingleMuonHighPT Dec+$\Upsilon(4s)$ Hlt1Phys Dec             |            81 |
 | DV+$D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1Phys Dec                                                     |           578 |
 
 ### Individual impact
