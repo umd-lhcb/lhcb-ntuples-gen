@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Apr 28, 2020 at 12:49 AM +0800
+# Last Change: Wed Apr 29, 2020 at 10:52 PM +0800
 #
 # Description: Definitions of selection and reconstruction procedures for Dst in
 #              run 1, with thorough comments.
@@ -578,7 +578,7 @@ def tuple_postpocess_data(tp,
                           trigger_list_Y=[
                               # L0
                               'L0HadronDecision',  # Hadron decision needed everywhere.
-                              'L0MuonDecision',
+                              'L0DiMuonDecision',
                               'L0ElectronDecision',
                               'L0ElectronHiDecision',
                               'L0HighSumETJetDecision',
