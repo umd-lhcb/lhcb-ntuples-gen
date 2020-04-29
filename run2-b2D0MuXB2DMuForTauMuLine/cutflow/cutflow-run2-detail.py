@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Apr 29, 2020 at 10:16 PM +0800
+# Last Change: Wed Apr 29, 2020 at 10:22 PM +0800
 
 import uproot
 import sys
@@ -65,6 +65,7 @@ Hlt1_lines = [
     'Hlt1TrackMuonDecision',
     'Hlt1TrackMuonMVADecision',
     'Hlt1SingleMuonHighPTDecision',
+    'Hlt1Phys'
 ]
 
 
@@ -91,15 +92,32 @@ def tab_marginal_impact(ntp, tree):
                 row, _ = comb_cut(ntp, tree, L0_add_name, L0_add_result, lline)
                 result.append(row)
 
+    for line in Hlt1_lines:
+        row, Hlt1_add_result = comb_cut(
+            ntp, tree, L0_add_name, L0_add_result, line, tistos='Dec')
+        result.append(row)
+        rest_of_Hlt1 = remove_from(Hlt1_lines, line)
+        Hlt1_add_name = row[0]
+
+        if line != 'Hlt1Phys':
+            for lline in rest_of_Hlt1:
+                row, _ = comb_cut(ntp, tree, Hlt1_add_name, Hlt1_add_result,
+                                  lline)
+                result.append(row)
+
     return result
 
 
 if __name__ == '__main__':
     ntp_path = sys.argv[1]
+    try:
+        fmt = sys.argv[2]
+    except IndexError:
+        fmt = 'github'
 
     ntp = uproot.open(ntp_path)
     tree = 'TupleB0/DecayTree'
 
     table = tab_marginal_impact(ntp, tree)
 
-    print(TAB.tabulate(table, headers='firstrow'))
+    print(TAB.tabulate(table, headers='firstrow', tablefmt=fmt))
