@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Apr 29, 2020 at 10:30 PM +0800
+# Last Change: Wed Apr 29, 2020 at 10:40 PM +0800
 
 import uproot
 import sys
@@ -42,9 +42,9 @@ def comb_cut(ntp, tree, basename, base_result, line,
         particle_print, simplify_line(line), tistos), sum(result)], result
 
 
-####################################
-# LL/HLT efficiencies from n-tuple #
-####################################
+###################################
+# L0/HLT efficiencies from ntuple #
+###################################
 
 L0_lines = [
     'L0DiMuonDecision',
