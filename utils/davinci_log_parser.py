@@ -107,7 +107,7 @@ def yaml_gen(data, indent='', indent_increment=' '*4):
             result += '\n'
             result += yaml_gen(items, indent=indent+indent_increment)
         elif items is None:
-            result += 'null\n'
+            result += ' null\n'
         else:
             result += ' {}\n'.format(items)
     return result
