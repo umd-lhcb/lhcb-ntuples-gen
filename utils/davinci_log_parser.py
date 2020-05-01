@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sat Mar 28, 2020 at 01:32 AM +0800
+# Last Change: Fri May 01, 2020 at 02:10 PM +0800
 
 import re
 import sys
@@ -57,14 +57,9 @@ def extract_data(lst,
                  name_idx=0,
                  num_idx=4,
                  names=['SeqMyB0',
-                        # 'Hlt2TriggeredD0',
                         'StrippedBCands',
-                        # 'SelMyStrippedChargedK',
-                        # 'SelMyStrippedChargedPi',
                         'SelMyD0',
-                        # 'SELECT:Phys/StdAllLoosePions',
                         'SelMyDst',
-                        # 'SelMyStrippedMu',
                         'SelMyB0'
                         ],
                  last_name='SelMyRefitB02DstMu'):
