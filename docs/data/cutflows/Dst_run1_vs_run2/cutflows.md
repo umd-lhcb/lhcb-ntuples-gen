@@ -1,6 +1,4 @@
-## $R(D^{*})$ cut flow comparison between run 1 and 2
-
-### Generation steps
+## Generation steps
 
 1. Extract DaVinci-level cut efficiencies with [`davinci_log_parser.py`](https://github.com/umd-lhcb/lhcb-ntuples-gen/blob/master/utils/davinci_log_parser.py):
     ```
@@ -42,7 +40,7 @@
     Please refer to the [`Makefile`](https://github.com/umd-lhcb/lhcb-ntuples-gen/blob/master/Makefile) on the implementation details.
 
 
-### Cut flow table with cocktail MC
+## Cutflow table with cocktail MC
 
 | cut name                                      | run 1 yield   | run 2 yield   | run 1 efficiency   | run 2 efficiency   | double ratio   |
 |-----------------------------------------------|---------------|---------------|--------------------|--------------------|----------------|
@@ -76,7 +74,7 @@
     - Run 2 stripping conditions can be found at [`Strippingb2D0MuXB2DMuForTauMuLine`](http://lhcbdoc.web.cern.ch/lhcbdoc/stripping/config/stripping28r2/semileptonic/strippingb2d0muxb2dmufortaumuline.html)
 
 
-### Cut flow table with real data
+## Cutflow table with real data
 
 | cut name                                     | run 1 yield   | run 2 yield   | run 1 efficiency    | run 2 efficiency      | double ratio        |
 |----------------------------------------------|---------------|---------------|---------------------|-----------------------|---------------------|

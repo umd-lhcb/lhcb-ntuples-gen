@@ -1,4 +1,4 @@
-## $R(D^*)$ cutflow, details, run 1
+## Run 1 detail
 
 ### Generation
 
@@ -7,7 +7,7 @@ and [`cutflow-run2-detail.py`](https://github.com/umd-lhcb/lhcb-ntuples-gen/blob
 
 !!! example
     ```
-    ./cut_flow-run2-details.py ../ntuples/cutflow-Dst/BCands_Dst-yipeng-cutflow_mc-2016-mag_down.root output-run2-individual.yml
+    ./cut_flow-run2-detail.py ../ntuples/cutflow-Dst/BCands_Dst-yipeng-cutflow_mc-2016-mag_down.root output-run2-individual.yml
     ```
 
     The output will be printed out to terminal.
@@ -118,7 +118,7 @@ and [`cutflow-run2-detail.py`](https://github.com/umd-lhcb/lhcb-ntuples-gen/blob
 | $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS       |     489 | 0.406+/-0.015     |
 
 
-## $R(D^*)$ cutflow, details, run 2
+## Run 2 detail
 
 ### Marginal impact
 

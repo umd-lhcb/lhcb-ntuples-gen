@@ -37,8 +37,9 @@ nav:
     - Data:
         - Data management: data/data_management.md
         - Data sources: data/data_sources.md
-        - Cutflows: data/cutflows.md
-        - Cutflows, details: data/cutflows_detail.md
+        - Cutflows:
+            - "`D^{\\star}` cutflow overview": data/cutflows/Dst_run1_vs_run2/cutflows.md
+            - "`D^{\\star}` cutflow detail": data/cutflows/Dst_run1_vs_run2/detail.md
         - Comparisons:
             - "`D^{\\star}` variables, run 1": data/comparison/Dst_vars_run1/Dst_vars_run1.md
             - Trigger lines: data/comparison/trigger_lines.md
