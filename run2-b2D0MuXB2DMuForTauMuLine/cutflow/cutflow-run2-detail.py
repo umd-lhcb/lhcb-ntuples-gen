@@ -2,28 +2,43 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Apr 29, 2020 at 10:56 PM +0800
+# Last Change: Fri May 01, 2020 at 08:34 PM +0800
 
 import uproot
 import sys
-import yaml
 
-sys.path.insert(0, '../../utils')
+from argparse import ArgumentParser
+from pyTuplingUtils.io import yaml_gen
+from pyTuplingUtils.utils import extract_uid, tabl as TAB
+from pyTuplingUtils.cutflow import CutflowGen, CutflowRule as Rule
 
-from numpy import logical_and as AND, logical_or as OR
-from numpy import sum
-from tab_gen import TAB
-from pyTuplingUtils.io import read_branch
-from pyTuplingUtils.utils import extract_uid
+
+L0 = [
+    'L0DiMuonDecision',
+    'L0ElectronDecision',
+    'L0HadronDecision',
+    'L0JetElDecision',
+    'L0JetPhDecision',
+    'L0MuonDecision',
+    'L0MuonEWDecision',
+    'L0PhotonDecision',
+    'L0Global',  # This needs to be placed to the last
+]
+
+HLT1 = [
+    'Hlt1TwoTrackMVADecision',
+    'Hlt1TrackMVALooseDecision',
+    'Hlt1TwoTrackMVALooseDecision',
+    'Hlt1TrackMuonDecision',
+    'Hlt1TrackMuonMVADecision',
+    'Hlt1SingleMuonHighPTDecision',
+    'Hlt1Phys'  # This needs to be placed to the last
+]
 
 
 ###########
 # Helpers #
 ###########
-
-def total_num(ntp, tree, branch='runNumber'):
-    return read_branch(ntp, tree, branch).size
-
 
 def simplify_line(line, remove='Decision'):
     return line.replace(remove, '')
@@ -33,99 +48,94 @@ def remove_from(lst, remove=None):
     return [i for i in lst if i != remove]
 
 
-def comb_cut(ntp, tree, basename, base_result, line,
-             particle='Y', tistos='TIS', particle_print=r'$\Upsilon(4s)$'):
-    add_branch = read_branch(ntp, tree,
-                             '{}_{}_{}'.format(particle, line, tistos))
-    result = AND(add_branch, base_result)
-    return [basename+'+{} {} {}'.format(
-        particle_print, simplify_line(line), tistos), sum(result)], result
+def cut_gen(line, particle='Y', tistos='TIS', particle_name=r'$\Upsilon(4s)$'):
+    cut = '_'.join([particle, line, tistos])
+    name = '{} {} {}'.format(particle_name, simplify_line(line), tistos)
+    return cut, name
 
 
-###################################
-# L0/HLT efficiencies from ntuple #
-###################################
-
-L0_lines = [
-    'L0DiMuonDecision',
-    'L0ElectronDecision',
-    'L0HadronDecision',
-    'L0JetElDecision',
-    'L0JetPhDecision',
-    'L0MuonDecision',
-    'L0MuonEWDecision',
-    'L0PhotonDecision',
-    'L0Global',
-]
-
-Hlt1_lines = [
-    'Hlt1TwoTrackMVADecision',
-    'Hlt1TrackMVALooseDecision',
-    'Hlt1TwoTrackMVALooseDecision',
-    'Hlt1TrackMuonDecision',
-    'Hlt1TrackMuonMVADecision',
-    'Hlt1SingleMuonHighPTDecision',
-    'Hlt1Phys'
-]
+def cut_comb(prev_cut, prev_name, *args, **kwargs):
+    cut, name = cut_gen(*args, **kwargs)
+    return prev_cut+' & ({})'.format(cut), prev_name+'+{}'.format(name)
 
 
-def tab_breakdown_cutflow(ntp, tree, marginal=True):
-    result = [['name', 'number of B']]
-
-    result.append(['DaVinci cuts (DV)', total_num(ntp, tree)])
-
-    row, base_result = comb_cut(ntp, tree, 'DV', True, 'L0HadronDecision',
-                                particle='Dst_2010_minus',
-                                particle_print=r'$D^*$',
-                                tistos='TOS')
-    result.append(row)
-    basename = row[0]
+def cutflow_rule_gen(l0lines=L0, hlt1lines=HLT1, marginal=True):
+    basecut, basename = cut_gen(
+        'L0HadronDecision', 'Dst_2010_minus', 'TOS', r'$D^*$')
+    cutflows = [Rule(basecut, basename)]
 
     if not marginal:
-        for line in L0_lines:
-            alt_row, _ = comb_cut(ntp, tree, 'DV', True, line)
-            result.append(alt_row)
+        for l0 in l0lines:
+            cut, name = cut_gen(l0)
+            cutflows.append(Rule(cut, name, -1, True))
 
-    for line in L0_lines:
-        row, L0_add_result = comb_cut(ntp, tree, basename, base_result, line)
-        result.append(row)
-        rest_of_L0 = remove_from(L0_lines, line)
-        L0_add_name = row[0]
+    for l0 in l0lines:
+        l0cut, l0name = cut_comb(basecut, basename, l0)
+        cutflows.append(Rule(l0cut, l0name, 0, True))
+        ref_idx = len(cutflows) - 1
 
-        if marginal and line != 'L0Global':
-            for lline in rest_of_L0:
-                row, _ = comb_cut(ntp, tree, L0_add_name, L0_add_result, lline)
-                result.append(row)
+        if marginal and l0 != 'L0Global':
+            for ll0 in remove_from(l0lines, l0):
+                ll0cut, ll0name = cut_comb(l0cut, l0name, ll0)
+                cutflows.append(Rule(ll0cut, ll0name, 0, True))
 
-    for line in Hlt1_lines:
-        row, Hlt1_add_result = comb_cut(
-            ntp, tree, L0_add_name, L0_add_result, line, tistos='Dec')
-        result.append(row)
-        rest_of_Hlt1 = remove_from(Hlt1_lines, line)
-        Hlt1_add_name = row[0]
+    for hlt1 in hlt1lines:
+        hlt1cut, hlt1name = cut_comb(l0cut, l0name, hlt1)
+        cutflows.append(Rule(hlt1cut, hlt1name, ref_idx, True))
 
-        if marginal and line != 'Hlt1Phys':
-            for lline in rest_of_Hlt1:
-                row, _ = comb_cut(ntp, tree, Hlt1_add_name, Hlt1_add_result,
-                                  lline, tistos='Dec')
-                result.append(row)
+        if marginal and hlt1 != 'Hlt1Phys':
+            for hhlt1 in remove_from(hlt1lines, hlt1):
+                hhlt1cut, hhlt1name = cut_comb(hlt1cut, hlt1name, hhlt1)
+                cutflows.append(Rule(hhlt1cut, hhlt1name, ref_idx, True))
 
-    return result
+    return cutflows
+
+
+################################
+# Command line argument parser #
+################################
+
+def parse_input(descr='Generate cut flow CSV from YAML files.'):
+    parser = ArgumentParser(description=descr)
+
+    parser.add_argument('ntp',
+                        help='specify ntuple path.')
+
+    parser.add_argument('yaml',
+                        help='specify output YAML path.')
+
+    parser.add_argument('-t', '--tree',
+                        default='TupleB0/DecayTree',
+                        help='specify tree name in the ntuple.'
+                        )
+
+    parser.add_argument('-f', '--format',
+                        nargs='?',
+                        choices=['latex',
+                                 'simple',
+                                 'github',
+                                 'latex_booktabs',
+                                 'latex_booktabs_raw',
+                                 'latex_raw'],
+                        default='github',
+                        help='specify the output table format.'
+                        )
+
+    return parser.parse_args()
 
 
 if __name__ == '__main__':
-    ntp_path = sys.argv[1]
-    try:
-        fmt = sys.argv[2]
-    except IndexError:
-        fmt = 'github'
+    args = parse_input()
+    _, _, size, _, _ = extract_uid(uproot.open(args.ntp), args.tree)
+    result_marginal = {'DV': {'input': size, 'output': size}}
+    result_individual = {'DV': {'input': size, 'output': size}}
 
-    ntp = uproot.open(ntp_path)
-    tree = 'TupleB0/DecayTree'
+    rules_individual = cutflow_rule_gen(marginal=False)
+    result_individual_addon = CutflowGen(
+        args.ntp, args.tree, rules_individual, size).do()
+    result_individual.update(result_individual_addon)
 
-    tab_marginal = tab_breakdown_cutflow(ntp, tree)
-    tab_individual = tab_breakdown_cutflow(ntp, tree, marginal=False)
-
-    print(TAB.tabulate(tab_marginal, headers='firstrow', tablefmt=fmt))
-    print()
-    print(TAB.tabulate(tab_individual, headers='firstrow', tablefmt=fmt))
+    # print(TAB.tabulate(tab_marginal, headers='firstrow', tablefmt=fmt))
+    # print(TAB.tabulate(tab_individual, headers='firstrow', tablefmt=fmt))
+    with open(args.yaml, 'w') as f:
+        f.write(yaml_gen(result_individual))
