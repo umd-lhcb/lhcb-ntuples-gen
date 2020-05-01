@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri May 01, 2020 at 06:15 PM +0800
+# Last Change: Fri May 01, 2020 at 07:21 PM +0800
 
 import uproot
 import sys
@@ -16,16 +16,16 @@ from pyTuplingUtils.cutflow import CutflowGen, CutflowRule as Rule
 ALIASES = {
     'SeqMyB0': 'Total events',
     'StrippedBCands': r'Stripped $D^0 \mu^-$',
-    'SelMyD0': r'$D^0 \rightarrow K^- \pi^+$ (tigter $K \pi$)',
+    'SelMyD0': r'$D^0 \rightarrow K^- \pi^+$ (tighter $K \pi$)',
     'SelMyDst': r'$D^{*+} \rightarrow D^0 \pi^+$',
     'SelMyB0': r'$\bar{B}^0 \rightarrow D^{*+} \mu^-$',
     'SelMyRefitB02DstMu': r'Refit $\bar{B}^0$ decay tree',
 }
 
 CUTFLOWS = [
-    Rule('muplus_L0Global_TIS & (Y_L0Global_TIS | Dst_2010_minus_L0HadronDecision_TOS)', 'L0'),
-    Rule('Kplus_Hlt1Phys_Dec', 'Hlt1'),
-    Rule('D0_Hlt2XcMuXForTauB2XcMuDecision_Dec', 'Hlt2'),
+    Rule('muplus_L0Global_TIS & (Y_L0Global_TIS | Dst_2010_minus_L0HadronDecision_TOS)', key='L0'),
+    Rule('Kplus_Hlt1Phys_Dec', key='Hlt1'),
+    Rule('D0_Hlt2XcMuXForTauB2XcMuDecision_Dec', key='Hlt2'),
     Rule('muplus_isMuon & muplus_PIDmu > 2', r'$\mu$ PID'),
     Rule('Y_ISOLATION_BDT < 0.15', r'$\text{IsoBDT}_{\Upsilon(\text{4s})} < 0.15$'),
     Rule('Y_M < 5280', r'$m_{\Upsilon(\text{4s})} < 5280$'),

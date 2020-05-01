@@ -9,37 +9,37 @@ StrippedBCands:
 SelMyD0:
     input: 10422
     output: 10080
-    name: $D^0 \rightarrow K^- \pi^+$ (tigter $K \pi$)
+    name: $D^0 \rightarrow K^- \pi^+$ (tighter $K \pi$)
 SelMyDst:
     input: 10080
-    output: 5987
+    output: 5988
     name: $D^{*+} \rightarrow D^0 \pi^+$
 SelMyB0:
-    input: 5987
-    output: 5498
+    input: 5988
+    output: 5500
     name: $\bar{B}^0 \rightarrow D^{*+} \mu^-$
 SelMyRefitB02DstMu:
-    input: 5498
-    output: 5197
+    input: 5500
+    output: 5199
     name: Refit $\bar{B}^0$ decay tree
 L0:
-    input: 5794
-    output: 2587
+    input: 5796
+    output: 2589
 Hlt1:
-    input: 2587
-    output: 1882
+    input: 2589
+    output: 1884
 Hlt2:
-    input: 1882
-    output: 1282
-Mu_pid:
-    input: 1282
-    output: 1282
+    input: 1884
+    output: 1283
+muplus_isMuon & muplus_PIDmu > 2:
+    input: 1283
+    output: 1283
     name: $\mu$ PID
-Y_isolation:
-    input: 1282
-    output: 977
+Y_ISOLATION_BDT < 0.15:
+    input: 1283
+    output: 979
     name: $\text{IsoBDT}_{\Upsilon(\text{4s})} < 0.15$
-Y_mass:
-    input: 977
-    output: 977
+Y_M < 5280:
+    input: 979
+    output: 979
     name: $m_{\Upsilon(\text{4s})} < 5280$
