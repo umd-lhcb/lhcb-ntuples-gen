@@ -16,7 +16,7 @@
 
         Example usage:
         ```
-        ./davinci_log_parser.py test_output.yml $INPUT_DIR/53/*/output/*.log
+        ./davinci_log_parser.py input-run1.yml $INPUT_DIR/53/*/output/*.log
         ```
 
 2. Run the [`cutflow-run1.py`](https://github.com/umd-lhcb/lhcb-ntuples-gen/blob/master/run1-b2D0MuXB2DMuNuForTauMuLine/cutflow/cutflow-run1.py) and [`cutflow-run2.py`](https://github.com/umd-lhcb/lhcb-ntuples-gen/blob/master/run2-b2D0MuXB2DMuForTauMuLine/cutflow/cutflow-run2.py).

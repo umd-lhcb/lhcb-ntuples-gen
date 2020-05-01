@@ -6,298 +6,6 @@ Dst_2010_minus_L0HadronDecision_TOS:
     input: 5796
     output: 1205
     name: $D^*$ L0Hadron TOS
-Dst_2010_minus_L0HadronDecision_TOS & (Y_L0ElectronDecision_TIS):
-    input: 1205
-    output: 113
-    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Electron TIS
-Dst_2010_minus_L0HadronDecision_TOS & (Y_L0ElectronDecision_TIS) & (Y_L0ElectronHiDecision_TIS):
-    input: 1205
-    output: 35
-    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Electron TIS+$\Upsilon(4s)$ L0ElectronHi TIS
-Dst_2010_minus_L0HadronDecision_TOS & (Y_L0ElectronDecision_TIS) & (Y_L0HadronDecision_TIS):
-    input: 1205
-    output: 65
-    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Electron TIS+$\Upsilon(4s)$ L0Hadron TIS
-Dst_2010_minus_L0HadronDecision_TOS & (Y_L0ElectronDecision_TIS) & (Y_L0HighSumETJetDecision_TIS):
-    input: 1205
-    output: 0
-    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Electron TIS+$\Upsilon(4s)$ L0HighSumETJet TIS
-Dst_2010_minus_L0HadronDecision_TOS & (Y_L0ElectronDecision_TIS) & (Y_L0MuonDecision_TIS):
-    input: 1205
-    output: 16
-    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Electron TIS+$\Upsilon(4s)$ L0Muon TIS
-Dst_2010_minus_L0HadronDecision_TOS & (Y_L0ElectronDecision_TIS) & (Y_L0NoPVFlagDecision_TIS):
-    input: 1205
-    output: 0
-    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Electron TIS+$\Upsilon(4s)$ L0NoPVFlag TIS
-Dst_2010_minus_L0HadronDecision_TOS & (Y_L0ElectronDecision_TIS) & (Y_L0PhotonDecision_TIS):
-    input: 1205
-    output: 17
-    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Electron TIS+$\Upsilon(4s)$ L0Photon TIS
-Dst_2010_minus_L0HadronDecision_TOS & (Y_L0ElectronDecision_TIS) & (Y_L0PhotonHiDecision_TIS):
-    input: 1205
-    output: 10
-    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Electron TIS+$\Upsilon(4s)$ L0PhotonHi TIS
-Dst_2010_minus_L0HadronDecision_TOS & (Y_L0ElectronDecision_TIS) & (Y_L0Global_TIS):
-    input: 1205
-    output: 113
-    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Electron TIS+$\Upsilon(4s)$ L0Global TIS
-Dst_2010_minus_L0HadronDecision_TOS & (Y_L0ElectronHiDecision_TIS):
-    input: 1205
-    output: 35
-    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0ElectronHi TIS
-Dst_2010_minus_L0HadronDecision_TOS & (Y_L0ElectronHiDecision_TIS) & (Y_L0ElectronDecision_TIS):
-    input: 1205
-    output: 35
-    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0ElectronHi TIS+$\Upsilon(4s)$ L0Electron TIS
-Dst_2010_minus_L0HadronDecision_TOS & (Y_L0ElectronHiDecision_TIS) & (Y_L0HadronDecision_TIS):
-    input: 1205
-    output: 22
-    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0ElectronHi TIS+$\Upsilon(4s)$ L0Hadron TIS
-Dst_2010_minus_L0HadronDecision_TOS & (Y_L0ElectronHiDecision_TIS) & (Y_L0HighSumETJetDecision_TIS):
-    input: 1205
-    output: 0
-    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0ElectronHi TIS+$\Upsilon(4s)$ L0HighSumETJet TIS
-Dst_2010_minus_L0HadronDecision_TOS & (Y_L0ElectronHiDecision_TIS) & (Y_L0MuonDecision_TIS):
-    input: 1205
-    output: 4
-    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0ElectronHi TIS+$\Upsilon(4s)$ L0Muon TIS
-Dst_2010_minus_L0HadronDecision_TOS & (Y_L0ElectronHiDecision_TIS) & (Y_L0NoPVFlagDecision_TIS):
-    input: 1205
-    output: 0
-    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0ElectronHi TIS+$\Upsilon(4s)$ L0NoPVFlag TIS
-Dst_2010_minus_L0HadronDecision_TOS & (Y_L0ElectronHiDecision_TIS) & (Y_L0PhotonDecision_TIS):
-    input: 1205
-    output: 6
-    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0ElectronHi TIS+$\Upsilon(4s)$ L0Photon TIS
-Dst_2010_minus_L0HadronDecision_TOS & (Y_L0ElectronHiDecision_TIS) & (Y_L0PhotonHiDecision_TIS):
-    input: 1205
-    output: 4
-    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0ElectronHi TIS+$\Upsilon(4s)$ L0PhotonHi TIS
-Dst_2010_minus_L0HadronDecision_TOS & (Y_L0ElectronHiDecision_TIS) & (Y_L0Global_TIS):
-    input: 1205
-    output: 35
-    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0ElectronHi TIS+$\Upsilon(4s)$ L0Global TIS
-Dst_2010_minus_L0HadronDecision_TOS & (Y_L0HadronDecision_TIS):
-    input: 1205
-    output: 330
-    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Hadron TIS
-Dst_2010_minus_L0HadronDecision_TOS & (Y_L0HadronDecision_TIS) & (Y_L0ElectronDecision_TIS):
-    input: 1205
-    output: 65
-    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Hadron TIS+$\Upsilon(4s)$ L0Electron TIS
-Dst_2010_minus_L0HadronDecision_TOS & (Y_L0HadronDecision_TIS) & (Y_L0ElectronHiDecision_TIS):
-    input: 1205
-    output: 22
-    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Hadron TIS+$\Upsilon(4s)$ L0ElectronHi TIS
-Dst_2010_minus_L0HadronDecision_TOS & (Y_L0HadronDecision_TIS) & (Y_L0HighSumETJetDecision_TIS):
-    input: 1205
-    output: 0
-    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Hadron TIS+$\Upsilon(4s)$ L0HighSumETJet TIS
-Dst_2010_minus_L0HadronDecision_TOS & (Y_L0HadronDecision_TIS) & (Y_L0MuonDecision_TIS):
-    input: 1205
-    output: 40
-    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Hadron TIS+$\Upsilon(4s)$ L0Muon TIS
-Dst_2010_minus_L0HadronDecision_TOS & (Y_L0HadronDecision_TIS) & (Y_L0NoPVFlagDecision_TIS):
-    input: 1205
-    output: 0
-    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Hadron TIS+$\Upsilon(4s)$ L0NoPVFlag TIS
-Dst_2010_minus_L0HadronDecision_TOS & (Y_L0HadronDecision_TIS) & (Y_L0PhotonDecision_TIS):
-    input: 1205
-    output: 36
-    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Hadron TIS+$\Upsilon(4s)$ L0Photon TIS
-Dst_2010_minus_L0HadronDecision_TOS & (Y_L0HadronDecision_TIS) & (Y_L0PhotonHiDecision_TIS):
-    input: 1205
-    output: 12
-    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Hadron TIS+$\Upsilon(4s)$ L0PhotonHi TIS
-Dst_2010_minus_L0HadronDecision_TOS & (Y_L0HadronDecision_TIS) & (Y_L0Global_TIS):
-    input: 1205
-    output: 330
-    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Hadron TIS+$\Upsilon(4s)$ L0Global TIS
-Dst_2010_minus_L0HadronDecision_TOS & (Y_L0HighSumETJetDecision_TIS):
-    input: 1205
-    output: 0
-    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0HighSumETJet TIS
-Dst_2010_minus_L0HadronDecision_TOS & (Y_L0HighSumETJetDecision_TIS) & (Y_L0ElectronDecision_TIS):
-    input: 1205
-    output: 0
-    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0HighSumETJet TIS+$\Upsilon(4s)$ L0Electron TIS
-Dst_2010_minus_L0HadronDecision_TOS & (Y_L0HighSumETJetDecision_TIS) & (Y_L0ElectronHiDecision_TIS):
-    input: 1205
-    output: 0
-    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0HighSumETJet TIS+$\Upsilon(4s)$ L0ElectronHi TIS
-Dst_2010_minus_L0HadronDecision_TOS & (Y_L0HighSumETJetDecision_TIS) & (Y_L0HadronDecision_TIS):
-    input: 1205
-    output: 0
-    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0HighSumETJet TIS+$\Upsilon(4s)$ L0Hadron TIS
-Dst_2010_minus_L0HadronDecision_TOS & (Y_L0HighSumETJetDecision_TIS) & (Y_L0MuonDecision_TIS):
-    input: 1205
-    output: 0
-    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0HighSumETJet TIS+$\Upsilon(4s)$ L0Muon TIS
-Dst_2010_minus_L0HadronDecision_TOS & (Y_L0HighSumETJetDecision_TIS) & (Y_L0NoPVFlagDecision_TIS):
-    input: 1205
-    output: 0
-    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0HighSumETJet TIS+$\Upsilon(4s)$ L0NoPVFlag TIS
-Dst_2010_minus_L0HadronDecision_TOS & (Y_L0HighSumETJetDecision_TIS) & (Y_L0PhotonDecision_TIS):
-    input: 1205
-    output: 0
-    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0HighSumETJet TIS+$\Upsilon(4s)$ L0Photon TIS
-Dst_2010_minus_L0HadronDecision_TOS & (Y_L0HighSumETJetDecision_TIS) & (Y_L0PhotonHiDecision_TIS):
-    input: 1205
-    output: 0
-    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0HighSumETJet TIS+$\Upsilon(4s)$ L0PhotonHi TIS
-Dst_2010_minus_L0HadronDecision_TOS & (Y_L0HighSumETJetDecision_TIS) & (Y_L0Global_TIS):
-    input: 1205
-    output: 0
-    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0HighSumETJet TIS+$\Upsilon(4s)$ L0Global TIS
-Dst_2010_minus_L0HadronDecision_TOS & (Y_L0MuonDecision_TIS):
-    input: 1205
-    output: 135
-    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Muon TIS
-Dst_2010_minus_L0HadronDecision_TOS & (Y_L0MuonDecision_TIS) & (Y_L0ElectronDecision_TIS):
-    input: 1205
-    output: 16
-    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Muon TIS+$\Upsilon(4s)$ L0Electron TIS
-Dst_2010_minus_L0HadronDecision_TOS & (Y_L0MuonDecision_TIS) & (Y_L0ElectronHiDecision_TIS):
-    input: 1205
-    output: 4
-    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Muon TIS+$\Upsilon(4s)$ L0ElectronHi TIS
-Dst_2010_minus_L0HadronDecision_TOS & (Y_L0MuonDecision_TIS) & (Y_L0HadronDecision_TIS):
-    input: 1205
-    output: 40
-    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Muon TIS+$\Upsilon(4s)$ L0Hadron TIS
-Dst_2010_minus_L0HadronDecision_TOS & (Y_L0MuonDecision_TIS) & (Y_L0HighSumETJetDecision_TIS):
-    input: 1205
-    output: 0
-    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Muon TIS+$\Upsilon(4s)$ L0HighSumETJet TIS
-Dst_2010_minus_L0HadronDecision_TOS & (Y_L0MuonDecision_TIS) & (Y_L0NoPVFlagDecision_TIS):
-    input: 1205
-    output: 0
-    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Muon TIS+$\Upsilon(4s)$ L0NoPVFlag TIS
-Dst_2010_minus_L0HadronDecision_TOS & (Y_L0MuonDecision_TIS) & (Y_L0PhotonDecision_TIS):
-    input: 1205
-    output: 7
-    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Muon TIS+$\Upsilon(4s)$ L0Photon TIS
-Dst_2010_minus_L0HadronDecision_TOS & (Y_L0MuonDecision_TIS) & (Y_L0PhotonHiDecision_TIS):
-    input: 1205
-    output: 3
-    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Muon TIS+$\Upsilon(4s)$ L0PhotonHi TIS
-Dst_2010_minus_L0HadronDecision_TOS & (Y_L0MuonDecision_TIS) & (Y_L0Global_TIS):
-    input: 1205
-    output: 135
-    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Muon TIS+$\Upsilon(4s)$ L0Global TIS
-Dst_2010_minus_L0HadronDecision_TOS & (Y_L0NoPVFlagDecision_TIS):
-    input: 1205
-    output: 0
-    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0NoPVFlag TIS
-Dst_2010_minus_L0HadronDecision_TOS & (Y_L0NoPVFlagDecision_TIS) & (Y_L0ElectronDecision_TIS):
-    input: 1205
-    output: 0
-    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0NoPVFlag TIS+$\Upsilon(4s)$ L0Electron TIS
-Dst_2010_minus_L0HadronDecision_TOS & (Y_L0NoPVFlagDecision_TIS) & (Y_L0ElectronHiDecision_TIS):
-    input: 1205
-    output: 0
-    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0NoPVFlag TIS+$\Upsilon(4s)$ L0ElectronHi TIS
-Dst_2010_minus_L0HadronDecision_TOS & (Y_L0NoPVFlagDecision_TIS) & (Y_L0HadronDecision_TIS):
-    input: 1205
-    output: 0
-    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0NoPVFlag TIS+$\Upsilon(4s)$ L0Hadron TIS
-Dst_2010_minus_L0HadronDecision_TOS & (Y_L0NoPVFlagDecision_TIS) & (Y_L0HighSumETJetDecision_TIS):
-    input: 1205
-    output: 0
-    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0NoPVFlag TIS+$\Upsilon(4s)$ L0HighSumETJet TIS
-Dst_2010_minus_L0HadronDecision_TOS & (Y_L0NoPVFlagDecision_TIS) & (Y_L0MuonDecision_TIS):
-    input: 1205
-    output: 0
-    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0NoPVFlag TIS+$\Upsilon(4s)$ L0Muon TIS
-Dst_2010_minus_L0HadronDecision_TOS & (Y_L0NoPVFlagDecision_TIS) & (Y_L0PhotonDecision_TIS):
-    input: 1205
-    output: 0
-    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0NoPVFlag TIS+$\Upsilon(4s)$ L0Photon TIS
-Dst_2010_minus_L0HadronDecision_TOS & (Y_L0NoPVFlagDecision_TIS) & (Y_L0PhotonHiDecision_TIS):
-    input: 1205
-    output: 0
-    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0NoPVFlag TIS+$\Upsilon(4s)$ L0PhotonHi TIS
-Dst_2010_minus_L0HadronDecision_TOS & (Y_L0NoPVFlagDecision_TIS) & (Y_L0Global_TIS):
-    input: 1205
-    output: 0
-    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0NoPVFlag TIS+$\Upsilon(4s)$ L0Global TIS
-Dst_2010_minus_L0HadronDecision_TOS & (Y_L0PhotonDecision_TIS):
-    input: 1205
-    output: 68
-    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Photon TIS
-Dst_2010_minus_L0HadronDecision_TOS & (Y_L0PhotonDecision_TIS) & (Y_L0ElectronDecision_TIS):
-    input: 1205
-    output: 17
-    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Photon TIS+$\Upsilon(4s)$ L0Electron TIS
-Dst_2010_minus_L0HadronDecision_TOS & (Y_L0PhotonDecision_TIS) & (Y_L0ElectronHiDecision_TIS):
-    input: 1205
-    output: 6
-    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Photon TIS+$\Upsilon(4s)$ L0ElectronHi TIS
-Dst_2010_minus_L0HadronDecision_TOS & (Y_L0PhotonDecision_TIS) & (Y_L0HadronDecision_TIS):
-    input: 1205
-    output: 36
-    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Photon TIS+$\Upsilon(4s)$ L0Hadron TIS
-Dst_2010_minus_L0HadronDecision_TOS & (Y_L0PhotonDecision_TIS) & (Y_L0HighSumETJetDecision_TIS):
-    input: 1205
-    output: 0
-    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Photon TIS+$\Upsilon(4s)$ L0HighSumETJet TIS
-Dst_2010_minus_L0HadronDecision_TOS & (Y_L0PhotonDecision_TIS) & (Y_L0MuonDecision_TIS):
-    input: 1205
-    output: 7
-    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Photon TIS+$\Upsilon(4s)$ L0Muon TIS
-Dst_2010_minus_L0HadronDecision_TOS & (Y_L0PhotonDecision_TIS) & (Y_L0NoPVFlagDecision_TIS):
-    input: 1205
-    output: 0
-    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Photon TIS+$\Upsilon(4s)$ L0NoPVFlag TIS
-Dst_2010_minus_L0HadronDecision_TOS & (Y_L0PhotonDecision_TIS) & (Y_L0PhotonHiDecision_TIS):
-    input: 1205
-    output: 19
-    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Photon TIS+$\Upsilon(4s)$ L0PhotonHi TIS
-Dst_2010_minus_L0HadronDecision_TOS & (Y_L0PhotonDecision_TIS) & (Y_L0Global_TIS):
-    input: 1205
-    output: 68
-    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Photon TIS+$\Upsilon(4s)$ L0Global TIS
-Dst_2010_minus_L0HadronDecision_TOS & (Y_L0PhotonHiDecision_TIS):
-    input: 1205
-    output: 19
-    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0PhotonHi TIS
-Dst_2010_minus_L0HadronDecision_TOS & (Y_L0PhotonHiDecision_TIS) & (Y_L0ElectronDecision_TIS):
-    input: 1205
-    output: 10
-    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0PhotonHi TIS+$\Upsilon(4s)$ L0Electron TIS
-Dst_2010_minus_L0HadronDecision_TOS & (Y_L0PhotonHiDecision_TIS) & (Y_L0ElectronHiDecision_TIS):
-    input: 1205
-    output: 4
-    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0PhotonHi TIS+$\Upsilon(4s)$ L0ElectronHi TIS
-Dst_2010_minus_L0HadronDecision_TOS & (Y_L0PhotonHiDecision_TIS) & (Y_L0HadronDecision_TIS):
-    input: 1205
-    output: 12
-    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0PhotonHi TIS+$\Upsilon(4s)$ L0Hadron TIS
-Dst_2010_minus_L0HadronDecision_TOS & (Y_L0PhotonHiDecision_TIS) & (Y_L0HighSumETJetDecision_TIS):
-    input: 1205
-    output: 0
-    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0PhotonHi TIS+$\Upsilon(4s)$ L0HighSumETJet TIS
-Dst_2010_minus_L0HadronDecision_TOS & (Y_L0PhotonHiDecision_TIS) & (Y_L0MuonDecision_TIS):
-    input: 1205
-    output: 3
-    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0PhotonHi TIS+$\Upsilon(4s)$ L0Muon TIS
-Dst_2010_minus_L0HadronDecision_TOS & (Y_L0PhotonHiDecision_TIS) & (Y_L0NoPVFlagDecision_TIS):
-    input: 1205
-    output: 0
-    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0PhotonHi TIS+$\Upsilon(4s)$ L0NoPVFlag TIS
-Dst_2010_minus_L0HadronDecision_TOS & (Y_L0PhotonHiDecision_TIS) & (Y_L0PhotonDecision_TIS):
-    input: 1205
-    output: 19
-    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0PhotonHi TIS+$\Upsilon(4s)$ L0Photon TIS
-Dst_2010_minus_L0HadronDecision_TOS & (Y_L0PhotonHiDecision_TIS) & (Y_L0Global_TIS):
-    input: 1205
-    output: 19
-    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0PhotonHi TIS+$\Upsilon(4s)$ L0Global TIS
-Dst_2010_minus_L0HadronDecision_TOS & (Y_L0Global_TIS):
-    input: 1205
-    output: 489
-    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS
 Y_L0ElectronDecision_TIS:
     input: 5796
     output: 387
@@ -334,3 +42,39 @@ Y_L0Global_TIS:
     input: 5796
     output: 1931
     name: $\Upsilon(4s)$ L0Global TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0ElectronDecision_TIS):
+    input: 1205
+    output: 113
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Electron TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0ElectronHiDecision_TIS):
+    input: 1205
+    output: 35
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0ElectronHi TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0HadronDecision_TIS):
+    input: 1205
+    output: 330
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Hadron TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0HighSumETJetDecision_TIS):
+    input: 1205
+    output: 0
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0HighSumETJet TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0MuonDecision_TIS):
+    input: 1205
+    output: 135
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Muon TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0NoPVFlagDecision_TIS):
+    input: 1205
+    output: 0
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0NoPVFlag TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0PhotonDecision_TIS):
+    input: 1205
+    output: 68
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Photon TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0PhotonHiDecision_TIS):
+    input: 1205
+    output: 19
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0PhotonHi TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0Global_TIS):
+    input: 1205
+    output: 489
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS
