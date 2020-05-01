@@ -1,0 +1,508 @@
+DV:
+    input: 6731
+    output: 6731
+    name: After DaVinci
+Dst_2010_minus_L0HadronDecision_TOS:
+    input: 6731
+    output: 1628
+    name: $D^*$ L0Hadron TOS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0DiMuonDecision_TIS):
+    input: 1628
+    output: 36
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0DiMuon TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0DiMuonDecision_TIS) & (Y_L0ElectronDecision_TIS):
+    input: 1628
+    output: 6
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0DiMuon TIS+$\Upsilon(4s)$ L0Electron TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0DiMuonDecision_TIS) & (Y_L0HadronDecision_TIS):
+    input: 1628
+    output: 8
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0DiMuon TIS+$\Upsilon(4s)$ L0Hadron TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0DiMuonDecision_TIS) & (Y_L0JetElDecision_TIS):
+    input: 1628
+    output: 0
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0DiMuon TIS+$\Upsilon(4s)$ L0JetEl TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0DiMuonDecision_TIS) & (Y_L0JetPhDecision_TIS):
+    input: 1628
+    output: 0
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0DiMuon TIS+$\Upsilon(4s)$ L0JetPh TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0DiMuonDecision_TIS) & (Y_L0MuonDecision_TIS):
+    input: 1628
+    output: 35
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0DiMuon TIS+$\Upsilon(4s)$ L0Muon TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0DiMuonDecision_TIS) & (Y_L0MuonEWDecision_TIS):
+    input: 1628
+    output: 9
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0DiMuon TIS+$\Upsilon(4s)$ L0MuonEW TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0DiMuonDecision_TIS) & (Y_L0PhotonDecision_TIS):
+    input: 1628
+    output: 1
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0DiMuon TIS+$\Upsilon(4s)$ L0Photon TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0DiMuonDecision_TIS) & (Y_L0Global_TIS):
+    input: 1628
+    output: 36
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0DiMuon TIS+$\Upsilon(4s)$ L0Global TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0ElectronDecision_TIS):
+    input: 1628
+    output: 175
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Electron TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0ElectronDecision_TIS) & (Y_L0DiMuonDecision_TIS):
+    input: 1628
+    output: 6
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Electron TIS+$\Upsilon(4s)$ L0DiMuon TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0ElectronDecision_TIS) & (Y_L0HadronDecision_TIS):
+    input: 1628
+    output: 85
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Electron TIS+$\Upsilon(4s)$ L0Hadron TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0ElectronDecision_TIS) & (Y_L0JetElDecision_TIS):
+    input: 1628
+    output: 8
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Electron TIS+$\Upsilon(4s)$ L0JetEl TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0ElectronDecision_TIS) & (Y_L0JetPhDecision_TIS):
+    input: 1628
+    output: 1
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Electron TIS+$\Upsilon(4s)$ L0JetPh TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0ElectronDecision_TIS) & (Y_L0MuonDecision_TIS):
+    input: 1628
+    output: 16
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Electron TIS+$\Upsilon(4s)$ L0Muon TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0ElectronDecision_TIS) & (Y_L0MuonEWDecision_TIS):
+    input: 1628
+    output: 8
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Electron TIS+$\Upsilon(4s)$ L0MuonEW TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0ElectronDecision_TIS) & (Y_L0PhotonDecision_TIS):
+    input: 1628
+    output: 15
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Electron TIS+$\Upsilon(4s)$ L0Photon TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0ElectronDecision_TIS) & (Y_L0Global_TIS):
+    input: 1628
+    output: 175
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Electron TIS+$\Upsilon(4s)$ L0Global TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0HadronDecision_TIS):
+    input: 1628
+    output: 355
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Hadron TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0HadronDecision_TIS) & (Y_L0DiMuonDecision_TIS):
+    input: 1628
+    output: 8
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Hadron TIS+$\Upsilon(4s)$ L0DiMuon TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0HadronDecision_TIS) & (Y_L0ElectronDecision_TIS):
+    input: 1628
+    output: 85
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Hadron TIS+$\Upsilon(4s)$ L0Electron TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0HadronDecision_TIS) & (Y_L0JetElDecision_TIS):
+    input: 1628
+    output: 8
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Hadron TIS+$\Upsilon(4s)$ L0JetEl TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0HadronDecision_TIS) & (Y_L0JetPhDecision_TIS):
+    input: 1628
+    output: 2
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Hadron TIS+$\Upsilon(4s)$ L0JetPh TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0HadronDecision_TIS) & (Y_L0MuonDecision_TIS):
+    input: 1628
+    output: 31
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Hadron TIS+$\Upsilon(4s)$ L0Muon TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0HadronDecision_TIS) & (Y_L0MuonEWDecision_TIS):
+    input: 1628
+    output: 9
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Hadron TIS+$\Upsilon(4s)$ L0MuonEW TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0HadronDecision_TIS) & (Y_L0PhotonDecision_TIS):
+    input: 1628
+    output: 33
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Hadron TIS+$\Upsilon(4s)$ L0Photon TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0HadronDecision_TIS) & (Y_L0Global_TIS):
+    input: 1628
+    output: 355
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Hadron TIS+$\Upsilon(4s)$ L0Global TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0JetElDecision_TIS):
+    input: 1628
+    output: 8
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0JetEl TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0JetElDecision_TIS) & (Y_L0DiMuonDecision_TIS):
+    input: 1628
+    output: 0
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0JetEl TIS+$\Upsilon(4s)$ L0DiMuon TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0JetElDecision_TIS) & (Y_L0ElectronDecision_TIS):
+    input: 1628
+    output: 8
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0JetEl TIS+$\Upsilon(4s)$ L0Electron TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0JetElDecision_TIS) & (Y_L0HadronDecision_TIS):
+    input: 1628
+    output: 8
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0JetEl TIS+$\Upsilon(4s)$ L0Hadron TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0JetElDecision_TIS) & (Y_L0JetPhDecision_TIS):
+    input: 1628
+    output: 0
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0JetEl TIS+$\Upsilon(4s)$ L0JetPh TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0JetElDecision_TIS) & (Y_L0MuonDecision_TIS):
+    input: 1628
+    output: 0
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0JetEl TIS+$\Upsilon(4s)$ L0Muon TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0JetElDecision_TIS) & (Y_L0MuonEWDecision_TIS):
+    input: 1628
+    output: 0
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0JetEl TIS+$\Upsilon(4s)$ L0MuonEW TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0JetElDecision_TIS) & (Y_L0PhotonDecision_TIS):
+    input: 1628
+    output: 1
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0JetEl TIS+$\Upsilon(4s)$ L0Photon TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0JetElDecision_TIS) & (Y_L0Global_TIS):
+    input: 1628
+    output: 8
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0JetEl TIS+$\Upsilon(4s)$ L0Global TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0JetPhDecision_TIS):
+    input: 1628
+    output: 2
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0JetPh TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0JetPhDecision_TIS) & (Y_L0DiMuonDecision_TIS):
+    input: 1628
+    output: 0
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0JetPh TIS+$\Upsilon(4s)$ L0DiMuon TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0JetPhDecision_TIS) & (Y_L0ElectronDecision_TIS):
+    input: 1628
+    output: 1
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0JetPh TIS+$\Upsilon(4s)$ L0Electron TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0JetPhDecision_TIS) & (Y_L0HadronDecision_TIS):
+    input: 1628
+    output: 2
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0JetPh TIS+$\Upsilon(4s)$ L0Hadron TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0JetPhDecision_TIS) & (Y_L0JetElDecision_TIS):
+    input: 1628
+    output: 0
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0JetPh TIS+$\Upsilon(4s)$ L0JetEl TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0JetPhDecision_TIS) & (Y_L0MuonDecision_TIS):
+    input: 1628
+    output: 1
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0JetPh TIS+$\Upsilon(4s)$ L0Muon TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0JetPhDecision_TIS) & (Y_L0MuonEWDecision_TIS):
+    input: 1628
+    output: 0
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0JetPh TIS+$\Upsilon(4s)$ L0MuonEW TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0JetPhDecision_TIS) & (Y_L0PhotonDecision_TIS):
+    input: 1628
+    output: 2
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0JetPh TIS+$\Upsilon(4s)$ L0Photon TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0JetPhDecision_TIS) & (Y_L0Global_TIS):
+    input: 1628
+    output: 2
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0JetPh TIS+$\Upsilon(4s)$ L0Global TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0MuonDecision_TIS):
+    input: 1628
+    output: 147
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Muon TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0MuonDecision_TIS) & (Y_L0DiMuonDecision_TIS):
+    input: 1628
+    output: 35
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Muon TIS+$\Upsilon(4s)$ L0DiMuon TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0MuonDecision_TIS) & (Y_L0ElectronDecision_TIS):
+    input: 1628
+    output: 16
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Muon TIS+$\Upsilon(4s)$ L0Electron TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0MuonDecision_TIS) & (Y_L0HadronDecision_TIS):
+    input: 1628
+    output: 31
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Muon TIS+$\Upsilon(4s)$ L0Hadron TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0MuonDecision_TIS) & (Y_L0JetElDecision_TIS):
+    input: 1628
+    output: 0
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Muon TIS+$\Upsilon(4s)$ L0JetEl TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0MuonDecision_TIS) & (Y_L0JetPhDecision_TIS):
+    input: 1628
+    output: 1
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Muon TIS+$\Upsilon(4s)$ L0JetPh TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0MuonDecision_TIS) & (Y_L0MuonEWDecision_TIS):
+    input: 1628
+    output: 37
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Muon TIS+$\Upsilon(4s)$ L0MuonEW TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0MuonDecision_TIS) & (Y_L0PhotonDecision_TIS):
+    input: 1628
+    output: 8
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Muon TIS+$\Upsilon(4s)$ L0Photon TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0MuonDecision_TIS) & (Y_L0Global_TIS):
+    input: 1628
+    output: 147
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Muon TIS+$\Upsilon(4s)$ L0Global TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0MuonEWDecision_TIS):
+    input: 1628
+    output: 37
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0MuonEW TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0MuonEWDecision_TIS) & (Y_L0DiMuonDecision_TIS):
+    input: 1628
+    output: 9
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0MuonEW TIS+$\Upsilon(4s)$ L0DiMuon TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0MuonEWDecision_TIS) & (Y_L0ElectronDecision_TIS):
+    input: 1628
+    output: 8
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0MuonEW TIS+$\Upsilon(4s)$ L0Electron TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0MuonEWDecision_TIS) & (Y_L0HadronDecision_TIS):
+    input: 1628
+    output: 9
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0MuonEW TIS+$\Upsilon(4s)$ L0Hadron TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0MuonEWDecision_TIS) & (Y_L0JetElDecision_TIS):
+    input: 1628
+    output: 0
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0MuonEW TIS+$\Upsilon(4s)$ L0JetEl TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0MuonEWDecision_TIS) & (Y_L0JetPhDecision_TIS):
+    input: 1628
+    output: 0
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0MuonEW TIS+$\Upsilon(4s)$ L0JetPh TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0MuonEWDecision_TIS) & (Y_L0MuonDecision_TIS):
+    input: 1628
+    output: 37
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0MuonEW TIS+$\Upsilon(4s)$ L0Muon TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0MuonEWDecision_TIS) & (Y_L0PhotonDecision_TIS):
+    input: 1628
+    output: 3
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0MuonEW TIS+$\Upsilon(4s)$ L0Photon TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0MuonEWDecision_TIS) & (Y_L0Global_TIS):
+    input: 1628
+    output: 37
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0MuonEW TIS+$\Upsilon(4s)$ L0Global TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0PhotonDecision_TIS):
+    input: 1628
+    output: 72
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Photon TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0PhotonDecision_TIS) & (Y_L0DiMuonDecision_TIS):
+    input: 1628
+    output: 1
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Photon TIS+$\Upsilon(4s)$ L0DiMuon TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0PhotonDecision_TIS) & (Y_L0ElectronDecision_TIS):
+    input: 1628
+    output: 15
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Photon TIS+$\Upsilon(4s)$ L0Electron TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0PhotonDecision_TIS) & (Y_L0HadronDecision_TIS):
+    input: 1628
+    output: 33
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Photon TIS+$\Upsilon(4s)$ L0Hadron TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0PhotonDecision_TIS) & (Y_L0JetElDecision_TIS):
+    input: 1628
+    output: 1
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Photon TIS+$\Upsilon(4s)$ L0JetEl TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0PhotonDecision_TIS) & (Y_L0JetPhDecision_TIS):
+    input: 1628
+    output: 2
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Photon TIS+$\Upsilon(4s)$ L0JetPh TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0PhotonDecision_TIS) & (Y_L0MuonDecision_TIS):
+    input: 1628
+    output: 8
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Photon TIS+$\Upsilon(4s)$ L0Muon TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0PhotonDecision_TIS) & (Y_L0MuonEWDecision_TIS):
+    input: 1628
+    output: 3
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Photon TIS+$\Upsilon(4s)$ L0MuonEW TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0PhotonDecision_TIS) & (Y_L0Global_TIS):
+    input: 1628
+    output: 72
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Photon TIS+$\Upsilon(4s)$ L0Global TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0Global_TIS):
+    input: 1628
+    output: 578
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0Global_TIS) & (Y_Hlt1TwoTrackMVADecision_TIS):
+    input: 578
+    output: 167
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1TwoTrackMVA TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0Global_TIS) & (Y_Hlt1TwoTrackMVADecision_TIS) & (Y_Hlt1TrackMVALooseDecision_TIS):
+    input: 578
+    output: 118
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1TwoTrackMVA TIS+$\Upsilon(4s)$ Hlt1TrackMVALoose TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0Global_TIS) & (Y_Hlt1TwoTrackMVADecision_TIS) & (Y_Hlt1TwoTrackMVALooseDecision_TIS):
+    input: 578
+    output: 167
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1TwoTrackMVA TIS+$\Upsilon(4s)$ Hlt1TwoTrackMVALoose TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0Global_TIS) & (Y_Hlt1TwoTrackMVADecision_TIS) & (Y_Hlt1TrackMuonDecision_TIS):
+    input: 578
+    output: 23
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1TwoTrackMVA TIS+$\Upsilon(4s)$ Hlt1TrackMuon TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0Global_TIS) & (Y_Hlt1TwoTrackMVADecision_TIS) & (Y_Hlt1TrackMuonMVADecision_TIS):
+    input: 578
+    output: 15
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1TwoTrackMVA TIS+$\Upsilon(4s)$ Hlt1TrackMuonMVA TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0Global_TIS) & (Y_Hlt1TwoTrackMVADecision_TIS) & (Y_Hlt1SingleMuonHighPTDecision_TIS):
+    input: 578
+    output: 3
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1TwoTrackMVA TIS+$\Upsilon(4s)$ Hlt1SingleMuonHighPT TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0Global_TIS) & (Y_Hlt1TwoTrackMVADecision_TIS) & (Y_Hlt1Phys_TIS):
+    input: 578
+    output: 167
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1TwoTrackMVA TIS+$\Upsilon(4s)$ Hlt1Phys TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0Global_TIS) & (Y_Hlt1TrackMVALooseDecision_TIS):
+    input: 578
+    output: 185
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1TrackMVALoose TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0Global_TIS) & (Y_Hlt1TrackMVALooseDecision_TIS) & (Y_Hlt1TwoTrackMVADecision_TIS):
+    input: 578
+    output: 118
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1TrackMVALoose TIS+$\Upsilon(4s)$ Hlt1TwoTrackMVA TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0Global_TIS) & (Y_Hlt1TrackMVALooseDecision_TIS) & (Y_Hlt1TwoTrackMVALooseDecision_TIS):
+    input: 578
+    output: 118
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1TrackMVALoose TIS+$\Upsilon(4s)$ Hlt1TwoTrackMVALoose TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0Global_TIS) & (Y_Hlt1TrackMVALooseDecision_TIS) & (Y_Hlt1TrackMuonDecision_TIS):
+    input: 578
+    output: 32
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1TrackMVALoose TIS+$\Upsilon(4s)$ Hlt1TrackMuon TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0Global_TIS) & (Y_Hlt1TrackMVALooseDecision_TIS) & (Y_Hlt1TrackMuonMVADecision_TIS):
+    input: 578
+    output: 27
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1TrackMVALoose TIS+$\Upsilon(4s)$ Hlt1TrackMuonMVA TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0Global_TIS) & (Y_Hlt1TrackMVALooseDecision_TIS) & (Y_Hlt1SingleMuonHighPTDecision_TIS):
+    input: 578
+    output: 4
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1TrackMVALoose TIS+$\Upsilon(4s)$ Hlt1SingleMuonHighPT TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0Global_TIS) & (Y_Hlt1TrackMVALooseDecision_TIS) & (Y_Hlt1Phys_TIS):
+    input: 578
+    output: 185
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1TrackMVALoose TIS+$\Upsilon(4s)$ Hlt1Phys TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0Global_TIS) & (Y_Hlt1TwoTrackMVALooseDecision_TIS):
+    input: 578
+    output: 167
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1TwoTrackMVALoose TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0Global_TIS) & (Y_Hlt1TwoTrackMVALooseDecision_TIS) & (Y_Hlt1TwoTrackMVADecision_TIS):
+    input: 578
+    output: 167
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1TwoTrackMVALoose TIS+$\Upsilon(4s)$ Hlt1TwoTrackMVA TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0Global_TIS) & (Y_Hlt1TwoTrackMVALooseDecision_TIS) & (Y_Hlt1TrackMVALooseDecision_TIS):
+    input: 578
+    output: 118
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1TwoTrackMVALoose TIS+$\Upsilon(4s)$ Hlt1TrackMVALoose TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0Global_TIS) & (Y_Hlt1TwoTrackMVALooseDecision_TIS) & (Y_Hlt1TrackMuonDecision_TIS):
+    input: 578
+    output: 23
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1TwoTrackMVALoose TIS+$\Upsilon(4s)$ Hlt1TrackMuon TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0Global_TIS) & (Y_Hlt1TwoTrackMVALooseDecision_TIS) & (Y_Hlt1TrackMuonMVADecision_TIS):
+    input: 578
+    output: 15
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1TwoTrackMVALoose TIS+$\Upsilon(4s)$ Hlt1TrackMuonMVA TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0Global_TIS) & (Y_Hlt1TwoTrackMVALooseDecision_TIS) & (Y_Hlt1SingleMuonHighPTDecision_TIS):
+    input: 578
+    output: 3
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1TwoTrackMVALoose TIS+$\Upsilon(4s)$ Hlt1SingleMuonHighPT TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0Global_TIS) & (Y_Hlt1TwoTrackMVALooseDecision_TIS) & (Y_Hlt1Phys_TIS):
+    input: 578
+    output: 167
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1TwoTrackMVALoose TIS+$\Upsilon(4s)$ Hlt1Phys TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0Global_TIS) & (Y_Hlt1TrackMuonDecision_TIS):
+    input: 578
+    output: 39
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1TrackMuon TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0Global_TIS) & (Y_Hlt1TrackMuonDecision_TIS) & (Y_Hlt1TwoTrackMVADecision_TIS):
+    input: 578
+    output: 23
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1TrackMuon TIS+$\Upsilon(4s)$ Hlt1TwoTrackMVA TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0Global_TIS) & (Y_Hlt1TrackMuonDecision_TIS) & (Y_Hlt1TrackMVALooseDecision_TIS):
+    input: 578
+    output: 32
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1TrackMuon TIS+$\Upsilon(4s)$ Hlt1TrackMVALoose TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0Global_TIS) & (Y_Hlt1TrackMuonDecision_TIS) & (Y_Hlt1TwoTrackMVALooseDecision_TIS):
+    input: 578
+    output: 23
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1TrackMuon TIS+$\Upsilon(4s)$ Hlt1TwoTrackMVALoose TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0Global_TIS) & (Y_Hlt1TrackMuonDecision_TIS) & (Y_Hlt1TrackMuonMVADecision_TIS):
+    input: 578
+    output: 28
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1TrackMuon TIS+$\Upsilon(4s)$ Hlt1TrackMuonMVA TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0Global_TIS) & (Y_Hlt1TrackMuonDecision_TIS) & (Y_Hlt1SingleMuonHighPTDecision_TIS):
+    input: 578
+    output: 4
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1TrackMuon TIS+$\Upsilon(4s)$ Hlt1SingleMuonHighPT TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0Global_TIS) & (Y_Hlt1TrackMuonDecision_TIS) & (Y_Hlt1Phys_TIS):
+    input: 578
+    output: 39
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1TrackMuon TIS+$\Upsilon(4s)$ Hlt1Phys TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0Global_TIS) & (Y_Hlt1TrackMuonMVADecision_TIS):
+    input: 578
+    output: 29
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1TrackMuonMVA TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0Global_TIS) & (Y_Hlt1TrackMuonMVADecision_TIS) & (Y_Hlt1TwoTrackMVADecision_TIS):
+    input: 578
+    output: 15
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1TrackMuonMVA TIS+$\Upsilon(4s)$ Hlt1TwoTrackMVA TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0Global_TIS) & (Y_Hlt1TrackMuonMVADecision_TIS) & (Y_Hlt1TrackMVALooseDecision_TIS):
+    input: 578
+    output: 27
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1TrackMuonMVA TIS+$\Upsilon(4s)$ Hlt1TrackMVALoose TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0Global_TIS) & (Y_Hlt1TrackMuonMVADecision_TIS) & (Y_Hlt1TwoTrackMVALooseDecision_TIS):
+    input: 578
+    output: 15
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1TrackMuonMVA TIS+$\Upsilon(4s)$ Hlt1TwoTrackMVALoose TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0Global_TIS) & (Y_Hlt1TrackMuonMVADecision_TIS) & (Y_Hlt1TrackMuonDecision_TIS):
+    input: 578
+    output: 28
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1TrackMuonMVA TIS+$\Upsilon(4s)$ Hlt1TrackMuon TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0Global_TIS) & (Y_Hlt1TrackMuonMVADecision_TIS) & (Y_Hlt1SingleMuonHighPTDecision_TIS):
+    input: 578
+    output: 4
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1TrackMuonMVA TIS+$\Upsilon(4s)$ Hlt1SingleMuonHighPT TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0Global_TIS) & (Y_Hlt1TrackMuonMVADecision_TIS) & (Y_Hlt1Phys_TIS):
+    input: 578
+    output: 29
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1TrackMuonMVA TIS+$\Upsilon(4s)$ Hlt1Phys TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0Global_TIS) & (Y_Hlt1SingleMuonHighPTDecision_TIS):
+    input: 578
+    output: 5
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1SingleMuonHighPT TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0Global_TIS) & (Y_Hlt1SingleMuonHighPTDecision_TIS) & (Y_Hlt1TwoTrackMVADecision_TIS):
+    input: 578
+    output: 3
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1SingleMuonHighPT TIS+$\Upsilon(4s)$ Hlt1TwoTrackMVA TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0Global_TIS) & (Y_Hlt1SingleMuonHighPTDecision_TIS) & (Y_Hlt1TrackMVALooseDecision_TIS):
+    input: 578
+    output: 4
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1SingleMuonHighPT TIS+$\Upsilon(4s)$ Hlt1TrackMVALoose TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0Global_TIS) & (Y_Hlt1SingleMuonHighPTDecision_TIS) & (Y_Hlt1TwoTrackMVALooseDecision_TIS):
+    input: 578
+    output: 3
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1SingleMuonHighPT TIS+$\Upsilon(4s)$ Hlt1TwoTrackMVALoose TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0Global_TIS) & (Y_Hlt1SingleMuonHighPTDecision_TIS) & (Y_Hlt1TrackMuonDecision_TIS):
+    input: 578
+    output: 4
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1SingleMuonHighPT TIS+$\Upsilon(4s)$ Hlt1TrackMuon TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0Global_TIS) & (Y_Hlt1SingleMuonHighPTDecision_TIS) & (Y_Hlt1TrackMuonMVADecision_TIS):
+    input: 578
+    output: 4
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1SingleMuonHighPT TIS+$\Upsilon(4s)$ Hlt1TrackMuonMVA TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0Global_TIS) & (Y_Hlt1SingleMuonHighPTDecision_TIS) & (Y_Hlt1Phys_TIS):
+    input: 578
+    output: 5
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1SingleMuonHighPT TIS+$\Upsilon(4s)$ Hlt1Phys TIS
+Dst_2010_minus_L0HadronDecision_TOS & (Y_L0Global_TIS) & (Y_Hlt1Phys_TIS):
+    input: 578
+    output: 576
+    name: $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS+$\Upsilon(4s)$ Hlt1Phys TIS
+Y_L0DiMuonDecision_TIS:
+    input: 6731
+    output: 180
+    name: $\Upsilon(4s)$ L0DiMuon TIS
+Y_L0ElectronDecision_TIS:
+    input: 6731
+    output: 711
+    name: $\Upsilon(4s)$ L0Electron TIS
+Y_L0HadronDecision_TIS:
+    input: 6731
+    output: 1560
+    name: $\Upsilon(4s)$ L0Hadron TIS
+Y_L0JetElDecision_TIS:
+    input: 6731
+    output: 34
+    name: $\Upsilon(4s)$ L0JetEl TIS
+Y_L0JetPhDecision_TIS:
+    input: 6731
+    output: 6
+    name: $\Upsilon(4s)$ L0JetPh TIS
+Y_L0MuonDecision_TIS:
+    input: 6731
+    output: 789
+    name: $\Upsilon(4s)$ L0Muon TIS
+Y_L0MuonEWDecision_TIS:
+    input: 6731
+    output: 203
+    name: $\Upsilon(4s)$ L0MuonEW TIS
+Y_L0PhotonDecision_TIS:
+    input: 6731
+    output: 277
+    name: $\Upsilon(4s)$ L0Photon TIS
+Y_L0Global_TIS:
+    input: 6731
+    output: 2714
+    name: $\Upsilon(4s)$ L0Global TIS

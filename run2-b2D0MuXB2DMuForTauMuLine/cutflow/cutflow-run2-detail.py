@@ -2,11 +2,14 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri May 01, 2020 at 08:34 PM +0800
+# Last Change: Fri May 01, 2020 at 09:00 PM +0800
 
 import uproot
 import sys
 
+sys.path.insert(0, '../../utils')
+
+from cutflow_gen import div_with_confint as DIV
 from argparse import ArgumentParser
 from pyTuplingUtils.io import yaml_gen
 from pyTuplingUtils.utils import extract_uid, tabl as TAB
@@ -46,6 +49,20 @@ def simplify_line(line, remove='Decision'):
 
 def remove_from(lst, remove=None):
     return [i for i in lst if i != remove]
+
+
+def to_table(cutflow, headers=['cut name', 'yield', 'efficiency']):
+    table = [headers]
+
+    for val in cutflow.values():
+        eff = DIV(val['output'], val['input'])
+
+        if len(table) == 1:
+            table.append([val['name'], val['output'], '-'])
+        else:
+            table.append([val['name'], val['output'], eff])
+
+    return table
 
 
 def cut_gen(line, particle='Y', tistos='TIS', particle_name=r'$\Upsilon(4s)$'):
@@ -127,15 +144,25 @@ def parse_input(descr='Generate cut flow CSV from YAML files.'):
 if __name__ == '__main__':
     args = parse_input()
     _, _, size, _, _ = extract_uid(uproot.open(args.ntp), args.tree)
-    result_marginal = {'DV': {'input': size, 'output': size}}
-    result_individual = {'DV': {'input': size, 'output': size}}
+
+    result_marginal = {'DV': {'input': size, 'output': size, 'name': 'After DaVinci'}}
+    result_individual = {'DV': {'input': size, 'output': size, 'name': 'After DaVinci'}}
+
+    rules_marginal = cutflow_rule_gen()
+    result_marginal_addon = CutflowGen(
+        args.ntp, args.tree, rules_marginal, size).do()
+    result_marginal.update(result_marginal_addon)
 
     rules_individual = cutflow_rule_gen(marginal=False)
     result_individual_addon = CutflowGen(
         args.ntp, args.tree, rules_individual, size).do()
     result_individual.update(result_individual_addon)
 
-    # print(TAB.tabulate(tab_marginal, headers='firstrow', tablefmt=fmt))
-    # print(TAB.tabulate(tab_individual, headers='firstrow', tablefmt=fmt))
+    print(TAB.tabulate(to_table(result_marginal), headers='firstrow',
+                       tablefmt=args.format))
+    print()
+    print(TAB.tabulate(to_table(result_individual), headers='firstrow',
+                       tablefmt=args.format))
+
     with open(args.yaml, 'w') as f:
         f.write(yaml_gen(result_individual))
