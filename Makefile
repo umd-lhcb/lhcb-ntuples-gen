@@ -1,6 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Apr 20, 2020 at 09:10 PM +0800
+# Last Change: Fri May 01, 2020 at 07:26 PM +0800
 
 BINPATH	:=	bin
 SRCPATH	:=	gen
@@ -36,23 +36,23 @@ clean:
 cutflow-RDst: \
 	run1-b2D0MuXB2DMuNuForTauMuLine/cutflow/output-run1.yml \
 	run2-b2D0MuXB2DMuForTauMuLine/cutflow/output-run2.yml
-	@./utils/cutflow_gen.py -o $(word 1, $^) -t $(word 2, $^) | ./utils/tab_gen.py -f latex_booktabs_raw
+	@./utils/cutflow_gen.py -o $(word 1, $^) -t $(word 2, $^) | tabgen.py -f latex_booktabs_raw
 
 cutflow-RDst-web: \
 	run1-b2D0MuXB2DMuNuForTauMuLine/cutflow/output-run1.yml \
 	run2-b2D0MuXB2DMuForTauMuLine/cutflow/output-run2.yml
-	@./utils/cutflow_gen.py -o $(word 1, $^) -t $(word 2, $^) -n | ./utils/tab_gen.py -f github
+	@./utils/cutflow_gen.py -o $(word 1, $^) -t $(word 2, $^) -n | tabgen.py -f github
 
 # Cut flow for R(D(*)), with real data
 cutflow-RDst-data: \
 	run1-b2D0MuXB2DMuNuForTauMuLine/cutflow/output-run1-data.yml \
 	run2-b2D0MuXB2DMuForTauMuLine/cutflow/output-run2-data.yml
-	@./utils/cutflow_gen.py -o $(word 1, $^) -t $(word 2, $^) | ./utils/tab_gen.py -f latex_booktabs_raw
+	@./utils/cutflow_gen.py -o $(word 1, $^) -t $(word 2, $^) | tabgen.py -f latex_booktabs_raw
 
 cutflow-RDst-data-web: \
 	run1-b2D0MuXB2DMuNuForTauMuLine/cutflow/output-run1-data.yml \
 	run2-b2D0MuXB2DMuForTauMuLine/cutflow/output-run2-data.yml
-	@./utils/cutflow_gen.py -o $(word 1, $^) -t $(word 2, $^) -n | ./utils/tab_gen.py -f github
+	@./utils/cutflow_gen.py -o $(word 1, $^) -t $(word 2, $^) -n | tabgen.py -f github
 
 
 #########################

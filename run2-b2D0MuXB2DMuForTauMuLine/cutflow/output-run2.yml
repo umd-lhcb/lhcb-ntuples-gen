@@ -9,7 +9,7 @@ StrippedBCands:
 SelMyD0:
     input: 13807
     output: 13397
-    name: $D^0 \rightarrow K^- \pi^+$ (tigter $K \pi$)
+    name: $D^0 \rightarrow K^- \pi^+$ (tighter $K \pi$)
 SelMyDst:
     input: 13397
     output: 7891
@@ -22,18 +22,15 @@ SelMyRefitB02DstMu:
     input: 6449
     output: 6136
     name: Refit $\bar{B}^0$ decay tree
-muplus_L0Global_TIS & (Y_L0Global_TIS | Dst_2010_minus_L0HadronDecision_TOS):
+L0:
     input: 6731
     output: 3681
-    name: L0
-Kplus_Hlt1Phys_Dec:
+Hlt1:
     input: 3681
     output: 3681
-    name: Hlt1
-D0_Hlt2XcMuXForTauB2XcMuDecision_Dec:
+Hlt2:
     input: 3681
     output: 3681
-    name: Hlt2
 muplus_isMuon & muplus_PIDmu > 2:
     input: 3681
     output: 3431
