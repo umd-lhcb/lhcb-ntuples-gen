@@ -2,12 +2,12 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri May 01, 2020 at 07:21 PM +0800
+# Last Change: Fri May 01, 2020 at 08:23 PM +0800
 
 import uproot
 import sys
-import yaml
 
+from yaml import safe_load
 from pyTuplingUtils.io import yaml_gen
 from pyTuplingUtils.utils import extract_uid
 from pyTuplingUtils.cutflow import CutflowGen, CutflowRule as Rule
@@ -39,7 +39,7 @@ if __name__ == '__main__':
     _, _, total_size, uniq_size, _ = extract_uid(uproot.open(ntp_path), tree)
 
     with open(input_yml) as f:
-        result = yaml.safe_load(f)
+        result = safe_load(f)
 
     for cut, val in result.items():
         if cut in ALIASES:
