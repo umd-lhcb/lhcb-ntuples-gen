@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Apr 27, 2020 at 10:43 PM +0800
+# Last Change: Fri May 01, 2020 at 10:11 PM +0800
 
 from yaml import safe_load
 from argparse import ArgumentParser
@@ -10,13 +10,9 @@ from uncertainties import ufloat, UFloat
 from statsmodels.stats.proportion import proportion_confint
 
 
-###############
-# CSV-related #
-###############
-
-CSV_HEADERS = ['cut name', 'run 1 yield', 'run 2 yield',
-               'run 1 efficiency', 'run 2 efficiency', 'double ratio']
-
+#######################
+# Uncertainty-related #
+#######################
 
 def div_with_confint(num, denom):
     ratio = num / denom
@@ -45,44 +41,53 @@ def div(num, denom):
     return result
 
 
+###############
+# CSV-related #
+###############
+
+CSV_HEADERS = ['cut name', 'run 1 yield', 'run 2 yield',
+               'run 1 efficiency', 'run 2 efficiency', 'double ratio']
+
+
 def list_gen(run1_descr, run2_descr, header=CSV_HEADERS):
     result = [CSV_HEADERS]
     run1_total_input = None
     run2_total_input = None
 
     for key, val in run1_descr.items():
-        row = []
-        run2_row = run2_descr[key]
+        if key in run2_descr.keys():
+            row = []
+            run2_row = run2_descr[key]
 
-        try:
-            cut_name = val['name']
-        except KeyError:
             try:
-                cut_name = run2_row['name']
-            except Exception:
-                cut_name = key
-        row.append(cut_name)
+                cut_name = val['name']
+            except KeyError:
+                try:
+                    cut_name = run2_row['name']
+                except Exception:
+                    cut_name = key
+            row.append(cut_name)
 
-        run1_yield = val['output']
-        run2_yield = run2_row['output']
+            run1_yield = val['output']
+            run2_yield = run2_row['output']
 
-        # Store total number of events in the raw data.
-        if not run1_total_input:
-            run1_total_input = run1_yield
-        if not run2_total_input:
-            run2_total_input = run2_yield
+            # Store total number of events in the raw data.
+            if not run1_total_input:
+                run1_total_input = run1_yield
+            if not run2_total_input:
+                run2_total_input = run2_yield
 
-        if len(result) > 1:
-            run1_eff = div(val['output'], val['input'])
-            run2_eff = div(run2_row['output'], run2_row['input'])
+            if len(result) > 1:
+                run1_eff = div(val['output'], val['input'])
+                run2_eff = div(run2_row['output'], run2_row['input'])
 
-            double_ratio = div(run2_eff, run1_eff)
+                double_ratio = div(run2_eff, run1_eff)
 
-        else:  # Don't calculate ratios for the total number of candidates
-            run1_eff = run2_eff = double_ratio = '-'
+            else:  # Don't calculate ratios for the total number of candidates
+                run1_eff = run2_eff = double_ratio = '-'
 
-        row += [run1_yield, run2_yield, run1_eff, run2_eff, double_ratio]
-        result.append(row)
+            row += [run1_yield, run2_yield, run1_eff, run2_eff, double_ratio]
+            result.append(row)
 
     # Append the total ratio
     run1_total_eff = div(run1_yield, run1_total_input)

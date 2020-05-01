@@ -1,6 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri May 01, 2020 at 07:26 PM +0800
+# Last Change: Fri May 01, 2020 at 10:15 PM +0800
 
 BINPATH	:=	bin
 SRCPATH	:=	gen
@@ -14,6 +14,7 @@ ADDFLAGS	:=	-Iinclude
 .PHONY: all clean \
 	cutflow-RDst cutflow-RDst-web \
 	cutflow-RDst-data cutflow-RDst-data-web \
+	cutflow-RDst-detail-individual cutflow-RDst-detail-individual-web
 
 all: \
 	gen/run1-Dst-step2/BCands_Dst-phoebe-data-2012-mag_down-step2.root \
@@ -28,11 +29,11 @@ clean:
 	@find ./gen -name '*.cpp' -delete
 
 
-#############
-# Cut flows #
-#############
+############
+# Cutflows #
+############
 
-# Cut flow for R(D(*))
+# Cutflow for R(D(*))
 cutflow-RDst: \
 	run1-b2D0MuXB2DMuNuForTauMuLine/cutflow/output-run1.yml \
 	run2-b2D0MuXB2DMuForTauMuLine/cutflow/output-run2.yml
@@ -43,7 +44,7 @@ cutflow-RDst-web: \
 	run2-b2D0MuXB2DMuForTauMuLine/cutflow/output-run2.yml
 	@./utils/cutflow_gen.py -o $(word 1, $^) -t $(word 2, $^) -n | tabgen.py -f github
 
-# Cut flow for R(D(*)), with real data
+# Cutflow for R(D(*)), with real data
 cutflow-RDst-data: \
 	run1-b2D0MuXB2DMuNuForTauMuLine/cutflow/output-run1-data.yml \
 	run2-b2D0MuXB2DMuForTauMuLine/cutflow/output-run2-data.yml
@@ -52,6 +53,17 @@ cutflow-RDst-data: \
 cutflow-RDst-data-web: \
 	run1-b2D0MuXB2DMuNuForTauMuLine/cutflow/output-run1-data.yml \
 	run2-b2D0MuXB2DMuForTauMuLine/cutflow/output-run2-data.yml
+	@./utils/cutflow_gen.py -o $(word 1, $^) -t $(word 2, $^) -n | tabgen.py -f github
+
+# Cutflow for R(D(*)), detail: individual
+cutflow-RDst-detail-individual: \
+	run1-b2D0MuXB2DMuNuForTauMuLine/cutflow/output-run1-individual.yml \
+	run1-b2D0MuXB2DMuForTauMuLine/cutflow/output-run2-individual.yml
+	@./utils/cutflow_gen.py -o $(word 1, $^) -t $(word 2, $^) -n | tabgen.py -f latex_booktabs_raw
+
+cutflow-RDst-detail-individual-web: \
+	run1-b2D0MuXB2DMuNuForTauMuLine/cutflow/output-run1-individual.yml \
+	run2-b2D0MuXB2DMuForTauMuLine/cutflow/output-run2-individual.yml
 	@./utils/cutflow_gen.py -o $(word 1, $^) -t $(word 2, $^) -n | tabgen.py -f github
 
 

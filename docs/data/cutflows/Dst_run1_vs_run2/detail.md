@@ -32,6 +32,28 @@ cocktail MC.
 ![](cutflow_mc-2011_vs_2016/piminus0_PT_dist.png)
 
 
+## Comparison between run 1 and run 2 individual
+
+| cut name                                         | run 1 yield   | run 2 yield   | run 1 efficiency   | run 2 efficiency   | double ratio   |
+|--------------------------------------------------|---------------|---------------|--------------------|--------------------|----------------|
+| After DaVinci                                    | 5796          | 6731          | -                  | -                  | -              |
+| $D^*$ L0Hadron TOS                               | 1205          | 1628          | 0.2079±0.0054      | 0.2419±0.0053      | 1.163±0.040    |
+| $\Upsilon(4s)$ L0Electron TIS                    | 387           | 711           | 0.0668±0.0034      | 0.1056±0.0039      | 1.58±0.10      |
+| $\Upsilon(4s)$ L0Hadron TIS                      | 1245          | 1560          | 0.2148±0.0055      | 0.2318±0.0052      | 1.079±0.037    |
+| $\Upsilon(4s)$ L0Muon TIS                        | 565           | 789           | 0.0975±0.0040      | 0.1172±0.0040      | 1.202±0.065    |
+| $\Upsilon(4s)$ L0Photon TIS                      | 260           | 277           | 0.0449±0.0029      | 0.0412±0.0026      | 0.917±0.082    |
+| $\Upsilon(4s)$ L0Global TIS                      | 1931          | 2714          | 0.3332±0.0063      | 0.4032±0.0060      | 1.210±0.029    |
+| $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Electron TIS | 113           | 175           | 0.0938±0.0091      | 0.1075±0.0082      | 1.15±0.14      |
+| $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Hadron TIS   | 330           | 355           | 0.274±0.013        | 0.218±0.011        | 0.796±0.055    |
+| $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Muon TIS     | 135           | 147           | 0.1120±0.0098      | 0.0903±0.0076      | 0.806±0.098    |
+| $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Photon TIS   | 68            | 72            | 0.0564±0.0074      | 0.0442±0.0057      | 0.78±0.14      |
+| $D^*$ L0Hadron TOS+$\Upsilon(4s)$ L0Global TIS   | 489           | 578           | 0.406±0.015        | 0.355±0.012        | 0.875±0.043    |
+| Total ratio                                      | -             | -             | 0.0844±0.0038      | 0.0859±0.0035      | 1.018±0.062    |
+
+!!! note
+    Only lines present in both runs are considered here.
+
+
 ## Run 1 detail
 
 ### Generation
