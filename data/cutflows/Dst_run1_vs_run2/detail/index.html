@@ -1,0 +1,2341 @@
+
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+        <link rel="canonical" href="https://umd-lhcb.github.io/lhcb-ntuples-gen/data/cutflows/Dst_run1_vs_run2/detail/">
+      
+      
+      <link rel="shortcut icon" href="../../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.1, mkdocs-material-5.1.4">
+    
+    
+      
+        <title>`D^{\star}` cutflow detail - lhcb-ntuples-gen wiki</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.c4007cdc.min.css">
+      
+      
+    
+    
+    
+      
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>body,input{font-family:"Roboto",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono",SFMono-Regular,Consolas,Menlo,monospace}</style>
+      
+    
+    
+    
+    
+      
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#comparison-between-physical-variables" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid" aria-label="Header">
+    <a href="https://umd-lhcb.github.io/lhcb-ntuples-gen" title="lhcb-ntuples-gen wiki" class="md-header-nav__button md-logo" aria-label="lhcb-ntuples-gen wiki">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 003-3 3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    <label class="md-header-nav__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header-nav__title" data-md-component="header-title">
+      
+        <div class="md-header-nav__ellipsis">
+          <span class="md-header-nav__topic md-ellipsis">
+            lhcb-ntuples-gen wiki
+          </span>
+          <span class="md-header-nav__topic md-ellipsis">
+            
+              `D^{\star}` cutflow detail
+            
+          </span>
+        </div>
+      
+    </div>
+    
+      <label class="md-header-nav__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active">
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" data-md-component="search-reset" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header-nav__source">
+        
+<a href="https://github.com/umd-lhcb/lhcb-ntuples-gen/" title="Go to repository" class="md-source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05L244 40.45a28.87 28.87 0 00-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 01-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 000 40.81l195.61 195.6a28.86 28.86 0 0040.8 0l194.69-194.69a28.86 28.86 0 000-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    umd-lhcb/lhcb-ntuples-gen
+  </div>
+</a>
+      </div>
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+        
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="https://umd-lhcb.github.io/lhcb-ntuples-gen" title="lhcb-ntuples-gen wiki" class="md-nav__button md-logo" aria-label="lhcb-ntuples-gen wiki">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 003-3 3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    lhcb-ntuples-gen wiki
+  </label>
+  
+    <div class="md-nav__source">
+      
+<a href="https://github.com/umd-lhcb/lhcb-ntuples-gen/" title="Go to repository" class="md-source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05L244 40.45a28.87 28.87 0 00-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 01-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 000 40.81l195.61 195.6a28.86 28.86 0 0040.8 0l194.69-194.69a28.86 28.86 0 000-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    umd-lhcb/lhcb-ntuples-gen
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-1" type="checkbox" id="nav-1">
+    
+    <label class="md-nav__link" for="nav-1">
+      Home
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="Home" data-md-level="1">
+      <label class="md-nav__title" for="nav-1">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+        </span>
+        Home
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../.." title="Getting started" class="md-nav__link">
+      Getting started
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2">
+    
+    <label class="md-nav__link" for="nav-2">
+      Ntupling
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="Ntupling" data-md-level="1">
+      <label class="md-nav__title" for="nav-2">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+        </span>
+        Ntupling
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../../ntupling/installation/" title="Installing dependencies" class="md-nav__link">
+      Installing dependencies
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../../ntupling/step1_davinci/" title="Step 1 ntuples with Davinci" class="md-nav__link">
+      Step 1 ntuples with Davinci
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../../ntupling/step2_babymaker/" title="Step 2 ntuples with babymaker" class="md-nav__link">
+      Step 2 ntuples with babymaker
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3">
+    
+    <label class="md-nav__link" for="nav-3">
+      Software
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="Software" data-md-level="1">
+      <label class="md-nav__title" for="nav-3">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+        </span>
+        Software
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../../software_manuals/git_annex/" title="git-annex" class="md-nav__link">
+      git-annex
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-3-2" type="checkbox" id="nav-3-2">
+    
+    <label class="md-nav__link" for="nav-3-2">
+      DaVinci
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="DaVinci" data-md-level="2">
+      <label class="md-nav__title" for="nav-3-2">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+        </span>
+        DaVinci
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../../software_manuals/davinci/docker_image_usage/" title="Docker image usage" class="md-nav__link">
+      Docker image usage
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../../software_manuals/davinci/tips_and_tricks/" title="Tips and tricks" class="md-nav__link">
+      Tips and tricks
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../../software_manuals/davinci/loki_functors/" title="LoKi functors" class="md-nav__link">
+      LoKi functors
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../../software_manuals/davinci/tuple_tools/" title="TupleTools" class="md-nav__link">
+      TupleTools
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../../software_manuals/bender/" title="bender" class="md-nav__link">
+      bender
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../../software_manuals/ganga/" title="ganga" class="md-nav__link">
+      ganga
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../../software_manuals/external/" title="External manuals" class="md-nav__link">
+      External manuals
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4">
+    
+    <label class="md-nav__link" for="nav-4">
+      Physics
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="Physics" data-md-level="1">
+      <label class="md-nav__title" for="nav-4">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+        </span>
+        Physics
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../../physics/momentum_scaling/" title="Momentum scaling" class="md-nav__link">
+      Momentum scaling
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../../physics/wrong_sign_particles/" title="Wrong-sign particles" class="md-nav__link">
+      Wrong-sign particles
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5" checked>
+    
+    <label class="md-nav__link" for="nav-5">
+      Data
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="Data" data-md-level="1">
+      <label class="md-nav__title" for="nav-5">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+        </span>
+        Data
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../data_management/" title="Data management" class="md-nav__link">
+      Data management
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../data_sources/" title="Data sources" class="md-nav__link">
+      Data sources
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-5-3" type="checkbox" id="nav-5-3" checked>
+    
+    <label class="md-nav__link" for="nav-5-3">
+      Cutflows
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="Cutflows" data-md-level="2">
+      <label class="md-nav__title" for="nav-5-3">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+        </span>
+        Cutflows
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../overview/" title="`D^{\star}` cutflow overview" class="md-nav__link">
+      `D^{\star}` cutflow overview
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        `D^{\star}` cutflow detail
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 9h14V7H3v2m0 4h14v-2H3v2m0 4h14v-2H3v2m16 0h2v-2h-2v2m0-10v2h2V7h-2m0 6h2v-2h-2v2z"/></svg>
+        </span>
+      </label>
+    
+    <a href="./" title="`D^{\star}` cutflow detail" class="md-nav__link md-nav__link--active">
+      `D^{\star}` cutflow detail
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#comparison-between-physical-variables" class="md-nav__link">
+    Comparison between physical variables
+  </a>
+  
+    <nav class="md-nav" aria-label="Comparison between physical variables">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#y_pt" class="md-nav__link">
+    Y_PT
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dst_pt" class="md-nav__link">
+    Dst_PT
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#d0-pt" class="md-nav__link">
+    D0 PT
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#kplus_pt" class="md-nav__link">
+    Kplus_PT
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#muplus_pt" class="md-nav__link">
+    muplus_PT
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#piminus_pt" class="md-nav__link">
+    piminus_PT
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#piminus0_pt" class="md-nav__link">
+    piminus0_PT
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#run-1-detail" class="md-nav__link">
+    Run 1 detail
+  </a>
+  
+    <nav class="md-nav" aria-label="Run 1 detail">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#generation" class="md-nav__link">
+    Generation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#marginal-impact" class="md-nav__link">
+    Marginal impact
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#individual-impact" class="md-nav__link">
+    Individual impact
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#run-2-detail" class="md-nav__link">
+    Run 2 detail
+  </a>
+  
+    <nav class="md-nav" aria-label="Run 2 detail">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#marginal-impact_1" class="md-nav__link">
+    Marginal impact
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#individual-impact_1" class="md-nav__link">
+    Individual impact
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-5-4" type="checkbox" id="nav-5-4">
+    
+    <label class="md-nav__link" for="nav-5-4">
+      Comparisons
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"/></svg>
+      </span>
+    </label>
+    <nav class="md-nav" aria-label="Comparisons" data-md-level="2">
+      <label class="md-nav__title" for="nav-5-4">
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+        </span>
+        Comparisons
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../comparison/Dst_vars_run1/Dst_vars_run1/" title="`D^{\star}` variables, run 1" class="md-nav__link">
+      `D^{\star}` variables, run 1
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../../comparison/trigger_lines/" title="Trigger lines" class="md-nav__link">
+      Trigger lines
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#comparison-between-physical-variables" class="md-nav__link">
+    Comparison between physical variables
+  </a>
+  
+    <nav class="md-nav" aria-label="Comparison between physical variables">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#y_pt" class="md-nav__link">
+    Y_PT
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dst_pt" class="md-nav__link">
+    Dst_PT
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#d0-pt" class="md-nav__link">
+    D0 PT
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#kplus_pt" class="md-nav__link">
+    Kplus_PT
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#muplus_pt" class="md-nav__link">
+    muplus_PT
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#piminus_pt" class="md-nav__link">
+    piminus_PT
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#piminus0_pt" class="md-nav__link">
+    piminus0_PT
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#run-1-detail" class="md-nav__link">
+    Run 1 detail
+  </a>
+  
+    <nav class="md-nav" aria-label="Run 1 detail">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#generation" class="md-nav__link">
+    Generation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#marginal-impact" class="md-nav__link">
+    Marginal impact
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#individual-impact" class="md-nav__link">
+    Individual impact
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#run-2-detail" class="md-nav__link">
+    Run 2 detail
+  </a>
+  
+    <nav class="md-nav" aria-label="Run 2 detail">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#marginal-impact_1" class="md-nav__link">
+    Marginal impact
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#individual-impact_1" class="md-nav__link">
+    Individual impact
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/umd-lhcb/lhcb-ntuples-gen/edit/master/docs/data/cutflows/Dst_run1_vs_run2/detail.md" title="Edit this page" class="md-content__button md-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
+                  </a>
+                
+                
+                  
+                
+                
+                  <h1>`D^{\star}` cutflow detail</h1>
+                
+                <h2 id="comparison-between-physical-variables">Comparison between physical variables</h2>
+<p>For now, we focus on <span><span class="MathJax_Preview">P_T</span><script type="math/tex">P_T</script></span> of all reconstructed particles, generated with
+cocktail MC.</p>
+<h3 id="y_pt"><code>Y_PT</code></h3>
+<p><img alt="" src="../cutflow_mc-2011_vs_2016/Y_PT_dist.png" /></p>
+<h3 id="dst_pt"><code>Dst_PT</code></h3>
+<p><img alt="" src="../cutflow_mc-2011_vs_2016/Dst_2010_minus_PT_dist.png" /></p>
+<h3 id="d0-pt"><code>D0 PT</code></h3>
+<p><img alt="" src="../cutflow_mc-2011_vs_2016/D0_PT_dist.png" /></p>
+<h3 id="kplus_pt"><code>Kplus_PT</code></h3>
+<p><img alt="" src="../cutflow_mc-2011_vs_2016/Kplus_PT_dist.png" /></p>
+<h3 id="muplus_pt"><code>muplus_PT</code></h3>
+<p><img alt="" src="../cutflow_mc-2011_vs_2016/muplus_PT_dist.png" /></p>
+<h3 id="piminus_pt"><code>piminus_PT</code></h3>
+<p><img alt="" src="../cutflow_mc-2011_vs_2016/piminus_PT_dist.png" /></p>
+<h3 id="piminus0_pt"><code>piminus0_PT</code></h3>
+<p><img alt="" src="../cutflow_mc-2011_vs_2016/piminus0_PT_dist.png" /></p>
+<h2 id="run-1-detail">Run 1 detail</h2>
+<h3 id="generation">Generation</h3>
+<p>These cutflows, for both run 1 and 2, are generated with <a href="https://github.com/umd-lhcb/lhcb-ntuples-gen/blob/master/run1-b2D0MuXB2DMuNuForTauMuLine/cutflow/cutflow-run1-detail.py"><code>cutflow-run1-detail.py</code></a>
+and <a href="https://github.com/umd-lhcb/lhcb-ntuples-gen/blob/master/run1-b2D0MuXB2DMuNuForTauMuLine/cutflow/cutflow-run2-detail.py"><code>cutflow-run2-detail.py</code></a></p>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<div class="highlight"><pre><span></span><code>./cut_flow-run2-detail.py ../ntuples/cutflow-Dst/BCands_Dst-yipeng-cutflow_mc-2016-mag_down.root output-run2-individual.yml
+</code></pre></div>
+
+<p>The output will be printed out to terminal.</p>
+</div>
+<h3 id="marginal-impact">Marginal impact</h3>
+<table>
+<thead>
+<tr>
+<th>cut name</th>
+<th>yield</th>
+<th>efficiency</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>After DaVinci</td>
+<td>5796</td>
+<td>-</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS</td>
+<td>1205</td>
+<td>0.208+/-0.005</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Electron TIS</td>
+<td>113</td>
+<td>0.094+/-0.009</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Electron TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0ElectronHi TIS</td>
+<td>35</td>
+<td>0.029+/-0.006</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Electron TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Hadron TIS</td>
+<td>65</td>
+<td>0.054+/-0.007</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Electron TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0HighSumETJet TIS</td>
+<td>0</td>
+<td>0.0000+/-0.0015</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Electron TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Muon TIS</td>
+<td>16</td>
+<td>0.013+/-0.004</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Electron TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0NoPVFlag TIS</td>
+<td>0</td>
+<td>0.0000+/-0.0015</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Electron TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Photon TIS</td>
+<td>17</td>
+<td>0.014+/-0.004</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Electron TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0PhotonHi TIS</td>
+<td>10</td>
+<td>0.0083+/-0.0035</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Electron TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Global TIS</td>
+<td>113</td>
+<td>0.094+/-0.009</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0ElectronHi TIS</td>
+<td>35</td>
+<td>0.029+/-0.006</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0ElectronHi TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Electron TIS</td>
+<td>35</td>
+<td>0.029+/-0.006</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0ElectronHi TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Hadron TIS</td>
+<td>22</td>
+<td>0.018+/-0.005</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0ElectronHi TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0HighSumETJet TIS</td>
+<td>0</td>
+<td>0.0000+/-0.0015</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0ElectronHi TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Muon TIS</td>
+<td>4</td>
+<td>0.0033+/-0.0026</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0ElectronHi TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0NoPVFlag TIS</td>
+<td>0</td>
+<td>0.0000+/-0.0015</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0ElectronHi TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Photon TIS</td>
+<td>6</td>
+<td>0.0050+/-0.0029</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0ElectronHi TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0PhotonHi TIS</td>
+<td>4</td>
+<td>0.0033+/-0.0026</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0ElectronHi TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Global TIS</td>
+<td>35</td>
+<td>0.029+/-0.006</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Hadron TIS</td>
+<td>330</td>
+<td>0.274+/-0.013</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Hadron TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Electron TIS</td>
+<td>65</td>
+<td>0.054+/-0.007</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Hadron TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0ElectronHi TIS</td>
+<td>22</td>
+<td>0.018+/-0.005</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Hadron TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0HighSumETJet TIS</td>
+<td>0</td>
+<td>0.0000+/-0.0015</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Hadron TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Muon TIS</td>
+<td>40</td>
+<td>0.033+/-0.006</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Hadron TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0NoPVFlag TIS</td>
+<td>0</td>
+<td>0.0000+/-0.0015</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Hadron TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Photon TIS</td>
+<td>36</td>
+<td>0.030+/-0.006</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Hadron TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0PhotonHi TIS</td>
+<td>12</td>
+<td>0.010+/-0.004</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Hadron TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Global TIS</td>
+<td>330</td>
+<td>0.274+/-0.013</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0HighSumETJet TIS</td>
+<td>0</td>
+<td>0.0000+/-0.0015</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0HighSumETJet TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Electron TIS</td>
+<td>0</td>
+<td>0.0000+/-0.0015</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0HighSumETJet TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0ElectronHi TIS</td>
+<td>0</td>
+<td>0.0000+/-0.0015</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0HighSumETJet TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Hadron TIS</td>
+<td>0</td>
+<td>0.0000+/-0.0015</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0HighSumETJet TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Muon TIS</td>
+<td>0</td>
+<td>0.0000+/-0.0015</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0HighSumETJet TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0NoPVFlag TIS</td>
+<td>0</td>
+<td>0.0000+/-0.0015</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0HighSumETJet TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Photon TIS</td>
+<td>0</td>
+<td>0.0000+/-0.0015</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0HighSumETJet TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0PhotonHi TIS</td>
+<td>0</td>
+<td>0.0000+/-0.0015</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0HighSumETJet TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Global TIS</td>
+<td>0</td>
+<td>0.0000+/-0.0015</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Muon TIS</td>
+<td>135</td>
+<td>0.112+/-0.010</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Muon TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Electron TIS</td>
+<td>16</td>
+<td>0.013+/-0.004</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Muon TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0ElectronHi TIS</td>
+<td>4</td>
+<td>0.0033+/-0.0026</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Muon TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Hadron TIS</td>
+<td>40</td>
+<td>0.033+/-0.006</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Muon TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0HighSumETJet TIS</td>
+<td>0</td>
+<td>0.0000+/-0.0015</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Muon TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0NoPVFlag TIS</td>
+<td>0</td>
+<td>0.0000+/-0.0015</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Muon TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Photon TIS</td>
+<td>7</td>
+<td>0.0058+/-0.0031</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Muon TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0PhotonHi TIS</td>
+<td>3</td>
+<td>0.0025+/-0.0024</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Muon TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Global TIS</td>
+<td>135</td>
+<td>0.112+/-0.010</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0NoPVFlag TIS</td>
+<td>0</td>
+<td>0.0000+/-0.0015</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0NoPVFlag TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Electron TIS</td>
+<td>0</td>
+<td>0.0000+/-0.0015</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0NoPVFlag TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0ElectronHi TIS</td>
+<td>0</td>
+<td>0.0000+/-0.0015</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0NoPVFlag TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Hadron TIS</td>
+<td>0</td>
+<td>0.0000+/-0.0015</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0NoPVFlag TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0HighSumETJet TIS</td>
+<td>0</td>
+<td>0.0000+/-0.0015</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0NoPVFlag TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Muon TIS</td>
+<td>0</td>
+<td>0.0000+/-0.0015</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0NoPVFlag TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Photon TIS</td>
+<td>0</td>
+<td>0.0000+/-0.0015</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0NoPVFlag TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0PhotonHi TIS</td>
+<td>0</td>
+<td>0.0000+/-0.0015</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0NoPVFlag TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Global TIS</td>
+<td>0</td>
+<td>0.0000+/-0.0015</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Photon TIS</td>
+<td>68</td>
+<td>0.056+/-0.007</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Photon TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Electron TIS</td>
+<td>17</td>
+<td>0.014+/-0.004</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Photon TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0ElectronHi TIS</td>
+<td>6</td>
+<td>0.0050+/-0.0029</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Photon TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Hadron TIS</td>
+<td>36</td>
+<td>0.030+/-0.006</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Photon TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0HighSumETJet TIS</td>
+<td>0</td>
+<td>0.0000+/-0.0015</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Photon TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Muon TIS</td>
+<td>7</td>
+<td>0.0058+/-0.0031</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Photon TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0NoPVFlag TIS</td>
+<td>0</td>
+<td>0.0000+/-0.0015</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Photon TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0PhotonHi TIS</td>
+<td>19</td>
+<td>0.016+/-0.004</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Photon TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Global TIS</td>
+<td>68</td>
+<td>0.056+/-0.007</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0PhotonHi TIS</td>
+<td>19</td>
+<td>0.016+/-0.004</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0PhotonHi TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Electron TIS</td>
+<td>10</td>
+<td>0.0083+/-0.0035</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0PhotonHi TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0ElectronHi TIS</td>
+<td>4</td>
+<td>0.0033+/-0.0026</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0PhotonHi TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Hadron TIS</td>
+<td>12</td>
+<td>0.010+/-0.004</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0PhotonHi TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0HighSumETJet TIS</td>
+<td>0</td>
+<td>0.0000+/-0.0015</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0PhotonHi TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Muon TIS</td>
+<td>3</td>
+<td>0.0025+/-0.0024</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0PhotonHi TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0NoPVFlag TIS</td>
+<td>0</td>
+<td>0.0000+/-0.0015</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0PhotonHi TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Photon TIS</td>
+<td>19</td>
+<td>0.016+/-0.004</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0PhotonHi TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Global TIS</td>
+<td>19</td>
+<td>0.016+/-0.004</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Global TIS</td>
+<td>489</td>
+<td>0.406+/-0.015</td>
+</tr>
+</tbody>
+</table>
+<h3 id="individual-impact">Individual impact</h3>
+<table>
+<thead>
+<tr>
+<th>cut name</th>
+<th>yield</th>
+<th>efficiency</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>After DaVinci</td>
+<td>5796</td>
+<td>-</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS</td>
+<td>1205</td>
+<td>0.208+/-0.005</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Electron TIS</td>
+<td>387</td>
+<td>0.0668+/-0.0034</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0ElectronHi TIS</td>
+<td>94</td>
+<td>0.0162+/-0.0018</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Hadron TIS</td>
+<td>1245</td>
+<td>0.215+/-0.006</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0HighSumETJet TIS</td>
+<td>0</td>
+<td>0.00000+/-0.00032</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Muon TIS</td>
+<td>565</td>
+<td>0.097+/-0.004</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0NoPVFlag TIS</td>
+<td>0</td>
+<td>0.00000+/-0.00032</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Photon TIS</td>
+<td>260</td>
+<td>0.0449+/-0.0029</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0PhotonHi TIS</td>
+<td>63</td>
+<td>0.0109+/-0.0015</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Global TIS</td>
+<td>1931</td>
+<td>0.333+/-0.006</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Electron TIS</td>
+<td>113</td>
+<td>0.094+/-0.009</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0ElectronHi TIS</td>
+<td>35</td>
+<td>0.029+/-0.006</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Hadron TIS</td>
+<td>330</td>
+<td>0.274+/-0.013</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0HighSumETJet TIS</td>
+<td>0</td>
+<td>0.0000+/-0.0015</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Muon TIS</td>
+<td>135</td>
+<td>0.112+/-0.010</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0NoPVFlag TIS</td>
+<td>0</td>
+<td>0.0000+/-0.0015</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Photon TIS</td>
+<td>68</td>
+<td>0.056+/-0.007</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0PhotonHi TIS</td>
+<td>19</td>
+<td>0.016+/-0.004</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Global TIS</td>
+<td>489</td>
+<td>0.406+/-0.015</td>
+</tr>
+</tbody>
+</table>
+<h2 id="run-2-detail">Run 2 detail</h2>
+<h3 id="marginal-impact_1">Marginal impact</h3>
+<table>
+<thead>
+<tr>
+<th>cut name</th>
+<th>yield</th>
+<th>efficiency</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>After DaVinci</td>
+<td>6731</td>
+<td>-</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS</td>
+<td>1628</td>
+<td>0.242+/-0.005</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0DiMuon TIS</td>
+<td>36</td>
+<td>0.022+/-0.004</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0DiMuon TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Electron TIS</td>
+<td>6</td>
+<td>0.0037+/-0.0022</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0DiMuon TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Hadron TIS</td>
+<td>8</td>
+<td>0.0049+/-0.0024</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0DiMuon TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0JetEl TIS</td>
+<td>0</td>
+<td>0.0000+/-0.0011</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0DiMuon TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0JetPh TIS</td>
+<td>0</td>
+<td>0.0000+/-0.0011</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0DiMuon TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Muon TIS</td>
+<td>35</td>
+<td>0.021+/-0.004</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0DiMuon TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0MuonEW TIS</td>
+<td>9</td>
+<td>0.0055+/-0.0025</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0DiMuon TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Photon TIS</td>
+<td>1</td>
+<td>0.0006+/-0.0014</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0DiMuon TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Global TIS</td>
+<td>36</td>
+<td>0.022+/-0.004</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Electron TIS</td>
+<td>175</td>
+<td>0.107+/-0.008</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Electron TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0DiMuon TIS</td>
+<td>6</td>
+<td>0.0037+/-0.0022</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Electron TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Hadron TIS</td>
+<td>85</td>
+<td>0.052+/-0.006</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Electron TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0JetEl TIS</td>
+<td>8</td>
+<td>0.0049+/-0.0024</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Electron TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0JetPh TIS</td>
+<td>1</td>
+<td>0.0006+/-0.0014</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Electron TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Muon TIS</td>
+<td>16</td>
+<td>0.0098+/-0.0031</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Electron TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0MuonEW TIS</td>
+<td>8</td>
+<td>0.0049+/-0.0024</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Electron TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Photon TIS</td>
+<td>15</td>
+<td>0.0092+/-0.0030</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Electron TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Global TIS</td>
+<td>175</td>
+<td>0.107+/-0.008</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Hadron TIS</td>
+<td>355</td>
+<td>0.218+/-0.011</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Hadron TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0DiMuon TIS</td>
+<td>8</td>
+<td>0.0049+/-0.0024</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Hadron TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Electron TIS</td>
+<td>85</td>
+<td>0.052+/-0.006</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Hadron TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0JetEl TIS</td>
+<td>8</td>
+<td>0.0049+/-0.0024</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Hadron TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0JetPh TIS</td>
+<td>2</td>
+<td>0.0012+/-0.0016</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Hadron TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Muon TIS</td>
+<td>31</td>
+<td>0.019+/-0.004</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Hadron TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0MuonEW TIS</td>
+<td>9</td>
+<td>0.0055+/-0.0025</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Hadron TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Photon TIS</td>
+<td>33</td>
+<td>0.020+/-0.004</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Hadron TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Global TIS</td>
+<td>355</td>
+<td>0.218+/-0.011</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0JetEl TIS</td>
+<td>8</td>
+<td>0.0049+/-0.0024</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0JetEl TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0DiMuon TIS</td>
+<td>0</td>
+<td>0.0000+/-0.0011</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0JetEl TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Electron TIS</td>
+<td>8</td>
+<td>0.0049+/-0.0024</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0JetEl TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Hadron TIS</td>
+<td>8</td>
+<td>0.0049+/-0.0024</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0JetEl TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0JetPh TIS</td>
+<td>0</td>
+<td>0.0000+/-0.0011</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0JetEl TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Muon TIS</td>
+<td>0</td>
+<td>0.0000+/-0.0011</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0JetEl TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0MuonEW TIS</td>
+<td>0</td>
+<td>0.0000+/-0.0011</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0JetEl TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Photon TIS</td>
+<td>1</td>
+<td>0.0006+/-0.0014</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0JetEl TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Global TIS</td>
+<td>8</td>
+<td>0.0049+/-0.0024</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0JetPh TIS</td>
+<td>2</td>
+<td>0.0012+/-0.0016</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0JetPh TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0DiMuon TIS</td>
+<td>0</td>
+<td>0.0000+/-0.0011</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0JetPh TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Electron TIS</td>
+<td>1</td>
+<td>0.0006+/-0.0014</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0JetPh TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Hadron TIS</td>
+<td>2</td>
+<td>0.0012+/-0.0016</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0JetPh TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0JetEl TIS</td>
+<td>0</td>
+<td>0.0000+/-0.0011</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0JetPh TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Muon TIS</td>
+<td>1</td>
+<td>0.0006+/-0.0014</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0JetPh TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0MuonEW TIS</td>
+<td>0</td>
+<td>0.0000+/-0.0011</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0JetPh TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Photon TIS</td>
+<td>2</td>
+<td>0.0012+/-0.0016</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0JetPh TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Global TIS</td>
+<td>2</td>
+<td>0.0012+/-0.0016</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Muon TIS</td>
+<td>147</td>
+<td>0.090+/-0.008</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Muon TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0DiMuon TIS</td>
+<td>35</td>
+<td>0.021+/-0.004</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Muon TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Electron TIS</td>
+<td>16</td>
+<td>0.0098+/-0.0031</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Muon TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Hadron TIS</td>
+<td>31</td>
+<td>0.019+/-0.004</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Muon TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0JetEl TIS</td>
+<td>0</td>
+<td>0.0000+/-0.0011</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Muon TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0JetPh TIS</td>
+<td>1</td>
+<td>0.0006+/-0.0014</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Muon TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0MuonEW TIS</td>
+<td>37</td>
+<td>0.023+/-0.004</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Muon TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Photon TIS</td>
+<td>8</td>
+<td>0.0049+/-0.0024</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Muon TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Global TIS</td>
+<td>147</td>
+<td>0.090+/-0.008</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0MuonEW TIS</td>
+<td>37</td>
+<td>0.023+/-0.004</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0MuonEW TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0DiMuon TIS</td>
+<td>9</td>
+<td>0.0055+/-0.0025</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0MuonEW TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Electron TIS</td>
+<td>8</td>
+<td>0.0049+/-0.0024</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0MuonEW TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Hadron TIS</td>
+<td>9</td>
+<td>0.0055+/-0.0025</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0MuonEW TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0JetEl TIS</td>
+<td>0</td>
+<td>0.0000+/-0.0011</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0MuonEW TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0JetPh TIS</td>
+<td>0</td>
+<td>0.0000+/-0.0011</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0MuonEW TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Muon TIS</td>
+<td>37</td>
+<td>0.023+/-0.004</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0MuonEW TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Photon TIS</td>
+<td>3</td>
+<td>0.0018+/-0.0018</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0MuonEW TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Global TIS</td>
+<td>37</td>
+<td>0.023+/-0.004</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Photon TIS</td>
+<td>72</td>
+<td>0.044+/-0.006</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Photon TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0DiMuon TIS</td>
+<td>1</td>
+<td>0.0006+/-0.0014</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Photon TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Electron TIS</td>
+<td>15</td>
+<td>0.0092+/-0.0030</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Photon TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Hadron TIS</td>
+<td>33</td>
+<td>0.020+/-0.004</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Photon TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0JetEl TIS</td>
+<td>1</td>
+<td>0.0006+/-0.0014</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Photon TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0JetPh TIS</td>
+<td>2</td>
+<td>0.0012+/-0.0016</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Photon TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Muon TIS</td>
+<td>8</td>
+<td>0.0049+/-0.0024</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Photon TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0MuonEW TIS</td>
+<td>3</td>
+<td>0.0018+/-0.0018</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Photon TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Global TIS</td>
+<td>72</td>
+<td>0.044+/-0.006</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Global TIS</td>
+<td>578</td>
+<td>0.355+/-0.012</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Global TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> Hlt1TwoTrackMVA TIS</td>
+<td>167</td>
+<td>0.289+/-0.020</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Global TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> Hlt1TwoTrackMVA TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> Hlt1TrackMVALoose TIS</td>
+<td>118</td>
+<td>0.204+/-0.018</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Global TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> Hlt1TwoTrackMVA TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> Hlt1TwoTrackMVALoose TIS</td>
+<td>167</td>
+<td>0.289+/-0.020</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Global TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> Hlt1TwoTrackMVA TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> Hlt1TrackMuon TIS</td>
+<td>23</td>
+<td>0.040+/-0.010</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Global TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> Hlt1TwoTrackMVA TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> Hlt1TrackMuonMVA TIS</td>
+<td>15</td>
+<td>0.026+/-0.008</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Global TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> Hlt1TwoTrackMVA TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> Hlt1SingleMuonHighPT TIS</td>
+<td>3</td>
+<td>0.005+/-0.005</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Global TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> Hlt1TwoTrackMVA TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> Hlt1Phys TIS</td>
+<td>167</td>
+<td>0.289+/-0.020</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Global TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> Hlt1TrackMVALoose TIS</td>
+<td>185</td>
+<td>0.320+/-0.020</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Global TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> Hlt1TrackMVALoose TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> Hlt1TwoTrackMVA TIS</td>
+<td>118</td>
+<td>0.204+/-0.018</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Global TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> Hlt1TrackMVALoose TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> Hlt1TwoTrackMVALoose TIS</td>
+<td>118</td>
+<td>0.204+/-0.018</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Global TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> Hlt1TrackMVALoose TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> Hlt1TrackMuon TIS</td>
+<td>32</td>
+<td>0.055+/-0.011</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Global TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> Hlt1TrackMVALoose TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> Hlt1TrackMuonMVA TIS</td>
+<td>27</td>
+<td>0.047+/-0.010</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Global TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> Hlt1TrackMVALoose TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> Hlt1SingleMuonHighPT TIS</td>
+<td>4</td>
+<td>0.007+/-0.005</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Global TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> Hlt1TrackMVALoose TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> Hlt1Phys TIS</td>
+<td>185</td>
+<td>0.320+/-0.020</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Global TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> Hlt1TwoTrackMVALoose TIS</td>
+<td>167</td>
+<td>0.289+/-0.020</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Global TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> Hlt1TwoTrackMVALoose TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> Hlt1TwoTrackMVA TIS</td>
+<td>167</td>
+<td>0.289+/-0.020</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Global TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> Hlt1TwoTrackMVALoose TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> Hlt1TrackMVALoose TIS</td>
+<td>118</td>
+<td>0.204+/-0.018</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Global TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> Hlt1TwoTrackMVALoose TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> Hlt1TrackMuon TIS</td>
+<td>23</td>
+<td>0.040+/-0.010</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Global TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> Hlt1TwoTrackMVALoose TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> Hlt1TrackMuonMVA TIS</td>
+<td>15</td>
+<td>0.026+/-0.008</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Global TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> Hlt1TwoTrackMVALoose TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> Hlt1SingleMuonHighPT TIS</td>
+<td>3</td>
+<td>0.005+/-0.005</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Global TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> Hlt1TwoTrackMVALoose TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> Hlt1Phys TIS</td>
+<td>167</td>
+<td>0.289+/-0.020</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Global TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> Hlt1TrackMuon TIS</td>
+<td>39</td>
+<td>0.067+/-0.012</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Global TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> Hlt1TrackMuon TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> Hlt1TwoTrackMVA TIS</td>
+<td>23</td>
+<td>0.040+/-0.010</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Global TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> Hlt1TrackMuon TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> Hlt1TrackMVALoose TIS</td>
+<td>32</td>
+<td>0.055+/-0.011</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Global TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> Hlt1TrackMuon TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> Hlt1TwoTrackMVALoose TIS</td>
+<td>23</td>
+<td>0.040+/-0.010</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Global TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> Hlt1TrackMuon TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> Hlt1TrackMuonMVA TIS</td>
+<td>28</td>
+<td>0.048+/-0.011</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Global TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> Hlt1TrackMuon TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> Hlt1SingleMuonHighPT TIS</td>
+<td>4</td>
+<td>0.007+/-0.005</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Global TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> Hlt1TrackMuon TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> Hlt1Phys TIS</td>
+<td>39</td>
+<td>0.067+/-0.012</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Global TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> Hlt1TrackMuonMVA TIS</td>
+<td>29</td>
+<td>0.050+/-0.011</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Global TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> Hlt1TrackMuonMVA TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> Hlt1TwoTrackMVA TIS</td>
+<td>15</td>
+<td>0.026+/-0.008</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Global TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> Hlt1TrackMuonMVA TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> Hlt1TrackMVALoose TIS</td>
+<td>27</td>
+<td>0.047+/-0.010</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Global TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> Hlt1TrackMuonMVA TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> Hlt1TwoTrackMVALoose TIS</td>
+<td>15</td>
+<td>0.026+/-0.008</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Global TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> Hlt1TrackMuonMVA TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> Hlt1TrackMuon TIS</td>
+<td>28</td>
+<td>0.048+/-0.011</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Global TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> Hlt1TrackMuonMVA TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> Hlt1SingleMuonHighPT TIS</td>
+<td>4</td>
+<td>0.007+/-0.005</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Global TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> Hlt1TrackMuonMVA TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> Hlt1Phys TIS</td>
+<td>29</td>
+<td>0.050+/-0.011</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Global TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> Hlt1SingleMuonHighPT TIS</td>
+<td>5</td>
+<td>0.009+/-0.006</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Global TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> Hlt1SingleMuonHighPT TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> Hlt1TwoTrackMVA TIS</td>
+<td>3</td>
+<td>0.005+/-0.005</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Global TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> Hlt1SingleMuonHighPT TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> Hlt1TrackMVALoose TIS</td>
+<td>4</td>
+<td>0.007+/-0.005</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Global TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> Hlt1SingleMuonHighPT TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> Hlt1TwoTrackMVALoose TIS</td>
+<td>3</td>
+<td>0.005+/-0.005</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Global TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> Hlt1SingleMuonHighPT TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> Hlt1TrackMuon TIS</td>
+<td>4</td>
+<td>0.007+/-0.005</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Global TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> Hlt1SingleMuonHighPT TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> Hlt1TrackMuonMVA TIS</td>
+<td>4</td>
+<td>0.007+/-0.005</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Global TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> Hlt1SingleMuonHighPT TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> Hlt1Phys TIS</td>
+<td>5</td>
+<td>0.009+/-0.006</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Global TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> Hlt1Phys TIS</td>
+<td>576</td>
+<td>0.997+/-0.005</td>
+</tr>
+</tbody>
+</table>
+<h3 id="individual-impact_1">Individual impact</h3>
+<table>
+<thead>
+<tr>
+<th>cut name</th>
+<th>yield</th>
+<th>efficiency</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>After DaVinci</td>
+<td>6731</td>
+<td>-</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS</td>
+<td>1628</td>
+<td>0.242+/-0.005</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0DiMuon TIS</td>
+<td>180</td>
+<td>0.0267+/-0.0021</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Electron TIS</td>
+<td>711</td>
+<td>0.106+/-0.004</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Hadron TIS</td>
+<td>1560</td>
+<td>0.232+/-0.005</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0JetEl TIS</td>
+<td>34</td>
+<td>0.0051+/-0.0010</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0JetPh TIS</td>
+<td>6</td>
+<td>0.0009+/-0.0005</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Muon TIS</td>
+<td>789</td>
+<td>0.117+/-0.004</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0MuonEW TIS</td>
+<td>203</td>
+<td>0.0302+/-0.0022</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Photon TIS</td>
+<td>277</td>
+<td>0.0412+/-0.0026</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Global TIS</td>
+<td>2714</td>
+<td>0.403+/-0.006</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0DiMuon TIS</td>
+<td>36</td>
+<td>0.022+/-0.004</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Electron TIS</td>
+<td>175</td>
+<td>0.107+/-0.008</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Hadron TIS</td>
+<td>355</td>
+<td>0.218+/-0.011</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0JetEl TIS</td>
+<td>8</td>
+<td>0.0049+/-0.0024</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0JetPh TIS</td>
+<td>2</td>
+<td>0.0012+/-0.0016</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Muon TIS</td>
+<td>147</td>
+<td>0.090+/-0.008</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0MuonEW TIS</td>
+<td>37</td>
+<td>0.023+/-0.004</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Photon TIS</td>
+<td>72</td>
+<td>0.044+/-0.006</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Global TIS</td>
+<td>578</td>
+<td>0.355+/-0.012</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Global TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> Hlt1TwoTrackMVA TIS</td>
+<td>167</td>
+<td>0.289+/-0.020</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Global TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> Hlt1TrackMVALoose TIS</td>
+<td>185</td>
+<td>0.320+/-0.020</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Global TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> Hlt1TwoTrackMVALoose TIS</td>
+<td>167</td>
+<td>0.289+/-0.020</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Global TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> Hlt1TrackMuon TIS</td>
+<td>39</td>
+<td>0.067+/-0.012</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Global TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> Hlt1TrackMuonMVA TIS</td>
+<td>29</td>
+<td>0.050+/-0.011</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Global TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> Hlt1SingleMuonHighPT TIS</td>
+<td>5</td>
+<td>0.009+/-0.006</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">D^*</span><script type="math/tex">D^*</script></span> L0Hadron TOS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> L0Global TIS+<span><span class="MathJax_Preview">\Upsilon(4s)</span><script type="math/tex">\Upsilon(4s)</script></span> Hlt1Phys TIS</td>
+<td>576</td>
+<td>0.997+/-0.005</td>
+</tr>
+</tbody>
+</table>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
+        
+          <a href="../overview/" title="`D^{\star}` cutflow overview" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+            </div>
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                `D^{\star}` cutflow overview
+              </div>
+            </div>
+          </a>
+        
+        
+          <a href="../../../comparison/Dst_vars_run1/Dst_vars_run1/" title="`D^{\star}` variables, run 1" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                `D^{\star}` variables, run 1
+              </div>
+            </div>
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../../../../assets/javascripts/vendor.83fe6e3c.min.js"></script>
+      <script src="../../../../assets/javascripts/bundle.7e1cb91c.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents"}</script>
+      
+      <script>
+        app = initialize({
+          base: "../../../..",
+          features: [],
+          search: Object.assign({
+            worker: "../../../../assets/javascripts/worker/search.37585f48.min.js"
+          }, typeof search !== "undefined" && search)
+        })
+      </script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+      
+    
+  </body>
+</html>
