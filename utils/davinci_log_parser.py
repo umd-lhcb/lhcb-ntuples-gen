@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri May 01, 2020 at 02:10 PM +0800
+# Last Change: Fri May 01, 2020 at 06:06 PM +0800
 
 import re
 import sys
@@ -106,6 +106,8 @@ def yaml_gen(data, indent='', indent_increment=' '*4):
         if type(items) in [dict, odict]:
             result += '\n'
             result += yaml_gen(items, indent=indent+indent_increment)
+        elif items is None:
+            result += 'null\n'
         else:
             result += ' {}\n'.format(items)
     return result
