@@ -1,3 +1,37 @@
+## Comparison between physical variables
+
+For now, we focus on $P_T$ of all reconstructed particles, generated with
+cocktail MC.
+
+### `Y_PT`
+
+![](cutflow_mc-2011_vs_2016/Y_PT_dist.png)
+
+### `Dst_PT`
+
+![](cutflow_mc-2011_vs_2016/Dst_2010_minus_PT_dist.png)
+
+### `D0 PT`
+
+![](cutflow_mc-2011_vs_2016/D0_PT_dist.png)
+
+### `Kplus_PT`
+
+![](cutflow_mc-2011_vs_2016/Kplus_PT_dist.png)
+
+### `muplus_PT`
+
+![](cutflow_mc-2011_vs_2016/muplus_PT_dist.png)
+
+### `piminus_PT`
+
+![](cutflow_mc-2011_vs_2016/piminus_PT_dist.png)
+
+### `piminus0_PT`
+
+![](cutflow_mc-2011_vs_2016/piminus0_PT_dist.png)
+
+
 ## Run 1 detail
 
 ### Generation
