@@ -2,51 +2,21 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Apr 29, 2020 at 10:57 PM +0800
+# Last Change: Fri May 01, 2020 at 09:07 PM +0800
 
 import uproot
 import sys
-import yaml
 
 sys.path.insert(0, '../../utils')
 
-from numpy import logical_and as AND, logical_or as OR
-from numpy import sum
-from tab_gen import TAB
-from pyTuplingUtils.io import read_branch
-from pyTuplingUtils.utils import extract_uid
+from cutflow_gen import div_with_confint as DIV
+from argparse import ArgumentParser
+from pyTuplingUtils.io import yaml_gen
+from pyTuplingUtils.utils import extract_uid, tabl as TAB
+from pyTuplingUtils.cutflow import CutflowGen, CutflowRule as Rule
 
 
-###########
-# Helpers #
-###########
-
-def total_num(ntp, tree, branch='runNumber'):
-    return read_branch(ntp, tree, branch).size
-
-
-def simplify_line(line, remove='Decision'):
-    return line.replace(remove, '')
-
-
-def remove_from(lst, remove=None):
-    return [i for i in lst if i != remove]
-
-
-def comb_cut(ntp, tree, basename, base_result, line,
-             particle='Y', tistos='TIS', particle_print=r'$\Upsilon(4s)$'):
-    add_branch = read_branch(ntp, tree,
-                             '{}_{}_{}'.format(particle, line, tistos))
-    result = AND(add_branch, base_result)
-    return [basename+'+{} {} {}'.format(
-        particle_print, simplify_line(line), tistos), sum(result)], result
-
-
-###############################
-# L0 efficiencies from ntuple #
-###############################
-
-L0_lines = [
+L0 = [
     # 'L0DiMuonDecision',  # FIXME: Missing in the ntuple due to a typo.
     'L0ElectronDecision',
     'L0ElectronHiDecision',
@@ -56,53 +26,124 @@ L0_lines = [
     'L0NoPVFlagDecision',
     'L0PhotonDecision',
     'L0PhotonHiDecision',
+    'L0Global',  # This needs to be placed to the last
 ]
 
 
-def tab_breakdown_cutflow(ntp, tree, marginal=True):
-    result = [['name', 'number of B']]
+###########
+# Helpers #
+###########
 
-    result.append(['DaVinci cuts (DV)', total_num(ntp, tree)])
+def simplify_line(line, remove='Decision'):
+    return line.replace(remove, '')
 
-    row, base_result = comb_cut(ntp, tree, 'DV', True, 'L0HadronDecision',
-                                particle='Dst_2010_minus',
-                                particle_print=r'$D^*$',
-                                tistos='TOS')
-    result.append(row)
-    basename = row[0]
+
+def remove_from(lst, remove=None):
+    return [i for i in lst if i != remove]
+
+
+def to_table(cutflow, headers=['cut name', 'yield', 'efficiency']):
+    table = [headers]
+
+    for val in cutflow.values():
+        eff = DIV(val['output'], val['input'])
+
+        if len(table) == 1:
+            table.append([val['name'], val['output'], '-'])
+        else:
+            table.append([val['name'], val['output'], eff])
+
+    return table
+
+
+def cut_gen(line, particle='Y', tistos='TIS', particle_name=r'$\Upsilon(4s)$'):
+    cut = '_'.join([particle, line, tistos])
+    name = '{} {} {}'.format(particle_name, simplify_line(line), tistos)
+    return cut, name
+
+
+def cut_comb(prev_cut, prev_name, *args, **kwargs):
+    cut, name = cut_gen(*args, **kwargs)
+    return prev_cut+' & ({})'.format(cut), prev_name+'+{}'.format(name)
+
+
+def cutflow_rule_gen(l0lines=L0, marginal=True):
+    basecut, basename = cut_gen(
+        'L0HadronDecision', 'Dst_2010_minus', 'TOS', r'$D^*$')
+    cutflows = [Rule(basecut, basename)]
 
     if not marginal:
-        for line in L0_lines:
-            alt_row, _ = comb_cut(ntp, tree, 'DV', True, line)
-            result.append(alt_row)
+        for l0 in l0lines:
+            cut, name = cut_gen(l0)
+            cutflows.append(Rule(cut, name, -1, True))
 
-    for line in L0_lines:
-        row, L0_add_result = comb_cut(ntp, tree, basename, base_result, line)
-        result.append(row)
-        rest_of_L0 = remove_from(L0_lines, line)
-        L0_add_name = row[0]
+    for l0 in l0lines:
+        l0cut, l0name = cut_comb(basecut, basename, l0)
+        cutflows.append(Rule(l0cut, l0name, 0, True))
 
-        if marginal and line != 'L0Global':
-            for lline in rest_of_L0:
-                row, _ = comb_cut(ntp, tree, L0_add_name, L0_add_result, lline)
-                result.append(row)
+        if marginal and l0 != 'L0Global':
+            for ll0 in remove_from(l0lines, l0):
+                ll0cut, ll0name = cut_comb(l0cut, l0name, ll0)
+                cutflows.append(Rule(ll0cut, ll0name, 0, True))
 
-    return result
+    return cutflows
+
+
+################################
+# Command line argument parser #
+################################
+
+def parse_input(descr='Generate cut flow CSV from YAML files.'):
+    parser = ArgumentParser(description=descr)
+
+    parser.add_argument('ntp',
+                        help='specify ntuple path.')
+
+    parser.add_argument('yaml',
+                        help='specify output YAML path.')
+
+    parser.add_argument('-t', '--tree',
+                        default='TupleB0/DecayTree',
+                        help='specify tree name in the ntuple.'
+                        )
+
+    parser.add_argument('-f', '--format',
+                        nargs='?',
+                        choices=['latex',
+                                 'simple',
+                                 'github',
+                                 'latex_booktabs',
+                                 'latex_booktabs_raw',
+                                 'latex_raw'],
+                        default='github',
+                        help='specify the output table format.'
+                        )
+
+    return parser.parse_args()
 
 
 if __name__ == '__main__':
-    ntp_path = sys.argv[1]
-    try:
-        fmt = sys.argv[2]
-    except IndexError:
-        fmt = 'github'
+    args = parse_input()
+    _, _, size, _, _ = extract_uid(uproot.open(args.ntp), args.tree)
 
-    ntp = uproot.open(ntp_path)
-    tree = 'TupleB0/DecayTree'
+    result_marginal = {'DV': {'input': size, 'output': size, 'name': 'After DaVinci'}}
+    result_individual = {'DV': {'input': size, 'output': size, 'name': 'After DaVinci'}}
 
-    tab_marginal = tab_breakdown_cutflow(ntp, tree)
-    tab_individual = tab_breakdown_cutflow(ntp, tree, marginal=False)
+    rules_marginal = cutflow_rule_gen()
+    result_marginal_addon = CutflowGen(
+        args.ntp, args.tree, rules_marginal, size).do()
+    result_marginal.update(result_marginal_addon)
 
-    print(TAB.tabulate(tab_marginal, headers='firstrow', tablefmt=fmt))
+    rules_individual = cutflow_rule_gen(marginal=False)
+    result_individual_addon = CutflowGen(
+        args.ntp, args.tree, rules_individual, size).do()
+    result_individual.update(result_individual_addon)
+
+    print(TAB.tabulate(to_table(result_marginal), headers='firstrow',
+                       tablefmt=args.format))
     print()
-    print(TAB.tabulate(tab_individual, headers='firstrow', tablefmt=fmt))
+    print(TAB.tabulate(to_table(result_individual), headers='firstrow',
+                       tablefmt=args.format))
+
+    with open(args.yaml, 'w') as f:
+        f.write(yaml_gen(result_individual))
