@@ -18,6 +18,7 @@ env:
 
 deploy:
     provider: pages
+    edge: true
     github_token: $GH_TOKEN
     on:
         branch: master
