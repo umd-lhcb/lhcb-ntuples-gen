@@ -11,7 +11,7 @@ cocktail MC.
 
 ![](cutflow_mc-2011_vs_2016/Dst_2010_minus_PT_dist.png)
 
-### `D0 PT`
+### `D0_PT`
 
 ![](cutflow_mc-2011_vs_2016/D0_PT_dist.png)
 
