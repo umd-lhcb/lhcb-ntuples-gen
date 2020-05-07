@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri May 08, 2020 at 03:32 AM +0800
+# Last Change: Fri May 08, 2020 at 03:54 AM +0800
 #
 # Description: Definitions of selection and reconstruction procedures for Dst in
 #              run 1, with thorough comments.
@@ -226,7 +226,11 @@ sel_unstripped_tis_filtered_Mu = Selection(
 #
 # NOTE: that the Muons that do not pass (unstripped) still get saved *but we
 #       don't want to use them*.
-if not DaVinci().Simulation or has_flag('CUTFLOW'):
+if has_flag('BARE'):
+    sel_charged_K = pr_charged_K
+    sel_charged_Pi = pr_charged_Pi
+    sel_Mu = pr_Mu
+elif not DaVinci().Simulation or has_flag('CUTFLOW'):
     sel_charged_K = sel_stripped_charged_K
     sel_charged_Pi = sel_stripped_charged_Pi
     sel_Mu = sel_stripped_Mu
@@ -262,33 +266,44 @@ algo_D0.DecayDescriptor = '[D0 -> K- pi+]cc'
 # PIDK: combined delta-log-likelihood for the given hypothesis (wrt the
 #       pion)
 # TRGHOSTPROB: track ghost probability
-algo_D0.DaughtersCuts = {
-    'K+': '(PT > 300*MeV) & (MIPCHI2DV(PRIMARY) > 45.0) &' +
-          '(PIDK > 4) & (TRGHOSTPROB < 0.5)',
-          # '(TRCHI2DOF < 4) & (PIDK > 4) & (TRGHOSTPROB < 0.5)',
-    'pi-': '(PT > 300*MeV) & (MIPCHI2DV(PRIMARY) > 45.0) &' +
-           '(PIDK < 2) & (TRGHOSTPROB < 0.5)'
-}
-
 # ADAMASS: the absolute mass difference to the PDG reference value, this functor
 #          takes an array as input, unlike ADMASS, which takes a scaler.
+#
 # .CombinationCut are cuts made before the vertex fit, so it saves time
-algo_D0.CombinationCut = "(ADAMASS('D0') < 200*MeV)"
-
 # ADMASS: the absolute mass difference to the PDG reference value, but it is
 #         used after the vertex fit
 # VFASPF: vertex function as particle function
 #         Allow to apply vertex functors to the particle's `endVertex()`
 # VCHI2: vertex chi^2
 # VDOF: vertex fit number of degree of freedom
+#
 # .MotherCut are cuts after the vertex fit, that's why the mass cut is tighter
-algo_D0.MotherCut = "(ADMASS('D0') < 100*MeV) & (VFASPF(VCHI2/VDOF) < 100)"
-
-# This is the default setting now, and should be no longer needed
-# algo_D0.ParticleCombiners.update({'': 'LoKi::VertexFitter'})
 
 
-if DaVinci().Simulation:
+if not has_flag('BARE'):
+    algo_D0.DaughtersCuts = {
+        'K+': '(PT > 300*MeV) & (MIPCHI2DV(PRIMARY) > 45.0) &' +
+              '(PIDK > 4) & (TRGHOSTPROB < 0.5)',
+              # '(TRCHI2DOF < 4) & (PIDK > 4) & (TRGHOSTPROB < 0.5)',
+        'pi-': '(PT > 300*MeV) & (MIPCHI2DV(PRIMARY) > 45.0) &' +
+               '(PIDK < 2) & (TRGHOSTPROB < 0.5)'
+    }
+
+    algo_D0.CombinationCut = "(ADAMASS('D0') < 200*MeV)"
+    algo_D0.MotherCut = "(ADMASS('D0') < 100*MeV) & (VFASPF(VCHI2/VDOF) < 100)"
+
+
+if DaVinci().Simulation and has_flag('BARE'):
+    algo_D0.Preambulo += algo_mc_match_preambulo
+
+    algo_D0.DaughtersCuts['K+'] = "(mcMatch('[^K+]CC')) &" + \
+        "(MCSELMATCH(MCNINANCESTORS(BEAUTY) > 0)) &"
+
+    algo_D0.DaughtersCuts['pi-'] = '(MCSELMATCH(MCNINANCESTORS(BEAUTY) > 0))'
+    algo_D0.MotherCut = \
+        "(mcMatch('[Charm -> K- pi+ {gamma}{gamma}{gamma}]CC'))"
+
+elif DaVinci().Simulation:
     algo_D0.Preambulo += algo_mc_match_preambulo
 
     algo_D0.DaughtersCuts['K+'] = \
@@ -310,13 +325,17 @@ if DaVinci().Simulation:
 algo_Dst = CombineParticles('MyDst')
 algo_Dst.DecayDescriptor = '[D*(2010)+ -> D0 pi+]cc'
 
-algo_Dst.DaughtersCuts = {
-    'pi+': '(MIPCHI2DV(PRIMARY) > 0.0) & (TRCHI2DOF < 3) & (TRGHOSTPROB < 0.25)'
-}
-algo_Dst.CombinationCut = "(ADAMASS('D*(2010)+') < 220*MeV)"
-algo_Dst.MotherCut = "(ADMASS('D*(2010)+') < 125*MeV) &" + \
-                     "(M-MAXTREE(ABSID=='D0', M) < 160*MeV) &" + \
-                     "(VFASPF(VCHI2/VDOF) < 100)"
+
+if not has_flag('BARE'):
+    algo_Dst.DaughtersCuts = {
+        'pi+': '(MIPCHI2DV(PRIMARY) > 0.0) & (TRCHI2DOF < 3) &' +
+               '(TRGHOSTPROB < 0.25)'
+    }
+
+    algo_Dst.CombinationCut = "(ADAMASS('D*(2010)+') < 220*MeV)"
+    algo_Dst.MotherCut = "(ADMASS('D*(2010)+') < 125*MeV) &" + \
+                         "(M-MAXTREE(ABSID=='D0', M) < 160*MeV) &" + \
+                         "(VFASPF(VCHI2/VDOF) < 100)"
 
 
 # DstWS ########################################################################
@@ -334,20 +353,25 @@ algo_B0 = CombineParticles('MyB0')
 algo_B0.DecayDescriptor = "[B~0 -> D*(2010)+ mu-]cc"  # B~0 is the CC of B0
 
 # ALL: trivial select all
-algo_B0.DaughtersCuts = {"mu-": "ALL"}
-
 # AM: mass of the combination
 #     Return sqrt(E^2 - p^2)
-algo_B0.CombinationCut = '(AM < 10200*MeV)'
-
 # BPVDIRA: direction angle
 #          Compute the cosine of the angle between the momentum of the particle
 #          and the direction to flight from the best PV to the decay vertex.
-algo_B0.MotherCut = "(M < 10000*MeV) & (BPVDIRA > 0.9995) &" + \
-                    "(VFASPF(VCHI2/VDOF) < 6.0)"
 
 
-if DaVinci().Simulation:
+if not has_flag('BARE'):
+    algo_B0.DaughtersCuts = {"mu-": "ALL"}
+    algo_B0.CombinationCut = '(AM < 10200*MeV)'
+    algo_B0.MotherCut = "(M < 10000*MeV) & (BPVDIRA > 0.9995) &" + \
+                        "(VFASPF(VCHI2/VDOF) < 6.0)"
+
+
+if DaVinci().Simulation and has_flag('BARE'):
+    algo_B0.Preambulo += algo_mc_match_preambulo
+    algo_B0.DaughtersCuts['mu-'] = "(mcMatch('[^mu+]CC'))"
+
+elif DaVinci().Simulation:
     algo_B0.Preambulo += algo_mc_match_preambulo
 
     # algo_Bd.HistoProduce = True
@@ -365,10 +389,7 @@ if DaVinci().Simulation:
 algo_B0_ws_Mu = CombineParticles('MyB0WSMu')
 algo_B0_ws_Mu.DecayDescriptor = "[B~0 -> D*(2010)+ mu+]cc"
 
-algo_B0_ws_Mu.DaughtersCuts = {
-    "mu+": "ALL"
-}
-
+algo_B0_ws_Mu.DaughtersCuts = {"mu+": "ALL"}
 algo_B0_ws_Mu.CombinationCut = algo_B0.CombinationCut
 algo_B0_ws_Mu.MotherCut = algo_B0.MotherCut
 
@@ -498,9 +519,9 @@ else:
                                  seq_B0_ws_Pi.sequence()]
 
 
-###################
-# Define n-tuples #
-###################
+##################
+# Define ntuples #
+##################
 
 # Tools for data
 from Configurables import DecayTreeTuple
