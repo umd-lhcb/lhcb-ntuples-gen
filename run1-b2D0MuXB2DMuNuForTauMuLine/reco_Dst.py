@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed May 06, 2020 at 12:57 AM +0800
+# Last Change: Fri May 08, 2020 at 03:32 AM +0800
 #
 # Description: Definitions of selection and reconstruction procedures for Dst in
 #              run 1, with thorough comments.
@@ -118,12 +118,12 @@ fltr_hlt = HDRFilter(
     Code="HLT_PASS('{0}Decision')".format(line_hlt))
 
 
-if has_flag('CUTFLOW'):
-    event_pre_selectors = [fltr_strip]
+if has_flag('CUTFLOW') and has_flag('BARE'):
+    pass
+elif has_flag('CUTFLOW'):
+    DaVinci().EventPreFilters = [fltr_strip]
 elif not DaVinci().Simulation:
-    event_pre_selectors = [fltr_strip, fltr_hlt]
-else:
-    event_pre_selectors = []
+    DaVinci().EventPreFilters = [fltr_strip, fltr_hlt]
 
 
 #######################
@@ -476,19 +476,16 @@ from PhysSelPython.Wrappers import SelectionSequence
 
 seq_B0 = SelectionSequence(
     'SeqMyB0',
-    EventPreSelector=event_pre_selectors,
     TopSelection=sel_refit_B02DstMu
 )
 
 seq_B0_ws_Mu = SelectionSequence(
     'SeqMyB0WSMu',
-    EventPreSelector=event_pre_selectors,
     TopSelection=sel_refit_B02DstMu_ws_Mu
 )
 
 seq_B0_ws_Pi = SelectionSequence(
     'SeqMyB0WSPi',
-    EventPreSelector=event_pre_selectors,
     TopSelection=sel_refit_B02DstMu_ws_Pi
 )
 
