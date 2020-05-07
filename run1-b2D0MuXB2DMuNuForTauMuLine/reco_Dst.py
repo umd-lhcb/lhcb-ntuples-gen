@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri May 08, 2020 at 03:54 AM +0800
+# Last Change: Fri May 08, 2020 at 03:58 AM +0800
 #
 # Description: Definitions of selection and reconstruction procedures for Dst in
 #              run 1, with thorough comments.
@@ -343,9 +343,11 @@ if not has_flag('BARE'):
 algo_Dst_ws = CombineParticles('MyDstWS')
 algo_Dst_ws.DecayDescriptor = '[D*(2010)- -> D0 pi-]cc'
 
-algo_Dst_ws.DaughtersCuts = algo_Dst.DaughtersCuts
-algo_Dst_ws.CombinationCut = algo_Dst.CombinationCut
-algo_Dst_ws.MotherCut = algo_Dst.MotherCut
+
+if not has_flag('BARE'):
+    algo_Dst_ws.DaughtersCuts = algo_Dst.DaughtersCuts
+    algo_Dst_ws.CombinationCut = algo_Dst.CombinationCut
+    algo_Dst_ws.MotherCut = algo_Dst.MotherCut
 
 
 # B0 ###########################################################################
@@ -389,9 +391,11 @@ elif DaVinci().Simulation:
 algo_B0_ws_Mu = CombineParticles('MyB0WSMu')
 algo_B0_ws_Mu.DecayDescriptor = "[B~0 -> D*(2010)+ mu+]cc"
 
-algo_B0_ws_Mu.DaughtersCuts = {"mu+": "ALL"}
-algo_B0_ws_Mu.CombinationCut = algo_B0.CombinationCut
-algo_B0_ws_Mu.MotherCut = algo_B0.MotherCut
+
+if not has_flag('BARE'):
+    algo_B0_ws_Mu.DaughtersCuts = {"mu+": "ALL"}
+    algo_B0_ws_Mu.CombinationCut = algo_B0.CombinationCut
+    algo_B0_ws_Mu.MotherCut = algo_B0.MotherCut
 
 
 # B0WSPi #######################################################################
@@ -401,9 +405,11 @@ algo_B0_ws_Mu.MotherCut = algo_B0.MotherCut
 algo_B0_ws_Pi = CombineParticles('MyB0WSPi')
 algo_B0_ws_Pi.DecayDescriptor = "[B0 -> D*(2010)+ mu+]cc"
 
-algo_B0_ws_Pi.DaughtersCuts = algo_B0_ws_Mu.DaughtersCuts
-algo_B0_ws_Pi.CombinationCut = algo_B0.CombinationCut
-algo_B0_ws_Pi.MotherCut = algo_B0.MotherCut
+
+if not has_flag('BARE'):
+    algo_B0_ws_Pi.DaughtersCuts = algo_B0_ws_Mu.DaughtersCuts
+    algo_B0_ws_Pi.CombinationCut = algo_B0.CombinationCut
+    algo_B0_ws_Pi.MotherCut = algo_B0.MotherCut
 
 
 #####################
