@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri May 08, 2020 at 03:58 AM +0800
+# Last Change: Fri May 08, 2020 at 08:55 PM +0800
 #
 # Description: Definitions of selection and reconstruction procedures for Dst in
 #              run 1, with thorough comments.
@@ -247,7 +247,6 @@ else:
 # These cuts are imposed by the stripping line
 #   http://lhcbdoc.web.cern.ch/lhcbdoc/stripping/config/stripping21/semileptonic/strippingb2d0muxb2dmunufortaumuline.html
 
-
 from Configurables import CombineParticles
 
 algo_mc_match_preambulo = [
@@ -297,7 +296,7 @@ if DaVinci().Simulation and has_flag('BARE'):
     algo_D0.Preambulo += algo_mc_match_preambulo
 
     algo_D0.DaughtersCuts['K+'] = "(mcMatch('[^K+]CC')) &" + \
-        "(MCSELMATCH(MCNINANCESTORS(BEAUTY) > 0)) &"
+        "(MCSELMATCH(MCNINANCESTORS(BEAUTY) > 0))"
 
     algo_D0.DaughtersCuts['pi-'] = '(MCSELMATCH(MCNINANCESTORS(BEAUTY) > 0))'
     algo_D0.MotherCut = \
@@ -336,6 +335,10 @@ if not has_flag('BARE'):
     algo_Dst.MotherCut = "(ADMASS('D*(2010)+') < 125*MeV) &" + \
                          "(M-MAXTREE(ABSID=='D0', M) < 160*MeV) &" + \
                          "(VFASPF(VCHI2/VDOF) < 100)"
+else:
+    algo_Dst.DaughtersCuts = {}
+    algo_Dst.CombinationCut = "(ADAMASS('D*(2010)+') < 10000*MeV)"
+    algo_Dst.MotherCut = "(ADMASS('D*(2010)+') < 10000*MeV)"
 
 
 # DstWS ########################################################################
@@ -343,12 +346,9 @@ if not has_flag('BARE'):
 algo_Dst_ws = CombineParticles('MyDstWS')
 algo_Dst_ws.DecayDescriptor = '[D*(2010)- -> D0 pi-]cc'
 
-
-if not has_flag('BARE'):
-    algo_Dst_ws.DaughtersCuts = algo_Dst.DaughtersCuts
-    algo_Dst_ws.CombinationCut = algo_Dst.CombinationCut
-    algo_Dst_ws.MotherCut = algo_Dst.MotherCut
-
+algo_Dst_ws.DaughtersCuts = algo_Dst.DaughtersCuts
+algo_Dst_ws.CombinationCut = algo_Dst.CombinationCut
+algo_Dst_ws.MotherCut = algo_Dst.MotherCut
 
 # B0 ###########################################################################
 algo_B0 = CombineParticles('MyB0')
@@ -371,7 +371,10 @@ if not has_flag('BARE'):
 
 if DaVinci().Simulation and has_flag('BARE'):
     algo_B0.Preambulo += algo_mc_match_preambulo
+
     algo_B0.DaughtersCuts['mu-'] = "(mcMatch('[^mu+]CC'))"
+    algo_B0.CombinationCut = 'AM < 1000000*MeV'
+    algo_B0.MotherCut = 'M < 1000000*MeV'
 
 elif DaVinci().Simulation:
     algo_B0.Preambulo += algo_mc_match_preambulo
@@ -391,11 +394,9 @@ elif DaVinci().Simulation:
 algo_B0_ws_Mu = CombineParticles('MyB0WSMu')
 algo_B0_ws_Mu.DecayDescriptor = "[B~0 -> D*(2010)+ mu+]cc"
 
-
-if not has_flag('BARE'):
-    algo_B0_ws_Mu.DaughtersCuts = {"mu+": "ALL"}
-    algo_B0_ws_Mu.CombinationCut = algo_B0.CombinationCut
-    algo_B0_ws_Mu.MotherCut = algo_B0.MotherCut
+algo_B0_ws_Mu.DaughtersCuts = {"mu+": "ALL"}
+algo_B0_ws_Mu.CombinationCut = algo_B0.CombinationCut
+algo_B0_ws_Mu.MotherCut = algo_B0.MotherCut
 
 
 # B0WSPi #######################################################################
@@ -405,11 +406,9 @@ if not has_flag('BARE'):
 algo_B0_ws_Pi = CombineParticles('MyB0WSPi')
 algo_B0_ws_Pi.DecayDescriptor = "[B0 -> D*(2010)+ mu+]cc"
 
-
-if not has_flag('BARE'):
-    algo_B0_ws_Pi.DaughtersCuts = algo_B0_ws_Mu.DaughtersCuts
-    algo_B0_ws_Pi.CombinationCut = algo_B0.CombinationCut
-    algo_B0_ws_Pi.MotherCut = algo_B0.MotherCut
+algo_B0_ws_Pi.DaughtersCuts = algo_B0_ws_Mu.DaughtersCuts
+algo_B0_ws_Pi.CombinationCut = algo_B0.CombinationCut
+algo_B0_ws_Pi.MotherCut = algo_B0.MotherCut
 
 
 #####################
@@ -599,7 +598,7 @@ def tuple_postpocess_data(tp,
                               # HLT 2
                               'Hlt2CharmHadD02HH_D02KPiDecision'
                           ],
-                          trigger_list_Y=[
+                          trigger_list_B0=[
                               # L0
                               'L0HadronDecision',  # Hadron decision needed everywhere.
                               'L0DiMuonDecision',
@@ -612,17 +611,17 @@ def tuple_postpocess_data(tp,
                               'L0PhotonHiDecision'
                           ]
                           ):
-    tp.Y.addTool(TupleToolTagDiscardDstMu, name='TupleMyDiscardDstMu')
-    tp.Y.ToolList += ['TupleToolTagDiscardDstMu/TupleMyDiscardDstMu']
+    tp.b0.addTool(TupleToolTagDiscardDstMu, name='TupleMyDiscardDstMu')
+    tp.b0.ToolList += ['TupleToolTagDiscardDstMu/TupleMyDiscardDstMu']
 
-    tp.Y.addTool(TupleToolApplyIsolation, name='TupleMyApplyIso')
-    tp.Y.TupleMyApplyIso.WeightsFile = weights
-    tp.Y.ToolList += ['TupleToolApplyIsolation/TupleMyApplyIso']
+    tp.b0.addTool(TupleToolApplyIsolation, name='TupleMyApplyIso')
+    tp.b0.TupleMyApplyIso.WeightsFile = weights
+    tp.b0.ToolList += ['TupleToolApplyIsolation/TupleMyApplyIso']
 
-    tp.Y.addTool(TupleToolTauMuDiscrVars, name='TupleMyRFA')
-    tp.Y.ToolList += ['TupleToolTauMuDiscrVars/TupleMyRFA']
+    tp.b0.addTool(TupleToolTauMuDiscrVars, name='TupleMyRFA')
+    tp.b0.ToolList += ['TupleToolTauMuDiscrVars/TupleMyRFA']
 
-    tp.muplus.ToolList += ['TupleToolANNPIDTraining']
+    tp.mu.ToolList += ['TupleToolANNPIDTraining']
 
     # Trigger decisions to be saved for every particle
     tt_trigger = tp.addTupleTool('TupleToolTrigger')
@@ -634,9 +633,9 @@ def tuple_postpocess_data(tp,
     tt_tistos.TriggerList = trigger_list_global
 
     # Trigger decisions to be saved for Y
-    tt_tistos_Y = tp.Y.addTupleTool('TupleToolTISTOS')
-    tt_tistos_Y.Verbose = True
-    tt_tistos_Y.TriggerList = trigger_list_Y
+    tt_tistos_B0 = tp.b0.addTupleTool('TupleToolTISTOS')
+    tt_tistos_B0.Verbose = True
+    tt_tistos_B0.TriggerList = trigger_list_B0
 
 
 def tuple_postpocess_mc(*args, **kwargs):
@@ -683,8 +682,8 @@ tp_B0_ws_Mu.addBranches({
     "d0": "[B0 -> (D*(2010)- -> ^(D~0 -> K+ pi-) pi-) mu-]CC",
     "spi": "[B0 -> (D*(2010)- -> (D~0 -> K+ pi-) ^pi-) mu-]CC",
     "pi": "[B0 -> (D*(2010)- -> (D~0 -> K+ ^pi-) pi-) mu-]CC",
-    "Kplus": "[B0 -> (D*(2010)- -> (D~0 -> ^K+ pi-) pi-) mu-]CC",
-    "muplus": "[B0 -> (D*(2010)- -> (D~0 -> K+ pi-) pi-) ^mu-]CC"})
+    "k": "[B0 -> (D*(2010)- -> (D~0 -> ^K+ pi-) pi-) mu-]CC",
+    "mu": "[B0 -> (D*(2010)- -> (D~0 -> K+ pi-) pi-) ^mu-]CC"})
 
 tuple_postpocess(tp_B0_ws_Mu)
 
