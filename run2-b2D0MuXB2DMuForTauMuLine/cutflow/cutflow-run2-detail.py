@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri May 01, 2020 at 09:00 PM +0800
+# Last Change: Tue May 12, 2020 at 12:11 AM +0800
 
 import uproot
 import sys
@@ -71,9 +71,10 @@ def cut_gen(line, particle='Y', tistos='TIS', particle_name=r'$\Upsilon(4s)$'):
     return cut, name
 
 
-def cut_comb(prev_cut, prev_name, *args, **kwargs):
+def cut_comb(prev_cut, prev_name, *args, op='|', set_symb=r'$\cup$', **kwargs):
     cut, name = cut_gen(*args, **kwargs)
-    return prev_cut+' & ({})'.format(cut), prev_name+'+{}'.format(name)
+    return prev_cut+' {} ({})'.format(op, cut), \
+        prev_name+'{}{}'.format(set_symb, name)
 
 
 def cutflow_rule_gen(l0lines=L0, hlt1lines=HLT1, marginal=True):
@@ -88,21 +89,23 @@ def cutflow_rule_gen(l0lines=L0, hlt1lines=HLT1, marginal=True):
 
     for l0 in l0lines:
         l0cut, l0name = cut_comb(basecut, basename, l0)
-        cutflows.append(Rule(l0cut, l0name, 0, True))
+        cutflows.append(Rule(l0cut, l0name, -1, True))
         ref_idx = len(cutflows) - 1
 
         if marginal and l0 != 'L0Global':
             for ll0 in remove_from(l0lines, l0):
                 ll0cut, ll0name = cut_comb(l0cut, l0name, ll0)
-                cutflows.append(Rule(ll0cut, ll0name, 0, True))
+                cutflows.append(Rule(ll0cut, ll0name, -1, True))
 
     for hlt1 in hlt1lines:
-        hlt1cut, hlt1name = cut_comb(l0cut, l0name, hlt1)
+        hlt1cut, hlt1name = cut_comb(l0cut, l0name, hlt1, op='&',
+                                     set_symb=r'$\cap$')
         cutflows.append(Rule(hlt1cut, hlt1name, ref_idx, True))
 
         if marginal and hlt1 != 'Hlt1Phys':
             for hhlt1 in remove_from(hlt1lines, hlt1):
-                hhlt1cut, hhlt1name = cut_comb(hlt1cut, hlt1name, hhlt1)
+                hhlt1cut, hhlt1name = cut_comb(hlt1cut, hlt1name, hhlt1,
+                                               op='&', set_symb=r'$\cap$')
                 cutflows.append(Rule(hhlt1cut, hhlt1name, ref_idx, True))
 
     return cutflows
