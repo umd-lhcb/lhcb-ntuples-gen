@@ -42,6 +42,20 @@ Ntuples should have the following form:
     200202-Dst-mc-2012-md-dv36-py6-sim08a-Bd2DstTauNu.root
     ```
 
+### DaVinci logs
+Please follow the form below:
+```
+<date>-<particle_name>-<reconstruction_mode>-<additional_info>
+```
+
+!!! note
+    `<date>`, `<particle_name>`, and `<reconstruction_mode>` should follow the
+    same convention as in [Ntuples](#ntuples).
+
+    The `<additional_info>` field is optional and can contain multiple
+    sub-fields, each separated with a `-`. The content of these fields are up
+    to users.
+
 
 ## File storage
 
