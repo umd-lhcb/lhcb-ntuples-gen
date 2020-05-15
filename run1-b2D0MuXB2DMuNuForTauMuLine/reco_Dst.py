@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri May 08, 2020 at 08:55 PM +0800
+# Last Change: Fri May 15, 2020 at 10:43 PM +0800
 #
 # Description: Definitions of selection and reconstruction procedures for Dst in
 #              run 1, with thorough comments.
@@ -295,12 +295,20 @@ if not has_flag('BARE'):
 if DaVinci().Simulation and has_flag('BARE'):
     algo_D0.Preambulo += algo_mc_match_preambulo
 
-    algo_D0.DaughtersCuts['K+'] = "(mcMatch('[^K+]CC')) &" + \
-        "(MCSELMATCH(MCNINANCESTORS(BEAUTY) > 0))"
-
-    algo_D0.DaughtersCuts['pi-'] = '(MCSELMATCH(MCNINANCESTORS(BEAUTY) > 0))'
-    algo_D0.MotherCut = \
+    algo_D0.CombinationCut = "(ADAMASS('D0') < 200*MeV)"
+    algo_D0.MotherCut = "(ADMASS('D0') < 100*MeV) &" + \
+        '(VFASPF(VCHI2/VDOF) < 100) &' + \
         "(mcMatch('[Charm -> K- pi+ {gamma}{gamma}{gamma}]CC'))"
+
+    algo_D0.DaughtersCuts = {
+        'K+': '(MIPCHI2DV(PRIMARY) > 45.0) &' +
+              '(PIDK > 4) & (TRGHOSTPROB < 0.5) &' +
+              "(mcMatch('[^K+]CC')) & (P > 2.0*GeV) &" +
+              '(MCSELMATCH(MCNINANCESTORS(BEAUTY) > 0))',
+        'pi-': '(MIPCHI2DV(PRIMARY) > 45.0) &' +
+               '(PIDK < 2) & (TRGHOSTPROB < 0.5) &' +
+               '(MCSELMATCH(MCNINANCESTORS(BEAUTY) > 0))'
+    }
 
 elif DaVinci().Simulation:
     algo_D0.Preambulo += algo_mc_match_preambulo
@@ -325,21 +333,15 @@ algo_Dst = CombineParticles('MyDst')
 algo_Dst.DecayDescriptor = '[D*(2010)+ -> D0 pi+]cc'
 
 
-if not has_flag('BARE'):
-    algo_Dst.DaughtersCuts = {
-        'pi+': '(MIPCHI2DV(PRIMARY) > 0.0) & (TRCHI2DOF < 3) &' +
-               '(TRGHOSTPROB < 0.25)'
-    }
+algo_Dst.DaughtersCuts = {
+    'pi+': '(MIPCHI2DV(PRIMARY) > 0.0) & (TRCHI2DOF < 3) &' +
+           '(TRGHOSTPROB < 0.25)'
+}
 
-    algo_Dst.CombinationCut = "(ADAMASS('D*(2010)+') < 220*MeV)"
-    algo_Dst.MotherCut = "(ADMASS('D*(2010)+') < 125*MeV) &" + \
-                         "(M-MAXTREE(ABSID=='D0', M) < 160*MeV) &" + \
-                         "(VFASPF(VCHI2/VDOF) < 100)"
-else:
-    algo_Dst.DaughtersCuts = {}
-    algo_Dst.CombinationCut = "(ADAMASS('D*(2010)+') < 10000*MeV)"
-    algo_Dst.MotherCut = "(ADMASS('D*(2010)+') < 10000*MeV)"
-
+algo_Dst.CombinationCut = "(ADAMASS('D*(2010)+') < 220*MeV)"
+algo_Dst.MotherCut = "(ADMASS('D*(2010)+') < 125*MeV) &" + \
+                     "(M-MAXTREE(ABSID=='D0', M) < 160*MeV) &" + \
+                     "(VFASPF(VCHI2/VDOF) < 100)"
 
 # DstWS ########################################################################
 # 'WS' stands for 'wrong sign'
@@ -351,43 +353,31 @@ algo_Dst_ws.CombinationCut = algo_Dst.CombinationCut
 algo_Dst_ws.MotherCut = algo_Dst.MotherCut
 
 # B0 ###########################################################################
-algo_B0 = CombineParticles('MyB0')
-algo_B0.DecayDescriptor = "[B~0 -> D*(2010)+ mu-]cc"  # B~0 is the CC of B0
-
 # ALL: trivial select all
 # AM: mass of the combination
 #     Return sqrt(E^2 - p^2)
 # BPVDIRA: direction angle
 #          Compute the cosine of the angle between the momentum of the particle
 #          and the direction to flight from the best PV to the decay vertex.
+algo_B0 = CombineParticles('MyB0')
+algo_B0.DecayDescriptor = "[B~0 -> D*(2010)+ mu-]cc"  # B~0 is the CC of B0
 
+algo_B0.DaughtersCuts = {"mu-": "ALL"}
+algo_B0.CombinationCut = '(AM < 10200*MeV)'
+algo_B0.MotherCut = "(M < 10000*MeV) & (BPVDIRA > 0.9995) &" + \
+                    "(VFASPF(VCHI2/VDOF) < 6.0)"
 
-if not has_flag('BARE'):
-    algo_B0.DaughtersCuts = {"mu-": "ALL"}
-    algo_B0.CombinationCut = '(AM < 10200*MeV)'
-    algo_B0.MotherCut = "(M < 10000*MeV) & (BPVDIRA > 0.9995) &" + \
-                        "(VFASPF(VCHI2/VDOF) < 6.0)"
-
-
-if DaVinci().Simulation and has_flag('BARE'):
+if DaVinci().Simulation:
     algo_B0.Preambulo += algo_mc_match_preambulo
-
-    algo_B0.DaughtersCuts['mu-'] = "(mcMatch('[^mu+]CC'))"
-    algo_B0.CombinationCut = 'AM < 1000000*MeV'
-    algo_B0.MotherCut = 'M < 1000000*MeV'
-
-elif DaVinci().Simulation:
-    algo_B0.Preambulo += algo_mc_match_preambulo
-
-    # algo_Bd.HistoProduce = True
-    # algo_Bd.addTool(PlotTool("MotherPlots"))
-    # algo_Bd.MotherPlots.Histos = {
-    #    "AMAXDOCA(FLATTEN((ABSID=='D0') | (ABSID=='mu-')))" : ("DOCA",0,2)}
 
     algo_B0.DaughtersCuts['mu-'] = \
         "(mcMatch('[^mu+]CC')) & (TRGHOSTPROB < 0.5) &" + \
         "(MIPCHI2DV(PRIMARY)>45) & (TRCHI2DOF < 3.0)"
 
+    # algo_B0.HistoProduce = True
+    # algo_B0.addTool(PlotTool("MotherPlots"))
+    # algo_B0.MotherPlots.Histos = {
+    #    "AMAXDOCA(FLATTEN((ABSID=='D0') | (ABSID=='mu-')))" : ("DOCA",0,2)}
 
 # B0WSMu #######################################################################
 # Here the muon has the wrong sign---charge not conserved.
@@ -397,7 +387,6 @@ algo_B0_ws_Mu.DecayDescriptor = "[B~0 -> D*(2010)+ mu+]cc"
 algo_B0_ws_Mu.DaughtersCuts = {"mu+": "ALL"}
 algo_B0_ws_Mu.CombinationCut = algo_B0.CombinationCut
 algo_B0_ws_Mu.MotherCut = algo_B0.MotherCut
-
 
 # B0WSPi #######################################################################
 # Here, due to the wrong quark content of B0, instead of B~0, the pion (not
