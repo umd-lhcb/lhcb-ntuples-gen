@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon May 18, 2020 at 09:07 PM +0800
+# Last Change: Mon May 18, 2020 at 10:49 PM +0800
 #
 # Description: Definitions of selection and reconstruction procedures for Dst in
 #              run 1, with thorough comments.
@@ -224,8 +224,8 @@ sel_unstripped_tis_filtered_Mu = Selection(
 #   For data, we always have a stripping line, so all events contains *some*
 #   Muons that pass the stripping criteria.
 #
-# NOTE: that the Muons that do not pass (unstripped) still get saved *but we
-#       don't want to use them*.
+# NOTE: Muons that do not pass (unstripped) still get saved *but we don't want
+#       to use them*.
 if has_flag('BARE'):
     sel_charged_K = pr_charged_K
     sel_charged_Pi = pr_charged_Pi
@@ -294,10 +294,6 @@ if not has_flag('BARE'):
 if DaVinci().Simulation and has_flag('BARE'):
     algo_D0.Preambulo += algo_mc_match_preambulo
 
-    algo_D0.CombinationCut = "AALL"  # NOTE: 'AALL' is the particle array variant for 'ALL'.
-    algo_D0.MotherCut = '(VFASPF(VCHI2/VDOF) < 100) &' + \
-        "(mcMatch('[Charm -> K- pi+ {gamma}{gamma}{gamma}]CC'))"
-
     algo_D0.DaughtersCuts = {
         'K+': '(MIPCHI2DV(PRIMARY) > 45.0) &' +
               '(PIDK > 4) & (TRGHOSTPROB < 0.5) &' +
@@ -308,12 +304,12 @@ if DaVinci().Simulation and has_flag('BARE'):
                '(MCSELMATCH(MCNINANCESTORS(BEAUTY) > 0))'
     }
 
+    algo_D0.CombinationCut = "AALL"  # NOTE: 'AALL' is the particle array variant for 'ALL'.
+    algo_D0.MotherCut = '(VFASPF(VCHI2/VDOF) < 100) &' + \
+        "(mcMatch('[Charm -> K- pi+ {gamma}{gamma}{gamma}]CC'))"
+
 elif DaVinci().Simulation:
     algo_D0.Preambulo += algo_mc_match_preambulo
-
-    algo_D0.MotherCut = \
-        "(mcMatch('[Charm -> K- pi+ {gamma}{gamma}{gamma}]CC')) &" + \
-        algo_D0.MotherCut
 
     algo_D0.DaughtersCuts['K+'] = \
         "(mcMatch('[^K+]CC')) & (P > 2.0*GeV) &" + \
@@ -324,6 +320,10 @@ elif DaVinci().Simulation:
         '(P > 2.0*GeV) &' + \
         '(MCSELMATCH(MCNINANCESTORS(BEAUTY) > 0)) &' + \
         algo_D0.DaughtersCuts['pi-']
+
+    algo_D0.MotherCut = \
+        "(mcMatch('[Charm -> K- pi+ {gamma}{gamma}{gamma}]CC')) &" + \
+        algo_D0.MotherCut
 
 
 # Dst ##########################################################################
@@ -384,14 +384,14 @@ if not has_flag('BARE'):
 if DaVinci().Simulation and has_flag('BARE'):
     algo_B0.Preambulo += algo_mc_match_preambulo
 
-    algo_B0.CombinationCut = 'AALL'
-    algo_B0.MotherCut = "(BPVDIRA > 0.9995) &" + "(VFASPF(VCHI2/VDOF) < 6.0)"
     algo_B0.DaughtersCuts = {
         "mu-": "(mcMatch('[^mu+]CC')) & (TRGHOSTPROB < 0.5) &" +
                "(MIPCHI2DV(PRIMARY)>45) & (TRCHI2DOF < 3.0)"
     }
+    algo_B0.CombinationCut = 'AALL'
+    algo_B0.MotherCut = "(BPVDIRA > 0.9995) & (VFASPF(VCHI2/VDOF) < 6.0)"
 
-elif DaVinci().Simulation and has_flag('BARE'):
+elif DaVinci().Simulation:
     algo_B0.Preambulo += algo_mc_match_preambulo
 
     algo_B0.DaughtersCuts['mu-'] = \
