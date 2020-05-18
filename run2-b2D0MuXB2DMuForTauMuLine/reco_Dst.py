@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed May 06, 2020 at 12:58 AM +0800
+# Last Change: Mon May 18, 2020 at 10:54 PM +0800
 #
 # Description: Definitions of selection and reconstruction procedures for Dst in
 #              run 2. For more thorough comments, take a look at:
@@ -95,18 +95,11 @@ fltr_strip = HDRFilter(
     'StrippedBCands',
     Code="HLT_PASS('Stripping{0}Decision')".format(line_strip))
 
-# NOTE: Since the HLT line below is part of the stripping line for run 2,
-#       there's no need to filter on it separately.
-# line_hlt = 'Hlt2XcMuXForTauB2XcMu'
-# fltr_hlt = HDRFilter(
-#     'Hlt2TriggeredD0',
-#     Code="HLT_PASS_RE('{0}Decision')".format(line_hlt))
 
-
-if not DaVinci().Simulation or has_flag('CUTFLOW'):
-    event_pre_selectors = [fltr_strip]
-else:
-    event_pre_selectors = []
+if has_flag('CUTFLOW') and has_flag('BARE'):
+    pass
+elif not DaVinci().Simulation or has_flag('CUTFLOW'):
+    DaVinci().Simulation = [fltr_strip]
 
 
 #######################
@@ -184,14 +177,14 @@ sel_unstripped_tis_filtered_Mu = Selection(
 
 # For run 2, use unstripped Muon and don't put additional cut on Muons yet.
 # We can always do TIS-filtering in step 2.
-if not DaVinci().Simulation or has_flag('CUTFLOW'):
-    sel_charged_K = sel_stripped_charged_K
-    sel_charged_Pi = sel_stripped_charged_Pi
-    sel_Mu = sel_stripped_Mu
-else:
+if has_flag('BARE') or DaVinci().Simulation and not has_flag('CUTFLOW'):
     sel_charged_K = pr_charged_K
     sel_charged_Pi = pr_charged_Pi
     sel_Mu = pr_Mu
+else:
+    sel_charged_K = sel_stripped_charged_K
+    sel_charged_Pi = sel_stripped_charged_Pi
+    sel_Mu = sel_stripped_Mu
 
 
 #####################
@@ -199,7 +192,6 @@ else:
 #####################
 # These cuts are imposed by the stripping line
 #   http://lhcbdoc.web.cern.ch/lhcbdoc/stripping/config/stripping28r2/semileptonic/strippingb2d0muxb2dmufortaumuline.html
-
 
 from Configurables import CombineParticles
 
@@ -213,20 +205,37 @@ algo_mc_match_preambulo = [
 algo_D0 = CombineParticles('MyD0')
 algo_D0.DecayDescriptor = '[D0 -> K- pi+]cc'
 
-algo_D0.DaughtersCuts = {
-    'K+': '(PT > 300*MeV) & (MIPCHI2DV(PRIMARY) > 9.0) &' +
-          '(PIDK > 4) & (TRGHOSTPROB < 0.5)',
-    'pi-': '(PT > 300*MeV) & (MIPCHI2DV(PRIMARY) > 9.0) &' +
-           '(PIDK < 2) & (TRGHOSTPROB < 0.5)'
-}
-algo_D0.CombinationCut = "(ADAMASS('D0') < 100*MeV) &" + \
-    "(ACHILD(PT, 1) + ACHILD(PT, 2) > 2500*MeV)"
-algo_D0.MotherCut = "(ADMASS('D0') < 80*MeV) & (VFASPF(VCHI2/VDOF) < 4) &" + \
-    "(SUMTREE(PT, ISBASIC) > 2500*MeV) & (BPVVDCHI2 > 25.0) &" + \
-    "(BPVDIRA > 0.999)"
+
+if not has_flag('BARE'):
+    algo_D0.DaughtersCuts = {
+        'K+': '(PT > 300*MeV) & (MIPCHI2DV(PRIMARY) > 9.0) &' +
+              '(PIDK > 4) & (TRGHOSTPROB < 0.5)',
+        'pi-': '(PT > 300*MeV) & (MIPCHI2DV(PRIMARY) > 9.0) &' +
+               '(PIDK < 2) & (TRGHOSTPROB < 0.5)'
+    }
+
+    algo_D0.CombinationCut = "(ADAMASS('D0') < 100*MeV) &" + \
+        "(ACHILD(PT, 1) + ACHILD(PT, 2) > 2500*MeV)"
+    algo_D0.MotherCut = "(ADMASS('D0') < 80*MeV) & (VFASPF(VCHI2/VDOF) < 4) &" + \
+        "(SUMTREE(PT, ISBASIC) > 2500*MeV) & (BPVVDCHI2 > 25.0) &" + \
+        "(BPVDIRA > 0.999)"
 
 
-if DaVinci().Simulation:
+if DaVinci().Simulation and has_flag('BARE'):
+    algo_D0.Preambulo += algo_mc_match_preambulo
+
+    algo_D0.DaughtersCuts = {
+        'K+': '(MIPCHI2DV(PRIMARY) > 9.0) &' +
+              '(PIDK > 4) & (TRGHOSTPROB < 0.5)',
+        'pi-': '(MIPCHI2DV(PRIMARY) > 9.0) &' +
+               '(PIDK < 2) & (TRGHOSTPROB < 0.5)'
+    }
+
+    algo_D0.CombinationCut = 'AALL'
+    algo_D0.MotherCut = "(VFASPF(VCHI2/VDOF) < 4) &" + \
+        "(BPVVDCHI2 > 25.0) & (BPVDIRA > 0.999)"
+
+elif DaVinci().Simulation:
     algo_D0.Preambulo += algo_mc_match_preambulo
 
     algo_D0.DaughtersCuts['K+'] = \
@@ -248,13 +257,26 @@ if DaVinci().Simulation:
 algo_Dst = CombineParticles('MyDst')
 algo_Dst.DecayDescriptor = '[D*(2010)+ -> D0 pi+]cc'
 
-algo_Dst.DaughtersCuts = {
-    'pi+': '(MIPCHI2DV(PRIMARY) > 0.0) & (TRCHI2DOF < 3) & (TRGHOSTPROB < 0.25)'
-}
-algo_Dst.CombinationCut = "(ADAMASS('D*(2010)+') < 220*MeV)"
-algo_Dst.MotherCut = "(ADMASS('D*(2010)+') < 125*MeV) &" + \
-                     "(M-MAXTREE(ABSID=='D0', M) < 160*MeV) &" + \
-                     "(VFASPF(VCHI2/VDOF) < 100)"
+
+if not has_flag('BARE'):
+    algo_Dst.DaughtersCuts = {
+        'pi+': '(MIPCHI2DV(PRIMARY) > 0.0) & (TRCHI2DOF < 3) &' +
+               '(TRGHOSTPROB < 0.25)'
+    }
+
+    algo_Dst.CombinationCut = "(ADAMASS('D*(2010)+') < 220*MeV)"
+    algo_Dst.MotherCut = "(ADMASS('D*(2010)+') < 125*MeV) &" + \
+                         "(M-MAXTREE(ABSID=='D0', M) < 160*MeV) &" + \
+                         "(VFASPF(VCHI2/VDOF) < 100)"
+
+else:
+    algo_Dst.DaughtersCuts = {
+        'pi+': '(MIPCHI2DV(PRIMARY) > 0.0) & (TRCHI2DOF < 3) &' +
+               '(TRGHOSTPROB < 0.25)'
+    }
+
+    algo_Dst.CombinationCut = "AALL"
+    algo_Dst.MotherCut = "(VFASPF(VCHI2/VDOF) < 100)"
 
 
 # DstWS ########################################################################
@@ -271,23 +293,35 @@ algo_Dst_ws.MotherCut = algo_Dst.MotherCut
 algo_B0 = CombineParticles('MyB0')
 algo_B0.DecayDescriptor = "[B~0 -> D*(2010)+ mu-]cc"  # B~0 is the CC of B0
 
-algo_B0.DaughtersCuts = {"mu-": "ALL"}
-algo_B0.CombinationCut = '(AM < 10200*MeV)'
-algo_B0.MotherCut = "(M < 10000*MeV) & (BPVDIRA > 0.9995) &" + \
-                    "(VFASPF(VCHI2/VDOF) < 6.0)"
+
+if not has_flag('BARE'):
+    algo_B0.DaughtersCuts = {"mu-": "ALL"}
+    algo_B0.CombinationCut = '(AM < 10200*MeV)'
+    algo_B0.MotherCut = "(M < 10000*MeV) & (BPVDIRA > 0.9995) &" + \
+                        "(VFASPF(VCHI2/VDOF) < 6.0)"
 
 
-if DaVinci().Simulation:
+if DaVinci().Simulation and has_flag('BARE'):
     algo_B0.Preambulo += algo_mc_match_preambulo
+
+    algo_B0.DaughtersCuts = {
+        "mu-": "(mcMatch('[^mu+]CC')) & (TRGHOSTPROB < 0.5) &" +
+               "(MIPCHI2DV(PRIMARY)>45) & (TRCHI2DOF < 3.0)"
+    }
+    algo_B0.CombinationCut = 'AALL'
+    algo_B0.MotherCut = "(BPVDIRA > 0.9995) & (VFASPF(VCHI2/VDOF) < 6.0)"
+
+elif DaVinci().Simulation:
+    algo_B0.Preambulo += algo_mc_match_preambulo
+
+    algo_B0.DaughtersCuts['mu-'] = \
+        "(mcMatch('[^mu+]CC')) & (TRGHOSTPROB < 0.5) &" + \
+        "(MIPCHI2DV(PRIMARY)>45) & (TRCHI2DOF < 3.0)"
 
     # algo_Bd.HistoProduce = True
     # algo_Bd.addTool(PlotTool("MotherPlots"))
     # algo_Bd.MotherPlots.Histos = {
     #    "AMAXDOCA(FLATTEN((ABSID=='D0') | (ABSID=='mu-')))" : ("DOCA",0,2)}
-
-    algo_B0.DaughtersCuts['mu-'] = \
-        "(mcMatch('[^mu+]CC')) & (TRGHOSTPROB < 0.5) &" + \
-        "(MIPCHI2DV(PRIMARY)>45) & (TRCHI2DOF < 3.0)"
 
 
 # B0WSMu #######################################################################
@@ -405,19 +439,16 @@ from PhysSelPython.Wrappers import SelectionSequence
 
 seq_B0 = SelectionSequence(
     'SeqMyB0',
-    EventPreSelector=event_pre_selectors,
     TopSelection=sel_refit_B02DstMu
 )
 
 seq_B0_ws_Mu = SelectionSequence(
     'SeqMyB0WSMu',
-    EventPreSelector=event_pre_selectors,
     TopSelection=sel_refit_B02DstMu_ws_Mu
 )
 
 seq_B0_ws_Pi = SelectionSequence(
     'SeqMyB0WSPi',
-    EventPreSelector=event_pre_selectors,
     TopSelection=sel_refit_B02DstMu_ws_Pi
 )
 
@@ -518,7 +549,7 @@ def tuple_postpocess_data(tp,
                               'Hlt2XcMuXForTauB2XcMuDecision'
                           ],
                           # NOTE: This is is unused for run 2
-                          trigger_list_Y=[
+                          trigger_list_B0=[
                               # L0
                               'L0HadronDecision',
                               'L0DiMuonDecision',
@@ -538,17 +569,17 @@ def tuple_postpocess_data(tp,
                               'Hlt1SingleMuonHighPTDecision',
                           ]
                           ):
-    tp.Y.addTool(TupleToolTagDiscardDstMu, name='TupleMyDiscardDstMu')
-    tp.Y.ToolList += ['TupleToolTagDiscardDstMu/TupleMyDiscardDstMu']
+    tp.b0.addTool(TupleToolTagDiscardDstMu, name='TupleMyDiscardDstMu')
+    tp.b0.ToolList += ['TupleToolTagDiscardDstMu/TupleMyDiscardDstMu']
 
-    tp.Y.addTool(TupleToolApplyIsolation, name='TupleMyApplyIso')
-    tp.Y.TupleMyApplyIso.WeightsFile = weights
-    tp.Y.ToolList += ['TupleToolApplyIsolation/TupleMyApplyIso']
+    tp.b0.addTool(TupleToolApplyIsolation, name='TupleMyApplyIso')
+    tp.b0.TupleMyApplyIso.WeightsFile = weights
+    tp.b0.ToolList += ['TupleToolApplyIsolation/TupleMyApplyIso']
 
-    tp.Y.addTool(TupleToolTauMuDiscrVars, name='TupleMyRFA')
-    tp.Y.ToolList += ['TupleToolTauMuDiscrVars/TupleMyRFA']
+    tp.b0.addTool(TupleToolTauMuDiscrVars, name='TupleMyRFA')
+    tp.b0.ToolList += ['TupleToolTauMuDiscrVars/TupleMyRFA']
 
-    tp.muplus.ToolList += ['TupleToolANNPIDTraining']
+    tp.mu.ToolList += ['TupleToolANNPIDTraining']
 
     tt_trigger = tp.addTupleTool('TupleToolTrigger')
     tt_trigger.Verbose = True
@@ -559,11 +590,11 @@ def tuple_postpocess_data(tp,
     tt_tistos.TriggerList = trigger_list_global
 
     # NOTE: This has to be disabled, otherwise the TupleToolTrigger will NOT
-    # act on Y
-    # Trigger decisions to be saved for Y
-    # tt_tistos_Y = tp.Y.addTupleTool('TupleToolTISTOS')
-    # tt_tistos_Y.Verbose = True
-    # tt_tistos_Y.TriggerList += trigger_list_Y
+    # act on B0
+    # Trigger decisions to be saved for
+    # tt_tistos_b0 = tp.b0.addTupleTool('TupleToolTISTOS')
+    # tt_tistos_b0.Verbose = True
+    # tt_tistos_b0.TriggerList += trigger_list_B0
 
 
 def tuple_postpocess_mc(*args, **kwargs):
