@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon May 18, 2020 at 10:54 PM +0800
+# Last Change: Wed May 20, 2020 at 03:50 PM +0800
 #
 # Description: Definitions of selection and reconstruction procedures for Dst in
 #              run 2. For more thorough comments, take a look at:
@@ -80,6 +80,7 @@ if not DaVinci().Simulation:
     DaVinci().appendToMainSequence([ms_scale])
 else:
     DaVinci().appendToMainSequence([ms_smear])
+
 
 DaVinci().appendToMainSequence([ms_all_protos, ms_velo_pions])
 
