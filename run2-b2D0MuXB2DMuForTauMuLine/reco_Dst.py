@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed May 20, 2020 at 03:50 PM +0800
+# Last Change: Fri May 22, 2020 at 12:19 AM +0800
 #
 # Description: Definitions of selection and reconstruction procedures for Dst in
 #              run 2. For more thorough comments, take a look at:
@@ -100,7 +100,7 @@ fltr_strip = HDRFilter(
 if has_flag('CUTFLOW') and has_flag('BARE'):
     pass
 elif not DaVinci().Simulation or has_flag('CUTFLOW'):
-    DaVinci().Simulation = [fltr_strip]
+    DaVinci().EventPreFilters = [fltr_strip]
 
 
 #######################
