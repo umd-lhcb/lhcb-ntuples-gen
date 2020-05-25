@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri May 22, 2020 at 12:19 AM +0800
+# Last Change: Mon May 25, 2020 at 10:31 PM +0800
 #
 # Description: Definitions of selection and reconstruction procedures for Dst in
 #              run 2. For more thorough comments, take a look at:
@@ -144,6 +144,17 @@ sel_stripped_Mu_filtered_evt = Selection(
     RequiredSelections=[pr_stripped]
 )
 
+# We build our own Muons, instead of using stripping line Muons for MC.
+# See https://github.com/umd-lhcb/lhcb-ntuples-gen/issues/25 for an explanation.
+sel_unstripped_tis_filtered_Mu = Selection(
+    'SelMyUnstrippedFilteredMu',
+    Algorithm=TisTosParticleTagger(
+        'MyMuTisTagger',
+        Inputs=['Phys/StdAllNoPIDsMuons/Particles'],
+        TisTosSpecs={'L0Global%TIS': 0}),
+    RequiredSelections=[pr_Mu]
+)
+
 # NOTE: 'stripped' selections require the existence of a stripping line, which
 #       only exists in data, not MC.
 sel_stripped_charged_K = Selection(
@@ -162,17 +173,6 @@ sel_stripped_Mu = Selection(
     'SelMyStrippedMu',
     Algorithm=FilterInTrees('MyMu', Code="(ABSID == 'mu+')"),
     RequiredSelections=[pr_stripped]
-)
-
-# We build our own Muons, instead of using stripping line Muons for MC.
-# See https://github.com/umd-lhcb/lhcb-ntuples-gen/issues/25 for an explanation.
-sel_unstripped_tis_filtered_Mu = Selection(
-    'SelMyUnstrippedFilteredMu',
-    Algorithm=TisTosParticleTagger(
-        'MyMuTisTagger',
-        Inputs=['Phys/StdAllNoPIDsMuons/Particles'],
-        TisTosSpecs={'L0Global%TIS': 0}),
-    RequiredSelections=[pr_Mu]
 )
 
 
