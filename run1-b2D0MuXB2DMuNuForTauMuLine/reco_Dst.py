@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon May 25, 2020 at 09:52 PM +0800
+# Last Change: Wed May 27, 2020 at 01:02 AM +0800
 #
 # Description: Definitions of selection and reconstruction procedures for Dst in
 #              run 1, with thorough comments.
@@ -95,6 +95,9 @@ DaVinci().appendToMainSequence([ms_all_protos, ms_velo_pions])
 # obviously uninteresting events.
 #
 # Applying these filters should speed up the execution time.
+#
+# The run 1 stripping line definition can be found at:
+#  http://lhcbdoc.web.cern.ch/lhcbdoc/stripping/config/stripping21/semileptonic/strippingb2d0muxb2dmunufortaumuline.html
 
 from Configurables import LoKi__HDRFilter as HDRFilter
 
