@@ -17,6 +17,8 @@ Dst:
         b0_M: b0_m
         ####
         d0_ID: d0_id
+        d0_M: d0_m
+        d0_MM: d0_mm
         ####
         mu_ID: mu_id
         mu_M: mu_m
@@ -50,19 +52,40 @@ Dst:
         - "&&"
         - "(k_TRACK_GhostProb < 0.5)"
         - "&&"
-        #### Pi: We don't use stripped Pi only, so we don't include all Pi cuts
-        #### D0
-        - "(ABS(d0_M-PDG_M_D0) < 100.0*MeV)"
+        #### Pi
+        - "(pi_P > 2.0*GeV)"
+        - "&&"
+        - "(pi_PT > 300.0*MeV)"
+        - "&&"
+        - "(pi_IPCHI2_OWNPV > 45.0)"
+        - "&&"
+        - "(pi_PIDK < 2.0)"
+        - "&&"
+        - "(pi_TRACK_GhostProb < 0.5)"
+        - "&&"
+        #### D0 (MotherCut)
+        - "(ABS(d0_M - PDG_M_D0) < 80.0*MeV)"
         - "&&"
         - "(k_PT + pi_PT > 1400*MeV)"
-        # L0 cuts
         - "&&"
+        - "(d0_ENDVERTEX_CHI2 / d0_ENDVERTEX_NDOF < 4.0)"
+        - "&&"
+        - "(d0_DIRA_OWNPV > 0.9998)"
+        - "&&"
+        #### B0 meson
+        - "(0.0*GeV < ABS(b0_M - PDG_M_B0) < 10.0*GeV)"
+        - "&&"
+        - "(b0_ENDVERTEX_CHI2 / b0_ENDVERTEX_NDOF < 6.0)"
+        - "&&"
+        - "(b0_DIRA_OWNPV > 0.9995)"
+        - "&&"
+        # L0 cuts
         - "(b0_L0Global_TIS || dst_L0HadronDecision_TOS)"
         - "&&"
         - "mu_L0Global_TIS"
+        - "&&"
         # Hlt 1 cuts
-        - "&&"
         - "(k_Hlt1TrackAllL0Decision_TOS || pi_Hlt1TrackAllL0Decision_TOS)"
-        # Hlt 2 cuts
         - "&&"
+        # Hlt 2 cuts
         - "d0_Hlt2CharmHadD02HH_D02KPiDecision_TOS"
