@@ -1,6 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed May 27, 2020 at 05:04 AM +0800
+# Last Change: Thu May 28, 2020 at 01:24 AM +0800
 
 BINPATH	:=	bin
 SRCPATH	:=	gen
@@ -135,11 +135,17 @@ $(SRCPATH)/run2-Dst-data-yipeng.cpp: \
 # Tests #
 #########
 
-.PHONY: test-cutflow
+.PHONY: test-cutflow-run1
 
-test-cutflow: \
+test-cutflow-run1: \
+	gen/run1-Dst-step2/200522-Dst-cutflow_mc-2011-md-dv45-subset-step2.root \
 	gen/run1-Dst-step2/200522-Dst-cutflow_mc-2011-md-dv45-subset-no_stripping-step2.root
-	@echo 'Yes'
+
+
+gen/run1-Dst-step2/200522-Dst-cutflow_mc-2011-md-dv45-subset-step2.root: \
+	run1-b2D0MuXB2DMuNuForTauMuLine/samples/200522-Dst-cutflow_mc-2011-md-dv45-subset.root \
+	$(BINPATH)/run1-Dst-full_cuts
+	$(word 2, $^) $< $@
 
 gen/run1-Dst-step2/200522-Dst-cutflow_mc-2011-md-dv45-subset-no_stripping-step2.root: \
 	run1-b2D0MuXB2DMuNuForTauMuLine/samples/200522-Dst-cutflow_mc-2011-md-dv45-subset-no_stripping.root \
