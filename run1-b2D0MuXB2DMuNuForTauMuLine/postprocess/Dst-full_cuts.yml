@@ -44,17 +44,17 @@ Dst:
         - "&&"
         - "(k_IPCHI2_OWNPV > 45.0)"
         - "&&"
-        - "(k_P > 2.0*1000)"
+        - "(k_P > 2.0*GeV)"
         - "&&"
-        - "(k_PT > 300.0*1)"
+        - "(k_PT > 300.0*MeV)"
         - "&&"
         - "(k_TRACK_GhostProb < 0.5)"
         - "&&"
         #### Pi: We don't use stripped Pi only, so we don't include all Pi cuts
         #### D0
-        - "(ABS(d0_M-500) < 100.0*1)"
+        - "(ABS(d0_M-PDG_M_D0) < 100.0*MeV)"
         - "&&"
-        - "(k_PT + pi_PT > 1400*1)"
+        - "(k_PT + pi_PT > 1400*MeV)"
         # L0 cuts
         - "&&"
         - "(b0_L0Global_TIS || dst_L0HadronDecision_TOS)"
