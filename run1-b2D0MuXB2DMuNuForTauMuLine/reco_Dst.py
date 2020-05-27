@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed May 27, 2020 at 01:02 AM +0800
+# Last Change: Thu May 28, 2020 at 02:51 AM +0800
 #
 # Description: Definitions of selection and reconstruction procedures for Dst in
 #              run 1, with thorough comments.
@@ -301,7 +301,7 @@ if DaVinci().Simulation and has_flag('BARE'):
     algo_D0.DaughtersCuts = {
         'K+': '(MIPCHI2DV(PRIMARY) > 45.0) &' +
               '(PIDK > 4) & (TRGHOSTPROB < 0.5) &' +
-              "(mcMatch('[^K+]CC')) & (P > 2.0*GeV) &" +
+              "(mcMatch('[^K+]CC')) &" +
               '(MCSELMATCH(MCNINANCESTORS(BEAUTY) > 0))',
         'pi-': '(MIPCHI2DV(PRIMARY) > 45.0) &' +
                '(PIDK < 2) & (TRGHOSTPROB < 0.5) &' +
