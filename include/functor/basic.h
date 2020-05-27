@@ -1,9 +1,11 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Mon Sep 09, 2019 at 02:49 AM -0400
+// Last Change: Wed May 27, 2020 at 04:23 AM +0800
 
 #ifndef _LNG_FUNCTOR_BASIC_H_
 #define _LNG_FUNCTOR_BASIC_H_
+
+#include <cstdlib>
 
 // Arithmetic //////////////////////////////////////////////////////////////////
 
@@ -15,6 +17,11 @@ T SUB(T x, T y) {
 template <typename T>
 T PROD(T x, T y) {
   return x * y;
+}
+
+template <typename T>
+T ABS(T x) {
+  return std::abs(x);
 }
 
 // Units ///////////////////////////////////////////////////////////////////////

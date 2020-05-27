@@ -1,0 +1,68 @@
+Dst:
+    headers:
+        user:
+            - functor/basic.h
+            - functor/particle.h
+            - unit.h
+            - pdg.h
+    input_tree: TupleB0/DecayTree
+    rename:
+        # Event uid
+        runNumber: run
+        eventNumber: event
+        GpsTime: time
+        # Isolation variables
+        Y_ISOLATION_BDT: iso_bdt
+        # Particles
+        b0_M: b0_m
+        ####
+        d0_ID: d0_id
+        ####
+        mu_ID: mu_id
+        mu_M: mu_m
+        ####
+        pi_ID: pi_id
+        ####
+        k_M: k_m
+        # Rest frame variables
+        FitVar_El: el
+        FitVar_Mmiss2: mmiss2
+        FitVar_q2: q2
+    selection:
+        # Stripping cuts
+        #### Mu
+        - "(mu_IPCHI2_OWNPV > 45.0)"
+        - "&&"
+        - "(mu_TRACK_GhostProb < 0.5)"
+        - "&&"
+        - "(mu_PIDmu > 2.0)"
+        - "&&"
+        - "(mu_P > 3.0*1000)"
+        - "&&"
+        #### K
+        - "(k_PIDK > 4.0)"
+        - "&&"
+        - "(k_IPCHI2_OWNPV > 45.0)"
+        - "&&"
+        - "(k_P > 2.0*1000)"
+        - "&&"
+        - "(k_PT > 300.0*1)"
+        - "&&"
+        - "(k_TRACK_GhostProb < 0.5)"
+        - "&&"
+        #### Pi: We don't use stripped Pi only, so we don't include all Pi cuts
+        #### D0
+        - "(ABS(d0_M-500) < 100.0*1)"
+        - "&&"
+        - "(k_PT + pi_PT > 1400*1)"
+        # L0 cuts
+        - "&&"
+        - "(b0_L0Global_TIS || dst_L0HadronDecision_TOS)"
+        - "&&"
+        - "mu_L0Global_TIS"
+        # Hlt 1 cuts
+        - "&&"
+        - "(k_Hlt1TrackAllL0Decision_TOS || pi_Hlt1TrackAllL0Decision_TOS)"
+        # Hlt 2 cuts
+        - "&&"
+        - "d0_Hlt2CharmHadD02HH_D02KPiDecision_TOS"

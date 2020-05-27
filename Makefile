@@ -1,6 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon May 11, 2020 at 10:05 PM +0800
+# Last Change: Wed May 27, 2020 at 05:04 AM +0800
 
 BINPATH	:=	bin
 SRCPATH	:=	gen
@@ -128,6 +128,29 @@ $(SRCPATH)/run2-Dst-data-yipeng.cpp: \
 	run2-b2D0MuXB2DMuForTauMuLine/postprocess/Dst-data-yipeng.yml \
 	run2-b2D0MuXB2DMuForTauMuLine/ntuples/run2-Dst/BCands_Dst-yipeng-data-2016-mag_down.root \
 	include/functor/*.h
+	babymaker -i $< -o $@ -d $(word 2, $^)
+
+
+#########
+# Tests #
+#########
+
+.PHONY: test-cutflow
+
+test-cutflow: \
+	gen/run1-Dst-step2/200522-Dst-cutflow_mc-2011-md-dv45-subset-no_stripping-step2.root
+	@echo 'Yes'
+
+gen/run1-Dst-step2/200522-Dst-cutflow_mc-2011-md-dv45-subset-no_stripping-step2.root: \
+	run1-b2D0MuXB2DMuNuForTauMuLine/samples/200522-Dst-cutflow_mc-2011-md-dv45-subset-no_stripping.root \
+	$(BINPATH)/run1-Dst-full_cuts
+	$(word 2, $^) $< $@
+
+$(SRCPATH)/run1-Dst-full_cuts.cpp: \
+	run1-b2D0MuXB2DMuNuForTauMuLine/postprocess/Dst-full_cuts.yml \
+	run1-b2D0MuXB2DMuNuForTauMuLine/samples/200522-Dst-cutflow_mc-2011-md-dv45-subset-no_stripping.root \
+	include/functor/*.h \
+	include/*.h
 	babymaker -i $< -o $@ -d $(word 2, $^)
 
 
