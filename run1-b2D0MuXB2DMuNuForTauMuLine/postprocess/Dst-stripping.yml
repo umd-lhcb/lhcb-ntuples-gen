@@ -6,31 +6,37 @@ Dst:
             - unit.h
             - pdg.h
     input_tree: TupleB0/DecayTree
+    keep:
+        - runNumber
+        - eventNumber
+        - GpsTime
     rename:
-        # Event uid
-        runNumber: run
-        eventNumber: event
-        GpsTime: time
         # Isolation variables
         Y_ISOLATION_BDT: iso_bdt
         # Particles
         b0_ID: b0_id
         b0_M: b0_m
+        b0_MM: b0_mm
         ####
         dst_ID: dst_id
         dst_M: dst_m
+        dst_M: dst_mm
         ####
         d0_ID: d0_id
         d0_M: d0_m
+        d0_M: d0_mm
         ####
         mu_ID: mu_id
         mu_M: mu_m
+        mu_M: mu_mm
         ####
         pi_ID: pi_id
         pi_M: pi_m
+        pi_M: pi_mm
         ####
         k_ID: k_id
         k_M: k_m
+        k_M: k_mm
         # Rest frame variables
         FitVar_El: el
         FitVar_Mmiss2: mmiss2
@@ -69,7 +75,7 @@ Dst:
         - "(pi_TRACK_GhostProb < 0.5)"
         - "&&"
         #### D0 (MotherCut)
-        - "(ABS(d0_M - PDG_M_D0) < 80.0*MeV)"
+        - "(ABS(d0_MM - PDG_M_D0) < 80.0*MeV)"
         - "&&"
         - "(k_PT + pi_PT > 1400*MeV)"
         - "&&"
@@ -78,12 +84,12 @@ Dst:
         - "(d0_DIRA_OWNPV > 0.9998)"
         - "&&"
         #### Dst (MotherCut)
-        - "(ABS(dst_M - PDG_M_Dst) < 125.0*MeV)"
+        - "(ABS(dst_MM - PDG_M_Dst) < 125.0*MeV)"
         - "&&"
         - "(dst_ENDVERTEX_CHI2 / dst_ENDVERTEX_NDOF < 4.0)"
         - "&&"
         #### B0 meson
-        - "(0.0*GeV < ABS(b0_M - PDG_M_B0) < 10.0*GeV)"
+        - "(0.0*GeV < b0_MM < 10.0*GeV)"
         - "&&"
         - "(b0_ENDVERTEX_CHI2 / b0_ENDVERTEX_NDOF < 6.0)"
         - "&&"
