@@ -1,82 +1,71 @@
 These rules should be checked by a script automatically.
+## General guidelines
+- These filenames are case-sensitive
+- No whitespace or `\` permitted. Replace them with `_`
+- Fields must be separated with `--`
 
 ## Filenames
 
-### Ntuples
-Ntuples should have the following form:
+### Step 1 ntuples
+Step 1 ntuple filenames, DaVinci logs, and ganga jobs should follow the following form:
 ```
-<date>-<particle_name>-<reconstruction_mode>-<year>-<polarity>-<additional_flags>.root
+<reco_sample>--<date>--<type>--<Dirac_path>.root
+```
+!!! note
+    Below are the definitions of each field.
+
+    - `reco_sample`: For instance `Dst, `D0`, or `DstPi`. They may all be merged into a single tree
+    - `date`: Generation date. Formatted: `YY-MM-DD`
+    - `type`: Descriptor, for instance `cutflow`
+    - `Dirac_path>: The full Dirac path for the sample, replacing `\` with `_`
+    
+ !!! example
+    A  ntuple name looks like this:
+    ```
+    Dst--20-05-08--cutflow--mc--MC_2011_11874091_Beam3500GeV-2011-MagDown-Nu2-Pythia8_Sim08h_Digi13_Trig0x40760037_Reco14c_Stripping20r1NoPrescalingFlagged.root
+    ```
+   
+
+### Step 2 ntuples
+Step 2 ntuple filenames should follow the following form:
+```
+<reco_sample>--<date>--<type>--<sample>--<year>--<polarity>--<additional_flags>.root
 ```
 
 !!! note
     Below are the definitions of each field.
 
-    - `date`: Generation date. Formatted: `YYMMDD`
-    - `particle_name`: Currently, either `Dst` or `D0`
-    - `reconstruction_mode`: Currently, legal ones are:
-        - `data`
-        - `mc`
-        - `cutflow_data`
-        - `cutflow_mc`
+    - `reco_sample`: For instance `Dst, `D0`, or `DstPi`. They may all be merged into a single tree
+    - `date`: Generation date. Formatted: `YY-MM-DD`
+    - `type`: Descriptor, for instance `cutflow`
+    - `sample`: Sample or samples in ntuple, eg `data`, `DszTauNu` or `All` if all samples merged
     - `year`: Year the data/MC is recorded/generated. Format: `YYYY`
     - `polarity`: `md` (magnet down) or `mu` (magnet up)
     - `additional_flags`: Optional. Ordered in the following way. Legal ones are:
         - `DaVinci` version (e.g. `dv36`)
         - `Pythia` version (e.g. `py6`)
         - Simulation condition (e.g. `sim08a`)
-        - Decay mode (e.g. `Bd2DstTauNu`)
         - Other short descriptions (e.g. `no_refit_no_rescale`)
         - Literal `subset` for indicating only a subset of raw data used
         - Literal `step2` for indicating step-2 ntuples
 
-!!! note
-    These filenames are case-sensitive! Below are the requirements for filename:
-
-    - No whitespace permitted. Replace whitespace with `_`
-    - Fields must be separated with `-`
-    - No `-` permitted within each field
 
 !!! example
     A legal ntuple name looks like this:
     ```
-    200202-Dst-mc-2012-md-dv36-py6-sim08a-Bd2DstTauNu.root
+    Dst--20-02-02--DspMuNu--mc--2012--md--dv36-py6-sim08a.root
     ```
 
-### DaVinci logs
-Please follow the form below:
+## Folder structure for storage
+Each ntuple production (defined by the same code) is to be placed in one folder named `<code_tag>-<Descriptor>`, with subfolders containing divisions in terms of `reco_sample` and `mc/data`. For example, the folder structure could look like
 ```
-<date>-<particle_name>-<reconstruction_mode>-<additional_info>
+0.8.6-cutflow/Dst-mc
+0.8.6-cutflow/Dst-data
+
+0.9.0-FirstFull/Dst-mc
+0.9.0-FirstFull/Dst-data
+0.9.0-FirstFull/D0-mc
+0.9.0-FirstFull/D0-data
+
+0.9.1-TriggerFix/Dst-mc
 ```
-
-!!! note
-    `<date>`, `<particle_name>`, and `<reconstruction_mode>` should follow the
-    same convention as in [Ntuples](#ntuples).
-
-    The `<additional_info>` field is optional and can contain multiple
-    sub-fields, each separated with a `-`. The content of these fields are up
-    to users.
-
-
-## File storage
-
-### Ntuples
-
-- For grid-generated ntuples, store in the `ntuples` folder in the project root.
-    Note that a subfolder of the form:
-    ```
-    YYMMDD-<particle_name>-<reconstruction_mode>
-    ```
-    should be created and ntuples should be placed **inside** the subfolder.
-
-    !!! example
-        ```
-        ntuples/200202-Dst-data/200202-Dst-data-2016-md.root
-        ```
-
-- For locally-generated sample ntuples, store in the `samples` folder in the
-    corresponding stripping line folder.
-
-
-## Ganga job name
-
-Ganga job name should be identical to the filename of the ntuples to be generated.
