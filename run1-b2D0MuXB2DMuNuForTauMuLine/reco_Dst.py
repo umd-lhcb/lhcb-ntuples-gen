@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sat May 30, 2020 at 02:55 AM +0800
+# Last Change: Sat May 30, 2020 at 03:01 AM +0800
 #
 # Description: Definitions of selection and reconstruction procedures for Dst in
 #              run 1, with thorough comments.
@@ -208,7 +208,10 @@ sel_stripped_req = pr_stripped
 
 
 # NOTE: 'stripped' selections require the existence of a stripping line, which
-#       only exists in data, not MC.
+#       only exists in data, and flagged MC, NOT filtered MC.
+#
+#       This is because typically MC is either flagged or filtered, but not
+#       both.
 sel_stripped_charged_K = Selection(
     'SelMyStrippedChargedK',
     Algorithm=FilterInTrees('MyChargedK', Code="(ABSID == 'K+')"),
@@ -235,7 +238,7 @@ sel_stripped_Mu = Selection(
 #   For data, we always have a stripping line, so all events contains *some*
 #   Muons that pass the stripping criteria.
 #
-# NOTE: Muons that do not pass (unstripped) still get saved *but we don't want
+# NOTE: Muons that do not pass stripping still get saved *but we don't want
 #       to use them*.
 if has_flag('BARE'):
     sel_charged_K = pr_loose_K
@@ -254,6 +257,12 @@ else:
 #####################
 # Define algorithms #
 #####################
+# Use this LoKi functor page to find the meaning of various functors:
+#  https://twiki.cern.ch/twiki/bin/view/LHCb/LoKiHybridFilters
+#
+# NOTE:
+#   .CombinationCut are cuts made before the vertex fit, so it saves time
+#   .MotherCut are cuts after the vertex fit, that's why the mass cut is tighter
 
 from Configurables import CombineParticles
 
@@ -264,25 +273,6 @@ algo_mc_match_preambulo = [
 ]
 
 # D0 ###########################################################################
-#
-# PT: transverse momentum
-# MIPCHI2DV: minimum IP-chi^2
-# TRCHI2DOF: chi^2 per degree of freedom of the track fit
-# PIDK: combined delta-log-likelihood for the given hypothesis (wrt the
-#       pion)
-# TRGHOSTPROB: track ghost probability
-# ADAMASS: the absolute mass difference to the PDG reference value, this functor
-#          takes an array as input, unlike ADMASS, which takes a scaler.
-# ADMASS: the absolute mass difference to the PDG reference value, but it is
-#         used after the vertex fit
-# VFASPF: vertex function as particle function
-#         Allow to apply vertex functors to the particle's `endVertex()`
-# VCHI2: vertex chi^2
-# VDOF: vertex fit number of degree of freedom
-#
-# .CombinationCut are cuts made before the vertex fit, so it saves time
-# .MotherCut are cuts after the vertex fit, that's why the mass cut is tighter
-
 algo_D0 = CombineParticles('MyD0')
 algo_D0.DecayDescriptor = '[D0 -> K- pi+]cc'
 
@@ -379,14 +369,6 @@ algo_Dst_ws.CombinationCut = algo_Dst.CombinationCut
 algo_Dst_ws.MotherCut = algo_Dst.MotherCut
 
 # B0 ###########################################################################
-#
-# ALL: trivial select all
-# AM: mass of the combination
-#     Return sqrt(E^2 - p^2)
-# BPVDIRA: direction angle
-#          Compute the cosine of the angle between the momentum of the particle
-#          and the direction to flight from the best PV to the decay vertex.
-
 algo_B0 = CombineParticles('MyB0')
 algo_B0.DecayDescriptor = "[B~0 -> D*(2010)+ mu-]cc"  # B~0 is the CC of B0
 
@@ -458,7 +440,7 @@ algo_B0_ws_Pi.MotherCut = algo_B0.MotherCut
 
 from Configurables import FitDecayTrees
 
-# For SeqMyB0 ###################################################################
+# For SeqMyB0 ##################################################################
 
 # RequiredSelections takes a union of supplied selections, thus orderless.
 sel_D0 = Selection(
@@ -491,8 +473,7 @@ sel_refit_B02DstMu = Selection(
     RequiredSelections=[sel_B0]
 )
 
-
-# For SeqMyB0WSMu ###############################################################
+# For SeqMyB0WSMu ##############################################################
 sel_B0_ws_Mu = Selection(
     'SelMyB0WSMu',
     Algorithm=algo_B0_ws_Mu,
@@ -510,7 +491,7 @@ sel_refit_B02DstMu_ws_Mu = Selection(
     RequiredSelections=[sel_B0_ws_Mu]
 )
 
-# For SeqMyB0WSPi ###############################################################
+# For SeqMyB0WSPi ##############################################################
 sel_Dst_ws = Selection(
     'SelMyDstWS',
     Algorithm=algo_Dst_ws,
