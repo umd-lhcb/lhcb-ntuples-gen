@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri May 29, 2020 at 11:30 PM +0800
+# Last Change: Sat May 30, 2020 at 01:38 AM +0800
 #
 # Description: Definitions of selection and reconstruction procedures for Dst in
 #              run 1, with thorough comments.
@@ -149,18 +149,19 @@ else:
         Location='/Event/Semileptonic/Phys/{0}/Particles'.format(line_strip))
 
 
-pr_charged_K = AutomaticData(Location='Phys/StdAllNoPIDsKaons/Particles')
-pr_all_K = AutomaticData(Location='Phys/StdAllLooseKaons/Particles')
+pr_nopid_K = AutomaticData(Location='Phys/StdAllNoPIDsKaons/Particles')
+pr_loose_K = AutomaticData(Location='Phys/StdLooseKaons/Particles')
 
-pr_charged_Pi = AutomaticData(Location='Phys/StdAllNoPIDsPions/Particles')
-pr_all_Pi = AutomaticData(Location='Phys/StdAllLoosePions/Particles')
+pr_nopid_Pi = AutomaticData(Location='Phys/StdAllNoPIDsPions/Particles')
+pr_loose_Pi = AutomaticData(Location='Phys/StdLoosePions/Particles')
+pr_all_loose_Pi = AutomaticData(Location='Phys/StdAllLoosePions/Particles')
 # Standard NoPIDs upstream pions (VELO + TT hits, no T-layers).
 # They only added 10% with terrible mass resolution, so they didn't use them in
 # the end.
 # pr_up_Pi = AutomaticData(Location='Phys/StdNoPIDsUpPions/Particles')
 
-pr_Mu = AutomaticData(Location='Phys/StdAllNoPIDsMuons/Particles')
-pr_all_Mu = AutomaticData(Location='Phys/StdAllLooseMuons/Particles')
+pr_nopid_Mu = AutomaticData(Location='Phys/StdAllNoPIDsMuons/Particles')
+pr_all_loose_Mu = AutomaticData(Location='Phys/StdAllLooseMuons/Particles')
 
 
 ############################
@@ -192,7 +193,7 @@ sel_unstripped_tis_filtered_Mu = Selection(
         'MyMuTisTagger',
         Inputs=['Phys/StdAllNoPIDsMuons/Particles'],
         TisTosSpecs={'L0Global%TIS': 0}),
-    RequiredSelections=[pr_Mu]
+    RequiredSelections=[pr_nopid_Mu]
 )
 
 
@@ -235,16 +236,16 @@ sel_stripped_Mu = Selection(
 # NOTE: Muons that do not pass (unstripped) still get saved *but we don't want
 #       to use them*.
 if has_flag('BARE'):
-    sel_charged_K = pr_all_K
-    sel_charged_Pi = pr_all_Pi
-    sel_Mu = pr_all_Mu
+    sel_charged_K = pr_loose_K
+    sel_charged_Pi = pr_loose_Pi
+    sel_Mu = pr_all_loose_Mu
 elif not DaVinci().Simulation or has_flag('CUTFLOW'):
     sel_charged_K = sel_stripped_charged_K
     sel_charged_Pi = sel_stripped_charged_Pi
     sel_Mu = sel_stripped_Mu
 else:
-    sel_charged_K = pr_charged_K
-    sel_charged_Pi = pr_charged_Pi
+    sel_charged_K = pr_nopid_K
+    sel_charged_Pi = pr_nopid_Pi
     sel_Mu = sel_unstripped_tis_filtered_Mu
 
 
@@ -477,7 +478,7 @@ sel_D0 = Selection(
 sel_Dst = Selection(
     'SelMyDst',
     Algorithm=algo_Dst,
-    RequiredSelections=[sel_D0, pr_all_Pi]
+    RequiredSelections=[sel_D0, pr_all_loose_Pi]
 )
 
 sel_B0 = Selection(
@@ -520,7 +521,7 @@ sel_refit_B02DstMu_ws_Mu = Selection(
 sel_Dst_ws = Selection(
     'SelMyDstWS',
     Algorithm=algo_Dst_ws,
-    RequiredSelections=[sel_D0, pr_all_Pi]
+    RequiredSelections=[sel_D0, pr_all_loose_Pi]
 )
 
 sel_B0_ws_Pi = Selection(
