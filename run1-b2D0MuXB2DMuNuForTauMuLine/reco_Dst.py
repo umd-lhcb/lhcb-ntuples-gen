@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri May 29, 2020 at 10:16 PM +0800
+# Last Change: Fri May 29, 2020 at 10:28 PM +0800
 #
 # Description: Definitions of selection and reconstruction procedures for Dst in
 #              run 1, with thorough comments.
@@ -399,10 +399,11 @@ if not has_flag('BARE'):
         '': 'ALL',
         'D0': 'ALL',
         'D~0': 'ALL',
-        'mu+': '(MIPCHI2DV(PRIMARY) > 45.0) & (TRGHOSTPROB < 0.5) &' +
-               '(PIDmu > 2.0) &' + \
+        'mu-': '(MIPCHI2DV(PRIMARY) > 45.0) & (TRGHOSTPROB < 0.5) &' +
+               '(PIDmu > 2.0) &' +
                '(P > 3.0*GeV)'
     }
+    algo_B0.DaughtersCuts['mu+'] = algo_B0.DaughtersCuts['mu-']
 
     algo_B0.CombinationCut = '(AM < 10.2*GeV)'
     algo_B0.MotherCut = \
@@ -423,7 +424,8 @@ if DaVinci().Simulation and has_flag('BARE'):
 elif DaVinci().Simulation:
     algo_B0.DaughtersCuts['mu-'] = \
         "(mcMatch('[^mu+]CC')) & (TRGHOSTPROB < 0.5) &" + \
-        "(MIPCHI2DV(PRIMARY)>45) & (TRCHI2DOF < 3.0)"
+        "(MIPCHI2DV(PRIMARY)>45) & (TRCHI2DOF < 3.0)" + \
+        algo_B0.DaughtersCuts['mu-']
     algo_B0.DaughtersCuts['mu+'] = algo_B0.DaughtersCuts['mu-']
 
     # algo_B0.HistoProduce = True
