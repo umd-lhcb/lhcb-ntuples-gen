@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sat May 30, 2020 at 03:01 AM +0800
+# Last Change: Sat May 30, 2020 at 03:32 AM +0800
 #
 # Description: Definitions of selection and reconstruction procedures for Dst in
 #              run 1, with thorough comments.
@@ -82,7 +82,8 @@ ms_smear = TrackSmearState('StateSmear')
 if not DaVinci().Simulation:
     DaVinci().appendToMainSequence([ms_scale])
 else:
-    DaVinci().appendToMainSequence([ms_smear])
+    pass
+    # DaVinci().appendToMainSequence([ms_smear])
 
 
 DaVinci().appendToMainSequence([ms_all_protos, ms_velo_pions])
@@ -285,9 +286,9 @@ if DaVinci().Simulation:
 if True:
     algo_D0.DaughtersCuts = {
         'K+': '(PIDK > 4.0) & (MIPCHI2DV(PRIMARY) > 45.0) &' +
-              '(P > 2.0*GeV) & (PT > 300*MeV) &' +
+              '(P > 2.0*GeV) & (PT > 300.0*MeV) &' +
               '(TRGHOSTPROB < 0.5)',
-        'pi-': '(P > 2.0*GeV) & (PT > 300*MeV) &' +
+        'pi-': '(P > 2.0*GeV) & (PT > 300.0*MeV) &' +
                '(MIPCHI2DV(PRIMARY) > 45.0) &' +
                '(PIDK < 2.0) & (TRGHOSTPROB < 0.5)'
     }
