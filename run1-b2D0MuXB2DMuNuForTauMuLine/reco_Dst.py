@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sat May 30, 2020 at 02:49 AM +0800
+# Last Change: Sat May 30, 2020 at 02:55 AM +0800
 #
 # Description: Definitions of selection and reconstruction procedures for Dst in
 #              run 1, with thorough comments.
@@ -143,7 +143,7 @@ from PhysSelPython.Wrappers import AutomaticData
 
 
 # Events tagged with our stripping line
-if DaVinci().Simulation and has_flag('CUTFLOW'):
+if line_strip == 'b2D0MuXB2DMuForTauMuLine':
     pr_stripped = AutomaticData(
         Location='AllStreams/Phys/{0}/Particles'.format(line_strip))
 else:
