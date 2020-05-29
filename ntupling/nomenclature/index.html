@@ -50,7 +50,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#filenames" class="md-skip">
+        <a href="#general-guidelines" class="md-skip">
           Skip to content
         </a>
       
@@ -278,6 +278,13 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#general-guidelines" class="md-nav__link">
+    General guidelines
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#filenames" class="md-nav__link">
     Filenames
   </a>
@@ -286,15 +293,8 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#ntuples" class="md-nav__link">
-    Ntuples
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#davinci-logs" class="md-nav__link">
-    DaVinci logs
+  <a href="#step-2-ntuples" class="md-nav__link">
+    Step 2 ntuples
   </a>
   
 </li>
@@ -305,28 +305,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#file-storage" class="md-nav__link">
-    File storage
-  </a>
-  
-    <nav class="md-nav" aria-label="File storage">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#ntuples_1" class="md-nav__link">
-    Ntuples
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#ganga-job-name" class="md-nav__link">
-    Ganga job name
+  <a href="#folder-structure-for-storage" class="md-nav__link">
+    Folder structure for storage
   </a>
   
 </li>
@@ -775,6 +755,13 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#general-guidelines" class="md-nav__link">
+    General guidelines
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#filenames" class="md-nav__link">
     Filenames
   </a>
@@ -783,15 +770,8 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#ntuples" class="md-nav__link">
-    Ntuples
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#davinci-logs" class="md-nav__link">
-    DaVinci logs
+  <a href="#step-2-ntuples" class="md-nav__link">
+    Step 2 ntuples
   </a>
   
 </li>
@@ -802,28 +782,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#file-storage" class="md-nav__link">
-    File storage
-  </a>
-  
-    <nav class="md-nav" aria-label="File storage">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#ntuples_1" class="md-nav__link">
-    Ntuples
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#ganga-job-name" class="md-nav__link">
-    Ganga job name
+  <a href="#folder-structure-for-storage" class="md-nav__link">
+    Folder structure for storage
   </a>
   
 </li>
@@ -851,31 +811,45 @@
                   <h1>Nomenclature</h1>
                 
                 <p>These rules should be checked by a script automatically.</p>
+<h2 id="general-guidelines">General guidelines</h2>
+<ul>
+<li>These filenames are case-sensitive</li>
+<li>No whitespace or <code>\</code> permitted. Replace them with <code>_</code></li>
+<li>Fields must be separated with <code>--</code></li>
+</ul>
 <h2 id="filenames">Filenames</h2>
-<h3 id="ntuples">Ntuples</h3>
-<p>Ntuples should have the following form:
-<div class="highlight"><pre><span></span><code>&lt;date&gt;-&lt;particle_name&gt;-&lt;reconstruction_mode&gt;-&lt;year&gt;-&lt;polarity&gt;-&lt;additional_flags&gt;.root
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Below are the definitions of each field.</p>
+<ul>
+<li><code>reco_sample</code>: For instance <code>Dst,</code>D0<code>, or</code>DstPi`. They may all be merged into a single tree</li>
+<li><code>date</code>: Generation date. Formatted: <code>YY-MM-DD</code></li>
+<li><code>type</code>: Descriptor, for instance <code>cutflow</code></li>
+<li><code>Dirac_path&gt;: The full Dirac path for the sample, replacing</code>` with <code>_</code></li>
+</ul>
+</div>
+<p>!!! example
+    A  ntuple name looks like this:
+    <div class="highlight"><pre><span></span><code>Dst--20-05-08--cutflow--mc--MC_2011_11874091_Beam3500GeV-2011-MagDown-Nu2-Pythia8_Sim08h_Digi13_Trig0x40760037_Reco14c_Stripping20r1NoPrescalingFlagged.root
+</code></pre></div></p>
+<h3 id="step-2-ntuples">Step 2 ntuples</h3>
+<p>Step 2 ntuple filenames should follow the following form:
+<div class="highlight"><pre><span></span><code>&lt;reco_sample&gt;--&lt;date&gt;--&lt;type&gt;--&lt;sample&gt;--&lt;year&gt;--&lt;polarity&gt;--&lt;additional_flags&gt;.root
 </code></pre></div></p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>Below are the definitions of each field.</p>
 <ul>
-<li><code>date</code>: Generation date. Formatted: <code>YYMMDD</code></li>
-<li><code>particle_name</code>: Currently, either <code>Dst</code> or <code>D0</code></li>
-<li><code>reconstruction_mode</code>: Currently, legal ones are:<ul>
-<li><code>data</code></li>
-<li><code>mc</code></li>
-<li><code>cutflow_data</code></li>
-<li><code>cutflow_mc</code></li>
-</ul>
-</li>
+<li><code>reco_sample</code>: For instance <code>Dst,</code>D0<code>, or</code>DstPi`. They may all be merged into a single tree</li>
+<li><code>date</code>: Generation date. Formatted: <code>YY-MM-DD</code></li>
+<li><code>type</code>: Descriptor, for instance <code>cutflow</code></li>
+<li><code>sample</code>: Sample or samples in ntuple, eg <code>data</code>, <code>DszTauNu</code> or <code>All</code> if all samples merged</li>
 <li><code>year</code>: Year the data/MC is recorded/generated. Format: <code>YYYY</code></li>
 <li><code>polarity</code>: <code>md</code> (magnet down) or <code>mu</code> (magnet up)</li>
 <li><code>additional_flags</code>: Optional. Ordered in the following way. Legal ones are:<ul>
 <li><code>DaVinci</code> version (e.g. <code>dv36</code>)</li>
 <li><code>Pythia</code> version (e.g. <code>py6</code>)</li>
 <li>Simulation condition (e.g. <code>sim08a</code>)</li>
-<li>Decay mode (e.g. <code>Bd2DstTauNu</code>)</li>
 <li>Other short descriptions (e.g. <code>no_refit_no_rescale</code>)</li>
 <li>Literal <code>subset</code> for indicating only a subset of raw data used</li>
 <li>Literal <code>step2</code> for indicating step-2 ntuples</li>
@@ -883,56 +857,24 @@
 </li>
 </ul>
 </div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>These filenames are case-sensitive! Below are the requirements for filename:</p>
-<ul>
-<li>No whitespace permitted. Replace whitespace with <code>_</code></li>
-<li>Fields must be separated with <code>-</code></li>
-<li>No <code>-</code> permitted within each field</li>
-</ul>
-</div>
 <div class="admonition example">
 <p class="admonition-title">Example</p>
 <p>A legal ntuple name looks like this:
-<div class="highlight"><pre><span></span><code>200202-Dst-mc-2012-md-dv36-py6-sim08a-Bd2DstTauNu.root
+<div class="highlight"><pre><span></span><code>Dst--20-02-02--DspMuNu--mc--2012--md--dv36-py6-sim08a.root
 </code></pre></div></p>
 </div>
-<h3 id="davinci-logs">DaVinci logs</h3>
-<p>Please follow the form below:
-<div class="highlight"><pre><span></span><code>&lt;date&gt;-&lt;particle_name&gt;-&lt;reconstruction_mode&gt;-&lt;additional_info&gt;
-</code></pre></div></p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p><code>&lt;date&gt;</code>, <code>&lt;particle_name&gt;</code>, and <code>&lt;reconstruction_mode&gt;</code> should follow the
-same convention as in <a href="#ntuples">Ntuples</a>.</p>
-<p>The <code>&lt;additional_info&gt;</code> field is optional and can contain multiple
-sub-fields, each separated with a <code>-</code>. The content of these fields are up
-to users.</p>
-</div>
-<h2 id="file-storage">File storage</h2>
-<h3 id="ntuples_1">Ntuples</h3>
-<ul>
-<li>
-<p>For grid-generated ntuples, store in the <code>ntuples</code> folder in the project root.
-    Note that a subfolder of the form:
-    <div class="highlight"><pre><span></span><code>YYMMDD-&lt;particle_name&gt;-&lt;reconstruction_mode&gt;
-</code></pre></div>
-    should be created and ntuples should be placed <strong>inside</strong> the subfolder.</p>
-<div class="admonition example">
-<p class="admonition-title">Example</p>
-<div class="highlight"><pre><span></span><code>ntuples/200202-Dst-data/200202-Dst-data-2016-md.root
-</code></pre></div>
+<h2 id="folder-structure-for-storage">Folder structure for storage</h2>
+<p>Each ntuple production (defined by the same code) is to be placed in one folder named <code>&lt;code_tag&gt;-&lt;Descriptor&gt;</code>, with subfolders containing divisions in terms of <code>reco_sample</code> and <code>mc/data</code>. For example, the folder structure could look like
+<div class="highlight"><pre><span></span><code>0.8.6-cutflow/Dst-mc
+0.8.6-cutflow/Dst-data
 
-</div>
-</li>
-<li>
-<p>For locally-generated sample ntuples, store in the <code>samples</code> folder in the
-    corresponding stripping line folder.</p>
-</li>
-</ul>
-<h2 id="ganga-job-name">Ganga job name</h2>
-<p>Ganga job name should be identical to the filename of the ntuples to be generated.</p>
+0.9.0-FirstFull/Dst-mc
+0.9.0-FirstFull/Dst-data
+0.9.0-FirstFull/D0-mc
+0.9.0-FirstFull/D0-data
+
+0.9.1-TriggerFix/Dst-mc
+</code></pre></div></p>
                 
               
               
