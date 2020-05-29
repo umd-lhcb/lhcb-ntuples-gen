@@ -50,7 +50,7 @@ Dst:
         - "&&"
         - "(mu_PIDmu > 2.0)"
         - "&&"
-        - "(mu_P > 3.0*1000)"
+        - "(mu_P > 3.0*GeV)"
         - "&&"
         #### K
         - "(k_PIDK > 4.0)"
@@ -85,6 +85,8 @@ Dst:
         - "&&"
         #### Dst (MotherCut)
         - "(ABS(dst_MM - PDG_M_Dst) < 125.0*MeV)"
+        - "&&"
+        - "(dst_MM - d0_MM < 160.0*MeV)"
         - "&&"
         - "(dst_ENDVERTEX_CHI2 / dst_ENDVERTEX_NDOF < 4.0)"
         - "&&"
