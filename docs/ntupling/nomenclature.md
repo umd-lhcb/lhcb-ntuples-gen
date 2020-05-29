@@ -20,8 +20,8 @@ Step 1 ntuple filenames, DaVinci logs, and ganga jobs should follow the followin
     - `type`: Descriptor, for instance `cutflow`
     - `Dirac_path>: The full Dirac path for the sample, replacing `\` with `_`
     
- !!! example
-    A  ntuple name looks like this:
+!!! example
+    An ntuple name looks like this:
     ```
     Dst--20-05-08--cutflow--mc--MC_2011_11874091_Beam3500GeV-2011-MagDown-Nu2-Pythia8_Sim08h_Digi13_Trig0x40760037_Reco14c_Stripping20r1NoPrescalingFlagged.root
     ```
@@ -52,7 +52,7 @@ Step 2 ntuple filenames should follow the following form:
 
 
 !!! example
-    A legal ntuple name looks like this:
+    An ntuple name looks like this:
     ```
     Dst--20-02-02--DspMuNu--mc--2012--md--dv36-py6-sim08a.root
     ```
