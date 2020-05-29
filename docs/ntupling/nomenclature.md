@@ -11,6 +11,7 @@ Step 1 ntuple filenames, DaVinci logs, and ganga jobs should follow the followin
 ```
 <reco_sample>--<date>--<type>--<Dirac_path>.root
 ```
+
 !!! note
     Below are the definitions of each field.
 
