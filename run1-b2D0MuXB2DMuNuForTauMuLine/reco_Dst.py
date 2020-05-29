@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sat May 30, 2020 at 02:02 AM +0800
+# Last Change: Sat May 30, 2020 at 02:49 AM +0800
 #
 # Description: Definitions of selection and reconstruction procedures for Dst in
 #              run 1, with thorough comments.
@@ -151,10 +151,10 @@ else:
         Location='/Event/Semileptonic/Phys/{0}/Particles'.format(line_strip))
 
 
-pr_nopid_K = AutomaticData(Location='Phys/StdAllNoPIDsKaons/Particles')
+pr_all_nopid_K = AutomaticData(Location='Phys/StdAllNoPIDsKaons/Particles')
 pr_loose_K = AutomaticData(Location='Phys/StdLooseKaons/Particles')
 
-pr_nopid_Pi = AutomaticData(Location='Phys/StdAllNoPIDsPions/Particles')
+pr_all_nopid_Pi = AutomaticData(Location='Phys/StdAllNoPIDsPions/Particles')
 pr_loose_Pi = AutomaticData(Location='Phys/StdLoosePions/Particles')
 pr_all_loose_Pi = AutomaticData(Location='Phys/StdAllLoosePions/Particles')
 # Standard NoPIDs upstream pions (VELO + TT hits, no T-layers).
@@ -162,7 +162,7 @@ pr_all_loose_Pi = AutomaticData(Location='Phys/StdAllLoosePions/Particles')
 # the end.
 # pr_up_Pi = AutomaticData(Location='Phys/StdNoPIDsUpPions/Particles')
 
-pr_nopid_Mu = AutomaticData(Location='Phys/StdAllNoPIDsMuons/Particles')
+pr_all_nopid_Mu = AutomaticData(Location='Phys/StdAllNoPIDsMuons/Particles')
 pr_all_loose_Mu = AutomaticData(Location='Phys/StdAllLooseMuons/Particles')
 
 
@@ -195,7 +195,7 @@ sel_unstripped_tis_filtered_Mu = Selection(
         'MyMuTisTagger',
         Inputs=['Phys/StdAllNoPIDsMuons/Particles'],
         TisTosSpecs={'L0Global%TIS': 0}),
-    RequiredSelections=[pr_nopid_Mu]
+    RequiredSelections=[pr_all_nopid_Mu]
 )
 
 
@@ -246,17 +246,14 @@ elif not DaVinci().Simulation or has_flag('CUTFLOW'):
     sel_charged_Pi = sel_stripped_charged_Pi
     sel_Mu = sel_stripped_Mu
 else:
-    sel_charged_K = pr_nopid_K
-    sel_charged_Pi = pr_nopid_Pi
+    sel_charged_K = pr_all_nopid_K
+    sel_charged_Pi = pr_all_nopid_Pi
     sel_Mu = sel_unstripped_tis_filtered_Mu
 
 
 #####################
 # Define algorithms #
 #####################
-# These algorithms are used to reconstruct non-final state particles.
-# These cuts are imposed by the stripping line
-#   http://lhcbdoc.web.cern.ch/lhcbdoc/stripping/config/stripping21/semileptonic/strippingb2d0muxb2dmunufortaumuline.html
 
 from Configurables import CombineParticles
 
@@ -306,10 +303,10 @@ if True:
     }
 
     algo_D0.CombinationCut = \
-        "(ADAMASS('D0') < 100*MeV) &" + \
-        "(ACHILD(PT,1) + ACHILD(PT,2) > 1400*MeV)"
+        "(ADAMASS('D0') < 100.0*MeV) &" + \
+        "(ACHILD(PT,1) + ACHILD(PT,2) > 1400.0*MeV)"
     algo_D0.MotherCut = \
-        "(SUMTREE(PT,ISBASIC) > 1400.0*MeV) & (ADMASS('D0') < 80*MeV) &" + \
+        "(SUMTREE(PT,ISBASIC) > 1400.0*MeV) & (ADMASS('D0') < 80.0*MeV) &" + \
         "(VFASPF(VCHI2/VDOF) < 4.0) & (BPVVDCHI2 > 250.0) & (BPVDIRA> 0.9998)"
 
 
@@ -401,14 +398,10 @@ if DaVinci().Simulation:
 # if not has_flag('BARE'):
 if True:
     algo_B0.DaughtersCuts = {
-        '': 'ALL',
-        'D0': 'ALL',
-        'D~0': 'ALL',
         'mu-': '(MIPCHI2DV(PRIMARY) > 45.0) & (TRGHOSTPROB < 0.5) &' +
                '(PIDmu > 2.0) &' +
                '(P > 3.0*GeV)'
     }
-    algo_B0.DaughtersCuts['mu+'] = algo_B0.DaughtersCuts['mu-']
 
     algo_B0.CombinationCut = '(AM < 10.2*GeV)'
     algo_B0.MotherCut = \
@@ -421,7 +414,6 @@ if True:
         # "(mcMatch('[^mu+]CC')) & (TRCHI2DOF < 3.0) &" + \
         # "(MIPCHI2DV(PRIMARY) > 45.0) & (TRGHOSTPROB < 0.5) &" + \
         # "(PIDmu > 2.0)"
-    # algo_B0.DaughtersCuts['mu+'] = algo_B0.DaughtersCuts['mu-']
 
     # algo_B0.CombinationCut = 'AALL'
     # algo_B0.MotherCut = \
@@ -432,7 +424,6 @@ if DaVinci().Simulation:
     algo_B0.DaughtersCuts['mu-'] = \
         "(mcMatch('[^mu+]CC')) & (TRCHI2DOF < 3.0) &" + \
         algo_B0.DaughtersCuts['mu-']
-    algo_B0.DaughtersCuts['mu+'] = algo_B0.DaughtersCuts['mu-']
 
     # algo_B0.HistoProduce = True
     # algo_B0.addTool(PlotTool("MotherPlots"))
