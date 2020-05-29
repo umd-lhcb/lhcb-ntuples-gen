@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sat May 30, 2020 at 01:38 AM +0800
+# Last Change: Sat May 30, 2020 at 02:02 AM +0800
 #
 # Description: Definitions of selection and reconstruction procedures for Dst in
 #              run 1, with thorough comments.
@@ -135,6 +135,8 @@ elif not DaVinci().Simulation:
 #######################
 # Particle references #
 #######################
+# Definitions of these particle references can be found at:
+#   https://gitlab.cern.ch/lhcb/Phys/-/tree/master/Phys/CommonParticles/python/CommonParticles
 
 # 'DataOnDemand' == 'AutomaticData'
 from PhysSelPython.Wrappers import AutomaticData
