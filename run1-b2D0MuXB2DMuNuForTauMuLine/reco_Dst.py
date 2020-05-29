@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu May 28, 2020 at 02:51 AM +0800
+# Last Change: Fri May 29, 2020 at 10:01 PM +0800
 #
 # Description: Definitions of selection and reconstruction procedures for Dst in
 #              run 1, with thorough comments.
@@ -98,6 +98,8 @@ DaVinci().appendToMainSequence([ms_all_protos, ms_velo_pions])
 #
 # The run 1 stripping line definition can be found at:
 #  http://lhcbdoc.web.cern.ch/lhcbdoc/stripping/config/stripping21/semileptonic/strippingb2d0muxb2dmunufortaumuline.html
+# The older stripping line has a different name, but the cuts are the same:
+#  http://lhcbdoc.web.cern.ch/lhcbdoc/stripping/config/stripping20r1/semileptonic/strippingb2d0muxb2dmufortaumuline.html
 
 from Configurables import LoKi__HDRFilter as HDRFilter
 
@@ -148,6 +150,7 @@ else:
 
 
 pr_charged_K = AutomaticData(Location='Phys/StdAllNoPIDsKaons/Particles')
+pr_all_K = AutomaticData(Location='Phys/StdAllLooseKaons/Particles')
 
 pr_charged_Pi = AutomaticData(Location='Phys/StdAllNoPIDsPions/Particles')
 pr_all_Pi = AutomaticData(Location='Phys/StdAllLoosePions/Particles')
@@ -157,6 +160,7 @@ pr_all_Pi = AutomaticData(Location='Phys/StdAllLoosePions/Particles')
 # pr_up_Pi = AutomaticData(Location='Phys/StdNoPIDsUpPions/Particles')
 
 pr_Mu = AutomaticData(Location='Phys/StdAllNoPIDsMuons/Particles')
+pr_all_Mu = AutomaticData(Location='Phys/StdAllLooseMuons/Particles')
 
 
 ############################
@@ -231,9 +235,9 @@ sel_stripped_Mu = Selection(
 # NOTE: Muons that do not pass (unstripped) still get saved *but we don't want
 #       to use them*.
 if has_flag('BARE'):
-    sel_charged_K = pr_charged_K
-    sel_charged_Pi = pr_charged_Pi
-    sel_Mu = pr_Mu
+    sel_charged_K = pr_all_K
+    sel_charged_Pi = pr_all_Pi
+    sel_Mu = pr_all_Mu
 elif not DaVinci().Simulation or has_flag('CUTFLOW'):
     sel_charged_K = sel_stripped_charged_K
     sel_charged_Pi = sel_stripped_charged_Pi
@@ -283,45 +287,51 @@ algo_D0 = CombineParticles('MyD0')
 algo_D0.DecayDescriptor = '[D0 -> K- pi+]cc'
 
 
+if DaVinci().Simulation:
+    algo_D0.Preambulo += algo_mc_match_preambulo
+
+
 if not has_flag('BARE'):
     algo_D0.DaughtersCuts = {
-        'K+': '(PT > 300*MeV) & (MIPCHI2DV(PRIMARY) > 45.0) &' +
-              '(PIDK > 4) & (TRGHOSTPROB < 0.5)',
-        'pi-': '(PT > 300*MeV) & (MIPCHI2DV(PRIMARY) > 45.0) &' +
-               '(PIDK < 2) & (TRGHOSTPROB < 0.5)'
+        'K+': '(PIDK > 4.0) & (MIPCHI2DV(PRIMARY) > 45.0) &' +
+              '(P > 2.0*GeV) & (PT > 300*MeV) &' +
+              '(TRGHOSTPROB < 0.5)',
+        'pi-': '(P > 2.0*GeV) & (PT > 300*MeV) &' +
+               '(MIPCHI2DV(PRIMARY) > 45.0) &' +
+               '(PIDK < 2.0) & (TRGHOSTPROB < 0.5)'
     }
 
-    algo_D0.CombinationCut = "(ADAMASS('D0') < 200*MeV)"
-    algo_D0.MotherCut = "(ADMASS('D0') < 100*MeV) & (VFASPF(VCHI2/VDOF) < 100)"
+    algo_D0.CombinationCut = \
+        "(ADAMASS('D0') < 100*MeV) &" + \
+        "(ACHILD(PT,1) + ACHILD(PT,2) > 1400*MeV)"
+    algo_D0.MotherCut = \
+        "(SUMTREE(PT,ISBASIC) > 1400.0*MeV) & (ADMASS('D0') < 80*MeV) &" + \
+        "(VFASPF(VCHI2/VDOF) < 4.0) & (BPVVDCHI2 > 250.0) & (BPVDIRA> 0.9998)"
 
 
 if DaVinci().Simulation and has_flag('BARE'):
-    algo_D0.Preambulo += algo_mc_match_preambulo
-
     algo_D0.DaughtersCuts = {
-        'K+': '(MIPCHI2DV(PRIMARY) > 45.0) &' +
-              '(PIDK > 4) & (TRGHOSTPROB < 0.5) &' +
+        'K+': '(PIDK > 4.0) & (MIPCHI2DV(PRIMARY) > 45.0) &' +
+              '(TRGHOSTPROB < 0.5) &' +
               "(mcMatch('[^K+]CC')) &" +
               '(MCSELMATCH(MCNINANCESTORS(BEAUTY) > 0))',
         'pi-': '(MIPCHI2DV(PRIMARY) > 45.0) &' +
-               '(PIDK < 2) & (TRGHOSTPROB < 0.5) &' +
+               '(PIDK < 2.0) & (TRGHOSTPROB < 0.5) &' +
                '(MCSELMATCH(MCNINANCESTORS(BEAUTY) > 0))'
     }
 
     algo_D0.CombinationCut = "AALL"  # NOTE: 'AALL' is the particle array variant for 'ALL'.
-    algo_D0.MotherCut = '(VFASPF(VCHI2/VDOF) < 100) &' + \
-        "(mcMatch('[Charm -> K- pi+ {gamma}{gamma}{gamma}]CC'))"
+    algo_D0.MotherCut = \
+        "(mcMatch('[Charm -> K- pi+ {gamma}{gamma}{gamma}]CC')) &" + \
+        "(VFASPF(VCHI2/VDOF) < 4.0) & (BPVVDCHI2 > 250.0) & (BPVDIRA> 0.9998)"
 
 elif DaVinci().Simulation:
-    algo_D0.Preambulo += algo_mc_match_preambulo
-
     algo_D0.DaughtersCuts['K+'] = \
-        "(mcMatch('[^K+]CC')) & (P > 2.0*GeV) &" + \
+        "(mcMatch('[^K+]CC')) &" + \
         "(MCSELMATCH(MCNINANCESTORS(BEAUTY) > 0)) &" + \
         algo_D0.DaughtersCuts['K+']
 
     algo_D0.DaughtersCuts['pi-'] = \
-        '(P > 2.0*GeV) &' + \
         '(MCSELMATCH(MCNINANCESTORS(BEAUTY) > 0)) &' + \
         algo_D0.DaughtersCuts['pi-']
 
@@ -352,7 +362,7 @@ else:
                '(TRGHOSTPROB < 0.25)'
     }
 
-    algo_Dst.CombinationCut = "AALL"
+    algo_Dst.CombinationCut = 'AALL'
     algo_Dst.MotherCut = "(VFASPF(VCHI2/VDOF) < 100)"
 
 
@@ -378,29 +388,38 @@ algo_B0 = CombineParticles('MyB0')
 algo_B0.DecayDescriptor = "[B~0 -> D*(2010)+ mu-]cc"  # B~0 is the CC of B0
 
 
+if DaVinci().Simulation:
+    algo_B0.Preambulo += algo_mc_match_preambulo
+
+
 if not has_flag('BARE'):
-    algo_B0.DaughtersCuts = {"mu-": "ALL"}
-    algo_B0.CombinationCut = '(AM < 10200*MeV)'
-    algo_B0.MotherCut = "(M < 10000*MeV) & (BPVDIRA > 0.9995) &" + \
-                        "(VFASPF(VCHI2/VDOF) < 6.0)"
+    algo_B0.DaughtersCuts = {'': 'ALL',
+                             'D0': 'ALL',
+                             'D~0': 'ALL',
+                             'mu+': 'ALL',
+                             'mu-': 'ALL'}
+
+    algo_B0.CombinationCut = '(AM < 10.2*GeV)'
+    algo_B0.MotherCut = \
+        '(MM < 10.0*GeV) & (MM > 0.0*GeV) &' + \
+        '(VFASPF(VCHI2/VDOF) < 6.0) & (BPVDIRA > 0.9995)'
 
 
 if DaVinci().Simulation and has_flag('BARE'):
-    algo_B0.Preambulo += algo_mc_match_preambulo
-
-    algo_B0.DaughtersCuts = {
-        "mu-": "(mcMatch('[^mu+]CC')) & (TRGHOSTPROB < 0.5) &" +
-               "(MIPCHI2DV(PRIMARY)>45) & (TRCHI2DOF < 3.0)"
-    }
-    algo_B0.CombinationCut = 'AALL'
-    algo_B0.MotherCut = "(BPVDIRA > 0.9995) & (VFASPF(VCHI2/VDOF) < 6.0)"
-
-elif DaVinci().Simulation:
-    algo_B0.Preambulo += algo_mc_match_preambulo
-
     algo_B0.DaughtersCuts['mu-'] = \
         "(mcMatch('[^mu+]CC')) & (TRGHOSTPROB < 0.5) &" + \
         "(MIPCHI2DV(PRIMARY)>45) & (TRCHI2DOF < 3.0)"
+    algo_B0.DaughtersCuts['mu+'] = algo_B0.DaughtersCuts['mu-']
+
+    algo_B0.CombinationCut = 'AALL'
+    algo_B0.MotherCut = \
+        '(VFASPF(VCHI2/VDOF) < 6.0) & (BPVDIRA > 0.9995)'
+
+elif DaVinci().Simulation:
+    algo_B0.DaughtersCuts['mu-'] = \
+        "(mcMatch('[^mu+]CC')) & (TRGHOSTPROB < 0.5) &" + \
+        "(MIPCHI2DV(PRIMARY)>45) & (TRCHI2DOF < 3.0)"
+    algo_B0.DaughtersCuts['mu+'] = algo_B0.DaughtersCuts['mu-']
 
     # algo_B0.HistoProduce = True
     # algo_B0.addTool(PlotTool("MotherPlots"))
