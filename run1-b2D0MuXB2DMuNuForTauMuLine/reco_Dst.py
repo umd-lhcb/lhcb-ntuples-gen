@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Jun 01, 2020 at 11:26 PM +0800
+# Last Change: Tue Jun 02, 2020 at 02:18 AM +0800
 #
 # Description: Definitions of selection and reconstruction procedures for Dst in
 #              run 1, with thorough comments.
@@ -281,8 +281,7 @@ if DaVinci().Simulation:
     algo_D0.Preambulo += algo_mc_match_preambulo
 
 
-# if not has_flag('BARE'):
-if True:
+if not has_flag('BARE'):
     algo_D0.DaughtersCuts = {
         'K+': '(PIDK > 4.0) & (MIPCHI2DV(PRIMARY) > 45.0) &' +
               '(P > 2.0*GeV) & (PT > 300.0*MeV) &' +
@@ -300,24 +299,23 @@ if True:
         "(VFASPF(VCHI2/VDOF) < 4.0) & (BPVVDCHI2 > 250.0) & (BPVDIRA> 0.9998)"
 
 
-# if DaVinci().Simulation and has_flag('BARE'):
-    # algo_D0.DaughtersCuts = {
-        # 'K+': '(PIDK > 4.0) & (MIPCHI2DV(PRIMARY) > 45.0) &' +
-              # '(TRGHOSTPROB < 0.5) &' +
-              # "(mcMatch('[^K+]CC')) &" +
-              # '(MCSELMATCH(MCNINANCESTORS(BEAUTY) > 0))',
-        # 'pi-': '(MIPCHI2DV(PRIMARY) > 45.0) &' +
-               # '(PIDK < 2.0) & (TRGHOSTPROB < 0.5) &' +
-               # '(MCSELMATCH(MCNINANCESTORS(BEAUTY) > 0))'
-    # }
+if DaVinci().Simulation and has_flag('BARE'):
+    algo_D0.DaughtersCuts = {
+        'K+': '(PIDK > 4.0) & (MIPCHI2DV(PRIMARY) > 45.0) &' +
+              '(TRGHOSTPROB < 0.5) &' +
+              "(mcMatch('[^K+]CC')) &" +
+              '(MCSELMATCH(MCNINANCESTORS(BEAUTY) > 0))',
+        'pi-': '(MIPCHI2DV(PRIMARY) > 45.0) &' +
+               '(PIDK < 2.0) & (TRGHOSTPROB < 0.5) &' +
+               '(MCSELMATCH(MCNINANCESTORS(BEAUTY) > 0))'
+    }
 
-    # algo_D0.CombinationCut = "AALL"  # NOTE: 'AALL' is the particle array variant for 'ALL'.
-    # algo_D0.MotherCut = \
-        # "(mcMatch('[Charm -> K- pi+ {gamma}{gamma}{gamma}]CC')) &" + \
-        # "(VFASPF(VCHI2/VDOF) < 4.0) & (BPVVDCHI2 > 250.0) & (BPVDIRA> 0.9998)"
+    algo_D0.CombinationCut = "AALL"  # NOTE: 'AALL' is the particle array variant for 'ALL'.
+    algo_D0.MotherCut = \
+        "(mcMatch('[Charm -> K- pi+ {gamma}{gamma}{gamma}]CC')) &" + \
+        "(VFASPF(VCHI2/VDOF) < 4.0) & (BPVVDCHI2 > 250.0) & (BPVDIRA> 0.9998)"
 
-# elif DaVinci().Simulation:
-if DaVinci().Simulation:
+elif DaVinci().Simulation:
     algo_D0.DaughtersCuts['K+'] = \
         "(mcMatch('[^K+]CC')) &" + \
         "(MCSELMATCH(MCNINANCESTORS(BEAUTY) > 0)) &" + \
@@ -337,8 +335,7 @@ algo_Dst = CombineParticles('MyDst')
 algo_Dst.DecayDescriptor = '[D*(2010)+ -> D0 pi+]cc'
 
 
-# if not has_flag('BARE'):
-if True:
+if not has_flag('BARE'):
     algo_Dst.DaughtersCuts = {
         'pi+': '(MIPCHI2DV(PRIMARY) > 0.0) & (TRCHI2DOF < 3) &' +
                '(TRGHOSTPROB < 0.25)'
@@ -349,14 +346,14 @@ if True:
                          "(M-MAXTREE(ABSID=='D0',M) < 160*MeV) &" + \
                          "(VFASPF(VCHI2/VDOF) < 100)"
 
-# else:
-    # algo_Dst.DaughtersCuts = {
-        # 'pi+': '(MIPCHI2DV(PRIMARY) > 0.0) & (TRCHI2DOF < 3) &' +
-               # '(TRGHOSTPROB < 0.25)'
-    # }
+else:
+    algo_Dst.DaughtersCuts = {
+        'pi+': '(MIPCHI2DV(PRIMARY) > 0.0) & (TRCHI2DOF < 3) &' +
+               '(TRGHOSTPROB < 0.25)'
+    }
 
-    # algo_Dst.CombinationCut = 'AALL'
-    # algo_Dst.MotherCut = "(VFASPF(VCHI2/VDOF) < 100)"
+    algo_Dst.CombinationCut = 'AALL'
+    algo_Dst.MotherCut = "(VFASPF(VCHI2/VDOF) < 100)"
 
 
 # DstWS ########################################################################
@@ -377,8 +374,7 @@ if DaVinci().Simulation:
     algo_B0.Preambulo += algo_mc_match_preambulo
 
 
-# if not has_flag('BARE'):
-if True:
+if not has_flag('BARE'):
     algo_B0.DaughtersCuts = {
         'mu-': '(MIPCHI2DV(PRIMARY) > 45.0) & (TRGHOSTPROB < 0.5) &' +
                '(PIDmu > 2.0) &' +
@@ -391,18 +387,17 @@ if True:
         '(VFASPF(VCHI2/VDOF) < 6.0) & (BPVDIRA > 0.9995)'
 
 
-# if DaVinci().Simulation and has_flag('BARE'):
-    # algo_B0.DaughtersCuts['mu-'] = \
-        # "(mcMatch('[^mu+]CC')) & (TRCHI2DOF < 3.0) &" + \
-        # "(MIPCHI2DV(PRIMARY) > 45.0) & (TRGHOSTPROB < 0.5) &" + \
-        # "(PIDmu > 2.0)"
+if DaVinci().Simulation and has_flag('BARE'):
+    algo_B0.DaughtersCuts['mu-'] = \
+        "(mcMatch('[^mu+]CC')) & (TRCHI2DOF < 3.0) &" + \
+        "(MIPCHI2DV(PRIMARY) > 45.0) & (TRGHOSTPROB < 0.5) &" + \
+        "(PIDmu > 2.0)"
 
-    # algo_B0.CombinationCut = 'AALL'
-    # algo_B0.MotherCut = \
-        # '(VFASPF(VCHI2/VDOF) < 6.0) & (BPVDIRA > 0.9995)'
+    algo_B0.CombinationCut = 'AALL'
+    algo_B0.MotherCut = \
+        '(VFASPF(VCHI2/VDOF) < 6.0) & (BPVDIRA > 0.9995)'
 
-# elif DaVinci().Simulation:
-if DaVinci().Simulation:
+elif DaVinci().Simulation:
     algo_B0.DaughtersCuts['mu-'] = \
         "(mcMatch('[^mu+]CC')) & (TRCHI2DOF < 3.0) &" + \
         algo_B0.DaughtersCuts['mu-']
