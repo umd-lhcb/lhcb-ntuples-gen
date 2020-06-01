@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Jun 02, 2020 at 02:27 AM +0800
+# Last Change: Tue Jun 02, 2020 at 02:30 AM +0800
 #
 # Description: Definitions of selection and reconstruction procedures for Dst in
 #              run 2. For more thorough comments, take a look at:
@@ -187,14 +187,14 @@ if has_flag('BARE'):
     sel_charged_K = pr_loose_K
     sel_charged_Pi = pr_loose_Pi
     sel_Mu = pr_all_loose_Mu
-elif DaVinci().Simulation and not has_flag('CUTFLOW'):
-    sel_charged_K = pr_all_nopid_K
-    sel_charged_Pi = pr_all_nopid_Pi
-    sel_Mu = pr_all_nopid_Mu
-else:
+elif not DaVinci().Simulation or has_flag('CUTFLOW'):
     sel_charged_K = sel_stripped_charged_K
     sel_charged_Pi = sel_stripped_charged_Pi
     sel_Mu = sel_stripped_Mu
+else:
+    sel_charged_K = pr_all_nopid_K
+    sel_charged_Pi = pr_all_nopid_Pi
+    sel_Mu = pr_all_nopid_Mu
 
 
 #####################
