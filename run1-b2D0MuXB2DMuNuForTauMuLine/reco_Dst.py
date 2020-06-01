@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Jun 02, 2020 at 02:18 AM +0800
+# Last Change: Tue Jun 02, 2020 at 02:20 AM +0800
 #
 # Description: Definitions of selection and reconstruction procedures for Dst in
 #              run 1, with thorough comments.
@@ -160,7 +160,7 @@ pr_all_loose_Pi = AutomaticData(Location='Phys/StdAllLoosePions/Particles')
 # Standard NoPIDs upstream pions (VELO + TT hits, no T-layers).
 # They only added 10% with terrible mass resolution, so they didn't use them in
 # the end.
-# pr_up_Pi = AutomaticData(Location='Phys/StdNoPIDsUpPions/Particles')
+# pr_nopid_up_Pi = AutomaticData(Location='Phys/StdNoPIDsUpPions/Particles')
 
 pr_all_nopid_Mu = AutomaticData(Location='Phys/StdAllNoPIDsMuons/Particles')
 pr_all_loose_Mu = AutomaticData(Location='Phys/StdAllLooseMuons/Particles')
