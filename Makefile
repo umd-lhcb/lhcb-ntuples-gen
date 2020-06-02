@@ -1,6 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Jun 03, 2020 at 04:24 AM +0800
+# Last Change: Wed Jun 03, 2020 at 04:26 AM +0800
 
 BINPATH	:=	bin
 SRCPATH	:=	gen
@@ -14,7 +14,8 @@ CXXFLAGS	:=	$(shell root-config --cflags)
 LINKFLAGS	:=	$(shell root-config --libs)
 ADDFLAGS	:=	-Iinclude
 
-.PHONY: all clean dv \
+.PHONY: all clean \
+	docker-dv \
 	cutflow-RDst cutflow-RDst-web \
 	cutflow-RDst-data cutflow-RDst-data-web \
 	cutflow-RDst-detail-individual cutflow-RDst-detail-individual-web
@@ -32,9 +33,9 @@ clean:
 	@find ./gen -name '*.cpp' -delete
 
 
-######################
-# Run DaVinci docker #
-######################
+#####################
+# Run docker images #
+#####################
 
 ifeq ($(OS),Darwin)
 DV_CMD = "docker run --rm -it -v $$(pwd):/data -e UID=$$(id -u) -e GID=$$(id -g) --net=host umdlhcb/lhcb-stack-cc7:DaVinci-v45r3-SL"
@@ -42,7 +43,7 @@ else
 DV_CMD = "docker run --rm -it -v $$(pwd):/data -v $$HOME/.Xauthority:/home/physicist/.Xauthority -e DISPLAY -e UID=$$(id -u) -e GID=$$(id -g) --net=host umdlhcb/lhcb-stack-cc7:DaVinci-v45r3-SL"
 endif
 
-dv:
+docker-dv:
 	@eval $(DV_CMD)
 
 
