@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Jun 02, 2020 at 02:20 AM +0800
+# Last Change: Wed Jun 03, 2020 at 03:17 AM +0800
 #
 # Description: Definitions of selection and reconstruction procedures for Dst in
 #              run 1, with thorough comments.
@@ -337,23 +337,23 @@ algo_Dst.DecayDescriptor = '[D*(2010)+ -> D0 pi+]cc'
 
 if not has_flag('BARE'):
     algo_Dst.DaughtersCuts = {
-        'pi+': '(MIPCHI2DV(PRIMARY) > 0.0) & (TRCHI2DOF < 3) &' +
+        'pi+': '(MIPCHI2DV(PRIMARY) > 0.0) & (TRCHI2DOF < 3.0) &' +
                '(TRGHOSTPROB < 0.25)'
     }
 
-    algo_Dst.CombinationCut = "(ADAMASS('D*(2010)+') < 220*MeV)"
-    algo_Dst.MotherCut = "(ADMASS('D*(2010)+') < 125*MeV) &" + \
-                         "(M-MAXTREE(ABSID=='D0',M) < 160*MeV) &" + \
-                         "(VFASPF(VCHI2/VDOF) < 100)"
+    algo_Dst.CombinationCut = "(ADAMASS('D*(2010)+') < 220.0*MeV)"
+    algo_Dst.MotherCut = "(ADMASS('D*(2010)+') < 125.0*MeV) &" + \
+                         "(M-MAXTREE(ABSID=='D0',M) < 160.0*MeV) &" + \
+                         "(VFASPF(VCHI2/VDOF) < 100.0)"
 
 else:
     algo_Dst.DaughtersCuts = {
-        'pi+': '(MIPCHI2DV(PRIMARY) > 0.0) & (TRCHI2DOF < 3) &' +
+        'pi+': '(MIPCHI2DV(PRIMARY) > 0.0) & (TRCHI2DOF < 3.0) &' +
                '(TRGHOSTPROB < 0.25)'
     }
 
     algo_Dst.CombinationCut = 'AALL'
-    algo_Dst.MotherCut = "(VFASPF(VCHI2/VDOF) < 100)"
+    algo_Dst.MotherCut = "(VFASPF(VCHI2/VDOF) < 100.0)"
 
 
 # DstWS ########################################################################

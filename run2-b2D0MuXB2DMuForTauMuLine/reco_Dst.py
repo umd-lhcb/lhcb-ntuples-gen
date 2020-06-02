@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Jun 02, 2020 at 02:30 AM +0800
+# Last Change: Wed Jun 03, 2020 at 03:21 AM +0800
 #
 # Description: Definitions of selection and reconstruction procedures for Dst in
 #              run 2. For more thorough comments, take a look at:
@@ -126,7 +126,6 @@ pr_loose_K = AutomaticData(Location='Phys/StdLooseKaons/Particles')
 pr_all_nopid_Pi = AutomaticData(Location='Phys/StdAllNoPIDsPions/Particles')
 pr_loose_Pi = AutomaticData(Location='Phys/StdLoosePions/Particles')
 pr_all_loose_Pi = AutomaticData(Location='Phys/StdAllLoosePions/Particles')
-# pr_nopid_up_Pi = AutomaticData(Location='Phys/StdNoPIDsUpPions/Particles')
 
 pr_all_nopid_Mu = AutomaticData(Location='Phys/StdAllNoPIDsMuons/Particles')
 pr_all_loose_Mu = AutomaticData(Location='Phys/StdAllLooseMuons/Particles')
@@ -214,19 +213,25 @@ algo_D0 = CombineParticles('MyD0')
 algo_D0.DecayDescriptor = '[D0 -> K- pi+]cc'
 
 
+if DaVinci().Simulation:
+    algo_D0.Preambulo += algo_mc_match_preambulo
+
+
 if not has_flag('BARE'):
     algo_D0.DaughtersCuts = {
-        'K+': '(PT > 300*MeV) & (MIPCHI2DV(PRIMARY) > 9.0) &' +
-              '(PIDK > 4) & (TRGHOSTPROB < 0.5)',
-        'pi-': '(PT > 300*MeV) & (MIPCHI2DV(PRIMARY) > 9.0) &' +
-               '(PIDK < 2) & (TRGHOSTPROB < 0.5)'
+        'K+': '(PIDK > 4.0) & (MIPCHI2DV(PRIMARY) > 9.0) &' +
+              '(P > 2.0*GeV) & (PT > 300.0*MeV) &' +
+              '(TRGHOSTPROB < 0.5)',
+        'pi-': '(P > 2.0*GeV) & (PT > 300.0*MeV) &' +
+               '(MIPCHI2DV(PRIMARY) > 9.0) &' +
+               '(PIDK < 2.0) & (TRGHOSTPROB < 0.5)'
     }
 
-    algo_D0.CombinationCut = "(ADAMASS('D0') < 100*MeV) &" + \
-        "(ACHILD(PT, 1) + ACHILD(PT, 2) > 2500*MeV)"
-    algo_D0.MotherCut = "(ADMASS('D0') < 80*MeV) & (VFASPF(VCHI2/VDOF) < 4) &" + \
-        "(SUMTREE(PT, ISBASIC) > 2500*MeV) & (BPVVDCHI2 > 25.0) &" + \
-        "(BPVDIRA > 0.999)"
+    algo_D0.CombinationCut = "(ADAMASS('D0') < 100.0*MeV) &" + \
+        "(ACHILD(PT,1) + ACHILD(PT,2) > 2500.0*MeV)"
+    algo_D0.MotherCut = "(SUMTREE(PT,ISBASIC) > 2500.0*MeV) &" + \
+        "(ADMASS('D0') < 80.0*MeV) &" + \
+        "(VFASPF(VCHI2/VDOF) < 4.0) & (BPVVDCHI2 > 25.0) & (BPVDIRA > 0.999)"
 
 
 if DaVinci().Simulation and has_flag('BARE'):
@@ -247,12 +252,11 @@ elif DaVinci().Simulation:
     algo_D0.Preambulo += algo_mc_match_preambulo
 
     algo_D0.DaughtersCuts['K+'] = \
-        "(mcMatch('[^K+]CC')) & (P > 2.0*GeV) &" + \
+        "(mcMatch('[^K+]CC')) &" + \
         "(MCSELMATCH(MCNINANCESTORS(BEAUTY) > 0)) &" + \
         algo_D0.DaughtersCuts['K+']
 
     algo_D0.DaughtersCuts['pi-'] = \
-        '(P > 2.0*GeV) &' + \
         '(MCSELMATCH(MCNINANCESTORS(BEAUTY) > 0)) &' + \
         algo_D0.DaughtersCuts['pi-']
 
@@ -268,23 +272,23 @@ algo_Dst.DecayDescriptor = '[D*(2010)+ -> D0 pi+]cc'
 
 if not has_flag('BARE'):
     algo_Dst.DaughtersCuts = {
-        'pi+': '(MIPCHI2DV(PRIMARY) > 0.0) & (TRCHI2DOF < 3) &' +
+        'pi+': '(MIPCHI2DV(PRIMARY) > 0.0) & (TRCHI2DOF < 3.0) &' +
                '(TRGHOSTPROB < 0.25)'
     }
 
-    algo_Dst.CombinationCut = "(ADAMASS('D*(2010)+') < 220*MeV)"
-    algo_Dst.MotherCut = "(ADMASS('D*(2010)+') < 125*MeV) &" + \
-                         "(M-MAXTREE(ABSID=='D0', M) < 160*MeV) &" + \
-                         "(VFASPF(VCHI2/VDOF) < 100)"
+    algo_Dst.CombinationCut = "(ADAMASS('D*(2010)+') < 220.0*MeV)"
+    algo_Dst.MotherCut = "(ADMASS('D*(2010)+') < 125.0*MeV) &" + \
+                         "(M-MAXTREE(ABSID=='D0', M) < 160.0*MeV) &" + \
+                         "(VFASPF(VCHI2/VDOF) < 100.0)"
 
 else:
     algo_Dst.DaughtersCuts = {
-        'pi+': '(MIPCHI2DV(PRIMARY) > 0.0) & (TRCHI2DOF < 3) &' +
+        'pi+': '(MIPCHI2DV(PRIMARY) > 0.0) & (TRCHI2DOF < 3.0) &' +
                '(TRGHOSTPROB < 0.25)'
     }
 
     algo_Dst.CombinationCut = "AALL"
-    algo_Dst.MotherCut = "(VFASPF(VCHI2/VDOF) < 100)"
+    algo_Dst.MotherCut = "(VFASPF(VCHI2/VDOF) < 100.0)"
 
 
 # DstWS ########################################################################
@@ -303,10 +307,15 @@ algo_B0.DecayDescriptor = "[B~0 -> D*(2010)+ mu-]cc"  # B~0 is the CC of B0
 
 
 if not has_flag('BARE'):
-    algo_B0.DaughtersCuts = {"mu-": "ALL"}
-    algo_B0.CombinationCut = '(AM < 10200*MeV)'
-    algo_B0.MotherCut = "(M < 10000*MeV) & (BPVDIRA > 0.9995) &" + \
-                        "(VFASPF(VCHI2/VDOF) < 6.0)"
+    algo_B0.DaughtersCuts = {
+        'mu-': '(MIPCHI2DV(PRIMARY)> 16.0) &(TRGHOSTPROB < 0.5) &' +
+               '(PIDmu > -200.0) &' +
+               '(P > 3.0*GeV)'
+    }
+
+    algo_B0.CombinationCut = '(AM < 10.2*GeV)'
+    algo_B0.MotherCut = "(MM < 10.0*GeV) & (MM > 0.0*GeV) &" + \
+                        "(VFASPF(VCHI2/VDOF) < 6.0) & (BPVDIRA > 0.999) &"
 
 
 if DaVinci().Simulation and has_flag('BARE'):
