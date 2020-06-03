@@ -3,7 +3,7 @@ from Configurables import DaVinci
 DaVinci().DataType = '2016'
 DaVinci().Simulation = True
 
-DaVinci().TupleFile = 'Dst-mc.root'
+DaVinci().TupleFile = 'cutflow_mc-bare.root'
 
 # Additional global flags
 DaVinci().MoniSequence += ['CUTFLOW', 'BARE']
