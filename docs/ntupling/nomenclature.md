@@ -36,6 +36,10 @@ Step 2 ntuple filenames should follow the following form:
 ```
 
 !!! note
+    Sample ntuples that are stored in the `samples` folder of each stripping
+    line folder is considered _step 2_!
+
+!!! note
     Below are the definitions of each field.
 
     - `reco_sample`: For instance `Dst`, `D0`, `DstPi`, etc. They may all be merged into a single tree
