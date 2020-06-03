@@ -47,7 +47,7 @@ Step 2 ntuple filenames should follow the following form:
     - `type`: Descriptor, for instance `cutflow_mc`
     - `year`: Year the data/MC is recorded/generated. Format: `YYYY`
     - `polarity`: `md` (magnet down) or `mu` (magnet up)
-    - `sample`: Sample or samples in ntuple, eg `data`, `DstplusTauNu` or `All` if all samples merged
+    - `sample`: Sample or samples in ntuple, eg `data`, `cocktail`, `DstplusTauNu` or `all` if all samples merged
     - `additional_flags`: Optional. Ordered in the following way. Legal ones are:
         - `DaVinci` version (e.g. `dv36`)
         - `Pythia` version (e.g. `py6`)
