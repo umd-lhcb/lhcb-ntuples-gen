@@ -840,16 +840,16 @@
 <p class="admonition-title">Note</p>
 <p>Below are the definitions of each field.</p>
 <ul>
-<li><code>reco_sample</code>: For instance <code>Dst,</code>D0<code>, or</code>DstPi`. They may all be merged into a single tree</li>
-<li><code>date</code>: Generation date. Formatted: <code>YY-MM-DD</code></li>
-<li><code>type</code>: Descriptor, for instance <code>cutflow</code></li>
-<li><code>Dirac_path&gt;: The full Dirac path for the sample, replacing</code>` with <code>_</code></li>
+<li><code>reco_sample</code>: For instance <code>Dst</code>, <code>D0</code>, <code>DstPi</code>, <code>DstplusPi</code>, etc. They may all be merged into a single tree</li>
+<li><code>date</code>: Generation date. Formatted: <code>YY_MM_DD</code></li>
+<li><code>type</code>: Descriptor, for instance <code>cutflow_mc</code></li>
+<li><code>Dirac_path&gt;: The full Dirac path for the sample, replacing</code>` and whitespace with <code>_</code></li>
 </ul>
 </div>
 <div class="admonition example">
 <p class="admonition-title">Example</p>
 <p>An ntuple name looks like this:
-<div class="highlight"><pre><span></span><code>Dst--20-05-08--cutflow--mc--MC_2011_11874091_Beam3500GeV-2011-MagDown-Nu2-Pythia8_Sim08h_Digi13_Trig0x40760037_Reco14c_Stripping20r1NoPrescalingFlagged.root
+<div class="highlight"><pre><span></span><code>Dst--20_05_08--cutflow_mc--MC_2011_11874091_Beam3500GeV-2011-MagDown-Nu2-Pythia8_Sim08h_Digi13_Trig0x40760037_Reco14c_Stripping20r1NoPrescalingFlagged.root
 </code></pre></div></p>
 </div>
 <h3 id="step-2-ntuples">Step 2 ntuples</h3>
@@ -858,12 +858,17 @@
 </code></pre></div></p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
+<p>Sample ntuples that are stored in the <code>samples</code> folder of each stripping
+line folder is considered <em>step 2</em>!</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
 <p>Below are the definitions of each field.</p>
 <ul>
-<li><code>reco_sample</code>: For instance <code>Dst,</code>D0<code>, or</code>DstPi`. They may all be merged into a single tree</li>
-<li><code>date</code>: Generation date. Formatted: <code>YY-MM-DD</code></li>
-<li><code>type</code>: Descriptor, for instance <code>cutflow</code></li>
-<li><code>sample</code>: Sample or samples in ntuple, eg <code>data</code>, <code>DszTauNu</code> or <code>All</code> if all samples merged</li>
+<li><code>reco_sample</code>: For instance <code>Dst</code>, <code>D0</code>, <code>DstPi</code>, etc. They may all be merged into a single tree</li>
+<li><code>date</code>: Generation date. Formatted: <code>YY_MM_DD</code></li>
+<li><code>type</code>: Descriptor, for instance <code>cutflow_mc</code></li>
+<li><code>sample</code>: Sample or samples in ntuple, eg <code>data</code>, <code>DstplusTauNu</code> or <code>All</code> if all samples merged</li>
 <li><code>year</code>: Year the data/MC is recorded/generated. Format: <code>YYYY</code></li>
 <li><code>polarity</code>: <code>md</code> (magnet down) or <code>mu</code> (magnet up)</li>
 <li><code>additional_flags</code>: Optional. Ordered in the following way. Legal ones are:<ul>
@@ -880,21 +885,25 @@
 <div class="admonition example">
 <p class="admonition-title">Example</p>
 <p>An ntuple name looks like this:
-<div class="highlight"><pre><span></span><code>Dst--20-02-02--DspMuNu--mc--2012--md--dv36-py6-sim08a.root
+<div class="highlight"><pre><span></span><code>Dst--20_02_02--DstplusMuNu--mc--2012--md--dv36-py6-sim08a.root
 </code></pre></div></p>
 </div>
 <h2 id="folder-structure-for-storage">Folder structure for storage</h2>
-<p>Each ntuple production (defined by the same code) is to be placed in one folder named <code>&lt;code_tag&gt;-&lt;Descriptor&gt;</code>, with subfolders containing divisions in terms of <code>reco_sample</code> and <code>mc/data</code>. For example, the folder structure could look like
-<div class="highlight"><pre><span></span><code>0.8.6-cutflow/Dst-mc
-0.8.6-cutflow/Dst-data
+<p>Each ntuple production (defined by the same code) is to be placed in one folder
+named <code>&lt;code_tag&gt;-&lt;Descriptor&gt;</code>, with subfolders containing divisions in terms
+of <code>reco_sample</code> and <code>mc/data</code>. For example, the folder structure could look
+like</p>
+<div class="highlight"><pre><span></span><code>0.8.6-cutflow/Dst-cutflow_mc
+0.8.6-cutflow/Dst-cutflow_data
 
 0.9.0-FirstFull/Dst-mc
 0.9.0-FirstFull/Dst-data
 0.9.0-FirstFull/D0-mc
 0.9.0-FirstFull/D0-data
+0.9.0-FirstFull/Dst-cutflow_mc
 
 0.9.1-TriggerFix/Dst-mc
-</code></pre></div></p>
+</code></pre></div>
                 
               
               
