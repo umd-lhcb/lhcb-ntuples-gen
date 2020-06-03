@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Jun 03, 2020 at 04:01 AM +0800
+# Last Change: Thu Jun 04, 2020 at 01:32 AM +0800
 #
 # Description: Definitions of selection and reconstruction procedures for Dst in
 #              run 2. For more thorough comments, take a look at:
@@ -99,7 +99,7 @@ fltr_strip = HDRFilter(
     Code="HLT_PASS('Stripping{0}Decision')".format(line_strip))
 
 
-if has_flag('CUTFLOW') and has_flag('BARE'):
+if has_flag('CUTFLOW') and (has_flag('BARE') or has_flag('DV_STRIP')):
     pass
 elif not DaVinci().Simulation or has_flag('CUTFLOW'):
     DaVinci().EventPreFilters = [fltr_strip]
@@ -182,7 +182,7 @@ sel_stripped_Mu = Selection(
 
 # For run 2, use unstripped Muon and don't put additional cut on Muons yet.
 # We can always do TIS-filtering in step 2.
-if has_flag('BARE'):
+if has_flag('BARE') or has_flag('DV_STRIP'):
     sel_charged_K = pr_loose_K
     sel_charged_Pi = pr_loose_Pi
     sel_Mu = pr_all_loose_Mu
@@ -451,20 +451,20 @@ sel_refit_B02DstMu_ws_Pi = Selection(
 
 from PhysSelPython.Wrappers import SelectionSequence
 
-seq_B0 = SelectionSequence(
-    'SeqMyB0',
-    TopSelection=sel_refit_B02DstMu
-)
 
-seq_B0_ws_Mu = SelectionSequence(
-    'SeqMyB0WSMu',
-    TopSelection=sel_refit_B02DstMu_ws_Mu
-)
+if has_flag('BARE') or has_flag('DV_STRIP'):
+    seq_B0 = SelectionSequence('SeqMyB0',
+                               TopSelection=sel_refit_B02DstMu)
+else:
+    seq_B0 = SelectionSequence('SeqMyB0',
+                               TopSelection=sel_refit_B02DstMu)
 
-seq_B0_ws_Pi = SelectionSequence(
-    'SeqMyB0WSPi',
-    TopSelection=sel_refit_B02DstMu_ws_Pi
-)
+
+seq_B0_ws_Mu = SelectionSequence('SeqMyB0WSMu',
+                                 TopSelection=sel_refit_B02DstMu_ws_Mu)
+
+seq_B0_ws_Pi = SelectionSequence('SeqMyB0WSPi',
+                                 TopSelection=sel_refit_B02DstMu_ws_Pi)
 
 
 if DaVinci().Simulation or has_flag('CUTFLOW'):
@@ -475,9 +475,9 @@ else:
                                  seq_B0_ws_Pi.sequence()]
 
 
-###################
-# Define n-tuples #
-###################
+##################
+# Define ntuples #
+##################
 
 # Tools for data
 from Configurables import DecayTreeTuple
