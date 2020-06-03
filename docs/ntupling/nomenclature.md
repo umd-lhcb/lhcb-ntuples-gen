@@ -59,7 +59,7 @@ Step 2 ntuple filenames should follow the following form:
 !!! example
     An ntuple name looks like this:
     ```
-    Dst--20_02_02--mc--2012--md--DstplusMuNu--dv36-py6-sim08a.root
+    Dst--20_02_02--mc--DstplusMuNu--2012--md--dv36-py6-sim08a.root
     ```
 
 
