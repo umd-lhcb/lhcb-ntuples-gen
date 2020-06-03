@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Jun 03, 2020 at 06:37 PM +0800
+# Last Change: Wed Jun 03, 2020 at 08:13 PM +0800
 #
 # Description: Definitions of selection and reconstruction procedures for Dst in
 #              run 1, with thorough comments.
@@ -516,20 +516,20 @@ sel_refit_B02DstMu_ws_Pi = Selection(
 
 from PhysSelPython.Wrappers import SelectionSequence
 
-seq_B0 = SelectionSequence(
-    'SeqMyB0',
-    TopSelection=sel_refit_B02DstMu
-)
 
-seq_B0_ws_Mu = SelectionSequence(
-    'SeqMyB0WSMu',
-    TopSelection=sel_refit_B02DstMu_ws_Mu
-)
+if has_flag('BARE') or has_flag('DV_STRIP'):
+    seq_B0 = SelectionSequence('SeqMyB0',
+                               TopSelection=sel_refit_B02DstMu)
+else:
+    seq_B0 = SelectionSequence('SeqMyB0',
+                               TopSelection=sel_B0)
 
-seq_B0_ws_Pi = SelectionSequence(
-    'SeqMyB0WSPi',
-    TopSelection=sel_refit_B02DstMu_ws_Pi
-)
+
+seq_B0_ws_Mu = SelectionSequence('SeqMyB0WSMu',
+                                 TopSelection=sel_refit_B02DstMu_ws_Mu)
+
+seq_B0_ws_Pi = SelectionSequence('SeqMyB0WSPi',
+                                 TopSelection=sel_refit_B02DstMu_ws_Pi)
 
 
 if DaVinci().Simulation or has_flag('CUTFLOW'):
