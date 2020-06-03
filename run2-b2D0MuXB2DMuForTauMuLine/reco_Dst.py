@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Jun 04, 2020 at 01:32 AM +0800
+# Last Change: Thu Jun 04, 2020 at 02:57 AM +0800
 #
 # Description: Definitions of selection and reconstruction procedures for Dst in
 #              run 2. For more thorough comments, take a look at:
@@ -320,7 +320,7 @@ if not has_flag('BARE'):
     algo_B0.CombinationCut = '(AM < 10.2*GeV)'
     algo_B0.MotherCut = \
         "(MM < 10.0*GeV) & (MM > 0.0*GeV) &" + \
-        "(VFASPF(VCHI2/VDOF) < 6.0) & (BPVDIRA > 0.999) &"
+        "(VFASPF(VCHI2/VDOF) < 6.0) & (BPVDIRA > 0.999)"
 
 
 if DaVinci().Simulation and has_flag('BARE'):
