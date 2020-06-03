@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Jun 03, 2020 at 04:00 AM +0800
+# Last Change: Wed Jun 03, 2020 at 06:35 PM +0800
 #
 # Description: Definitions of selection and reconstruction procedures for Dst in
 #              run 1, with thorough comments.
@@ -240,7 +240,7 @@ sel_stripped_Mu = Selection(
 #
 # NOTE: Muons that do not pass stripping still get saved *but we don't want
 #       to use them*.
-if has_flag('BARE'):
+if has_flag('BARE') or has_flag('DV_STRIP'):
     sel_charged_K = pr_loose_K
     sel_charged_Pi = pr_loose_Pi
     sel_Mu = pr_all_loose_Mu
