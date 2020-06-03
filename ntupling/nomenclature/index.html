@@ -854,7 +854,7 @@
 </div>
 <h3 id="step-2-ntuples">Step 2 ntuples</h3>
 <p>Step 2 ntuple filenames should follow the following form:
-<div class="highlight"><pre><span></span><code>&lt;reco_sample&gt;--&lt;date&gt;--&lt;type&gt;--&lt;sample&gt;--&lt;year&gt;--&lt;polarity&gt;--&lt;additional_flags&gt;.root
+<div class="highlight"><pre><span></span><code>&lt;reco_sample&gt;--&lt;date&gt;--&lt;type&gt;--&lt;year&gt;--&lt;polarity&gt;--&lt;sample&gt;--&lt;additional_flags&gt;.root
 </code></pre></div></p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -868,9 +868,9 @@ line folder is considered <em>step 2</em>!</p>
 <li><code>reco_sample</code>: For instance <code>Dst</code>, <code>D0</code>, <code>DstPi</code>, etc. They may all be merged into a single tree</li>
 <li><code>date</code>: Generation date. Formatted: <code>YY_MM_DD</code></li>
 <li><code>type</code>: Descriptor, for instance <code>cutflow_mc</code></li>
-<li><code>sample</code>: Sample or samples in ntuple, eg <code>data</code>, <code>DstplusTauNu</code> or <code>All</code> if all samples merged</li>
 <li><code>year</code>: Year the data/MC is recorded/generated. Format: <code>YYYY</code></li>
 <li><code>polarity</code>: <code>md</code> (magnet down) or <code>mu</code> (magnet up)</li>
+<li><code>sample</code>: Required for MC ntuples only. Sample or samples in ntuple, eg <code>data</code>, <code>DstplusTauNu</code> or <code>All</code> if all samples merged</li>
 <li><code>additional_flags</code>: Optional. Ordered in the following way. Legal ones are:<ul>
 <li><code>DaVinci</code> version (e.g. <code>dv36</code>)</li>
 <li><code>Pythia</code> version (e.g. <code>py6</code>)</li>
@@ -885,7 +885,7 @@ line folder is considered <em>step 2</em>!</p>
 <div class="admonition example">
 <p class="admonition-title">Example</p>
 <p>An ntuple name looks like this:
-<div class="highlight"><pre><span></span><code>Dst--20_02_02--DstplusMuNu--mc--2012--md--dv36-py6-sim08a.root
+<div class="highlight"><pre><span></span><code>Dst--20_02_02--mc--2012--md--DstplusMuNu--dv36-py6-sim08a.root
 </code></pre></div></p>
 </div>
 <h2 id="folder-structure-for-storage">Folder structure for storage</h2>
