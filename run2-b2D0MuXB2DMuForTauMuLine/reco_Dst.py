@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Jun 04, 2020 at 02:57 AM +0800
+# Last Change: Thu Jun 04, 2020 at 03:06 AM +0800
 #
 # Description: Definitions of selection and reconstruction procedures for Dst in
 #              run 2. For more thorough comments, take a look at:
@@ -222,7 +222,8 @@ if not has_flag('BARE'):
         'K+': '(PIDK > 4.0) & (MIPCHI2DV(PRIMARY) > 9.0) &' +
               '(P > 2.0*GeV) & (PT > 300.0*MeV) &' +
               '(TRGHOSTPROB < 0.5)',
-        'pi-': '(MIPCHI2DV(PRIMARY) > 4.5) &' +
+        'pi-': '(P > 2.0*GeV) & (PT > 300.0*MeV) &' +
+               '(MIPCHI2DV(PRIMARY) > 9.0) &' +
                '(PIDK < 2.0) & (TRGHOSTPROB < 0.5)'
     }
 
