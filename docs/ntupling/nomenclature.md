@@ -32,7 +32,7 @@ Step 1 ntuple filenames, DaVinci logs, and ganga jobs should follow the followin
 
 Step 2 ntuple filenames should follow the following form:
 ```
-<reco_sample>--<date>--<type>--<year>--<polarity>--<sample>--<additional_flags>.root
+<reco_sample>--<date>--<type>--<sample>--<year>--<polarity>--<additional_flags>.root
 ```
 
 !!! note
@@ -45,9 +45,9 @@ Step 2 ntuple filenames should follow the following form:
     - `reco_sample`: For instance `Dst`, `D0`, `DstPi`, etc. They may all be merged into a single tree
     - `date`: Generation date. Formatted: `YY_MM_DD`
     - `type`: Descriptor, for instance `cutflow_mc`
+    - `sample`: Sample or samples in ntuple, eg `data`, `cocktail`, `DstplusTauNu` or `all` if all samples merged
     - `year`: Year the data/MC is recorded/generated. Format: `YYYY`
     - `polarity`: `md` (magnet down) or `mu` (magnet up)
-    - `sample`: Sample or samples in ntuple, eg `data`, `cocktail`, `DstplusTauNu` or `all` if all samples merged
     - `additional_flags`: Optional. Ordered in the following way. Legal ones are:
         - `DaVinci` version (e.g. `dv36`)
         - `Pythia` version (e.g. `py6`)
