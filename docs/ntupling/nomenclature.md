@@ -68,7 +68,7 @@ Step 2 ntuple filenames should follow the following form:
 Condition files should follow the following filename:
 
 ```
-cond-<type>-<year>-<polarity>-<additional_flags>
+cond-<type>-<year>-<polarity>-<additional_flags>.py
 ```
 
 All fields obey the same definitions as listed in previous sections.
@@ -79,21 +79,21 @@ All fields obey the same definitions as listed in previous sections.
 !!! note
     The `<polarity>` and `<additional_flags>` fields are optional for condition files.
 
-### DST files
+### Log files
 
-DST files should follow this naming convention:
+Log files should follow this naming convention:
 ```
-<sample>-<year>-<polarity>-<additional_flags>
+<reco_sample>-<date>-<type>-<additional_flags>.log
 ```
 
-All fields obey the same definitions as listed in previous sections. This time,
-the first three fields are mandatory.
+All fields obey the same definitions as listed in previous sections.
 
 !!! note
-    DST files are located in `data` folder of each stripping line folder.
+    Log files are located in `logs` folder of each stripping line folder.
 
 
 ## Folder structure for storage
+### Production ntuples
 
 Each ntuple production (defined by the same code) is to be placed in one folder
 named `<code_tag>-<Descriptor>`, with subfolders containing divisions in terms
@@ -112,3 +112,16 @@ like
 
 0.9.1-TriggerFix/Dst-mc
 ```
+
+### DST folders
+
+DST folders should follow this naming convention:
+```
+<sample>-<year>-<polarity>-<additional_flags>
+```
+
+All fields obey the same definitions as listed in previous sections. This time,
+the first three fields are mandatory.
+
+!!! note
+    DST folders are located in `data` folder of each stripping line folder.
