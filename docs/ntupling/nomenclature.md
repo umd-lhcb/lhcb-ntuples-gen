@@ -1,14 +1,15 @@
 These rules should be checked by a script automatically.
 
 ## General guidelines
+
 - These filenames are case-sensitive
 - No whitespace or `\` permitted. Replace them with `_`
 - Fields must be separated with `--`
 
 
 ## Filenames
-
 ### Step 1 ntuples
+
 Step 1 ntuple filenames, DaVinci logs, and ganga jobs should follow the following form:
 ```
 <reco_sample>--<date>--<type>--<Dirac_path>.root
@@ -61,6 +62,35 @@ Step 2 ntuple filenames should follow the following form:
     ```
     Dst--20_02_02--mc--DstplusMuNu--2012--md--dv36-py6-sim08a.root
     ```
+
+### Condition files
+
+Condition files should follow the following filename:
+
+```
+cond-<type>-<year>-<polarity>-<additional_flags>
+```
+
+All fields obey the same definitions as listed in previous sections.
+
+!!! note
+    Condition files are located in `conds` folder of each stripping line folder.
+
+!!! note
+    The `<polarity>` and `<additional_flags>` fields are optional for condition files.
+
+### DST files
+
+DST files should follow this naming convention:
+```
+<sample>-<year>-<polarity>
+```
+
+All fields obey the same definitions as listed in previous sections. This time,
+all three fields are mandatory.
+
+!!! note
+    DST files are located in `data` folder of each stripping line folder.
 
 
 ## Folder structure for storage
