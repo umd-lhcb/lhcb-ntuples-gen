@@ -83,11 +83,11 @@ All fields obey the same definitions as listed in previous sections.
 
 DST files should follow this naming convention:
 ```
-<sample>-<year>-<polarity>
+<sample>-<year>-<polarity>-<additional_flags>
 ```
 
 All fields obey the same definitions as listed in previous sections. This time,
-all three fields are mandatory.
+the first three fields are mandatory.
 
 !!! note
     DST files are located in `data` folder of each stripping line folder.
