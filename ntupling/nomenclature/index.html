@@ -314,8 +314,8 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#dst-files" class="md-nav__link">
-    DST files
+  <a href="#log-files" class="md-nav__link">
+    Log files
   </a>
   
 </li>
@@ -329,6 +329,26 @@
   <a href="#folder-structure-for-storage" class="md-nav__link">
     Folder structure for storage
   </a>
+  
+    <nav class="md-nav" aria-label="Folder structure for storage">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#production-ntuples" class="md-nav__link">
+    Production ntuples
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dst-folders" class="md-nav__link">
+    DST folders
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -812,8 +832,8 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#dst-files" class="md-nav__link">
-    DST files
+  <a href="#log-files" class="md-nav__link">
+    Log files
   </a>
   
 </li>
@@ -827,6 +847,26 @@
   <a href="#folder-structure-for-storage" class="md-nav__link">
     Folder structure for storage
   </a>
+  
+    <nav class="md-nav" aria-label="Folder structure for storage">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#production-ntuples" class="md-nav__link">
+    Production ntuples
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dst-folders" class="md-nav__link">
+    DST folders
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -868,10 +908,10 @@
 <p class="admonition-title">Note</p>
 <p>Below are the definitions of each field.</p>
 <ul>
-<li><code>reco_sample</code>: For instance <code>Dst</code>, <code>D0</code>, <code>DstPi</code>, <code>DstplusPi</code>, etc. They may all be merged into a single tree</li>
+<li><code>reco_sample</code>: For instance <code>Dst</code>, <code>D0</code>, <code>Dst_D0</code>, etc. They may all be merged into a single tree</li>
 <li><code>date</code>: Generation date. Formatted: <code>YY_MM_DD</code></li>
 <li><code>type</code>: Descriptor, for instance <code>cutflow_mc</code></li>
-<li><code>Dirac_path&gt;: The full Dirac path for the sample, replacing</code>` and whitespace with <code>_</code></li>
+<li><code>Dirac_path: The full Dirac path for the sample, replacing</code>` and whitespace with <code>_</code></li>
 </ul>
 </div>
 <div class="admonition example">
@@ -893,7 +933,7 @@ line folder is considered <em>step 2</em>!</p>
 <p class="admonition-title">Note</p>
 <p>Below are the definitions of each field.</p>
 <ul>
-<li><code>reco_sample</code>: For instance <code>Dst</code>, <code>D0</code>, <code>DstPi</code>, etc. They may all be merged into a single tree</li>
+<li><code>reco_sample</code>: For instance <code>Dst</code>, <code>D0</code>, <code>Dst_D0</code>, etc. They may all be merged into a single tree</li>
 <li><code>date</code>: Generation date. Formatted: <code>YY_MM_DD</code></li>
 <li><code>type</code>: Descriptor, for instance <code>cutflow_mc</code></li>
 <li><code>sample</code>: Sample or samples in ntuple, eg <code>data</code>, <code>cocktail</code>, <code>DstplusTauNu</code> or <code>all</code> if all samples merged</li>
@@ -918,7 +958,7 @@ line folder is considered <em>step 2</em>!</p>
 </div>
 <h3 id="condition-files">Condition files</h3>
 <p>Condition files should follow the following filename:</p>
-<div class="highlight"><pre><span></span><code>cond-&lt;type&gt;-&lt;year&gt;-&lt;polarity&gt;-&lt;additional_flags&gt;
+<div class="highlight"><pre><span></span><code>cond-&lt;type&gt;-&lt;year&gt;-&lt;polarity&gt;-&lt;additional_flags&gt;.py
 </code></pre></div>
 
 <p>All fields obey the same definitions as listed in previous sections.</p>
@@ -930,17 +970,17 @@ line folder is considered <em>step 2</em>!</p>
 <p class="admonition-title">Note</p>
 <p>The <code>&lt;polarity&gt;</code> and <code>&lt;additional_flags&gt;</code> fields are optional for condition files.</p>
 </div>
-<h3 id="dst-files">DST files</h3>
-<p>DST files should follow this naming convention:
-<div class="highlight"><pre><span></span><code>&lt;sample&gt;-&lt;year&gt;-&lt;polarity&gt;-&lt;additional_flags&gt;
+<h3 id="log-files">Log files</h3>
+<p>Log files should follow this naming convention:
+<div class="highlight"><pre><span></span><code>&lt;reco_sample&gt;-&lt;date&gt;-&lt;type&gt;-&lt;additional_flags&gt;.log
 </code></pre></div></p>
-<p>All fields obey the same definitions as listed in previous sections. This time,
-the first three fields are mandatory.</p>
+<p>All fields obey the same definitions as listed in previous sections.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>DST files are located in <code>data</code> folder of each stripping line folder.</p>
+<p>Log files are located in <code>logs</code> folder of each stripping line folder.</p>
 </div>
 <h2 id="folder-structure-for-storage">Folder structure for storage</h2>
+<h3 id="production-ntuples">Production ntuples</h3>
 <p>Each ntuple production (defined by the same code) is to be placed in one folder
 named <code>&lt;code_tag&gt;-&lt;Descriptor&gt;</code>, with subfolders containing divisions in terms
 of <code>reco_sample</code> and <code>mc/data</code>. For example, the folder structure could look
@@ -956,6 +996,17 @@ like</p>
 
 0.9.1-TriggerFix/Dst-mc
 </code></pre></div>
+
+<h3 id="dst-folders">DST folders</h3>
+<p>DST folders should follow this naming convention:
+<div class="highlight"><pre><span></span><code>&lt;sample&gt;-&lt;year&gt;-&lt;polarity&gt;-&lt;additional_flags&gt;
+</code></pre></div></p>
+<p>All fields obey the same definitions as listed in previous sections. This time,
+the first three fields are mandatory.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>DST folders are located in <code>data</code> folder of each stripping line folder.</p>
+</div>
                 
               
               
