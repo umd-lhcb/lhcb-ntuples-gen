@@ -18,10 +18,10 @@ Step 1 ntuple filenames, DaVinci logs, and ganga jobs should follow the followin
 !!! note
     Below are the definitions of each field.
 
-    - `reco_sample`: For instance `Dst`, `D0`, `DstPi`, `DstplusPi`, etc. They may all be merged into a single tree
+    - `reco_sample`: For instance `Dst`, `D0`, `Dst_D0`, etc. They may all be merged into a single tree
     - `date`: Generation date. Formatted: `YY_MM_DD`
     - `type`: Descriptor, for instance `cutflow_mc`
-    - `Dirac_path>: The full Dirac path for the sample, replacing `\` and whitespace with `_`
+    - `Dirac_path: The full Dirac path for the sample, replacing `\` and whitespace with `_`
 
 !!! example
     An ntuple name looks like this:
@@ -43,7 +43,7 @@ Step 2 ntuple filenames should follow the following form:
 !!! note
     Below are the definitions of each field.
 
-    - `reco_sample`: For instance `Dst`, `D0`, `DstPi`, etc. They may all be merged into a single tree
+    - `reco_sample`: For instance `Dst`, `D0`, `Dst_D0`, etc. They may all be merged into a single tree
     - `date`: Generation date. Formatted: `YY_MM_DD`
     - `type`: Descriptor, for instance `cutflow_mc`
     - `sample`: Sample or samples in ntuple, eg `data`, `cocktail`, `DstplusTauNu` or `all` if all samples merged
