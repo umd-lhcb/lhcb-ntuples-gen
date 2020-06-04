@@ -97,7 +97,7 @@ dst:
         #### Dst (MotherCut)
         - "(ABS(dst_MM - PDG_M_Dst) < 125.0*MeV)"
         - "&&"
-        - "(dst_MM - d0_MM < 160.0*MeV)"
+        - "(dst_M - d0_M < 160.0*MeV)"
         - "&&"
         - "(dst_ENDVERTEX_CHI2 / dst_ENDVERTEX_NDOF < 100.0)"
         - "&&"
