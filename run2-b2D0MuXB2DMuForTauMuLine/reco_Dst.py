@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Jun 04, 2020 at 03:06 AM +0800
+# Last Change: Thu Jun 04, 2020 at 06:00 PM +0800
 #
 # Description: Definitions of selection and reconstruction procedures for Dst in
 #              run 2. For more thorough comments, take a look at:
@@ -455,7 +455,7 @@ from PhysSelPython.Wrappers import SelectionSequence
 
 if has_flag('BARE') or has_flag('DV_STRIP'):
     seq_B0 = SelectionSequence('SeqMyB0',
-                               TopSelection=sel_refit_B02DstMu)
+                               TopSelection=sel_B0)
 else:
     seq_B0 = SelectionSequence('SeqMyB0',
                                TopSelection=sel_refit_B02DstMu)
