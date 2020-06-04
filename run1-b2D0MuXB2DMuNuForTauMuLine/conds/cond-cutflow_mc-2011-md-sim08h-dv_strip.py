@@ -18,6 +18,6 @@ LHCbApp().DDDBtag = "dddb-20130929"
 from GaudiConf import IOHelper
 
 IOHelper().inputFiles([
-    './data/mc-mag_down-py8-sim08h-Bd2D0XMuNu-D0_cocktail/00046785_00000003_2.AllStreams.dst',
-    './data/mc-mag_down-py8-sim08h-Bd2D0XMuNu-D0_cocktail/00046785_00000016_2.AllStreams.dst',
+    './data/Bd2D0XMuNu_D0_cocktail-2011-md-py8-sim08h/00046785_00000003_2.AllStreams.dst',
+    './data/Bd2D0XMuNu_D0_cocktail-2011-md-py8-sim08h/00046785_00000016_2.AllStreams.dst',
 ], clear=True)
