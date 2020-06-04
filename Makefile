@@ -1,6 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Jun 03, 2020 at 04:26 AM +0800
+# Last Change: Thu Jun 04, 2020 at 05:48 PM +0800
 
 BINPATH	:=	bin
 SRCPATH	:=	gen
@@ -153,19 +153,20 @@ $(SRCPATH)/run2-Dst-data-yipeng.cpp: \
 # Tests #
 #########
 
-.PHONY: test-cutflow-run1
+.PHONY: test-cutflow-run1 test-cutflow-run2
+
 
 test-cutflow-run1: \
-	gen/run1-Dst-step2/200522-Dst-cutflow_mc-2011-md-dv45-subset-step2.root \
-	gen/run1-Dst-step2/200522-Dst-cutflow_mc-2011-md-dv45-subset-no_stripping-step2.root
+	gen/test/200522-Dst-cutflow_mc-2011-md-dv45-subset-step2.root \
+	gen/test/200522-Dst-cutflow_mc-2011-md-dv45-subset-no_stripping-step2.root
 
 
-gen/run1-Dst-step2/200522-Dst-cutflow_mc-2011-md-dv45-subset-step2.root: \
+gen/test/200522-Dst-cutflow_mc-2011-md-dv45-subset-step2.root: \
 	run1-b2D0MuXB2DMuNuForTauMuLine/samples/200522-Dst-cutflow_mc-2011-md-dv45-subset.root \
 	$(BINPATH)/run1-Dst-stripping
 	$(word 2, $^) $< $@
 
-gen/run1-Dst-step2/200522-Dst-cutflow_mc-2011-md-dv45-subset-no_stripping-step2.root: \
+gen/test/200522-Dst-cutflow_mc-2011-md-dv45-subset-no_stripping-step2.root: \
 	run1-b2D0MuXB2DMuNuForTauMuLine/samples/200522-Dst-cutflow_mc-2011-md-dv45-subset-no_stripping.root \
 	$(BINPATH)/run1-Dst-stripping
 	$(word 2, $^) $< $@
@@ -173,6 +174,29 @@ gen/run1-Dst-step2/200522-Dst-cutflow_mc-2011-md-dv45-subset-no_stripping-step2.
 $(SRCPATH)/run1-Dst-stripping.cpp: \
 	run1-b2D0MuXB2DMuNuForTauMuLine/postprocess/Dst-stripping.yml \
 	run1-b2D0MuXB2DMuNuForTauMuLine/samples/200522-Dst-cutflow_mc-2011-md-dv45-subset-no_stripping.root \
+	include/functor/*.h \
+	include/*.h
+	babymaker -i $< -o $@ -d $(word 2, $^)
+
+
+test-cutflow-run2: \
+	gen/test/Dst--cutflow_mc--cocktail--2016--md--subset-dv_strip-step2.root \
+	gen/test/Dst--cutflow_mc--cocktail--2016--md--subset-bare-step2.root
+
+
+gen/test/Dst--cutflow_mc--cocktail--2016--md--subset-dv_strip-step2.root: \
+	run2-b2D0MuXB2DMuForTauMuLine/samples/Dst--20_06_04--cutflow_mc--cocktail--2016--md--dv45-subset-dv_strip.root \
+	$(BINPATH)/run2-Dst-stripping
+	$(word 2, $^) $< $@
+
+gen/test/Dst--cutflow_mc--cocktail--2016--md--subset-bare-step2.root: \
+	run2-b2D0MuXB2DMuForTauMuLine/samples/Dst--20_06_04--cutflow_mc--cocktail--2016--md--dv45-subset-bare.root \
+	$(BINPATH)/run2-Dst-stripping
+	$(word 2, $^) $< $@
+
+$(SRCPATH)/run2-Dst-stripping.cpp: \
+	run2-b2D0MuXB2DMuForTauMuLine/postprocess/Dst-stripping.yml \
+	run2-b2D0MuXB2DMuForTauMuLine/samples/Dst--20_06_04--cutflow_mc--cocktail--2016--md--dv45-subset-bare.root \
 	include/functor/*.h \
 	include/*.h
 	babymaker -i $< -o $@ -d $(word 2, $^)
