@@ -306,6 +306,20 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#condition-files" class="md-nav__link">
+    Condition files
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dst-files" class="md-nav__link">
+    DST files
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -790,6 +804,20 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#condition-files" class="md-nav__link">
+    Condition files
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dst-files" class="md-nav__link">
+    DST files
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -887,6 +915,30 @@ line folder is considered <em>step 2</em>!</p>
 <p>An ntuple name looks like this:
 <div class="highlight"><pre><span></span><code>Dst--20_02_02--mc--DstplusMuNu--2012--md--dv36-py6-sim08a.root
 </code></pre></div></p>
+</div>
+<h3 id="condition-files">Condition files</h3>
+<p>Condition files should follow the following filename:</p>
+<div class="highlight"><pre><span></span><code>cond-&lt;type&gt;-&lt;year&gt;-&lt;polarity&gt;-&lt;additional_flags&gt;
+</code></pre></div>
+
+<p>All fields obey the same definitions as listed in previous sections.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Condition files are located in <code>conds</code> folder of each stripping line folder.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The <code>&lt;polarity&gt;</code> and <code>&lt;additional_flags&gt;</code> fields are optional for condition files.</p>
+</div>
+<h3 id="dst-files">DST files</h3>
+<p>DST files should follow this naming convention:
+<div class="highlight"><pre><span></span><code>&lt;sample&gt;-&lt;year&gt;-&lt;polarity&gt;
+</code></pre></div></p>
+<p>All fields obey the same definitions as listed in previous sections. This time,
+all three fields are mandatory.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>DST files are located in <code>data</code> folder of each stripping line folder.</p>
 </div>
 <h2 id="folder-structure-for-storage">Folder structure for storage</h2>
 <p>Each ntuple production (defined by the same code) is to be placed in one folder
