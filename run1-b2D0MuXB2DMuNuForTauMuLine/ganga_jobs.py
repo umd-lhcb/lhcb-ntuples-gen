@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Apr 20, 2020 at 08:28 PM +0800
+# Last Change: Fri Jun 05, 2020 at 03:46 AM +0800
 #
 # Description: A demonstration on ganga option file with parser.
 #              This demo runs stand-alone, provided that Python is installed:
@@ -15,12 +15,15 @@ from argparse import ArgumentParser
 from itertools import product
 from os.path import expanduser
 
+
 ##########################
 # Parameters for data/MC #
 ##########################
 
 PLATFORM = 'x86_64-centos7-gcc8-opt'
 WEIGHT_FILE = './weights_soft.xml'
+
+make_upper = lambda x: x[0].upper() + x[1:]
 
 # Example for a fully constructed MC file path:
 # '/MC/2012/Beam4000GeV-2012-MagDown-Nu2.5-Pythia6/Sim08a/Digi13/Trig0x409f0045/Reco14a/Stripping20Filtered/11873010/DSTTAUNU.SAFESTRIPTRIG'
@@ -31,18 +34,6 @@ MC_SIMULATION = ['Pythia6', 'Pythia8']
 MC_BASE = {
     'Dst': './reco_Dst.py',
     'D0': './reco_D0.py',
-}
-
-MC_CONDITION = {
-    'Sim08a': './conds/cond-mc-{}-sim08a.py',
-    'Sim08e': './conds/cond-mc-{}-sim08e.py',
-    'Sim08h': './conds/cond-mc-{}-sim08h.py',
-    'Sim08i': './conds/cond-mc-{}-sim08h.py',
-}
-
-MC_POLARITIES = {
-    'Up': 'mag_up',
-    'Down': 'mag_down'
 }
 
 # Decay mode IDs.

@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri Jun 05, 2020 at 04:28 PM +0800
+# Last Change: Fri Jun 05, 2020 at 04:49 PM +0800
 #
 # Description: A demonstration on ganga option file with parser.
 #              This demo runs stand-alone, provided that Python is installed:
@@ -16,7 +16,6 @@ from itertools import product
 from datetime import datetime
 from pathlib import Path
 from collections import OrderedDict as odict
-from sys import exit
 
 
 ##########################
@@ -39,7 +38,7 @@ LFN_PATH['cutflow_data-2012'] = LFN_PATH['std-2012']
 MC_PYTHIA = ['Pythia6', 'Pythia8']
 
 # Decay mode IDs.
-MC_DECAY_MODE_IDS = {
+MC_DECAY_MODE = {
     # Dstst
     'Bd2DststMuNu2D0': '11873010',
     'Bd2DststTauNu2D0': '11873030',
@@ -59,15 +58,15 @@ MC_DECAY_MODE_IDS = {
     'Bu2D0DsX2TauNu': '12873020',
 }
 
+MC_POLARITY = {
+    'mu': 'Up',
+    'md': 'Down'
+}
+
 
 ###########
 # Helpers #
 ###########
-
-def gen_polarity_name(raw):
-    polarity_map = {'mu': 'Up', 'md': 'Down'}
-    return polarity_map[raw]
-
 
 def gen_date(time=datetime.now()):
     return time.strftime('%y_%m_%d')
@@ -100,11 +99,16 @@ def parse_cond_file_name(cond_file):
     return result, reco_type, additional_flags
 
 
-def gen_lfn_path(lfn, fields, additional_fields):
-    try:
-        fields['polarity'] = gen_polarity_name(fields['polarity'])
-    except Exception:
-        pass
+def gen_lfn_path(lfn, fields, additional_fields,
+                 replacement_rules={
+                     'polarity': MC_POLARITY,
+                     'decay': MC_DECAY_MODE
+                 }):
+    for key, rule in replacement_rules.items():
+        try:
+            fields[key] = rule[fields[key]]
+        except Exception:
+            pass
 
     try:
         lfn = lfn.format(**fields)
@@ -115,8 +119,7 @@ def gen_lfn_path(lfn, fields, additional_fields):
             key, value = additional_fields.popitem(last=False)
             fields[key] = value
             return gen_lfn_path(lfn, fields, additional_fields)
-        else:
-            exit(1)
+        raise KeyError
 
 
 #################################
@@ -155,9 +158,16 @@ specify polarity.''')
     parser.add_argument('-P', '--pythia',
                         nargs='+',
                         choices=MC_PYTHIA,
-                        default=['Pythia8'],
+                        default='Pythia8',
                         help='''
 specify Pythia version.''')
+
+    parser.add_argument('-d', '--decay',
+                        nargs='+',
+                        choices=list(MC_DECAY_MODE.keys()),
+                        default=list(MC_DECAY_MODE.keys())[0],
+                        help='''
+specify decay mode.''')
 
     return parser.parse_args()
 
@@ -174,10 +184,14 @@ print('Condition file: {}'.format(args.cond_file))
 fields, reco_type, additional_flags = parse_cond_file_name(args.cond_file)
 reco_sample = parse_reco_script_name(args.reco_script)
 
+print(fields)
+
 # Try to add missing fields required to reconstruct LFNs
 lfn, lfn_jobname = gen_lfn_path(
     LFN_PATH[reco_type+'-'+fields['year']], fields,
-    odict({'polarity': args.polarity, 'pythia': args.pythia})
+    odict({'polarity': args.polarity,
+           'pythia': args.pythia,
+           'decay': args.decay})
 )
 print('LFN: {}'.format(lfn))
 
