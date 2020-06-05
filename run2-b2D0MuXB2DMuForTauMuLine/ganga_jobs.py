@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri Jun 05, 2020 at 07:31 PM +0800
+# Last Change: Fri Jun 05, 2020 at 07:39 PM +0800
 #
 # Description: A demonstration on ganga option file with parser.
 #              This demo runs stand-alone, provided that Python is installed:
@@ -16,6 +16,7 @@ from itertools import product
 from datetime import datetime
 from pathlib import Path
 from collections import OrderedDict as odict
+from os.path import expanduser
 
 
 ##########################
