@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri Jun 05, 2020 at 07:26 PM +0800
+# Last Change: Fri Jun 05, 2020 at 07:29 PM +0800
 #
 # Description: A demonstration on ganga option file with parser.
 #              This demo runs stand-alone, provided that Python is installed:
@@ -124,6 +124,14 @@ def gen_lfn_path(lfn, fields, additional_fields,
             fields[key] = value
             return gen_lfn_path(lfn, fields, additional_fields)
         raise KeyError
+
+
+def conf_job_app(davinci_path, options):
+    app = GaudiExec()
+    app.directory = expanduser(davinci_path)
+    app.options = options
+    app.platform = PLATFORM
+    return app
 
 
 #################################
