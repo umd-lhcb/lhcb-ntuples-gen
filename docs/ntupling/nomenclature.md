@@ -12,7 +12,7 @@ These rules should be checked by a script automatically.
 
 Step 1 ntuple filenames, DaVinci logs, and ganga jobs should follow the following form:
 ```
-<reco_sample>--<date>--<type>--<dirac_path>.root
+<reco_sample>--<date>--<type>--<additional_flags>--<dirac_path>.root
 ```
 
 !!! note
@@ -21,12 +21,13 @@ Step 1 ntuple filenames, DaVinci logs, and ganga jobs should follow the followin
     - `reco_sample`: For instance `Dst`, `D0`, `Dst_D0`, etc. They may all be merged into a single tree
     - `date`: Generation date. Formatted: `YY_MM_DD`
     - `type`: Descriptor, for instance `cutflow_mc`
+    - `additional_flags`: Optional. Additional descriptions, such as `bare`.
     - `dirac_path`: The full Dirac path for the sample, replacing `\` and whitespace with `_`
 
 !!! example
     An ntuple name looks like this:
     ```
-    Dst--20_05_08--cutflow_mc--MC_2011_11874091_Beam3500GeV-2011-MagDown-Nu2-Pythia8_Sim08h_Digi13_Trig0x40760037_Reco14c_Stripping20r1NoPrescalingFlagged.root
+    Dst--20_05_08--cutflow_mc--bare--MC_2011_11874091_Beam3500GeV-2011-MagDown-Nu2-Pythia8_Sim08h_Digi13_Trig0x40760037_Reco14c_Stripping20r1NoPrescalingFlagged.root
     ```
 
 ### Step 2 ntuples
