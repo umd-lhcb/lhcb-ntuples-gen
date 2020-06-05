@@ -902,7 +902,7 @@
 <h2 id="filenames">Filenames</h2>
 <h3 id="step-1-ntuples">Step 1 ntuples</h3>
 <p>Step 1 ntuple filenames, DaVinci logs, and ganga jobs should follow the following form:
-<div class="highlight"><pre><span></span><code>&lt;reco_sample&gt;--&lt;date&gt;--&lt;type&gt;--&lt;Dirac_path&gt;.root
+<div class="highlight"><pre><span></span><code>&lt;reco_sample&gt;--&lt;date&gt;--&lt;type&gt;--&lt;additional_flags&gt;--&lt;dirac_path&gt;.root
 </code></pre></div></p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -911,13 +911,14 @@
 <li><code>reco_sample</code>: For instance <code>Dst</code>, <code>D0</code>, <code>Dst_D0</code>, etc. They may all be merged into a single tree</li>
 <li><code>date</code>: Generation date. Formatted: <code>YY_MM_DD</code></li>
 <li><code>type</code>: Descriptor, for instance <code>cutflow_mc</code></li>
-<li><code>Dirac_path: The full Dirac path for the sample, replacing</code>` and whitespace with <code>_</code></li>
+<li><code>additional_flags</code>: Optional. Additional descriptions, such as <code>bare</code>.</li>
+<li><code>dirac_path</code>: The full Dirac path for the sample, replacing <code>\</code> and whitespace with <code>_</code></li>
 </ul>
 </div>
 <div class="admonition example">
 <p class="admonition-title">Example</p>
 <p>An ntuple name looks like this:
-<div class="highlight"><pre><span></span><code>Dst--20_05_08--cutflow_mc--MC_2011_11874091_Beam3500GeV-2011-MagDown-Nu2-Pythia8_Sim08h_Digi13_Trig0x40760037_Reco14c_Stripping20r1NoPrescalingFlagged.root
+<div class="highlight"><pre><span></span><code>Dst--20_05_08--cutflow_mc--bare--MC_2011_11874091_Beam3500GeV-2011-MagDown-Nu2-Pythia8_Sim08h_Digi13_Trig0x40760037_Reco14c_Stripping20r1NoPrescalingFlagged.root
 </code></pre></div></p>
 </div>
 <h3 id="step-2-ntuples">Step 2 ntuples</h3>
