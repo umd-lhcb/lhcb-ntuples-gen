@@ -8,34 +8,8 @@ POLARITY = {'Up': 'mag_up', 'Down': 'mag_down'}
 SIMULATION = {'Pythia6': 'py6', 'Pythia8': 'py8'}
 
 
-def normalize_hadd_filename(job_name, prefix='BCands', author='yipeng'):
-    fields = job_name.split('-')
-
-    try:
-        base, mode, decay, polarity, simulation, condition = fields
-        filename = '{prefix}_{base}-{author}-{mode}-{polarity}-{simulation}-{condition}-{decay}.root'.format(
-            prefix=prefix,
-            base=base,
-            author=author,
-            mode=mode,
-            polarity=POLARITY[polarity],
-            simulation=SIMULATION[simulation],
-            condition=condition.lower(),
-            decay=decay
-        )
-
-    except ValueError:
-        base, mode, year, polarity = fields
-        filename = '{prefix}_{base}-{author}-{mode}-{year}-{polarity}.root'.format(
-            prefix=prefix,
-            base=base,
-            author=author,
-            mode=mode,
-            year=year,
-            polarity=POLARITY[polarity],
-        )
-
-    return filename
+def normalize_hadd_filename(job_name):
+    return job_name + '.root'
 
 
 def get_ntuple_filename(j):
@@ -109,7 +83,8 @@ def hadd_completed_job_output(
     for j in jobs:
         if j.id >= init_idx:
             if j.status == 'completed':
-                instructions.append((j.id, get_ntuple_filename(j), normalize_hadd_filename(j.name)))
+                instructions.append((j.id, get_ntuple_filename(j),
+                                     normalize_hadd_filename(j.name)))
             else:
                 print('Warning: skipping job {} with a name {} and status {}'.format(j.id, j.name, j.status))
 
