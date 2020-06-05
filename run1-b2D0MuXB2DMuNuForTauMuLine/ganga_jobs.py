@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri Jun 05, 2020 at 05:17 PM +0800
+# Last Change: Fri Jun 05, 2020 at 05:21 PM +0800
 #
 # Description: A demonstration on ganga option file with parser.
 #              This demo runs stand-alone, provided that Python is installed:
@@ -22,7 +22,7 @@ from collections import OrderedDict as odict
 # Parameters for data/MC #
 ##########################
 
-PLATFORM = 'x86_64-centos7-gcc62-opt'
+PLATFORM = 'x86_64-centos7-gcc8-opt'
 WEIGHT_FILE = './weights_soft.xml'
 FILES_PER_JOB_DATA = 5
 FILES_PER_JOB_MC = 2
