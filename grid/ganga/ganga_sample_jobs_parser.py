@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Nov 18, 2019 at 03:53 PM -0500
+# Last Change: Fri Jun 05, 2020 at 04:28 PM +0800
 #
 # Description: A demonstration on ganga option file with parser.
 #              This demo runs stand-alone, provided that Python is installed:
@@ -13,6 +13,11 @@
 
 from argparse import ArgumentParser
 from itertools import product
+from datetime import datetime
+from pathlib import Path
+from collections import OrderedDict as odict
+from sys import exit
+
 
 ##########################
 # Parameters for data/MC #
@@ -20,46 +25,32 @@ from itertools import product
 
 PLATFORM = 'x86_64-centos7-gcc62-opt'
 WEIGHT_FILE = './weights_soft.xml'
+FILES_PER_JOB_DATA = 5
+FILES_PER_JOB_MC = 2
 
 # Example for a fully constructed MC file path:
 # '/MC/2012/Beam4000GeV-2012-MagDown-Nu2.5-Pythia6/Sim08a/Digi13/Trig0x409f0045/Reco14a/Stripping20Filtered/11873010/DSTTAUNU.SAFESTRIPTRIG'
-MC_FILE = '/MC/2012/Beam4000GeV-2012-Mag{polarity}-Nu2.5-{simulation}/{condition}/Digi13/Trig0x409f0045/Reco14a/Stripping20Filtered/{decay}/DSTTAUNU.SAFESTRIPTRIG.DST'
-
-MC_SIMULATION = ['Pythia6', 'Pythia8']
-
-MC_BASE = {
-    'Dst': './reco_Dst.py',
-    'D0': './reco_D0.py'
+LFN_PATH = {
+    'std-2012': '/LHCb/Collision12/Beam4000GeV-VeloClosed-Mag{polarity}/Real Data/Reco14/Stripping21/90000000/SEMILEPTONIC.DST',
+    'mc-2012': '/MC/2012/Beam4000GeV-2012-Mag{polarity}-Nu2.5-{pythia}/{simcond}/Digi13/Trig0x409f0045/Reco14a/Stripping20Filtered/{decay}/DSTTAUNU.SAFESTRIPTRIG.DST'
 }
+LFN_PATH['cutflow_data-2012'] = LFN_PATH['std-2012']
 
-MC_CONDITION = {
-    'Sim08a': './conds/cond-mc-{}-sim08a.py',
-    'Sim08e': './conds/cond-mc-{}-sim08e.py',
-    'Sim08h': './conds/cond-mc-{}-sim08h.py',
-    'Sim08i': './conds/cond-mc-{}-sim08h.py',
-}
-
-MC_POLARITIES = {
-    'Up': 'mag_up',
-    'Down': 'mag_down'
-}
+MC_PYTHIA = ['Pythia6', 'Pythia8']
 
 # Decay mode IDs.
-MC_DSTST_IDS = {
+MC_DECAY_MODE_IDS = {
+    # Dstst
     'Bd2DststMuNu2D0': '11873010',
     'Bd2DststTauNu2D0': '11873030',
     'Bs2DststMuNu2D0': '13873000',
     'Bu2DststMuNu2D0': '12873010',
-}
-
-MC_DST_IDS = {
+    # Dst
     'Bd2DstTauNu': '11574010',
     'Bd2DstMuNu': '11574020',
     'Bu2Dst0TauNu': '12573020',
     'Bu2Dst0MuNu': '12573030',
-}
-
-MC_D0_IDS = {
+    # D0
     'Bu2D0TauNu': '12573000',
     'Bu2D0MuNu': '12573010',
     'Bd2D0DX2MuX': '11873000',
@@ -68,55 +59,64 @@ MC_D0_IDS = {
     'Bu2D0DsX2TauNu': '12873020',
 }
 
-PARAMETERS = {
-    'data-2012-Dst': {
-        'dirac_path': '/LHCb/Collision12/Beam4000GeV-VeloClosed-Mag{}/Real Data/Reco14/Stripping21/90000000/SEMILEPTONIC.DST',
-        'options': './conds/cond-data-2012-Dst.py',
-        'files_per_job': 5
-    },
-}
-
 
 ###########
 # Helpers #
 ###########
 
-# Combine all MC modes into a single dictionary.
-MC_MODE_IDS = MC_DSTST_IDS
-MC_MODE_IDS.update(MC_DST_IDS)
-MC_MODE_IDS.update(MC_D0_IDS)
-
-# Add reconstruction parameters for D*
-for id in MC_MODE_IDS.keys():
-    key = 'mc-{}'.format(id)
-    PARAMETERS[key] = {
-        'files_per_job': 1,
-        'dirac_path': MC_FILE
-    }
+def gen_polarity_name(raw):
+    polarity_map = {'mu': 'Up', 'md': 'Down'}
+    return polarity_map[raw]
 
 
-def gen_job_name(base, mode, polarity, simulaiton, condition):
-    if 'data' in mode:
-        # Drop the duplicate 'base' indicator
-        mode = mode.replace('-'+base, '')
-        return '-'.join([base, mode, polarity])
-    else:
-        return '-'.join([base, mode, polarity, simulaiton, condition])
+def gen_date(time=datetime.now()):
+    return time.strftime('%y_%m_%d')
 
 
-def gen_decay(mode, reference=MC_MODE_IDS):
+def parse_reco_script_name(reco_script):
+    return '_'.join(Path(reco_script).stem.split('_')[1:])
+
+
+def parse_cond_file_name(cond_file):
+    result = odict({
+        'type': None, 'year': None, 'polarity': None, 'simcond': None,
+        'additional_flags': None
+    })
+    fields = Path(cond_file).stem.split('-')[1:]  # Drop the 'cond' prefix.
+
+    for idx, key in enumerate(result.keys()):
+        try:
+            result[key] = fields[idx]
+        except IndexError:
+            pass
+
+    # 'type' and 'additional_flags' will be part of the job name, but will not
+    # be used in the formatting of the DIRAC LFN path.
+    reco_type, additional_flags = result['type'], result['additional_flags']
+    result = odict({k: v for k, v in result.items()
+                    if v is not None and
+                    k != 'type' and k != 'additional_flags'})
+
+    return result, reco_type, additional_flags
+
+
+def gen_lfn_path(lfn, fields, additional_fields):
     try:
-        return MC_MODE_IDS[mode.replace('mc-', '')]
+        fields['polarity'] = gen_polarity_name(fields['polarity'])
+    except Exception:
+        pass
+
+    try:
+        lfn = lfn.format(**fields)
+        lfn_jobname = lfn.replace(' ', '_').replace('/', '_')[1:]  # Remove the prefix '_'
+        return lfn, lfn_jobname
     except KeyError:
-        return ''
-
-
-def gen_dirac_path(raw, polarity, simulation, condition, decay):
-    if 'Real Data' in raw:
-        return raw.format(polarity)
-    else:
-        return raw.format(polarity=polarity, simulation=simulation,
-                          condition=condition, decay=decay)
+        if bool(additional_fields):
+            key, value = additional_fields.popitem(last=False)
+            fields[key] = value
+            return gen_lfn_path(lfn, fields, additional_fields)
+        else:
+            exit(1)
 
 
 #################################
@@ -127,11 +127,13 @@ def parse_input():
     parser = ArgumentParser(description='''
 ganga script to process R(D*) run 1 data/MC.''')
 
-    parser.add_argument('mode',
-                        nargs='+',
-                        choices=['all']+list(PARAMETERS.keys()),
+    parser.add_argument('reco_script',
                         help='''
-specify data type.''')
+specify DaVinci base reconstruction script.''')
+
+    parser.add_argument('cond_file',
+                        help='''
+specify DaVinci reconstruction condition file.  ''')
 
     parser.add_argument('--force',
                         action='store_true',
@@ -139,37 +141,23 @@ specify data type.''')
 if this flag is supplied, don't skip existing jobs with the same name.''')
 
     parser.add_argument('--davinci',
-                        default='~/build/DaVinciDev_v42r8p1',
+                        default='~/build/DaVinciDev_v45r3',
                         help='''
 specify path to local DaVinci build.''')
 
-    parser.add_argument('-b', '--base',
-                        nargs='+',
-                        choices=['all']+list(MC_BASE.keys()),
-                        default=['Dst'],
-                        help='''
-specify base decay mode (e.g. D* or D0).''')
-
-    parser.add_argument('-s', '--simulation',
-                        nargs='+',
-                        choices=['all']+MC_SIMULATION,
-                        default=['Pythia6'],
-                        help='''
-specify simulation (typically Pythia) software package version.''')
-
-    parser.add_argument('-c', '--condition',
-                        nargs='+',
-                        choices=['all']+list(MC_CONDITION.keys()),
-                        default=['Sim08a'],
-                        help='''
-specify simulation condition.''')
-
     parser.add_argument('-p', '--polarity',
                         nargs='+',
-                        choices=['all']+list(MC_POLARITIES.keys()),
-                        default=['Down'],
+                        choices=['mu', 'md'],
+                        default='md',
                         help='''
 specify polarity.''')
+
+    parser.add_argument('-P', '--pythia',
+                        nargs='+',
+                        choices=MC_PYTHIA,
+                        default=['Pythia8'],
+                        help='''
+specify Pythia version.''')
 
     return parser.parse_args()
 
@@ -180,36 +168,18 @@ specify polarity.''')
 
 args = parse_input()
 
-if args.base == ['all']:
-    args.base = list(MC_BASE.keys())
-if args.mode == ['all']:
-    args.mode = list(PARAMETERS.keys())
-if args.polarity == ['all']:
-    args.polarity = list(MC_POLARITIES.keys())
-if args.simulation == ['all']:
-    args.simulation = MC_SIMULATION
-if args.condition == ['all']:
-    args.condition = list(MC_CONDITION.keys())
+print('Reconstruction script: {}'.format(args.reco_script))
+print('Condition file: {}'.format(args.cond_file))
 
-for base, mode, polarity, simulaiton, condition in \
-        product(
-            args.base, args.mode, args.polarity, args.simulation,
-            args.condition):
-    job_name = gen_job_name(base, mode, polarity, simulaiton, condition)
-    print('Job name: {}'.format(job_name))
+fields, reco_type, additional_flags = parse_cond_file_name(args.cond_file)
+reco_sample = parse_reco_script_name(args.reco_script)
 
-    base_option_file = MC_BASE[base]
-    print(base_option_file)
+# Try to add missing fields required to reconstruct LFNs
+lfn, lfn_jobname = gen_lfn_path(
+    LFN_PATH[reco_type+'-'+fields['year']], fields,
+    odict({'polarity': args.polarity, 'pythia': args.pythia})
+)
+print('LFN: {}'.format(lfn))
 
-    try:
-        options_file = PARAMETERS[mode]['options']
-    except KeyError:
-        options_file = MC_CONDITION[condition].format(MC_POLARITIES[polarity])
-    print(options_file)
-
-    decay = gen_decay(mode)
-    dirac_path = gen_dirac_path(PARAMETERS[mode]['dirac_path'],
-                                polarity, simulaiton, condition, decay)
-    print(dirac_path)
-
-    print('----')
+job_name = '--'.join([reco_sample, gen_date(), reco_type, lfn_jobname])
+print('Job name: {}'.format(job_name))
