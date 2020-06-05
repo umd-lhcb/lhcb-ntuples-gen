@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri Jun 05, 2020 at 04:49 PM +0800
+# Last Change: Fri Jun 05, 2020 at 05:37 PM +0800
 #
 # Description: A demonstration on ganga option file with parser.
 #              This demo runs stand-alone, provided that Python is installed:
@@ -31,7 +31,8 @@ FILES_PER_JOB_MC = 2
 # '/MC/2012/Beam4000GeV-2012-MagDown-Nu2.5-Pythia6/Sim08a/Digi13/Trig0x409f0045/Reco14a/Stripping20Filtered/11873010/DSTTAUNU.SAFESTRIPTRIG'
 LFN_PATH = {
     'std-2012': '/LHCb/Collision12/Beam4000GeV-VeloClosed-Mag{polarity}/Real Data/Reco14/Stripping21/90000000/SEMILEPTONIC.DST',
-    'mc-2012': '/MC/2012/Beam4000GeV-2012-Mag{polarity}-Nu2.5-{pythia}/{simcond}/Digi13/Trig0x409f0045/Reco14a/Stripping20Filtered/{decay}/DSTTAUNU.SAFESTRIPTRIG.DST'
+    'mc-2012': '/MC/2012/Beam4000GeV-2012-Mag{polarity}-Nu2.5-{pythia}/{simcond}/Digi13/Trig0x409f0045/Reco14a/Stripping20Filtered/{decay}/DSTTAUNU.SAFESTRIPTRIG.DST',
+    'cutflow_mc-2011': '/MC/2011/Beam3500GeV-2011-Mag{polarity}-Nu2-Pythia8/{simcond}/Digi13/Trig0x40760037/Reco14c/Stripping20r1NoPrescalingFlagged/11874091/ALLSTREAMS.DST',
 }
 LFN_PATH['cutflow_data-2012'] = LFN_PATH['std-2012']
 
@@ -195,5 +196,8 @@ lfn, lfn_jobname = gen_lfn_path(
 )
 print('LFN: {}'.format(lfn))
 
-job_name = '--'.join([reco_sample, gen_date(), reco_type, lfn_jobname])
+job_name_fields = [reco_sample, gen_date(), reco_type, lfn_jobname]
+if additional_flags:
+    job_name_fields.insert(3, additional_flags)
+job_name = '--'.join(job_name_fields)
 print('Job name: {}'.format(job_name))

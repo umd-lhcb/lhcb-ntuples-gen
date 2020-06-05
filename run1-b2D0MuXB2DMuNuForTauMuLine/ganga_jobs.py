@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri Jun 05, 2020 at 05:21 PM +0800
+# Last Change: Fri Jun 05, 2020 at 05:38 PM +0800
 #
 # Description: A demonstration on ganga option file with parser.
 #              This demo runs stand-alone, provided that Python is installed:
@@ -190,7 +190,10 @@ lfn, lfn_jobname = gen_lfn_path(
            'decay': args.decay})
 )
 
-job_name = '--'.join([reco_sample, gen_date(), reco_type, lfn_jobname])
+job_name_fields = [reco_sample, gen_date(), reco_type, lfn_jobname]
+if additional_flags:
+    job_name_fields.insert(3, additional_flags)
+job_name = '--'.join(job_name_fields)
 submitted_jobs = [j.name for j in jobs]
 
 # Only create job if no existing job has the same name or force create
