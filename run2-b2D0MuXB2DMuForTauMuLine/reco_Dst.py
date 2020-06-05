@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Jun 04, 2020 at 06:00 PM +0800
+# Last Change: Fri Jun 05, 2020 at 06:13 PM +0800
 #
 # Description: Definitions of selection and reconstruction procedures for Dst in
 #              run 2. For more thorough comments, take a look at:
@@ -534,7 +534,7 @@ def tuple_initialize_mc(*args):
     tt_truth = tp.addTupleTool('TupleToolMCTruth')
     tt_truth.ToolList = [
         'MCTupleToolKinematic',
-        'MCTupleToolHierarchy'
+        'MCTupleToolHierarchyExt'
     ]
 
     return tp
