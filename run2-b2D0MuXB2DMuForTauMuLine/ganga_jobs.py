@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri Jun 05, 2020 at 07:29 PM +0800
+# Last Change: Fri Jun 05, 2020 at 07:31 PM +0800
 #
 # Description: A demonstration on ganga option file with parser.
 #              This demo runs stand-alone, provided that Python is installed:
@@ -235,4 +235,4 @@ if args.force or job_name not in submitted_jobs:
     j.submit()
 
 else:
-    print('Job with name {} already exist, skipping...'.format(name))
+    print('Job with name {} already exist, skipping...'.format(job_name))
