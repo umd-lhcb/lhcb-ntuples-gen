@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri Jun 05, 2020 at 05:38 PM +0800
+# Last Change: Fri Jun 05, 2020 at 07:26 PM +0800
 #
 # Description: A demonstration on ganga option file with parser.
 #              This demo runs stand-alone, provided that Python is installed:
@@ -103,11 +103,14 @@ def parse_cond_file_name(cond_file):
 def gen_lfn_path(lfn, fields, additional_fields,
                  replacement_rules={
                      'polarity': MC_POLARITY,
-                     'decay': MC_DECAY_MODE
+                     'decay': MC_DECAY_MODE,
+                     'simcond': lambda x: x[0].upper()+x[1:]
                  }):
     for key, rule in replacement_rules.items():
         try:
             fields[key] = rule[fields[key]]
+        except TypeError:
+            fields[key] = rule(fields[key])
         except Exception:
             pass
 
