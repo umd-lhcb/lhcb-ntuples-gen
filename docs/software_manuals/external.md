@@ -19,3 +19,18 @@
 
 
 [^1]: "us" refers to Yipeng Sun.
+
+
+## Find particle masses used by the `LoKi` functors
+
+The full mass table for a particular `DaVinci` version can be looked up
+with[^2]:
+
+```
+lb-run DaVinci/<dv_version> dump_particle_properties | tee ParticleTable.txt
+```
+
+Alternatively, the latest mass table is available at [cern-gitlab](https://gitlab.cern.ch/lhcb-conddb/DDDB/-/blob/master/param/ParticleTable.txt)
+
+
+[^2]: Suggessted by Phoebe Hamilton.
