@@ -1,6 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Jun 09, 2020 at 01:23 AM +0800
+# Last Change: Tue Jun 09, 2020 at 08:57 PM +0800
 
 BINPATH	:=	bin
 SRCPATH	:=	gen
@@ -18,7 +18,7 @@ CXXFLAGS	:=	$(shell root-config --cflags)
 LINKFLAGS	:=	$(shell root-config --libs)
 ADDFLAGS	:=	-Iinclude
 
-.PHONY: all clean \
+.PHONY: all clean history \
 	docker-dv \
 	cutflow-RDst cutflow-RDst-web \
 	cutflow-RDst-data cutflow-RDst-data-web \
@@ -35,6 +35,9 @@ clean:
 	@rm -rf $(BINPATH)/*
 	@find ./gen -name '*-step2.root' -delete
 	@find ./gen -name '*.cpp' -delete
+
+history:
+	@git tag -l -n99
 
 
 #####################
