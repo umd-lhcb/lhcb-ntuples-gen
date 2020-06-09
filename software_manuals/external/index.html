@@ -476,6 +476,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#find-particle-masses-used-by-the-loki-functors" class="md-nav__link">
+    Find particle masses used by the LoKi functors
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -734,6 +741,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#find-particle-masses-used-by-the-loki-functors" class="md-nav__link">
+    Find particle masses used by the LoKi functors
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -778,11 +792,21 @@ time.</p>
 </div>
 </li>
 </ul>
+<h2 id="find-particle-masses-used-by-the-loki-functors">Find particle masses used by the <code>LoKi</code> functors</h2>
+<p>The full mass table for a particular <code>DaVinci</code> version can be looked up
+with<sup id="fnref:2"><a class="footnote-ref" href="#fn:2">2</a></sup>:</p>
+<div class="highlight"><pre><span></span><code>lb-run DaVinci/&lt;dv_version&gt; dump_particle_properties | tee ParticleTable.txt
+</code></pre></div>
+
+<p>Alternatively, the latest mass table is available at <a href="https://gitlab.cern.ch/lhcb-conddb/DDDB/-/blob/master/param/ParticleTable.txt">cern-gitlab</a></p>
 <div class="footnote">
 <hr />
 <ol>
 <li id="fn:1">
 <p>"us" refers to Yipeng Sun.&#160;<a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+<li id="fn:2">
+<p>Suggessted by Phoebe Hamilton.&#160;<a class="footnote-backref" href="#fnref:2" title="Jump back to footnote 2 in the text">&#8617;</a></p>
 </li>
 </ol>
 </div>
