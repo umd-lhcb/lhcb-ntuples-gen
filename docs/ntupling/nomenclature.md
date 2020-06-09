@@ -102,16 +102,16 @@ of `reco_sample` and `mc/data`. For example, the folder structure could look
 like
 
 ```
-0.8.6-cutflow/Dst-cutflow_mc
-0.8.6-cutflow/Dst-cutflow_data
+0.9.0-cutflow/Dst-cutflow_mc
+0.9.0-cutflow/Dst-cutflow_data
 
-0.9.0-FirstFull/Dst-mc
-0.9.0-FirstFull/Dst-data
-0.9.0-FirstFull/D0-mc
-0.9.0-FirstFull/D0-data
-0.9.0-FirstFull/Dst-cutflow_mc
+0.9.1-FirstFull/Dst-mc
+0.9.1-FirstFull/Dst-data
+0.9.1-FirstFull/D0-mc
+0.9.1-FirstFull/D0-data
+0.9.1-FirstFull/Dst-cutflow_mc
 
-0.9.1-TriggerFix/Dst-mc
+0.9.2-TriggerFix/Dst-mc
 ```
 
 ### DST folders
