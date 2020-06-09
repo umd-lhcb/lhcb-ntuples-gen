@@ -33,4 +33,4 @@ lb-run DaVinci/<dv_version> dump_particle_properties | tee ParticleTable.txt
 Alternatively, the latest mass table is available at [cern-gitlab](https://gitlab.cern.ch/lhcb-conddb/DDDB/-/blob/master/param/ParticleTable.txt)
 
 
-[^2]: Suggessted by Phoebe Hamilton.
+[^2]: Suggested by Phoebe Hamilton.
