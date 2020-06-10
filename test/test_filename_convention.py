@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Jun 11, 2020 at 03:31 AM +0800
+# Last Change: Thu Jun 11, 2020 at 03:42 AM +0800
 
 from datetime import datetime
 from re import match
@@ -70,13 +70,15 @@ ALLOWED_IN_FIELD = {
     'type': lambda x: x in [
         'std',
         'mc',
-        'cutflow_data'
+        'cutflow_data',
         'cutflow_mc',
     ],
     'sample': lambda x: x in [
         'data',
         'cocktail',
         'all',
+        # MC modes
+        'Bd2DstTauNu',
     ],
     'year': lambda x: x in ['20'+str(i) for i in range(11, 70)],
     'polarity': lambda x: x in ['mu', 'md'],
@@ -86,10 +88,14 @@ ALLOWED_IN_FIELD = {
 
 
 def check_all_field(fields, allowed_in_field=ALLOWED_IN_FIELD):
-    if False in [allowed_in_field[f](v) for f, v in fields.items()]:
-        return False
-    else:
-        return True
+    tot_err = 0
+
+    for f, v in fields.items():
+        if not allowed_in_field[f](v):
+            tot_err += 1
+            print('Field "{}" with value "{}" illegal.'.format(f, v))
+
+    return not tot_err
 
 
 ######################################
@@ -123,7 +129,8 @@ def validate_ntuple_file_name(f):
     result = check_all_field(fields_to_check)
     if not result:
         print('ntuple filename: {} is invalid.'.format(f))
-    return result
+
+    return not result
 
 
 NAMING_CONVENTIONS = {
