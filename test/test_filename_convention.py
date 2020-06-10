@@ -2,11 +2,12 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Jun 10, 2020 at 11:35 PM +0800
+# Last Change: Thu Jun 11, 2020 at 12:48 AM +0800
 
 from glob import glob
 from pathlib import Path
 from os.path import basename
+from sys import exit
 
 
 #################
@@ -14,19 +15,22 @@ from os.path import basename
 #################
 
 NAMES_TO_CHECK = {
-    'root_file': ('**/*.root', lambda x: Path(x).stem),
-    'dst_folder': ('**/*.dst', lambda x: basename(Path(x).parents[0]))
+    'ntuple_file': ('**/*.root', lambda x: Path(x).stem),
+    'ntuple_folder': ('**/*.root', lambda x: basename(Path(x).parents[0])),
+    'dst_folder': ('**/*.dst', lambda x: basename(Path(x).parents[0])),
+    'log_file': ('**/*.log', lambda x: Path(x).stem),
+    'cond_file': ('**/cond-*.py', lambda x: Path(x).stem),
 }
 
 
-###########
-# Helpers #
-###########
+#################
+# Filename glob #
+#################
 
 def glob_pattern(pattern, regulator):
     result = []
 
-    for f in glob(pattern):
+    for f in glob(pattern, recursive=True):
         name = regulator(f)
         if name not in result:
             result.append(name)
@@ -34,10 +38,17 @@ def glob_pattern(pattern, regulator):
     return result
 
 
-def glob_all(rules):
+def glob_all(rules=NAMES_TO_CHECK):
     result = {}
 
-    for key, rule in rules.items():
-        result[key] = glob_pattern(*rule)
+    for name, rule in rules.items():
+        result[name] = glob_pattern(*rule)
 
     return result
+
+
+if __name__ == '__main__':
+
+    a = glob_all()
+    print(a)
+    exit(0)
