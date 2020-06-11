@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Jun 11, 2020 at 04:41 PM +0800
+# Last Change: Thu Jun 11, 2020 at 04:45 PM +0800
 
 from datetime import datetime
 from re import match, sub
@@ -70,6 +70,7 @@ SAMPLES = [
     'data', 'cocktail', 'all',
     # MC modes
     'Bd2DstTauNu',
+    'Bd2D0XMuNu_D0_cocktail',
 ]
 
 ALLOWED_IN_FIELD = {
@@ -204,11 +205,29 @@ def validate_ntuple_folder_name(f):
     return err
 
 
+@ValidateWrapper('cond filename')
+def validate_dst_folder_name(f):
+    fields = f.split('-')
+
+    # NOTE: Because cond files uses '-' for both inter- and intra-separators,
+    # this workaround is needed.
+    if len(fields) > 3:
+        fields = fields[0:3] + ['-'.join(fields[3:])]
+
+    return field_dict_gen([
+        'sample',
+        'year',
+        'polarity',
+        'additional_flags'
+    ], fields)
+
+
 NAMING_CONVENTIONS = {
     'ntuple_file': lambda x: [validate_ntuple_file_name(i) for i in x],
     'log_file': lambda x: [validate_log_file_name(i) for i in x],
     'cond_file': lambda x: [validate_cond_file_name(i) for i in x],
-    'ntuple_folder': lambda x: [validate_ntuple_folder_name(i) for i in x]
+    'ntuple_folder': lambda x: [validate_ntuple_folder_name(i) for i in x],
+    'dst_folder': lambda x: [validate_dst_folder_name(i) for i in x],
 }
 
 
