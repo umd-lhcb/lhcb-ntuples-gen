@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Jun 11, 2020 at 03:42 AM +0800
+# Last Change: Thu Jun 11, 2020 at 01:09 PM +0800
 
 from datetime import datetime
 from re import match
@@ -102,6 +102,10 @@ def check_all_field(fields, allowed_in_field=ALLOWED_IN_FIELD):
 # Validation rules for each filetype #
 ######################################
 
+def field_dict_gen(possible_fields, actual_fields):
+    return {possible_fields[i]: v for i, v in enumerate(actual_fields)}
+
+
 def validate_ntuple_file_name(f):
     fields = f.split('--')
 
@@ -113,18 +117,15 @@ def validate_ntuple_file_name(f):
             fields_to_check['additional_flags'] = fields[3]
 
     else:  # step 2 naming scheme
-        fields_to_check = {
-            k: fields[i] for i, k in enumerate([
-                'reco_sample',
-                'date',
-                'type',
-                'sample',
-                'year',
-                'polarity'
-            ])
-        }
-        if len(fields) > 6:
-            fields_to_check['additional_flags'] = fields[-1]
+        fields_to_check = field_dict_gen([
+            'reco_sample',
+            'date',
+            'type',
+            'sample',
+            'year',
+            'polarity',
+            'additional_flags'
+        ], fields)
 
     result = check_all_field(fields_to_check)
     if not result:
@@ -133,8 +134,25 @@ def validate_ntuple_file_name(f):
     return not result
 
 
+def validate_log_file_name(f):
+    fields = f.split('-')
+    fields_to_check = field_dict_gen([
+        'reco_sample',
+        'date',
+        'type',
+        'additional_flags'
+    ], fields)
+
+    result = check_all_field(fields_to_check)
+    if not result:
+        print('log filename: {} is invalid.'.format(f))
+
+    return not result
+
+
 NAMING_CONVENTIONS = {
     'ntuple_file': lambda x: [validate_ntuple_file_name(i) for i in x],
+    'log_file': lambda x: [validate_log_file_name(i) for i in x],
 }
 
 
