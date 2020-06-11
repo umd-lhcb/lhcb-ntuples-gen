@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Jun 11, 2020 at 04:49 PM +0800
+# Last Change: Thu Jun 11, 2020 at 10:28 PM +0800
 
 from datetime import datetime
 from re import match, sub
@@ -174,6 +174,7 @@ def validate_cond_file_name(f):
 def validate_ntuple_folder_name(f):
     valid_first_lvl = [
         'ntuples',
+        'gen',
         'run1-b2D0MuXB2DMuNuForTauMuLine',
         'run2-b2D0MuXB2DMuForTauMuLine',
     ]
@@ -181,6 +182,7 @@ def validate_ntuple_folder_name(f):
         r'^samples$',
         r'^pre-0.9.0$',
         r'\d\.\d\.\d-\w+$',
+        r'^run\d-\w+-step\d$',
     ]
     valid_mode = [p+'-'+m for p in RECO_SAMPLES for m in TYPES]
 
