@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Jun 11, 2020 at 01:09 PM +0800
+# Last Change: Thu Jun 11, 2020 at 01:20 PM +0800
 
 from datetime import datetime
 from re import match
@@ -72,6 +72,7 @@ ALLOWED_IN_FIELD = {
         'mc',
         'cutflow_data',
         'cutflow_mc',
+        'validation'
     ],
     'sample': lambda x: x in [
         'data',
@@ -106,6 +107,22 @@ def field_dict_gen(possible_fields, actual_fields):
     return {possible_fields[i]: v for i, v in enumerate(actual_fields)}
 
 
+class ValidateWrapper():
+    def __init__(self, filetype):
+        self.filetype = filetype
+
+    def __call__(self, f):
+        def wrapped(input_filename):
+            result = check_all_field(f(input_filename))
+            if not result:
+                print('{}: {} is invalid.'.format(
+                    self.filetype, input_filename))
+
+            return not result
+        return wrapped
+
+
+@ValidateWrapper('ntuple filename')
 def validate_ntuple_file_name(f):
     fields = f.split('--')
 
@@ -127,27 +144,17 @@ def validate_ntuple_file_name(f):
             'additional_flags'
         ], fields)
 
-    result = check_all_field(fields_to_check)
-    if not result:
-        print('ntuple filename: {} is invalid.'.format(f))
-
-    return not result
+    return fields_to_check
 
 
+@ValidateWrapper('log filename')
 def validate_log_file_name(f):
-    fields = f.split('-')
-    fields_to_check = field_dict_gen([
+    return field_dict_gen([
         'reco_sample',
         'date',
         'type',
         'additional_flags'
-    ], fields)
-
-    result = check_all_field(fields_to_check)
-    if not result:
-        print('log filename: {} is invalid.'.format(f))
-
-    return not result
+    ], f.split('-'))
 
 
 NAMING_CONVENTIONS = {
