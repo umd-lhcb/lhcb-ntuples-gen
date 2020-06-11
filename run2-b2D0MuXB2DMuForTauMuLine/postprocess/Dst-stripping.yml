@@ -12,7 +12,7 @@ b0dst:
         - GpsTime
     rename:
         # Isolation variables
-        Y_ISOLATION_BDT: iso_bdt
+        b0_ISOLATION_BDT: iso_bdt
         # Particles
         b0_ID: b0_id
         b0_M: b0_m
@@ -29,6 +29,8 @@ b0dst:
         mu_ID: mu_id
         mu_M: mu_m
         mu_M: mu_mm
+        mu_isMuon: mu_is_mu
+        mu_PIDmu: mu_pid_mu
         ####
         pi_ID: pi_id
         pi_M: pi_m

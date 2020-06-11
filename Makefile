@@ -1,6 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Jun 11, 2020 at 10:07 PM +0800
+# Last Change: Thu Jun 11, 2020 at 10:20 PM +0800
 
 BINPATH	:=	bin
 SRCPATH	:=	gen
@@ -105,20 +105,29 @@ gen/cutflow/output-run1-bare.yml: \
 	cutflow_output_yml_gen-bare.py
 	@$(word 4, $^) $< $(word 2, $^) $(word 3, $^) $@ run1
 
-gen/run1-Dst-step2/Dst--20_06_05--cutflow_mc--cocktail--2011--md--bare-step2.root: \
-	Dst--20_06_05--cutflow_mc--bare--MC_2011_Beam3500GeV-2011-MagDown-Nu2-Pythia8_Sim08h_Digi13_Trig0x40760037_Reco14c_Stripping20r1NoPrescalingFlagged_11874091_ALLSTREAMS.DST.root \
-	run1-Dst-stripping
+gen/cutflow/output-run2-bare.yml: \
+	Dst--20_06_05--cutflow_mc--bare--MC_2016_Beam6500GeV-2016-MagDown-Nu1.6-25ns-Pythia8_Sim09b_Trig0x6138160F_Reco16_Turbo03_Stripping26NoPrescalingFlagged_11874091_ALLSTREAMS.DST.root \
+	Dst--20_06_05--cutflow_mc--cocktail--2016--md--bare-step2.root \
+	input-run2-bare.yml \
+	cutflow_output_yml_gen-bare.py
+	@$(word 4, $^) $< $(word 2, $^) $(word 3, $^) $@ run2
+
+
+gen/run2-Dst-step2/Dst--20_06_05--cutflow_mc--cocktail--2016--md--bare-step2.root: \
+	Dst--20_06_05--cutflow_mc--bare--MC_2016_Beam6500GeV-2016-MagDown-Nu1.6-25ns-Pythia8_Sim09b_Trig0x6138160F_Reco16_Turbo03_Stripping26NoPrescalingFlagged_11874091_ALLSTREAMS.DST.root \
+	run2-Dst-stripping
 	$(word 2, $^) $< $@
 
 
-#########################
-# Run 1, Phoebe's: 2012 #
-#########################
+#########
+# Run 1 #
+#########
 
 gen/run1-Dst-step2/BCands_Dst-phoebe-data-2012-mag_down-step2.root: \
 	run1-b2D0MuXB2DMuNuForTauMuLine/ntuples/run1-Dst/BCands_Dst-phoebe-data-2012-mag_down.root \
 	$(BINPATH)/run1-Dst-data-phoebe
 	$(word 2, $^) $< $@
+
 
 $(SRCPATH)/run1-Dst-data-phoebe.cpp: \
 	run1-b2D0MuXB2DMuNuForTauMuLine/postprocess/Dst-data-phoebe.yml \
@@ -126,10 +135,15 @@ $(SRCPATH)/run1-Dst-data-phoebe.cpp: \
 	include/functor/*.h
 	babymaker -i $< -o $@ -d $(word 2, $^)
 
+gen/run1-Dst-step2/Dst--20_06_05--cutflow_mc--cocktail--2011--md--bare-step2.root: \
+	Dst--20_06_05--cutflow_mc--bare--MC_2011_Beam3500GeV-2011-MagDown-Nu2-Pythia8_Sim08h_Digi13_Trig0x40760037_Reco14c_Stripping20r1NoPrescalingFlagged_11874091_ALLSTREAMS.DST.root \
+	run1-Dst-stripping
+	$(word 2, $^) $< $@
 
-#########################
-# Run 1, Yipeng's: 2012 #
-#########################
+
+#########
+# Run 1 #
+#########
 
 gen/run1-Dst-step2/BCands_Dst-yipeng-data-2012-mag_down-step2.root: \
 	run1-b2D0MuXB2DMuNuForTauMuLine/ntuples/run1-Dst/BCands_Dst-yipeng-data-2012-mag_down.root \
@@ -154,9 +168,9 @@ $(SRCPATH)/run1-Dst-cutflow_data-yipeng.cpp: \
 	babymaker -i $< -o $@ -d $(word 2, $^)
 
 
-#########################
-# Run 2, Yipeng's: 2016 #
-#########################
+#########
+# Run 2 #
+#########
 
 gen/run2-Dst-step2/BCands_Dst-yipeng-data-2016-mag_down-step2.root: \
 	run2-b2D0MuXB2DMuForTauMuLine/ntuples/run2-Dst/BCands_Dst-yipeng-data-2016-mag_down.root \
@@ -167,6 +181,7 @@ gen/run2-Dst-step2/BCands_Dst-yipeng-cutflow_data-2016-mag_down-step2.root: \
 	run2-b2D0MuXB2DMuForTauMuLine/ntuples/cutflow-Dst/BCands_Dst-yipeng-cutflow_data-2016-mag_down.root \
 	$(BINPATH)/run2-Dst-data-yipeng
 	$(word 2, $^) $< $@
+
 
 $(SRCPATH)/run2-Dst-data-yipeng.cpp: \
 	run2-b2D0MuXB2DMuForTauMuLine/postprocess/Dst-data-yipeng.yml \

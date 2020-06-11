@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Jun 11, 2020 at 10:06 PM +0800
+# Last Change: Thu Jun 11, 2020 at 10:20 PM +0800
 
 import uproot
 import sys
@@ -28,20 +28,22 @@ ALIASES = {
 
 CUTFLOW_STEP1 = {
     'run1': [
-        # Trigger cuts
         Rule('mu_L0Global_TIS & (b0_L0Global_TIS | dst_L0HadronDecision_TOS)', key='L0'),
         Rule('k_Hlt1TrackAllL0Decision_TOS | pi_Hlt1TrackAllL0Decision_TOS', key='Hlt1'),
         Rule('d0_Hlt2CharmHadD02HH_D02KPiDecision_TOS', key='Hlt2'),
+    ],
+    'run2': [
+        Rule('mu_L0Global_TIS & (b0_L0Global_TIS | dst_L0HadronDecision_TOS)', key='L0'),
+        Rule('k_Hlt1Phys_Dec', key='Hlt1'),
+        Rule('d0_Hlt2XcMuXForTauB2XcMuDecision_Dec', key='Hlt2'),
     ]
 }
 
-CUTFLOW_STEP2 = {
-    'run1': [
-        Rule('mu_is_mu & mu_pid_mu > 2', r'$\mu$ PID'),
-        Rule('iso_bdt < 0.15', r'$\text{IsoBDT}_{\Upsilon(\text{4s})} < 0.15$'),
-        Rule('b0_m < 5280', r'$m_{\Upsilon(\text{4s})} < 5280$'),
-    ]
-}
+CUTFLOW_STEP2 = [
+    Rule('mu_is_mu & mu_pid_mu > 2', r'$\mu$ PID'),
+    Rule('iso_bdt < 0.15', r'$\text{IsoBDT}_{\Upsilon(\text{4s})} < 0.15$'),
+    Rule('b0_m < 5280', r'$m_{\Upsilon(\text{4s})} < 5280$'),
+]
 
 
 ################################
@@ -107,8 +109,7 @@ if __name__ == '__main__':
     }
 
     result_addon_step2 = CutflowGen(
-        args.ntp_step2, args.tree2, CUTFLOW_STEP2[args.mode],
-        cand_after_restripping).do()
+        args.ntp_step2, args.tree2, CUTFLOW_STEP2, cand_after_restripping).do()
 
     result.update(result_addon_step1)
     result.update(result_addon_step2)
