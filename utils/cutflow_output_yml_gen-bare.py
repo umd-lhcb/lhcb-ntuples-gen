@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Jun 11, 2020 at 09:23 PM +0800
+# Last Change: Thu Jun 11, 2020 at 10:06 PM +0800
 
 import uproot
 import sys
@@ -14,6 +14,7 @@ from argparse import ArgumentParser
 from davinci_log_parser import yaml_gen
 from pyTuplingUtils.utils import extract_uid
 from pyTuplingUtils.cutflow import CutflowGen, CutflowRule as Rule
+from pyTuplingUtils.io import read_branch
 
 
 ALIASES = {
@@ -25,18 +26,20 @@ ALIASES = {
     'SelMyRefitB02DstMu': r'Refit $\bar{B}^0$ decay tree',
 }
 
-CUTFLOWS = {
-    'run1-bare': [
+CUTFLOW_STEP1 = {
+    'run1': [
         # Trigger cuts
-        Rule('mu_L0Global_TIS & (Y_L0Global_TIS | dst_L0HadronDecision_TOS)', key='L0'),
+        Rule('mu_L0Global_TIS & (b0_L0Global_TIS | dst_L0HadronDecision_TOS)', key='L0'),
         Rule('k_Hlt1TrackAllL0Decision_TOS | pi_Hlt1TrackAllL0Decision_TOS', key='Hlt1'),
         Rule('d0_Hlt2CharmHadD02HH_D02KPiDecision_TOS', key='Hlt2'),
-        # The remainder of the stripping cuts
-        Rule('(mu_IPCHI2_OWNPV > 45.0) & (mu_TRACK_GhostProb < 0.5) & (mu_PIDmu > 2.0) & (mu_P > 3.0*GeV) & (mu_TRACK_CHI2NDOF < 3.0) & (k_PIDK > 4.0) & (k_IPCHI2_OWNPV > 45.0) & (k_P > 2.0*GeV) & (k_PT > 300.0*MeV) & (k_TRACK_GhostProb < 0.5) & (pi_P > 2.0*GeV) & (pi_PT > 300.0*MeV) & (pi_IPCHI2_OWNPV > 45.0) & (pi_PIDK < 2.0) & (pi_TRACK_GhostProb < 0.5) & (spi_IPCHI2_OWNPV > 0.0) & (spi_TRACK_CHI2NDOF < 3.0) & (spi_TRACK_GhostProb < 0.25) & (k_PT + pi_PT > 1400.0*MeV) & (ABS(d0_MM - PDG_M_D0) < 80.0*MeV) & (d0_ENDVERTEX_CHI2 / d0_ENDVERTEX_NDOF < 4.0) & (d0_FDCHI2_OWNPV > 250.0) & (d0_DIRA_OWNPV > 0.9998) & (ABS(dst_MM - PDG_M_Dst) < 125.0*MeV) & (dst_M - d0_M < 160.0*MeV) & (dst_ENDVERTEX_CHI2 / dst_ENDVERTEX_NDOF < 100.0) & (0.0*GeV < b0_MM < 10.0*GeV) & (b0_ENDVERTEX_CHI2 / b0_ENDVERTEX_NDOF < 6.0) & (b0_DIRA_OWNPV > 0.9995)', key='Stripping (partial)'),
-        # Step 2 cuts
-        Rule('muplus_isMuon & muplus_PIDmu > 2', r'$\mu$ PID'),
-        Rule('Y_ISOLATION_BDT < 0.15', r'$\text{IsoBDT}_{\Upsilon(\text{4s})} < 0.15$'),
-        Rule('Y_M < 5280', r'$m_{\Upsilon(\text{4s})} < 5280$'),
+    ]
+}
+
+CUTFLOW_STEP2 = {
+    'run1': [
+        Rule('mu_is_mu & mu_pid_mu > 2', r'$\mu$ PID'),
+        Rule('iso_bdt < 0.15', r'$\text{IsoBDT}_{\Upsilon(\text{4s})} < 0.15$'),
+        Rule('b0_m < 5280', r'$m_{\Upsilon(\text{4s})} < 5280$'),
     ]
 }
 
@@ -48,21 +51,29 @@ CUTFLOWS = {
 def parse_input(descr='Generate cutflow output YAML based on input ntuple and YAML.'):
     parser = ArgumentParser(description=descr)
 
-    parser.add_argument('ntp',
-                        help='specify ntuple path.')
+    parser.add_argument('ntp_step1',
+                        help='specify step 1 ntuple path.')
 
-    parser.add_argument('input_yaml',
+    parser.add_argument('ntp_step2',
+                        help='specify step 2 ntuple path.')
+
+    parser.add_argument('input_yml',
                         help='specify input YAML path.')
 
-    parser.add_argument('output_yaml',
+    parser.add_argument('output_yml',
                         help='specify output YAML path.')
 
     parser.add_argument('mode',
                         help='specify mode.')
 
-    parser.add_argument('-t', '--tree',
+    parser.add_argument('-t1', '--tree1',
                         default='TupleB0/DecayTree',
-                        help='specify tree name in the ntuple.'
+                        help='specify tree name in the step 1 ntuple.'
+                        )
+
+    parser.add_argument('-t2', '--tree2',
+                        default='b0dst',
+                        help='specify tree name in the step 2 ntuple.'
                         )
 
     return parser.parse_args()
@@ -72,7 +83,7 @@ if __name__ == '__main__':
     args = parse_input()
 
     _, _, total_size, uniq_size, _ = extract_uid(
-        uproot.open(args.ntp), args.tree)
+        uproot.open(args.ntp_step1), args.tree1)
 
     with open(args.input_yml) as f:
         result = safe_load(f)
@@ -83,8 +94,24 @@ if __name__ == '__main__':
         if val['output'] is None:
             val['output'] = uniq_size
 
-    result_addon = CutflowGen(args.ntp, args.tree, CUTFLOWS, total_size).do()
-    result.update(result_addon)
+    result_addon_step1 = CutflowGen(
+        args.ntp_step1, args.tree1, CUTFLOW_STEP1[args.mode], total_size).do()
+    for k, v in result_addon_step1.items():
+        cand_before_restripping = v['output']
+
+    cand_after_restripping = read_branch(
+        uproot.open(args.ntp_step2), args.tree2, 'runNumber').size
+    result_addon_step1['Stripping'] = {
+        'input': cand_before_restripping,
+        'output': cand_after_restripping
+    }
+
+    result_addon_step2 = CutflowGen(
+        args.ntp_step2, args.tree2, CUTFLOW_STEP2[args.mode],
+        cand_after_restripping).do()
+
+    result.update(result_addon_step1)
+    result.update(result_addon_step2)
 
     with open(args.output_yml, 'w') as f:
         f.write(yaml_gen(result))

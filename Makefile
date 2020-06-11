@@ -1,13 +1,17 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Jun 11, 2020 at 01:26 PM +0800
+# Last Change: Thu Jun 11, 2020 at 10:07 PM +0800
 
 BINPATH	:=	bin
 SRCPATH	:=	gen
 
 export PATH := test:utils:$(BINPATH):$(PATH)
 
-VPATH := $(BINPATH):run1-b2D0MuXB2DMuNuForTauMuLine/samples:run2-b2D0MuXB2DMuForTauMuLine/samples
+VPATH := run1-b2D0MuXB2DMuNuForTauMuLine/samples:run2-b2D0MuXB2DMuForTauMuLine/samples
+VPATH := run1-b2D0MuXB2DMuNuForTauMuLine/cutflow:run2-b2D0MuXB2DMuForTauMuLine/cutflow:$(VPATH)
+VPATH := ntuples/0.9.0-cutflow/Dst-cutflow_mc:$(VPATH)
+VPATH := gen/run2-Dst-step2:gen/run1-Dst-step2:$(VPATH)
+VPATH := $(BINPATH):utils:$(VPATH)
 
 # System env
 OS := $(shell uname)
@@ -33,8 +37,9 @@ all: \
 
 clean:
 	@rm -rf $(BINPATH)/*
-	@find ./gen -name '*-step2.root' -delete
+	@find ./gen -name '*.root' -delete
 	@find ./gen -name '*.cpp' -delete
+	@find ./gen -name '*.yml' -delete
 
 history:
 	@git tag -l -n99
@@ -90,6 +95,20 @@ cutflow-RDst-detail-individual-web: \
 	run1-b2D0MuXB2DMuNuForTauMuLine/cutflow/output-run1-individual.yml \
 	run2-b2D0MuXB2DMuForTauMuLine/cutflow/output-run2-individual.yml
 	@./utils/cutflow_gen.py -o $(word 1, $^) -t $(word 2, $^) -n | tabgen.py -f github
+
+
+# Cutflow for D*, bare
+gen/cutflow/output-run1-bare.yml: \
+	Dst--20_06_05--cutflow_mc--bare--MC_2011_Beam3500GeV-2011-MagDown-Nu2-Pythia8_Sim08h_Digi13_Trig0x40760037_Reco14c_Stripping20r1NoPrescalingFlagged_11874091_ALLSTREAMS.DST.root \
+	Dst--20_06_05--cutflow_mc--cocktail--2011--md--bare-step2.root \
+	input-run1-bare.yml \
+	cutflow_output_yml_gen-bare.py
+	@$(word 4, $^) $< $(word 2, $^) $(word 3, $^) $@ run1
+
+gen/run1-Dst-step2/Dst--20_06_05--cutflow_mc--cocktail--2011--md--bare-step2.root: \
+	Dst--20_06_05--cutflow_mc--bare--MC_2011_Beam3500GeV-2011-MagDown-Nu2-Pythia8_Sim08h_Digi13_Trig0x40760037_Reco14c_Stripping20r1NoPrescalingFlagged_11874091_ALLSTREAMS.DST.root \
+	run1-Dst-stripping
+	$(word 2, $^) $< $@
 
 
 #########################
