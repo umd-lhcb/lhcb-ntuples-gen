@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Jun 11, 2020 at 04:38 PM +0800
+# Last Change: Thu Jun 11, 2020 at 04:41 PM +0800
 
 from datetime import datetime
 from re import match, sub
@@ -157,8 +157,8 @@ def validate_log_file_name(f):
 def validate_cond_file_name(f):
     fields = sub(r'^cond-', '', f).split('-')
 
-    # Because cond files uses '-' for both inter- and intra-separators, this
-    # workaround is needed.
+    # NOTE: Because cond files uses '-' for both inter- and intra-separators,
+    # this workaround is needed.
     if len(fields) > 3:
         fields = fields[0:3] + ['-'.join(fields[3:])]
 
