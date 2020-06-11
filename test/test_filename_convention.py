@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Jun 11, 2020 at 04:45 PM +0800
+# Last Change: Thu Jun 11, 2020 at 04:49 PM +0800
 
 from datetime import datetime
 from re import match, sub
@@ -205,11 +205,11 @@ def validate_ntuple_folder_name(f):
     return err
 
 
-@ValidateWrapper('cond filename')
+@ValidateWrapper('dst folder')
 def validate_dst_folder_name(f):
     fields = f.split('-')
 
-    # NOTE: Because cond files uses '-' for both inter- and intra-separators,
+    # NOTE: Because dst folder uses '-' for both inter- and intra-separators,
     # this workaround is needed.
     if len(fields) > 3:
         fields = fields[0:3] + ['-'.join(fields[3:])]

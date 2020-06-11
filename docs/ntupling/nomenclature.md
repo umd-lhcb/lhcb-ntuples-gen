@@ -1,4 +1,4 @@
-These rules should be checked by a script automatically.
+These rules are checked by [a script](https://github.com/umd-lhcb/lhcb-ntuples-gen/blob/master/test/test_filename_convention.py) automatically.
 
 ## General guidelines
 
