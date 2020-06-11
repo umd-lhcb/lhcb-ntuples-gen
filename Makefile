@@ -1,6 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Jun 09, 2020 at 08:57 PM +0800
+# Last Change: Thu Jun 11, 2020 at 01:26 PM +0800
 
 BINPATH	:=	bin
 SRCPATH	:=	gen
@@ -160,7 +160,10 @@ $(SRCPATH)/run2-Dst-data-yipeng.cpp: \
 # Tests #
 #########
 
-.PHONY: test-cutflow-run1 test-cutflow-run2
+.PHONY: test-naming-conv test-cutflow-run1 test-cutflow-run2
+
+test-naming-conv:
+	@test_filename_convention.py
 
 
 test-cutflow-run1: \

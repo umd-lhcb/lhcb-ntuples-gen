@@ -2,10 +2,10 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Jun 11, 2020 at 01:20 PM +0800
+# Last Change: Thu Jun 11, 2020 at 01:29 PM +0800
 
 from datetime import datetime
-from re import match
+from re import match, sub
 
 from glob import glob
 from pathlib import Path
@@ -157,9 +157,27 @@ def validate_log_file_name(f):
     ], f.split('-'))
 
 
+@ValidateWrapper('cond filename')
+def validate_cond_file_name(f):
+    fields = sub(r'^cond-', '', f).split('-')
+
+    # Because cond files uses '-' for both inter- and intra-separators, this
+    # workaround is needed.
+    if len(fields) > 3:
+        fields = fields[0:3] + ['-'.join(fields[3:])]
+
+    return field_dict_gen([
+        'type',
+        'year',
+        'polarity',
+        'additional_flags'
+    ], fields)
+
+
 NAMING_CONVENTIONS = {
     'ntuple_file': lambda x: [validate_ntuple_file_name(i) for i in x],
     'log_file': lambda x: [validate_log_file_name(i) for i in x],
+    'cond_file': lambda x: [validate_cond_file_name(i) for i in x],
 }
 
 
