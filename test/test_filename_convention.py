@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Jun 11, 2020 at 01:29 PM +0800
+# Last Change: Thu Jun 11, 2020 at 04:38 PM +0800
 
 from datetime import datetime
 from re import match, sub
@@ -64,23 +64,19 @@ def validate_additional_flags(s, general_valid_pattern=r'^\w+$',
         return True
 
 
+RECO_SAMPLES = ['Dst', 'D0', 'Dst_D0']
+TYPES = ['std', 'mc', 'cutflow_data', 'cutflow_mc', 'validation']
+SAMPLES = [
+    'data', 'cocktail', 'all',
+    # MC modes
+    'Bd2DstTauNu',
+]
+
 ALLOWED_IN_FIELD = {
-    'reco_sample': lambda x: x in ['Dst', 'D0', 'Dst_D0'],
+    'reco_sample': lambda x: x in RECO_SAMPLES,
     'date': validate_date,
-    'type': lambda x: x in [
-        'std',
-        'mc',
-        'cutflow_data',
-        'cutflow_mc',
-        'validation'
-    ],
-    'sample': lambda x: x in [
-        'data',
-        'cocktail',
-        'all',
-        # MC modes
-        'Bd2DstTauNu',
-    ],
+    'type': lambda x: x in TYPES,
+    'sample': lambda x: x in SAMPLES,
     'year': lambda x: x in ['20'+str(i) for i in range(11, 70)],
     'polarity': lambda x: x in ['mu', 'md'],
     'dirac_path': lambda x: True if ' ' not in x else False,
@@ -174,10 +170,45 @@ def validate_cond_file_name(f):
     ], fields)
 
 
+def validate_ntuple_folder_name(f):
+    valid_first_lvl = [
+        'ntuples',
+        'run1-b2D0MuXB2DMuNuForTauMuLine',
+        'run2-b2D0MuXB2DMuForTauMuLine',
+    ]
+    valid_second_lvl = [
+        r'^samples$',
+        r'^pre-0.9.0$',
+        r'\d\.\d\.\d-\w+$',
+    ]
+    valid_mode = [p+'-'+m for p in RECO_SAMPLES for m in TYPES]
+
+    field_dict = field_dict_gen([
+        'first_lvl',
+        'second_lvl',
+        'mode'
+    ], str(f).split('/'))
+    err = False
+
+    if field_dict['first_lvl'] not in valid_first_lvl or \
+            True not in [bool(match(p, field_dict['second_lvl']))
+                         for p in valid_second_lvl] or \
+            ('mode' in field_dict.keys() and
+             field_dict['mode'] not in valid_mode):
+        err = True
+
+    if err:
+        print('ntuple folder: {} is not valid.'.format(f))
+        return True  # NOTE: True means some error is detected.
+
+    return err
+
+
 NAMING_CONVENTIONS = {
     'ntuple_file': lambda x: [validate_ntuple_file_name(i) for i in x],
     'log_file': lambda x: [validate_log_file_name(i) for i in x],
     'cond_file': lambda x: [validate_cond_file_name(i) for i in x],
+    'ntuple_folder': lambda x: [validate_ntuple_folder_name(i) for i in x]
 }
 
 
