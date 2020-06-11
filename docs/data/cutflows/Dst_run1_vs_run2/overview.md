@@ -74,6 +74,24 @@
     - Run 2 stripping conditions can be found at [`Strippingb2D0MuXB2DMuForTauMuLine`](http://lhcbdoc.web.cern.ch/lhcbdoc/stripping/config/stripping28r2/semileptonic/strippingb2d0muxb2dmufortaumuline.html)
 
 
+## Cutflow table with cocktail MC, bare
+
+| cut name                                      | run 1 yield   | run 2 yield   | run 1 efficiency   | run 2 efficiency   | double ratio    |
+|-----------------------------------------------|---------------|---------------|--------------------|--------------------|-----------------|
+| Total events                                  | 502736        | 520046        | -                  | -                  | -               |
+| $D^0 \rightarrow K^- \pi^+$ (tighter $K \pi$) | 89441         | 94498         | 0.18680±0.00056    | 0.19328±0.00056    | 1.0347±0.0043   |
+| $D^{*+} \rightarrow D^0 \pi^+$                | 89277         | 94412         | 0.99817±0.00015    | 0.99909±0.00011    | 1.00093±0.00019 |
+| $\bar{B}^0 \rightarrow D^{*+} \mu^-$          | 7780          | 6010          | 0.1005±0.0011      | 0.07122±0.00089    | 0.709±0.012     |
+| L0                                            | 99725         | 111916        | 0.4267±0.0010      | 0.33438±0.00081    | 0.7837±0.0027   |
+| Hlt1                                          | 42851         | 111806        | 0.4297±0.0016      | 0.99902±0.00010    | 2.3250±0.0085   |
+| Hlt2                                          | 17863         | 46599         | 0.4169±0.0024      | 0.4168±0.0015      | 0.9998±0.0067   |
+| Stripping                                     | 6144          | 13839         | 0.3440±0.0036      | 0.2970±0.0021      | 0.863±0.011     |
+| $\mu$ PID                                     | 6144          | 12964         | 1.00000±0.00030    | 0.9368±0.0021      | 0.9368±0.0021   |
+| $\text{IsoBDT}_{\Upsilon(\text{4s})} < 0.15$  | 4355          | 8911          | 0.7088±0.0059      | 0.6874±0.0041      | 0.9697±0.0099   |
+| $m_{\Upsilon(\text{4s})} < 5280$              | 4355          | 8903          | 1.00000±0.00042    | 0.99910±0.00044    | 0.99910±0.00061 |
+| Total ratio                                   | -             | -             | 0.00866±0.00013    | 0.01712±0.00018    | 1.976±0.037     |
+
+
 ## Cutflow table with real data
 
 | cut name                                     | run 1 yield   | run 2 yield   | run 1 efficiency    | run 2 efficiency      | double ratio        |
