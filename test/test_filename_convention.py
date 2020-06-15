@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Jun 11, 2020 at 10:28 PM +0800
+# Last Change: Tue Jun 16, 2020 at 02:51 AM +0800
 
 from datetime import datetime
 from re import match, sub
@@ -25,6 +25,8 @@ FILES_TO_CHECK = {
     'log_file': ('**/*.log', lambda x: Path(x).stem),
     'cond_file': ('**/cond-*.py', lambda x: Path(x).stem),
 }
+
+IGNORED_PATHS = ['lib']
 
 
 ####################################
@@ -237,15 +239,16 @@ NAMING_CONVENTIONS = {
 # Filename glob #
 #################
 
-def glob_pattern(pattern, regulator):
+def glob_pattern(pattern, regulator, ignore=IGNORED_PATHS):
     result = []
 
     for f in glob(pattern, recursive=True):
-        name = regulator(f)
-        if name not in result:
-            result.append(name)
+        if f not in result:
+            result.append(f)
 
-    return result
+    result = filter(lambda x: True not in [x.startswith(i) for i in ignore],
+                    result)
+    return [regulator(f) for f in result]
 
 
 def glob_all(files_to_check):
