@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Jun 16, 2020 at 02:51 AM +0800
+# Last Change: Tue Jun 16, 2020 at 02:55 AM +0800
 
 from datetime import datetime
 from re import match, sub
@@ -185,6 +185,7 @@ def validate_ntuple_folder_name(f):
         r'^pre-0.9.0$',
         r'\d\.\d\.\d-\w+$',
         r'^run\d-\w+-step\d$',
+        r'^test$',
     ]
     valid_mode = [p+'-'+m for p in RECO_SAMPLES for m in TYPES]
 
