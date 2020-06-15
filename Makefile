@@ -1,6 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Jun 16, 2020 at 02:24 AM +0800
+# Last Change: Tue Jun 16, 2020 at 02:57 AM +0800
 
 BINPATH	:=	bin
 
@@ -54,7 +54,7 @@ install-dep:
 	@echo "Installing in-house Python libraries..."
 	@for p in $(LIB_PY); do \
 			cd $(PWD)/$$p; \
-			python setup.py install; \
+			python setup.py install -f; \
 		done;
 
 
@@ -228,24 +228,24 @@ gen/run2-Dst-data-yipeng.cpp: \
 #########################
 
 # For test on the equivalence betwen run 1 bare and dv_strip ntuples
-gen/test/Dst--cutflow_mc--cocktail--2011--md--subset-bare-step2.root: \
+gen/test/Dst--20_06_04--cutflow_mc--cocktail--2011--md--subset-bare-step2.root: \
 	Dst--20_06_04--cutflow_mc--cocktail--2011--md--dv45-subset-bare.root \
 	run1-Dst-stripping
 	$(word 2, $^) $< $@
 
-gen/test/Dst--cutflow_mc--cocktail--2011--md--subset-dv_strip-step2.root: \
+gen/test/Dst--20_06_04--cutflow_mc--cocktail--2011--md--subset-dv_strip-step2.root: \
 	Dst--20_06_04--cutflow_mc--cocktail--2011--md--dv45-subset-dv_strip.root \
 	run1-Dst-stripping
 	$(word 2, $^) $< $@
 
 
 # For test on the equivalence betwen run 2 bare and dv_strip ntuples.
-gen/test/Dst--cutflow_mc--cocktail--2016--md--subset-dv_strip-step2.root: \
+gen/test/Dst--20_06_04--cutflow_mc--cocktail--2016--md--subset-dv_strip-step2.root: \
 	Dst--20_06_04--cutflow_mc--cocktail--2016--md--dv45-subset-dv_strip.root \
 	run2-Dst-stripping
 	$(word 2, $^) $< $@
 
-gen/test/Dst--cutflow_mc--cocktail--2016--md--subset-bare-step2.root: \
+gen/test/Dst--20_06_04--cutflow_mc--cocktail--2016--md--subset-bare-step2.root: \
 	Dst--20_06_04--cutflow_mc--cocktail--2016--md--dv45-subset-bare.root \
 	run2-Dst-stripping
 	$(word 2, $^) $< $@
@@ -271,8 +271,8 @@ test-naming-conv:
 
 # Tests for the equivalence between local bare and dv_strip ntuples.
 test-cutflow-run1: \
-	gen/test/Dst--cutflow_mc--cocktail--2011--md--subset-bare-step2.root \
-	gen/test/Dst--cutflow_mc--cocktail--2011--md--subset-dv_strip-step2.root \
+	gen/test/Dst--20_06_04--cutflow_mc--cocktail--2011--md--subset-bare-step2.root \
+	gen/test/Dst--20_06_04--cutflow_mc--cocktail--2011--md--subset-dv_strip-step2.root \
 	Dst--20_06_04--cutflow_mc--cocktail--2011--md--dv45-subset-dv_strip.root
 	@echo "===="
 	@echo "Test results:"
@@ -280,8 +280,8 @@ test-cutflow-run1: \
 	@test_ntuple_identical.py -n $(word 2, $^) -N $(word 3, $^) -t b0dst -T TupleB0/DecayTree
 
 test-cutflow-run2: \
-	gen/test/Dst--cutflow_mc--cocktail--2016--md--subset-dv_strip-step2.root \
-	gen/test/Dst--cutflow_mc--cocktail--2016--md--subset-bare-step2.root \
+	gen/test/Dst--20_06_04--cutflow_mc--cocktail--2016--md--subset-dv_strip-step2.root \
+	gen/test/Dst--20_06_04--cutflow_mc--cocktail--2016--md--subset-bare-step2.root \
 	Dst--20_06_04--cutflow_mc--cocktail--2016--md--dv45-subset-dv_strip.root
 	@echo "===="
 	@echo "Test results:"
