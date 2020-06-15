@@ -1,6 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Jun 15, 2020 at 04:43 PM +0800
+# Last Change: Tue Jun 16, 2020 at 01:35 AM +0800
 
 BINPATH	:=	bin
 
@@ -8,6 +8,7 @@ export PATH := test:utils:$(BINPATH):$(PATH)
 
 VPATH := run1-b2D0MuXB2DMuNuForTauMuLine/samples:run2-b2D0MuXB2DMuForTauMuLine/samples
 VPATH := run1-b2D0MuXB2DMuNuForTauMuLine/cutflow:run2-b2D0MuXB2DMuForTauMuLine/cutflow:$(VPATH)
+VPATH := ntuples/pre-0.9.0/Dst-std:$(VPATH)
 VPATH := ntuples/0.9.0-cutflow/Dst-cutflow_mc:$(VPATH)
 VPATH := gen/run2-Dst-step2:gen/run1-Dst-step2:$(VPATH)
 VPATH := $(BINPATH):utils:$(VPATH)
@@ -21,6 +22,7 @@ CXXFLAGS	:=	$(shell root-config --cflags)
 LINKFLAGS	:=	$(shell root-config --libs)
 ADDFLAGS	:=	-Iinclude
 
+
 .PHONY: all clean history \
 	docker-dv \
 	cutflow-RDst cutflow-RDst-web \
@@ -28,11 +30,9 @@ ADDFLAGS	:=	-Iinclude
 	cutflow-RDst-detail-individual cutflow-RDst-detail-individual-web
 
 all: \
-	gen/run1-Dst-step2/BCands_Dst-phoebe-data-2012-mag_down-step2.root \
-	gen/run1-Dst-step2/BCands_Dst-yipeng-data-2012-mag_down-step2.root \
-	gen/run2-Dst-step2/BCands_Dst-yipeng-data-2016-mag_down-step2.root \
-	gen/run1-Dst-step2/BCands_Dst-yipeng-cutflow_data-2012-mag_down-step2.root \
-	gen/run2-Dst-step2/BCands_Dst-yipeng-cutflow_data-2016-mag_down-step2.root
+	gen/run1-Dst-step2/Dst--19_09_05--std--data--2012--md--yipeng-step2.root \
+	gen/run1-Dst-step2/Dst--19_09_05--std--data--2012--md--phoebe-step2.root \
+	gen/run2-Dst-step2/Dst--19_09_09--std--data--2016--md--step2.root
 
 clean:
 	@rm -rf $(BINPATH)/*
@@ -62,7 +62,7 @@ docker-dv:
 # Cutflow: required files #
 ###########################
 
-# Cutflow for D*, bare
+# Cutflow output YAML for D*, bare.
 gen/cutflow/output-run1-bare.yml: \
 	Dst--20_06_05--cutflow_mc--bare--MC_2011_Beam3500GeV-2011-MagDown-Nu2-Pythia8_Sim08h_Digi13_Trig0x40760037_Reco14c_Stripping20r1NoPrescalingFlagged_11874091_ALLSTREAMS.DST.root \
 	Dst--20_06_05--cutflow_mc--cocktail--2011--md--bare-step2.root \
@@ -78,6 +78,7 @@ gen/cutflow/output-run2-bare.yml: \
 	@$(word 4, $^) $< $(word 2, $^) $(word 3, $^) $@ run2
 
 
+# Cutflow re-strippined ntuples for D*.
 gen/run1-Dst-step2/Dst--20_06_05--cutflow_mc--cocktail--2011--md--bare-step2.root: \
 	Dst--20_06_05--cutflow_mc--bare--MC_2011_Beam3500GeV-2011-MagDown-Nu2-Pythia8_Sim08h_Digi13_Trig0x40760037_Reco14c_Stripping20r1NoPrescalingFlagged_11874091_ALLSTREAMS.DST.root \
 	run1-Dst-stripping
@@ -89,6 +90,7 @@ gen/run2-Dst-step2/Dst--20_06_05--cutflow_mc--cocktail--2016--md--bare-step2.roo
 	$(word 2, $^) $< $@
 
 
+# Re-strippings for bare ntuples.
 gen/run1-Dst-stripping.cpp: \
 	run1-b2D0MuXB2DMuNuForTauMuLine/postprocess/Dst-stripping.yml \
 	Dst--20_06_04--cutflow_mc--cocktail--2011--md--dv45-subset-dv_strip.root \
@@ -160,42 +162,30 @@ cutflow-Dst-bare-web: \
 # Run 1 #
 #########
 
-gen/run1-Dst-step2/BCands_Dst-phoebe-data-2012-mag_down-step2.root: \
-	run1-b2D0MuXB2DMuNuForTauMuLine/ntuples/run1-Dst/BCands_Dst-phoebe-data-2012-mag_down.root \
-	$(BINPATH)/run1-Dst-data-phoebe
+# Dst, std, 2012, Yipeng
+gen/run1-Dst-step2/Dst--19_09_05--std--data--2012--md--yipeng-step2.root: \
+	Dst--19_09_05--std--data--2012--md--yipeng.root \
+	run1-Dst-data-yipeng
+	$(word 2, $^) $< $@
+
+# Dst, std, 2012, Phoebe
+gen/run1-Dst-step2/Dst--19_09_05--std--data--2012--md--phoebe-step2.root: \
+	Dst--19_09_05--std--data--2012--md--phoebe.root \
+	run1-Dst-data-phoebe
 	$(word 2, $^) $< $@
 
 
-gen/run1-Dst-data-phoebe.cpp: \
-	run1-b2D0MuXB2DMuNuForTauMuLine/postprocess/Dst-data-phoebe.yml \
-	run1-b2D0MuXB2DMuNuForTauMuLine/ntuples/run1-Dst/BCands_Dst-phoebe-data-2012-mag_down.root \
-	include/functor/*.h
-	babymaker -i $< -o $@ -d $(word 2, $^)
-
-
-#########
-# Run 1 #
-#########
-
-gen/run1-Dst-step2/BCands_Dst-yipeng-data-2012-mag_down-step2.root: \
-	run1-b2D0MuXB2DMuNuForTauMuLine/ntuples/run1-Dst/BCands_Dst-yipeng-data-2012-mag_down.root \
-	$(BINPATH)/run1-Dst-data-yipeng
-	$(word 2, $^) $< $@
-
-gen/run1-Dst-step2/BCands_Dst-yipeng-cutflow_data-2012-mag_down-step2.root: \
-	run1-b2D0MuXB2DMuNuForTauMuLine/ntuples/cutflow-Dst/BCands_Dst-yipeng-cutflow_data-2012-mag_down.root \
-	$(BINPATH)/run1-Dst-cutflow_data-yipeng  # NOTE the binary name here!
-	$(word 2, $^) $< $@
-
+# Generator for Dst, std, 2012, Yipeng
 gen/run1-Dst-data-yipeng.cpp: \
 	run1-b2D0MuXB2DMuNuForTauMuLine/postprocess/Dst-data-yipeng.yml \
-	run1-b2D0MuXB2DMuNuForTauMuLine/ntuples/run1-Dst/BCands_Dst-yipeng-data-2012-mag_down.root \
+	Dst--19_09_05--std--data--2012--md--yipeng.root \
 	include/functor/*.h
 	babymaker -i $< -o $@ -d $(word 2, $^)
 
-gen/run1-Dst-cutflow_data-yipeng.cpp: \
-	run1-b2D0MuXB2DMuNuForTauMuLine/postprocess/Dst-cutflow_data-yipeng.yml \
-	run1-b2D0MuXB2DMuNuForTauMuLine/ntuples/cutflow-Dst/BCands_Dst-yipeng-cutflow_data-2012-mag_down.root \
+# Generator for Dst, std, 2012, Phoebe
+gen/run1-Dst-data-phoebe.cpp: \
+	run1-b2D0MuXB2DMuNuForTauMuLine/postprocess/Dst-data-phoebe.yml \
+	Dst--19_09_05--std--data--2012--md--phoebe.root \
 	include/functor/*.h
 	babymaker -i $< -o $@ -d $(word 2, $^)
 
@@ -205,44 +195,25 @@ gen/run1-Dst-cutflow_data-yipeng.cpp: \
 #########
 
 # Dst, std, 2016
-gen/run2-Dst-step2/BCands_Dst-yipeng-data-2016-mag_down-step2.root: \
-	run2-b2D0MuXB2DMuForTauMuLine/ntuples/run2-Dst/BCands_Dst-yipeng-data-2016-mag_down.root \
-	$(BINPATH)/run2-Dst-data-yipeng
-	$(word 2, $^) $< $@
-
-gen/run2-Dst-step2/BCands_Dst-yipeng-cutflow_data-2016-mag_down-step2.root: \
-	run2-b2D0MuXB2DMuForTauMuLine/ntuples/cutflow-Dst/BCands_Dst-yipeng-cutflow_data-2016-mag_down.root \
-	$(BINPATH)/run2-Dst-data-yipeng
+gen/run2-Dst-step2/Dst--19_09_09--std--data--2016--md--step2.root: \
+	Dst--19_09_09--std--data--2016--md.root \
+	run2-Dst-data-yipeng
 	$(word 2, $^) $< $@
 
 
-$(SRCPATH)/run2-Dst-data-yipeng.cpp: \
+# Generator for Dst, std, 2016
+gen/run2-Dst-data-yipeng.cpp: \
 	run2-b2D0MuXB2DMuForTauMuLine/postprocess/Dst-data-yipeng.yml \
-	run2-b2D0MuXB2DMuForTauMuLine/ntuples/run2-Dst/BCands_Dst-yipeng-data-2016-mag_down.root \
+	Dst--19_09_09--std--data--2016--md.root \
 	include/functor/*.h
 	babymaker -i $< -o $@ -d $(word 2, $^)
 
 
-#########
-# Tests #
-#########
+#########################
+# Tests: required files #
+#########################
 
-.PHONY: test-naming-conv test-cutflow-run1 test-cutflow-run2
-
-test-naming-conv:
-	@test_filename_convention.py
-
-
-test-cutflow-run1: \
-	gen/test/Dst--cutflow_mc--cocktail--2011--md--subset-bare-step2.root \
-	gen/test/Dst--cutflow_mc--cocktail--2011--md--subset-dv_strip-step2.root \
-	Dst--20_06_04--cutflow_mc--cocktail--2011--md--dv45-subset-dv_strip.root
-	@echo "===="
-	@echo "Test results:"
-	@test_ntuple_identical.py -n $< -N $(word 3, $^) -t b0dst -T TupleB0/DecayTree
-	@test_ntuple_identical.py -n $(word 2, $^) -N $(word 3, $^) -t b0dst -T TupleB0/DecayTree
-
-
+# For test on the equivalence betwen run 1 bare and dv_strip ntuples
 gen/test/Dst--cutflow_mc--cocktail--2011--md--subset-bare-step2.root: \
 	Dst--20_06_04--cutflow_mc--cocktail--2011--md--dv45-subset-bare.root \
 	run1-Dst-stripping
@@ -254,17 +225,7 @@ gen/test/Dst--cutflow_mc--cocktail--2011--md--subset-dv_strip-step2.root: \
 	$(word 2, $^) $< $@
 
 
-
-test-cutflow-run2: \
-	gen/test/Dst--cutflow_mc--cocktail--2016--md--subset-dv_strip-step2.root \
-	gen/test/Dst--cutflow_mc--cocktail--2016--md--subset-bare-step2.root \
-	Dst--20_06_04--cutflow_mc--cocktail--2016--md--dv45-subset-dv_strip.root
-	@echo "===="
-	@echo "Test results:"
-	@test_ntuple_identical.py -n $< -N $(word 3, $^) -t b0dst -T TupleB0/DecayTree
-	@test_ntuple_identical.py -n $(word 2, $^) -N $(word 3, $^) -t b0dst -T TupleB0/DecayTree
-
-
+# For test on the equivalence betwen run 2 bare and dv_strip ntuples.
 gen/test/Dst--cutflow_mc--cocktail--2016--md--subset-dv_strip-step2.root: \
 	Dst--20_06_04--cutflow_mc--cocktail--2016--md--dv45-subset-dv_strip.root \
 	run2-Dst-stripping
@@ -274,6 +235,44 @@ gen/test/Dst--cutflow_mc--cocktail--2016--md--subset-bare-step2.root: \
 	Dst--20_06_04--cutflow_mc--cocktail--2016--md--dv45-subset-bare.root \
 	run2-Dst-stripping
 	$(word 2, $^) $< $@
+
+
+#########
+# Tests #
+#########
+
+.PHONY: test-all test-naming-conv test-cutflow-run1 test-cutflow-run2
+
+
+test-all: \
+	test-naming-conv \
+	test-cutflow-run1 \
+	test-cutflow-run2
+
+
+# Test if specific files follow naming conventions.
+test-naming-conv:
+	@test_filename_convention.py
+
+
+# Tests for the equivalence between local bare and dv_strip ntuples.
+test-cutflow-run1: \
+	gen/test/Dst--cutflow_mc--cocktail--2011--md--subset-bare-step2.root \
+	gen/test/Dst--cutflow_mc--cocktail--2011--md--subset-dv_strip-step2.root \
+	Dst--20_06_04--cutflow_mc--cocktail--2011--md--dv45-subset-dv_strip.root
+	@echo "===="
+	@echo "Test results:"
+	@test_ntuple_identical.py -n $< -N $(word 3, $^) -t b0dst -T TupleB0/DecayTree
+	@test_ntuple_identical.py -n $(word 2, $^) -N $(word 3, $^) -t b0dst -T TupleB0/DecayTree
+
+test-cutflow-run2: \
+	gen/test/Dst--cutflow_mc--cocktail--2016--md--subset-dv_strip-step2.root \
+	gen/test/Dst--cutflow_mc--cocktail--2016--md--subset-bare-step2.root \
+	Dst--20_06_04--cutflow_mc--cocktail--2016--md--dv45-subset-dv_strip.root
+	@echo "===="
+	@echo "Test results:"
+	@test_ntuple_identical.py -n $< -N $(word 3, $^) -t b0dst -T TupleB0/DecayTree
+	@test_ntuple_identical.py -n $(word 2, $^) -N $(word 3, $^) -t b0dst -T TupleB0/DecayTree
 
 
 ####################
