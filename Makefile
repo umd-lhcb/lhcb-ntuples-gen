@@ -1,6 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Jun 16, 2020 at 02:57 AM +0800
+# Last Change: Tue Jun 16, 2020 at 03:07 AM +0800
 
 BINPATH	:=	bin
 
@@ -63,9 +63,9 @@ install-dep:
 #####################
 
 ifeq ($(OS),Darwin)
-DV_CMD = "docker run --rm -it -v $$(pwd):/data -e UID=$$(id -u) -e GID=$$(id -g) --net=host umdlhcb/lhcb-stack-cc7:DaVinci-v45r3-SL"
+DV_CMD = "docker run --rm -it -v $(PWD):/data -e UID=$$(id -u) -e GID=$$(id -g) --net=host umdlhcb/lhcb-stack-cc7:DaVinci-v45r3-SL"
 else
-DV_CMD = "docker run --rm -it -v $$(pwd):/data -v $$HOME/.Xauthority:/home/physicist/.Xauthority -e DISPLAY -e UID=$$(id -u) -e GID=$$(id -g) --net=host umdlhcb/lhcb-stack-cc7:DaVinci-v45r3-SL"
+DV_CMD = "docker run --rm -it -v $(PWD):/data -v $$HOME/.Xauthority:/home/physicist/.Xauthority -e DISPLAY -e UID=$$(id -u) -e GID=$$(id -g) --net=host umdlhcb/lhcb-stack-cc7:DaVinci-v45r3-SL"
 endif
 
 docker-dv:
