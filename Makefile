@@ -1,6 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Jun 16, 2020 at 01:35 AM +0800
+# Last Change: Tue Jun 16, 2020 at 02:24 AM +0800
 
 BINPATH	:=	bin
 
@@ -15,6 +15,10 @@ VPATH := $(BINPATH):utils:$(VPATH)
 
 # System env
 OS := $(shell uname)
+PWD := $(shell pwd)
+
+# In-house Python libraries
+LIB_PY := $(wildcard lib/python/*)
 
 # Compiler settings
 COMPILER	:=	$(shell root-config --cxx)
@@ -23,11 +27,12 @@ LINKFLAGS	:=	$(shell root-config --libs)
 ADDFLAGS	:=	-Iinclude
 
 
-.PHONY: all clean history \
+.PHONY: all clean history install-dep \
 	docker-dv \
 	cutflow-RDst cutflow-RDst-web \
 	cutflow-RDst-data cutflow-RDst-data-web \
 	cutflow-RDst-detail-individual cutflow-RDst-detail-individual-web
+
 
 all: \
 	gen/run1-Dst-step2/Dst--19_09_05--std--data--2012--md--yipeng-step2.root \
@@ -42,6 +47,15 @@ clean:
 
 history:
 	@git tag -l -n99
+
+install-dep:
+	@echo "Installing third-party Python libraries..."
+	@pip install -U -r ./requirements.txt
+	@echo "Installing in-house Python libraries..."
+	@for p in $(LIB_PY); do \
+			cd $(PWD)/$$p; \
+			python setup.py install; \
+		done;
 
 
 #####################
