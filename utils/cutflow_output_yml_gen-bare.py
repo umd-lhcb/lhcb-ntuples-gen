@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Jun 11, 2020 at 10:20 PM +0800
+# Last Change: Tue Jun 16, 2020 at 08:57 PM +0800
 
 import uproot
 import sys
@@ -14,6 +14,7 @@ from argparse import ArgumentParser
 from davinci_log_parser import yaml_gen
 from pyTuplingUtils.utils import extract_uid
 from pyTuplingUtils.cutflow import CutflowGen, CutflowRule as Rule
+from pyTuplingUtils.cutflow import cutflow_uniq_events
 from pyTuplingUtils.io import read_branch
 
 
@@ -84,7 +85,7 @@ def parse_input(descr='Generate cutflow output YAML based on input ntuple and YA
 if __name__ == '__main__':
     args = parse_input()
 
-    _, _, total_size, uniq_size, _ = extract_uid(
+    _, _, _, uniq_size, _ = extract_uid(
         uproot.open(args.ntp_step1), args.tree1)
 
     with open(args.input_yml) as f:
@@ -97,19 +98,22 @@ if __name__ == '__main__':
             val['output'] = uniq_size
 
     result_addon_step1 = CutflowGen(
-        args.ntp_step1, args.tree1, CUTFLOW_STEP1[args.mode], total_size).do()
+        args.ntp_step1, args.tree1, CUTFLOW_STEP1[args.mode], uniq_size).do(
+            output_regulator=cutflow_uniq_events)
     for k, v in result_addon_step1.items():
-        cand_before_restripping = v['output']
+        uniq_size_before_restripping = v['output']
 
-    cand_after_restripping = read_branch(
-        uproot.open(args.ntp_step2), args.tree2, 'runNumber').size
+    _, _, _, uniq_size_after_restripping, _ = extract_uid(
+        uproot.open(args.ntp_step2), args.tree2)
+
     result_addon_step1['Stripping'] = {
-        'input': cand_before_restripping,
-        'output': cand_after_restripping
+        'input': uniq_size_before_restripping,
+        'output': uniq_size_after_restripping
     }
 
     result_addon_step2 = CutflowGen(
-        args.ntp_step2, args.tree2, CUTFLOW_STEP2, cand_after_restripping).do()
+        args.ntp_step2, args.tree2, CUTFLOW_STEP2, uniq_size_after_restripping).do(
+            output_regulator=cutflow_uniq_events)
 
     result.update(result_addon_step1)
     result.update(result_addon_step2)
