@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Jun 18, 2020 at 08:12 PM +0800
+# Last Change: Thu Jun 18, 2020 at 08:52 PM +0800
 
 import uproot
 import sys
@@ -38,7 +38,7 @@ CUTFLOW = {
              key='Stripping (partial)'),
         # Step 2
         Rule('mu_isMuon & mu_PIDmu > 2 & mu_PIDe < 1 & mu_P < 100.0*GeV', r'$\mu$ PID'),
-        Rule('b0_ISOLATION_BDT < 0.15', r'$\text{IsoBDT}_{B^0)} < 0.15$'),
+        Rule('b0_ISOLATION_BDT < 0.15', r'$\text{IsoBDT}_{B^0} < 0.15$'),
         Rule('b0_MM < 5280 & b0_DIRA_OWNPV > 0.9995', r'$B^0$ cuts'),
         # Newer step 2 cuts
         Rule('k_PT > 800.0*MeV & !k_isMuon & k_IPCHI2_OWNPV > 45', r'$K$ cuts'),
@@ -56,7 +56,7 @@ CUTFLOW = {
              key='Stripping (partial)'),
         # Step 2
         Rule('mu_isMuon & mu_PIDmu > 2 & mu_PIDe < 1 & mu_P < 100.0*GeV', r'$\mu$ PID'),
-        Rule('b0_ISOLATION_BDT < 0.15', r'$\text{IsoBDT}_{B^0)} < 0.15$'),
+        Rule('b0_ISOLATION_BDT < 0.15', r'$\text{IsoBDT}_{B^0} < 0.15$'),
         Rule('b0_MM < 5280 & b0_DIRA_OWNPV > 0.9995', r'$B^0$ cuts'),
         # Newer step 2 cuts
         Rule('k_PT > 800.0*MeV & !k_isMuon & k_IPCHI2_OWNPV > 45', r'$K$ cuts'),

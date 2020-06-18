@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Jun 18, 2020 at 08:35 PM +0800
+# Last Change: Thu Jun 18, 2020 at 08:52 PM +0800
 
 import uproot
 import sys
@@ -34,7 +34,7 @@ CUTFLOW = {
         Rule('D0_Hlt2CharmHadD02HH_D02KPiDecision_TOS', key='Hlt2'),
         # Step 2
         Rule('muplus_isMuon & muplus_PIDmu > 2 & muplus_PIDe < 1 & muplus_P < 100.0*GeV', r'$\mu$ PID'),
-        Rule('Y_ISOLATION_BDT < 0.15', r'$\text{IsoBDT}_{B^0)} < 0.15$'),
+        Rule('Y_ISOLATION_BDT < 0.15', r'$\text{IsoBDT}_{B^0} < 0.15$'),
         Rule('Y_MM < 5280 & Y_DIRA_OWNPV > 0.9995', r'$B^0$ cuts'),
         # Newer step 2 cuts
         Rule('Kplus_PT > 800.0*MeV & !Kplus_isMuon & Kplus_IPCHI2_OWNPV > 45', r'$K$ cuts'),
@@ -49,7 +49,7 @@ CUTFLOW = {
         Rule('D0_Hlt2XcMuXForTauB2XcMuDecision_Dec', key='Hlt2'),
         # Step 2
         Rule('muplus_isMuon & muplus_PIDmu > 2 & muplus_PIDe < 1 & muplus_P < 100.0*GeV', r'$\mu$ PID'),
-        Rule('Y_ISOLATION_BDT < 0.15', r'$\text{IsoBDT}_{B^0)} < 0.15$'),
+        Rule('Y_ISOLATION_BDT < 0.15', r'$\text{IsoBDT}_{B^0} < 0.15$'),
         Rule('Y_MM < 5280 & Y_DIRA_OWNPV > 0.9995', r'$B^0$ cuts'),
         # Newer step 2 cuts
         Rule('Kplus_PT > 800.0*MeV & !Kplus_isMuon & Kplus_IPCHI2_OWNPV > 45', r'$K$ cuts'),
