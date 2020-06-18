@@ -47,7 +47,7 @@ b0dst:
         # Triggering cuts
         - "(mu_L0Global_TIS)"
         - "&&"
-        - "(b0_L0Global_TIS || dst_L0HadronDecision_TOS))"
+        - "(b0_L0Global_TIS || dst_L0HadronDecision_TOS)"
         - "&&"
         - "(k_Hlt1TrackAllL0Decision_TOS || pi_Hlt1TrackAllL0Decision_TOS)"
         - "&&"
