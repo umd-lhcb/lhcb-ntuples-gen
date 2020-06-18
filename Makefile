@@ -1,6 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Jun 18, 2020 at 08:13 PM +0800
+# Last Change: Thu Jun 18, 2020 at 08:33 PM +0800
 
 BINPATH	:=	bin
 
@@ -9,6 +9,7 @@ export PATH := test:utils:$(BINPATH):$(PATH)
 VPATH := run1-b2D0MuXB2DMuNuForTauMuLine/samples:run2-b2D0MuXB2DMuForTauMuLine/samples
 VPATH := run1-b2D0MuXB2DMuNuForTauMuLine/cutflow:run2-b2D0MuXB2DMuForTauMuLine/cutflow:$(VPATH)
 VPATH := ntuples/pre-0.9.0/Dst-std:$(VPATH)
+VPATH := ntuples/pre-0.9.0/Dst-cutflow_mc:ntuples/pre-0.9.0/Dst-cutflow_data:$(VPATH)
 VPATH := ntuples/0.9.0-cutflow/Dst-cutflow_mc:$(VPATH)
 VPATH := gen/run2-Dst-step2:gen/run1-Dst-step2:$(VPATH)
 VPATH := $(BINPATH):utils:$(VPATH)
@@ -76,7 +77,7 @@ docker-dv:
 # Cutflow: required files #
 ###########################
 
-# Cutflow output YAML for D*, bare.
+# Cutflow output YAML for D*, MC, bare.
 gen/cutflow/output-run1-bare.yml: \
 	Dst--20_06_05--cutflow_mc--bare--MC_2011_Beam3500GeV-2011-MagDown-Nu2-Pythia8_Sim08h_Digi13_Trig0x40760037_Reco14c_Stripping20r1NoPrescalingFlagged_11874091_ALLSTREAMS.DST.root \
 	input-run1-bare.yml \
@@ -90,20 +91,34 @@ gen/cutflow/output-run2-bare.yml: \
 	@$(word 3, $^) $< $(word 2, $^) $@ run2-bare -t 'TupleB0/DecayTree'
 
 
+# Cutflow output YAML for D*, MC.
+gen/cutflow/output-run1.yml: \
+	Dst--20_03_18--cutflow_mc--cocktail--2011--md.root \
+	input-run1.yml \
+	cutflow_output_yml_gen-pre-0.9.0.py
+	@$(word 3, $^) $< $(word 2, $^) $@ run1 -t 'TupleB0/DecayTree'
+
+gen/cutflow/output-run2.yml: \
+	Dst--20_03_18--cutflow_mc--cocktail--2016--md.root \
+	input-run2.yml \
+	cutflow_output_yml_gen-pre-0.9.0.py
+	@$(word 3, $^) $< $(word 2, $^) $@ run2 -t 'TupleB0/DecayTree'
+
+
 ###########
 # Cutflow #
 ###########
 
 # Cutflow for D*
-cutflow-RDst: \
-	run1-b2D0MuXB2DMuNuForTauMuLine/cutflow/output-run1.yml \
-	run2-b2D0MuXB2DMuForTauMuLine/cutflow/output-run2.yml
-	@cutflow_gen.py -o $(word 1, $^) -t $(word 2, $^) | tabgen.py -f latex_booktabs_raw
+cutflow-Dst: \
+	gen/cutflow/output-run1.yml \
+	gen/cutflow/output-run2.yml
+	@cutflow_gen.py -o $< -t $(word 2, $^) -n | tabgen.py -f latex_booktabs_raw
 
-cutflow-RDst-web: \
-	run1-b2D0MuXB2DMuNuForTauMuLine/cutflow/output-run1.yml \
-	run2-b2D0MuXB2DMuForTauMuLine/cutflow/output-run2.yml
-	@cutflow_gen.py -o $(word 1, $^) -t $(word 2, $^) -n | tabgen.py -f github
+cutflow-Dst-web: \
+	gen/cutflow/output-run1.yml \
+	gen/cutflow/output-run2.yml
+	@cutflow_gen.py -o $< -t $(word 2, $^) -n | tabgen.py -f github
 
 
 # Cutflow for D*, with real data
