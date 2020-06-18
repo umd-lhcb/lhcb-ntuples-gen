@@ -1,6 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Jun 18, 2020 at 08:33 PM +0800
+# Last Change: Thu Jun 18, 2020 at 08:42 PM +0800
 
 BINPATH	:=	bin
 
@@ -28,11 +28,7 @@ LINKFLAGS	:=	$(shell root-config --libs)
 ADDFLAGS	:=	-Iinclude
 
 
-.PHONY: all clean history install-dep \
-	docker-dv \
-	cutflow-RDst cutflow-RDst-web \
-	cutflow-RDst-data cutflow-RDst-data-web \
-	cutflow-RDst-detail-individual cutflow-RDst-detail-individual-web
+.PHONY: all clean history install-dep
 
 
 all: \
@@ -62,6 +58,9 @@ install-dep:
 #####################
 # Run docker images #
 #####################
+
+.PHONY: docker-dv
+
 
 ifeq ($(OS),Darwin)
 DV_CMD = "docker run --rm -it -v $(PWD):/data -e UID=$$(id -u) -e GID=$$(id -g) --net=host umdlhcb/lhcb-stack-cc7:DaVinci-v45r3-SL"
@@ -105,11 +104,42 @@ gen/cutflow/output-run2.yml: \
 	@$(word 3, $^) $< $(word 2, $^) $@ run2 -t 'TupleB0/DecayTree'
 
 
+# Cutflow output YAML for D*, data.
+gen/cutflow/output-run1-data.yml: \
+	Dst--20_04_03--cutflow_data--data--2012--md.root \
+	input-run1.yml \
+	cutflow_output_yml_gen-pre-0.9.0.py
+	@$(word 3, $^) $< $(word 2, $^) $@ run1 -t 'TupleB0/DecayTree'
+
+gen/cutflow/output-run2-data.yml: \
+	Dst--20_04_03--cutflow_data--data--2016--md.root \
+	input-run2.yml \
+	cutflow_output_yml_gen-pre-0.9.0.py
+	@$(word 3, $^) $< $(word 2, $^) $@ run2 -t 'TupleB0/DecayTree'
+
+
 ###########
 # Cutflow #
 ###########
 
-# Cutflow for D*
+.PHONY: cutflow-Dst-bare cutflow-Dst-bare-web \
+	cutflow-Dst-data cutflow-Dst-data-web \
+	cutflow-Dst cutflow-Dst-web
+
+
+# Cutflow for D*, MC, bare.
+cutflow-Dst-bare: \
+	gen/cutflow/output-run1-bare.yml \
+	gen/cutflow/output-run2-bare.yml
+	@cutflow_gen.py -o $< -t $(word 2, $^) -n | tabgen.py -f latex_booktabs_raw
+
+cutflow-Dst-bare-web: \
+	gen/cutflow/output-run1-bare.yml \
+	gen/cutflow/output-run2-bare.yml
+	@cutflow_gen.py -o $< -t $(word 2, $^) -n | tabgen.py -f github
+
+
+# Cutflow for D*, MC.
 cutflow-Dst: \
 	gen/cutflow/output-run1.yml \
 	gen/cutflow/output-run2.yml
@@ -121,16 +151,16 @@ cutflow-Dst-web: \
 	@cutflow_gen.py -o $< -t $(word 2, $^) -n | tabgen.py -f github
 
 
-# Cutflow for D*, with real data
-cutflow-RDst-data: \
-	run1-b2D0MuXB2DMuNuForTauMuLine/cutflow/output-run1-data.yml \
-	run2-b2D0MuXB2DMuForTauMuLine/cutflow/output-run2-data.yml
-	@cutflow_gen.py -o $(word 1, $^) -t $(word 2, $^) | tabgen.py -f latex_booktabs_raw
+# Cutflow for D*, data.
+cutflow-Dst-data: \
+	gen/cutflow/output-run1-data.yml \
+	gen/cutflow/output-run2-data.yml
+	@cutflow_gen.py -o $< -t $(word 2, $^) -n | tabgen.py -f latex_booktabs_raw
 
-cutflow-RDst-data-web: \
-	run1-b2D0MuXB2DMuNuForTauMuLine/cutflow/output-run1-data.yml \
-	run2-b2D0MuXB2DMuForTauMuLine/cutflow/output-run2-data.yml
-	@cutflow_gen.py -o $(word 1, $^) -t $(word 2, $^) -n | tabgen.py -f github
+cutflow-Dst-data-web: \
+	gen/cutflow/output-run1-data.yml \
+	gen/cutflow/output-run2-data.yml
+	@cutflow_gen.py -o $< -t $(word 2, $^) -n | tabgen.py -f github
 
 
 # Cutflow for D*, detail: individual
@@ -143,18 +173,6 @@ cutflow-RDst-detail-individual-web: \
 	run1-b2D0MuXB2DMuNuForTauMuLine/cutflow/output-run1-individual.yml \
 	run2-b2D0MuXB2DMuForTauMuLine/cutflow/output-run2-individual.yml
 	@cutflow_gen.py -o $(word 1, $^) -t $(word 2, $^) -n | tabgen.py -f github
-
-
-# Cutflow for D*, bare
-cutflow-Dst-bare: \
-	gen/cutflow/output-run1-bare.yml \
-	gen/cutflow/output-run2-bare.yml
-	@cutflow_gen.py -o $< -t $(word 2, $^) -n | tabgen.py -f latex_booktabs_raw
-
-cutflow-Dst-bare-web: \
-	gen/cutflow/output-run1-bare.yml \
-	gen/cutflow/output-run2-bare.yml
-	@cutflow_gen.py -o $< -t $(word 2, $^) -n | tabgen.py -f github
 
 
 #########
