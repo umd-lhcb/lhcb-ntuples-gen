@@ -1,6 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Jun 18, 2020 at 04:43 PM +0800
+# Last Change: Thu Jun 18, 2020 at 05:30 PM +0800
 
 BINPATH	:=	bin
 
@@ -88,34 +88,6 @@ gen/cutflow/output-run2-bare.yml: \
 	input-run2-bare.yml \
 	cutflow_output_yml_gen-bare.py
 	@$(word 3, $^) $< $(word 2, $^) $@ run2 -t 'TupleB0/DecayTree'
-
-
-# Cutflow re-strippined ntuples for D*.
-gen/run1-Dst-step2/Dst--20_06_05--cutflow_mc--cocktail--2011--md--bare-step2.root: \
-	Dst--20_06_05--cutflow_mc--bare--MC_2011_Beam3500GeV-2011-MagDown-Nu2-Pythia8_Sim08h_Digi13_Trig0x40760037_Reco14c_Stripping20r1NoPrescalingFlagged_11874091_ALLSTREAMS.DST.root \
-	run1-Dst-stripping
-	$(word 2, $^) $< $@
-
-gen/run2-Dst-step2/Dst--20_06_05--cutflow_mc--cocktail--2016--md--bare-step2.root: \
-	Dst--20_06_05--cutflow_mc--bare--MC_2016_Beam6500GeV-2016-MagDown-Nu1.6-25ns-Pythia8_Sim09b_Trig0x6138160F_Reco16_Turbo03_Stripping26NoPrescalingFlagged_11874091_ALLSTREAMS.DST.root \
-	run2-Dst-stripping
-	$(word 2, $^) $< $@
-
-
-# Re-strippings for bare ntuples.
-gen/run1-Dst-stripping.cpp: \
-	run1-b2D0MuXB2DMuNuForTauMuLine/postprocess/Dst-stripping.yml \
-	Dst--20_06_04--cutflow_mc--cocktail--2011--md--dv45-subset-dv_strip.root \
-	include/functor/*.h \
-	include/*.h
-	babymaker -i $< -o $@ -d $(word 2, $^)
-
-gen/run2-Dst-stripping.cpp: \
-	run2-b2D0MuXB2DMuForTauMuLine/postprocess/Dst-stripping.yml \
-	Dst--20_06_04--cutflow_mc--cocktail--2016--md--dv45-subset-dv_strip.root \
-	include/functor/*.h \
-	include/*.h
-	babymaker -i $< -o $@ -d $(word 2, $^)
 
 
 ###########
@@ -249,6 +221,62 @@ gen/test/Dst--20_06_04--cutflow_mc--cocktail--2016--md--subset-bare-step2.root: 
 	$(word 2, $^) $< $@
 
 
+# Cutflow re-stripped ntuples for D*.
+gen/tes/Dst--20_06_05--cutflow_mc--cocktail--2011--md--bare-step2.root: \
+	Dst--20_06_05--cutflow_mc--bare--MC_2011_Beam3500GeV-2011-MagDown-Nu2-Pythia8_Sim08h_Digi13_Trig0x40760037_Reco14c_Stripping20r1NoPrescalingFlagged_11874091_ALLSTREAMS.DST.root \
+	run1-Dst-stripping
+	$(word 2, $^) $< $@
+
+gen/run2-Dst-step2/Dst--20_06_05--cutflow_mc--cocktail--2016--md--bare-step2.root: \
+	Dst--20_06_05--cutflow_mc--bare--MC_2016_Beam6500GeV-2016-MagDown-Nu1.6-25ns-Pythia8_Sim09b_Trig0x6138160F_Reco16_Turbo03_Stripping26NoPrescalingFlagged_11874091_ALLSTREAMS.DST.root \
+	run2-Dst-stripping
+	$(word 2, $^) $< $@
+
+
+# Cutflow re-triggered and re-stripped ntuples for D*.
+gen/test/Dst--20_06_05--cutflow_mc--cocktail--2011--md--bare-step2-triggered.root: \
+	Dst--20_06_05--cutflow_mc--bare--MC_2011_Beam3500GeV-2011-MagDown-Nu2-Pythia8_Sim08h_Digi13_Trig0x40760037_Reco14c_Stripping20r1NoPrescalingFlagged_11874091_ALLSTREAMS.DST.root \
+	run1-Dst-triggering-stripping
+	$(word 2, $^) $< $@
+
+gen/test/Dst--20_06_05--cutflow_mc--cocktail--2016--md--bare-step2-triggered.root: \
+	Dst--20_06_05--cutflow_mc--bare--MC_2016_Beam6500GeV-2016-MagDown-Nu1.6-25ns-Pythia8_Sim09b_Trig0x6138160F_Reco16_Turbo03_Stripping26NoPrescalingFlagged_11874091_ALLSTREAMS.DST.root \
+	run2-Dst-triggering-stripping
+	$(word 2, $^) $< $@
+
+
+# Re-stripping for bare ntuples.
+gen/run1-Dst-stripping.cpp: \
+	run1-b2D0MuXB2DMuNuForTauMuLine/postprocess/Dst-stripping.yml \
+	Dst--20_06_04--cutflow_mc--cocktail--2011--md--dv45-subset-dv_strip.root \
+	include/functor/*.h \
+	include/*.h
+	babymaker -i $< -o $@ -d $(word 2, $^)
+
+gen/run2-Dst-stripping.cpp: \
+	run2-b2D0MuXB2DMuForTauMuLine/postprocess/Dst-stripping.yml \
+	Dst--20_06_04--cutflow_mc--cocktail--2016--md--dv45-subset-dv_strip.root \
+	include/functor/*.h \
+	include/*.h
+	babymaker -i $< -o $@ -d $(word 2, $^)
+
+
+# Re-stripping and trigger-filtering for bare ntuples.
+gen/run1-Dst-triggering-stripping.cpp: \
+	run1-b2D0MuXB2DMuNuForTauMuLine/postprocess/Dst-triggering-stripping.yml \
+	Dst--20_06_04--cutflow_mc--cocktail--2011--md--dv45-subset-dv_strip.root \
+	include/functor/*.h \
+	include/*.h
+	babymaker -i $< -o $@ -d $(word 2, $^)
+
+gen/run2-Dst-triggering-stripping.cpp: \
+	run2-b2D0MuXB2DMuForTauMuLine/postprocess/Dst-triggering-stripping.yml \
+	Dst--20_06_04--cutflow_mc--cocktail--2016--md--dv45-subset-dv_strip.root \
+	include/functor/*.h \
+	include/*.h
+	babymaker -i $< -o $@ -d $(word 2, $^)
+
+
 #########
 # Tests #
 #########
@@ -259,7 +287,8 @@ gen/test/Dst--20_06_04--cutflow_mc--cocktail--2016--md--subset-bare-step2.root: 
 test-all: \
 	test-naming-conv \
 	test-cutflow-run1 \
-	test-cutflow-run2
+	test-cutflow-run2 \
+	test-cutflow-consistency
 
 
 # Test if specific files follow naming conventions.
@@ -285,6 +314,12 @@ test-cutflow-run2: \
 	@echo "Test results:"
 	@test_ntuple_identical.py -n $< -N $(word 3, $^) -t b0dst -T TupleB0/DecayTree
 	@test_ntuple_identical.py -n $(word 2, $^) -N $(word 3, $^) -t b0dst -T TupleB0/DecayTree
+
+
+# Test if the number of events used in the cutflow generation is consistent.
+test-cutflow-consistency: \
+	gen/test/Dst--20_06_05--cutflow_mc--cocktail--2011--md--bare-step2-triggered.root \
+	gen/test/Dst--20_06_05--cutflow_mc--cocktail--2016--md--bare-step2-triggered.root
 
 
 ####################
