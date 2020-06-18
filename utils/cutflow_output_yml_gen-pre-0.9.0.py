@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Jun 18, 2020 at 08:52 PM +0800
+# Last Change: Thu Jun 18, 2020 at 09:02 PM +0800
 
 import uproot
 import sys
@@ -20,7 +20,7 @@ from pyTuplingUtils.io import read_branch
 ALIASES = {
     'SeqMyB0': 'Total events',
     'StrippedBCands': r'Stripped $D^0 \mu^-$',
-    'SelMyD0': r'$D^0 \rightarrow K^- \pi^+$',
+    'SelMyD0': r'$D^0 \rightarrow K^- \pi^+$ (tighter $K\pi$)',
     'SelMyDst': r'$D^{*+} \rightarrow D^0 \pi^+$',
     'SelMyB0': r'$\bar{B}^0 \rightarrow D^{*+} \mu^-$',
     'SelMyRefitB02DstMu': r'Refit $\bar{B}^0$ decay tree',
