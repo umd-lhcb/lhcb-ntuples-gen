@@ -17,27 +17,13 @@
         ./davinci_log_parser.py input-run1.yml $INPUT_DIR/53/*/output/*.log
         ```
 
-2. Run the [`cutflow-run1.py`](https://github.com/umd-lhcb/lhcb-ntuples-gen/blob/master/run1-b2D0MuXB2DMuNuForTauMuLine/cutflow/cutflow-run1.py) and [`cutflow-run2.py`](https://github.com/umd-lhcb/lhcb-ntuples-gen/blob/master/run2-b2D0MuXB2DMuForTauMuLine/cutflow/cutflow-run2.py).
-
-    !!! note
-        The `<output_yaml_filename>` generated in the previous step is used as
-        `<input_yaml_filename>` in this step.
-
-        These scripts take the following arguments:
-        ```
-        cutflow_script <cutflow_ntuple> <input_yaml_filename> <output_yaml_filename>
-        ```
-
-        Example usage:
-        ```
-        ./cut_flow-run2.py ../ntuples/cutflow-Dst/BCands_Dst-yipeng-cutflow_mc-2016-mag_down.root input-run2.yml output-run2.yml
-        ```
-
-3. Generate cut flow table with:
+2. Generate cut flow table with:
     ```
-    make cutflow-RDst
+    make cutflow-Dst
     ```
     Please refer to the [`Makefile`](https://github.com/umd-lhcb/lhcb-ntuples-gen/blob/master/Makefile) on the implementation details.
+
+    There are multiple cutflow rules defined in that `Makefile`.
 
 
 ## Cutflow table with cocktail MC
@@ -58,6 +44,7 @@
 | $B^0$ cuts                                   | 925           | 2382          | 1.0000±0.0020      | 0.9992±0.0011      | 0.9992±0.0023  |
 | $K$ cuts                                     | 912           | 1946          | 0.9859±0.0050      | 0.8170±0.0082      | 0.8286±0.0093  |
 | $\pi$ cuts                                   | 903           | 1607          | 0.9901±0.0045      | 0.8258±0.0090      | 0.8340±0.0098  |
+| $\pi_{soft}$ cuts                            | 903           | 1607          | 1.0000±0.0020      | 1.0000±0.0011      | 1.0000±0.0023  |
 | $D^0$ cuts                                   | 877           | 1083          | 0.9712±0.0067      | 0.674±0.012        | 0.694±0.013    |
 | $D^*$ cuts                                   | 785           | 974           | 0.895±0.011        | 0.8994±0.0099      | 1.005±0.017    |
 | Total ratio                                  | -             | -             | 0.001561±0.000057  | 0.001873±0.000062  | 1.199±0.059    |
@@ -95,6 +82,7 @@
 | $B^0$ cuts                           | 921           | 2516          | 1.0000±0.0020      | 0.9703±0.0037      | 0.9703±0.0042   |
 | $K$ cuts                             | 907           | 2050          | 0.9848±0.0052      | 0.8148±0.0080      | 0.8274±0.0092   |
 | $\pi$ cuts                           | 901           | 1668          | 0.9934±0.0039      | 0.8137±0.0090      | 0.8191±0.0096   |
+| $\pi_{soft}$ cuts                    | 901           | 1668          | 1.0000±0.0020      | 1.0000±0.0011      | 1.0000±0.0023   |
 | $D^0$ cuts                           | 870           | 1125          | 0.9656±0.0072      | 0.674±0.012        | 0.698±0.013     |
 | $D^*$ cuts                           | 803           | 1036          | 0.923±0.010        | 0.9209±0.0088      | 0.998±0.015     |
 | Total ratio                          | -             | -             | 0.001597±0.000058  | 0.001992±0.000063  | 1.247±0.060     |
@@ -124,6 +112,7 @@
 | $B^0$ cuts                                   | 245522        | 1235316       | 0.98521±0.00024     | 0.98425±0.00011       | 0.99903±0.00027     |
 | $K$ cuts                                     | 241736        | 926079        | 0.98458±0.00025     | 0.74967±0.00039       | 0.76141±0.00044     |
 | $\pi$ cuts                                   | 238433        | 716253        | 0.98634±0.00024     | 0.77343±0.00043       | 0.78414±0.00048     |
+| $\pi_{soft}$ cuts                            | 238433        | 716253        | 1.0000000±0.0000077 | 1.0000000±0.0000026   | 1.0000000±0.0000081 |
 | $D^0$ cuts                                   | 224236        | 478165        | 0.94046±0.00049     | 0.66759±0.00055       | 0.70986±0.00069     |
 | $D^*$ cuts                                   | 184564        | 387659        | 0.82308±0.00081     | 0.81072±0.00057       | 0.9850±0.0012       |
 | Total ratio                                  | -             | -             | 0.0014199±0.0000033 | 0.0007960±0.0000013   | 0.5606±0.0016       |

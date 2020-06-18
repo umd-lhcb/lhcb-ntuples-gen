@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Jun 18, 2020 at 09:02 PM +0800
+# Last Change: Thu Jun 18, 2020 at 09:13 PM +0800
 
 import uproot
 import sys
@@ -39,6 +39,7 @@ CUTFLOW = {
         # Newer step 2 cuts
         Rule('Kplus_PT > 800.0*MeV & !Kplus_isMuon & Kplus_IPCHI2_OWNPV > 45', r'$K$ cuts'),
         Rule('piminus0_PT > 800.0*MeV & !piminus0_isMuon & piminus0_IPCHI2_OWNPV > 45', r'$\pi$ cuts'),
+        Rule('piminus_TRACK_GhostProb < 0.5', r'$\pi_{soft}$ cuts'),
         Rule('D0_P > 2.0*GeV & D0_DIRA_OWNPV > 0.9998 & D0_FDCHI2_OWNPV > 250 & ABS(D0_MM - PDG_M_D0) < 23.4 & (Kplus_PT > 1.7*GeV | piminus0_PT > 1.7*GeV)', r'$D^0$ cuts'),
         Rule('Dst_2010_minus_ENDVERTEX_CHI2 / Dst_2010_minus_ENDVERTEX_NDOF < 10 & ABS(Dst_2010_minus_MM - D0_MM - 145.43) < 2', r'$D^*$ cuts'),
     ],
@@ -54,6 +55,7 @@ CUTFLOW = {
         # Newer step 2 cuts
         Rule('Kplus_PT > 800.0*MeV & !Kplus_isMuon & Kplus_IPCHI2_OWNPV > 45', r'$K$ cuts'),
         Rule('piminus0_PT > 800.0*MeV & !piminus0_isMuon & piminus0_IPCHI2_OWNPV > 45', r'$\pi$ cuts'),
+        Rule('piminus_TRACK_GhostProb < 0.5', r'$\pi_{soft}$ cuts'),
         Rule('D0_P > 2.0*GeV & D0_DIRA_OWNPV > 0.9998 & D0_FDCHI2_OWNPV > 250 & ABS(D0_MM - PDG_M_D0) < 23.4 & (Kplus_PT > 1.7*GeV | piminus0_PT > 1.7*GeV)', r'$D^0$ cuts'),
         Rule('Dst_2010_minus_ENDVERTEX_CHI2 / Dst_2010_minus_ENDVERTEX_NDOF < 10 & ABS(Dst_2010_minus_MM - D0_MM - 145.43) < 2', r'$D^*$ cuts'),
     ]
