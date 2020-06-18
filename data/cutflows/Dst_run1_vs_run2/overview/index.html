@@ -819,24 +819,11 @@ providing a list of log files, you can just provide a single
 </div>
 </li>
 <li>
-<p>Run the <a href="https://github.com/umd-lhcb/lhcb-ntuples-gen/blob/master/run1-b2D0MuXB2DMuNuForTauMuLine/cutflow/cutflow-run1.py"><code>cutflow-run1.py</code></a> and <a href="https://github.com/umd-lhcb/lhcb-ntuples-gen/blob/master/run2-b2D0MuXB2DMuForTauMuLine/cutflow/cutflow-run2.py"><code>cutflow-run2.py</code></a>.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>The <code>&lt;output_yaml_filename&gt;</code> generated in the previous step is used as
-<code>&lt;input_yaml_filename&gt;</code> in this step.</p>
-<p>These scripts take the following arguments:
-<div class="highlight"><pre><span></span><code>cutflow_script &lt;cutflow_ntuple&gt; &lt;input_yaml_filename&gt; &lt;output_yaml_filename&gt;
-</code></pre></div></p>
-<p>Example usage:
-<div class="highlight"><pre><span></span><code>./cut_flow-run2.py ../ntuples/cutflow-Dst/BCands_Dst-yipeng-cutflow_mc-2016-mag_down.root input-run2.yml output-run2.yml
-</code></pre></div></p>
-</div>
-</li>
-<li>
 <p>Generate cut flow table with:
-    <div class="highlight"><pre><span></span><code>make cutflow-RDst
+    <div class="highlight"><pre><span></span><code>make cutflow-Dst
 </code></pre></div>
     Please refer to the <a href="https://github.com/umd-lhcb/lhcb-ntuples-gen/blob/master/Makefile"><code>Makefile</code></a> on the implementation details.</p>
+<p>There are multiple cutflow rules defined in that <code>Makefile</code>.</p>
 </li>
 </ol>
 <h2 id="cutflow-table-with-cocktail-mc">Cutflow table with cocktail MC</h2>
@@ -963,6 +950,14 @@ providing a list of log files, you can just provide a single
 <td>0.9901±0.0045</td>
 <td>0.8258±0.0090</td>
 <td>0.8340±0.0098</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">\pi_{soft}</span><script type="math/tex">\pi_{soft}</script></span> cuts</td>
+<td>903</td>
+<td>1607</td>
+<td>1.0000±0.0020</td>
+<td>1.0000±0.0011</td>
+<td>1.0000±0.0023</td>
 </tr>
 <tr>
 <td><span><span class="MathJax_Preview">D^0</span><script type="math/tex">D^0</script></span> cuts</td>
@@ -1129,6 +1124,14 @@ providing a list of log files, you can just provide a single
 <td>0.8191±0.0096</td>
 </tr>
 <tr>
+<td><span><span class="MathJax_Preview">\pi_{soft}</span><script type="math/tex">\pi_{soft}</script></span> cuts</td>
+<td>901</td>
+<td>1668</td>
+<td>1.0000±0.0020</td>
+<td>1.0000±0.0011</td>
+<td>1.0000±0.0023</td>
+</tr>
+<tr>
 <td><span><span class="MathJax_Preview">D^0</span><script type="math/tex">D^0</script></span> cuts</td>
 <td>870</td>
 <td>1125</td>
@@ -1287,6 +1290,14 @@ providing a list of log files, you can just provide a single
 <td>0.98634±0.00024</td>
 <td>0.77343±0.00043</td>
 <td>0.78414±0.00048</td>
+</tr>
+<tr>
+<td><span><span class="MathJax_Preview">\pi_{soft}</span><script type="math/tex">\pi_{soft}</script></span> cuts</td>
+<td>238433</td>
+<td>716253</td>
+<td>1.0000000±0.0000077</td>
+<td>1.0000000±0.0000026</td>
+<td>1.0000000±0.0000081</td>
 </tr>
 <tr>
 <td><span><span class="MathJax_Preview">D^0</span><script type="math/tex">D^0</script></span> cuts</td>
