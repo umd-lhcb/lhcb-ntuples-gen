@@ -1,6 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Jun 18, 2020 at 05:30 PM +0800
+# Last Change: Thu Jun 18, 2020 at 08:13 PM +0800
 
 BINPATH	:=	bin
 
@@ -80,14 +80,14 @@ docker-dv:
 gen/cutflow/output-run1-bare.yml: \
 	Dst--20_06_05--cutflow_mc--bare--MC_2011_Beam3500GeV-2011-MagDown-Nu2-Pythia8_Sim08h_Digi13_Trig0x40760037_Reco14c_Stripping20r1NoPrescalingFlagged_11874091_ALLSTREAMS.DST.root \
 	input-run1-bare.yml \
-	cutflow_output_yml_gen-bare.py
-	@$(word 3, $^) $< $(word 2, $^) $@ run1 -t 'TupleB0/DecayTree'
+	cutflow_output_yml_gen.py
+	@$(word 3, $^) $< $(word 2, $^) $@ run1-bare -t 'TupleB0/DecayTree'
 
 gen/cutflow/output-run2-bare.yml: \
 	Dst--20_06_05--cutflow_mc--bare--MC_2016_Beam6500GeV-2016-MagDown-Nu1.6-25ns-Pythia8_Sim09b_Trig0x6138160F_Reco16_Turbo03_Stripping26NoPrescalingFlagged_11874091_ALLSTREAMS.DST.root \
 	input-run2-bare.yml \
-	cutflow_output_yml_gen-bare.py
-	@$(word 3, $^) $< $(word 2, $^) $@ run2 -t 'TupleB0/DecayTree'
+	cutflow_output_yml_gen.py
+	@$(word 3, $^) $< $(word 2, $^) $@ run2-bare -t 'TupleB0/DecayTree'
 
 
 ###########
