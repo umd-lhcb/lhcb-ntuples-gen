@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Jun 18, 2020 at 09:13 PM +0800
+# Last Change: Fri Jun 19, 2020 at 08:11 PM +0800
 
 import uproot
 import sys
@@ -14,6 +14,7 @@ from argparse import ArgumentParser
 from davinci_log_parser import yaml_gen
 from pyTuplingUtils.utils import extract_uid
 from pyTuplingUtils.cutflow import CutflowGen, CutflowRule as Rule
+from pyTuplingUtils.cutflow import cutflow_uniq_events
 from pyTuplingUtils.io import read_branch
 
 
@@ -103,7 +104,8 @@ if __name__ == '__main__':
             val['output'] = uniq_size
 
     result_addon = CutflowGen(
-        args.ntp, args.tree, CUTFLOW[args.mode], uniq_size).do()
+        args.ntp, args.tree, CUTFLOW[args.mode], uniq_size).do(
+            output_regulator=cutflow_uniq_events)
     result.update(result_addon)
 
     with open(args.output_yml, 'w') as f:
