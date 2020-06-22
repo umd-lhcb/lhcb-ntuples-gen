@@ -11,6 +11,7 @@ pkgs.mkShell {
   buildInputs = with pythonPackages; [
     # Compilers and other build dependencies
     pkgs.stdenv
+    pkgs.clang  # Explicitly require clang for clang-format
     root
 
     # Auto completion
