@@ -9,7 +9,7 @@
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
       
-        <link rel="canonical" href="https://umd-lhcb.github.io/lhcb-ntuples-gen/physics/wrong_sign_particles/">
+        <link rel="canonical" href="https://umd-lhcb.github.io/lhcb-ntuples-gen/ntupling/dev/">
       
       
       <link rel="shortcut icon" href="../../assets/images/favicon.png">
@@ -17,7 +17,7 @@
     
     
       
-        <title>Wrong-sign particles - lhcb-ntuples-gen wiki</title>
+        <title>Developing this project - lhcb-ntuples-gen wiki</title>
       
     
     
@@ -50,6 +50,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#installing-pyenv" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -74,7 +79,7 @@
           </span>
           <span class="md-header-nav__topic md-ellipsis">
             
-              Wrong-sign particles
+              Developing this project
             
           </span>
         </div>
@@ -214,10 +219,12 @@
       
       
 
+  
 
-  <li class="md-nav__item md-nav__item--nested">
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
     
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2">
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2" checked>
     
     <label class="md-nav__link" for="nav-2">
       Ntupling
@@ -241,7 +248,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../ntupling/nomenclature/" title="Nomenclature" class="md-nav__link">
+    <a href="../nomenclature/" title="Nomenclature" class="md-nav__link">
       Nomenclature
     </a>
   </li>
@@ -253,7 +260,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../ntupling/installation/" title="Installing dependencies" class="md-nav__link">
+    <a href="../installation/" title="Installing dependencies" class="md-nav__link">
       Installing dependencies
     </a>
   </li>
@@ -265,7 +272,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../ntupling/step1_davinci/" title="Step 1 ntuples with Davinci" class="md-nav__link">
+    <a href="../step1_davinci/" title="Step 1 ntuples with Davinci" class="md-nav__link">
       Step 1 ntuples with Davinci
     </a>
   </li>
@@ -277,7 +284,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../ntupling/step2_babymaker/" title="Step 2 ntuples with babymaker" class="md-nav__link">
+    <a href="../step2_babymaker/" title="Step 2 ntuples with babymaker" class="md-nav__link">
       Step 2 ntuples with babymaker
     </a>
   </li>
@@ -287,11 +294,56 @@
           
           
 
+  
 
-  <li class="md-nav__item">
-    <a href="../../ntupling/dev/" title="Developing this project" class="md-nav__link">
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Developing this project
+        <span class="md-nav__icon md-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 9h14V7H3v2m0 4h14v-2H3v2m0 4h14v-2H3v2m16 0h2v-2h-2v2m0-10v2h2V7h-2m0 6h2v-2h-2v2z"/></svg>
+        </span>
+      </label>
+    
+    <a href="./" title="Developing this project" class="md-nav__link md-nav__link--active">
       Developing this project
     </a>
+    
+      
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#installing-pyenv" class="md-nav__link">
+    Installing pyenv
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#create-a-virtual-environment" class="md-nav__link">
+    Create a virtual environment
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+    
   </li>
 
         
@@ -460,12 +512,10 @@
       
       
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+  <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4" checked>
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4">
     
     <label class="md-nav__link" for="nav-4">
       Physics
@@ -489,7 +539,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../momentum_scaling/" title="Momentum scaling" class="md-nav__link">
+    <a href="../../physics/momentum_scaling/" title="Momentum scaling" class="md-nav__link">
       Momentum scaling
     </a>
   </li>
@@ -499,18 +549,11 @@
           
           
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active">
-    
-    <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-    
-    
-    <a href="./" title="Wrong-sign particles" class="md-nav__link md-nav__link--active">
+  <li class="md-nav__item">
+    <a href="../../physics/wrong_sign_particles/" title="Wrong-sign particles" class="md-nav__link">
       Wrong-sign particles
     </a>
-    
   </li>
 
         
@@ -688,12 +731,49 @@
               </div>
             
             
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#installing-pyenv" class="md-nav__link">
+    Installing pyenv
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#create-a-virtual-environment" class="md-nav__link">
+    Create a virtual environment
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
           
           <div class="md-content">
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/umd-lhcb/lhcb-ntuples-gen/edit/master/docs/physics/wrong_sign_particles.md" title="Edit this page" class="md-content__button md-icon">
+                  <a href="https://github.com/umd-lhcb/lhcb-ntuples-gen/edit/master/docs/ntupling/dev.md" title="Edit this page" class="md-content__button md-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
                   </a>
                 
@@ -701,26 +781,45 @@
                   
                 
                 
-                  <h1>Wrong-sign particles</h1>
+                  <h1>Developing this project</h1>
                 
-                <p>Note that we are not guaranteed to be reconstructing real particles. Instead,
-we are looking at combinations of reconstructed tracks with specific properties
-consistent with originating from a common vertex. These reconstructed particles
-may original from different mothers---they may still pass our vertexing
-criteria by sheer coincidence combined with resolution effects and the fact
-that tracks don't have an origin point.</p>
-<p>By looking at wrong-sign combinations, we get a pure sample of "candidates"
-that <strong>did not</strong> originate from a common mother (charged was not conserved in
-this "decay" mode, so it is not physical). We can be absolutely sure that no
-signal or physics background contaminates these samples because there is no
-such thing as a <span><span class="MathJax_Preview">B^{++}</span><script type="math/tex">B^{++}</script></span> (again, charge not conserved). Therefore, these
-combinations can be used to study and model these random combinations of tracks
-that pass our selection.</p>
-<p>A caveat to remember is that the wrong-sign combinations are not guaranteed to
-look exactly like the background in the right-sign we are trying to understand.
-This is where the candidates with mass greater than <span><span class="MathJax_Preview">m_B</span><script type="math/tex">m_B</script></span> come in handy. Here we
-know neither the right-sign nor the wrong-sign has any physics candidates in
-them, and we can see how the two differ.</p>
+                <h2 id="installing-pyenv">Installing <code>pyenv</code></h2>
+<p>We recommend <code>pyenv</code> to manage your Python versions and virtual environments.
+The two main advantage of using <code>pyenv</code>, instead of the Python that comes with
+your systems are:</p>
+<ol>
+<li>No Python package is installed globally to your system Python, this prevents
+   conflicting packages to break your system</li>
+<li>Different versions of the same package can co-exist in different virtual
+   environments, making this setup more flexible</li>
+</ol>
+<p>First, follow <a href="https://github.com/pyenv/pyenv#installation">this instruction</a>
+to install <code>pyenv</code>.</p>
+<p>Then, follow <a href="https://github.com/pyenv/pyenv-virtualenv#installation">this instruction</a>
+to install <code>pyenv-virtualenv</code></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<ul>
+<li>Microsoft Windows not supported!</li>
+<li>If you are using macOS, you can use <code>homebrew</code> to install both. Though
+  the change in shell configuration file is still needed.</li>
+<li>Don't forget to change your shell configuration file <strong>manually</strong> after
+  installation!</li>
+<li>After installation, restart your shell.</li>
+</ul>
+</div>
+<h2 id="create-a-virtual-environment">Create a virtual environment</h2>
+<p>First, install a specific version of Python (Python 3.7.7 used here):
+<div class="highlight"><pre><span></span><code>pyenv install 3.7.7
+</code></pre></div></p>
+<p>Then create a virtualenv:
+<div class="highlight"><pre><span></span><code>pyenv virtualenv 3.7.7 ntuples
+</code></pre></div></p>
+<p>Now go to the project root, and set the local python version:
+<div class="highlight"><pre><span></span><code>pyenv local ntuples
+</code></pre></div></p>
+<p>Now, every time you <code>cd</code> into the project root, virtual environment <code>ntuples</code>
+will be automatically activated.</p>
                 
               
               
@@ -739,7 +838,7 @@ them, and we can see how the two differ.</p>
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
         
-          <a href="../momentum_scaling/" title="Momentum scaling" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../step2_babymaker/" title="Step 2 ntuples with babymaker" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-footer-nav__button md-icon">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
             </div>
@@ -748,19 +847,19 @@ them, and we can see how the two differ.</p>
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                Momentum scaling
+                Step 2 ntuples with babymaker
               </div>
             </div>
           </a>
         
         
-          <a href="../../data/data_management/" title="Data management" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../../software_manuals/git_annex/" title="git-annex" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-footer-nav__title">
               <div class="md-ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                Data management
+                git-annex
               </div>
             </div>
             <div class="md-footer-nav__button md-icon">
