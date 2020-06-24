@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Jun 24, 2020 at 06:15 PM +0800
+# Last Change: Wed Jun 24, 2020 at 09:32 PM +0800
 
 import uproot
 import sys
@@ -15,7 +15,7 @@ from argparse import ArgumentParser
 from davinci_log_parser import yaml_gen
 from pyTuplingUtils.utils import extract_uid
 from pyTuplingUtils.cutflow import CutflowGen, CutflowRule as Rule
-from pyTuplingUtils.cutflow import cutflow_uniq_events
+from pyTuplingUtils.cutflow import cutflow_uniq_events_outer
 
 
 ALIASES = {
@@ -92,7 +92,8 @@ def parse_input(descr='Generate cutflow output YAML based on input ntuple and YA
 
 if __name__ == '__main__':
     args = parse_input()
-    _, _, _, uniq_size, _ = extract_uid(uproot.open(args.ntp), args.tree)
+    ntp = uproot.open(args.ntp)
+    _, _, _, uniq_size, _ = extract_uid(ntp, args.tree)
 
     with open(args.input_yml) as f:
         result = safe_load(f)
@@ -103,9 +104,11 @@ if __name__ == '__main__':
         if val['output'] is None:
             val['output'] = uniq_size
 
+    cutflow_output_regulator = cutflow_uniq_events_outer(ntp, args.tree)
+
     result_addon = CutflowGen(
         args.ntp, args.tree, CUTFLOW[args.mode], uniq_size).do(
-            output_regulator=cutflow_uniq_events)
+            output_regulator=cutflow_output_regulator)
     result.update(result_addon)
 
     with open(args.output_yml, 'w') as f:
