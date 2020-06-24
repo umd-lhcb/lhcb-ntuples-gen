@@ -1,4 +1,4 @@
-## Installing `pyenv`
+## Installing `pyenv` for Python development
 
 We recommend `pyenv` to manage your Python versions and virtual environments.
 The two main advantage of using `pyenv`, instead of the Python that comes with
