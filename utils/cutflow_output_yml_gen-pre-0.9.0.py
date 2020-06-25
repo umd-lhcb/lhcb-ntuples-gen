@@ -33,32 +33,42 @@ CUTFLOW = {
         Rule('muplus_L0Global_TIS & (Y_L0Global_TIS | Dst_2010_minus_L0HadronDecision_TOS)', key='L0'),
         Rule('Kplus_Hlt1TrackAllL0Decision_TOS | piminus0_Hlt1TrackAllL0Decision_TOS', key='Hlt1'),
         Rule('D0_Hlt2CharmHadD02HH_D02KPiDecision_TOS', key='Hlt2'),
-        # Step 2
-        Rule('muplus_isMuon & muplus_PIDmu > 2 & muplus_PIDe < 1 & muplus_P < 100.0*GeV', r'$\mu$ PID'),
-        Rule('Y_ISOLATION_BDT < 0.15', r'$\text{IsoBDT}_{B^0} < 0.15$'),
-        Rule('Y_MM < 5280 & Y_DIRA_OWNPV > 0.9995', r'$B^0$ cuts'),
         # Newer step 2 cuts
-        Rule('Kplus_PT > 800.0*MeV & !Kplus_isMuon & Kplus_IPCHI2_OWNPV > 45', r'$K$ cuts'),
-        Rule('piminus0_PT > 800.0*MeV & !piminus0_isMuon & piminus0_IPCHI2_OWNPV > 45', r'$\pi$ cuts'),
-        Rule('piminus_TRACK_GhostProb < 0.5', r'$\pi_{soft}$ cuts'),
-        Rule('D0_P > 2.0*GeV & D0_FDCHI2_OWNPV > 250 & ABS(D0_MM - PDG_M_D0) < 23.4 & (Kplus_PT > 1.7*GeV | piminus0_PT > 1.7*GeV)', r'$D^0$ cuts'),
-        Rule('Dst_2010_minus_ENDVERTEX_CHI2 / Dst_2010_minus_ENDVERTEX_NDOF < 10 & ABS(Dst_2010_minus_MM - D0_MM - 145.43) < 2', r'$D^*$ cuts'),
+        Rule('Kplus_PT > 800.0*MeV & !Kplus_isMuon & Kplus_IPCHI2_OWNPV > 45', r'Kaon'),
+        Rule('piminus0_PT > 800.0*MeV & !piminus0_isMuon & piminus0_IPCHI2_OWNPV > 45', r'Pion'),
+        Rule('D0_P > 2.0*GeV & D0_FDCHI2_OWNPV > 250 & ABS(D0_MM - PDG_M_D0) < 23.4 & (Kplus_PT > 1.7*GeV | piminus0_PT > 1.7*GeV)', r'$D^0 \\rightarrow K \\pi$'),
+        Rule('muplus_isMuon & muplus_PIDmu > 2 & muplus_PIDe < 1 & muplus_P < 100.0*GeV', r'$\mu$'),
+        Rule('piminus_TRACK_GhostProb < 0.5', r'$\pi_{soft}$'),
+        Rule('Dst_2010_minus_ENDVERTEX_CHI2 / Dst_2010_minus_ENDVERTEX_NDOF < 10 & ABS(Dst_2010_minus_MM - D0_MM - 145.43) < 2', r'$D^*$'),
+        Rule('Y_ISOLATION_BDT < 0.15 & (Y_ENDVERTEX_CHI2/Y_ENDVERTEX_NDOF) < 6 & Y_MM<5280 & Y_DIRA_OWNPV>0.9995', r'$B^0$')
     ],
     'run2': [
         # Trigger
         Rule('muplus_L0Global_TIS & (Y_L0Global_TIS | Dst_2010_minus_L0HadronDecision_TOS)', key='L0'),
+        Rule('Kplus_Hlt1TrackMVALooseDecision_TOS | piminus0_Hlt1TrackMVALooseDecision_TOS  | D0_Hlt1TwoTrackMVADecision_TOS', key='Hlt1'),
+        Rule('D0_Hlt2XcMuXForTauB2XcMuDecision_Dec', key='Hlt2'),
+        # Newer step 2 cuts
+        Rule('Kplus_PT > 800.0*MeV & !Kplus_isMuon & Kplus_IPCHI2_OWNPV > 45', r'Kaon'),
+        Rule('piminus0_PT > 800.0*MeV & !piminus0_isMuon & piminus0_IPCHI2_OWNPV > 45', r'Pion'),
+        Rule('D0_P > 2.0*GeV & D0_FDCHI2_OWNPV > 250 & ABS(D0_MM - PDG_M_D0) < 23.4 & (Kplus_PT > 1.7*GeV | piminus0_PT > 1.7*GeV)', r'$D^0 \\rightarrow K \\pi$'),
+        Rule('muplus_isMuon & muplus_PIDmu > 2 & muplus_PIDe < 1 & muplus_P < 100.0*GeV', r'$\mu$'),
+        Rule('piminus_TRACK_GhostProb < 0.5', r'$\pi_{soft}$'),
+        Rule('Dst_2010_minus_ENDVERTEX_CHI2 / Dst_2010_minus_ENDVERTEX_NDOF < 10 & ABS(Dst_2010_minus_MM - D0_MM - 145.43) < 2', r'$D^*$'),
+        Rule('Y_ISOLATION_BDT < 0.15 & (Y_ENDVERTEX_CHI2/Y_ENDVERTEX_NDOF) < 6 & Y_MM<5280 & Y_DIRA_OWNPV>0.9995', r'$B^0$')
+    ],
+    'run2-data': [
+        # Trigger
+        Rule('muplus_L0Global_TIS & (Y_L0Global_TIS | Dst_2010_minus_L0HadronDecision_TOS)', key='L0'),
         Rule('Kplus_Hlt1Phys_Dec', key='Hlt1'),
         Rule('D0_Hlt2XcMuXForTauB2XcMuDecision_Dec', key='Hlt2'),
-        # Step 2
-        Rule('muplus_isMuon & muplus_PIDmu > 2 & muplus_PIDe < 1 & muplus_P < 100.0*GeV', r'$\mu$ PID'),
-        Rule('Y_ISOLATION_BDT < 0.15', r'$\text{IsoBDT}_{B^0} < 0.15$'),
-        Rule('Y_MM < 5280 & Y_DIRA_OWNPV > 0.9995', r'$B^0$ cuts'),
         # Newer step 2 cuts
-        Rule('Kplus_PT > 800.0*MeV & !Kplus_isMuon & Kplus_IPCHI2_OWNPV > 45', r'$K$ cuts'),
-        Rule('piminus0_PT > 800.0*MeV & !piminus0_isMuon & piminus0_IPCHI2_OWNPV > 45', r'$\pi$ cuts'),
-        Rule('piminus_TRACK_GhostProb < 0.5', r'$\pi_{soft}$ cuts'),
-        Rule('D0_P > 2.0*GeV & D0_FDCHI2_OWNPV > 250 & ABS(D0_MM - PDG_M_D0) < 23.4 & (Kplus_PT > 1.7*GeV | piminus0_PT > 1.7*GeV)', r'$D^0$ cuts'),
-        Rule('Dst_2010_minus_ENDVERTEX_CHI2 / Dst_2010_minus_ENDVERTEX_NDOF < 10 & ABS(Dst_2010_minus_MM - D0_MM - 145.43) < 2', r'$D^*$ cuts'),
+        Rule('Kplus_PT > 800.0*MeV & !Kplus_isMuon & Kplus_IPCHI2_OWNPV > 45', r'Kaon'),
+        Rule('piminus0_PT > 800.0*MeV & !piminus0_isMuon & piminus0_IPCHI2_OWNPV > 45', r'Pion'),
+        Rule('D0_P > 2.0*GeV & D0_FDCHI2_OWNPV > 250 & ABS(D0_MM - PDG_M_D0) < 23.4 & (Kplus_PT > 1.7*GeV | piminus0_PT > 1.7*GeV)', r'$D^0 \\rightarrow K \\pi$'),
+        Rule('muplus_isMuon & muplus_PIDmu > 2 & muplus_PIDe < 1 & muplus_P < 100.0*GeV', r'$\mu$'),
+        Rule('piminus_TRACK_GhostProb < 0.5', r'$\pi_{soft}$'),
+        Rule('Dst_2010_minus_ENDVERTEX_CHI2 / Dst_2010_minus_ENDVERTEX_NDOF < 10 & ABS(Dst_2010_minus_MM - D0_MM - 145.43) < 2', r'$D^*$'),
+        Rule('Y_ISOLATION_BDT < 0.15 & (Y_ENDVERTEX_CHI2/Y_ENDVERTEX_NDOF) < 6 & Y_MM<5280 & Y_DIRA_OWNPV>0.9995', r'$B^0$')
     ]
 }
 

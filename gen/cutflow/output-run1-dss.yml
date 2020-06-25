@@ -1,0 +1,64 @@
+SeqMyB0:
+    input: 502736
+    output: 502736
+    name: Total events
+SelMyD0:
+    input: 478805
+    output: 89441
+    name: $D^0 \rightarrow K^- \pi^+$
+SelMyDst:
+    input: 89441
+    output: 89277
+    name: $D^{*+} \rightarrow D^0 \pi^+$
+SelMyB0:
+    input: 77426
+    output: 47858
+    name: $\bar{B}^0 \rightarrow D^{*+} \mu^-$
+Partial stripping:
+    input: 47858
+    output: 13986
+    name: $D^{**}$
+L0:
+    input: 13986
+    output: 5415
+Hlt1:
+    input: 5415
+    output: 2668
+Hlt2:
+    input: 2668
+    output: 1037
+Full stripping:
+    input: 1037
+    output: 275
+mu_isMuon & mu_PIDmu > 2 & mu_PIDe < 1 & mu_P < 100.0*GeV:
+    input: 275
+    output: 250
+    name: $\mu$ PID
+b0_ISOLATION_BDT < 0.15:
+    input: 250
+    output: 90
+    name: $\text{IsoBDT}_{B^0} < 0.15$
+b0_MM < 5280 & b0_DIRA_OWNPV > 0.9995:
+    input: 90
+    output: 85
+    name: $B^0$ cuts
+k_PT > 800.0*MeV & !k_isMuon & k_IPCHI2_OWNPV > 45:
+    input: 85
+    output: 73
+    name: $K$ cuts
+pi_PT > 800.0*MeV & !pi_isMuon & pi_IPCHI2_OWNPV > 45:
+    input: 73
+    output: 68
+    name: $\pi$ cuts
+spi_TRACK_GhostProb < 0.5:
+    input: 68
+    output: 68
+    name: $\pi_{soft}$ cuts
+d0_P > 2.0*GeV & d0_FDCHI2_OWNPV > 250 & ABS(d0_MM - PDG_M_D0) < 23.4 & (k_PT > 1.7*GeV | pi_PT > 1.7*GeV):
+    input: 68
+    output: 59
+    name: $D^0$ cuts
+dst_ENDVERTEX_CHI2 / dst_ENDVERTEX_NDOF < 10 & ABS(dst_MM - d0_MM - 145.43) < 2:
+    input: 59
+    output: 54
+    name: $D^*$ cuts

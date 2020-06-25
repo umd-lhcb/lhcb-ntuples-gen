@@ -1,0 +1,47 @@
+Partial stripping:
+    input: 51329
+    output: 1963
+L0:
+    input: 1963
+    output: 608
+Hlt1:
+    input: 608
+    output: 388
+Hlt2:
+    input: 388
+    output: 247
+Full stripping:
+    input: 247
+    output: 149
+mu_isMuon & mu_PIDmu > 2 & mu_PIDe < 1 & mu_P < 100.0*GeV:
+    input: 149
+    output: 132
+    name: $\mu$ PID
+b0_ISOLATION_BDT < 0.15:
+    input: 132
+    output: 108
+    name: $\text{IsoBDT}_{B^0} < 0.15$
+b0_MM < 5280 & b0_DIRA_OWNPV > 0.9995:
+    input: 108
+    output: 107
+    name: $B^0$ cuts
+k_PT > 800.0*MeV & !k_isMuon & k_IPCHI2_OWNPV > 45:
+    input: 107
+    output: 89
+    name: $K$ cuts
+pi_PT > 800.0*MeV & !pi_isMuon & pi_IPCHI2_OWNPV > 45:
+    input: 89
+    output: 72
+    name: $\pi$ cuts
+spi_TRACK_GhostProb < 0.5:
+    input: 72
+    output: 72
+    name: $\pi_{soft}$ cuts
+d0_P > 2.0*GeV & d0_FDCHI2_OWNPV > 250 & ABS(d0_MM - PDG_M_D0) < 23.4 & (k_PT > 1.7*GeV | pi_PT > 1.7*GeV):
+    input: 72
+    output: 64
+    name: $D^0$ cuts
+dst_ENDVERTEX_CHI2 / dst_ENDVERTEX_NDOF < 10 & ABS(dst_MM - d0_MM - 145.43) < 2:
+    input: 64
+    output: 58
+    name: $D^*$ cuts

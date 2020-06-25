@@ -115,7 +115,7 @@ gen/cutflow/output-run2-data.yml: \
 	Dst--20_04_03--cutflow_data--data--2016--md.root \
 	input-run2-data.yml \
 	cutflow_output_yml_gen-pre-0.9.0.py
-	@$(word 3, $^) $< $(word 2, $^) $@ run2 -t 'TupleB0/DecayTree'
+	@$(word 3, $^) $< $(word 2, $^) $@ run2-data -t 'TupleB0/DecayTree'
 
 
 ###########

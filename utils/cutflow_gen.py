@@ -108,9 +108,9 @@ def csv_gen(lst, latex_wrapper=True):
                 formatted.append('{:.2f}'.format(elem))
             elif isinstance(elem, UFloat):
                 if latex_wrapper:
-                    formatted.append('${:.2uL}$'.format(elem))
+                    formatted.append('${:.3f}$'.format(elem))
                 else:
-                    formatted.append('{:.2uP}'.format(elem))
+                    formatted.append('{:.3f}'.format(elem))
             else:
                 formatted.append(str(elem))
 
