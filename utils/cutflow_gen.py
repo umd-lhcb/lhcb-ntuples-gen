@@ -22,12 +22,12 @@ def div_with_confint(num, denom):
     return ufloat(ratio, err_bar)
 
 
-def div(num, denom):
+def div(num, denom, doErrors=True):
     if type(num) == type(denom):
-        if isinstance(num, UFloat):
+        if isinstance(num, UFloat) or (isinstance(num, (int, float)) and not doErrors):
             result = num / denom
 
-        elif isinstance(num, (int, float)):
+        elif isinstance(num, (int, float)) and doErrors:
             try:
                 result = div_with_confint(num, denom)
             except ZeroDivisionError:
@@ -78,10 +78,10 @@ def list_gen(run1_descr, run2_descr, header=CSV_HEADERS):
                 run2_total_input = run2_yield
 
             if len(result) > 1:
-                run1_eff = div(val['output'], val['input'])
-                run2_eff = div(run2_row['output'], run2_row['input'])
+                run1_eff = div(val['output'], val['input'], False)*100
+                run2_eff = div(run2_row['output'], run2_row['input'], False)*100
 
-                double_ratio = div(run2_eff, run1_eff)
+                double_ratio = div(run2_eff, run1_eff, False)
 
             else:  # Don't calculate ratios for the total number of candidates
                 run1_eff = run2_eff = double_ratio = '-'
@@ -90,8 +90,8 @@ def list_gen(run1_descr, run2_descr, header=CSV_HEADERS):
             result.append(row)
 
     # Append the total ratio
-    run1_total_eff = div(run1_yield, run1_total_input)
-    run2_total_eff = div(run2_yield, run2_total_input)
+    run1_total_eff = div(run1_yield, run1_total_input, False)*100
+    run2_total_eff = div(run2_yield, run2_total_input, False)*100
     result.append(['Total ratio'] + ['-']*(len(header)-4) +
                   [run1_total_eff, run2_total_eff,
                    run2_total_eff / run1_total_eff])
@@ -103,17 +103,22 @@ def csv_gen(lst, latex_wrapper=True):
     for row in lst:
         formatted = []
 
+        ielem = 0
         for elem in row:
             if isinstance(elem, float):
-                formatted.append('{:.2f}'.format(elem))
+                if ielem == 3 or ielem == 4:
+                    formatted.append('{:.1f}'.format(elem))
+                else:
+                    formatted.append('{:.2f}'.format(elem))
             elif isinstance(elem, UFloat):
                 if latex_wrapper:
-                    formatted.append('${:.3f}$'.format(elem))
+                    formatted.append('${:.2f}$'.format(elem))
                 else:
-                    formatted.append('{:.3f}'.format(elem))
+                    formatted.append('{:.2f}'.format(elem))
             else:
                 formatted.append(str(elem))
-
+            ielem += 1
+            
         print(','.join(formatted))
 
 

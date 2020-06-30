@@ -45,3 +45,9 @@ run2_out=gen/cutflow/output-run2-bare.yml
 ./utils/cutflow_output_yml_gen.py $run2_ntuple $run2_log $run2_out run2-bare -t 'TupleB0/DecayTree'
 ./utils/cutflow_gen.py -o $run1_out -t $run2_out -n | tabgen.py -f latex_raw
 
+###############################################################################
+##### DATA standard cutflow double ratio
+utils/cutflow_output_yml_gen-pre-0.9.0.py ntuples/pre-0.9.0/Dst-cutflow_data/Dst--20_04_03--cutflow_data--data--2012--md.root run1-b2D0MuXB2DMuNuForTauMuLine/cutflow/input-run1-data.yml gen/cutflow/output-run1-data.yml run1 -t 'TupleB0/DecayTree'
+utils/cutflow_output_yml_gen-pre-0.9.0.py ntuples/pre-0.9.0/Dst-cutflow_data/Dst--20_04_03--cutflow_data--data--2016--md.root run2-b2D0MuXB2DMuForTauMuLine/cutflow/input-run2-data.yml gen/cutflow/output-run2-data.yml run2-data -t 'TupleB0/DecayTree'
+utils/cutflow_gen.py -o gen/cutflow/output-run1-data.yml -t gen/cutflow/output-run2-data.yml -n | tabgen.py -f latex_raw
+
