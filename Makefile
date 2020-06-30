@@ -94,13 +94,13 @@ gen/cutflow/output-run2-bare.yml: \
 gen/cutflow/output-run1.yml: \
 	Dst--20_03_18--cutflow_mc--cocktail--2011--md.root \
 	input-run1.yml \
-	cutflow_output_yml_gen-pre-0.9.0.py
+	cutflow_output_yml_gen_pre_0.9.0.py
 	@$(word 3, $^) $< $(word 2, $^) $@ run1 -t 'TupleB0/DecayTree'
 
 gen/cutflow/output-run2.yml: \
 	Dst--20_03_18--cutflow_mc--cocktail--2016--md.root \
 	input-run2.yml \
-	cutflow_output_yml_gen-pre-0.9.0.py
+	cutflow_output_yml_gen_pre_0.9.0.py
 	@$(word 3, $^) $< $(word 2, $^) $@ run2 -t 'TupleB0/DecayTree'
 
 
@@ -108,13 +108,13 @@ gen/cutflow/output-run2.yml: \
 gen/cutflow/output-run1-data.yml: \
 	Dst--20_04_03--cutflow_data--data--2012--md.root \
 	input-run1-data.yml \
-	cutflow_output_yml_gen-pre-0.9.0.py
+	cutflow_output_yml_gen_pre_0.9.0.py
 	@$(word 3, $^) $< $(word 2, $^) $@ run1 -t 'TupleB0/DecayTree'
 
 gen/cutflow/output-run2-data.yml: \
 	Dst--20_04_03--cutflow_data--data--2016--md.root \
 	input-run2-data.yml \
-	cutflow_output_yml_gen-pre-0.9.0.py
+	cutflow_output_yml_gen_pre_0.9.0.py
 	@$(word 3, $^) $< $(word 2, $^) $@ run2-data -t 'TupleB0/DecayTree'
 
 

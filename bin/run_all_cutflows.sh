@@ -4,12 +4,12 @@
 #### RUN1: Finding Signal, Normalization, and D** yields from BARE Run2 ntuples
 run1_ntuple=ntuples/0.9.0-cutflow/Dst-cutflow_mc/Dst--20_06_05--cutflow_mc--bare--MC_2011_Beam3500GeV-2011-MagDown-Nu2-Pythia8_Sim08h_Digi13_Trig0x40760037_Reco14c_Stripping20r1NoPrescalingFlagged_11874091_ALLSTREAMS.DST.root
 
-./utils/cutflow-components.py $run1_ntuple gen/cutflow/output-run1-sig.yml run1-sig -t 'TupleB0/DecayTree'
-./utils/cutflow-components.py $run1_ntuple gen/cutflow/output-run1-nor.yml run1-nor -t 'TupleB0/DecayTree'
-./utils/cutflow-components.py $run1_ntuple gen/cutflow/output-run1-dss.yml run1-dss -t 'TupleB0/DecayTree'
+./utils/cutflow_components.py $run1_ntuple gen/cutflow/output-run1-sig.yml run1-sig -t 'TupleB0/DecayTree'
+./utils/cutflow_components.py $run1_ntuple gen/cutflow/output-run1-nor.yml run1-nor -t 'TupleB0/DecayTree'
+./utils/cutflow_components.py $run1_ntuple gen/cutflow/output-run1-dss.yml run1-dss -t 'TupleB0/DecayTree'
 
 ## Producing cutflow tables in LaTeX format
-./utils/table-cutflow-components.py -s gen/cutflow/output-run1-sig.yml -n gen/cutflow/output-run1-nor.yml -d gen/cutflow/output-run1-dss.yml | tabgen.py -f latex_raw
+./utils/table_cutflow_components.py -s gen/cutflow/output-run1-sig.yml -n gen/cutflow/output-run1-nor.yml -d gen/cutflow/output-run1-dss.yml | tabgen.py -f latex_raw
 
 
 
@@ -17,12 +17,12 @@ run1_ntuple=ntuples/0.9.0-cutflow/Dst-cutflow_mc/Dst--20_06_05--cutflow_mc--bare
 #### RUN2: Finding Signal, Normalization, and D** yields from BARE ntuples
 run2_ntuple=ntuples/0.9.0-cutflow/Dst-cutflow_mc/Dst--20_06_05--cutflow_mc--bare--MC_2016_Beam6500GeV-2016-MagDown-Nu1.6-25ns-Pythia8_Sim09b_Trig0x6138160F_Reco16_Turbo03_Stripping26NoPrescalingFlagged_11874091_ALLSTREAMS.DST.root
 
-./utils/cutflow-components.py $run2_ntuple gen/cutflow/output-run2-sig.yml run2-sig -t 'TupleB0/DecayTree'
-./utils/cutflow-components.py $run2_ntuple gen/cutflow/output-run2-nor.yml run2-nor -t 'TupleB0/DecayTree'
-./utils/cutflow-components.py $run2_ntuple gen/cutflow/output-run2-dss.yml run2-dss -t 'TupleB0/DecayTree'
+./utils/cutflow_components.py $run2_ntuple gen/cutflow/output-run2-sig.yml run2-sig -t 'TupleB0/DecayTree'
+./utils/cutflow_components.py $run2_ntuple gen/cutflow/output-run2-nor.yml run2-nor -t 'TupleB0/DecayTree'
+./utils/cutflow_components.py $run2_ntuple gen/cutflow/output-run2-dss.yml run2-dss -t 'TupleB0/DecayTree'
 
 ## Producing cutflow tables in LaTeX format
-./utils/table-cutflow-components.py -s gen/cutflow/output-run2-sig.yml -n gen/cutflow/output-run2-nor.yml -d gen/cutflow/output-run2-dss.yml | tabgen.py -f latex_raw
+./utils/table_cutflow_components.py -s gen/cutflow/output-run2-sig.yml -n gen/cutflow/output-run2-nor.yml -d gen/cutflow/output-run2-dss.yml | tabgen.py -f latex_raw
 
 
 ###############################################################################
