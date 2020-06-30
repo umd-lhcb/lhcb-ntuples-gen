@@ -27,8 +27,8 @@ run2_ntuple=ntuples/0.9.0-cutflow/Dst-cutflow_mc/Dst--20_06_05--cutflow_mc--bare
 
 ###############################################################################
 ##### Standard cutflow double ratio
-utils/cutflow_output_yml_gen-pre-0.9.0.py ntuples/pre-0.9.0/Dst-cutflow_mc/Dst--20_03_18--cutflow_mc--cocktail--2011--md.root run1-b2D0MuXB2DMuNuForTauMuLine/cutflow/input-run1.yml gen/cutflow/output-run1.yml run1 -t 'TupleB0/DecayTree'
-utils/cutflow_output_yml_gen-pre-0.9.0.py ntuples/pre-0.9.0/Dst-cutflow_mc/Dst--20_03_18--cutflow_mc--cocktail--2016--md.root run2-b2D0MuXB2DMuForTauMuLine/cutflow/input-run2.yml gen/cutflow/output-run2.yml run2 -t 'TupleB0/DecayTree'
+./utils/cutflow_output_yml_gen_pre_0.9.0.py ntuples/pre-0.9.0/Dst-cutflow_mc/Dst--20_03_18--cutflow_mc--cocktail--2011--md.root run1-b2D0MuXB2DMuNuForTauMuLine/cutflow/input-run1.yml gen/cutflow/output-run1.yml run1 -t 'TupleB0/DecayTree'
+./utils/cutflow_output_yml_gen_pre_0.9.0.py ntuples/pre-0.9.0/Dst-cutflow_mc/Dst--20_03_18--cutflow_mc--cocktail--2016--md.root run2-b2D0MuXB2DMuForTauMuLine/cutflow/input-run2.yml gen/cutflow/output-run2.yml run2 -t 'TupleB0/DecayTree'
 utils/cutflow_gen.py -o gen/cutflow/output-run1.yml -t gen/cutflow/output-run2.yml -n | tabgen.py -f latex_raw
 
 ################################################################################

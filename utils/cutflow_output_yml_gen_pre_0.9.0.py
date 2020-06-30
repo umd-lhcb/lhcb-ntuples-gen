@@ -34,7 +34,7 @@ CUTFLOW = {
         Rule('Kplus_Hlt1TrackAllL0Decision_TOS | piminus0_Hlt1TrackAllL0Decision_TOS', key='Hlt1'),
         Rule('D0_Hlt2CharmHadD02HH_D02KPiDecision_TOS', key='Hlt2'),
         # Newer step 2 cuts
-        Rule('Kplus_PT > 800.0*MeV & !Kplus_isMuon & Kplus_IPCHI2_OWNPV > 45 & GT(Kplus_PT,2000)', r'Kaon'),
+        Rule('Kplus_PT > 800.0*MeV & !Kplus_isMuon & Kplus_IPCHI2_OWNPV > 45', r'Kaon'),
         Rule('piminus0_PT > 800.0*MeV & !piminus0_isMuon & piminus0_IPCHI2_OWNPV > 45', r'Pion'),
         Rule('D0_P > 2.0*GeV & D0_FDCHI2_OWNPV > 250 & ABS(D0_MM - PDG_M_D0) < 23.4 & ((Kplus_PT > 1.7*GeV & Kplus_Hlt1TrackAllL0Decision_TOS) | (piminus0_PT > 1.7*GeV & piminus0_Hlt1TrackAllL0Decision_TOS)) & log(D0_IP_OWNPV) > -3.5 & D0_IPCHI2_OWNPV > 9', r'$D^0 \\rightarrow K \\pi$'),
         Rule('muplus_isMuon & muplus_PIDmu > 2 & muplus_PIDe < 1 & muplus_P < 100.0*GeV & ETA(muplus_P,muplus_PZ)>1.7 & ETA(muplus_P,muplus_PZ)<5 & LOG10pp(muplus_PX, muplus_PY, muplus_PZ, Kplus_PX, Kplus_PY, Kplus_PZ)>-6.5 & LOG10pp(muplus_PX, muplus_PY, muplus_PZ, piminus0_PX, piminus0_PY, piminus0_PZ)>-6.5 & LOG10pp(muplus_PX, muplus_PY, muplus_PZ, piminus_PX, piminus_PY, piminus_PZ)>-6.5', r'$\mu$'),
@@ -47,7 +47,7 @@ CUTFLOW = {
         Rule('Kplus_Hlt1TrackMVALooseDecision_TOS | piminus0_Hlt1TrackMVALooseDecision_TOS  | D0_Hlt1TwoTrackMVADecision_TOS', key='Hlt1'),
         Rule('D0_Hlt2XcMuXForTauB2XcMuDecision_Dec', key='Hlt2'),
         # Newer step 2 cuts
-        Rule('Kplus_PT > 800.0*MeV & !Kplus_isMuon & Kplus_IPCHI2_OWNPV > 45 & GT(Kplus_PT,2000)', r'Kaon'),
+        Rule('Kplus_PT > 800.0*MeV & !Kplus_isMuon & Kplus_IPCHI2_OWNPV > 45', r'Kaon'),
         Rule('piminus0_PT > 800.0*MeV & !piminus0_isMuon & piminus0_IPCHI2_OWNPV > 45', r'Pion'),
         Rule('D0_P > 2.0*GeV & D0_FDCHI2_OWNPV > 250 & ABS(D0_MM - PDG_M_D0) < 23.4 & ((Kplus_PT > 1.7*GeV & Kplus_Hlt1TrackMVALooseDecision_TOS) | (piminus0_PT > 1.7*GeV & piminus0_Hlt1TrackMVALooseDecision_TOS)) & log(D0_IP_OWNPV) > -3.5 & D0_IPCHI2_OWNPV > 9', r'$D^0 \\rightarrow K \\pi$'),
         Rule('muplus_isMuon & muplus_PIDmu > 2 & muplus_PIDe < 1 & muplus_P < 100.0*GeV & ETA(muplus_P,muplus_PZ)>1.7 & ETA(muplus_P,muplus_PZ)<5 & LOG10pp(muplus_PX, muplus_PY, muplus_PZ, Kplus_PX, Kplus_PY, Kplus_PZ)>-6.5 & LOG10pp(muplus_PX, muplus_PY, muplus_PZ, piminus0_PX, piminus0_PY, piminus0_PZ)>-6.5 & LOG10pp(muplus_PX, muplus_PY, muplus_PZ, piminus_PX, piminus_PY, piminus_PZ)>-6.5', r'$\mu$'),
@@ -60,7 +60,7 @@ CUTFLOW = {
         Rule('Kplus_Hlt1Phys_Dec', key='Hlt1'),
         Rule('D0_Hlt2XcMuXForTauB2XcMuDecision_Dec', key='Hlt2'),
         # Newer step 2 cuts
-        Rule('Kplus_PT > 800.0*MeV & !Kplus_isMuon & Kplus_IPCHI2_OWNPV > 45 & GT(Kplus_PT,2000)', r'Kaon'),
+        Rule('Kplus_PT > 800.0*MeV & !Kplus_isMuon & Kplus_IPCHI2_OWNPV > 45', r'Kaon'),
         Rule('piminus0_PT > 800.0*MeV & !piminus0_isMuon & piminus0_IPCHI2_OWNPV > 45', r'Pion'),
         Rule('D0_P > 2.0*GeV & D0_FDCHI2_OWNPV > 250 & ABS(D0_MM - PDG_M_D0) < 23.4 & (Kplus_PT > 1.7*GeV | piminus0_PT > 1.7*GeV) & log(D0_IP_OWNPV) > -3.5 & D0_IPCHI2_OWNPV > 9', r'$D^0 \\rightarrow K \\pi$'),
         Rule('muplus_isMuon & muplus_PIDmu > 2 & muplus_PIDe < 1 & muplus_P < 100.0*GeV & ETA(muplus_P,muplus_PZ)>1.7 & ETA(muplus_P,muplus_PZ)<5 & LOG10pp(muplus_PX, muplus_PY, muplus_PZ, Kplus_PX, Kplus_PY, Kplus_PZ)>-6.5 & LOG10pp(muplus_PX, muplus_PY, muplus_PZ, piminus0_PX, piminus0_PY, piminus0_PZ)>-6.5 & LOG10pp(muplus_PX, muplus_PY, muplus_PZ, piminus_PX, piminus_PY, piminus_PZ)>-6.5', r'$\mu$'),
