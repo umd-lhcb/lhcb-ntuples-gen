@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri May 01, 2020 at 06:06 PM +0800
+# Last Change: Wed Jul 01, 2020 at 09:36 PM +0800
 
 import re
 import sys
@@ -53,30 +53,26 @@ def normalize_data(lst):
     return result
 
 
-def extract_data(lst,
-                 name_idx=0,
-                 num_idx=4,
-                 names=['SeqMyB0',
-                        'StrippedBCands',
-                        'SelMyD0',
-                        'SelMyDst',
-                        'SelMyB0'
-                        ],
-                 last_name='SelMyRefitB02DstMu'):
+def extract_data(lst, name_idx=0, num_idx=4,
+                 names=[
+                     'SeqMyB0',
+                     'StrippedBCands',
+                     'SelMyD0',
+                     'SelMyDst',
+                     'SelMyB0',
+                     'SelMyRefitB02DstMu'
+                 ]):
     result = odict()
 
     for idx, data in enumerate(lst):
-        if data[name_idx] in names:
-            name = data[name_idx]
-            num_in = int(data[num_idx])
+        try:
             num_out = int(lst[idx+1][num_idx])
-            result[name] = {'input': num_in, 'output': num_out}
-
-        elif data[name_idx] == last_name:
-            name = data[name_idx]
-            num_in = int(data[num_idx])
+        except Exception:
             num_out = None
-            result[name] = {'input': num_in, 'output': num_out}
+
+        name = data[name_idx]
+        num_in = int(data[num_idx])
+        result[name] = {'input': num_in, 'output': num_out}
 
     return result
 
