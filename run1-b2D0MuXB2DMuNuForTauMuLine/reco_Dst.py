@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri Jun 05, 2020 at 06:12 PM +0800
+# Last Change: Thu Jul 02, 2020 at 09:03 PM +0800
 #
 # Description: Definitions of selection and reconstruction procedures for Dst in
 #              run 1, with thorough comments.
@@ -365,6 +365,46 @@ algo_Dst_ws.DaughtersCuts = algo_Dst.DaughtersCuts
 algo_Dst_ws.CombinationCut = algo_Dst.CombinationCut
 algo_Dst_ws.MotherCut = algo_Dst.MotherCut
 
+
+# D0 Mu combo ##################################################################
+# This corresponds to the B-meson cuts defined in the stripping line
+algo_D0Mu_combo = CombineParticles('MyD0MuCombo')
+# NOTE: It's DecayDescriptorS, not DecayDescriptor!
+algo_D0Mu_combo.DecayDescriptors = ['[B+ -> D0 mu+]cc', '[B- -> D0 mu-]cc']
+
+
+if DaVinci().Simulation:
+    algo_D0Mu_combo.Preambulo += algo_mc_match_preambulo
+
+
+if not has_flag('BARE'):
+    algo_D0Mu_combo.DaughtersCuts = {
+        'mu-': '(MIPCHI2DV(PRIMARY) > 45.0) & (TRGHOSTPROB < 0.5) &' +
+               '(PIDmu > 2.0) &' +
+               '(P > 3.0*GeV)'
+    }
+
+    algo_D0Mu_combo.CombinationCut = '(AM < 10.2*GeV)'
+    algo_D0Mu_combo.MotherCut = \
+        '(MM < 10.0*GeV) & (MM > 0.0*GeV) &' + \
+        '(VFASPF(VCHI2/VDOF) < 6.0) & (BPVDIRA > 0.9995)'
+
+
+if DaVinci().Simulation and has_flag('BARE'):
+    algo_D0Mu_combo.DaughtersCuts['mu-'] = \
+        "(mcMatch('[^mu+]CC')) & (TRCHI2DOF < 6.0) &" + \
+        "(MIPCHI2DV(PRIMARY) > 8.0) & (TRGHOSTPROB < 1.0) &" + \
+        "(PIDmu > -400.0)"
+
+    algo_D0Mu_combo.CombinationCut = 'AALL'
+    algo_D0Mu_combo.MotherCut = '(VFASPF(VCHI2/VDOF) < 12.0) & (BPVDIRA > 0.998)'
+
+elif DaVinci().Simulation:
+    algo_D0Mu_combo.DaughtersCuts['mu-'] = \
+        "(mcMatch('[^mu+]CC')) & (TRCHI2DOF < 3.0) &" + \
+        algo_D0Mu_combo.DaughtersCuts['mu-']
+
+
 # B0 ###########################################################################
 algo_B0 = CombineParticles('MyB0')
 algo_B0.DecayDescriptor = "[B~0 -> D*(2010)+ mu-]cc"  # B~0 is the CC of B0
@@ -433,6 +473,7 @@ algo_B0_ws_Pi.MotherCut = algo_B0.MotherCut
 #####################
 
 from Configurables import FitDecayTrees
+from PhysConf.Filters import LoKi_Filters
 
 # For SeqMyB0 ##################################################################
 
@@ -448,6 +489,17 @@ sel_Dst = Selection(
     'SelMyDst',
     Algorithm=algo_Dst,
     RequiredSelections=[sel_D0, pr_all_loose_Pi]
+)
+
+# D0 Mu combo selection (for tupling) and filter (for D* selection)
+sel_D0Mu_combo = Selection(
+    'SelMyD0MuCombo',
+    Algorithm=algo_D0Mu_combo,
+    RequiredSelections=[sel_D0, pr_all_loose_Pi]
+)
+
+fltr_D0Mu_combo = LoKi_Filters(
+    VOID_Code="(CONTAINS({} > 0))".format(sel_D0Mu_combo.outputLocation())
 )
 
 sel_B0 = Selection(
@@ -519,17 +571,21 @@ from PhysSelPython.Wrappers import SelectionSequence
 
 if has_flag('BARE') or has_flag('DV_STRIP'):
     seq_B0 = SelectionSequence('SeqMyB0',
-                               TopSelection=sel_B0)
+                               TopSelection=sel_B0,
+                               EventPreSelector=[fltr_D0Mu_combo])
 else:
     seq_B0 = SelectionSequence('SeqMyB0',
-                               TopSelection=sel_refit_B02DstMu)
+                               TopSelection=sel_refit_B02DstMu,
+                               EventPreSelector=[fltr_D0Mu_combo])
 
 
 seq_B0_ws_Mu = SelectionSequence('SeqMyB0WSMu',
-                                 TopSelection=sel_refit_B02DstMu_ws_Mu)
+                                 TopSelection=sel_refit_B02DstMu_ws_Mu,
+                                 EventPreSelector=[fltr_D0Mu_combo])
 
 seq_B0_ws_Pi = SelectionSequence('SeqMyB0WSPi',
-                                 TopSelection=sel_refit_B02DstMu_ws_Pi)
+                                 TopSelection=sel_refit_B02DstMu_ws_Pi,
+                                 EventPreSelector=[fltr_D0Mu_combo])
 
 
 if DaVinci().Simulation or has_flag('CUTFLOW'):
