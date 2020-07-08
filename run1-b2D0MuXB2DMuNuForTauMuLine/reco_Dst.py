@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Jul 08, 2020 at 09:45 PM +0800
+# Last Change: Wed Jul 08, 2020 at 09:54 PM +0800
 #
 # Description: Definitions of selection and reconstruction procedures for Dst in
 #              run 1, with thorough comments.
@@ -370,7 +370,11 @@ algo_Dst_ws.MotherCut = algo_Dst.MotherCut
 # This corresponds to the B-meson cuts defined in the stripping line
 algo_D0Mu_combo = CombineParticles('MyD0MuCombo')
 # NOTE: It's DecayDescriptorS, not DecayDescriptor!
-algo_D0Mu_combo.DecayDescriptors = ['[B+ -> D0 mu+]cc', '[B- -> D0 mu-]cc']
+# NOTE: Pay attention to the sign of the particles, they are intentional!
+#       Here we are including both correct-sign decays and wrong-sign decays.
+#       This is consistent with the official stripping line, but with more
+#       clarity!
+algo_D0Mu_combo.DecayDescriptors = ['[B+ -> D0 mu+]cc', '[B+ -> D0 mu-]cc']
 
 
 if DaVinci().Simulation:
