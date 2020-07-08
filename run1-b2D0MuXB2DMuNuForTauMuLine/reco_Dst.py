@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Jul 02, 2020 at 09:03 PM +0800
+# Last Change: Wed Jul 08, 2020 at 09:45 PM +0800
 #
 # Description: Definitions of selection and reconstruction procedures for Dst in
 #              run 1, with thorough comments.
@@ -381,7 +381,7 @@ if not has_flag('BARE'):
     algo_D0Mu_combo.DaughtersCuts = {
         'mu-': '(MIPCHI2DV(PRIMARY) > 45.0) & (TRGHOSTPROB < 0.5) &' +
                '(PIDmu > 2.0) &' +
-               '(P > 3.0*GeV)'
+               '(P > 10.0*GeV)'
     }
 
     algo_D0Mu_combo.CombinationCut = '(AM < 10.2*GeV)'
@@ -498,10 +498,6 @@ sel_D0Mu_combo = Selection(
     RequiredSelections=[sel_D0, pr_all_loose_Pi]
 )
 
-fltr_D0Mu_combo = LoKi_Filters(
-    VOID_Code="(CONTAINS({} > 0))".format(sel_D0Mu_combo.outputLocation())
-)
-
 sel_B0 = Selection(
     'SelMyB0',
     Algorithm=algo_B0,
@@ -568,28 +564,38 @@ sel_refit_B02DstMu_ws_Pi = Selection(
 
 from PhysSelPython.Wrappers import SelectionSequence
 
+seq_D0Mu_combo = SelectionSequence('SeqMyD0MuCombo',
+                                   TopSelection=sel_D0Mu_combo)
+
+fltr_D0Mu_combo = LoKi_Filters(
+    VOID_Code="(CONTAINS({} > 0))".format(sel_D0Mu_combo.outputLocation())
+)
+
 
 if has_flag('BARE') or has_flag('DV_STRIP'):
     seq_B0 = SelectionSequence('SeqMyB0',
                                TopSelection=sel_B0,
-                               EventPreSelector=[fltr_D0Mu_combo])
+                               EventPreSelector=[])
 else:
     seq_B0 = SelectionSequence('SeqMyB0',
                                TopSelection=sel_refit_B02DstMu,
-                               EventPreSelector=[fltr_D0Mu_combo])
+                               EventPreSelector=[])
 
 
 seq_B0_ws_Mu = SelectionSequence('SeqMyB0WSMu',
                                  TopSelection=sel_refit_B02DstMu_ws_Mu,
-                                 EventPreSelector=[fltr_D0Mu_combo])
+                                 EventPreSelector=[])
 
 seq_B0_ws_Pi = SelectionSequence('SeqMyB0WSPi',
                                  TopSelection=sel_refit_B02DstMu_ws_Pi,
-                                 EventPreSelector=[fltr_D0Mu_combo])
+                                 EventPreSelector=[])
 
+
+DaVinci().appendToMainSequence([seq_D0Mu_combo.sequence()])
 
 if DaVinci().Simulation or has_flag('CUTFLOW'):
-    DaVinci().UserAlgorithms += [seq_B0.sequence()]
+    # DaVinci().UserAlgorithms += [seq_B0.sequence()]
+    DaVinci().appendToMainSequence([seq_B0.sequence()])
 else:
     DaVinci().UserAlgorithms += [seq_B0.sequence(),
                                  seq_B0_ws_Mu.sequence(),
