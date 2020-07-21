@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Jul 21, 2020 at 09:23 PM +0800
+# Last Change: Wed Jul 22, 2020 at 12:48 AM +0800
 #
 # Description: Definitions of selection and reconstruction procedures for Dst
 #              and D0 in run 1, with thorough comments.
@@ -18,7 +18,7 @@ DaVinci().MoniSequence = []  # Nothing should be in the sequence after all!
 
 
 def has_flag(flg):
-    return bool(flg in user_config)
+    return flg in user_config
 
 
 #####################
