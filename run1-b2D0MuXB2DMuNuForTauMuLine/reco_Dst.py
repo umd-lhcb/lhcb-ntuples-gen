@@ -1,9 +1,9 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Jul 21, 2020 at 05:06 PM +0800
+# Last Change: Tue Jul 21, 2020 at 08:24 PM +0800
 #
-# Description: Definitions of selection and reconstruction procedures for Dst in
-#              run 1, with thorough comments.
+# Description: Definitions of selection and reconstruction procedures for Dst
+#              and D0 in run 1, with thorough comments.
 
 
 #########################################
@@ -254,9 +254,9 @@ else:
     sel_Mu = sel_unstripped_tis_filtered_Mu
 
 
-#########################
-# D0 Mu combo selection #
-#########################
+##########################
+# B+ -> D0 Mu+ selection #
+##########################
 # Use this LoKi functor page to find the meaning of various functors:
 #  https://twiki.cern.ch/twiki/bin/view/LHCb/LoKiHybridFilters
 #
@@ -339,63 +339,99 @@ sel_D0 = Selection(
     RequiredSelections=[sel_charged_K, sel_charged_Pi]
 )
 
-# D0 Mu combo ##################################################################
+# B+ ###########################################################################
 # This corresponds to the B-meson cuts defined in the stripping line
-algo_D0Mu_combo = CombineParticles('MyD0MuCombo')
-# NOTE: It's DecayDescriptorS, not DecayDescriptor!
+algo_Bplus = CombineParticles('MyB+')
 # NOTE: Pay attention to the sign of the particles, they are intentional!
 #       Here we are including both correct-sign decays and wrong-sign decays.
 #       This is consistent with the official stripping line, but with more
 #       clarity!
-algo_D0Mu_combo.DecayDescriptors = ['[B+ -> D0 mu+]cc', '[B+ -> D0 mu-]cc']
+algo_Bplus.DecayDescriptor = '[B+ -> D0 mu+]cc'
 
 
 if DaVinci().Simulation:
-    algo_D0Mu_combo.Preambulo += algo_mc_match_preambulo
+    algo_Bplus.Preambulo += algo_mc_match_preambulo
 
 
 if not has_flag('BARE'):
-    algo_D0Mu_combo.DaughtersCuts = {
+    algo_Bplus.DaughtersCuts = {
         'mu-': '(MIPCHI2DV(PRIMARY) > 45.0) & (TRGHOSTPROB < 0.5) &' +
                '(PIDmu > 2.0) &' +
-               '(P > 10.0*GeV)'
+               '(P > 3.0*GeV)'
     }
 
-    algo_D0Mu_combo.CombinationCut = '(AM < 10.2*GeV)'
-    algo_D0Mu_combo.MotherCut = \
+    algo_Bplus.CombinationCut = '(AM < 10.2*GeV)'
+    algo_Bplus.MotherCut = \
         '(MM < 10.0*GeV) & (MM > 0.0*GeV) &' + \
         '(VFASPF(VCHI2/VDOF) < 6.0) & (BPVDIRA > 0.9995)'
 
 
 if DaVinci().Simulation and has_flag('BARE'):
-    algo_D0Mu_combo.DaughtersCuts['mu-'] = \
+    algo_Bplus.DaughtersCuts['mu-'] = \
         "(mcMatch('[^mu+]CC')) & (TRCHI2DOF < 6.0) &" + \
         "(MIPCHI2DV(PRIMARY) > 8.0) & (TRGHOSTPROB < 1.0) &" + \
         "(PIDmu > -400.0)"
 
-    algo_D0Mu_combo.CombinationCut = 'AALL'
-    algo_D0Mu_combo.MotherCut = '(VFASPF(VCHI2/VDOF) < 12.0) & (BPVDIRA > 0.998)'
+    algo_Bplus.CombinationCut = 'AALL'
+    algo_Bplus.MotherCut = '(VFASPF(VCHI2/VDOF) < 12.0) & (BPVDIRA > 0.998)'
 
 elif DaVinci().Simulation:
-    algo_D0Mu_combo.DaughtersCuts['mu-'] = \
+    algo_Bplus.DaughtersCuts['mu-'] = \
         "(mcMatch('[^mu+]CC')) & (TRCHI2DOF < 3.0) &" + \
-        algo_D0Mu_combo.DaughtersCuts['mu-']
+        algo_Bplus.DaughtersCuts['mu-']
 
 
-sel_D0Mu_combo = Selection(
-    'SelMyD0MuCombo',
-    Algorithm=algo_D0Mu_combo,
+sel_Bplus = Selection(
+    'SelMyBplus',
+    Algorithm=algo_Bplus,
     RequiredSelections=[sel_D0, pr_all_loose_Pi]
 )
 
+# B+WS ###########################################################################
+# 'WS' means wrong-sign.
+algo_BplusWS = CombineParticles('MyB+WS')
+algo_BplusWS.DecayDescriptor = '[B+ -> D0 mu-]cc'
+
+algo_BplusWS.Preambulo = algo_Bplus.Preambulo
+algo_BplusWS.DaughtersCuts = algo_Bplus.DaughtersCuts
+algo_BplusWS.CombinationCut = algo_Bplus.CombinationCut
+algo_BplusWS.MotherCut = algo_Bplus.MotherCut
+
+sel_BplusWS = Selection(
+    'SelMyB+WS',
+    Algorithm=algo_BplusWS,
+    RequiredSelections=[sel_D0, pr_all_loose_Pi]
+)
+
+# Filtered D0 and Mu from the D0 Mu combo ######################################
+# These particles pass the stripping line selection, and can be reused to build
+# other particles.
+sel_D0_combo = Selection(
+    'SelMyComboD0',
+    Algorithm=FilterInTrees('MyComboD0', Code="(ABSID == 'D0')"),
+    RequiredSelections=[sel_Bplus]
+)
+
+sel_Mu_combo = Selection(
+    'SelMyComboMu',
+    Algorithm=FilterInTrees('MyComboMu', Code="(ABSID == 'mu+')"),
+    RequiredSelections=[sel_Bplus]
+)
+
+sel_MuWS_combo = Selection(
+    'SelMyComboMuWS',
+    Algorithm=FilterInTrees('MyComboMuWS', Code="(ABSID == 'mu+')"),
+    RequiredSelections=[sel_BplusWS]
+)
+
 # D0 Mu combo sequence #########################################################
-seq_D0Mu_combo = SelectionSequence('SeqMyD0MuCombo',
-                                   TopSelection=sel_D0Mu_combo)
+seq_Bplus = SelectionSequence('SeqMyBplus', TopSelection=sel_Bplus)
+seq_BplusWS = SelectionSequence('SeqMyBplusWS', TopSelection=sel_BplusWS)
 
 
-#########################
-# B -> Dst Mu selection #
-#########################
+###########################
+# B0 -> D*- Mu+ selection #
+###########################
 
 # Dst ##########################################################################
 algo_Dst = CombineParticles('MyDst')
@@ -427,7 +463,7 @@ else:
 sel_Dst = Selection(
     'SelMyDst',
     Algorithm=algo_Dst,
-    RequiredSelections=[sel_D0, pr_all_loose_Pi]
+    RequiredSelections=[sel_D0_combo, pr_all_loose_Pi]
 )
 
 # DstWS ########################################################################
@@ -490,7 +526,7 @@ elif DaVinci().Simulation:
 sel_B0 = Selection(
     'SelMyB0',
     Algorithm=algo_B0,
-    RequiredSelections=[sel_Dst, sel_Mu]
+    RequiredSelections=[sel_Dst, sel_Mu_combo]
 )
 
 sel_refit_B02DstMu = Selection(
@@ -561,29 +597,21 @@ sel_refit_B02DstMu_ws_Pi = Selection(
 
 # B0 -> Dst Mu sequences #######################################################
 if has_flag('BARE') or has_flag('DV_STRIP'):
-    seq_B0 = SelectionSequence('SeqMyB0',
-                               TopSelection=sel_B0,
-                               EventPreSelector=[])
+    seq_B0 = SelectionSequence('SeqMyB0', TopSelection=sel_B0)
 else:
-    seq_B0 = SelectionSequence('SeqMyB0',
-                               TopSelection=sel_refit_B02DstMu,
-                               EventPreSelector=[])
+    seq_B0 = SelectionSequence('SeqMyB0', TopSelection=sel_refit_B02DstMu)
 
 
 seq_B0_ws_Mu = SelectionSequence('SeqMyB0WSMu',
-                                 TopSelection=sel_refit_B02DstMu_ws_Mu,
-                                 EventPreSelector=[])
+                                 TopSelection=sel_refit_B02DstMu_ws_Mu)
 
 seq_B0_ws_Pi = SelectionSequence('SeqMyB0WSPi',
-                                 TopSelection=sel_refit_B02DstMu_ws_Pi,
-                                 EventPreSelector=[])
+                                 TopSelection=sel_refit_B02DstMu_ws_Pi)
 
 
 ######################################
 # Add selection sequences to DaVinci #
 ######################################
-
-DaVinci().appendToMainSequence([seq_D0Mu_combo.sequence()])
 
 if DaVinci().Simulation or has_flag('CUTFLOW'):
     DaVinci().UserAlgorithms += [seq_B0.sequence()]
