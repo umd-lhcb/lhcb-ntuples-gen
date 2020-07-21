@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Jul 22, 2020 at 02:07 AM +0800
+# Last Change: Wed Jul 22, 2020 at 03:53 AM +0800
 #
 # Description: Definitions of selection and reconstruction procedures for Dst
 #              and D0 in run 1, with thorough comments.
@@ -484,43 +484,14 @@ sel_Dst_ws = Selection(
 algo_B0 = CombineParticles('MyB0')
 algo_B0.DecayDescriptor = "[B~0 -> D*(2010)+ mu-]cc"  # B~0 is the CC of B0
 
+# Don't apply D0 Mu combo cuts to Dst Mu!
+algo_B0.CombinationCut = 'AALL'
+algo_B0.MotherCut = 'ALL'
 
-if DaVinci().Simulation:
-    algo_B0.Preambulo += algo_mc_match_preambulo
-
-
-if not has_flag('BARE'):
-    algo_B0.DaughtersCuts = {
-        'mu-': '(MIPCHI2DV(PRIMARY) > 45.0) & (TRGHOSTPROB < 0.5) &' +
-               '(PIDmu > 2.0) &' +
-               '(P > 3.0*GeV)'
-    }
-
-    algo_B0.CombinationCut = '(AM < 10.2*GeV)'
-    algo_B0.MotherCut = \
-        '(MM < 10.0*GeV) & (MM > 0.0*GeV) &' + \
-        '(VFASPF(VCHI2/VDOF) < 6.0) & (BPVDIRA > 0.9995)'
-
-
-if DaVinci().Simulation and has_flag('BARE'):
-    algo_B0.DaughtersCuts['mu-'] = \
-        "(mcMatch('[^mu+]CC')) & (TRCHI2DOF < 6.0) &" + \
-        "(MIPCHI2DV(PRIMARY) > 8.0) & (TRGHOSTPROB < 1.0) &" + \
-        "(PIDmu > -400.0)"
-
-    algo_B0.CombinationCut = 'AALL'
-    algo_B0.MotherCut = '(VFASPF(VCHI2/VDOF) < 12.0) & (BPVDIRA > 0.998)'
-
-elif DaVinci().Simulation:
-    algo_B0.DaughtersCuts['mu-'] = \
-        "(mcMatch('[^mu+]CC')) & (TRCHI2DOF < 3.0) &" + \
-        algo_B0.DaughtersCuts['mu-']
-
-    # algo_B0.HistoProduce = True
-    # algo_B0.addTool(PlotTool("MotherPlots"))
-    # algo_B0.MotherPlots.Histos = {
-    #    "AMAXDOCA(FLATTEN((ABSID=='D0') | (ABSID=='mu-')))" : ("DOCA",0,2)}
-
+# algo_B0.HistoProduce = True
+# algo_B0.addTool(PlotTool("MotherPlots"))
+# algo_B0.MotherPlots.Histos = {
+#    "AMAXDOCA(FLATTEN((ABSID=='D0') | (ABSID=='mu-')))" : ("DOCA",0,2)}
 
 sel_B0 = Selection(
     'SelMyB0',
