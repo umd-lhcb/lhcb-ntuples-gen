@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Jul 22, 2020 at 12:48 AM +0800
+# Last Change: Wed Jul 22, 2020 at 02:04 AM +0800
 #
 # Description: Definitions of selection and reconstruction procedures for Dst
 #              and D0 in run 1, with thorough comments.
@@ -748,11 +748,11 @@ else:
     tuple_postpocess = tuple_postpocess_mc
 
 
-# B+ ###########################################################################
+# B- ###########################################################################
 tp_Bminus = tuple_initialize(
     'TupleBminus',
     seq_Bminus,
-    '[B- -> D0 mu-]CC'
+    '[B- -> ^(D0 -> ^K- ^pi+) ^mu-]CC'
 )
 
 tp_Bminus.addBranches({
