@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Jul 21, 2020 at 08:24 PM +0800
+# Last Change: Tue Jul 21, 2020 at 08:43 PM +0800
 #
 # Description: Definitions of selection and reconstruction procedures for Dst
 #              and D0 in run 1, with thorough comments.
@@ -254,15 +254,11 @@ else:
     sel_Mu = sel_unstripped_tis_filtered_Mu
 
 
-##########################
-# B+ -> D0 Mu+ selection #
-##########################
+#########################
+# B- -> D0 Mu selection #
+#########################
 # Use this LoKi functor page to find the meaning of various functors:
 #  https://twiki.cern.ch/twiki/bin/view/LHCb/LoKiHybridFilters
-#
-# NOTE:
-#   .CombinationCut are cuts made before the vertex fit, so it saves time
-#   .MotherCut are cuts after the vertex fit, that's why the mass cut is tighter
 
 from Configurables import CombineParticles
 from Configurables import FitDecayTrees
@@ -275,6 +271,9 @@ algo_mc_match_preambulo = [
 ]
 
 # D0 ###########################################################################
+# NOTE:
+#   .CombinationCut are cuts made before the vertex fit, so it saves time
+#   .MotherCut are cuts after the vertex fit, that's why the mass cut is tighter
 algo_D0 = CombineParticles('MyD0')
 algo_D0.DecayDescriptor = '[D0 -> K- pi+]cc'
 
@@ -339,67 +338,67 @@ sel_D0 = Selection(
     RequiredSelections=[sel_charged_K, sel_charged_Pi]
 )
 
-# B+ ###########################################################################
+# B- ###########################################################################
 # This corresponds to the B-meson cuts defined in the stripping line
-algo_Bplus = CombineParticles('MyB+')
-# NOTE: Pay attention to the sign of the particles, they are intentional!
-#       Here we are including both correct-sign decays and wrong-sign decays.
-#       This is consistent with the official stripping line, but with more
-#       clarity!
-algo_Bplus.DecayDescriptor = '[B+ -> D0 mu+]cc'
+algo_Bminus = CombineParticles('MyB-')
+algo_Bminus.DecayDescriptor = '[B- -> D0 mu-]cc'
 
 
 if DaVinci().Simulation:
-    algo_Bplus.Preambulo += algo_mc_match_preambulo
+    algo_Bminus.Preambulo += algo_mc_match_preambulo
 
 
 if not has_flag('BARE'):
-    algo_Bplus.DaughtersCuts = {
+    algo_Bminus.DaughtersCuts = {
         'mu-': '(MIPCHI2DV(PRIMARY) > 45.0) & (TRGHOSTPROB < 0.5) &' +
                '(PIDmu > 2.0) &' +
                '(P > 3.0*GeV)'
     }
 
-    algo_Bplus.CombinationCut = '(AM < 10.2*GeV)'
-    algo_Bplus.MotherCut = \
+    algo_Bminus.CombinationCut = '(AM < 10.2*GeV)'
+    algo_Bminus.MotherCut = \
         '(MM < 10.0*GeV) & (MM > 0.0*GeV) &' + \
         '(VFASPF(VCHI2/VDOF) < 6.0) & (BPVDIRA > 0.9995)'
 
 
 if DaVinci().Simulation and has_flag('BARE'):
-    algo_Bplus.DaughtersCuts['mu-'] = \
+    algo_Bminus.DaughtersCuts['mu-'] = \
         "(mcMatch('[^mu+]CC')) & (TRCHI2DOF < 6.0) &" + \
         "(MIPCHI2DV(PRIMARY) > 8.0) & (TRGHOSTPROB < 1.0) &" + \
         "(PIDmu > -400.0)"
 
-    algo_Bplus.CombinationCut = 'AALL'
-    algo_Bplus.MotherCut = '(VFASPF(VCHI2/VDOF) < 12.0) & (BPVDIRA > 0.998)'
+    algo_Bminus.CombinationCut = 'AALL'
+    algo_Bminus.MotherCut = '(VFASPF(VCHI2/VDOF) < 12.0) & (BPVDIRA > 0.998)'
 
 elif DaVinci().Simulation:
-    algo_Bplus.DaughtersCuts['mu-'] = \
+    algo_Bminus.DaughtersCuts['mu-'] = \
         "(mcMatch('[^mu+]CC')) & (TRCHI2DOF < 3.0) &" + \
-        algo_Bplus.DaughtersCuts['mu-']
+        algo_Bminus.DaughtersCuts['mu-']
 
 
-sel_Bplus = Selection(
-    'SelMyBplus',
-    Algorithm=algo_Bplus,
+sel_Bminus = Selection(
+    'SelMyB-',
+    Algorithm=algo_Bminus,
     RequiredSelections=[sel_D0, pr_all_loose_Pi]
 )
 
-# B+WS ###########################################################################
+# B-WS ###########################################################################
 # 'WS' means wrong-sign.
-algo_BplusWS = CombineParticles('MyB+WS')
-algo_BplusWS.DecayDescriptor = '[B+ -> D0 mu-]cc'
+algo_BminusWS = CombineParticles('MyB-WS')
+# NOTE: Pay attention to the sign of the particles, they are intentional!
+#       Here we are including both correct-sign decays and wrong-sign decays.
+#       This is consistent with the official stripping line, but with more
+#       clarity!
+algo_BminusWS.DecayDescriptor = '[B+ -> D0 mu-]cc'
 
-algo_BplusWS.Preambulo = algo_Bplus.Preambulo
-algo_BplusWS.DaughtersCuts = algo_Bplus.DaughtersCuts
-algo_BplusWS.CombinationCut = algo_Bplus.CombinationCut
-algo_BplusWS.MotherCut = algo_Bplus.MotherCut
+algo_BminusWS.Preambulo = algo_Bminus.Preambulo
+algo_BminusWS.DaughtersCuts = algo_Bminus.DaughtersCuts
+algo_BminusWS.CombinationCut = algo_Bminus.CombinationCut
+algo_BminusWS.MotherCut = algo_Bminus.MotherCut
 
-sel_BplusWS = Selection(
-    'SelMyB+WS',
-    Algorithm=algo_BplusWS,
+sel_BminusWS = Selection(
+    'SelMyB-WS',
+    Algorithm=algo_BminusWS,
     RequiredSelections=[sel_D0, pr_all_loose_Pi]
 )
 
@@ -409,28 +408,28 @@ sel_BplusWS = Selection(
 sel_D0_combo = Selection(
     'SelMyComboD0',
     Algorithm=FilterInTrees('MyComboD0', Code="(ABSID == 'D0')"),
-    RequiredSelections=[sel_Bplus]
+    RequiredSelections=[sel_Bminus]
 )
 
 sel_Mu_combo = Selection(
     'SelMyComboMu',
     Algorithm=FilterInTrees('MyComboMu', Code="(ABSID == 'mu+')"),
-    RequiredSelections=[sel_Bplus]
+    RequiredSelections=[sel_Bminus]
 )
 
 sel_MuWS_combo = Selection(
     'SelMyComboMuWS',
     Algorithm=FilterInTrees('MyComboMuWS', Code="(ABSID == 'mu+')"),
-    RequiredSelections=[sel_BplusWS]
+    RequiredSelections=[sel_BminusWS]
 )
 
-# D0 Mu combo sequence #########################################################
-seq_Bplus = SelectionSequence('SeqMyBplus', TopSelection=sel_Bplus)
-seq_BplusWS = SelectionSequence('SeqMyBplusWS', TopSelection=sel_BplusWS)
+# B- -> D0 Mu sequences ########################################################
+seq_Bminus = SelectionSequence('SeqMyB-', TopSelection=sel_Bminus)
+seq_BminusWS = SelectionSequence('SeqMyB-WS', TopSelection=sel_BminusWS)
 
 
 ###########################
-# B0 -> D*- Mu+ selection #
+# B0 -> D* Mu selection #
 ###########################
 
 # Dst ##########################################################################
@@ -614,9 +613,11 @@ seq_B0_ws_Pi = SelectionSequence('SeqMyB0WSPi',
 ######################################
 
 if DaVinci().Simulation or has_flag('CUTFLOW'):
-    DaVinci().UserAlgorithms += [seq_B0.sequence()]
+    DaVinci().UserAlgorithms += [seq_Bminus.sequence(),
+                                 seq_B0.sequence()]
 else:
-    DaVinci().UserAlgorithms += [seq_B0.sequence(),
+    DaVinci().UserAlgorithms += [seq_Bminus.sequence(),
+                                 seq_B0.sequence(),
                                  seq_B0_ws_Mu.sequence(),
                                  seq_B0_ws_Pi.sequence()]
 
@@ -747,6 +748,21 @@ else:
     tuple_postpocess = tuple_postpocess_mc
 
 
+# B+ ###########################################################################
+tp_Bminus = tuple_initialize(
+    'TupleBminus',
+    seq_Bminus,
+    '[B- -> D0 mu-]CC'
+)
+
+tp_Bminus.addBranches({
+    "b": "^([B- -> (D0 -> K- pi+) mu-]CC)",
+    "d0": "[B- -> ^(D0 -> K- pi+) mu-]CC",
+    "pi": "[B- -> (D0 -> K- ^pi+) mu-]CC",
+    "k": "[B- -> (D0 -> ^K- pi+) mu-]CC",
+    "mu": "[B- -> (D0 -> K- pi+) ^mu-]CC"})
+
+
 # B0 ###########################################################################
 tp_B0 = tuple_initialize(
     'TupleB0',
@@ -805,6 +821,6 @@ tuple_postpocess(tp_B0_ws_Pi)
 
 
 if DaVinci().Simulation or has_flag('CUTFLOW'):
-    DaVinci().UserAlgorithms += [tp_B0]
+    DaVinci().UserAlgorithms += [tp_Bminus, tp_B0]
 else:
-    DaVinci().UserAlgorithms += [tp_B0, tp_B0_ws_Mu, tp_B0_ws_Pi]
+    DaVinci().UserAlgorithms += [tp_Bminus, tp_B0, tp_B0_ws_Mu, tp_B0_ws_Pi]
