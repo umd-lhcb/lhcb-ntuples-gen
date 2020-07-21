@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Jul 22, 2020 at 02:04 AM +0800
+# Last Change: Wed Jul 22, 2020 at 02:07 AM +0800
 #
 # Description: Definitions of selection and reconstruction procedures for Dst
 #              and D0 in run 1, with thorough comments.
@@ -379,7 +379,7 @@ elif DaVinci().Simulation:
 sel_Bminus = Selection(
     'SelMyB-',
     Algorithm=algo_Bminus,
-    RequiredSelections=[sel_D0, pr_all_loose_Pi]
+    RequiredSelections=[sel_D0, sel_Mu]
 )
 
 # B-WS ###########################################################################
