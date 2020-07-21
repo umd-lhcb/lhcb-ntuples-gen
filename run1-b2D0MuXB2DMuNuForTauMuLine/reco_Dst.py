@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Jul 08, 2020 at 09:54 PM +0800
+# Last Change: Tue Jul 21, 2020 at 05:06 PM +0800
 #
 # Description: Definitions of selection and reconstruction procedures for Dst in
 #              run 1, with thorough comments.
@@ -166,11 +166,11 @@ pr_all_nopid_Mu = AutomaticData(Location='Phys/StdAllNoPIDsMuons/Particles')
 pr_all_loose_Mu = AutomaticData(Location='Phys/StdAllLooseMuons/Particles')
 
 
-############################
-# Define simple selections #
-############################
-# Here we define selections that apply to various TES locations directly, thus
-# 'simple'.
+##############################
+# Stable particle selections #
+##############################
+# Stable particles don't decay inside the detector, and these selections are
+# relatively simple.
 
 from PhysSelPython.Wrappers import Selection
 from Configurables import FilterDesktop, FilterInTrees
@@ -254,9 +254,9 @@ else:
     sel_Mu = sel_unstripped_tis_filtered_Mu
 
 
-#####################
-# Define algorithms #
-#####################
+#########################
+# D0 Mu combo selection #
+#########################
 # Use this LoKi functor page to find the meaning of various functors:
 #  https://twiki.cern.ch/twiki/bin/view/LHCb/LoKiHybridFilters
 #
@@ -265,6 +265,8 @@ else:
 #   .MotherCut are cuts after the vertex fit, that's why the mass cut is tighter
 
 from Configurables import CombineParticles
+from Configurables import FitDecayTrees
+from PhysSelPython.Wrappers import SelectionSequence
 
 algo_mc_match_preambulo = [
     'from LoKiMC.functions import *',
@@ -330,41 +332,12 @@ elif DaVinci().Simulation:
         algo_D0.MotherCut
 
 
-# Dst ##########################################################################
-algo_Dst = CombineParticles('MyDst')
-algo_Dst.DecayDescriptor = '[D*(2010)+ -> D0 pi+]cc'
-
-
-if not has_flag('BARE'):
-    algo_Dst.DaughtersCuts = {
-        'pi+': '(MIPCHI2DV(PRIMARY) > 0.0) & (TRCHI2DOF < 3.0) &' +
-               '(TRGHOSTPROB < 0.25)'
-    }
-
-    algo_Dst.CombinationCut = "(ADAMASS('D*(2010)+') < 220.0*MeV)"
-    algo_Dst.MotherCut = "(ADMASS('D*(2010)+') < 125.0*MeV) &" + \
-                         "(M-MAXTREE(ABSID=='D0',M) < 160.0*MeV) &" + \
-                         "(VFASPF(VCHI2/VDOF) < 100.0)"
-
-else:
-    algo_Dst.DaughtersCuts = {
-        'pi+': '(MIPCHI2DV(PRIMARY) > 0.0) & (TRCHI2DOF < 6.0) &' +
-               '(TRGHOSTPROB < 0.5)'
-    }
-
-    algo_Dst.CombinationCut = 'AALL'
-    algo_Dst.MotherCut = "(VFASPF(VCHI2/VDOF) < 200.0)"
-
-
-# DstWS ########################################################################
-# 'WS' stands for 'wrong sign'
-algo_Dst_ws = CombineParticles('MyDstWS')
-algo_Dst_ws.DecayDescriptor = '[D*(2010)- -> D0 pi-]cc'
-
-algo_Dst_ws.DaughtersCuts = algo_Dst.DaughtersCuts
-algo_Dst_ws.CombinationCut = algo_Dst.CombinationCut
-algo_Dst_ws.MotherCut = algo_Dst.MotherCut
-
+# RequiredSelections takes a union of supplied selections, thus orderless.
+sel_D0 = Selection(
+    'SelMyD0',
+    Algorithm=algo_D0,
+    RequiredSelections=[sel_charged_K, sel_charged_Pi]
+)
 
 # D0 Mu combo ##################################################################
 # This corresponds to the B-meson cuts defined in the stripping line
@@ -409,6 +382,69 @@ elif DaVinci().Simulation:
         algo_D0Mu_combo.DaughtersCuts['mu-']
 
 
+sel_D0Mu_combo = Selection(
+    'SelMyD0MuCombo',
+    Algorithm=algo_D0Mu_combo,
+    RequiredSelections=[sel_D0, pr_all_loose_Pi]
+)
+
+# D0 Mu combo sequence #########################################################
+seq_D0Mu_combo = SelectionSequence('SeqMyD0MuCombo',
+                                   TopSelection=sel_D0Mu_combo)
+
+
+#########################
+# B -> Dst Mu selection #
+#########################
+
+# Dst ##########################################################################
+algo_Dst = CombineParticles('MyDst')
+algo_Dst.DecayDescriptor = '[D*(2010)+ -> D0 pi+]cc'
+
+
+if not has_flag('BARE'):
+    algo_Dst.DaughtersCuts = {
+        'pi+': '(MIPCHI2DV(PRIMARY) > 0.0) & (TRCHI2DOF < 3.0) &' +
+               '(TRGHOSTPROB < 0.25)'
+    }
+
+    algo_Dst.CombinationCut = "(ADAMASS('D*(2010)+') < 220.0*MeV)"
+    algo_Dst.MotherCut = "(ADMASS('D*(2010)+') < 125.0*MeV) &" + \
+                         "(M-MAXTREE(ABSID=='D0',M) < 160.0*MeV) &" + \
+                         "(VFASPF(VCHI2/VDOF) < 100.0)"
+
+else:
+    algo_Dst.DaughtersCuts = {
+        'pi+': '(MIPCHI2DV(PRIMARY) > 0.0) & (TRCHI2DOF < 6.0) &' +
+               '(TRGHOSTPROB < 0.5)'
+    }
+
+    algo_Dst.CombinationCut = 'AALL'
+    algo_Dst.MotherCut = "(VFASPF(VCHI2/VDOF) < 200.0)"
+
+
+# Removed the upstream pions, which were not used by Greg/Phoebe
+sel_Dst = Selection(
+    'SelMyDst',
+    Algorithm=algo_Dst,
+    RequiredSelections=[sel_D0, pr_all_loose_Pi]
+)
+
+# DstWS ########################################################################
+# 'WS' stands for 'wrong sign'
+algo_Dst_ws = CombineParticles('MyDstWS')
+algo_Dst_ws.DecayDescriptor = '[D*(2010)- -> D0 pi-]cc'
+
+algo_Dst_ws.DaughtersCuts = algo_Dst.DaughtersCuts
+algo_Dst_ws.CombinationCut = algo_Dst.CombinationCut
+algo_Dst_ws.MotherCut = algo_Dst.MotherCut
+
+sel_Dst_ws = Selection(
+    'SelMyDstWS',
+    Algorithm=algo_Dst_ws,
+    RequiredSelections=[sel_D0, pr_all_loose_Pi]
+)
+
 # B0 ###########################################################################
 algo_B0 = CombineParticles('MyB0')
 algo_B0.DecayDescriptor = "[B~0 -> D*(2010)+ mu-]cc"  # B~0 is the CC of B0
@@ -451,57 +487,6 @@ elif DaVinci().Simulation:
     #    "AMAXDOCA(FLATTEN((ABSID=='D0') | (ABSID=='mu-')))" : ("DOCA",0,2)}
 
 
-# B0WSMu #######################################################################
-# Here the muon has the wrong sign---charge not conserved.
-algo_B0_ws_Mu = CombineParticles('MyB0WSMu')
-algo_B0_ws_Mu.DecayDescriptor = "[B~0 -> D*(2010)+ mu+]cc"
-
-algo_B0_ws_Mu.DaughtersCuts = {"mu+": "ALL"}
-algo_B0_ws_Mu.CombinationCut = algo_B0.CombinationCut
-algo_B0_ws_Mu.MotherCut = algo_B0.MotherCut
-
-# B0WSPi #######################################################################
-# Here, due to the wrong quark content of B0, instead of B~0, the pion (not
-# listed here) will have wrong sign.
-# In other words, this time, D* has the wrong sign.
-algo_B0_ws_Pi = CombineParticles('MyB0WSPi')
-algo_B0_ws_Pi.DecayDescriptor = "[B0 -> D*(2010)+ mu+]cc"
-
-algo_B0_ws_Pi.DaughtersCuts = algo_B0_ws_Mu.DaughtersCuts
-algo_B0_ws_Pi.CombinationCut = algo_B0.CombinationCut
-algo_B0_ws_Pi.MotherCut = algo_B0.MotherCut
-
-
-#####################
-# Define selections #
-#####################
-
-from Configurables import FitDecayTrees
-from PhysConf.Filters import LoKi_Filters
-
-# For SeqMyB0 ##################################################################
-
-# RequiredSelections takes a union of supplied selections, thus orderless.
-sel_D0 = Selection(
-    'SelMyD0',
-    Algorithm=algo_D0,
-    RequiredSelections=[sel_charged_K, sel_charged_Pi]
-)
-
-# Removed the upstream pions, which were not used by Greg/Phoebe
-sel_Dst = Selection(
-    'SelMyDst',
-    Algorithm=algo_Dst,
-    RequiredSelections=[sel_D0, pr_all_loose_Pi]
-)
-
-# D0 Mu combo selection (for tupling) and filter (for D* selection)
-sel_D0Mu_combo = Selection(
-    'SelMyD0MuCombo',
-    Algorithm=algo_D0Mu_combo,
-    RequiredSelections=[sel_D0, pr_all_loose_Pi]
-)
-
 sel_B0 = Selection(
     'SelMyB0',
     Algorithm=algo_B0,
@@ -519,7 +504,15 @@ sel_refit_B02DstMu = Selection(
     RequiredSelections=[sel_B0]
 )
 
-# For SeqMyB0WSMu ##############################################################
+# B0WSMu #######################################################################
+# Here the muon has the wrong sign---charge not conserved.
+algo_B0_ws_Mu = CombineParticles('MyB0WSMu')
+algo_B0_ws_Mu.DecayDescriptor = "[B~0 -> D*(2010)+ mu+]cc"
+
+algo_B0_ws_Mu.DaughtersCuts = {"mu+": "ALL"}
+algo_B0_ws_Mu.CombinationCut = algo_B0.CombinationCut
+algo_B0_ws_Mu.MotherCut = algo_B0.MotherCut
+
 sel_B0_ws_Mu = Selection(
     'SelMyB0WSMu',
     Algorithm=algo_B0_ws_Mu,
@@ -537,12 +530,17 @@ sel_refit_B02DstMu_ws_Mu = Selection(
     RequiredSelections=[sel_B0_ws_Mu]
 )
 
-# For SeqMyB0WSPi ##############################################################
-sel_Dst_ws = Selection(
-    'SelMyDstWS',
-    Algorithm=algo_Dst_ws,
-    RequiredSelections=[sel_D0, pr_all_loose_Pi]
-)
+# B0WSPi #######################################################################
+# Here, due to the wrong quark content of B0, instead of B~0, the pion (not
+# listed here) will have wrong sign.
+# In other words, this time, D* has the wrong sign.
+algo_B0_ws_Pi = CombineParticles('MyB0WSPi')
+algo_B0_ws_Pi.DecayDescriptor = "[B0 -> D*(2010)+ mu+]cc"
+
+algo_B0_ws_Pi.DaughtersCuts = algo_B0_ws_Mu.DaughtersCuts
+algo_B0_ws_Pi.CombinationCut = algo_B0.CombinationCut
+algo_B0_ws_Pi.MotherCut = algo_B0.MotherCut
+
 
 sel_B0_ws_Pi = Selection(
     'SelMyB0WSPi',
@@ -561,21 +559,7 @@ sel_refit_B02DstMu_ws_Pi = Selection(
     RequiredSelections=[sel_B0_ws_Pi]
 )
 
-
-##############################
-# Define selection sequences #
-##############################
-
-from PhysSelPython.Wrappers import SelectionSequence
-
-seq_D0Mu_combo = SelectionSequence('SeqMyD0MuCombo',
-                                   TopSelection=sel_D0Mu_combo)
-
-fltr_D0Mu_combo = LoKi_Filters(
-    VOID_Code="(CONTAINS({} > 0))".format(sel_D0Mu_combo.outputLocation())
-)
-
-
+# B0 -> Dst Mu sequences #######################################################
 if has_flag('BARE') or has_flag('DV_STRIP'):
     seq_B0 = SelectionSequence('SeqMyB0',
                                TopSelection=sel_B0,
@@ -595,11 +579,14 @@ seq_B0_ws_Pi = SelectionSequence('SeqMyB0WSPi',
                                  EventPreSelector=[])
 
 
+######################################
+# Add selection sequences to DaVinci #
+######################################
+
 DaVinci().appendToMainSequence([seq_D0Mu_combo.sequence()])
 
 if DaVinci().Simulation or has_flag('CUTFLOW'):
-    # DaVinci().UserAlgorithms += [seq_B0.sequence()]
-    DaVinci().appendToMainSequence([seq_B0.sequence()])
+    DaVinci().UserAlgorithms += [seq_B0.sequence()]
 else:
     DaVinci().UserAlgorithms += [seq_B0.sequence(),
                                  seq_B0_ws_Mu.sequence(),
