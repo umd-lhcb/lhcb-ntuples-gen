@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Jul 23, 2020 at 02:52 AM +0800
+# Last Change: Thu Jul 23, 2020 at 03:00 AM +0800
 #
 # Description: Definitions of selection and reconstruction procedures for Dst
 #              and D0 in run 1, with thorough comments.
@@ -535,7 +535,7 @@ algo_B0_ws_Mu.MotherCut = algo_B0.MotherCut
 sel_B0_ws_Mu = Selection(
     'SelMyB0WSMu',
     Algorithm=algo_B0_ws_Mu,
-    RequiredSelections=[sel_Dst, sel_Mu_ws_combo]
+    RequiredSelections=[sel_Dst, sel_Mu]
 )
 
 sel_refit_B02DstMu_ws_Mu = Selection(
