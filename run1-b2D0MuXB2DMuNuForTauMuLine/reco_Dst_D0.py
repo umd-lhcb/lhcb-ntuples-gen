@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Jul 22, 2020 at 09:00 PM +0800
+# Last Change: Wed Jul 22, 2020 at 09:14 PM +0800
 #
 # Description: Definitions of selection and reconstruction procedures for Dst
 #              and D0 in run 1, with thorough comments.
@@ -514,6 +514,8 @@ sel_refit_B02DstMu = Selection(
     RequiredSelections=[sel_B0]
 )
 
+seq_B0 = SelectionSequence('SeqMyB0', TopSelection=sel_refit_B02DstMu)
+
 # B0_ws_Mu #####################################################################
 # Here the muon has the wrong sign---charge not conserved.
 algo_B0_ws_Mu = CombineParticles('MyB0WSMu')
@@ -539,6 +541,9 @@ sel_refit_B02DstMu_ws_Mu = Selection(
     ),
     RequiredSelections=[sel_B0_ws_Mu]
 )
+
+seq_B0_ws_Mu = SelectionSequence('SeqMyB0WSMu',
+                                 TopSelection=sel_refit_B02DstMu_ws_Mu)
 
 # B0_ws_Pi #####################################################################
 # Here, due to the wrong quark content of B0, instead of B~0, the pion (not
@@ -568,16 +573,6 @@ sel_refit_B02DstMu_ws_Pi = Selection(
     ),
     RequiredSelections=[sel_B0_ws_Pi]
 )
-
-# B0 -> Dst Mu sequences #######################################################
-if has_flag('BARE') or has_flag('DV_STRIP'):
-    seq_B0 = SelectionSequence('SeqMyB0', TopSelection=sel_B0)
-else:
-    seq_B0 = SelectionSequence('SeqMyB0', TopSelection=sel_refit_B02DstMu)
-
-
-seq_B0_ws_Mu = SelectionSequence('SeqMyB0WSMu',
-                                 TopSelection=sel_refit_B02DstMu_ws_Mu)
 
 seq_B0_ws_Pi = SelectionSequence('SeqMyB0WSPi',
                                  TopSelection=sel_refit_B02DstMu_ws_Pi)
