@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Jul 22, 2020 at 09:14 PM +0800
+# Last Change: Thu Jul 23, 2020 at 02:06 AM +0800
 #
 # Description: Definitions of selection and reconstruction procedures for Dst
 #              and D0 in run 1, with thorough comments.
@@ -390,23 +390,25 @@ seq_Bminus = SelectionSequence('SeqMyB-', TopSelection=sel_refit_Bminus2D0Mu)
 
 # B-_ws ########################################################################
 # 'WS' means wrong-sign.
-algo_BminusWS = CombineParticles('MyB-WS')
+algo_Bminus_ws = CombineParticles('MyB-WS')
 # NOTE: Pay attention to the sign of the particles, they are intentional!
 #       Here we are including both correct-sign decays and wrong-sign decays.
 #       This is consistent with the official stripping line, but with more
 #       clarity!
-algo_BminusWS.DecayDescriptor = '[B+ -> D0 mu-]cc'
+algo_Bminus_ws.DecayDescriptor = '[B+ -> D0 mu-]cc'
 
-algo_BminusWS.Preambulo = algo_Bminus.Preambulo
-algo_BminusWS.DaughtersCuts = algo_Bminus.DaughtersCuts
-algo_BminusWS.CombinationCut = algo_Bminus.CombinationCut
-algo_BminusWS.MotherCut = algo_Bminus.MotherCut
+algo_Bminus_ws.Preambulo = algo_Bminus.Preambulo
+algo_Bminus_ws.DaughtersCuts = algo_Bminus.DaughtersCuts
+algo_Bminus_ws.CombinationCut = algo_Bminus.CombinationCut
+algo_Bminus_ws.MotherCut = algo_Bminus.MotherCut
 
-sel_BminusWS = Selection(
+sel_Bminus_ws = Selection(
     'SelMyB-WS',
-    Algorithm=algo_BminusWS,
+    Algorithm=algo_Bminus_ws,
     RequiredSelections=[sel_D0, pr_all_loose_Pi]
 )
+
+seq_Bminus_ws = SelectionSequence('SeqMyB-WS', TopSelection=sel_Bminus_ws)
 
 # Filtered D0 and Mu from the D0 Mu combo ######################################
 # These particles pass the stripping line selection, and can be reused to build
@@ -423,13 +425,17 @@ sel_Mu_combo = Selection(
     RequiredSelections=[sel_Bminus]
 )
 
-sel_MuWS_combo = Selection(
-    'SelMyComboMuWS',
-    Algorithm=FilterInTrees('MyComboMuWS', Code="(ABSID == 'mu+')"),
-    RequiredSelections=[sel_BminusWS]
+sel_D0_ws_combo = Selection(
+    'SelMyComboD0WS',
+    Algorithm=FilterInTrees('MyComboMuWS', Code="(ABSID == 'D0')"),
+    RequiredSelections=[sel_Bminus_ws]
 )
 
-seq_BminusWS = SelectionSequence('SeqMyB-WS', TopSelection=sel_BminusWS)
+sel_Mu_ws_combo = Selection(
+    'SelMyComboMuWS',
+    Algorithm=FilterInTrees('MyComboMuWS', Code="(ABSID == 'mu+')"),
+    RequiredSelections=[sel_Bminus_ws]
+)
 
 
 ##########################
@@ -481,7 +487,7 @@ algo_Dst_ws.MotherCut = algo_Dst.MotherCut
 sel_Dst_ws = Selection(
     'SelMyDstWS',
     Algorithm=algo_Dst_ws,
-    RequiredSelections=[sel_D0, pr_all_loose_Pi]
+    RequiredSelections=[sel_D0_ws_combo, pr_all_loose_Pi]
 )
 
 # B0 ###########################################################################
@@ -508,8 +514,7 @@ sel_refit_B02DstMu = Selection(
     Algorithm=FitDecayTrees(
         'MyRefitB02DstMu',
         Code="DECTREE('[B~0 -> (D*(2010)+ -> (D0->K- pi+) pi+) mu-]CC')",
-        UsePVConstraint=False,
-        Inputs=[sel_B0.outputLocation()]
+        UsePVConstraint=False
     ),
     RequiredSelections=[sel_B0]
 )
@@ -528,7 +533,7 @@ algo_B0_ws_Mu.MotherCut = algo_B0.MotherCut
 sel_B0_ws_Mu = Selection(
     'SelMyB0WSMu',
     Algorithm=algo_B0_ws_Mu,
-    RequiredSelections=[sel_Dst, sel_Mu]
+    RequiredSelections=[sel_Dst, sel_Mu_ws_combo]
 )
 
 sel_refit_B02DstMu_ws_Mu = Selection(
@@ -536,8 +541,7 @@ sel_refit_B02DstMu_ws_Mu = Selection(
     Algorithm=FitDecayTrees(
         'MyRefitB02DstMuwsMu',
         Code="DECTREE('[B~0 -> (D*(2010)+ -> (D0->K- pi+) pi+) mu+]CC')",
-        UsePVConstraint=False,
-        Inputs=[sel_B0_ws_Mu.outputLocation()]
+        UsePVConstraint=False
     ),
     RequiredSelections=[sel_B0_ws_Mu]
 )
@@ -568,8 +572,7 @@ sel_refit_B02DstMu_ws_Pi = Selection(
     Algorithm=FitDecayTrees(
         'MyRefitB02DstMuWSPi',
         Code="DECTREE('[B~0 -> (D*(2010)- -> (D0->K- pi+) pi-) mu-]CC')",
-        UsePVConstraint=False,
-        Inputs=[sel_B0_ws_Pi.outputLocation()]
+        UsePVConstraint=False
     ),
     RequiredSelections=[sel_B0_ws_Pi]
 )
