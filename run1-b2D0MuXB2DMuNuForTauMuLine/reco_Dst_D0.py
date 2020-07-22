@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Jul 22, 2020 at 08:22 PM +0800
+# Last Change: Wed Jul 22, 2020 at 08:36 PM +0800
 #
 # Description: Definitions of selection and reconstruction procedures for Dst
 #              and D0 in run 1, with thorough comments.
@@ -304,7 +304,6 @@ if has_flag('BARE'):
 
     algo_D0.CombinationCut = "AALL"  # NOTE: 'AALL' is the particle array variant for 'ALL'.
     algo_D0.MotherCut = \
-        "(mcMatch('[Charm -> K- pi+ {gamma}{gamma}{gamma}]CC')) &" \
         "(VFASPF(VCHI2/VDOF) < 8.0) & (BPVVDCHI2 > 12.5) & (BPVDIRA> 0.998)"
 
 
@@ -377,7 +376,7 @@ sel_Bminus = Selection(
     RequiredSelections=[sel_D0, sel_Mu]
 )
 
-# B-WS #########################################################################
+# B-_ws ########################################################################
 # 'WS' means wrong-sign.
 algo_BminusWS = CombineParticles('MyB-WS')
 # NOTE: Pay attention to the sign of the particles, they are intentional!
@@ -460,7 +459,7 @@ sel_Dst = Selection(
     RequiredSelections=[sel_D0_combo, pr_all_loose_Pi]
 )
 
-# DstWS ########################################################################
+# Dst_ws #######################################################################
 # 'WS' stands for 'wrong sign'
 algo_Dst_ws = CombineParticles('MyDstWS')
 algo_Dst_ws.DecayDescriptor = '[D*(2010)- -> D0 pi-]cc'
@@ -505,7 +504,7 @@ sel_refit_B02DstMu = Selection(
     RequiredSelections=[sel_B0]
 )
 
-# B0WSMu #######################################################################
+# B0_ws_Mu #####################################################################
 # Here the muon has the wrong sign---charge not conserved.
 algo_B0_ws_Mu = CombineParticles('MyB0WSMu')
 algo_B0_ws_Mu.DecayDescriptor = "[B~0 -> D*(2010)+ mu+]cc"
@@ -531,7 +530,7 @@ sel_refit_B02DstMu_ws_Mu = Selection(
     RequiredSelections=[sel_B0_ws_Mu]
 )
 
-# B0WSPi #######################################################################
+# B0_ws_Pi #####################################################################
 # Here, due to the wrong quark content of B0, instead of B~0, the pion (not
 # listed here) will have wrong sign.
 # In other words, this time, D* has the wrong sign.
