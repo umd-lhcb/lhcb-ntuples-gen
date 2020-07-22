@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Jul 23, 2020 at 02:06 AM +0800
+# Last Change: Thu Jul 23, 2020 at 02:09 AM +0800
 #
 # Description: Definitions of selection and reconstruction procedures for Dst
 #              and D0 in run 1, with thorough comments.
@@ -377,9 +377,9 @@ sel_Bminus = Selection(
 )
 
 sel_refit_Bminus2D0Mu = Selection(
-    'SelMyRefitBminus2D0Mu',
+    'SelMyRefitB-2D0Mu',
     Algorithm=FitDecayTrees(
-        'MyRefitBminus2D0Mu',
+        'MyRefitB-2D0Mu',
         Code="DECTREE('[B- -> (D0->K- pi+) mu-]CC')",
         UsePVConstraint=False,
     ),
