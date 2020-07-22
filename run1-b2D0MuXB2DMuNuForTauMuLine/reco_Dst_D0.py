@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Jul 22, 2020 at 05:46 PM +0800
+# Last Change: Wed Jul 22, 2020 at 08:22 PM +0800
 #
 # Description: Definitions of selection and reconstruction procedures for Dst
 #              and D0 in run 1, with thorough comments.
@@ -653,6 +653,8 @@ def tuple_initialize_mc(*args):
 
 
 def tuple_postpocess_data(tp,
+                          B_meson='b0',
+                          Mu='mu',
                           weights='./weights_soft.xml',
                           trigger_list_global=[
                               # L0
@@ -662,7 +664,7 @@ def tuple_postpocess_data(tp,
                               # HLT 2
                               'Hlt2CharmHadD02HH_D02KPiDecision'
                           ],
-                          trigger_list_B0=[
+                          trigger_list_B=[
                               # L0
                               'L0HadronDecision',  # Hadron decision needed everywhere.
                               'L0DiMuonDecision',
@@ -675,17 +677,20 @@ def tuple_postpocess_data(tp,
                               'L0PhotonHiDecision'
                           ]
                           ):
-    tp.b0.addTool(TupleToolTagDiscardDstMu, name='TupleMyDiscardDstMu')
-    tp.b0.ToolList += ['TupleToolTagDiscardDstMu/TupleMyDiscardDstMu']
+    getattr(tp, B_meson).addTool(
+        TupleToolTagDiscardDstMu, name='TupleMyDiscardDstMu')
+    getattr(tp, B_meson).ToolList += [
+        'TupleToolTagDiscardDstMu/TupleMyDiscardDstMu']
 
-    tp.b0.addTool(TupleToolApplyIsolation, name='TupleMyApplyIso')
-    tp.b0.TupleMyApplyIso.WeightsFile = weights
-    tp.b0.ToolList += ['TupleToolApplyIsolation/TupleMyApplyIso']
+    getattr(tp, B_meson).addTool(
+        TupleToolApplyIsolation, name='TupleMyApplyIso')
+    getattr(tp, B_meson).TupleMyApplyIso.WeightsFile = weights
+    getattr(tp, B_meson).ToolList += ['TupleToolApplyIsolation/TupleMyApplyIso']
 
-    tp.b0.addTool(TupleToolTauMuDiscrVars, name='TupleMyRFA')
-    tp.b0.ToolList += ['TupleToolTauMuDiscrVars/TupleMyRFA']
+    getattr(tp, B_meson).addTool(TupleToolTauMuDiscrVars, name='TupleMyRFA')
+    getattr(tp, B_meson).ToolList += ['TupleToolTauMuDiscrVars/TupleMyRFA']
 
-    tp.mu.ToolList += ['TupleToolANNPIDTraining']
+    getattr(tp, Mu).ToolList += ['TupleToolANNPIDTraining']
 
     # Trigger decisions to be saved for every particle
     tt_trigger = tp.addTupleTool('TupleToolTrigger')
@@ -697,9 +702,9 @@ def tuple_postpocess_data(tp,
     tt_tistos.TriggerList = trigger_list_global
 
     # Trigger decisions to be saved for Y
-    tt_tistos_B0 = tp.b0.addTupleTool('TupleToolTISTOS')
-    tt_tistos_B0.Verbose = True
-    tt_tistos_B0.TriggerList = trigger_list_B0
+    tt_tistos_B = getattr(tp, B_meson).addTupleTool('TupleToolTISTOS')
+    tt_tistos_B.Verbose = True
+    tt_tistos_B.TriggerList = trigger_list_B
 
 
 def tuple_postpocess_mc(*args, **kwargs):
@@ -727,6 +732,8 @@ tp_Bminus.addBranches({
     "pi": "[B- -> (D0 -> K- ^pi+) mu-]CC",
     "k": "[B- -> (D0 -> ^K- pi+) mu-]CC",
     "mu": "[B- -> (D0 -> K- pi+) ^mu-]CC"})
+
+tuple_postpocess(tp_Bminus, B_meson='b')
 
 
 # B0 ###########################################################################
