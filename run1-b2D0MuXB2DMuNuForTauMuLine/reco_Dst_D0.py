@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Jul 22, 2020 at 04:32 PM +0800
+# Last Change: Wed Jul 22, 2020 at 05:46 PM +0800
 #
 # Description: Definitions of selection and reconstruction procedures for Dst
 #              and D0 in run 1, with thorough comments.
@@ -423,9 +423,9 @@ seq_Bminus = SelectionSequence('SeqMyB-', TopSelection=sel_Bminus)
 seq_BminusWS = SelectionSequence('SeqMyB-WS', TopSelection=sel_BminusWS)
 
 
-#########################
-# B0 -> D* Mu selection #
-#########################
+##########################
+# B0 -> Dst Mu selection #
+##########################
 
 # Dst ##########################################################################
 algo_Dst = CombineParticles('MyDst')
@@ -481,7 +481,7 @@ algo_B0.DecayDescriptor = "[B~0 -> D*(2010)+ mu-]cc"  # B~0 is the CC of B0
 
 # Don't apply D0 Mu combo cuts to Dst Mu!
 algo_B0.CombinationCut = 'AALL'
-algo_B0.MotherCut = 'ALL'
+algo_B0.MotherCut = "(VFASPF(VCHI2/VDOF) < 100.0)"  # Loose cuts here
 
 # algo_B0.HistoProduce = True
 # algo_B0.addTool(PlotTool("MotherPlots"))
