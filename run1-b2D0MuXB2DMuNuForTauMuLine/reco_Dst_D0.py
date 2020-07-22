@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Jul 22, 2020 at 03:53 AM +0800
+# Last Change: Wed Jul 22, 2020 at 04:32 PM +0800
 #
 # Description: Definitions of selection and reconstruction procedures for Dst
 #              and D0 in run 1, with thorough comments.
@@ -277,48 +277,42 @@ algo_mc_match_preambulo = [
 algo_D0 = CombineParticles('MyD0')
 algo_D0.DecayDescriptor = '[D0 -> K- pi+]cc'
 
+algo_D0.DaughtersCuts = {
+    'K+': '(PIDK > 4.0) & (MIPCHI2DV(PRIMARY) > 45.0) &'
+          '(P > 2.0*GeV) & (PT > 300.0*MeV) &'
+          '(TRGHOSTPROB < 0.5)',
+    'pi-': '(P > 2.0*GeV) & (PT > 300.0*MeV) &'
+           '(MIPCHI2DV(PRIMARY) > 45.0) &'
+           '(PIDK < 2.0) & (TRGHOSTPROB < 0.5)'
+}
 
-if DaVinci().Simulation:
-    algo_D0.Preambulo += algo_mc_match_preambulo
+algo_D0.CombinationCut = \
+    "(ADAMASS('D0') < 100.0*MeV) &" \
+    "(ACHILD(PT,1) + ACHILD(PT,2) > 1400.0*MeV)"
+algo_D0.MotherCut = \
+    "(SUMTREE(PT,ISBASIC) > 1400.0*MeV) & (ADMASS('D0') < 80.0*MeV) &" \
+    "(VFASPF(VCHI2/VDOF) < 4.0) & (BPVVDCHI2 > 250.0) & (BPVDIRA> 0.9998)"
 
 
-if not has_flag('BARE'):
+if has_flag('BARE'):
     algo_D0.DaughtersCuts = {
-        'K+': '(PIDK > 4.0) & (MIPCHI2DV(PRIMARY) > 45.0) &' +
-              '(P > 2.0*GeV) & (PT > 300.0*MeV) &' +
-              '(TRGHOSTPROB < 0.5)',
-        'pi-': '(P > 2.0*GeV) & (PT > 300.0*MeV) &' +
-               '(MIPCHI2DV(PRIMARY) > 45.0) &' +
-               '(PIDK < 2.0) & (TRGHOSTPROB < 0.5)'
-    }
-
-    algo_D0.CombinationCut = \
-        "(ADAMASS('D0') < 100.0*MeV) &" + \
-        "(ACHILD(PT,1) + ACHILD(PT,2) > 1400.0*MeV)"
-    algo_D0.MotherCut = \
-        "(SUMTREE(PT,ISBASIC) > 1400.0*MeV) & (ADMASS('D0') < 80.0*MeV) &" + \
-        "(VFASPF(VCHI2/VDOF) < 4.0) & (BPVVDCHI2 > 250.0) & (BPVDIRA> 0.9998)"
-
-
-if DaVinci().Simulation and has_flag('BARE'):
-    algo_D0.DaughtersCuts = {
-        'K+': '(PIDK > 2.0) & (MIPCHI2DV(PRIMARY) > 4.5) &' +
-              '(TRGHOSTPROB < 1.0) &' +
-              "(mcMatch('[^K+]CC')) &" +
-              '(MCSELMATCH(MCNINANCESTORS(BEAUTY) > 0))',
-        'pi-': '(MIPCHI2DV(PRIMARY) > 4.5) &' +
-               '(PIDK < 4.0) & (TRGHOSTPROB < 1.0) &' +
-               '(MCSELMATCH(MCNINANCESTORS(BEAUTY) > 0))'
+        'K+': '(PIDK > 2.0) & (MIPCHI2DV(PRIMARY) > 4.5) &'
+              '(TRGHOSTPROB < 1.0)',
+        'pi-': '(MIPCHI2DV(PRIMARY) > 4.5) &'
+               '(PIDK < 4.0) & (TRGHOSTPROB < 1.0)'
     }
 
     algo_D0.CombinationCut = "AALL"  # NOTE: 'AALL' is the particle array variant for 'ALL'.
     algo_D0.MotherCut = \
-        "(mcMatch('[Charm -> K- pi+ {gamma}{gamma}{gamma}]CC')) &" + \
+        "(mcMatch('[Charm -> K- pi+ {gamma}{gamma}{gamma}]CC')) &" \
         "(VFASPF(VCHI2/VDOF) < 8.0) & (BPVVDCHI2 > 12.5) & (BPVDIRA> 0.998)"
 
-elif DaVinci().Simulation:
+
+if DaVinci().Simulation:
+    algo_D0.Preambulo += algo_mc_match_preambulo
+
     algo_D0.DaughtersCuts['K+'] = \
-        "(mcMatch('[^K+]CC')) &" + \
+        "(mcMatch('[^K+]CC')) &" \
         "(MCSELMATCH(MCNINANCESTORS(BEAUTY) > 0)) &" + \
         algo_D0.DaughtersCuts['K+']
 
@@ -343,37 +337,38 @@ sel_D0 = Selection(
 algo_Bminus = CombineParticles('MyB-')
 algo_Bminus.DecayDescriptor = '[B- -> D0 mu-]cc'
 
+algo_Bminus.DaughtersCuts = {
+    'mu-': '(MIPCHI2DV(PRIMARY) > 45.0) & (TRGHOSTPROB < 0.5) &'
+           '(PIDmu > 2.0) &'
+           '(P > 3.0*GeV)'
+}
 
-if DaVinci().Simulation:
-    algo_Bminus.Preambulo += algo_mc_match_preambulo
-
-
-if not has_flag('BARE'):
-    algo_Bminus.DaughtersCuts = {
-        'mu-': '(MIPCHI2DV(PRIMARY) > 45.0) & (TRGHOSTPROB < 0.5) &' +
-               '(PIDmu > 2.0) &' +
-               '(P > 3.0*GeV)'
-    }
-
-    algo_Bminus.CombinationCut = '(AM < 10.2*GeV)'
-    algo_Bminus.MotherCut = \
-        '(MM < 10.0*GeV) & (MM > 0.0*GeV) &' + \
-        '(VFASPF(VCHI2/VDOF) < 6.0) & (BPVDIRA > 0.9995)'
+algo_Bminus.CombinationCut = '(AM < 10.2*GeV)'
+algo_Bminus.MotherCut = \
+    '(MM < 10.0*GeV) & (MM > 0.0*GeV) &' \
+    '(VFASPF(VCHI2/VDOF) < 6.0) & (BPVDIRA > 0.9995)'
 
 
-if DaVinci().Simulation and has_flag('BARE'):
+if has_flag('BARE'):
     algo_Bminus.DaughtersCuts['mu-'] = \
-        "(mcMatch('[^mu+]CC')) & (TRCHI2DOF < 6.0) &" + \
-        "(MIPCHI2DV(PRIMARY) > 8.0) & (TRGHOSTPROB < 1.0) &" + \
+        "(MIPCHI2DV(PRIMARY) > 8.0) & (TRGHOSTPROB < 1.0) &" \
         "(PIDmu > -400.0)"
 
     algo_Bminus.CombinationCut = 'AALL'
     algo_Bminus.MotherCut = '(VFASPF(VCHI2/VDOF) < 12.0) & (BPVDIRA > 0.998)'
 
-elif DaVinci().Simulation:
-    algo_Bminus.DaughtersCuts['mu-'] = \
-        "(mcMatch('[^mu+]CC')) & (TRCHI2DOF < 3.0) &" + \
-        algo_Bminus.DaughtersCuts['mu-']
+
+if DaVinci().Simulation:
+    algo_Bminus.Preambulo += algo_mc_match_preambulo
+
+    if has_flag('BARE'):
+        algo_Bminus.DaughtersCuts['mu-'] = \
+            "(mcMatch('[^mu+]CC')) & (TRCHI2DOF < 6.0) &" + \
+            algo_Bminus.DaughtersCuts['mu-']
+    else:
+        algo_Bminus.DaughtersCuts['mu-'] = \
+            "(mcMatch('[^mu+]CC')) & (TRCHI2DOF < 3.0) &" + \
+            algo_Bminus.DaughtersCuts['mu-']
 
 
 sel_Bminus = Selection(
@@ -382,7 +377,7 @@ sel_Bminus = Selection(
     RequiredSelections=[sel_D0, sel_Mu]
 )
 
-# B-WS ###########################################################################
+# B-WS #########################################################################
 # 'WS' means wrong-sign.
 algo_BminusWS = CombineParticles('MyB-WS')
 # NOTE: Pay attention to the sign of the particles, they are intentional!
@@ -428,29 +423,29 @@ seq_Bminus = SelectionSequence('SeqMyB-', TopSelection=sel_Bminus)
 seq_BminusWS = SelectionSequence('SeqMyB-WS', TopSelection=sel_BminusWS)
 
 
-###########################
+#########################
 # B0 -> D* Mu selection #
-###########################
+#########################
 
 # Dst ##########################################################################
 algo_Dst = CombineParticles('MyDst')
 algo_Dst.DecayDescriptor = '[D*(2010)+ -> D0 pi+]cc'
 
+algo_Dst.DaughtersCuts = {
+    'pi+': '(MIPCHI2DV(PRIMARY) > 0.0) & (TRCHI2DOF < 3.0) &'
+           '(TRGHOSTPROB < 0.25)'
+}
 
-if not has_flag('BARE'):
+algo_Dst.CombinationCut = "(ADAMASS('D*(2010)+') < 220.0*MeV)"
+algo_Dst.MotherCut = \
+    "(ADMASS('D*(2010)+') < 125.0*MeV) &" \
+    "(M-MAXTREE(ABSID=='D0',M) < 160.0*MeV) &" \
+    "(VFASPF(VCHI2/VDOF) < 100.0)"
+
+
+if has_flag('BARE'):
     algo_Dst.DaughtersCuts = {
-        'pi+': '(MIPCHI2DV(PRIMARY) > 0.0) & (TRCHI2DOF < 3.0) &' +
-               '(TRGHOSTPROB < 0.25)'
-    }
-
-    algo_Dst.CombinationCut = "(ADAMASS('D*(2010)+') < 220.0*MeV)"
-    algo_Dst.MotherCut = "(ADMASS('D*(2010)+') < 125.0*MeV) &" + \
-                         "(M-MAXTREE(ABSID=='D0',M) < 160.0*MeV) &" + \
-                         "(VFASPF(VCHI2/VDOF) < 100.0)"
-
-else:
-    algo_Dst.DaughtersCuts = {
-        'pi+': '(MIPCHI2DV(PRIMARY) > 0.0) & (TRCHI2DOF < 6.0) &' +
+        'pi+': '(MIPCHI2DV(PRIMARY) > 0.0) & (TRCHI2DOF < 6.0) &'
                '(TRGHOSTPROB < 0.5)'
     }
 
