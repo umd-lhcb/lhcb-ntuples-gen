@@ -1,6 +1,6 @@
 from Configurables import DaVinci
 
-DaVinci().DataType = '2016'
+DaVinci().DataType = '2011'
 DaVinci().Simulation = True
 
 DaVinci().TupleFile = 'cutflow_mc-dv_strip.root'
