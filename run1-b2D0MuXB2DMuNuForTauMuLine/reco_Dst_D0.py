@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Jul 23, 2020 at 03:00 AM +0800
+# Last Change: Fri Jul 24, 2020 at 01:56 AM +0800
 #
 # Description: Definitions of selection and reconstruction procedures for Dst
 #              and D0 in run 1, with thorough comments.
@@ -405,7 +405,7 @@ algo_Bminus_ws.MotherCut = algo_Bminus.MotherCut
 sel_Bminus_ws = Selection(
     'SelMyB-WS',
     Algorithm=algo_Bminus_ws,
-    RequiredSelections=[sel_D0, pr_all_loose_Pi]
+    RequiredSelections=[sel_D0, sel_Mu]
 )
 
 seq_Bminus_ws = SelectionSequence('SeqMyB-WS', TopSelection=sel_Bminus_ws)
@@ -425,8 +425,6 @@ sel_Mu_combo = Selection(
     RequiredSelections=[sel_Bminus]
 )
 
-# NOTE: The wrong-sign D0 is not used. If I use it, neither of the Dst wrong-
-# sign trees contain any event, at least locally.
 sel_D0_ws_combo = Selection(
     'SelMyComboD0WS',
     Algorithm=FilterInTrees('MyComboMuWS', Code="(ABSID == 'D0')"),
@@ -489,7 +487,7 @@ algo_Dst_ws.MotherCut = algo_Dst.MotherCut
 sel_Dst_ws = Selection(
     'SelMyDstWS',
     Algorithm=algo_Dst_ws,
-    RequiredSelections=[sel_D0_combo, pr_all_loose_Pi]
+    RequiredSelections=[sel_D0_ws_combo, pr_all_loose_Pi]
 )
 
 # B0 ###########################################################################
@@ -535,7 +533,7 @@ algo_B0_ws_Mu.MotherCut = algo_B0.MotherCut
 sel_B0_ws_Mu = Selection(
     'SelMyB0WSMu',
     Algorithm=algo_B0_ws_Mu,
-    RequiredSelections=[sel_Dst, sel_Mu]
+    RequiredSelections=[sel_Dst, sel_Mu_ws_combo]
 )
 
 sel_refit_B02DstMu_ws_Mu = Selection(
@@ -566,7 +564,7 @@ algo_B0_ws_Pi.MotherCut = algo_B0.MotherCut
 sel_B0_ws_Pi = Selection(
     'SelMyB0WSPi',
     Algorithm=algo_B0_ws_Pi,
-    RequiredSelections=[sel_Dst_ws, sel_Mu_combo]
+    RequiredSelections=[sel_Dst_ws, sel_Mu_ws_combo]
 )
 
 sel_refit_B02DstMu_ws_Pi = Selection(
