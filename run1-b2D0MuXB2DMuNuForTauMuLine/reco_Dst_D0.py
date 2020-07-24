@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sat Jul 25, 2020 at 01:39 AM +0800
+# Last Change: Sat Jul 25, 2020 at 02:30 AM +0800
 #
 # Description: Definitions of selection and reconstruction procedures for Dst
 #              and D0 in run 1, with thorough comments.
@@ -604,20 +604,6 @@ seq_B0_ws_Pi = SelectionSequence('SeqMyB0WSPi',
                                  TopSelection=sel_refit_B02DstMu_ws_Pi)
 
 
-######################################
-# Add selection sequences to DaVinci #
-######################################
-
-if DaVinci().Simulation or has_flag('CUTFLOW'):
-    DaVinci().UserAlgorithms += [seq_Bminus.sequence(),
-                                 seq_B0.sequence()]
-else:
-    DaVinci().UserAlgorithms += [seq_Bminus.sequence(),
-                                 seq_B0.sequence(),
-                                 seq_B0_ws_Mu.sequence(),
-                                 seq_B0_ws_Pi.sequence()]
-
-
 ##################
 # Define ntuples #
 ##################
@@ -640,11 +626,11 @@ from Configurables import TupleToolTrigger
 from Configurables import TupleToolTISTOS
 
 
-def tuple_initialize_data(name, sel_seq, decay):
+def tuple_initialize_data(name, sel_seq, template):
     tp = DecayTreeTuple(name)
     tp.addTupleTool('TupleToolTrackInfo')  # For addBranches
     tp.Inputs = [sel_seq.outputLocation()]
-    tp.Decay = decay
+    tp.setDescriptorTemplate(template)
 
     tp.ToolList += [
         'TupleToolKinematic',
@@ -753,94 +739,58 @@ else:
 tp_Bminus = tuple_initialize(
     'TupleBminus',
     seq_Bminus,
-    '[B- -> ^(D0 -> ^K- ^pi+) ^mu-]CC'
+    '${b}[B- -> ${d0}(D0 -> ${k}K- ${pi}pi+) ${mu}mu-]CC'
 )
-
-tp_Bminus.addBranches({
-    "b": "^([B- -> (D0 -> K- pi+) mu-]CC)",
-    "d0": "[B- -> ^(D0 -> K- pi+) mu-]CC",
-    "pi": "[B- -> (D0 -> K- ^pi+) mu-]CC",
-    "k": "[B- -> (D0 -> ^K- pi+) mu-]CC",
-    "mu": "[B- -> (D0 -> K- pi+) ^mu-]CC"})
-
 tuple_postpocess(tp_Bminus, B_meson='b')
 
 # B-_ws ########################################################################
 tp_Bminus_ws = tuple_initialize(
     'TupleBminusWS',
     seq_Bminus_ws,
-    '[B+ -> ^(D0 -> ^K- ^pi+) ^mu-]CC'
+    '${b}[B+ -> ${d0}(D0 -> ${k}K- ${pi}pi+) ${mu}mu-]CC'
 )
-
-tp_Bminus_ws.addBranches({
-    "b": "^([B+ -> (D0 -> K- pi+) mu-]CC)",
-    "d0": "[B+ -> ^(D0 -> K- pi+) mu-]CC",
-    "pi": "[B+ -> (D0 -> K- ^pi+) mu-]CC",
-    "k": "[B+ -> (D0 -> ^K- pi+) mu-]CC",
-    "mu": "[B+ -> (D0 -> K- pi+) ^mu-]CC"})
-
 tuple_postpocess(tp_Bminus_ws, B_meson='b')
-
 
 # B0 ###########################################################################
 tp_B0 = tuple_initialize(
     'TupleB0',
     seq_B0,
-    '[B~0 -> ^(D*(2010)+ -> ^(D0 -> ^K- ^pi+) ^pi+) ^mu-]CC'
+    '${b0}[B~0 -> ${dst}(D*(2010)+ -> ${d0}(D0 -> ${k}K- ${pi}pi+) ${spi}pi+) ${mu}mu-]CC'
 )
-
-tp_B0.addBranches({
-    "b0": "^([B0 -> (D*(2010)- -> (D~0 -> K+ pi-) pi-) mu+]CC)",
-    "dst": "[B0 -> ^(D*(2010)- -> (D~0 -> K+ pi-) pi-) mu+]CC",
-    "d0": "[B0 -> (D*(2010)- -> ^(D~0 -> K+ pi-) pi-) mu+]CC",
-    "spi": "[B0 -> (D*(2010)- -> (D~0 -> K+ pi-) ^pi-) mu+]CC",
-    "pi": "[B0 -> (D*(2010)- -> (D~0 -> K+ ^pi-) pi-) mu+]CC",
-    "k": "[B0 -> (D*(2010)- -> (D~0 -> ^K+ pi-) pi-) mu+]CC",
-    "mu": "[B0 -> (D*(2010)- -> (D~0 -> K+ pi-) pi-) ^mu+]CC"})
-
 tuple_postpocess(tp_B0)
-
 
 # B0_ws_Mu #####################################################################
 tp_B0_ws_Mu = tuple_initialize(
     'TupleB0WSMu',
     seq_B0_ws_Mu,
-    '[B~0 -> ^(D*(2010)+ -> ^(D0 -> ^K- ^pi+) ^pi+) ^mu+]CC'
+    '${b0}[B~0 -> ${dst}(D*(2010)+ -> ${d0}(D0 -> ${k}K- ${pi}pi+) ${spi}pi+) ${mu}mu+]CC'
 )
-
-tp_B0_ws_Mu.addBranches({
-    "b0": "^([B0 -> (D*(2010)- -> (D~0 -> K+ pi-) pi-) mu-]CC)",
-    "dst": "[B0 -> ^(D*(2010)- -> (D~0 -> K+ pi-) pi-) mu-]CC",
-    "d0": "[B0 -> (D*(2010)- -> ^(D~0 -> K+ pi-) pi-) mu-]CC",
-    "spi": "[B0 -> (D*(2010)- -> (D~0 -> K+ pi-) ^pi-) mu-]CC",
-    "pi": "[B0 -> (D*(2010)- -> (D~0 -> K+ ^pi-) pi-) mu-]CC",
-    "k": "[B0 -> (D*(2010)- -> (D~0 -> ^K+ pi-) pi-) mu-]CC",
-    "mu": "[B0 -> (D*(2010)- -> (D~0 -> K+ pi-) pi-) ^mu-]CC"})
-
 tuple_postpocess(tp_B0_ws_Mu)
-
 
 # B0_ws_Pi #####################################################################
 tp_B0_ws_Pi = tuple_initialize(
     'TupleB0WSPi',
     seq_B0_ws_Pi,
-    '[B~0 -> ^(D*(2010)- -> ^(D0 -> ^K- ^pi+) ^pi-) ^mu-]CC'
+    '${b0}[B~0 -> ${dst}(D*(2010)- -> ${d0}(D0 -> ${k}K- ${pi}pi+) ${spi}pi-) ${mu}mu-]CC'
 )
-
-tp_B0_ws_Pi.addBranches({
-    "b0": "^([B0 -> (D*(2010)+ -> (D~0 -> K+ pi-) pi+) mu+]CC)",
-    "dst": "[B0 -> ^(D*(2010)+ -> (D~0 -> K+ pi-) pi+) mu+]CC",
-    "d0": "[B0 -> (D*(2010)+ -> ^(D~0 -> K+ pi-) pi+) mu+]CC",
-    "spi": "[B0 -> (D*(2010)+ -> (D~0 -> K+ pi-) ^pi+) mu+]CC",
-    "pi": "[B0 -> (D*(2010)+ -> (D~0 -> K+ ^pi-) pi+) mu+]CC",
-    "k": "[B0 -> (D*(2010)+ -> (D~0 -> ^K+ pi-) pi+) mu+]CC",
-    "mu": "[B0 -> (D*(2010)+ -> (D~0 -> K+ pi-) pi+) ^mu+]CC"})
-
 tuple_postpocess(tp_B0_ws_Pi)
 
 
+################################################
+# Add selection & tupling sequences to DaVinci #
+################################################
+
 if DaVinci().Simulation or has_flag('CUTFLOW'):
-    DaVinci().UserAlgorithms += [tp_Bminus, tp_B0]
+    DaVinci().UserAlgorithms += [seq_Bminus.sequence(),
+                                 seq_B0.sequence(),
+                                 # ntuples
+                                 tp_Bminus, tp_Bminus_ws]
 else:
-    DaVinci().UserAlgorithms += [tp_Bminus, tp_Bminus_ws,
+    DaVinci().UserAlgorithms += [seq_Bminus.sequence(),
+                                 seq_Bminus_ws.sequence(),
+                                 seq_B0.sequence(),
+                                 seq_B0_ws_Mu.sequence(),
+                                 seq_B0_ws_Pi.sequence(),
+                                 # ntuples
+                                 tp_Bminus, tp_Bminus_ws,
                                  tp_B0, tp_B0_ws_Mu, tp_B0_ws_Pi]
