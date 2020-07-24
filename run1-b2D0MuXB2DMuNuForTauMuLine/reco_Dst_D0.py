@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri Jul 24, 2020 at 07:35 PM +0800
+# Last Change: Sat Jul 25, 2020 at 01:39 AM +0800
 #
 # Description: Definitions of selection and reconstruction procedures for Dst
 #              and D0 in run 1, with thorough comments.
@@ -408,7 +408,18 @@ sel_Bminus_ws = Selection(
     RequiredSelections=[sel_D0, sel_Mu]
 )
 
-seq_Bminus_ws = SelectionSequence('SeqMyB-WS', TopSelection=sel_Bminus_ws)
+sel_refit_Bminus2D0Mu_ws = Selection(
+    'SelMyRefitB-2D0MuWS',
+    Algorithm=FitDecayTrees(
+        'MyRefitB-2D0MuWS',
+        Code="DECTREE('[B+ -> (D0->K- pi+) mu-]CC')",
+        UsePVConstraint=False,
+    ),
+    RequiredSelections=[sel_Bminus_ws]
+)
+
+seq_Bminus_ws = SelectionSequence('SeqMyB-WS',
+                                  TopSelection=sel_refit_Bminus2D0Mu_ws)
 
 # Filtered D0 and Mu from the D0 Mu combo ######################################
 # These particles pass the stripping line selection, and can be reused to build
@@ -754,6 +765,22 @@ tp_Bminus.addBranches({
 
 tuple_postpocess(tp_Bminus, B_meson='b')
 
+# B-_ws ########################################################################
+tp_Bminus_ws = tuple_initialize(
+    'TupleBminusWS',
+    seq_Bminus_ws,
+    '[B+ -> ^(D0 -> ^K- ^pi+) ^mu-]CC'
+)
+
+tp_Bminus_ws.addBranches({
+    "b": "^([B+ -> (D0 -> K- pi+) mu-]CC)",
+    "d0": "[B+ -> ^(D0 -> K- pi+) mu-]CC",
+    "pi": "[B+ -> (D0 -> K- ^pi+) mu-]CC",
+    "k": "[B+ -> (D0 -> ^K- pi+) mu-]CC",
+    "mu": "[B+ -> (D0 -> K- pi+) ^mu-]CC"})
+
+tuple_postpocess(tp_Bminus_ws, B_meson='b')
+
 
 # B0 ###########################################################################
 tp_B0 = tuple_initialize(
@@ -815,4 +842,5 @@ tuple_postpocess(tp_B0_ws_Pi)
 if DaVinci().Simulation or has_flag('CUTFLOW'):
     DaVinci().UserAlgorithms += [tp_Bminus, tp_B0]
 else:
-    DaVinci().UserAlgorithms += [tp_Bminus, tp_B0, tp_B0_ws_Mu, tp_B0_ws_Pi]
+    DaVinci().UserAlgorithms += [tp_Bminus, tp_Bminus_ws,
+                                 tp_B0, tp_B0_ws_Mu, tp_B0_ws_Pi]
