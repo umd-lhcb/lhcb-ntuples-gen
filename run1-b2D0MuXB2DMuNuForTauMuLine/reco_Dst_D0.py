@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri Jul 24, 2020 at 04:39 PM +0800
+# Last Change: Fri Jul 24, 2020 at 07:35 PM +0800
 #
 # Description: Definitions of selection and reconstruction procedures for Dst
 #              and D0 in run 1, with thorough comments.
@@ -81,7 +81,7 @@ ms_smear = TrackSmearState('StateSmear')
 
 if not DaVinci().Simulation:
     DaVinci().appendToMainSequence([ms_scale])
-else:
+elif not has_flag('NO_SMEAR'):
     DaVinci().appendToMainSequence([ms_smear])
 
 

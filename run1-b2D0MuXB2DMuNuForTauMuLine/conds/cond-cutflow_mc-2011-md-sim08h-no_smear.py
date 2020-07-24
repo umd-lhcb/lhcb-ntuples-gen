@@ -3,10 +3,10 @@ from Configurables import DaVinci
 DaVinci().DataType = '2011'
 DaVinci().Simulation = True
 
-DaVinci().TupleFile = 'cutflow_mc-dv_strip.root'
+DaVinci().TupleFile = 'cutflow_mc-no_smear.root'
 
 # Additional global flags
-DaVinci().MoniSequence += ['CUTFLOW', 'DV_STRIP', 'NO_SMEAR']
+DaVinci().MoniSequence += ['CUTFLOW', 'NO_SMEAR']
 
 
 from Configurables import LHCbApp
