@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sat Jul 25, 2020 at 02:30 AM +0800
+# Last Change: Sat Jul 25, 2020 at 02:46 AM +0800
 #
 # Description: Definitions of selection and reconstruction procedures for Dst
 #              and D0 in run 1, with thorough comments.
@@ -583,7 +583,6 @@ algo_B0_ws_Pi.DecayDescriptor = "[B0 -> D*(2010)+ mu+]cc"
 algo_B0_ws_Pi.CombinationCut = algo_B0.CombinationCut
 algo_B0_ws_Pi.MotherCut = algo_B0.MotherCut
 
-
 sel_B0_ws_Pi = Selection(
     'SelMyB0WSPi',
     Algorithm=algo_B0_ws_Pi,
@@ -668,9 +667,7 @@ def tuple_initialize_mc(*args):
     return tp
 
 
-def tuple_postpocess_data(tp,
-                          B_meson='b0',
-                          Mu='mu',
+def tuple_postpocess_data(tp, B_meson='b0', Mu='mu',
                           weights='./weights_soft.xml',
                           trigger_list_global=[
                               # L0
@@ -717,7 +714,7 @@ def tuple_postpocess_data(tp,
     tt_tistos.Verbose = True
     tt_tistos.TriggerList = trigger_list_global
 
-    # Trigger decisions to be saved for Y
+    # Trigger decisions to be saved for B meson
     tt_tistos_B = getattr(tp, B_meson).addTupleTool('TupleToolTISTOS')
     tt_tistos_B.Verbose = True
     tt_tistos_B.TriggerList = trigger_list_B
