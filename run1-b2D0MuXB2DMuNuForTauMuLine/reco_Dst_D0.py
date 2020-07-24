@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri Jul 24, 2020 at 02:41 AM +0800
+# Last Change: Fri Jul 24, 2020 at 04:39 PM +0800
 #
 # Description: Definitions of selection and reconstruction procedures for Dst
 #              and D0 in run 1, with thorough comments.
@@ -475,19 +475,33 @@ sel_Dst = Selection(
     RequiredSelections=[sel_D0_combo, pr_all_loose_Pi]
 )
 
-# Dst_ws #######################################################################
+# Dst_ws_Mu ####################################################################
 # 'WS' stands for 'wrong sign'
-algo_Dst_ws = CombineParticles('MyDstWS')
-algo_Dst_ws.DecayDescriptor = '[D*(2010)- -> D0 pi-]cc'
+algo_Dst_ws_Mu = CombineParticles('MyDstWSMu')
+algo_Dst_ws_Mu.DecayDescriptor = '[D*(2010)+ -> D0 pi+]cc'
 
-algo_Dst_ws.DaughtersCuts = algo_Dst.DaughtersCuts
-algo_Dst_ws.CombinationCut = algo_Dst.CombinationCut
-algo_Dst_ws.MotherCut = algo_Dst.MotherCut
+algo_Dst_ws_Mu.DaughtersCuts = algo_Dst.DaughtersCuts
+algo_Dst_ws_Mu.CombinationCut = algo_Dst.CombinationCut
+algo_Dst_ws_Mu.MotherCut = algo_Dst.MotherCut
 
-sel_Dst_ws = Selection(
-    'SelMyDstWS',
-    Algorithm=algo_Dst_ws,
+sel_Dst_ws_Mu = Selection(
+    'SelMyDstWSMu',
+    Algorithm=algo_Dst_ws_Mu,
     RequiredSelections=[sel_D0_ws_combo, pr_all_loose_Pi]
+)
+
+# Dst_ws_Pi ####################################################################
+algo_Dst_ws_Pi = CombineParticles('MyDstWSPi')
+algo_Dst_ws_Pi.DecayDescriptor = '[D*(2010)- -> D0 pi-]cc'
+
+algo_Dst_ws_Pi.DaughtersCuts = algo_Dst.DaughtersCuts
+algo_Dst_ws_Pi.CombinationCut = algo_Dst.CombinationCut
+algo_Dst_ws_Pi.MotherCut = algo_Dst.MotherCut
+
+sel_Dst_ws_Pi = Selection(
+    'SelMyDstWSPi',
+    Algorithm=algo_Dst_ws_Pi,
+    RequiredSelections=[sel_D0_combo, pr_all_loose_Pi]
 )
 
 # B0 ###########################################################################
@@ -526,14 +540,13 @@ seq_B0 = SelectionSequence('SeqMyB0', TopSelection=sel_refit_B02DstMu)
 algo_B0_ws_Mu = CombineParticles('MyB0WSMu')
 algo_B0_ws_Mu.DecayDescriptor = "[B~0 -> D*(2010)+ mu+]cc"
 
-algo_B0_ws_Mu.DaughtersCuts = {"mu+": "ALL"}
 algo_B0_ws_Mu.CombinationCut = algo_B0.CombinationCut
 algo_B0_ws_Mu.MotherCut = algo_B0.MotherCut
 
 sel_B0_ws_Mu = Selection(
     'SelMyB0WSMu',
     Algorithm=algo_B0_ws_Mu,
-    RequiredSelections=[sel_Dst_ws, sel_Mu_ws_combo]
+    RequiredSelections=[sel_Dst_ws_Mu, sel_Mu_ws_combo]
 )
 
 sel_refit_B02DstMu_ws_Mu = Selection(
@@ -556,7 +569,6 @@ seq_B0_ws_Mu = SelectionSequence('SeqMyB0WSMu',
 algo_B0_ws_Pi = CombineParticles('MyB0WSPi')
 algo_B0_ws_Pi.DecayDescriptor = "[B0 -> D*(2010)+ mu+]cc"
 
-algo_B0_ws_Pi.DaughtersCuts = algo_B0_ws_Mu.DaughtersCuts
 algo_B0_ws_Pi.CombinationCut = algo_B0.CombinationCut
 algo_B0_ws_Pi.MotherCut = algo_B0.MotherCut
 
@@ -564,7 +576,7 @@ algo_B0_ws_Pi.MotherCut = algo_B0.MotherCut
 sel_B0_ws_Pi = Selection(
     'SelMyB0WSPi',
     Algorithm=algo_B0_ws_Pi,
-    RequiredSelections=[sel_Dst_ws, sel_Mu_ws_combo]
+    RequiredSelections=[sel_Dst_ws_Pi, sel_Mu_combo]
 )
 
 sel_refit_B02DstMu_ws_Pi = Selection(
