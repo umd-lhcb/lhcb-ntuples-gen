@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sat Jul 25, 2020 at 02:00 AM +0800
+# Last Change: Sat Jul 25, 2020 at 02:46 AM +0800
 #
 # Description: Definitions of selection and reconstruction procedures for Dst
 #              and D0 in run 2. For more thorough comments, take a look at:
@@ -256,6 +256,115 @@ sel_D0 = Selection(
     RequiredSelections=[sel_charged_K, sel_charged_Pi]
 )
 
+# B- ###########################################################################
+algo_Bminus = CombineParticles('MyB-')
+algo_Bminus.DecayDescriptor = '[B- -> D0 mu-]cc'
+
+algo_Bminus.DaughtersCuts = {
+    'mu-': '(MIPCHI2DV(PRIMARY)> 16.0) & (TRGHOSTPROB < 0.5) &'
+           '(PIDmu > -200.0) &'
+           '(P > 3.0*GeV)'
+}
+
+algo_Bminus.CombinationCut = '(AM < 10.2*GeV)'
+algo_Bminus.MotherCut = \
+    "(MM < 10.0*GeV) & (MM > 0.0*GeV) &" \
+    "(VFASPF(VCHI2/VDOF) < 6.0) & (BPVDIRA > 0.999)"
+
+
+if has_flag('BARE'):
+    algo_Bminus.DaughtersCuts['mu-'] = \
+        "(MIPCHI2DV(PRIMARY) > 8.0) & (TRGHOSTPROB < 1.0) &" \
+        "(PIDmu > -400.0)"
+
+    algo_Bminus.CombinationCut = 'AALL'
+    algo_Bminus.MotherCut = '(VFASPF(VCHI2/VDOF) < 12.0) & (BPVDIRA > 0.998)'
+
+
+if DaVinci().Simulation:
+    algo_Bminus.Preambulo += algo_mc_match_preambulo
+
+    if has_flag('BARE'):
+        algo_Bminus.DaughtersCuts['mu-'] = \
+            "(mcMatch('[^mu+]CC')) & (TRCHI2DOF < 6.0) &" + \
+            algo_Bminus.DaughtersCuts['mu-']
+    else:
+        algo_Bminus.DaughtersCuts['mu-'] = \
+            "(mcMatch('[^mu+]CC')) & (TRCHI2DOF < 3.0) &" + \
+            algo_Bminus.DaughtersCuts['mu-']
+
+
+sel_Bminus = Selection(
+    'SelMyB-',
+    Algorithm=algo_Bminus,
+    RequiredSelections=[sel_D0, sel_Mu]
+)
+
+sel_refit_Bminus2D0Mu = Selection(
+    'SelMyRefitB-2D0Mu',
+    Algorithm=FitDecayTrees(
+        'MyRefitB-2D0Mu',
+        Code="DECTREE('[B- -> (D0->K- pi+) mu-]CC')",
+        UsePVConstraint=False,
+    ),
+    RequiredSelections=[sel_Bminus]
+)
+
+seq_Bminus = SelectionSequence('SeqMyB-', TopSelection=sel_refit_Bminus2D0Mu)
+
+# B-_ws ########################################################################
+algo_Bminus_ws = CombineParticles('MyB-WS')
+algo_Bminus_ws.DecayDescriptor = '[B+ -> D0 mu-]cc'
+
+algo_Bminus_ws.Preambulo = algo_Bminus.Preambulo
+algo_Bminus_ws.DaughtersCuts = algo_Bminus.DaughtersCuts
+algo_Bminus_ws.CombinationCut = algo_Bminus.CombinationCut
+algo_Bminus_ws.MotherCut = algo_Bminus.MotherCut
+
+sel_Bminus_ws = Selection(
+    'SelMyB-WS',
+    Algorithm=algo_Bminus_ws,
+    RequiredSelections=[sel_D0, sel_Mu]
+)
+
+sel_refit_Bminus2D0Mu_ws = Selection(
+    'SelMyRefitB-2D0MuWS',
+    Algorithm=FitDecayTrees(
+        'MyRefitB-2D0MuWS',
+        Code="DECTREE('[B+ -> (D0->K- pi+) mu-]CC')",
+        UsePVConstraint=False,
+    ),
+    RequiredSelections=[sel_Bminus_ws]
+)
+
+seq_Bminus_ws = SelectionSequence('SeqMyB-WS',
+                                  TopSelection=sel_refit_Bminus2D0Mu_ws)
+
+# Filtered D0 and Mu from the D0 Mu combo ######################################
+sel_D0_combo = Selection(
+    'SelMyComboD0',
+    Algorithm=FilterInTrees('MyComboD0', Code="(ABSID == 'D0')"),
+    RequiredSelections=[sel_Bminus]
+)
+
+sel_Mu_combo = Selection(
+    'SelMyComboMu',
+    Algorithm=FilterInTrees('MyComboMu', Code="(ABSID == 'mu+')"),
+    RequiredSelections=[sel_Bminus]
+)
+
+sel_D0_ws_combo = Selection(
+    'SelMyComboD0WS',
+    Algorithm=FilterInTrees('MyComboMuWS', Code="(ABSID == 'D0')"),
+    RequiredSelections=[sel_Bminus_ws]
+)
+
+sel_Mu_ws_combo = Selection(
+    'SelMyComboMuWS',
+    Algorithm=FilterInTrees('MyComboMuWS', Code="(ABSID == 'mu+')"),
+    RequiredSelections=[sel_Bminus_ws]
+)
+
 
 ##########################
 # B0 -> Dst Mu selection #
@@ -289,65 +398,49 @@ if has_flag('BARE'):
 sel_Dst = Selection(
     'SelMyDst',
     Algorithm=algo_Dst,
-    RequiredSelections=[sel_D0, pr_all_loose_Pi]
+    RequiredSelections=[sel_D0_combo, pr_all_loose_Pi]
 )
 
-# DstWS ########################################################################
+# Dst_ws_Mu ####################################################################
 # 'WS' stands for 'wrong sign'
-algo_Dst_ws = CombineParticles('MyDstWS')
-algo_Dst_ws.DecayDescriptor = '[D*(2010)- -> D0 pi-]cc'
+algo_Dst_ws_Mu = CombineParticles('MyDstWSMu')
+algo_Dst_ws_Mu.DecayDescriptor = '[D*(2010)+ -> D0 pi+]cc'
 
-algo_Dst_ws.DaughtersCuts = algo_Dst.DaughtersCuts
-algo_Dst_ws.CombinationCut = algo_Dst.CombinationCut
-algo_Dst_ws.MotherCut = algo_Dst.MotherCut
+algo_Dst_ws_Mu.DaughtersCuts = algo_Dst.DaughtersCuts
+algo_Dst_ws_Mu.CombinationCut = algo_Dst.CombinationCut
+algo_Dst_ws_Mu.MotherCut = algo_Dst.MotherCut
 
-sel_Dst_ws = Selection(
-    'SelMyDstWS',
-    Algorithm=algo_Dst_ws,
-    RequiredSelections=[sel_D0, pr_all_loose_Pi]
+sel_Dst_ws_Mu = Selection(
+    'SelMyDstWSMu',
+    Algorithm=algo_Dst_ws_Mu,
+    RequiredSelections=[sel_D0_ws_combo, pr_all_loose_Pi]
+)
+
+# Dst_ws_Pi ####################################################################
+algo_Dst_ws_Pi = CombineParticles('MyDstWSPi')
+algo_Dst_ws_Pi.DecayDescriptor = '[D*(2010)- -> D0 pi-]cc'
+
+algo_Dst_ws_Pi.DaughtersCuts = algo_Dst.DaughtersCuts
+algo_Dst_ws_Pi.CombinationCut = algo_Dst.CombinationCut
+algo_Dst_ws_Pi.MotherCut = algo_Dst.MotherCut
+
+sel_Dst_ws_Pi = Selection(
+    'SelMyDstWSPi',
+    Algorithm=algo_Dst_ws_Pi,
+    RequiredSelections=[sel_D0_combo, pr_all_loose_Pi]
 )
 
 # B0 ###########################################################################
 algo_B0 = CombineParticles('MyB0')
 algo_B0.DecayDescriptor = "[B~0 -> D*(2010)+ mu-]cc"  # B~0 is the CC of B0
 
-algo_B0.DaughtersCuts = {
-    'mu-': '(MIPCHI2DV(PRIMARY)> 16.0) & (TRGHOSTPROB < 0.5) &'
-           '(PIDmu > -200.0) &'
-           '(P > 3.0*GeV)'
-}
-
-algo_B0.CombinationCut = '(AM < 10.2*GeV)'
-algo_B0.MotherCut = \
-    "(MM < 10.0*GeV) & (MM > 0.0*GeV) &" \
-    "(VFASPF(VCHI2/VDOF) < 6.0) & (BPVDIRA > 0.999)"
-
-
-if has_flag('BARE'):
-    algo_B0.DaughtersCuts['mu-'] = \
-        "(MIPCHI2DV(PRIMARY) > 8.0) & (TRGHOSTPROB < 1.0) &" \
-        "(PIDmu > -400.0)"
-
-    algo_B0.CombinationCut = 'AALL'
-    algo_B0.MotherCut = '(VFASPF(VCHI2/VDOF) < 12.0) & (BPVDIRA > 0.998)'
-
-
-if DaVinci().Simulation:
-    algo_B0.Preambulo += algo_mc_match_preambulo
-
-    if has_flag('BARE'):
-        algo_B0.DaughtersCuts['mu-'] = \
-            "(mcMatch('[^mu+]CC')) & (TRCHI2DOF < 6.0) &" + \
-            algo_B0.DaughtersCuts['mu-']
-    else:
-        algo_B0.DaughtersCuts['mu-'] = \
-            "(mcMatch('[^mu+]CC')) & (TRCHI2DOF < 3.0) &" + \
-            algo_B0.DaughtersCuts['mu-']
+algo_B0.CombinationCut = 'AALL'
+algo_B0.MotherCut = "(VFASPF(VCHI2/VDOF) < 100.0)"  # Loose cuts here
 
 sel_B0 = Selection(
     'SelMyB0',
     Algorithm=algo_B0,
-    RequiredSelections=[sel_Dst, sel_Mu]
+    RequiredSelections=[sel_Dst, sel_Mu_combo]
 )
 
 sel_refit_B02DstMu = Selection(
@@ -374,7 +467,7 @@ algo_B0_ws_Mu.MotherCut = algo_B0.MotherCut
 sel_B0_ws_Mu = Selection(
     'SelMyB0WSMu',
     Algorithm=algo_B0_ws_Mu,
-    RequiredSelections=[sel_Dst, sel_Mu]
+    RequiredSelections=[sel_Dst_ws_Mu, sel_Mu_ws_combo]
 )
 
 sel_refit_B02DstMu_ws_Mu = Selection(
@@ -404,7 +497,7 @@ algo_B0_ws_Pi.MotherCut = algo_B0.MotherCut
 sel_B0_ws_Pi = Selection(
     'SelMyB0WSPi',
     Algorithm=algo_B0_ws_Pi,
-    RequiredSelections=[sel_Dst_ws, sel_Mu]
+    RequiredSelections=[sel_Dst_ws_Pi, sel_Mu_combo]
 )
 
 sel_refit_B02DstMu_ws_Pi = Selection(
@@ -420,18 +513,6 @@ sel_refit_B02DstMu_ws_Pi = Selection(
 
 seq_B0_ws_Pi = SelectionSequence('SeqMyB0WSPi',
                                  TopSelection=sel_refit_B02DstMu_ws_Pi)
-
-
-######################################
-# Add selection sequences to DaVinci #
-######################################
-
-if DaVinci().Simulation or has_flag('CUTFLOW'):
-    DaVinci().UserAlgorithms += [seq_B0.sequence()]
-else:
-    DaVinci().UserAlgorithms += [seq_B0.sequence(),
-                                 seq_B0_ws_Mu.sequence(),
-                                 seq_B0_ws_Pi.sequence()]
 
 
 ##################
@@ -456,11 +537,11 @@ from Configurables import TupleToolTrigger
 from Configurables import TupleToolTISTOS
 
 
-def tuple_initialize_data(name, sel_seq, decay):
+def tuple_initialize_data(name, sel_seq, template):
     tp = DecayTreeTuple(name)
     tp.addTupleTool('TupleToolTrackInfo')  # For addBranches
     tp.Inputs = [sel_seq.outputLocation()]
-    tp.Decay = decay
+    tp.setDescriptorTemplate(template)
 
     tp.ToolList += [
         'TupleToolKinematic',
@@ -498,7 +579,7 @@ def tuple_initialize_mc(*args):
     return tp
 
 
-def tuple_postpocess_data(tp,
+def tuple_postpocess_data(tp, B_meson='b0', Mu='mu',
                           weights='./weights_soft.xml',
                           trigger_list_global=[
                               # L0
@@ -520,39 +601,22 @@ def tuple_postpocess_data(tp,
                               'Hlt1SingleMuonHighPTDecision',
                               # HLT 2
                               'Hlt2XcMuXForTauB2XcMuDecision'
-                          ],
-                          # NOTE: This is is unused for run 2
-                          trigger_list_B0=[
-                              # L0
-                              'L0HadronDecision',
-                              'L0DiMuonDecision',
-                              'L0ElectronDecision',
-                              'L0JetElDecision',
-                              'L0JetPhDecision',
-                              'L0MuonDecision',
-                              'L0MuonEWDecision',
-                              'L0PhotonDecision',
-                              # HLT 1
-                              'Hlt1TrackAllL0Decision',
-                              'Hlt1TwoTrackMVADecision',
-                              'Hlt1TrackMVALooseDecision',
-                              'Hlt1TwoTrackMVALooseDecision',
-                              'Hlt1TrackMuonDecision',
-                              'Hlt1TrackMuonMVADecision',
-                              'Hlt1SingleMuonHighPTDecision',
                           ]
                           ):
-    tp.b0.addTool(TupleToolTagDiscardDstMu, name='TupleMyDiscardDstMu')
-    tp.b0.ToolList += ['TupleToolTagDiscardDstMu/TupleMyDiscardDstMu']
+    getattr(tp, B_meson).addTool(
+        TupleToolTagDiscardDstMu, name='TupleMyDiscardDstMu')
+    getattr(tp, B_meson).ToolList += [
+        'TupleToolTagDiscardDstMu/TupleMyDiscardDstMu']
 
-    tp.b0.addTool(TupleToolApplyIsolation, name='TupleMyApplyIso')
-    tp.b0.TupleMyApplyIso.WeightsFile = weights
-    tp.b0.ToolList += ['TupleToolApplyIsolation/TupleMyApplyIso']
+    getattr(tp, B_meson).addTool(
+        TupleToolApplyIsolation, name='TupleMyApplyIso')
+    getattr(tp, B_meson).TupleMyApplyIso.WeightsFile = weights
+    getattr(tp, B_meson).ToolList += ['TupleToolApplyIsolation/TupleMyApplyIso']
 
-    tp.b0.addTool(TupleToolTauMuDiscrVars, name='TupleMyRFA')
-    tp.b0.ToolList += ['TupleToolTauMuDiscrVars/TupleMyRFA']
+    getattr(tp, B_meson).addTool(TupleToolTauMuDiscrVars, name='TupleMyRFA')
+    getattr(tp, B_meson).ToolList += ['TupleToolTauMuDiscrVars/TupleMyRFA']
 
-    tp.mu.ToolList += ['TupleToolANNPIDTraining']
+    getattr(tp, Mu).ToolList += ['TupleToolANNPIDTraining']
 
     tt_trigger = tp.addTupleTool('TupleToolTrigger')
     tt_trigger.Verbose = True
@@ -563,11 +627,11 @@ def tuple_postpocess_data(tp,
     tt_tistos.TriggerList = trigger_list_global
 
     # NOTE: This has to be disabled, otherwise the TupleToolTrigger will NOT
-    # act on B0
-    # Trigger decisions to be saved for
-    # tt_tistos_b0 = tp.b0.addTupleTool('TupleToolTISTOS')
-    # tt_tistos_b0.Verbose = True
-    # tt_tistos_b0.TriggerList += trigger_list_B0
+    # act on B mesons
+    # Trigger decisions to be saved for B meson
+    # tt_tistos_B = getattr(tp, B_meson).addTupleTool('TupleToolTISTOS')
+    # tt_tistos_B.Verbose = True
+    # tt_tistos_B.TriggerList = trigger_list_B
 
 
 def tuple_postpocess_mc(*args, **kwargs):
@@ -582,64 +646,62 @@ else:
     tuple_postpocess = tuple_postpocess_mc
 
 
+# B- ###########################################################################
+tp_Bminus = tuple_initialize(
+    'TupleBminus',
+    seq_Bminus,
+    '${b}[B- -> ${d0}(D0 -> ${k}K- ${pi}pi+) ${mu}mu-]CC'
+)
+tuple_postpocess(tp_Bminus, B_meson='b')
+
+# B-_ws ########################################################################
+tp_Bminus_ws = tuple_initialize(
+    'TupleBminusWS',
+    seq_Bminus_ws,
+    '${b}[B+ -> ${d0}(D0 -> ${k}K- ${pi}pi+) ${mu}mu-]CC'
+)
+tuple_postpocess(tp_Bminus_ws, B_meson='b')
+
 # B0 ###########################################################################
 tp_B0 = tuple_initialize(
     'TupleB0',
     seq_B0,
-    '[B~0 -> ^(D*(2010)+ -> ^(D0 -> ^K- ^pi+) ^pi+) ^mu-]CC'
+    '${b0}[B~0 -> ${dst}(D*(2010)+ -> ${d0}(D0 -> ${k}K- ${pi}pi+) ${spi}pi+) ${mu}mu-]CC'
 )
-
-tp_B0.addBranches({
-    "b0": "^([B0 -> (D*(2010)- -> (D~0 -> K+ pi-) pi-) mu+]CC)",
-    "dst": "[B0 -> ^(D*(2010)- -> (D~0 -> K+ pi-) pi-) mu+]CC",
-    "d0": "[B0 -> (D*(2010)- -> ^(D~0 -> K+ pi-) pi-) mu+]CC",
-    "spi": "[B0 -> (D*(2010)- -> (D~0 -> K+ pi-) ^pi-) mu+]CC",
-    "pi": "[B0 -> (D*(2010)- -> (D~0 -> K+ ^pi-) pi-) mu+]CC",
-    "k": "[B0 -> (D*(2010)- -> (D~0 -> ^K+ pi-) pi-) mu+]CC",
-    "mu": "[B0 -> (D*(2010)- -> (D~0 -> K+ pi-) pi-) ^mu+]CC"})
-
 tuple_postpocess(tp_B0)
-
 
 # B0_ws_Mu #####################################################################
 tp_B0_ws_Mu = tuple_initialize(
     'TupleB0WSMu',
     seq_B0_ws_Mu,
-    '[B~0 -> ^(D*(2010)+ -> ^(D0 -> ^K- ^pi+) ^pi+) ^mu+]CC'
+    '${b0}[B~0 -> ${dst}(D*(2010)+ -> ${d0}(D0 -> ${k}K- ${pi}pi+) ${spi}pi+) ${mu}mu+]CC'
 )
-
-tp_B0_ws_Mu.addBranches({
-    "b0": "^([B0 -> (D*(2010)- -> (D~0 -> K+ pi-) pi-) mu-]CC)",
-    "dst": "[B0 -> ^(D*(2010)- -> (D~0 -> K+ pi-) pi-) mu-]CC",
-    "d0": "[B0 -> (D*(2010)- -> ^(D~0 -> K+ pi-) pi-) mu-]CC",
-    "spi": "[B0 -> (D*(2010)- -> (D~0 -> K+ pi-) ^pi-) mu-]CC",
-    "pi": "[B0 -> (D*(2010)- -> (D~0 -> K+ ^pi-) pi-) mu-]CC",
-    "k": "[B0 -> (D*(2010)- -> (D~0 -> ^K+ pi-) pi-) mu-]CC",
-    "mu": "[B0 -> (D*(2010)- -> (D~0 -> K+ pi-) pi-) ^mu-]CC"})
-
 tuple_postpocess(tp_B0_ws_Mu)
-
 
 # B0_ws_Pi #####################################################################
 tp_B0_ws_Pi = tuple_initialize(
     'TupleB0WSPi',
     seq_B0_ws_Pi,
-    '[B~0 -> ^(D*(2010)- -> ^(D0 -> ^K- ^pi+) ^pi-) ^mu-]CC'
+    '${b0}[B~0 -> ${dst}(D*(2010)- -> ${d0}(D0 -> ${k}K- ${pi}pi+) ${spi}pi-) ${mu}mu-]CC'
 )
-
-tp_B0_ws_Pi.addBranches({
-    "b0": "^([B0 -> (D*(2010)+ -> (D~0 -> K+ pi-) pi+) mu+]CC)",
-    "dst": "[B0 -> ^(D*(2010)+ -> (D~0 -> K+ pi-) pi+) mu+]CC",
-    "d0": "[B0 -> (D*(2010)+ -> ^(D~0 -> K+ pi-) pi+) mu+]CC",
-    "spi": "[B0 -> (D*(2010)+ -> (D~0 -> K+ pi-) ^pi+) mu+]CC",
-    "pi": "[B0 -> (D*(2010)+ -> (D~0 -> K+ ^pi-) pi+) mu+]CC",
-    "k": "[B0 -> (D*(2010)+ -> (D~0 -> ^K+ pi-) pi+) mu+]CC",
-    "mu": "[B0 -> (D*(2010)+ -> (D~0 -> K+ pi-) pi+) ^mu+]CC"})
-
 tuple_postpocess(tp_B0_ws_Pi)
 
 
+################################################
+# Add selection & tupling sequences to DaVinci #
+################################################
+
 if DaVinci().Simulation or has_flag('CUTFLOW'):
-    DaVinci().UserAlgorithms += [tp_B0]
+    DaVinci().UserAlgorithms += [seq_Bminus.sequence(),
+                                 seq_B0.sequence(),
+                                 # ntuples
+                                 tp_Bminus, tp_Bminus_ws]
 else:
-    DaVinci().UserAlgorithms += [tp_B0, tp_B0_ws_Mu, tp_B0_ws_Pi]
+    DaVinci().UserAlgorithms += [seq_Bminus.sequence(),
+                                 seq_Bminus_ws.sequence(),
+                                 seq_B0.sequence(),
+                                 seq_B0_ws_Mu.sequence(),
+                                 seq_B0_ws_Pi.sequence(),
+                                 # ntuples
+                                 tp_Bminus, tp_Bminus_ws,
+                                 tp_B0, tp_B0_ws_Mu, tp_B0_ws_Pi]
