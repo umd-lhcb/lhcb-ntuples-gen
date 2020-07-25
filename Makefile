@@ -1,6 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Jun 18, 2020 at 08:46 PM +0800
+# Last Change: Fri Jul 24, 2020 at 06:36 PM +0800
 
 BINPATH	:=	bin
 
@@ -27,9 +27,10 @@ CXXFLAGS	:=	$(shell root-config --cflags)
 LINKFLAGS	:=	$(shell root-config --libs)
 ADDFLAGS	:=	-Iinclude
 
+DAVINCI_VERSION="DaVinci-v45r4-SL"
+
 
 .PHONY: all clean history install-dep
-
 
 all: \
 	gen/run1-Dst-step2/Dst--19_09_05--std--data--2012--md--yipeng-step2.root \
@@ -61,11 +62,10 @@ install-dep:
 
 .PHONY: docker-dv
 
-
 ifeq ($(OS),Darwin)
-DV_CMD = "docker run --rm -it -v $(PWD):/data -e UID=$$(id -u) -e GID=$$(id -g) --net=host umdlhcb/lhcb-stack-cc7:DaVinci-v45r3-SL"
+DV_CMD = "docker run --rm -it -v $(PWD):/data -e UID=$$(id -u) -e GID=$$(id -g) --net=host umdlhcb/lhcb-stack-cc7:${DAVINCI_VERSION}"
 else
-DV_CMD = "docker run --rm -it -v $(PWD):/data -v $$HOME/.Xauthority:/home/physicist/.Xauthority -e DISPLAY -e UID=$$(id -u) -e GID=$$(id -g) --net=host umdlhcb/lhcb-stack-cc7:DaVinci-v45r3-SL"
+DV_CMD = "docker run --rm -it -v $(PWD):/data -v $$HOME/.Xauthority:/home/physicist/.Xauthority -e DISPLAY -e UID=$$(id -u) -e GID=$$(id -g) --net=host umdlhcb/lhcb-stack-cc7:${DAVINCI_VERSION}"
 endif
 
 docker-dv:
