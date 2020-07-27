@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Jul 28, 2020 at 01:56 AM +0800
+# Last Change: Tue Jul 28, 2020 at 04:57 AM +0800
 #
 # Description: Definitions of selection and reconstruction procedures for Dst
 #              and D0 in run 1, with thorough comments.
@@ -639,8 +639,8 @@ def tuple_initialize_data(name, sel_seq, template):
     return tp
 
 
-def tuple_initialize_mc(*args):
-    tp = tuple_initialize_data(*args)
+def tuple_initialize_mc(*args, **kwargs):
+    tp = tuple_initialize_data(*args, **kwargs)
 
     tt_mcbi = tp.addTupleTool('TupleToolMCBackgroundInfo')
     tt_mcbi.addTool(BackgroundCategory, name="BackgroundCategory")
