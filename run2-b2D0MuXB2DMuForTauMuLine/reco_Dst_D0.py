@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Jul 28, 2020 at 01:55 AM +0800
+# Last Change: Tue Jul 28, 2020 at 04:46 AM +0800
 #
 # Description: Definitions of selection and reconstruction procedures for Dst
 #              and D0 in run 2. For more thorough comments, take a look at:
@@ -214,7 +214,8 @@ algo_D0.DaughtersCuts = {
            '(PIDK < 2.0) & (TRGHOSTPROB < 0.5)'
 }
 
-algo_D0.CombinationCut = "(ADAMASS('D0') < 100.0*MeV) &" \
+algo_D0.CombinationCut = \
+    "(ADAMASS('D0') < 100.0*MeV) &" \
     "(ACHILD(PT,1) + ACHILD(PT,2) > 2500.0*MeV)"
 algo_D0.MotherCut = \
     "(SUMTREE(PT,ISBASIC) > 2500.0*MeV) & (ADMASS('D0') < 80.0*MeV) &" \
@@ -249,6 +250,7 @@ if DaVinci().Simulation:
     algo_D0.MotherCut = \
         "(mcMatch('[Charm -> K- pi+ {gamma}{gamma}{gamma}]CC')) &" + \
         algo_D0.MotherCut
+
 
 sel_D0 = Selection(
     'SelMyD0',
@@ -360,6 +362,7 @@ sel_Mu_ws_combo = Selection(
 ##########################
 
 # Dst ##########################################################################
+# NOTE: We are using the same made-up cuts for Dst, for now.
 algo_Dst = CombineParticles('MyDst')
 algo_Dst.DecayDescriptor = '[D*(2010)+ -> D0 pi+]cc'
 
@@ -369,9 +372,10 @@ algo_Dst.DaughtersCuts = {
 }
 
 algo_Dst.CombinationCut = "(ADAMASS('D*(2010)+') < 220.0*MeV)"
-algo_Dst.MotherCut = "(ADMASS('D*(2010)+') < 125.0*MeV) &" \
-                     "(M-MAXTREE(ABSID=='D0', M) < 160.0*MeV) &" \
-                     "(VFASPF(VCHI2/VDOF) < 100.0)"
+algo_Dst.MotherCut = \
+    "(ADMASS('D*(2010)+') < 125.0*MeV) &" \
+    "(M-MAXTREE(ABSID=='D0', M) < 160.0*MeV) &" \
+    "(VFASPF(VCHI2/VDOF) < 100.0)"
 
 
 if has_flag('BARE'):
@@ -438,7 +442,6 @@ sel_refit_B02DstMu = Selection(
         'MyRefitB02DstMu',
         Code="DECTREE('[B~0 -> (D*(2010)+ -> (D0->K- pi+) pi+) mu-]CC')",
         UsePVConstraint=False,
-        Inputs=[sel_B0.outputLocation()]
     ),
     RequiredSelections=[sel_B0]
 )
@@ -551,8 +554,8 @@ def tuple_initialize_data(name, sel_seq, template):
     return tp
 
 
-def tuple_initialize_mc(*args):
-    tp = tuple_initialize_data(*args)
+def tuple_initialize_mc(*args, **kwargs):
+    tp = tuple_initialize_data(*args, **kwargs)
 
     tt_mcbi = tp.addTupleTool('TupleToolMCBackgroundInfo')
     tt_mcbi.addTool(BackgroundCategory, name="BackgroundCategory")
