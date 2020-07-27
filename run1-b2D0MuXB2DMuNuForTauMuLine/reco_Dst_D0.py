@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sat Jul 25, 2020 at 03:11 AM +0800
+# Last Change: Tue Jul 28, 2020 at 01:56 AM +0800
 #
 # Description: Definitions of selection and reconstruction procedures for Dst
 #              and D0 in run 1, with thorough comments.
@@ -770,7 +770,7 @@ if DaVinci().Simulation or has_flag('CUTFLOW'):
     DaVinci().UserAlgorithms += [seq_Bminus.sequence(),
                                  seq_B0.sequence(),
                                  # ntuples
-                                 tp_Bminus, tp_Bminus_ws]
+                                 tp_Bminus, tp_B0]
 else:
     DaVinci().UserAlgorithms += [seq_Bminus.sequence(),
                                  seq_Bminus_ws.sequence(),
