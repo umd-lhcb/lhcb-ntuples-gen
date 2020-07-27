@@ -6,7 +6,7 @@ DaVinci().Simulation = True
 DaVinci().TupleFile = 'cutflow_mc-dv_strip.root'
 
 # Additional global flags
-DaVinci().MoniSequence += ['CUTFLOW', 'DV_STRIP']
+DaVinci().MoniSequence += ['CUTFLOW', 'DV_STRIP', 'NO_SMEAR']
 
 
 from Configurables import LHCbApp
