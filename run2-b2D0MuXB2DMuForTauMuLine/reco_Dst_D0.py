@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Jul 28, 2020 at 04:46 AM +0800
+# Last Change: Tue Jul 28, 2020 at 04:10 PM +0800
 #
 # Description: Definitions of selection and reconstruction procedures for Dst
 #              and D0 in run 2. For more thorough comments, take a look at:
@@ -89,9 +89,18 @@ fltr_strip = HDRFilter(
     'StrippedBCands',
     Code="HLT_PASS('Stripping{0}Decision')".format(line_strip))
 
+# NOTE: Run 2 stripping contains a HLT2 filter, so this is only needed for
+#       'DV_STRIP' flag.
+line_hlt = 'Hlt2XcMuXForTauB2XcMu'
+fltr_hlt = HDRFilter(
+    'Hlt2StrippingLine',
+    Code="HLT_PASS('{0}Decision')".format(line_hlt))
 
-if has_flag('CUTFLOW') and (has_flag('BARE') or has_flag('DV_STRIP')):
+
+if has_flag('BARE'):
     pass
+elif has_flag('DV_STRIP'):
+    DaVinci().EventPreFilters = [fltr_hlt]
 elif not DaVinci().Simulation or has_flag('CUTFLOW'):
     DaVinci().EventPreFilters = [fltr_strip]
 
@@ -221,6 +230,17 @@ algo_D0.MotherCut = \
     "(SUMTREE(PT,ISBASIC) > 2500.0*MeV) & (ADMASS('D0') < 80.0*MeV) &" \
     "(VFASPF(VCHI2/VDOF) < 4.0) & (BPVVDCHI2 > 25.0) & (BPVDIRA > 0.999)"
 
+# Other combine particle settings
+algo_D0.FilterCircularDependencies = True
+algo_D0.IgnoreP2PVFromInputLocations = False
+algo_D0.MaxCandidates = 2000
+algo_D0.MaxCombinations = 0
+algo_D0.ReFitPVs = False
+algo_D0.StopAtMaxCandidates = True
+algo_D0.StopAtMaxCombinations = False
+algo_D0.StopIncidentType = "ExceedsCombinatoricsLimit"
+algo_D0.UseP2PVRelations = True
+
 
 if has_flag('BARE'):
     algo_D0.DaughtersCuts = {
@@ -272,6 +292,17 @@ algo_Bminus.CombinationCut = '(AM < 10.2*GeV)'
 algo_Bminus.MotherCut = \
     "(MM < 10.0*GeV) & (MM > 0.0*GeV) &" \
     "(VFASPF(VCHI2/VDOF) < 6.0) & (BPVDIRA > 0.999)"
+
+# Other combine particle settings
+algo_Bminus.FilterCircularDependencies = True
+algo_Bminus.IgnoreP2PVFromInputLocations = False
+algo_Bminus.MaxCandidates = 2000
+algo_Bminus.MaxCombinations = 0
+algo_Bminus.ReFitPVs = False
+algo_Bminus.StopAtMaxCandidates = True
+algo_Bminus.StopAtMaxCombinations = False
+algo_Bminus.StopIncidentType = "ExceedsCombinatoricsLimit"
+algo_Bminus.UseP2PVRelations = True
 
 
 if has_flag('BARE'):
