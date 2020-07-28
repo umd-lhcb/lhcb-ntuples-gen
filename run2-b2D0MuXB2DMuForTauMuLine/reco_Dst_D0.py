@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Jul 28, 2020 at 04:10 PM +0800
+# Last Change: Wed Jul 29, 2020 at 04:12 AM +0800
 #
 # Description: Definitions of selection and reconstruction procedures for Dst
 #              and D0 in run 2. For more thorough comments, take a look at:
@@ -347,7 +347,7 @@ seq_Bminus = SelectionSequence('SeqMyB-', TopSelection=sel_refit_Bminus2D0Mu)
 
 # B-_ws ########################################################################
 algo_Bminus_ws = CombineParticles('MyB-WS')
-algo_Bminus_ws.DecayDescriptor = '[B+ -> D0 mu-]cc'
+algo_Bminus_ws.DecayDescriptor = '[B+ -> D0 mu+]cc'
 
 algo_Bminus_ws.Preambulo = algo_Bminus.Preambulo
 algo_Bminus_ws.DaughtersCuts = algo_Bminus.DaughtersCuts
