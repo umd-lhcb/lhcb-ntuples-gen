@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Jul 28, 2020 at 04:05 PM +0800
+# Last Change: Wed Jul 29, 2020 at 03:49 AM +0800
 #
 # Description: Definitions of selection and reconstruction procedures for Dst
 #              and D0 in run 1, with thorough comments.
@@ -391,11 +391,7 @@ seq_Bminus = SelectionSequence('SeqMyB-', TopSelection=sel_refit_Bminus2D0Mu)
 # B-_ws ########################################################################
 # 'WS' means wrong-sign.
 algo_Bminus_ws = CombineParticles('MyB-WS')
-# NOTE: Pay attention to the sign of the particles, they are intentional!
-#       Here we are including both correct-sign decays and wrong-sign decays.
-#       This is consistent with the official stripping line, but with more
-#       clarity!
-algo_Bminus_ws.DecayDescriptor = '[B+ -> D0 mu-]cc'
+algo_Bminus_ws.DecayDescriptor = '[B+ -> D0 mu+]cc'  # D0 is WS, D~0 is correct.
 
 algo_Bminus_ws.Preambulo = algo_Bminus.Preambulo
 algo_Bminus_ws.DaughtersCuts = algo_Bminus.DaughtersCuts
