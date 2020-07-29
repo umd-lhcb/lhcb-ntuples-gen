@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Jul 30, 2020 at 03:17 AM +0800
+# Last Change: Thu Jul 30, 2020 at 03:34 AM +0800
 
 from datetime import datetime
 from re import match, sub
@@ -66,8 +66,19 @@ def validate_additional_flags(s, general_valid_pattern=r'^\w+$',
         return True
 
 
+def validate_year(years):
+    tot_err = 0
+    valid_years = ['20'+str(i) for i in range(11, 70)]
+
+    for y in years.split('-'):
+        if y not in valid_years:
+            tot_err += 1
+
+    return False if tot_err > 0 else True
+
+
 RECO_SAMPLES = ['Dst', 'D0', 'Dst_D0']
-TYPES = ['std', 'mc', 'cutflow_data', 'cutflow_mc', 'validation']
+TYPES = ['std', 'mc', 'cutflow_data', 'cutflow_mc', 'validation', 'mix']
 SAMPLES = [
     'data', 'cocktail', 'all',
     # MC modes
@@ -80,8 +91,8 @@ ALLOWED_IN_FIELD = {
     'date': validate_date,
     'type': lambda x: x in TYPES,
     'sample': lambda x: x in SAMPLES,
-    'year': lambda x: x in ['20'+str(i) for i in range(11, 70)],
-    'polarity': lambda x: x in ['mu', 'md'],
+    'year': validate_year,
+    'polarity': lambda x: x in ['mu', 'md', 'md-mu'],  # NOTE: We don't allow 'mu-md'
     'dirac_path': lambda x: True if ' ' not in x else False,
     'additional_flags': validate_additional_flags,
 }
@@ -179,12 +190,16 @@ def validate_ntuple_folder_name(f):
         'gen',
         'run1-b2D0MuXB2DMuNuForTauMuLine',
         'run2-b2D0MuXB2DMuForTauMuLine',
+        # Proposed generic folders for R(D(*)), might be unused
+        'run1-rdx',
+        'run2-rdx',
     ]
     valid_second_lvl = [
         r'^samples$',
         r'^pre-0.9.0$',
         r'\d\.\d\.\d-\w+$',
         r'^run\d-\w+-step\d$',
+        r'^ref-rdx-run1$',
         r'^test$',
     ]
     valid_mode = [p+'-'+m for p in RECO_SAMPLES for m in TYPES]
