@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Jun 16, 2020 at 02:55 AM +0800
+# Last Change: Thu Jul 30, 2020 at 03:17 AM +0800
 
 from datetime import datetime
 from re import match, sub
@@ -195,6 +195,10 @@ def validate_ntuple_folder_name(f):
         'mode'
     ], str(f).split('/'))
     err = False
+
+    if 'second_lvl' not in field_dict:
+        print('WARNING: ntuple exist in unexpected location: {}'.format(f))
+        return err
 
     if field_dict['first_lvl'] not in valid_first_lvl or \
             True not in [bool(match(p, field_dict['second_lvl']))
