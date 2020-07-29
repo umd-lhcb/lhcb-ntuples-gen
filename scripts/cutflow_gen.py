@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri May 01, 2020 at 10:11 PM +0800
+# Last Change: Thu Jul 30, 2020 at 04:09 AM +0800
 
 from yaml import safe_load
 from argparse import ArgumentParser
@@ -118,7 +118,7 @@ def csv_gen(lst, latex_wrapper=True):
             else:
                 formatted.append(str(elem))
             ielem += 1
-            
+
         print(','.join(formatted))
 
 
