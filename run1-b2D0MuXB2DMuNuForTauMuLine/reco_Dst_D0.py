@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Jul 29, 2020 at 03:49 AM +0800
+# Last Change: Wed Jul 29, 2020 at 07:07 PM +0800
 #
 # Description: Definitions of selection and reconstruction procedures for Dst
 #              and D0 in run 1, with thorough comments.
@@ -404,7 +404,18 @@ sel_Bminus_ws = Selection(
     RequiredSelections=[sel_D0, sel_Mu]
 )
 
-seq_Bminus_ws = SelectionSequence('SeqMyB-WS', TopSelection=sel_Bminus_ws)
+sel_refit_Bminus2D0Mu_ws = Selection(
+    'SelMyRefitB-2D0MuWS',
+    Algorithm=FitDecayTrees(
+        'MyRefitB-2D0MuWS',
+        Code="DECTREE('[B+ -> (D0->K- pi+) mu+]CC')",
+        UsePVConstraint=False,
+    ),
+    RequiredSelections=[sel_Bminus_ws]
+)
+
+seq_Bminus_ws = SelectionSequence('SeqMyB-WS',
+                                  TopSelection=sel_refit_Bminus2D0Mu_ws)
 
 # Filtered D0 and Mu from the D0 Mu combo ######################################
 # These particles pass the stripping line selection, and can be reused to build
@@ -729,7 +740,7 @@ tuple_postpocess(tp_Bminus, B_meson='b')
 tp_Bminus_ws = tuple_initialize(
     'TupleBminusWS',
     seq_Bminus_ws,
-    '${b}[B+ -> ${d0}(D0 -> ${k}K- ${pi}pi+) ${mu}mu-]CC'
+    '${b}[B+ -> ${d0}(D0 -> ${k}K- ${pi}pi+) ${mu}mu+]CC'
 )
 tuple_postpocess(tp_Bminus_ws, B_meson='b')
 
