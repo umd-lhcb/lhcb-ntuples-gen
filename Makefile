@@ -1,6 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Jul 30, 2020 at 08:28 PM +0800
+# Last Change: Thu Jul 30, 2020 at 08:55 PM +0800
 
 BINPATH	:=	bin
 
@@ -132,6 +132,18 @@ gen/cutflow/output-run2-%.yml: \
 	@$(word 2, $^) $< $@ run2-$* -t 'TupleB0/DecayTree'
 
 
+# UNUSED: Cutflow for D*, detail: individual
+gen/cutflow/output-run1-individual.yml: \
+	Dst--20_03_18--cutflow_mc--cocktail--2011--md.root \
+	cutflow_detail.py
+	@$(word 2, $^) $< $@ run1
+
+gen/cutflow/output-run2-individual.yml: \
+	Dst--20_03_18--cutflow_mc--cocktail--2016--md.root \
+	cutflow_detail.py
+	@$(word 2, $^) $< $@ run2
+
+
 ###########
 # Cutflow #
 ###########
@@ -145,59 +157,53 @@ gen/cutflow/output-run2-%.yml: \
 
 # All cutflow studies:
 cutflow-all: \
-	cutflow-Dst-bare cutflow-Dst cutflow-Dst-data \
+	cutflow-Dst cutflow-Dst-bare cutflow-Dst-data \
 	cutflow-sig-nor-dss-run1 cutflow-sig-nor-dss-run2
 
 
 # Cutflow for D*, MC, bare.
 cutflow-Dst-bare: \
 	gen/cutflow/output-run1-bare.yml \
-	gen/cutflow/output-run2-bare.yml
-	@cutflow_gen.py -o $< -t $(word 2, $^) -n | tabgen.py -f latex_booktabs_raw
+	gen/cutflow/output-run2-bare.yml \
+	cutflow_gen.py
+	@$(word 3, $^) -o $< -t $(word 2, $^) -n | tabgen.py -f latex_booktabs_raw
 
 cutflow-Dst-bare-web: \
 	gen/cutflow/output-run1-bare.yml \
-	gen/cutflow/output-run2-bare.yml
-	@cutflow_gen.py -o $< -t $(word 2, $^) -n | tabgen.py -f github
+	gen/cutflow/output-run2-bare.yml \
+	cutflow_gen.py
+	@$(word 3, $^) -o $< -t $(word 2, $^) -n | tabgen.py -f github
 
 
 # Cutflow for D*, MC.
 cutflow-Dst: \
 	gen/cutflow/output-run1.yml \
-	gen/cutflow/output-run2.yml
-	@cutflow_gen.py -o $< -t $(word 2, $^) -n | tabgen.py -f latex_booktabs_raw
+	gen/cutflow/output-run2.yml \
+	cutflow_gen.py
+	@$(word 3, $^) -o $< -t $(word 2, $^) -n | tabgen.py -f latex_booktabs_raw
 
 cutflow-Dst-web: \
 	gen/cutflow/output-run1.yml \
-	gen/cutflow/output-run2.yml
-	@cutflow_gen.py -o $< -t $(word 2, $^) -n | tabgen.py -f github
+	gen/cutflow/output-run2.yml \
+	cutflow_gen.py
+	@$(word 3, $^) -o $< -t $(word 2, $^) -n | tabgen.py -f github
 
 
 # Cutflow for D*, data.
 cutflow-Dst-data: \
 	gen/cutflow/output-run1-data.yml \
-	gen/cutflow/output-run2-data.yml
-	@cutflow_gen.py -o $< -t $(word 2, $^) -n | tabgen.py -f latex_booktabs_raw
+	gen/cutflow/output-run2-data.yml \
+	cutflow_gen.py
+	@$(word 3, $^) -o $< -t $(word 2, $^) -n | tabgen.py -f latex_booktabs_raw
 
 cutflow-Dst-data-web: \
 	gen/cutflow/output-run1-data.yml \
-	gen/cutflow/output-run2-data.yml
-	@cutflow_gen.py -o $< -t $(word 2, $^) -n | tabgen.py -f github
+	gen/cutflow/output-run2-data.yml \
+	cutflow_gen.py
+	@$(word 3, $^) -o $< -t $(word 2, $^) -n | tabgen.py -f github
 
 
-# Cutflow for D*, detail: individual
-cutflow-RDst-detail-individual: \
-	run1-b2D0MuXB2DMuNuForTauMuLine/cutflow/output-run1-individual.yml \
-	run2-b2D0MuXB2DMuForTauMuLine/cutflow/output-run2-individual.yml
-	@cutflow_gen.py -o $(word 1, $^) -t $(word 2, $^) -n | tabgen.py -f latex_booktabs_raw
-
-cutflow-RDst-detail-individual-web: \
-	run1-b2D0MuXB2DMuNuForTauMuLine/cutflow/output-run1-individual.yml \
-	run2-b2D0MuXB2DMuForTauMuLine/cutflow/output-run2-individual.yml
-	@cutflow_gen.py -o $(word 1, $^) -t $(word 2, $^) -n | tabgen.py -f github
-
-
-# Cutflow output YAML for signal, normalization, and D** yield, run 1
+# Cutflow for signal, normalization, and D** yield, run 1
 cutflow-sig-nor-dss-run1: \
 	gen/cutflow/output-run1-sig.yml \
 	gen/cutflow/output-run1-nor.yml \
@@ -206,13 +212,21 @@ cutflow-sig-nor-dss-run1: \
 	@$(word 4, $^) -s $(word 1, $^) -n $(word 2, $^) -d $(word 3, $^) | tabgen.py -f latex_booktabs_raw
 
 
-# Cutflow output YAML for signal, normalization, and D** yield, run 2
+# Cutflow for signal, normalization, and D** yield, run 2
 cutflow-sig-nor-dss-run2: \
 	gen/cutflow/output-run2-sig.yml \
 	gen/cutflow/output-run2-nor.yml \
 	gen/cutflow/output-run2-dss.yml \
 	table_cutflow_components.py
 	@$(word 4, $^) -s $(word 1, $^) -n $(word 2, $^) -d $(word 3, $^) | tabgen.py -f latex_booktabs_raw
+
+
+# UNUSED: Cutflow for D*, detail: individual
+cutflow-Dst-detail-individual: \
+	gen/cutflow/output-run1-individual.yml \
+	gen/cutflow/output-run2-individual.yml \
+	cutflow_gen.py
+	@$(word 3, $^) -o $(word 1, $^) -t $(word 2, $^) -n | tabgen.py -f latex_booktabs_raw
 
 
 #########
