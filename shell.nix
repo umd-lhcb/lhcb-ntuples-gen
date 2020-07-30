@@ -1,7 +1,7 @@
 with import <nixpkgs> {};
 
 let
-  python = enableDebugging pkgs.python3;
+  python = pkgs.python3;
   pythonPackages = python.pkgs;
   root = pkgs.root;
 in
