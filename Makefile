@@ -1,6 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Jul 30, 2020 at 05:05 PM +0800
+# Last Change: Thu Jul 30, 2020 at 05:40 PM +0800
 
 BINPATH	:=	bin
 
@@ -52,7 +52,7 @@ install-dep:
 	@echo "Installing in-house Python libraries..."
 	@for p in $(LIB_PY); do \
 			cd $(PWD)/$$p; \
-			python setup.py install -f; \
+			pip install --force-reinstall .; \
 		done;
 
 
