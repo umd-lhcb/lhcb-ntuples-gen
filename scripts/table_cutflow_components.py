@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri May 01, 2020 at 10:11 PM +0800
+# Last Change: Thu Jul 30, 2020 at 07:58 PM +0800
 
 from yaml import safe_load
 from argparse import ArgumentParser
@@ -35,7 +35,8 @@ def div(num, denom):
 # CSV-related #
 ###############
 
-CSV_HEADERS = ['cut name', 'Signal', 'Normaliz.', 'D**', 'Sig eff', 'Nor eff', 'D** eff' ]
+CSV_HEADERS = ['cut name', 'Signal', 'Normaliz.', 'D**',
+               'Sig eff', 'Nor eff', 'D** eff']
 
 
 def list_gen(sig_descr, nor_descr, dss_descr, header=CSV_HEADERS):
@@ -59,7 +60,6 @@ def list_gen(sig_descr, nor_descr, dss_descr, header=CSV_HEADERS):
             sig_yield = val['output']
             nor_yield = nor_row['output']
             dss_yield = dss_row['output']
-            
 
             # Store total number of events in the raw data.
             if key == 'Full stripping':
