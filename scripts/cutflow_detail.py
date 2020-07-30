@@ -2,32 +2,35 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue May 12, 2020 at 12:12 AM +0800
+# Last Change: Thu Jul 30, 2020 at 05:50 PM +0800
 
 import uproot
 import sys
+import os
 
-sys.path.insert(0, '../../utils')
+sys.path.insert(0, os.path.dirname(os.path.realpath(__file__)))
 
-from cutflow_gen import div_with_confint as DIV
 from argparse import ArgumentParser
-from pyTuplingUtils.io import yaml_gen
+from cutflow_gen import div_with_confint as DIV
+from davinci_log_parser import yaml_gen
 from pyTuplingUtils.utils import extract_uid, tabl as TAB
 from pyTuplingUtils.cutflow import CutflowGen, CutflowRule as Rule
 
 
-L0 = [
-    # 'L0DiMuonDecision',  # FIXME: Missing in the ntuple due to a typo.
-    'L0ElectronDecision',
-    'L0ElectronHiDecision',
-    'L0HadronDecision',
-    'L0HighSumETJetDecision',
-    'L0MuonDecision',
-    'L0NoPVFlagDecision',
-    'L0PhotonDecision',
-    'L0PhotonHiDecision',
-    'L0Global',  # This needs to be placed to the last
-]
+L0 = {
+    'run1': [
+        # 'L0DiMuonDecision',  # FIXME: Missing in the ntuple due to a typo.
+        'L0ElectronDecision',
+        'L0ElectronHiDecision',
+        'L0HadronDecision',
+        'L0HighSumETJetDecision',
+        'L0MuonDecision',
+        'L0NoPVFlagDecision',
+        'L0PhotonDecision',
+        'L0PhotonHiDecision',
+        'L0Global',  # This needs to be placed to the last
+    ]
+}
 
 
 ###########
@@ -68,7 +71,7 @@ def cut_comb(prev_cut, prev_name, *args, op='|', set_symb=r'$\cup$', **kwargs):
         prev_name+'{}{}'.format(set_symb, name)
 
 
-def cutflow_rule_gen(l0lines=L0, marginal=True):
+def cutflow_rule_gen(l0lines, marginal=True):
     basecut, basename = cut_gen(
         'L0HadronDecision', 'Dst_2010_minus', 'TOS', r'$D^*$')
     cutflows = [Rule(basecut, basename)]
@@ -94,14 +97,17 @@ def cutflow_rule_gen(l0lines=L0, marginal=True):
 # Command line argument parser #
 ################################
 
-def parse_input(descr='Generate cut flow CSV from YAML files.'):
+def parse_input(descr='Generate cutflow (detail) output files based on input ntuple and YAML.'):
     parser = ArgumentParser(description=descr)
 
     parser.add_argument('ntp',
-                        help='specify ntuple path.')
+                        help='specify input ntuple path.')
 
-    parser.add_argument('yaml',
+    parser.add_argument('output_yml',
                         help='specify output YAML path.')
+
+    parser.add_argument('mode',
+                        help='specify mode.')
 
     parser.add_argument('-t', '--tree',
                         default='TupleB0/DecayTree',
@@ -130,12 +136,14 @@ if __name__ == '__main__':
     result_marginal = {'DV': {'input': size, 'output': size, 'name': 'After DaVinci'}}
     result_individual = {'DV': {'input': size, 'output': size, 'name': 'After DaVinci'}}
 
-    rules_marginal = cutflow_rule_gen()
+    l0lines = L0[args.mode]
+
+    rules_marginal = cutflow_rule_gen(l0lines)
     result_marginal_addon = CutflowGen(
         args.ntp, args.tree, rules_marginal, size).do()
     result_marginal.update(result_marginal_addon)
 
-    rules_individual = cutflow_rule_gen(marginal=False)
+    rules_individual = cutflow_rule_gen(l0lines, marginal=False)
     result_individual_addon = CutflowGen(
         args.ntp, args.tree, rules_individual, size).do()
     result_individual.update(result_individual_addon)
@@ -146,5 +154,5 @@ if __name__ == '__main__':
     print(TAB.tabulate(to_table(result_individual), headers='firstrow',
                        tablefmt=args.format))
 
-    with open(args.yaml, 'w') as f:
+    with open(args.output_yml, 'w') as f:
         f.write(yaml_gen(result_individual))
