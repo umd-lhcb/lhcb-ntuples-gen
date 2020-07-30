@@ -1,13 +1,13 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Jul 30, 2020 at 05:40 PM +0800
+# Last Change: Thu Jul 30, 2020 at 08:25 PM +0800
 
 BINPATH	:=	bin
 
 export PATH := test:scripts:$(BINPATH):$(PATH)
 
-VPATH := test:scripts:$(BINPATH):$(VPATH)
-VPATH := run1-b2D0MuXB2DMuNuForTauMuLine/samples:run2-b2D0MuXB2DMuForTauMuLine/samples
+VPATH := test:scripts:$(BINPATH)
+VPATH := run1-b2D0MuXB2DMuNuForTauMuLine/samples:run2-b2D0MuXB2DMuForTauMuLine/samples:$(VPATH)
 VPATH := run1-b2D0MuXB2DMuNuForTauMuLine/cutflow:run2-b2D0MuXB2DMuForTauMuLine/cutflow:$(VPATH)
 VPATH := ntuples/pre-0.9.0/Dst-std:$(VPATH)
 VPATH := ntuples/pre-0.9.0/Dst-cutflow_mc:ntuples/pre-0.9.0/Dst-cutflow_data:$(VPATH)
@@ -118,13 +118,28 @@ gen/cutflow/output-run2-data.yml: \
 	@$(word 3, $^) $< $(word 2, $^) $@ run2-data -t 'TupleB0/DecayTree'
 
 
+# Cutflow output YAML for signal, normalization, and D** yield, run 1
+gen/cutflow/output-run1-%.yml: \
+	Dst--20_06_05--cutflow_mc--bare--MC_2011_Beam3500GeV-2011-MagDown-Nu2-Pythia8_Sim08h_Digi13_Trig0x40760037_Reco14c_Stripping20r1NoPrescalingFlagged_11874091_ALLSTREAMS.DST.root \
+	cutflow_components.py
+	@$(word 2, $^) $< $@ run1-$* -t 'TupleB0/DecayTree'
+
+
+# Cutflow output YAML for signal, normalization, and D** yield, run 2
+gen/cutflow/output-run2-%.yml: \
+	Dst--20_06_05--cutflow_mc--bare--MC_2016_Beam6500GeV-2016-MagDown-Nu1.6-25ns-Pythia8_Sim09b_Trig0x6138160F_Reco16_Turbo03_Stripping26NoPrescalingFlagged_11874091_ALLSTREAMS.DST.root \
+	cutflow_components.py
+	@$(word 2, $^) $< $@ run2-$* -t 'TupleB0/DecayTree'
+
+
 ###########
 # Cutflow #
 ###########
 
 .PHONY: cutflow-Dst-bare cutflow-Dst-bare-web \
 	cutflow-Dst-data cutflow-Dst-data-web \
-	cutflow-Dst cutflow-Dst-web
+	cutflow-Dst cutflow-Dst-web \
+	cutflow-sig-nor-dss-run1 cutflow-sig-nor-dss-run2
 
 
 # Cutflow for D*, MC, bare.
@@ -173,6 +188,24 @@ cutflow-RDst-detail-individual-web: \
 	run1-b2D0MuXB2DMuNuForTauMuLine/cutflow/output-run1-individual.yml \
 	run2-b2D0MuXB2DMuForTauMuLine/cutflow/output-run2-individual.yml
 	@cutflow_gen.py -o $(word 1, $^) -t $(word 2, $^) -n | tabgen.py -f github
+
+
+# Cutflow output YAML for signal, normalization, and D** yield, run 1
+cutflow-sig-nor-dss-run1: \
+	gen/cutflow/output-run1-sig.yml \
+	gen/cutflow/output-run1-nor.yml \
+	gen/cutflow/output-run1-dss.yml \
+	table_cutflow_components.py
+	@$(word 4, $^) -s $(word 1, $^) -n $(word 2, $^) -d $(word 3, $^) | tabgen.py -f latex_booktabs_raw
+
+
+# Cutflow output YAML for signal, normalization, and D** yield, run 2
+cutflow-sig-nor-dss-run2: \
+	gen/cutflow/output-run2-sig.yml \
+	gen/cutflow/output-run2-nor.yml \
+	gen/cutflow/output-run2-dss.yml \
+	table_cutflow_components.py
+	@$(word 4, $^) -s $(word 1, $^) -n $(word 2, $^) -d $(word 3, $^) | tabgen.py -f latex_booktabs_raw
 
 
 #########
