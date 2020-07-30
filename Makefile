@@ -1,6 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Jul 30, 2020 at 03:00 AM +0800
+# Last Change: Thu Jul 30, 2020 at 05:05 PM +0800
 
 BINPATH	:=	bin
 
@@ -27,7 +27,7 @@ CXXFLAGS	:=	$(shell root-config --cflags)
 LINKFLAGS	:=	$(shell root-config --libs)
 ADDFLAGS	:=	-Iinclude
 
-DAVINCI_VERSION="DaVinci-v45r4-SL"
+DAVINCI_VERSION=DaVinci-v45r4-SL
 
 
 .PHONY: all clean history install-dep
