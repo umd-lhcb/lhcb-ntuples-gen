@@ -1,6 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Jul 30, 2020 at 08:25 PM +0800
+# Last Change: Thu Jul 30, 2020 at 08:28 PM +0800
 
 BINPATH	:=	bin
 
@@ -139,6 +139,13 @@ gen/cutflow/output-run2-%.yml: \
 .PHONY: cutflow-Dst-bare cutflow-Dst-bare-web \
 	cutflow-Dst-data cutflow-Dst-data-web \
 	cutflow-Dst cutflow-Dst-web \
+	cutflow-sig-nor-dss-run1 cutflow-sig-nor-dss-run2 \
+	cutflow-all
+
+
+# All cutflow studies:
+cutflow-all: \
+	cutflow-Dst-bare cutflow-Dst cutflow-Dst-data \
 	cutflow-sig-nor-dss-run1 cutflow-sig-nor-dss-run2
 
 
