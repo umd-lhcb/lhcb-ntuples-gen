@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Jul 30, 2020 at 05:50 PM +0800
+# Last Change: Thu Jul 30, 2020 at 06:10 PM +0800
 
 import uproot
 import sys
@@ -29,6 +29,30 @@ L0 = {
         'L0PhotonDecision',
         'L0PhotonHiDecision',
         'L0Global',  # This needs to be placed to the last
+    ],
+    'run2': [
+        'L0DiMuonDecision',
+        'L0ElectronDecision',
+        'L0HadronDecision',
+        'L0JetElDecision',
+        'L0JetPhDecision',
+        'L0MuonDecision',
+        'L0MuonEWDecision',
+        'L0PhotonDecision',
+        'L0Global',  # This needs to be placed to the last
+    ]
+}
+
+HLT1 = {
+    'run1': [],
+    'run2': [
+        'Hlt1TwoTrackMVADecision',
+        'Hlt1TrackMVALooseDecision',
+        'Hlt1TwoTrackMVALooseDecision',
+        'Hlt1TrackMuonDecision',
+        'Hlt1TrackMuonMVADecision',
+        'Hlt1SingleMuonHighPTDecision',
+        'Hlt1Phys'  # This needs to be placed to the last
     ]
 }
 
@@ -71,7 +95,7 @@ def cut_comb(prev_cut, prev_name, *args, op='|', set_symb=r'$\cup$', **kwargs):
         prev_name+'{}{}'.format(set_symb, name)
 
 
-def cutflow_rule_gen(l0lines, marginal=True):
+def cutflow_rule_gen(l0lines, hlt1lines, marginal=True):
     basecut, basename = cut_gen(
         'L0HadronDecision', 'Dst_2010_minus', 'TOS', r'$D^*$')
     cutflows = [Rule(basecut, basename)]
@@ -84,11 +108,23 @@ def cutflow_rule_gen(l0lines, marginal=True):
     for l0 in l0lines:
         l0cut, l0name = cut_comb(basecut, basename, l0)
         cutflows.append(Rule(l0cut, l0name, -1, True))
+        ref_idx = len(cutflows) - 1
 
         if marginal and l0 != 'L0Global':
             for ll0 in remove_from(l0lines, l0):
                 ll0cut, ll0name = cut_comb(l0cut, l0name, ll0)
                 cutflows.append(Rule(ll0cut, ll0name, -1, True))
+
+    for hlt1 in hlt1lines:
+        hlt1cut, hlt1name = cut_comb(l0cut, l0name, hlt1, op='&',
+                                     set_symb=r'$\cap$')
+        cutflows.append(Rule(hlt1cut, hlt1name, ref_idx, True))
+
+        if marginal and hlt1 != 'Hlt1Phys':
+            for hhlt1 in remove_from(hlt1lines, hlt1):
+                hhlt1cut, hhlt1name = cut_comb(hlt1cut, hlt1name, hhlt1,
+                                               op='&', set_symb=r'$\cap$')
+                cutflows.append(Rule(hhlt1cut, hhlt1name, ref_idx, True))
 
     return cutflows
 
@@ -137,13 +173,14 @@ if __name__ == '__main__':
     result_individual = {'DV': {'input': size, 'output': size, 'name': 'After DaVinci'}}
 
     l0lines = L0[args.mode]
+    hlt1lines = HLT1[args.mode]
 
-    rules_marginal = cutflow_rule_gen(l0lines)
+    rules_marginal = cutflow_rule_gen(l0lines, hlt1lines)
     result_marginal_addon = CutflowGen(
         args.ntp, args.tree, rules_marginal, size).do()
     result_marginal.update(result_marginal_addon)
 
-    rules_individual = cutflow_rule_gen(l0lines, marginal=False)
+    rules_individual = cutflow_rule_gen(l0lines, hlt1lines, marginal=False)
     result_individual_addon = CutflowGen(
         args.ntp, args.tree, rules_individual, size).do()
     result_individual.update(result_individual_addon)
