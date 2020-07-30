@@ -1,0 +1,74 @@
+#!/bin/bash
+
+# Go to the project root
+cd ../..
+
+
+#################################
+# Standard cutflow double ratio #
+#################################
+
+echo "Standard cutflow double ratio"
+
+scripts/cutflow_output_yml_gen_pre_0.9.0.py ntuples/pre-0.9.0/Dst-cutflow_mc/Dst--20_03_18--cutflow_mc--cocktail--2011--md.root run1-b2D0MuXB2DMuNuForTauMuLine/cutflow/input-run1.yml gen/cutflow/output-run1.yml run1 -t 'TupleB0/DecayTree'
+scripts/cutflow_output_yml_gen_pre_0.9.0.py ntuples/pre-0.9.0/Dst-cutflow_mc/Dst--20_03_18--cutflow_mc--cocktail--2016--md.root run2-b2D0MuXB2DMuForTauMuLine/cutflow/input-run2.yml gen/cutflow/output-run2.yml run2 -t 'TupleB0/DecayTree'
+
+scripts/cutflow_gen.py -o gen/cutflow/output-run1.yml -t gen/cutflow/output-run2.yml -n | tabgen.py -f latex_booktabs_raw
+
+echo ""
+
+
+#############################
+# BARE cutflow double ratio #
+#############################
+
+echo "BARE cutflow double ratio"
+
+scripts/cutflow_output_yml_gen.py ntuples/0.9.0-cutflow/Dst-cutflow_mc/Dst--20_06_05--cutflow_mc--bare--MC_2011_Beam3500GeV-2011-MagDown-Nu2-Pythia8_Sim08h_Digi13_Trig0x40760037_Reco14c_Stripping20r1NoPrescalingFlagged_11874091_ALLSTREAMS.DST.root run1-b2D0MuXB2DMuNuForTauMuLine/cutflow/input-run1-bare.yml gen/cutflow/output-run1-bare.yml run1-bare -t 'TupleB0/DecayTree'
+scripts/cutflow_output_yml_gen.py ntuples/0.9.0-cutflow/Dst-cutflow_mc/Dst--20_06_05--cutflow_mc--bare--MC_2016_Beam6500GeV-2016-MagDown-Nu1.6-25ns-Pythia8_Sim09b_Trig0x6138160F_Reco16_Turbo03_Stripping26NoPrescalingFlagged_11874091_ALLSTREAMS.DST.root run2-b2D0MuXB2DMuForTauMuLine/cutflow/input-run2-bare.yml gen/cutflow/output-run2-bare.yml run2-bare -t 'TupleB0/DecayTree'
+
+scripts/cutflow_gen.py -o gen/cutflow/output-run1-bare.yml -t gen/cutflow/output-run2-bare.yml -n | tabgen.py -f latex_booktabs_raw
+
+echo ""
+
+
+#############################
+# DATA cutflow double ratio #
+#############################
+
+echo "DATA cutflow double ratio"
+
+scripts/cutflow_output_yml_gen_pre_0.9.0.py ntuples/pre-0.9.0/Dst-cutflow_data/Dst--20_04_03--cutflow_data--data--2012--md.root run1-b2D0MuXB2DMuNuForTauMuLine/cutflow/input-run1-data.yml gen/cutflow/output-run1-data.yml run1 -t 'TupleB0/DecayTree'
+scripts/cutflow_output_yml_gen_pre_0.9.0.py ntuples/pre-0.9.0/Dst-cutflow_data/Dst--20_04_03--cutflow_data--data--2016--md.root run2-b2D0MuXB2DMuForTauMuLine/cutflow/input-run2-data.yml gen/cutflow/output-run2-data.yml run2-data -t 'TupleB0/DecayTree'
+
+scripts/cutflow_gen.py -o gen/cutflow/output-run1-data.yml -t gen/cutflow/output-run2-data.yml -n | tabgen.py -f latex_booktabs_raw
+
+echo ""
+
+
+#################################################################
+# RUN1: Finding signal, normalization, and D** yields from BARE #
+#################################################################
+
+echo "RUN1: Finding signal, normalization, and D** yields from BARE"
+
+scripts/cutflow_components.py ntuples/0.9.0-cutflow/Dst-cutflow_mc/Dst--20_06_05--cutflow_mc--bare--MC_2011_Beam3500GeV-2011-MagDown-Nu2-Pythia8_Sim08h_Digi13_Trig0x40760037_Reco14c_Stripping20r1NoPrescalingFlagged_11874091_ALLSTREAMS.DST.root gen/cutflow/output-run1-sig.yml run1-sig -t 'TupleB0/DecayTree'
+scripts/cutflow_components.py ntuples/0.9.0-cutflow/Dst-cutflow_mc/Dst--20_06_05--cutflow_mc--bare--MC_2011_Beam3500GeV-2011-MagDown-Nu2-Pythia8_Sim08h_Digi13_Trig0x40760037_Reco14c_Stripping20r1NoPrescalingFlagged_11874091_ALLSTREAMS.DST.root gen/cutflow/output-run1-nor.yml run1-nor -t 'TupleB0/DecayTree'
+scripts/cutflow_components.py ntuples/0.9.0-cutflow/Dst-cutflow_mc/Dst--20_06_05--cutflow_mc--bare--MC_2011_Beam3500GeV-2011-MagDown-Nu2-Pythia8_Sim08h_Digi13_Trig0x40760037_Reco14c_Stripping20r1NoPrescalingFlagged_11874091_ALLSTREAMS.DST.root gen/cutflow/output-run1-dss.yml run1-dss -t 'TupleB0/DecayTree'
+
+scripts/table_cutflow_components.py -s gen/cutflow/output-run1-sig.yml -n gen/cutflow/output-run1-nor.yml -d gen/cutflow/output-run1-dss.yml | tabgen.py -f latex_booktabs_raw
+
+echo ""
+
+
+#################################################################
+# RUN2: Finding signal, normalization, and D** yields from BARE #
+#################################################################
+
+echo "RUN2: Finding signal, normalization, and D** yields from BARE"
+
+scripts/cutflow_components.py ntuples/0.9.0-cutflow/Dst-cutflow_mc/Dst--20_06_05--cutflow_mc--bare--MC_2016_Beam6500GeV-2016-MagDown-Nu1.6-25ns-Pythia8_Sim09b_Trig0x6138160F_Reco16_Turbo03_Stripping26NoPrescalingFlagged_11874091_ALLSTREAMS.DST.root gen/cutflow/output-run2-sig.yml run2-sig -t 'TupleB0/DecayTree'
+scripts/cutflow_components.py ntuples/0.9.0-cutflow/Dst-cutflow_mc/Dst--20_06_05--cutflow_mc--bare--MC_2016_Beam6500GeV-2016-MagDown-Nu1.6-25ns-Pythia8_Sim09b_Trig0x6138160F_Reco16_Turbo03_Stripping26NoPrescalingFlagged_11874091_ALLSTREAMS.DST.root gen/cutflow/output-run2-nor.yml run2-nor -t 'TupleB0/DecayTree'
+scripts/cutflow_components.py ntuples/0.9.0-cutflow/Dst-cutflow_mc/Dst--20_06_05--cutflow_mc--bare--MC_2016_Beam6500GeV-2016-MagDown-Nu1.6-25ns-Pythia8_Sim09b_Trig0x6138160F_Reco16_Turbo03_Stripping26NoPrescalingFlagged_11874091_ALLSTREAMS.DST.root gen/cutflow/output-run2-dss.yml run2-dss -t 'TupleB0/DecayTree'
+
+scripts/table_cutflow_components.py -s gen/cutflow/output-run2-sig.yml -n gen/cutflow/output-run2-nor.yml -d gen/cutflow/output-run2-dss.yml | tabgen.py -f latex_booktabs_raw
