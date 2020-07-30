@@ -1,6 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Jul 30, 2020 at 08:55 PM +0800
+# Last Change: Thu Jul 30, 2020 at 09:18 PM +0800
 
 BINPATH	:=	bin
 
@@ -12,6 +12,7 @@ VPATH := run1-b2D0MuXB2DMuNuForTauMuLine/cutflow:run2-b2D0MuXB2DMuForTauMuLine/c
 VPATH := ntuples/pre-0.9.0/Dst-std:$(VPATH)
 VPATH := ntuples/pre-0.9.0/Dst-cutflow_mc:ntuples/pre-0.9.0/Dst-cutflow_data:$(VPATH)
 VPATH := ntuples/0.9.0-cutflow/Dst-cutflow_mc:$(VPATH)
+VPATH := ntuples/ref-rdx-run1/Dst-std:$(VPATH)
 VPATH := gen/run2-Dst-step2:gen/run1-Dst-step2:$(VPATH)
 
 # System env
@@ -33,7 +34,7 @@ DAVINCI_VERSION=DaVinci-v45r4-SL
 .PHONY: all clean history install-dep
 
 all: \
-	gen/run1-Dst-step2/Dst--19_09_05--std--data--2012--md--yipeng-step2.root \
+	gen/run1-Dst-step2/Dst--19_09_05--std--data--2012--md--step2.root \
 	gen/run1-Dst-step2/Dst--19_09_05--std--data--2012--md--phoebe-step2.root \
 	gen/run2-Dst-step2/Dst--19_09_09--std--data--2016--md--step2.root
 
@@ -233,10 +234,10 @@ cutflow-Dst-detail-individual: \
 # Run 1 #
 #########
 
-# Dst, std, 2012, Yipeng
-gen/run1-Dst-step2/Dst--19_09_05--std--data--2012--md--yipeng-step2.root: \
-	Dst--19_09_05--std--data--2012--md--yipeng.root \
-	run1-Dst-data-yipeng
+# Dst, std, 2012
+gen/run1-Dst-step2/Dst--19_09_05--std--data--2012--md--step2.root: \
+	Dst--19_09_05--std--data--2012--md.root \
+	run1-Dst-data
 	$(word 2, $^) $< $@
 
 # Dst, std, 2012, Phoebe
@@ -246,10 +247,10 @@ gen/run1-Dst-step2/Dst--19_09_05--std--data--2012--md--phoebe-step2.root: \
 	$(word 2, $^) $< $@
 
 
-# Generator for Dst, std, 2012, Yipeng
-gen/run1-Dst-data-yipeng.cpp: \
-	run1-b2D0MuXB2DMuNuForTauMuLine/postprocess/Dst-data-yipeng.yml \
-	Dst--19_09_05--std--data--2012--md--yipeng.root \
+# Generator for Dst, std, 2012
+gen/run1-Dst-data.cpp: \
+	run1-b2D0MuXB2DMuNuForTauMuLine/postprocess/Dst-data.yml \
+	Dst--19_09_05--std--data--2012--md.root \
 	include/functor/*.h
 	babymaker -i $< -o $@ -d $(word 2, $^)
 
@@ -268,13 +269,13 @@ gen/run1-Dst-data-phoebe.cpp: \
 # Dst, std, 2016
 gen/run2-Dst-step2/Dst--19_09_09--std--data--2016--md--step2.root: \
 	Dst--19_09_09--std--data--2016--md.root \
-	run2-Dst-data-yipeng
+	run2-Dst-data
 	$(word 2, $^) $< $@
 
 
 # Generator for Dst, std, 2016
-gen/run2-Dst-data-yipeng.cpp: \
-	run2-b2D0MuXB2DMuForTauMuLine/postprocess/Dst-data-yipeng.yml \
+gen/run2-Dst-data.cpp: \
+	run2-b2D0MuXB2DMuForTauMuLine/postprocess/Dst-data.yml \
 	Dst--19_09_09--std--data--2016--md.root \
 	include/functor/*.h
 	babymaker -i $< -o $@ -d $(word 2, $^)
