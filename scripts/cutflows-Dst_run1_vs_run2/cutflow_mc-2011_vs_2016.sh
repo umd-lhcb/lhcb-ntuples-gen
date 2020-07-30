@@ -1,8 +1,8 @@
 #!/bin/bash
 
 OUTPUT_DIR="../../docs/data/cutflows/Dst_run1_vs_run2/cutflow_mc-2011_vs_2016"
-NTP_REF="../../run1-b2D0MuXB2DMuNuForTauMuLine/ntuples/cutflow-Dst/BCands_Dst-yipeng-cutflow_mc-2011-mag_down.root"
-NTP_COM="../../run2-b2D0MuXB2DMuForTauMuLine/ntuples/cutflow-Dst/BCands_Dst-yipeng-cutflow_mc-2016-mag_down.root"
+NTP_REF="../../ntuples/pre-0.9.0/Dst-cutflow_mc/Dst--20_03_18--cutflow_mc--cocktail--2011--md.root"
+NTP_COM="../../ntuples/pre-0.9.0/Dst-cutflow_mc/Dst--20_03_18--cutflow_mc--cocktail--2016--md.root"
 
 BRANCHES_TWO_NTP=(
     "Y_PT"
