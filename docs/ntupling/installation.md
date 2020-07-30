@@ -120,17 +120,17 @@ Windows:
 3. Launch `VirtualBox`, click **Tools**, then click **Import**, choose the `ovf`
    file, then proceed with default settings.
 
-!!! note
+!!! info
     Both the username and password of the virtual machine are `vagrant`.
 
-!!! note
+!!! info
     By default the virtual machine can maximally use 4 GB of RAM. If your
     computer has 16 GB or more RAM, it is recommended to allocate 8 GB of RAM
     to the virtual machine.
 
-!!! note
+!!! info
     The virtual machine image already has `docker` installed.
 
-!!! note
+!!! info
     As you may have guessed, the virtual machine image has `gcc`[^1], `ROOT`, `python3`, and a couple
     of other `Python` packages[^2], already installed, including `pip`.
