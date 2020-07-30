@@ -340,6 +340,33 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#local-development-of-in-house-python-packages" class="md-nav__link">
+    Local development of in-house Python packages
+  </a>
+  
+    <nav class="md-nav" aria-label="Local development of in-house Python packages">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#initializing-pybabymaker-and-pytuplingutils-submodules" class="md-nav__link">
+    Initializing pyBabyMaker and pyTuplingUtils submodules
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#local-development-procedure" class="md-nav__link">
+    Local development procedure
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -761,6 +788,33 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#local-development-of-in-house-python-packages" class="md-nav__link">
+    Local development of in-house Python packages
+  </a>
+  
+    <nav class="md-nav" aria-label="Local development of in-house Python packages">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#initializing-pybabymaker-and-pytuplingutils-submodules" class="md-nav__link">
+    Initializing pyBabyMaker and pyTuplingUtils submodules
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#local-development-procedure" class="md-nav__link">
+    Local development procedure
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -820,6 +874,69 @@ to install <code>pyenv-virtualenv</code></p>
 </code></pre></div></p>
 <p>Now, every time you <code>cd</code> into the project root, virtual environment <code>ntuples</code>
 will be automatically activated.</p>
+<h2 id="local-development-of-in-house-python-packages">Local development of in-house Python packages</h2>
+<p>We have made two in-house Python packages:</p>
+<ul>
+<li><a href="https://github.com/umd-lhcb/pyBabyMaker"><code>pyBabyMaker</code></a>: For producing step-2 ntuples.</li>
+<li><a href="https://github.com/umd-lhcb/pyTuplingUtils"><code>pyTuplingUtils</code></a>: For simple plotting and cutflow study.</li>
+</ul>
+<p>These two packages are included as submodules in this project, so that:</p>
+<ol>
+<li>We can pinpoint a specific commit of these packages.</li>
+<li>The development of these packages are often related to this project.
+    Including them as submodules makes development easier.</li>
+</ol>
+<h3 id="initializing-pybabymaker-and-pytuplingutils-submodules">Initializing <code>pyBabyMaker</code> and <code>pyTuplingUtils</code> submodules</h3>
+<p>After initial clone of this project, these submodules can be initialized with:
+<div class="highlight"><pre><span></span><code>git submodule update --init
+</code></pre></div></p>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>The <code>git submodule</code> only record the pointer to a commit of each submodule,
+no actual content is recorded in the mother project.</p>
+<p>For example, in <code>lhcb-ntuples-gen</code>, we only record that <code>pyBabyMaker</code>
+should be at commit <code>a7bb2981</code>. When we do <code>submodule update --init</code>,
+<code>git</code> will clone the module and checkout said commit.</p>
+</div>
+<h3 id="local-development-procedure">Local development procedure</h3>
+<ol>
+<li>
+<p><code>cd</code> into the submodule that you want to develop, here we use <code>pyBabyMaker</code>
+    as an example:</p>
+<div class="highlight"><pre><span></span><code>cd lib/python/pyBabyMaker
+</code></pre></div>
+
+</li>
+<li>
+<p>Checkout the <code>master</code> branch with <code>git checkout master</code><sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup></p>
+</li>
+<li>
+<p>Do development, and when you want to test something, go back to
+    <code>lhcb-ntuples-gen</code> project root, and:</p>
+<div class="highlight"><pre><span></span><code>make install-dep
+</code></pre></div>
+
+<p>This will install the latest <code>pyBabyMaker</code>, with your local changes.</p>
+</li>
+<li>
+<p>Test everything out.</p>
+</li>
+<li>After everything works out:<ol>
+<li>Commit changes inside the <code>pyBabyMaker</code> directory.</li>
+<li>Optionally, inside <code>pyBabyMaker</code> directory, push changes to <code>pyBabyMaker</code> remote.</li>
+<li>Go back to project root, Update pointer to the <code>pyBabyMaker</code> commit in
+    the mother project.</li>
+</ol>
+</li>
+</ol>
+<div class="footnote">
+<hr />
+<ol>
+<li id="fn:1">
+<p>This operation is only valid for newer <code>git</code>. Make sure you use an up-to-date <code>git</code>!&#160;<a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div>
                 
               
               

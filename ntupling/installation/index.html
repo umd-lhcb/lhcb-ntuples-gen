@@ -305,22 +305,15 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#install-dependencies-for-babymaker" class="md-nav__link">
-    Install dependencies for babymaker
+  <a href="#install-babymaker" class="md-nav__link">
+    Install babymaker
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#install-dependencies-for-plotting" class="md-nav__link">
-    Install dependencies for plotting
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#use-a-pre-built-virtualbox-image-on-windows-and-ubuntu" class="md-nav__link">
-    Use a pre-built VirtualBox image on Windows and Ubuntu
+  <a href="#use-a-pre-built-virtualbox-image-on-windows" class="md-nav__link">
+    Use a pre-built VirtualBox image on Windows
   </a>
   
 </li>
@@ -783,22 +776,15 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#install-dependencies-for-babymaker" class="md-nav__link">
-    Install dependencies for babymaker
+  <a href="#install-babymaker" class="md-nav__link">
+    Install babymaker
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#install-dependencies-for-plotting" class="md-nav__link">
-    Install dependencies for plotting
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#use-a-pre-built-virtualbox-image-on-windows-and-ubuntu" class="md-nav__link">
-    Use a pre-built VirtualBox image on Windows and Ubuntu
+  <a href="#use-a-pre-built-virtualbox-image-on-windows" class="md-nav__link">
+    Use a pre-built VirtualBox image on Windows
   </a>
   
 </li>
@@ -829,32 +815,42 @@
 <p>We use <code>git</code> to version-control the ntupling code and the wiki, and <code>git-annex</code> to version-control
 large files, mostly the input <code>.dst</code> files or important <code>.root</code> outputs. For more details on
 <code>git-annex</code>, see <a href="../../software_manuals/git_annex/">this brief introduction</a>.</p>
+<ul>
+<li>
 <p>On Arch Linux, simply issue the following command to install both programs:
-<div class="highlight"><pre><span></span><code>sudo pacman -S git git-annex
+    <div class="highlight"><pre><span></span><code>sudo pacman -S git git-annex
 </code></pre></div></p>
+</li>
+<li>
 <p>On macOS, if you have <code>homebrew</code> installed:
-<div class="highlight"><pre><span></span><code>brew install git git-annex
+    <div class="highlight"><pre><span></span><code>brew install git git-annex
 </code></pre></div></p>
+</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Before proceed, send us a SSH key so that we can give your read/write
+permission to the <code>git-annex</code> server.</p>
+</div>
 <p>Now clone the repository and set up the <code>annex</code> component. We have a private server, <code>julian</code>, that hosts
-<code>git-annex</code> files. You will need to send us a SSH key so that we can give your read/write permission to the
-server.
+<code>git-annex</code> files.
 <div class="highlight"><pre><span></span><code>git clone git@github.com:umd-lhcb/lhcb-ntuples-gen
 cd lhcb-ntuples-gen
 git remote add julian git@129.2.92.92:lhcb-ntuples-gen
 git annex init --version=7
-git annex sync --no-pull julian
 git annex sync julian
-</code></pre></div>
-Note that these commands will only initialize the files controlled by <code>git-annex</code> (several GB in total)
+</code></pre></div></p>
+<p>Note that these commands will only initialize the files controlled by <code>git-annex</code> (several GB in total)
 with symbolic links. You typically will download individual files as you need them with
 <div class="highlight"><pre><span></span><code>git annex get &lt;path_to_file&gt;
 </code></pre></div></p>
 <div class="admonition warning">
-<p class="admonition-title">Microsoft Windows and Ubuntu not supported, require pre-build image below</p>
+<p class="admonition-title">Microsoft Windows not supported, require pre-build image below</p>
 <p>Windows filesystems don't support symbolic links, which
-makes <code>git-annex</code> almost unusable. In Ubuntu there is no easy way to install an up-to-date <code>git-annex</code>.</p>
+makes <code>git-annex</code> almost unusable.</p>
 <p>Please use the pre-built image listed in <a href="#use-a-pre-built-virtualbox-image-on-windows">this section</a> that
 has everything installed.  Note that <code>VirtualBox</code> needs to be installed on Ubuntu manually first.</p>
+<p>Alternatively, use WSL or WSL2.</p>
 </div>
 <h2 id="install-docker-to-run-davinci-locally">Install <code>docker</code> to run <code>DaVinci</code> locally</h2>
 <p>We use <code>docker</code> to run a pre-built <code>DaVinci</code> image locally. To install
@@ -869,32 +865,36 @@ to finish the setup:
 <p>Now it's time to pull (download) the pre-built <code>DaVinci</code> docker:
 <div class="highlight"><pre><span></span><code>docker pull umdlhcb/lhcb-stack-cc7:DaVinci-v45r3-SL
 </code></pre></div></p>
-<h2 id="install-dependencies-for-babymaker">Install dependencies for <code>babymaker</code></h2>
-<p><code>babymaker</code> is part of the <code>pyBabyMaker</code> <code>Python</code> package. It requires
+<h2 id="install-babymaker">Install <code>babymaker</code></h2>
+<p><code>babymaker</code> is part of the <code>pyBabyMaker</code> Python package. It requires
 <code>gcc</code><sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup>, <code>ROOT</code>, <code>python3</code>, and a couple of other <code>Python</code> packages<sup id="fnref:2"><a class="footnote-ref" href="#fn:2">2</a></sup>.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>It is strongly recommended to install <code>clang-format</code><sup id="fnref:3"><a class="footnote-ref" href="#fn:3">3</a></sup>, so the generated
 <code>C++</code> code looks much nicer.</p>
 </div>
-<p>Install these tools with your choice of package manager. To install
-<code>pyBabyMaker</code> and other required <code>Python</code> packages, you can use the following
-command:
-<div class="highlight"><pre><span></span><code>pip3 install --user -r requirements.txt
+<p><code>pyBabyMaker</code> is included in this project as a submodule. After cloning this
+project for the first time, initialize the submodules with:</p>
+<div class="highlight"><pre><span></span><code>git submodule update --init
+</code></pre></div>
+
+<p>Then <code>pyBabyMaker</code> can be installed with:
+<div class="highlight"><pre><span></span><code>make install-dep
 </code></pre></div></p>
-<h2 id="install-dependencies-for-plotting">Install dependencies for plotting</h2>
-<p>The comparison plots in this <a href="">page</a> require <code>pyTuplingUtils</code>, which is install as follows
-<div class="highlight"><pre><span></span><code>git clone git@github.com:umd-lhcb/pyTuplingUtils
-cd pyTuplingUtils/
-python3 setup.py build
-python3 setup.py install
-</code></pre></div></p>
-<h2 id="use-a-pre-built-virtualbox-image-on-windows-and-ubuntu">Use a pre-built <code>VirtualBox</code> image on Windows and Ubuntu</h2>
-<p>The pre-built <code>VirtualBox</code> image is based on Arch Linux.
-It contains <code>git</code>, <code>git-annex</code>;
-<code>docker</code> (<code>DaVinci</code> image <em>not</em> downloaded);
-all <code>babymaker</code> dependencies (<code>Python</code> packages <em>not</em> installed);
-<code>sublime</code> text editor.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><code>make install-dep</code> will also install <code>pyTuplingUtils</code>, a pure Python
+library for simple plotting and cutflow study.</p>
+</div>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>For more info on local development of in-house Python modules (included as
+submodules), refer to <a href="../dev/#local-development-of-in-house-python-packages">this guide</a>.</p>
+</div>
+<h2 id="use-a-pre-built-virtualbox-image-on-windows">Use a pre-built <code>VirtualBox</code> image on Windows</h2>
+<p>The pre-built <code>VirtualBox</code> image is based on Arch Linux. It contains <code>git</code>,
+<code>git-annex</code>, <code>docker</code> (<code>DaVinci</code> image <em>not</em> downloaded), <code>sublime</code> text
+editor, <code>gcc</code><sup id="fnref2:1"><a class="footnote-ref" href="#fn:1">1</a></sup>, <code>ROOT</code>, and a couple of dependencies<sup id="fnref2:2"><a class="footnote-ref" href="#fn:2">2</a></sup> for <code>pyBabyMaker</code>.</p>
 <p>To use the virtual machine image, Please follow these steps on Microsoft
 Windows:</p>
 <ol>
@@ -904,24 +904,15 @@ Windows:</p>
 <li>Launch <code>VirtualBox</code>, click <strong>Tools</strong>, then click <strong>Import</strong>, choose the <code>ovf</code>
    file, then proceed with default settings.</li>
 </ol>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
 <p>Both the username and password of the virtual machine are <code>vagrant</code>.</p>
 </div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
 <p>By default the virtual machine can maximally use 4 GB of RAM. If your
 computer has 16 GB or more RAM, it is recommended to allocate 8 GB of RAM
 to the virtual machine.</p>
-</div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>The virtual machine image already has <code>docker</code> installed.</p>
-</div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>As you may have guessed, the virtual machine image has <code>gcc</code><sup id="fnref2:1"><a class="footnote-ref" href="#fn:1">1</a></sup>, <code>ROOT</code>, <code>python3</code>, and a couple
-of other <code>Python</code> packages<sup id="fnref2:2"><a class="footnote-ref" href="#fn:2">2</a></sup>, already installed, including <code>pip</code>.</p>
 </div>
 <div class="footnote">
 <hr />
@@ -932,9 +923,9 @@ of other <code>Python</code> packages<sup id="fnref2:2"><a class="footnote-ref" 
 </li>
 <li id="fn:2">
 <p>These packages are listed in <code>&lt;project_root&gt;/requirements.txt</code>. It is
-  highly recommended to install <code>pip</code> to manage <code>Python</code> packages.</p>
+  highly recommended to install <code>pip</code> to manage Python packages.</p>
 <p>It is also highly recommended to use <code>pyenv</code> and <code>pyenv-virtualenv</code> to
-  manage <code>Python</code> enviroments. Please google the installation instructions
+  manage Python enviroments. Please google the installation instructions
   for your OS.&#160;<a class="footnote-backref" href="#fnref:2" title="Jump back to footnote 2 in the text">&#8617;</a><a class="footnote-backref" href="#fnref2:2" title="Jump back to footnote 2 in the text">&#8617;</a></p>
 </li>
 <li id="fn:3">
