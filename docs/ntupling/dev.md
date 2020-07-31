@@ -101,3 +101,30 @@ git submodule update --init
 
 
 [^1]: This operation is only valid for newer `git`. Make sure you use an up-to-date `git`!
+
+
+## `Makefile`
+In the [`Makefile`](https://github.com/umd-lhcb/lhcb-ntuples-gen/blob/master/Makefile),
+we define targets to generate output files and results, such as:
+
+- Step 2 ntuple
+- Cutflow study tables
+
+However, `make` rules can be arcane, so if you want to figure out how `make`
+would produce a certain target:
+```
+make --dry-run --always-make <target_name>
+```
+
+For example, `make --dry-run --always-make test-cutflow-run1` will produce the
+following output:
+```
+babymaker -i run1-b2D0MuXB2DMuNuForTauMuLine/postprocess/Dst-stripping.yml -o gen/run1-Dst-stripping.cpp -d run1-b2D0MuXB2DMuNuForTauMuLine/samples/Dst--20_06_04--cutflow_mc--cocktail--2011--md--dv45-subset-dv_strip.root
+clang++ -pthread -stdlib=libc++ -std=c++11 -m64 -I/nix/store/w8phplhy3ll0kh2zrkncj9hbp2k9kjfy-root-6.18.04/include -Iinclude -o bin/run1-Dst-stripping gen/run1-Dst-stripping.cpp -L/nix/store/w8phplhy3ll0kh2zrkncj9hbp2k9kjfy-root-6.18.04/lib -lCore -lImt -lRIO -lNet -lHist -lGraf -lGraf3d -lGpad -lROOTVecOps -lTree -lTreePlayer -lRint -lPostscript -lMatrix -lPhysics -lMathCore -lThread -lMultiProc -lROOTDataFrame -lpthread -Wl,-rpath,/nix/store/w8phplhy3ll0kh2zrkncj9hbp2k9kjfy-root-6.18.04/lib -stdlib=libc++ -lm -ldl
+run1-Dst-stripping run1-b2D0MuXB2DMuNuForTauMuLine/samples/Dst--20_06_04--cutflow_mc--cocktail--2011--md--dv45-subset-bare.root gen/test/Dst--20_06_04--cutflow_mc--cocktail--2011--md--subset-bare-step2.root
+run1-Dst-stripping run1-b2D0MuXB2DMuNuForTauMuLine/samples/Dst--20_06_04--cutflow_mc--cocktail--2011--md--dv45-subset-dv_strip.root gen/test/Dst--20_06_04--cutflow_mc--cocktail--2011--md--subset-dv_strip-step2.root
+echo "===="
+echo "Test results:"
+test_ntuple_identical.py -n gen/test/Dst--20_06_04--cutflow_mc--cocktail--2011--md--subset-bare-step2.root -N run1-b2D0MuXB2DMuNuForTauMuLine/samples/Dst--20_06_04--cutflow_mc--cocktail--2011--md--dv45-subset-dv_strip.root -t b0dst -T TupleB0/DecayTree
+test_ntuple_identical.py -n gen/test/Dst--20_06_04--cutflow_mc--cocktail--2011--md--subset-dv_strip-step2.root -N run1-b2D0MuXB2DMuNuForTauMuLine/samples/Dst--20_06_04--cutflow_mc--cocktail--2011--md--dv45-subset-dv_strip.root -t b0dst -T TupleB0/DecayTree
+```

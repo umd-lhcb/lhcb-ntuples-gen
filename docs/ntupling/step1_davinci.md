@@ -43,6 +43,8 @@ git annex get data/data-2016-md  # ~4.7 GB, this will take several minutes
 !!! info
     For more info about `docker` usage, refer to [this guide](../software_manuals/davinci/docker_image_usage.md).
 
+    For more info about `Makefile`, refer to [this guide](./dev.md#makefile).
+
 
 ## Running `DaVinci` on the `GRID`
 We need to build a `DaVinci` on `lxplus` to add our `TupleTool`.
