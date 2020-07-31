@@ -7,9 +7,8 @@ remote Linux nodes `lxplus`.
 However, it is much more convenient to have a local `DaVinci` environment in a
 docker with a configuration that is easily shared. After the docker is pulled
 as described in the [dependencies](./installation.md#install-docker-to-run-
-davinci-locally), it is launched from inside the repository with:
+davinci-locally), it is launched from inside the project root with:
 ```
-cd lhcb-ntuples-gen
 make docker-dv
 ```
 
