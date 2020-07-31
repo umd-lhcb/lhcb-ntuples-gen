@@ -113,9 +113,26 @@ git annex sync julian
     the metadata so that `git annex` _knows_ how to download the actual data.
 
 !!! warning
-    `git annex sync` will commit all **previously uncommitted** changes before
-    synchronizing! It is highly recommended that the working tree of your
-    project is clean before doing a `git annex sync`.
+    **Don't do the following operation:**
+    ```
+    git annex sync
+    ```
+    without any argument!
+
+    This will create useless branches in the github repository as well. Though
+    this is harmless.
+
+!!! error
+    `git annex sync` will commit **all previously uncommitted** changes before
+    synchronizing!
+
+    Run `git status` before you do `git annex sync`, and make sure **NO** entry
+    looks like this:
+    ```
+    changes not staged for commit
+    ```
+    so that `git annex sync` won't make unwanted commits!
+
 
 If you want to download **every single file** from the `git-annex` repo (which is
 probably a couple of GBs), add the `--content` flag in the second step and
@@ -133,7 +150,8 @@ git annex get <path_to_files>
 
 So is uploading:
 ```
-git annex copy --to <remote> <path_to_files>
+git annex copy --to julian <path_to_files>
+git annex sync julian
 ```
 
 ## Drop local files
