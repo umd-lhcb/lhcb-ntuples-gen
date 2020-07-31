@@ -103,7 +103,7 @@ make install-dep
 
       It is also highly recommended to use `pyenv` and `pyenv-virtualenv` to
       manage Python enviroments. Please google the installation instructions
-      for your OS.
+      for your OS. See [this guide](./dev.md#installing-pyenv-for-python-development).
 [^3]: `clang-format` usually comes with `clang`. A notable exception is on
       macOS. In that case, just type in `brew install clang-format`.
 
