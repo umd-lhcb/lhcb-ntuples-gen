@@ -1,10 +1,3 @@
-`DaVinci` is a LHCb software package that run various preliminary selections
-and calculations on the raw `.dst` file, and produce a `.root` file.
-
-Normally it is run on LHCb remote Linux nodes `lxplus`. However, it is much
-more convenient to have a local `DaVinci` environment.
-
-
 ## Launch a `DaVinci` container
 To launch a `DaVinci` `docker` container, type in:
 ```
