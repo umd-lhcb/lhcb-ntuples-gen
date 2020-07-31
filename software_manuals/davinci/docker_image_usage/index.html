@@ -415,15 +415,15 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#use-davinci-inside-container" class="md-nav__link">
-    Use DaVinci inside container
+  <a href="#use-official-davinci-inside-container" class="md-nav__link">
+    Use official DaVinci inside container
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#additional-tupletool" class="md-nav__link">
-    Additional TupleTool
+  <a href="#use-locally-compiled-davinci-inside-container" class="md-nav__link">
+    Use locally compiled DaVinci inside container
   </a>
   
 </li>
@@ -491,18 +491,6 @@
   <li class="md-nav__item">
     <a href="../../bender/" title="bender" class="md-nav__link">
       bender
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../ganga/" title="ganga" class="md-nav__link">
-      ganga
     </a>
   </li>
 
@@ -771,15 +759,15 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#use-davinci-inside-container" class="md-nav__link">
-    Use DaVinci inside container
+  <a href="#use-official-davinci-inside-container" class="md-nav__link">
+    Use official DaVinci inside container
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#additional-tupletool" class="md-nav__link">
-    Additional TupleTool
+  <a href="#use-locally-compiled-davinci-inside-container" class="md-nav__link">
+    Use locally compiled DaVinci inside container
   </a>
   
 </li>
@@ -813,45 +801,44 @@
                 
                   <h1>Docker image usage</h1>
                 
-                <p><code>DaVinci</code> is a LHCb software package that run various preliminary selections
-and calculations on the raw <code>.dst</code> file, and produce a <code>.root</code> file.</p>
-<p>Normally it is run on LHCb remote Linux nodes <code>lxplus</code>. However, it is much
-more convenient to have a local <code>DaVinci</code> environment.</p>
-<h2 id="launch-a-davinci-container">Launch a <code>DaVinci</code> container</h2>
-<p>To launch a <code>DaVinci</code> <code>docker</code> container, type in:
-<div class="highlight"><pre><span></span><code>docker run --rm -it -v &lt;src_path&gt;:/data -e UID=$(id -u) -e GID=$(id -g) --net=host umdlhcb/lhcb-stack-cc7:DaVinci-v45r4-SL
+                <h2 id="launch-a-davinci-container">Launch a <code>DaVinci</code> container</h2>
+<p>The shortcut to run a <code>DaVinci</code> <code>docker</code> in this project is:
+<div class="highlight"><pre><span></span><code>make docker-dv
 </code></pre></div>
-note that <code>&lt;src_path&gt;</code> should be an absolute path pointing to the folder that we want to mount inside the container.</p>
-<p>If you are in the folder you want to mount, you can just type:
+in the project root.</p>
+<p>The <code>make</code> rule is actually defined as the following:
 <div class="highlight"><pre><span></span><code>docker run --rm -it -v `pwd`:/data -e UID=$(id -u) -e GID=$(id -g) --net=host umdlhcb/lhcb-stack-cc7:DaVinci-v45r4-SL
 </code></pre></div></p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
+<p>More generally, if you want to mount another folder, with a path <code>&lt;src_path&gt;</code>:
+<div class="highlight"><pre><span></span><code>docker run --rm -it -v &lt;src_path&gt;:/data -e UID=$(id -u) -e GID=$(id -g) --net=host umdlhcb/lhcb-stack-cc7:DaVinci-v45r4-SL
+</code></pre></div></p>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
 <p><code>docker</code> <em>images</em> are read-only. When we launch a <code>docker</code> <em>container</em>, a
 writable layer is placed on top of the image.</p>
 </div>
-<h2 id="use-davinci-inside-container">Use DaVinci inside container</h2>
+<h2 id="use-official-davinci-inside-container">Use official <code>DaVinci</code> inside container</h2>
 <p>The command is very similar to the one used on <code>lxplus</code>:
 <div class="highlight"><pre><span></span><code>lb-run DaVinci/latest gaudirun.py &lt;ntuple_options1&gt; &lt;ntuple_options2&gt; ...
 </code></pre></div>
 since we have only 1 version of <code>DaVinci</code> inside the container,
 <code>DaVinci/latest</code> would always work.</p>
-<h2 id="additional-tupletool">Additional <code>TupleTool</code></h2>
-<p>The <code>docker</code> image with <code>-SL</code> suffix also contains a special <code>DaVinci</code> version
-that contains additional <code>TupleTool</code><sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup> for semileptonic analysis.
-To access the special <code>DaVinci</code>, just substitute <code>lb-run DaVinci/latest</code> with
-<code>run</code>. For instance:
+<h2 id="use-locally-compiled-davinci-inside-container">Use locally compiled <code>DaVinci</code> inside container</h2>
+<p>Since we need additional <code>TupleTool</code><sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup> in our reconstruction script, we also
+provide a locally compiled <code>DaVinci</code> inside the container, provided that you
+are using a <code>DaVinci</code> image with a <code>-SL</code> suffix.</p>
+<p>To launch this locally compiled <code>DaVinci</code>:
 <div class="highlight"><pre><span></span><code>run gaudirun.py &lt;ntuple_options1&gt; &lt;ntuple_options2&gt; ...
 </code></pre></div></p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>To make our lives easier, a <code>run.sh</code> command is typically created in each
 stripping lines, such as:
-<div class="highlight"><pre><span></span><code>&lt;project_root&gt;/2012-b2D0MuXB2DMuNuForTauMuLine/gen.sh
+<div class="highlight"><pre><span></span><code>run1-b2D0MuXB2DMuNuForTauMuLine/run.sh
 </code></pre></div></p>
 <p>If you see this file, take a look at it to see the availabe commands, and
 run it inside the <code>docker</code> container:
-<div class="highlight"><pre><span></span><code>./run.sh &lt;path_to_cond_file&gt; &lt;path_to_reco_file&gt;  <span class="c1"># inside docker</span>
+<div class="highlight"><pre><span></span><code>./run.sh &lt;path_to_reco_file&gt; &lt;path_to_cond_file&gt;  <span class="c1"># inside docker</span>
 </code></pre></div>
 optionally, a <code>debug</code> flag can be supplied so that only the first couple of
 events will be considered.</p>

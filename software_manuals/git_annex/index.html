@@ -513,18 +513,6 @@
 
 
   <li class="md-nav__item">
-    <a href="../ganga/" title="ganga" class="md-nav__link">
-      ganga
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
     <a href="../external/" title="External manuals" class="md-nav__link">
       External manuals
     </a>
@@ -930,9 +918,22 @@ the metadata so that <code>git annex</code> <em>knows</em> how to download the a
 </div>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p><code>git annex sync</code> will commit all <strong>previously uncommitted</strong> changes before
-synchronizing! It is highly recommended that the working tree of your
-project is clean before doing a <code>git annex sync</code>.</p>
+<p><strong>Don't do the following operation:</strong>
+<div class="highlight"><pre><span></span><code>git annex sync
+</code></pre></div>
+without any argument!</p>
+<p>This will create useless branches in the github repository as well. Though
+this is harmless.</p>
+</div>
+<div class="admonition error">
+<p class="admonition-title">Error</p>
+<p><code>git annex sync</code> will commit <strong>all previously uncommitted</strong> changes before
+synchronizing!</p>
+<p>Run <code>git status</code> before you do <code>git annex sync</code>, and make sure <strong>NO</strong> entry
+looks like this:
+<div class="highlight"><pre><span></span><code>changes not staged for commit
+</code></pre></div>
+so that <code>git annex sync</code> won't make unwanted commits!</p>
 </div>
 <p>If you want to download <strong>every single file</strong> from the <code>git-annex</code> repo (which is
 probably a couple of GBs), add the <code>--content</code> flag in the second step and
@@ -944,7 +945,8 @@ download not only the metadata, but also the data:
 <div class="highlight"><pre><span></span><code>git annex get &lt;path_to_files&gt;
 </code></pre></div></p>
 <p>So is uploading:
-<div class="highlight"><pre><span></span><code>git annex copy --to &lt;remote&gt; &lt;path_to_files&gt;
+<div class="highlight"><pre><span></span><code>git annex copy --to julian &lt;path_to_files&gt;
+git annex sync julian
 </code></pre></div></p>
 <h2 id="drop-local-files">Drop local files</h2>
 <p>The following command will remove the local copy of the file <strong>only</strong>, and will

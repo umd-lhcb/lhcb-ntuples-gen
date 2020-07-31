@@ -51,7 +51,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#running-davinci-on-the-grid" class="md-skip">
+        <a href="#running-davinci-locally" class="md-skip">
           Skip to content
         </a>
       
@@ -303,6 +303,13 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#running-davinci-locally" class="md-nav__link">
+    Running DaVinci locally
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#running-davinci-on-the-grid" class="md-nav__link">
     Running DaVinci on the GRID
   </a>
@@ -468,18 +475,6 @@
   <li class="md-nav__item">
     <a href="../../software_manuals/bender/" title="bender" class="md-nav__link">
       bender
-    </a>
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../../software_manuals/ganga/" title="ganga" class="md-nav__link">
-      ganga
     </a>
   </li>
 
@@ -741,6 +736,13 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#running-davinci-locally" class="md-nav__link">
+    Running DaVinci locally
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#running-davinci-on-the-grid" class="md-nav__link">
     Running DaVinci on the GRID
   </a>
@@ -769,71 +771,69 @@
                 
                   <h1>Step 1 ntuples with Davinci</h1>
                 
-                <p><code>DaVinci</code> is the LHCb package that runs preliminary selections and calculations on the raw <code>.dst</code>
-data, and produces <code>.root</code> files. It is often run on LHC remote Linux nodes <code>lxplus</code>. However, it is much more
-convenient to have a local <code>DaVinci</code> environment in a docker with a configuration that is easily shared.
-After the docker is pulled as described in the <a href="ntupling/installation">dependencies</a>, it is lauched from inside
-the repository with
-<div class="highlight"><pre><span></span><code>cd lhcb-ntuples-gen
-docker run --rm -it -v `pwd`:/data -e UID=$(id -u) -e GID=$(id -g) --net=host umdlhcb/lhcb-stack-cc7:DaVinci-v42r8p1-SL
-</code></pre></div>
-This command mounts the current directory (<code>pwd</code>) into the docker, so it has access to all the code
-in <code>lhcb-ntuples-gen</code> and allows you to modify it outside of the docker .</p>
-<p>Inside the <code>docker</code>, <code>DaVinci</code> is run with
-<code>lb-run DaVinci/latest gaudirun.py &lt;ntuple_options1&gt; &lt;ntuple_options2&gt; ...</code> as in <code>lxplus</code>. We often will have
-scripts that facilitate this. For instance, to run on Run 2 data (note that downloading the 1-3 GB <code>.dst</code>
-files from the annex takes several minutes), type in the <code>docker</code>
+                <p><code>DaVinci</code> is the LHCb package that runs preliminary selections and calculations
+on the raw <code>.dst</code> data, and produces <code>.root</code> files. It is often run on LHC
+remote Linux nodes <code>lxplus</code>.</p>
+<h2 id="running-davinci-locally">Running <code>DaVinci</code> locally</h2>
+<p>However, it is much more convenient to have a local <code>DaVinci</code> environment in a
+docker with a configuration that is easily shared. After the docker is pulled
+as described in the <a href="../installation/#install-docker-to-run-
+davinci-locally">dependencies</a>, it is launched from inside the project root with:
+<div class="highlight"><pre><span></span><code>make docker-dv
+</code></pre></div></p>
+<p>This command mounts the project root into the docker, so it has access to all
+the code in <code>lhcb-ntuples-gen</code> and allows you to modify it outside of the
+docker.</p>
+<p>Launch <code>DaVinci</code> with additional <code>TupleTool</code> with this command, inside
+<code>docker</code>:
+<div class="highlight"><pre><span></span><code>run gaudirun.py &lt;ntuple_options1&gt; &lt;ntuple_options2&gt; ...
+</code></pre></div></p>
+<p>We often have scripts that facilitate this. For instance, to run on Run 2
+data, type in the <code>docker</code>:
 <div class="highlight"><pre><span></span><code>cd run2-b2D0MuXB2DMuForTauMuLine
-git annex get data/data-2016-mag_down/00069527_00003141_1.semileptonic.dst   # 1.2 GB
-git annex get data/data-2016-mag_down/00069529_00017556_1.semileptonic.dst   # 3.5 GB
-./run.sh reco_Dst.py conds/cond-data-2016-Dst.py
+git annex get data/data-2016-md  # ~4.7 GB, this will take several minutes
+./run.sh reco_Dst_D0.py conds/cond-std-2016.py
 </code></pre></div></p>
-<p>The first argument, <code>reco_Dst.py</code>, is the script that makes the <span><span class="MathJax_Preview">D^{*+}(\to D^0(\to K^+\pi^-)\pi^+)\mu^-</span><script type="math/tex">D^{*+}(\to D^0(\to K^+\pi^-)\pi^+)\mu^-</script></span>
-reconstruction. It also sets how many events to run at most (<code>EvtMax</code>) and the print frequency (<code>PrintFreq</code>).</p>
-<p>The second argument, <code>conds/cond-data-2016-Dst.py</code>, sets the type of input data (Data or MC), the input
-files and the name of the output file (<code>BCands_Dst-data.root</code> in this case).</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<ul>
+<li>
+<p>The first argument, <code>reco_Dst_D0.py</code>, is the script that makes the
+    <span><span class="MathJax_Preview">D^{*+}(\to D^0(\to K^+\pi^-)\pi^+)\mu^-</span><script type="math/tex">D^{*+}(\to D^0(\to K^+\pi^-)\pi^+)\mu^-</script></span> reconstruction. It also sets
+    how many events to run at most (<code>EvtMax</code>) and the print frequency
+    (<code>PrintFreq</code>).</p>
+</li>
+<li>
+<p>The second argument, <code>conds/cond-std-2016.py</code>, sets the type of
+    input data (Data or MC), the input files and the name of the output
+    file (<code>std.root</code> in this case).</p>
+</li>
+</ul>
+</div>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>For more info about <code>docker</code> usage, refer to <a href="../../software_manuals/davinci/docker_image_usage/">this guide</a>.</p>
+<p>For more info about <code>Makefile</code>, refer to <a href="../dev/#makefile">this guide</a>.</p>
+</div>
 <h2 id="running-davinci-on-the-grid">Running <code>DaVinci</code> on the <code>GRID</code></h2>
-<p>We need to build a local <code>DaVinci</code> to add our tools. This local version will then be sent to the <code>GRID</code> by
-<code>ganga</code> automatically. For <code>DaVinci-v42r8p1</code>, refer to <a href="https://github.com/umd-lhcb/docker-images/blob/davinci-v42r8p1/lhcb-stack-cc7/Dockerfile-DaVinci-SL">this
-<code>Dockerfile</code></a>
-for build instructions.</p>
+<p>We need to build a <code>DaVinci</code> on <code>lxplus</code> to add our <code>TupleTool</code>.
+This version will then be sent to the <code>GRID</code> by <code>ganga</code>.</p>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<ul>
+<li>For <code>DaVinci-v45r4-SL</code>, refer to <a href="https://github.com/umd-lhcb/docker-images/blob/master/lhcb-stack-cc7/compile_dv.sh">this script</a> for build instructions.</li>
+<li>For <code>DaVinci-v42r8p1-SL</code> (obsolete), refer to <a href="https://github.com/umd-lhcb/docker-images/blob/davinci-v42r8p1/lhcb-stack-cc7/Dockerfile-DaVinci-SL">this <code>Dockerfile</code></a>.</li>
+</ul>
+</div>
 <p>Then, for each of the stripping line folder inside this project, there should be a
-<code>Python</code> scripted named <code>ganga_jobs.py</code>. The general syntax is:
-<div class="highlight"><pre><span></span><code>ganga ganga_jobs.py &lt;arguments&gt;
+Python scripted named <code>ganga_jobs.py</code>. The general syntax is:
+<div class="highlight"><pre><span></span><code>ganga ganga_jobs.py &lt;cond_files&gt;
 </code></pre></div>
-For instance, for signal Monte Carlo
-<div class="highlight"><pre><span></span><code>ganga ganga_jobs.py mc-py6-sim08a-Bd2Dsttaunu
+For instance, for signal Monte Carlo:
+<div class="highlight"><pre><span></span><code>ganga ganga_jobs.py cond/cond-mc-2012-md-sim08a.py
 </code></pre></div></p>
-<p>The general usage of <code>ganga_jobs.py</code> is described in its help file
-<div class="highlight"><pre><span></span><code>$ ganga ganga_jobs.py --help
-usage: ganga_jobs.py [-h] [--force] [--davinci DAVINCI]
-                     [-b {all,Dst,D0} [{all,Dst,D0} ...]]
-                     [-s {all,Pythia6,Pythia8} [{all,Pythia6,Pythia8} ...]]
-                     [-c {all,Sim08a,Sim08e,Sim08h,Sim08i} [{all,Sim08a,Sim08e,Sim08h,Sim08i} ...]]
-                     [-p {all,Up,Down} [{all,Up,Down} ...]]
-                     {all,data-2012-Dst,mc-Bd2DststMuNu2D0,mc-Bd2DststTauNu2D0,mc-Bs2DststMuNu2D0,mc-Bu2DststMuNu2D0,mc-Bd2DstTauNu,mc-Bd2DstMuNu,mc-Bu2Dst0TauNu,mc-Bu2Dst0MuNu,mc-Bu2D0TauNu,mc-Bu2D0MuNu,mc-Bd2D0DX2MuX,mc-Bu2D0DX2MuX,mc-Bd2D0DsX2TauNu,mc-Bu2D0DsX2TauNu}
-                     [{all,data-2012-Dst,mc-Bd2DststMuNu2D0,mc-Bd2DststTauNu2D0,mc-Bs2DststMuNu2D0,mc-Bu2DststMuNu2D0,mc-Bd2DstTauNu,mc-Bd2DstMuNu,mc-Bu2Dst0TauNu,mc-Bu2Dst0MuNu,mc-Bu2D0TauNu,mc-Bu2D0MuNu,mc-Bd2D0DX2MuX,mc-Bu2D0DX2MuX,mc-Bd2D0DsX2TauNu,mc-Bu2D0DsX2TauNu} ...]
-
-ganga script to process R(D*) run 1 data/MC.
-
-positional arguments:
-  {all,data-2012-Dst,mc-Bd2DststMuNu2D0,mc-Bd2DststTauNu2D0,mc-Bs2DststMuNu2D0,mc-Bu2DststMuNu2D0,mc-Bd2DstTauNu,mc-Bd2DstMuNu,mc-Bu2Dst0TauNu,mc-Bu2Dst0MuNu,mc-Bu2D0TauNu,mc-Bu2D0MuNu,mc-Bd2D0DX2MuX,mc-Bu2D0DX2MuX,mc-Bd2D0DsX2TauNu,mc-Bu2D0DsX2TauNu}
-                        specify data type.
-
-optional arguments:
-  -h, --help            show this help message and exit
-  --force               if this flag is supplied, don&#39;t skip existing jobs
-                        with the same name.
-  --davinci DAVINCI     specify path to local DaVinci build.
-  -b {all,Dst,D0} [{all,Dst,D0} ...], --base {all,Dst,D0} [{all,Dst,D0} ...]
-                        specify base decay mode (e.g. D* or D0).
-  -s {all,Pythia6,Pythia8} [{all,Pythia6,Pythia8} ...], --simulation {all,Pythia6,Pythia8} [{all,Pythia6,Pythia8} ...]
-                        specify simulation (typically Pythia) software package
-                        version.
-  -c {all,Sim08a,Sim08e,Sim08h,Sim08i} [{all,Sim08a,Sim08e,Sim08h,Sim08i} ...], --condition {all,Sim08a,Sim08e,Sim08h,Sim08i} [{all,Sim08a,Sim08e,Sim08h,Sim08i} ...]
-                        specify simulation condition.
-  -p {all,Up,Down} [{all,Up,Down} ...], --polarity {all,Up,Down} [{all,Up,Down} ...]
-                        specify polarity.
+<p>The general usage of <code>ganga_jobs.py</code> is described by:
+<div class="highlight"><pre><span></span><code>ganga ganga_jobs.py --help
 </code></pre></div></p>
                 
               
