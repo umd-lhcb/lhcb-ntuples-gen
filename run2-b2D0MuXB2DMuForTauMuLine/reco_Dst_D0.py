@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Jul 29, 2020 at 06:04 PM +0800
+# Last Change: Tue Aug 04, 2020 at 02:56 AM +0800
 #
 # Description: Definitions of selection and reconstruction procedures for Dst
 #              and D0 in run 2. For more thorough comments, take a look at:
@@ -239,7 +239,7 @@ if has_flag('BARE'):
                '(PIDK < 4.0) & (TRGHOSTPROB < 1.0)'
     }
 
-    algo_D0.CombinationCut = "AALL"
+    algo_D0.CombinationCut = "ATRUE"
     algo_D0.MotherCut = \
         "(VFASPF(VCHI2/VDOF) < 8.0) & (BPVVDCHI2 > 12.5) & (BPVDIRA> 0.998)"
 
@@ -288,7 +288,7 @@ if has_flag('BARE'):
         "(MIPCHI2DV(PRIMARY) > 8.0) & (TRGHOSTPROB < 1.0) &" \
         "(PIDmu > -400.0)"
 
-    algo_Bminus.CombinationCut = 'AALL'
+    algo_Bminus.CombinationCut = 'ATRUE'
     algo_Bminus.MotherCut = '(VFASPF(VCHI2/VDOF) < 12.0) & (BPVDIRA > 0.998)'
 
 
@@ -404,7 +404,7 @@ if has_flag('BARE'):
                '(TRGHOSTPROB < 0.5)'
     }
 
-    algo_Dst.CombinationCut = "AALL"
+    algo_Dst.CombinationCut = "ATRUE"
     algo_Dst.MotherCut = "(VFASPF(VCHI2/VDOF) < 200.0)"
 
 
@@ -447,7 +447,7 @@ sel_Dst_ws_Pi = Selection(
 algo_B0 = CombineParticles('MyB0')
 algo_B0.DecayDescriptor = "[B~0 -> D*(2010)+ mu-]cc"  # B~0 is the CC of B0
 
-algo_B0.CombinationCut = 'AALL'
+algo_B0.CombinationCut = 'ATRUE'
 algo_B0.MotherCut = "(VFASPF(VCHI2/VDOF) < 100.0)"  # Loose cuts here
 
 sel_B0 = Selection(
