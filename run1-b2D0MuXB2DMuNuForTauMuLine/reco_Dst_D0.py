@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Aug 05, 2020 at 06:25 PM +0800
+# Last Change: Wed Aug 05, 2020 at 11:13 PM +0800
 #
 # Description: Definitions of selection and reconstruction procedures for Dst
 #              and D0 in run 1, with thorough comments.
@@ -616,7 +616,6 @@ def tuple_initialize_data(name, sel_seq, template):
     tp.setDescriptorTemplate(template)
 
     tp.ToolList += [
-        'TupleToolKinematic',
         'TupleToolAngles',
         'TupleToolMuonPid',  # This write out NN Mu inputs
         'TupleToolL0Calo',
