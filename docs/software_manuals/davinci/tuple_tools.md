@@ -17,8 +17,8 @@ tt_pid.Verbose = True
 ```
 
 !!! note
-    If we don't remove the TupleTool first, either `addTupleTool` or `addTool`
-    can make it configurable.
+    If we don't remove the TupleTool first, neither `addTupleTool` nor
+    `addTool` can make it configurable.
 
 
 ## `TupleToolApplyIsolation`
