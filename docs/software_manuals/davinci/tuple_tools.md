@@ -1,3 +1,25 @@
+## Configure default TupleTools
+There are 5 TupleTools that are added by default:
+- `TupleToolKinematic`
+- `TupleToolPid`
+- `TupleToolANNPID`
+- `TupleToolGeometry`
+- `TupleToolEventInfo`
+
+To configure, for example, `TupleToolPid`, remove it from the TupleTool list
+first, then re-add it. This new instance can now be configured normally:
+
+```python
+tp.ToolList.remove('TupleToolPid')
+tt_pid = tp.addTupleTool('TupleToolPid')
+tt_pid.Verbose = True
+```
+
+!!! note
+    If we don't remove the TupleTool first, either `addTupleTool` or `addTool`
+    can make it configurable.
+
+
 ## `TupleToolApplyIsolation`
 `TupleToolApplyIsolation` is used to find isolation variables for semileptonic
 decays. This allows us to identify actual $B$ meson decay vertices more
