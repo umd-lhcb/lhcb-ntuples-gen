@@ -800,12 +800,14 @@
                   <h1>TupleTools</h1>
                 
                 <h2 id="configure-default-tupletools">Configure default TupleTools</h2>
-<p>There are 5 TupleTools that are added by default:
-- <code>TupleToolKinematic</code>
-- <code>TupleToolPid</code>
-- <code>TupleToolANNPID</code>
-- <code>TupleToolGeometry</code>
-- <code>TupleToolEventInfo</code></p>
+<p>There are 5 TupleTools that are added by default:</p>
+<ul>
+<li><code>TupleToolKinematic</code></li>
+<li><code>TupleToolPid</code></li>
+<li><code>TupleToolANNPID</code></li>
+<li><code>TupleToolGeometry</code></li>
+<li><code>TupleToolEventInfo</code></li>
+</ul>
 <p>To configure, for example, <code>TupleToolPid</code>, remove it from the TupleTool list
 first, then re-add it. This new instance can now be configured normally:</p>
 <div class="highlight"><pre><span></span><code><span class="n">tp</span><span class="o">.</span><span class="n">ToolList</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s1">&#39;TupleToolPid&#39;</span><span class="p">)</span>
