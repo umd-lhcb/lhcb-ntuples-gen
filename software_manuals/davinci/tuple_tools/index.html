@@ -13,7 +13,7 @@
       
       
       <link rel="shortcut icon" href="../../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-5.5.0">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-5.5.3">
     
     
       
@@ -21,7 +21,7 @@
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.b5d04df8.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.947af8d5.min.css">
       
       
     
@@ -51,7 +51,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#tupletoolapplyisolation" class="md-skip">
+        <a href="#configure-default-tupletools" class="md-skip">
           Skip to content
         </a>
       
@@ -444,6 +444,13 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#configure-default-tupletools" class="md-nav__link">
+    Configure default TupleTools
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#tupletoolapplyisolation" class="md-nav__link">
     TupleToolApplyIsolation
   </a>
@@ -744,6 +751,13 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#configure-default-tupletools" class="md-nav__link">
+    Configure default TupleTools
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#tupletoolapplyisolation" class="md-nav__link">
     TupleToolApplyIsolation
   </a>
@@ -785,7 +799,26 @@
                 
                   <h1>TupleTools</h1>
                 
-                <h2 id="tupletoolapplyisolation"><code>TupleToolApplyIsolation</code></h2>
+                <h2 id="configure-default-tupletools">Configure default TupleTools</h2>
+<p>There are 5 TupleTools that are added by default:
+- <code>TupleToolKinematic</code>
+- <code>TupleToolPid</code>
+- <code>TupleToolANNPID</code>
+- <code>TupleToolGeometry</code>
+- <code>TupleToolEventInfo</code></p>
+<p>To configure, for example, <code>TupleToolPid</code>, remove it from the TupleTool list
+first, then re-add it. This new instance can now be configured normally:</p>
+<div class="highlight"><pre><span></span><code><span class="n">tp</span><span class="o">.</span><span class="n">ToolList</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s1">&#39;TupleToolPid&#39;</span><span class="p">)</span>
+<span class="n">tt_pid</span> <span class="o">=</span> <span class="n">tp</span><span class="o">.</span><span class="n">addTupleTool</span><span class="p">(</span><span class="s1">&#39;TupleToolPid&#39;</span><span class="p">)</span>
+<span class="n">tt_pid</span><span class="o">.</span><span class="n">Verbose</span> <span class="o">=</span> <span class="kc">True</span>
+</code></pre></div>
+
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If we don't remove the TupleTool first, either <code>addTupleTool</code> or <code>addTool</code>
+can make it configurable.</p>
+</div>
+<h2 id="tupletoolapplyisolation"><code>TupleToolApplyIsolation</code></h2>
 <p><code>TupleToolApplyIsolation</code> is used to find isolation variables for semileptonic
 decays. This allows us to identify actual <span><span class="MathJax_Preview">B</span><script type="math/tex">B</script></span> meson decay vertices more
 readily.</p>
@@ -899,15 +932,15 @@ lines in <code>reco_Dst.py</code>:</p>
       
     </div>
     
-      <script src="../../../assets/javascripts/vendor.92ffa368.min.js"></script>
-      <script src="../../../assets/javascripts/bundle.5123e3d4.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents"}</script>
+      <script src="../../../assets/javascripts/vendor.c3dc8c49.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.f9edbbd5.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents"}</script>
       
       <script>
         app = initialize({
           base: "../../..",
           features: [],
           search: Object.assign({
-            worker: "../../../assets/javascripts/worker/search.a68abb33.min.js"
+            worker: "../../../assets/javascripts/worker/search.8e2cddea.min.js"
           }, typeof search !== "undefined" && search)
         })
       </script>
