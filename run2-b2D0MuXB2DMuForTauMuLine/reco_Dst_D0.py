@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Aug 05, 2020 at 05:29 PM +0800
+# Last Change: Wed Aug 05, 2020 at 10:06 PM +0800
 #
 # Description: Definitions of selection and reconstruction procedures for Dst
 #              and D0 in run 2. For more thorough comments, take a look at:
@@ -551,16 +551,14 @@ from Configurables import TupleToolTISTOS
 
 def tuple_initialize_data(name, sel_seq, template):
     tp = DecayTreeTuple(name)
-    tp.addTupleTool('TupleToolTrackInfo')  # For addBranches
     tp.Inputs = [sel_seq.outputLocation()]
     tp.setDescriptorTemplate(template)
 
     tp.ToolList += [
-        'TupleToolKinematic',
         'TupleToolAngles',
-        'TupleToolPid',
         'TupleToolMuonPid',
         'TupleToolL0Calo',
+        'TupleToolTrackInfo'
     ]
 
     # FIXME: 'TupleToolPid' is added by default. To configure it, we need to
@@ -570,7 +568,7 @@ def tuple_initialize_data(name, sel_seq, template):
     tt_pid.Verbose = True
 
     # Add event-level information.
-    tt_loki_evt = tp.addTupleTool(LokiEvtTool, "TupleMyLokiEvtTool")
+    tt_loki_evt = tp.addTupleTool('LoKi::Hybrid::EvtTupleTool')
     tt_loki_evt.Preambulo += ['from LoKiCore.functions import *']
     tt_loki_evt.VOID_Variables = {
         'nTracks': "CONTAINS('Rec/Track/Best')",
@@ -584,7 +582,7 @@ def tuple_initialize_mc(*args, **kwargs):
     tp = tuple_initialize_data(*args, **kwargs)
 
     tt_mcbi = tp.addTupleTool('TupleToolMCBackgroundInfo')
-    tt_mcbi.addTool(BackgroundCategory, name="BackgroundCategory")
+    tt_mcbi.addTool(BackgroundCategory)
     tt_mcbi.BackgroundCategory.SemileptonicDecay = True
     tt_mcbi.BackgroundCategory.NumNeutrinos = 3
 
@@ -621,21 +619,6 @@ def tuple_postpocess_data(tp, B_meson='b0', Mu='mu',
                               'Hlt2XcMuXForTauB2XcMuDecision'
                           ]
                           ):
-    getattr(tp, B_meson).addTool(
-        TupleToolTagDiscardDstMu, name='TupleMyDiscardDstMu')
-    getattr(tp, B_meson).ToolList += [
-        'TupleToolTagDiscardDstMu/TupleMyDiscardDstMu']
-
-    getattr(tp, B_meson).addTool(
-        TupleToolApplyIsolation, name='TupleMyApplyIso')
-    getattr(tp, B_meson).TupleMyApplyIso.WeightsFile = weights
-    getattr(tp, B_meson).ToolList += ['TupleToolApplyIsolation/TupleMyApplyIso']
-
-    getattr(tp, B_meson).addTool(TupleToolTauMuDiscrVars, name='TupleMyRFA')
-    getattr(tp, B_meson).ToolList += ['TupleToolTauMuDiscrVars/TupleMyRFA']
-
-    getattr(tp, Mu).ToolList += ['TupleToolANNPIDTraining']
-
     tt_trigger = tp.addTupleTool('TupleToolTrigger')
     tt_trigger.Verbose = True
     tt_trigger.TriggerList = trigger_list_global
@@ -650,6 +633,16 @@ def tuple_postpocess_data(tp, B_meson='b0', Mu='mu',
     # tt_tistos_B = getattr(tp, B_meson).addTupleTool('TupleToolTISTOS')
     # tt_tistos_B.Verbose = True
     # tt_tistos_B.TriggerList = trigger_list_B
+
+    getattr(tp, B_meson).ToolList += [
+        'TupleToolTagDiscardDstMu',
+        'TupleToolTauMuDiscrVars',
+    ]
+
+    tt_app_iso = getattr(tp, B_meson).addTupleTool('TupleToolApplyIsolation')
+    tt_app_iso.WeightsFile = weights
+
+    getattr(tp, Mu).ToolList += ['TupleToolANNPIDTraining']
 
 
 def tuple_postpocess_mc(*args, **kwargs):
