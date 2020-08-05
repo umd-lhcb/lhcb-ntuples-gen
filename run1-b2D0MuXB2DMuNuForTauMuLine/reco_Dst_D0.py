@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Aug 05, 2020 at 05:16 PM +0800
+# Last Change: Wed Aug 05, 2020 at 06:25 PM +0800
 #
 # Description: Definitions of selection and reconstruction procedures for Dst
 #              and D0 in run 1, with thorough comments.
@@ -605,6 +605,8 @@ seq_B0_ws_Pi = SelectionSequence('SeqMyB0WSPi',
 
 from Configurables import DecayTreeTuple
 from DecayTreeTuple.Configuration import *  # to use addTupleTool
+
+# Additional TupleTool for addTool only
 from Configurables import BackgroundCategory
 
 
@@ -642,9 +644,9 @@ def tuple_initialize_mc(*args, **kwargs):
     tp = tuple_initialize_data(*args, **kwargs)
 
     tt_mcbi = tp.addTupleTool('TupleToolMCBackgroundInfo')
-    tt_mcbi_bc = tt_mcbi.addTupleTool('BackgroundCategory')
-    tt_mcbi_bc.SemileptonicDecay = True
-    tt_mcbi_bc.NumNeutrinos = 3
+    tt_mcbi.addTool(BackgroundCategory)
+    tt_mcbi.BackgroundCategory.SemileptonicDecay = True
+    tt_mcbi.BackgroundCategory.NumNeutrinos = 3
 
     tt_truth = tp.addTupleTool('TupleToolMCTruth')
     tt_truth.ToolList = [
