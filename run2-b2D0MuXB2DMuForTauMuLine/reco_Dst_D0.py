@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Aug 04, 2020 at 02:56 AM +0800
+# Last Change: Wed Aug 05, 2020 at 05:29 PM +0800
 #
 # Description: Definitions of selection and reconstruction procedures for Dst
 #              and D0 in run 2. For more thorough comments, take a look at:
@@ -562,6 +562,12 @@ def tuple_initialize_data(name, sel_seq, template):
         'TupleToolMuonPid',
         'TupleToolL0Calo',
     ]
+
+    # FIXME: 'TupleToolPid' is added by default. To configure it, we need to
+    #        remove it first and re-add it.
+    tp.ToolList.remove('TupleToolPid')
+    tt_pid = tp.addTupleTool('TupleToolPid')
+    tt_pid.Verbose = True
 
     # Add event-level information.
     tt_loki_evt = tp.addTupleTool(LokiEvtTool, "TupleMyLokiEvtTool")
