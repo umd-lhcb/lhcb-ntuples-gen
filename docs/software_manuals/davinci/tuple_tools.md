@@ -1,5 +1,6 @@
 ## Configure default TupleTools
 There are 5 TupleTools that are added by default:
+
 - `TupleToolKinematic`
 - `TupleToolPid`
 - `TupleToolANNPID`
