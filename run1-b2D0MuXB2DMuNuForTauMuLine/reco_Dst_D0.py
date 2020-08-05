@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Aug 04, 2020 at 02:55 AM +0800
+# Last Change: Wed Aug 05, 2020 at 04:47 PM +0800
 #
 # Description: Definitions of selection and reconstruction procedures for Dst
 #              and D0 in run 1, with thorough comments.
@@ -612,31 +612,33 @@ from Configurables import TupleToolTauMuDiscrVars
 from DecayTreeTuple.Configuration import *  # for addTupleTool
 
 # Additional tools for MC
-from Configurables import TupleToolMCTruth
-from Configurables import TupleToolMCBackgroundInfo
-from Configurables import TupleToolKinematic
 from Configurables import BackgroundCategory
 from Configurables import LoKi__Hybrid__EvtTupleTool as LokiEvtTool
-from Configurables import TupleToolTrigger
-from Configurables import TupleToolTISTOS
+from Configurables import TupleToolPid
 
 
 def tuple_initialize_data(name, sel_seq, template):
     tp = DecayTreeTuple(name)
-    tp.addTupleTool('TupleToolTrackInfo')  # For addBranches
     tp.Inputs = [sel_seq.outputLocation()]
     tp.setDescriptorTemplate(template)
+
+    # FIXME: 'TupleToolPid' is added by default. To configure it, we need to
+    #        remove it first and re-add it.
+    tp.ToolList.remove('TupleToolPid')
+    tt_pid = tp.addTupleTool('TupleToolPid')
+    tt_pid.Verbose = True
 
     tp.ToolList += [
         'TupleToolKinematic',
         'TupleToolAngles',
-        'TupleToolPid',  # This one produces 'PIDmu', and other PID variables
-        'TupleToolMuonPid',  # This write out NN mu inputs
+        'TupleToolMuonPid',  # This write out NN Mu inputs
         'TupleToolL0Calo',
     ]
 
+    tp.addTupleTool('TupleToolTrackInfo')
+
     # Add event-level information.
-    tt_loki_evt = tp.addTupleTool(LokiEvtTool, "TupleMyLokiEvtTool")
+    tt_loki_evt = tp.addTupleTool(LokiEvtTool, 'TupleMyLokiEvtTool')
     tt_loki_evt.Preambulo += ['from LoKiCore.functions import *']
     tt_loki_evt.VOID_Variables = {
         'nTracks': "CONTAINS('Rec/Track/Best')",
