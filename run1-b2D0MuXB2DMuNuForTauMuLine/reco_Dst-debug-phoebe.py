@@ -55,11 +55,11 @@ from Configurables import CondDB
 line = "Bd2DstarMuNuTight"
 location = "/Event/Semileptonic/Phys/" + line + "/Particles"
 
-from Configurables import TrackSmearState
+from Configurables import TrackSmearState, TrackScaleState
 
 
 smear = TrackSmearState("StateSmear")
-# DaVinci().UserAlgorithms.append(smear)
+scale = TrackScaleState('StateScale')
 
 # K
 chargedK = DataOnDemand(Location="Phys/StdAllNoPIDsKaons/Particles")
@@ -351,4 +351,4 @@ truth2 = TuplePiPiPi.addTupleTool("TupleToolMCTruth")
 truth2.ToolList = ["MCTupleToolKinematic", "MCTupleToolHierarchy"]
 
 
-DaVinci().appendToMainSequence([smear, MySelection, tuple, ReadHltReport()])
+DaVinci().appendToMainSequence([scale, MySelection, tuple, ReadHltReport()])
