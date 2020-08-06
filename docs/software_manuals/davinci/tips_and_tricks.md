@@ -1,3 +1,20 @@
+## Running old DaVinci on the GRID
+
+The run 1 $R(D^{(*)})$ analysis used DaVinci/v36r1p2. To run that on lxplus7 nodes:
+
+1. Export the following environmental variables to use old runtime:
+
+    ```
+    export CMTCONFIG=x86_64-slc6-gcc48-opt
+    ```
+
+2. Run old DaVinci with `lb-run`:
+
+    ```
+    lb-run DaVinci/v36r1p2 gaudirun.py
+    ```
+
+
 ## About `GaudiSequencer`
 `GaudiSequencer` is an _per-event algorithm_, such as `DecayTreeTuple`, in the
 sense that `Gaudi` knows that it should run on every event.
