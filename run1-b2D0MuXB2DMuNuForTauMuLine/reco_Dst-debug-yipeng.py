@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Aug 06, 2020 at 05:43 PM +0800
+# Last Change: Thu Aug 06, 2020 at 05:58 PM +0800
 
 #####################
 # Configure DaVinci #
@@ -375,7 +375,6 @@ else:
 
 # Tools for data
 from Configurables import DecayTreeTuple
-from Configurables import TupleToolApplyIsolation
 from Configurables import TupleToolTagDiscardDstMu
 from Configurables import TupleToolANNPIDTraining
 from Configurables import TupleToolTauMuDiscrVars
@@ -444,10 +443,6 @@ def tuple_initialize_mc(name, sel_seq, decay):
 def tuple_postpocess_data(tp, weights='./weightsSoft.xml'):
     tp.Y.addTool(TupleToolTagDiscardDstMu, name='TupleMyDiscardDstMu')
     tp.Y.ToolList += ['TupleToolTagDiscardDstMu/TupleMyDiscardDstMu']
-
-    tp.Y.addTool(TupleToolApplyIsolation, name='TupleMyApplyIso')
-    tp.Y.TupleMyApplyIso.WeightsFile = weights
-    tp.Y.ToolList += ['TupleToolApplyIsolation/TupleMyApplyIso']
 
     tp.Y.addTool(TupleToolTauMuDiscrVars, name='TupleMyRFA')
     tp.Y.ToolList += ['TupleToolTauMuDiscrVars/TupleMyRFA']
