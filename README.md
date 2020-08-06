@@ -1,8 +1,4 @@
 # lhcb-ntuples-gen [![Build status](https://travis-ci.com/umd-lhcb/lhcb-ntuples-gen.svg?build)](https://travis-ci.com/umd-lhcb/lhcb-ntuples-gen)
-ntuples generation with DaVinci and babymaker.
-Please refer to [project wiki](https://umd-lhcb.github.io/lhcb-ntuples-gen/)
-for more details about installation, usage, and data sources of this project.
-
 This is a special branch for comparing DaVinci scripts made by Phoebe and
 Yipeng. We use DaVinci/v36r1p2 on the lxplus7 to do the comparison.
 
