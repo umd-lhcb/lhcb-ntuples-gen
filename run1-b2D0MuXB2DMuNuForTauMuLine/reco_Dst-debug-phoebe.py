@@ -85,17 +85,17 @@ mulist = Selection("TISMuons", Algorithm=myTagger, RequiredSelections=[mulist_pr
 
 # D0#
 _MyD0 = CombineParticles("MyD0")
-_MyD0.Preambulo += [
-    "from LoKiPhysMC.decorators import *",
-    "from LoKiPhysMC.functions import mcMatch",
-]
+# _MyD0.Preambulo += [
+    # "from LoKiPhysMC.decorators import *",
+    # "from LoKiPhysMC.functions import mcMatch",
+# ]
 _MyD0.DecayDescriptor = "[D0 -> K- pi+]cc"
 _MyD0.DaughtersCuts = {
-    "K+": "(mcMatch('[^K+]CC')) & (PT > 300*MeV) & (MIPCHI2DV(PRIMARY)>45.0) & (TRCHI2DOF < 4)",
+    "K+": "(PT > 300*MeV) & (MIPCHI2DV(PRIMARY)>45.0) & (TRCHI2DOF < 4)",
     "pi-": "(PT > 300*MeV) & (MIPCHI2DV(PRIMARY)>45.0) & (TRCHI2DOF < 4)",
 }
 _MyD0.CombinationCut = "(ADAMASS('D0') < 200*MeV) & (ACHILD(PT,1)+ACHILD(PT,2) > 1*GeV)"
-_MyD0.MotherCut = "(mcMatch('[Charm ->K- pi+ {gamma}{gamma}{gamma}]CC')) & (ADMASS('D0') < 100*MeV) & (VFASPF(VCHI2/VDOF) < 100) & (BPVVDCHI2 > 250.0) & (BPVDIRA > 0.9998)"
+_MyD0.MotherCut = "(ADMASS('D0') < 100*MeV) & (VFASPF(VCHI2/VDOF) < 100) & (BPVVDCHI2 > 250.0) & (BPVDIRA > 0.9998)"
 
 SelMyD0 = Selection(
     "SelMyD0", Algorithm=_MyD0, RequiredSelections=[chargedK, chargedPi]
@@ -175,16 +175,16 @@ from Configurables import LoKi__Hybrid__PlotTool as PlotTool
 
 # Bd#
 _MyBd = CombineParticles("MyBu")
-_MyBd.Preambulo += [
-    "from LoKiPhysMC.decorators import *",
-    "from LoKiPhysMC.functions import mcMatch",
-]
+# _MyBd.Preambulo += [
+    # "from LoKiPhysMC.decorators import *",
+    # "from LoKiPhysMC.functions import mcMatch",
+# ]
 _MyBd.DecayDescriptor = "[B~0 -> D*(2010)+ mu-]cc"
 # _MyBd.HistoProduce = True
 # _MyBd.addTool(PlotTool("MotherPlots"))
 # _MyBd.MotherPlots.Histos = { "AMAXDOCA(FLATTEN((ABSID=='D0') | (ABSID=='mu-')))" : ("DOCA",0,2)}
 _MyBd.DaughtersCuts = {
-    "mu-": "(mcMatch('[^mu+]CC')) & (TRGHOSTPROB < 0.5) & (MIPCHI2DV(PRIMARY)>45) & (TRCHI2DOF < 3.0)"
+    "mu-": "(TRGHOSTPROB < 0.5) & (MIPCHI2DV(PRIMARY)>45) & (TRCHI2DOF < 3.0)"
 }
 _MyBd.CombinationCut = "(AM < 5650*MeV)"
 _MyBd.MotherCut = "(M < 5400*MeV) & (BPVDIRA > 0.9995) & (VFASPF(VCHI2/VDOF)<8)"
@@ -275,10 +275,10 @@ from Configurables import (
 )
 from Configurables import LoKi__Hybrid__EvtTupleTool as LoKiEvtTool
 
-TTMCBI = tuple.addTupleTool("TupleToolMCBackgroundInfo")
-TTMCBI.addTool(BackgroundCategory, name="BackgroundCategory")
-TTMCBI.BackgroundCategory.SemileptonicDecay = True
-TTMCBI.BackgroundCategory.NumNeutrinos = 3
+# TTMCBI = tuple.addTupleTool("TupleToolMCBackgroundInfo")
+# TTMCBI.addTool(BackgroundCategory, name="BackgroundCategory")
+# TTMCBI.BackgroundCategory.SemileptonicDecay = True
+# TTMCBI.BackgroundCategory.NumNeutrinos = 3
 tuple.addTupleTool("TupleToolTISTOS")
 tuple.TupleToolTISTOS.TriggerList = [
     "L0MuonDecision",
@@ -313,8 +313,8 @@ tuple.LHETT.VOID_Variables = {
     "nTracks": "CONTAINS ('Rec/Track/Best')",
     "nSPDhits": "CONTAINS('Raw/Spd/Digits')",
 }
-truth = tuple.addTupleTool("TupleToolMCTruth")
-truth.ToolList = ["MCTupleToolKinematic", "MCTupleToolHierarchy"]
+# truth = tuple.addTupleTool("TupleToolMCTruth")
+# truth.ToolList = ["MCTupleToolKinematic", "MCTupleToolHierarchy"]
 
 TuplePiPiPi = DecayTreeTuple("B2DstPiPiPi")
 TuplePiPiPi.ToolList += ["TupleToolKinematic", "TupleToolTrackInfo"]
