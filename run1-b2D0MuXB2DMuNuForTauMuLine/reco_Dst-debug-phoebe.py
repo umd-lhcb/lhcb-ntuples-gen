@@ -17,7 +17,6 @@ from Configurables import ChargedProtoParticleMaker
 from Configurables import ProtoParticleCALOFilter
 from Configurables import CombinedParticleMaker
 from Configurables import NoPIDsParticleMaker
-from Configurables import TupleToolApplyIsolation
 from CommonParticles.Utils import *
 
 DaVinci()
