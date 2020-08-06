@@ -272,7 +272,6 @@ from Configurables import (
     TupleToolMCBackgroundInfo,
     BackgroundCategory,
     TupleToolKinematic,
-    TupleToolTagDiscardDstMu,
 )
 from Configurables import LoKi__Hybrid__EvtTupleTool as LoKiEvtTool
 
@@ -307,8 +306,6 @@ tuple.addBranches(
         "muplus": "[B~0 -> (D*(2010)+ -> (D0 -> K- pi+) pi+) ^mu-]CC",
     }
 )
-tuple.Y.addTool(TupleToolTagDiscardDstMu, name="MyDiscardDstMu")
-tuple.Y.ToolList += ["TupleToolTagDiscardDstMu/MyDiscardDstMu"]
 
 tuple.addTupleTool(LoKiEvtTool, "LHETT")
 tuple.LHETT.Preambulo += ["from LoKiCore.functions import *"]
