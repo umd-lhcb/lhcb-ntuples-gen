@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Aug 06, 2020 at 06:00 PM +0800
+# Last Change: Thu Aug 06, 2020 at 06:51 PM +0800
 
 #####################
 # Configure DaVinci #
@@ -50,7 +50,7 @@ DaVinci().appendToMainSequence([ms_velo_protos, ms_velo_pions])
 
 from Configurables import LoKi__HDRFilter as HDRFilter
 
-line_strip = 'b2D0MuXB2DMuForTauMuLine'
+line_strip = 'b2D0MuXB2DMuNuForTauMuLine'
 fltr_strip = HDRFilter(
     'StrippedBCands',
     Code="HLT_PASS('Stripping{0}Decision')".format(line_strip))

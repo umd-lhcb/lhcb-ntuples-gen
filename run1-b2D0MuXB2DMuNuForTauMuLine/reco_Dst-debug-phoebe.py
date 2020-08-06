@@ -28,7 +28,7 @@ DaVinci().appendToMainSequence([veloprotos])
 
 fltr = HDRFilter(
     "StrippedBCands",
-    Code="HLT_PASS('Strippingb2D0MuXB2DMuForTauMuLineDecision')",
+    Code="HLT_PASS('Strippingb2D0MuXB2DMuNuForTauMuLineDecision')",
     Location="/Event/Strip/Phys/DecReports",
 )
 
