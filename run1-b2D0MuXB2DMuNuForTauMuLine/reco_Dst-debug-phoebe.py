@@ -310,9 +310,6 @@ tuple.addBranches(
 )
 tuple.Y.addTool(TupleToolTagDiscardDstMu, name="MyDiscardDstMu")
 tuple.Y.ToolList += ["TupleToolTagDiscardDstMu/MyDiscardDstMu"]
-tuple.Y.addTool(TupleToolApplyIsolation, name="TupleToolApplyIsolationSoft")
-tuple.Y.TupleToolApplyIsolationSoft.WeightsFile = "weightsSoft.xml"
-tuple.Y.ToolList += ["TupleToolApplyIsolation/TupleToolApplyIsolationSoft"]
 
 tuple.addTupleTool(LoKiEvtTool, "LHETT")
 tuple.LHETT.Preambulo += ["from LoKiCore.functions import *"]
