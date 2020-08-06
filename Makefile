@@ -1,6 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Jul 30, 2020 at 09:18 PM +0800
+# Last Change: Thu Aug 06, 2020 at 03:09 PM +0800
 
 BINPATH	:=	bin
 
@@ -31,7 +31,7 @@ ADDFLAGS	:=	-Iinclude
 DAVINCI_VERSION=DaVinci-v45r4-SL
 
 
-.PHONY: all clean history install-dep
+.PHONY: all clean history tagdate install-dep
 
 all: \
 	gen/run1-Dst-step2/Dst--19_09_05--std--data--2012--md--step2.root \
@@ -46,6 +46,9 @@ clean:
 
 history:
 	@git tag -l -n99
+
+tagdate:
+	@git log --date-order --tags --simplify-by-decoration --pretty='format:%C(green)%ad %C(red)%h %C(reset)%D' --date=short
 
 install-dep:
 	@echo "Installing third-party Python libraries..."
