@@ -51,7 +51,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#about-gaudisequencer" class="md-skip">
+        <a href="#running-old-davinci-on-the-grid" class="md-skip">
           Skip to content
         </a>
       
@@ -420,6 +420,13 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#running-old-davinci-on-the-grid" class="md-nav__link">
+    Running old DaVinci on the GRID
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#about-gaudisequencer" class="md-nav__link">
     About GaudiSequencer
   </a>
@@ -745,6 +752,13 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#running-old-davinci-on-the-grid" class="md-nav__link">
+    Running old DaVinci on the GRID
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#about-gaudisequencer" class="md-nav__link">
     About GaudiSequencer
   </a>
@@ -787,7 +801,23 @@
                 
                   <h1>Tips and tricks</h1>
                 
-                <h2 id="about-gaudisequencer">About <code>GaudiSequencer</code></h2>
+                <h2 id="running-old-davinci-on-the-grid">Running old DaVinci on the GRID</h2>
+<p>The run 1 <span><span class="MathJax_Preview">R(D^{(*)})</span><script type="math/tex">R(D^{(*)})</script></span> analysis used DaVinci/v36r1p2. To run that on lxplus7 nodes:</p>
+<ol>
+<li>
+<p>Export the following environmental variables to use old runtime:</p>
+<div class="highlight"><pre><span></span><code>export CMTCONFIG=x86_64-slc6-gcc48-opt
+</code></pre></div>
+
+</li>
+<li>
+<p>Run old DaVinci with <code>lb-run</code>:</p>
+<div class="highlight"><pre><span></span><code>lb-run DaVinci/v36r1p2 gaudirun.py
+</code></pre></div>
+
+</li>
+</ol>
+<h2 id="about-gaudisequencer">About <code>GaudiSequencer</code></h2>
 <p><code>GaudiSequencer</code> is an <em>per-event algorithm</em>, such as <code>DecayTreeTuple</code>, in the
 sense that <code>Gaudi</code> knows that it should run on every event.</p>
 <p><code>GaudiSequencer</code> is used to chain related algorithms, and it's default behavior
