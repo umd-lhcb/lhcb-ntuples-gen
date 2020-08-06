@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri Jun 05, 2020 at 08:09 PM +0800
+# Last Change: Thu Aug 06, 2020 at 03:32 PM +0800
 #
 # Description: A demonstration on ganga option file with parser.
 #              This demo runs stand-alone, provided that Python is installed:
@@ -23,7 +23,7 @@ from os.path import expanduser
 # Parameters for data/MC #
 ##########################
 
-PLATFORM = 'x86_64-centos7-gcc8-opt'
+PLATFORM = 'x86_64-centos7-gcc9-opt'
 WEIGHT_FILE = './weights_soft.xml'
 FILES_PER_JOB_DATA = 5
 FILES_PER_JOB_MC = 2
@@ -157,7 +157,7 @@ specify DaVinci reconstruction condition file.  ''')
 if this flag is supplied, don't skip existing jobs with the same name.''')
 
     parser.add_argument('--davinci',
-                        default='~/build/DaVinciDev_v45r3',
+                        default='~/build/DaVinciDev_v45r4',
                         help='''
 specify path to local DaVinci build.''')
 
