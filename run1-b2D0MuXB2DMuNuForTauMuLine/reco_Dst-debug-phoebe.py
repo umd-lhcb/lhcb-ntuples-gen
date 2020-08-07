@@ -42,7 +42,6 @@ if fakeLines:
         Code="HLT_PASS('Strippingb2D0MuXFakeB2DMuNuForTauMuLineDecision')",
         Location="/Event/Strip/Phys/DecReports",
     )
-# fltr = HDRFilter ('StrippedBCands', Code = "HLT_PASS('StrippingB2D0PiD2HHBeauty2CharmLineDecision')", Location ="/Event/Strip/Phys/DecReports")
 if controlModes:
     fltr = HDRFilter(
         "StrippedBCands",
@@ -57,21 +56,10 @@ from Configurables import TrackScaleState as SCALER
 
 scaler = SCALER("StateScale")
 
-DaVinci().HistogramFile = "YCandTauHistos.root"
-DaVinci().TupleFile = "YCands.root"
-DaVinci().DataType = "2012"
-DaVinci().EvtMax = -1  # 25000#250000#250000
+DaVinci().EvtMax = -1
 DaVinci().SkipEvents = 0
 DaVinci().PrintFreq = 100
-DaVinci().Simulation = False
-# DaVinci().EventPreFilters = [CheckPV()]
-# DaVinci().Input=['PFN:./Brunel-10000ev.dst']
 from Configurables import CondDB
-
-# CondDB().useLatestTags("2012")
-
-# LHCbApp().DDDBtag = "MC2012-20110727"
-# LHCbApp().CondDBtag = "MC2012-20110727-vc-md100"
 
 line = "b2D0MuXB2DMuForTauMuLine"
 line = "b2D0MuXB2DMuNuForTauMuLine"
