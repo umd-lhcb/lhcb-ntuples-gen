@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Aug 06, 2020 at 06:51 PM +0800
+# Last Change: Fri Aug 07, 2020 at 08:12 PM +0800
 
 #####################
 # Configure DaVinci #
@@ -345,19 +345,19 @@ from PhysSelPython.Wrappers import SelectionSequence
 seq_B0 = SelectionSequence(
     'SeqMyB0',
     EventPreSelector=event_pre_selectors,
-    TopSelection=sel_B0
+    TopSelection=sel_refit_B02DstMu
 )
 
 seq_B0_ws_Mu = SelectionSequence(
     'SeqMyB0WSMu',
     EventPreSelector=event_pre_selectors,
-    TopSelection=sel_B0_ws_Mu
+    TopSelection=sel_refit_B02DstMu_ws_Mu
 )
 
 seq_B0_ws_Pi = SelectionSequence(
     'SeqMyB0WSPi',
     EventPreSelector=event_pre_selectors,
-    TopSelection=sel_B0_ws_Pi
+    TopSelection=sel_refit_B02DstMu_ws_Pi
 )
 
 
