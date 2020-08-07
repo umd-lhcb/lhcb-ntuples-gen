@@ -233,8 +233,8 @@ YDTFSel = Selection("YDTFSel", Algorithm=refitB2Dstmu, RequiredSelections=[SelMy
 
 # SeqYMaker = SelectionSequence('SeqYMaker', TopSelection = SelMyBd)#, EventPreSelector=[fltr])
 SeqYMaker = SelectionSequence(
-    "SeqYMaker", TopSelection=YDTFSel
-)  # , EventPreSelector=[fltr])
+    "SeqYMaker", TopSelection=YDTFSel,
+    EventPreSelector=[fltr, trigfltr])
 MySelection = SeqYMaker.sequence()
 
 SelMyB2DstPiPiPi = Selection(
