@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri Aug 07, 2020 at 08:12 PM +0800
+# Last Change: Fri Aug 07, 2020 at 08:14 PM +0800
 
 #####################
 # Configure DaVinci #
@@ -53,7 +53,9 @@ from Configurables import LoKi__HDRFilter as HDRFilter
 line_strip = 'b2D0MuXB2DMuNuForTauMuLine'
 fltr_strip = HDRFilter(
     'StrippedBCands',
-    Code="HLT_PASS('Stripping{0}Decision')".format(line_strip))
+    Code="HLT_PASS('Stripping{0}Decision')".format(line_strip),
+    Location='/Event/Strip/Phys/DecReports'
+)
 
 line_hlt = 'Hlt2CharmHadD02HH_D02KPi'
 fltr_hlt = HDRFilter(
