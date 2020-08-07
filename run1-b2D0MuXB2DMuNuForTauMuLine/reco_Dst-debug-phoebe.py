@@ -121,10 +121,10 @@ _MyDmum.CombinationCut = "(AM < 10.2*GeV)"
 _MyDmum.MotherCut = "(M < 10000*MeV) & (BPVDIRA > 0.9995) & (VFASPF(VCHI2/VDOF)<6)"
 
 SelMyDmup = Selection(
-    "SelMyDmup", Algorithm=_MyDmup, RequiredSelections=[SelMyD0, mulist_pre]
+    "SelMyDmup", Algorithm=_MyDmup, RequiredSelections=[SelMyD0, mulist]
 )
 SelMyDmum = Selection(
-    "SelMyDmum", Algorithm=_MyDmum, RequiredSelections=[SelMyD0, mulist_pre]
+    "SelMyDmum", Algorithm=_MyDmum, RequiredSelections=[SelMyD0, mulist]
 )
 
 SeqStrip = SelectionSequence(
@@ -210,7 +210,7 @@ _MyB2DstPiPiPi.MotherCut = (
 
 # SelMyBd = Selection("SelMyBd", Algorithm = _MyBd, RequiredSelections = [DTFSel, mulist_pre])
 SelMyBd = Selection(
-    "SelMyBd", Algorithm=_MyBd, RequiredSelections=[SelMyDst, mulist_pre]
+    "SelMyBd", Algorithm=_MyBd, RequiredSelections=[SelMyDst, mulist]
 )
 
 SelMyWSBd = Selection(
@@ -315,40 +315,6 @@ tuple.LHETT.VOID_Variables = {
 }
 # truth = tuple.addTupleTool("TupleToolMCTruth")
 # truth.ToolList = ["MCTupleToolKinematic", "MCTupleToolHierarchy"]
-
-TuplePiPiPi = DecayTreeTuple("B2DstPiPiPi")
-TuplePiPiPi.ToolList += ["TupleToolKinematic", "TupleToolTrackInfo"]
-TTMCBI2 = TuplePiPiPi.addTupleTool("TupleToolMCBackgroundInfo")
-TTMCBI2.addTool(BackgroundCategory, name="BackgroundCategory")
-# TTMCBI2.BackgroundCategory.SemileptonicDecay = True
-# TTMCBI2.BackgroundCategory.NumNeutrinos=3
-TuplePiPiPi.addTupleTool(LoKiEvtTool, "LHETTPiPiPi")
-TuplePiPiPi.LHETTPiPiPi.Preambulo += ["from LoKiCore.functions import *"]
-TuplePiPiPi.LHETTPiPiPi.VOID_Variables = {"nTracks": "CONTAINS ('Rec/Track/Best')"}
-TuplePiPiPi.addTupleTool("TupleToolTISTOS")
-TuplePiPiPi.TupleToolTISTOS.TriggerList = [
-    "L0MuonDecision",
-    "L0HadronDecision",
-    "Hlt2CharmHadD02HH_D02KPiDecision",
-]
-TuplePiPiPi.Inputs = [SeqBdMaker.outputLocation()]
-TuplePiPiPi.Decay = (
-    "[B*_0~0 -> (^B~0 -> (^D*(2010)+ -> (^D0 => ^K- ^pi+) ^pi+) ^mu-) ^pi+ ^pi-]cc"
-)
-
-TuplePiPiPi.addBranches(
-    {
-        "Y": "[B0]cc : [B0 -> (D*(2010)- -> (D0 -> K- pi+) pi-)]cc",
-        "D0": "[D0]cc : [B0 -> (D*(2010)- -> (^D0 -> K- pi+) pi-)]cc",
-        "piminus": "[B0 -> (D*(2010)- => (D0 -> K- pi+) ^pi-) mu-]cc",
-        "piminus0": "[B0 -> (D*(2010)- => (D0 -> K- ^pi+) pi-) mu-]cc",
-        "Kplus": "[K-]cc : [B0 -> (D*(2010)- => (D0 -> ^K- pi+) pi-)]cc",
-        "muplus": "[[B0]cc -> D*(2010)- ^mu-]cc",
-    }
-)
-
-truth2 = TuplePiPiPi.addTupleTool("TupleToolMCTruth")
-truth2.ToolList = ["MCTupleToolKinematic", "MCTupleToolHierarchy"]
 
 
 DaVinci().appendToMainSequence([scale, MySelection, tuple, ReadHltReport()])
