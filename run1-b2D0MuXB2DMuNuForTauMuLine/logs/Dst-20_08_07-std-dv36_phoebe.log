@@ -1,0 +1,1962 @@
+# setting LC_ALL to "C"
+# --> Including file '/afs/cern.ch/work/s/suny/src/lhcb-ntuples-gen/run1-b2D0MuXB2DMuNuForTauMuLine/conds/cond-std-2012.py'
+# <-- End of file '/afs/cern.ch/work/s/suny/src/lhcb-ntuples-gen/run1-b2D0MuXB2DMuNuForTauMuLine/conds/cond-std-2012.py'
+# --> Including file '/afs/cern.ch/work/s/suny/src/lhcb-ntuples-gen/run1-b2D0MuXB2DMuNuForTauMuLine/reco_Dst-debug-phoebe.py'
+# DaVinci                   INFO    Append to Main Sequence has been called
+# DaVinci                   INFO    Append to Main Sequence has been called
+# <-- End of file '/afs/cern.ch/work/s/suny/src/lhcb-ntuples-gen/run1-b2D0MuXB2DMuNuForTauMuLine/reco_Dst-debug-phoebe.py'
+# applying configuration of DaVinci
+# DaVinci                   INFO    Applying DaVinci configuration
+# DaVinci                   INFO    /***** User DaVinci/DaVinci ************************************************************************
+|-MainOptions          = ''
+|-TupleFile            = 'std.root'  (default: '')
+|-SkipEvents           = 0  (default: 0)
+|-RootCompressionLevel = 'LZMA:6'
+|-Input                = []  (default: [])
+|-DDDBtag              = ''
+|-UserAlgorithms       = []  (default: [])
+|-RootInTES            = ''
+|-DQFLAGStag           = ''
+|-Lumi                 = False
+|-MoniSequence         = []  (default: [])
+|-VerboseMessages      = False
+|-IgnoreDQFlags        = False
+|-ProductionType       = 'None'
+|-PrintFreq            = 100  (default: 1000)
+|-Detectors            = ['Velo', 'PuVeto', 'Rich1', 'Rich2', 'TT', 'IT', 'OT', 'Spd', 'Prs', 'Ecal', 'Hcal', 'Muon', 'Magnet', 'Tr']
+|                      (default: ['Velo', 'PuVeto', 'Rich1', 'Rich2', 'TT', 'IT', 'OT', 'Spd', 'Prs', 'Ecal', 'Hcal', 'Muon', 'Magnet', 'Tr'])
+|-EvtMax               = -1  (default: -1)
+|-CondDBtag            = ''
+|-Simulation           = False  (default: False)
+|-DataType             = '2012'  (default: '')
+|-RedoMCLinks          = False
+|-InputType            = 'DST'
+|-HistogramFile        = ''
+|-WriteFSR             = True
+|-EnableUnpack         = None
+|-EventPreFilters      = []  (default: [])
+\----- (End of User DaVinci/DaVinci) ---------------------------------------------------------------
+# --> Including file '/cvmfs/lhcb.cern.ch/lib/lhcb/DAVINCI/DAVINCI_v36r1p2/GaudiConf/options/PreloadUnits.opts'
+# --> Including file '/cvmfs/lhcb.cern.ch/lib/lhcb/DAVINCI/DAVINCI_v36r1p2/GaudiConf/options/units.opts'
+# <-- End of file '/cvmfs/lhcb.cern.ch/lib/lhcb/DAVINCI/DAVINCI_v36r1p2/GaudiConf/options/units.opts'
+# <-- End of file '/cvmfs/lhcb.cern.ch/lib/lhcb/DAVINCI/DAVINCI_v36r1p2/GaudiConf/options/PreloadUnits.opts'
+# Apply CaloProcessor configuration for ['Digits', 'Clusters'] and ['InAcceptance', 'Match', 'Energy', 'Chi2', 'DLL', 'NeutralPID']
+# CaloDigits onDemand for ['Ecal', 'Hcal', 'Prs', 'Spd']
+# ClusterReco onDemand
+# Configured Ecal Clusters Reco : ClusterReco 
+# Configured Calo PIDs           : CaloPIDsCaloPIDsForCaloProcessor 
+# CaloProcessor onDemand enabled
+# DaVinci                   INFO    Creating Lumi Algorithms
+# DaVinci                   INFO    No MainOptions specified. DaVinci() will import no options file!
+# DaVinci                   INFO    Creating User Algorithms
+# DaVinci                   INFO    Append to Main Sequence has been called
+# DaVinci                   INFO    Creating Moni Algorithms
+# DaVinci                   INFO    Append to Moni Sequence has been called
+# /***** User DaVinci/DaVinci ************************************************************************
+# |-MainOptions          = ''
+# |-TupleFile            = 'std.root'  (default: '')
+# |-SkipEvents           = 0  (default: 0)
+# |-RootCompressionLevel = 'LZMA:6'
+# |-Input                = []  (default: [])
+# |-DDDBtag              = ''
+# |-UserAlgorithms       = []  (default: [])
+# |-RootInTES            = ''
+# |-DQFLAGStag           = ''
+# |-Lumi                 = False
+# |-MoniSequence         = []  (default: [])
+# |-VerboseMessages      = False
+# |-IgnoreDQFlags        = False
+# |-ProductionType       = 'None'
+# |-PrintFreq            = 100  (default: 1000)
+# |-Detectors            = ['Velo', 'PuVeto', 'Rich1', 'Rich2', 'TT', 'IT', 'OT', 'Spd', 'Prs', 'Ecal', 'Hcal', 'Muon', 'Magnet', 'Tr']
+# |                      (default: ['Velo', 'PuVeto', 'Rich1', 'Rich2', 'TT', 'IT', 'OT', 'Spd', 'Prs', 'Ecal', 'Hcal', 'Muon', 'Magnet', 'Tr'])
+# |-EvtMax               = -1  (default: -1)
+# |-CondDBtag            = ''
+# |-Simulation           = False  (default: False)
+# |-DataType             = '2012'  (default: '')
+# |-RedoMCLinks          = False
+# |-InputType            = 'DST'
+# |-HistogramFile        = ''
+# |-WriteFSR             = True
+# |-EnableUnpack         = None
+# |-EventPreFilters      = []  (default: [])
+# \----- (End of User DaVinci/DaVinci) ---------------------------------------------------------------
+# skipping configuration of LumiIntegratorConf
+# skipping configuration of RawEventFormatConf
+# applying configuration of LumiAlgsConf
+# /***** User LumiAlgsConf/LumiAlgsConf **************************************************************
+# |-UseLumiLow        = False
+# |-ForceFullSequence = False
+# |-InputType         = 'DST'
+# |-DataType          = '2012'  (default: '2012')
+# |-SetFSRStatus      = ''
+# |-OutputLevel       = 3
+# |-MergeFSR          = False
+# |-BXTypes           = ['NoBeam', 'BeamCrossing', 'Beam1', 'Beam2']
+# |                   (default: ['NoBeam', 'BeamCrossing', 'Beam1', 'Beam2'])
+# |-Simulation        = False
+# |-Context           = 'Offline'
+# |-LumiSequencer     = <GaudiSequencer/LumiSeq at 0x4bf4630>  (default: None)
+# |-IgnoreDQFlags     = False
+# \----- (End of User LumiAlgsConf/LumiAlgsConf) -----------------------------------------------------
+# applying configuration of LHCbApp
+# /***** User LHCbApp/LHCbApp ************************************************************************
+# |-Persistency    = None
+# |-DataType       = '2012'  (default: '2012')
+# |-DDDBtag        = ''
+# |-SkipEvents     = 0  (default: 0)
+# |-XMLSummary     = None
+# |-OutputLevel    = 3
+# |-EvtMax         = -1  (default: -1)
+# |-Simulation     = False  (default: False)
+# |-DQFLAGStag     = ''
+# |-IgnoreDQFlags  = False
+# |-Detectors      = []  (default: [])
+# |-LocalDataTypes = []  (default: [])
+# |-TimeStamp      = False
+# |-CondDBtag      = ''
+# |-Monitors       = []  (default: [])
+# \----- (End of User LHCbApp/LHCbApp) ---------------------------------------------------------------
+# applying configuration of L0Conf
+# Applying L0Conf
+# L0 on demand activated (rootInTES : )
+# --> Including file '/cvmfs/lhcb.cern.ch/lib/lhcb/DBASE/TCK/L0TCK/v4r43/options/L0DUConfig.opts'
+# <-- End of file '/cvmfs/lhcb.cern.ch/lib/lhcb/DBASE/TCK/L0TCK/v4r43/options/L0DUConfig.opts'
+# /***** User L0Conf/L0Conf **************************************************************************
+# |-FullL0MuonDecoding         = True  (default: False)
+# |-verbose                    = False
+# |-LinkSequencer              = None
+# |-DecodeL0                   = False
+# |-ETCSequencer               = None
+# |-L0MuonUseTCKFromData       = None
+# |-RootInTESOnDemand          = ['']  (default: [''])
+# |-ETCOutput                  = 'L0ETC.root'
+# |-EnsureKnownTCK             = True
+# |-EnableL0DecodingOnDemand   = True  (default: False)
+# |-TCK                        = None
+# |-FastL0DUDecoding           = False
+# |-DecodeL0DU                 = False
+# |-ReplayL0DU                 = False
+# |-FilterSequencer            = None
+# |-L0Sequencer                = None
+# |-L0MuonForceLUTVersion      = None
+# |-L0EmulatorContext          = None
+# |-FilterL0                   = False
+# |-RawEventLocations          = []  (default: [])
+# |-EnableTAEOnDemand          = False
+# |-SimulateL0                 = False
+# |-FullPileUpSimulation       = False
+# |-ReplaceL0BanksWithEmulated = False
+# |-ForceSingleL0Configuration = False
+# |-MoniSequencer              = None
+# |-MonitorL0                  = False
+# |-DataType                   = ''
+# |-FilterL0FromRaw            = False
+# |-IgnoreL0MuonCondDB         = None
+# |-L0DecodingContext          = None
+# |-EmulateL0                  = False
+# \----- (End of User L0Conf/L0Conf) -----------------------------------------------------------------
+# skipping configuration of XMLSummary
+# applying configuration of PhysConf
+# Applying Phys configuration
+# WARNING: file '/cvmfs/lhcb.cern.ch/lib/lhcb/DBASE/TCK/L0TCK/v4r43/options/L0DUConfig.opts' already included, ignored.
+# PhysConf: Configuring EventClockSvc to use RecHeader
+# /***** User PhysConf/PhysConf **********************************************************************
+# |-CaloReProcessing  = False
+# |-DataType          = '2012'  (default: '')
+# |-AllowPIDRecalib   = True
+# |-Detectors         = ['Velo', 'PuVeto', 'Rich1', 'Rich2', 'TT', 'IT', 'OT', 'Spd', 'Prs', 'Ecal', 'Hcal', 'Muon', 'Magnet', 'Tr']
+# |                   (default: ['Velo', 'PuVeto', 'Rich1', 'Rich2', 'TT', 'IT', 'OT', 'Spd', 'Prs', 'Ecal', 'Hcal', 'Muon', 'Magnet', 'Tr'])
+# |-Simulation        = False  (default: False)
+# |-EnableUnpack      = ['Reconstruction', 'Stripping']  (default: None)
+# |-InputType         = 'DST'
+# |-AllowPIDRerunning = True
+# \----- (End of User PhysConf/PhysConf) -------------------------------------------------------------
+# applying configuration of DecodeRawEvent
+# WARNING: something else configured a decoder already, Raw/Spd/Digits CaloDigitsFromRaw/SpdFromRaw
+# WARNING: something else configured a decoder already, Trig/L0/Calo L0CaloCandidatesFromRaw/L0CaloFromRaw
+# WARNING: something else configured a decoder already, Trig/L0/FullCalo L0CaloCandidatesFromRaw/L0CaloFromRaw
+# WARNING: something else configured a decoder already, Trig/L0/L0DUReport L0DUFromRawAlg/L0DUFromRaw
+# WARNING: something else configured a decoder already, Raw/Prs/Digits CaloDigitsFromRaw/PrsFromRaw
+# WARNING: something else configured a decoder already, Raw/Ecal/Digits CaloZSupAlg/EcalZSup
+# WARNING: something else configured a decoder already, Raw/Hcal/Digits CaloZSupAlg/HcalZSup
+# WARNING: something else configured a decoder already, Trig/L0/MuonCtrl L0MuonCandidatesFromRaw/L0MuonFromRaw
+# WARNING: something else configured a decoder already, Trig/L0/MuonBCSU L0MuonCandidatesFromRaw/L0MuonFromRaw
+# WARNING: something else configured a decoder already, Trig/L0/MuonData L0MuonCandidatesFromRaw/L0MuonFromRaw
+# /***** User DecodeRawEvent/DecodeRawEvent **********************************************************
+# |-EvtClockBank   = ''  (default: 'ODIN')
+# |-DataOnDemand   = True  (default: False)
+# |-DecoderDB      = None
+# |-Sequencer      = None
+# |-OverrideInputs = None
+# \----- (End of User DecodeRawEvent/DecodeRawEvent) -------------------------------------------------
+# applying configuration of DefaultTrackingCuts
+# /***** User DefaultTrackingCuts/DefaultTrackingCuts ************************************************
+# |-Types = ['Long']  (default: ['Long'])
+# |-Cuts  = {'CloneDistCut': [5000, 9e+99], 'Chi2Cut': [0, 5]}
+# |       (default: {'CloneDistCut': [5000, 9e+99], 'Chi2Cut': [0, 5]})
+# \----- (End of User DefaultTrackingCuts/DefaultTrackingCuts) ---------------------------------------
+# applying configuration of DstConf
+# /***** User DstConf/DstConf ************************************************************************
+# |-OutputName          = ''
+# |-SimType             = 'None'
+# |-PackType            = 'TES'
+# |-DstType             = 'NONE'
+# |-EnablePackingChecks = False
+# |-DataType            = ''
+# |-Writer              = 'DstWriter'
+# |-Detectors           = ['Velo', 'TT', 'IT', 'OT', 'Rich', 'Tr', 'Calo', 'Muon']
+# |                     (default: ['Velo', 'TT', 'IT', 'OT', 'Rich', 'Tr', 'Calo', 'Muon'])
+# |-WriteFSR            = True
+# |-SplitRawEventOutput = 2.0
+# |-PackSequencer       = None
+# |-SpilloverPaths      = ['Prev', 'PrevPrev', 'Next', 'NextNext']
+# |                     (default: ['Prev', 'PrevPrev', 'Next', 'NextNext'])
+# |-EnableUnpack        = ['Reconstruction', 'Stripping']  (default: [])
+# |-AlwaysCreate        = False
+# \----- (End of User DstConf/DstConf) ---------------------------------------------------------------
+# /***** User DstConf/DstConf ************************************************************************
+# |-OutputName          = ''
+# |-SimType             = 'None'
+# |-PackType            = 'TES'
+# |-DstType             = 'NONE'
+# |-EnablePackingChecks = False
+# |-DataType            = ''
+# |-Writer              = 'DstWriter'
+# |-Detectors           = ['Velo', 'TT', 'IT', 'OT', 'Rich', 'Tr', 'Calo', 'Muon']
+# |                     (default: ['Velo', 'TT', 'IT', 'OT', 'Rich', 'Tr', 'Calo', 'Muon'])
+# |-WriteFSR            = True
+# |-SplitRawEventOutput = 2.0
+# |-PackSequencer       = None
+# |-SpilloverPaths      = ['Prev', 'PrevPrev', 'Next', 'NextNext']
+# |                     (default: ['Prev', 'PrevPrev', 'Next', 'NextNext'])
+# |-EnableUnpack        = ['Reconstruction', 'Stripping']  (default: [])
+# |-AlwaysCreate        = False
+# \----- (End of User DstConf/DstConf) ---------------------------------------------------------------
+# applying configuration of AnalysisConf
+# Applying Analysis configuration
+# /***** User AnalysisConf/AnalysisConf **************************************************************
+# |-DataType    = '2012'  (default: '')
+# |-RedoMCLinks = False  (default: False)
+# |-Simulation  = False  (default: False)
+# \----- (End of User AnalysisConf/AnalysisConf) -----------------------------------------------------
+# WARNING: Using default tag dddb-20130929-1 for partition DDDB
+# WARNING: Using default tag cond-20141007 for partition LHCBCOND
+# WARNING: Using default tag dq-20140822 for partition DQFLAGS
+# No Writer defined for DIGI
+# WARNING: Data-On-Demand: replace action for location "Raw/Spd/Digits" from "/***** Algorithm CaloDigitsFromRaw/SpdFromRaw ******************************************************
+# WARNING: |-StatTableHeader           = ' |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |'
+# WARNING: |-AuditExecute              = False
+# WARNING: |-AuditStart                = False
+# WARNING: |-StatusOnTES               = True
+# WARNING: |-AuditReinitialize         = False
+# WARNING: |-VetoObjects               = []  (default: [])
+# WARNING: |-AuditRestart              = False
+# WARNING: |-StatEntityList            = []  (default: [])
+# WARNING: |-Enable                    = True
+# WARNING: |-RootOnTES                 = ''
+# WARNING: |-RequireObjects            = []  (default: [])
+# WARNING: |-OutputType                = 'Digits'
+# WARNING: |-RootInTES                 = ''
+# WARNING: |-AuditFinalize             = False
+# WARNING: |-AuditEndRun               = False
+# WARNING: |-ErrorsPrint               = True
+# WARNING: |-AuditBeginRun             = False
+# WARNING: |-ErrorCount                = 0
+# WARNING: |-ErrorMax                  = 1
+# WARNING: |-Extension                 = ''
+# WARNING: |-MonitorService            = 'MonitorSvc'
+# WARNING: |-AuditInitialize           = False
+# WARNING: |-RegularRowFormat          = ' | %|-48.48s|%|50t||%|10d| |%|11.7g| |%|#11.5g| |%|#11.5g| |%|#12.5g| |%|#12.5g| |'
+# WARNING: |-TypePrint                 = True
+# WARNING: |-StatPrint                 = True
+# WARNING: |-AuditStop                 = False
+# WARNING: |-Context                   = 'Offline'  (default: '')
+# WARNING: |-PropertiesPrint           = False
+# WARNING: |-GlobalTimeOffset          = 0.0
+# WARNING: |-OutputLevel               = 0
+# WARNING: |-UseEfficiencyRowFormat    = True
+# WARNING: |-RegisterForContextService = True
+# WARNING: |-AuditAlgorithms           = False
+# WARNING: |-PinContainer              = 'Raw/Ecal/PinAdcs'
+# WARNING: |-AdcsContainer             = 'Raw/Ecal/Adcs'
+# WARNING: |-DigitsContainer           = 'Raw/Ecal/Digits'
+# WARNING: |-EfficiencyRowFormat       = ' |*%|-48.48s|%|50t||%|10d| |%|11.5g| |(%|#9.6g| +- %|-#9.6g|)%%|   -------   |   -------   |'
+# WARNING: |-CounterList               = ['.*']  (default: ['.*'])
+# WARNING: \----- (End of Algorithm CaloDigitsFromRaw/SpdFromRaw) ---------------------------------------------" to "CaloDigitsFromRaw/SpdFromRaw" 
+# WARNING: Data-On-Demand: replace action for location "Raw/Prs/Digits" from "/***** Algorithm CaloDigitsFromRaw/PrsFromRaw ******************************************************
+# WARNING: |-StatTableHeader           = ' |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |'
+# WARNING: |-AuditExecute              = False
+# WARNING: |-AuditStart                = False
+# WARNING: |-StatusOnTES               = True
+# WARNING: |-AuditReinitialize         = False
+# WARNING: |-VetoObjects               = []  (default: [])
+# WARNING: |-AuditRestart              = False
+# WARNING: |-StatEntityList            = []  (default: [])
+# WARNING: |-Enable                    = True
+# WARNING: |-RootOnTES                 = ''
+# WARNING: |-RequireObjects            = []  (default: [])
+# WARNING: |-OutputType                = 'Digits'
+# WARNING: |-RootInTES                 = ''
+# WARNING: |-AuditFinalize             = False
+# WARNING: |-AuditEndRun               = False
+# WARNING: |-ErrorsPrint               = True
+# WARNING: |-AuditBeginRun             = False
+# WARNING: |-ErrorCount                = 0
+# WARNING: |-ErrorMax                  = 1
+# WARNING: |-Extension                 = ''
+# WARNING: |-MonitorService            = 'MonitorSvc'
+# WARNING: |-AuditInitialize           = False
+# WARNING: |-RegularRowFormat          = ' | %|-48.48s|%|50t||%|10d| |%|11.7g| |%|#11.5g| |%|#11.5g| |%|#12.5g| |%|#12.5g| |'
+# WARNING: |-TypePrint                 = True
+# WARNING: |-StatPrint                 = True
+# WARNING: |-AuditStop                 = False
+# WARNING: |-Context                   = 'Offline'  (default: '')
+# WARNING: |-PropertiesPrint           = False
+# WARNING: |-GlobalTimeOffset          = 0.0
+# WARNING: |-OutputLevel               = 0
+# WARNING: |-UseEfficiencyRowFormat    = True
+# WARNING: |-RegisterForContextService = True
+# WARNING: |-AuditAlgorithms           = False
+# WARNING: |-PinContainer              = 'Raw/Ecal/PinAdcs'
+# WARNING: |-AdcsContainer             = 'Raw/Ecal/Adcs'
+# WARNING: |-DigitsContainer           = 'Raw/Ecal/Digits'
+# WARNING: |-EfficiencyRowFormat       = ' |*%|-48.48s|%|50t||%|10d| |%|11.5g| |(%|#9.6g| +- %|-#9.6g|)%%|   -------   |   -------   |'
+# WARNING: |-CounterList               = ['.*']  (default: ['.*'])
+# WARNING: \----- (End of Algorithm CaloDigitsFromRaw/PrsFromRaw) ---------------------------------------------" to "CaloDigitsFromRaw/PrsFromRaw" 
+# WARNING: Data-On-Demand: replace action for location "Raw/Ecal/Digits" from "/***** Algorithm CaloZSupAlg/EcalZSup **************************************************************
+# WARNING: |-StatTableHeader           = ' |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |'
+# WARNING: |-OutputDigitData           = ''
+# WARNING: |-AuditExecute              = False
+# WARNING: |-AuditStart                = False
+# WARNING: |-StatusOnTES               = True
+# WARNING: |-AuditReinitialize         = False
+# WARNING: |-VetoObjects               = []  (default: [])
+# WARNING: |-AuditRestart              = False
+# WARNING: |-StatEntityList            = []  (default: [])
+# WARNING: |-ZsupThreshold             = 0
+# WARNING: |-Enable                    = True
+# WARNING: |-RootOnTES                 = ''
+# WARNING: |-RequireObjects            = []  (default: [])
+# WARNING: |-OutputType                = 'Digits'
+# WARNING: |-RootInTES                 = ''
+# WARNING: |-AuditFinalize             = False
+# WARNING: |-AuditEndRun               = False
+# WARNING: |-ErrorsPrint               = True
+# WARNING: |-AuditBeginRun             = False
+# WARNING: |-ErrorCount                = 0
+# WARNING: |-ErrorMax                  = 1
+# WARNING: |-Extension                 = ''
+# WARNING: |-MonitorService            = 'MonitorSvc'
+# WARNING: |-AuditInitialize           = False
+# WARNING: |-RegularRowFormat          = ' | %|-48.48s|%|50t||%|10d| |%|11.7g| |%|#11.5g| |%|#11.5g| |%|#12.5g| |%|#12.5g| |'
+# WARNING: |-DetectorName              = ''
+# WARNING: |-TypePrint                 = True
+# WARNING: |-StatPrint                 = True
+# WARNING: |-ZsupMethod                = ''
+# WARNING: |-AuditStop                 = False
+# WARNING: |-Context                   = 'Offline'  (default: '')
+# WARNING: |-PropertiesPrint           = False
+# WARNING: |-GlobalTimeOffset          = 0.0
+# WARNING: |-OutputLevel               = 0
+# WARNING: |-UseEfficiencyRowFormat    = True
+# WARNING: |-OutputADCData             = ''
+# WARNING: |-RegisterForContextService = True
+# WARNING: |-AuditAlgorithms           = False
+# WARNING: |-ZsupNeighbor              = -256
+# WARNING: |-EfficiencyRowFormat       = ' |*%|-48.48s|%|50t||%|10d| |%|11.5g| |(%|#9.6g| +- %|-#9.6g|)%%|   -------   |   -------   |'
+# WARNING: |-CounterList               = ['.*']  (default: ['.*'])
+# WARNING: \----- (End of Algorithm CaloZSupAlg/EcalZSup) -----------------------------------------------------" to "CaloZSupAlg/EcalZSup" 
+# WARNING: Data-On-Demand: replace action for location "Raw/Hcal/Digits" from "/***** Algorithm CaloZSupAlg/HcalZSup **************************************************************
+# WARNING: |-StatTableHeader           = ' |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |'
+# WARNING: |-OutputDigitData           = ''
+# WARNING: |-AuditExecute              = False
+# WARNING: |-AuditStart                = False
+# WARNING: |-StatusOnTES               = True
+# WARNING: |-AuditReinitialize         = False
+# WARNING: |-VetoObjects               = []  (default: [])
+# WARNING: |-AuditRestart              = False
+# WARNING: |-StatEntityList            = []  (default: [])
+# WARNING: |-ZsupThreshold             = 0
+# WARNING: |-Enable                    = True
+# WARNING: |-RootOnTES                 = ''
+# WARNING: |-RequireObjects            = []  (default: [])
+# WARNING: |-OutputType                = 'Digits'
+# WARNING: |-RootInTES                 = ''
+# WARNING: |-AuditFinalize             = False
+# WARNING: |-AuditEndRun               = False
+# WARNING: |-ErrorsPrint               = True
+# WARNING: |-AuditBeginRun             = False
+# WARNING: |-ErrorCount                = 0
+# WARNING: |-ErrorMax                  = 1
+# WARNING: |-Extension                 = ''
+# WARNING: |-MonitorService            = 'MonitorSvc'
+# WARNING: |-AuditInitialize           = False
+# WARNING: |-RegularRowFormat          = ' | %|-48.48s|%|50t||%|10d| |%|11.7g| |%|#11.5g| |%|#11.5g| |%|#12.5g| |%|#12.5g| |'
+# WARNING: |-DetectorName              = ''
+# WARNING: |-TypePrint                 = True
+# WARNING: |-StatPrint                 = True
+# WARNING: |-ZsupMethod                = ''
+# WARNING: |-AuditStop                 = False
+# WARNING: |-Context                   = 'Offline'  (default: '')
+# WARNING: |-PropertiesPrint           = False
+# WARNING: |-GlobalTimeOffset          = 0.0
+# WARNING: |-OutputLevel               = 0
+# WARNING: |-UseEfficiencyRowFormat    = True
+# WARNING: |-OutputADCData             = ''
+# WARNING: |-RegisterForContextService = True
+# WARNING: |-AuditAlgorithms           = False
+# WARNING: |-ZsupNeighbor              = -256
+# WARNING: |-EfficiencyRowFormat       = ' |*%|-48.48s|%|50t||%|10d| |%|11.5g| |(%|#9.6g| +- %|-#9.6g|)%%|   -------   |   -------   |'
+# WARNING: |-CounterList               = ['.*']  (default: ['.*'])
+# WARNING: \----- (End of Algorithm CaloZSupAlg/HcalZSup) -----------------------------------------------------" to "CaloZSupAlg/HcalZSup" 
+ApplicationMgr    SUCCESS 
+====================================================================================================================================
+                                                   Welcome to DaVinci version v36r1p2
+                                          running on lxplus708.cern.ch on Fri Aug  7 17:57:22 2020
+====================================================================================================================================
+ApplicationMgr       INFO Application Manager Configured successfully
+DetectorPersist...   INFO Added successfully Conversion service:XmlCnvSvc
+DetectorDataSvc   SUCCESS Detector description database: conddb:/lhcb.xml
+RndmGenSvc.Engine    INFO Generator engine type:CLHEP::RanluxEngine
+RndmGenSvc.Engine    INFO Current Seed:1234567 Luxury:3
+RndmGenSvc           INFO Using Random engine:HepRndm::Engine<CLHEP::RanluxEngine>
+TimingAuditor.T...   INFO This machine has a speed about   3.02 times the speed of a 2.8 GHz Xeon.
+NTupleSvc            INFO Added stream file:std.root as FILE1
+DaVinciEventSeq      INFO Member list: DaVinciInit/DaVinciInitAlg, GaudiSequencer/FilteredEventSeq, GaudiSequencer/LumiSeq
+DaVinciInitAlg    SUCCESS ==================================================================
+DaVinciInitAlg    SUCCESS Requested to process all events on input file(s)
+DaVinciInitAlg    SUCCESS ==================================================================
+RootHistSvc          INFO Writing ROOT histograms to: UndefinedROOTOutputFileName
+HistogramPersis...   INFO Added successfully Conversion service:RootHistSvc
+HistogramDataSvc     INFO Added stream file:/cvmfs/lhcb.cern.ch/lib/lhcb/PARAM/ParamFiles/v8r30/data/PhotonPdf.root as CaloNeutralPIDs
+HistogramDataSvc     INFO Added stream file:/cvmfs/lhcb.cern.ch/lib/lhcb/PARAM/ParamFiles/v8r30/data/CaloPIDs_DC09_v1.root as CaloPIDs
+HistogramDataSvc     INFO Added stream file:/cvmfs/lhcb.cern.ch/lib/lhcb/PARAM/ParamFiles/v8r30/data/JetEnergyCorrections_Reco14_v1.root as JEC14R05
+HistogramDataSvc     INFO Added stream file:/cvmfs/lhcb.cern.ch/lib/lhcb/PARAM/ParamFiles/v8r30/data/JetEnergyCorrections_Reco14_R07_v1.root as JEC14R07
+FilteredEventSeq     INFO Member list: GaudiSequencer/DaVinciEventInitSeq, GaudiSequencer/DaVinciAnalysisSeq
+DaVinciEventIni...   INFO Member list: GaudiSequencer/PhysInitSeq, GaudiSequencer/AnalysisInitSeq
+PhysInitSeq          INFO Member list: 
+AnalysisInitSeq      INFO Member list: 
+DaVinciAnalysisSeq   INFO Member list: GaudiSequencer/DaVinciUserSequence, GaudiSequencer/MonitoringSequence
+DaVinciUserSequ...   INFO Member list: ChargedProtoParticleMaker/myProtoPMaker, TrackScaleState/StateScale, GaudiSequencer/SeqYMaker, GaudiSequencer/SeqYMaker2, GaudiSequencer/SeqYMaker3, NoPIDsParticleMaker/StdNoPIDsVeloPions, DecayTreeTuple/YCands, DecayTreeTuple/YCandsWS, DecayTreeTuple/YCandsWS2
+COOLConfSvc          INFO CORAL Connection Retrial Period set to 60s
+COOLConfSvc          INFO CORAL Connection Retrial Time-Out set to 900s
+DDDB                 INFO Connected to database "sqlite_file:/cvmfs/lhcb.cern.ch/lib/lhcb/SQLite/SQLDDDB/db/DDDB.db/DDDB"
+DDDB                 INFO Using TAG "dddb-20130929-1"
+CALIBOFF             INFO Connected to database "sqlite_file:/cvmfs/lhcb.cern.ch/lib/lhcb/SQLite/SQLDDDB/db/CALIBOFF.db/CALIBOFF"
+CALIBOFF             INFO Using TAG ""
+LHCBCOND             INFO Connected to database "sqlite_file:/cvmfs/lhcb.cern.ch/lib/lhcb/SQLite/SQLDDDB/db/LHCBCOND.db/LHCBCOND"
+LHCBCOND             INFO Using TAG "cond-20141007"
+StateScale           INFO  Condition: /MomentumScale     Valid;   Validity: Sun Jan  1 00:00:00 2012 -> Tue Jan  1 00:00:00 2013
+StateScale           INFO Use the momentum   calibration from CONDDB
+StateScale           INFO  Condition: /CovarianceScale     Valid;   Validity: Sun Jan  1 00:00:00 2012 -> Sat Apr 12 01:47:16 2262
+StateScale           INFO Use the covariance calibration from CONDDB
+ONLINE_2012          INFO Connected to database "sqlite_file:/cvmfs/lhcb.cern.ch/lib/lhcb/SQLite/SQLDDDB/db/ONLINE-2012.db/ONLINE"
+ONLINE_2012          INFO Using TAG ""
+MagneticFieldSvc     INFO Opened magnetic field file : /cvmfs/lhcb.cern.ch/lib/lhcb/DBASE/FieldMap/v5r7/cdf/field101.c1.down.cdf
+MagneticFieldSvc     INFO Opened magnetic field file : /cvmfs/lhcb.cern.ch/lib/lhcb/DBASE/FieldMap/v5r7/cdf/field101.c2.down.cdf
+MagneticFieldSvc     INFO Opened magnetic field file : /cvmfs/lhcb.cern.ch/lib/lhcb/DBASE/FieldMap/v5r7/cdf/field101.c3.down.cdf
+MagneticFieldSvc     INFO Opened magnetic field file : /cvmfs/lhcb.cern.ch/lib/lhcb/DBASE/FieldMap/v5r7/cdf/field101.c4.down.cdf
+MagneticFieldSvc     INFO Map scaled by factor 1 with polarity internally used: -1 signed relative current: -1
+SeqYMaker            INFO Member list: LoKi::HDRFilter/TriggeredD0, LoKi::HDRFilter/StrippedBCands, LoKi::VoidFilter/SelFilter_Event_Semileptonic_Phys_b2D0MuXB2DMuNuForTauMuLine_Particles, FilterDesktop/smuTISfilterSel, FilterInTrees/chargedK, FilterInTrees/chargedPi, CombineParticles/SelMyD0, LoKi::VoidFilter/SelFilterPhys_StdAllLoosePions_Particles, LoKi::VoidFilter/SelFilterPhys_StdNoPIDsUpPions_Particles, CombineParticles/SelMyDst, FilterInTrees/mulist, CombineParticles/SelMyBd, FitDecayTrees/YDTFSel
+SeqYMaker2           INFO Member list: LoKi::HDRFilter/TriggeredD0, LoKi::HDRFilter/StrippedBCands, LoKi::VoidFilter/SelFilter_Event_Semileptonic_Phys_b2D0MuXB2DMuNuForTauMuLine_Particles, FilterDesktop/smuTISfilterSel, FilterInTrees/chargedK, FilterInTrees/chargedPi, CombineParticles/SelMyD0, LoKi::VoidFilter/SelFilterPhys_StdAllLoosePions_Particles, LoKi::VoidFilter/SelFilterPhys_StdNoPIDsUpPions_Particles, CombineParticles/SelMyDst, FilterInTrees/mulist, CombineParticles/SelMyWSBd, FitDecayTrees/YDTFSelWS
+SeqYMaker3           INFO Member list: LoKi::HDRFilter/TriggeredD0, LoKi::HDRFilter/StrippedBCands, LoKi::VoidFilter/SelFilter_Event_Semileptonic_Phys_b2D0MuXB2DMuNuForTauMuLine_Particles, FilterDesktop/smuTISfilterSel, FilterInTrees/chargedK, FilterInTrees/chargedPi, CombineParticles/SelMyD0, LoKi::VoidFilter/SelFilterPhys_StdAllLoosePions_Particles, LoKi::VoidFilter/SelFilterPhys_StdNoPIDsUpPions_Particles, CombineParticles/SelMyDst2, FilterInTrees/mulist, CombineParticles/SelMyWS2Bd, FitDecayTrees/YDTFSelWS2
+StdNoPIDsVeloPions   INFO Particle/AntiParticle to be created : 'pi+'/'pi-'
+YCands               INFO Will look for  ( ( B~0  -> ^( ( D*(2010)+  -> ^( ( D0  -> ^( K- ) ^( pi+ )) ) ^( pi+ )) ) ^( mu- )) || ( B0  -> ^( ( D*(2010)-  -> ^( ( D~0  -> ^( K+ ) ^( pi- )) ) ^( pi- )) ) ^( mu+ )) ) 
+YCands               INFO Explicit sub decays :7
+YCands.D0            INFO YCands.D0 : ( ( B0  -> ( D*(2010)-  -> ^( ( D~0  -> K+  pi- ) ) pi- )  mu+ ) || ( B~0  -> ( D*(2010)+  -> ^( ( D0  -> K-  pi+ ) ) pi+ )  mu- ) ) 
+YCands.Dst_2010...   INFO YCands.Dst_2010_minus : ( ( B0  -> ^( ( D*(2010)-  -> ( D~0  -> K+  pi- )  pi- ) ) mu+ ) || ( B~0  -> ^( ( D*(2010)+  -> ( D0  -> K-  pi+ )  pi+ ) ) mu- ) ) 
+YCands.Kplus         INFO YCands.Kplus : ( ( B0  -> ( D*(2010)-  -> ( D~0  -> ^( K+ ) pi- )  pi- )  mu+ ) || ( B~0  -> ( D*(2010)+  -> ( D0  -> ^( K- ) pi+ )  pi+ )  mu- ) ) 
+YCands.Y             INFO YCands.Y : ^( ( ( B0  -> ( D*(2010)-  -> ( D~0  -> K+  pi- )  pi- )  mu+ ) || ( B~0  -> ( D*(2010)+  -> ( D0  -> K-  pi+ )  pi+ )  mu- ) ) )
+YCands.muplus        INFO YCands.muplus : ( ( B0  -> ( D*(2010)-  -> ( D~0  -> K+  pi- )  pi- )  ^( mu+ )) || ( B~0  -> ( D*(2010)+  -> ( D0  -> K-  pi+ )  pi+ )  ^( mu- )) ) 
+YCands.piminus       INFO YCands.piminus : ( ( B0  -> ( D*(2010)-  -> ( D~0  -> K+  pi- )  ^( pi- ))  mu+ ) || ( B~0  -> ( D*(2010)+  -> ( D0  -> K-  pi+ )  ^( pi+ ))  mu- ) ) 
+YCands.piminus0      INFO YCands.piminus0 : ( ( B0  -> ( D*(2010)-  -> ( D~0  -> K+  ^( pi- ))  pi- )  mu+ ) || ( B~0  -> ( D*(2010)+  -> ( D0  -> K-  ^( pi+ ))  pi+ )  mu- ) ) 
+YCandsWS             INFO Will look for  ( ( B~0  -> ^( ( D*(2010)+  -> ^( ( D0  -> ^( K- ) ^( pi+ )) ) ^( pi+ )) ) ^( mu+ )) || ( B0  -> ^( ( D*(2010)-  -> ^( ( D~0  -> ^( K+ ) ^( pi- )) ) ^( pi- )) ) ^( mu- )) ) 
+YCandsWS             INFO Explicit sub decays :7
+YCandsWS.D0          INFO YCandsWS.D0 : ( ( B0  -> ( D*(2010)-  -> ^( ( D~0  -> K+  pi- ) ) pi- )  mu- ) || ( B~0  -> ( D*(2010)+  -> ^( ( D0  -> K-  pi+ ) ) pi+ )  mu+ ) ) 
+YCandsWS.Dst_20...   INFO YCandsWS.Dst_2010_minus : ( ( B0  -> ^( ( D*(2010)-  -> ( D~0  -> K+  pi- )  pi- ) ) mu- ) || ( B~0  -> ^( ( D*(2010)+  -> ( D0  -> K-  pi+ )  pi+ ) ) mu+ ) ) 
+YCandsWS.Kplus       INFO YCandsWS.Kplus : ( ( B0  -> ( D*(2010)-  -> ( D~0  -> ^( K+ ) pi- )  pi- )  mu- ) || ( B~0  -> ( D*(2010)+  -> ( D0  -> ^( K- ) pi+ )  pi+ )  mu+ ) ) 
+YCandsWS.Y           INFO YCandsWS.Y : ^( ( ( B0  -> ( D*(2010)-  -> ( D~0  -> K+  pi- )  pi- )  mu- ) || ( B~0  -> ( D*(2010)+  -> ( D0  -> K-  pi+ )  pi+ )  mu+ ) ) )
+YCandsWS.muplus      INFO YCandsWS.muplus : ( ( B0  -> ( D*(2010)-  -> ( D~0  -> K+  pi- )  pi- )  ^( mu- )) || ( B~0  -> ( D*(2010)+  -> ( D0  -> K-  pi+ )  pi+ )  ^( mu+ )) ) 
+YCandsWS.piminus     INFO YCandsWS.piminus : ( ( B0  -> ( D*(2010)-  -> ( D~0  -> K+  pi- )  ^( pi- ))  mu- ) || ( B~0  -> ( D*(2010)+  -> ( D0  -> K-  pi+ )  ^( pi+ ))  mu+ ) ) 
+YCandsWS.piminus0    INFO YCandsWS.piminus0 : ( ( B0  -> ( D*(2010)-  -> ( D~0  -> K+  ^( pi- ))  pi- )  mu- ) || ( B~0  -> ( D*(2010)+  -> ( D0  -> K-  ^( pi+ ))  pi+ )  mu+ ) ) 
+YCandsWS2            INFO Will look for  ( ( B~0  -> ^( ( D*(2010)-  -> ^( ( D0  -> ^( K- ) ^( pi+ )) ) ^( pi- )) ) ^( mu- )) || ( B0  -> ^( ( D*(2010)+  -> ^( ( D~0  -> ^( K+ ) ^( pi- )) ) ^( pi+ )) ) ^( mu+ )) ) 
+YCandsWS2            INFO Explicit sub decays :7
+YCandsWS2.D0         INFO YCandsWS2.D0 : ( ( B0  -> ( D*(2010)+  -> ^( ( D~0  -> K+  pi- ) ) pi+ )  mu+ ) || ( B~0  -> ( D*(2010)-  -> ^( ( D0  -> K-  pi+ ) ) pi- )  mu- ) ) 
+YCandsWS2.Dst_2...   INFO YCandsWS2.Dst_2010_minus : ( ( B0  -> ^( ( D*(2010)+  -> ( D~0  -> K+  pi- )  pi+ ) ) mu+ ) || ( B~0  -> ^( ( D*(2010)-  -> ( D0  -> K-  pi+ )  pi- ) ) mu- ) ) 
+YCandsWS2.Kplus      INFO YCandsWS2.Kplus : ( ( B0  -> ( D*(2010)+  -> ( D~0  -> ^( K+ ) pi- )  pi+ )  mu+ ) || ( B~0  -> ( D*(2010)-  -> ( D0  -> ^( K- ) pi+ )  pi- )  mu- ) ) 
+YCandsWS2.Y          INFO YCandsWS2.Y : ^( ( ( B0  -> ( D*(2010)+  -> ( D~0  -> K+  pi- )  pi+ )  mu+ ) || ( B~0  -> ( D*(2010)-  -> ( D0  -> K-  pi+ )  pi- )  mu- ) ) )
+YCandsWS2.muplus     INFO YCandsWS2.muplus : ( ( B0  -> ( D*(2010)+  -> ( D~0  -> K+  pi- )  pi+ )  ^( mu+ )) || ( B~0  -> ( D*(2010)-  -> ( D0  -> K-  pi+ )  pi- )  ^( mu- )) ) 
+YCandsWS2.piminus    INFO YCandsWS2.piminus : ( ( B0  -> ( D*(2010)+  -> ( D~0  -> K+  pi- )  ^( pi+ ))  mu+ ) || ( B~0  -> ( D*(2010)-  -> ( D0  -> K-  pi+ )  ^( pi- ))  mu- ) ) 
+YCandsWS2.piminus0   INFO YCandsWS2.piminus0 : ( ( B0  -> ( D*(2010)+  -> ( D~0  -> K+  ^( pi- ))  pi+ )  mu+ ) || ( B~0  -> ( D*(2010)-  -> ( D0  -> K-  ^( pi+ ))  pi- )  mu- ) ) 
+MonitoringSequence   INFO Member list: 
+LumiSeq              INFO OR Member list: EventAccounting/EventAccount
+EventPersistenc...   INFO Added successfully Conversion service:RootCnvSvc
+EventSelector        INFO Stream:EventSelector.DataStreamTool_1 Def:DATAFILE='./data/data-2012-md/00041836_00006100_1.semileptonic.dst' SVC='Gaudi::RootEvtSelector' OPT='READ'
+ApplicationMgr       INFO Application Manager Initialized successfully
+ApplicationMgr       INFO Application Manager Started successfully
+FileRecordPersi...   INFO Added successfully Conversion service:FileRecordCnvSvc
+EventSelector     SUCCESS Reading Event record 1. Record number within stream 1: 1
+DQFLAGS              INFO Connected to database "sqlite_file:/cvmfs/lhcb.cern.ch/lib/lhcb/SQLite/SQLDDDB/db/DQFLAGS.db/DQFLAGS"
+DQFLAGS              INFO Using TAG "dq-20140822"
+MagneticFieldSvc     INFO Map scaled by factor 0.999998 with polarity internally used: -1 signed relative current: -0.999998
+PropertyConfigSvc    INFO  resolving alias TCK/0x0094003d
+ConfigTarFileAc...   INFO  opening /cvmfs/lhcb.cern.ch/lib/lhcb/DBASE/TCK/HltTCK/v3r19p28/config.tar in mode ReadOnly
+PropertyConfigSvc    INFO  resolved TCK/0x0094003d to 158005664d55a192dbefb1fbb6b612f0
+TransportSvc         INFO Initialize the static pointer to DetDesc::IGeometryErrorSvc
+TransportSvc         INFO Recovery of geometry errors is  ENABLED
+UnpackChargedPr...   INFO Member list: UnpackProtoParticle/UnpackChargedProtos, GaudiSequencer/ProtoParticleCombDLLs, GaudiSequencer/ANNPIDSeq
+ProtoParticleCo...   INFO Member list: TESCheck/CheckChargedProtosExist, ChargedProtoParticleAddMuonInfo/ChargedProtoPAddMuon, ChargedProtoParticleAddRichInfo/ChargedProtoPAddRich, ChargedProtoCombineDLLsAlg/ChargedProtoPCombDLL
+ChargedProtoPCo...   INFO Using retuned RICH el and mu DLL values in combined DLLs
+ANNPIDSeq            INFO Member list: ApplicationVersionFilter/Reco14Filter, ANNGlobalPID::ChargedProtoANNPIDAlg/ReDoANNPIDLongElectron, ANNGlobalPID::ChargedProtoANNPIDAlg/ReDoANNPIDLongMuon, ANNGlobalPID::ChargedProtoANNPIDAlg/ReDoANNPIDLongPion, ANNGlobalPID::ChargedProtoANNPIDAlg/ReDoANNPIDLongKaon, ANNGlobalPID::ChargedProtoANNPIDAlg/ReDoANNPIDLongProton, ANNGlobalPID::ChargedProtoANNPIDAlg/ReDoANNPIDLongGhost, ANNGlobalPID::ChargedProtoANNPIDAlg/ReDoANNPIDDownstreamElectron, ANNGlobalPID::ChargedProtoANNPIDAlg/ReDoANNPIDDownstreamMuon, ANNGlobalPID::ChargedProtoANNPIDAlg/ReDoANNPIDDownstreamPion, ANNGlobalPID::ChargedProtoANNPIDAlg/ReDoANNPIDDownstreamKaon, ANNGlobalPID::ChargedProtoANNPIDAlg/ReDoANNPIDDownstreamProton, ANNGlobalPID::ChargedProtoANNPIDAlg/ReDoANNPIDDownstreamGhost, ANNGlobalPID::ChargedProtoANNPIDAlg/ReDoANNPIDUpstreamElectron, ANNGlobalPID::ChargedProtoANNPIDAlg/ReDoANNPIDUpstreamMuon, ANNGlobalPID::ChargedProtoANNPIDAlg/ReDoANNPIDUpstreamPion, ANNGlobalPID::ChargedProtoANNPIDAlg/ReDoANNPIDUpstreamKaon, ANNGlobalPID::ChargedProtoANNPIDAlg/ReDoANNPIDUpstreamProton, ANNGlobalPID::ChargedProtoANNPIDAlg/ReDoANNPIDUpstreamGhost
+ReDoANNPIDLongE...   INFO ANNPID : Tune=MC12TuneV2    TrackType=Long         Particle=electron    
+ReDoANNPIDLongMuon   INFO ANNPID : Tune=MC12TuneV2    TrackType=Long         Particle=muon        
+ReDoANNPIDLongPion   INFO ANNPID : Tune=MC12TuneV2    TrackType=Long         Particle=pion        
+ReDoANNPIDLongKaon   INFO ANNPID : Tune=MC12TuneV2    TrackType=Long         Particle=kaon        
+ReDoANNPIDLongP...   INFO ANNPID : Tune=MC12TuneV2    TrackType=Long         Particle=proton      
+ReDoANNPIDLongG...   INFO ANNPID : Tune=MC12TuneV2    TrackType=Long         Particle=ghost       
+ReDoANNPIDDowns...   INFO ANNPID : Tune=MC12TuneV2    TrackType=Downstream   Particle=electron    
+ReDoANNPIDDowns...   INFO ANNPID : Tune=MC12TuneV2    TrackType=Downstream   Particle=muon        
+ReDoANNPIDDowns...   INFO ANNPID : Tune=MC12TuneV2    TrackType=Downstream   Particle=pion        
+ReDoANNPIDDowns...   INFO ANNPID : Tune=MC12TuneV2    TrackType=Downstream   Particle=kaon        
+ReDoANNPIDDowns...   INFO ANNPID : Tune=MC12TuneV2    TrackType=Downstream   Particle=proton      
+ReDoANNPIDDowns...   INFO ANNPID : Tune=MC12TuneV2    TrackType=Downstream   Particle=ghost       
+ReDoANNPIDUpstr...   INFO ANNPID : Tune=MC12TuneV2    TrackType=Upstream     Particle=electron    
+ReDoANNPIDUpstr...   INFO ANNPID : Tune=MC12TuneV2    TrackType=Upstream     Particle=muon        
+ReDoANNPIDUpstr...   INFO ANNPID : Tune=MC12TuneV2    TrackType=Upstream     Particle=pion        
+ReDoANNPIDUpstr...   INFO ANNPID : Tune=MC12TuneV2    TrackType=Upstream     Particle=kaon        
+ReDoANNPIDUpstr...   INFO ANNPID : Tune=MC12TuneV2    TrackType=Upstream     Particle=proton      
+ReDoANNPIDUpstr...   INFO ANNPID : Tune=MC12TuneV2    TrackType=Upstream     Particle=ghost       
+UnpackMuonPIDSeq     INFO Member list: DataPacking::Unpack<LHCb::MuonPIDPacker>/UnpackMuonPIDs, MuonPIDsFromProtoParticlesAlg/CheckMuonPIDs
+CheckMuonPIDs        INFO Creating MuonPIDs 'Rec/Muon/MuonPID' from ProtoParticles at 'Rec/ProtoP/Charged'
+UnpackRichPIDSeq     INFO Member list: DataPacking::Unpack<LHCb::RichPIDPacker>/UnpackRichPIDs, RichPIDsFromProtoParticlesAlg/CheckRichPIDs
+CheckRichPIDs        INFO Creating RichPIDs 'Rec/Rich/PIDs' from ProtoParticles at 'Rec/ProtoP/Charged'
+ToolSvc.L0DUConfig   INFO Creating the TEMPLATE configuration tools : ToolSvc.L0DUConfig.Template for time slot :  'T0'
+ToolSvc.L0CondD...   INFO Registered RAM(BCID) versions = {}
+ToolSvc.L0DUCon...   INFO --------------- TCK = 0x10000------------------
+ToolSvc.L0DUCon...   INFO **** L0DU Config loading : L0TCK = 0x10000 for slot T0 ==> OK 
+ToolSvc.L0DUCon...   INFO Short description :: NO DESCRIPTION (L0DUConfig.Template)
+ToolSvc.L0DUCon...   INFO --------------- TCK = 0x003D------------------
+ToolSvc.L0DUCon...   INFO **** L0DU Config loading : L0TCK = 0x003D for slot T0 ==> OK 
+ToolSvc.L0DUCon...   INFO Short description :: Same as L0 TCK 0x0040 with tighter cuts (tighter that 0x003C)
+ToolSvc.L0DUCon...   INFO The configuration 0x003D matches the hardware limitations 
+ToolSvc.L0DUCon...   INFO - Usage : Channels [75.0% ]  |  Conditions [24.2% ]; max/type [100.0% ]; order : OK ; reported  : 31/31
+L0MuonFromRaw        INFO XML config file = /cvmfs/lhcb.cern.ch/lib/lhcb/PARAM/ParamFiles/v8r30/data/L0MuonKernel.xml
+StdAllLoosePions     INFO Particle/AntiParticle to be created : 'pi+'/'pi-'
+StdNoPIDsUpPions     INFO Particle/AntiParticle to be created : 'pi+'/'pi-'
+DaVinciInitAlg       INFO Memory has changed from 976984 to 1230772 KB (253788KB, 25.9767%) in last 100 events
+EventSelector     SUCCESS Reading Event record 101. Record number within stream 1: 101
+EventSelector     SUCCESS Reading Event record 201. Record number within stream 1: 201
+YCands               INFO The head of chain is a B0 : Will keep whole chain as is. 
+YCands.TupleToo...WARNING Hlt1TriggerTisTos::  You set TISFrac above TOSFrac. This can upset TisTos logic - be worried. 
+YCands.TupleToo...WARNING Hlt2TriggerTisTos::  You set TISFrac above TOSFrac. This can upset TisTos logic - be worried. 
+YCands               INFO Tree DecayTree initialized :-
+YCands               INFO  Event related tools : [LoKi::Hybrid::EvtTupleTool, TupleToolEventInfo]
+YCands               INFO  Particle related stuffers :- 
+YCands               INFO   B0 (Y)                      : TupleToolANNPID, TupleToolAngles, TupleToolGeometry, TupleToolKinematic, TupleToolL0Calo, TupleToolMuonPid, TupleToolPid, TupleToolTISTOS, TupleToolTrackInfo, TupleToolVtxIsoln
+YCands               INFO      D*(2010)- (Dst_2010_minus) : TupleToolANNPID, TupleToolAngles, TupleToolGeometry, TupleToolKinematic, TupleToolL0Calo, TupleToolMuonPid, TupleToolPid, TupleToolTISTOS, TupleToolTrackInfo, TupleToolVtxIsoln
+YCands               INFO         D~0 (D0)              : TupleToolANNPID, TupleToolAngles, TupleToolGeometry, TupleToolKinematic, TupleToolL0Calo, TupleToolMuonPid, TupleToolPid, TupleToolTISTOS, TupleToolTrackInfo, TupleToolVtxIsoln
+YCands               INFO            K+ (Kplus)         : TupleToolANNPID, TupleToolAngles, TupleToolGeometry, TupleToolKinematic, TupleToolL0Calo, TupleToolMuonPid, TupleToolPid, TupleToolTISTOS, TupleToolTrackInfo, TupleToolVtxIsoln
+YCands               INFO            pi- (piminus0)     : TupleToolANNPID, TupleToolAngles, TupleToolGeometry, TupleToolKinematic, TupleToolL0Calo, TupleToolMuonPid, TupleToolPid, TupleToolTISTOS, TupleToolTrackInfo, TupleToolVtxIsoln
+YCands               INFO         pi- (piminus)         : TupleToolANNPID, TupleToolAngles, TupleToolGeometry, TupleToolKinematic, TupleToolL0Calo, TupleToolMuonPid, TupleToolPid, TupleToolTISTOS, TupleToolTrackInfo, TupleToolVtxIsoln
+YCands               INFO      mu+ (muplus)             : TupleToolANNPID, TupleToolAngles, TupleToolGeometry, TupleToolKinematic, TupleToolL0Calo, TupleToolMuonPid, TupleToolPid, TupleToolTISTOS, TupleToolTrackInfo, TupleToolVtxIsoln, TupleToolANNPIDTraining
+StdAllNoPIDsPions    INFO Particle/AntiParticle to be created : 'pi+'/'pi-'
+ToolSvc.Charged...   INFO ANNPID : Tune=MC12TuneV2    TrackType=Long         Particle=electron    
+ToolSvc.Charged...   INFO ANNPID : Tune=MC12TuneV2    TrackType=Long         Particle=muon        
+ToolSvc.Charged...   INFO ANNPID : Tune=MC12TuneV2    TrackType=Long         Particle=pion        
+ToolSvc.Charged...   INFO ANNPID : Tune=MC12TuneV2    TrackType=Long         Particle=kaon        
+ToolSvc.Charged...   INFO ANNPID : Tune=MC12TuneV2    TrackType=Long         Particle=proton      
+ToolSvc.Charged...   INFO ANNPID : Tune=MC12TuneV2    TrackType=Long         Particle=ghost       
+ToolSvc.Charged...   INFO ANNPID : Tune=MC12TuneV3    TrackType=Long         Particle=electron    
+ToolSvc.Charged...   INFO ANNPID : Tune=MC12TuneV3    TrackType=Long         Particle=muon        
+ToolSvc.Charged...   INFO ANNPID : Tune=MC12TuneV3    TrackType=Long         Particle=pion        
+ToolSvc.Charged...   INFO ANNPID : Tune=MC12TuneV3    TrackType=Long         Particle=kaon        
+ToolSvc.Charged...   INFO ANNPID : Tune=MC12TuneV3    TrackType=Long         Particle=proton      
+ToolSvc.Charged...   INFO ANNPID : Tune=MC12TuneV3    TrackType=Long         Particle=ghost       
+SpdFromRaw.SpdF...WARNING CaloTriggerBitsFromRaw:: Status for bankType L0Calo already exists  with different status value -> merge both
+RCWNTupleCnv         INFO Booked TTree with ID: DecayTree "DecayTree" in directory std.root:/YCands
+DaVinciInitAlg       INFO Memory has changed from 1230772 to 1244200 KB (13428KB, 1.09102%) in last 100 events
+EventSelector     SUCCESS Reading Event record 301. Record number within stream 1: 301
+EventSelector     SUCCESS Reading Event record 401. Record number within stream 1: 401
+EventSelector     SUCCESS Reading Event record 501. Record number within stream 1: 501
+EventSelector     SUCCESS Reading Event record 601. Record number within stream 1: 601
+EventSelector     SUCCESS Reading Event record 701. Record number within stream 1: 701
+ToolSvc.Charged...   INFO ANNPID : Tune=MC12TuneV2    TrackType=Upstream     Particle=electron    
+ToolSvc.Charged...   INFO ANNPID : Tune=MC12TuneV2    TrackType=Upstream     Particle=muon        
+ToolSvc.Charged...   INFO ANNPID : Tune=MC12TuneV2    TrackType=Upstream     Particle=pion        
+ToolSvc.Charged...   INFO ANNPID : Tune=MC12TuneV2    TrackType=Upstream     Particle=kaon        
+ToolSvc.Charged...   INFO ANNPID : Tune=MC12TuneV2    TrackType=Upstream     Particle=proton      
+ToolSvc.Charged...   INFO ANNPID : Tune=MC12TuneV2    TrackType=Upstream     Particle=ghost       
+ToolSvc.Charged...   INFO ANNPID : Tune=MC12TuneV3    TrackType=Upstream     Particle=electron    
+ToolSvc.Charged...   INFO ANNPID : Tune=MC12TuneV3    TrackType=Upstream     Particle=muon        
+ToolSvc.Charged...   INFO ANNPID : Tune=MC12TuneV3    TrackType=Upstream     Particle=pion        
+ToolSvc.Charged...   INFO ANNPID : Tune=MC12TuneV3    TrackType=Upstream     Particle=kaon        
+ToolSvc.Charged...   INFO ANNPID : Tune=MC12TuneV3    TrackType=Upstream     Particle=proton      
+ToolSvc.Charged...   INFO ANNPID : Tune=MC12TuneV3    TrackType=Upstream     Particle=ghost       
+SpdFromRaw.SpdF...WARNING CaloTriggerBitsFromRaw:: Status for bankType L0Calo already exists  with different status value -> merge both
+EventSelector     SUCCESS Reading Event record 801. Record number within stream 1: 801
+SpdFromRaw.SpdF...WARNING CaloTriggerBitsFromRaw:: Status for bankType L0Calo already exists  with different status value -> merge both
+EventSelector     SUCCESS Reading Event record 901. Record number within stream 1: 901
+EventSelector     SUCCESS Reading Event record 1001. Record number within stream 1: 1001
+EventSelector     SUCCESS Reading Event record 1101. Record number within stream 1: 1101
+SpdFromRaw.SpdF...WARNING CaloTriggerBitsFromRaw:: Status for bankType L0Calo already exists  with different status value -> merge both
+EventSelector     SUCCESS Reading Event record 1201. Record number within stream 1: 1201
+EventSelector     SUCCESS Reading Event record 1301. Record number within stream 1: 1301
+EventSelector     SUCCESS Reading Event record 1401. Record number within stream 1: 1401
+SpdFromRaw.SpdF...WARNING CaloTriggerBitsFromRaw:: Status for bankType L0Calo already exists  with different status value -> merge both
+YCandsWS2            INFO The head of chain is a B0 : Will keep whole chain as is. 
+YCandsWS2.Tuple...WARNING Hlt1TriggerTisTos::  You set TISFrac above TOSFrac. This can upset TisTos logic - be worried. 
+YCandsWS2.Tuple...WARNING Hlt2TriggerTisTos::  You set TISFrac above TOSFrac. This can upset TisTos logic - be worried. 
+YCandsWS2            INFO Tree DecayTree initialized :-
+YCandsWS2            INFO  Event related tools : [LoKi::Hybrid::EvtTupleTool, TupleToolEventInfo]
+YCandsWS2            INFO  Particle related stuffers :- 
+YCandsWS2            INFO   B0 (Y)                      : TupleToolANNPID, TupleToolAngles, TupleToolGeometry, TupleToolKinematic, TupleToolMuonPid, TupleToolPid, TupleToolTISTOS, TupleToolTrackInfo, TupleToolVtxIsoln
+YCandsWS2            INFO      D*(2010)+ (Dst_2010_minus) : TupleToolANNPID, TupleToolAngles, TupleToolGeometry, TupleToolKinematic, TupleToolMuonPid, TupleToolPid, TupleToolTISTOS, TupleToolTrackInfo, TupleToolVtxIsoln
+YCandsWS2            INFO         D~0 (D0)              : TupleToolANNPID, TupleToolAngles, TupleToolGeometry, TupleToolKinematic, TupleToolMuonPid, TupleToolPid, TupleToolTISTOS, TupleToolTrackInfo, TupleToolVtxIsoln
+YCandsWS2            INFO            K+ (Kplus)         : TupleToolANNPID, TupleToolAngles, TupleToolGeometry, TupleToolKinematic, TupleToolMuonPid, TupleToolPid, TupleToolTISTOS, TupleToolTrackInfo, TupleToolVtxIsoln
+YCandsWS2            INFO            pi- (piminus0)     : TupleToolANNPID, TupleToolAngles, TupleToolGeometry, TupleToolKinematic, TupleToolMuonPid, TupleToolPid, TupleToolTISTOS, TupleToolTrackInfo, TupleToolVtxIsoln
+YCandsWS2            INFO         pi+ (piminus)         : TupleToolANNPID, TupleToolAngles, TupleToolGeometry, TupleToolKinematic, TupleToolMuonPid, TupleToolPid, TupleToolTISTOS, TupleToolTrackInfo, TupleToolVtxIsoln
+YCandsWS2            INFO      mu+ (muplus)             : TupleToolANNPID, TupleToolAngles, TupleToolGeometry, TupleToolKinematic, TupleToolMuonPid, TupleToolPid, TupleToolTISTOS, TupleToolTrackInfo, TupleToolVtxIsoln, TupleToolANNPIDTraining
+RCWNTupleCnv         INFO Booked TTree with ID: DecayTree "DecayTree" in directory std.root:/YCandsWS2
+EventSelector     SUCCESS Reading Event record 1501. Record number within stream 1: 1501
+EventSelector     SUCCESS Reading Event record 1601. Record number within stream 1: 1601
+EventSelector        INFO Stream:EventSelector.DataStreamTool_2 Def:DATAFILE='./data/data-2012-md/00041836_00011435_1.semileptonic.dst' SVC='Gaudi::RootEvtSelector' OPT='READ'
+IODataManager        INFO Disconnect from dataset ./data/data-2012-md/00041836_00006100_1.semileptonic.dst [86A42F87-2D7E-E411-BA8B-0025907750A0]
+SpdFromRaw.SpdF...WARNING CaloTriggerBitsFromRaw:: Status for bankType L0Calo already exists  with different status value -> merge both
+YCandsWS             INFO The head of chain is a B0 : Will keep whole chain as is. 
+YCandsWS.TupleT...WARNING Hlt1TriggerTisTos::  You set TISFrac above TOSFrac. This can upset TisTos logic - be worried. 
+YCandsWS.TupleT...WARNING Hlt2TriggerTisTos::  You set TISFrac above TOSFrac. This can upset TisTos logic - be worried. 
+YCandsWS             INFO Tree DecayTree initialized :-
+YCandsWS             INFO  Event related tools : [LoKi::Hybrid::EvtTupleTool, TupleToolEventInfo]
+YCandsWS             INFO  Particle related stuffers :- 
+YCandsWS             INFO   B0 (Y)                      : TupleToolANNPID, TupleToolAngles, TupleToolGeometry, TupleToolKinematic, TupleToolMuonPid, TupleToolPid, TupleToolTISTOS, TupleToolTrackInfo, TupleToolVtxIsoln
+YCandsWS             INFO      D*(2010)- (Dst_2010_minus) : TupleToolANNPID, TupleToolAngles, TupleToolGeometry, TupleToolKinematic, TupleToolMuonPid, TupleToolPid, TupleToolTISTOS, TupleToolTrackInfo, TupleToolVtxIsoln
+YCandsWS             INFO         D~0 (D0)              : TupleToolANNPID, TupleToolAngles, TupleToolGeometry, TupleToolKinematic, TupleToolMuonPid, TupleToolPid, TupleToolTISTOS, TupleToolTrackInfo, TupleToolVtxIsoln
+YCandsWS             INFO            K+ (Kplus)         : TupleToolANNPID, TupleToolAngles, TupleToolGeometry, TupleToolKinematic, TupleToolMuonPid, TupleToolPid, TupleToolTISTOS, TupleToolTrackInfo, TupleToolVtxIsoln
+YCandsWS             INFO            pi- (piminus0)     : TupleToolANNPID, TupleToolAngles, TupleToolGeometry, TupleToolKinematic, TupleToolMuonPid, TupleToolPid, TupleToolTISTOS, TupleToolTrackInfo, TupleToolVtxIsoln
+YCandsWS             INFO         pi- (piminus)         : TupleToolANNPID, TupleToolAngles, TupleToolGeometry, TupleToolKinematic, TupleToolMuonPid, TupleToolPid, TupleToolTISTOS, TupleToolTrackInfo, TupleToolVtxIsoln
+YCandsWS             INFO      mu- (muplus)             : TupleToolANNPID, TupleToolAngles, TupleToolGeometry, TupleToolKinematic, TupleToolMuonPid, TupleToolPid, TupleToolTISTOS, TupleToolTrackInfo, TupleToolVtxIsoln, TupleToolANNPIDTraining
+RCWNTupleCnv         INFO Booked TTree with ID: DecayTree "DecayTree" in directory std.root:/YCandsWS
+DaVinciInitAlg       INFO Memory has changed from 1244200 to 1233956 KB (-10244KB, -0.82334%) in last 100 events
+EventSelector     SUCCESS Reading Event record 1701. Record number within stream 2: 39
+EventSelector     SUCCESS Reading Event record 1801. Record number within stream 2: 139
+EventSelector     SUCCESS Reading Event record 1901. Record number within stream 2: 239
+EventSelector     SUCCESS Reading Event record 2001. Record number within stream 2: 339
+EventSelector     SUCCESS Reading Event record 2101. Record number within stream 2: 439
+EventSelector     SUCCESS Reading Event record 2201. Record number within stream 2: 539
+EventSelector     SUCCESS Reading Event record 2301. Record number within stream 2: 639
+EventSelector     SUCCESS Reading Event record 2401. Record number within stream 2: 739
+EventSelector     SUCCESS Reading Event record 2501. Record number within stream 2: 839
+SpdFromRaw.SpdF...WARNING CaloTriggerBitsFromRaw:: Status for bankType L0Calo already exists  with different status value -> merge both
+EventSelector     SUCCESS Reading Event record 2601. Record number within stream 2: 939
+EventSelector     SUCCESS Reading Event record 2701. Record number within stream 2: 1039
+EventSelector     SUCCESS Reading Event record 2801. Record number within stream 2: 1139
+EventSelector     SUCCESS Reading Event record 2901. Record number within stream 2: 1239
+SpdFromRaw.SpdF...WARNING CaloTriggerBitsFromRaw:: Status for bankType L0Calo already exists  with different status value -> merge both
+EventSelector     SUCCESS Reading Event record 3001. Record number within stream 2: 1339
+EventSelector     SUCCESS Reading Event record 3101. Record number within stream 2: 1439
+SpdFromRaw.SpdF...WARNING CaloTriggerBitsFromRaw:: Status for bankType L0Calo already exists  with different status value -> merge both
+EventSelector     SUCCESS Reading Event record 3201. Record number within stream 2: 1539
+EventSelector     SUCCESS Reading Event record 3301. Record number within stream 2: 1639
+EventSelector     SUCCESS Reading Event record 3401. Record number within stream 2: 1739
+EventSelector     SUCCESS Reading Event record 3501. Record number within stream 2: 1839
+SpdFromRaw.SpdF...WARNING CaloTriggerBitsFromRaw:: The WARNING message is suppressed : 'Status for bankType L0Calo already exists  with different status value -> merge both'
+EventSelector     SUCCESS Reading Event record 3601. Record number within stream 2: 1939
+EventSelector     SUCCESS Reading Event record 3701. Record number within stream 2: 2039
+EventSelector     SUCCESS Reading Event record 3801. Record number within stream 2: 2139
+EventSelector     SUCCESS Reading Event record 3901. Record number within stream 2: 2239
+EventSelector     SUCCESS Reading Event record 4001. Record number within stream 2: 2339
+EventSelector     SUCCESS Reading Event record 4101. Record number within stream 2: 2439
+EventSelector     SUCCESS Reading Event record 4201. Record number within stream 2: 2539
+EventSelector     SUCCESS Reading Event record 4301. Record number within stream 2: 2639
+EventSelector     SUCCESS Reading Event record 4401. Record number within stream 2: 2739
+EventSelector     SUCCESS Reading Event record 4501. Record number within stream 2: 2839
+EventSelector     SUCCESS Reading Event record 4601. Record number within stream 2: 2939
+EventSelector     SUCCESS Reading Event record 4701. Record number within stream 2: 3039
+EventSelector     SUCCESS Reading Event record 4801. Record number within stream 2: 3139
+EventSelector     SUCCESS Reading Event record 4901. Record number within stream 2: 3239
+EventSelector     SUCCESS Reading Event record 5001. Record number within stream 2: 3339
+EventSelector     SUCCESS Reading Event record 5101. Record number within stream 2: 3439
+EventSelector     SUCCESS Reading Event record 5201. Record number within stream 2: 3539
+EventSelector     SUCCESS Reading Event record 5301. Record number within stream 2: 3639
+EventSelector     SUCCESS Reading Event record 5401. Record number within stream 2: 3739
+CALIBOFF.TimeOu...   INFO Disconnect from database after being idle for 120s (will reconnect if needed)
+LHCBCOND.TimeOu...   INFO Disconnect from database after being idle for 120s (will reconnect if needed)
+DaVinciInitAlg       INFO Memory has changed from 1233956 to 1365028 KB (131072KB, 10.6221%) in last 100 events
+EventSelector     SUCCESS Reading Event record 5501. Record number within stream 2: 3839
+EventSelector     SUCCESS Reading Event record 5601. Record number within stream 2: 3939
+EventSelector     SUCCESS Reading Event record 5701. Record number within stream 2: 4039
+ONLINE_2012.Tim...   INFO Disconnect from database after being idle for 120s (will reconnect if needed)
+DQFLAGS.TimeOut...   INFO Disconnect from database after being idle for 120s (will reconnect if needed)
+DDDB.TimeOutChe...   INFO Disconnect from database after being idle for 120s (will reconnect if needed)
+DaVinciInitAlg       INFO Memory has changed from 1365028 to 1561636 KB (196608KB, 14.4032%) in last 100 events
+EventSelector     SUCCESS Reading Event record 5801. Record number within stream 2: 4139
+EventSelector     SUCCESS Reading Event record 5901. Record number within stream 2: 4239
+EventSelector     SUCCESS Reading Event record 6001. Record number within stream 2: 4339
+EventSelector     SUCCESS Reading Event record 6101. Record number within stream 2: 4439
+EventSelector     SUCCESS Reading Event record 6201. Record number within stream 2: 4539
+EventSelector     SUCCESS Reading Event record 6301. Record number within stream 2: 4639
+EventSelector     SUCCESS Reading Event record 6401. Record number within stream 2: 4739
+EventSelector     SUCCESS Reading Event record 6501. Record number within stream 2: 4839
+EventSelector     SUCCESS Reading Event record 6601. Record number within stream 2: 4939
+EventSelector     SUCCESS Reading Event record 6701. Record number within stream 2: 5039
+EventSelector     SUCCESS Reading Event record 6801. Record number within stream 2: 5139
+EventSelector     SUCCESS Reading Event record 6901. Record number within stream 2: 5239
+EventSelector     SUCCESS Reading Event record 7001. Record number within stream 2: 5339
+EventSelector     SUCCESS Reading Event record 7101. Record number within stream 2: 5439
+EventSelector     SUCCESS Reading Event record 7201. Record number within stream 2: 5539
+EventSelector     SUCCESS Reading Event record 7301. Record number within stream 2: 5639
+EventSelector     SUCCESS Reading Event record 7401. Record number within stream 2: 5739
+EventSelector     SUCCESS Reading Event record 7501. Record number within stream 2: 5839
+EventSelector     SUCCESS Reading Event record 7601. Record number within stream 2: 5939
+EventSelector     SUCCESS Reading Event record 7701. Record number within stream 2: 6039
+EventSelector     SUCCESS Reading Event record 7801. Record number within stream 2: 6139
+EventSelector     SUCCESS Reading Event record 7901. Record number within stream 2: 6239
+EventSelector     SUCCESS Reading Event record 8001. Record number within stream 2: 6339
+EventSelector     SUCCESS Reading Event record 8101. Record number within stream 2: 6439
+EventSelector     SUCCESS Reading Event record 8201. Record number within stream 2: 6539
+EventSelector     SUCCESS Reading Event record 8301. Record number within stream 2: 6639
+EventSelector     SUCCESS Reading Event record 8401. Record number within stream 2: 6739
+EventSelector     SUCCESS Reading Event record 8501. Record number within stream 2: 6839
+EventSelector     SUCCESS Reading Event record 8601. Record number within stream 2: 6939
+EventSelector     SUCCESS Reading Event record 8701. Record number within stream 2: 7039
+EventSelector     SUCCESS Reading Event record 8801. Record number within stream 2: 7139
+EventSelector     SUCCESS Reading Event record 8901. Record number within stream 2: 7239
+EventSelector     SUCCESS Reading Event record 9001. Record number within stream 2: 7339
+EventSelector     SUCCESS Reading Event record 9101. Record number within stream 2: 7439
+EventSelector     SUCCESS Reading Event record 9201. Record number within stream 2: 7539
+EventSelector     SUCCESS Reading Event record 9301. Record number within stream 2: 7639
+EventSelector     SUCCESS Reading Event record 9401. Record number within stream 2: 7739
+EventSelector     SUCCESS Reading Event record 9501. Record number within stream 2: 7839
+EventSelector     SUCCESS Reading Event record 9601. Record number within stream 2: 7939
+EventSelector     SUCCESS Reading Event record 9701. Record number within stream 2: 8039
+EventSelector     SUCCESS Reading Event record 9801. Record number within stream 2: 8139
+EventSelector     SUCCESS Reading Event record 9901. Record number within stream 2: 8239
+EventSelector     SUCCESS Reading Event record 10001. Record number within stream 2: 8339
+EventSelector     SUCCESS Reading Event record 10101. Record number within stream 2: 8439
+EventSelector     SUCCESS Reading Event record 10201. Record number within stream 2: 8539
+EventSelector     SUCCESS Reading Event record 10301. Record number within stream 2: 8639
+EventSelector     SUCCESS Reading Event record 10401. Record number within stream 2: 8739
+EventSelector     SUCCESS Reading Event record 10501. Record number within stream 2: 8839
+EventSelector     SUCCESS Reading Event record 10601. Record number within stream 2: 8939
+EventSelector     SUCCESS Reading Event record 10701. Record number within stream 2: 9039
+EventSelector     SUCCESS Reading Event record 10801. Record number within stream 2: 9139
+EventSelector     SUCCESS Reading Event record 10901. Record number within stream 2: 9239
+EventSelector     SUCCESS Reading Event record 11001. Record number within stream 2: 9339
+EventSelector     SUCCESS Reading Event record 11101. Record number within stream 2: 9439
+EventSelector     SUCCESS Reading Event record 11201. Record number within stream 2: 9539
+EventSelector     SUCCESS Reading Event record 11301. Record number within stream 2: 9639
+EventSelector     SUCCESS Reading Event record 11401. Record number within stream 2: 9739
+EventSelector     SUCCESS Reading Event record 11501. Record number within stream 2: 9839
+EventSelector     SUCCESS Reading Event record 11601. Record number within stream 2: 9939
+EventSelector     SUCCESS Reading Event record 11701. Record number within stream 2: 10039
+EventSelector     SUCCESS Reading Event record 11801. Record number within stream 2: 10139
+EventSelector     SUCCESS Reading Event record 11901. Record number within stream 2: 10239
+EventSelector     SUCCESS Reading Event record 12001. Record number within stream 2: 10339
+EventSelector     SUCCESS Reading Event record 12101. Record number within stream 2: 10439
+EventSelector     SUCCESS Reading Event record 12201. Record number within stream 2: 10539
+EventSelector     SUCCESS Reading Event record 12301. Record number within stream 2: 10639
+EventSelector     SUCCESS Reading Event record 12401. Record number within stream 2: 10739
+EventSelector     SUCCESS Reading Event record 12501. Record number within stream 2: 10839
+EventSelector     SUCCESS Reading Event record 12601. Record number within stream 2: 10939
+EventSelector     SUCCESS Reading Event record 12701. Record number within stream 2: 11039
+EventSelector     SUCCESS Reading Event record 12801. Record number within stream 2: 11139
+EventSelector     SUCCESS Reading Event record 12901. Record number within stream 2: 11239
+EventSelector     SUCCESS Reading Event record 13001. Record number within stream 2: 11339
+EventSelector     SUCCESS Reading Event record 13101. Record number within stream 2: 11439
+EventSelector     SUCCESS Reading Event record 13201. Record number within stream 2: 11539
+EventSelector     SUCCESS Reading Event record 13301. Record number within stream 2: 11639
+EventSelector     SUCCESS Reading Event record 13401. Record number within stream 2: 11739
+EventSelector     SUCCESS Reading Event record 13501. Record number within stream 2: 11839
+EventSelector     SUCCESS Reading Event record 13601. Record number within stream 2: 11939
+EventSelector     SUCCESS Reading Event record 13701. Record number within stream 2: 12039
+EventSelector     SUCCESS Reading Event record 13801. Record number within stream 2: 12139
+EventSelector     SUCCESS Reading Event record 13901. Record number within stream 2: 12239
+EventSelector     SUCCESS Reading Event record 14001. Record number within stream 2: 12339
+EventSelector     SUCCESS Reading Event record 14101. Record number within stream 2: 12439
+EventSelector     SUCCESS Reading Event record 14201. Record number within stream 2: 12539
+EventSelector     SUCCESS Reading Event record 14301. Record number within stream 2: 12639
+EventSelector     SUCCESS Reading Event record 14401. Record number within stream 2: 12739
+EventSelector     SUCCESS Reading Event record 14501. Record number within stream 2: 12839
+EventSelector     SUCCESS Reading Event record 14601. Record number within stream 2: 12939
+EventSelector     SUCCESS Reading Event record 14701. Record number within stream 2: 13039
+EventSelector     SUCCESS Reading Event record 14801. Record number within stream 2: 13139
+EventSelector     SUCCESS Reading Event record 14901. Record number within stream 2: 13239
+EventSelector     SUCCESS Reading Event record 15001. Record number within stream 2: 13339
+EventSelector     SUCCESS Reading Event record 15101. Record number within stream 2: 13439
+EventSelector     SUCCESS Reading Event record 15201. Record number within stream 2: 13539
+EventSelector     SUCCESS Reading Event record 15301. Record number within stream 2: 13639
+EventSelector     SUCCESS Reading Event record 15401. Record number within stream 2: 13739
+EventSelector     SUCCESS Reading Event record 15501. Record number within stream 2: 13839
+EventSelector     SUCCESS Reading Event record 15601. Record number within stream 2: 13939
+EventSelector     SUCCESS Reading Event record 15701. Record number within stream 2: 14039
+EventSelector     SUCCESS Reading Event record 15801. Record number within stream 2: 14139
+EventSelector     SUCCESS Reading Event record 15901. Record number within stream 2: 14239
+EventSelector     SUCCESS Reading Event record 16001. Record number within stream 2: 14339
+EventSelector     SUCCESS Reading Event record 16101. Record number within stream 2: 14439
+EventSelector     SUCCESS Reading Event record 16201. Record number within stream 2: 14539
+EventSelector     SUCCESS Reading Event record 16301. Record number within stream 2: 14639
+EventSelector     SUCCESS Reading Event record 16401. Record number within stream 2: 14739
+EventSelector     SUCCESS Reading Event record 16501. Record number within stream 2: 14839
+EventSelector     SUCCESS Reading Event record 16601. Record number within stream 2: 14939
+EventSelector     SUCCESS Reading Event record 16701. Record number within stream 2: 15039
+EventSelector     SUCCESS Reading Event record 16801. Record number within stream 2: 15139
+EventSelector     SUCCESS Reading Event record 16901. Record number within stream 2: 15239
+EventSelector     SUCCESS Reading Event record 17001. Record number within stream 2: 15339
+EventSelector     SUCCESS Reading Event record 17101. Record number within stream 2: 15439
+EventSelector     SUCCESS Reading Event record 17201. Record number within stream 2: 15539
+EventSelector     SUCCESS Reading Event record 17301. Record number within stream 2: 15639
+EventSelector     SUCCESS Reading Event record 17401. Record number within stream 2: 15739
+EventSelector     SUCCESS Reading Event record 17501. Record number within stream 2: 15839
+EventSelector     SUCCESS Reading Event record 17601. Record number within stream 2: 15939
+EventSelector     SUCCESS Reading Event record 17701. Record number within stream 2: 16039
+EventSelector     SUCCESS Reading Event record 17801. Record number within stream 2: 16139
+EventSelector     SUCCESS Reading Event record 17901. Record number within stream 2: 16239
+EventSelector     SUCCESS Reading Event record 18001. Record number within stream 2: 16339
+EventSelector     SUCCESS Reading Event record 18101. Record number within stream 2: 16439
+EventSelector     SUCCESS Reading Event record 18201. Record number within stream 2: 16539
+EventSelector     SUCCESS Reading Event record 18301. Record number within stream 2: 16639
+EventSelector     SUCCESS Reading Event record 18401. Record number within stream 2: 16739
+EventSelector     SUCCESS Reading Event record 18501. Record number within stream 2: 16839
+EventSelector     SUCCESS Reading Event record 18601. Record number within stream 2: 16939
+EventSelector     SUCCESS Reading Event record 18701. Record number within stream 2: 17039
+EventSelector     SUCCESS Reading Event record 18801. Record number within stream 2: 17139
+EventSelector     SUCCESS Reading Event record 18901. Record number within stream 2: 17239
+EventSelector     SUCCESS Reading Event record 19001. Record number within stream 2: 17339
+EventSelector     SUCCESS Reading Event record 19101. Record number within stream 2: 17439
+EventSelector     SUCCESS Reading Event record 19201. Record number within stream 2: 17539
+EventSelector     SUCCESS Reading Event record 19301. Record number within stream 2: 17639
+EventSelector     SUCCESS Reading Event record 19401. Record number within stream 2: 17739
+EventSelector     SUCCESS Reading Event record 19501. Record number within stream 2: 17839
+EventSelector     SUCCESS Reading Event record 19601. Record number within stream 2: 17939
+EventSelector     SUCCESS Reading Event record 19701. Record number within stream 2: 18039
+EventSelector     SUCCESS Reading Event record 19801. Record number within stream 2: 18139
+EventSelector     SUCCESS Reading Event record 19901. Record number within stream 2: 18239
+EventSelector     SUCCESS Reading Event record 20001. Record number within stream 2: 18339
+EventSelector     SUCCESS Reading Event record 20101. Record number within stream 2: 18439
+EventSelector     SUCCESS Reading Event record 20201. Record number within stream 2: 18539
+EventSelector     SUCCESS Reading Event record 20301. Record number within stream 2: 18639
+EventSelector     SUCCESS Reading Event record 20401. Record number within stream 2: 18739
+EventSelector     SUCCESS Reading Event record 20501. Record number within stream 2: 18839
+EventSelector     SUCCESS Reading Event record 20601. Record number within stream 2: 18939
+EventSelector     SUCCESS Reading Event record 20701. Record number within stream 2: 19039
+EventSelector     SUCCESS Reading Event record 20801. Record number within stream 2: 19139
+EventSelector     SUCCESS Reading Event record 20901. Record number within stream 2: 19239
+EventSelector     SUCCESS Reading Event record 21001. Record number within stream 2: 19339
+EventSelector     SUCCESS Reading Event record 21101. Record number within stream 2: 19439
+EventSelector     SUCCESS Reading Event record 21201. Record number within stream 2: 19539
+EventSelector     SUCCESS Reading Event record 21301. Record number within stream 2: 19639
+EventSelector     SUCCESS Reading Event record 21401. Record number within stream 2: 19739
+EventSelector     SUCCESS Reading Event record 21501. Record number within stream 2: 19839
+EventSelector     SUCCESS Reading Event record 21601. Record number within stream 2: 19939
+EventSelector     SUCCESS Reading Event record 21701. Record number within stream 2: 20039
+EventSelector     SUCCESS Reading Event record 21801. Record number within stream 2: 20139
+EventSelector     SUCCESS Reading Event record 21901. Record number within stream 2: 20239
+EventSelector     SUCCESS Reading Event record 22001. Record number within stream 2: 20339
+EventSelector     SUCCESS Reading Event record 22101. Record number within stream 2: 20439
+EventSelector     SUCCESS Reading Event record 22201. Record number within stream 2: 20539
+EventSelector     SUCCESS Reading Event record 22301. Record number within stream 2: 20639
+EventSelector     SUCCESS Reading Event record 22401. Record number within stream 2: 20739
+EventSelector     SUCCESS Reading Event record 22501. Record number within stream 2: 20839
+EventSelector     SUCCESS Reading Event record 22601. Record number within stream 2: 20939
+EventSelector     SUCCESS Reading Event record 22701. Record number within stream 2: 21039
+EventSelector     SUCCESS Reading Event record 22801. Record number within stream 2: 21139
+EventSelector     SUCCESS Reading Event record 22901. Record number within stream 2: 21239
+EventSelector     SUCCESS Reading Event record 23001. Record number within stream 2: 21339
+EventSelector     SUCCESS Reading Event record 23101. Record number within stream 2: 21439
+EventSelector     SUCCESS Reading Event record 23201. Record number within stream 2: 21539
+EventSelector     SUCCESS Reading Event record 23301. Record number within stream 2: 21639
+EventSelector     SUCCESS Reading Event record 23401. Record number within stream 2: 21739
+EventSelector     SUCCESS Reading Event record 23501. Record number within stream 2: 21839
+EventSelector     SUCCESS Reading Event record 23601. Record number within stream 2: 21939
+EventSelector     SUCCESS Reading Event record 23701. Record number within stream 2: 22039
+EventSelector     SUCCESS Reading Event record 23801. Record number within stream 2: 22139
+EventSelector     SUCCESS Reading Event record 23901. Record number within stream 2: 22239
+EventSelector     SUCCESS Reading Event record 24001. Record number within stream 2: 22339
+EventSelector     SUCCESS Reading Event record 24101. Record number within stream 2: 22439
+EventSelector     SUCCESS Reading Event record 24201. Record number within stream 2: 22539
+EventSelector     SUCCESS Reading Event record 24301. Record number within stream 2: 22639
+EventSelector     SUCCESS Reading Event record 24401. Record number within stream 2: 22739
+EventSelector     SUCCESS Reading Event record 24501. Record number within stream 2: 22839
+EventSelector     SUCCESS Reading Event record 24601. Record number within stream 2: 22939
+EventSelector     SUCCESS Reading Event record 24701. Record number within stream 2: 23039
+EventSelector     SUCCESS Reading Event record 24801. Record number within stream 2: 23139
+EventSelector     SUCCESS Reading Event record 24901. Record number within stream 2: 23239
+EventSelector     SUCCESS Reading Event record 25001. Record number within stream 2: 23339
+EventSelector     SUCCESS Reading Event record 25101. Record number within stream 2: 23439
+EventSelector     SUCCESS Reading Event record 25201. Record number within stream 2: 23539
+EventSelector     SUCCESS Reading Event record 25301. Record number within stream 2: 23639
+EventSelector     SUCCESS Reading Event record 25401. Record number within stream 2: 23739
+EventSelector     SUCCESS Reading Event record 25501. Record number within stream 2: 23839
+EventSelector     SUCCESS Reading Event record 25601. Record number within stream 2: 23939
+EventSelector     SUCCESS Reading Event record 25701. Record number within stream 2: 24039
+EventSelector     SUCCESS Reading Event record 25801. Record number within stream 2: 24139
+EventSelector     SUCCESS Reading Event record 25901. Record number within stream 2: 24239
+EventSelector     SUCCESS Reading Event record 26001. Record number within stream 2: 24339
+EventSelector     SUCCESS Reading Event record 26101. Record number within stream 2: 24439
+EventSelector     SUCCESS Reading Event record 26201. Record number within stream 2: 24539
+EventSelector     SUCCESS Reading Event record 26301. Record number within stream 2: 24639
+EventSelector     SUCCESS Reading Event record 26401. Record number within stream 2: 24739
+EventSelector     SUCCESS Reading Event record 26501. Record number within stream 2: 24839
+EventSelector     SUCCESS Reading Event record 26601. Record number within stream 2: 24939
+EventSelector     SUCCESS Reading Event record 26701. Record number within stream 2: 25039
+EventSelector     SUCCESS Reading Event record 26801. Record number within stream 2: 25139
+EventSelector     SUCCESS Reading Event record 26901. Record number within stream 2: 25239
+EventSelector     SUCCESS Reading Event record 27001. Record number within stream 2: 25339
+EventSelector     SUCCESS Reading Event record 27101. Record number within stream 2: 25439
+EventSelector     SUCCESS Reading Event record 27201. Record number within stream 2: 25539
+EventSelector     SUCCESS Reading Event record 27301. Record number within stream 2: 25639
+EventSelector     SUCCESS Reading Event record 27401. Record number within stream 2: 25739
+EventSelector     SUCCESS Reading Event record 27501. Record number within stream 2: 25839
+EventSelector     SUCCESS Reading Event record 27601. Record number within stream 2: 25939
+EventSelector     SUCCESS Reading Event record 27701. Record number within stream 2: 26039
+EventSelector     SUCCESS Reading Event record 27801. Record number within stream 2: 26139
+EventSelector     SUCCESS Reading Event record 27901. Record number within stream 2: 26239
+EventSelector     SUCCESS Reading Event record 28001. Record number within stream 2: 26339
+EventSelector        INFO Stream:EventSelector.DataStreamTool_3 Def:DATAFILE='./data/data-2012-md/00041836_00013110_1.semileptonic.dst' SVC='Gaudi::RootEvtSelector' OPT='READ'
+IODataManager        INFO Disconnect from dataset ./data/data-2012-md/00041836_00011435_1.semileptonic.dst [36F5747C-B880-E411-84BB-0025905C38AA]
+ONLINE_2012.Dat...   INFO Connecting to database
+DDDB.DataBaseOp...   INFO Connecting to database
+DQFLAGS.DataBas...   INFO Connecting to database
+MagneticFieldSvc     INFO Map scaled by factor 1 with polarity internally used: -1 signed relative current: -1
+CALIBOFF.DataBa...   INFO Connecting to database
+LHCBCOND.DataBa...   INFO Connecting to database
+PropertyConfigSvc    INFO  resolving alias TCK/0x008c0040
+PropertyConfigSvc    INFO  resolved TCK/0x008c0040 to 7f22a9a11b75e806ea74180938c1ab0e
+ToolSvc.L0DUCon...   INFO --------------- TCK = 0x0040------------------
+ToolSvc.L0DUCon...   INFO **** L0DU Config loading : L0TCK = 0x0040 for slot T0 ==> OK 
+ToolSvc.L0DUCon...   INFO Short description :: Same as L0 TCK 0x0039 with Hadron threshold at 175 i.o. 165
+ToolSvc.L0DUCon...   INFO The configuration 0x0040 matches the hardware limitations 
+ToolSvc.L0DUCon...   INFO - Usage : Channels [75.0% ]  |  Conditions [24.2% ]; max/type [100.0% ]; order : OK ; reported  : 31/31
+EventSelector     SUCCESS Reading Event record 28101. Record number within stream 3: 45
+EventSelector     SUCCESS Reading Event record 28201. Record number within stream 3: 145
+EventSelector     SUCCESS Reading Event record 28301. Record number within stream 3: 245
+EventSelector     SUCCESS Reading Event record 28401. Record number within stream 3: 345
+EventSelector     SUCCESS Reading Event record 28501. Record number within stream 3: 445
+EventSelector     SUCCESS Reading Event record 28601. Record number within stream 3: 545
+EventSelector     SUCCESS Reading Event record 28701. Record number within stream 3: 645
+EventSelector     SUCCESS Reading Event record 28801. Record number within stream 3: 745
+EventSelector     SUCCESS Reading Event record 28901. Record number within stream 3: 845
+EventSelector     SUCCESS Reading Event record 29001. Record number within stream 3: 945
+EventSelector     SUCCESS Reading Event record 29101. Record number within stream 3: 1045
+EventSelector     SUCCESS Reading Event record 29201. Record number within stream 3: 1145
+EventSelector     SUCCESS Reading Event record 29301. Record number within stream 3: 1245
+EventSelector     SUCCESS Reading Event record 29401. Record number within stream 3: 1345
+EventSelector     SUCCESS Reading Event record 29501. Record number within stream 3: 1445
+EventSelector     SUCCESS Reading Event record 29601. Record number within stream 3: 1545
+EventSelector     SUCCESS Reading Event record 29701. Record number within stream 3: 1645
+EventSelector     SUCCESS Reading Event record 29801. Record number within stream 3: 1745
+EventSelector     SUCCESS Reading Event record 29901. Record number within stream 3: 1845
+EventSelector     SUCCESS Reading Event record 30001. Record number within stream 3: 1945
+EventSelector     SUCCESS Reading Event record 30101. Record number within stream 3: 2045
+EventSelector     SUCCESS Reading Event record 30201. Record number within stream 3: 2145
+EventSelector     SUCCESS Reading Event record 30301. Record number within stream 3: 2245
+EventSelector     SUCCESS Reading Event record 30401. Record number within stream 3: 2345
+EventSelector     SUCCESS Reading Event record 30501. Record number within stream 3: 2445
+EventSelector     SUCCESS Reading Event record 30601. Record number within stream 3: 2545
+EventSelector     SUCCESS Reading Event record 30701. Record number within stream 3: 2645
+EventSelector     SUCCESS Reading Event record 30801. Record number within stream 3: 2745
+EventSelector     SUCCESS Reading Event record 30901. Record number within stream 3: 2845
+EventSelector     SUCCESS Reading Event record 31001. Record number within stream 3: 2945
+EventSelector     SUCCESS Reading Event record 31101. Record number within stream 3: 3045
+EventSelector     SUCCESS Reading Event record 31201. Record number within stream 3: 3145
+EventSelector     SUCCESS Reading Event record 31301. Record number within stream 3: 3245
+EventSelector     SUCCESS Reading Event record 31401. Record number within stream 3: 3345
+EventSelector     SUCCESS Reading Event record 31501. Record number within stream 3: 3445
+EventSelector     SUCCESS Reading Event record 31601. Record number within stream 3: 3545
+EventSelector     SUCCESS Reading Event record 31701. Record number within stream 3: 3645
+EventSelector     SUCCESS Reading Event record 31801. Record number within stream 3: 3745
+EventSelector     SUCCESS Reading Event record 31901. Record number within stream 3: 3845
+EventSelector     SUCCESS Reading Event record 32001. Record number within stream 3: 3945
+EventSelector     SUCCESS Reading Event record 32101. Record number within stream 3: 4045
+EventSelector     SUCCESS Reading Event record 32201. Record number within stream 3: 4145
+EventSelector     SUCCESS Reading Event record 32301. Record number within stream 3: 4245
+EventSelector     SUCCESS Reading Event record 32401. Record number within stream 3: 4345
+EventSelector     SUCCESS Reading Event record 32501. Record number within stream 3: 4445
+DQFLAGS.TimeOut...   INFO Disconnect from database after being idle for 120s (will reconnect if needed)
+ONLINE_2012.Tim...   INFO Disconnect from database after being idle for 120s (will reconnect if needed)
+CALIBOFF.TimeOu...   INFO Disconnect from database after being idle for 120s (will reconnect if needed)
+LHCBCOND.TimeOu...   INFO Disconnect from database after being idle for 120s (will reconnect if needed)
+DDDB.TimeOutChe...   INFO Disconnect from database after being idle for 120s (will reconnect if needed)
+EventSelector     SUCCESS Reading Event record 32601. Record number within stream 3: 4545
+EventSelector     SUCCESS Reading Event record 32701. Record number within stream 3: 4645
+EventSelector     SUCCESS Reading Event record 32801. Record number within stream 3: 4745
+EventSelector     SUCCESS Reading Event record 32901. Record number within stream 3: 4845
+EventSelector     SUCCESS Reading Event record 33001. Record number within stream 3: 4945
+EventSelector     SUCCESS Reading Event record 33101. Record number within stream 3: 5045
+EventSelector     SUCCESS Reading Event record 33201. Record number within stream 3: 5145
+EventSelector     SUCCESS Reading Event record 33301. Record number within stream 3: 5245
+EventSelector     SUCCESS Reading Event record 33401. Record number within stream 3: 5345
+EventSelector     SUCCESS Reading Event record 33501. Record number within stream 3: 5445
+EventSelector     SUCCESS Reading Event record 33601. Record number within stream 3: 5545
+EventSelector     SUCCESS Reading Event record 33701. Record number within stream 3: 5645
+EventSelector     SUCCESS Reading Event record 33801. Record number within stream 3: 5745
+EventSelector     SUCCESS Reading Event record 33901. Record number within stream 3: 5845
+EventSelector     SUCCESS Reading Event record 34001. Record number within stream 3: 5945
+EventSelector     SUCCESS Reading Event record 34101. Record number within stream 3: 6045
+EventSelector     SUCCESS Reading Event record 34201. Record number within stream 3: 6145
+EventSelector     SUCCESS Reading Event record 34301. Record number within stream 3: 6245
+EventSelector     SUCCESS Reading Event record 34401. Record number within stream 3: 6345
+EventSelector     SUCCESS Reading Event record 34501. Record number within stream 3: 6445
+EventSelector     SUCCESS Reading Event record 34601. Record number within stream 3: 6545
+EventSelector     SUCCESS Reading Event record 34701. Record number within stream 3: 6645
+EventSelector     SUCCESS Reading Event record 34801. Record number within stream 3: 6745
+EventSelector     SUCCESS Reading Event record 34901. Record number within stream 3: 6845
+EventSelector     SUCCESS Reading Event record 35001. Record number within stream 3: 6945
+EventSelector     SUCCESS Reading Event record 35101. Record number within stream 3: 7045
+EventSelector     SUCCESS Reading Event record 35201. Record number within stream 3: 7145
+EventSelector     SUCCESS Reading Event record 35301. Record number within stream 3: 7245
+EventSelector     SUCCESS Reading Event record 35401. Record number within stream 3: 7345
+EventSelector     SUCCESS Reading Event record 35501. Record number within stream 3: 7445
+EventSelector     SUCCESS Reading Event record 35601. Record number within stream 3: 7545
+EventSelector     SUCCESS Reading Event record 35701. Record number within stream 3: 7645
+EventSelector     SUCCESS Reading Event record 35801. Record number within stream 3: 7745
+EventSelector     SUCCESS Reading Event record 35901. Record number within stream 3: 7845
+EventSelector     SUCCESS Reading Event record 36001. Record number within stream 3: 7945
+EventSelector     SUCCESS Reading Event record 36101. Record number within stream 3: 8045
+EventSelector     SUCCESS Reading Event record 36201. Record number within stream 3: 8145
+EventSelector     SUCCESS Reading Event record 36301. Record number within stream 3: 8245
+EventSelector     SUCCESS Reading Event record 36401. Record number within stream 3: 8345
+EventSelector     SUCCESS Reading Event record 36501. Record number within stream 3: 8445
+EventSelector     SUCCESS Reading Event record 36601. Record number within stream 3: 8545
+EventSelector     SUCCESS Reading Event record 36701. Record number within stream 3: 8645
+EventSelector     SUCCESS Reading Event record 36801. Record number within stream 3: 8745
+EventSelector     SUCCESS Reading Event record 36901. Record number within stream 3: 8845
+EventSelector     SUCCESS Reading Event record 37001. Record number within stream 3: 8945
+EventSelector     SUCCESS Reading Event record 37101. Record number within stream 3: 9045
+EventSelector     SUCCESS Reading Event record 37201. Record number within stream 3: 9145
+EventSelector     SUCCESS Reading Event record 37301. Record number within stream 3: 9245
+EventSelector     SUCCESS Reading Event record 37401. Record number within stream 3: 9345
+EventSelector     SUCCESS Reading Event record 37501. Record number within stream 3: 9445
+EventSelector     SUCCESS Reading Event record 37601. Record number within stream 3: 9545
+EventSelector     SUCCESS Reading Event record 37701. Record number within stream 3: 9645
+EventSelector     SUCCESS Reading Event record 37801. Record number within stream 3: 9745
+EventSelector     SUCCESS Reading Event record 37901. Record number within stream 3: 9845
+EventSelector     SUCCESS Reading Event record 38001. Record number within stream 3: 9945
+EventSelector     SUCCESS Reading Event record 38101. Record number within stream 3: 10045
+EventSelector     SUCCESS Reading Event record 38201. Record number within stream 3: 10145
+EventSelector     SUCCESS Reading Event record 38301. Record number within stream 3: 10245
+EventSelector     SUCCESS Reading Event record 38401. Record number within stream 3: 10345
+EventSelector     SUCCESS Reading Event record 38501. Record number within stream 3: 10445
+EventSelector     SUCCESS Reading Event record 38601. Record number within stream 3: 10545
+EventSelector     SUCCESS Reading Event record 38701. Record number within stream 3: 10645
+EventSelector     SUCCESS Reading Event record 38801. Record number within stream 3: 10745
+EventSelector     SUCCESS Reading Event record 38901. Record number within stream 3: 10845
+EventSelector     SUCCESS Reading Event record 39001. Record number within stream 3: 10945
+EventSelector     SUCCESS Reading Event record 39101. Record number within stream 3: 11045
+EventSelector     SUCCESS Reading Event record 39201. Record number within stream 3: 11145
+EventSelector     SUCCESS Reading Event record 39301. Record number within stream 3: 11245
+EventSelector     SUCCESS Reading Event record 39401. Record number within stream 3: 11345
+EventSelector     SUCCESS Reading Event record 39501. Record number within stream 3: 11445
+EventSelector     SUCCESS Reading Event record 39601. Record number within stream 3: 11545
+EventSelector     SUCCESS Reading Event record 39701. Record number within stream 3: 11645
+EventSelector     SUCCESS Reading Event record 39801. Record number within stream 3: 11745
+EventSelector     SUCCESS Reading Event record 39901. Record number within stream 3: 11845
+EventSelector     SUCCESS Reading Event record 40001. Record number within stream 3: 11945
+EventSelector     SUCCESS Reading Event record 40101. Record number within stream 3: 12045
+EventSelector     SUCCESS Reading Event record 40201. Record number within stream 3: 12145
+EventSelector     SUCCESS Reading Event record 40301. Record number within stream 3: 12245
+EventSelector     SUCCESS Reading Event record 40401. Record number within stream 3: 12345
+EventSelector     SUCCESS Reading Event record 40501. Record number within stream 3: 12445
+EventSelector     SUCCESS Reading Event record 40601. Record number within stream 3: 12545
+EventSelector     SUCCESS Reading Event record 40701. Record number within stream 3: 12645
+EventSelector     SUCCESS Reading Event record 40801. Record number within stream 3: 12745
+EventSelector     SUCCESS Reading Event record 40901. Record number within stream 3: 12845
+EventSelector     SUCCESS Reading Event record 41001. Record number within stream 3: 12945
+EventSelector     SUCCESS Reading Event record 41101. Record number within stream 3: 13045
+EventSelector     SUCCESS Reading Event record 41201. Record number within stream 3: 13145
+EventSelector     SUCCESS Reading Event record 41301. Record number within stream 3: 13245
+EventSelector     SUCCESS Reading Event record 41401. Record number within stream 3: 13345
+EventSelector     SUCCESS Reading Event record 41501. Record number within stream 3: 13445
+EventSelector     SUCCESS Reading Event record 41601. Record number within stream 3: 13545
+EventSelector     SUCCESS Reading Event record 41701. Record number within stream 3: 13645
+EventSelector     SUCCESS Reading Event record 41801. Record number within stream 3: 13745
+EventSelector     SUCCESS Reading Event record 41901. Record number within stream 3: 13845
+EventSelector     SUCCESS Reading Event record 42001. Record number within stream 3: 13945
+EventSelector     SUCCESS Reading Event record 42101. Record number within stream 3: 14045
+EventSelector     SUCCESS Reading Event record 42201. Record number within stream 3: 14145
+EventSelector     SUCCESS Reading Event record 42301. Record number within stream 3: 14245
+EventSelector     SUCCESS Reading Event record 42401. Record number within stream 3: 14345
+EventSelector     SUCCESS Reading Event record 42501. Record number within stream 3: 14445
+EventSelector     SUCCESS Reading Event record 42601. Record number within stream 3: 14545
+EventSelector     SUCCESS Reading Event record 42701. Record number within stream 3: 14645
+EventSelector     SUCCESS Reading Event record 42801. Record number within stream 3: 14745
+EventSelector     SUCCESS Reading Event record 42901. Record number within stream 3: 14845
+EventSelector     SUCCESS Reading Event record 43001. Record number within stream 3: 14945
+EventSelector     SUCCESS Reading Event record 43101. Record number within stream 3: 15045
+EventSelector     SUCCESS Reading Event record 43201. Record number within stream 3: 15145
+EventSelector     SUCCESS Reading Event record 43301. Record number within stream 3: 15245
+EventSelector     SUCCESS Reading Event record 43401. Record number within stream 3: 15345
+EventSelector     SUCCESS Reading Event record 43501. Record number within stream 3: 15445
+EventSelector     SUCCESS Reading Event record 43601. Record number within stream 3: 15545
+EventSelector     SUCCESS Reading Event record 43701. Record number within stream 3: 15645
+EventSelector     SUCCESS Reading Event record 43801. Record number within stream 3: 15745
+EventSelector     SUCCESS Reading Event record 43901. Record number within stream 3: 15845
+EventSelector     SUCCESS Reading Event record 44001. Record number within stream 3: 15945
+EventSelector     SUCCESS Reading Event record 44101. Record number within stream 3: 16045
+EventSelector     SUCCESS Reading Event record 44201. Record number within stream 3: 16145
+EventSelector     SUCCESS Reading Event record 44301. Record number within stream 3: 16245
+EventSelector     SUCCESS Reading Event record 44401. Record number within stream 3: 16345
+EventSelector     SUCCESS Reading Event record 44501. Record number within stream 3: 16445
+EventSelector     SUCCESS Reading Event record 44601. Record number within stream 3: 16545
+EventSelector     SUCCESS Reading Event record 44701. Record number within stream 3: 16645
+EventSelector     SUCCESS Reading Event record 44801. Record number within stream 3: 16745
+EventSelector     SUCCESS Reading Event record 44901. Record number within stream 3: 16845
+EventSelector     SUCCESS Reading Event record 45001. Record number within stream 3: 16945
+EventSelector     SUCCESS Reading Event record 45101. Record number within stream 3: 17045
+EventSelector     SUCCESS Reading Event record 45201. Record number within stream 3: 17145
+EventSelector     SUCCESS Reading Event record 45301. Record number within stream 3: 17245
+EventSelector     SUCCESS Reading Event record 45401. Record number within stream 3: 17345
+EventSelector     SUCCESS Reading Event record 45501. Record number within stream 3: 17445
+EventSelector     SUCCESS Reading Event record 45601. Record number within stream 3: 17545
+EventSelector     SUCCESS Reading Event record 45701. Record number within stream 3: 17645
+EventSelector     SUCCESS Reading Event record 45801. Record number within stream 3: 17745
+EventSelector     SUCCESS Reading Event record 45901. Record number within stream 3: 17845
+EventSelector     SUCCESS Reading Event record 46001. Record number within stream 3: 17945
+EventSelector     SUCCESS Reading Event record 46101. Record number within stream 3: 18045
+EventSelector     SUCCESS Reading Event record 46201. Record number within stream 3: 18145
+EventSelector     SUCCESS Reading Event record 46301. Record number within stream 3: 18245
+EventSelector     SUCCESS Reading Event record 46401. Record number within stream 3: 18345
+EventSelector     SUCCESS Reading Event record 46501. Record number within stream 3: 18445
+EventSelector     SUCCESS Reading Event record 46601. Record number within stream 3: 18545
+EventSelector     SUCCESS Reading Event record 46701. Record number within stream 3: 18645
+EventSelector     SUCCESS Reading Event record 46801. Record number within stream 3: 18745
+EventSelector     SUCCESS Reading Event record 46901. Record number within stream 3: 18845
+EventSelector     SUCCESS Reading Event record 47001. Record number within stream 3: 18945
+EventSelector     SUCCESS Reading Event record 47101. Record number within stream 3: 19045
+EventSelector     SUCCESS Reading Event record 47201. Record number within stream 3: 19145
+EventSelector     SUCCESS Reading Event record 47301. Record number within stream 3: 19245
+EventSelector     SUCCESS Reading Event record 47401. Record number within stream 3: 19345
+EventSelector     SUCCESS Reading Event record 47501. Record number within stream 3: 19445
+EventSelector     SUCCESS Reading Event record 47601. Record number within stream 3: 19545
+EventSelector     SUCCESS Reading Event record 47701. Record number within stream 3: 19645
+EventSelector     SUCCESS Reading Event record 47801. Record number within stream 3: 19745
+EventSelector     SUCCESS Reading Event record 47901. Record number within stream 3: 19845
+EventSelector     SUCCESS Reading Event record 48001. Record number within stream 3: 19945
+EventSelector     SUCCESS Reading Event record 48101. Record number within stream 3: 20045
+EventSelector     SUCCESS Reading Event record 48201. Record number within stream 3: 20145
+EventSelector     SUCCESS Reading Event record 48301. Record number within stream 3: 20245
+EventSelector     SUCCESS Reading Event record 48401. Record number within stream 3: 20345
+EventSelector     SUCCESS Reading Event record 48501. Record number within stream 3: 20445
+EventSelector     SUCCESS Reading Event record 48601. Record number within stream 3: 20545
+EventSelector     SUCCESS Reading Event record 48701. Record number within stream 3: 20645
+EventSelector     SUCCESS Reading Event record 48801. Record number within stream 3: 20745
+EventSelector     SUCCESS Reading Event record 48901. Record number within stream 3: 20845
+EventSelector     SUCCESS Reading Event record 49001. Record number within stream 3: 20945
+EventSelector     SUCCESS Reading Event record 49101. Record number within stream 3: 21045
+EventSelector     SUCCESS Reading Event record 49201. Record number within stream 3: 21145
+EventSelector     SUCCESS Reading Event record 49301. Record number within stream 3: 21245
+EventSelector     SUCCESS Reading Event record 49401. Record number within stream 3: 21345
+EventSelector     SUCCESS Reading Event record 49501. Record number within stream 3: 21445
+EventSelector     SUCCESS Reading Event record 49601. Record number within stream 3: 21545
+EventSelector     SUCCESS Reading Event record 49701. Record number within stream 3: 21645
+EventSelector     SUCCESS Reading Event record 49801. Record number within stream 3: 21745
+EventSelector     SUCCESS Reading Event record 49901. Record number within stream 3: 21845
+EventSelector     SUCCESS Reading Event record 50001. Record number within stream 3: 21945
+EventSelector     SUCCESS Reading Event record 50101. Record number within stream 3: 22045
+EventSelector     SUCCESS Reading Event record 50201. Record number within stream 3: 22145
+EventSelector     SUCCESS Reading Event record 50301. Record number within stream 3: 22245
+EventSelector     SUCCESS Reading Event record 50401. Record number within stream 3: 22345
+EventSelector     SUCCESS Reading Event record 50501. Record number within stream 3: 22445
+EventSelector     SUCCESS Reading Event record 50601. Record number within stream 3: 22545
+EventSelector     SUCCESS Reading Event record 50701. Record number within stream 3: 22645
+EventSelector     SUCCESS Reading Event record 50801. Record number within stream 3: 22745
+EventSelector     SUCCESS Reading Event record 50901. Record number within stream 3: 22845
+EventSelector     SUCCESS Reading Event record 51001. Record number within stream 3: 22945
+EventSelector     SUCCESS Reading Event record 51101. Record number within stream 3: 23045
+EventSelector     SUCCESS Reading Event record 51201. Record number within stream 3: 23145
+EventSelector     SUCCESS Reading Event record 51301. Record number within stream 3: 23245
+EventSelector     SUCCESS Reading Event record 51401. Record number within stream 3: 23345
+EventSelector     SUCCESS Reading Event record 51501. Record number within stream 3: 23445
+EventSelector     SUCCESS Reading Event record 51601. Record number within stream 3: 23545
+EventSelector     SUCCESS Reading Event record 51701. Record number within stream 3: 23645
+EventSelector     SUCCESS Reading Event record 51801. Record number within stream 3: 23745
+EventSelector     SUCCESS Reading Event record 51901. Record number within stream 3: 23845
+EventSelector     SUCCESS Reading Event record 52001. Record number within stream 3: 23945
+EventSelector     SUCCESS Reading Event record 52101. Record number within stream 3: 24045
+EventSelector     SUCCESS Reading Event record 52201. Record number within stream 3: 24145
+EventSelector     SUCCESS Reading Event record 52301. Record number within stream 3: 24245
+EventSelector     SUCCESS Reading Event record 52401. Record number within stream 3: 24345
+EventSelector     SUCCESS Reading Event record 52501. Record number within stream 3: 24445
+EventSelector     SUCCESS Reading Event record 52601. Record number within stream 3: 24545
+EventSelector     SUCCESS Reading Event record 52701. Record number within stream 3: 24645
+EventSelector     SUCCESS Reading Event record 52801. Record number within stream 3: 24745
+EventSelector     SUCCESS Reading Event record 52901. Record number within stream 3: 24845
+EventSelector     SUCCESS Reading Event record 53001. Record number within stream 3: 24945
+EventSelector     SUCCESS Reading Event record 53101. Record number within stream 3: 25045
+EventSelector     SUCCESS Reading Event record 53201. Record number within stream 3: 25145
+EventSelector     SUCCESS Reading Event record 53301. Record number within stream 3: 25245
+EventSelector     SUCCESS Reading Event record 53401. Record number within stream 3: 25345
+EventSelector     SUCCESS Reading Event record 53501. Record number within stream 3: 25445
+EventSelector     SUCCESS Reading Event record 53601. Record number within stream 3: 25545
+EventSelector     SUCCESS Reading Event record 53701. Record number within stream 3: 25645
+EventSelector     SUCCESS Reading Event record 53801. Record number within stream 3: 25745
+EventSelector     SUCCESS Reading Event record 53901. Record number within stream 3: 25845
+EventSelector     SUCCESS Reading Event record 54001. Record number within stream 3: 25945
+EventSelector     SUCCESS Reading Event record 54101. Record number within stream 3: 26045
+EventSelector     SUCCESS Reading Event record 54201. Record number within stream 3: 26145
+EventSelector     SUCCESS Reading Event record 54301. Record number within stream 3: 26245
+EventSelector     SUCCESS Reading Event record 54401. Record number within stream 3: 26345
+EventSelector     SUCCESS Reading Event record 54501. Record number within stream 3: 26445
+EventSelector     SUCCESS Reading Event record 54601. Record number within stream 3: 26545
+EventSelector     SUCCESS Reading Event record 54701. Record number within stream 3: 26645
+EventSelector     SUCCESS Reading Event record 54801. Record number within stream 3: 26745
+EventSelector     SUCCESS Reading Event record 54901. Record number within stream 3: 26845
+EventSelector     SUCCESS Reading Event record 55001. Record number within stream 3: 26945
+EventSelector     SUCCESS Reading Event record 55101. Record number within stream 3: 27045
+EventSelector     SUCCESS Reading Event record 55201. Record number within stream 3: 27145
+EventSelector     SUCCESS Reading Event record 55301. Record number within stream 3: 27245
+EventSelector     SUCCESS Reading Event record 55401. Record number within stream 3: 27345
+EventSelector     SUCCESS Reading Event record 55501. Record number within stream 3: 27445
+EventSelector     SUCCESS Reading Event record 55601. Record number within stream 3: 27545
+EventSelector     SUCCESS Reading Event record 55701. Record number within stream 3: 27645
+EventSelector     SUCCESS Reading Event record 55801. Record number within stream 3: 27745
+EventSelector     SUCCESS Reading Event record 55901. Record number within stream 3: 27845
+EventSelector     SUCCESS Reading Event record 56001. Record number within stream 3: 27945
+EventSelector     SUCCESS Reading Event record 56101. Record number within stream 3: 28045
+EventSelector     SUCCESS Reading Event record 56201. Record number within stream 3: 28145
+EventSelector     SUCCESS Reading Event record 56301. Record number within stream 3: 28245
+EventSelector     SUCCESS Reading Event record 56401. Record number within stream 3: 28345
+EventSelector     SUCCESS Reading Event record 56501. Record number within stream 3: 28445
+EventSelector     SUCCESS Reading Event record 56601. Record number within stream 3: 28545
+EventSelector     SUCCESS Reading Event record 56701. Record number within stream 3: 28645
+EventSelector     SUCCESS Reading Event record 56801. Record number within stream 3: 28745
+EventSelector     SUCCESS Reading Event record 56901. Record number within stream 3: 28845
+EventSelector     SUCCESS Reading Event record 57001. Record number within stream 3: 28945
+EventSelector     SUCCESS Reading Event record 57101. Record number within stream 3: 29045
+EventSelector     SUCCESS Reading Event record 57201. Record number within stream 3: 29145
+EventSelector     SUCCESS Reading Event record 57301. Record number within stream 3: 29245
+EventSelector     SUCCESS Reading Event record 57401. Record number within stream 3: 29345
+EventSelector     SUCCESS Reading Event record 57501. Record number within stream 3: 29445
+EventSelector     SUCCESS Reading Event record 57601. Record number within stream 3: 29545
+EventSelector     SUCCESS Reading Event record 57701. Record number within stream 3: 29645
+EventSelector     SUCCESS Reading Event record 57801. Record number within stream 3: 29745
+EventSelector     SUCCESS Reading Event record 57901. Record number within stream 3: 29845
+EventSelector     SUCCESS Reading Event record 58001. Record number within stream 3: 29945
+EventSelector     SUCCESS Reading Event record 58101. Record number within stream 3: 30045
+EventSelector     SUCCESS Reading Event record 58201. Record number within stream 3: 30145
+EventSelector     SUCCESS Reading Event record 58301. Record number within stream 3: 30245
+EventSelector     SUCCESS Reading Event record 58401. Record number within stream 3: 30345
+EventSelector     SUCCESS Reading Event record 58501. Record number within stream 3: 30445
+EventSelector     SUCCESS Reading Event record 58601. Record number within stream 3: 30545
+EventSelector     SUCCESS Reading Event record 58701. Record number within stream 3: 30645
+EventSelector     SUCCESS Reading Event record 58801. Record number within stream 3: 30745
+EventSelector     SUCCESS Reading Event record 58901. Record number within stream 3: 30845
+EventSelector     SUCCESS Reading Event record 59001. Record number within stream 3: 30945
+EventSelector     SUCCESS Reading Event record 59101. Record number within stream 3: 31045
+EventSelector     SUCCESS Reading Event record 59201. Record number within stream 3: 31145
+EventSelector     SUCCESS Reading Event record 59301. Record number within stream 3: 31245
+EventSelector     SUCCESS Reading Event record 59401. Record number within stream 3: 31345
+EventSelector     SUCCESS Reading Event record 59501. Record number within stream 3: 31445
+EventSelector     SUCCESS Reading Event record 59601. Record number within stream 3: 31545
+EventSelector     SUCCESS Reading Event record 59701. Record number within stream 3: 31645
+EventSelector     SUCCESS Reading Event record 59801. Record number within stream 3: 31745
+EventSelector     SUCCESS Reading Event record 59901. Record number within stream 3: 31845
+EventSelector     SUCCESS Reading Event record 60001. Record number within stream 3: 31945
+EventSelector     SUCCESS Reading Event record 60101. Record number within stream 3: 32045
+EventSelector     SUCCESS Reading Event record 60201. Record number within stream 3: 32145
+EventSelector     SUCCESS Reading Event record 60301. Record number within stream 3: 32245
+EventSelector     SUCCESS Reading Event record 60401. Record number within stream 3: 32345
+EventSelector     SUCCESS Reading Event record 60501. Record number within stream 3: 32445
+EventSelector     SUCCESS Reading Event record 60601. Record number within stream 3: 32545
+EventSelector     SUCCESS Reading Event record 60701. Record number within stream 3: 32645
+EventSelector     SUCCESS Reading Event record 60801. Record number within stream 3: 32745
+EventSelector     SUCCESS Reading Event record 60901. Record number within stream 3: 32845
+EventSelector     SUCCESS Reading Event record 61001. Record number within stream 3: 32945
+EventSelector     SUCCESS Reading Event record 61101. Record number within stream 3: 33045
+EventSelector     SUCCESS Reading Event record 61201. Record number within stream 3: 33145
+EventSelector     SUCCESS Reading Event record 61301. Record number within stream 3: 33245
+EventSelector     SUCCESS Reading Event record 61401. Record number within stream 3: 33345
+EventSelector     SUCCESS Reading Event record 61501. Record number within stream 3: 33445
+EventSelector     SUCCESS Reading Event record 61601. Record number within stream 3: 33545
+EventSelector     SUCCESS Reading Event record 61701. Record number within stream 3: 33645
+EventSelector     SUCCESS Reading Event record 61801. Record number within stream 3: 33745
+EventSelector     SUCCESS Reading Event record 61901. Record number within stream 3: 33845
+EventSelector     SUCCESS Reading Event record 62001. Record number within stream 3: 33945
+EventSelector     SUCCESS Reading Event record 62101. Record number within stream 3: 34045
+EventSelector     SUCCESS Reading Event record 62201. Record number within stream 3: 34145
+EventSelector     SUCCESS Reading Event record 62301. Record number within stream 3: 34245
+EventSelector     SUCCESS Reading Event record 62401. Record number within stream 3: 34345
+EventSelector     SUCCESS Reading Event record 62501. Record number within stream 3: 34445
+EventSelector     SUCCESS Reading Event record 62601. Record number within stream 3: 34545
+EventSelector     SUCCESS Reading Event record 62701. Record number within stream 3: 34645
+EventSelector     SUCCESS Reading Event record 62801. Record number within stream 3: 34745
+EventSelector     SUCCESS Reading Event record 62901. Record number within stream 3: 34845
+EventSelector     SUCCESS Reading Event record 63001. Record number within stream 3: 34945
+EventSelector     SUCCESS Reading Event record 63101. Record number within stream 3: 35045
+EventSelector     SUCCESS Reading Event record 63201. Record number within stream 3: 35145
+EventSelector     SUCCESS Reading Event record 63301. Record number within stream 3: 35245
+EventSelector     SUCCESS Reading Event record 63401. Record number within stream 3: 35345
+EventSelector     SUCCESS Reading Event record 63501. Record number within stream 3: 35445
+EventSelector     SUCCESS Reading Event record 63601. Record number within stream 3: 35545
+EventSelector     SUCCESS Reading Event record 63701. Record number within stream 3: 35645
+EventSelector     SUCCESS Reading Event record 63801. Record number within stream 3: 35745
+EventSelector     SUCCESS Reading Event record 63901. Record number within stream 3: 35845
+EventSelector     SUCCESS Reading Event record 64001. Record number within stream 3: 35945
+EventSelector     SUCCESS Reading Event record 64101. Record number within stream 3: 36045
+EventSelector     SUCCESS Reading Event record 64201. Record number within stream 3: 36145
+EventSelector     SUCCESS Reading Event record 64301. Record number within stream 3: 36245
+EventSelector     SUCCESS Reading Event record 64401. Record number within stream 3: 36345
+EventSelector     SUCCESS Reading Event record 64501. Record number within stream 3: 36445
+EventSelector     SUCCESS Reading Event record 64601. Record number within stream 3: 36545
+EventSelector     SUCCESS Reading Event record 64701. Record number within stream 3: 36645
+EventSelector     SUCCESS Reading Event record 64801. Record number within stream 3: 36745
+EventSelector     SUCCESS Reading Event record 64901. Record number within stream 3: 36845
+EventSelector     SUCCESS Reading Event record 65001. Record number within stream 3: 36945
+EventSelector     SUCCESS Reading Event record 65101. Record number within stream 3: 37045
+EventSelector     SUCCESS Reading Event record 65201. Record number within stream 3: 37145
+EventSelector     SUCCESS Reading Event record 65301. Record number within stream 3: 37245
+EventSelector     SUCCESS Reading Event record 65401. Record number within stream 3: 37345
+EventSelector     SUCCESS Reading Event record 65501. Record number within stream 3: 37445
+EventSelector     SUCCESS Reading Event record 65601. Record number within stream 3: 37545
+EventSelector     SUCCESS Reading Event record 65701. Record number within stream 3: 37645
+EventSelector     SUCCESS Reading Event record 65801. Record number within stream 3: 37745
+EventSelector     SUCCESS Reading Event record 65901. Record number within stream 3: 37845
+EventSelector     SUCCESS Reading Event record 66001. Record number within stream 3: 37945
+EventSelector     SUCCESS Reading Event record 66101. Record number within stream 3: 38045
+EventSelector     SUCCESS Reading Event record 66201. Record number within stream 3: 38145
+EventSelector     SUCCESS Reading Event record 66301. Record number within stream 3: 38245
+EventSelector     SUCCESS Reading Event record 66401. Record number within stream 3: 38345
+EventSelector     SUCCESS Reading Event record 66501. Record number within stream 3: 38445
+EventSelector     SUCCESS Reading Event record 66601. Record number within stream 3: 38545
+EventSelector     SUCCESS Reading Event record 66701. Record number within stream 3: 38645
+EventSelector     SUCCESS Reading Event record 66801. Record number within stream 3: 38745
+EventSelector     SUCCESS Reading Event record 66901. Record number within stream 3: 38845
+EventSelector     SUCCESS Reading Event record 67001. Record number within stream 3: 38945
+EventSelector     SUCCESS Reading Event record 67101. Record number within stream 3: 39045
+EventSelector     SUCCESS Reading Event record 67201. Record number within stream 3: 39145
+EventSelector     SUCCESS Reading Event record 67301. Record number within stream 3: 39245
+EventSelector     SUCCESS Reading Event record 67401. Record number within stream 3: 39345
+EventSelector     SUCCESS Reading Event record 67501. Record number within stream 3: 39445
+EventSelector     SUCCESS Reading Event record 67601. Record number within stream 3: 39545
+EventSelector     SUCCESS Reading Event record 67701. Record number within stream 3: 39645
+EventSelector     SUCCESS Reading Event record 67801. Record number within stream 3: 39745
+EventSelector     SUCCESS Reading Event record 67901. Record number within stream 3: 39845
+EventSelector     SUCCESS Reading Event record 68001. Record number within stream 3: 39945
+EventSelector     SUCCESS Reading Event record 68101. Record number within stream 3: 40045
+EventSelector     SUCCESS Reading Event record 68201. Record number within stream 3: 40145
+EventSelector     SUCCESS Reading Event record 68301. Record number within stream 3: 40245
+EventSelector     SUCCESS Reading Event record 68401. Record number within stream 3: 40345
+EventSelector     SUCCESS Reading Event record 68501. Record number within stream 3: 40445
+EventSelector     SUCCESS Reading Event record 68601. Record number within stream 3: 40545
+EventSelector     SUCCESS Reading Event record 68701. Record number within stream 3: 40645
+EventSelector     SUCCESS Reading Event record 68801. Record number within stream 3: 40745
+EventSelector     SUCCESS Reading Event record 68901. Record number within stream 3: 40845
+EventSelector     SUCCESS Reading Event record 69001. Record number within stream 3: 40945
+EventSelector     SUCCESS Reading Event record 69101. Record number within stream 3: 41045
+EventSelector     SUCCESS Reading Event record 69201. Record number within stream 3: 41145
+EventSelector     SUCCESS Reading Event record 69301. Record number within stream 3: 41245
+EventSelector     SUCCESS Reading Event record 69401. Record number within stream 3: 41345
+EventSelector     SUCCESS Reading Event record 69501. Record number within stream 3: 41445
+EventSelector     SUCCESS Reading Event record 69601. Record number within stream 3: 41545
+EventSelector     SUCCESS Reading Event record 69701. Record number within stream 3: 41645
+EventSelector     SUCCESS Reading Event record 69801. Record number within stream 3: 41745
+EventSelector     SUCCESS Reading Event record 69901. Record number within stream 3: 41845
+EventSelector     SUCCESS Reading Event record 70001. Record number within stream 3: 41945
+EventSelector     SUCCESS Reading Event record 70101. Record number within stream 3: 42045
+EventSelector     SUCCESS Reading Event record 70201. Record number within stream 3: 42145
+EventSelector     SUCCESS Reading Event record 70301. Record number within stream 3: 42245
+EventSelector     SUCCESS Reading Event record 70401. Record number within stream 3: 42345
+EventSelector     SUCCESS Reading Event record 70501. Record number within stream 3: 42445
+EventSelector     SUCCESS Reading Event record 70601. Record number within stream 3: 42545
+EventSelector     SUCCESS Reading Event record 70701. Record number within stream 3: 42645
+EventSelector     SUCCESS Reading Event record 70801. Record number within stream 3: 42745
+EventSelector     SUCCESS Reading Event record 70901. Record number within stream 3: 42845
+EventSelector     SUCCESS Reading Event record 71001. Record number within stream 3: 42945
+EventSelector     SUCCESS Reading Event record 71101. Record number within stream 3: 43045
+EventSelector     SUCCESS Reading Event record 71201. Record number within stream 3: 43145
+EventSelector     SUCCESS Reading Event record 71301. Record number within stream 3: 43245
+EventSelector     SUCCESS Reading Event record 71401. Record number within stream 3: 43345
+EventSelector     SUCCESS Reading Event record 71501. Record number within stream 3: 43445
+EventSelector     SUCCESS Reading Event record 71601. Record number within stream 3: 43545
+EventSelector     SUCCESS Reading Event record 71701. Record number within stream 3: 43645
+EventSelector     SUCCESS Reading Event record 71801. Record number within stream 3: 43745
+EventSelector     SUCCESS Reading Event record 71901. Record number within stream 3: 43845
+EventSelector     SUCCESS Reading Event record 72001. Record number within stream 3: 43945
+EventSelector     SUCCESS Reading Event record 72101. Record number within stream 3: 44045
+EventSelector     SUCCESS Reading Event record 72201. Record number within stream 3: 44145
+EventSelector     SUCCESS Reading Event record 72301. Record number within stream 3: 44245
+EventSelector     SUCCESS Reading Event record 72401. Record number within stream 3: 44345
+EventSelector     SUCCESS Reading Event record 72501. Record number within stream 3: 44445
+EventSelector     SUCCESS Reading Event record 72601. Record number within stream 3: 44545
+EventSelector     SUCCESS Reading Event record 72701. Record number within stream 3: 44645
+EventSelector     SUCCESS Reading Event record 72801. Record number within stream 3: 44745
+EventSelector     SUCCESS Reading Event record 72901. Record number within stream 3: 44845
+EventSelector     SUCCESS Reading Event record 73001. Record number within stream 3: 44945
+EventSelector     SUCCESS Reading Event record 73101. Record number within stream 3: 45045
+EventSelector     SUCCESS Reading Event record 73201. Record number within stream 3: 45145
+EventSelector     SUCCESS Reading Event record 73301. Record number within stream 3: 45245
+EventSelector     SUCCESS Reading Event record 73401. Record number within stream 3: 45345
+EventSelector     SUCCESS Reading Event record 73501. Record number within stream 3: 45445
+EventSelector     SUCCESS Reading Event record 73601. Record number within stream 3: 45545
+EventSelector     SUCCESS Reading Event record 73701. Record number within stream 3: 45645
+EventSelector     SUCCESS Reading Event record 73801. Record number within stream 3: 45745
+EventSelector     SUCCESS Reading Event record 73901. Record number within stream 3: 45845
+EventSelector     SUCCESS Reading Event record 74001. Record number within stream 3: 45945
+EventSelector     SUCCESS Reading Event record 74101. Record number within stream 3: 46045
+EventSelector     SUCCESS Reading Event record 74201. Record number within stream 3: 46145
+EventSelector     SUCCESS Reading Event record 74301. Record number within stream 3: 46245
+EventSelector     SUCCESS Reading Event record 74401. Record number within stream 3: 46345
+EventSelector     SUCCESS Reading Event record 74501. Record number within stream 3: 46445
+EventSelector     SUCCESS Reading Event record 74601. Record number within stream 3: 46545
+EventSelector     SUCCESS Reading Event record 74701. Record number within stream 3: 46645
+EventSelector     SUCCESS Reading Event record 74801. Record number within stream 3: 46745
+EventSelector     SUCCESS Reading Event record 74901. Record number within stream 3: 46845
+EventSelector     SUCCESS Reading Event record 75001. Record number within stream 3: 46945
+EventSelector     SUCCESS Reading Event record 75101. Record number within stream 3: 47045
+EventSelector     SUCCESS Reading Event record 75201. Record number within stream 3: 47145
+EventSelector     SUCCESS Reading Event record 75301. Record number within stream 3: 47245
+EventSelector     SUCCESS Reading Event record 75401. Record number within stream 3: 47345
+EventSelector     SUCCESS Reading Event record 75501. Record number within stream 3: 47445
+EventSelector     SUCCESS Reading Event record 75601. Record number within stream 3: 47545
+EventSelector     SUCCESS Reading Event record 75701. Record number within stream 3: 47645
+EventSelector     SUCCESS Reading Event record 75801. Record number within stream 3: 47745
+EventSelector     SUCCESS Reading Event record 75901. Record number within stream 3: 47845
+EventSelector     SUCCESS Reading Event record 76001. Record number within stream 3: 47945
+EventSelector     SUCCESS Reading Event record 76101. Record number within stream 3: 48045
+EventSelector     SUCCESS Reading Event record 76201. Record number within stream 3: 48145
+EventSelector     SUCCESS Reading Event record 76301. Record number within stream 3: 48245
+EventSelector     SUCCESS Reading Event record 76401. Record number within stream 3: 48345
+EventSelector     SUCCESS Reading Event record 76501. Record number within stream 3: 48445
+EventSelector     SUCCESS Reading Event record 76601. Record number within stream 3: 48545
+EventSelector     SUCCESS Reading Event record 76701. Record number within stream 3: 48645
+EventSelector     SUCCESS Reading Event record 76801. Record number within stream 3: 48745
+EventSelector     SUCCESS Reading Event record 76901. Record number within stream 3: 48845
+EventSelector     SUCCESS Reading Event record 77001. Record number within stream 3: 48945
+EventSelector     SUCCESS Reading Event record 77101. Record number within stream 3: 49045
+EventSelector     SUCCESS Reading Event record 77201. Record number within stream 3: 49145
+EventSelector     SUCCESS Reading Event record 77301. Record number within stream 3: 49245
+EventSelector     SUCCESS Reading Event record 77401. Record number within stream 3: 49345
+EventSelector     SUCCESS Reading Event record 77501. Record number within stream 3: 49445
+EventSelector     SUCCESS Reading Event record 77601. Record number within stream 3: 49545
+EventSelector     SUCCESS Reading Event record 77701. Record number within stream 3: 49645
+EventSelector     SUCCESS Reading Event record 77801. Record number within stream 3: 49745
+EventSelector     SUCCESS Reading Event record 77901. Record number within stream 3: 49845
+EventSelector     SUCCESS Reading Event record 78001. Record number within stream 3: 49945
+EventSelector     SUCCESS Reading Event record 78101. Record number within stream 3: 50045
+EventSelector     SUCCESS Reading Event record 78201. Record number within stream 3: 50145
+EventSelector     SUCCESS Reading Event record 78301. Record number within stream 3: 50245
+EventSelector     SUCCESS Reading Event record 78401. Record number within stream 3: 50345
+EventSelector     SUCCESS Reading Event record 78501. Record number within stream 3: 50445
+EventSelector     SUCCESS Reading Event record 78601. Record number within stream 3: 50545
+EventSelector     SUCCESS Reading Event record 78701. Record number within stream 3: 50645
+EventSelector     SUCCESS Reading Event record 78801. Record number within stream 3: 50745
+EventSelector     SUCCESS Reading Event record 78901. Record number within stream 3: 50845
+EventSelector     SUCCESS Reading Event record 79001. Record number within stream 3: 50945
+EventSelector     SUCCESS Reading Event record 79101. Record number within stream 3: 51045
+EventSelector     SUCCESS Reading Event record 79201. Record number within stream 3: 51145
+EventSelector     SUCCESS Reading Event record 79301. Record number within stream 3: 51245
+EventSelector     SUCCESS Reading Event record 79401. Record number within stream 3: 51345
+EventSelector     SUCCESS Reading Event record 79501. Record number within stream 3: 51445
+EventSelector     SUCCESS Reading Event record 79601. Record number within stream 3: 51545
+EventSelector     SUCCESS Reading Event record 79701. Record number within stream 3: 51645
+EventSelector     SUCCESS Reading Event record 79801. Record number within stream 3: 51745
+EventSelector     SUCCESS Reading Event record 79901. Record number within stream 3: 51845
+EventSelector     SUCCESS Reading Event record 80001. Record number within stream 3: 51945
+EventSelector     SUCCESS Reading Event record 80101. Record number within stream 3: 52045
+EventSelector     SUCCESS Reading Event record 80201. Record number within stream 3: 52145
+EventSelector     SUCCESS Reading Event record 80301. Record number within stream 3: 52245
+EventSelector     SUCCESS Reading Event record 80401. Record number within stream 3: 52345
+EventSelector     SUCCESS Reading Event record 80501. Record number within stream 3: 52445
+EventSelector     SUCCESS Reading Event record 80601. Record number within stream 3: 52545
+EventSelector     SUCCESS Reading Event record 80701. Record number within stream 3: 52645
+EventSelector     SUCCESS Reading Event record 80801. Record number within stream 3: 52745
+EventSelector     SUCCESS Reading Event record 80901. Record number within stream 3: 52845
+EventSelector     SUCCESS Reading Event record 81001. Record number within stream 3: 52945
+EventSelector     SUCCESS Reading Event record 81101. Record number within stream 3: 53045
+EventSelector     SUCCESS Reading Event record 81201. Record number within stream 3: 53145
+EventSelector     SUCCESS Reading Event record 81301. Record number within stream 3: 53245
+EventSelector     SUCCESS Reading Event record 81401. Record number within stream 3: 53345
+EventSelector     SUCCESS Reading Event record 81501. Record number within stream 3: 53445
+EventSelector     SUCCESS Reading Event record 81601. Record number within stream 3: 53545
+EventSelector     SUCCESS Reading Event record 81701. Record number within stream 3: 53645
+EventSelector     SUCCESS Reading Event record 81801. Record number within stream 3: 53745
+EventSelector     SUCCESS Reading Event record 81901. Record number within stream 3: 53845
+EventSelector     SUCCESS Reading Event record 82001. Record number within stream 3: 53945
+EventSelector     SUCCESS Reading Event record 82101. Record number within stream 3: 54045
+EventSelector     SUCCESS Reading Event record 82201. Record number within stream 3: 54145
+EventSelector     SUCCESS Reading Event record 82301. Record number within stream 3: 54245
+EventSelector     SUCCESS Reading Event record 82401. Record number within stream 3: 54345
+EventSelector     SUCCESS Reading Event record 82501. Record number within stream 3: 54445
+EventSelector     SUCCESS Reading Event record 82601. Record number within stream 3: 54545
+EventSelector     SUCCESS Reading Event record 82701. Record number within stream 3: 54645
+EventSelector     SUCCESS Reading Event record 82801. Record number within stream 3: 54745
+EventSelector     SUCCESS Reading Event record 82901. Record number within stream 3: 54845
+EventSelector     SUCCESS Reading Event record 83001. Record number within stream 3: 54945
+EventSelector     SUCCESS Reading Event record 83101. Record number within stream 3: 55045
+EventSelector     SUCCESS Reading Event record 83201. Record number within stream 3: 55145
+EventSelector     SUCCESS Reading Event record 83301. Record number within stream 3: 55245
+EventSelector     SUCCESS Reading Event record 83401. Record number within stream 3: 55345
+EventSelector     SUCCESS Reading Event record 83501. Record number within stream 3: 55445
+EventSelector     SUCCESS Reading Event record 83601. Record number within stream 3: 55545
+EventSelector     SUCCESS Reading Event record 83701. Record number within stream 3: 55645
+EventSelector     SUCCESS Reading Event record 83801. Record number within stream 3: 55745
+EventSelector     SUCCESS Reading Event record 83901. Record number within stream 3: 55845
+EventSelector     SUCCESS Reading Event record 84001. Record number within stream 3: 55945
+EventSelector     SUCCESS Reading Event record 84101. Record number within stream 3: 56045
+EventSelector     SUCCESS Reading Event record 84201. Record number within stream 3: 56145
+EventSelector     SUCCESS Reading Event record 84301. Record number within stream 3: 56245
+EventSelector     SUCCESS Reading Event record 84401. Record number within stream 3: 56345
+EventSelector     SUCCESS Reading Event record 84501. Record number within stream 3: 56445
+EventSelector     SUCCESS Reading Event record 84601. Record number within stream 3: 56545
+EventSelector     SUCCESS Reading Event record 84701. Record number within stream 3: 56645
+EventSelector     SUCCESS Reading Event record 84801. Record number within stream 3: 56745
+EventSelector     SUCCESS Reading Event record 84901. Record number within stream 3: 56845
+EventSelector     SUCCESS Reading Event record 85001. Record number within stream 3: 56945
+EventSelector     SUCCESS Reading Event record 85101. Record number within stream 3: 57045
+EventSelector     SUCCESS Reading Event record 85201. Record number within stream 3: 57145
+EventSelector     SUCCESS Reading Event record 85301. Record number within stream 3: 57245
+EventSelector     SUCCESS Reading Event record 85401. Record number within stream 3: 57345
+EventSelector     SUCCESS Reading Event record 85501. Record number within stream 3: 57445
+EventSelector     SUCCESS Reading Event record 85601. Record number within stream 3: 57545
+EventSelector     SUCCESS Reading Event record 85701. Record number within stream 3: 57645
+EventSelector     SUCCESS Reading Event record 85801. Record number within stream 3: 57745
+EventSelector     SUCCESS Reading Event record 85901. Record number within stream 3: 57845
+EventSelector     SUCCESS Reading Event record 86001. Record number within stream 3: 57945
+EventSelector     SUCCESS Reading Event record 86101. Record number within stream 3: 58045
+EventSelector     SUCCESS Reading Event record 86201. Record number within stream 3: 58145
+EventSelector     SUCCESS Reading Event record 86301. Record number within stream 3: 58245
+EventLoopMgr         INFO No more events in event selection 
+ApplicationMgr       INFO Application Manager Stopped successfully
+UnpackTrack       SUCCESS Number of counters : 1
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ | "# Unpacked Tracks"                             |     86365 |1.476967e+07 |     171.01 |     101.65 |      14.000 |      1079.0 |
+Semileptonic_Ps...SUCCESS Number of counters : 7
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ | "# Unpacked FlavourTags"                        |      2285 |          0 |     0.0000 |     0.0000 |      0.0000 |      0.0000 |
+ | "# Unpacked MuonPIDs"                           |     20270 |          0 |     0.0000 |     0.0000 |      0.0000 |      0.0000 |
+ | "# Unpacked Particles"                          |      2285 |      20985 |     9.1838 |     4.5828 |      5.0000 |      39.000 |
+ | "# Unpacked ProtoParticles"                     |     20270 |          0 |     0.0000 |     0.0000 |      0.0000 |      0.0000 |
+ | "# Unpacked RecVertices"                        |      2285 |         24 |   0.010503 |    0.15620 |      0.0000 |      4.0000 |
+ | "# Unpacked Tracks"                             |     20270 |          0 |     0.0000 |     0.0000 |      0.0000 |      0.0000 |
+ | "# Unpacked Vertices"                           |      2285 |       8621 |     3.7729 |     2.0862 |      2.0000 |      21.000 |
+ChargedProtoPAd...SUCCESS Number of counters : 1
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ | "Rec/Muon/MuonPID ==> Rec/ProtoP/Charged"       |      2285 |     158727 |     69.465 |     30.575 |      11.000 |      197.00 |
+ChargedProtoPAd...SUCCESS Number of counters : 1
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ | "Rec/Rich/PIDs ==> Rec/ProtoP/Charged"          |      2285 |     158727 |     69.465 |     30.575 |      11.000 |      197.00 |
+ChargedProtoPCo...SUCCESS Number of counters : 1
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ | "CombineDLL ==> Rec/ProtoP/Charged"             |      2285 |     158727 |     69.465 |     30.575 |      11.000 |      197.00 |
+UnpackMuonPIDs    SUCCESS Number of counters : 1
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ | "# UnPackedData"                                |      2285 |     109464 |     47.905 |     23.528 |      5.0000 |      163.00 |
+UnpackRichPIDs    SUCCESS Number of counters : 1
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ | "# UnPackedData"                                |      2285 |     176748 |     77.351 |     33.866 |      11.000 |      211.00 |
+UnpackMuonTracks  SUCCESS Number of counters : 1
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ | "# Unpacked Tracks"                             |      2285 |      12153 |     5.3186 |     4.3541 |      1.0000 |      31.000 |
+L0DUFromRaw       SUCCESS Number of counters : 1
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ | "L0DU RawBank Size (Bytes)"                     |      2285 |     283340 |     124.00 |     0.0000 |      124.00 |      124.00 |
+L0MuonFromRaw        INFO --- L0Muon decoding error summary
+L0MuonFromRaw        INFO L0MuonCtrlCand Side A -> nb of banks seen     : 2285
+L0MuonFromRaw        INFO L0MuonCtrlCand Side C -> nb of banks seen     : 2285
+L0MuonFromRaw        INFO L0MuonProcCand Q1     -> nb of banks seen     : 2285
+L0MuonFromRaw        INFO L0MuonProcCand Q2     -> nb of banks seen     : 2285
+L0MuonFromRaw        INFO L0MuonProcCand Q3     -> nb of banks seen     : 2285
+L0MuonFromRaw        INFO L0MuonProcCand Q4     -> nb of banks seen     : 2285
+L0MuonFromRaw        INFO --- End of L0Muon decoding error summary
+L0MuonFromRaw        INFO - ------------------------------------------------------------------
+L0MuonFromRaw        INFO - ========> Final summary of the L0Muon trigger (from raw) <========
+L0MuonFromRaw        INFO - Total number of events processed           :     2285
+L0MuonFromRaw        INFO - Total number of bunch crossings processed  :     2285
+L0MuonFromRaw        INFO - Total number of candidates                 :     2989
+L0MuonFromRaw        INFO - Number of Bx with at least 1 candidate     :     1999  ( 87.48%)
+L0MuonFromRaw        INFO - Number of candidate per Bx                 :        1.31
+L0MuonFromRaw        INFO - Average Pt of the candidates               :     2498.24 MeV
+L0MuonFromRaw        INFO - Average charge of the candidates           :        1.00 (+/-0.00)
+L0MuonFromRaw        INFO - Average raw banks size                     :      631.8 Bytes
+L0MuonFromRaw        INFO - ------------------------------------------------------------------
+StdAllLoosePions     INFO Selected 99.0827% of 'Long' ProtoParticles
+StdAllLoosePions     INFO   -> Pions     100% of selected ProtoParticles
+StdAllLoosePions  SUCCESS Number of counters : 1
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ |*"#accept"                                       |      1580 |       1580 |(  100.000 +- 0.0632911)%|   -------   |   -------   |
+StdNoPIDsUpPions     INFO ********************************************************************************
+StdNoPIDsUpPions     INFO  created 'pi+' and 'pi- : 14999 per 1580 calls (9.49304+-4.76637)/event
+StdNoPIDsUpPions  SUCCESS Number of counters : 1
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ |*"#accept"                                       |      1580 |       1573 |(  99.5570 +- 0.167081 )%|   -------   |   -------   |
+StdNoPIDsPions    SUCCESS Number of counters : 5
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ | "# Phys/StdAllNoPIDsPions"                      |       295 |      13593 |     46.078 |     20.941 |      6.0000 |      125.00 |
+ | "# input particles"                             |       295 |      13593 |     46.078 |     20.941 |      6.0000 |      125.00 |
+ |*"#accept"                                       |       295 |        295 |(  100.000 +- 0.338983 )%|   -------   |   -------   |
+ | "#passed"                                       |       295 |       5006 |     16.969 |     8.7051 |      4.0000 |      51.000 |
+ |*"efficiency"                                    |     13593 |       5006 |(  36.8278 +- 0.413707 )%|   -------   |   -------   |
+StdAllNoPIDsPions    INFO ********************************************************************************
+StdAllNoPIDsPions    INFO  created 'pi+' and 'pi- : 13593 per 295 calls (46.078+-20.9413)/event
+StdAllNoPIDsPions SUCCESS Number of counters : 1
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ |*"#accept"                                       |       295 |        295 |(  100.000 +- 0.338983 )%|   -------   |   -------   |
+DaVinciInitAlg    SUCCESS ==================================================================
+DaVinciInitAlg    SUCCESS 86365 events processed
+DaVinciInitAlg    SUCCESS ==================================================================
+myProtoPMaker     SUCCESS Number of counters : 1
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ | "Rec/Track/Best ==> Rec/ProtoP/myProtoPMaker/Pro|     86365 |1.476967e+07 |     171.01 |     101.65 |      14.000 |      1079.0 |
+StateScale        SUCCESS Number of counters : 7
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ | "#CONDB update"                                 |         2 |          2 |     1.0000 |     0.0000 |      1.0000 |      1.0000 |
+ | "#DELTA update"                                 |         1 |    0.00018 | 0.00018000 | 1.2218e-12 |  0.00018000 |  0.00018000 |
+ | "#POLARITY change"                              |         6 |          0 |     0.0000 |     0.0000 |      0.0000 |      0.0000 |
+ | "#RUN   change"                                 |         6 |          6 |     1.0000 |     0.0000 |      1.0000 |      1.0000 |
+ | "#RUN   offset"                                 |         6 |-8.28364e-05 |-1.3806e-05 | 9.7624e-06 | -2.0709e-05 |      0.0000 |
+ | "SCALE"                                         |  16690160 |1.667399e+07 |    0.99903 | 0.00094888 |     0.99661 |      1.0020 |
+ | "SCALECOV2"                                     |   6004053 |    6004053 |     1.0000 |     0.0000 |      1.0000 |      1.0000 |
+TriggeredD0       SUCCESS Number of counters : 1
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ |*"#passed"                                       |     86365 |       8552 |(  9.90216 +- 0.101637 )%|   -------   |   -------   |
+StrippedBCands    SUCCESS Number of counters : 1
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ |*"#passed"                                       |      8552 |       2285 |(  26.7189 +- 0.478488 )%|   -------   |   -------   |
+SelFilter_Event...SUCCESS Number of counters : 1
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ |*"#passed"                                       |      2285 |       2285 |(  100.000 +- 0.0437637)%|   -------   |   -------   |
+smuTISfilterSel   SUCCESS Number of counters : 5
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ | "# Semileptonic/Phys/b2D0MuXB2DMuNuForTauMuLine"|      2285 |       2314 |     1.0127 |    0.11194 |      1.0000 |      2.0000 |
+ | "# input particles"                             |      2285 |       2314 |     1.0127 |    0.11194 |      1.0000 |      2.0000 |
+ |*"#accept"                                       |      2285 |       1580 |(  69.1466 +- 0.966260 )%|   -------   |   -------   |
+ | "#passed"                                       |      2285 |       1601 |    0.70066 |    0.47762 |      0.0000 |      2.0000 |
+ |*"efficiency"                                    |      2314 |       1601 |(  69.1876 +- 0.959832 )%|   -------   |   -------   |
+chargedK          SUCCESS Number of counters : 4
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ | "# Phys/smuTISfilterSel"                        |      1580 |       1601 |     1.0133 |    0.11452 |      1.0000 |      2.0000 |
+ | "# input particles"                             |      1580 |       1601 |     1.0133 |    0.11452 |      1.0000 |      2.0000 |
+ |*"#accept"                                       |      1580 |       1580 |(  100.000 +- 0.0632911)%|   -------   |   -------   |
+ | "#passed"                                       |      1580 |       1582 |     1.0013 |   0.035556 |      1.0000 |      2.0000 |
+chargedPi         SUCCESS Number of counters : 4
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ | "# Phys/smuTISfilterSel"                        |      1580 |       1601 |     1.0133 |    0.11452 |      1.0000 |      2.0000 |
+ | "# input particles"                             |      1580 |       1601 |     1.0133 |    0.11452 |      1.0000 |      2.0000 |
+ |*"#accept"                                       |      1580 |       1580 |(  100.000 +- 0.0632911)%|   -------   |   -------   |
+ | "#passed"                                       |      1580 |       1582 |     1.0013 |   0.035556 |      1.0000 |      2.0000 |
+SelMyD0           SUCCESS Number of counters : 11
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ | "# D0 -> K-  pi+ "                              |      1580 |        778 |    0.49241 |    0.50247 |      0.0000 |      2.0000 |
+ | "# D~0 -> K+  pi- "                             |      1580 |        806 |    0.51013 |    0.50242 |      0.0000 |      2.0000 |
+ | "# K+"                                          |      1580 |        805 |    0.50949 |    0.50117 |      0.0000 |      2.0000 |
+ | "# K-"                                          |      1580 |        777 |    0.49177 |    0.50120 |      0.0000 |      2.0000 |
+ | "# Phys/chargedK"                               |      1580 |       1582 |     1.0013 |   0.035556 |      1.0000 |      2.0000 |
+ | "# Phys/chargedPi"                              |      1580 |       1582 |     1.0013 |   0.035556 |      1.0000 |      2.0000 |
+ | "# input particles"                             |      1580 |       3164 |     2.0025 |   0.050252 |      2.0000 |      3.0000 |
+ | "# pi+"                                         |      1580 |        777 |    0.49177 |    0.50120 |      0.0000 |      2.0000 |
+ | "# pi-"                                         |      1580 |        805 |    0.50949 |    0.50117 |      0.0000 |      2.0000 |
+ | "# selected"                                    |      1580 |       1584 |     1.0025 |   0.050252 |      1.0000 |      2.0000 |
+ |*"#accept"                                       |      1580 |       1580 |(  100.000 +- 0.0632911)%|   -------   |   -------   |
+SelFilterPhys_S...SUCCESS Number of counters : 1
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ |*"#passed"                                       |      1580 |       1580 |(  100.000 +- 0.0632911)%|   -------   |   -------   |
+SelFilterPhys_S...SUCCESS Number of counters : 1
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ |*"#passed"                                       |      1580 |       1573 |(  99.5570 +- 0.167081 )%|   -------   |   -------   |
+SelMyDst          SUCCESS Number of counters : 13
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ | "# D*(2010)+ -> D0  pi+ "                       |      1573 |        187 |    0.11888 |    0.36080 |      0.0000 |      3.0000 |
+ | "# D*(2010)- -> D~0  pi- "                      |      1573 |        185 |    0.11761 |    0.34685 |      0.0000 |      3.0000 |
+ | "# D0"                                          |      1573 |        775 |    0.49269 |    0.50248 |      0.0000 |      2.0000 |
+ | "# D~0"                                         |      1573 |        802 |    0.50985 |    0.50244 |      0.0000 |      2.0000 |
+ | "# Phys/SelMyD0"                                |      1573 |       1577 |     1.0025 |   0.050363 |      1.0000 |      2.0000 |
+ | "# Phys/StdAllLoosePions"                       |      1573 |      72836 |     46.304 |     20.765 |      6.0000 |      138.00 |
+ | "# Phys/StdNoPIDsUpPions"                       |      1573 |      14999 |     9.5353 |     4.7346 |      1.0000 |      31.000 |
+ | "# input particles"                             |      1573 |      89412 |     56.842 |     22.414 |      11.000 |      142.00 |
+ | "# pi+"                                         |      1573 |      34553 |     21.966 |     7.7743 |      3.0000 |      50.000 |
+ | "# pi-"                                         |      1573 |      34175 |     21.726 |     7.4364 |      2.0000 |      49.000 |
+ | "# selected"                                    |      1573 |        372 |    0.23649 |    0.47172 |      0.0000 |      3.0000 |
+ |*"#accept"                                       |      1573 |        342 |(  21.7419 +- 1.04004  )%|   -------   |   -------   |
+ | "Error from IParticleCombiner, skip the combinat|        48 |         48 |     1.0000 |     0.0000 |      1.0000 |      1.0000 |
+mulist            SUCCESS Number of counters : 4
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ | "# Phys/smuTISfilterSel"                        |       404 |        413 |     1.0223 |    0.14758 |      1.0000 |      2.0000 |
+ | "# input particles"                             |       404 |        413 |     1.0223 |    0.14758 |      1.0000 |      2.0000 |
+ |*"#accept"                                       |       404 |        404 |(  100.000 +- 0.247525 )%|   -------   |   -------   |
+ | "#passed"                                       |       404 |        410 |     1.0149 |    0.12096 |      1.0000 |      2.0000 |
+SelMyBd           SUCCESS Number of counters : 11
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ | "# B0 -> D*(2010)-  mu+ "                       |       342 |        133 |    0.38889 |    0.55482 |      0.0000 |      4.0000 |
+ | "# B~0 -> D*(2010)+  mu- "                      |       342 |        129 |    0.37719 |    0.51396 |      0.0000 |      2.0000 |
+ | "# D*(2010)+"                                   |       342 |        187 |    0.54678 |    0.60396 |      0.0000 |      3.0000 |
+ | "# D*(2010)-"                                   |       342 |        185 |    0.54094 |    0.56952 |      0.0000 |      3.0000 |
+ | "# Phys/SelMyDst"                               |       342 |        372 |     1.0877 |    0.31236 |      1.0000 |      3.0000 |
+ | "# Phys/mulist"                                 |       342 |        347 |     1.0146 |    0.12003 |      1.0000 |      2.0000 |
+ | "# input particles"                             |       342 |        719 |     2.1023 |    0.33950 |      2.0000 |      4.0000 |
+ | "# mu+"                                         |       342 |        177 |    0.51754 |    0.50551 |      0.0000 |      2.0000 |
+ | "# mu-"                                         |       342 |        170 |    0.49708 |    0.50581 |      0.0000 |      2.0000 |
+ | "# selected"                                    |       342 |        262 |    0.76608 |    0.52784 |      0.0000 |      4.0000 |
+ |*"#accept"                                       |       342 |        249 |(  72.8070 +- 2.40604  )%|   -------   |   -------   |
+SelMyWSBd         SUCCESS Number of counters : 11
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ | "# B0 -> D*(2010)-  mu- "                       |       342 |         10 |   0.029240 |    0.18502 |      0.0000 |      2.0000 |
+ | "# B~0 -> D*(2010)+  mu+ "                      |       342 |         18 |   0.052632 |    0.25963 |      0.0000 |      2.0000 |
+ | "# D*(2010)+"                                   |       342 |        187 |    0.54678 |    0.60396 |      0.0000 |      3.0000 |
+ | "# D*(2010)-"                                   |       342 |        185 |    0.54094 |    0.56952 |      0.0000 |      3.0000 |
+ | "# Phys/SelMyDst"                               |       342 |        372 |     1.0877 |    0.31236 |      1.0000 |      3.0000 |
+ | "# Phys/mulist"                                 |       342 |        347 |     1.0146 |    0.12003 |      1.0000 |      2.0000 |
+ | "# input particles"                             |       342 |        719 |     2.1023 |    0.33950 |      2.0000 |      4.0000 |
+ | "# mu+"                                         |       342 |        177 |    0.51754 |    0.50551 |      0.0000 |      2.0000 |
+ | "# mu-"                                         |       342 |        170 |    0.49708 |    0.50581 |      0.0000 |      2.0000 |
+ | "# selected"                                    |       342 |         28 |   0.081871 |    0.31394 |      0.0000 |      2.0000 |
+ |*"#accept"                                       |       342 |         24 |(  7.01754 +- 1.38127  )%|   -------   |   -------   |
+SelMyDst2         SUCCESS Number of counters : 13
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ | "# D*(2010)+ -> D~0  pi+ "                      |      1573 |         41 |   0.026065 |    0.16327 |      0.0000 |      2.0000 |
+ | "# D*(2010)- -> D0  pi- "                       |      1573 |         48 |   0.030515 |    0.17924 |      0.0000 |      2.0000 |
+ | "# D0"                                          |      1573 |        775 |    0.49269 |    0.50248 |      0.0000 |      2.0000 |
+ | "# D~0"                                         |      1573 |        802 |    0.50985 |    0.50244 |      0.0000 |      2.0000 |
+ | "# Phys/SelMyD0"                                |      1573 |       1577 |     1.0025 |   0.050363 |      1.0000 |      2.0000 |
+ | "# Phys/StdAllLoosePions"                       |      1573 |      72836 |     46.304 |     20.765 |      6.0000 |      138.00 |
+ | "# Phys/StdNoPIDsUpPions"                       |      1573 |      14999 |     9.5353 |     4.7346 |      1.0000 |      31.000 |
+ | "# input particles"                             |      1573 |      89412 |     56.842 |     22.414 |      11.000 |      142.00 |
+ | "# pi+"                                         |      1573 |      34553 |     21.966 |     7.7743 |      3.0000 |      50.000 |
+ | "# pi-"                                         |      1573 |      34175 |     21.726 |     7.4364 |      2.0000 |      49.000 |
+ | "# selected"                                    |      1573 |         89 |   0.056580 |    0.23915 |      0.0000 |      2.0000 |
+ |*"#accept"                                       |      1573 |         86 |(  5.46726 +- 0.573207 )%|   -------   |   -------   |
+ | "Error from IParticleCombiner, skip the combinat|        44 |         44 |     1.0000 |     0.0000 |      1.0000 |      1.0000 |
+SelMyWS2Bd        SUCCESS Number of counters : 11
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ | "# B0 -> D*(2010)+  mu+ "                       |        86 |         14 |    0.16279 |    0.39943 |      0.0000 |      2.0000 |
+ | "# B~0 -> D*(2010)-  mu- "                      |        86 |         23 |    0.26744 |    0.44262 |      0.0000 |      1.0000 |
+ | "# D*(2010)+"                                   |        86 |         41 |    0.47674 |    0.52222 |      0.0000 |      2.0000 |
+ | "# D*(2010)-"                                   |        86 |         48 |    0.55814 |    0.54142 |      0.0000 |      2.0000 |
+ | "# Phys/SelMyDst2"                              |        86 |         89 |     1.0349 |    0.18349 |      1.0000 |      2.0000 |
+ | "# Phys/mulist"                                 |        86 |         88 |     1.0233 |    0.15071 |      1.0000 |      2.0000 |
+ | "# input particles"                             |        86 |        177 |     2.0581 |    0.23401 |      2.0000 |      3.0000 |
+ | "# mu+"                                         |        86 |         40 |    0.46512 |    0.52157 |      0.0000 |      2.0000 |
+ | "# mu-"                                         |        86 |         48 |    0.55814 |    0.49661 |      0.0000 |      1.0000 |
+ | "# selected"                                    |        86 |         37 |    0.43023 |    0.51806 |      0.0000 |      2.0000 |
+ |*"#accept"                                       |        86 |         36 |(  41.8605 +- 5.31972  )%|   -------   |   -------   |
+StdNoPIDsVeloPions   INFO ********************************************************************************
+StdNoPIDsVeloPions   INFO  created 'pi+' and 'pi- : 1.94114e+06 per 86365 calls (22.476+-13.2591)/event
+StdNoPIDsVeloPionsSUCCESS Number of counters : 1
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ |*"#accept"                                       |     86365 |      86334 |(  99.9641 +- 0.00644563)%|   -------   |   -------   |
+YCands            SUCCESS Booked 1 N-Tuples and 0 Event Tag Collections
+YCands            SUCCESS List of booked N-Tuples in directory "FILE1/YCands"
+YCands            SUCCESS  ID=DecayTree     Title="DecayTree"                               #items=799{Y_ENDVERTEX_X,Y_ENDVERTEX_Y,Y_ENDVERTEX_Z,Y_ENDVERTEX_XERR,Y_ENDVERTEX_YERR,Y_END}
+YCands            SUCCESS Number of counters : 4
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ | "# Phys/YDTFSel"                                |     86365 |       1820 |   0.021073 |    0.40648 |      0.0000 |      28.000 |
+ | "# input particles"                             |     86365 |       1820 |   0.021073 |    0.40648 |      0.0000 |      28.000 |
+ |*"#accept"                                       |     86365 |        248 |( 0.287153 +- 0.0182081)%|   -------   |   -------   |
+ | "Event"                                         |     86365 |      86365 |     1.0000 |     0.0000 |      1.0000 |      1.0000 |
+YCandsWS          SUCCESS Booked 1 N-Tuples and 0 Event Tag Collections
+YCandsWS          SUCCESS List of booked N-Tuples in directory "FILE1/YCandsWS"
+YCandsWS          SUCCESS  ID=DecayTree     Title="DecayTree"                               #items=766{Y_ENDVERTEX_X,Y_ENDVERTEX_Y,Y_ENDVERTEX_Z,Y_ENDVERTEX_XERR,Y_ENDVERTEX_YERR,Y_END}
+YCandsWS          SUCCESS Number of counters : 4
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ | "# Phys/YDTFSelWS"                              |     86365 |        189 |  0.0021884 |    0.14090 |      0.0000 |      14.000 |
+ | "# input particles"                             |     86365 |        189 |  0.0021884 |    0.14090 |      0.0000 |      14.000 |
+ |*"#accept"                                       |     86365 |         23 |(0.0266312 +- 0.00555224)%|   -------   |   -------   |
+ | "Event"                                         |     86365 |      86365 |     1.0000 |     0.0000 |      1.0000 |      1.0000 |
+YCandsWS2         SUCCESS Booked 1 N-Tuples and 0 Event Tag Collections
+YCandsWS2         SUCCESS List of booked N-Tuples in directory "FILE1/YCandsWS2"
+YCandsWS2         SUCCESS  ID=DecayTree     Title="DecayTree"                               #items=766{Y_ENDVERTEX_X,Y_ENDVERTEX_Y,Y_ENDVERTEX_Z,Y_ENDVERTEX_XERR,Y_ENDVERTEX_YERR,Y_END}
+YCandsWS2         SUCCESS Number of counters : 4
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ | "# Phys/YDTFSelWS2"                             |     86365 |        259 |  0.0029989 |    0.14872 |      0.0000 |      14.000 |
+ | "# input particles"                             |     86365 |        259 |  0.0029989 |    0.14872 |      0.0000 |      14.000 |
+ |*"#accept"                                       |     86365 |         36 |(0.0416836 +- 0.00694581)%|   -------   |   -------   |
+ | "Event"                                         |     86365 |      86365 |     1.0000 |     0.0000 |      1.0000 |      1.0000 |
+RootHistSvc       WARNING no ROOT output file name, Histograms cannot be persistified
+EventLoopMgr         INFO Histograms converted successfully according to request.
+TransportSvc      SUCCESS  GEOMETRY ERRORS: 'Skip'     map has the size 0
+
+TransportSvc      SUCCESS  GEOMETRY ERRORS: 'Recover'  map has the size 0
+
+TransportSvc      SUCCESS  GEOMETRY ERRORS: 'Codes'    map has the size 0
+
+TransportSvc         INFO Reset the static pointer to DetDesc::IGeometyrErrorSvc
+DataOnDemandSvc      INFO Handled "DataFault" incidents: 313925/393093/7362451(Alg/Node/Total).
+FileRecordCnvSvc     INFO Disconnected data IO:36F5747C-B880-E411-84BB-0025905C38AA [./data/data-2012-md/00041836_00011435_1.semileptonic.dst]
+FileRecordCnvSvc     INFO Disconnected data IO:86A42F87-2D7E-E411-BA8B-0025907750A0 [./data/data-2012-md/00041836_00006100_1.semileptonic.dst]
+RootCnvSvc           INFO Disconnected data IO:D4BED2A6-E081-E411-8B7A-001E67398CE1 [./data/data-2012-md/00041836_00013110_1.semileptonic.dst]
+ToolSvc              INFO Removing all tools created by ToolSvc
+SelMyWS2Bd.LoKi...SUCCESS Number of counters : 2
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ | "#iterations"                                   |        59 |         67 |     1.1356 |    0.34236 |      1.0000 |      2.0000 |
+ | "Seed:case(1)"                                  |        59 |         59 |     1.0000 |     0.0000 |      1.0000 |      1.0000 |
+SpdFromRaw.SpdF...SUCCESS Number of counters : 1
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ | "getCaloBanks"                                  |       248 |        248 |     1.0000 |     0.0000 |      1.0000 |      1.0000 |
+SpdFromRaw.SpdF...SUCCESS Exceptions/Errors/Warnings/Infos Statistics : 0/0/1/0
+SpdFromRaw.SpdF...SUCCESS  #WARNINGS   = 248      Message = 'Status for bankType L0Calo already exists  with different status value -> merge both'
+ToolSvc.LoKi::V...SUCCESS Number of counters : 2
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ | "#iterations"                                   |     25817 |      51934 |     2.0116 |     1.0649 |      1.0000 |      10.000 |
+ | "Seed:case(1)"                                  |     26583 |      26583 |     1.0000 |     0.0000 |      1.0000 |      1.0000 |
+ToolSvc.LoKi::V...SUCCESS Exceptions/Errors/Warnings/Infos Statistics : 0/0/3/0
+ToolSvc.LoKi::V...SUCCESS  #WARNINGS   = 85       Message = 'No convergency has been reached [YCandsWS2]'
+ToolSvc.LoKi::V...SUCCESS  #WARNINGS   = 88       Message = 'No convergency has been reached [YCandsWS]'
+ToolSvc.LoKi::V...SUCCESS  #WARNINGS   = 593      Message = 'No convergency has been reached [YCands]'
+SelMyWSBd.LoKi:...SUCCESS Number of counters : 2
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ | "#iterations"                                   |        50 |         67 |     1.3400 |    0.47371 |      1.0000 |      2.0000 |
+ | "Seed:case(1)"                                  |        50 |         50 |     1.0000 |     0.0000 |      1.0000 |      1.0000 |
+SelMyBd.LoKi::V...SUCCESS Number of counters : 2
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ | "#iterations"                                   |       320 |        350 |     1.0938 |    0.29148 |      1.0000 |      2.0000 |
+ | "Seed:case(1)"                                  |       320 |        320 |     1.0000 |     0.0000 |      1.0000 |      1.0000 |
+SelMyDst2.LoKi:...SUCCESS Number of counters : 4
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ | "#iterations"                                   |      3185 |       4492 |     1.4104 |    0.84435 |      1.0000 |      10.000 |
+ | "Seed:case(1)"                                  |      2793 |       2793 |     1.0000 |     0.0000 |      1.0000 |      1.0000 |
+ | "Seed:case(3)"                                  |       431 |        431 |     1.0000 |     0.0000 |      1.0000 |      1.0000 |
+ | "Seed:case(4)"                                  |         5 |          5 |     1.0000 |     0.0000 |      1.0000 |      1.0000 |
+SelMyDst2.LoKi:...SUCCESS Exceptions/Errors/Warnings/Infos Statistics : 0/0/4/0
+SelMyDst2.LoKi:...SUCCESS  #WARNINGS   = 44       Message = 'No convergency has been reached [SelMyDst2]'
+SelMyDst2.LoKi:...SUCCESS  #WARNINGS   = 5        Message = 'No proper seed is found [SelMyDst2]'
+SelMyDst2.LoKi:...SUCCESS  #WARNINGS   = 4        Message = 'fit(): Vertex is outside of fiducial volume [SelMyDst2]'
+SelMyDst2.LoKi:...SUCCESS  #WARNINGS   = 44       Message = 'fit(): failure from fit [SelMyDst2]'
+SelMyDst.LoKi::...SUCCESS Number of counters : 4
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ | "#iterations"                                   |      3421 |       4833 |     1.4127 |    0.81265 |      1.0000 |      10.000 |
+ | "Seed:case(1)"                                  |      2975 |       2975 |     1.0000 |     0.0000 |      1.0000 |      1.0000 |
+ | "Seed:case(3)"                                  |       482 |        482 |     1.0000 |     0.0000 |      1.0000 |      1.0000 |
+ | "Seed:case(4)"                                  |        12 |         12 |     1.0000 |     0.0000 |      1.0000 |      1.0000 |
+SelMyDst.LoKi::...SUCCESS Exceptions/Errors/Warnings/Infos Statistics : 0/0/4/0
+SelMyDst.LoKi::...SUCCESS  #WARNINGS   = 48       Message = 'No convergency has been reached [SelMyDst]'
+SelMyDst.LoKi::...SUCCESS  #WARNINGS   = 12       Message = 'No proper seed is found [SelMyDst]'
+SelMyDst.LoKi::...SUCCESS  #WARNINGS   = 12       Message = 'fit(): Vertex is outside of fiducial volume [SelMyDst]'
+SelMyDst.LoKi::...SUCCESS  #WARNINGS   = 48       Message = 'fit(): failure from fit [SelMyDst]'
+SelMyD0.LoKi::V...SUCCESS Number of counters : 2
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ | "#iterations"                                   |      1584 |       1584 |     1.0000 |     0.0000 |      1.0000 |      1.0000 |
+ | "Seed:case(1)"                                  |      1584 |       1584 |     1.0000 |     0.0000 |      1.0000 |      1.0000 |
+DaVinciInitAlg....SUCCESS Booked 4 Histogram(s) : 1D=4 
+DaVinciInitAlg....SUCCESS Number of counters : 2
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ | "Delta Memory/MB"                               |     86355 |    541.824 |  0.0062744 |     1.0759 |     -10.244 |      209.38 |
+ | "Total Memory/MB"                               |     86365 |1.330303e+08 |     1540.3 |     80.146 |      976.98 |      1561.6 |
+DaVinciInitAlg....SUCCESS Exceptions/Errors/Warnings/Infos Statistics : 0/0/2/0
+DaVinciInitAlg....SUCCESS  #WARNINGS   = 4        Message = 'Delta Memory for the event exceeds 3*sigma'
+DaVinciInitAlg....SUCCESS  #WARNINGS   = 875      Message = 'Total Memory for the event exceeds 3*sigma'
+YCandsWS.TupleT...SUCCESS Exceptions/Errors/Warnings/Infos Statistics : 0/0/1/0
+YCandsWS.TupleT...SUCCESS  #WARNINGS   = 1        Message = ' You set TISFrac above TOSFrac. This can upset TisTos logic - be worried. '
+YCandsWS.TupleT...SUCCESS Exceptions/Errors/Warnings/Infos Statistics : 0/0/1/0
+YCandsWS.TupleT...SUCCESS  #WARNINGS   = 1        Message = ' You set TISFrac above TOSFrac. This can upset TisTos logic - be worried. '
+YCandsWS2.Tuple...SUCCESS Exceptions/Errors/Warnings/Infos Statistics : 0/0/1/0
+YCandsWS2.Tuple...SUCCESS  #WARNINGS   = 1        Message = ' You set TISFrac above TOSFrac. This can upset TisTos logic - be worried. '
+YCandsWS2.Tuple...SUCCESS Exceptions/Errors/Warnings/Infos Statistics : 0/0/1/0
+YCandsWS2.Tuple...SUCCESS  #WARNINGS   = 1        Message = ' You set TISFrac above TOSFrac. This can upset TisTos logic - be worried. '
+YCands.TupleToo...SUCCESS Exceptions/Errors/Warnings/Infos Statistics : 0/0/1/0
+YCands.TupleToo...SUCCESS  #WARNINGS   = 1        Message = ' You set TISFrac above TOSFrac. This can upset TisTos logic - be worried. '
+YCands.TupleToo...SUCCESS Exceptions/Errors/Warnings/Infos Statistics : 0/0/1/0
+YCands.TupleToo...SUCCESS  #WARNINGS   = 1        Message = ' You set TISFrac above TOSFrac. This can upset TisTos logic - be worried. '
+ToolSvc.L0DUCon...   INFO --------------- TCK = 0x0040------------------
+ToolSvc.L0DUCon...   INFO The configuration 0x0040 matches the hardware limitations 
+ToolSvc.L0DUCon...   INFO - Usage : Channels [75.0% ]  |  Conditions [24.2% ]; max/type [100.0% ]; order : OK ; reported  : 31/31
+ToolSvc.L0DUCon...   INFO --------------- TCK = 0x003D------------------
+ToolSvc.L0DUCon...   INFO The configuration 0x003D matches the hardware limitations 
+ToolSvc.L0DUCon...   INFO - Usage : Channels [75.0% ]  |  Conditions [24.2% ]; max/type [100.0% ]; order : OK ; reported  : 31/31
+ToolSvc.L0DUCon...   INFO --------------- TCK = 0x10000------------------
+TimingAuditor.T...   INFO ----------------------------------------------------------------------------------------------------------------------
+TimingAuditor.T...   INFO This machine has a speed about   3.02 times the speed of a 2.8 GHz Xeon.
+TimingAuditor.T...   INFO Algorithm                              (millisec) |    <user> |   <clock> |      min       max | entries | total (s) |
+TimingAuditor.T...   INFO ----------------------------------------------------------------------------------------------------------------------
+TimingAuditor.T...   INFO EVENT LOOP                                        |     8.579 |    11.169 |    1.033   12359.1 |   86365 |   964.615 |
+TimingAuditor.T...   INFO  DaVinciEventSeq                                  |     8.397 |    10.975 |    0.937   12359.0 |   86365 |   947.851 |
+TimingAuditor.T...   INFO   DaVinciInitAlg                                  |     0.059 |     0.061 |    0.047       5.3 |   86365 |     5.230 |
+TimingAuditor.T...   INFO   FilteredEventSeq                                |     8.323 |    10.900 |    0.862   12358.9 |   86365 |   941.413 |
+TimingAuditor.T...   INFO    DaVinciEventInitSeq                            |     0.009 |     0.010 |    0.008       0.1 |   86365 |     0.885 |
+TimingAuditor.T...   INFO     PhysInitSeq                                   |     0.002 |     0.003 |    0.002       0.1 |   86365 |     0.277 |
+TimingAuditor.T...   INFO     AnalysisInitSeq                               |     0.002 |     0.003 |    0.002       0.1 |   86365 |     0.258 |
+TimingAuditor.T...   INFO    DaVinciAnalysisSeq                             |     8.308 |    10.885 |    0.848   12358.9 |   86365 |   940.122 |
+TimingAuditor.T...   INFO     DaVinciUserSequence                           |     8.300 |    10.877 |    0.841   12358.9 |   86365 |   939.424 |
+TimingAuditor.T...   INFO      myProtoPMaker                                |     5.075 |     5.201 |    0.304    7992.0 |   86365 |   449.157 |
+TimingAuditor.T...   INFO      StateScale                                   |     0.037 |     0.039 |    0.011       6.0 |   86365 |     3.364 |
+TimingAuditor.T...   INFO      SeqYMaker                                    |     1.447 |     3.805 |    0.189   12328.6 |   86365 |   328.631 |
+TimingAuditor.T...   INFO       TriggeredD0                                 |     0.634 |     0.694 |    0.185    4386.4 |   86365 |    59.956 |
+TimingAuditor.T...   INFO       StrippedBCands                              |     0.317 |     4.652 |    0.099    7570.9 |    8552 |    39.783 |
+TimingAuditor.T...   INFO       SelFilter_Event_Semileptonic_Phys_b2D0MuXB2D|     3.360 |    16.385 |    0.946    7318.1 |    2285 |    37.440 |
+TimingAuditor.T...   INFO       smuTISfilterSel                             |    23.439 |    81.024 |    2.658    8927.4 |    2285 |   185.140 |
+TimingAuditor.T...   INFO       chargedK                                    |     0.008 |     0.010 |    0.006       0.0 |    1580 |     0.016 |
+TimingAuditor.T...   INFO       chargedPi                                   |     0.004 |     0.006 |    0.004       0.1 |    1580 |     0.009 |
+TimingAuditor.T...   INFO       SelMyD0                                     |     0.180 |     0.183 |    0.105      25.5 |    1580 |     0.290 |
+TimingAuditor.T...   INFO       SelFilterPhys_StdAllLoosePions_Particles    |     1.635 |     1.638 |    0.284      15.6 |    1580 |     2.588 |
+TimingAuditor.T...   INFO       SelFilterPhys_StdNoPIDsUpPions_Particles    |     0.393 |     0.395 |    0.052       1.1 |    1580 |     0.624 |
+TimingAuditor.T...   INFO       SelMyDst                                    |     0.301 |     0.303 |    0.084       1.8 |    1573 |     0.477 |
+TimingAuditor.T...   INFO       mulist                                      |     0.006 |     0.008 |    0.006       0.0 |     404 |     0.003 |
+TimingAuditor.T...   INFO       SelMyBd                                     |     0.058 |     0.060 |    0.019       2.1 |     342 |     0.020 |
+TimingAuditor.T...   INFO       YDTFSel                                     |     0.419 |     0.421 |    0.322       4.3 |     249 |     0.105 |
+TimingAuditor.T...   INFO      SeqYMaker2                                   |     0.002 |     0.004 |    0.002       2.8 |   86365 |     0.342 |
+TimingAuditor.T...   INFO       SelMyWSBd                                   |     0.033 |     0.034 |    0.015       1.5 |     342 |     0.012 |
+TimingAuditor.T...   INFO       YDTFSelWS                                   |     0.510 |     0.513 |    0.327       1.8 |      24 |     0.012 |
+TimingAuditor.T...   INFO      SeqYMaker3                                   |     0.008 |     0.009 |    0.002       2.4 |   86365 |     0.801 |
+TimingAuditor.T...   INFO       SelMyDst2                                   |     0.266 |     0.268 |    0.052       1.9 |    1573 |     0.422 |
+TimingAuditor.T...   INFO       SelMyWS2Bd                                  |     0.064 |     0.066 |    0.019       1.7 |      86 |     0.006 |
+TimingAuditor.T...   INFO       YDTFSelWS2                                  |     0.378 |     0.381 |    0.328       0.6 |      36 |     0.014 |
+TimingAuditor.T...   INFO      StdNoPIDsVeloPions                           |     0.055 |     0.057 |    0.006       0.9 |   86365 |     4.911 |
+TimingAuditor.T...   INFO      YCands                                       |     0.080 |     0.083 |    0.004    1950.3 |   86365 |     7.131 |
+TimingAuditor.T...   INFO      YCandsWS                                     |     0.008 |     0.009 |    0.003      35.5 |   86365 |     0.809 |
+TimingAuditor.T...   INFO      YCandsWS2                                    |     0.010 |     0.011 |    0.003      37.2 |   86365 |     0.985 |
+TimingAuditor.T...   INFO     MonitoringSequence                            |     0.002 |     0.003 |    0.002       0.0 |   86365 |     0.270 |
+TimingAuditor.T...   INFO   LumiSeq                                         |     0.006 |     0.008 |    0.006       0.2 |   86365 |     0.650 |
+TimingAuditor.T...   INFO    EventAccount                                   |     0.002 |     0.003 |    0.002       0.1 |   86365 |     0.285 |
+TimingAuditor.T...   INFO *      UnpackTrack                                |     4.680 |     4.808 |    0.083    7991.6 |   86365 |   415.213 |
+TimingAuditor.T...   INFO *       HltDecReportsDecoder                      |     0.586 |     0.647 |    0.147    4386.3 |   86365 |    55.901 |
+TimingAuditor.T...   INFO *     UnpackRecVertex                             |     0.148 |     0.245 |    0.052    7193.8 |   86335 |    21.114 |
+TimingAuditor.T...   INFO *       Strip_pPhys_DecReports_Converter          |     0.195 |     4.443 |    0.044    7570.7 |    8552 |    37.998 |
+TimingAuditor.T...   INFO *       Semileptonic_PsAndVsUnpack                |     0.091 |     0.093 |    0.037       7.9 |   20270 |     1.885 |
+TimingAuditor.T...   INFO *       UnpackChargedProtosSeq                    |    19.285 |    76.152 |    1.033    8924.1 |    2285 |   174.006 |
+TimingAuditor.T...   INFO *        UnpackChargedProtos                      |    11.849 |    67.744 |    0.111    8913.7 |    2285 |   154.795 |
+TimingAuditor.T...   INFO *        ProtoParticleCombDLLs                    |     5.548 |     6.521 |    0.317     531.5 |    2285 |    14.901 |
+TimingAuditor.T...   INFO *         CheckChargedProtosExist                 |     0.007 |     0.009 |    0.006       0.1 |    2285 |     0.020 |
+TimingAuditor.T...   INFO *         ChargedProtoPAddMuon                    |     0.884 |     1.499 |    0.128     524.4 |    2285 |     3.426 |
+TimingAuditor.T...   INFO *         ChargedProtoPAddRich                    |     4.552 |     4.912 |    0.128     146.3 |    2285 |    11.223 |
+TimingAuditor.T...   INFO *         ChargedProtoPCombDLL                    |     0.089 |     0.091 |    0.027       0.3 |    2285 |     0.208 |
+TimingAuditor.T...   INFO *        ANNPIDSeq                                |     1.871 |     1.876 |    0.429       5.1 |    2285 |     4.286 |
+TimingAuditor.T...   INFO *         Reco14Filter                            |     0.032 |     0.034 |    0.019       0.2 |    2285 |     0.077 |
+TimingAuditor.T...   INFO *         ReDoANNPIDLongElectron                  |     0.258 |     0.262 |    0.058       1.9 |    2285 |     0.598 |
+TimingAuditor.T...   INFO *         ReDoANNPIDLongMuon                      |     0.028 |     0.029 |    0.014       0.1 |    2285 |     0.067 |
+TimingAuditor.T...   INFO *         ReDoANNPIDLongPion                      |     0.238 |     0.240 |    0.040       0.7 |    2285 |     0.548 |
+TimingAuditor.T...   INFO *         ReDoANNPIDLongKaon                      |     0.248 |     0.250 |    0.042       0.8 |    2285 |     0.571 |
+TimingAuditor.T...   INFO *         ReDoANNPIDLongProton                    |     0.228 |     0.230 |    0.037       0.7 |    2285 |     0.526 |
+TimingAuditor.T...   INFO *         ReDoANNPIDLongGhost                     |     0.211 |     0.212 |    0.036       0.7 |    2285 |     0.485 |
+TimingAuditor.T...   INFO *         ReDoANNPIDDownstreamElectron            |     0.088 |     0.089 |    0.003       0.4 |    2285 |     0.204 |
+TimingAuditor.T...   INFO *         ReDoANNPIDDownstreamMuon                |     0.009 |     0.010 |    0.003       0.0 |    2285 |     0.024 |
+TimingAuditor.T...   INFO *         ReDoANNPIDDownstreamPion                |     0.070 |     0.071 |    0.003       0.3 |    2285 |     0.163 |
+TimingAuditor.T...   INFO *         ReDoANNPIDDownstreamKaon                |     0.071 |     0.072 |    0.003       0.3 |    2285 |     0.165 |
+TimingAuditor.T...   INFO *         ReDoANNPIDDownstreamProton              |     0.080 |     0.081 |    0.003       0.3 |    2285 |     0.186 |
+TimingAuditor.T...   INFO *         ReDoANNPIDDownstreamGhost               |     0.081 |     0.083 |    0.003       0.3 |    2285 |     0.190 |
+TimingAuditor.T...   INFO *         ReDoANNPIDUpstreamElectron              |     0.035 |     0.036 |    0.004       0.1 |    2285 |     0.083 |
+TimingAuditor.T...   INFO *         ReDoANNPIDUpstreamMuon                  |     0.029 |     0.031 |    0.003       0.1 |    2285 |     0.070 |
+TimingAuditor.T...   INFO *         ReDoANNPIDUpstreamPion                  |     0.029 |     0.030 |    0.004       0.1 |    2285 |     0.070 |
+TimingAuditor.T...   INFO *         ReDoANNPIDUpstreamKaon                  |     0.030 |     0.032 |    0.004       0.1 |    2285 |     0.072 |
+TimingAuditor.T...   INFO *         ReDoANNPIDUpstreamProton                |     0.027 |     0.029 |    0.003       0.1 |    2285 |     0.066 |
+TimingAuditor.T...   INFO *         ReDoANNPIDUpstreamGhost                 |     0.030 |     0.031 |    0.004       0.1 |    2285 |     0.071 |
+TimingAuditor.T...   INFO *          UnpackMuonPIDSeq                       |     0.750 |     1.365 |    0.071     524.3 |    2285 |     3.119 |
+TimingAuditor.T...   INFO *           UnpackMuonPIDs                        |     0.733 |     1.349 |    0.059     524.3 |    2285 |     3.083 |
+TimingAuditor.T...   INFO *           CheckMuonPIDs                         |     0.006 |     0.008 |    0.005       0.1 |    2285 |     0.017 |
+TimingAuditor.T...   INFO *          UnpackRichPIDSeq                       |     4.398 |     4.757 |    0.073     146.0 |    2285 |    10.869 |
+TimingAuditor.T...   INFO *           UnpackRichPIDs                        |     4.381 |     4.742 |    0.063     146.0 |    2285 |    10.835 |
+TimingAuditor.T...   INFO *           CheckRichPIDs                         |     0.005 |     0.007 |    0.004       0.0 |    2285 |     0.015 |
+TimingAuditor.T...   INFO *       UnpackMuonTracks                          |     1.552 |     2.173 |    0.055    1367.4 |    2285 |     4.965 |
+TimingAuditor.T...   INFO *       L0DecReportsMaker                         |     0.503 |     0.509 |    0.380      65.3 |    2285 |     1.164 |
+TimingAuditor.T...   INFO *        L0DUFromRaw                              |     0.420 |     0.423 |    0.330       7.7 |    2285 |     0.967 |
+TimingAuditor.T...   INFO *       L0SelReportsMaker                         |     1.120 |     1.133 |    0.469     987.4 |    2285 |     2.588 |
+TimingAuditor.T...   INFO *        L0MuonFromRaw                            |     0.282 |     0.285 |    0.213      17.0 |    2285 |     0.651 |
+TimingAuditor.T...   INFO *        L0CaloFromRaw                            |     0.116 |     0.118 |    0.061       1.2 |    2285 |     0.271 |
+TimingAuditor.T...   INFO *       StdAllLoosePions                          |     0.146 |     0.148 |    0.037       0.4 |    1580 |     0.234 |
+TimingAuditor.T...   INFO *       StdNoPIDsUpPions                          |     0.026 |     0.028 |    0.006       0.1 |    1580 |     0.044 |
+TimingAuditor.T...   INFO *      Hlt1DecReportsDecoder                      |     0.048 |     0.050 |    0.038       0.6 |     295 |     0.015 |
+TimingAuditor.T...   INFO *      Hlt1SelReportsDecoder                      |     0.316 |     0.319 |    0.065       2.9 |     295 |     0.094 |
+TimingAuditor.T...   INFO *      Hlt2DecReportsDecoder                      |     0.117 |     0.119 |    0.100       0.6 |     295 |     0.035 |
+TimingAuditor.T...   INFO *      Hlt2SelReportsDecoder                      |     0.296 |     0.299 |    0.044       2.0 |     295 |     0.088 |
+TimingAuditor.T...   INFO *      StdNoPIDsPions                             |     0.135 |     0.137 |    0.035       0.5 |     295 |     0.040 |
+TimingAuditor.T...   INFO *      StdAllNoPIDsPions                          |     0.096 |     0.098 |    0.024       0.2 |     295 |     0.029 |
+TimingAuditor.T...   INFO *      SpdFromRaw                                 |     0.494 |     0.497 |    0.342       1.4 |     248 |     0.123 |
+TimingAuditor.T...   INFO *      createODIN                                 |     0.022 |     0.023 |    0.018       0.1 |     295 |     0.007 |
+TimingAuditor.T...   INFO ----------------------------------------------------------------------------------------------------------------------
+ToolSvc.TrackSt...SUCCESS Number of counters : 2
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ | "Number of states added"                        |        21 |          0 |     0.0000 |     0.0000 |      0.0000 |      0.0000 |
+ | "Number of tracks seen"                         |     86365 |         33 | 0.00038210 |   0.027850 |      0.0000 |      4.0000 |
+NTupleSvc            INFO NTuples saved successfully
+ApplicationMgr       INFO Application Manager Finalized successfully
+ApplicationMgr       INFO Application Manager Terminated successfully
+ LHCb::DecayTree WARNING misbalance #particles 2268
+ LHCb::DecayTree WARNING misbalance #vertices  972
