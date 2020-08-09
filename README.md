@@ -13,7 +13,14 @@ Yipeng. We use DaVinci/v36r1p2 on the lxplus7 to do the comparison.
 
 1. Checkout the `test-comp-davinci` branch
 2. `cd` into `run1-b2D0MuXB2DMuNuForTauMuLine` folder
-3. Execute the following command
+3. Put the following 2012 MagDown data to the subfolder `data/data-2012-md`:
+    ```
+    00041836_00006100_1.semileptonic.dst
+    00041836_00011435_1.semileptonic.dst
+    00041836_00013110_1.semileptonic.dst
+    ```
+
+4. Execute the following command
     ```
     ./run.sh reco_Dst-debug-phoebe.py conds/cond-std-2012.py
     ./run.sh reco_Dst-debug-yipeng.py conds/cond-std-2012.py
