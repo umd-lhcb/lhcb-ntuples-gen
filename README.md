@@ -26,3 +26,7 @@ Yipeng. We use DaVinci/v36r1p2 on the lxplus7 to do the comparison.
     ./run.sh reco_Dst-debug-phoebe.py conds/cond-std-2012.py
     ./run.sh reco_Dst-debug-yipeng.py conds/cond-std-2012.py
     ```
+
+**NOTE**: The output of both scripts will be named `std.root`, because we are
+using **the same** condition file `cond-std-2012.py`! Make sure to rename the
+output of the first command **BEFORE** executing the second!
