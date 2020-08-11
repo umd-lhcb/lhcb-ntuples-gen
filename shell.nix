@@ -1,6 +1,5 @@
-with import <nixpkgs> {};
-
 let
+  pkgs = import <nixpkgs> {};
   python = pkgs.python3;
   pythonPackages = python.pkgs;
   root = pkgs.root;
