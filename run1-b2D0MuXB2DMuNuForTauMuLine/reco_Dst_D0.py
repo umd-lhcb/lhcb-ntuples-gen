@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Aug 12, 2020 at 08:58 PM +0800
+# Last Change: Wed Aug 12, 2020 at 09:11 PM +0800
 #
 # Description: Definitions of selection and reconstruction procedures for Dst
 #              and D0 in run 1, with thorough comments.
@@ -80,9 +80,9 @@ ms_smear = TrackSmearState('StateSmear')
 
 
 if not DaVinci().Simulation:
-    DaVinci().appendToMainSequence([ms_scale])
+    event_pre_selectors = [ms_scale]
 elif not has_flag('NO_SMEAR'):
-    DaVinci().appendToMainSequence([ms_smear])
+    event_pre_selectors = [ms_smear]
 
 
 DaVinci().appendToMainSequence([ms_all_protos, ms_velo_pions])
@@ -386,7 +386,8 @@ sel_refit_Bminus2D0Mu = Selection(
     RequiredSelections=[sel_Bminus]
 )
 
-seq_Bminus = SelectionSequence('SeqMyB-', TopSelection=sel_refit_Bminus2D0Mu)
+seq_Bminus = SelectionSequence('SeqMyB-', TopSelection=sel_refit_Bminus2D0Mu,
+                               EventPreSelector=event_pre_selectors)
 
 # B-_ws ########################################################################
 # 'WS' means wrong-sign.
@@ -415,7 +416,8 @@ sel_refit_Bminus2D0Mu_ws = Selection(
 )
 
 seq_Bminus_ws = SelectionSequence('SeqMyB-WS',
-                                  TopSelection=sel_refit_Bminus2D0Mu_ws)
+                                  TopSelection=sel_refit_Bminus2D0Mu_ws,
+                                  EventPreSelector=event_pre_selectors)
 
 # Filtered D0 and Mu from the D0 Mu combo ######################################
 # These particles pass the stripping line selection, and can be reused to build
@@ -540,7 +542,8 @@ sel_refit_B02DstMu = Selection(
     RequiredSelections=[sel_B0]
 )
 
-seq_B0 = SelectionSequence('SeqMyB0', TopSelection=sel_refit_B02DstMu)
+seq_B0 = SelectionSequence('SeqMyB0', TopSelection=sel_refit_B02DstMu,
+                           EventPreSelector=event_pre_selectors)
 
 # B0_ws_Mu #####################################################################
 # Here the muon has the wrong sign---charge not conserved.
@@ -567,7 +570,8 @@ sel_refit_B02DstMu_ws_Mu = Selection(
 )
 
 seq_B0_ws_Mu = SelectionSequence('SeqMyB0WSMu',
-                                 TopSelection=sel_refit_B02DstMu_ws_Mu)
+                                 TopSelection=sel_refit_B02DstMu_ws_Mu,
+                                 EventPreSelector=event_pre_selectors)
 
 # B0_ws_Pi #####################################################################
 # Here, due to the wrong quark content of B0, instead of B~0, the pion (not
@@ -596,7 +600,8 @@ sel_refit_B02DstMu_ws_Pi = Selection(
 )
 
 seq_B0_ws_Pi = SelectionSequence('SeqMyB0WSPi',
-                                 TopSelection=sel_refit_B02DstMu_ws_Pi)
+                                 TopSelection=sel_refit_B02DstMu_ws_Pi,
+                                 EventPreSelector=event_pre_selectors)
 
 
 ##################
