@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Aug 12, 2020 at 09:11 PM +0800
+# Last Change: Wed Aug 12, 2020 at 09:15 PM +0800
 #
 # Description: Definitions of selection and reconstruction procedures for Dst
 #              and D0 in run 1, with thorough comments.
@@ -116,7 +116,9 @@ else:
 #   check if line given is a part of the lines of the events.
 fltr_strip = HDRFilter(
     'StrippedBCands',
-    Code="HLT_PASS('Stripping{0}Decision')".format(line_strip))
+    Code="HLT_PASS('Stripping{0}Decision')".format(line_strip),
+    Location='/Event/Strip/Phys/DecReports'
+)
 
 line_hlt = 'Hlt2CharmHadD02HH_D02KPi'
 fltr_hlt = HDRFilter(
