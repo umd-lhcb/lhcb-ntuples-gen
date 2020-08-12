@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Aug 12, 2020 at 08:41 PM +0800
+# Last Change: Wed Aug 12, 2020 at 08:55 PM +0800
 #
 # Description: Definitions of selection and reconstruction procedures for Dst
 #              and D0 in run 1, with thorough comments.
@@ -610,10 +610,11 @@ from DecayTreeTuple.Configuration import *  # to use addTupleTool
 from Configurables import BackgroundCategory
 
 
-def tuple_initialize_data(name, sel_seq, template):
+def tuple_initialize_data(name, sel_seq, decay, template):
     tp = DecayTreeTuple(name)
     tp.Inputs = [sel_seq.outputLocation()]
-    tp.setDescriptorTemplate(template)
+    tp.Decay(decay)
+    tp.addBranches(template)
 
     tp.ToolList += [
         'TupleToolAngles',
@@ -720,7 +721,14 @@ else:
 tp_Bminus = tuple_initialize(
     'TupleBminus',
     seq_Bminus,
-    '${b}[B- -> ${d0}(D0 -> ${k}K- ${pi}pi+) ${mu}mu-]CC'
+    '[B- -> (D0 -> K- pi+) mu-]CC',
+    {
+        'b': '[B- -> (D0 -> K- pi+) mu-]CC',
+        'd0': '[B- -> ^(D0 -> K- pi+) mu-]CC',
+        'k': '[B- -> (D0 -> ^K- pi+) mu-]CC',
+        'pi': '[B- -> (D0 -> K- ^pi+) mu-]CC',
+        'mu': '[B- -> (D0 -> K- pi+) ^mu-]CC',
+    }
 )
 tuple_postpocess(tp_Bminus, B_meson='b')
 
@@ -728,7 +736,14 @@ tuple_postpocess(tp_Bminus, B_meson='b')
 tp_Bminus_ws = tuple_initialize(
     'TupleBminusWS',
     seq_Bminus_ws,
-    '${b}[B+ -> ${d0}(D0 -> ${k}K- ${pi}pi+) ${mu}mu+]CC'
+    '[B+ -> (D0 -> K- pi+) mu+]CC',
+    {
+        'b': '[B+ -> (D0 -> K- pi+) mu+]CC',
+        'd0': '[B+ -> ^(D0 -> K- pi+) mu+]CC',
+        'k': '[B+ -> (D0 -> ^K- pi+) mu+]CC',
+        'pi': '[B+ -> (D0 -> K- ^pi+) mu+]CC',
+        'mu': '[B+ -> (D0 -> K- ^pi+) ^mu+]CC',
+    }
 )
 tuple_postpocess(tp_Bminus_ws, B_meson='b')
 
@@ -736,7 +751,16 @@ tuple_postpocess(tp_Bminus_ws, B_meson='b')
 tp_B0 = tuple_initialize(
     'TupleB0',
     seq_B0,
-    '${b0}[B~0 -> ${dst}(D*(2010)+ -> ${d0}(D0 -> ${k}K- ${pi}pi+) ${spi}pi+) ${mu}mu-]CC'
+    '[B~0 -> (D*(2010)+ -> (D0 -> K- pi+) pi+) mu-]CC',
+    {
+        'b': '[B~0 -> (D*(2010)+ -> (D0 -> K- pi+) pi+) mu-]CC',
+        'dst': '[B~0 -> ^(D*(2010)+ -> (D0 -> K- pi+) pi+) mu-]CC',
+        'd0': '[B~0 -> (D*(2010)+ -> ^(D0 -> K- pi+) pi+) mu-]CC',
+        'k': '[B~0 -> (D*(2010)+ -> (D0 -> ^K- pi+) pi+) mu-]CC',
+        'pi': '[B~0 -> (D*(2010)+ -> (D0 -> K- ^pi+) pi+) mu-]CC',
+        'spi': '[B~0 -> (D*(2010)+ -> (D0 -> K- pi+) ^pi+) mu-]CC',
+        'mu': '[B~0 -> (D*(2010)+ -> (D0 -> K- pi+) pi+) ^mu-]CC',
+    }
 )
 tuple_postpocess(tp_B0)
 
@@ -744,7 +768,16 @@ tuple_postpocess(tp_B0)
 tp_B0_ws_Mu = tuple_initialize(
     'TupleB0WSMu',
     seq_B0_ws_Mu,
-    '${b0}[B~0 -> ${dst}(D*(2010)+ -> ${d0}(D0 -> ${k}K- ${pi}pi+) ${spi}pi+) ${mu}mu+]CC'
+    '[B~0 -> (D*(2010)+ -> (D0 -> K- pi+) pi+) mu+]CC',
+    {
+        'b': '[B~0 -> (D*(2010)+ -> (D0 -> K- pi+) pi+) mu+]CC',
+        'dst': '[B~0 -> ^(D*(2010)+ -> (D0 -> K- pi+) pi+) mu+]CC',
+        'd0': '[B~0 -> (D*(2010)+ -> ^(D0 -> K- pi+) pi+) mu+]CC',
+        'k': '[B~0 -> (D*(2010)+ -> (D0 -> ^K- pi+) pi+) mu+]CC',
+        'pi': '[B~0 -> (D*(2010)+ -> (D0 -> K- ^pi+) pi+) mu+]CC',
+        'spi': '[B~0 -> (D*(2010)+ -> (D0 -> K- pi+) ^pi+) mu+]CC',
+        'mu': '[B~0 -> (D*(2010)+ -> (D0 -> K- pi+) pi+) ^mu+]CC',
+    }
 )
 tuple_postpocess(tp_B0_ws_Mu)
 
@@ -752,7 +785,16 @@ tuple_postpocess(tp_B0_ws_Mu)
 tp_B0_ws_Pi = tuple_initialize(
     'TupleB0WSPi',
     seq_B0_ws_Pi,
-    '${b0}[B~0 -> ${dst}(D*(2010)- -> ${d0}(D0 -> ${k}K- ${pi}pi+) ${spi}pi-) ${mu}mu-]CC'
+    '[B~0 -> (D*(2010)- -> (D0 -> K- pi+) pi-) mu-]CC',
+    {
+        'b': '[B~0 -> (D*(2010)- -> (D0 -> K- pi+) pi-) mu-]CC',
+        'dst': '[B~0 -> ^(D*(2010)- -> (D0 -> K- pi+) pi-) mu-]CC',
+        'd0': '[B~0 -> (D*(2010)- -> ^(D0 -> K- pi+) pi-) mu-]CC',
+        'k': '[B~0 -> (D*(2010)- -> (D0 -> ^K- pi+) pi-) mu-]CC',
+        'pi': '[B~0 -> (D*(2010)- -> (D0 -> K- ^pi+) pi-) mu-]CC',
+        'spi': '[B~0 -> (D*(2010)- -> (D0 -> K- pi+) ^pi-) mu-]CC',
+        'mu': '[B~0 -> (D*(2010)- -> (D0 -> K- pi+) pi-) ^mu-]CC',
+    }
 )
 tuple_postpocess(tp_B0_ws_Pi)
 
