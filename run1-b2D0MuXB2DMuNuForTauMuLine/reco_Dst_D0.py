@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Aug 05, 2020 at 11:13 PM +0800
+# Last Change: Wed Aug 12, 2020 at 08:41 PM +0800
 #
 # Description: Definitions of selection and reconstruction procedures for Dst
 #              and D0 in run 1, with thorough comments.
@@ -695,11 +695,11 @@ def tuple_postpocess_data(tp, B_meson='b0', Mu='mu',
 
     getattr(tp, B_meson).ToolList += [
         'TupleToolTagDiscardDstMu',
-        'TupleToolTauMuDiscrVars',
+        # 'TupleToolTauMuDiscrVars',
     ]
 
-    tt_app_iso = getattr(tp, B_meson).addTupleTool('TupleToolApplyIsolation')
-    tt_app_iso.WeightsFile = weights
+    # tt_app_iso = getattr(tp, B_meson).addTupleTool('TupleToolApplyIsolation')
+    # tt_app_iso.WeightsFile = weights
 
     getattr(tp, Mu).ToolList += ['TupleToolANNPIDTraining']
 
