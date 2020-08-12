@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Aug 12, 2020 at 08:55 PM +0800
+# Last Change: Wed Aug 12, 2020 at 08:57 PM +0800
 #
 # Description: Definitions of selection and reconstruction procedures for Dst
 #              and D0 in run 1, with thorough comments.
@@ -613,7 +613,7 @@ from Configurables import BackgroundCategory
 def tuple_initialize_data(name, sel_seq, decay, template):
     tp = DecayTreeTuple(name)
     tp.Inputs = [sel_seq.outputLocation()]
-    tp.Decay(decay)
+    tp.Decay = decay
     tp.addBranches(template)
 
     tp.ToolList += [
