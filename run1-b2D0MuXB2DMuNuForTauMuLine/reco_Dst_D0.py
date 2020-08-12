@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Aug 12, 2020 at 08:57 PM +0800
+# Last Change: Wed Aug 12, 2020 at 08:58 PM +0800
 #
 # Description: Definitions of selection and reconstruction procedures for Dst
 #              and D0 in run 1, with thorough comments.
@@ -753,7 +753,7 @@ tp_B0 = tuple_initialize(
     seq_B0,
     '[B~0 -> (D*(2010)+ -> (D0 -> K- pi+) pi+) mu-]CC',
     {
-        'b': '[B~0 -> (D*(2010)+ -> (D0 -> K- pi+) pi+) mu-]CC',
+        'b0': '[B~0 -> (D*(2010)+ -> (D0 -> K- pi+) pi+) mu-]CC',
         'dst': '[B~0 -> ^(D*(2010)+ -> (D0 -> K- pi+) pi+) mu-]CC',
         'd0': '[B~0 -> (D*(2010)+ -> ^(D0 -> K- pi+) pi+) mu-]CC',
         'k': '[B~0 -> (D*(2010)+ -> (D0 -> ^K- pi+) pi+) mu-]CC',
@@ -770,7 +770,7 @@ tp_B0_ws_Mu = tuple_initialize(
     seq_B0_ws_Mu,
     '[B~0 -> (D*(2010)+ -> (D0 -> K- pi+) pi+) mu+]CC',
     {
-        'b': '[B~0 -> (D*(2010)+ -> (D0 -> K- pi+) pi+) mu+]CC',
+        'b0': '[B~0 -> (D*(2010)+ -> (D0 -> K- pi+) pi+) mu+]CC',
         'dst': '[B~0 -> ^(D*(2010)+ -> (D0 -> K- pi+) pi+) mu+]CC',
         'd0': '[B~0 -> (D*(2010)+ -> ^(D0 -> K- pi+) pi+) mu+]CC',
         'k': '[B~0 -> (D*(2010)+ -> (D0 -> ^K- pi+) pi+) mu+]CC',
@@ -787,7 +787,7 @@ tp_B0_ws_Pi = tuple_initialize(
     seq_B0_ws_Pi,
     '[B~0 -> (D*(2010)- -> (D0 -> K- pi+) pi-) mu-]CC',
     {
-        'b': '[B~0 -> (D*(2010)- -> (D0 -> K- pi+) pi-) mu-]CC',
+        'b0': '[B~0 -> (D*(2010)- -> (D0 -> K- pi+) pi-) mu-]CC',
         'dst': '[B~0 -> ^(D*(2010)- -> (D0 -> K- pi+) pi-) mu-]CC',
         'd0': '[B~0 -> (D*(2010)- -> ^(D0 -> K- pi+) pi-) mu-]CC',
         'k': '[B~0 -> (D*(2010)- -> (D0 -> ^K- pi+) pi-) mu-]CC',
