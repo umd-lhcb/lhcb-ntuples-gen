@@ -7,8 +7,8 @@ DaVinci().TupleFile = 'std.root'
 # DaVinci().HistogramFile = 'std-histo.root'
 
 # Specify tags
-# DaVinci().DDDBtag = 'dddb-20130929-1'
-# DaVinci().CondDBtag = 'cond-20141007'
+DaVinci().DDDBtag = 'dddb-20130929-1'
+DaVinci().CondDBtag = 'cond-20141007'
 
 
 from GaudiConf import IOHelper
