@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Aug 05, 2020 at 11:13 PM +0800
+# Last Change: Fri Aug 14, 2020 at 12:13 AM +0800
 #
 # Description: Definitions of selection and reconstruction procedures for Dst
 #              and D0 in run 1, with thorough comments.
@@ -482,6 +482,16 @@ sel_Dst = Selection(
     RequiredSelections=[sel_D0_combo, pr_all_loose_Pi]
 )
 
+sel_refit_Dst2D0Pi = Selection(
+    'SelMyRefitDst2D0Pi',
+    Algorithm=FitDecayTrees(
+        'MyRefitDst2D0Pi',
+        Code="DECTREE('[D*(2010)+ -> D0 pi+]CC')",
+        UsePVConstraint=False,
+    ),
+    RequiredSelections=[sel_Dst]
+)
+
 # Dst_ws_Mu ####################################################################
 # 'WS' stands for 'wrong sign'
 algo_Dst_ws_Mu = CombineParticles('MyDstWSMu')
@@ -497,6 +507,16 @@ sel_Dst_ws_Mu = Selection(
     RequiredSelections=[sel_D0_ws_combo, pr_all_loose_Pi]
 )
 
+sel_refit_Dst2D0Pi_ws_Mu = Selection(
+    'SelMyRefitDst2D0PiWSMu',
+    Algorithm=FitDecayTrees(
+        'MyRefitDst2D0PiWSMu',
+        Code="DECTREE('[D*(2010)+ -> D0 pi+]CC')",
+        UsePVConstraint=False,
+    ),
+    RequiredSelections=[sel_Dst_ws_Mu]
+)
+
 # Dst_ws_Pi ####################################################################
 algo_Dst_ws_Pi = CombineParticles('MyDstWSPi')
 algo_Dst_ws_Pi.DecayDescriptor = '[D*(2010)- -> D0 pi-]cc'
@@ -510,6 +530,28 @@ sel_Dst_ws_Pi = Selection(
     Algorithm=algo_Dst_ws_Pi,
     RequiredSelections=[sel_D0_combo, pr_all_loose_Pi]
 )
+
+sel_refit_Dst2D0Pi_ws_Pi = Selection(
+    'SelMyRefitDst2D0PiWSPi',
+    Algorithm=FitDecayTrees(
+        'MyRefitDst2D0PiWSPi',
+        Code="DECTREE('[D*(2010)- -> D0 pi-]CC')",
+        UsePVConstraint=False,
+    ),
+    RequiredSelections=[sel_Dst_ws_Pi]
+)
+
+# Define Dst stubs depending if we have 'REFIT_DST_ONLY' flag ##################
+
+if has_flag('REFIT_DST_ONLY'):
+    sel_Dst_stub = sel_refit_Dst2D0Pi
+    sel_Dst_ws_Mu_stub = sel_refit_Dst2D0Pi_ws_Mu
+    sel_Dst_ws_Pi_stub = sel_refit_Dst2D0Pi_ws_Pi
+else:
+    sel_Dst_stub = sel_Dst
+    sel_Dst_ws_Mu_stub = sel_Dst_ws_Mu
+    sel_Dst_ws_Pi_stub = sel_Dst_ws_Pi
+
 
 # B0 ###########################################################################
 algo_B0 = CombineParticles('MyB0')
@@ -527,7 +569,7 @@ algo_B0.MotherCut = "(VFASPF(VCHI2/VDOF) < 100.0)"  # Loose cuts here
 sel_B0 = Selection(
     'SelMyB0',
     Algorithm=algo_B0,
-    RequiredSelections=[sel_Dst, sel_Mu_combo]
+    RequiredSelections=[sel_Dst_stub, sel_Mu_combo]
 )
 
 sel_refit_B02DstMu = Selection(
@@ -540,8 +582,6 @@ sel_refit_B02DstMu = Selection(
     RequiredSelections=[sel_B0]
 )
 
-seq_B0 = SelectionSequence('SeqMyB0', TopSelection=sel_refit_B02DstMu)
-
 # B0_ws_Mu #####################################################################
 # Here the muon has the wrong sign---charge not conserved.
 algo_B0_ws_Mu = CombineParticles('MyB0WSMu')
@@ -553,7 +593,7 @@ algo_B0_ws_Mu.MotherCut = algo_B0.MotherCut
 sel_B0_ws_Mu = Selection(
     'SelMyB0WSMu',
     Algorithm=algo_B0_ws_Mu,
-    RequiredSelections=[sel_Dst_ws_Mu, sel_Mu_ws_combo]
+    RequiredSelections=[sel_Dst_ws_Mu_stub, sel_Mu_ws_combo]
 )
 
 sel_refit_B02DstMu_ws_Mu = Selection(
@@ -565,9 +605,6 @@ sel_refit_B02DstMu_ws_Mu = Selection(
     ),
     RequiredSelections=[sel_B0_ws_Mu]
 )
-
-seq_B0_ws_Mu = SelectionSequence('SeqMyB0WSMu',
-                                 TopSelection=sel_refit_B02DstMu_ws_Mu)
 
 # B0_ws_Pi #####################################################################
 # Here, due to the wrong quark content of B0, instead of B~0, the pion (not
@@ -582,7 +619,7 @@ algo_B0_ws_Pi.MotherCut = algo_B0.MotherCut
 sel_B0_ws_Pi = Selection(
     'SelMyB0WSPi',
     Algorithm=algo_B0_ws_Pi,
-    RequiredSelections=[sel_Dst_ws_Pi, sel_Mu_combo]
+    RequiredSelections=[sel_Dst_ws_Pi_stub, sel_Mu_combo]
 )
 
 sel_refit_B02DstMu_ws_Pi = Selection(
@@ -595,8 +632,20 @@ sel_refit_B02DstMu_ws_Pi = Selection(
     RequiredSelections=[sel_B0_ws_Pi]
 )
 
-seq_B0_ws_Pi = SelectionSequence('SeqMyB0WSPi',
-                                 TopSelection=sel_refit_B02DstMu_ws_Pi)
+# Define B0 stubs depending if we have 'REFIT_DST_ONLY' flag ###################
+
+if has_flag('REFIT_DST_ONLY'):
+    seq_B0 = SelectionSequence('SeqMyB0', TopSelection=sel_B0)
+    seq_B0_ws_Mu = SelectionSequence('SeqMyB0WSMu',
+                                     TopSelection=sel_B0_ws_Mu)
+    seq_B0_ws_Pi = SelectionSequence('SeqMyB0WSPi',
+                                     TopSelection=sel_B0_ws_Pi)
+else:
+    seq_B0 = SelectionSequence('SeqMyB0', TopSelection=sel_refit_B02DstMu)
+    seq_B0_ws_Mu = SelectionSequence('SeqMyB0WSMu',
+                                     TopSelection=sel_refit_B02DstMu_ws_Mu)
+    seq_B0_ws_Pi = SelectionSequence('SeqMyB0WSPi',
+                                     TopSelection=sel_refit_B02DstMu_ws_Pi)
 
 
 ##################
