@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Aug 06, 2020 at 03:31 PM +0800
+# Last Change: Fri Aug 14, 2020 at 03:52 AM +0800
 #
 # Description: A demonstration on ganga option file with parser.
 #              This demo runs stand-alone, provided that Python is installed:
@@ -17,6 +17,7 @@ from datetime import datetime
 from pathlib import Path
 from collections import OrderedDict as odict
 from os.path import expanduser
+from re import search
 
 
 ##########################
@@ -31,10 +32,15 @@ FILES_PER_JOB_MC = 2
 # Example for a fully constructed MC file path:
 # '/MC/2012/Beam4000GeV-2012-MagDown-Nu2.5-Pythia6/Sim08a/Digi13/Trig0x409f0045/Reco14a/Stripping20Filtered/11873010/DSTTAUNU.SAFESTRIPTRIG'
 LFN_PATH = {
+    # run 1 rdx
+    'std-2012': '/LHCb/Collision12/Beam4000GeV-VeloClosed-Mag{polarity}/Real Data/Reco14/Stripping21/90000000/SEMILEPTONIC.DST',
+    'mc-2012': '/MC/2012/Beam4000GeV-2012-Mag{polarity}-Nu2.5-{pythia}/{simcond}/Digi13/Trig0x409f0045/Reco14a/Stripping20Filtered/{decay}/DSTTAUNU.SAFESTRIPTRIG.DST',
+    'cutflow_mc-2011': '/MC/2011/Beam3500GeV-2011-Mag{polarity}-Nu2-Pythia8/{simcond}/Digi13/Trig0x40760037/Reco14c/Stripping20r1NoPrescalingFlagged/11874091/ALLSTREAMS.DST',
+    # run 2 rdx
     'std-2016': '/LHCb/Collision16/Beam6500GeV-VeloClosed-Mag{polarity}/Real Data/Reco16/Stripping28r1/90000000/SEMILEPTONIC.DST',
-    # 'mc-2016': '/MC/2012/Beam4000GeV-2012-Mag{polarity}-Nu2.5-{pythia}/{simcond}/Digi13/Trig0x409f0045/Reco14a/Stripping20Filtered/{decay}/DSTTAUNU.SAFESTRIPTRIG.DST',
     'cutflow_mc-2016': '/MC/2016/Beam6500GeV-2016-Mag{polarity}-Nu1.6-25ns-Pythia8/{simcond}/Trig0x6138160F/Reco16/Turbo03/Stripping26NoPrescalingFlagged/11874091/ALLSTREAMS.DST',
 }
+LFN_PATH['cutflow_data-2012'] = LFN_PATH['std-2012']
 LFN_PATH['cutflow_data-2016'] = LFN_PATH['std-2016']
 
 MC_PYTHIA = ['Pythia6', 'Pythia8']
@@ -84,6 +90,12 @@ def parse_cond_file_name(cond_file):
         'additional_flags': None
     })
     fields = Path(cond_file).stem.split('-')[1:]  # Drop the 'cond' prefix.
+    terminating_non_flag_fields = r'^(mu|md|sim\d+[a-z])$'
+
+    if len(fields) >= 3:
+        if not bool(search(terminating_non_flag_fields, fields[-1])):
+            result['additional_flags'] = fields[-1]
+            fields.pop(-1)
 
     for idx, key in enumerate(result.keys()):
         try:
