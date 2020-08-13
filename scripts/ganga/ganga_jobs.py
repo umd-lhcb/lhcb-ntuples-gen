@@ -1,8 +1,8 @@
-#!/usr/bin/env python
+#!/usr/bin/env ganga
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri Aug 14, 2020 at 03:52 AM +0800
+# Last Change: Fri Aug 14, 2020 at 03:53 AM +0800
 #
 # Description: A demonstration on ganga option file with parser.
 #              This demo runs stand-alone, provided that Python is installed:
