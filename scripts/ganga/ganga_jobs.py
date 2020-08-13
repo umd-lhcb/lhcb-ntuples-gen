@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri Aug 14, 2020 at 03:58 AM +0800
+# Last Change: Fri Aug 14, 2020 at 04:03 AM +0800
 #
 # Description: A demonstration on ganga option file with parser.
 #              This demo runs stand-alone, provided that Python is installed:
@@ -26,7 +26,7 @@ from re import search
 ##########################
 
 PLATFORM = 'x86_64-centos7-gcc9-opt'
-WEIGHT_FILE = './weights_soft.xml'
+WEIGHT_FILE = 'weights_soft.xml'
 FILES_PER_JOB_DATA = 5
 FILES_PER_JOB_MC = 2
 
