@@ -54,17 +54,27 @@ This version will then be sent to the `GRID` by `ganga`.
     - For `DaVinci-{{ davinci_sl_ver }}`, refer to [this script](https://github.com/umd-lhcb/docker-images/blob/master/lhcb-stack-cc7/compile_dv.sh) for build instructions.
     - For `DaVinci-v42r8p1-SL` (obsolete), refer to [this `Dockerfile`](https://github.com/umd-lhcb/docker-images/blob/davinci-v42r8p1/lhcb-stack-cc7/Dockerfile-DaVinci-SL).
 
-Then, for each of the stripping line folder inside this project, there should be a
-Python scripted named `ganga_jobs.py`. The general syntax is:
+There is a **central** Ganga job submitter that should handle **all** job
+submissions for **all** reconstruction scripts in **all** folders. The script
+is located at:
 ```
-ganga ganga_jobs.py <cond_files>
-```
-For instance, for signal Monte Carlo:
-```
-ganga ganga_jobs.py cond/cond-mc-2012-md-sim08a.py
+scripts/ganga/ganga_jobs.py
 ```
 
-The general usage of `ganga_jobs.py` is described by:
+This script can only run on `lxplus` nodes. The general syntax is:
 ```
-ganga ganga_jobs.py --help
+ganga_jobs.py <reco_script> <cond_files>
 ```
+For instance, for run 1 $R(D^{(*)}$ signal Monte Carlo:
+```
+ganga_jobs.py ../../run1-b2D0MuXB2DMuNuForTauMuLine/reco_Dst_D0.py ../../run1-b2D0MuXB2DMuNuForTauMuLine/cond/cond-mc-2012-md-sim08a.py -p mu -P Pythia6 -d Bd2DstTauNu
+```
+
+!!! note
+    The last three flags: `-p`, `-P`, and `-d` are optional. They have default values.
+
+!!! note
+    The usage of `ganga_jobs.py` is described by:
+    ```
+    ganga_jobs.py --help
+    ```
