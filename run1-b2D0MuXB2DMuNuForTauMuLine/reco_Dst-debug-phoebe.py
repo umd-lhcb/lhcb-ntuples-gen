@@ -220,7 +220,10 @@ _MyB2DstPiPiPi.MotherCut = (
 )
 
 
-SelMyBd = Selection("SelMyBd", Algorithm=_MyBd, RequiredSelections=[SelMyDst, mulist])
+
+# NOTE: We only do partial refit on Dst, NOT Dst Mu combo
+# SelMyBd = Selection("SelMyBd", Algorithm=_MyBd, RequiredSelections=[SelMyDst, mulist])
+SelMyBd = Selection("SelMyBd", Algorithm=_MyBd, RequiredSelections=[DTFSel, mulist])
 
 # refitY = FitDecayTrees("refitY", Code = "DECTREE('[B~0 -> D*(2010)+ mu-]CC')", UsePVConstraint = False, Inputs = [SelMyBd.outputLocation()])
 
@@ -289,7 +292,7 @@ dstpifiltsel = Selection(
 dstpifiltselseq = SelectionSequence("dstpifiltselseq", TopSelection=dstpifiltsel)
 
 SeqYMaker = SelectionSequence(
-    "SeqYMaker", EventPreSelector=[trigfltr, fltr], TopSelection=YDTFSel
+    "SeqYMaker", EventPreSelector=[trigfltr, fltr], TopSelection=SelMyBd
 )
 MySelection = SeqYMaker.sequence()
 SeqYMaker2 = SelectionSequence(
