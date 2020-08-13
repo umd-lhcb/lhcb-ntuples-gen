@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri Aug 14, 2020 at 03:53 AM +0800
+# Last Change: Fri Aug 14, 2020 at 03:58 AM +0800
 #
 # Description: A demonstration on ganga option file with parser.
 #              This demo runs stand-alone, provided that Python is installed:
@@ -16,7 +16,8 @@ from itertools import product
 from datetime import datetime
 from pathlib import Path
 from collections import OrderedDict as odict
-from os.path import expanduser
+from os.path import expanduser, realpath, dirname
+from os.path import join as path_join
 from re import search
 
 
@@ -230,7 +231,8 @@ if args.force or job_name not in submitted_jobs:
     j.inputdata = data
 
     # Provide weight file
-    j.inputfiles = [LocalFile(WEIGHT_FILE)]
+    weight_file = path_join(dirname(realpath(args.reco_script)), WEIGHT_FILE)
+    j.inputfiles = [LocalFile(weight_file)]
 
     # Use DIRAC backend
     j.backend = Dirac()
