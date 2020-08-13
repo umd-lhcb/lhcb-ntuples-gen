@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri Aug 14, 2020 at 03:01 AM +0800
+# Last Change: Fri Aug 14, 2020 at 03:28 AM +0800
 #
 # Description: A demonstration on ganga option file with parser.
 #              This demo runs stand-alone, provided that Python is installed:
@@ -16,6 +16,7 @@ from itertools import product
 from datetime import datetime
 from pathlib import Path
 from collections import OrderedDict as odict
+from re import search
 
 
 ##########################
@@ -87,10 +88,12 @@ def parse_cond_file_name(cond_file):
         'additional_flags': None
     })
     fields = Path(cond_file).stem.split('-')[1:]  # Drop the 'cond' prefix.
+    terminating_non_flag_fields = r'^(mu|md|sim\d+[a-z])$'
 
-    if 'std' in fields and len(fields) >= 3:  # This correspond std cond files with additional flags
-        fields.insert(2, None)  # Fake polarity
-        fields.insert(2, None)  # Fake simcond
+    if len(fields) >= 3:
+        if not bool(search(terminating_non_flag_fields, fields[-1])):
+            result['additional_flags'] = fields[-1]
+            fields.pop(-1)
 
     for idx, key in enumerate(result.keys()):
         try:
