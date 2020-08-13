@@ -825,16 +825,27 @@ This version will then be sent to the <code>GRID</code> by <code>ganga</code>.</
 <li>For <code>DaVinci-v42r8p1-SL</code> (obsolete), refer to <a href="https://github.com/umd-lhcb/docker-images/blob/davinci-v42r8p1/lhcb-stack-cc7/Dockerfile-DaVinci-SL">this <code>Dockerfile</code></a>.</li>
 </ul>
 </div>
-<p>Then, for each of the stripping line folder inside this project, there should be a
-Python scripted named <code>ganga_jobs.py</code>. The general syntax is:
-<div class="highlight"><pre><span></span><code>ganga ganga_jobs.py &lt;cond_files&gt;
+<p>There is a <strong>central</strong> Ganga job submitter that should handle <strong>all</strong> job
+submissions for <strong>all</strong> reconstruction scripts in <strong>all</strong> folders. The script
+is located at:
+<div class="highlight"><pre><span></span><code>scripts/ganga/ganga_jobs.py
+</code></pre></div></p>
+<p>This script can only run on <code>lxplus</code> nodes. The general syntax is:
+<div class="highlight"><pre><span></span><code>ganga_jobs.py &lt;reco_script&gt; &lt;cond_files&gt;
 </code></pre></div>
-For instance, for signal Monte Carlo:
-<div class="highlight"><pre><span></span><code>ganga ganga_jobs.py cond/cond-mc-2012-md-sim08a.py
+For instance, for run 1 <span><span class="MathJax_Preview">R(D^{(*)}</span><script type="math/tex">R(D^{(*)}</script></span> signal Monte Carlo:
+<div class="highlight"><pre><span></span><code>ganga_jobs.py ../../run1-b2D0MuXB2DMuNuForTauMuLine/reco_Dst_D0.py ../../run1-b2D0MuXB2DMuNuForTauMuLine/cond/cond-mc-2012-md-sim08a.py -p mu -P Pythia6 -d Bd2DstTauNu
 </code></pre></div></p>
-<p>The general usage of <code>ganga_jobs.py</code> is described by:
-<div class="highlight"><pre><span></span><code>ganga ganga_jobs.py --help
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The last three flags: <code>-p</code>, <code>-P</code>, and <code>-d</code> are optional. They have default values.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The usage of <code>ganga_jobs.py</code> is described by:
+<div class="highlight"><pre><span></span><code>ganga_jobs.py --help
 </code></pre></div></p>
+</div>
                 
               
               
