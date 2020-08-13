@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Jul 30, 2020 at 03:34 AM +0800
+# Last Change: Fri Aug 14, 2020 at 12:22 AM +0800
 
 from datetime import datetime
 from re import match, sub
@@ -173,8 +173,10 @@ def validate_cond_file_name(f):
 
     # NOTE: Because cond files uses '-' for both inter- and intra-separators,
     # this workaround is needed.
-    if len(fields) > 3:
+    if len(fields) > 3 and 'std' not in fields:
         fields = fields[0:3] + ['-'.join(fields[3:])]
+    elif len(fields) >= 3 and 'std' in fields:
+        fields = fields[0:2] + ['md-mu'] + ['-'.join(fields[2:])]
 
     return field_dict_gen([
         'type',
