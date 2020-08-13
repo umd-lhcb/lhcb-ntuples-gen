@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Jun 11, 2020 at 07:51 PM +0800
+# Last Change: Fri Aug 14, 2020 at 03:01 AM +0800
 #
 # Description: A demonstration on ganga option file with parser.
 #              This demo runs stand-alone, provided that Python is installed:
@@ -22,7 +22,7 @@ from collections import OrderedDict as odict
 # Parameters for data/MC #
 ##########################
 
-PLATFORM = 'x86_64-centos7-gcc62-opt'
+PLATFORM = 'x86_64-centos7-gcc9-opt'
 WEIGHT_FILE = './weights_soft.xml'
 FILES_PER_JOB_DATA = 5
 FILES_PER_JOB_MC = 2
@@ -30,10 +30,13 @@ FILES_PER_JOB_MC = 2
 # Example for a fully constructed MC file path:
 # '/MC/2012/Beam4000GeV-2012-MagDown-Nu2.5-Pythia6/Sim08a/Digi13/Trig0x409f0045/Reco14a/Stripping20Filtered/11873010/DSTTAUNU.SAFESTRIPTRIG'
 LFN_PATH = {
+    # run 1
     'std-2012': '/LHCb/Collision12/Beam4000GeV-VeloClosed-Mag{polarity}/Real Data/Reco14/Stripping21/90000000/SEMILEPTONIC.DST',
     'mc-2012': '/MC/2012/Beam4000GeV-2012-Mag{polarity}-Nu2.5-{pythia}/{simcond}/Digi13/Trig0x409f0045/Reco14a/Stripping20Filtered/{decay}/DSTTAUNU.SAFESTRIPTRIG.DST',
     'cutflow_mc-2011': '/MC/2011/Beam3500GeV-2011-Mag{polarity}-Nu2-Pythia8/{simcond}/Digi13/Trig0x40760037/Reco14c/Stripping20r1NoPrescalingFlagged/11874091/ALLSTREAMS.DST',
     'cutflow_mc-2016': '/MC/2016/Beam6500GeV-2016-Mag{polarity}-Nu1.6-25ns-Pythia8/{simcond}/Trig0x6138160F/Reco16/Turbo03/Stripping26NoPrescalingFlagged/11874091/ALLSTREAMS.DST',
+    # run 2
+    'std-2016': '/LHCb/Collision16/Beam6500GeV-VeloClosed-Mag{polarity}/Real Data/Reco16/Stripping28r1/90000000/SEMILEPTONIC.DST',
 }
 LFN_PATH['cutflow_data-2012'] = LFN_PATH['std-2012']
 
@@ -84,6 +87,10 @@ def parse_cond_file_name(cond_file):
         'additional_flags': None
     })
     fields = Path(cond_file).stem.split('-')[1:]  # Drop the 'cond' prefix.
+
+    if 'std' in fields and len(fields) >= 3:  # This correspond std cond files with additional flags
+        fields.insert(2, None)  # Fake polarity
+        fields.insert(2, None)  # Fake simcond
 
     for idx, key in enumerate(result.keys()):
         try:
@@ -149,7 +156,7 @@ specify DaVinci reconstruction condition file.  ''')
 if this flag is supplied, don't skip existing jobs with the same name.''')
 
     parser.add_argument('--davinci',
-                        default='~/build/DaVinciDev_v45r3',
+                        default='~/build/DaVinciDev_v45r4',
                         help='''
 specify path to local DaVinci build.''')
 
