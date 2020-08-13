@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Aug 13, 2020 at 08:01 PM +0800
+# Last Change: Thu Aug 13, 2020 at 08:08 PM +0800
 
 #####################
 # Configure DaVinci #
@@ -160,10 +160,10 @@ algo_D0.DecayDescriptor = '[D0 -> K- pi+]cc'
 
 algo_D0.DaughtersCuts = {
     'K+': '(PT > 300*MeV) & (MIPCHI2DV(PRIMARY) > 45.0) &' +
-          '(PIDK > 4) & (TRGHOSTPROB < 0.5)' +
+          '(PIDK > 4) & (TRGHOSTPROB < 0.5) &' +
           '(TRCHI2DOF < 4)',
     'pi-': '(PT > 300*MeV) & (MIPCHI2DV(PRIMARY) > 45.0) &' +
-           '(PIDK < 2) & (TRGHOSTPROB < 0.5)' +
+           '(PIDK < 2) & (TRGHOSTPROB < 0.5) &' +
            '(TRCHI2DOF < 4)'
 }
 
