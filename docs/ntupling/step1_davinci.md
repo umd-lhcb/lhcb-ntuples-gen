@@ -65,7 +65,8 @@ This script can only run on `lxplus` nodes. The general syntax is:
 ```
 ganga_jobs.py <reco_script> <cond_files>
 ```
-For instance, for run 1 $R(D^{(*)}$ signal Monte Carlo:
+
+For instance, for run 1 $R(D^{(*)})$ signal Monte Carlo:
 ```
 ganga_jobs.py ../../run1-b2D0MuXB2DMuNuForTauMuLine/reco_Dst_D0.py ../../run1-b2D0MuXB2DMuNuForTauMuLine/cond/cond-mc-2012-md-sim08a.py -p mu -P Pythia6 -d Bd2DstTauNu
 ```
