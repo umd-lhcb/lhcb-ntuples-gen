@@ -1,6 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Aug 06, 2020 at 03:09 PM +0800
+# Last Change: Tue Aug 18, 2020 at 07:42 PM +0800
 
 BINPATH	:=	bin
 
@@ -12,6 +12,7 @@ VPATH := run1-b2D0MuXB2DMuNuForTauMuLine/cutflow:run2-b2D0MuXB2DMuForTauMuLine/c
 VPATH := ntuples/pre-0.9.0/Dst-std:$(VPATH)
 VPATH := ntuples/pre-0.9.0/Dst-cutflow_mc:ntuples/pre-0.9.0/Dst-cutflow_data:$(VPATH)
 VPATH := ntuples/0.9.0-cutflow/Dst-cutflow_mc:$(VPATH)
+VPATH := ntuples/0.9.1-dst_partial_refit/Dst_D0-cutflow_mc:$(VPATH)
 VPATH := ntuples/ref-rdx-run1/Dst-std:$(VPATH)
 VPATH := gen/run2-Dst-step2:gen/run1-Dst-step2:$(VPATH)
 
@@ -148,6 +149,18 @@ gen/cutflow/output-run2-individual.yml: \
 	@$(word 2, $^) $< $@ run2
 
 
+# Study the effect of refit D* only
+gen/cutflow/output-run2-cocktail-refit_dst_only-%.yml: \
+	Dst_D0--20_08_18--cutflow_mc--refit_dst_only--MC_2016_Beam6500GeV-2016-MagDown-Nu1.6-25ns-Pythia8_Sim09b_Trig0x6138160F_Reco16_Turbo03_Stripping26NoPrescalingFlagged_11874091_ALLSTREAMS.DST.root \
+	cutflow_components.py
+	@$(word 2, $^) $< $@ run2-$* -t 'TupleB0/DecayTree'
+
+gen/cutflow/output-run2-cocktail-full_refit-%.yml: \
+	Dst_D0--20_08_18--cutflow_mc--MC_2016_Beam6500GeV-2016-MagDown-Nu1.6-25ns-Pythia8_Sim09b_Trig0x6138160F_Reco16_Turbo03_Stripping26NoPrescalingFlagged_11874091_ALLSTREAMS.DST.root \
+	cutflow_components.py
+	@$(word 2, $^) $< $@ run2-$* -t 'TupleB0/DecayTree'
+
+
 ###########
 # Cutflow #
 ###########
@@ -231,6 +244,22 @@ cutflow-Dst-detail-individual: \
 	gen/cutflow/output-run2-individual.yml \
 	cutflow_gen.py
 	@$(word 3, $^) -o $(word 1, $^) -t $(word 2, $^) -n | tabgen.py -f latex_booktabs_raw
+
+
+# Study the effect of refit D* only
+cutflow-sig-nor-dss-run2-cocktail-refit_dst_only: \
+	gen/cutflow/output-run2-cocktail-refit_dst_only-sig.yml \
+	gen/cutflow/output-run2-cocktail-refit_dst_only-nor.yml \
+	gen/cutflow/output-run2-cocktail-refit_dst_only-dss.yml \
+	table_cutflow_components.py
+	@$(word 4, $^) -s $(word 1, $^) -n $(word 2, $^) -d $(word 3, $^) | tabgen.py -f github
+
+cutflow-sig-nor-dss-run2-cocktail-full_refit: \
+	gen/cutflow/output-run2-cocktail-full_refit-sig.yml \
+	gen/cutflow/output-run2-cocktail-full_refit-nor.yml \
+	gen/cutflow/output-run2-cocktail-full_refit-dss.yml \
+	table_cutflow_components.py
+	@$(word 4, $^) -s $(word 1, $^) -n $(word 2, $^) -d $(word 3, $^) | tabgen.py -f github
 
 
 #########
