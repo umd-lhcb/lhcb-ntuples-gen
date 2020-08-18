@@ -72,3 +72,22 @@ scripts/cutflow_components.py ntuples/0.9.0-cutflow/Dst-cutflow_mc/Dst--20_06_05
 scripts/cutflow_components.py ntuples/0.9.0-cutflow/Dst-cutflow_mc/Dst--20_06_05--cutflow_mc--bare--MC_2016_Beam6500GeV-2016-MagDown-Nu1.6-25ns-Pythia8_Sim09b_Trig0x6138160F_Reco16_Turbo03_Stripping26NoPrescalingFlagged_11874091_ALLSTREAMS.DST.root gen/cutflow/output-run2-dss.yml run2-dss -t 'TupleB0/DecayTree'
 
 scripts/table_cutflow_components.py -s gen/cutflow/output-run2-sig.yml -n gen/cutflow/output-run2-nor.yml -d gen/cutflow/output-run2-dss.yml | tabgen.py -f latex_booktabs_raw
+
+
+#######################################################
+# RUN2 cocktail MC: Study the effect of refit D* only #
+#######################################################
+
+echo "RUN2 cocktail MC: Study the effect of refit D* only"
+
+scripts/cutflow_components.py ntuples/0.9.1-dst_partial_refit/Dst_D0-cutflow_mc/Dst_D0--20_08_18--cutflow_mc--MC_2016_Beam6500GeV-2016-MagDown-Nu1.6-25ns-Pythia8_Sim09b_Trig0x6138160F_Reco16_Turbo03_Stripping26NoPrescalingFlagged_11874091_ALLSTREAMS.DST.root gen/cutflow/output-run2-cocktail-full_refit-sig.yml run2-sig -t 'TupleB0/DecayTree'
+scripts/cutflow_components.py ntuples/0.9.1-dst_partial_refit/Dst_D0-cutflow_mc/Dst_D0--20_08_18--cutflow_mc--MC_2016_Beam6500GeV-2016-MagDown-Nu1.6-25ns-Pythia8_Sim09b_Trig0x6138160F_Reco16_Turbo03_Stripping26NoPrescalingFlagged_11874091_ALLSTREAMS.DST.root gen/cutflow/output-run2-cocktail-full_refit-nor.yml run2-nor -t 'TupleB0/DecayTree'
+scripts/cutflow_components.py ntuples/0.9.1-dst_partial_refit/Dst_D0-cutflow_mc/Dst_D0--20_08_18--cutflow_mc--MC_2016_Beam6500GeV-2016-MagDown-Nu1.6-25ns-Pythia8_Sim09b_Trig0x6138160F_Reco16_Turbo03_Stripping26NoPrescalingFlagged_11874091_ALLSTREAMS.DST.root gen/cutflow/output-run2-cocktail-full_refit-dss.yml run2-dss -t 'TupleB0/DecayTree'
+
+scripts/table_cutflow_components.py -s gen/cutflow/output-run2-cocktail-full_refit-sig.yml -n gen/cutflow/output-run2-cocktail-full_refit-nor.yml -d gen/cutflow/output-run2-cocktail-full_refit-dss.yml | tabgen.py -f github
+
+scripts/cutflow_components.py ntuples/0.9.1-dst_partial_refit/Dst_D0-cutflow_mc/Dst_D0--20_08_18--cutflow_mc--refit_dst_only--MC_2016_Beam6500GeV-2016-MagDown-Nu1.6-25ns-Pythia8_Sim09b_Trig0x6138160F_Reco16_Turbo03_Stripping26NoPrescalingFlagged_11874091_ALLSTREAMS.DST.root gen/cutflow/output-run2-cocktail-refit_dst_only-sig.yml run2-sig -t 'TupleB0/DecayTree'
+scripts/cutflow_components.py ntuples/0.9.1-dst_partial_refit/Dst_D0-cutflow_mc/Dst_D0--20_08_18--cutflow_mc--refit_dst_only--MC_2016_Beam6500GeV-2016-MagDown-Nu1.6-25ns-Pythia8_Sim09b_Trig0x6138160F_Reco16_Turbo03_Stripping26NoPrescalingFlagged_11874091_ALLSTREAMS.DST.root gen/cutflow/output-run2-cocktail-refit_dst_only-nor.yml run2-nor -t 'TupleB0/DecayTree'
+scripts/cutflow_components.py ntuples/0.9.1-dst_partial_refit/Dst_D0-cutflow_mc/Dst_D0--20_08_18--cutflow_mc--refit_dst_only--MC_2016_Beam6500GeV-2016-MagDown-Nu1.6-25ns-Pythia8_Sim09b_Trig0x6138160F_Reco16_Turbo03_Stripping26NoPrescalingFlagged_11874091_ALLSTREAMS.DST.root gen/cutflow/output-run2-cocktail-refit_dst_only-dss.yml run2-dss -t 'TupleB0/DecayTree'
+
+scripts/table_cutflow_components.py -s gen/cutflow/output-run2-cocktail-refit_dst_only-sig.yml -n gen/cutflow/output-run2-cocktail-refit_dst_only-nor.yml -d gen/cutflow/output-run2-cocktail-refit_dst_only-dss.yml | tabgen.py -f github
