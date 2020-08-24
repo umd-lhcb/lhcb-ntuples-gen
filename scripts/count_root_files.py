@@ -2,12 +2,25 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Aug 25, 2020 at 12:47 AM +0800
+# Last Change: Tue Aug 25, 2020 at 12:52 AM +0800
 
 import sys
 import json
 
 from os import walk, popen
+
+
+class Color:
+    PURPLE = '\033[95m'
+    CYAN = '\033[96m'
+    DARKCYAN = '\033[36m'
+    BLUE = '\033[94m'
+    GREEN = '\033[92m'
+    YELLOW = '\033[93m'
+    RED = '\033[91m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+    END = '\033[0m'
 
 
 def find_all_subdirs(cur_dir, return_self=False):
@@ -39,12 +52,11 @@ def print_output(annex_info):
             i['size of annexed files in working tree'])
         loc_size, loc_unit = file_size_prettifier(i['local annex size'])
 
-        print('{:4d} .root   total: {:6.2f} {}   local: {:6.2f} {}   {}'.format(
-            i['annexed files in working tree'],
-            tot_size, tot_unit,
-            loc_size, loc_unit,
-            i['directory']
-        ))
+        print('{}{:4d}{} .root   total: {}{:6.2f} {}{}   local: {}{:6.2f} {}{}   '.format(
+            Color.BOLD, i['annexed files in working tree'], Color.END,
+            Color.BOLD, tot_size, tot_unit, Color.END,
+            Color.BOLD, loc_size, loc_unit, Color.END,
+        ) + Color.BLUE + Color.BOLD + i['directory'] + Color.END)
 
 
 if __name__ == '__main__':
