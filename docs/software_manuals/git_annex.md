@@ -170,3 +170,51 @@ git annex drop <path_to_files>
       last copy of the file so we may lose the file permanently.
 
       Still, if you insist, please refer to the [official guide](https://git-annex.branchable.com/tips/deleting_unwanted_files).
+
+
+## Check annexed file size
+
+For a single file this can be done via `git annex info`. For example:
+```
+$ git annex info ntuples/pre-0.9.0/Dst-std/Dst--19_09_05--std--data--2012--md.root
+file: ntuples/pre-0.9.0/Dst-std/Dst--19_09_05--std--data--2012--md.root
+size: 1.8 gigabytes
+key: SHA256E-s1800364650--cb5222668f21032b81ede5f18eb86026e21188c54441917258e8aad4d072f791.root
+present: false
+```
+
+For directories, we have a home-made wrapper script `scripts/count_root_files.py`. For example:
+```
+$ ./scripts/count_root_files.py ntuples
+   2 .root   total: 171.30 MiB   local:   0.00 KiB   ntuples/0.9.1-dst_partial_refit
+   2 .root   total: 171.30 MiB   local:   0.00 KiB   ntuples/0.9.1-dst_partial_refit/Dst_D0-cutflow_mc
+   5 .root   total:  47.49 GiB   local:   0.00 KiB   ntuples/ref-rdx-run1
+   1 .root   total: 397.92 MiB   local:   0.00 KiB   ntuples/ref-rdx-run1/Dst-mc
+   1 .root   total:  29.62 GiB   local:   0.00 KiB   ntuples/ref-rdx-run1/D0-mix
+   1 .root   total:   1.70 GiB   local:   0.00 KiB   ntuples/ref-rdx-run1/Dst-std
+   1 .root   total:   1.60 GiB   local:   0.00 KiB   ntuples/ref-rdx-run1/D0-std
+   1 .root   total:  14.18 GiB   local:   0.00 KiB   ntuples/ref-rdx-run1/Dst-mix
+   2 .root   total:   0.98 GiB   local:   0.00 KiB   ntuples/0.9.0-cutflow
+   2 .root   total:   0.98 GiB   local:   0.00 KiB   ntuples/0.9.0-cutflow/Dst-cutflow_mc
+   7 .root   total:  37.90 GiB   local:   0.00 KiB   ntuples/pre-0.9.0
+   2 .root   total:  46.24 MiB   local:   0.00 KiB   ntuples/pre-0.9.0/Dst-cutflow_mc
+   2 .root   total:  17.50 GiB   local:   0.00 KiB   ntuples/pre-0.9.0/Dst-cutflow_data
+   1 .root   total: 179.56 MiB   local:   0.00 KiB   ntuples/pre-0.9.0/Dst-mc
+   2 .root   total:  20.19 GiB   local:   0.00 KiB   ntuples/pre-0.9.0/Dst-std
+```
+
+
+## Check annexed file availability
+
+We can use `git annex list` for this. For example:
+```
+$ git annex list ntuples/0.9.0-cutflow
+here
+|Julian
+||origin
+|||web
+||||bittorrent
+|||||
+_X___ ntuples/0.9.0-cutflow/Dst-cutflow_mc/Dst--20_06_05--cutflow_mc--bare--MC_2011_Beam3500GeV-2011-MagDown-Nu2-Pythia8_Sim08h_Digi13_Trig0x40760037_Reco14c_Stripping20r1NoPrescalingFlagged_11874091_ALLSTREAMS.DST.root
+_X___ ntuples/0.9.0-cutflow/Dst-cutflow_mc/Dst--20_06_05--cutflow_mc--bare--MC_2016_Beam6500GeV-2016-MagDown-Nu1.6-25ns-Pythia8_Sim09b_Trig0x6138160F_Reco16_Turbo03_Stripping26NoPrescalingFlagged_11874091_ALLSTREAMS.DST.root
+```
