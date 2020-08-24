@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Aug 25, 2020 at 12:27 AM +0800
+# Last Change: Tue Aug 25, 2020 at 12:47 AM +0800
 
 import sys
 import json
@@ -39,7 +39,7 @@ def print_output(annex_info):
             i['size of annexed files in working tree'])
         loc_size, loc_unit = file_size_prettifier(i['local annex size'])
 
-        print('{:4} .root   total: {:5.2f} {}   local: {:5.2f} {}   {}'.format(
+        print('{:4d} .root   total: {:6.2f} {}   local: {:6.2f} {}   {}'.format(
             i['annexed files in working tree'],
             tot_size, tot_unit,
             loc_size, loc_unit,
