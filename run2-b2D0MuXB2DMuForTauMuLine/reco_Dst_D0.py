@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Aug 25, 2020 at 05:06 PM +0800
+# Last Change: Tue Aug 25, 2020 at 08:39 PM +0800
 #
 # Description: Definitions of selection and reconstruction procedures for Dst
 #              and D0 in run 2. For more thorough comments, take a look at:
@@ -568,20 +568,20 @@ sel_refit_B02DstMu_ws_Pi = Selection(
     RequiredSelections=[sel_B0_ws_Pi]
 )
 
-# Define B0 stubs depending if we have 'REFIT_DST_ONLY' flag ###################
+# Define B0 stubs depending if we have 'FULL_REFIT' flag #######################
 
-if has_flag('REFIT_DST_ONLY'):
-    seq_B0 = SelectionSequence('SeqMyB0', TopSelection=sel_B0)
-    seq_B0_ws_Mu = SelectionSequence('SeqMyB0WSMu',
-                                     TopSelection=sel_B0_ws_Mu)
-    seq_B0_ws_Pi = SelectionSequence('SeqMyB0WSPi',
-                                     TopSelection=sel_B0_ws_Pi)
-else:
+if has_flag('FULL_REFIT'):
     seq_B0 = SelectionSequence('SeqMyB0', TopSelection=sel_refit_B02DstMu)
     seq_B0_ws_Mu = SelectionSequence('SeqMyB0WSMu',
                                      TopSelection=sel_refit_B02DstMu_ws_Mu)
     seq_B0_ws_Pi = SelectionSequence('SeqMyB0WSPi',
                                      TopSelection=sel_refit_B02DstMu_ws_Pi)
+else:
+    seq_B0 = SelectionSequence('SeqMyB0', TopSelection=sel_B0)
+    seq_B0_ws_Mu = SelectionSequence('SeqMyB0WSMu',
+                                     TopSelection=sel_B0_ws_Mu)
+    seq_B0_ws_Pi = SelectionSequence('SeqMyB0WSPi',
+                                     TopSelection=sel_B0_ws_Pi)
 
 
 ##################
