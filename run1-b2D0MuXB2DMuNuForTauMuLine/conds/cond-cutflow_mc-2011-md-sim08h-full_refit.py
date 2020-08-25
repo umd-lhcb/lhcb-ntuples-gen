@@ -6,7 +6,7 @@ DaVinci().Simulation = True
 DaVinci().TupleFile = 'cutflow_mc-refit_dst_only.root'
 
 # Additional global flags
-DaVinci().MoniSequence += ['CUTFLOW', 'REFIT_DST_ONLY']
+DaVinci().MoniSequence += ['CUTFLOW', 'FULL_REFIT']
 
 
 from Configurables import LHCbApp
