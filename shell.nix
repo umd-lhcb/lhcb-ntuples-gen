@@ -5,7 +5,7 @@ let
   root = pkgs.root;
 in
 
-pkgs.mkShell {
+pkgs.mkShell rec {
   name = "lhcb-ntuples-gen";
   buildInputs = with pythonPackages; [
     # Compilers and other build dependencies
@@ -29,7 +29,7 @@ pkgs.mkShell {
     SOURCE_DATE_EPOCH=$(date +%s)
 
     if test -d $HOME/build/python-venv; then
-      VENV=$HOME/build/python-venv/lhcb-ntuples-gen
+      VENV=$HOME/build/python-venv/${name}
     else
       VENV=./.virtualenv
     fi
