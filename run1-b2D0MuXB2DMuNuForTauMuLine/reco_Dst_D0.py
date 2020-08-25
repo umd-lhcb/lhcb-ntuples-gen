@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri Aug 14, 2020 at 12:13 AM +0800
+# Last Change: Tue Aug 25, 2020 at 05:00 PM +0800
 #
 # Description: Definitions of selection and reconstruction procedures for Dst
 #              and D0 in run 1, with thorough comments.
@@ -541,16 +541,16 @@ sel_refit_Dst2D0Pi_ws_Pi = Selection(
     RequiredSelections=[sel_Dst_ws_Pi]
 )
 
-# Define Dst stubs depending if we have 'REFIT_DST_ONLY' flag ##################
+# Define Dst stubs depending if we have 'FULL_REFIT' flag ######################
 
-if has_flag('REFIT_DST_ONLY'):
-    sel_Dst_stub = sel_refit_Dst2D0Pi
-    sel_Dst_ws_Mu_stub = sel_refit_Dst2D0Pi_ws_Mu
-    sel_Dst_ws_Pi_stub = sel_refit_Dst2D0Pi_ws_Pi
-else:
+if has_flag('FULL_REFIT'):
     sel_Dst_stub = sel_Dst
     sel_Dst_ws_Mu_stub = sel_Dst_ws_Mu
     sel_Dst_ws_Pi_stub = sel_Dst_ws_Pi
+else:
+    sel_Dst_stub = sel_refit_Dst2D0Pi
+    sel_Dst_ws_Mu_stub = sel_refit_Dst2D0Pi_ws_Mu
+    sel_Dst_ws_Pi_stub = sel_refit_Dst2D0Pi_ws_Pi
 
 
 # B0 ###########################################################################
