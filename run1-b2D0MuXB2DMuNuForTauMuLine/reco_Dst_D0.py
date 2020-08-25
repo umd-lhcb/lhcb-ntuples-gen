@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Aug 25, 2020 at 08:38 PM +0800
+# Last Change: Tue Aug 25, 2020 at 08:43 PM +0800
 #
 # Description: Definitions of selection and reconstruction procedures for Dst
 #              and D0 in run 1, with thorough comments.
@@ -475,7 +475,14 @@ if has_flag('BARE'):
     algo_Dst.MotherCut = "(VFASPF(VCHI2/VDOF) < 200.0)"
 
 
-# Removed the upstream pions, which were not used by Greg/Phoebe
+if DaVinci().Simulation:
+    algo_Dst.Preambulo += algo_mc_match_preambulo
+
+    algo_Dst.DaughtersCuts['pi+'] = \
+        '(MCSELMATCH(MCNINANCESTORS(BEAUTY) > 0)) &' + \
+        algo_Dst.DaughtersCuts['pi+']
+
+
 sel_Dst = Selection(
     'SelMyDst',
     Algorithm=algo_Dst,
