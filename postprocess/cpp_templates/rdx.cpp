@@ -76,7 +76,7 @@ void generator_/* {% output_tree %} */(TFile *input_file, TFile *output_file) {
     if (/* {% join: (deref_var_list: config.selection, config.input_branch_names), " && " %} */) {
 
       // Keep only 1 B cand for multi-B events
-      if (prevEventNumber != *eventNumber) {
+      if (prevEventNumber != *eventNumber && !pseudo_rand_seq.empty()) {
         // Select which B to keep for previous event
         //   We do this by finding the index of the largest element in PRS.
         auto idx = distance(pseudo_rand_seq.begin(),

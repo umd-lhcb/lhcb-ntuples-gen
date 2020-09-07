@@ -29,7 +29,7 @@ b0dst:
     selection:
         - "mu_pid"
         - "iso_bdt < 0.15"
-        - "isdata"
+        #- "isdata"  # Well, this doesn't apply to MC
         - "b0_M < 5280"
         # L0 cuts
         - "b0_L0Global_TIS || dst_L0HadronDecision_TOS"
