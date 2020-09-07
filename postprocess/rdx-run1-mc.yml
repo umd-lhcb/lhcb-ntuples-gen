@@ -10,6 +10,8 @@ b0dst:
         - eventNumber
         - GpsTime
     rename:
+        # For pseudo-random sequence generation
+        b0_PT: b0_pt
         # Isolation variables
         b0_ISOLATION_BDT: iso_bdt
         # Particles
