@@ -21,7 +21,7 @@ using namespace std;
 //////////////////////
 
 Double_t calc_pseudo_rand_num(Double_t value, int magic=9) {
-  Double_t denom_ref = TMath::Power(10, TMath::Floor(log10(value)) - magic);
+  Double_t denom_ref = TMath::Power(10, TMath::Floor(log10(value))     - magic);
   Double_t denom_com = TMath::Power(10, static_cast<int>(log10(value)) - magic);
 
   return value/denom_ref - TMath::Floor(value/denom_com);
@@ -51,7 +51,7 @@ void generator_/* {% output_tree %} */(TFile *input_file, TFile *output_file) {
   // {% endfor %}
 
   ULong_t prevEventNumber = 0;
-  unique_ptr<TH1D> pseudo_rand_seq;
+  vector<Double_t> pseudo_rand_seq;
 
   while (reader.Next()) {
     // Define all variables in case required by selection
@@ -78,12 +78,17 @@ void generator_/* {% output_tree %} */(TFile *input_file, TFile *output_file) {
       // Keep only 1 B cand for multi-B events
       if (prevEventNumber != *eventNumber) {
         // Select which B to keep for previous event
+
         // Assign values for each output branch in this loop
         // {% for var in config.output_branches %}
         //   {% format: "{}_out = {}_out_stash[0];", var.name, var.name %}
         // {% endfor %}
 
-        pseudo_rand_seq->Clear();
+        // Clear values of vectors storing output branches
+        // {% for var in config.output_branches %}
+        //   {% format: "{}_out_stash.clear();", var.name %}
+        // {% endfor %}
+        pseudo_rand_seq.clear();
 
         prevEventNumber = *eventNumber;
       } else {
@@ -94,7 +99,7 @@ void generator_/* {% output_tree %} */(TFile *input_file, TFile *output_file) {
         //   {% format: "{}_out_stash.push_back({});", var.name, (deref_var: var.name, config.input_branch_names) %}
         // {% endfor %}
 
-        pseudo_rand_seq->Fill(calc_pseudo_rand_num(b0_pt));
+        pseudo_rand_seq.push_back(calc_pseudo_rand_num(b0_pt));
       }
 
       output.Fill();
@@ -120,9 +125,6 @@ int main(int, char** argv) {
   // {% endfor %}
 
   output_file->Close();
-
-  delete input_file;
-  delete output_file;
 
   return 0;
 }
