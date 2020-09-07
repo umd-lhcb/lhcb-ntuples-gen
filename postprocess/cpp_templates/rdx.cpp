@@ -51,7 +51,7 @@ void generator_/* {% output_tree %} */(TFile *input_file, TFile *output_file) {
   // {% endfor %}
 
   ULong_t prevEventNumber = 0;
-  vector<Double_t> pseudo_rand_seq;
+  vector<Double_t> pseudo_rand_seq;  // "PRS"
 
   while (reader.Next()) {
     // Define all variables in case required by selection
@@ -78,10 +78,13 @@ void generator_/* {% output_tree %} */(TFile *input_file, TFile *output_file) {
       // Keep only 1 B cand for multi-B events
       if (prevEventNumber != *eventNumber) {
         // Select which B to keep for previous event
+        //   We do this by finding the index of the largest element in PRS.
+        auto idx = distance(pseudo_rand_seq.begin(),
+            max_element(pseudo_rand_seq.begin(), pseudo_rand_seq.end()));
 
         // Assign values for each output branch in this loop
         // {% for var in config.output_branches %}
-        //   {% format: "{}_out = {}_out_stash[0];", var.name, var.name %}
+        //   {% format: "{}_out = {}_out_stash[idx];", var.name, var.name %}
         // {% endfor %}
 
         // Clear values of vectors storing output branches
@@ -90,19 +93,18 @@ void generator_/* {% output_tree %} */(TFile *input_file, TFile *output_file) {
         // {% endfor %}
         pseudo_rand_seq.clear();
 
-        prevEventNumber = *eventNumber;
-      } else {
-        // Same event, different B:
-        //   Store variables in vectors; also compute PRS
-        //
-        // {% for var in config.output_branches %}
-        //   {% format: "{}_out_stash.push_back({});", var.name, (deref_var: var.name, config.input_branch_names) %}
-        // {% endfor %}
+        output.Fill();  // Fill the output tree
 
-        pseudo_rand_seq.push_back(calc_pseudo_rand_num(b0_pt));
+        prevEventNumber = *eventNumber;
       }
 
-      output.Fill();
+      // Always comput the pseudo random number for current candidate
+      pseudo_rand_seq.push_back(calc_pseudo_rand_num(b0_pt));
+
+      // Store variables in vectors; also compute PRS
+      // {% for var in config.output_branches %}
+      //   {% format: "{}_out_stash.push_back({});", var.name, (deref_var: var.name, config.input_branch_names) %}
+      // {% endfor %}
     }
   }
 
