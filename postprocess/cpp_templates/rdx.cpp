@@ -119,14 +119,17 @@ void generator_/* {% output_tree %} */(TFile *input_file, TFile *output_file) {
 //////////
 
 int main(int, char** argv) {
-  unique_ptr<TFile> input_file = make_unique<TFile>(argv[1], "read");
-  unique_ptr<TFile> output_file = make_unique<TFile>(argv[2], "recreate");
+  TFile* input_file = new TFile(argv[1], "read");
+  TFile* output_file = new TFile(argv[2], "recreate");
 
   // {% for output_tree in directive.trees->keys: %}
-  generator_/* {% output_tree %} */(input_file.get(), output_file.get());
+  generator_/* {% output_tree %} */(input_file, output_file);
   // {% endfor %}
 
   output_file->Close();
+
+  delete input_file;
+  delete output_file;
 
   return 0;
 }
