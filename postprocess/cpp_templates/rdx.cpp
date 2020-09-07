@@ -5,6 +5,8 @@
 #include <TBranch.h>
 
 #include <vector>
+#include <TH1D.h>
+#include <TMath.h>
 
 // System headers
 // {% join: (format_list: "#include <{}>", directive.system_headers), "\n" %}
@@ -13,6 +15,22 @@
 // {% join: (format_list: "#include \"{}\"", directive.user_headers), "\n" %}
 
 using namespace std;
+
+//////////////////////
+// Helper functions //
+//////////////////////
+
+Double_t calc_pseudo_rand_num(Double_t value, int magic=9) {
+  Double_t denom_ref = TMath::Power(10, TMath::Floor(log10(value)) - magic);
+  Double_t denom_com = TMath::Power(10, static_cast<int>(log10(value)) - magic);
+
+  return value/denom_ref - TMath::Floor(value/denom_com);
+}
+
+
+/////////////////////////
+// Generated functions //
+/////////////////////////
 
 // Generator for each output tree
 // {% for output_tree, config in directive.trees->items: %}
@@ -32,8 +50,8 @@ void generator_/* {% output_tree %} */(TFile *input_file, TFile *output_file) {
   //   {% format: "vector<{}> {}_out_stash;", var.type, var.name %}
   // {% endfor %}
 
-  UInt_t prevRunNumber = 0;
   ULong_t prevEventNumber = 0;
+  unique_ptr<TH1D> pseudo_rand_seq;
 
   while (reader.Next()) {
     // Define all variables in case required by selection
@@ -56,14 +74,28 @@ void generator_/* {% output_tree %} */(TFile *input_file, TFile *output_file) {
 
     // Now only keep candidates that pass selections
     if (/* {% join: (deref_var_list: config.selection, config.input_branch_names), " && " %} */) {
-      // {% for var in config.output_branches %}
-      //   {% format: "{}_out_stash.push_back({});", var.name, (deref_var: var.name, config.input_branch_names) %}
-      // {% endfor %}
 
-      // Assign values for each output branch in this loop
-      // {% for var in config.output_branches %}
-      //   {% format: "{}_out = {}_out_stash[0];", var.name, var.name %}
-      // {% endfor %}
+      // Keep only 1 B cand for multi-B events
+      if (prevEventNumber != *eventNumber) {
+        // Select which B to keep for previous event
+        // Assign values for each output branch in this loop
+        // {% for var in config.output_branches %}
+        //   {% format: "{}_out = {}_out_stash[0];", var.name, var.name %}
+        // {% endfor %}
+
+        pseudo_rand_seq->Clear();
+
+        prevEventNumber = *eventNumber;
+      } else {
+        // Same event, different B:
+        //   Store variables in vectors; also compute PRS
+        //
+        // {% for var in config.output_branches %}
+        //   {% format: "{}_out_stash.push_back({});", var.name, (deref_var: var.name, config.input_branch_names) %}
+        // {% endfor %}
+
+        pseudo_rand_seq->Fill(calc_pseudo_rand_num(b0_pt));
+      }
 
       output.Fill();
     }
@@ -74,9 +106,14 @@ void generator_/* {% output_tree %} */(TFile *input_file, TFile *output_file) {
 
 // {% endfor %}
 
+
+//////////
+// Main //
+//////////
+
 int main(int, char** argv) {
-  TFile *input_file = new TFile(argv[1], "read");
-  TFile *output_file = new TFile(argv[2], "recreate");
+  unique_ptr<TFile> input_file(new TFile(argv[1], "read"));
+  unique_ptr<TFile> output_file(new TFile(argv[2], "recreate"));
 
   // {% for output_tree in directive.trees->keys: %}
   generator_/* {% output_tree %} */(input_file, output_file);
