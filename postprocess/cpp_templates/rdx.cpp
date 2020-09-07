@@ -98,15 +98,25 @@ void generator_/* {% output_tree %} */(TFile *input_file, TFile *output_file) {
         prevEventNumber = *eventNumber;
       }
 
-      // Always comput the pseudo random number for current candidate
+      // Always compute the pseudo random number for current candidate
       pseudo_rand_seq.push_back(calc_pseudo_rand_num(b0_pt));
 
-      // Store variables in vectors; also compute PRS
+      // Store variables in vectors
       // {% for var in config.output_branches %}
       //   {% format: "{}_out_stash.push_back({});", var.name, (deref_var: var.name, config.input_branch_names) %}
       // {% endfor %}
     }
   }
+
+  // Special treatment for the last event
+  auto idx = distance(pseudo_rand_seq.begin(),
+      max_element(pseudo_rand_seq.begin(), pseudo_rand_seq.end()));
+
+  // {% for var in config.output_branches %}
+  //   {% format: "{}_out = {}_out_stash[idx];", var.name, var.name %}
+  // {% endfor %}
+
+  output.Fill();  // Fill the output tree
 
   output_file->Write();
 }
