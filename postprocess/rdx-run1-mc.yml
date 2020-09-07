@@ -1,0 +1,34 @@
+b0dst:
+    headers:
+        user:
+            - functor/basic.h
+            - functor/particle.h
+    input_tree: TupleB0/DecayTree
+    keep:
+        # Event uid
+        - runNumber
+        - eventNumber
+        - GpsTime
+    rename:
+        # Isolation variables
+        b0_ISOLATION_BDT: iso_bdt
+        # Particles
+        d0_ID: d0_id
+        pi_ID: pi_id
+        mu_ID: mu_id
+        b0_M: b0_m
+    calculation:
+        # PID
+        dst_idprod: "Double_t; PROD(d0_ID, pi_ID)"   # negative when physical
+        B0_idprod: "Double_t; PROD(d0_ID, mu_ID)"    # positive when physical
+        mu_pid: "^Bool_t; MU_PID(mu_isMuon, mu_PIDmu)"
+        # Other flags
+        isdata: "^Bool_t;ISDATA(GpsTime)"
+    selection:
+        - "mu_pid"
+        - "iso_bdt < 0.15"
+        - "isdata"
+        - "b0_M < 5280"
+        # L0 cuts
+        - "b0_L0Global_TIS || dst_L0HadronDecision_TOS"
+        - "mu_L0Global_TIS"
