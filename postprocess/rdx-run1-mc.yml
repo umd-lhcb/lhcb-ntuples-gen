@@ -5,7 +5,7 @@ b0dst:
             - functor/particle.h
     input_tree: TupleB0/DecayTree
     keep:
-        # Event uid
+        # Event uid, also needed for keeping only one B for multi-B events
         - runNumber
         - eventNumber
         - GpsTime
@@ -20,10 +20,10 @@ b0dst:
     calculation:
         # PID
         dst_idprod: "Double_t; PROD(d0_ID, pi_ID)"   # negative when physical
-        B0_idprod: "Double_t; PROD(d0_ID, mu_ID)"    # positive when physical
+        b0_idprod: "Double_t; PROD(d0_ID, mu_ID)"    # positive when physical
         mu_pid: "^Bool_t; MU_PID(mu_isMuon, mu_PIDmu)"
         # Other flags
-        isdata: "^Bool_t;ISDATA(GpsTime)"
+        isdata: "^Bool_t; ISDATA(GpsTime)"
     selection:
         - "mu_pid"
         - "iso_bdt < 0.15"

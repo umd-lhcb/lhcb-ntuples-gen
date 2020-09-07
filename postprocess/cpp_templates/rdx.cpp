@@ -20,42 +20,49 @@ void generator_/* {% output_tree %} */(TFile *input_file, TFile *output_file) {
   TTreeReader reader("/* {% config.input_tree %} */", input_file);
   TTree output(/* {% format: "\"{}\", \"{}\"", output_tree, output_tree %} */);
 
-  // Load branches for keeping only 1 candidate for multi-candidate events
-  TTreeReaderValue<UInt_t> runNumber(reader, "runNumber");
-  TTreeReaderValue<ULong64_t> eventNumber(reader, "eventNumber");
-
-  // Store variables of B candidates reconstructed from the same event
-  // temporarily in vectors
-  // {% for var in config.input_branches %}
-  //   {% format: "vector<{}> {}_stash;", var.type, var.name %}
-  // {% endfor %}
-  // {% for var in config.temp_variables %}
-  //   {% format: "vector<{}> {}_stash;", var.type, var.name %}
-  // {% endfor %}
-
   // Load needed branches from ntuple
   // {% for var in config.input_branches %}
   //   {% format: "TTreeReaderValue<{}> {}(reader, \"{}\");", var.type, var.name, var.name %}
   // {% endfor %}
 
-  // Define output branches
+  // Define output branches and store output variables in vectors
   // {% for var in config.output_branches %}
   //   {% format: "{} {}_out;", var.type, var.name %}
   //   {% format: "output.Branch(\"{}\", &{}_out);", var.name, var.name %}
+  //   {% format: "vector<{}> {}_out_stash;", var.type, var.name %}
   // {% endfor %}
 
+  UInt_t prevRunNumber = 0;
+  ULong_t prevEventNumber = 0;
+
   while (reader.Next()) {
-    // Define temp variables (in case required by selection)
+    // Define all variables in case required by selection
+    //
+    // Input branches
+    //   All input branches are already available via TTreeReaderValue<>
+    //   variables.
+    //
+    // Temporary variables
     // {% for var in config.temp_variables %}
+    //   {% format: "{} {} = {};", var.type, var.name, (deref_var: var.rvalue, config.input_branch_names) %}
+    // {% endfor %}
+    //
+    // Output branches
+    //   We define them if they don't have a naming clash with the existing
+    //   input branches.
+    // {% for var in config.output_branches_uniq %}
     //   {% format: "{} {} = {};", var.type, var.name, (deref_var: var.rvalue, config.input_branch_names) %}
     // {% endfor %}
 
     // Now only keep candidates that pass selections
     if (/* {% join: (deref_var_list: config.selection, config.input_branch_names), " && " %} */) {
+      // {% for var in config.output_branches %}
+      //   {% format: "{}_out_stash.push_back({});", var.name, (deref_var: var.name, config.input_branch_names) %}
+      // {% endfor %}
 
       // Assign values for each output branch in this loop
       // {% for var in config.output_branches %}
-      //   {% format: "{}_out = {};", var.name, (deref_var: var.rvalue, config.input_branch_names) %}
+      //   {% format: "{}_out = {}_out_stash[0];", var.name, var.name %}
       // {% endfor %}
 
       output.Fill();
