@@ -27,6 +27,11 @@ Double_t calc_pseudo_rand_num(Double_t value, int magic=9) {
   return value/denom_ref - TMath::Floor(value/denom_com);
 }
 
+template <class T>
+Int_t max_elem_idx(vector<T>& vec) {
+  return distance(vec.begin(), max_element(vec.begin(), vec.end()));
+}
+
 
 /////////////////////////
 // Generated functions //
@@ -79,8 +84,7 @@ void generator_/* {% output_tree %} */(TFile *input_file, TFile *output_file) {
       if (prevEventNumber != *eventNumber && !pseudo_rand_seq.empty()) {
         // Select which B to keep for previous event
         //   We do this by finding the index of the largest element in PRS.
-        auto idx = distance(pseudo_rand_seq.begin(),
-            max_element(pseudo_rand_seq.begin(), pseudo_rand_seq.end()));
+        auto idx = max_elem_idx(pseudo_rand_seq);
 
         // Assign values for each output branch in this loop
         // {% for var in config.output_branches %}
@@ -109,8 +113,7 @@ void generator_/* {% output_tree %} */(TFile *input_file, TFile *output_file) {
   }
 
   // Special treatment for the last event
-  auto idx = distance(pseudo_rand_seq.begin(),
-      max_element(pseudo_rand_seq.begin(), pseudo_rand_seq.end()));
+  auto idx = max_elem_idx(pseudo_rand_seq);
 
   // {% for var in config.output_branches %}
   //   {% format: "{}_out = {}_out_stash[idx];", var.name, var.name %}
