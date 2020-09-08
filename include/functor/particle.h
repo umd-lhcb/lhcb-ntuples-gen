@@ -1,6 +1,6 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Tue Sep 08, 2020 at 11:05 PM +0800
+// Last Change: Wed Sep 09, 2020 at 12:22 AM +0800
 
 #ifndef _LNG_FUNCTOR_PARTICLE_H_
 #define _LNG_FUNCTOR_PARTICLE_H_
@@ -40,10 +40,9 @@ Bool_t IS_DATA(ULong64_t time) {
 // Kinematics //////////////////////////////////////////////////////////////////
 
 Double_t MM_DST_MOM(TLorentzVector& v_dst_mom_p, TLorentzVector& v_dst_p) {
-  Double_t mm_dst_mom = (v_dst_mom_p - v_dst_p).M2();
-  if (mm_dst_mom > 0) {
-    return sqrt(mm_dst_mom);
-  } else return 0.0;
+  Double_t mm_dst_mom = M2(v_dst_mom_p - v_dst_p);
+  if (mm_dst_mom > 0) return sqrt(mm_dst_mom);
+  else return 0.0;
 }
 
 // Muon-related ////////////////////////////////////////////////////////////////
