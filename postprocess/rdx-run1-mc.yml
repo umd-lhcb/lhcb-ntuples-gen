@@ -20,6 +20,8 @@ b0dst:
         mu_L0Global_TIS: mu_l0glob_tis
         # B0
         b0_M: b0_m
+        # Dst
+        dst_MC_MOTHER_ID: dst_mc_mom_id
         # D0
         d0_ID: d0_id
         # Pi
@@ -35,6 +37,18 @@ b0dst:
         mu_pid: "^Bool_t; MU_PID(mu_is_mu, mu_pid_mu)"
         # Other flags
         isdata: "^Bool_t; ISDATA(GpsTime)"
+        # flag_dst_sb: "^Bool_t; false" (flagDstSB)
+        # flag_tau_mu: "^Bool_t; false" (flagtaumu)
+        # just_dst: (justDst)
+        # dst_ok: ????? always 0. ?????
+        # b_type: (Btype)
+        # flag_b_mu: (flagBmu)
+        # b_bkg_cat: (Y_BKGCAT) some branch name?
+        # flag_tauonic_d: (flagTauonicD)
+        # flag_double_d: (flagDoubleD)
+        # ishigher: (ishigher)
+        # dstst_type: (Dststtype)
+        # mm_mom: (mm_mom)
     selection:
         - "mu_pid"
         - "iso_bdt < 0.15"
