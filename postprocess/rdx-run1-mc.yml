@@ -1,5 +1,7 @@
 b0dst:
     headers:
+        system:
+            - TLorentzVector.h
         user:
             - functor/basic.h
             - functor/particle.h
@@ -31,24 +33,30 @@ b0dst:
         mu_isMuon: mu_is_mu
         mu_PIDmu: mu_pid_mu
     calculation:
+        # Temp variables
+        v_dst_mom_p: "^auto; TLorentzVector(dst_MC_MOTHER_TRUEPX, dst_MC_MOTHER_TRUEPY, dst_MC_MOTHER_TRUEPZ, dst_MC_MOTHER_TRUEPE)"
+        v_dst_p: "^auto; TLorentzVector(dst_PX, dst_PY, dst_PZ, dst_PE)"
+        mu_pid: "^Bool_t; MU_PID(mu_isMuon, mu_PIDmu)"
         # PID
         dst_id_prod: "Double_t; d0_id*pi_id"   # negative when physical
-        id_prod: "Double_t; d0_id*mu_id"    # positive when physical
-        mu_pid: "^Bool_t; MU_PID(mu_is_mu, mu_pid_mu)"
-        # Other flags
-        is_data: "^Bool_t; ISDATA(GpsTime)"
+        id_prod: "Double_t; d0_id*mu_id"       # positive when physical
+        # Physical variables
+        mm_dst_mom: "Double_t; MM_DST_MOM(v_dst_mom_p, v_dst_p)"  # Missing mass between Dst and its mother
+        # Candidate type
+        # b_type: (Btype)
+        # b_bkg_cat: (Y_BKGCAT) some branch name?
+        # dss_type: (Dststtype)
+        # Flags
         # flag_dst_sb: "^Bool_t; false" (flagDstSB)
         # flag_tau: "^Bool_t; false" (flagtaumu)
-        # just_dst: (justDst)
-        # dst_ok: ????? always 0. ?????
-        # b_type: (Btype)
-        # flag_mu: (flagBmu)
-        # b_bkg_cat: (Y_BKGCAT) some branch name?
         # flag_two_d_tau: (flagTauonicD)
         # flag_two_d_mu: (flagDoubleD)
+        # flag_mu: (flagBmu)
+        # Other flags
+        is_data: "^Bool_t; IS_DATA(GpsTime)"
         # is_2pi: (ishigher)
-        # dss_type: (Dststtype)
-        # mm_dst_mom: (mm_mom)
+        # just_dst: (justDst)
+        # dst_ok: ????? always 0. ?????
     selection:
         - "mu_pid"
         - "iso_bdt < 0.15"
