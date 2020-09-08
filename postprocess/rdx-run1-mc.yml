@@ -18,16 +18,21 @@ b0dst:
         b0_L0Global_TIS: b0_l0glob_tis
         dst_L0HadronDecision_TOS: dst_l0had_dec_tos
         mu_L0Global_TIS: mu_l0glob_tis
-        # Particles
-        d0_ID: d0_id
-        pi_ID: pi_id
-        mu_ID: mu_id
+        # B0
         b0_M: b0_m
+        # D0
+        d0_ID: d0_id
+        # Pi
+        pi_ID: pi_id
+        # Mu
+        mu_ID: mu_id
+        mu_isMuon: mu_is_mu
+        mu_PIDmu: mu_pid_mu
     calculation:
         # PID
-        dst_idprod: "Double_t; d0_ID*pi_ID"   # negative when physical
-        b0_idprod: "Double_t; d0_ID*mu_ID"    # positive when physical
-        mu_pid: "^Bool_t; MU_PID(mu_isMuon, mu_PIDmu)"
+        dst_idprod: "Double_t; d0_id*pi_id"   # negative when physical
+        b0_idprod: "Double_t; d0_id*mu_id"    # positive when physical
+        mu_pid: "^Bool_t; MU_PID(mu_is_mu, mu_pid_mu)"
         # Other flags
         isdata: "^Bool_t; ISDATA(GpsTime)"
     selection:
