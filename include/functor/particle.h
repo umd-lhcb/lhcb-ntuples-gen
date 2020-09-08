@@ -1,6 +1,6 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Tue Oct 15, 2019 at 01:50 AM -0400
+// Last Change: Tue Sep 08, 2020 at 04:52 PM +0800
 
 #ifndef _LNG_FUNCTOR_PARTICLE_H_
 #define _LNG_FUNCTOR_PARTICLE_H_
@@ -12,7 +12,14 @@
 
 // General /////////////////////////////////////////////////////////////////////
 
-Bool_t ISDATA(ULong64_t time) { return (time > 0); }
+Bool_t ISDATA(ULong64_t time) {
+  // Special treatment for some run 1 data: We remove some real data if they
+  // fall within a specific time window
+  // FIXME: Ask Phoebe why
+  if (time > 0 && (time <= 1345.7332e12 || time >= 1345.7335e12)) {
+    return true;
+  } else return false;
+}
 
 TVector3 VEC_DELTA(Double_t Xf, Double_t Yf, Double_t Zf, Double_t Xi,
                    Double_t Yi, Double_t Zi) {
