@@ -1,6 +1,6 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Tue Sep 08, 2020 at 07:30 PM +0800
+// Last Change: Tue Sep 08, 2020 at 11:05 PM +0800
 
 #ifndef _LNG_FUNCTOR_PARTICLE_H_
 #define _LNG_FUNCTOR_PARTICLE_H_
@@ -33,9 +33,8 @@ Bool_t IS_DATA(ULong64_t time) {
   // Special treatment for some run 1 data: We remove some real data if they
   // fall within a specific time window
   // FIXME: Ask Phoebe why
-  if (time > 0 && (time <= 1345.7332e12 || time >= 1345.7335e12)) {
-    return true;
-  } else return false;
+  if (time > 0 && (time <= 1345.7332e12 || time >= 1345.7335e12)) return true;
+  else return false;
 }
 
 // Kinematics //////////////////////////////////////////////////////////////////
