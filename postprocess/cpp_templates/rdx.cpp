@@ -65,15 +65,8 @@ void generator_/* {% output_tree %} */(TFile *input_file, TFile *output_file) {
     //   All input branches are already available via TTreeReaderValue<>
     //   variables.
     //
-    // Temporary variables
-    // {% for var in config.temp_variables %}
-    //   {% format: "{} {} = {};", var.type, var.name, (deref_var: var.rvalue, config.input_branch_names) %}
-    // {% endfor %}
-    //
-    // Output branches
-    //   We define them if they don't have a naming clash with the existing
-    //   input branches.
-    // {% for var in config.output_branches_uniq %}
+    // Transient variables (renamed output branches and temp variables)
+    // {% for var in config.transient_vars %}
     //   {% format: "{} {} = {};", var.type, var.name, (deref_var: var.rvalue, config.input_branch_names) %}
     // {% endfor %}
 
