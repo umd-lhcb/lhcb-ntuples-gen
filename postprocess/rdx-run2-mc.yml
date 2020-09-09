@@ -1,67 +1,72 @@
-b0dst:
-    headers:
-        system:
-            - TLorentzVector.h
-        user:
-            - functor/basic.h
-            - functor/particle.h
-    input_tree: TupleB0/DecayTree
-    keep:
-        # Event uid, also needed for keeping only one B for multi-B events
-        - runNumber
-        - eventNumber
-        - GpsTime
-    rename:
-        # For pseudo-random sequence generation
-        b0_PT: b0_pt
-        # Isolation variables
-        b0_ISOLATION_BDT: iso_bdt
-        # Triggers
-        b0_L0Global_TIS: b0_l0glob_tis
-        dst_L0HadronDecision_TOS: dst_l0had_dec_tos
-        mu_L0Global_TIS: mu_l0glob_tis
-        # B0
-        b0_M: b0_m
-        # Dst
-        dst_MC_MOTHER_ID: dst_mc_mom_id
-        # D0
-        d0_ID: d0_id
-        # Pi
-        pi_ID: pi_id
-        # Mu
-        mu_ID: mu_id
-        mu_isMuon: mu_is_mu
-        mu_PIDmu: mu_pid_mu
-    calculation:
-        # Temp variables
-        v_dst_mom_p: "^auto; TLorentzVector(dst_MC_MOTHER_TRUEPX, dst_MC_MOTHER_TRUEPY, dst_MC_MOTHER_TRUEPZ, dst_MC_MOTHER_TRUEPE)"
-        v_dst_p: "^auto; TLorentzVector(dst_PX, dst_PY, dst_PZ, dst_PE)"
-        mu_pid: "^Bool_t; MU_PID(mu_isMuon, mu_PIDmu)"
-        # PID
-        dst_id_prod: "Double_t; d0_id*pi_id"   # negative when physical
-        id_prod: "Double_t; d0_id*mu_id"       # positive when physical
-        # Physical variables
-        mm_dst_mom: "Double_t; MM_DST_MOM(v_dst_mom_p, v_dst_p)"  # Missing mass between Dst and its mother
-        # Candidate type
-        # b_type: (Btype)
-        # b_bkg_cat: (Y_BKGCAT) some branch name?
-        # dss_type: (Dststtype)
-        # Flags
-        # flag_dst_sb: "^Bool_t; false" (flagDstSB)
-        # flag_tau: "^Bool_t; false" (flagtaumu)
-        # flag_two_d_tau: (flagTauonicD)
-        # flag_two_d_mu: (flagDoubleD)
-        # flag_mu: (flagBmu)
-        # Other flags
-        is_data: "^Bool_t; IS_DATA(GpsTime)"
-        # is_2pi: (ishigher)
-        # just_dst: (justDst)
-        # dst_ok: ????? always 0. ?????
-    selection:
-        - "mu_pid"
-        - "iso_bdt < 0.15"
-        #- "isdata"  # Well, this doesn't apply to MC
-        - "b0_m < 5280"
-        # L0 cuts
-        - "b0_l0glob_tis || dst_l0had_dec_tos"
-        - "mu_l0glob_tis"
+headers:
+    system:
+        - TLorentzVector.h
+    user:
+        - functor/basic.h
+        - functor/particle.h
+
+keep:
+    # Event uid, also needed for keeping only one B for multi-B events
+    - runNumber
+    - eventNumber
+    - GpsTime
+
+rename:
+    # For pseudo-random sequence generation
+    b0_PT: b0_pt
+    # Isolation variables
+    b0_ISOLATION_BDT: iso_bdt
+    # Triggers
+    b0_L0Global_TIS: b0_l0glob_tis
+    dst_L0HadronDecision_TOS: dst_l0had_dec_tos
+    mu_L0Global_TIS: mu_l0glob_tis
+    # B0
+    b0_M: b0_m
+    # Dst
+    dst_MC_MOTHER_ID: dst_mc_mom_id
+    # D0
+    d0_ID: d0_id
+    # Pi
+    pi_ID: pi_id
+    # Mu
+    mu_ID: mu_id
+    mu_isMuon: mu_is_mu
+    mu_PIDmu: mu_pid_mu
+
+calculation:
+    # Temp variables
+    v_dst_mom_p: "^auto; TLorentzVector(dst_MC_MOTHER_TRUEPX, dst_MC_MOTHER_TRUEPY, dst_MC_MOTHER_TRUEPZ, dst_MC_MOTHER_TRUEPE)"
+    v_dst_p: "^auto; TLorentzVector(dst_PX, dst_PY, dst_PZ, dst_PE)"
+    mu_pid: "^Bool_t; MU_PID(mu_isMuon, mu_PIDmu)"
+    # PID
+    dst_id_prod: "Double_t; d0_id*pi_id"   # negative when physical
+    id_prod: "Double_t; d0_id*mu_id"       # positive when physical
+    # Physical variables
+    mm_dst_mom: "Double_t; MM_DST_MOM(v_dst_mom_p, v_dst_p)"  # Missing mass between Dst and its mother
+    # Candidate type
+    # b_type: (Btype)
+    # b_bkg_cat: (Y_BKGCAT) some branch name?
+    # dss_type: (Dststtype)
+    # Flags
+    # flag_dst_sb: "^Bool_t; false" (flagDstSB)
+    # flag_tau: "^Bool_t; false" (flagtaumu)
+    # flag_two_d_tau: (flagTauonicD)
+    # flag_two_d_mu: (flagDoubleD)
+    # flag_mu: (flagBmu)
+    # Other flags
+    is_data: "^Bool_t; IS_DATA(GpsTime)"
+    # is_2pi: (ishigher)
+    # just_dst: (justDst)
+    # dst_ok: ????? always 0. ?????
+
+output:
+    b0dst:
+        input: TupleB0/DecayTree
+        selection:
+            - "mu_pid"
+            - "iso_bdt < 0.15"
+            #- "isdata"  # Well, this doesn't apply to MC
+            - "b0_m < 5280"
+            # L0 cuts
+            - "b0_l0glob_tis || dst_l0had_dec_tos"
+            - "mu_l0glob_tis"
