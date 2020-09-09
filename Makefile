@@ -1,6 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Sep 08, 2020 at 04:38 AM +0800
+# Last Change: Thu Sep 10, 2020 at 04:07 AM +0800
 
 BINPATH	:=	bin
 
@@ -320,7 +320,7 @@ gen/run2-Dst-data.cpp: \
 
 # Generator for Dst_D0, MC
 gen/run2-Dst_D0-mc.cpp: \
-	postprocess/rdx-run1-mc.yml \
+	postprocess/rdx-run2-mc.yml \
 	Dst_D0--20_08_18--cutflow_mc--MC_2016_Beam6500GeV-2016-MagDown-Nu1.6-25ns-Pythia8_Sim09b_Trig0x6138160F_Reco16_Turbo03_Stripping26NoPrescalingFlagged_11874091_ALLSTREAMS.DST.root \
 	postprocess/cpp_templates/rdx.cpp \
 	include/functor/*.h
