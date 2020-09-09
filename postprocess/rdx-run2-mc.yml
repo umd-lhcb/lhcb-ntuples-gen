@@ -22,8 +22,17 @@ rename:
     mu_L0Global_TIS: mu_l0glob_tis
     # B0
     b0_M: b0_m
-    # Dst
+    # Dst mother
     dst_MC_MOTHER_ID: dst_mc_mom_id
+    dst_MC_MOTHER_TRUEPX: dst_mc_mom_px
+    dst_MC_MOTHER_TRUEPY: dst_mc_mom_py
+    dst_MC_MOTHER_TRUEPZ: dst_mc_mom_pz
+    dst_MC_MOTHER_TRUEPE: dst_mc_mom_pe
+    # Dst
+    dst_PX: dst_px
+    dst_PY: dst_py
+    dst_PZ: dst_pz
+    dst_PE: dst_pe
     # D0
     d0_ID: d0_id
     # Pi
@@ -35,9 +44,9 @@ rename:
 
 calculation:
     # Temp variables
-    v_dst_mom_p: "^auto; TLorentzVector(dst_MC_MOTHER_TRUEPX, dst_MC_MOTHER_TRUEPY, dst_MC_MOTHER_TRUEPZ, dst_MC_MOTHER_TRUEPE)"
-    v_dst_p: "^auto; TLorentzVector(dst_PX, dst_PY, dst_PZ, dst_PE)"
-    mu_pid: "^Bool_t; MU_PID(mu_isMuon, mu_PIDmu)"
+    v_dst_mom_p: "^auto; TLorentzVector(dst_mc_mom_px, dst_mc_mom_py, dst_mc_mom_pz, dst_mc_mom_pe)"
+    v_dst_p: "^auto; TLorentzVector(dst_px, dst_py, dst_pz, dst_pe)"
+    mu_pid: "^Bool_t; MU_PID(mu_is_mu, mu_pid_mu)"
     # PID
     dst_id_prod: "Double_t; d0_id*pi_id"   # negative when physical
     id_prod: "Double_t; d0_id*mu_id"       # positive when physical
