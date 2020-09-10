@@ -1,6 +1,15 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Fri Sep 11, 2020 at 01:04 AM +0800
+// Last Change: Fri Sep 11, 2020 at 01:41 AM +0800
+//
+//  _______  _______  _______  _______           _______ ___________________________
+//  (  ____ \(  ____ )(  ___  )(  ____ \|\     /|(  ____ \\__   __/\__   __/\__   __/
+//  | (    \/| (    )|| (   ) || (    \/| )   ( || (    \/   ) (      ) (      ) (
+//  | (_____ | (____)|| (___) || |      | (___) || (__       | |      | |      | |
+//  (_____  )|  _____)|  ___  || | ____ |  ___  ||  __)      | |      | |      | |
+//        ) || (      | (   ) || | \_  )| (   ) || (         | |      | |      | |
+//  /\____) || )      | )   ( || (___) || )   ( || (____/\   | |      | |   ___) (___
+//  \_______)|/       |/     \|(_______)|/     \|(_______/   )_(      )_(   \_______/
 
 #ifndef _LNG_FUNCTOR_PARTICLE_H_
 #define _LNG_FUNCTOR_PARTICLE_H_
@@ -160,29 +169,53 @@ Int_t B_TYPE(std::vector<std::vector<Bool_t> >& mc_flags,
       abs_mu_gd_mom_id == 531)
     b_type = 531;
 
-  auto dst_possible_ids = std::vector<Int_t>({511, 521, 531});
-  if (VEC_OR_EQ(dst_possible_ids, abs_dst_mom_id))
-    b_type = abs_dst_mom_id;
-  else if (VEC_OR_EQ(dst_possible_ids, abs_dst_gd_mom_id))
-    b_type = abs_dst_gd_mom_id;
-  else if (VEC_OR_EQ(dst_possible_ids, abs_dst_gd_gd_mom_id))
-    b_type = abs_dst_gd_gd_mom_id;
-  // FIXME: There's a else clause in Phoebe's spaghetti which set b_type to -1,
-  //        but that one is never executed.
-  // FIXME: Also don't understand the utility of `flagD0mu`
+  // LN2779
+  // NOTE: We don't need the is_data flag. Because all these branches are
+  //       MC-only, and these flags will be automatically skipped for data.
+  auto mu_mom_possible_ids = std::vector<Int_t>({411, 421, 431});
+  if ((VEC_OR(mc_flags[2]) || VEC_OR(mc_flags[3])) &&
+      VEC_OR_EQ(mu_mom_possible_ids, abs_mu_mom_id)) {
+    // LN2836
+    auto dst_possible_ids = std::vector<Int_t>({511, 521, 531});
+    if (VEC_OR_EQ(dst_possible_ids, abs_dst_mom_id))
+      b_type = abs_dst_mom_id;
+    else if (VEC_OR_EQ(dst_possible_ids, abs_dst_gd_mom_id))
+      b_type = abs_dst_gd_mom_id;
+    else if (VEC_OR_EQ(dst_possible_ids, abs_dst_gd_gd_mom_id))
+      b_type = abs_dst_gd_gd_mom_id;
+    // FIXME: There's a else clause in Phoebe's spaghetti which set b_type to -1,
+    //        but that one is never executed.
+    // FIXME: Also don't understand the utility of `flagD0mu`
+  }
 
   return b_type;
 }
 
-Int_t DSS_TYPE(Int_t dst_mom_id, Int_t dst_gd_mom_id) {
+Int_t DSS_TYPE(std::vector<std::vector<Bool_t> >& mc_flags,
+    Int_t mu_mom_id,
+    Int_t dst_mom_id, Int_t dst_gd_mom_id, Int_t dst_gd_gd_mom_id
+    ) {
   Int_t dss_type = 0;
 
+  auto abs_mu_mom_id = TMath::Abs(mu_mom_id);
   auto abs_dst_mom_id = TMath::Abs(dst_mom_id);
   auto abs_dst_gd_mom_id = TMath::Abs(dst_gd_mom_id);
+  auto abs_dst_gd_gd_mom_id = TMath::Abs(dst_gd_gd_mom_id);
 
-  if (abs_dst_mom_id == 511 || abs_dst_gd_mom_id == 521 ||
-      abs_dst_gd_mom_id == 531)
-    dss_type = abs_dst_mom_id;
+  // LN2779
+  // NOTE: We don't need the is_data flag. Because all these branches are
+  //       MC-only, and these flags will be automatically skipped for data.
+  auto mu_mom_possible_ids = std::vector<Int_t>({411, 421, 431});
+  if ((VEC_OR(mc_flags[2]) || VEC_OR(mc_flags[3])) &&
+      VEC_OR_EQ(mu_mom_possible_ids, abs_mu_mom_id)) {
+    // FIXME: In LN2836, dss_type can never be set because we have conflicting if
+    //        conditions, here I deviate from Phoebe's.
+    auto dst_possible_ids = std::vector<Int_t>({511, 521, 531});
+    if (VEC_OR_EQ(dst_possible_ids, abs_dst_gd_mom_id))
+      dss_type = abs_dst_mom_id;
+    else if (VEC_OR_EQ(dst_possible_ids, abs_dst_gd_gd_mom_id))
+      dss_type = -1;
+  }
 
   return dss_type;
 }
