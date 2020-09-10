@@ -1,6 +1,6 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Fri Sep 11, 2020 at 01:53 AM +0800
+// Last Change: Fri Sep 11, 2020 at 02:03 AM +0800
 //
 //  _______  _______  _______  _______           _______ ___________________________
 //  (  ____ \(  ____ )(  ___  )(  ____ \|\     /|(  ____ \\__   __/\__   __/\__   __/
@@ -120,6 +120,24 @@ Bool_t IS_DATA(ULong64_t time) {
   // FIXME: Ask Phoebe why
   if (time > 0 && (time <= 1345.7332e12 || time >= 1345.7335e12)) return true;
   else return false;
+}
+
+Bool_t JUST_DST(std::vector<std::vector<Bool_t> >& mc_flags,
+    Int_t mu_mom_id, Int_t dst_mom_id
+    ) {
+  Bool_t just_dst = false;
+
+  auto abs_mu_mom_id = TMath::Abs(mu_mom_id);
+  auto abs_dst_mom_id = TMath::Abs(dst_mom_id);
+
+  auto mu_mom_possible_ids = std::vector<Int_t>({411, 421, 431});
+  auto dst_mom_possible_ids = std::vector<Int_t>({511, 521, 531});
+  if ((VEC_OR(mc_flags[2]) || VEC_OR(mc_flags[3])) &&   /* LN2779 */
+      VEC_OR_EQ(mu_mom_possible_ids, abs_mu_mom_id) &&  /* LN2779 */
+      VEC_OR_EQ(dst_mom_possible_ids, abs_dst_mom_id)   /* LN2836 */)
+    just_dst = true;
+
+  return just_dst;
 }
 
 // Types ///////////////////////////////////////////////////////////////////////

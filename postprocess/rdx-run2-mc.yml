@@ -77,7 +77,7 @@ calculation:
     # Other flags
     is_data: "Bool_t; IS_DATA(GpsTime)"
     # is_2pi: (ishigher) Need: flagBmu, justDst, DstOk
-    # just_dst: (justDst)
+    just_dst: "Bool_t; JUST_DST(v_mc_flags, mu_mc_mom_id, dst_mc_mom_id)"
     # dst_ok: ????? always 0. ?????
     # Types
     b_type: 'Int_t; B_TYPE(v_mc_flags, mu_true_id, mu_mc_mom_id, mu_mc_gd_mom_id, dst_mc_mom_id, dst_mc_gd_mom_id, dst_mc_gd_gd_mom_id)'
