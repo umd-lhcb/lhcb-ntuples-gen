@@ -22,6 +22,7 @@ rename:
     mu_L0Global_TIS: mu_l0glob_tis
     # B0
     b0_M: b0_m
+    b0_BKGCAT: b_bkg_cat
     # Dst mother
     dst_MC_MOTHER_ID: dst_mom_id
     dst_MC_MOTHER_TRUEPX: dst_mc_mom_px
@@ -66,7 +67,6 @@ calculation:
     mm_dst_mom: "Double_t; MM_DST_MOM(v_dst_mom_p, v_dst_p)"  # Missing mass between Dst and its mother
     # Candidate type
     b_type: 'Int_t; B_TYPE(v_mc_flags, mu_true_id, mu_mc_mom_id, mu_mc_gd_mom_id)'
-    # b_bkg_cat: (Y_BKGCAT) some branch name?
     # dss_type: (Dststtype)
     # Flags
     # flag_dst_sb: "^Bool_t; false" (flagDstSB)
