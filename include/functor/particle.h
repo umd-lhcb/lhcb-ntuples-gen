@@ -1,6 +1,6 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Fri Sep 11, 2020 at 01:41 AM +0800
+// Last Change: Fri Sep 11, 2020 at 01:53 AM +0800
 //
 //  _______  _______  _______  _______           _______ ___________________________
 //  (  ____ \(  ____ )(  ___  )(  ____ \|\     /|(  ____ \\__   __/\__   __/\__   __/
@@ -67,14 +67,6 @@ Double_t M2(TLorentzVector v) { return v.M2(); }
 
 // Flags ///////////////////////////////////////////////////////////////////////
 
-Bool_t IS_DATA(ULong64_t time) {
-  // Special treatment for some run 1 data: We remove some real data if they
-  // fall within a specific time window
-  // FIXME: Ask Phoebe why
-  if (time > 0 && (time <= 1345.7332e12 || time >= 1345.7335e12)) return true;
-  else return false;
-}
-
 std::vector<std::vector<Bool_t> > MC_FLAGS(
     Int_t mu_mom_key, Int_t d0_mom_key, Int_t dst_mom_key,
     Int_t mu_gd_mom_key, Int_t dst_gd_mom_key,
@@ -119,6 +111,18 @@ std::vector<std::vector<Bool_t> > MC_FLAGS(
 
   return flags;
 }
+
+// Other flags /////////////////////////////////////////////////////////////////
+
+Bool_t IS_DATA(ULong64_t time) {
+  // Special treatment for some run 1 data: We remove some real data if they
+  // fall within a specific time window
+  // FIXME: Ask Phoebe why
+  if (time > 0 && (time <= 1345.7332e12 || time >= 1345.7335e12)) return true;
+  else return false;
+}
+
+// Types ///////////////////////////////////////////////////////////////////////
 
 Int_t B_TYPE(std::vector<std::vector<Bool_t> >& mc_flags,
     Int_t mu_true_id, Int_t mu_mom_id, Int_t mu_gd_mom_id,
