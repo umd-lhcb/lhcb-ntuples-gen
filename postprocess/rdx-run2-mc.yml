@@ -53,7 +53,9 @@ calculation:
     mu_mc_gd_gd_mom_key: "^auto; mu_MC_GD_GD_MOTHER_KEY"
     d0_mc_mom_key: "^auto; d0_MC_MOTHER_KEY"
     dst_mc_mom_key: "^auto; dst_MC_MOTHER_KEY"
+    dst_mc_mom_id: "^auto; dst_MC_MOTHER_ID"
     dst_mc_gd_mom_key: "^auto; dst_MC_GD_MOTHER_KEY"
+    dst_mc_gd_mom_id: "^auto; dst_MC_GD_MOTHER_ID"
     dst_mc_gd_gd_mom_key: "^auto; dst_MC_GD_GD_MOTHER_KEY"
     # Temp variables
     v_dst_mom_p: "^auto; TLorentzVector(dst_mc_mom_px, dst_mc_mom_py, dst_mc_mom_pz, dst_mc_mom_pe)"
@@ -66,7 +68,7 @@ calculation:
     # Physical variables
     mm_dst_mom: "Double_t; MM_DST_MOM(v_dst_mom_p, v_dst_p)"  # Missing mass between Dst and its mother
     # Candidate type
-    b_type: 'Int_t; B_TYPE(v_mc_flags, mu_true_id, mu_mc_mom_id, mu_mc_gd_mom_id)'
+    b_type: 'Int_t; B_TYPE(v_mc_flags, mu_true_id, mu_mc_mom_id, mu_mc_gd_mom_id, dst_mc_mom_id, dst_mc_gd_mom_id)'
     # dss_type: (Dststtype)
     # Flags
     # flag_dst_sb: "^Bool_t; false" (flagDstSB)
@@ -86,7 +88,7 @@ output:
         selection:
             - "mu_pid"
             - "iso_bdt < 0.15"
-            #- "isdata"  # Well, this doesn't apply to MC
+            #- "is_data"  # Well, this doesn't apply to MC
             - "b0_m < 5280"
             # L0 cuts
             - "b0_l0glob_tis || dst_l0had_dec_tos"

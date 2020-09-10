@@ -1,6 +1,6 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Thu Sep 10, 2020 at 10:23 PM +0800
+// Last Change: Fri Sep 11, 2020 at 12:36 AM +0800
 
 #ifndef _LNG_FUNCTOR_PARTICLE_H_
 #define _LNG_FUNCTOR_PARTICLE_H_
@@ -13,7 +13,7 @@
 
 #include <vector>
 
-// Helper functions ////////////////////////////////////////////////////////////
+// Boolean /////////////////////////////////////////////////////////////////////
 
 Bool_t ALL_TRUE(std::vector<Bool_t>& vec) {
   return std::all_of(vec.begin(), vec.end(), [](Bool_t v) { return v; });
@@ -29,6 +29,14 @@ Bool_t VEC_AND(std::vector<Bool_t>& vec) {
 
 Bool_t VEC_OR(std::vector<Bool_t>& vec) {
   return std::find(vec.begin(), vec.end(), true) != vec.end();
+}
+
+template<class T>
+Bool_t VEC_OR(std::vector<T>& vec, T expr) {
+  for (auto v : vec) {
+    if (expr == v) return true;
+  }
+  return false;
 }
 
 // General /////////////////////////////////////////////////////////////////////
@@ -103,24 +111,17 @@ std::vector<std::vector<Bool_t> > MC_FLAGS(
   return flags;
 }
 
-// Kinematics //////////////////////////////////////////////////////////////////
-
-Double_t MM_DST_MOM(TLorentzVector& v_dst_mom_p, TLorentzVector& v_dst_p) {
-  Double_t mm_dst_mom = M2(v_dst_mom_p - v_dst_p);
-  if (mm_dst_mom > 0) return sqrt(mm_dst_mom);
-  else return 0.0;
-}
-
-// B meson-related /////////////////////////////////////////////////////////////
-
 Int_t B_TYPE(std::vector<std::vector<Bool_t> >& mc_flags,
-    Int_t mu_true_id, Int_t mu_mom_id, Int_t mu_gd_mom_id
+    Int_t mu_true_id, Int_t mu_mom_id, Int_t mu_gd_mom_id,
+    Int_t dst_mom_id, Int_t dst_gd_mom_id
     ) {
   Int_t b_type = 0;
 
   auto abs_mu_true_id = TMath::Abs(mu_true_id);
   auto abs_mu_mom_id = TMath::Abs(mu_mom_id);
   auto abs_mu_gd_mom_id = TMath::Abs(mu_gd_mom_id);
+  auto abs_dst_mom_id = TMath::Abs(dst_mom_id);
+  auto abs_dst_gd_mom_id = TMath::Abs(dst_gd_mom_id);
 
   if ((mc_flags[0][0] || mc_flags[0][1]) && abs_mu_true_id == 13)
     b_type = TMath::Abs(mu_mom_id);
@@ -158,7 +159,32 @@ Int_t B_TYPE(std::vector<std::vector<Bool_t> >& mc_flags,
       abs_mu_gd_mom_id == 531)
     b_type = 531;
 
+  auto dst_possible_ids = std::vector<Int_t>({511, 521, 531});
+  if (VEC_OR(dst_possible_ids, abs_dst_mom_id))
+    b_type = abs_dst_mom_id;
+
   return b_type;
+}
+
+Int_t DSS_TYPE(Int_t dst_mom_id, Int_t dst_gd_mom_id) {
+  Int_t dss_type = 0;
+
+  auto abs_dst_mom_id = TMath::Abs(dst_mom_id);
+  auto abs_dst_gd_mom_id = TMath::Abs(dst_gd_mom_id);
+
+  if (abs_dst_mom_id == 511 || abs_dst_gd_mom_id == 521 ||
+      abs_dst_gd_mom_id == 531)
+    dss_type = abs_dst_mom_id;
+
+  return dss_type;
+}
+
+// Kinematics //////////////////////////////////////////////////////////////////
+
+Double_t MM_DST_MOM(TLorentzVector& v_dst_mom_p, TLorentzVector& v_dst_p) {
+  Double_t mm_dst_mom = M2(v_dst_mom_p - v_dst_p);
+  if (mm_dst_mom > 0) return sqrt(mm_dst_mom);
+  else return 0.0;
 }
 
 // Muon-related ////////////////////////////////////////////////////////////////
