@@ -1,6 +1,6 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Thu Sep 10, 2020 at 09:17 PM +0800
+// Last Change: Thu Sep 10, 2020 at 10:23 PM +0800
 
 #ifndef _LNG_FUNCTOR_PARTICLE_H_
 #define _LNG_FUNCTOR_PARTICLE_H_
@@ -21,6 +21,14 @@ Bool_t ALL_TRUE(std::vector<Bool_t>& vec) {
 
 Bool_t ALL_FALSE(std::vector<Bool_t>& vec) {
   return std::all_of(vec.begin(), vec.end(), [](Bool_t v) { return !v; });
+}
+
+Bool_t VEC_AND(std::vector<Bool_t>& vec) {
+  return std::find(vec.begin(), vec.end(), false) == vec.end();
+}
+
+Bool_t VEC_OR(std::vector<Bool_t>& vec) {
+  return std::find(vec.begin(), vec.end(), true) != vec.end();
 }
 
 // General /////////////////////////////////////////////////////////////////////
@@ -61,7 +69,7 @@ std::vector<std::vector<Bool_t> > MC_FLAGS(
     flags.push_back(std::vector<Bool_t>({false, false, false}));
   }
   // Conversion table
-  // Phoebe        us
+  // Phoebe        this
   // ----------    --------
   // onezero       [0][0]
   // twozero       [0][1]
@@ -106,10 +114,51 @@ Double_t MM_DST_MOM(TLorentzVector& v_dst_mom_p, TLorentzVector& v_dst_p) {
 // B meson-related /////////////////////////////////////////////////////////////
 
 Int_t B_TYPE(std::vector<std::vector<Bool_t> >& mc_flags,
-    Int_t mu_true_id, Int_t mu_mom_id
+    Int_t mu_true_id, Int_t mu_mom_id, Int_t mu_gd_mom_id
     ) {
-  if ((mc_flags[0][0] || mc_flags[0][1]) && TMath::Abs(mu_true_id) == 13)
-    return TMath::Abs(mu_mom_id);
+  Int_t b_type = 0;
+
+  auto abs_mu_true_id = TMath::Abs(mu_true_id);
+  auto abs_mu_mom_id = TMath::Abs(mu_mom_id);
+  auto abs_mu_gd_mom_id = TMath::Abs(mu_gd_mom_id);
+
+  if ((mc_flags[0][0] || mc_flags[0][1]) && abs_mu_true_id == 13)
+    b_type = TMath::Abs(mu_mom_id);
+
+  if (VEC_OR(mc_flags[1]) && abs_mu_true_id == 13 && abs_mu_mom_id == 511)
+    b_type = 511;
+  if (VEC_OR(mc_flags[2]) && abs_mu_true_id == 13 && abs_mu_mom_id == 15 &&
+      abs_mu_gd_mom_id == 511)
+    b_type = 511;
+  if (mc_flags[0][0] && abs_mu_true_id == 13 && abs_mu_mom_id == 511)
+    b_type = 511;
+  if (mc_flags[0][1] && abs_mu_true_id == 13 && abs_mu_mom_id == 15 &&
+      abs_mu_gd_mom_id == 511)
+    b_type = 511;
+
+  if (VEC_OR(mc_flags[1]) && abs_mu_true_id == 13 && abs_mu_mom_id == 521)
+    b_type = 521;
+  if (VEC_OR(mc_flags[2]) && abs_mu_true_id == 13 && abs_mu_mom_id == 15 &&
+      abs_mu_gd_mom_id == 521)
+    b_type = 521;
+  if (mc_flags[0][0] && abs_mu_true_id == 13 && abs_mu_mom_id == 521)
+    b_type = 521;
+  if (mc_flags[0][1] && abs_mu_true_id == 13 && abs_mu_mom_id == 15 &&
+      abs_mu_gd_mom_id == 521)
+    b_type = 521;
+
+  if (VEC_OR(mc_flags[1]) && abs_mu_true_id == 13 && abs_mu_mom_id == 531)
+    b_type = 531;
+  if (VEC_OR(mc_flags[2]) && abs_mu_true_id == 13 && abs_mu_mom_id == 15 &&
+      abs_mu_gd_mom_id == 531)
+    b_type = 531;
+  if (mc_flags[0][0] && abs_mu_true_id == 13 && abs_mu_mom_id == 531)
+    b_type = 531;
+  if (mc_flags[0][1] && abs_mu_true_id == 13 && abs_mu_mom_id == 15 &&
+      abs_mu_gd_mom_id == 531)
+    b_type = 531;
+
+  return b_type;
 }
 
 // Muon-related ////////////////////////////////////////////////////////////////
