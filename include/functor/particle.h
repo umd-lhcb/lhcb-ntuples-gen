@@ -1,6 +1,6 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Wed Sep 09, 2020 at 12:22 AM +0800
+// Last Change: Thu Sep 10, 2020 at 09:17 PM +0800
 
 #ifndef _LNG_FUNCTOR_PARTICLE_H_
 #define _LNG_FUNCTOR_PARTICLE_H_
@@ -9,6 +9,19 @@
 #include <TMath.h>
 #include <TROOT.h>
 #include <TVector3.h>
+#include <TMath.h>
+
+#include <vector>
+
+// Helper functions ////////////////////////////////////////////////////////////
+
+Bool_t ALL_TRUE(std::vector<Bool_t>& vec) {
+  return std::all_of(vec.begin(), vec.end(), [](Bool_t v) { return v; });
+}
+
+Bool_t ALL_FALSE(std::vector<Bool_t>& vec) {
+  return std::all_of(vec.begin(), vec.end(), [](Bool_t v) { return !v; });
+}
 
 // General /////////////////////////////////////////////////////////////////////
 
@@ -37,12 +50,66 @@ Bool_t IS_DATA(ULong64_t time) {
   else return false;
 }
 
+std::vector<std::vector<Bool_t> > MC_FLAGS(
+    Int_t mu_mom_key, Int_t d0_mom_key, Int_t dst_mom_key,
+    Int_t mu_gd_mom_key, Int_t dst_gd_mom_key,
+    Int_t mu_gd_gd_mom_key, Int_t dst_gd_gd_mom_key
+    ) {
+  // Initialize flags
+  std::vector<std::vector<Bool_t> > flags;
+  for (auto i=0; i<4; i++) {
+    flags.push_back(std::vector<Bool_t>({false, false, false}));
+  }
+  // Conversion table
+  // Phoebe        us
+  // ----------    --------
+  // onezero       [0][0]
+  // twozero       [0][1]
+  // ...
+  // oneone        [1][0]
+  // ...
+  // threetwo      [3][1]
+  // threethree    [3][2]
+
+  if (mu_mom_key == d0_mom_key && mu_mom_key > 0) flags[0][0] = true;
+  if (mu_gd_mom_key == d0_mom_key && d0_mom_key > 0) flags[0][1] = true;
+  if (mu_gd_gd_mom_key == d0_mom_key && mu_gd_gd_mom_key > 0)
+    flags[0][2] = true;
+
+  if (mu_mom_key == dst_mom_key && mu_mom_key > 0) flags[1][0] = true;
+  if (mu_mom_key == dst_gd_mom_key && mu_mom_key > 0) flags[1][1] = true;
+  if (mu_mom_key == dst_gd_gd_mom_key && mu_mom_key > 0) flags[1][2] = true;
+
+  if (mu_gd_mom_key == dst_mom_key && mu_gd_mom_key > 0) flags[2][0] = true;
+  if (mu_gd_mom_key == dst_gd_mom_key && mu_gd_mom_key > 0) flags[2][1] = true;
+  if (mu_gd_mom_key == dst_gd_gd_mom_key && mu_gd_mom_key > 0)
+    flags[2][2] = true;
+
+  if (mu_gd_gd_mom_key == dst_mom_key && mu_gd_gd_mom_key > 0)
+    flags[3][0] = true;
+  if (mu_gd_gd_mom_key == dst_gd_mom_key && mu_gd_gd_mom_key > 0)
+    flags[3][1] = true;
+  if (mu_gd_gd_mom_key == dst_gd_gd_mom_key && mu_gd_gd_mom_key > 0)
+    flags[3][2] = true;
+
+  return flags;
+}
+
 // Kinematics //////////////////////////////////////////////////////////////////
 
 Double_t MM_DST_MOM(TLorentzVector& v_dst_mom_p, TLorentzVector& v_dst_p) {
   Double_t mm_dst_mom = M2(v_dst_mom_p - v_dst_p);
   if (mm_dst_mom > 0) return sqrt(mm_dst_mom);
   else return 0.0;
+}
+
+// B meson-related /////////////////////////////////////////////////////////////
+
+Int_t B_TYPE(std::vector<std::vector<Bool_t> >& mc_flags,
+    Int_t mu_true_id, Int_t mu_mom_id
+    ) {
+  if ((mc_flags[0][0] || mc_flags[0][1]) && TMath::Abs(mu_true_id) == 13)
+    return TMath::Abs(mu_mom_id);
 }
 
 // Muon-related ////////////////////////////////////////////////////////////////
