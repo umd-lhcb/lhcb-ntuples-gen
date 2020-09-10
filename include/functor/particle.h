@@ -1,6 +1,6 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Fri Sep 11, 2020 at 12:36 AM +0800
+// Last Change: Fri Sep 11, 2020 at 01:04 AM +0800
 
 #ifndef _LNG_FUNCTOR_PARTICLE_H_
 #define _LNG_FUNCTOR_PARTICLE_H_
@@ -32,7 +32,7 @@ Bool_t VEC_OR(std::vector<Bool_t>& vec) {
 }
 
 template<class T>
-Bool_t VEC_OR(std::vector<T>& vec, T expr) {
+Bool_t VEC_OR_EQ(std::vector<T>& vec, T expr) {
   for (auto v : vec) {
     if (expr == v) return true;
   }
@@ -113,7 +113,7 @@ std::vector<std::vector<Bool_t> > MC_FLAGS(
 
 Int_t B_TYPE(std::vector<std::vector<Bool_t> >& mc_flags,
     Int_t mu_true_id, Int_t mu_mom_id, Int_t mu_gd_mom_id,
-    Int_t dst_mom_id, Int_t dst_gd_mom_id
+    Int_t dst_mom_id, Int_t dst_gd_mom_id, Int_t dst_gd_gd_mom_id
     ) {
   Int_t b_type = 0;
 
@@ -122,6 +122,7 @@ Int_t B_TYPE(std::vector<std::vector<Bool_t> >& mc_flags,
   auto abs_mu_gd_mom_id = TMath::Abs(mu_gd_mom_id);
   auto abs_dst_mom_id = TMath::Abs(dst_mom_id);
   auto abs_dst_gd_mom_id = TMath::Abs(dst_gd_mom_id);
+  auto abs_dst_gd_gd_mom_id = TMath::Abs(dst_gd_gd_mom_id);
 
   if ((mc_flags[0][0] || mc_flags[0][1]) && abs_mu_true_id == 13)
     b_type = TMath::Abs(mu_mom_id);
@@ -160,8 +161,15 @@ Int_t B_TYPE(std::vector<std::vector<Bool_t> >& mc_flags,
     b_type = 531;
 
   auto dst_possible_ids = std::vector<Int_t>({511, 521, 531});
-  if (VEC_OR(dst_possible_ids, abs_dst_mom_id))
+  if (VEC_OR_EQ(dst_possible_ids, abs_dst_mom_id))
     b_type = abs_dst_mom_id;
+  else if (VEC_OR_EQ(dst_possible_ids, abs_dst_gd_mom_id))
+    b_type = abs_dst_gd_mom_id;
+  else if (VEC_OR_EQ(dst_possible_ids, abs_dst_gd_gd_mom_id))
+    b_type = abs_dst_gd_gd_mom_id;
+  // FIXME: There's a else clause in Phoebe's spaghetti which set b_type to -1,
+  //        but that one is never executed.
+  // FIXME: Also don't understand the utility of `flagD0mu`
 
   return b_type;
 }

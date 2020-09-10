@@ -57,6 +57,7 @@ calculation:
     dst_mc_gd_mom_key: "^auto; dst_MC_GD_MOTHER_KEY"
     dst_mc_gd_mom_id: "^auto; dst_MC_GD_MOTHER_ID"
     dst_mc_gd_gd_mom_key: "^auto; dst_MC_GD_GD_MOTHER_KEY"
+    dst_mc_gd_gd_mom_id: "^auto; dst_MC_GD_GD_MOTHER_ID"
     # Temp variables
     v_dst_mom_p: "^auto; TLorentzVector(dst_mc_mom_px, dst_mc_mom_py, dst_mc_mom_pz, dst_mc_mom_pe)"
     v_dst_p: "^auto; TLorentzVector(dst_px, dst_py, dst_pz, dst_pe)"
@@ -68,7 +69,7 @@ calculation:
     # Physical variables
     mm_dst_mom: "Double_t; MM_DST_MOM(v_dst_mom_p, v_dst_p)"  # Missing mass between Dst and its mother
     # Candidate type
-    b_type: 'Int_t; B_TYPE(v_mc_flags, mu_true_id, mu_mc_mom_id, mu_mc_gd_mom_id, dst_mc_mom_id, dst_mc_gd_mom_id)'
+    b_type: 'Int_t; B_TYPE(v_mc_flags, mu_true_id, mu_mc_mom_id, mu_mc_gd_mom_id, dst_mc_mom_id, dst_mc_gd_mom_id, dst_mc_gd_gd_mom_id)'
     # dss_type: (Dststtype)
     # Flags
     # flag_dst_sb: "^Bool_t; false" (flagDstSB)
