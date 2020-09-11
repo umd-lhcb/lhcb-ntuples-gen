@@ -73,11 +73,11 @@ calculation:
     # Physical variables
     mm_dst_mom: "Double_t; MM_DST_MOM(v_dst_mom_p, v_dst_p)"  # Missing mass between Dst and its mother
     # Flags
-    # flag_dst_sb: "^Bool_t; false" (flagDstSB) ??? always false ???
     flag_tau: "Bool_t; FLAG_TAU(v_mc_flags, mu_true_id, mu_mc_mom_id, mu_mc_gd_mom_id)"
     flag_mu: "Bool_t; FLAG_MU(v_mc_flags, mu_true_id, mu_mc_mom_id)"
     flag_two_d_tau: "Bool_t; FLAG_TWO_D_TAU(mu_mc_mom_id, mu_mc_gd_mom_id)"
     flag_two_d_mu: "Bool_t; FLAG_TWO_D_MU(v_mc_flags, mu_mc_mom_id, mu_mc_gd_gd_mom_id, dst_mc_mom_id)"
+    # flag_dst_sb: <-- Dst side band flag. Obsolete.
     # Other flags
     is_data: "Bool_t; IS_DATA(GpsTime)"
     # is_2pi: (ishigher) Need: flagBmu, justDst, DstOk
