@@ -54,6 +54,7 @@ calculation:
     mu_mc_gd_mom_key: "^auto; mu_MC_GD_MOTHER_KEY"
     mu_mc_gd_mom_id: "^auto; mu_MC_GD_GD_MOTHER_ID"
     mu_mc_gd_gd_mom_key: "^auto; mu_MC_GD_GD_MOTHER_KEY"
+    mu_mc_gd_gd_mom_id: "^auto; mu_MC_GD_GD_MOTHER_id"
     d0_mc_mom_key: "^auto; d0_MC_MOTHER_KEY"
     dst_mc_mom_key: "^auto; dst_MC_MOTHER_KEY"
     dst_mc_mom_id: "^auto; dst_MC_MOTHER_ID"
@@ -76,7 +77,7 @@ calculation:
     flag_tau: "Bool_t; FLAG_TAU(v_mc_flags, mu_true_id, mu_mc_mom_id, mu_mc_gd_mom_id)"
     flag_mu: "Bool_t; FLAG_MU(v_mc_flags, mu_true_id, mu_mc_mom_id)"
     flag_two_d_tau: "Bool_t; FLAG_TWO_D_TAU(mu_mc_mom_id, mu_mc_gd_mom_id)"
-    # flag_two_d_mu: (flagDoubleD)
+    flag_two_d_mu: "Bool_t; FLAG_TWO_D_MU(v_mc_flags, mu_mc_mom_id, mu_mc_gd_gd_mom_id, dst_mc_mom_id)"
     # Other flags
     is_data: "Bool_t; IS_DATA(GpsTime)"
     # is_2pi: (ishigher) Need: flagBmu, justDst, DstOk
