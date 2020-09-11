@@ -1,6 +1,6 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Fri Sep 11, 2020 at 09:09 PM +0800
+// Last Change: Fri Sep 11, 2020 at 09:17 PM +0800
 //
 //  _______  _______  _______  _______           _______
 //  ___________________________ (  ____ \(  ____ )(  ___  )(  ____ \|\     /|(
@@ -100,6 +100,15 @@ Bool_t FLAG_MU(std::vector<std::vector<Bool_t> >& mc_flags, Int_t mu_true_id,
   if (VEC_OR(mc_flags[1]) && abs_mu_true_id == 13 &&
       VEC_OR_EQ(mu_mom_possible_ids, abs_mu_mom_id))
     return true;
+
+  return false;
+}
+
+Bool_t FLAG_TWO_D_TAU(Int_t mu_mom_id, Int_t mu_gd_mom_id) {
+  auto abs_mu_mom_id    = TMath::Abs(mu_mom_id);
+  auto abs_mu_gd_mom_id = TMath::Abs(mu_gd_mom_id);
+
+  if (abs_mu_mom_id == 15 && abs_mu_gd_mom_id == 431) return true;
 
   return false;
 }
