@@ -27,7 +27,7 @@ Bool_t VEC_OR(std::vector<Bool_t>& vec) {
   return std::find(vec.begin(), vec.end(), true) != vec.end();
 }
 
-template<class T>
+template <class T>
 Bool_t VEC_OR_EQ(std::vector<T>& vec, T expr) {
   for (auto v : vec) {
     if (expr == v) return true;

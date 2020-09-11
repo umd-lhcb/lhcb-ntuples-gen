@@ -5,10 +5,10 @@
 #ifndef _LNG_FUNCTOR_KINEMATIC_H_
 #define _LNG_FUNCTOR_KINEMATIC_H_
 
-#include <TROOT.h>
 #include <TLorentzVector.h>
-#include <TVector3.h>
 #include <TMath.h>
+#include <TROOT.h>
+#include <TVector3.h>
 
 // Helpers /////////////////////////////////////////////////////////////////////
 
@@ -31,8 +31,10 @@ Double_t M2(TLorentzVector v) { return v.M2(); }
 
 Double_t MM_DST_MOM(TLorentzVector& v_dst_mom_p, TLorentzVector& v_dst_p) {
   Double_t mm_dst_mom = M2(v_dst_mom_p - v_dst_p);
-  if (mm_dst_mom > 0) return sqrt(mm_dst_mom);
-  else return 0.0;
+  if (mm_dst_mom > 0)
+    return sqrt(mm_dst_mom);
+  else
+    return 0.0;
 }
 
 // Rest frame approximation ////////////////////////////////////////////////////
