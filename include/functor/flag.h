@@ -1,6 +1,6 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Fri Sep 11, 2020 at 08:36 PM +0800
+// Last Change: Fri Sep 11, 2020 at 08:37 PM +0800
 //
 //  _______  _______  _______  _______           _______ ___________________________
 //  (  ____ \(  ____ )(  ___  )(  ____ \|\     /|(  ____ \\__   __/\__   __/\__   __/
@@ -66,6 +66,12 @@ std::vector<std::vector<Bool_t> > MC_FLAGS(
     flags[3][2] = true;
 
   return flags;
+}
+
+Bool_t FLAG_DST_SB() {
+  Bool_t flag_dst_sb = false;
+
+  return flag_dst_sb;
 }
 
 // Other flags /////////////////////////////////////////////////////////////////
