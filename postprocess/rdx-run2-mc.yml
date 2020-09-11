@@ -72,7 +72,7 @@ calculation:
     # Physical variables
     mm_dst_mom: "Double_t; MM_DST_MOM(v_dst_mom_p, v_dst_p)"  # Missing mass between Dst and its mother
     # Flags
-    # flag_dst_sb: "^Bool_t; false" (flagDstSB)
+    # flag_dst_sb: "^Bool_t; false" (flagDstSB) ??? always false ???
     # flag_tau: "^Bool_t; false" (flagtaumu)
     # flag_two_d_tau: (flagTauonicD)
     # flag_two_d_mu: (flagDoubleD)
