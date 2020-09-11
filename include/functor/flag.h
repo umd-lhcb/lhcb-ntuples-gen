@@ -1,6 +1,6 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Fri Sep 11, 2020 at 06:37 PM +0800
+// Last Change: Fri Sep 11, 2020 at 08:36 PM +0800
 //
 //  _______  _______  _______  _______           _______ ___________________________
 //  (  ____ \(  ____ )(  ___  )(  ____ \|\     /|(  ____ \\__   __/\__   __/\__   __/
@@ -94,6 +94,15 @@ Bool_t JUST_DST(std::vector<std::vector<Bool_t> >& mc_flags,
     just_dst = true;
 
   return just_dst;
+}
+
+Bool_t DST_OK(Int_t d0_bkg_cat, Int_t dst_bkg_cat) {
+  // NOTE: Weird background classifier bug (for run 1, at least).
+  //       If D0 has survived cuts then it can't possibly be CAT 50 (low mass
+  //       background - missed fine state particle).
+  if (dst_bkg_cat == 0 || (dst_bkg_cat == 50 && d0_bkg_cat == 50))
+    return true;
+  return false;
 }
 
 // Types ///////////////////////////////////////////////////////////////////////

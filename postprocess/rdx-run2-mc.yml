@@ -35,8 +35,10 @@ rename:
     dst_PY: dst_py
     dst_PZ: dst_pz
     dst_PE: dst_pe
+    dst_BKGCAT: dst_bkg_cat
     # D0
     d0_ID: d0_id
+    d0_BKGCAT: d0_bkg_cat
     # Pi
     pi_ID: pi_id
     # Mu
@@ -79,7 +81,7 @@ calculation:
     is_data: "Bool_t; IS_DATA(GpsTime)"
     # is_2pi: (ishigher) Need: flagBmu, justDst, DstOk
     just_dst: "Bool_t; JUST_DST(v_mc_flags, mu_mc_mom_id, dst_mc_mom_id)"
-    # dst_ok: ????? always 0. ?????
+    dst_ok: "Bool_t; DST_OK(d0_bkg_cat, dst_bkg_cat)"
     # Types
     b_type: 'Int_t; B_TYPE(v_mc_flags, mu_true_id, mu_mc_mom_id, mu_mc_gd_mom_id, dst_mc_mom_id, dst_mc_gd_mom_id, dst_mc_gd_gd_mom_id)'
     # dss_type: (Dststtype), HARD, on hold. Need: (flagD0mu)
