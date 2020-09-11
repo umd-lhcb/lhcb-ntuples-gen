@@ -1,6 +1,6 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Fri Sep 11, 2020 at 08:51 PM +0800
+// Last Change: Fri Sep 11, 2020 at 08:58 PM +0800
 //
 //  _______  _______  _______  _______           _______ ___________________________
 //  (  ____ \(  ____ )(  ___  )(  ____ \|\     /|(  ____ \\__   __/\__   __/\__   __/
@@ -145,38 +145,22 @@ Int_t B_TYPE(std::vector<std::vector<Bool_t> >& mc_flags,
   if ((mc_flags[0][0] || mc_flags[0][1]) && abs_mu_true_id == 13)
     b_type = TMath::Abs(mu_mom_id);
 
-  if (VEC_OR(mc_flags[1]) && abs_mu_true_id == 13 && abs_mu_mom_id == 511)
-    b_type = 511;
-  if (VEC_OR(mc_flags[2]) && abs_mu_true_id == 13 && abs_mu_mom_id == 15 &&
-      abs_mu_gd_mom_id == 511)
-    b_type = 511;
-  if (mc_flags[0][0] && abs_mu_true_id == 13 && abs_mu_mom_id == 511)
-    b_type = 511;
-  if (mc_flags[0][1] && abs_mu_true_id == 13 && abs_mu_mom_id == 15 &&
-      abs_mu_gd_mom_id == 511)
-    b_type = 511;
+  auto mu_ancestor_possible_ids = std::vector<Int_t>({511, 521, 531});
+  if (VEC_OR(mc_flags[1]) && abs_mu_true_id == 13 &&
+      VEC_OR_EQ(mu_ancestor_possible_ids, abs_mu_mom_id))
+    b_type = abs_mu_mom_id;
 
-  if (VEC_OR(mc_flags[1]) && abs_mu_true_id == 13 && abs_mu_mom_id == 521)
-    b_type = 521;
   if (VEC_OR(mc_flags[2]) && abs_mu_true_id == 13 && abs_mu_mom_id == 15 &&
-      abs_mu_gd_mom_id == 521)
-    b_type = 521;
-  if (mc_flags[0][0] && abs_mu_true_id == 13 && abs_mu_mom_id == 521)
-    b_type = 521;
-  if (mc_flags[0][1] && abs_mu_true_id == 13 && abs_mu_mom_id == 15 &&
-      abs_mu_gd_mom_id == 521)
-    b_type = 521;
+      VEC_OR_EQ(mu_ancestor_possible_ids, abs_mu_gd_mom_id))
+    b_type = abs_mu_gd_mom_id;
 
-  if (VEC_OR(mc_flags[1]) && abs_mu_true_id == 13 && abs_mu_mom_id == 531)
-    b_type = 531;
-  if (VEC_OR(mc_flags[2]) && abs_mu_true_id == 13 && abs_mu_mom_id == 15 &&
-      abs_mu_gd_mom_id == 531)
-    b_type = 531;
-  if (mc_flags[0][0] && abs_mu_true_id == 13 && abs_mu_mom_id == 531)
-    b_type = 531;
+  if (mc_flags[0][0] && abs_mu_true_id == 13 &&
+      VEC_OR_EQ(mu_ancestor_possible_ids, abs_mu_mom_id))
+    b_type = abs_mu_mom_id;
+
   if (mc_flags[0][1] && abs_mu_true_id == 13 && abs_mu_mom_id == 15 &&
-      abs_mu_gd_mom_id == 531)
-    b_type = 531;
+      VEC_OR_EQ(mu_ancestor_possible_ids, abs_mu_gd_mom_id))
+    b_type = abs_mu_gd_mom_id;
 
   // LN2779
   // NOTE: We don't need the is_data flag. Because all these branches are

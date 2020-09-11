@@ -74,9 +74,9 @@ calculation:
     # Flags
     # flag_dst_sb: "^Bool_t; false" (flagDstSB) ??? always false ???
     flag_tau: "^Bool_t; FLAG_TAU(v_mc_flags, mu_true_id, mu_mc_mom_id, mu_mc_gd_mom_id)"
+    # flag_mu: (flagBmu)
     # flag_two_d_tau: (flagTauonicD)
     # flag_two_d_mu: (flagDoubleD)
-    # flag_mu: (flagBmu)
     # Other flags
     is_data: "Bool_t; IS_DATA(GpsTime)"
     # is_2pi: (ishigher) Need: flagBmu, justDst, DstOk
