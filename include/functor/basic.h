@@ -1,27 +1,38 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Wed May 27, 2020 at 04:23 AM +0800
+// Last Change: Fri Sep 11, 2020 at 06:30 PM +0800
 
 #ifndef _LNG_FUNCTOR_BASIC_H_
 #define _LNG_FUNCTOR_BASIC_H_
 
-#include <cstdlib>
+#include <TROOT.h>
 
-// Arithmetic //////////////////////////////////////////////////////////////////
+#include <vector>
 
-template <typename T>
-T SUB(T x, T y) {
-  return x - y;
+// Boolean /////////////////////////////////////////////////////////////////////
+
+Bool_t VEC_ALL_TRUE(std::vector<Bool_t>& vec) {
+  return std::all_of(vec.begin(), vec.end(), [](Bool_t v) { return v; });
 }
 
-template <typename T>
-T PROD(T x, T y) {
-  return x * y;
+Bool_t VEC_ALL_FALSE(std::vector<Bool_t>& vec) {
+  return std::all_of(vec.begin(), vec.end(), [](Bool_t v) { return !v; });
 }
 
-template <typename T>
-T ABS(T x) {
-  return std::abs(x);
+Bool_t VEC_AND(std::vector<Bool_t>& vec) {
+  return std::find(vec.begin(), vec.end(), false) == vec.end();
+}
+
+Bool_t VEC_OR(std::vector<Bool_t>& vec) {
+  return std::find(vec.begin(), vec.end(), true) != vec.end();
+}
+
+template<class T>
+Bool_t VEC_OR_EQ(std::vector<T>& vec, T expr) {
+  for (auto v : vec) {
+    if (expr == v) return true;
+  }
+  return false;
 }
 
 // Units ///////////////////////////////////////////////////////////////////////

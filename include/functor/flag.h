@@ -1,6 +1,6 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Fri Sep 11, 2020 at 02:03 AM +0800
+// Last Change: Fri Sep 11, 2020 at 06:37 PM +0800
 //
 //  _______  _______  _______  _______           _______ ___________________________
 //  (  ____ \(  ____ )(  ___  )(  ____ \|\     /|(  ____ \\__   __/\__   __/\__   __/
@@ -11,59 +11,15 @@
 //  /\____) || )      | )   ( || (___) || )   ( || (____/\   | |      | |   ___) (___
 //  \_______)|/       |/     \|(_______)|/     \|(_______/   )_(      )_(   \_______/
 
-#ifndef _LNG_FUNCTOR_PARTICLE_H_
-#define _LNG_FUNCTOR_PARTICLE_H_
+#ifndef _LNG_FUNCTOR_FLAG_H_
+#define _LNG_FUNCTOR_FLAG_H_
 
-#include <TLorentzVector.h>
-#include <TMath.h>
 #include <TROOT.h>
-#include <TVector3.h>
 #include <TMath.h>
 
 #include <vector>
 
-// Boolean /////////////////////////////////////////////////////////////////////
-
-Bool_t ALL_TRUE(std::vector<Bool_t>& vec) {
-  return std::all_of(vec.begin(), vec.end(), [](Bool_t v) { return v; });
-}
-
-Bool_t ALL_FALSE(std::vector<Bool_t>& vec) {
-  return std::all_of(vec.begin(), vec.end(), [](Bool_t v) { return !v; });
-}
-
-Bool_t VEC_AND(std::vector<Bool_t>& vec) {
-  return std::find(vec.begin(), vec.end(), false) == vec.end();
-}
-
-Bool_t VEC_OR(std::vector<Bool_t>& vec) {
-  return std::find(vec.begin(), vec.end(), true) != vec.end();
-}
-
-template<class T>
-Bool_t VEC_OR_EQ(std::vector<T>& vec, T expr) {
-  for (auto v : vec) {
-    if (expr == v) return true;
-  }
-  return false;
-}
-
-// General /////////////////////////////////////////////////////////////////////
-
-TVector3 VEC_DELTA(Double_t Xf, Double_t Yf, Double_t Zf, Double_t Xi,
-                   Double_t Yi, Double_t Zi) {
-  TVector3 v;
-  v.SetXYZ(Xf - Xi, Yf - Yi, Zf - Zi);
-  return v;
-}
-
-TLorentzVector FOUR_VEC(Double_t X, Double_t Y, Double_t Z, Double_t T) {
-  TLorentzVector v;
-  v.SetXYZT(X, Y, Z, T);
-  return v;
-}
-
-Double_t M2(TLorentzVector v) { return v.M2(); }
+#include "functor/basic.h"
 
 // Flags ///////////////////////////////////////////////////////////////////////
 
@@ -240,34 +196,6 @@ Int_t DSS_TYPE(std::vector<std::vector<Bool_t> >& mc_flags,
   }
 
   return dss_type;
-}
-
-// Kinematics //////////////////////////////////////////////////////////////////
-
-Double_t MM_DST_MOM(TLorentzVector& v_dst_mom_p, TLorentzVector& v_dst_p) {
-  Double_t mm_dst_mom = M2(v_dst_mom_p - v_dst_p);
-  if (mm_dst_mom > 0) return sqrt(mm_dst_mom);
-  else return 0.0;
-}
-
-// Muon-related ////////////////////////////////////////////////////////////////
-
-Bool_t MU_PID(Bool_t id_correctness, Double_t PID) {
-  return id_correctness && (PID > 2.0);
-}
-
-// Rest frame approximation ////////////////////////////////////////////////////
-
-TLorentzVector P_EST(Double_t PZ, Double_t m, TVector3 flight) {
-  const Double_t B_M = 5279.61;
-
-  Double_t Tan_theta = flight.Unit().Perp() / flight.Unit().Z();
-  Double_t PT        = TMath::Power((B_M / m), 1) * Tan_theta * PZ;
-
-  TLorentzVector P;
-  P.SetPtEtaPhiM(PT, flight.Unit().Eta(), flight.Unit().Phi(), B_M);
-
-  return P;
 }
 
 #endif
