@@ -1,6 +1,6 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Fri Sep 11, 2020 at 08:37 PM +0800
+// Last Change: Fri Sep 11, 2020 at 08:51 PM +0800
 //
 //  _______  _______  _______  _______           _______ ___________________________
 //  (  ____ \(  ____ )(  ___  )(  ____ \|\     /|(  ____ \\__   __/\__   __/\__   __/
@@ -72,6 +72,22 @@ Bool_t FLAG_DST_SB() {
   Bool_t flag_dst_sb = false;
 
   return flag_dst_sb;
+}
+
+Bool_t FLAG_TAU(std::vector<std::vector<Bool_t> > mc_flags,
+    Int_t mu_true_id,
+    Int_t mu_mom_id, Int_t mu_gd_mom_id
+    ) {
+  auto abs_mu_true_id = TMath::Abs(mu_true_id);
+  auto abs_mu_mom_id = TMath::Abs(mu_mom_id);
+  auto abs_mu_gd_mom_id = TMath::Abs(mu_gd_mom_id);
+
+  auto mu_gd_mom_possible_ids = std::vector<Int_t>({511, 521, 531});
+  if (VEC_OR(mc_flags[2]) && abs_mu_true_id == 13 && abs_mu_mom_id == 15 &&
+      VEC_OR_EQ(mu_gd_mom_possible_ids, abs_mu_gd_mom_id))
+    return true;
+
+  return false;
 }
 
 // Other flags /////////////////////////////////////////////////////////////////
