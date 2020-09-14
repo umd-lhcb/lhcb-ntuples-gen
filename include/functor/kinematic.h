@@ -1,6 +1,6 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Fri Sep 11, 2020 at 06:37 PM +0800
+// Last Change: Mon Sep 14, 2020 at 06:02 PM +0800
 
 #ifndef _LNG_FUNCTOR_KINEMATIC_H_
 #define _LNG_FUNCTOR_KINEMATIC_H_
@@ -29,6 +29,10 @@ Double_t M2(TLorentzVector v) { return v.M2(); }
 
 // Kinematics //////////////////////////////////////////////////////////////////
 
+// Original name: mm_mom
+// Current name: mm_dst_mom
+// Meaning: Missing mass between D* and its mother.
+// Defined in: AddB.C, L3138, L3085-3095
 Double_t MM_DST_MOM(TLorentzVector& v_dst_mom_p, TLorentzVector& v_dst_p) {
   Double_t mm_dst_mom = M2(v_dst_mom_p - v_dst_p);
   if (mm_dst_mom > 0)
