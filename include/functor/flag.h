@@ -1,6 +1,6 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Mon Sep 14, 2020 at 06:03 PM +0800
+// Last Change: Mon Sep 14, 2020 at 10:49 PM +0800
 
 #ifndef _LNG_FUNCTOR_FLAG_H_
 #define _LNG_FUNCTOR_FLAG_H_
@@ -14,6 +14,10 @@
 
 // Flags ///////////////////////////////////////////////////////////////////////
 
+// Original name: oneone, onetwo, ... (See LN2711-2712)
+// Current name: mc_flags or v_mc_flags (all flags in put in a vector)
+// Meaning: Flags for decay modes.
+// Defined in: AddB.C, LN2724-2754
 std::vector<std::vector<Bool_t> > MC_FLAGS(
     Int_t mu_mom_key, Int_t d0_mom_key, Int_t dst_mom_key, Int_t mu_gd_mom_key,
     Int_t dst_gd_mom_key, Int_t mu_gd_gd_mom_key, Int_t dst_gd_gd_mom_key) {
@@ -57,12 +61,10 @@ std::vector<std::vector<Bool_t> > MC_FLAGS(
   return flags;
 }
 
-Bool_t FLAG_DST_SB() {
-  Bool_t flag_dst_sb = false;
-
-  return flag_dst_sb;
-}
-
+// Original name: flagtaumu
+// Current name: flag_tau
+// Meaning: MC semi-tauonic B decay
+// Defined in: AddB.C, LN2481, LN2743-2746
 Bool_t FLAG_TAU(std::vector<std::vector<Bool_t> >& mc_flags, Int_t mu_true_id,
                 Int_t mu_mom_id, Int_t mu_gd_mom_id) {
   auto abs_mu_true_id   = TMath::Abs(mu_true_id);
@@ -77,6 +79,10 @@ Bool_t FLAG_TAU(std::vector<std::vector<Bool_t> >& mc_flags, Int_t mu_true_id,
   return false;
 }
 
+// Original name: flagBmu
+// Current name: flag_mu
+// Meaning: MC semi-muonic B decay
+// Defined in: AddB.C, LN2479, LN2742-2747
 Bool_t FLAG_MU(std::vector<std::vector<Bool_t> >& mc_flags, Int_t mu_true_id,
                Int_t mu_mom_id) {
   auto abs_mu_true_id = TMath::Abs(mu_true_id);
@@ -90,6 +96,10 @@ Bool_t FLAG_MU(std::vector<std::vector<Bool_t> >& mc_flags, Int_t mu_true_id,
   return false;
 }
 
+// Original name: flagTauonicD
+// Current name: flag_two_d_tau
+// Meaning: MC semitauonic with tau from 431 (D+_s) and with two D mesons
+// Defined in: AddB.C, LN2497, LN2791-2792
 Bool_t FLAG_TWO_D_TAU(Int_t mu_mom_id, Int_t mu_gd_mom_id) {
   auto abs_mu_mom_id    = TMath::Abs(mu_mom_id);
   auto abs_mu_gd_mom_id = TMath::Abs(mu_gd_mom_id);
@@ -99,6 +109,10 @@ Bool_t FLAG_TWO_D_TAU(Int_t mu_mom_id, Int_t mu_gd_mom_id) {
   return false;
 }
 
+// Original name: flagDoubleD
+// Current name: flag_two_d_mu
+// Meaning: MC semimuonic with mu from (411, 421, or 431) and two D mesons
+// Defined in: AddB.C, LN2496, LN2754, LN2759, LN4362
 Bool_t FLAG_TWO_D_MU(std::vector<std::vector<Bool_t> >& mc_flags,
                      Int_t mu_mom_id, Int_t mu_gd_gd_mom_id, Int_t dst_mom_id) {
   auto abs_mu_mom_id       = TMath::Abs(mu_mom_id);
@@ -107,12 +121,12 @@ Bool_t FLAG_TWO_D_MU(std::vector<std::vector<Bool_t> >& mc_flags,
 
   auto mu_gd_gd_mom_possible_ids = std::vector<Int_t>({10433, 20433});
   auto dst_mom_possible_ids      = std::vector<Int_t>({511, 521, 531});
-  // LN2776
+  // LN2754
   if (VEC_OR_EQ(mu_gd_gd_mom_possible_ids, abs_mu_gd_gd_mom_id) &&
       VEC_OR_EQ(dst_mom_possible_ids, abs_dst_mom_id))
     return true;
 
-  // LN2778
+  // LN2759
   auto mu_mom_possible_ids = std::vector<Int_t>({411, 421, 431});
   if ((VEC_OR(mc_flags[2]) || VEC_OR(mc_flags[3])) &&
       VEC_OR_EQ(mu_mom_possible_ids, abs_mu_mom_id))
