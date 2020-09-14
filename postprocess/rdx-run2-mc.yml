@@ -67,7 +67,7 @@ calculation:
     v_dst_p: "^auto; TLorentzVector(dst_px, dst_py, dst_pz, dst_pe)"
     v_mc_flags: "^auto; MC_FLAGS(mu_mc_mom_key, d0_mc_mom_key, dst_mc_mom_key, mu_mc_gd_mom_key, dst_mc_gd_mom_key, mu_mc_gd_gd_mom_key, dst_mc_gd_gd_mom_key)"
     # PID
-    mu_pid: "Bool_t; MU_PID(mu_is_mu, mu_pid_mu)"
+    mu_pid: "Bool_t; MU_PID(is_data, mu_true_id, mu_is_mu, mu_pid_mu)"
     dst_id_prod: "Double_t; d0_id*pi_id"   # negative when physical
     id_prod: "Double_t; d0_id*mu_id"       # positive when physical
     # Physical variables
