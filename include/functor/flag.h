@@ -1,6 +1,6 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Tue Sep 15, 2020 at 01:42 AM +0800
+// Last Change: Tue Sep 15, 2020 at 02:13 AM +0800
 
 #ifndef _LNG_FUNCTOR_FLAG_H_
 #define _LNG_FUNCTOR_FLAG_H_
@@ -162,6 +162,27 @@ Bool_t IS_DATA(ULong64_t time) {
   return false;
 }
 
+// Original name: ishigher
+// Current name: is_2pi
+// Meaning: 2S D** instead of 1P D**? Phoebe says check if 2pi cocktail member
+// Defined in: AddB.C, LN2435, LN2439
+Bool_t IS_2PI(Bool_t flag_mu, Bool_t just_dst, Bool_t dst_ok, Bool_t mu_pid,
+              Int_t dst_mom_id, Int_t dst_gd_mom_id) {
+  auto abs_dst_mom_id    = TMath::Abs(dst_mom_id);
+  auto abs_dst_gd_mom_id = TMath::Abs(dst_gd_mom_id);
+
+  auto dst_mom_possible_ids =
+      std::vector<Int_t>({100411, 100421, 100413, 100423});
+  auto dst_gd_mom_possible_ids = std::vector<Int_t>({511, 521});
+  // LN3258-3267
+  // FIXME: `CocktailHigher` is not defined anywhere!
+  if (flag_mu && !just_dst && dst_ok && mu_pid &&
+      VEC_OR_EQ(dst_mom_possible_ids, abs_dst_mom_id) &&
+      VEC_OR_EQ(dst_gd_mom_possible_ids, abs_dst_gd_mom_id))
+    return true;
+  return false;
+}
+
 // Original name: justDst
 // Current name: just_dst
 // Meaning: D* from B, not D**
@@ -181,14 +202,13 @@ Bool_t JUST_DST(std::vector<std::vector<Bool_t> >& mc_flags, Int_t mu_mom_id,
   return false;
 }
 
-// Original name: justDst
-// Current name: just_dst
-// Meaning: D* from B, not D**
-// Defined in: AddB.C, LN2478, LN2816
+// Original name: DstOk
+// Current name: dst_ok
+// Meaning: Workaround weird background classifier bug.
+//          If D0 has survived cuts then it can't possibly be CAT 50 (low mass
+//          background - missed fine state particle).
+// Defined in: AddB.C, LN2476, LN2547
 Bool_t DST_OK(Int_t d0_bkg_cat, Int_t dst_bkg_cat) {
-  // NOTE: Weird background classifier bug (for run 1, at least).
-  //       If D0 has survived cuts then it can't possibly be CAT 50 (low mass
-  //       background - missed fine state particle).
   if (dst_bkg_cat == 0 || (dst_bkg_cat == 50 && d0_bkg_cat == 50)) return true;
   return false;
 }

@@ -81,7 +81,7 @@ calculation:
     # flag_dst_sb: <-- D* side band flag. Obsolete.
     # Other flags
     is_data: "Bool_t; IS_DATA(GpsTime)"
-    # is_2pi: (ishigher) Need: flagBmu, justDst, DstOk
+    is_2pi: "Bool_t; IS_2PI(flag_mu, just_dst, dst_ok, mu_pid, dst_mc_mom_id, dst_mc_gd_mom_id)"
     just_dst: "Bool_t; JUST_DST(v_mc_flags, mu_mc_mom_id, dst_mc_mom_id)"
     dst_ok: "Bool_t; DST_OK(d0_bkg_cat, dst_bkg_cat)"
     # Types
