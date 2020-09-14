@@ -1,6 +1,6 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Mon Sep 14, 2020 at 10:49 PM +0800
+// Last Change: Tue Sep 15, 2020 at 12:20 AM +0800
 
 #ifndef _LNG_FUNCTOR_FLAG_H_
 #define _LNG_FUNCTOR_FLAG_H_
@@ -15,7 +15,7 @@
 // Flags ///////////////////////////////////////////////////////////////////////
 
 // Original name: oneone, onetwo, ... (See LN2711-2712)
-// Current name: mc_flags or v_mc_flags (all flags in put in a vector)
+// Current name: mc_flags or v_mc_flags (all flags put in a vector)
 // Meaning: Flags for decay modes.
 // Defined in: AddB.C, LN2724-2754
 std::vector<std::vector<Bool_t> > MC_FLAGS(
@@ -137,20 +137,26 @@ Bool_t FLAG_TWO_D_MU(std::vector<std::vector<Bool_t> >& mc_flags,
 
 // Other flags /////////////////////////////////////////////////////////////////
 
+// Original name: isData
+// Current name: is_data
+// Meaning: True if event is real data, and not in a time window where real data
+//          was bad
+// Defined in: AddB.C, LN2435, LN2439
 Bool_t IS_DATA(ULong64_t time) {
   // Special treatment for some run 1 data: We remove some real data if they
-  // fall within a specific time window
-  // FIXME: Ask Phoebe why
-  if (time > 0 && (time <= 1345.7332e12 || time >= 1345.7335e12))
-    return true;
-  else
-    return false;
+  // fall within a specific time window.
+  // This narrow time window has some of the physical variables (B mass maybe?)
+  // wrong, so we discard them
+  if (time > 0 && (time <= 1345.7332e12 || time >= 1345.7335e12)) return true;
+  return false;
 }
 
+// Original name: justDst
+// Current name: just_dst
+// Meaning: D* from B, not D**
+// Defined in: AddB.C, LN2478, LN2816
 Bool_t JUST_DST(std::vector<std::vector<Bool_t> >& mc_flags, Int_t mu_mom_id,
                 Int_t dst_mom_id) {
-  Bool_t just_dst = false;
-
   auto abs_mu_mom_id  = TMath::Abs(mu_mom_id);
   auto abs_dst_mom_id = TMath::Abs(dst_mom_id);
 
@@ -159,11 +165,15 @@ Bool_t JUST_DST(std::vector<std::vector<Bool_t> >& mc_flags, Int_t mu_mom_id,
   if ((VEC_OR(mc_flags[2]) || VEC_OR(mc_flags[3])) &&  /* LN2779 */
       VEC_OR_EQ(mu_mom_possible_ids, abs_mu_mom_id) && /* LN2779 */
       VEC_OR_EQ(dst_mom_possible_ids, abs_dst_mom_id) /* LN2836 */)
-    just_dst = true;
+    return true;
 
-  return just_dst;
+  return false;
 }
 
+// Original name: justDst
+// Current name: just_dst
+// Meaning: D* from B, not D**
+// Defined in: AddB.C, LN2478, LN2816
 Bool_t DST_OK(Int_t d0_bkg_cat, Int_t dst_bkg_cat) {
   // NOTE: Weird background classifier bug (for run 1, at least).
   //       If D0 has survived cuts then it can't possibly be CAT 50 (low mass
@@ -174,9 +184,14 @@ Bool_t DST_OK(Int_t d0_bkg_cat, Int_t dst_bkg_cat) {
 
 // Types ///////////////////////////////////////////////////////////////////////
 
-Int_t B_TYPE(std::vector<std::vector<Bool_t> >& mc_flags, Int_t mu_true_id,
-             Int_t mu_mom_id, Int_t mu_gd_mom_id, Int_t dst_mom_id,
-             Int_t dst_gd_mom_id, Int_t dst_gd_gd_mom_id) {
+// Original name: Btype: b_type
+// Current name: b_type
+// Meaning: type of B meson (B0==511, B-==521, B0_s==531)
+// Defined in: AddB.C, LN2485, LN2740-2753, LN2814-2837 (obsolete, according to
+//             Phoebe), LN2841-2862
+Int_t B_TYPE(std::vector<std::vector<Bool_t> >& mc_flags, Bool_t flag_d0_mu,
+             Int_t mu_true_id, Int_t mu_mom_id, Int_t mu_gd_mom_id,
+             Int_t dst_mom_id, Int_t dst_gd_mom_id, Int_t dst_gd_gd_mom_id) {
   Int_t b_type = 0;
 
   auto abs_mu_true_id       = TMath::Abs(mu_true_id);
@@ -186,38 +201,34 @@ Int_t B_TYPE(std::vector<std::vector<Bool_t> >& mc_flags, Int_t mu_true_id,
   auto abs_dst_gd_mom_id    = TMath::Abs(dst_gd_mom_id);
   auto abs_dst_gd_gd_mom_id = TMath::Abs(dst_gd_gd_mom_id);
 
+  // LN2740
   if ((mc_flags[0][0] || mc_flags[0][1]) && abs_mu_true_id == 13)
-    b_type = TMath::Abs(mu_mom_id);
+    b_type = abs_mu_mom_id;
 
   auto mu_ancestor_possible_ids = std::vector<Int_t>({511, 521, 531});
+  // LN2742, LN2744, LN2747, LN2748-2750
   if ((VEC_OR(mc_flags[1]) || mc_flags[0][0]) && abs_mu_true_id == 13 &&
       VEC_OR_EQ(mu_ancestor_possible_ids, abs_mu_mom_id))
     b_type = abs_mu_mom_id;
 
+  // LN2743, LN2745-2746, LN2751-2753
   if ((VEC_OR(mc_flags[2]) || mc_flags[0][1]) && abs_mu_true_id == 13 &&
       abs_mu_mom_id == 15 &&
       VEC_OR_EQ(mu_ancestor_possible_ids, abs_mu_gd_mom_id))
     b_type = abs_mu_gd_mom_id;
 
-  // LN2779
-  // NOTE: We don't need the is_data flag. Because all these branches are
-  //       MC-only, and these flags will be automatically skipped for data.
-  auto mu_mom_possible_ids = std::vector<Int_t>({411, 421, 431});
-  if ((VEC_OR(mc_flags[2]) || VEC_OR(mc_flags[3])) &&
-      VEC_OR_EQ(mu_mom_possible_ids, abs_mu_mom_id)) {
-    // LN2836
-    auto dst_possible_ids = std::vector<Int_t>({511, 521, 531});
-    if (VEC_OR_EQ(dst_possible_ids, abs_dst_mom_id))
+  auto dst_ancester_possible_ids = mu_ancestor_possible_ids;
+  if (!flag_d0_mu) {                                          /* LN2841 */
+    if (VEC_OR_EQ(dst_ancester_possible_ids, abs_dst_mom_id)) /* LN2843 */
       b_type = abs_dst_mom_id;
-    else if (VEC_OR_EQ(dst_possible_ids, abs_dst_gd_mom_id))
+    else if (VEC_OR_EQ(dst_ancester_possible_ids, abs_dst_gd_mom_id))
+      // LN2848
       b_type = abs_dst_gd_mom_id;
-    else if (VEC_OR_EQ(dst_possible_ids, abs_dst_gd_gd_mom_id))
+    else if (VEC_OR_EQ(dst_ancester_possible_ids, abs_dst_gd_gd_mom_id))
+      // LN2853
       b_type = abs_dst_gd_gd_mom_id;
-    // FIXME: There's a else clause in Phoebe's spaghetti which set b_type to
-    // -1,
-    //        but that one is never executed.
-    // FIXME: Also don't understand the utility of `flagD0mu`
-  }
+  } else
+    b_type = -1;  // LN2860
 
   return b_type;
 }
