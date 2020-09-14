@@ -24,13 +24,13 @@ rename:
     # B0
     b0_M: b0_m
     b0_BKGCAT: b_bkg_cat
-    # Dst mother
+    # D* mother
     dst_MC_MOTHER_ID: dst_mom_id
     dst_MC_MOTHER_TRUEPX: dst_mc_mom_px
     dst_MC_MOTHER_TRUEPY: dst_mc_mom_py
     dst_MC_MOTHER_TRUEPZ: dst_mc_mom_pz
     dst_MC_MOTHER_TRUEPE: dst_mc_mom_pe
-    # Dst
+    # D*
     dst_PX: dst_px
     dst_PY: dst_py
     dst_PZ: dst_pz
@@ -78,7 +78,7 @@ calculation:
     flag_two_d_tau: "Bool_t; FLAG_TWO_D_TAU(mu_mc_mom_id, mu_mc_gd_mom_id)"
     flag_two_d_mu: "Bool_t; FLAG_TWO_D_MU(v_mc_flags, mu_mc_mom_id, mu_mc_gd_gd_mom_id, dst_mc_mom_id)"
     flag_d0_mu: "Bool_t; FLAG_D0_MU(v_mc_flags, mu_true_id)"
-    # flag_dst_sb: <-- Dst side band flag. Obsolete.
+    # flag_dst_sb: <-- D* side band flag. Obsolete.
     # Other flags
     is_data: "Bool_t; IS_DATA(GpsTime)"
     # is_2pi: (ishigher) Need: flagBmu, justDst, DstOk
