@@ -86,7 +86,7 @@ calculation:
     dst_ok: "Bool_t; DST_OK(d0_bkg_cat, dst_bkg_cat)"
     # Types
     b_type: 'Int_t; B_TYPE(v_mc_flags, flag_d0_mu, mu_true_id, mu_mc_mom_id, mu_mc_gd_mom_id, dst_mc_mom_id, dst_mc_gd_mom_id, dst_mc_gd_gd_mom_id)'
-    # dss_type: (Dststtype), HARD, on hold. Need: (flagD0mu)
+    dss_type: 'Int_t; DSS_TYPE(flag_d0_mu, dst_mc_mom_id, dst_mc_gd_mom_id, dst_mc_gd_gd_mom_id)'
 
 output:
     b0dst:

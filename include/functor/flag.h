@@ -1,6 +1,6 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Tue Sep 15, 2020 at 12:30 AM +0800
+// Last Change: Tue Sep 15, 2020 at 01:42 AM +0800
 
 #ifndef _LNG_FUNCTOR_FLAG_H_
 #define _LNG_FUNCTOR_FLAG_H_
@@ -195,9 +195,9 @@ Bool_t DST_OK(Int_t d0_bkg_cat, Int_t dst_bkg_cat) {
 
 // Types ///////////////////////////////////////////////////////////////////////
 
-// Original name: Btype: b_type
+// Original name: Btype
 // Current name: b_type
-// Meaning: type of B meson (B0==511, B-==521, B0_s==531)
+// Meaning: Type of B meson (B0==511, B-==521, B0_s==531)
 // Defined in: AddB.C, LN2485, LN2740-2753, LN2814-2837 (obsolete, according to
 //             Phoebe), LN2841-2862
 Int_t B_TYPE(std::vector<std::vector<Bool_t> >& mc_flags, Bool_t flag_d0_mu,
@@ -244,28 +244,27 @@ Int_t B_TYPE(std::vector<std::vector<Bool_t> >& mc_flags, Bool_t flag_d0_mu,
   return b_type;
 }
 
-Int_t DSS_TYPE(std::vector<std::vector<Bool_t> >& mc_flags, Int_t mu_mom_id,
-               Int_t dst_mom_id, Int_t dst_gd_mom_id, Int_t dst_gd_gd_mom_id) {
+// Original name: Dststtype
+// Current name: dss_type
+// Meaning: Type of D** (D1+==10413, D10==10423, D2*+==415, D2*0==425,
+//          Ds2*==435, D1'+==20413, D1'0==20423, Ds1'==10433?)
+// Defined in: AddB.C, LN2498, LN2814-2837 (obsolete, according to Phoebe),
+//             LN2841-2862
+Int_t DSS_TYPE(Bool_t flag_d0_mu, Int_t dst_mom_id, Int_t dst_gd_mom_id,
+               Int_t dst_gd_gd_mom_id) {
   Int_t dss_type = 0;
 
-  auto abs_mu_mom_id        = TMath::Abs(mu_mom_id);
   auto abs_dst_mom_id       = TMath::Abs(dst_mom_id);
   auto abs_dst_gd_mom_id    = TMath::Abs(dst_gd_mom_id);
   auto abs_dst_gd_gd_mom_id = TMath::Abs(dst_gd_gd_mom_id);
 
-  // LN2779
-  // NOTE: We don't need the is_data flag. Because all these branches are
-  //       MC-only, and these flags will be automatically skipped for data.
-  auto mu_mom_possible_ids = std::vector<Int_t>({411, 421, 431});
-  if ((VEC_OR(mc_flags[2]) || VEC_OR(mc_flags[3])) &&
-      VEC_OR_EQ(mu_mom_possible_ids, abs_mu_mom_id)) {
-    // FIXME: In LN2836, dss_type can never be set because we have conflicting
-    // if
-    //        conditions, here I deviate from Phoebe's.
-    auto dst_possible_ids = std::vector<Int_t>({511, 521, 531});
-    if (VEC_OR_EQ(dst_possible_ids, abs_dst_gd_mom_id))
+  auto dst_ancester_possible_ids = std::vector<Int_t>({511, 521, 531});
+  if (!flag_d0_mu) { /* LN2841 */
+    if (VEC_OR_EQ(dst_ancester_possible_ids, abs_dst_gd_mom_id))
+      // LN2848
       dss_type = abs_dst_mom_id;
-    else if (VEC_OR_EQ(dst_possible_ids, abs_dst_gd_gd_mom_id))
+    else if (VEC_OR_EQ(dst_ancester_possible_ids, abs_dst_gd_gd_mom_id))
+      // LN2853
       dss_type = -1;
   }
 
