@@ -1,6 +1,6 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Tue Sep 15, 2020 at 12:20 AM +0800
+// Last Change: Tue Sep 15, 2020 at 12:30 AM +0800
 
 #ifndef _LNG_FUNCTOR_FLAG_H_
 #define _LNG_FUNCTOR_FLAG_H_
@@ -132,6 +132,17 @@ Bool_t FLAG_TWO_D_MU(std::vector<std::vector<Bool_t> >& mc_flags,
       VEC_OR_EQ(mu_mom_possible_ids, abs_mu_mom_id))
     return true;
 
+  return false;
+}
+
+// Original name: flagD0mu
+// Current name: flag_d0_mu
+// Meaning: MC B -> D0 mu decay
+// Defined in: AddB.C, LN2495, LN2740
+Bool_t FLAG_D0_MU(std::vector<std::vector<Bool_t> >& mc_flags,
+                  Int_t                              mu_true_id) {
+  if ((mc_flags[0][0] || mc_flags[0][2]) && TMath::Abs(mu_true_id) == 13)
+    return true;
   return false;
 }
 

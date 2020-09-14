@@ -77,6 +77,7 @@ calculation:
     flag_mu: "Bool_t; FLAG_MU(v_mc_flags, mu_true_id, mu_mc_mom_id)"
     flag_two_d_tau: "Bool_t; FLAG_TWO_D_TAU(mu_mc_mom_id, mu_mc_gd_mom_id)"
     flag_two_d_mu: "Bool_t; FLAG_TWO_D_MU(v_mc_flags, mu_mc_mom_id, mu_mc_gd_gd_mom_id, dst_mc_mom_id)"
+    flag_d0_mu: "Bool_t; FLAG_D0_MU(v_mc_flags, mu_true_id)"
     # flag_dst_sb: <-- Dst side band flag. Obsolete.
     # Other flags
     is_data: "Bool_t; IS_DATA(GpsTime)"
@@ -84,7 +85,7 @@ calculation:
     just_dst: "Bool_t; JUST_DST(v_mc_flags, mu_mc_mom_id, dst_mc_mom_id)"
     dst_ok: "Bool_t; DST_OK(d0_bkg_cat, dst_bkg_cat)"
     # Types
-    b_type: 'Int_t; B_TYPE(v_mc_flags, mu_true_id, mu_mc_mom_id, mu_mc_gd_mom_id, dst_mc_mom_id, dst_mc_gd_mom_id, dst_mc_gd_gd_mom_id)'
+    b_type: 'Int_t; B_TYPE(v_mc_flags, flag_d0_mu, mu_true_id, mu_mc_mom_id, mu_mc_gd_mom_id, dst_mc_mom_id, dst_mc_gd_mom_id, dst_mc_gd_gd_mom_id)'
     # dss_type: (Dststtype), HARD, on hold. Need: (flagD0mu)
 
 output:
