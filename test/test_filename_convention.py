@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Sep 17, 2020 at 02:33 AM +0800
+# Last Change: Thu Sep 17, 2020 at 02:34 AM +0800
 
 from datetime import datetime
 from re import match, sub
@@ -114,7 +114,11 @@ def check_all_field(fields, allowed_in_field=ALLOWED_IN_FIELD):
 ######################################
 
 def field_dict_gen(possible_fields, actual_fields):
-    return {possible_fields[i]: v for i, v in enumerate(actual_fields)}
+    try:
+        return {possible_fields[i]: v for i, v in enumerate(actual_fields)}
+    except IndexError:
+        print('IndexError: possible fields: {}'.format(possible_fields))
+        print('            actual fields: {}'.format(actual_fields))
 
 
 class ValidateWrapper():
