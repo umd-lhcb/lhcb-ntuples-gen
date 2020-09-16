@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri Aug 14, 2020 at 12:22 AM +0800
+# Last Change: Thu Sep 17, 2020 at 02:33 AM +0800
 
 from datetime import datetime
 from re import match, sub
@@ -11,7 +11,7 @@ from glob import glob
 from pathlib import Path
 from os.path import basename
 
-from sys import exit
+from sys import exit as sys_exit
 
 
 ##################
@@ -62,8 +62,8 @@ def validate_additional_flags(s, general_valid_pattern=r'^\w+$',
     if tot_err > 0:
         print('These fields are illegal: {}'.format(','.join(err_fields)))
         return False
-    else:
-        return True
+
+    return True
 
 
 def validate_year(years):
@@ -74,7 +74,7 @@ def validate_year(years):
         if y not in valid_years:
             tot_err += 1
 
-    return False if tot_err > 0 else True
+    return not tot_err > 0
 
 
 RECO_SAMPLES = ['Dst', 'D0', 'Dst_D0']
@@ -93,7 +93,7 @@ ALLOWED_IN_FIELD = {
     'sample': lambda x: x in SAMPLES,
     'year': validate_year,
     'polarity': lambda x: x in ['mu', 'md', 'md-mu'],  # NOTE: We don't allow 'mu-md'
-    'dirac_path': lambda x: True if ' ' not in x else False,
+    'dirac_path': lambda x: ' ' not in x,
     'additional_flags': validate_additional_flags,
 }
 
@@ -284,9 +284,9 @@ def glob_all(files_to_check):
 
 if __name__ == '__main__':
     files_to_check = glob_all({k: FILES_TO_CHECK[k]
-                               for k in NAMING_CONVENTIONS.keys()})
+                               for k in NAMING_CONVENTIONS})
 
     err_stauts = {k: NAMING_CONVENTIONS[k](v)
                   for k, v in files_to_check.items()}
     tot_err = sum([sum(v) for k, v in err_stauts.items()])
-    exit(tot_err)
+    sys_exit(tot_err)
