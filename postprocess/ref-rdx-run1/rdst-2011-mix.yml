@@ -1,12 +1,15 @@
 headers:
     user:
-        - functor/basic.h
+        - functor/flag.h
 
 keep:
     # Event uid, also needed for keeping only one B for multi-B events
     - runNumber
     - eventNumber
-    - GpsTime
+    # Flags
+    - flag2011
+    # Kinematics
+    - dxy
 
 rename:
     # General
@@ -16,20 +19,83 @@ rename:
     # PID
     DstIDprod: dst_id_prod
     IDprod: id_prod
-    muPID: mu_pid
     # Other flags
     isData: is_data
-    # B0
-    Y_M: b0_m
+    # B0/B-
+    YTIS: b_l0_tis
+    YTOS: b_l0_tos
+    Y_DIRA_OWNPV: b_dira_ownpv
+    iso_BDT: iso_bdt  # Isolation BDT
+    # D*
+    Dst_ENDVERTEX_CHI2: dst_endvtx_chi2
+    Hlt1: dst_hlt1_tos
+    # Can't find dst_endvtx_ndof!
+    # D0
+    Hlt2: d0_hlt2charmhad_tos  # The full Hlt2 trigger name is 'Hlt2CharmHadD02HH_D02KPiDecision'
+    D0_DIRA_OWNPV: d0_dira
+    D0_M: d0_m
+    # Mu
+    BDTmu: mu_bdt  # uboost BDT
+    muPID: mu_pid
+    muVeto: mu_veto
+    # K
+    K_P: k_p
+    K_PT: k_pt
+    Hlt1K: k_hlt1_tos
+    Hlt1TAL0K: k_hlt1ta_tos  # 'ta' -> 'TrackAllL0Decision'
+    KPID: k_pid_k
+    # Pi
+    pi_P: pi_p
+    pi_PT: pi_pt
+    Hlt1pi: pi_hlt1_tos
+    Hlt1TAL0pi: pi_hlt1ta_tos
+    piPID: pi_pid_k
+
+# NOTE: We don't have these branches in Phoebe's step 2:
+#       k_ip_chi2, pi_ip_chi2 (*_IPCHI2_OWNPV):
+#           All events in the step 2 pass ip_chi2 selection
+#       k_gh_prob, pi_gh_prob (*_TRACK_GhostProb):
+#           All events in the step 2 pass ip_chi2 selection
+#       d0_endvtx_chi2, d0_endvtx_ndof (*_ENDVERTEX_{CHI2/NDOF):
+#           Not sure if we have it, assuming always true
+#       d0_ip (D0_IP_OWNPV):
+#           Not sure, but assume true
+#       d0_ip_chi2 (D0_IPCHI2_OWNPV):
+#           Not sure, but assume true
+#       d0_fd_chi2 (D0_FDCHI2_OWNPV):
+#           Not sure, but assume true
 
 calculation:
     # Fit variables
     el: "Double_t; GEV(El)"
-    q2: "Double_t; GEV2(q2)"
-    # PID
+    q2_: "Double_t; GEV2(q2)"  # 'q2' is already defined, so 'q2_'
+    # B0/B-
+    b_m: "Double_t; GEV(Y_M)"
+    # D0
+    d0_pt: Double_t; GEV(D0_PT)
+    # General selection flag
+    flag_sel_d0: >-
+        Bool_t; FLAG_SEL_D0_RUN1(
+        k_pt, pi_pt,
+        k_hlt1ta_tos, pi_hlt1ta_tos,
+        k_p, pi_p,
+        100.0, 100.0,
+        k_pid_k, pi_pid_k,
+        mu_veto,
+        0.0, 0.0,
+        d0_pt,
+        d0_hlt2charmhad_tos,
+        0, 1,
+        100,
+        10,
+        d0_dira,
+        500,
+        d0_m
+        )
+    #flag_sel_b0dst: "Bool_t; FLAG_SEL_B0DST_RUN1()"
 
 output:
-    dst_signal:
+    dst_sig:
         input: ntp1
         selection:
             # Signature for event type 'data'
@@ -37,6 +103,23 @@ output:
             - "id_prod > 0"
             - "mu_pid > 0"
             - "is_data > 0"
-            - "polarity < 0"  # Keep MagDown only
-            # Basic cuts
-            - "b0_m < 5280"
+            # Keep only 2011 MagDown
+            - "flag2011"
+            - "polarity < 0"  # MagDown only
+            # Cuts on fit variables
+            - "-2.0 <= mm2 <= 10.0"
+            - "0.1 <= el <= 2.5"
+            - "-0.4 <= q2_ <= 12.6"
+            # Trigger cuts
+            - "dst_hlt1_tos || d0_hlt2charmhad_tos"
+            - "b_l0_tos || b_l0_tis"
+            - "k_hlt1ta_tos && k_pt > 1700"
+            - "pi_hlt1ta_tos && pi_pt > 1700"
+            # Other flags
+            - "dxy <= 7"
+            # Isolation variables
+            - "iso_bdt < 0.15"
+            # BDT score
+            - "mu_bdt >= 0.25"
+            # B0/B-
+            - "b_m < 5.28"
