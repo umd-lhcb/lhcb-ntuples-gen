@@ -1,4 +1,6 @@
 headers:
+    system:
+        - TVector3.h
     user:
         - functor/flag.h
 
@@ -6,10 +8,6 @@ keep:
     # Event uid, also needed for keeping only one B for multi-B events
     - runNumber
     - eventNumber
-    # Flags
-    - flag2011
-    # Kinematics
-    - dxy
 
 rename:
     # General
@@ -19,17 +17,22 @@ rename:
     # PID
     DstIDprod: dst_id_prod
     IDprod: id_prod
+    # Flags
+    flag2011: flag_2011
     # Other flags
     isData: is_data
     # B0/B-
     YTIS: b_l0_tis
     YTOS: b_l0_tos
-    Y_DIRA_OWNPV: b_dira_ownpv
+    Y_DIRA_OWNPV: b_dira
     iso_BDT: iso_bdt  # Isolation BDT
+    Y_ENDVERTEX_CHI2: b_endvtx_chi2
+    Y_M: b_m
+    dxy: b_fd_trans
     # D*
+    Dst_M: dst_m
     Dst_ENDVERTEX_CHI2: dst_endvtx_chi2
     Hlt1: dst_hlt1_tos
-    # Can't find dst_endvtx_ndof!
     # D0
     Hlt2: d0_hlt2charmhad_tos  # The full Hlt2 trigger name is 'Hlt2CharmHadD02HH_D02KPiDecision'
     D0_DIRA_OWNPV: d0_dira
@@ -38,6 +41,8 @@ rename:
     BDTmu: mu_bdt  # uboost BDT
     muPID: mu_pid
     muVeto: mu_veto
+    mu_is: mu_is_mu
+    mu_ETA: mu_eta
     # K
     K_P: k_p
     K_PT: k_pt
@@ -50,13 +55,15 @@ rename:
     Hlt1pi: pi_hlt1_tos
     Hlt1TAL0pi: pi_hlt1ta_tos
     piPID: pi_pid_k
+    # Slow Pi
+    pislow_GhostProb: spi_gh_prob
 
 # NOTE: We don't have these branches in Phoebe's step 2:
 #       k_ip_chi2, pi_ip_chi2 (*_IPCHI2_OWNPV):
 #           All events in the step 2 pass ip_chi2 selection
 #       k_gh_prob, pi_gh_prob (*_TRACK_GhostProb):
-#           All events in the step 2 pass ip_chi2 selection
-#       d0_endvtx_chi2, d0_endvtx_ndof (*_ENDVERTEX_{CHI2/NDOF):
+#           All events in the step 2 pass gh_prob selection
+#       d0_endvtx_chi2, d0_endvtx_ndof (*_ENDVERTEX_{CHI2/NDOF}):
 #           Not sure if we have it, assuming always true
 #       d0_ip (D0_IP_OWNPV):
 #           Not sure, but assume true
@@ -64,15 +71,29 @@ rename:
 #           Not sure, but assume true
 #       d0_fd_chi2 (D0_FDCHI2_OWNPV):
 #           Not sure, but assume true
+#       dst_endvtx_ndof (D0_ENDVERTEX_NDOF):
+#           Not sure, and can't see anything in AddB.C
+#       mu_pid_mu (muplus_PIDmu):
+#           All events in the step 2 pass pid_mu selection
+#       mu_pid_mu (muplus_PIDe):
+#           All events in the step 2 pass pid_e selection
+#       Missing all momentum components!
+#       b_endvtx_ndof (Y_ENDVERTEX_NDOF):
+#           All events in the step 2 pass CHI2/NDOF selection
 
 calculation:
     # Fit variables
     el: Double_t; GEV(El)
     q2_: Double_t; GEV2(q2)  # 'q2' is already defined, so 'q2_'
     # B0/B-
-    b_m: Double_t; GEV(Y_M)
     # D0
     d0_pt: Double_t; GEV(D0_PT)
+    # Mu
+    mu_p: Double_t; GEV(mu_P)
+    v3_mu_p: ^auto; TVector3(1, 0, 0)
+    v3_k_p: ^auto; TVector3(0, 1, 0)
+    v3_pi_p: ^auto; TVector3(0, 0, 1)
+    v3_spi_p: ^auto; TVector3(1, 1, 0)
     # General selection flag
     flag_sel_d0: >-
         Bool_t; FLAG_SEL_D0_RUN1(
@@ -92,7 +113,25 @@ calculation:
         500,
         d0_m
         )
-    #flag_sel_b0dst: "Bool_t; FLAG_SEL_B0DST_RUN1()"
+    flag_sel_b0dst: >-
+        Bool_t; FLAG_SEL_B0DST_RUN1(
+        flag_sel_d0,
+        spi_gh_prob,
+        dst_endvtx_chi2, 1000,
+        dst_m, d0_m,
+        mu_is_mu,
+        mu_p,
+        mu_eta,
+        4,
+        0,
+        mu_bdt,
+        v3_mu_p, v3_k_p, v3_pi_p, v3_spi_p,
+        b_endvtx_chi2, 1000,
+        b_fd_trans,
+        b_dira,
+        b_m,
+        iso_bdt
+        )
 
 output:
     dst_sig:
@@ -104,22 +143,11 @@ output:
             - "mu_pid > 0"
             - "is_data > 0"
             # Keep only 2011 MagDown
-            - "flag2011"
+            - "flag_2011"
             - "polarity < 0"  # MagDown only
             # Cuts on fit variables
             - "-2.0 <= mm2 <= 10.0"
             - "0.1 <= el <= 2.5"
             - "-0.4 <= q2_ <= 12.6"
-            # Trigger cuts
-            - "dst_hlt1_tos || d0_hlt2charmhad_tos"
-            - "b_l0_tos || b_l0_tis"
-            - "k_hlt1ta_tos && k_pt > 1700"
-            - "pi_hlt1ta_tos && pi_pt > 1700"
-            # Other flags
-            - "dxy <= 7"
-            # Isolation variables
-            - "iso_bdt < 0.15"
-            # BDT score
-            - "mu_bdt >= 0.25"
-            # B0/B-
-            - "b_m < 5.28"
+            # Selection flags
+            - "flag_sel_b0dst"

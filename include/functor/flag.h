@@ -1,12 +1,13 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Fri Sep 18, 2020 at 01:23 AM +0800
+// Last Change: Fri Sep 18, 2020 at 02:32 AM +0800
 
 #ifndef _LNG_FUNCTOR_FLAG_H_
 #define _LNG_FUNCTOR_FLAG_H_
 
 #include <TMath.h>
 #include <TROOT.h>
+#include <TVector3.h>
 
 #include <vector>
 
@@ -158,6 +159,7 @@ Bool_t FLAG_SEL_D0_RUN1(Double_t k_pt, Double_t pi_pt, Bool_t k_hlt1ta_tos,
                         Double_t d0_ip_chi2, Double_t d0_dira,
                         Double_t d0_fd_chi2, Double_t d0_m) {
   auto d0_m_ref = 1865.49;
+
   // clang-format off
   if (/* K, pi */
       k_pt > 0.8 && pi_pt > 0.8 &&
@@ -183,9 +185,55 @@ Bool_t FLAG_SEL_D0_RUN1(Double_t k_pt, Double_t pi_pt, Bool_t k_hlt1ta_tos,
   return false;
 }
 
-Bool_t FLAG_SEL_B0DST_RUN1(Bool_t flag_sel_d0, Double_t spi_gh_prob) {
+// NOTE: These P and PT variables are in GeV, NOT the default MeV!!
+//       Selections are based on Run 1 R(D(*)) ANA, v2020.07.31, p.11, Table 8.
+Bool_t FLAG_SEL_B0DST_RUN1(Bool_t flag_sel_d0, Double_t spi_gh_prob,
+                           Double_t dst_endvtx_chi2, Double_t dst_endvtx_ndof,
+                           Double_t dst_m, Double_t d0_m, Bool_t mu_is_mu,
+                           Double_t mu_p, Double_t mu_eta, Double_t mu_pid_mu,
+                           Double_t mu_pid_e, Double_t mu_bdt, TVector3 v3_mu_p,
+                           TVector3 v3_k_p, TVector3 v3_pi_p, TVector3 v3_spi_p,
+                           Double_t b0_endvtx_chi2, Double_t b0_endvtx_ndof,
+                           Double_t b0_fd_trans, Double_t b0_dira,
+                           Double_t b0_m, Double_t iso_bdt) {
+  auto dst_d0_delta_m_ref = 145.454;
+
+  auto track_well_separated = true;
+  for (auto v3_p : std::vector<TVector3>{v3_k_p, v3_pi_p, v3_spi_p}) {
+    auto inner_prod = v3_mu_p.Dot(v3_p);
+    auto magnitude  = v3_mu_p.Mag() * v3_p.Mag();
+
+    if (TMath::Log10(1 - inner_prod / magnitude) <= -6.5) {
+      track_well_separated = false;
+      break;
+    }
+  }
+
+  // clang-format off
   if (flag_sel_d0 && /* For D*, we require it to pass all D0 selections */
-      true)
+      /* slow Pi */
+      spi_gh_prob < 0.25 &&
+      /* D* */
+      dst_endvtx_chi2/dst_endvtx_ndof < 10 &&
+      TMath::Abs(dst_m - d0_m - dst_d0_delta_m_ref) < 2 &&
+      /* Mu */
+      mu_is_mu &&
+      (mu_p > 3 && mu_p < 100) &&
+      (mu_eta > 1.7 && mu_eta < 5) &&
+      mu_pid_mu > 2 &&
+      mu_pid_e < 1 &&
+      mu_bdt > 0.25 &&
+      track_well_separated &&
+      /* D0 Mu combo */
+      // FIXME: Don't know how to implement cuts for D0 Mu combo
+      /* D* Mu combo */
+      b0_endvtx_chi2/b0_endvtx_ndof < 6 &&
+      b0_fd_trans < 7 &&
+      b0_dira > 0.0005 &&
+      b0_m < 5280 /* MeV! */ &&
+      iso_bdt < 0.15
+      )
+    // clang-format on
     return true;
   return false;
 }
