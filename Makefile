@@ -1,6 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Sep 17, 2020 at 02:37 AM +0800
+# Last Change: Thu Sep 17, 2020 at 08:37 PM +0800
 
 BINPATH	:=	bin
 
@@ -14,7 +14,9 @@ VPATH := ntuples/pre-0.9.0/Dst-cutflow_mc:ntuples/pre-0.9.0/Dst-cutflow_data:$(V
 VPATH := ntuples/0.9.0-cutflow/Dst-cutflow_mc:$(VPATH)
 VPATH := ntuples/0.9.1-dst_partial_refit/Dst_D0-cutflow_mc:$(VPATH)
 VPATH := ntuples/ref-rdx-run1/Dst-std:$(VPATH)
+VPATH := ntuples/ref-rdx-run1/Dst-mix:$(VPATH)
 VPATH := gen/run2-Dst-step2:gen/run1-Dst-step2:$(VPATH)
+VPATH := postprocess:$(VPATH)
 
 # System env
 OS := $(shell uname)
@@ -376,6 +378,20 @@ gen/test/Dst--20_06_05--cutflow_mc--cocktail--2011--md--bare-step2-triggered.roo
 gen/test/Dst--20_06_05--cutflow_mc--cocktail--2016--md--bare-step2-triggered.root: \
 	Dst--20_06_05--cutflow_mc--bare--MC_2016_Beam6500GeV-2016-MagDown-Nu1.6-25ns-Pythia8_Sim09b_Trig0x6138160F_Reco16_Turbo03_Stripping26NoPrescalingFlagged_11874091_ALLSTREAMS.DST.root \
 	run2-Dst-triggering-stripping
+	$(word 2, $^) $< $@
+
+
+# Verify step-2 cuts with Phoebe's 2011 step-1 and step-2 ntuples
+gen/rdst-2011-mix.cpp: \
+	ref-rdx-run1/rdst-2011-mix.yml \
+	Dst--20_07_02--mix--all--2011-2012--md-mu--phoebe.root \
+	include/functor/*.h \
+	include/*.h
+	babymaker -i $< -o $@ -d $(word 2, $^)
+
+gen/test/Dst--20_07_02--mix--data--2011--md--step2--phoebe-step2.root: \
+	Dst--20_07_02--mix--all--2011-2012--md-mu--phoebe.root \
+	rdst-2011-mix
 	$(word 2, $^) $< $@
 
 

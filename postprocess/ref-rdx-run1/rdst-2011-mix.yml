@@ -1,3 +1,7 @@
+headers:
+    user:
+        - functor/basic.h
+
 keep:
     # Event uid, also needed for keeping only one B for multi-B events
     - runNumber
