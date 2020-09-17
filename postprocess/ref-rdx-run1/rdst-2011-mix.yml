@@ -67,10 +67,10 @@ rename:
 
 calculation:
     # Fit variables
-    el: "Double_t; GEV(El)"
-    q2_: "Double_t; GEV2(q2)"  # 'q2' is already defined, so 'q2_'
+    el: Double_t; GEV(El)
+    q2_: Double_t; GEV2(q2)  # 'q2' is already defined, so 'q2_'
     # B0/B-
-    b_m: "Double_t; GEV(Y_M)"
+    b_m: Double_t; GEV(Y_M)
     # D0
     d0_pt: Double_t; GEV(D0_PT)
     # General selection flag
