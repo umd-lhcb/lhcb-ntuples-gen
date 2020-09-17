@@ -1,0 +1,38 @@
+keep:
+    # Event uid, also needed for keeping only one B for multi-B events
+    - runNumber
+    - eventNumber
+    - GpsTime
+
+rename:
+    # General
+    Polarity: polarity
+    # Fit variables
+    m_nu1: mm2  # Already in GeV?
+    # PID
+    DstIDprod: dst_id_prod
+    IDprod: id_prod
+    muPID: mu_pid
+    # Other flags
+    isData: is_data
+    # B0
+    Y_M: b0_m
+
+calculation:
+    # Fit variables
+    el: "Double_t; GEV(El)"
+    q2: "Double_t; GEV2(q2)"
+    # PID
+
+output:
+    dst_signal:
+        input: ntp1
+        selection:
+            # Signature for event type 'data'
+            - "dst_id_prod > 0"
+            - "id_prod > 0"
+            - "mu_pid > 0"
+            - "is_data > 0"
+            - "polarity < 0"  # Keep MagDown only
+            # Basic cuts
+            - "b0_m < 5280"
