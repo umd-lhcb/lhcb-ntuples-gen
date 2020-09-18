@@ -1,6 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Sep 17, 2020 at 08:37 PM +0800
+# Last Change: Fri Sep 18, 2020 at 06:05 PM +0800
 
 BINPATH	:=	bin
 
@@ -15,7 +15,7 @@ VPATH := ntuples/0.9.0-cutflow/Dst-cutflow_mc:$(VPATH)
 VPATH := ntuples/0.9.1-dst_partial_refit/Dst_D0-cutflow_mc:$(VPATH)
 VPATH := ntuples/ref-rdx-run1/Dst-std:$(VPATH)
 VPATH := ntuples/ref-rdx-run1/Dst-mix:$(VPATH)
-VPATH := gen/run2-Dst-step2:gen/run1-Dst-step2:$(VPATH)
+VPATH := gen/run1-Dst-step2:gen/run2-Dst-step2:$(VPATH)
 VPATH := postprocess:$(VPATH)
 
 # System env
@@ -324,7 +324,7 @@ gen/run2-Dst-data.cpp: \
 gen/run2-Dst_D0-mc.cpp: \
 	postprocess/rdx-run2-mc.yml \
 	Dst_D0--20_08_18--cutflow_mc--MC_2016_Beam6500GeV-2016-MagDown-Nu1.6-25ns-Pythia8_Sim09b_Trig0x6138160F_Reco16_Turbo03_Stripping26NoPrescalingFlagged_11874091_ALLSTREAMS.DST.root \
-	postprocess/cpp_templates/rdx.cpp \
+	cpp_templates/rdx.cpp \
 	include/functor/*.h
 	babymaker -i $< -o $@ -d $(word 2, $^) -t $(word 3, $^)
 
@@ -389,9 +389,21 @@ gen/rdst-2011-mix.cpp: \
 	include/*.h
 	babymaker -i $< -o $@ -d $(word 2, $^)
 
-gen/test/Dst--20_07_02--mix--data--2011--md--step2--phoebe-step2.root: \
+gen/test/Dst--20_07_02--mix--data--2011--md--phoebe-step2.root: \
 	Dst--20_07_02--mix--all--2011-2012--md-mu--phoebe.root \
 	rdst-2011-mix
+	$(word 2, $^) $< $@
+
+gen/rdst-2011-data.cpp: \
+	ref-rdx-run1/rdst-2011-data.yml \
+	Dst--20_09_16--std--data--2011--md--phoebe.root \
+	cpp_templates/rdx.cpp \
+	include/functor/*.h
+	babymaker -i $< -o $@ -d $(word 2, $^) -t $(word 3, $^)
+
+gen/test/Dst--20_09_16--std--data--2011--md--phoebe-step2.root: \
+	Dst--20_09_16--std--data--2011--md--phoebe.root \
+	rdst-2011-data
 	$(word 2, $^) $< $@
 
 
