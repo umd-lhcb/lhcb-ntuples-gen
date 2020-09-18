@@ -96,7 +96,7 @@ void generator_/* {% output_tree %} */(TFile *input_file, TFile *output_file) {
       }
 
       // Always compute the pseudo random number for current candidate
-      pseudo_rand_seq.push_back(calc_pseudo_rand_num(b0_pt));
+      pseudo_rand_seq.push_back(calc_pseudo_rand_num(/* {% config.one_cand_only.branch %} */));
 
       // Store variables in vectors
       // {% for var in config.output_branches %}
