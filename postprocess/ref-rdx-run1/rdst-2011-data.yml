@@ -1,0 +1,156 @@
+headers:
+    system:
+        - TVector3.h
+    user:
+        - functor/flag.h
+        - functor/kinematic.h
+
+keep:
+    # Event uid, also needed for keeping only one B for multi-B events
+    - runNumber
+    - eventNumber
+
+rename:
+    # General
+    Polarity: polarity
+    # B0/B-
+    Y_L0Global_TIS: b_l0_tis
+    Y_L0Global_TOS: b_l0_tos
+    Y_DIRA_OWNPV: b_dira
+    Y_ISOLATION_BDT: iso_bdt  # Isolation BDT
+    Y_ENDVERTEX_CHI2: b_endvtx_chi2
+    Y_ENDVERTEX_NDOF: b_endvtx_ndof
+    Y_M: b_m
+    # D*
+    Dst_2010_minus_M: dst_m
+    Dst_2010_minus_ENDVERTEX_CHI2: dst_endvtx_chi2
+    Dst_2010_minus_ENDVERTEX_NDOF: dst_endvtx_ndof
+    Dst_2010_minus_L0Global_TOS: dst_hlt1_tos
+    # D0
+    D0_Hlt2CharmHadD02HH_D02KPiDecision_TOS: d0_hlt2charmhad_tos
+    D0_DIRA_OWNPV: d0_dira
+    D0_M: d0_m
+    D0_ID: d0_id
+    D0_ENDVERTEX_CHI2: d0_endvtx_chi2
+    D0_ENDVERTEX_NDOF: d0_endvtx_ndof
+    D0_IP_OWNPV: d0_ip
+    D0_IPCHI2_OWNPV: d0_ip_chi2
+    D0_FDCHI2_OWNPV: d0_fd_chi2
+    # Mu
+    muplus_isMuon: mu_is_mu
+    muplus_PIDmu: mu_pid_mu
+    muplus_PIDe: mu_pid_e
+    muplus_ID: mu_id
+    # K
+    Kplus_P: k_p
+    Kplus_PT: k_pt
+    Kplus_Hlt1Global_TOS: k_hlt1_tos
+    Kplus_Hlt1TrackAllL0Decision_TOS: k_hlt1ta_tos
+    Kplus_PIDK: k_pid_k
+    Kplus_IPCHI2_OWNPV: k_ip_chi2
+    Kplus_TRACK_GhostProb: k_gh_prob
+    # Pi
+    piminus0_ID: pi_id
+    piminus0_P: pi_p
+    piminus0_PT: pi_pt
+    piminus0_Hlt1Global_TOS: pi_hlt1_tos
+    piminus0_Hlt1TrackAllL0Decision_TOS: pi_hlt1ta_tos
+    piminus0_PIDK: pi_pid_k
+    piminus0_IPCHI2_OWNPV: pi_ip_chi2
+    piminus0_TRACK_GhostProb: pi_gh_prob
+    # Slow Pi
+    piminus_TRACK_GhostProb: spi_gh_prob
+
+calculation:
+    # PID
+    dst_id_prod: Double_t; d0_id*pi_id
+    id_prod: Double_t; d0_id*mu_id
+    # Physical variables
+    mm2: Double_t; # FIXME!
+    el: Double_t; # FIXME
+    q2: Double_t; # FIXME
+    # Flags
+    flag_2011: ^Bool_t; true
+    # Other flags
+    is_data: Bool_t; IS_DATA(GpsTime)
+    # B0/B-
+    v3_b_flight: >-
+        ^TVector3; TVector3(
+        Y_ENDVERTEX_X-Y_OWNPV_X,
+        Y_ENDVERTEX_Y-Y_OWNPV_Y,
+        Y_ENDVERTEX_Z-Y_OWNPV_Z
+        )
+    b_fd_trans: Double_t; v3_b_flight.Perp()
+    # D*
+    # D0
+    d0_pt: Double_t; GEV(D0_PT)
+    # Mu
+    mu_p: Double_t; GEV(muplus_P)
+    muPID: mu_pid
+    muVeto: mu_veto
+    mu_ETA: mu_eta
+    v3_mu_p: ^auto; TVector3(1, 0, 0)
+    mu_bdt: ^Double_t; 0.3  # uboost BDT, placeholder
+    # K
+    v3_k_p: ^auto; TVector3(0, 1, 0)
+    # Pi
+    v3_pi_p: ^auto; TVector3(0, 0, 1)
+    # Slow Pi
+    v3_spi_p: ^auto; TVector3(1, 1, 0)
+    # Step-2 selection flags
+    flag_sel_d0: >-
+        Bool_t; FLAG_SEL_D0_RUN1(
+        k_pt, pi_pt,
+        k_hlt1ta_tos, pi_hlt1ta_tos,
+        k_p, pi_p,
+        k_ip_chi2, pi_ip_chi2,
+        k_pid_k, pi_pid_k,
+        mu_veto,
+        k_gh_prob, pi_gh_prob,
+        d0_pt,
+        d0_hlt2charmhad_tos,
+        d0_endvtx_chi2, d0_endvtx_ndof,
+        d0_ip,
+        d0_ip_chi2,
+        d0_dira,
+        d0_fd_chi2,
+        d0_m
+        )
+    flag_sel_b0dst: >-
+        Bool_t; FLAG_SEL_B0DST_RUN1(
+        flag_sel_d0,
+        spi_gh_prob,
+        dst_endvtx_chi2, dst_endvtx_ndof,
+        dst_m, d0_m,
+        mu_is_mu,
+        mu_p,
+        mu_eta,
+        mu_pid_mu,
+        mu_pid_e,
+        mu_bdt,
+        v3_mu_p, v3_k_p, v3_pi_p, v3_spi_p,
+        b_endvtx_chi2, b_endvtx_ndof,
+        b_fd_trans,
+        b_dira,
+        b_m,
+        iso_bdt
+        )
+
+output:
+    dst_sig:
+        input: ntp1
+        selection:
+            # Signature for event type 'data'
+            - "dst_id_prod > 0"
+            - "id_prod > 0"
+            - "mu_pid > 0"
+            - "is_data > 0"
+            # Keep only 2011 MagDown
+            - "flag_2011"
+            - "polarity < 0"  # MagDown only
+            # Cuts on fit variables
+            - "-2.0 <= mm2 <= 10.0"
+            - "0.1 <= el <= 2.5"
+            - "-0.4 <= q2_ <= 12.6"
+            # Selection flags
+            - "flag_sel_b0dst"
