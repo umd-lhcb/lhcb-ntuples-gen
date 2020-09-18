@@ -1,6 +1,6 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Fri Sep 18, 2020 at 08:31 PM +0800
+// Last Change: Fri Sep 18, 2020 at 08:56 PM +0800
 
 #ifndef _LNG_FUNCTOR_KINEMATIC_H_
 #define _LNG_FUNCTOR_KINEMATIC_H_
@@ -39,6 +39,10 @@ Double_t MM_DST_MOM(TLorentzVector& v_dst_mom_p, TLorentzVector& v_dst_p) {
     return sqrt(mm_dst_mom);
   else
     return 0.0;
+}
+
+Double_t ETA(Double_t p, Double_t pz) {
+  return 0.5 * TMath::Log((p + pz) / (p - pz));
 }
 
 // Rest frame approximation ////////////////////////////////////////////////////
