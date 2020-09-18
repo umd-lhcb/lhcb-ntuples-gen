@@ -21,6 +21,7 @@ rename:
     Y_ENDVERTEX_CHI2: b_endvtx_chi2
     Y_ENDVERTEX_NDOF: b_endvtx_ndof
     Y_M: b_m
+    Y_PT: b_pt
     # D*
     Dst_2010_minus_M: dst_m
     Dst_2010_minus_ENDVERTEX_CHI2: dst_endvtx_chi2
@@ -66,9 +67,9 @@ calculation:
     dst_id_prod: Double_t; d0_id*pi_id
     id_prod: Double_t; d0_id*mu_id
     # Physical variables
-    mm2: Double_t; # FIXME!
-    el: Double_t; # FIXME
-    q2: Double_t; # FIXME
+    #mm2: Double_t; # FIXME!
+    #el: Double_t; # FIXME
+    #q2: Double_t; # FIXME
     # Flags
     flag_2011: ^Bool_t; true
     # Other flags
@@ -86,9 +87,9 @@ calculation:
     d0_pt: Double_t; GEV(D0_PT)
     # Mu
     mu_p: Double_t; GEV(muplus_P)
-    muPID: mu_pid
-    muVeto: mu_veto
-    mu_ETA: mu_eta
+    #muPID: mu_pid
+    #muVeto: mu_veto
+    #mu_ETA: mu_eta
     v3_mu_p: ^auto; TVector3(1, 0, 0)
     mu_bdt: ^Double_t; 0.3  # uboost BDT, placeholder
     # K
@@ -138,7 +139,7 @@ calculation:
 
 output:
     dst_sig:
-        input: ntp1
+        input: YCands/DecayTree
         selection:
             # Signature for event type 'data'
             - "dst_id_prod > 0"
@@ -154,3 +155,6 @@ output:
             - "-0.4 <= q2_ <= 12.6"
             # Selection flags
             - "flag_sel_b0dst"
+        one_cand_only:
+            enable: true
+            branch: b_pt
