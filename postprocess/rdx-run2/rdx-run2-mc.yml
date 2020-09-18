@@ -103,7 +103,7 @@ calculation:
     dss_type: Int_t; DSS_TYPE(flag_d0_mu, dst_mc_mom_id, dst_mc_gd_mom_id, dst_mc_gd_gd_mom_id)
 
 output:
-    dst_sig:
+    dst_iso:
         input: TupleB0/DecayTree
         selection:
             - "mu_pid"

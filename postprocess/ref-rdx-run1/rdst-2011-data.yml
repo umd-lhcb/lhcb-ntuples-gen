@@ -154,7 +154,7 @@ calculation:
         )
 
 output:
-    dst_sig:
+    dst_iso:
         input: YCands/DecayTree
         selection:
             # Signature for event type 'data'

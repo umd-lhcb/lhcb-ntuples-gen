@@ -150,7 +150,7 @@ calculation:
         )
 
 output:
-    dst_sig:
+    dst_iso:
         input: ntp1
         selection:
             # Signature for event type 'data'
