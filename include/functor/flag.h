@@ -1,6 +1,6 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Fri Sep 18, 2020 at 02:32 AM +0800
+// Last Change: Sat Sep 19, 2020 at 12:38 AM +0800
 
 #ifndef _LNG_FUNCTOR_FLAG_H_
 #define _LNG_FUNCTOR_FLAG_H_
@@ -224,8 +224,7 @@ Bool_t FLAG_SEL_B0DST_RUN1(Bool_t flag_sel_d0, Double_t spi_gh_prob,
       mu_pid_e < 1 &&
       mu_bdt > 0.25 &&
       track_well_separated &&
-      /* D0 Mu combo */
-      // FIXME: Don't know how to implement cuts for D0 Mu combo
+      /* D0 Mu combo, already applied in DaVinci */
       /* D* Mu combo */
       b0_endvtx_chi2/b0_endvtx_ndof < 6 &&
       b0_fd_trans < 7 &&
