@@ -1,6 +1,6 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Mon Sep 14, 2020 at 06:02 PM +0800
+// Last Change: Fri Sep 18, 2020 at 08:31 PM +0800
 
 #ifndef _LNG_FUNCTOR_KINEMATIC_H_
 #define _LNG_FUNCTOR_KINEMATIC_H_
@@ -43,16 +43,22 @@ Double_t MM_DST_MOM(TLorentzVector& v_dst_mom_p, TLorentzVector& v_dst_p) {
 
 // Rest frame approximation ////////////////////////////////////////////////////
 
-TLorentzVector P_EST(Double_t PZ, Double_t m, TVector3 flight) {
-  const Double_t B_M = 5279.61;
+TLorentzVector B_P_EST(Double_t b_pz, Double_t b_m, TVector3 v3_b_flight) {
+  const Double_t b_m_ref = 5279.61;
 
-  Double_t Tan_theta = flight.Unit().Perp() / flight.Unit().Z();
-  Double_t PT        = TMath::Power((B_M / m), 1) * Tan_theta * PZ;
+  Double_t tan_theta = v3_b_flight.Unit().Perp() / v3_b_flight.Unit().Z();
+  Double_t b_pt      = (b_m_ref / b_m) * tan_theta * b_pz;
 
-  TLorentzVector P;
-  P.SetPtEtaPhiM(PT, flight.Unit().Eta(), flight.Unit().Phi(), B_M);
+  TLorentzVector v4_b_p_est;
+  v4_b_p_est.SetPtEtaPhiM(b_pt, v3_b_flight.Unit().Eta(),
+                          v3_b_flight.Unit().Phi(), b_m_ref);
 
-  return P;
+  return v4_b_p_est;
+}
+
+TLorentzVector BOOST(TLorentzVector v, TVector3 v_b) {
+  v.Boost(v_b);
+  return v;
 }
 
 #endif

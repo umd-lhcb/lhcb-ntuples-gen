@@ -1,6 +1,7 @@
 headers:
     system:
         - TVector3.h
+        - TLorentzVector.h
     user:
         - functor/flag.h
         - functor/kinematic.h
@@ -22,6 +23,7 @@ rename:
     Y_ENDVERTEX_NDOF: b_endvtx_ndof
     Y_M: b_m
     Y_PT: b_pt
+    Y_PZ: b_pz
     # D*
     Dst_2010_minus_M: dst_m
     Dst_2010_minus_ENDVERTEX_CHI2: dst_endvtx_chi2
@@ -67,22 +69,34 @@ calculation:
     dst_id_prod: Double_t; d0_id*pi_id
     id_prod: Double_t; d0_id*mu_id
     # Physical variables
-    #mm2: Double_t; # FIXME!
-    #el: Double_t; # FIXME
-    #q2: Double_t; # FIXME
+    mm2: Double_t; GEV2(v4_b_p_miss.M2())
+    v4_lep_p: ^auto; v4_b_p - v4_dst_p
+    el: Double_t; GEV(BOOST(v4_lep_p, -1*v4_b_p_est.BoostVector()).E())
+    q2: Double_t; GEV2((v4_b_p_est - v4_dst_p).M2())
     # Flags
     flag_2011: ^Bool_t; true
     # Other flags
     is_data: Bool_t; IS_DATA(GpsTime)
     # B0/B-
     v3_b_flight: >-
-        ^TVector3; TVector3(
+        ^auto; TVector3(
         Y_ENDVERTEX_X-Y_OWNPV_X,
         Y_ENDVERTEX_Y-Y_OWNPV_Y,
         Y_ENDVERTEX_Z-Y_OWNPV_Z
         )
+    v4_b_p: >-
+        ^auto; TLorentzVector(
+        Y_PX, Y_PY, Y_PZ, Y_PE
+        )
+    v4_b_p_est: ^auto; B_P_EST(b_pz, b_m, v3_b_flight)
+    v4_b_p_miss: ^auto; v4_b_p_est - v4_b_p
     b_fd_trans: Double_t; v3_b_flight.Perp()
     # D*
+    v4_dst_p: >-
+        ^auto; TLorentzVector(
+        Dst_2010_minus_PX, Dst_2010_minus_PY, Dst_2010_minus_PZ,
+        Dst_2010_minus_PE
+        )
     # D0
     d0_pt: Double_t; GEV(D0_PT)
     # Mu
@@ -152,7 +166,7 @@ output:
             # Cuts on fit variables
             - "-2.0 <= mm2 <= 10.0"
             - "0.1 <= el <= 2.5"
-            - "-0.4 <= q2_ <= 12.6"
+            - "-0.4 <= q2 <= 12.6"
             # Selection flags
             - "flag_sel_b0dst"
         one_cand_only:
