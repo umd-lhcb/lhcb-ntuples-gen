@@ -1,6 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri Sep 18, 2020 at 06:05 PM +0800
+# Last Change: Fri Sep 18, 2020 at 09:09 PM +0800
 
 BINPATH	:=	bin
 
@@ -309,7 +309,7 @@ gen/run2-Dst-step2/Dst--19_09_09--std--data--2016--md--step2.root: \
 # Dst_D0, cutflow MC, cocktail, 2016
 gen/run2-Dst_D0-step2/Dst_D0--20_08_18--cutflow_mc--cocktail--2016--md--step2.root: \
 	Dst_D0--20_08_18--cutflow_mc--MC_2016_Beam6500GeV-2016-MagDown-Nu1.6-25ns-Pythia8_Sim09b_Trig0x6138160F_Reco16_Turbo03_Stripping26NoPrescalingFlagged_11874091_ALLSTREAMS.DST.root \
-	run2-Dst_D0-mc
+	rdx-run2-mc
 	$(word 2, $^) $< $@
 
 
@@ -321,8 +321,8 @@ gen/run2-Dst-data.cpp: \
 	babymaker -i $< -o $@ -d $(word 2, $^)
 
 # Generator for Dst_D0, MC
-gen/run2-Dst_D0-mc.cpp: \
-	postprocess/rdx-run2-mc.yml \
+gen/rdx-run2-mc.cpp: \
+	rdx-run2/rdx-run2-mc.yml \
 	Dst_D0--20_08_18--cutflow_mc--MC_2016_Beam6500GeV-2016-MagDown-Nu1.6-25ns-Pythia8_Sim09b_Trig0x6138160F_Reco16_Turbo03_Stripping26NoPrescalingFlagged_11874091_ALLSTREAMS.DST.root \
 	cpp_templates/rdx.cpp \
 	include/functor/*.h
