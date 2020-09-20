@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Sep 21, 2020 at 01:54 AM +0800
+# Last Change: Mon Sep 21, 2020 at 02:07 AM +0800
 #
 # Description: A demonstration on ganga option file with parser.
 #              This demo runs stand-alone, provided that Python is installed:
@@ -176,21 +176,18 @@ if this flag is supplied, don't skip existing jobs with the same name.''')
 specify path to local DaVinci build.''')
 
     parser.add_argument('-p', '--polarity',
-                        nargs='+',
                         choices=['mu', 'md'],
                         default='md',
                         help='''
 specify polarity.''')
 
     parser.add_argument('-P', '--pythia',
-                        nargs='+',
                         choices=MC_PYTHIA,
                         default='Pythia8',
                         help='''
 specify Pythia version.''')
 
     parser.add_argument('-d', '--decay',
-                        nargs='+',
                         choices=list(MC_DECAY_MODE.keys()),
                         default=list(MC_DECAY_MODE.keys())[0],
                         help='''
