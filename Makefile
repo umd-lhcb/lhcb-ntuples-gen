@@ -1,6 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri Sep 18, 2020 at 09:09 PM +0800
+# Last Change: Mon Sep 21, 2020 at 02:46 AM +0800
 
 BINPATH	:=	bin
 
@@ -336,12 +336,12 @@ gen/rdx-run2-mc.cpp: \
 # For test on the equivalence betwen run 1 bare and dv_strip ntuples
 gen/test/Dst--20_06_04--cutflow_mc--cocktail--2011--md--subset-bare-step2.root: \
 	Dst--20_06_04--cutflow_mc--cocktail--2011--md--dv45-subset-bare.root \
-	run1-Dst-stripping
+	rdst-run1-strip
 	$(word 2, $^) $< $@
 
 gen/test/Dst--20_06_04--cutflow_mc--cocktail--2011--md--subset-dv_strip-step2.root: \
 	Dst--20_06_04--cutflow_mc--cocktail--2011--md--dv45-subset-dv_strip.root \
-	run1-Dst-stripping
+	rdst-run1-strip
 	$(word 2, $^) $< $@
 
 
@@ -360,7 +360,7 @@ gen/test/Dst--20_06_04--cutflow_mc--cocktail--2016--md--subset-bare-step2.root: 
 # Cutflow re-stripped ntuples for D*.
 gen/tes/Dst--20_06_05--cutflow_mc--cocktail--2011--md--bare-step2.root: \
 	Dst--20_06_05--cutflow_mc--bare--MC_2011_Beam3500GeV-2011-MagDown-Nu2-Pythia8_Sim08h_Digi13_Trig0x40760037_Reco14c_Stripping20r1NoPrescalingFlagged_11874091_ALLSTREAMS.DST.root \
-	run1-Dst-stripping
+	rdst-run1-strip
 	$(word 2, $^) $< $@
 
 gen/run2-Dst-step2/Dst--20_06_05--cutflow_mc--cocktail--2016--md--bare-step2.root: \
@@ -382,17 +382,24 @@ gen/test/Dst--20_06_05--cutflow_mc--cocktail--2016--md--bare-step2-triggered.roo
 
 
 # Verify step-2 cuts with Phoebe's 2011 step-1 and step-2 ntuples
+gen/test/Dst--20_07_02--mix--data--2011--md--phoebe-step2.root: \
+	Dst--20_07_02--mix--all--2011-2012--md-mu--phoebe.root \
+	rdst-2011-mix
+	$(word 2, $^) $< $@
+
+gen/test/Dst--20_09_16--std--data--2011--md--phoebe-step2.root: \
+	Dst--20_09_16--std--data--2011--md--phoebe.root \
+	rdst-2011-data
+	$(word 2, $^) $< $@
+
+
+# Special postprocessing for comparing 2011 data
 gen/rdst-2011-mix.cpp: \
 	ref-rdx-run1/rdst-2011-mix.yml \
 	Dst--20_07_02--mix--all--2011-2012--md-mu--phoebe.root \
 	include/functor/*.h \
 	include/*.h
 	babymaker -i $< -o $@ -d $(word 2, $^)
-
-gen/test/Dst--20_07_02--mix--data--2011--md--phoebe-step2.root: \
-	Dst--20_07_02--mix--all--2011-2012--md-mu--phoebe.root \
-	rdst-2011-mix
-	$(word 2, $^) $< $@
 
 gen/rdst-2011-data.cpp: \
 	ref-rdx-run1/rdst-2011-data.yml \
@@ -401,15 +408,10 @@ gen/rdst-2011-data.cpp: \
 	include/functor/*.h
 	babymaker -i $< -o $@ -d $(word 2, $^) -t $(word 3, $^)
 
-gen/test/Dst--20_09_16--std--data--2011--md--phoebe-step2.root: \
-	Dst--20_09_16--std--data--2011--md--phoebe.root \
-	rdst-2011-data
-	$(word 2, $^) $< $@
-
 
 # Re-stripping for bare ntuples.
-gen/run1-Dst-stripping.cpp: \
-	run1-b2D0MuXB2DMuNuForTauMuLine/postprocess/Dst-stripping.yml \
+gen/rdst-run1-strip: \
+	postprocess/rdx-run1/rdst-run1-strip.yml \
 	Dst--20_06_04--cutflow_mc--cocktail--2011--md--dv45-subset-dv_strip.root \
 	include/functor/*.h \
 	include/*.h
