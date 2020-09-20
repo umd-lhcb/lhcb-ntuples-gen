@@ -6,7 +6,7 @@ DaVinci().Simulation = False
 DaVinci().TupleFile = 'std-refit_dst_only.root'
 # DaVinci().HistogramFile = 'std-histo.root'
 
-DaVinci().MoniSequence += ['REFIT_DST_ONLY']
+DaVinci().MoniSequence += ['FULL_REFIT']
 
 
 from GaudiConf import IOHelper
