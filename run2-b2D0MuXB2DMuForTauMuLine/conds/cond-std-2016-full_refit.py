@@ -3,7 +3,7 @@ from Configurables import DaVinci
 DaVinci().DataType = '2016'
 DaVinci().Simulation = False
 
-DaVinci().TupleFile = 'std-refit_dst_only.root'
+DaVinci().TupleFile = 'std-full_refit.root'
 # DaVinci().HistogramFile = 'std-histo.root'
 
 DaVinci().MoniSequence += ['FULL_REFIT']

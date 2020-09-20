@@ -3,10 +3,10 @@ from Configurables import DaVinci
 DaVinci().DataType = '2012'
 DaVinci().Simulation = False
 
-DaVinci().TupleFile = 'std-refit_dst_only.root'
+DaVinci().TupleFile = 'std-full_refit.root'
 # DaVinci().HistogramFile = 'std-histo.root'
 
-DaVinci().MoniSequence += ['REFIT_DST_ONLY']
+DaVinci().MoniSequence += ['FULL_REFIT']
 
 # Specify tags
 # DaVinci().DDDBtag = 'dddb-20130929-1'
