@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Sep 21, 2020 at 02:06 AM +0800
+# Last Change: Mon Sep 21, 2020 at 02:13 AM +0800
 #
 # Description: A demonstration on ganga option file with parser.
 #              This demo runs stand-alone, provided that Python is installed:
@@ -197,7 +197,7 @@ print('Condition file: {}'.format(args.cond_file))
 fields, reco_type, additional_flags = parse_cond_file_name(args.cond_file)
 reco_sample = parse_reco_script_name(args.reco_script)
 
-print(fields)
+print('Fields from cond file: {}'.format(fields))
 
 # Try to add missing fields required to reconstruct LFNs
 lfn, lfn_jobname = gen_lfn_path(
