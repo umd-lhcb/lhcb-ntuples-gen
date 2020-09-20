@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Aug 25, 2020 at 08:39 PM +0800
+# Last Change: Mon Sep 21, 2020 at 12:50 AM +0800
 #
 # Description: Definitions of selection and reconstruction procedures for Dst
 #              and D0 in run 2. For more thorough comments, take a look at:
@@ -588,22 +588,11 @@ else:
 # Define ntuples #
 ##################
 
-# Tools for data
 from Configurables import DecayTreeTuple
-from Configurables import TupleToolApplyIsolation
-from Configurables import TupleToolTagDiscardDstMu
-from Configurables import TupleToolANNPIDTraining
-from Configurables import TupleToolTauMuDiscrVars
 from DecayTreeTuple.Configuration import *  # for addTupleTool
 
-# Additional tools for MC
-from Configurables import TupleToolMCTruth
-from Configurables import TupleToolMCBackgroundInfo
-from Configurables import TupleToolKinematic
+# Additional TupleTool for addTool only
 from Configurables import BackgroundCategory
-from Configurables import LoKi__Hybrid__EvtTupleTool as LokiEvtTool
-from Configurables import TupleToolTrigger
-from Configurables import TupleToolTISTOS
 
 
 def tuple_initialize_data(name, sel_seq, template):
