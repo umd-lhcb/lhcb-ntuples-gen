@@ -42,14 +42,15 @@ rename:
     FitVar_Mmiss2: mm2
     FitVar_q2: q2
 
+known_names:
+    - GeV
+    - MeV
+    - PDG_M_D0
+    - PDG_M_Dst
+
 output:
     b0dst:
         input: TupleB0/DecayTree
-        known_names:
-            - GeV
-            - MeV
-            - PDG_M_D0
-            - PDG_M_Dst
         selection:
             # Stripping cuts
             #### Mu
