@@ -1,6 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Sep 21, 2020 at 03:33 PM +0800
+# Last Change: Tue Sep 22, 2020 at 02:38 AM +0800
 
 BINPATH	:=	bin
 
@@ -281,19 +281,6 @@ gen/run1-Dst-step2/Dst--19_09_05--std--data--2012--md--phoebe-step2.root: \
 	$(word 2, $^) $< $@
 
 
-# Generator for Dst, std, 2012
-gen/run1-Dst-data.cpp: \
-	run1-b2D0MuXB2DMuNuForTauMuLine/postprocess/Dst-data.yml \
-	Dst--19_09_05--std--data--2012--md.root
-	babymaker -i $< -o $@ -d $(word 2, $^)
-
-# Generator for Dst, std, 2012, Phoebe
-gen/run1-Dst-data-phoebe.cpp: \
-	run1-b2D0MuXB2DMuNuForTauMuLine/postprocess/Dst-data-phoebe.yml \
-	Dst--19_09_05--std--data--2012--md--phoebe.root
-	babymaker -i $< -o $@ -d $(word 2, $^)
-
-
 #########
 # Run 2 #
 #########
@@ -311,11 +298,54 @@ gen/run2-Dst_D0-step2/Dst_D0--20_08_18--cutflow_mc--cocktail--2016--md--step2.ro
 	$(word 2, $^) $< $@
 
 
+#######################
+# Babymaker C++ files #
+#######################
+
+# Special postprocessing for comparing 2011 data
+gen/rdst-2011-mix.cpp: \
+	ref-rdx-run1/rdst-2011-mix.yml \
+	Dst--20_07_02--mix--all--2011-2012--md-mu--phoebe.root
+	babymaker -i $< -o $@ -d $(word 2, $^)
+
+gen/rdst-2011-data.cpp: \
+	ref-rdx-run1/rdst-2011-data.yml \
+	Dst--20_09_16--std--data--2011--md--phoebe.root \
+	cpp_templates/rdx.cpp
+	babymaker -i $< -o $@ -d $(word 2, $^) -t $(word 3, $^)
+
+
+# Re-stripping for bare ntuples
+gen/rdst-run1-strip.cpp: \
+	rdx-run1/rdst-run1-strip.yml \
+	Dst--20_06_04--cutflow_mc--cocktail--2011--md--dv45-subset-dv_strip.root
+	babymaker -i $< -o $@ -d $(word 2, $^)
+
+gen/rdst-run2-strip.cpp: \
+	rdx-run2/rdst-run2-strip.yml \
+	Dst--20_06_04--cutflow_mc--cocktail--2016--md--dv45-subset-dv_strip.root
+	babymaker -i $< -o $@ -d $(word 2, $^)
+
+
+# Generator for Dst, std, 2012
+gen/run1-Dst-data.cpp: \
+	run1-b2D0MuXB2DMuNuForTauMuLine/postprocess/Dst-data.yml \
+	Dst--19_09_05--std--data--2012--md.root
+	babymaker -i $< -o $@ -d $(word 2, $^)
+
+# Generator for Dst, std, 2012, Phoebe
+gen/run1-Dst-data-phoebe.cpp: \
+	run1-b2D0MuXB2DMuNuForTauMuLine/postprocess/Dst-data-phoebe.yml \
+	Dst--19_09_05--std--data--2012--md--phoebe.root
+	babymaker -i $< -o $@ -d $(word 2, $^)
+
+
 # Generator for Dst, std, 2016
 gen/run2-Dst-data.cpp: \
 	run2-b2D0MuXB2DMuForTauMuLine/postprocess/Dst-data.yml \
 	Dst--19_09_09--std--data--2016--md.root
 	babymaker -i $< -o $@ -d $(word 2, $^)
+
 
 # Generator for Dst_D0, MC
 gen/rdx-run2-mc.cpp: \
@@ -323,6 +353,18 @@ gen/rdx-run2-mc.cpp: \
 	Dst_D0--20_08_18--cutflow_mc--MC_2016_Beam6500GeV-2016-MagDown-Nu1.6-25ns-Pythia8_Sim09b_Trig0x6138160F_Reco16_Turbo03_Stripping26NoPrescalingFlagged_11874091_ALLSTREAMS.DST.root \
 	cpp_templates/rdx.cpp
 	babymaker -i $< -o $@ -d $(word 2, $^) -t $(word 3, $^)
+
+
+# Re-stripping and trigger-filtering for bare ntuples.
+gen/run1-Dst-triggering-stripping.cpp: \
+	run1-b2D0MuXB2DMuNuForTauMuLine/postprocess/Dst-triggering-stripping.yml \
+	Dst--20_06_04--cutflow_mc--cocktail--2011--md--dv45-subset-dv_strip.root
+	babymaker -i $< -o $@ -d $(word 2, $^)
+
+gen/run2-Dst-triggering-stripping.cpp: \
+	run2-b2D0MuXB2DMuForTauMuLine/postprocess/Dst-triggering-stripping.yml \
+	Dst--20_06_04--cutflow_mc--cocktail--2016--md--dv45-subset-dv_strip.root
+	babymaker -i $< -o $@ -d $(word 2, $^)
 
 
 #########################
@@ -344,12 +386,12 @@ gen/test/Dst--20_06_04--cutflow_mc--cocktail--2011--md--subset-dv_strip-step2.ro
 # For test on the equivalence betwen run 2 bare and dv_strip ntuples.
 gen/test/Dst--20_06_04--cutflow_mc--cocktail--2016--md--subset-dv_strip-step2.root: \
 	Dst--20_06_04--cutflow_mc--cocktail--2016--md--dv45-subset-dv_strip.root \
-	run2-Dst-stripping
+	rdst-run2-strip
 	$(word 2, $^) $< $@
 
 gen/test/Dst--20_06_04--cutflow_mc--cocktail--2016--md--subset-bare-step2.root: \
 	Dst--20_06_04--cutflow_mc--cocktail--2016--md--dv45-subset-bare.root \
-	run2-Dst-stripping
+	rdst-run2-strip
 	$(word 2, $^) $< $@
 
 
@@ -361,7 +403,7 @@ gen/tes/Dst--20_06_05--cutflow_mc--cocktail--2011--md--bare-step2.root: \
 
 gen/run2-Dst-step2/Dst--20_06_05--cutflow_mc--cocktail--2016--md--bare-step2.root: \
 	Dst--20_06_05--cutflow_mc--bare--MC_2016_Beam6500GeV-2016-MagDown-Nu1.6-25ns-Pythia8_Sim09b_Trig0x6138160F_Reco16_Turbo03_Stripping26NoPrescalingFlagged_11874091_ALLSTREAMS.DST.root \
-	run2-Dst-stripping
+	rdst-run2-strip
 	$(word 2, $^) $< $@
 
 
@@ -387,42 +429,6 @@ gen/test/Dst--20_09_16--std--data--2011--md--phoebe-step2.root: \
 	Dst--20_09_16--std--data--2011--md--phoebe.root \
 	rdst-2011-data
 	$(word 2, $^) $< $@
-
-
-# Special postprocessing for comparing 2011 data
-gen/rdst-2011-mix.cpp: \
-	ref-rdx-run1/rdst-2011-mix.yml \
-	Dst--20_07_02--mix--all--2011-2012--md-mu--phoebe.root
-	babymaker -i $< -o $@ -d $(word 2, $^)
-
-gen/rdst-2011-data.cpp: \
-	ref-rdx-run1/rdst-2011-data.yml \
-	Dst--20_09_16--std--data--2011--md--phoebe.root
-	babymaker -i $< -o $@ -d $(word 2, $^) -t $(word 3, $^)
-
-
-# Re-stripping for bare ntuples.
-gen/rdst-run1-strip.cpp: \
-	postprocess/rdx-run1/rdst-run1-strip.yml \
-	Dst--20_06_04--cutflow_mc--cocktail--2011--md--dv45-subset-dv_strip.root
-	babymaker -i $< -o $@ -d $(word 2, $^)
-
-gen/run2-Dst-stripping.cpp: \
-	run2-b2D0MuXB2DMuForTauMuLine/postprocess/Dst-stripping.yml \
-	Dst--20_06_04--cutflow_mc--cocktail--2016--md--dv45-subset-dv_strip.root
-	babymaker -i $< -o $@ -d $(word 2, $^)
-
-
-# Re-stripping and trigger-filtering for bare ntuples.
-gen/run1-Dst-triggering-stripping.cpp: \
-	run1-b2D0MuXB2DMuNuForTauMuLine/postprocess/Dst-triggering-stripping.yml \
-	Dst--20_06_04--cutflow_mc--cocktail--2011--md--dv45-subset-dv_strip.root
-	babymaker -i $< -o $@ -d $(word 2, $^)
-
-gen/run2-Dst-triggering-stripping.cpp: \
-	run2-b2D0MuXB2DMuForTauMuLine/postprocess/Dst-triggering-stripping.yml \
-	Dst--20_06_04--cutflow_mc--cocktail--2016--md--dv45-subset-dv_strip.root
-	babymaker -i $< -o $@ -d $(word 2, $^)
 
 
 #########
@@ -473,9 +479,6 @@ test-cutflow-consistency: \
 ####################
 # Generic patterns #
 ####################
-
-$(BINPATH)/%: gen/%.cpp
-	$(COMPILER) $(CXXFLAGS) $(ADDFLAGS) -o $@ $< $(LINKFLAGS)
 
 %: gen/%.cpp \
 	include/functor/*.h \
