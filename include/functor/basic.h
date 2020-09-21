@@ -1,13 +1,21 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Fri Sep 11, 2020 at 06:30 PM +0800
+// Last Change: Mon Sep 21, 2020 at 03:26 PM +0800
 
 #ifndef _LNG_FUNCTOR_BASIC_H_
 #define _LNG_FUNCTOR_BASIC_H_
 
+#include <TMath.h>
 #include <TROOT.h>
 
 #include <vector>
+
+// Basic arithmetic ////////////////////////////////////////////////////////////
+
+template <class T>
+T ABS(T num) {
+  return TMath::Abs(num);
+}
 
 // Boolean /////////////////////////////////////////////////////////////////////
 
