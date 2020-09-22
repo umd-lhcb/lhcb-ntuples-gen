@@ -1,6 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Sep 23, 2020 at 12:22 AM +0800
+# Last Change: Wed Sep 23, 2020 at 01:23 AM +0800
 
 BINPATH	:=	bin
 
@@ -38,7 +38,6 @@ DAVINCI_VERSION=DaVinci-v45r4-SL
 
 all: \
 	gen/run1-Dst-step2/Dst--19_09_05--std--data--2012--md--step2.root \
-	gen/run1-Dst-step2/Dst--19_09_05--std--data--2012--md--phoebe-step2.root \
 	gen/run2-Dst-step2/Dst--19_09_09--std--data--2016--md--step2.root
 
 clean:
@@ -288,7 +287,7 @@ gen/run1-Dst-step2/Dst--19_09_05--std--data--2012--md--phoebe-step2.root: \
 # Dst, std, 2016
 gen/run2-Dst-step2/Dst--19_09_09--std--data--2016--md--step2.root: \
 	Dst--19_09_09--std--data--2016--md.root \
-	run2-Dst-data
+	rdx-run2-data
 	$(word 2, $^) $< $@
 
 # Dst_D0, cutflow MC, cocktail, 2016
@@ -315,25 +314,19 @@ gen/rdst-2011-data.cpp: \
 	babymaker -i $< -o $@ -d $(word 2, $^) -t $(word 3, $^)
 
 
-# Generator for Dst, std, 2012
+# Generator for Dst, data, run1
 gen/run1-Dst-data.cpp: \
 	run1-b2D0MuXB2DMuNuForTauMuLine/postprocess/Dst-data.yml \
 	Dst--19_09_05--std--data--2012--md.root
 	babymaker -i $< -o $@ -d $(word 2, $^)
 
-# Generator for Dst, std, 2012, Phoebe
-gen/run1-Dst-data-phoebe.cpp: \
-	run1-b2D0MuXB2DMuNuForTauMuLine/postprocess/Dst-data-phoebe.yml \
-	Dst--19_09_05--std--data--2012--md--phoebe.root
-	babymaker -i $< -o $@ -d $(word 2, $^)
 
-
-# Generator for Dst, std, 2016
-gen/run2-Dst-data.cpp: \
-	run2-b2D0MuXB2DMuForTauMuLine/postprocess/Dst-data.yml \
-	Dst--19_09_09--std--data--2016--md.root
-	babymaker -i $< -o $@ -d $(word 2, $^)
-
+# Generator for Dst, data, run2
+gen/rdx-run2-data.cpp: \
+	rdx-run2/rdx-run2-data.yml \
+	Dst--19_09_09--std--data--2016--md.root \
+	cpp_templates/rdx.cpp
+	babymaker -i $< -o $@ -d $(word 2, $^) -t $(word 3, $^)
 
 # Generator for Dst_D0, MC
 gen/rdx-run2-mc.cpp: \
