@@ -1,6 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Sep 22, 2020 at 02:38 AM +0800
+# Last Change: Wed Sep 23, 2020 at 12:22 AM +0800
 
 BINPATH	:=	bin
 
@@ -315,18 +315,6 @@ gen/rdst-2011-data.cpp: \
 	babymaker -i $< -o $@ -d $(word 2, $^) -t $(word 3, $^)
 
 
-# Re-stripping for bare ntuples
-gen/rdst-run1-strip.cpp: \
-	rdx-run1/rdst-run1-strip.yml \
-	Dst--20_06_04--cutflow_mc--cocktail--2011--md--dv45-subset-dv_strip.root
-	babymaker -i $< -o $@ -d $(word 2, $^)
-
-gen/rdst-run2-strip.cpp: \
-	rdx-run2/rdst-run2-strip.yml \
-	Dst--20_06_04--cutflow_mc--cocktail--2016--md--dv45-subset-dv_strip.root
-	babymaker -i $< -o $@ -d $(word 2, $^)
-
-
 # Generator for Dst, std, 2012
 gen/run1-Dst-data.cpp: \
 	run1-b2D0MuXB2DMuNuForTauMuLine/postprocess/Dst-data.yml \
@@ -355,14 +343,26 @@ gen/rdx-run2-mc.cpp: \
 	babymaker -i $< -o $@ -d $(word 2, $^) -t $(word 3, $^)
 
 
-# Re-stripping and trigger-filtering for bare ntuples.
-gen/run1-Dst-triggering-stripping.cpp: \
-	run1-b2D0MuXB2DMuNuForTauMuLine/postprocess/Dst-triggering-stripping.yml \
+# Re-stripping for bare ntuples
+gen/rdst-run1-strip.cpp: \
+	rdx-run1/rdst-run1-strip.yml \
 	Dst--20_06_04--cutflow_mc--cocktail--2011--md--dv45-subset-dv_strip.root
 	babymaker -i $< -o $@ -d $(word 2, $^)
 
-gen/run2-Dst-triggering-stripping.cpp: \
-	run2-b2D0MuXB2DMuForTauMuLine/postprocess/Dst-triggering-stripping.yml \
+gen/rdst-run2-strip.cpp: \
+	rdx-run2/rdst-run2-strip.yml \
+	Dst--20_06_04--cutflow_mc--cocktail--2016--md--dv45-subset-dv_strip.root
+	babymaker -i $< -o $@ -d $(word 2, $^)
+
+
+# Re-stripping and trigger-filtering for bare ntuples.
+gen/rdst-run1-trig_strip.cpp: \
+	rdx-run1/rdst-run1-trig_strip.yml \
+	Dst--20_06_04--cutflow_mc--cocktail--2011--md--dv45-subset-dv_strip.root
+	babymaker -i $< -o $@ -d $(word 2, $^)
+
+gen/rdst-run2-trig_strip.cpp: \
+	rdx-run2/rdst-run2-trig_strip.yml \
 	Dst--20_06_04--cutflow_mc--cocktail--2016--md--dv45-subset-dv_strip.root
 	babymaker -i $< -o $@ -d $(word 2, $^)
 
@@ -410,12 +410,12 @@ gen/run2-Dst-step2/Dst--20_06_05--cutflow_mc--cocktail--2016--md--bare-step2.roo
 # Cutflow re-triggered and re-stripped ntuples for D*.
 gen/test/Dst--20_06_05--cutflow_mc--cocktail--2011--md--bare-step2-triggered.root: \
 	Dst--20_06_05--cutflow_mc--bare--MC_2011_Beam3500GeV-2011-MagDown-Nu2-Pythia8_Sim08h_Digi13_Trig0x40760037_Reco14c_Stripping20r1NoPrescalingFlagged_11874091_ALLSTREAMS.DST.root \
-	run1-Dst-triggering-stripping
+	rdst-run1-trig_strip
 	$(word 2, $^) $< $@
 
 gen/test/Dst--20_06_05--cutflow_mc--cocktail--2016--md--bare-step2-triggered.root: \
 	Dst--20_06_05--cutflow_mc--bare--MC_2016_Beam6500GeV-2016-MagDown-Nu1.6-25ns-Pythia8_Sim09b_Trig0x6138160F_Reco16_Turbo03_Stripping26NoPrescalingFlagged_11874091_ALLSTREAMS.DST.root \
-	run2-Dst-triggering-stripping
+	rdst-run2-trig_strip
 	$(word 2, $^) $< $@
 
 
