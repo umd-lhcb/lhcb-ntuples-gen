@@ -1,0 +1,96 @@
+headers:
+    user:
+        - functor/basic.h
+        - unit.h
+        - pdg.h
+keep:
+    - runNumber
+    - eventNumber
+    - GpsTime
+
+rename:
+    # Isolation variables
+    b0_ISOLATION_BDT: iso_bdt
+    # Particles
+    b0_ID: b0_id
+    b0_M: b0_m
+    b0_MM: b0_mm
+    ####
+    dst_ID: dst_id
+    dst_M: dst_m
+    dst_M: dst_mm
+    ####
+    d0_ID: d0_id
+    d0_M: d0_m
+    d0_M: d0_mm
+    ####
+    mu_ID: mu_id
+    mu_M: mu_m
+    mu_M: mu_mm
+    mu_isMuon: mu_is_mu
+    mu_PIDmu: mu_pid_mu
+    ####
+    pi_ID: pi_id
+    pi_M: pi_m
+    pi_M: pi_mm
+    ####
+    k_ID: k_id
+    k_M: k_m
+    k_M: k_mm
+    # Rest frame variables
+    FitVar_El: el
+    FitVar_Mmiss2: mmiss2
+    FitVar_q2: q2
+
+known_names:
+    - GeV
+    - MeV
+    - PDG_M_D0
+    - PDG_M_Dst
+
+output:
+    b0dst:
+        input: TupleB0/DecayTree
+        selection:
+            # Triggering cuts
+            - "mu_L0Global_TIS"
+            - "b0_L0Global_TIS || dst_L0HadronDecision_TOS"
+            - "k_Hlt1TrackAllL0Decision_TOS || pi_Hlt1TrackAllL0Decision_TOS"
+            - "d0_Hlt2CharmHadD02HH_D02KPiDecision_TOS"
+            # Stripping cuts
+            #### Mu
+            - "mu_IPCHI2_OWNPV > 45.0"
+            - "mu_TRACK_GhostProb < 0.5"
+            - "mu_PIDmu > 2.0"
+            - "mu_P > 3.0*GeV"
+            - "mu_TRACK_CHI2NDOF < 3.0"
+            #### K
+            - "k_PIDK > 4.0"
+            - "k_IPCHI2_OWNPV > 45.0"
+            - "k_P > 2.0*GeV"
+            - "k_PT > 300.0*MeV"
+            - "k_TRACK_GhostProb < 0.5"
+            #### Pi
+            - "pi_P > 2.0*GeV"
+            - "pi_PT > 300.0*MeV"
+            - "pi_IPCHI2_OWNPV > 45.0"
+            - "pi_PIDK < 2.0"
+            - "pi_TRACK_GhostProb < 0.5"
+            #### Slow Pi
+            - "spi_IPCHI2_OWNPV > 0.0"
+            - "spi_TRACK_CHI2NDOF < 3.0"
+            - "spi_TRACK_GhostProb < 0.25"
+            #### D0 (MotherCut)
+            - "k_PT + pi_PT > 1400.0*MeV"
+            - "ABS(d0_MM - PDG_M_D0) < 80.0*MeV"
+            - "d0_ENDVERTEX_CHI2 / d0_ENDVERTEX_NDOF < 4.0"
+            - "d0_FDCHI2_OWNPV > 250.0"
+            - "d0_DIRA_OWNPV > 0.9998"
+            #### Dst (MotherCut)
+            - "ABS(dst_MM - PDG_M_Dst) < 125.0*MeV"
+            - "dst_M - d0_M < 160.0*MeV"
+            - "dst_ENDVERTEX_CHI2 / dst_ENDVERTEX_NDOF < 100.0"
+            #### B0 meson
+            - "0.0*GeV < b0_MM < 10.0*GeV"
+            - "b0_ENDVERTEX_CHI2 / b0_ENDVERTEX_NDOF < 6.0"
+            - "b0_DIRA_OWNPV > 0.9995"
