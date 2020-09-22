@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Jun 09, 2020 at 12:59 AM +0800
+# Last Change: Wed Sep 23, 2020 at 12:21 AM +0800
 
 import uproot
 
@@ -44,9 +44,11 @@ if __name__ == '__main__':
     ntp2 = uproot.open(args.comp)
 
     _, _, _, uniq1, dupl1 = extract_uid(ntp1, args.ref_tree,
-                                        args.runNumber, args.eventNumber)
+                                        args.runNumber, args.eventNumber,
+                                        keep_single_candidate_events_only=True)
     _, _, _, uniq2, dupl2 = extract_uid(ntp2, args.comp_tree,
-                                        args.runNumber, args.eventNumber)
+                                        args.runNumber, args.eventNumber,
+                                        keep_single_candidate_events_only=True)
     uniq_common, _, _ = find_common_uid(ntp1, ntp2,
                                         args.ref_tree, args.comp_tree,
                                         run_branch=args.runNumber,
