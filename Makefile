@@ -1,6 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Sep 23, 2020 at 01:23 AM +0800
+# Last Change: Wed Sep 23, 2020 at 01:39 AM +0800
 
 BINPATH	:=	bin
 
@@ -270,13 +270,7 @@ cutflow-sig-nor-dss-run2-cocktail-full_refit: \
 # Dst, std, 2012
 gen/run1-Dst-step2/Dst--19_09_05--std--data--2012--md--step2.root: \
 	Dst--19_09_05--std--data--2012--md.root \
-	run1-Dst-data
-	$(word 2, $^) $< $@
-
-# Dst, std, 2012, Phoebe
-gen/run1-Dst-step2/Dst--19_09_05--std--data--2012--md--phoebe-step2.root: \
-	Dst--19_09_05--std--data--2012--md--phoebe.root \
-	run1-Dst-data-phoebe
+	rdx-run1-data
 	$(word 2, $^) $< $@
 
 
@@ -314,21 +308,22 @@ gen/rdst-2011-data.cpp: \
 	babymaker -i $< -o $@ -d $(word 2, $^) -t $(word 3, $^)
 
 
-# Generator for Dst, data, run1
-gen/run1-Dst-data.cpp: \
-	run1-b2D0MuXB2DMuNuForTauMuLine/postprocess/Dst-data.yml \
-	Dst--19_09_05--std--data--2012--md.root
-	babymaker -i $< -o $@ -d $(word 2, $^)
+# Dst, data, run 1
+gen/rdx-run1-data.cpp: \
+	rdx-run1/rdx-run1-data.yml \
+	Dst--19_09_05--std--data--2012--md.root \
+	cpp_templates/rdx.cpp
+	babymaker -i $< -o $@ -d $(word 2, $^) -t $(word 3, $^)
 
 
-# Generator for Dst, data, run2
+# Dst, data, run 2
 gen/rdx-run2-data.cpp: \
 	rdx-run2/rdx-run2-data.yml \
 	Dst--19_09_09--std--data--2016--md.root \
 	cpp_templates/rdx.cpp
 	babymaker -i $< -o $@ -d $(word 2, $^) -t $(word 3, $^)
 
-# Generator for Dst_D0, MC
+# Dst_D0, MC, run 2
 gen/rdx-run2-mc.cpp: \
 	rdx-run2/rdx-run2-mc.yml \
 	Dst_D0--20_08_18--cutflow_mc--MC_2016_Beam6500GeV-2016-MagDown-Nu1.6-25ns-Pythia8_Sim09b_Trig0x6138160F_Reco16_Turbo03_Stripping26NoPrescalingFlagged_11874091_ALLSTREAMS.DST.root \
