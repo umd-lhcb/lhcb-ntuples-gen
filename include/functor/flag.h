@@ -1,6 +1,6 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Wed Sep 23, 2020 at 04:28 PM +0800
+// Last Change: Wed Sep 23, 2020 at 04:34 PM +0800
 
 #ifndef _LNG_FUNCTOR_FLAG_H_
 #define _LNG_FUNCTOR_FLAG_H_
@@ -149,15 +149,11 @@ Bool_t FLAG_D0_MU(std::vector<std::vector<Bool_t> >& mc_flags,
 
 // NOTE: These P and PT variables are in GeV, NOT the default MeV!!
 //       Selections are based on Run 1 R(D(*)) ANA, v2020.07.31, p.11, Table 6.
-// NOTE: The following cuts are missing from Table 6, and are recovered in
-// AddB.C:
-//       mu_ip_chi2 > 45
 Bool_t FLAG_SEL_D0_RUN1(Double_t k_pt, Double_t pi_pt, Bool_t k_hlt1ta_tos,
                         Bool_t pi_hlt1ta_tos, Double_t k_p, Double_t pi_p,
                         Double_t k_ip_chi2, Double_t pi_ip_chi2,
-                        Double_t mu_ip_chi2, Double_t k_pid_k,
-                        Double_t pi_pid_k, Bool_t mu_veto, Double_t k_gh_prob,
-                        Double_t pi_gh_prob, Double_t d0_pt,
+                        Double_t k_pid_k, Double_t pi_pid_k, Bool_t mu_veto,
+                        Double_t k_gh_prob, Double_t pi_gh_prob, Double_t d0_pt,
                         Bool_t d0_hlt2charmhad_tos, Double_t d0_endvtx_chi2,
                         Double_t d0_endvtx_ndof, Double_t d0_ip,
                         Double_t d0_ip_chi2, Double_t d0_dira,
@@ -170,7 +166,6 @@ Bool_t FLAG_SEL_D0_RUN1(Double_t k_pt, Double_t pi_pt, Bool_t k_hlt1ta_tos,
       ((k_hlt1ta_tos && k_pt > 1.7) || (pi_hlt1ta_tos && pi_pt > 1.7)) &&
       k_p > 2 && pi_p > 2 &&
       k_ip_chi2 > 45 && pi_ip_chi2 > 45 &&
-      mu_ip_chi2 > 45 &&  /* From AddB.C */
       /* The sum of 2 PT are trivially true */
       k_pid_k > 4 && pi_pid_k < 2 &&
       !mu_veto &&  /* Equivalent to: neither K nor Pi is Mu */
@@ -192,15 +187,18 @@ Bool_t FLAG_SEL_D0_RUN1(Double_t k_pt, Double_t pi_pt, Bool_t k_hlt1ta_tos,
 
 // NOTE: These P and PT variables are in GeV, NOT the default MeV!!
 //       Selections are based on Run 1 R(D(*)) ANA, v2020.07.31, p.11, Table 8.
+// NOTE: The following cuts are missing from Table 6, and are recovered in
+// AddB.C:
+//       mu_ip_chi2 > 45
 Bool_t FLAG_SEL_B0DST_RUN1(Bool_t flag_sel_d0, Double_t spi_gh_prob,
                            Double_t dst_endvtx_chi2, Double_t dst_endvtx_ndof,
                            Double_t dst_m, Double_t d0_m, Bool_t mu_is_mu,
                            Double_t mu_p, Double_t mu_eta, Double_t mu_pid_mu,
-                           Double_t mu_pid_e, TVector3 v3_mu_p, TVector3 v3_k_p,
-                           TVector3 v3_pi_p, TVector3 v3_spi_p,
-                           Double_t b0_endvtx_chi2, Double_t b0_endvtx_ndof,
-                           Double_t b0_fd_trans, Double_t b0_dira,
-                           Double_t b0_m, Double_t iso_bdt) {
+                           Double_t mu_pid_e, Double_t mu_ip_chi2,
+                           TVector3 v3_mu_p, TVector3 v3_k_p, TVector3 v3_pi_p,
+                           TVector3 v3_spi_p, Double_t b0_endvtx_chi2,
+                           Double_t b0_endvtx_ndof, Double_t b0_fd_trans,
+                           Double_t b0_dira, Double_t b0_m, Double_t iso_bdt) {
   auto dst_d0_delta_m_ref = 145.454;
 
   auto track_well_separated = true;
@@ -227,6 +225,7 @@ Bool_t FLAG_SEL_B0DST_RUN1(Bool_t flag_sel_d0, Double_t spi_gh_prob,
       (mu_eta > 1.7 && mu_eta < 5) &&
       mu_pid_mu > 2 &&
       mu_pid_e < 1 &&
+      mu_ip_chi2 > 45 &&  /* From AddB.C */
       track_well_separated &&
       /* D0 Mu combo, already applied in DaVinci */
       /* D* Mu combo */
