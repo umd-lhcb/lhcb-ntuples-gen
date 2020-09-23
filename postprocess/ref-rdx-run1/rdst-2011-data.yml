@@ -22,6 +22,7 @@ rename:
     Y_ISOLATION_BDT: iso_bdt  # Isolation BDT
     Y_ENDVERTEX_CHI2: b_endvtx_chi2
     Y_ENDVERTEX_NDOF: b_endvtx_ndof
+    Y_DISCARDMu_CHI2: b_discard_mu_chi2
     Y_M: b_m
     Y_PT: b_pt
     Y_PZ: b_pz
@@ -151,6 +152,7 @@ calculation:
         mu_ip_chi2,
         mu_gh_prob,
         v3_mu_p, v3_k_p, v3_pi_p, v3_spi_p,
+        b_discard_mu_chi2,
         b_endvtx_chi2, b_endvtx_ndof,
         b_fd_trans,
         b_dira,
