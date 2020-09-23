@@ -1,6 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Sep 23, 2020 at 01:39 AM +0800
+# Last Change: Wed Sep 23, 2020 at 05:39 PM +0800
 
 BINPATH	:=	bin
 
@@ -298,8 +298,9 @@ gen/run2-Dst_D0-step2/Dst_D0--20_08_18--cutflow_mc--cocktail--2016--md--step2.ro
 # Special postprocessing for comparing 2011 data
 gen/rdst-2011-mix.cpp: \
 	ref-rdx-run1/rdst-2011-mix.yml \
-	Dst--20_07_02--mix--all--2011-2012--md-mu--phoebe.root
-	babymaker -i $< -o $@ -d $(word 2, $^)
+	Dst--20_07_02--mix--all--2011-2012--md-mu--phoebe.root \
+	cpp_templates/rdx.cpp
+	babymaker -i $< -o $@ -d $(word 2, $^) -t $(word 3, $^)
 
 gen/rdst-2011-data.cpp: \
 	ref-rdx-run1/rdst-2011-data.yml \

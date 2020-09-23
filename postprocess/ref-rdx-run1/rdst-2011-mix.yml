@@ -29,6 +29,7 @@ rename:
     Y_DISCARDMu_CHI2: b_discard_mu_chi2
     Y_M: b_m
     dxy: b_fd_trans
+    Y_PT: b_pt
     # D*
     Dst_M: dst_m
     Dst_ENDVERTEX_CHI2: dst_endvtx_chi2
@@ -185,3 +186,6 @@ output:
             #- "mu_bdt > 0.25"
             # Other selections from AddB.C
             - "spi_trk_type == 3"
+        one_cand_only:
+            enable: true
+            branch: b_pt
