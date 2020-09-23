@@ -23,7 +23,6 @@ rename:
     isData: is_data
     # B0/B-
     YTIS: b_l0_tis
-    YTOS: b_l0_tos
     Y_DIRA_OWNPV: b_dira
     iso_BDT: iso_bdt  # Isolation BDT
     Y_ENDVERTEX_CHI2: b_endvtx_chi2
@@ -35,6 +34,7 @@ rename:
     Dst_ENDVERTEX_CHI2: dst_endvtx_chi2
     Hlt1: dst_hlt1_tos
     # D0
+    YTOS: d0_l0had_tos
     Hlt2: d0_hlt2charmhad_tos  # The full Hlt2 trigger name is 'Hlt2CharmHadD02HH_D02KPiDecision'
     D0_DIRA_OWNPV: d0_dira
     D0_M: d0_m
@@ -45,6 +45,7 @@ rename:
     mu_is: mu_is_mu
     mu_ETA: mu_eta
     muIPCHI2: mu_ip_chi2
+    L0: mu_l0_tis
     # K
     K_P: k_p
     K_PT: k_pt
@@ -170,6 +171,11 @@ output:
             # Keep only 2011 MagDown
             - "flag_2011"
             - "polarity < 0"  # MagDown only
+            # Trigger cuts
+            - "b_l0_tis || d0_l0had_tos"
+            - "d0_hlt2charmhad_tos"
+            - "mu_l0_tis"
+            - "dst_hlt1_tos"
             # Cuts on fit variables
             - "-2.0 <= mm2 <= 10.0"
             - "0.1 <= el <= 2.5"

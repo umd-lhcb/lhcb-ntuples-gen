@@ -30,7 +30,8 @@ rename:
     Dst_2010_minus_M: dst_m
     Dst_2010_minus_ENDVERTEX_CHI2: dst_endvtx_chi2
     Dst_2010_minus_ENDVERTEX_NDOF: dst_endvtx_ndof
-    Dst_2010_minus_L0Global_TOS: dst_hlt1_tos
+    Dst_2010_minus_L0Global_TOS: dst_l0_tos
+    Dst_2010_minus_Hlt1Phys_TOS: dst_hlt1_tos
     # D0
     D0_Hlt2CharmHadD02HH_D02KPiDecision_TOS: d0_hlt2charmhad_tos
     D0_DIRA_OWNPV: d0_dira
@@ -41,6 +42,8 @@ rename:
     D0_IP_OWNPV: d0_ip
     D0_IPCHI2_OWNPV: d0_ip_chi2
     D0_FDCHI2_OWNPV: d0_fd_chi2
+    D0_L0HadronDecision_TOS: d0_l0had_tos
+    D0_Hlt2CharmHadD02HH_D02KPiDecision_TOS: d0_hlt2charmhad_tos
     # Mu
     muplus_isMuon: mu_is_mu
     muplus_PIDmu: mu_pid_mu
@@ -48,6 +51,7 @@ rename:
     muplus_ID: mu_id
     muplus_IPCHI2_OWNPV: mu_ip_chi2
     muplus_TRACK_GhostProb: mu_gh_prob
+    muplus_L0Global_TIS: mu_l0_tis
     # K
     Kplus_P: k_p
     Kplus_PT: k_pt
@@ -172,6 +176,11 @@ output:
             # Keep only 2011 MagDown
             - "flag_2011"
             - "polarity < 0"  # MagDown only
+            # Trigger cuts
+            - "b_l0_tis || d0_l0had_tos"
+            - "d0_hlt2charmhad_tos"
+            - "mu_l0_tis"
+            - "dst_hlt1_tos"
             # Cuts on fit variables
             - "-2.0 <= mm2 <= 10.0"
             - "0.1 <= el <= 2.5"
