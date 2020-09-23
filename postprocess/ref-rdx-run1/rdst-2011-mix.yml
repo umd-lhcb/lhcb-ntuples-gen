@@ -43,6 +43,7 @@ rename:
     muVeto: mu_veto
     mu_is: mu_is_mu
     mu_ETA: mu_eta
+    muIPCHI2: mu_ip_chi2
     # K
     K_P: k_p
     K_PT: k_pt
@@ -119,6 +120,7 @@ calculation:
         k_hlt1ta_tos, pi_hlt1ta_tos,
         k_p, pi_p,
         k_ip_chi2, pi_ip_chi2,
+        mu_ip_chi2,
         k_pid_k, pi_pid_k,
         mu_veto,
         k_gh_prob, pi_gh_prob,

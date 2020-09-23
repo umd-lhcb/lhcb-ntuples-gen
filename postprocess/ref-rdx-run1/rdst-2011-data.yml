@@ -45,6 +45,7 @@ rename:
     muplus_PIDmu: mu_pid_mu
     muplus_PIDe: mu_pid_e
     muplus_ID: mu_id
+    muplus_IPCHI2_OWNPV: mu_ip_chi2
     # K
     Kplus_P: k_p
     Kplus_PT: k_pt
@@ -123,6 +124,7 @@ calculation:
         k_hlt1ta_tos, pi_hlt1ta_tos,
         k_p, pi_p,
         k_ip_chi2, pi_ip_chi2,
+        mu_ip_chi2,
         k_pid_k, pi_pid_k,
         mu_veto,
         k_gh_prob, pi_gh_prob,

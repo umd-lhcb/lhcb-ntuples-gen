@@ -1,6 +1,6 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Wed Sep 23, 2020 at 04:23 PM +0800
+// Last Change: Wed Sep 23, 2020 at 04:28 PM +0800
 
 #ifndef _LNG_FUNCTOR_FLAG_H_
 #define _LNG_FUNCTOR_FLAG_H_
@@ -149,11 +149,15 @@ Bool_t FLAG_D0_MU(std::vector<std::vector<Bool_t> >& mc_flags,
 
 // NOTE: These P and PT variables are in GeV, NOT the default MeV!!
 //       Selections are based on Run 1 R(D(*)) ANA, v2020.07.31, p.11, Table 6.
+// NOTE: The following cuts are missing from Table 6, and are recovered in
+// AddB.C:
+//       mu_ip_chi2 > 45
 Bool_t FLAG_SEL_D0_RUN1(Double_t k_pt, Double_t pi_pt, Bool_t k_hlt1ta_tos,
                         Bool_t pi_hlt1ta_tos, Double_t k_p, Double_t pi_p,
                         Double_t k_ip_chi2, Double_t pi_ip_chi2,
-                        Double_t k_pid_k, Double_t pi_pid_k, Bool_t mu_veto,
-                        Double_t k_gh_prob, Double_t pi_gh_prob, Double_t d0_pt,
+                        Double_t mu_ip_chi2, Double_t k_pid_k,
+                        Double_t pi_pid_k, Bool_t mu_veto, Double_t k_gh_prob,
+                        Double_t pi_gh_prob, Double_t d0_pt,
                         Bool_t d0_hlt2charmhad_tos, Double_t d0_endvtx_chi2,
                         Double_t d0_endvtx_ndof, Double_t d0_ip,
                         Double_t d0_ip_chi2, Double_t d0_dira,
@@ -166,6 +170,7 @@ Bool_t FLAG_SEL_D0_RUN1(Double_t k_pt, Double_t pi_pt, Bool_t k_hlt1ta_tos,
       ((k_hlt1ta_tos && k_pt > 1.7) || (pi_hlt1ta_tos && pi_pt > 1.7)) &&
       k_p > 2 && pi_p > 2 &&
       k_ip_chi2 > 45 && pi_ip_chi2 > 45 &&
+      mu_ip_chi2 > 45 &&  /* From AddB.C */
       /* The sum of 2 PT are trivially true */
       k_pid_k > 4 && pi_pid_k < 2 &&
       !mu_veto &&  /* Equivalent to: neither K nor Pi is Mu */
