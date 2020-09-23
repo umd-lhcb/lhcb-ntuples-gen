@@ -46,6 +46,7 @@ rename:
     muplus_PIDe: mu_pid_e
     muplus_ID: mu_id
     muplus_IPCHI2_OWNPV: mu_ip_chi2
+    muplus_TRACK_GhostProb: mu_gh_prob
     # K
     Kplus_P: k_p
     Kplus_PT: k_pt
@@ -148,6 +149,7 @@ calculation:
         mu_pid_mu,
         mu_pid_e,
         mu_ip_chi2,
+        mu_gh_prob,
         v3_mu_p, v3_k_p, v3_pi_p, v3_spi_p,
         b_endvtx_chi2, b_endvtx_ndof,
         b_fd_trans,
