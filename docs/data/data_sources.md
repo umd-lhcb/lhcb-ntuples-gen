@@ -1,4 +1,4 @@
-## Run 1 data
+## Run 1 muonic $R(D^{(*)})$ data
 
 | stripping line (in note) | stripping line (updated) | sample `DIRAC` path |
 |---|---|---|
@@ -12,7 +12,7 @@
     data.
 
 
-## Run 1 Monte-Carlo
+## Run 1 muonic $R(D^{(*)})$ Monte-Carlo
 
 !!! tip
     In `DIRAC`, make sure to switch from **Simulation Condition** to **Event
@@ -43,7 +43,7 @@
 * `11874091`: $B_d \rightarrow D^0 X \mu \nu$, $D^0 = cocktail$.
 
 
-## Run 2 data
+## Run 2 muonic $R(D^{(*)})$ data
 
 | stripping line | sample `DIRAC` path |
 |---|---|
@@ -54,7 +54,7 @@
     The run 2 stripping line omits `Nu`.
 
 
-## Run 2 Monte-Carlo
+## Run 2 muonic $R(D^{(*)})$ Monte-Carlo
 
 ### Cocktail sample for cut-flow study
 * `11874091`: $B_d \rightarrow D^0 X \mu \nu$, $D^0 = cocktail$.
