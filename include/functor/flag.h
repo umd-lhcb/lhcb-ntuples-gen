@@ -1,6 +1,6 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Wed Sep 23, 2020 at 05:12 PM +0800
+// Last Change: Wed Sep 23, 2020 at 06:25 PM +0800
 
 #ifndef _LNG_FUNCTOR_FLAG_H_
 #define _LNG_FUNCTOR_FLAG_H_
@@ -162,8 +162,12 @@ Bool_t FLAG_SEL_D0_RUN1(Double_t k_pt, Double_t pi_pt, Bool_t k_hlt1ta_tos,
 
   // clang-format off
   if (/* K, pi */
-      k_pt > 0.8 && pi_pt > 0.8 &&
-      ((k_hlt1ta_tos && k_pt > 1.7) || (pi_hlt1ta_tos && pi_pt > 1.7)) &&
+      // FIXME: AddB.C is different from ANA!
+      //k_pt > 0.8 && pi_pt > 0.8 &&
+      //((k_hlt1ta_tos && k_pt > 1.7) || (pi_hlt1ta_tos && pi_pt > 1.7)) &&
+      k_pt > 0.5 && pi_pt > 0.5 && k_pt+pi_pt > 1.4 &&  /* AddB.C, LN2554 */
+      (k_hlt1ta_tos || pi_hlt1ta_tos) &&  /* AddB.C, LN2572 */
+      ////
       k_p > 2 && pi_p > 2 &&
       k_ip_chi2 > 45 && pi_ip_chi2 > 45 &&
       /* The sum of 2 PT are trivially true */
