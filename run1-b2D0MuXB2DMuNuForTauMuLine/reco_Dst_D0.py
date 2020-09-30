@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Aug 25, 2020 at 08:43 PM +0800
+# Last Change: Wed Sep 30, 2020 at 07:32 PM +0800
 #
 # Description: Definitions of selection and reconstruction procedures for Dst
 #              and D0 in run 1, with thorough comments.
@@ -659,15 +659,28 @@ else:
 # Define ntuples #
 ##################
 
-from Configurables import DecayTreeTuple
+from Configurables import DecayTreeTuple, MCDecayTreeTuple
 from DecayTreeTuple.Configuration import *  # to use addTupleTool
 
 # Additional TupleTool for addTool only
 from Configurables import BackgroundCategory
 
 
-def tuple_initialize_data(name, sel_seq, template):
-    tp = DecayTreeTuple(name)
+# Helper function to really add TupleTool. This will remove existing tool before
+# re-adding it.
+def really_add_tool(tp, tool_name):
+    try:
+        tp.ToolList.remove(tool_name)
+    except (ValueError, AttributeError):
+        pass
+    finally:
+        tool = tp.addTupleTool(tool_name)
+    return tool
+
+
+def tuple_initialize_data(name, sel_seq, template,
+                          tuple_builder=DecayTreeTuple):
+    tp = tuple_builder(name)
     tp.Inputs = [sel_seq.outputLocation()]
     tp.setDescriptorTemplate(template)
 
@@ -678,14 +691,12 @@ def tuple_initialize_data(name, sel_seq, template):
         'TupleToolTrackInfo',
     ]
 
-    # FIXME: 'TupleToolPid' is added by default. To configure it, we need to
-    #        remove it first and re-add it.
-    tp.ToolList.remove('TupleToolPid')
-    tt_pid = tp.addTupleTool('TupleToolPid')
+    tt_pid = really_add_tool(tp, 'TupleToolPid')
     tt_pid.Verbose = True
 
     # Add event-level information.
-    tt_loki_evt = tp.addTupleTool('LoKi::Hybrid::EvtTupleTool')
+    tt_loki_evt = really_add_tool(tp,
+                                  'LoKi::Hybrid::EvtTupleTool/LoKi__Hybrid__EvtTupleTool')
     tt_loki_evt.Preambulo += ['from LoKiCore.functions import *']
     tt_loki_evt.VOID_Variables = {
         'nTracks': "CONTAINS('Rec/Track/Best')",
@@ -696,14 +707,14 @@ def tuple_initialize_data(name, sel_seq, template):
 
 
 def tuple_initialize_mc(*args, **kwargs):
-    tp = tuple_initialize_data(*args, **kwargs)
+    tp = tuple_initialize_data(*args, tuple_builder=MCDecayTreeTuple, **kwargs)
 
-    tt_mcbi = tp.addTupleTool('TupleToolMCBackgroundInfo')
+    tt_mcbi = really_add_tool(tp, 'TupleToolMCBackgroundInfo')
     tt_mcbi.addTool(BackgroundCategory)
     tt_mcbi.BackgroundCategory.SemileptonicDecay = True
     tt_mcbi.BackgroundCategory.NumNeutrinos = 3
 
-    tt_truth = tp.addTupleTool('TupleToolMCTruth')
+    tt_truth = really_add_tool(tp, 'TupleToolMCTruth')
     tt_truth.ToolList = [
         'MCTupleToolKinematic',
         'MCTupleToolHierarchyExt'
@@ -788,6 +799,19 @@ tp_Bminus_ws = tuple_initialize(
 )
 tuple_postpocess(tp_Bminus_ws, B_meson='b')
 
+# B- MC ########################################################################
+tp_Bminus_mc_tau = tuple_initialize(
+    'TupleBminusTau',
+    seq_Bminus,
+    '${b}[B- => ${d0}(D0 => ${k}K- ${pi}pi+) ${tau}(tau- => ${mu}mu- ${amu_mu}nu_mu~ ${nu_tau}nu_tau) ${anu_tau}nu_tau~]CC'
+)
+
+tp_Bminus_mc_mu = tuple_initialize(
+    'TupleBminusMu',
+    seq_Bminus,
+    '${b}[B- => ${d0}(D0 => ${k}K- ${pi}pi+) ${mu}mu- ${anu_mu}nu_mu~]CC'
+)
+
 # B0 ###########################################################################
 tp_B0 = tuple_initialize(
     'TupleB0',
@@ -821,7 +845,7 @@ if DaVinci().Simulation or has_flag('CUTFLOW'):
     DaVinci().UserAlgorithms += [seq_Bminus.sequence(),
                                  seq_B0.sequence(),
                                  # ntuples
-                                 tp_Bminus, tp_B0]
+                                 tp_Bminus_mc_tau, tp_Bminus_mc_mu]
 else:
     DaVinci().UserAlgorithms += [seq_Bminus.sequence(),
                                  seq_Bminus_ws.sequence(),
