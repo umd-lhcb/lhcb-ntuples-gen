@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Sep 30, 2020 at 07:32 PM +0800
+# Last Change: Thu Oct 01, 2020 at 03:51 PM +0800
 #
 # Description: Definitions of selection and reconstruction procedures for Dst
 #              and D0 in run 1, with thorough comments.
@@ -678,12 +678,15 @@ def really_add_tool(tp, tool_name):
     return tool
 
 
-def tuple_initialize_data(name, sel_seq, template,
-                          tuple_builder=DecayTreeTuple):
+def tuple_initialize_common(name, sel_seq, template, tuple_builder):
     tp = tuple_builder(name)
     tp.Inputs = [sel_seq.outputLocation()]
     tp.setDescriptorTemplate(template)
+    return tp
 
+
+def tuple_initialize_data(name, sel_seq, template):
+    tp = tuple_initialize_common(name, sel_seq, template, DecayTreeTuple)
     tp.ToolList += [
         'TupleToolAngles',
         'TupleToolMuonPid',  # This write out NN Mu inputs
@@ -695,8 +698,8 @@ def tuple_initialize_data(name, sel_seq, template,
     tt_pid.Verbose = True
 
     # Add event-level information.
-    tt_loki_evt = really_add_tool(tp,
-                                  'LoKi::Hybrid::EvtTupleTool/LoKi__Hybrid__EvtTupleTool')
+    tt_loki_evt = really_add_tool(
+        tp, 'LoKi::Hybrid::EvtTupleTool/LoKi__Hybrid__EvtTupleTool')
     tt_loki_evt.Preambulo += ['from LoKiCore.functions import *']
     tt_loki_evt.VOID_Variables = {
         'nTracks': "CONTAINS('Rec/Track/Best')",
@@ -707,7 +710,7 @@ def tuple_initialize_data(name, sel_seq, template,
 
 
 def tuple_initialize_mc(*args, **kwargs):
-    tp = tuple_initialize_data(*args, tuple_builder=MCDecayTreeTuple, **kwargs)
+    tp = tuple_initialize_data(*args, **kwargs)
 
     tt_mcbi = really_add_tool(tp, 'TupleToolMCBackgroundInfo')
     tt_mcbi.addTool(BackgroundCategory)
@@ -791,7 +794,7 @@ tp_Bminus = tuple_initialize(
 )
 tuple_postpocess(tp_Bminus, B_meson='b')
 
-# B-_ws ########################################################################
+# B- wrong-sign ################################################################
 tp_Bminus_ws = tuple_initialize(
     'TupleBminusWS',
     seq_Bminus_ws,
@@ -800,16 +803,18 @@ tp_Bminus_ws = tuple_initialize(
 tuple_postpocess(tp_Bminus_ws, B_meson='b')
 
 # B- MC ########################################################################
-tp_Bminus_mc_tau = tuple_initialize(
-    'TupleBminusTau',
+tp_Bminus_mc_Tau = tuple_initialize_common(
+    'MCTupleBminusTau',
     seq_Bminus,
-    '${b}[B- => ${d0}(D0 => ${k}K- ${pi}pi+) ${tau}(tau- => ${mu}mu- ${amu_mu}nu_mu~ ${nu_tau}nu_tau) ${anu_tau}nu_tau~]CC'
+    '${b}[B- => ${d0}(D0 => ${k}K- ${pi}pi+) ${tau}(tau- => ${mu}mu- ${amu_mu}nu_mu~ ${nu_tau}nu_tau) ${anu_tau}nu_tau~]CC',
+    MCDecayTreeTuple
 )
 
-tp_Bminus_mc_mu = tuple_initialize(
-    'TupleBminusMu',
+tp_Bminus_mc_Mu = tuple_initialize_common(
+    'MCTupleBminusMu',
     seq_Bminus,
-    '${b}[B- => ${d0}(D0 => ${k}K- ${pi}pi+) ${mu}mu- ${anu_mu}nu_mu~]CC'
+    '${b}[B- => ${d0}(D0 => ${k}K- ${pi}pi+) ${mu}mu- ${anu_mu}nu_mu~]CC',
+    MCDecayTreeTuple
 )
 
 # B0 ###########################################################################
@@ -820,7 +825,7 @@ tp_B0 = tuple_initialize(
 )
 tuple_postpocess(tp_B0)
 
-# B0_ws_Mu #####################################################################
+# B0 wrong-sign ################################################################
 tp_B0_ws_Mu = tuple_initialize(
     'TupleB0WSMu',
     seq_B0_ws_Mu,
@@ -828,7 +833,6 @@ tp_B0_ws_Mu = tuple_initialize(
 )
 tuple_postpocess(tp_B0_ws_Mu)
 
-# B0_ws_Pi #####################################################################
 tp_B0_ws_Pi = tuple_initialize(
     'TupleB0WSPi',
     seq_B0_ws_Pi,
@@ -836,6 +840,20 @@ tp_B0_ws_Pi = tuple_initialize(
 )
 tuple_postpocess(tp_B0_ws_Pi)
 
+# B0 MC ########################################################################
+tp_B0_mc_Tau = tuple_initialize_common(
+    'MCTupleB0Tau',
+    seq_B0,
+    '${b0}[B~0 => ${dst}(D*(2010)+ => ${d0}(D0 => ${k}K- ${pi}pi+) ${spi}pi+) ${tau}(tau- => ${mu}mu- ${anu_mu}nu_mu~ ${nu_tau}nu_tau) ${anu_tau}nu_tau~]CC',
+    MCDecayTreeTuple
+)
+
+tp_B0_mc_Mu = tuple_initialize_common(
+    'MCTupleB0Mu',
+    seq_B0,
+    '${b0}[B~0 => ${dst}(D*(2010)+ => ${d0}(D0 => ${k}K- ${pi}pi+) ${spi}pi+) ${mu}mu- ${anu_mu}nu_mu~]CC',
+    MCDecayTreeTuple
+)
 
 ################################################
 # Add selection & tupling sequences to DaVinci #
@@ -845,7 +863,10 @@ if DaVinci().Simulation or has_flag('CUTFLOW'):
     DaVinci().UserAlgorithms += [seq_Bminus.sequence(),
                                  seq_B0.sequence(),
                                  # ntuples
-                                 tp_Bminus_mc_tau, tp_Bminus_mc_mu]
+                                 tp_Bminus, tp_B0,
+                                 # auxiliary ntuples
+                                 tp_Bminus_mc_Tau, tp_Bminus_mc_Mu,
+                                 tp_B0_mc_Tau, tp_B0_mc_Mu]
 else:
     DaVinci().UserAlgorithms += [seq_Bminus.sequence(),
                                  seq_Bminus_ws.sequence(),
