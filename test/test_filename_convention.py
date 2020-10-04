@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Sep 17, 2020 at 02:34 AM +0800
+# Last Change: Mon Oct 05, 2020 at 02:56 AM +0800
 
 from datetime import datetime
 from re import match, sub
@@ -46,7 +46,7 @@ def validate_additional_flags(s, general_valid_pattern=r'^\w+$',
                                   r'^dv\d+$',
                                   r'^py\d$',
                                   r'^sim\d+\w$',
-                                  r'^step2$',
+                                  r'^step\d+\.?\d*$',
                                   r'^subset$',
                               ]):
     tot_err = 0
