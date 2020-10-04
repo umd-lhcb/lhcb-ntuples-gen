@@ -1,6 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Sep 23, 2020 at 05:39 PM +0800
+# Last Change: Mon Oct 05, 2020 at 02:13 AM +0800
 
 BINPATH	:=	bin
 
@@ -273,6 +273,12 @@ gen/run1-Dst-step2/Dst--19_09_05--std--data--2012--md--step2.root: \
 	rdx-run1-data
 	$(word 2, $^) $< $@
 
+# Sample, Dst_D0, MC, 2012
+gen/run1-Dst_D0-step2/Dst_D0--20_10_01--mc--Bd2DstTauNu--2012--md--py6-sim08a-dv45-subset-step1.1.root: \
+	Dst_D0--20_10_01--mc--Bd2DstTauNu--2012--md--py6-sim08a-dv45-subset.root \
+	rdx-run1
+	$(word 2, $^) $< $@
+
 
 #########
 # Run 2 #
@@ -316,11 +322,18 @@ gen/rdx-run1-data.cpp: \
 	cpp_templates/rdx.cpp
 	babymaker -i $< -o $@ -d $(word 2, $^) -t $(word 3, $^)
 
-
 # Dst, data, run 2
 gen/rdx-run2-data.cpp: \
 	rdx-run2/rdx-run2-data.yml \
 	Dst--19_09_09--std--data--2016--md.root \
+	cpp_templates/rdx.cpp
+	babymaker -i $< -o $@ -d $(word 2, $^) -t $(word 3, $^)
+
+
+# Dst_D0, all, run 1
+gen/rdx-run1.cpp: \
+	rdx-run1/rdx-run1.yml \
+	Dst_D0--20_10_01--mc--Bd2DstTauNu--2012--md--py6-sim08a-dv45-subset.root \
 	cpp_templates/rdx.cpp
 	babymaker -i $< -o $@ -d $(word 2, $^) -t $(word 3, $^)
 
