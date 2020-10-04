@@ -30,6 +30,14 @@ rename:
     b0_M: b_m
     b0_PT: b_pt
     b0_PZ: b_pz
+    b0_ENDVERTEX_X: b_endvtx_x
+    b0_ENDVERTEX_Y: b_endvtx_y
+    b0_ENDVERTEX_Z: b_endvtx_z
+    b0_OWNPV_X: b_pv_x
+    b0_OWNPV_Y: b_pv_y
+    b0_OWNPV_Z: b_pv_z
+    # B0 MC-only
+    b0_TRUEPT: b_true_pt
     # D*
     dst_M: dst_m
     dst_ENDVERTEX_CHI2: dst_endvtx_chi2
@@ -92,9 +100,9 @@ calculation:
     # B0/B-
     v3_b_flight: >-
         ^auto; TVector3(
-        Y_ENDVERTEX_X-Y_OWNPV_X,
-        Y_ENDVERTEX_Y-Y_OWNPV_Y,
-        Y_ENDVERTEX_Z-Y_OWNPV_Z
+        b_endvtx_x - b_pv_x,
+        b_endvtx_y - b_pv_y,
+        b_endvtx_z - b_pv_z
         )
     b_fd_trans: Double_t; v3_b_flight.Perp()
 
@@ -125,6 +133,8 @@ output:
 
     mc_dst_tau_aux:
         input: MCTupleB0Tau/MCDecayTree
+        one_cand_only:  # Somehow the MC aux tree still have 1 duplicate eventNumber out of 21861
+            branch: b_true_pt
 
     dst_iso:
         input: TupleY/DecayTree
