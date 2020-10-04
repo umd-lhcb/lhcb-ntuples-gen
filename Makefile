@@ -1,6 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Oct 05, 2020 at 02:13 AM +0800
+# Last Change: Mon Oct 05, 2020 at 02:51 AM +0800
 
 BINPATH	:=	bin
 
@@ -270,13 +270,13 @@ cutflow-sig-nor-dss-run2-cocktail-full_refit: \
 # Dst, std, 2012
 gen/run1-Dst-step2/Dst--19_09_05--std--data--2012--md--step2.root: \
 	Dst--19_09_05--std--data--2012--md.root \
-	rdx-run1-data
+	rdx-run1-data.pp
 	$(word 2, $^) $< $@
 
 # Sample, Dst_D0, MC, 2012
 gen/run1-Dst_D0-step2/Dst_D0--20_10_01--mc--Bd2DstTauNu--2012--md--py6-sim08a-dv45-subset-step1.1.root: \
 	Dst_D0--20_10_01--mc--Bd2DstTauNu--2012--md--py6-sim08a-dv45-subset.root \
-	rdx-run1
+	rdx-run1.pp
 	$(word 2, $^) $< $@
 
 
@@ -287,13 +287,13 @@ gen/run1-Dst_D0-step2/Dst_D0--20_10_01--mc--Bd2DstTauNu--2012--md--py6-sim08a-dv
 # Dst, std, 2016
 gen/run2-Dst-step2/Dst--19_09_09--std--data--2016--md--step2.root: \
 	Dst--19_09_09--std--data--2016--md.root \
-	rdx-run2-data
+	rdx-run2-data.pp
 	$(word 2, $^) $< $@
 
 # Dst_D0, cutflow MC, cocktail, 2016
 gen/run2-Dst_D0-step2/Dst_D0--20_08_18--cutflow_mc--cocktail--2016--md--step2.root: \
 	Dst_D0--20_08_18--cutflow_mc--MC_2016_Beam6500GeV-2016-MagDown-Nu1.6-25ns-Pythia8_Sim09b_Trig0x6138160F_Reco16_Turbo03_Stripping26NoPrescalingFlagged_11874091_ALLSTREAMS.DST.root \
-	rdx-run2-mc
+	rdx-run2-mc.pp
 	$(word 2, $^) $< $@
 
 
@@ -376,60 +376,60 @@ gen/rdst-run2-trig_strip.cpp: \
 # For test on the equivalence betwen run 1 bare and dv_strip ntuples
 gen/test/Dst--20_06_04--cutflow_mc--cocktail--2011--md--subset-bare-step2.root: \
 	Dst--20_06_04--cutflow_mc--cocktail--2011--md--dv45-subset-bare.root \
-	rdst-run1-strip
+	rdst-run1-strip.pp
 	$(word 2, $^) $< $@
 
 gen/test/Dst--20_06_04--cutflow_mc--cocktail--2011--md--subset-dv_strip-step2.root: \
 	Dst--20_06_04--cutflow_mc--cocktail--2011--md--dv45-subset-dv_strip.root \
-	rdst-run1-strip
+	rdst-run1-strip.pp
 	$(word 2, $^) $< $@
 
 
 # For test on the equivalence betwen run 2 bare and dv_strip ntuples.
 gen/test/Dst--20_06_04--cutflow_mc--cocktail--2016--md--subset-dv_strip-step2.root: \
 	Dst--20_06_04--cutflow_mc--cocktail--2016--md--dv45-subset-dv_strip.root \
-	rdst-run2-strip
+	rdst-run2-strip.pp
 	$(word 2, $^) $< $@
 
 gen/test/Dst--20_06_04--cutflow_mc--cocktail--2016--md--subset-bare-step2.root: \
 	Dst--20_06_04--cutflow_mc--cocktail--2016--md--dv45-subset-bare.root \
-	rdst-run2-strip
+	rdst-run2-strip.pp
 	$(word 2, $^) $< $@
 
 
 # Cutflow re-stripped ntuples for D*.
 gen/tes/Dst--20_06_05--cutflow_mc--cocktail--2011--md--bare-step2.root: \
 	Dst--20_06_05--cutflow_mc--bare--MC_2011_Beam3500GeV-2011-MagDown-Nu2-Pythia8_Sim08h_Digi13_Trig0x40760037_Reco14c_Stripping20r1NoPrescalingFlagged_11874091_ALLSTREAMS.DST.root \
-	rdst-run1-strip
+	rdst-run1-strip.pp
 	$(word 2, $^) $< $@
 
 gen/run2-Dst-step2/Dst--20_06_05--cutflow_mc--cocktail--2016--md--bare-step2.root: \
 	Dst--20_06_05--cutflow_mc--bare--MC_2016_Beam6500GeV-2016-MagDown-Nu1.6-25ns-Pythia8_Sim09b_Trig0x6138160F_Reco16_Turbo03_Stripping26NoPrescalingFlagged_11874091_ALLSTREAMS.DST.root \
-	rdst-run2-strip
+	rdst-run2-strip.pp
 	$(word 2, $^) $< $@
 
 
 # Cutflow re-triggered and re-stripped ntuples for D*.
 gen/test/Dst--20_06_05--cutflow_mc--cocktail--2011--md--bare-step2-triggered.root: \
 	Dst--20_06_05--cutflow_mc--bare--MC_2011_Beam3500GeV-2011-MagDown-Nu2-Pythia8_Sim08h_Digi13_Trig0x40760037_Reco14c_Stripping20r1NoPrescalingFlagged_11874091_ALLSTREAMS.DST.root \
-	rdst-run1-trig_strip
+	rdst-run1-trig_strip.pp
 	$(word 2, $^) $< $@
 
 gen/test/Dst--20_06_05--cutflow_mc--cocktail--2016--md--bare-step2-triggered.root: \
 	Dst--20_06_05--cutflow_mc--bare--MC_2016_Beam6500GeV-2016-MagDown-Nu1.6-25ns-Pythia8_Sim09b_Trig0x6138160F_Reco16_Turbo03_Stripping26NoPrescalingFlagged_11874091_ALLSTREAMS.DST.root \
-	rdst-run2-trig_strip
+	rdst-run2-trig_strip.pp
 	$(word 2, $^) $< $@
 
 
 # Verify step-2 cuts with Phoebe's 2011 step-1 and step-2 ntuples
 gen/test/Dst--20_07_02--mix--data--2011--md--phoebe-step2.root: \
 	Dst--20_07_02--mix--all--2011-2012--md-mu--phoebe.root \
-	rdst-2011-mix
+	rdst-2011-mix.pp
 	$(word 2, $^) $< $@
 
 gen/test/Dst--20_09_16--std--data--2011--md--phoebe-step2.root: \
 	Dst--20_09_16--std--data--2011--md--phoebe.root \
-	rdst-2011-data
+	rdst-2011-data.pp
 	$(word 2, $^) $< $@
 
 
@@ -482,7 +482,7 @@ test-cutflow-consistency: \
 # Generic patterns #
 ####################
 
-%: gen/%.cpp \
+%.pp: gen/%.cpp \
 	include/functor/*.h \
 	include/*.h
 	$(COMPILER) $(CXXFLAGS) $(ADDFLAGS) -o $(BINPATH)/$@ $< $(LINKFLAGS)
