@@ -4,6 +4,7 @@ headers:
         - TLorentzVector.h
     user:
         - functor/flag.h
+        - functor/kinematic.h
         - functor/pid.h
 
 keep:
@@ -105,8 +106,61 @@ calculation:
         b_endvtx_z - b_pv_z
         )
     b_fd_trans: Double_t; v3_b_flight.Perp()
-
+    # D0
+    d0_pt: Double_t; GEV(d0_PT)
+    # Mu
+    mu_p: Double_t; GEV(mu_P)
+    mu_pz: Double_t; GEV(mu_PZ)
     mu_pid: Bool_t; MU_PID(mu_is_mu, mu_pid_mu)
+    mu_veto: Bool_t; MU_VETO(pi_is_mu, k_is_mu)
+    mu_eta: Double_t; ETA(mu_p, mu_pz)
+    v3_mu_p: ^auto; TVector3(mu_PX, mu_PY, mu_PZ)
+    # K
+    v3_k_p: ^auto; TVector3(k_PX, k_PY, k_PZ)
+    # Pi
+    v3_pi_p: ^auto; TVector3(pi_PX, pi_PY, pi_PZ)
+    # Slow Pi
+    v3_spi_p: ^auto; TVector3(spi_PX, spi_PY, spi_PZ)
+    # Step-2 selection flags
+    flag_sel_d0: >-
+        Bool_t; FLAG_SEL_D0_RUN1(
+        k_pt, pi_pt,
+        k_hlt1ta_tos, pi_hlt1ta_tos,
+        k_p, pi_p,
+        k_ip_chi2, pi_ip_chi2,
+        k_pid_k, pi_pid_k,
+        mu_veto,
+        k_gh_prob, pi_gh_prob,
+        d0_pt,
+        d0_hlt2charmhad_tos,
+        d0_endvtx_chi2, d0_endvtx_ndof,
+        d0_ip,
+        d0_ip_chi2,
+        d0_dira,
+        d0_fd_chi2,
+        d0_m
+        )
+    flag_sel_b0dst: >-
+        Bool_t; FLAG_SEL_B0DST_RUN1(
+        flag_sel_d0,
+        spi_gh_prob,
+        dst_endvtx_chi2, dst_endvtx_ndof,
+        dst_m, d0_m,
+        mu_is_mu,
+        mu_p,
+        mu_eta,
+        mu_pid_mu,
+        mu_pid_e,
+        mu_ip_chi2,
+        mu_gh_prob,
+        v3_mu_p, v3_k_p, v3_pi_p, v3_spi_p,
+        b_discard_mu_chi2,
+        b_endvtx_chi2, b_endvtx_ndof,
+        b_fd_trans,
+        b_dira,
+        b_m,
+        iso_bdt
+        )
 
 one_cand_only:
     enable: true
