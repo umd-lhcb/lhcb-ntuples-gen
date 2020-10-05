@@ -3,6 +3,7 @@
 #include <TTree.h>
 #include <TTreeReader.h>
 #include <TBranch.h>
+#include <TObject.h>
 
 #include <vector>
 #include <TH1D.h>
@@ -114,7 +115,7 @@ void generator_/* {% output_tree %} */(TFile *input_file, TFile *output_file) {
 
   output.Fill();  // Fill the output tree
 
-  output_file->Write();
+  output_file->Write("", TObject::kOverwrite);
 }
 
 // {% endfor %}
