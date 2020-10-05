@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Oct 01, 2020 at 03:51 PM +0800
+# Last Change: Mon Oct 05, 2020 at 09:41 PM +0800
 #
 # Description: Definitions of selection and reconstruction procedures for Dst
 #              and D0 in run 1, with thorough comments.
@@ -859,7 +859,12 @@ tp_B0_mc_Mu = tuple_initialize_common(
 # Add selection & tupling sequences to DaVinci #
 ################################################
 
-if DaVinci().Simulation or has_flag('CUTFLOW'):
+if has_flag('CUTFLOW'):
+    DaVinci().UserAlgorithms += [seq_Bminus.sequence(),
+                                 seq_B0.sequence(),
+                                 # ntuples
+                                 tp_Bminus, tp_B0]
+elif DaVinci().Simulation:
     DaVinci().UserAlgorithms += [seq_Bminus.sequence(),
                                  seq_B0.sequence(),
                                  # ntuples
