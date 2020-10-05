@@ -19,6 +19,7 @@ rename:
     Polarity: polarity
     # For pseudo-random sequence generation
     b0_PT: b_pt
+    b0_TRUEPT: b_true_pt
     # NOTE: We decide to NOT differentiate between B0 and B- in step-2 variable names.
     # B0
     b0_L0Global_TIS: b_l0_tis
@@ -38,7 +39,6 @@ rename:
     b0_OWNPV_Y: b_pv_y
     b0_OWNPV_Z: b_pv_z
     # B0 MC-only
-    b0_TRUEPT: b_true_pt
     b0_TRUEP_E: b_true_pe
     b0_TRUEP_X: b_true_px
     b0_TRUEP_Y: b_true_py
