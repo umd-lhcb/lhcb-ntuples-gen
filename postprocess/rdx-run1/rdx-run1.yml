@@ -11,8 +11,8 @@ keep:
     # Event uid
     - runNumber
     - eventNumber
-    - GpsTime
-    - EventInSequence
+    #- GpsTime
+    #- EventInSequence
 
 rename:
     # General
