@@ -39,6 +39,7 @@ rename:
     b0_OWNPV_Y: b_pv_y
     b0_OWNPV_Z: b_pv_z
     # B0 MC-only
+    b0_ID: b_id
     b0_TRUEP_E: b_true_pe
     b0_TRUEP_X: b_true_px
     b0_TRUEP_Y: b_true_py
@@ -50,6 +51,7 @@ rename:
     dst_L0Global_TOS: dst_l0_tos
     dst_Hlt1Phys_TOS: dst_hlt1_tos
     # D* MC-only
+    dst_ID: dst_id
     dst_TRUEP_E: dst_true_pe
     dst_TRUEP_X: dst_true_px
     dst_TRUEP_Y: dst_true_py
@@ -67,6 +69,7 @@ rename:
     d0_L0HadronDecision_TOS: d0_l0had_tos
     d0_Hlt2CharmHadD02HH_D02KPiDecision_TOS: d0_hlt2charmhad_tos
     # D0 MC-only
+    d0_ID: d0_id
     d0_TRUEP_E: d0_true_pe
     d0_TRUEP_X: d0_true_px
     d0_TRUEP_Y: d0_true_py
@@ -80,6 +83,7 @@ rename:
     mu_TRACK_GhostProb: mu_gh_prob
     mu_L0Global_TIS: mu_l0_tis
     # Mu MC-only
+    mu_ID: mu_id
     mu_TRUEP_E: mu_true_pe
     mu_TRUEP_X: mu_true_px
     mu_TRUEP_Y: mu_true_py
@@ -94,6 +98,7 @@ rename:
     k_TRACK_GhostProb: k_gh_prob
     k_isMuon: k_is_mu
     # K MC-only
+    k_ID: k_id
     k_TRUEP_E: k_true_pe
     k_TRUEP_X: k_true_px
     k_TRUEP_Y: k_true_py
@@ -117,21 +122,25 @@ rename:
     spi_TRACK_GhostProb: spi_gh_prob
     spi_TRACK_Type: spi_trk_type
     # Slow Pi MC-only
+    spi_ID: spi_id
     spi_TRUEP_E: spi_true_pe
     spi_TRUEP_X: spi_true_px
     spi_TRUEP_Y: spi_true_py
     spi_TRUEP_Z: spi_true_pz
     # Anti-Nu_Tau MC-only
+    anu_tau_ID: anu_tau_id
     anu_tau_TRUEP_E: anu_tau_true_pe
     anu_tau_TRUEP_X: anu_tau_true_px
     anu_tau_TRUEP_Y: anu_tau_true_py
     anu_tau_TRUEP_Z: anu_tau_true_pz
     # Nu_Tau MC-only
+    nu_tau_ID: nu_tau_id
     nu_tau_TRUEP_E: nu_tau_true_pe
     nu_tau_TRUEP_X: nu_tau_true_px
     nu_tau_TRUEP_Y: nu_tau_true_py
     nu_tau_TRUEP_Z: nu_tau_true_pz
     # Anti-Nu_Mu MC-only
+    anu_mu_ID: anu_mu_id
     anu_mu_TRUEP_E: anu_mu_true_pe
     anu_mu_TRUEP_X: anu_mu_true_px
     anu_mu_TRUEP_Y: anu_mu_true_py
@@ -238,14 +247,3 @@ output:
         input: MCTupleB0Tau/MCDecayTree
         one_cand_only:  # Somehow the MC aux tree still have 1 duplicate eventNumber out of 21861
             branch: b_true_pt
-
-    dst_iso:
-        input: TupleY/DecayTree
-        selection:
-            - "mu_pid"
-            - "iso_bdt < 0.15"
-            - "is_data"
-            - "b0_m < 5280"
-            # L0 cuts
-            - "b0_l0_tis || dst_l0had_tos"
-            - "mu_l0_tis"
