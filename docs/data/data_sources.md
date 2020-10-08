@@ -2,7 +2,7 @@
 
 | stripping line (in note) | stripping line (updated) | sample `DIRAC` path |
 |---|---|---|
-| `Strippingb2D0MuXB2DMuForTaoMuLine` | `Strippingb2D0MuXB2DMuNuForTauMuLine` | `/LHCb/Collision12/Beam4000GeV-VeloClosed-MagDown/Real Data/Reco14/Stripping21/90000000/SEMILEPTONIC.DST`
+| `Strippingb2D0MuXB2DMuForTauMuLine` | `Strippingb2D0MuXB2DMuNuForTauMuLine` | `/LHCb/Collision12/Beam4000GeV-VeloClosed-MagDown/Real Data/Reco14/Stripping21/90000000/SEMILEPTONIC.DST`
 
 !!! note
     We have to use `Stripping21` instead of `Stripping20` as mentioned in the
