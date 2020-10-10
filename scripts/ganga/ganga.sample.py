@@ -78,14 +78,14 @@ def hadd_completed_job_output(
         init_idx=0,
         output_script='~/batch_hadd.sh',
         input_dir='~/eos/gangadir-workspace/suny/LocalXML'
-    ):
+):
     instructions = []
     for j in jobs:
         if j.id >= init_idx:
-            if j.status == 'completed':
-                instructions.append((j.id, get_ntuple_filename(j),
-                                     normalize_hadd_filename(j.name)))
-            else:
+            if j.status != 'completed':
                 print('Warning: skipping job {} with a name {} and status {}'.format(j.id, j.name, j.status))
+
+            instructions.append((j.id, get_ntuple_filename(j),
+                                 normalize_hadd_filename(j.name)))
 
     gen_hadd_script(instructions, output_script, input_dir)
