@@ -1,8 +1,10 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-OUTPUT_DIR="../../docs/data/comparison/Dst_vars_run1/data-dv36_vs_dv42-no_refit"
-NTP_REF="../../run1-rdx/samples/Dst--19_10_04--std--data--2012--md--dv36-subset-no_refit.root"
-NTP_COM="../../run1-rdx/samples/Dst--19_09_26--std--data--2012--md--dv42-subset-no_refit.root"
+OUTPUT_DIR="../../docs/data/comparison/RDst_vars_run1/data-dv42_vs_dv45-no_refit"
+NTP_REF="../../run1-rdx/samples/Dst--19_09_26--std--data--2012--md--dv42-subset-no_refit.root"
+NTP_COM="../../run1-rdx/samples/Dst--19_11_14--std--data--2012--md--dv45-subset-no_refit.root"
+
+mkdir -p ${OUTPUT_DIR}
 
 # Diff
 BRANCHES="D0_P,Dst_2010_minus_P,"
@@ -26,18 +28,18 @@ BRANCHES=(
 for branch in "${BRANCHES[@]}"; do
     ../plot_single_branch.py \
         -n "${NTP_REF}" -t "TupleB0/DecayTree" -b "${branch}" \
-        -o "${OUTPUT_DIR}/${branch}_dv36.png"
+        -o "${OUTPUT_DIR}/${branch}_dv42.png"
     ../plot_single_branch.py \
         -n "${NTP_COM}" -t "TupleB0/DecayTree" -b "${branch}" \
-        -o "${OUTPUT_DIR}/${branch}_dv42.png"
+        -o "${OUTPUT_DIR}/${branch}_dv45.png"
 done
 
 # Comparison between track types
 ../plot_match_iso_track.py -n ${NTP_REF} -N ${NTP_COM} \
-    -t 'TupleB0/DecayTree' -T 'TupleB0/DecayTree' -s '_dv42,_dv36' \
+    -t 'TupleB0/DecayTree' -T 'TupleB0/DecayTree' -s '_dv45,_dv42' \
     -o ${OUTPUT_DIR}
 
 # Draw 2D histogram between track type difference and BDT score difference
 ../plot_match_iso_track_hexbin.py -n ${NTP_REF} -N ${NTP_COM} \
-    -t 'TupleB0/DecayTree' -T 'TupleB0/DecayTree' -s '_dv42,_dv36' \
+    -t 'TupleB0/DecayTree' -T 'TupleB0/DecayTree' -s '_dv45,_dv42' \
     -o ${OUTPUT_DIR} --bins 30

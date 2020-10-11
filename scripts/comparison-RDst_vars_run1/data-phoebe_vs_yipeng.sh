@@ -1,8 +1,10 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-OUTPUT_DIR="../../docs/data/comparison/Dst_vars_run1/data-phoebe_vs_yipeng"
+OUTPUT_DIR="../../docs/data/comparison/RDst_vars_run1/data-phoebe_vs_yipeng"
 NTP_REF="../../ntuples/ref-rdx-run1/Dst-std/Dst--19_09_05--std--data--2012--md--phoebe.root"
 NTP_COM="../../ntuples/pre-0.9.0/Dst-std/Dst--19_09_05--std--data--2012--md.root"
+
+mkdir -p ${OUTPUT_DIR}
 
 BRANCHES="D0_P,Dst_2010_minus_P,"
 BRANCHES+="Kplus_P,Kplus_PX,Kplus_PY,Kplus_PZ,"

@@ -1,8 +1,10 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-OUTPUT_DIR="../../docs/data/comparison/Dst_vars_run1/data-dv36_vs_dv42"
+OUTPUT_DIR="../../docs/data/comparison/RDst_vars_run1/data-dv36_vs_dv42"
 NTP_REF="../../run1-rdx/samples/Dst--19_07_12--std--data--2012--md--dv36-subset.root"
 NTP_COM="../../run1-rdx/samples/Dst--19_07_12--std--data--2012--md--dv42-subset.root"
+
+mkdir -p ${OUTPUT_DIR}
 
 # Diff
 BRANCHES="D0_P,Dst_2010_minus_P,"
