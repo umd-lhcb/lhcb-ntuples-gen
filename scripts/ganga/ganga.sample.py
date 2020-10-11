@@ -83,7 +83,7 @@ def hadd_completed_job_output(
     for j in jobs:
         if j.id >= init_idx:
             if j.status != 'completed':
-                print('Warning: skipping job {} with a name {} and status {}'.format(j.id, j.name, j.status))
+                print('Warning: job {} has a name {} and status {}'.format(j.id, j.name, j.status))
 
             instructions.append((j.id, get_ntuple_filename(j),
                                  normalize_hadd_filename(j.name)))
