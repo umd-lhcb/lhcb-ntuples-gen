@@ -25,10 +25,17 @@ run gaudirun.py <ntuple_options1> <ntuple_options2> ...
 We often have scripts that facilitate this. For instance, to run on Run 2
 data, type in the `docker`:
 ```
-cd run2-b2D0MuXB2DMuForTauMuLine
-git annex get data/data-2016-md  # ~4.7 GB, this will take several minutes
+cd run2-rdx
 ./run.sh reco_Dst_D0.py conds/cond-std-2016.py
 ```
+
+!!! warning
+    The required `.dst` files need to be downloaded via `git-annex` **OUTSIDE**
+    docker:
+    ```
+    cd run2-rdx
+    git annex get data/data-2016-md  # ~4.7 GB, this will take several minutes
+    ```
 
 !!! note
     - The first argument, `reco_Dst_D0.py`, is the script that makes the
