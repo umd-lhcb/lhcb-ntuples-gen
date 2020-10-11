@@ -771,10 +771,10 @@ output filenames will be <code>x??</code>.</p>
 <h2 id="download-data-files-with-lxplus">Download data files with <code>lxplus</code></h2>
 <p>To download all dst files listed in a bookkeeping file:
 <div class="highlight"><pre><span></span><code>lhcb-proxy-init
-lb-run LHCbDIRAC dirac-dms-get-file -D &lt;target_dir&gt; --File &lt;file_with_list_of_lfns&gt;
+lb-dirac dirac-dms-get-file -D &lt;target_dir&gt; --File &lt;file_with_list_of_lfns&gt;
 </code></pre></div></p>
 <p>If you know a <code>LFN</code>, instead of a file that contains a list of <code>LFN</code>s, you can:
-<div class="highlight"><pre><span></span><code>lb-run LHCbDIRAC dirac-dms-get-file -D &lt;target_dir&gt; -l &lt;lfn&gt;
+<div class="highlight"><pre><span></span><code>lb-dirac dirac-dms-get-file -D &lt;target_dir&gt; -l &lt;lfn&gt;
 </code></pre></div></p>
                 
               
