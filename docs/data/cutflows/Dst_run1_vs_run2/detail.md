@@ -56,14 +56,12 @@ cocktail MC.
 
 ## Run 1 detail
 
-### Generation
+!!! note Generation
 
-These cutflows, for both run 1 and 2, are generated with [`cutflow-run1-detail.py`](https://github.com/umd-lhcb/lhcb-ntuples-gen/blob/master/run1-b2D0MuXB2DMuNuForTauMuLine/cutflow/cutflow-run1-detail.py)
-and [`cutflow-run2-detail.py`](https://github.com/umd-lhcb/lhcb-ntuples-gen/blob/master/run1-b2D0MuXB2DMuNuForTauMuLine/cutflow/cutflow-run2-detail.py)
+    These cutflows, for both run 1 and 2, are generated with :
 
-!!! example
     ```
-    ./cut_flow-run2-detail.py ../ntuples/cutflow-Dst/BCands_Dst-yipeng-cutflow_mc-2016-mag_down.root output-run2-individual.yml
+    make cutflow-Dst-detail-individual
     ```
 
     The output will be printed out to terminal.

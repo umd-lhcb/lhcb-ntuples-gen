@@ -4,14 +4,12 @@ occur in both ntuples, and find their:
 1. absolute difference
 2. normalized difference, with one of them used as normalization
 
-Unless specified, all ntuples are located in `run1-b2D0MuXB2DMuNuForTauMuLine/samples`.
-
 
 [^1]: Typically by the combination of `runNumber` and `eventNumber`.
 
 
 ## Comparison between data
-The files being compared are, located in `run1-b2D0MuXB2DMuNuForTauMuLine/ntuples/run1-Dst`:
+The files being compared are, located in `ntuples/run1-Dst`:
 
 * `BCands_Dst-phoebe-data-2012-mag_down.root`
 * `BCands_Dst-yipeng-data-2012-mag_down.root`
@@ -843,7 +841,7 @@ Files used:
 
 
 ## Comparison between MC (Pythia 6)
-Files used, located in `run1-b2D0MuXB2DMuNuForTauMuLine/ntuples/mc`:
+Files used, located in `run1-rdx/ntuples/mc`:
 
 * `BCands-phoebe-mc-mag_down-py6-Bd2DstTauNu.root`
 * `BCands-yipeng-mc-mag_down-py6-sim08a-Bd2DstTauNu.root`

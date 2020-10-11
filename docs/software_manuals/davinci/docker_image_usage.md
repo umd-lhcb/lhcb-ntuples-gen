@@ -43,7 +43,7 @@ run gaudirun.py <ntuple_options1> <ntuple_options2> ...
     To make our lives easier, a `run.sh` command is typically created in each
     stripping lines, such as:
     ```
-    run1-b2D0MuXB2DMuNuForTauMuLine/run.sh
+    run1-rdx/run.sh
     ```
 
     If you see this file, take a look at it to see the availabe commands, and
