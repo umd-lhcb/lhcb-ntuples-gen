@@ -27,12 +27,7 @@ pkgs.mkShell rec {
   shellHook = ''
     # Allow the use of wheels.
     SOURCE_DATE_EPOCH=$(date +%s)
-
-    if test -d $HOME/build/python-venv; then
-      VENV=$HOME/build/python-venv/${name}
-    else
-      VENV=./.virtualenv
-    fi
+    VENV=./.virtualenv
 
     if test ! -d $VENV; then
       virtualenv $VENV
