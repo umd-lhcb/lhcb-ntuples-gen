@@ -680,13 +680,6 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#generation" class="md-nav__link">
-    Generation
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#marginal-impact" class="md-nav__link">
     Marginal impact
   </a>
@@ -910,13 +903,6 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#generation" class="md-nav__link">
-    Generation
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#marginal-impact" class="md-nav__link">
     Marginal impact
   </a>
@@ -1122,12 +1108,10 @@ cocktail MC.</p>
 <p>Only lines present in both runs are considered here.</p>
 </div>
 <h2 id="run-1-detail">Run 1 detail</h2>
-<h3 id="generation">Generation</h3>
-<p>These cutflows, for both run 1 and 2, are generated with <a href="https://github.com/umd-lhcb/lhcb-ntuples-gen/blob/master/run1-b2D0MuXB2DMuNuForTauMuLine/cutflow/cutflow-run1-detail.py"><code>cutflow-run1-detail.py</code></a>
-and <a href="https://github.com/umd-lhcb/lhcb-ntuples-gen/blob/master/run1-b2D0MuXB2DMuNuForTauMuLine/cutflow/cutflow-run2-detail.py"><code>cutflow-run2-detail.py</code></a></p>
-<div class="admonition example">
-<p class="admonition-title">Example</p>
-<div class="highlight"><pre><span></span><code>./cut_flow-run2-detail.py ../ntuples/cutflow-Dst/BCands_Dst-yipeng-cutflow_mc-2016-mag_down.root output-run2-individual.yml
+<div class="admonition note generation">
+<p class="admonition-title">Note</p>
+<p>These cutflows, for both run 1 and 2, are generated with :</p>
+<div class="highlight"><pre><span></span><code>make cutflow-Dst-detail-individual
 </code></pre></div>
 <p>The output will be printed out to terminal.</p>
 </div>
