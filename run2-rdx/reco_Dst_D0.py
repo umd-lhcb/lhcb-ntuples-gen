@@ -1,10 +1,10 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Sep 21, 2020 at 12:50 AM +0800
+# Last Change: Mon Oct 12, 2020 at 01:57 AM +0800
 #
 # Description: Definitions of selection and reconstruction procedures for Dst
 #              and D0 in run 2. For more thorough comments, take a look at:
-#                  run1-b2D0MuXB2DMuNuForTauMuLine/reco_Dst_D0.py
+#                  run1-rdx/reco_Dst_D0.py
 
 
 #########################################

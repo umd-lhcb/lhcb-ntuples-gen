@@ -1,8 +1,8 @@
 #!/bin/bash
 
 OUTPUT_DIR="../../docs/data/comparison/Dst_vars_run1/data-dv36_vs_dv42-no_velo_pions"
-NTP_REF="../../run1-b2D0MuXB2DMuNuForTauMuLine/samples/Dst--19_09_11--std--data--2012--md--dv36-subset-no_velo_pions.root"
-NTP_COM="../../run1-b2D0MuXB2DMuNuForTauMuLine/samples/Dst--19_09_11--std--data--2012--md--dv42-subset-no_velo_pions.root"
+NTP_REF="../../run1-rdx/samples/Dst--19_09_11--std--data--2012--md--dv36-subset-no_velo_pions.root"
+NTP_COM="../../run1-rdx/samples/Dst--19_09_11--std--data--2012--md--dv42-subset-no_velo_pions.root"
 
 BRANCHES=(
     "Y_ISOLATION_Type"

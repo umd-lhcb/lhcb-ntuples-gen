@@ -1,14 +1,14 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Oct 05, 2020 at 02:51 AM +0800
+# Last Change: Mon Oct 12, 2020 at 01:48 AM +0800
 
 BINPATH	:=	bin
 
 export PATH := test:scripts:$(BINPATH):$(PATH)
 
 VPATH := test:scripts:$(BINPATH)
-VPATH := run1-b2D0MuXB2DMuNuForTauMuLine/samples:run2-b2D0MuXB2DMuForTauMuLine/samples:$(VPATH)
-VPATH := run1-b2D0MuXB2DMuNuForTauMuLine/cutflow:run2-b2D0MuXB2DMuForTauMuLine/cutflow:$(VPATH)
+VPATH := run1-rdx/samples:run2-rdx/samples:$(VPATH)
+VPATH := run1-rdx/cutflow:run2-rdx/cutflow:$(VPATH)
 VPATH := ntuples/pre-0.9.0/Dst-std:$(VPATH)
 VPATH := ntuples/pre-0.9.0/Dst-cutflow_mc:ntuples/pre-0.9.0/Dst-cutflow_data:$(VPATH)
 VPATH := ntuples/0.9.0-cutflow/Dst-cutflow_mc:$(VPATH)

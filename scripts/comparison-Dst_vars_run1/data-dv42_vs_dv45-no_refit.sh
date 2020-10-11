@@ -1,8 +1,8 @@
 #!/bin/bash
 
 OUTPUT_DIR="../../docs/data/comparison/Dst_vars_run1/data-dv42_vs_dv45-no_refit"
-NTP_REF="../../run1-b2D0MuXB2DMuNuForTauMuLine/samples/Dst--19_09_26--std--data--2012--md--dv42-subset-no_refit.root"
-NTP_COM="../../run1-b2D0MuXB2DMuNuForTauMuLine/samples/Dst--19_11_14--std--data--2012--md--dv45-subset-no_refit.root"
+NTP_REF="../../run1-rdx/samples/Dst--19_09_26--std--data--2012--md--dv42-subset-no_refit.root"
+NTP_COM="../../run1-rdx/samples/Dst--19_11_14--std--data--2012--md--dv45-subset-no_refit.root"
 
 # Diff
 BRANCHES="D0_P,Dst_2010_minus_P,"
