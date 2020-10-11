@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Oct 05, 2020 at 02:56 AM +0800
+# Last Change: Mon Oct 12, 2020 at 01:49 AM +0800
 
 from datetime import datetime
 from re import match, sub
@@ -194,9 +194,6 @@ def validate_ntuple_folder_name(f):
     valid_first_lvl = [
         'ntuples',
         'gen',
-        'run1-b2D0MuXB2DMuNuForTauMuLine',
-        'run2-b2D0MuXB2DMuForTauMuLine',
-        # Proposed generic folders for R(D(*)), might be unused
         'run1-rdx',
         'run2-rdx',
     ]
