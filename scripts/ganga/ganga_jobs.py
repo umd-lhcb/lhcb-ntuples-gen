@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Sep 21, 2020 at 02:07 AM +0800
+# Last Change: Mon Oct 12, 2020 at 05:50 PM +0800
 #
 # Description: A demonstration on ganga option file with parser.
 #              This demo runs stand-alone, provided that Python is installed:
@@ -34,7 +34,7 @@ FILES_PER_JOB_MC = 2
 # '/MC/2012/Beam4000GeV-2012-MagDown-Nu2.5-Pythia6/Sim08a/Digi13/Trig0x409f0045/Reco14a/Stripping20Filtered/11873010/DSTTAUNU.SAFESTRIPTRIG'
 LFN_PATH = {
     # run 1 R(D(*))
-    'std-2011': '/LHCb/Collision11/Beam3500GeV-VeloClosed-Mag{polarity}/Real Data/Reco14/Stripping21r1p2/90000000/SEMILEPTONIC.DST',
+    'std-2011': '/LHCb/Collision11/Beam3500GeV-VeloClosed-Mag{polarity}/Real Data/Reco14/Stripping21r1/90000000/SEMILEPTONIC.DST',
     'std-2012': '/LHCb/Collision12/Beam4000GeV-VeloClosed-Mag{polarity}/Real Data/Reco14/Stripping21/90000000/SEMILEPTONIC.DST',
     'mc-2012': '/MC/2012/Beam4000GeV-2012-Mag{polarity}-Nu2.5-{pythia}/{simcond}/Digi13/Trig0x409f0045/Reco14a/Stripping20Filtered/{decay}/DSTTAUNU.SAFESTRIPTRIG.DST',
     'cutflow_mc-2011': '/MC/2011/Beam3500GeV-2011-Mag{polarity}-Nu2-Pythia8/{simcond}/Digi13/Trig0x40760037/Reco14c/Stripping20r1NoPrescalingFlagged/11874091/ALLSTREAMS.DST',
