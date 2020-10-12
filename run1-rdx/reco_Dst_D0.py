@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Oct 12, 2020 at 01:27 AM +0800
+# Last Change: Mon Oct 12, 2020 at 04:52 PM +0800
 #
 # Description: Definitions of selection and reconstruction procedures for Dst
 #              and D0 in run 1, with thorough comments.
@@ -104,8 +104,7 @@ DaVinci().appendToMainSequence([ms_all_protos, ms_velo_pions])
 from Configurables import LoKi__HDRFilter as HDRFilter
 
 
-if DaVinci().Simulation and has_flag('CUTFLOW') or \
-        DaVinci().DataType == '2011':
+if DaVinci().Simulation and has_flag('CUTFLOW'):
     line_strip = 'b2D0MuXB2DMuForTauMuLine'  # Name of the stripping line back in 2011.
 else:
     line_strip = 'b2D0MuXB2DMuNuForTauMuLine'
