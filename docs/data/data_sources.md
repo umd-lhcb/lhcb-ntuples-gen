@@ -39,7 +39,7 @@
 * `11873020`: $B^0 \rightarrow D^0 D_s X \rightarrow \tau \nu$
 * `12873020`: $B^+ \rightarrow D^0 D_s X \rightarrow \tau \nu$
 
-### Cocktail sample for cut-flow study
+### Cocktail sample for cutflow study
 * `11874091`: $B_d \rightarrow D^0 X \mu \nu$, $D^0 = cocktail$.
 
 
@@ -56,5 +56,5 @@
 
 ## Run 2 muonic $R(D^{(*)})$ Monte-Carlo
 
-### Cocktail sample for cut-flow study
+### Cocktail sample for cutflow study
 * `11874091`: $B_d \rightarrow D^0 X \mu \nu$, $D^0 = cocktail$.
