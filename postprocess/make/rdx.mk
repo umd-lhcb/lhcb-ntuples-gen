@@ -1,6 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Oct 12, 2020 at 03:49 PM +0800
+# Last Change: Mon Oct 12, 2020 at 03:53 PM +0800
 # Description: Targets for R(D(*))
 
 VPATH := run1-rdx/samples:run2-rdx/samples:$(VPATH)
@@ -12,6 +12,112 @@ VPATH := ntuples/0.9.1-dst_partial_refit/Dst_D0-cutflow_mc:$(VPATH)
 VPATH := ntuples/ref-rdx-run1/Dst-std:$(VPATH)
 VPATH := ntuples/ref-rdx-run1/Dst-mix:$(VPATH)
 VPATH := gen/run1-Dst-step2:gen/run2-Dst-step2:$(VPATH)
+
+
+#########
+# Run 1 #
+#########
+
+# Dst, std, 2012
+gen/run1-Dst-step2/Dst--19_09_05--std--data--2012--md--step2.root: \
+	Dst--19_09_05--std--data--2012--md.root \
+	rdx-run1-data.pp
+	$(word 2, $^) $< $@
+
+# Sample, Dst_D0, MC, 2012
+gen/run1-Dst_D0-step2/Dst_D0--20_10_01--mc--Bd2DstTauNu--2012--md--py6-sim08a-dv45-subset-step1.1.root: \
+	Dst_D0--20_10_01--mc--Bd2DstTauNu--2012--md--py6-sim08a-dv45-subset.root \
+	rdx-run1.pp
+	$(word 2, $^) $< $@
+
+
+#########
+# Run 2 #
+#########
+
+# Dst, std, 2016
+gen/run2-Dst-step2/Dst--19_09_09--std--data--2016--md--step2.root: \
+	Dst--19_09_09--std--data--2016--md.root \
+	rdx-run2-data.pp
+	$(word 2, $^) $< $@
+
+# Dst_D0, cutflow MC, cocktail, 2016
+gen/run2-Dst_D0-step2/Dst_D0--20_08_18--cutflow_mc--cocktail--2016--md--step2.root: \
+	Dst_D0--20_08_18--cutflow_mc--MC_2016_Beam6500GeV-2016-MagDown-Nu1.6-25ns-Pythia8_Sim09b_Trig0x6138160F_Reco16_Turbo03_Stripping26NoPrescalingFlagged_11874091_ALLSTREAMS.DST.root \
+	rdx-run2-mc.pp
+	$(word 2, $^) $< $@
+
+
+#######################
+# Babymaker C++ files #
+#######################
+
+# Special postprocessing for comparing 2011 data
+gen/rdst-2011-mix.cpp: \
+	ref-rdx-run1/rdst-2011-mix.yml \
+	Dst--20_07_02--mix--all--2011-2012--md-mu--phoebe.root \
+	cpp_templates/rdx.cpp
+	babymaker -i $< -o $@ -d $(word 2, $^) -t $(word 3, $^)
+
+gen/rdst-2011-data.cpp: \
+	ref-rdx-run1/rdst-2011-data.yml \
+	Dst--20_09_16--std--data--2011--md--phoebe.root \
+	cpp_templates/rdx.cpp
+	babymaker -i $< -o $@ -d $(word 2, $^) -t $(word 3, $^)
+
+
+# Dst, data, run 1
+gen/rdx-run1-data.cpp: \
+	rdx-run1/rdx-run1-data.yml \
+	Dst--19_09_05--std--data--2012--md.root \
+	cpp_templates/rdx.cpp
+	babymaker -i $< -o $@ -d $(word 2, $^) -t $(word 3, $^)
+
+# Dst, data, run 2
+gen/rdx-run2-data.cpp: \
+	rdx-run2/rdx-run2-data.yml \
+	Dst--19_09_09--std--data--2016--md.root \
+	cpp_templates/rdx.cpp
+	babymaker -i $< -o $@ -d $(word 2, $^) -t $(word 3, $^)
+
+
+# Dst_D0, all, run 1
+gen/rdx-run1.cpp: \
+	rdx-run1/rdx-run1.yml \
+	Dst_D0--20_10_01--mc--Bd2DstTauNu--2012--md--py6-sim08a-dv45-subset.root \
+	cpp_templates/rdx.cpp
+	babymaker -i $< -o $@ -d $(word 2, $^) -t $(word 3, $^)
+
+# Dst_D0, MC, run 2
+gen/rdx-run2-mc.cpp: \
+	rdx-run2/rdx-run2-mc.yml \
+	Dst_D0--20_08_18--cutflow_mc--MC_2016_Beam6500GeV-2016-MagDown-Nu1.6-25ns-Pythia8_Sim09b_Trig0x6138160F_Reco16_Turbo03_Stripping26NoPrescalingFlagged_11874091_ALLSTREAMS.DST.root \
+	cpp_templates/rdx.cpp
+	babymaker -i $< -o $@ -d $(word 2, $^) -t $(word 3, $^)
+
+
+# Re-stripping for bare ntuples
+gen/rdst-run1-strip.cpp: \
+	rdx-run1/rdst-run1-strip.yml \
+	Dst--20_06_04--cutflow_mc--cocktail--2011--md--dv45-subset-dv_strip.root
+	babymaker -i $< -o $@ -d $(word 2, $^)
+
+gen/rdst-run2-strip.cpp: \
+	rdx-run2/rdst-run2-strip.yml \
+	Dst--20_06_04--cutflow_mc--cocktail--2016--md--dv45-subset-dv_strip.root
+	babymaker -i $< -o $@ -d $(word 2, $^)
+
+
+# Re-stripping and trigger-filtering for bare ntuples.
+gen/rdst-run1-trig_strip.cpp: \
+	rdx-run1/rdst-run1-trig_strip.yml \
+	Dst--20_06_04--cutflow_mc--cocktail--2011--md--dv45-subset-dv_strip.root
+	babymaker -i $< -o $@ -d $(word 2, $^)
+
+gen/rdst-run2-trig_strip.cpp: \
+	rdx-run2/rdst-run2-trig_strip.yml \
+	Dst--20_06_04--cutflow_mc--cocktail--2016--md--dv45-subset-dv_strip.root
+	babymaker -i $< -o $@ -d $(word 2, $^)
 
 
 ###########################
@@ -199,112 +305,6 @@ cutflow-rdst-run2-sig-nor-dss-cocktail-full_refit: \
 	gen/cutflow/output-rdst-run2-cocktail-full_refit-dss.yml \
 	table_cutflow_components.py
 	@$(word 4, $^) -s $(word 1, $^) -n $(word 2, $^) -d $(word 3, $^) | tabgen.py -f github
-
-
-#########
-# Run 1 #
-#########
-
-# Dst, std, 2012
-gen/run1-Dst-step2/Dst--19_09_05--std--data--2012--md--step2.root: \
-	Dst--19_09_05--std--data--2012--md.root \
-	rdx-run1-data.pp
-	$(word 2, $^) $< $@
-
-# Sample, Dst_D0, MC, 2012
-gen/run1-Dst_D0-step2/Dst_D0--20_10_01--mc--Bd2DstTauNu--2012--md--py6-sim08a-dv45-subset-step1.1.root: \
-	Dst_D0--20_10_01--mc--Bd2DstTauNu--2012--md--py6-sim08a-dv45-subset.root \
-	rdx-run1.pp
-	$(word 2, $^) $< $@
-
-
-#########
-# Run 2 #
-#########
-
-# Dst, std, 2016
-gen/run2-Dst-step2/Dst--19_09_09--std--data--2016--md--step2.root: \
-	Dst--19_09_09--std--data--2016--md.root \
-	rdx-run2-data.pp
-	$(word 2, $^) $< $@
-
-# Dst_D0, cutflow MC, cocktail, 2016
-gen/run2-Dst_D0-step2/Dst_D0--20_08_18--cutflow_mc--cocktail--2016--md--step2.root: \
-	Dst_D0--20_08_18--cutflow_mc--MC_2016_Beam6500GeV-2016-MagDown-Nu1.6-25ns-Pythia8_Sim09b_Trig0x6138160F_Reco16_Turbo03_Stripping26NoPrescalingFlagged_11874091_ALLSTREAMS.DST.root \
-	rdx-run2-mc.pp
-	$(word 2, $^) $< $@
-
-
-#######################
-# Babymaker C++ files #
-#######################
-
-# Special postprocessing for comparing 2011 data
-gen/rdst-2011-mix.cpp: \
-	ref-rdx-run1/rdst-2011-mix.yml \
-	Dst--20_07_02--mix--all--2011-2012--md-mu--phoebe.root \
-	cpp_templates/rdx.cpp
-	babymaker -i $< -o $@ -d $(word 2, $^) -t $(word 3, $^)
-
-gen/rdst-2011-data.cpp: \
-	ref-rdx-run1/rdst-2011-data.yml \
-	Dst--20_09_16--std--data--2011--md--phoebe.root \
-	cpp_templates/rdx.cpp
-	babymaker -i $< -o $@ -d $(word 2, $^) -t $(word 3, $^)
-
-
-# Dst, data, run 1
-gen/rdx-run1-data.cpp: \
-	rdx-run1/rdx-run1-data.yml \
-	Dst--19_09_05--std--data--2012--md.root \
-	cpp_templates/rdx.cpp
-	babymaker -i $< -o $@ -d $(word 2, $^) -t $(word 3, $^)
-
-# Dst, data, run 2
-gen/rdx-run2-data.cpp: \
-	rdx-run2/rdx-run2-data.yml \
-	Dst--19_09_09--std--data--2016--md.root \
-	cpp_templates/rdx.cpp
-	babymaker -i $< -o $@ -d $(word 2, $^) -t $(word 3, $^)
-
-
-# Dst_D0, all, run 1
-gen/rdx-run1.cpp: \
-	rdx-run1/rdx-run1.yml \
-	Dst_D0--20_10_01--mc--Bd2DstTauNu--2012--md--py6-sim08a-dv45-subset.root \
-	cpp_templates/rdx.cpp
-	babymaker -i $< -o $@ -d $(word 2, $^) -t $(word 3, $^)
-
-# Dst_D0, MC, run 2
-gen/rdx-run2-mc.cpp: \
-	rdx-run2/rdx-run2-mc.yml \
-	Dst_D0--20_08_18--cutflow_mc--MC_2016_Beam6500GeV-2016-MagDown-Nu1.6-25ns-Pythia8_Sim09b_Trig0x6138160F_Reco16_Turbo03_Stripping26NoPrescalingFlagged_11874091_ALLSTREAMS.DST.root \
-	cpp_templates/rdx.cpp
-	babymaker -i $< -o $@ -d $(word 2, $^) -t $(word 3, $^)
-
-
-# Re-stripping for bare ntuples
-gen/rdst-run1-strip.cpp: \
-	rdx-run1/rdst-run1-strip.yml \
-	Dst--20_06_04--cutflow_mc--cocktail--2011--md--dv45-subset-dv_strip.root
-	babymaker -i $< -o $@ -d $(word 2, $^)
-
-gen/rdst-run2-strip.cpp: \
-	rdx-run2/rdst-run2-strip.yml \
-	Dst--20_06_04--cutflow_mc--cocktail--2016--md--dv45-subset-dv_strip.root
-	babymaker -i $< -o $@ -d $(word 2, $^)
-
-
-# Re-stripping and trigger-filtering for bare ntuples.
-gen/rdst-run1-trig_strip.cpp: \
-	rdx-run1/rdst-run1-trig_strip.yml \
-	Dst--20_06_04--cutflow_mc--cocktail--2011--md--dv45-subset-dv_strip.root
-	babymaker -i $< -o $@ -d $(word 2, $^)
-
-gen/rdst-run2-trig_strip.cpp: \
-	rdx-run2/rdst-run2-trig_strip.yml \
-	Dst--20_06_04--cutflow_mc--cocktail--2016--md--dv45-subset-dv_strip.root
-	babymaker -i $< -o $@ -d $(word 2, $^)
 
 
 #########################
