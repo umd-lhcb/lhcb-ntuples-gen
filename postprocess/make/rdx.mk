@@ -1,6 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Oct 12, 2020 at 03:53 PM +0800
+# Last Change: Mon Oct 12, 2020 at 03:57 PM +0800
 # Description: Targets for R(D(*))
 
 VPATH := run1-rdx/samples:run2-rdx/samples:$(VPATH)
@@ -8,7 +8,7 @@ VPATH := run1-rdx/cutflow:run2-rdx/cutflow:$(VPATH)
 VPATH := ntuples/pre-0.9.0/Dst-std:$(VPATH)
 VPATH := ntuples/pre-0.9.0/Dst-cutflow_mc:ntuples/pre-0.9.0/Dst-cutflow_data:$(VPATH)
 VPATH := ntuples/0.9.0-cutflow/Dst-cutflow_mc:$(VPATH)
-VPATH := ntuples/0.9.1-dst_partial_refit/Dst_D0-cutflow_mc:$(VPATH)
+VPATH := ntuples/0.9.1-partial_refit/Dst_D0-cutflow_mc:$(VPATH)
 VPATH := ntuples/ref-rdx-run1/Dst-std:$(VPATH)
 VPATH := ntuples/ref-rdx-run1/Dst-mix:$(VPATH)
 VPATH := gen/run1-Dst-step2:gen/run2-Dst-step2:$(VPATH)

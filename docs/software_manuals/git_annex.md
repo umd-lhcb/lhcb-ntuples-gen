@@ -186,8 +186,8 @@ present: false
 For directories, we have a home-made wrapper script `scripts/count_root_files.py`. For example:
 ```
 $ ./scripts/count_root_files.py ntuples
-   2 .root   total: 171.30 MiB   local:   0.00 KiB   ntuples/0.9.1-dst_partial_refit
-   2 .root   total: 171.30 MiB   local:   0.00 KiB   ntuples/0.9.1-dst_partial_refit/Dst_D0-cutflow_mc
+   2 .root   total: 171.30 MiB   local:   0.00 KiB   ntuples/0.9.1-partial_refit
+   2 .root   total: 171.30 MiB   local:   0.00 KiB   ntuples/0.9.1-partial_refit/Dst_D0-cutflow_mc
    5 .root   total:  47.49 GiB   local:   0.00 KiB   ntuples/ref-rdx-run1
    1 .root   total: 397.92 MiB   local:   0.00 KiB   ntuples/ref-rdx-run1/Dst-mc
    1 .root   total:  29.62 GiB   local:   0.00 KiB   ntuples/ref-rdx-run1/D0-mix
