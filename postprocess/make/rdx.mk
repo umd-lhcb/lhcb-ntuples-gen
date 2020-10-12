@@ -1,6 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Oct 12, 2020 at 03:42 PM +0800
+# Last Change: Mon Oct 12, 2020 at 03:49 PM +0800
 # Description: Targets for R(D(*))
 
 VPATH := run1-rdx/samples:run2-rdx/samples:$(VPATH)
@@ -305,3 +305,99 @@ gen/rdst-run2-trig_strip.cpp: \
 	rdx-run2/rdst-run2-trig_strip.yml \
 	Dst--20_06_04--cutflow_mc--cocktail--2016--md--dv45-subset-dv_strip.root
 	babymaker -i $< -o $@ -d $(word 2, $^)
+
+
+#########################
+# Tests: required files #
+#########################
+
+# For test on the equivalence betwen run 1 bare and dv_strip ntuples
+gen/test/Dst--20_06_04--cutflow_mc--cocktail--2011--md--subset-bare-step2.root: \
+	Dst--20_06_04--cutflow_mc--cocktail--2011--md--dv45-subset-bare.root \
+	rdst-run1-strip.pp
+	$(word 2, $^) $< $@
+
+gen/test/Dst--20_06_04--cutflow_mc--cocktail--2011--md--subset-dv_strip-step2.root: \
+	Dst--20_06_04--cutflow_mc--cocktail--2011--md--dv45-subset-dv_strip.root \
+	rdst-run1-strip.pp
+	$(word 2, $^) $< $@
+
+
+# For test on the equivalence betwen run 2 bare and dv_strip ntuples.
+gen/test/Dst--20_06_04--cutflow_mc--cocktail--2016--md--subset-dv_strip-step2.root: \
+	Dst--20_06_04--cutflow_mc--cocktail--2016--md--dv45-subset-dv_strip.root \
+	rdst-run2-strip.pp
+	$(word 2, $^) $< $@
+
+gen/test/Dst--20_06_04--cutflow_mc--cocktail--2016--md--subset-bare-step2.root: \
+	Dst--20_06_04--cutflow_mc--cocktail--2016--md--dv45-subset-bare.root \
+	rdst-run2-strip.pp
+	$(word 2, $^) $< $@
+
+
+# Cutflow re-stripped ntuples for D*.
+gen/tes/Dst--20_06_05--cutflow_mc--cocktail--2011--md--bare-step2.root: \
+	Dst--20_06_05--cutflow_mc--bare--MC_2011_Beam3500GeV-2011-MagDown-Nu2-Pythia8_Sim08h_Digi13_Trig0x40760037_Reco14c_Stripping20r1NoPrescalingFlagged_11874091_ALLSTREAMS.DST.root \
+	rdst-run1-strip.pp
+	$(word 2, $^) $< $@
+
+gen/run2-Dst-step2/Dst--20_06_05--cutflow_mc--cocktail--2016--md--bare-step2.root: \
+	Dst--20_06_05--cutflow_mc--bare--MC_2016_Beam6500GeV-2016-MagDown-Nu1.6-25ns-Pythia8_Sim09b_Trig0x6138160F_Reco16_Turbo03_Stripping26NoPrescalingFlagged_11874091_ALLSTREAMS.DST.root \
+	rdst-run2-strip.pp
+	$(word 2, $^) $< $@
+
+
+# Cutflow re-triggered and re-stripped ntuples for D*.
+gen/test/Dst--20_06_05--cutflow_mc--cocktail--2011--md--bare-step2-triggered.root: \
+	Dst--20_06_05--cutflow_mc--bare--MC_2011_Beam3500GeV-2011-MagDown-Nu2-Pythia8_Sim08h_Digi13_Trig0x40760037_Reco14c_Stripping20r1NoPrescalingFlagged_11874091_ALLSTREAMS.DST.root \
+	rdst-run1-trig_strip.pp
+	$(word 2, $^) $< $@
+
+gen/test/Dst--20_06_05--cutflow_mc--cocktail--2016--md--bare-step2-triggered.root: \
+	Dst--20_06_05--cutflow_mc--bare--MC_2016_Beam6500GeV-2016-MagDown-Nu1.6-25ns-Pythia8_Sim09b_Trig0x6138160F_Reco16_Turbo03_Stripping26NoPrescalingFlagged_11874091_ALLSTREAMS.DST.root \
+	rdst-run2-trig_strip.pp
+	$(word 2, $^) $< $@
+
+
+# Verify step-2 cuts with Phoebe's 2011 step-1 and step-2 ntuples
+gen/test/Dst--20_07_02--mix--data--2011--md--phoebe-step2.root: \
+	Dst--20_07_02--mix--all--2011-2012--md-mu--phoebe.root \
+	rdst-2011-mix.pp
+	$(word 2, $^) $< $@
+
+gen/test/Dst--20_09_16--std--data--2011--md--phoebe-step2.root: \
+	Dst--20_09_16--std--data--2011--md--phoebe.root \
+	rdst-2011-data.pp
+	$(word 2, $^) $< $@
+
+
+#########
+# Tests #
+#########
+
+# Tests for the equivalence between local bare and dv_strip ntuples.
+.PHONY: test-cutflow-rdst-run1 test-cutflow-rdst-run2
+test-cutflow-rdst-run1: \
+	gen/test/Dst--20_06_04--cutflow_mc--cocktail--2011--md--subset-bare-step2.root \
+	gen/test/Dst--20_06_04--cutflow_mc--cocktail--2011--md--subset-dv_strip-step2.root \
+	Dst--20_06_04--cutflow_mc--cocktail--2011--md--dv45-subset-dv_strip.root
+	@echo "===="
+	@echo "Test results:"
+	@test_ntuple_identical.py -n $< -N $(word 3, $^) -t b0dst -T TupleB0/DecayTree
+	@test_ntuple_identical.py -n $(word 2, $^) -N $(word 3, $^) -t b0dst -T TupleB0/DecayTree
+
+test-cutflow-rdst-run2: \
+	gen/test/Dst--20_06_04--cutflow_mc--cocktail--2016--md--subset-dv_strip-step2.root \
+	gen/test/Dst--20_06_04--cutflow_mc--cocktail--2016--md--subset-bare-step2.root \
+	Dst--20_06_04--cutflow_mc--cocktail--2016--md--dv45-subset-dv_strip.root
+	@echo "===="
+	@echo "Test results:"
+	@test_ntuple_identical.py -n $< -N $(word 3, $^) -t b0dst -T TupleB0/DecayTree
+	@test_ntuple_identical.py -n $(word 2, $^) -N $(word 3, $^) -t b0dst -T TupleB0/DecayTree
+
+
+# Test if the number of events used in the cutflow generation is consistent.
+.PHONY: test-cutflow-consistency-rdst
+test-cutflow-consistency-rdst: \
+	gen/test/Dst--20_06_05--cutflow_mc--cocktail--2011--md--bare-step2-triggered.root \
+	gen/test/Dst--20_06_05--cutflow_mc--cocktail--2016--md--bare-step2-triggered.root
