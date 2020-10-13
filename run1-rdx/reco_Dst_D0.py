@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Oct 12, 2020 at 04:52 PM +0800
+# Last Change: Wed Oct 14, 2020 at 12:13 AM +0800
 #
 # Description: Definitions of selection and reconstruction procedures for Dst
 #              and D0 in run 1, with thorough comments.
@@ -871,7 +871,7 @@ elif DaVinci().Simulation:
     DaVinci().UserAlgorithms += [seq_Bminus.sequence(),
                                  seq_B0.sequence(),
                                  # ntuples
-                                 # tp_Bminus, tp_B0,
+                                 tp_Bminus, tp_B0,
                                  # auxiliary ntuples
                                  tp_Bminus_mc_Tau, tp_Bminus_mc_Mu,
                                  tp_B0_mc_Tau, tp_B0_mc_Mu]
