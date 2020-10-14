@@ -1,9 +1,9 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Oct 12, 2020 at 01:57 AM +0800
+# Last Change: Wed Oct 14, 2020 at 07:40 PM +0800
 #
-# Description: Definitions of selection and reconstruction procedures for Dst
-#              and D0 in run 2. For more thorough comments, take a look at:
+# Description: Definitions of selection and reconstruction procedures for run 2
+#              R(D(*)). For more thorough comments, take a look at:
 #                  run1-rdx/reco_Dst_D0.py
 
 
