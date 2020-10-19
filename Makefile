@@ -1,6 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Oct 12, 2020 at 03:55 PM +0800
+# Last Change: Mon Oct 19, 2020 at 05:34 PM +0200
 
 BINPATH	:=	bin
 
@@ -79,7 +79,7 @@ docker-dv:
 
 ntuple-rdx-run1: \
 	gen/run1-Dst-step2/Dst--19_09_05--std--data--2012--md--step2.root \
-	gen/run1-Dst_D0-step2/Dst_D0--20_10_01--mc--Bd2DstTauNu--2012--md--py6-sim08a-dv45-subset-step1.1.root
+	gen/run1-Dst_D0-step2/Dst_D0--20_10_14--mc--Bd2DstTauNu--2012--md--py6-sim08a-dv45-subset-step1.1.root
 
 ntuple-rdx-run2: \
 	gen/run2-Dst-step2/Dst--19_09_09--std--data--2016--md--step2.root

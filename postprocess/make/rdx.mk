@@ -1,6 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Oct 12, 2020 at 03:57 PM +0800
+# Last Change: Mon Oct 19, 2020 at 05:35 PM +0200
 # Description: Targets for R(D(*))
 
 VPATH := run1-rdx/samples:run2-rdx/samples:$(VPATH)
@@ -25,8 +25,8 @@ gen/run1-Dst-step2/Dst--19_09_05--std--data--2012--md--step2.root: \
 	$(word 2, $^) $< $@
 
 # Sample, Dst_D0, MC, 2012
-gen/run1-Dst_D0-step2/Dst_D0--20_10_01--mc--Bd2DstTauNu--2012--md--py6-sim08a-dv45-subset-step1.1.root: \
-	Dst_D0--20_10_01--mc--Bd2DstTauNu--2012--md--py6-sim08a-dv45-subset.root \
+gen/run1-Dst_D0-step2/Dst_D0--20_10_14--mc--Bd2DstTauNu--2012--md--py6-sim08a-dv45-subset-step1.1.root: \
+	Dst_D0--20_10_14--mc--Bd2DstTauNu--2012--md--py6-sim08a-dv45-subset.root \
 	rdx-run1.pp
 	$(word 2, $^) $< $@
 
@@ -84,7 +84,7 @@ gen/rdx-run2-data.cpp: \
 # Dst_D0, all, run 1
 gen/rdx-run1.cpp: \
 	rdx-run1/rdx-run1.yml \
-	Dst_D0--20_10_01--mc--Bd2DstTauNu--2012--md--py6-sim08a-dv45-subset.root \
+	Dst_D0--20_10_14--mc--Bd2DstTauNu--2012--md--py6-sim08a-dv45-subset.root \
 	cpp_templates/rdx.cpp
 	babymaker -i $< -o $@ -d $(word 2, $^) -t $(word 3, $^)
 
