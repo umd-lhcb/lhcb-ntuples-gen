@@ -41,13 +41,6 @@ OUTPUT_DIR={}
 # Job operations #
 ##################
 
-def resubmit_uncompleted_subjobs(idx):
-    for sj in jobs(idx).subjobs:
-        if sj.status != 'completed':
-            sj.force_status('failed')
-            sj.resubmit()
-
-
 def kill_uncompleted_subjobs(idx):
     for sj in jobs(idx).subjobs:
         if sj.status != 'completed':
