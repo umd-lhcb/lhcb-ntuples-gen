@@ -41,21 +41,69 @@ Following [this twiki](https://twiki.cern.ch/twiki/bin/view/LHCb/FAQ/Certificate
 We are using some non-official `TupleTool`, so we need to compile `DaVinci` on lxplus.
 
 First, we need to figure out the runtime dependency for our version of DaVinci: {{ davinci_ver }}.
-
-
-There is a **central** Ganga job submitter that should handle **all** job
-submissions for **all** reconstruction scripts in **all** folders. The script
-is located at:
 ```
-scripts/ganga/ganga_jobs.py
+lb-run -L DaVinci/v45r4
 ```
 
-This script can only run on `lxplus` nodes. The general syntax is:
+For {{davinci_ver}}, we pick the following runtime: `{{ davinci_runtime }}`.
+
+We should set that runtime as the default for `lxplus`. Add to your login shell config:
+```bash
+export CMTCONFIG={{ davinci_runtime }}
+export BINARY_TAG=$CMTCONFIG
+```
+
+Now, following these instruction to build a `DaVinci` with our custom `TupleTool`s:
+```bash
+mkdir -p build
+cd build
+
+DAVINCI_VERSION={{ davinci_ver }}
+TUPLETOOL_SL_VERSION={{ davinci_sl_tool_ver }}
+
+# Only do this if you don't have username and email settings configured for git
+#git config --global user.name "Physicist"
+#git config --global user.email "lhcb@physics.umd.edu"
+
+lb-dev DaVinci/${DAVINCI_VERSION}
+cd DaVinciDev_${DAVINCI_VERSION}
+
+git lb-use TupleToolSemiLeptonic https://github.com/umd-lhcb/TupleToolSemiLeptonic.git
+git lb-checkout TupleToolSemiLeptonic/${TUPLETOOL_SL_VERSION} Phys/TupleToolSemiLeptonic
+
+make configure && make
+```
+
+Now, the `DaVinci` will be available at `$HOME/build/DaVinciDev_{{ davinci_ver }}`.
+
+
+## Submitting a job with `ganga`
+
+`ganga` is a command-line interface for LHCb GRID.
+
+For this repo, there is a **central** `ganga` job submitter that should handle
+**all** job submissions for **all** reconstruction scripts in **all** folders.
+The script is located at: [`scripts/ganga/ganga_jobs.py`](https://github.com/umd-lhcb/lhcb-ntuples-gen/blob/master/scripts/ganga/ganga_jobs.py).
+
+!!! warning
+    - The submitter script can only run on `lxplus` nodes!
+    - It is needed to clone this repo on your `lxplus`!
+
+!!! error "Before you proceed"
+    When you login to `lxplus`, you need to create a certificate proxy to access GRID.
+
+    Always do the following before doing anything `ganga`-related:
+    ```
+    lhcb-proxy-init
+    ```
+    then following instructions on screen.
+
+The general syntax is:
 ```
 ganga_jobs.py <reco_script> <cond_files>
 ```
 
-For instance, for run 1 $R(D^{(*)})$ signal Monte Carlo:
+For instance, for run 1 $R(D^{*})$ signal Monte Carlo:
 ```
 ganga_jobs.py ../../run1-rdx/reco_Dst_D0.py ../../run1-rdx/cond/cond-mc-2012-md-sim08a.py -p mu -P Pythia6 -d Bd2DstTauNu
 ```
@@ -68,3 +116,34 @@ ganga_jobs.py ../../run1-rdx/reco_Dst_D0.py ../../run1-rdx/cond/cond-mc-2012-md-
     ```
     ganga_jobs.py --help
     ```
+
+After a successfully submission, the progress of the job can be checked with ganga:
+
+1. Launch `ganga` from a `lxplus` session
+2. In the `ganga` shell, type in `jobs`
+
+
+## Handling failing subjobs
+
+The GRID job are split into subjobs, enabling parallel execution. Some subjobs may fail. Considering the following `jobs` output in `ganga` shell:
+```
+[01:30:22]
+Ganga In [2]: jobs
+Ganga Out [2]:
+Registry Slice: jobs (30 objects)
+--------------
+    fqid |    status |      name | subjobs |    application |        backend |                             backend.actualCE |                       comment |  subjob status
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+      62 | completed |Dst_D0--20 |      26 |      GaudiExec |          Dirac |                                         None |                               |       0/0/0/26
+      63 |    failed |Dst_D0--20 |    1007 |      GaudiExec |          Dirac |                                         None |                               |     0/1/0/1006
+      66 |    failed |Dst_D0--20 |       1 |      GaudiExec |          Dirac |                                         None |                               |        0/1/0/0
+      73 | completed |Dst_D0--20 |     772 |      GaudiExec |          Dirac |                                         None |                               |      0/0/0/772
+
+```
+
+Jobs 63 and 66 are marked as `failed` because all of their subjobs are either completed or failed.
+
+To resubmit failed subjobs for, say, `job[66]`:
+```
+jobs[66].resubmit()
+```
