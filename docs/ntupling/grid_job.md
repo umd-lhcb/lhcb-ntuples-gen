@@ -76,10 +76,17 @@ make configure && make
 
 Now, the `DaVinci` will be available at `$HOME/build/DaVinciDev_{{ davinci_ver }}`.
 
+### Configure `ganga`
+
+`ganga` is a command-line interface for LHCb GRID. We need to configure ganga
+job output directory. On `lxplus`:
+
+1. Run `ganga` once. This should create a `.gangarc` in `$HOME`.
+2. Locate `gangadir` option, point it to some directory that is large enough.
+   The user's EOS directory should do.
+
 
 ## Submitting a job with `ganga`
-
-`ganga` is a command-line interface for LHCb GRID.
 
 For this repo, there is a **central** `ganga` job submitter that should handle
 **all** job submissions for **all** reconstruction scripts in **all** folders.
@@ -147,3 +154,40 @@ To resubmit failed subjobs for, say, `job[66]`:
 ```
 jobs[66].resubmit()
 ```
+
+
+## Manage `ganga` job output
+
+You need to keep `ganga` running in a `lxplus` session to get up-to-date info
+about your jobs and download output of completed (sub)jobs.
+
+We prefer to merge all output `.root` files from subjobs. There's a helper
+`ganga` function written by Yipeng for that [^1]. To use it:
+
+1. Copy [`scripts/ganga/ganga.sample.py`](https://github.com/umd-lhcb/lhcb-ntuples-gen/blob/master/scripts/ganga/ganga.sample.py) to `$HOME/.ganga.py` **on `lxplus`**.
+
+2. In `ganga` shell, type in `hadd_completed_job_output(63)`, where `63` is some job index.
+
+    !!! info
+        This will generated a `batch_hadd.sh` in `$HOME`. The generated script
+        contains commands to merge output `.root` files for **all** completed
+        jobs with a index that is greater or equal to the specified index.
+
+3. Change the `INPUT_DIR` variable of the script to your ganga output workspace
+
+4. `chmod+x batch_hadd.sh`, then run it with `./batch_hadd.sh <output_dir_for_merged_ntuple>`
+
+
+5. Finally, consult [this](./nomenclature.md) for ntuple naming convention.
+
+    !!! note
+        Often, the canonical name can be figured out with another script:
+        [`scripts/ganga/ganga_sample_jobs_parser.py`](https://github.com/umd-lhcb/lhcb-ntuples-gen/blob/master/scripts/ganga/ganga_sample_jobs_parser.py)
+
+        Just do a job submission with the script above, and with identical
+        parameters to the real job submitter.
+
+        This can be done locally, as `lxplus` is not needed.
+
+[^1]: There's an official way to merge `.root` files with `ganga`, but the
+      method described in the main text offers slightly more control.
