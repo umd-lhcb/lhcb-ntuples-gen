@@ -1,6 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Oct 22, 2020 at 01:14 PM +0200
+# Last Change: Fri Oct 23, 2020 at 12:36 AM +0200
 # Description: Targets for R(D(*))
 
 VPATH := run1-rdx/samples:run2-rdx/samples:$(VPATH)
@@ -29,6 +29,18 @@ gen/run1-Dst_D0-step2/Dst_D0--20_10_12--std--data--2011--md--step2.root: \
 gen/run1-Dst_D0-step2/Dst_D0--20_10_14--mc--Bd2DstTauNu--2012--md--py6-sim08a-dv45-subset-step1.1.root: \
 	Dst_D0--20_10_14--mc--Bd2DstTauNu--2012--md--py6-sim08a-dv45-subset.root \
 	rdx-run1-mc-Bd2DstTauNu.pp
+	$(word 2, $^) $< $@
+
+
+# Verify step-2 cuts with Phoebe's 2011 step-1 and step-2 ntuples
+gen/run1-Dst-step2/Dst--20_07_02--mix--data--2011--md--phoebe-step2.root: \
+	Dst--20_07_02--mix--all--2011-2012--md-mu--phoebe.root \
+	rdst-2011-mix.pp
+	$(word 2, $^) $< $@
+
+gen/run1-Dst-step2/Dst--20_09_16--std--data--2011--md--phoebe-step2.root: \
+	Dst--20_09_16--std--data--2011--md--phoebe.root \
+	rdst-2011-data.pp
 	$(word 2, $^) $< $@
 
 
@@ -358,18 +370,6 @@ gen/test/Dst--20_06_05--cutflow_mc--cocktail--2011--md--bare-step2-triggered.roo
 gen/test/Dst--20_06_05--cutflow_mc--cocktail--2016--md--bare-step2-triggered.root: \
 	Dst--20_06_05--cutflow_mc--bare--MC_2016_Beam6500GeV-2016-MagDown-Nu1.6-25ns-Pythia8_Sim09b_Trig0x6138160F_Reco16_Turbo03_Stripping26NoPrescalingFlagged_11874091_ALLSTREAMS.DST.root \
 	rdst-run2-trig_strip.pp
-	$(word 2, $^) $< $@
-
-
-# Verify step-2 cuts with Phoebe's 2011 step-1 and step-2 ntuples
-gen/test/Dst--20_07_02--mix--data--2011--md--phoebe-step2.root: \
-	Dst--20_07_02--mix--all--2011-2012--md-mu--phoebe.root \
-	rdst-2011-mix.pp
-	$(word 2, $^) $< $@
-
-gen/test/Dst--20_09_16--std--data--2011--md--phoebe-step2.root: \
-	Dst--20_09_16--std--data--2011--md--phoebe.root \
-	rdst-2011-data.pp
 	$(word 2, $^) $< $@
 
 
