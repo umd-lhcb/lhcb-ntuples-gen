@@ -229,7 +229,7 @@ one_cand_only:
     branch: b_pt
 
 output:
-    mc_dst_tau:
+    dst_iso:
         input: TupleB0/DecayTree
         selection:
             - "dst_id_prod > 0"
