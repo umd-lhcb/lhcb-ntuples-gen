@@ -7,7 +7,7 @@
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
       
-        <link rel="canonical" href="https://umd-lhcb.github.io/lhcb-ntuples-gen/physics/momentum_scaling/">
+        <link rel="canonical" href="https://umd-lhcb.github.io/lhcb-ntuples-gen/ntupling/grid_job/">
       
       
       <link rel="shortcut icon" href="../../assets/images/favicon.png">
@@ -15,7 +15,7 @@
     
     
       
-        <title>Momentum scaling - lhcb-ntuples-gen wiki</title>
+        <title>Submitting DaVinci jobs to GRID - lhcb-ntuples-gen wiki</title>
       
     
     
@@ -57,6 +57,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#rationale" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -83,7 +88,7 @@
           </span>
           <span class="md-header-nav__topic md-ellipsis">
             
-              Momentum scaling
+              Submitting DaVinci jobs to GRID
             
           </span>
         </div>
@@ -219,10 +224,12 @@
       
       
 
+  
 
-  <li class="md-nav__item md-nav__item--nested">
+
+  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
     
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2">
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2" checked>
     
     <label class="md-nav__link" for="nav-2">
       Ntupling
@@ -242,7 +249,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../ntupling/nomenclature/" class="md-nav__link">
+    <a href="../nomenclature/" class="md-nav__link">
       Nomenclature
     </a>
   </li>
@@ -254,7 +261,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../ntupling/installation/" class="md-nav__link">
+    <a href="../installation/" class="md-nav__link">
       Installing dependencies
     </a>
   </li>
@@ -266,7 +273,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../ntupling/step1_davinci/" class="md-nav__link">
+    <a href="../step1_davinci/" class="md-nav__link">
       Step 1 ntuples with Davinci
     </a>
   </li>
@@ -278,7 +285,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../ntupling/step2_babymaker/" class="md-nav__link">
+    <a href="../step2_babymaker/" class="md-nav__link">
       Step 2 ntuples with babymaker
     </a>
   </li>
@@ -288,11 +295,100 @@
           
           
 
+  
 
-  <li class="md-nav__item">
-    <a href="../../ntupling/grid_job/" class="md-nav__link">
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Submitting DaVinci jobs to GRID
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+    
+    <a href="./" class="md-nav__link md-nav__link--active">
       Submitting DaVinci jobs to GRID
     </a>
+    
+      
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#rationale" class="md-nav__link">
+    Rationale
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#preparation" class="md-nav__link">
+    Preparation
+  </a>
+  
+    <nav class="md-nav" aria-label="Preparation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#setup-lhcb-grid-certificate" class="md-nav__link">
+    Setup LHCb GRID certificate
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#compile-a-local-davinci-on-lxplus" class="md-nav__link">
+    Compile a local DaVinci on lxplus
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configure-ganga" class="md-nav__link">
+    Configure ganga
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#submitting-a-job-with-ganga" class="md-nav__link">
+    Submitting a job with ganga
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#handling-failing-subjobs" class="md-nav__link">
+    Handling failing subjobs
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#manage-ganga-job-output" class="md-nav__link">
+    Manage ganga job output
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+    
   </li>
 
         
@@ -302,7 +398,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../../ntupling/dev/" class="md-nav__link">
+    <a href="../dev/" class="md-nav__link">
       Developing this project
     </a>
   </li>
@@ -453,12 +549,10 @@
       
       
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+  <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4" checked>
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4">
     
     <label class="md-nav__link" for="nav-4">
       Physics
@@ -476,18 +570,11 @@
           
           
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active">
-    
-    <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-    
-    
-    <a href="./" class="md-nav__link md-nav__link--active">
+  <li class="md-nav__item">
+    <a href="../../physics/momentum_scaling/" class="md-nav__link">
       Momentum scaling
     </a>
-    
   </li>
 
         
@@ -497,7 +584,7 @@
 
 
   <li class="md-nav__item">
-    <a href="../wrong_sign_particles/" class="md-nav__link">
+    <a href="../../physics/wrong_sign_particles/" class="md-nav__link">
       Wrong-sign particles
     </a>
   </li>
@@ -677,25 +764,285 @@
               </div>
             
             
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#rationale" class="md-nav__link">
+    Rationale
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#preparation" class="md-nav__link">
+    Preparation
+  </a>
+  
+    <nav class="md-nav" aria-label="Preparation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#setup-lhcb-grid-certificate" class="md-nav__link">
+    Setup LHCb GRID certificate
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#compile-a-local-davinci-on-lxplus" class="md-nav__link">
+    Compile a local DaVinci on lxplus
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configure-ganga" class="md-nav__link">
+    Configure ganga
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#submitting-a-job-with-ganga" class="md-nav__link">
+    Submitting a job with ganga
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#handling-failing-subjobs" class="md-nav__link">
+    Handling failing subjobs
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#manage-ganga-job-output" class="md-nav__link">
+    Manage ganga job output
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
           
           <div class="md-content">
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/umd-lhcb/lhcb-ntuples-gen/edit/master/docs/physics/momentum_scaling.md" title="Edit this page" class="md-content__button md-icon">
+                  <a href="https://github.com/umd-lhcb/lhcb-ntuples-gen/edit/master/docs/ntupling/grid_job.md" title="Edit this page" class="md-content__button md-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
                   </a>
                 
                 
-                  <h1>Momentum scaling</h1>
+                  <h1>Submitting DaVinci jobs to GRID</h1>
                 
-                <p>For data processing, at LHCb:</p>
+                <h2 id="rationale">Rationale</h2>
 <ul>
-<li><strong>Scale</strong> the <strong>data</strong> momentum, because data measurements are biased. This
-  bias can be detected and calibrated using some well-known decay mode (such as
-  <span><span class="MathJax_Preview">J/\Psi \rightarrow \mu \mu</span><script type="math/tex">J/\Psi \rightarrow \mu \mu</script></span>).</li>
-<li><strong>Smear</strong> the <strong>MC</strong> momentum, because MC measurements are too good.</li>
+<li>
+<p>The main limitation for local <code>DaVinci</code> docker is: Raw data files (<code>.dst</code>)
+  need to be downloaded locally. Given that the size of <code>.dst</code> files is on the
+  order of TBs, this method is only used for developing <code>DaVinci</code> scripts and
+  first-order validation</p>
+</li>
+<li>
+<p>On <code>lxplus</code>, several official <code>DaVinci</code> versions are provided. However, there
+  are some drawbacks:</p>
+<ol>
+<li><code>.dst</code> files still need to be downloaded to some <code>lxplus</code> user directory</li>
+<li>While <code>DaVinci</code> is running, the connection to <code>lxplus</code> must be kept alive</li>
+</ol>
+</li>
 </ul>
+<p>LHCb collaboration provides a solution: Submitting and running <code>DaVinci</code> jobs on
+a GRID. The advantages are:</p>
+<ol>
+<li>
+<p>GRID know how to access <code>.dst</code> files directly, thus there's no need to manually
+   download them. Instead, users need to specify the links (<code>LFN</code>s) to desired
+   <code>.dst</code> files</p>
+</li>
+<li>
+<p>While the GRID <code>DaVinci</code> jobs are running, there's no need to keep a
+   connection to <code>lxplus</code>.</p>
+</li>
+</ol>
+<h2 id="preparation">Preparation</h2>
+<h3 id="setup-lhcb-grid-certificate">Setup LHCb GRID certificate</h3>
+<p>Following <a href="https://twiki.cern.ch/twiki/bin/view/LHCb/FAQ/Certificate">this twiki</a> to:</p>
+<ol>
+<li>Apply for a GRID certificate</li>
+<li>Setup the certificate on <code>lxplus</code></li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The twiki claimed that a new user must physically go to CERN's user office
+to be able to apply for a new cert via <a href="https://ca.cern.ch/ca">ca.cern.ch</a>.
+But I didn't have to do that.</p>
+</div>
+<h3 id="compile-a-local-davinci-on-lxplus">Compile a local <code>DaVinci</code> on <code>lxplus</code></h3>
+<p>We are using some non-official <code>TupleTool</code>, so we need to compile <code>DaVinci</code> on lxplus.</p>
+<p>First, we need to figure out the runtime dependency for our version of DaVinci: v45r4.
+<div class="highlight"><pre><span></span><code>lb-run -L DaVinci/v45r4
+</code></pre></div></p>
+<p>For v45r4, we pick the following runtime: <code>x86_64-centos7-gcc9-opt</code>.</p>
+<p>We should set that runtime as the default for <code>lxplus</code>. Add to your login shell config:
+<div class="highlight"><pre><span></span><code><span class="nb">export</span> <span class="nv">CMTCONFIG</span><span class="o">=</span>x86_64-centos7-gcc9-opt
+<span class="nb">export</span> <span class="nv">BINARY_TAG</span><span class="o">=</span><span class="nv">$CMTCONFIG</span>
+</code></pre></div></p>
+<p>Now, following these instruction to build a <code>DaVinci</code> with our custom <code>TupleTool</code>s:
+<div class="highlight"><pre><span></span><code>mkdir -p build
+<span class="nb">cd</span> build
+
+<span class="nv">DAVINCI_VERSION</span><span class="o">=</span>v45r4
+<span class="nv">TUPLETOOL_SL_VERSION</span><span class="o">=</span><span class="m">0</span>.2.1
+
+<span class="c1"># Only do this if you don&#39;t have username and email settings configured for git</span>
+<span class="c1">#git config --global user.name &quot;Physicist&quot;</span>
+<span class="c1">#git config --global user.email &quot;lhcb@physics.umd.edu&quot;</span>
+
+lb-dev DaVinci/<span class="si">${</span><span class="nv">DAVINCI_VERSION</span><span class="si">}</span>
+<span class="nb">cd</span> DaVinciDev_<span class="si">${</span><span class="nv">DAVINCI_VERSION</span><span class="si">}</span>
+
+git lb-use TupleToolSemiLeptonic https://github.com/umd-lhcb/TupleToolSemiLeptonic.git
+git lb-checkout TupleToolSemiLeptonic/<span class="si">${</span><span class="nv">TUPLETOOL_SL_VERSION</span><span class="si">}</span> Phys/TupleToolSemiLeptonic
+
+make configure <span class="o">&amp;&amp;</span> make
+</code></pre></div></p>
+<p>Now, the <code>DaVinci</code> will be available at <code>$HOME/build/DaVinciDev_v45r4</code>.</p>
+<h3 id="configure-ganga">Configure <code>ganga</code></h3>
+<p><code>ganga</code> is a command-line interface for LHCb GRID. We need to configure ganga
+job output directory. On <code>lxplus</code>:</p>
+<ol>
+<li>Run <code>ganga</code> once. This should create a <code>.gangarc</code> in <code>$HOME</code>.</li>
+<li>Locate <code>gangadir</code> option, point it to some directory that is large enough.
+   The user's EOS directory should do.</li>
+</ol>
+<h2 id="submitting-a-job-with-ganga">Submitting a job with <code>ganga</code></h2>
+<p>For this repo, there is a <strong>central</strong> <code>ganga</code> job submitter that should handle
+<strong>all</strong> job submissions for <strong>all</strong> reconstruction scripts in <strong>all</strong> folders.
+The script is located at: <a href="https://github.com/umd-lhcb/lhcb-ntuples-gen/blob/master/scripts/ganga/ganga_jobs.py"><code>scripts/ganga/ganga_jobs.py</code></a>.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<ul>
+<li>The submitter script can only run on <code>lxplus</code> nodes!</li>
+<li>It is needed to clone this repo on your <code>lxplus</code>!</li>
+</ul>
+</div>
+<div class="admonition error">
+<p class="admonition-title">Before you proceed</p>
+<p>When you login to <code>lxplus</code>, you need to create a certificate proxy to access GRID.</p>
+<p>Always do the following before doing anything <code>ganga</code>-related:
+<div class="highlight"><pre><span></span><code>lhcb-proxy-init
+</code></pre></div>
+then following instructions on screen.</p>
+</div>
+<p>The general syntax is:
+<div class="highlight"><pre><span></span><code>ganga_jobs.py &lt;reco_script&gt; &lt;cond_files&gt;
+</code></pre></div></p>
+<p>For instance, for run 1 <span><span class="MathJax_Preview">R(D^{*})</span><script type="math/tex">R(D^{*})</script></span> signal Monte Carlo:
+<div class="highlight"><pre><span></span><code>ganga_jobs.py ../../run1-rdx/reco_Dst_D0.py ../../run1-rdx/cond/cond-mc-2012-md-sim08a.py -p mu -P Pythia6 -d Bd2DstTauNu
+</code></pre></div></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The last three flags: <code>-p</code>, <code>-P</code>, and <code>-d</code> are optional. They have default values.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The usage of <code>ganga_jobs.py</code> is described by:
+<div class="highlight"><pre><span></span><code>ganga_jobs.py --help
+</code></pre></div></p>
+</div>
+<p>After a successfully submission, the progress of the job can be checked with ganga:</p>
+<ol>
+<li>Launch <code>ganga</code> from a <code>lxplus</code> session</li>
+<li>In the <code>ganga</code> shell, type in <code>jobs</code></li>
+</ol>
+<h2 id="handling-failing-subjobs">Handling failing subjobs</h2>
+<p>The GRID job are split into subjobs, enabling parallel execution. Some subjobs may fail. Considering the following <code>jobs</code> output in <code>ganga</code> shell:
+<div class="highlight"><pre><span></span><code>[01:30:22]
+Ganga In [2]: jobs
+Ganga Out [2]:
+Registry Slice: jobs (30 objects)
+--------------
+    fqid |    status |      name | subjobs |    application |        backend |                             backend.actualCE |                       comment |  subjob status
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+      62 | completed |Dst_D0--20 |      26 |      GaudiExec |          Dirac |                                         None |                               |       0/0/0/26
+      63 |    failed |Dst_D0--20 |    1007 |      GaudiExec |          Dirac |                                         None |                               |     0/1/0/1006
+      66 |    failed |Dst_D0--20 |       1 |      GaudiExec |          Dirac |                                         None |                               |        0/1/0/0
+      73 | completed |Dst_D0--20 |     772 |      GaudiExec |          Dirac |                                         None |                               |      0/0/0/772
+</code></pre></div></p>
+<p>Jobs 63 and 66 are marked as <code>failed</code> because all of their subjobs are either completed or failed.</p>
+<p>To resubmit failed subjobs for, say, <code>job[66]</code>:
+<div class="highlight"><pre><span></span><code>jobs[66].resubmit()
+</code></pre></div></p>
+<h2 id="manage-ganga-job-output">Manage <code>ganga</code> job output</h2>
+<p>You need to keep <code>ganga</code> running in a <code>lxplus</code> session to get up-to-date info
+about your jobs and download output of completed (sub)jobs.</p>
+<p>We prefer to merge all output <code>.root</code> files from subjobs. There's a helper
+<code>ganga</code> function written by Yipeng for that <sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup>. To use it:</p>
+<ol>
+<li>
+<p>Copy <a href="https://github.com/umd-lhcb/lhcb-ntuples-gen/blob/master/scripts/ganga/ganga.sample.py"><code>scripts/ganga/ganga.sample.py</code></a> to <code>$HOME/.ganga.py</code> <strong>on <code>lxplus</code></strong>.</p>
+</li>
+<li>
+<p>In <code>ganga</code> shell, type in <code>hadd_completed_job_output(63)</code>, where <code>63</code> is some job index.</p>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>This will generated a <code>batch_hadd.sh</code> in <code>$HOME</code>. The generated script
+contains commands to merge output <code>.root</code> files for <strong>all</strong> completed
+jobs with a index that is greater or equal to the specified index.</p>
+</div>
+</li>
+<li>
+<p>Change the <code>INPUT_DIR</code> variable of the script to your ganga output workspace</p>
+</li>
+<li>
+<p><code>chmod+x batch_hadd.sh</code>, then run it with <code>./batch_hadd.sh &lt;output_dir_for_merged_ntuple&gt;</code></p>
+</li>
+<li>
+<p>Finally, consult <a href="../nomenclature/">this</a> for ntuple naming convention.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Often, the canonical name can be figured out with another script:
+<a href="https://github.com/umd-lhcb/lhcb-ntuples-gen/blob/master/scripts/ganga/ganga_sample_jobs_parser.py"><code>scripts/ganga/ganga_sample_jobs_parser.py</code></a></p>
+<p>Just do a job submission with the script above, and with identical
+parameters to the real job submitter.</p>
+<p>This can be done locally, as <code>lxplus</code> is not needed.</p>
+</div>
+</li>
+</ol>
+<div class="footnote">
+<hr />
+<ol>
+<li id="fn:1">
+<p>There's an official way to merge <code>.root</code> files with <code>ganga</code>, but the
+  method described in the main text offers slightly more control.&#160;<a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div>
                 
               
               
@@ -714,7 +1061,7 @@
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
         
-          <a href="../../software_manuals/external/" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../step2_babymaker/" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-footer-nav__button md-icon">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
             </div>
@@ -723,19 +1070,19 @@
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                External manuals
+                Step 2 ntuples with babymaker
               </div>
             </div>
           </a>
         
         
-          <a href="../wrong_sign_particles/" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../dev/" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-footer-nav__title">
               <div class="md-ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                Wrong-sign particles
+                Developing this project
               </div>
             </div>
             <div class="md-footer-nav__button md-icon">

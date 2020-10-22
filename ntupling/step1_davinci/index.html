@@ -57,11 +57,6 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
-        
-        <a href="#running-davinci-locally" class="md-skip">
-          Skip to content
-        </a>
-      
     </div>
     <div data-md-component="announce">
       
@@ -279,43 +274,9 @@
     <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
     
     
-      <label class="md-nav__link md-nav__link--active" for="__toc">
-        Step 1 ntuples with Davinci
-        <span class="md-nav__icon md-icon"></span>
-      </label>
-    
     <a href="./" class="md-nav__link md-nav__link--active">
       Step 1 ntuples with Davinci
     </a>
-    
-      
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#running-davinci-locally" class="md-nav__link">
-    Running DaVinci locally
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#running-davinci-on-the-grid" class="md-nav__link">
-    Running DaVinci on the GRID
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
     
   </li>
 
@@ -328,6 +289,18 @@
   <li class="md-nav__item">
     <a href="../step2_babymaker/" class="md-nav__link">
       Step 2 ntuples with babymaker
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../grid_job/" class="md-nav__link">
+      Submitting DaVinci jobs to GRID
     </a>
   </li>
 
@@ -704,41 +677,6 @@
               </div>
             
             
-              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
-                <div class="md-sidebar__scrollwrap">
-                  <div class="md-sidebar__inner">
-                    
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#running-davinci-locally" class="md-nav__link">
-    Running DaVinci locally
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#running-davinci-on-the-grid" class="md-nav__link">
-    Running DaVinci on the GRID
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-                  </div>
-                </div>
-              </div>
-            
           
           <div class="md-content">
             <article class="md-content__inner md-typeset">
@@ -751,11 +689,13 @@
                 
                   <h1>Step 1 ntuples with Davinci</h1>
                 
-                <p><code>DaVinci</code> is the LHCb package that runs preliminary selections and calculations
+                <div class="admonition info">
+<p class="admonition-title">Info</p>
+<p><code>DaVinci</code> is the LHCb package that runs preliminary selections and calculations
 on the raw <code>.dst</code> data, and produces <code>.root</code> files. It is often run on LHC
 remote Linux nodes <code>lxplus</code>.</p>
-<h2 id="running-davinci-locally">Running <code>DaVinci</code> locally</h2>
-<p>However, it is much more convenient to have a local <code>DaVinci</code> environment in a
+</div>
+<p>It is much more convenient to have a local <code>DaVinci</code> environment in a
 docker with a configuration that is easily shared. After the docker is pulled
 as described in the <a href="../installation/#install-docker-to-run-
 davinci-locally">dependencies</a>, it is launched from inside the project root with:
@@ -801,37 +741,6 @@ git annex get data/data-2016-md  # ~4.7 GB, this will take several minutes
 <p class="admonition-title">Info</p>
 <p>For more info about <code>docker</code> usage, refer to <a href="../../software_manuals/davinci/docker_image_usage/">this guide</a>.</p>
 <p>For more info about <code>Makefile</code>, refer to <a href="../dev/#makefile">this guide</a>.</p>
-</div>
-<h2 id="running-davinci-on-the-grid">Running <code>DaVinci</code> on the <code>GRID</code></h2>
-<p>We need to build a <code>DaVinci</code> on <code>lxplus</code> to add our <code>TupleTool</code>.
-This version will then be sent to the <code>GRID</code> by <code>ganga</code>.</p>
-<div class="admonition info">
-<p class="admonition-title">Info</p>
-<ul>
-<li>For <code>DaVinci-v45r4-SL</code>, refer to <a href="https://github.com/umd-lhcb/docker-images/blob/master/lhcb-stack-cc7/compile_dv.sh">this script</a> for build instructions.</li>
-<li>For <code>DaVinci-v42r8p1-SL</code> (obsolete), refer to <a href="https://github.com/umd-lhcb/docker-images/blob/davinci-v42r8p1/lhcb-stack-cc7/Dockerfile-DaVinci-SL">this <code>Dockerfile</code></a>.</li>
-</ul>
-</div>
-<p>There is a <strong>central</strong> Ganga job submitter that should handle <strong>all</strong> job
-submissions for <strong>all</strong> reconstruction scripts in <strong>all</strong> folders. The script
-is located at:
-<div class="highlight"><pre><span></span><code>scripts/ganga/ganga_jobs.py
-</code></pre></div></p>
-<p>This script can only run on <code>lxplus</code> nodes. The general syntax is:
-<div class="highlight"><pre><span></span><code>ganga_jobs.py &lt;reco_script&gt; &lt;cond_files&gt;
-</code></pre></div></p>
-<p>For instance, for run 1 <span><span class="MathJax_Preview">R(D^{(*)})</span><script type="math/tex">R(D^{(*)})</script></span> signal Monte Carlo:
-<div class="highlight"><pre><span></span><code>ganga_jobs.py ../../run1-rdx/reco_Dst_D0.py ../../run1-rdx/cond/cond-mc-2012-md-sim08a.py -p mu -P Pythia6 -d Bd2DstTauNu
-</code></pre></div></p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>The last three flags: <code>-p</code>, <code>-P</code>, and <code>-d</code> are optional. They have default values.</p>
-</div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>The usage of <code>ganga_jobs.py</code> is described by:
-<div class="highlight"><pre><span></span><code>ganga_jobs.py --help
-</code></pre></div></p>
 </div>
                 
               
