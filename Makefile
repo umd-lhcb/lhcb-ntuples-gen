@@ -1,6 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Oct 19, 2020 at 05:34 PM +0200
+# Last Change: Thu Oct 22, 2020 at 12:55 PM +0200
 
 BINPATH	:=	bin
 
@@ -28,10 +28,6 @@ DAVINCI_VERSION=DaVinci-v45r4-SL
 
 
 .PHONY: all clean history tagdate install-dep
-
-all: \
-	gen/run1-Dst-step2/Dst--19_09_05--std--data--2012--md--step2.root \
-	gen/run2-Dst-step2/Dst--19_09_09--std--data--2016--md--step2.root
 
 clean:
 	@rm -rf $(BINPATH)/*
@@ -78,8 +74,8 @@ docker-dv:
 .PHONY: ntuple-rdx-run1 ntuple-rdx-run2
 
 ntuple-rdx-run1: \
-	gen/run1-Dst-step2/Dst--19_09_05--std--data--2012--md--step2.root \
-	gen/run1-Dst_D0-step2/Dst_D0--20_10_14--mc--Bd2DstTauNu--2012--md--py6-sim08a-dv45-subset-step1.1.root
+	gen/run1-Dst_D0-step2/Dst_D0--20_10_14--mc--Bd2DstTauNu--2012--md--py6-sim08a-dv45-subset-step1.1.root \
+	gen/run1-Dst-step2/Dst_D0--20_10_12--std--data--2011--md--step2.root
 
 ntuple-rdx-run2: \
 	gen/run2-Dst-step2/Dst--19_09_09--std--data--2016--md--step2.root

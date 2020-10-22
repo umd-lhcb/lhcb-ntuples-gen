@@ -1,6 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Oct 19, 2020 at 05:35 PM +0200
+# Last Change: Thu Oct 22, 2020 at 01:11 PM +0200
 # Description: Targets for R(D(*))
 
 VPATH := run1-rdx/samples:run2-rdx/samples:$(VPATH)
@@ -9,6 +9,7 @@ VPATH := ntuples/pre-0.9.0/Dst-std:$(VPATH)
 VPATH := ntuples/pre-0.9.0/Dst-cutflow_mc:ntuples/pre-0.9.0/Dst-cutflow_data:$(VPATH)
 VPATH := ntuples/0.9.0-cutflow/Dst-cutflow_mc:$(VPATH)
 VPATH := ntuples/0.9.1-partial_refit/Dst_D0-cutflow_mc:$(VPATH)
+VPATH := ntuples/0.9.2-2011_production/Dst_D0-std:$(VPATH)
 VPATH := ntuples/ref-rdx-run1/Dst-std:$(VPATH)
 VPATH := ntuples/ref-rdx-run1/Dst-mix:$(VPATH)
 VPATH := gen/run1-Dst-step2:gen/run2-Dst-step2:$(VPATH)
@@ -18,16 +19,16 @@ VPATH := gen/run1-Dst-step2:gen/run2-Dst-step2:$(VPATH)
 # Run 1 #
 #########
 
-# Dst, std, 2012
-gen/run1-Dst-step2/Dst--19_09_05--std--data--2012--md--step2.root: \
-	Dst--19_09_05--std--data--2012--md.root \
+# Dst_D0, std, 2011
+gen/run1-Dst-step2/Dst_D0--20_10_12--std--data--2011--md--step2.root: \
+	Dst_D0--20_10_12--std--LHCb_Collision11_Beam3500GeV-VeloClosed-MagDown_Real_Data_Reco14_Stripping21r1_90000000_SEMILEPTONIC.DST.root \
 	rdx-run1-data.pp
 	$(word 2, $^) $< $@
 
 # Sample, Dst_D0, MC, 2012
 gen/run1-Dst_D0-step2/Dst_D0--20_10_14--mc--Bd2DstTauNu--2012--md--py6-sim08a-dv45-subset-step1.1.root: \
 	Dst_D0--20_10_14--mc--Bd2DstTauNu--2012--md--py6-sim08a-dv45-subset.root \
-	rdx-run1.pp
+	rdx-run1-mc-Bd2DstTauNu.pp
 	$(word 2, $^) $< $@
 
 
@@ -66,13 +67,6 @@ gen/rdst-2011-data.cpp: \
 	babymaker -i $< -o $@ -d $(word 2, $^) -t $(word 3, $^)
 
 
-# Dst, data, run 1
-gen/rdx-run1-data.cpp: \
-	rdx-run1/rdx-run1-data.yml \
-	Dst--19_09_05--std--data--2012--md.root \
-	cpp_templates/rdx.cpp
-	babymaker -i $< -o $@ -d $(word 2, $^) -t $(word 3, $^)
-
 # Dst, data, run 2
 gen/rdx-run2-data.cpp: \
 	rdx-run2/rdx-run2-data.yml \
@@ -81,8 +75,16 @@ gen/rdx-run2-data.cpp: \
 	babymaker -i $< -o $@ -d $(word 2, $^) -t $(word 3, $^)
 
 
-# Dst_D0, all, run 1
-gen/rdx-run1.cpp: \
+# Dst_D0, data, run 1
+gen/rdx-run1-data.cpp: \
+	rdx-run1/rdx-run1.yml \
+	Dst_D0--20_10_12--std--LHCb_Collision11_Beam3500GeV-VeloClosed-MagDown_Real_Data_Reco14_Stripping21r1_90000000_SEMILEPTONIC.DST.root \
+	cpp_templates/rdx.cpp
+	babymaker -i $< -o $@ -d $(word 2, $^) -t $(word 3, $^)
+
+
+# Dst_D0, MC, run 1, Bd2DstTauNu
+gen/rdx-run1-mc-Bd2DstTauNu.cpp: \
 	rdx-run1/rdx-run1.yml \
 	Dst_D0--20_10_14--mc--Bd2DstTauNu--2012--md--py6-sim08a-dv45-subset.root \
 	cpp_templates/rdx.cpp
