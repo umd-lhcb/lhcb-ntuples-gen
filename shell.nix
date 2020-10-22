@@ -9,7 +9,6 @@ pkgs.mkShell rec {
   name = "lhcb-ntuples-gen";
   buildInputs = with pythonPackages; [
     # Compilers and other build dependencies
-    pkgs.stdenv
     pkgs.clang-tools  # For clang-format
     root
 
@@ -36,5 +35,8 @@ pkgs.mkShell rec {
 
     # allow for the environment to pick up packages installed with virtualenv
     export PYTHONPATH=$VENV/${python.sitePackages}/:$PYTHONPATH
+
+    # fix libstdc++.so not found error
+    export LD_LIBRARY_PATH=${pkgs.stdenv.cc.cc.lib}/lib:$LD_LIBRARY_PATH
   '';
 }
