@@ -178,9 +178,9 @@ output:
             - "mu_l0_tis"
             - "dst_hlt1_tos"
             # Cuts on fit variables
-            - "-2.0 <= mm2 <= 10.0"
-            - "0.1 <= el <= 2.5"
-            - "-0.4 <= q2_ <= 12.6"
+            - "-2.0 <= mm2 && mm2 <= 10.0"
+            - "0.1 <= el && el <= 2.5"
+            - "-0.4 <= q2_ && q2_ <= 12.6"
             # Selection flags
             - "flag_sel_b0dst"
             #- "mu_bdt > 0.25"
