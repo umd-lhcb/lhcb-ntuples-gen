@@ -1,6 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Oct 22, 2020 at 01:11 PM +0200
+# Last Change: Thu Oct 22, 2020 at 01:14 PM +0200
 # Description: Targets for R(D(*))
 
 VPATH := run1-rdx/samples:run2-rdx/samples:$(VPATH)
@@ -20,7 +20,7 @@ VPATH := gen/run1-Dst-step2:gen/run2-Dst-step2:$(VPATH)
 #########
 
 # Dst_D0, std, 2011
-gen/run1-Dst-step2/Dst_D0--20_10_12--std--data--2011--md--step2.root: \
+gen/run1-Dst_D0-step2/Dst_D0--20_10_12--std--data--2011--md--step2.root: \
 	Dst_D0--20_10_12--std--LHCb_Collision11_Beam3500GeV-VeloClosed-MagDown_Real_Data_Reco14_Stripping21r1_90000000_SEMILEPTONIC.DST.root \
 	rdx-run1-data.pp
 	$(word 2, $^) $< $@
