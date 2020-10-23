@@ -34,6 +34,17 @@ cocktail MC.
 
 ## Comparison between run 1 and run 2 individual
 
+!!! note Generation
+
+    These cutflows, for both run 1 and 2, are generated with :
+
+    ```
+    make cutflow-rdst-detail-individual
+    ```
+
+    The output will be printed out to terminal.
+
+
 | cut name                                         | run 1 yield   | run 2 yield   | run 1 efficiency   | run 2 efficiency   | double ratio   |
 |--------------------------------------------------|---------------|---------------|--------------------|--------------------|----------------|
 | After DaVinci                                    | 5796          | 6731          | -                  | -                  | -              |
@@ -55,16 +66,6 @@ cocktail MC.
 
 
 ## Run 1 detail
-
-!!! note Generation
-
-    These cutflows, for both run 1 and 2, are generated with :
-
-    ```
-    make cutflow-Dst-detail-individual
-    ```
-
-    The output will be printed out to terminal.
 
 ### Marginal impact
 

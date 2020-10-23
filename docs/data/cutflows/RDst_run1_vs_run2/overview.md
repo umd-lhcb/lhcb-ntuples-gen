@@ -1,6 +1,6 @@
 ## Generation steps
 
-1. Extract DaVinci-level cut efficiencies with [`davinci_log_parser.py`](https://github.com/umd-lhcb/lhcb-ntuples-gen/blob/master/utils/davinci_log_parser.py):
+1. Extract DaVinci-level cut efficiencies with [`davinci_log_parser.py`](https://github.com/umd-lhcb/lhcb-ntuples-gen/blob/master/scripts/davinci_log_parser.py):
     ```
     ./davinci_log_parser.py <output_yaml_filename> <input_log1> <input_log2> ...
     ```
@@ -19,11 +19,9 @@
 
 2. Generate cut flow table with:
     ```
-    make cutflow-Dst
+    make cutflow-rdst
     ```
-    Please refer to the [`Makefile`](https://github.com/umd-lhcb/lhcb-ntuples-gen/blob/master/Makefile) on the implementation details.
-
-    There are multiple cutflow rules defined in that `Makefile`.
+    Please refer to the [`rdx.mk`](https://github.com/umd-lhcb/lhcb-ntuples-gen/blob/master/postprocess/make/rdx.mk) on the implementation details.
 
 
 ## Cutflow table with cocktail MC
