@@ -7,7 +7,7 @@
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
       
-        <link rel="canonical" href="https://umd-lhcb.github.io/lhcb-ntuples-gen/data/cutflows/Dst_run1_vs_run2/overview/">
+        <link rel="canonical" href="https://umd-lhcb.github.io/lhcb-ntuples-gen/data/cutflows/RDst_run1_vs_run2/overview/">
       
       
       <link rel="shortcut icon" href="../../../../assets/images/favicon.png">
@@ -15,7 +15,7 @@
     
     
       
-        <title>`D^{\star}` cutflow overview - lhcb-ntuples-gen wiki</title>
+        <title>`R(D^{\star})` cutflow overview - lhcb-ntuples-gen wiki</title>
       
     
     
@@ -88,7 +88,7 @@
           </span>
           <span class="md-header-nav__topic md-ellipsis">
             
-              `D^{\star}` cutflow overview
+              `R(D^{\star})` cutflow overview
             
           </span>
         </div>
@@ -587,12 +587,12 @@
     
     
       <label class="md-nav__link md-nav__link--active" for="__toc">
-        `D^{\star}` cutflow overview
+        `R(D^{\star})` cutflow overview
         <span class="md-nav__icon md-icon"></span>
       </label>
     
     <a href="./" class="md-nav__link md-nav__link--active">
-      `D^{\star}` cutflow overview
+      `R(D^{\star})` cutflow overview
     </a>
     
       
@@ -648,7 +648,7 @@
 
   <li class="md-nav__item">
     <a href="../detail/" class="md-nav__link">
-      `D^{\star}` cutflow detail
+      `R(D^{\star})` cutflow detail
     </a>
   </li>
 
@@ -659,8 +659,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../../Dst_refit_Dst_only_vs_full_refit/" class="md-nav__link">
-      `D^{\star}` cutflow to study the effect of refit `D^{\star}` only
+    <a href="../../RDst_refit_Dst_only_vs_full_refit/" class="md-nav__link">
+      `R(D^{\star})` cutflow to study the effect of refit `D^{\star}` only
     </a>
   </li>
 
@@ -798,17 +798,17 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/umd-lhcb/lhcb-ntuples-gen/edit/master/docs/data/cutflows/Dst_run1_vs_run2/overview.md" title="Edit this page" class="md-content__button md-icon">
+                  <a href="https://github.com/umd-lhcb/lhcb-ntuples-gen/edit/master/docs/data/cutflows/RDst_run1_vs_run2/overview.md" title="Edit this page" class="md-content__button md-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
                   </a>
                 
                 
-                  <h1>`D^{\star}` cutflow overview</h1>
+                  <h1>`R(D^{\star})` cutflow overview</h1>
                 
                 <h2 id="generation-steps">Generation steps</h2>
 <ol>
 <li>
-<p>Extract DaVinci-level cut efficiencies with <a href="https://github.com/umd-lhcb/lhcb-ntuples-gen/blob/master/utils/davinci_log_parser.py"><code>davinci_log_parser.py</code></a>:
+<p>Extract DaVinci-level cut efficiencies with <a href="https://github.com/umd-lhcb/lhcb-ntuples-gen/blob/master/scripts/davinci_log_parser.py"><code>davinci_log_parser.py</code></a>:
     <div class="highlight"><pre><span></span><code>./davinci_log_parser.py &lt;output_yaml_filename&gt; &lt;input_log1&gt; &lt;input_log2&gt; ...
 </code></pre></div></p>
 <div class="admonition note">
@@ -824,10 +824,9 @@ providing a list of log files, you can just provide a single
 </li>
 <li>
 <p>Generate cut flow table with:
-    <div class="highlight"><pre><span></span><code>make cutflow-Dst
+    <div class="highlight"><pre><span></span><code>make cutflow-rdst
 </code></pre></div>
-    Please refer to the <a href="https://github.com/umd-lhcb/lhcb-ntuples-gen/blob/master/Makefile"><code>Makefile</code></a> on the implementation details.</p>
-<p>There are multiple cutflow rules defined in that <code>Makefile</code>.</p>
+    Please refer to the <a href="https://github.com/umd-lhcb/lhcb-ntuples-gen/blob/master/postprocess/make/rdx.mk"><code>rdx.mk</code></a> on the implementation details.</p>
 </li>
 </ol>
 <h2 id="cutflow-table-with-cocktail-mc">Cutflow table with cocktail MC</h2>
@@ -1388,7 +1387,7 @@ couple of stripping lines, so it's not the actual <em>total number of events</em
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                `D^{\star}` cutflow detail
+                `R(D^{\star})` cutflow detail
               </div>
             </div>
             <div class="md-footer-nav__button md-icon">
