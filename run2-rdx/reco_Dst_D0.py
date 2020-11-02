@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Oct 14, 2020 at 07:40 PM +0800
+# Last Change: Mon Nov 02, 2020 at 03:50 PM +0100
 #
 # Description: Definitions of selection and reconstruction procedures for run 2
 #              R(D(*)). For more thorough comments, take a look at:
@@ -588,33 +588,45 @@ else:
 # Define ntuples #
 ##################
 
-from Configurables import DecayTreeTuple
+from Configurables import DecayTreeTuple, MCDecayTreeTuple
 from DecayTreeTuple.Configuration import *  # for addTupleTool
 
 # Additional TupleTool for addTool only
 from Configurables import BackgroundCategory
 
 
-def tuple_initialize_data(name, sel_seq, template):
-    tp = DecayTreeTuple(name)
-    tp.Inputs = [sel_seq.outputLocation()]
-    tp.setDescriptorTemplate(template)
+def really_add_tool(tp, tool_name):
+    try:
+        tp.ToolList.remove(tool_name)
+    except (ValueError, AttributeError):
+        pass
+    finally:
+        tool = tp.addTupleTool(tool_name)
+    return tool
 
+
+def tuple_initialize_common(name, sel_seq, template, tuple_builder):
+    tp = tuple_builder(name)
+    if sel_seq:
+        tp.Inputs = [sel_seq.outputLocation()]
+    tp.setDescriptorTemplate(template)
+    return tp
+
+
+def tuple_initialize_data(name, sel_seq, template):
+    tp = tuple_initialize_common(name, sel_seq, template, DecayTreeTuple)
     tp.ToolList += [
         'TupleToolAngles',
-        'TupleToolMuonPid',
+        'TupleToolMuonPid',  # This write out NN Mu inputs
         'TupleToolL0Calo',
-        'TupleToolTrackInfo'
+        'TupleToolTrackInfo',
     ]
 
-    # FIXME: 'TupleToolPid' is added by default. To configure it, we need to
-    #        remove it first and re-add it.
-    tp.ToolList.remove('TupleToolPid')
-    tt_pid = tp.addTupleTool('TupleToolPid')
+    tt_pid = really_add_tool(tp, 'TupleToolPid')
     tt_pid.Verbose = True
 
     # Add event-level information.
-    tt_loki_evt = tp.addTupleTool('LoKi::Hybrid::EvtTupleTool')
+    tt_loki_evt = really_add_tool(tp, 'LoKi::Hybrid::EvtTupleTool')
     tt_loki_evt.Preambulo += ['from LoKiCore.functions import *']
     tt_loki_evt.VOID_Variables = {
         'nTracks': "CONTAINS('Rec/Track/Best')",
@@ -627,15 +639,25 @@ def tuple_initialize_data(name, sel_seq, template):
 def tuple_initialize_mc(*args, **kwargs):
     tp = tuple_initialize_data(*args, **kwargs)
 
-    tt_mcbi = tp.addTupleTool('TupleToolMCBackgroundInfo')
+    tt_mcbi = really_add_tool(tp, 'TupleToolMCBackgroundInfo')
     tt_mcbi.addTool(BackgroundCategory)
     tt_mcbi.BackgroundCategory.SemileptonicDecay = True
     tt_mcbi.BackgroundCategory.NumNeutrinos = 3
 
-    tt_truth = tp.addTupleTool('TupleToolMCTruth')
+    tt_truth = really_add_tool(tp, 'TupleToolMCTruth')
     tt_truth.ToolList = [
         'MCTupleToolKinematic',
         'MCTupleToolHierarchyExt'
+    ]
+
+    return tp
+
+
+def tuple_initialize_aux(name, template):
+    tp = tuple_initialize_common(name, None, template, MCDecayTreeTuple)
+
+    tp.ToolList += [
+        'MCTupleToolPID'
     ]
 
     return tp
@@ -711,13 +733,24 @@ tp_Bminus = tuple_initialize(
 )
 tuple_postpocess(tp_Bminus, B_meson='b')
 
-# B-_ws ########################################################################
+# B- wrong-sign ################################################################
 tp_Bminus_ws = tuple_initialize(
     'TupleBminusWS',
     seq_Bminus_ws,
     '${b}[B+ -> ${d0}(D0 -> ${k}K- ${pi}pi+) ${mu}mu+]CC'
 )
 tuple_postpocess(tp_Bminus_ws, B_meson='b')
+
+# B- MC ########################################################################
+tp_Bminus_mc_Tau = tuple_initialize_aux(
+    'MCTupleBminusTau',
+    '${b}[B- => ${d0}(D0 => ${k}K- ${pi}pi+) ${tau}(tau- => ${mu}mu- ${amu_mu}nu_mu~ ${nu_tau}nu_tau) ${anu_tau}nu_tau~]CC'
+)
+
+tp_Bminus_mc_Mu = tuple_initialize_aux(
+    'MCTupleBminusMu',
+    '${b}[B- => ${d0}(D0 => ${k}K- ${pi}pi+) ${mu}mu- ${anu_mu}nu_mu~]CC'
+)
 
 # B0 ###########################################################################
 tp_B0 = tuple_initialize(
@@ -727,7 +760,7 @@ tp_B0 = tuple_initialize(
 )
 tuple_postpocess(tp_B0)
 
-# B0_ws_Mu #####################################################################
+# B0 wrong-sign ################################################################
 tp_B0_ws_Mu = tuple_initialize(
     'TupleB0WSMu',
     seq_B0_ws_Mu,
@@ -735,7 +768,6 @@ tp_B0_ws_Mu = tuple_initialize(
 )
 tuple_postpocess(tp_B0_ws_Mu)
 
-# B0_ws_Pi #####################################################################
 tp_B0_ws_Pi = tuple_initialize(
     'TupleB0WSPi',
     seq_B0_ws_Pi,
@@ -743,16 +775,39 @@ tp_B0_ws_Pi = tuple_initialize(
 )
 tuple_postpocess(tp_B0_ws_Pi)
 
+# B0 MC ########################################################################
+tp_B0_mc_Tau = tuple_initialize_aux(
+    'MCTupleB0Tau',
+    '(' +
+    '${b0}[B~0 => ${dst}(D*(2010)+ => ${d0}(D0 => ${k}K- ${pi}pi+) ${spi}pi+) ${tau}(tau- => ${mu}mu- ${anu_mu}nu_mu~ ${nu_tau}nu_tau) ${anu_tau}nu_tau~]CC' +
+    '||'
+    '${b0}[B0 => ${dst}(D*(2010)+ => ${d0}(D0 => ${k}K- ${pi}pi+) ${spi}pi+) ${tau}(tau- => ${mu}mu- ${anu_mu}nu_mu~ ${nu_tau}nu_tau) ${anu_tau}nu_tau~]CC' +
+    ')'
+)
+
+tp_B0_mc_Mu = tuple_initialize_aux(
+    'MCTupleB0Mu',
+    '${b0}[B~0 => ${dst}(D*(2010)+ => ${d0}(D0 => ${k}K- ${pi}pi+) ${spi}pi+) ${mu}mu- ${anu_mu}nu_mu~]CC'
+)
+
 
 ################################################
 # Add selection & tupling sequences to DaVinci #
 ################################################
 
-if DaVinci().Simulation or has_flag('CUTFLOW'):
+if has_flag('CUTFLOW'):
     DaVinci().UserAlgorithms += [seq_Bminus.sequence(),
                                  seq_B0.sequence(),
                                  # ntuples
                                  tp_Bminus, tp_B0]
+elif DaVinci().Simulation:
+    DaVinci().UserAlgorithms += [seq_Bminus.sequence(),
+                                 seq_B0.sequence(),
+                                 # ntuples
+                                 tp_Bminus, tp_B0,
+                                 # auxiliary ntuples
+                                 tp_Bminus_mc_Tau, tp_Bminus_mc_Mu,
+                                 tp_B0_mc_Tau, tp_B0_mc_Mu]
 else:
     DaVinci().UserAlgorithms += [seq_Bminus.sequence(),
                                  seq_Bminus_ws.sequence(),
