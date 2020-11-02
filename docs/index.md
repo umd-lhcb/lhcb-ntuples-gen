@@ -1,6 +1,8 @@
-Welcome to the wiki for `lhcb-ntuples-gen`, the repository that generates the ntuples for the $R(D^{(*)})$ UMD
-analysis. In this section, you'll find useful information for installing the required dependencies for this
-project, as well as the usage of some tools, such as `git-annex`, that will be used in this project.
+Welcome to the wiki for `lhcb-ntuples-gen`, the repository that generates the
+ntuples for some LHCb analyses at UMD, currently just run 2 $R(D^{(*)})$
+analysis. In this section, you'll find useful information for installing the
+required dependencies for this project, as well as the usage of some tools,
+such as `git-annex`, that will be used in this project.
 
 
 ## Ntuple generation
