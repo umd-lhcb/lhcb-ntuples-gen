@@ -1,6 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri Oct 23, 2020 at 12:51 AM +0200
+# Last Change: Mon Nov 02, 2020 at 04:16 PM +0100
 
 BINPATH	:=	bin
 
@@ -108,3 +108,6 @@ test-naming-conv:
 	include/functor/*.h \
 	include/*.h
 	$(COMPILER) $(CXXFLAGS) $(ADDFLAGS) -o $(BINPATH)/$@ $< $(LINKFLAGS)
+
+%.root:
+	@echo -e "No such file present:" $@
