@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Oct 15, 2020 at 12:34 AM +0800
+# Last Change: Wed Nov 25, 2020 at 03:13 PM +0100
 #
 # Description: Definitions of selection and reconstruction procedures for run 1
 #              R(D(*)), with thorough comments.
@@ -106,6 +106,8 @@ from Configurables import LoKi__HDRFilter as HDRFilter
 
 if DaVinci().Simulation and has_flag('CUTFLOW'):
     line_strip = 'b2D0MuXB2DMuForTauMuLine'  # Name of the stripping line back in 2011.
+elif has_flag('NON_MU_MISID'):
+    line_strip = 'b2D0MuXFakeB2DMuNuForTauMuLine'
 else:
     line_strip = 'b2D0MuXB2DMuNuForTauMuLine'
 
@@ -199,12 +201,11 @@ sel_unstripped_tis_filtered_Mu = Selection(
 )
 
 
-# if has_flag('CUTFLOW'):
-#     sel_stripped_req = pr_stripped
-# else:
-#     sel_stripped_req = sel_stripped_Mu_filtered_evt
 # NOTE: We don't want to do Muon TIS-filtering on data for now so we have this:
-sel_stripped_req = pr_stripped
+if has_flag('NON_MU_MISID'):
+    sel_stripped_req = sel_stripped_Mu_filtered_evt
+else:
+    sel_stripped_req = pr_stripped
 
 
 # NOTE: 'stripped' selections require the existence of a stripping line, which
@@ -655,6 +656,49 @@ else:
                                      TopSelection=sel_B0_ws_Pi)
 
 
+##########################
+# Non-Mu MisID selection #
+##########################
+
+# B*_0+ -> B0 Pi+ ##############################################################
+algo_BstPlus = CombineParticles('MyB*_0+')
+algo_BstPlus.DecayDescriptor = '[B*_0+ -> B0 pi+]cc'
+algo_BstPlus.DaughtersCuts = {
+    'pi+': '(TRGHOSTPROB < 0.5) & (MIPCHI2DV(PRIMARY) > 4)'
+}
+algo_BstPlus.CombinationCut = '(AM < 5700*MeV) & (AM > 4800*MeV)'
+algo_BstPlus.MotherCut = \
+    '(M < 5500*MeV) & (M > 5000*MeV) &' \
+    '(BPVDIRA > 0.9995) & (VFASPF(VCHI2/VDOF) < 9)'
+
+sel_BstPlus = Selection(
+    'SelMyB*_0+',
+    Algorithm=algo_BstPlus,
+    RequiredSelections=[sel_B0, sel_charged_Pi]
+)
+
+seq_BstPlus = SelectionSequence(
+    'SeqMyB*_0+',
+    TopSelection=sel_BstPlus)
+
+# B*_00 -> B0 Pi+ Pi- ##########################################################
+algo_Bst0 = CombineParticles('MyB*_00')
+algo_Bst0.DecayDescriptor = '[B*_00 -> B0 pi+ pi-]cc'
+algo_Bst0.DaughtersCuts = algo_BstPlus.DaughtersCuts
+algo_Bst0.CombinationCut = algo_BstPlus.CombinationCut
+algo_Bst0.MotherCut = algo_BstPlus.MotherCut
+
+sel_Bst0 = Selection(
+    'SelMyB*_00',
+    Algorithm=algo_Bst0,
+    RequiredSelections=[sel_B0, sel_charged_Pi]
+)
+
+seq_Bst0 = SelectionSequence(
+    'SeqMyB*_00',
+    TopSelection=sel_Bst0)
+
+
 ##################
 # Define ntuples #
 ##################
@@ -862,6 +906,21 @@ tp_B0_mc_Mu = tuple_initialize_aux(
     '${b0}[B~0 => ${dst}(D*(2010)+ => ${d0}(D0 => ${k}K- ${pi}pi+) ${spi}pi+) ${mu}mu- ${anu_mu}nu_mu~]CC'
 )
 
+# B*_0+ -> B0 Pi+ ##############################################################
+tp_BstPlus = tuple_initialize(
+    'TupleBstPlus',
+    seq_BstPlus,
+    '[${bst}B*_0- -> ${b0}(B~0 -> ${dst}(D*(2010)- -> ${d0}(D0 -> ${k}K- ${pi}pi+) ${spi}pi-) ${mu}mu-) ${bpi}pi-]CC'
+)
+
+# B*_00 -> B0 Pi+ ##############################################################
+tp_Bst0 = tuple_initialize(
+    'TupleBst0',
+    seq_Bst0,
+    '[${bst0}B*_0~0 -> ${b0}(B~0 -> ${dst}(D*(2010)- -> ${d0}(D0 -> ${k}K- ${pi}pi+) ${spi}pi-) ${mu}mu-) ${bpi1}pi+ ${bpi2}pi-]CC'
+)
+
+
 ################################################
 # Add selection & tupling sequences to DaVinci #
 ################################################
@@ -871,6 +930,11 @@ if has_flag('CUTFLOW'):
                                  seq_B0.sequence(),
                                  # ntuples
                                  tp_Bminus, tp_B0]
+elif has_flag('NON_MU_MISID'):
+    DaVinci().UserAlgorithms += [seq_BstPlus.sequence(),
+                                 seq_Bst0.sequence(),
+                                 # ntuples
+                                 tp_BstPlus, tp_Bst0]
 elif DaVinci().Simulation:
     DaVinci().UserAlgorithms += [seq_Bminus.sequence(),
                                  seq_B0.sequence(),
