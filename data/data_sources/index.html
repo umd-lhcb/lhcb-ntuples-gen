@@ -12,7 +12,7 @@
       
       
       <link rel="shortcut icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-6.1.6">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-6.1.7">
     
     
       
@@ -20,7 +20,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.6910b76c.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.19753c6b.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.196e0c26.min.css">
@@ -894,25 +894,41 @@
 <table>
 <thead>
 <tr>
-<th>stripping line (in note)</th>
-<th>stripping line (updated)</th>
+<th>stripping line</th>
 <th>sample <code>DIRAC</code> path</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>Strippingb2D0MuXB2DMuForTauMuLine</code></td>
-<td><code>Strippingb2D0MuXB2DMuNuForTauMuLine</code></td>
+<td><a href="http://lhcbdoc.web.cern.ch/lhcbdoc/stripping/config/stripping21/semileptonic/strippingb2d0muxb2dmunufortaumuline.html"><code>b2D0MuXB2DMuNuForTauMuLine</code></a></td>
 <td><code>/LHCb/Collision12/Beam4000GeV-VeloClosed-MagDown/Real Data/Reco14/Stripping21/90000000/SEMILEPTONIC.DST</code></td>
+</tr>
+<tr>
+<td><a href="http://lhcbdoc.web.cern.ch/lhcbdoc/stripping/config/stripping21/semileptonic/strippingb2d0muxfakeb2dmunufortaumuline.html"><code>b2D0MuXFakeB2DMuNuForTauMuLine</code></a></td>
+<td>Same as above</td>
 </tr>
 </tbody>
 </table>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
+<p>Both lines are defined in the same file, which can be found
+<a href="https://gitlab.cern.ch/lhcb/Stripping/-/blob/Stripping-s28/Phys/StrippingArchive/python/StrippingArchive/Stripping21/StrippingB2DMuForTauMu.py">here</a>.</p>
 <p>We have to use <code>Stripping21</code> instead of <code>Stripping20</code> as mentioned in the
 notes, because the latter one is no longer <em>fully</em> exist.</p>
 <p>Also, <code>Stripping21</code> contains 2012 data, and <code>Stripping21r1</code> contains 2011
 data.</p>
+</div>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>The <em>Fake</em> line contains all cuts as the <em>Regular</em> line, with the following
+dieferences:</p>
+<ol>
+<li><em>Fake</em> uses <code>StdAllNoPIDsMuons</code> whereas <em>Regular</em> uses <code>StdLooseMuons</code></li>
+<li>
+<p><em>Fake</em> has the <span><span class="MathJax_Preview">\mu</span><script type="math/tex">\mu</script></span> cuts of: <code>(~ISMUON) &amp; (INMUON)</code></p>
+<p><em>Regular</em> has the <span><span class="MathJax_Preview">\mu</span><script type="math/tex">\mu</script></span> cuts of: <code>PIDmu &gt; 2.0</code></p>
+</li>
+</ol>
 </div>
 <h2 id="run-1-muonic-rdrd-monte-carlo">Run 1 muonic <span><span class="MathJax_Preview">R(D^{(*)})</span><script type="math/tex">R(D^{(*)})</script></span> Monte-Carlo</h2>
 <div class="admonition tip">
@@ -957,11 +973,19 @@ type</strong>. Then the event will be available at <code>MC/2012/&lt;event_type_
 </thead>
 <tbody>
 <tr>
-<td><code>Strippingb2D0MuXB2DMuForTaoMuLine</code></td>
+<td><a href="http://lhcbdoc.web.cern.ch/lhcbdoc/stripping/config/stripping28r2/semileptonic/strippingb2d0muxb2dmufortaumuline.html"><code>b2D0MuXB2DMuForTauMuLine</code></a></td>
 <td><code>/LHCb/Collision16/Beam6500GeV-VeloClosed-MagDown/Real Data/Reco16/Stripping28r1/90000000/SEMILEPTONIC.DST</code></td>
+</tr>
+<tr>
+<td><a href="http://lhcbdoc.web.cern.ch/lhcbdoc/stripping/config/stripping28r2/semileptonic/strippingb2d0muxfakeb2dmufortaumuline.html"><code>b2D0MuXFakeB2DMuForTauMuLine</code></a></td>
+<td>Same as above</td>
 </tr>
 </tbody>
 </table>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>As in run 1, both are defined in <a href="https://gitlab.cern.ch/lhcb/Stripping/-/blob/Stripping-s28/Phys/StrippingArchive/python/StrippingArchive/Stripping28/StrippingSL/StrippingB2DMuForTauMu.py">the same file</a>.</p>
+</div>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>The run 2 stripping line name is <strong>different</strong> from that of run 1!
@@ -1038,8 +1062,8 @@ The run 2 stripping line omits <code>Nu</code>.</p>
       
     </div>
     
-      <script src="../../assets/javascripts/vendor.fd16492e.min.js"></script>
-      <script src="../../assets/javascripts/bundle.7836ba4d.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}</script>
+      <script src="../../assets/javascripts/vendor.0ac82a11.min.js"></script>
+      <script src="../../assets/javascripts/bundle.f81dfb4d.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}</script>
       
       <script>
         app = initialize({
