@@ -17,7 +17,7 @@
 
 !!! info
     The _Fake_ line contains all cuts as the _Regular_ line, with the following
-    dieferences:
+    differences:
 
     1. _Fake_ uses `StdAllNoPIDsMuons` whereas _Regular_ uses `StdLooseMuons`
     2. _Fake_ has the $\mu$ cuts of: `(~ISMUON) & (INMUON)`
