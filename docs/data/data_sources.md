@@ -1,15 +1,28 @@
 ## Run 1 muonic $R(D^{(*)})$ data
 
-| stripping line (in note) | stripping line (updated) | sample `DIRAC` path |
-|---|---|---|
-| `Strippingb2D0MuXB2DMuForTauMuLine` | `Strippingb2D0MuXB2DMuNuForTauMuLine` | `/LHCb/Collision12/Beam4000GeV-VeloClosed-MagDown/Real Data/Reco14/Stripping21/90000000/SEMILEPTONIC.DST`
+| stripping line | sample `DIRAC` path |
+|---|---|
+| [`b2D0MuXB2DMuNuForTauMuLine`](http://lhcbdoc.web.cern.ch/lhcbdoc/stripping/config/stripping21/semileptonic/strippingb2d0muxb2dmunufortaumuline.html) | `/LHCb/Collision12/Beam4000GeV-VeloClosed-MagDown/Real Data/Reco14/Stripping21/90000000/SEMILEPTONIC.DST` |
+| [`b2D0MuXFakeB2DMuNuForTauMuLine`](http://lhcbdoc.web.cern.ch/lhcbdoc/stripping/config/stripping21/semileptonic/strippingb2d0muxfakeb2dmunufortaumuline.html) | Same as above |
 
 !!! note
+    Both lines are defined in the same file, which can be found
+    [here](https://gitlab.cern.ch/lhcb/Stripping/-/blob/Stripping-s28/Phys/StrippingArchive/python/StrippingArchive/Stripping21/StrippingB2DMuForTauMu.py).
+
     We have to use `Stripping21` instead of `Stripping20` as mentioned in the
     notes, because the latter one is no longer _fully_ exist.
 
     Also, `Stripping21` contains 2012 data, and `Stripping21r1` contains 2011
     data.
+
+!!! info
+    The _Fake_ line contains all cuts as the _Regular_ line, with the following
+    dieferences:
+
+    1. _Fake_ uses `StdAllNoPIDsMuons` whereas _Regular_ uses `StdLooseMuons`
+    2. _Fake_ has the $\mu$ cuts of: `(~ISMUON) & (INMUON)`
+
+        _Regular_ has the $\mu$ cuts of: `PIDmu > 2.0`
 
 
 ## Run 1 muonic $R(D^{(*)})$ Monte-Carlo
@@ -47,7 +60,11 @@
 
 | stripping line | sample `DIRAC` path |
 |---|---|
-| `Strippingb2D0MuXB2DMuForTaoMuLine` | `/LHCb/Collision16/Beam6500GeV-VeloClosed-MagDown/Real Data/Reco16/Stripping28r1/90000000/SEMILEPTONIC.DST`
+| [`b2D0MuXB2DMuForTauMuLine`](http://lhcbdoc.web.cern.ch/lhcbdoc/stripping/config/stripping28r2/semileptonic/strippingb2d0muxb2dmufortaumuline.html) | `/LHCb/Collision16/Beam6500GeV-VeloClosed-MagDown/Real Data/Reco16/Stripping28r1/90000000/SEMILEPTONIC.DST` |
+| [`b2D0MuXFakeB2DMuForTauMuLine`](http://lhcbdoc.web.cern.ch/lhcbdoc/stripping/config/stripping28r2/semileptonic/strippingb2d0muxfakeb2dmufortaumuline.html) | Same as above |
+
+!!! note
+    As in run 1, both are defined in [the same file](https://gitlab.cern.ch/lhcb/Stripping/-/blob/Stripping-s28/Phys/StrippingArchive/python/StrippingArchive/Stripping28/StrippingSL/StrippingB2DMuForTauMu.py).
 
 !!! warning
     The run 2 stripping line name is **different** from that of run 1!
