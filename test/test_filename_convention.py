@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Oct 12, 2020 at 01:49 AM +0800
+# Last Change: Tue Dec 08, 2020 at 11:46 PM +0100
 
 from datetime import datetime
 from re import match, sub
@@ -78,7 +78,11 @@ def validate_year(years):
 
 
 RECO_SAMPLES = ['Dst', 'D0', 'Dst_D0']
-TYPES = ['std', 'mc', 'cutflow_data', 'cutflow_mc', 'validation', 'mix']
+TYPES = ['std', 'mc',
+         'cutflow_data', 'cutflow_mc',
+         'validation',
+         'mix',
+         'non_mu_misid']
 SAMPLES = [
     'data', 'cocktail', 'all',
     # MC modes
