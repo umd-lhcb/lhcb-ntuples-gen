@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Nov 25, 2020 at 03:13 PM +0100
+# Last Change: Wed Dec 09, 2020 at 02:01 AM +0100
 #
 # Description: Definitions of selection and reconstruction procedures for run 1
 #              R(D(*)), with thorough comments.
@@ -339,14 +339,19 @@ algo_Bminus.DecayDescriptor = '[B- -> D0 mu-]cc'
 
 algo_Bminus.DaughtersCuts = {
     'mu-': '(MIPCHI2DV(PRIMARY) > 45.0) & (TRGHOSTPROB < 0.5) &'
-           '(PIDmu > 2.0) &'
-           '(P > 3.0*GeV)'
+           '(P > 3.0*GeV)'  # NOTE: Mu PID is added later
 }
 
 algo_Bminus.CombinationCut = '(AM < 10.2*GeV)'
 algo_Bminus.MotherCut = \
     '(MM < 10.0*GeV) & (MM > 0.0*GeV) &' \
     '(VFASPF(VCHI2/VDOF) < 6.0) & (BPVDIRA > 0.9995)'
+
+
+# NOTE: For all but Non-Mu MisID reco, we add Muon PID requirement.
+if not has_flag('NON_MU_MISID'):
+    algo_Bminus.DaughtersCuts['mu'] = \
+        '(PIDmu > 2.0) &' + algo_Bminus.DaughtersCuts['mu']
 
 
 if has_flag('BARE'):
