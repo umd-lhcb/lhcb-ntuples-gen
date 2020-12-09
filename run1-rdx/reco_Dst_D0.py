@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Dec 09, 2020 at 02:27 AM +0100
+# Last Change: Thu Dec 10, 2020 at 12:31 AM +0100
 #
 # Description: Definitions of selection and reconstruction procedures for run 1
 #              R(D(*)), with thorough comments.
@@ -336,6 +336,7 @@ sel_D0 = Selection(
 # This corresponds to the B-meson cuts defined in the stripping line
 algo_Bminus = CombineParticles('MyB-')
 algo_Bminus.DecayDescriptor = '[B- -> D0 mu-]cc'
+# algo_Bminus.DecayDescriptors = ['[B- -> D0 mu-]cc', '[B+ -> D0 mu+]cc']
 
 algo_Bminus.DaughtersCuts = {
     'mu-': '(MIPCHI2DV(PRIMARY) > 45.0) & (TRGHOSTPROB < 0.5) &'
