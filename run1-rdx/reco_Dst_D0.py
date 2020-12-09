@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Dec 09, 2020 at 02:02 AM +0100
+# Last Change: Wed Dec 09, 2020 at 02:27 AM +0100
 #
 # Description: Definitions of selection and reconstruction procedures for run 1
 #              R(D(*)), with thorough comments.
@@ -918,7 +918,7 @@ tp_BstPlus = tuple_initialize(
     '[${bst}B*_0- -> ${b0}(B~0 -> ${dst}(D*(2010)- -> ${d0}(D0 -> ${k}K- ${pi}pi+) ${spi}pi-) ${mu}mu-) ${bpi}pi-]CC'
 )
 
-# B*_00 -> B0 Pi+ ##############################################################
+# B*_00 -> B0 Pi+ Pi- ##########################################################
 tp_Bst0 = tuple_initialize(
     'TupleBst0',
     seq_Bst0,
