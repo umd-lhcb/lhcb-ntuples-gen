@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Dec 10, 2020 at 12:31 AM +0100
+# Last Change: Wed Dec 16, 2020 at 03:27 PM +0100
 #
 # Description: Definitions of selection and reconstruction procedures for run 1
 #              R(D(*)), with thorough comments.
@@ -665,6 +665,7 @@ else:
 ##########################
 # Non-Mu MisID selection #
 ##########################
+# NOTE: These are not used in fitter. Kept for archival purposes.
 
 # B*_0+ -> B0 Pi+ ##############################################################
 algo_BstPlus = CombineParticles('MyB*_0+')
@@ -931,16 +932,11 @@ tp_Bst0 = tuple_initialize(
 # Add selection & tupling sequences to DaVinci #
 ################################################
 
-if has_flag('CUTFLOW'):
+if has_flag('CUTFLOW') or has_flag('NON_MU_MISID'):
     DaVinci().UserAlgorithms += [seq_Bminus.sequence(),
                                  seq_B0.sequence(),
                                  # ntuples
                                  tp_Bminus, tp_B0]
-elif has_flag('NON_MU_MISID'):
-    DaVinci().UserAlgorithms += [seq_BstPlus.sequence(),
-                                 seq_Bst0.sequence(),
-                                 # ntuples
-                                 tp_BstPlus, tp_Bst0]
 elif DaVinci().Simulation:
     DaVinci().UserAlgorithms += [seq_Bminus.sequence(),
                                  seq_B0.sequence(),
