@@ -70,12 +70,16 @@ def print_job_hadd_filename(init_idx=0):
 def hadd_completed_job_output(
         init_idx=0,
         output_script='~/batch_hadd.sh',
-        input_dir='~/eos/gangadir-workspace/suny/LocalXML',
         completed_only=False
 ):
+    input_dir = None
+
     instructions = []
     for j in jobs:
         if j.id >= init_idx:
+            if not input_dir:
+                input_dir = '/'.join(j.inputdir.split('/')[:-3])
+
             if j.status != 'completed':
                 print('Warning: job {} has a name {} and status {}'.format(j.id, j.name, j.status))
                 if completed_only:
