@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Nov 02, 2020 at 03:50 PM +0100
+# Last Change: Sat Dec 26, 2020 at 02:33 AM +0100
 #
 # Description: Definitions of selection and reconstruction procedures for run 2
 #              R(D(*)). For more thorough comments, take a look at:
@@ -84,7 +84,13 @@ DaVinci().appendToMainSequence([ms_all_protos, ms_velo_pions])
 
 from Configurables import LoKi__HDRFilter as HDRFilter
 
-line_strip = 'b2D0MuXB2DMuForTauMuLine'
+
+if has_flag('NON_MU_MISID'):
+    line_strip = 'b2D0MuXFakeB2DMuForTauMuLine'
+else:
+    line_strip = 'b2D0MuXB2DMuForTauMuLine'
+
+
 fltr_strip = HDRFilter(
     'StrippedBCands',
     Code="HLT_PASS('Stripping{0}Decision')".format(line_strip))
@@ -139,6 +145,7 @@ from PhysSelPython.Wrappers import Selection
 from Configurables import FilterDesktop, FilterInTrees
 from Configurables import TisTosParticleTagger
 
+# We don't plan to filtering on Muon with global TIS for run 2, for now.
 sel_stripped_Mu_filtered_evt = Selection(
     'SelMyStrippedMuFilteredEvent',
     Algorithm=FilterDesktop(
@@ -273,9 +280,14 @@ algo_Bminus.DecayDescriptor = '[B- -> D0 mu-]cc'
 
 algo_Bminus.DaughtersCuts = {
     'mu-': '(MIPCHI2DV(PRIMARY)> 16.0) & (TRGHOSTPROB < 0.5) &'
-           '(PIDmu > -200.0) &'
-           '(P > 3.0*GeV)'
+           '(P > 3.0*GeV)'  # NOTE: Mu PID is added later
 }
+
+
+if not has_flag('NON_MU_MISID'):
+    algo_Bminus.DaughtersCuts['mu'] = \
+        '(PIDmu > -200.0) &' + algo_Bminus.DaughtersCuts['mu']
+
 
 algo_Bminus.CombinationCut = '(AM < 10.2*GeV)'
 algo_Bminus.MotherCut = \
@@ -795,7 +807,7 @@ tp_B0_mc_Mu = tuple_initialize_aux(
 # Add selection & tupling sequences to DaVinci #
 ################################################
 
-if has_flag('CUTFLOW'):
+if has_flag('CUTFLOW') or has_flag('NON_MU_MISID'):
     DaVinci().UserAlgorithms += [seq_Bminus.sequence(),
                                  seq_B0.sequence(),
                                  # ntuples
