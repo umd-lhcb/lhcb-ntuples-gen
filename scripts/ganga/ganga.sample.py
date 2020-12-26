@@ -21,20 +21,64 @@ def get_ntuple_filename(j):
             return name
 
 
-def gen_hadd_script(instructions, output_script, input_dir, output_dir='$1'):
+def gen_hadd_script(instructions, output_script, input_dir, output_dir='$1',
+                    min_ntuple_size=500):
     from os.path import expanduser
-    header = '''#!/bin/bash
+
+    header = '''#!/usr/bin/env bash
 INPUT_DIR={}
 OUTPUT_DIR={}
+MIN_NTUPLE_SIZE={}  # in KiB
 
-'''.format(input_dir, output_dir)
+'''.format(input_dir, output_dir, min_ntuple_size)
+
+    functions = '''
+function check_job () {
+  local error=0
+  local job_dir=${INPUT_DIR}/$1
+
+  echo "Verifying output for Job $1..."
+
+  for sj in $(ls $job_dir | grep -E "^[0-9]$"); do
+    local file=$(find $job_dir/$sj/output -name '*.root')
+
+    if [[ -z $file ]]; then
+      let "error++"
+      echo "subjob $sj: ntuple missing!"
+    else
+      local size=$(du -b $file | awk '{print int($1 / 1024)}')  # in KiB
+      if [ $size -lt ${MIN_NTUPLE_SIZE} ]; then
+        let "error++"
+        echo "subjob $sj: ntuple has a size of $size KiB, which is too small!"
+      fi
+    fi
+  done
+
+  if [ $error -gt 0 ]; then
+    echo "Job $1 output verification failed with $error error(s)."
+  fi
+
+  return $error
+}
+
+function concat_job () {
+  check_job $1
+
+  if [ $? -eq 0 ]; then
+    hadd -fk ${OUTPUT_DIR}/$3 ${INPUT_DIR}/$1/*/output/$2
+  fi
+}
+
+'''
 
     with open(expanduser(output_script), 'w') as f:
         f.write(header)
+        f.write(functions)
 
         for idx, orig_filename, hadd_filename in instructions:
-            f.write('hadd -fk ${{OUTPUT_DIR}}/{hadd_filename} ${{INPUT_DIR}}/{idx}/*/output/{orig_filename}\n'.format(
-                hadd_filename=hadd_filename, idx=idx, orig_filename=orig_filename))
+            f.write('concat_job {idx} {orig_filename} {hadd_filename}\n'.format(
+                hadd_filename=hadd_filename, idx=idx,
+                orig_filename=orig_filename))
 
 
 ##################
