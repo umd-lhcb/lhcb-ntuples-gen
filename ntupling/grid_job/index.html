@@ -1090,6 +1090,62 @@ jobs with a index that is greater or equal to the specified index.</p>
 </li>
 <li>
 <p><code>chmod+x batch_hadd.sh</code>, then run it with <code>./batch_hadd.sh &lt;output_dir_for_merged_ntuple&gt;</code></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The <code>batch_hadd.sh</code> script will check the outputs of the jobs so that:</p>
+<ol>
+<li>Every single subjob contains a <code>*.root</code> file.</li>
+<li>The <code>*.root</code> file has a size of at least 500 KiB.</li>
+</ol>
+</div>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>A generated <code>batch_hadd.sh</code> looks like this:</p>
+<div class="highlight"><pre><span></span><code><span class="ch">#!/usr/bin/env bash</span>
+<span class="nv">INPUT_DIR</span><span class="o">=</span>/afs/cern.ch/user/s/suny/work/gangadir/workspace/suny/LocalXML
+<span class="nv">OUTPUT_DIR</span><span class="o">=</span><span class="nv">$1</span>
+<span class="nv">MIN_NTUPLE_SIZE</span><span class="o">=</span><span class="m">500</span>  <span class="c1"># in KiB</span>
+
+
+<span class="k">function</span> check_job <span class="o">()</span> <span class="o">{</span>
+  <span class="nb">local</span> <span class="nv">error</span><span class="o">=</span><span class="m">0</span>
+  <span class="nb">local</span> <span class="nv">job_dir</span><span class="o">=</span><span class="si">${</span><span class="nv">INPUT_DIR</span><span class="si">}</span>/<span class="nv">$1</span>
+
+  <span class="nb">echo</span> <span class="s2">&quot;Verifying output for Job </span><span class="nv">$1</span><span class="s2">...&quot;</span>
+
+  <span class="k">for</span> sj in <span class="k">$(</span>ls <span class="nv">$job_dir</span> <span class="p">|</span> grep -E <span class="s2">&quot;^[0-9]</span>$<span class="s2">&quot;</span><span class="k">)</span><span class="p">;</span> <span class="k">do</span>
+    <span class="nb">local</span> <span class="nv">file</span><span class="o">=</span><span class="k">$(</span>find <span class="nv">$job_dir</span>/<span class="nv">$sj</span>/output -name <span class="s1">&#39;*.root&#39;</span><span class="k">)</span>
+
+    <span class="k">if</span> <span class="o">[[</span> -z <span class="nv">$file</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then</span>
+      <span class="nb">let</span> <span class="s2">&quot;error++&quot;</span>
+      <span class="nb">echo</span> <span class="s2">&quot;subjob </span><span class="nv">$sj</span><span class="s2">: ntuple missing!&quot;</span>
+    <span class="k">else</span>
+      <span class="nb">local</span> <span class="nv">size</span><span class="o">=</span><span class="k">$(</span>du -b <span class="nv">$file</span> <span class="p">|</span> awk <span class="s1">&#39;{print int($1 / 1024)}&#39;</span><span class="k">)</span>  <span class="c1"># in KiB</span>
+      <span class="k">if</span> <span class="o">[</span> <span class="nv">$size</span> -lt <span class="si">${</span><span class="nv">MIN_NTUPLE_SIZE</span><span class="si">}</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+        <span class="nb">let</span> <span class="s2">&quot;error++&quot;</span>
+        <span class="nb">echo</span> <span class="s2">&quot;subjob </span><span class="nv">$sj</span><span class="s2">: ntuple has a size of </span><span class="nv">$size</span><span class="s2"> KiB, which is too small!&quot;</span>
+      <span class="k">fi</span>
+    <span class="k">fi</span>
+  <span class="k">done</span>
+
+  <span class="k">if</span> <span class="o">[</span> <span class="nv">$error</span> -gt <span class="m">0</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+    <span class="nb">echo</span> <span class="s2">&quot;Job </span><span class="nv">$1</span><span class="s2"> output verification failed with </span><span class="nv">$error</span><span class="s2"> error(s).&quot;</span>
+  <span class="k">fi</span>
+
+  <span class="k">return</span> <span class="nv">$error</span>
+<span class="o">}</span>
+
+<span class="k">function</span> concat_job <span class="o">()</span> <span class="o">{</span>
+  check_job <span class="nv">$1</span>
+
+  <span class="k">if</span> <span class="o">[</span> <span class="nv">$?</span> -eq <span class="m">0</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+    hadd -fk <span class="si">${</span><span class="nv">OUTPUT_DIR</span><span class="si">}</span>/<span class="nv">$3</span> <span class="si">${</span><span class="nv">INPUT_DIR</span><span class="si">}</span>/<span class="nv">$1</span>/*/output/<span class="nv">$2</span>
+  <span class="k">fi</span>
+<span class="o">}</span>
+
+concat_job <span class="m">73</span> std.root Dst_D0--20_10_12--std--LHCb_Collision11_Beam3500GeV-VeloClosed-MagDown_Real_Data.root
+</code></pre></div>
+</div>
 </li>
 <li>
 <p>Finally, consult <a href="../nomenclature/">this</a> for ntuple naming convention.</p>
@@ -1108,7 +1164,7 @@ parameters to the real job submitter.</p>
 <ol>
 <li id="fn:1">
 <p>There's an official way to merge <code>.root</code> files with <code>ganga</code>, but the
-  method described in the main text offers slightly more control.&#160;<a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+  method described in the main text offers checks to job output ntuples.&#160;<a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 1 in the text">&#8617;</a></p>
 </li>
 </ol>
 </div>
