@@ -177,6 +177,60 @@ We prefer to merge all output `.root` files from subjobs. There's a helper
 
 4. `chmod+x batch_hadd.sh`, then run it with `./batch_hadd.sh <output_dir_for_merged_ntuple>`
 
+    !!! note
+        The `batch_hadd.sh` script will check the outputs of the jobs so that:
+
+        1. Every single subjob contains a `*.root` file.
+        2. The `*.root` file has a size of at least 500 KiB.
+
+    !!! info
+        A generated `batch_hadd.sh` looks like this:
+
+        ```bash
+        #!/usr/bin/env bash
+        INPUT_DIR=/afs/cern.ch/user/s/suny/work/gangadir/workspace/suny/LocalXML
+        OUTPUT_DIR=$1
+        MIN_NTUPLE_SIZE=500  # in KiB
+
+
+        function check_job () {
+          local error=0
+          local job_dir=${INPUT_DIR}/$1
+
+          echo "Verifying output for Job $1..."
+
+          for sj in $(ls $job_dir | grep -E "^[0-9]$"); do
+            local file=$(find $job_dir/$sj/output -name '*.root')
+
+            if [[ -z $file ]]; then
+              let "error++"
+              echo "subjob $sj: ntuple missing!"
+            else
+              local size=$(du -b $file | awk '{print int($1 / 1024)}')  # in KiB
+              if [ $size -lt ${MIN_NTUPLE_SIZE} ]; then
+                let "error++"
+                echo "subjob $sj: ntuple has a size of $size KiB, which is too small!"
+              fi
+            fi
+          done
+
+          if [ $error -gt 0 ]; then
+            echo "Job $1 output verification failed with $error error(s)."
+          fi
+
+          return $error
+        }
+
+        function concat_job () {
+          check_job $1
+
+          if [ $? -eq 0 ]; then
+            hadd -fk ${OUTPUT_DIR}/$3 ${INPUT_DIR}/$1/*/output/$2
+          fi
+        }
+
+        concat_job 73 std.root Dst_D0--20_10_12--std--LHCb_Collision11_Beam3500GeV-VeloClosed-MagDown_Real_Data.root
+        ```
 
 5. Finally, consult [this](./nomenclature.md) for ntuple naming convention.
 
@@ -190,4 +244,4 @@ We prefer to merge all output `.root` files from subjobs. There's a helper
         This can be done locally, as `lxplus` is not needed.
 
 [^1]: There's an official way to merge `.root` files with `ganga`, but the
-      method described in the main text offers slightly more control.
+      method described in the main text offers checks to job output ntuples.
