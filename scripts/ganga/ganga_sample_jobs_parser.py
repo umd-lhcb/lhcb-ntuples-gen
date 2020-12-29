@@ -38,6 +38,7 @@ LFN_PATH = {
     'cutflow_mc-2011': '/MC/2011/Beam3500GeV-2011-Mag{polarity}-Nu2-Pythia8/{simcond}/Digi13/Trig0x40760037/Reco14c/Stripping20r1NoPrescalingFlagged/11874091/ALLSTREAMS.DST',
     'cutflow_mc-2016': '/MC/2016/Beam6500GeV-2016-Mag{polarity}-Nu1.6-25ns-Pythia8/{simcond}/Trig0x6138160F/Reco16/Turbo03/Stripping26NoPrescalingFlagged/11874091/ALLSTREAMS.DST',
     # run 2
+    'std-2015': '/LHCb/Collision15/Beam6500GeV-VeloClosed-Mag{polarity}/Real Data/Reco15a/Stripping24r2/90000000/SEMILEPTONIC.DST',
     'std-2016': '/LHCb/Collision16/Beam6500GeV-VeloClosed-Mag{polarity}/Real Data/Reco16/Stripping28r1/90000000/SEMILEPTONIC.DST',
 }
 LFN_PATH['cutflow_data-2012'] = LFN_PATH['std-2012']
