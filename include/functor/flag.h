@@ -1,6 +1,6 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Mon Jan 11, 2021 at 04:49 PM +0100
+// Last Change: Mon Jan 11, 2021 at 04:56 PM +0100
 
 #ifndef _LNG_FUNCTOR_FLAG_H_
 #define _LNG_FUNCTOR_FLAG_H_
@@ -290,16 +290,11 @@ Bool_t IS_2PI(Bool_t flag_mu, Bool_t just_dst, Bool_t dst_ok, Bool_t mu_pid,
 // Current name: just_dst
 // Meaning: D* from B, not D**
 // Defined in: AddB.C, LN2478, LN2816
-Bool_t JUST_DST(std::vector<std::vector<Bool_t> >& mc_flags, Int_t mu_mom_id,
-                Int_t dst_mom_id) {
-  auto abs_mu_mom_id  = TMath::Abs(mu_mom_id);
+Bool_t JUST_DST(Int_t dst_mom_id) {
   auto abs_dst_mom_id = TMath::Abs(dst_mom_id);
 
-  auto mu_mom_possible_ids  = std::vector<Int_t>({411, 421, 431});
   auto dst_mom_possible_ids = std::vector<Int_t>({511, 521, 531});
-  if ((VEC_OR(mc_flags[2]) || VEC_OR(mc_flags[3])) &&  /* LN2779 */
-      VEC_OR_EQ(mu_mom_possible_ids, abs_mu_mom_id) && /* LN2779 */
-      VEC_OR_EQ(dst_mom_possible_ids, abs_dst_mom_id) /* LN2836 */)
+  if (VEC_OR_EQ(dst_mom_possible_ids, abs_dst_mom_id) /* LN2814 */)
     return true;
 
   return false;
