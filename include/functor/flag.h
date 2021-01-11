@@ -1,6 +1,6 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Mon Jan 11, 2021 at 04:39 PM +0100
+// Last Change: Mon Jan 11, 2021 at 04:49 PM +0100
 
 #ifndef _LNG_FUNCTOR_FLAG_H_
 #define _LNG_FUNCTOR_FLAG_H_
@@ -268,7 +268,7 @@ Bool_t IS_DATA(ULong64_t time) {
 // Original name: ishigher
 // Current name: is_2pi
 // Meaning: 2S D** instead of 1P D**? Phoebe says check if 2pi cocktail member
-// Defined in: AddB.C, LN2435, LN2439
+// Defined in: AddB.C, LN3255-3269
 Bool_t IS_2PI(Bool_t flag_mu, Bool_t just_dst, Bool_t dst_ok, Bool_t mu_pid,
               Int_t dst_mom_id, Int_t dst_gd_mom_id) {
   auto abs_dst_mom_id    = TMath::Abs(dst_mom_id);
