@@ -1,9 +1,30 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Dec 16, 2020 at 03:27 PM +0100
+# Last Change: Mon Jan 11, 2021 at 11:19 PM +0100
 #
 # Description: Definitions of selection and reconstruction procedures for run 1
 #              R(D(*)), with thorough comments.
+#
+# Meanings for flags:
+# NOTE: The CUTFLOW, BARE, and DV_STRIP flags are all used for cutflow studies
+#
+#   CUTFLOW:
+#     Use stripping line and stripping line only. Don't apply additional HLT
+#     cuts.
+#
+#   BARE:
+#     Apply way less and way looser cuts compared to the stripping line. This
+#     implies that we don't use stripping line at all.
+#
+#   DV_STRIP:
+#     Apply all stripping line cuts in DaVinci, but don't use stripping line.
+#     This is used to show that applying cuts later is very similar to applying
+#     cuts in the official stripping production (with admittedly minor
+#     differences).
+#
+#   NON_MU_MISID:
+#     Don't apply Muon ID cuts for Muon, and use the dedicated Fake stripping
+#     line instead of the regular one. The misID sample is used in fit.
 
 
 #########################################
