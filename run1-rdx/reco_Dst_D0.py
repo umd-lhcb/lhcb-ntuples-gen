@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Jan 11, 2021 at 11:19 PM +0100
+# Last Change: Mon Jan 11, 2021 at 11:25 PM +0100
 #
 # Description: Definitions of selection and reconstruction procedures for run 1
 #              R(D(*)), with thorough comments.
@@ -16,6 +16,9 @@
 #     Apply way less and way looser cuts compared to the stripping line. This
 #     implies that we don't use stripping line at all.
 #
+#     This is for cutflow studies without biasing the trigger efficiencies from
+#     the trigger cuts in the stripping line.
+#
 #   DV_STRIP:
 #     Apply all stripping line cuts in DaVinci, but don't use stripping line.
 #     This is used to show that applying cuts later is very similar to applying
@@ -23,7 +26,7 @@
 #     differences).
 #
 #   NON_MU_MISID:
-#     Don't apply Muon ID cuts for Muon, and use the dedicated Fake stripping
+#     Don't apply Muon PID cuts for Muon, and use the dedicated Fake stripping
 #     line instead of the regular one. The misID sample is used in fit.
 
 
