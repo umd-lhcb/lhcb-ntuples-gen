@@ -1,6 +1,6 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Wed Sep 23, 2020 at 06:25 PM +0800
+// Last Change: Mon Jan 11, 2021 at 04:39 PM +0100
 
 #ifndef _LNG_FUNCTOR_FLAG_H_
 #define _LNG_FUNCTOR_FLAG_H_
@@ -142,7 +142,7 @@ Bool_t FLAG_TWO_D_MU(std::vector<std::vector<Bool_t> >& mc_flags,
 // Defined in: AddB.C, LN2495, LN2740
 Bool_t FLAG_D0_MU(std::vector<std::vector<Bool_t> >& mc_flags,
                   Int_t                              mu_true_id) {
-  if ((mc_flags[0][0] || mc_flags[0][2]) && TMath::Abs(mu_true_id) == 13)
+  if ((mc_flags[0][0] || mc_flags[0][1]) && TMath::Abs(mu_true_id) == 13)
     return true;
   return false;
 }
