@@ -25,7 +25,7 @@ We often have scripts that facilitate this. For instance, to run on Run 2
 data, type in the `docker`:
 ```
 cd run2-rdx
-./run.sh reco_Dst_D0.py conds/cond-std-2016.py
+./run.sh conds/cond-std-2016.py
 ```
 
 !!! warning
@@ -37,12 +37,12 @@ cd run2-rdx
     ```
 
 !!! note
-    - The first argument, `reco_Dst_D0.py`, is the script that makes the
-        $D^{*+}(\to D^0(\to K^+\pi^-)\pi^+)\mu^-$ reconstruction. It also sets
-        how many events to run at most (`EvtMax`) and the print frequency
-        (`PrintFreq`).
+    - Inside the run script, the `reco_Dst_D0.py` script in the same directory is
+        called for $D^{*+}(\to D^0(\to K^+\pi^-)\pi^+)\mu^-$ reconstruction. 
+        It also sets how many events to run at most (`EvtMax`) and the print frequency
+        (`PrintFreq`). To use a different reco script, edit `run.sh`.
 
-    - The second argument, `conds/cond-std-2016.py`, sets the type of
+    - The argument, `conds/cond-std-2016.py`, sets the type of
         input data (Data or MC), the input files and the name of the output
         file (`std.root` in this case).
 
