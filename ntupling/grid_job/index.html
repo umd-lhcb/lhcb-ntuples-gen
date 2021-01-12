@@ -1113,7 +1113,7 @@ jobs with a index that is greater or equal to the specified index.</p>
 
   <span class="nb">echo</span> <span class="s2">&quot;Verifying output for Job </span><span class="nv">$1</span><span class="s2">...&quot;</span>
 
-  <span class="k">for</span> sj in <span class="k">$(</span>ls <span class="nv">$job_dir</span> <span class="p">|</span> grep -E <span class="s2">&quot;^[0-9]</span>$<span class="s2">&quot;</span><span class="k">)</span><span class="p">;</span> <span class="k">do</span>
+  <span class="k">for</span> sj <span class="k">in</span> <span class="k">$(</span>ls <span class="nv">$job_dir</span> <span class="p">|</span> grep -E <span class="s2">&quot;^[0-9]</span>$<span class="s2">&quot;</span><span class="k">)</span><span class="p">;</span> <span class="k">do</span>
     <span class="nb">local</span> <span class="nv">file</span><span class="o">=</span><span class="k">$(</span>find <span class="nv">$job_dir</span>/<span class="nv">$sj</span>/output -name <span class="s1">&#39;*.root&#39;</span><span class="k">)</span>
 
     <span class="k">if</span> <span class="o">[[</span> -z <span class="nv">$file</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then</span>

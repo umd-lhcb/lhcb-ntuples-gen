@@ -779,7 +779,7 @@ docker.</p>
 <p>We often have scripts that facilitate this. For instance, to run on Run 2
 data, type in the <code>docker</code>:
 <div class="highlight"><pre><span></span><code>cd run2-rdx
-./run.sh reco_Dst_D0.py conds/cond-std-2016.py
+./run.sh conds/cond-std-2016.py
 </code></pre></div></p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
@@ -793,13 +793,13 @@ git annex get data/data-2016-md  # ~4.7 GB, this will take several minutes
 <p class="admonition-title">Note</p>
 <ul>
 <li>
-<p>The first argument, <code>reco_Dst_D0.py</code>, is the script that makes the
-    <span><span class="MathJax_Preview">D^{*+}(\to D^0(\to K^+\pi^-)\pi^+)\mu^-</span><script type="math/tex">D^{*+}(\to D^0(\to K^+\pi^-)\pi^+)\mu^-</script></span> reconstruction. It also sets
-    how many events to run at most (<code>EvtMax</code>) and the print frequency
-    (<code>PrintFreq</code>).</p>
+<p>Inside the run script, the <code>reco_Dst_D0.py</code> script in the same directory is
+    called for <span><span class="MathJax_Preview">D^{*+}(\to D^0(\to K^+\pi^-)\pi^+)\mu^-</span><script type="math/tex">D^{*+}(\to D^0(\to K^+\pi^-)\pi^+)\mu^-</script></span> reconstruction. 
+    It also sets how many events to run at most (<code>EvtMax</code>) and the print frequency
+    (<code>PrintFreq</code>). To use a different reco script, edit <code>run.sh</code>.</p>
 </li>
 <li>
-<p>The second argument, <code>conds/cond-std-2016.py</code>, sets the type of
+<p>The argument, <code>conds/cond-std-2016.py</code>, sets the type of
     input data (Data or MC), the input files and the name of the output
     file (<code>std.root</code> in this case).</p>
 </li>
