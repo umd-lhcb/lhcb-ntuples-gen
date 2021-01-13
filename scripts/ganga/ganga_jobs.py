@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Jan 13, 2021 at 12:07 PM +0100
+# Last Change: Wed Jan 13, 2021 at 12:11 PM +0100
 #
 # Description: A demonstration on ganga option file with parser.
 #              This demo runs stand-alone, provided that Python is installed:
@@ -63,7 +63,7 @@ def conf_job_app(davinci_path, options):
 # Main #
 ########
 
-args, _ = parse_input()
+args = parse_input()
 
 fields, reco_type, additional_flags = parse_cond_file_name(args.cond_file)
 reco_sample = parse_reco_script_name(args.reco_script)
