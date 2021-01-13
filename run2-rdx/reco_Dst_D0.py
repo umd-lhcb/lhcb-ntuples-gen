@@ -285,8 +285,8 @@ algo_Bminus.DaughtersCuts = {
 
 
 if not has_flag('NON_MU_MISID'):
-    algo_Bminus.DaughtersCuts['mu'] = \
-        '(PIDmu > -200.0) &' + algo_Bminus.DaughtersCuts['mu']
+    algo_Bminus.DaughtersCuts['mu-'] = \
+        '(PIDmu > -200.0) &' + algo_Bminus.DaughtersCuts['mu-']
 
 
 algo_Bminus.CombinationCut = '(AM < 10.2*GeV)'

@@ -375,8 +375,8 @@ algo_Bminus.MotherCut = \
 
 # NOTE: For all but Non-Mu MisID reco, we add Muon PID requirement.
 if not has_flag('NON_MU_MISID'):
-    algo_Bminus.DaughtersCuts['mu'] = \
-        '(PIDmu > 2.0) &' + algo_Bminus.DaughtersCuts['mu']
+    algo_Bminus.DaughtersCuts['mu-'] = \
+        '(PIDmu > 2.0) &' + algo_Bminus.DaughtersCuts['mu-']
 
 
 if has_flag('BARE'):
