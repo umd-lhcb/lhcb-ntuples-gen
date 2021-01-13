@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Jan 13, 2021 at 11:49 AM +0100
+# Last Change: Wed Jan 13, 2021 at 11:50 AM +0100
 #
 # Description: A demonstration on ganga option file with parser.
 #              This demo runs stand-alone, provided that Python is installed:
@@ -156,7 +156,7 @@ def gen_lfn_path(lfn, fields, additional_fields,
 
 def parse_input():
     parser = ArgumentParser(description='''
-ganga script to process R(D*) run 1 data/MC.''')
+general ganga job submitter.''')
 
     parser.add_argument('reco_script',
                         help='''
