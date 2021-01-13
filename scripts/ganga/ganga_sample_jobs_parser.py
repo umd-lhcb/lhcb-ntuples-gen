@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Oct 12, 2020 at 05:49 PM +0800
+# Last Change: Wed Jan 13, 2021 at 11:47 AM +0100
 #
 # Description: A demonstration on ganga option file with parser.
 #              This demo runs stand-alone, provided that Python is installed:
@@ -31,14 +31,16 @@ FILES_PER_JOB_MC = 2
 # Example for a fully constructed MC file path:
 # '/MC/2012/Beam4000GeV-2012-MagDown-Nu2.5-Pythia6/Sim08a/Digi13/Trig0x409f0045/Reco14a/Stripping20Filtered/11873010/DSTTAUNU.SAFESTRIPTRIG'
 LFN_PATH = {
-    # run 1
+    # run 1 data
     'std-2011': '/LHCb/Collision11/Beam3500GeV-VeloClosed-Mag{polarity}/Real Data/Reco14/Stripping21r1/90000000/SEMILEPTONIC.DST',
     'std-2012': '/LHCb/Collision12/Beam4000GeV-VeloClosed-Mag{polarity}/Real Data/Reco14/Stripping21/90000000/SEMILEPTONIC.DST',
-    #'mc-2012': '/MC/2012/Beam4000GeV-2012-Mag{polarity}-Nu2.5-{pythia}/{simcond}/Digi13/Trig0x409f0045/Reco14a/Stripping20Filtered/{decay}/DSTTAUNU.SAFESTRIPTRIG.DST',
-    'mc-2012': '/MC/2012/Beam4000GeV-2012-Mag{polarity}-NoRICHesSim-Nu2.5-{pythia}/{simcond}/Trig0x409f0045-NoRichPIDLines/Reco14c/Stripping21Filtered/{decay}/DSTTAUNU.SAFESTRIPTRIG.DST',
+    # run 1 MC
+    'mc-2012-sim08': '/MC/2012/Beam4000GeV-2012-Mag{polarity}-Nu2.5-{pythia}/{simcond}/Digi13/Trig0x409f0045/Reco14a/Stripping20Filtered/{decay}/DSTTAUNU.SAFESTRIPTRIG.DST',
+    'mc-2012-sim09': '/MC/2012/Beam4000GeV-2012-Mag{polarity}-NoRICHesSim-Nu2.5-{pythia}/{simcond}/Trig0x409f0045-NoRichPIDLines/Reco14c/Stripping21Filtered/{decay}/DSTTAUNU.SAFESTRIPTRIG.DST',
+    # run 1 cocktail
     'cutflow_mc-2011': '/MC/2011/Beam3500GeV-2011-Mag{polarity}-Nu2-Pythia8/{simcond}/Digi13/Trig0x40760037/Reco14c/Stripping20r1NoPrescalingFlagged/11874091/ALLSTREAMS.DST',
     'cutflow_mc-2016': '/MC/2016/Beam6500GeV-2016-Mag{polarity}-Nu1.6-25ns-Pythia8/{simcond}/Trig0x6138160F/Reco16/Turbo03/Stripping26NoPrescalingFlagged/11874091/ALLSTREAMS.DST',
-    # run 2
+    # run 2 data
     'std-2016': '/LHCb/Collision16/Beam6500GeV-VeloClosed-Mag{polarity}/Real Data/Reco16/Stripping28r1/90000000/SEMILEPTONIC.DST',
 }
 LFN_PATH['cutflow_data-2012'] = LFN_PATH['std-2012']
@@ -113,6 +115,13 @@ def parse_cond_file_name(cond_file):
     return result, reco_type, additional_flags
 
 
+def gen_lfn_key(reco_type, fields):
+    key = reco_type + '-' + fields['year']
+    if 'simcond' in fields:
+        key += '-' + fields['simcond'][:-1]
+    return key
+
+
 def gen_lfn_path(lfn, fields, additional_fields,
                  replacement_rules={
                      'polarity': MC_POLARITY,
@@ -124,7 +133,7 @@ def gen_lfn_path(lfn, fields, additional_fields,
             fields[key] = rule[fields[key]]
         except TypeError:
             fields[key] = rule(fields[key])
-        except Exception:
+        except KeyError:
             pass
 
     try:
@@ -201,8 +210,9 @@ reco_sample = parse_reco_script_name(args.reco_script)
 print('Fields from cond file: {}'.format(fields))
 
 # Try to add missing fields required to reconstruct LFNs
+lfn_key = gen_lfn_key(reco_type, fields)
 lfn, lfn_jobname = gen_lfn_path(
-    LFN_PATH[reco_type+'-'+fields['year']], fields,
+    LFN_PATH[lfn_key], fields,
     odict({'polarity': args.polarity,
            'pythia': args.pythia,
            'decay': args.decay})
