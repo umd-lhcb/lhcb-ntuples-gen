@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Dec 08, 2020 at 11:46 PM +0100
+# Last Change: Wed Jan 13, 2021 at 09:37 AM +0100
 
 from datetime import datetime
 from re import match, sub
@@ -87,6 +87,7 @@ SAMPLES = [
     'data', 'cocktail', 'all',
     # MC modes
     'Bd2DstTauNu',
+    'Bd2DstMuNu',
     'Bd2D0XMuNu_D0_cocktail',
 ]
 
