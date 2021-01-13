@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Jan 13, 2021 at 11:59 AM +0100
+# Last Change: Wed Jan 13, 2021 at 12:07 PM +0100
 #
 # Description: A demonstration on ganga option file with parser.
 #              This demo runs stand-alone, provided that Python is installed:
@@ -32,9 +32,9 @@ from ganga_sample_jobs_parser import (
     parse_reco_script_name,
     parse_cond_file_name,
     gen_lfn_key,
-    gen_lfn_path
+    gen_lfn_path,
+    parse_input
 )
-from ganga_sample_jobs_parser import parse_input as base_parse_input
 
 
 ##########################
@@ -59,30 +59,11 @@ def conf_job_app(davinci_path, options):
     return app
 
 
-#################################
-# Command line arguments parser #
-#################################
-
-def parse_input():
-    _, parser = base_parse_input()
-    parser.add_argument('--force',
-                        action='store_true',
-                        help='''
-if this flag is supplied, don't skip existing jobs with the same name.''')
-
-    parser.add_argument('--davinci',
-                        default='~/build/DaVinciDev_v45r4',
-                        help='''
-specify path to local DaVinci build.''')
-
-    return parser.parse_args()
-
-
 ########
 # Main #
 ########
 
-args = parse_input()
+args, _ = parse_input()
 
 fields, reco_type, additional_flags = parse_cond_file_name(args.cond_file)
 reco_sample = parse_reco_script_name(args.reco_script)

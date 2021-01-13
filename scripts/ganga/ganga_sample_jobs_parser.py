@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Jan 13, 2021 at 11:56 AM +0100
+# Last Change: Wed Jan 13, 2021 at 12:07 PM +0100
 #
 # Description: A demonstration on ganga option file with parser.
 #              This demo runs stand-alone, provided that Python is installed:
@@ -194,14 +194,14 @@ specify Pythia version.''')
                         help='''
 specify decay mode.''')
 
-    return parser.parse_args(), parser
+    return parser.parse_args()
 
 
 ########
 # Main #
 ########
 
-args, _ = parse_input()
+args = parse_input()
 
 print('Reconstruction script: {}'.format(args.reco_script))
 print('Condition file: {}'.format(args.cond_file))
