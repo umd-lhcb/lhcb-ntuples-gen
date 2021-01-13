@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Jan 13, 2021 at 11:47 AM +0100
+# Last Change: Wed Jan 13, 2021 at 11:49 AM +0100
 #
 # Description: A demonstration on ganga option file with parser.
 #              This demo runs stand-alone, provided that Python is installed:
@@ -39,11 +39,13 @@ LFN_PATH = {
     'mc-2012-sim09': '/MC/2012/Beam4000GeV-2012-Mag{polarity}-NoRICHesSim-Nu2.5-{pythia}/{simcond}/Trig0x409f0045-NoRichPIDLines/Reco14c/Stripping21Filtered/{decay}/DSTTAUNU.SAFESTRIPTRIG.DST',
     # run 1 cocktail
     'cutflow_mc-2011': '/MC/2011/Beam3500GeV-2011-Mag{polarity}-Nu2-Pythia8/{simcond}/Digi13/Trig0x40760037/Reco14c/Stripping20r1NoPrescalingFlagged/11874091/ALLSTREAMS.DST',
-    'cutflow_mc-2016': '/MC/2016/Beam6500GeV-2016-Mag{polarity}-Nu1.6-25ns-Pythia8/{simcond}/Trig0x6138160F/Reco16/Turbo03/Stripping26NoPrescalingFlagged/11874091/ALLSTREAMS.DST',
     # run 2 data
     'std-2016': '/LHCb/Collision16/Beam6500GeV-VeloClosed-Mag{polarity}/Real Data/Reco16/Stripping28r1/90000000/SEMILEPTONIC.DST',
+    # run 2 cocktail
+    'cutflow_mc-2016': '/MC/2016/Beam6500GeV-2016-Mag{polarity}-Nu1.6-25ns-Pythia8/{simcond}/Trig0x6138160F/Reco16/Turbo03/Stripping26NoPrescalingFlagged/11874091/ALLSTREAMS.DST',
 }
 LFN_PATH['cutflow_data-2012'] = LFN_PATH['std-2012']
+LFN_PATH['cutflow_data-2016'] = LFN_PATH['std-2016']
 
 MC_PYTHIA = ['Pythia6', 'Pythia8']
 
