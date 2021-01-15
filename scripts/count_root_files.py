@@ -2,12 +2,13 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Aug 25, 2020 at 12:52 AM +0800
+# Last Change: Fri Jan 15, 2021 at 01:50 AM +0100
 
 import sys
 import json
 
 from os import walk, popen
+from argparse import ArgumentParser
 
 
 class Color:
@@ -23,9 +24,25 @@ class Color:
     END = '\033[0m'
 
 
-def find_all_subdirs(cur_dir, return_self=False):
+def parse_input():
+    parser = ArgumentParser('''
+list annexed ntuple sizes in all subdirectories.''')
+
+    parser.add_argument('cur_dir',
+                        help=''')
+specify directory.''')
+
+    parser.add_argument('-s', '--include-self',
+                        action='store_true',
+                        help='''
+whether or not to include current directory.''')
+
+    return parser.parse_args()
+
+
+def find_all_subdirs(cur_dir, include_self=False):
     dirs = [x[0] for x in walk(cur_dir)]
-    return dirs if return_self else dirs[1:]
+    return dirs if include_self else dirs[1:]
 
 
 def find_annex_info(dirs):
@@ -60,6 +77,7 @@ def print_output(annex_info):
 
 
 if __name__ == '__main__':
-    dirs = find_all_subdirs(sys.argv[1])
+    args = parse_input()
+    dirs = find_all_subdirs(args.cur_dir, args.include_self)
     dirs_annex_info = find_annex_info(dirs)
     print_output(dirs_annex_info)
