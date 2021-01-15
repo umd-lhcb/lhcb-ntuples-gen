@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri Jan 15, 2021 at 01:50 AM +0100
+# Last Change: Fri Jan 15, 2021 at 01:55 AM +0100
 
 import sys
 import json
@@ -29,7 +29,7 @@ def parse_input():
 list annexed ntuple sizes in all subdirectories.''')
 
     parser.add_argument('cur_dir',
-                        help=''')
+                        help='''
 specify directory.''')
 
     parser.add_argument('-s', '--include-self',
