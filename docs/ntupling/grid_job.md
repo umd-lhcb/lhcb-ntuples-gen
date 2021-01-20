@@ -232,16 +232,49 @@ We prefer to merge all output `.root` files from subjobs. There's a helper
         concat_job 73 std.root Dst_D0--20_10_12--std--LHCb_Collision11_Beam3500GeV-VeloClosed-MagDown_Real_Data.root
         ```
 
-5. Finally, consult [this](./nomenclature.md) for ntuple naming convention.
+5. Finally, rename the merged ntuple in the following way:
+    1. The merged ntuple has a filename of 80 characters long. This is because
+       the `ganga_jobs.py` trims the job names (which is the same as the ntuple
+       name) because `ganga` doesn't allow super long job names.
 
-    !!! note
-        Often, the canonical name can be figured out with another script:
-        [`scripts/ganga/ganga_sample_jobs_parser.py`](https://github.com/umd-lhcb/lhcb-ntuples-gen/blob/master/scripts/ganga/ganga_sample_jobs_parser.py)
+    2. To figure out the full filename, do a fake submit with
+       `ganga_sample_jobs_parser.py`:
+        ```
+        ganga_sample_jobs_parser.py <reco_script> <cond_files> [optional_flags]
+        ```
 
-        Just do a job submission with the script above, and with identical
-        parameters to the real job submitter.
+    3. Use this as the final filename. The **date** should come from the
+       trimmed filename, though.
 
-        This can be done locally, as `lxplus` is not needed.
+    !!! example
+        Suppose after merging, the ntuple name is the following:
+        ```
+        Dst_D0--21_01_13--mc--MC_2012_Beam4000GeV-2012-MagDown-NoRICHesSim-Nu2.5-Pythia8.root
+        ```
+
+        The original filename can be figured out with:
+        ```
+        Dst_D0--21_01_20--mc--MC_2012_Beam4000GeV-2012-MagDown-NoRICHesSim-Nu2.5-Pythia8_Sim09a_Trig0x409f0045-NoRichPIDLines_Reco14c_Stripping21Filtered_11574020_DSTTAUNU.SAFESTRIPTRIG.DST.root
+        ```
+
+        Then the final filename should be:
+        ```
+        Dst_D0--21_01_13--mc--MC_2012_Beam4000GeV-2012-MagDown-NoRICHesSim-Nu2.5-Pythia8_Sim09a_Trig0x409f0045-NoRichPIDLines_Reco14c_Stripping21Filtered_11574020_DSTTAUNU.SAFESTRIPTRIG.DST.root
+        ```
+
+    !!! info
+        The reason to use the super line filename that is derived directly from
+        LFN is:
+        The trimmed name lacks important info, such as simulation condition. If
+        we don't include them in the filename, eventually they'll be forgotten.
+
+    !!! info
+        To rename or relocate already annexed files, treat them as regular
+        files added in `git`.
+
+        For more details, refer to [this section](../software_manuals/git_annex.md#change-the-name-of-annexed-files)
+        of the `git-annex` manual.
+
 
 [^1]: There's an official way to merge `.root` files with `ganga`, but the
       method described in the main text offers checks to job output ntuples.
