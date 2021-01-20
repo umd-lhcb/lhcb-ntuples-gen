@@ -1160,8 +1160,15 @@ concat_job <span class="m">73</span> std.root Dst_D0--20_10_12--std--LHCb_Collis
 <div class="highlight"><pre><span></span><code>Dst_D0--21_01_13--mc--MC_2012_Beam4000GeV-2012-MagDown-NoRICHesSim-Nu2.5-Pythia8.root
 </code></pre></div></p>
 <p>The original filename can be figured out with:
-<div class="highlight"><pre><span></span><code>Dst_D0--21_01_20--mc--MC_2012_Beam4000GeV-2012-MagDown-NoRICHesSim-Nu2.5-Pythia8_Sim09a_Trig0x409f0045-NoRichPIDLines_Reco14c_Stripping21Filtered_11574020_DSTTAUNU.SAFESTRIPTRIG.DST.root
+<div class="highlight"><pre><span></span><code>ganga_sample_jobs_parser.py run1-rdx/reco_Dst_D0.py run1-rdx/conds/cond-mc-2012-mu-sim09a.py -p md -d Bd2DstMuNu
 </code></pre></div></p>
+<p>The output would be:</p>
+<div class="highlight"><pre><span></span><code>Reconstruction script: run1-rdx/reco_Dst_D0.py
+Condition file: run1-rdx/conds/cond-mc-2012-mu-sim09a.py
+Fields from cond file: OrderedDict([(&#39;year&#39;, &#39;2012&#39;), (&#39;polarity&#39;, &#39;mu&#39;), (&#39;simcond&#39;, &#39;sim09a&#39;)])
+LFN: /MC/2012/Beam4000GeV-2012-MagDown-NoRICHesSim-Nu2.5-Pythia8/Sim09a/Trig0x409f0045-NoRichPIDLines/Reco14c/Stripping21Filtered/11574020/DSTTAUNU.SAFESTRIPTRIG.DST
+NTuple name: Dst_D0--21_01_20--mc--MC_2012_Beam4000GeV-2012-MagDown-NoRICHesSim-Nu2.5-Pythia8_Sim09a_Trig0x409f0045-NoRichPIDLines_Reco14c_Stripping21Filtered_11574020_DSTTAUNU.SAFESTRIPTRIG.DST.root
+</code></pre></div>
 <p>Then the final filename should be:
 <div class="highlight"><pre><span></span><code>Dst_D0--21_01_13--mc--MC_2012_Beam4000GeV-2012-MagDown-NoRICHesSim-Nu2.5-Pythia8_Sim09a_Trig0x409f0045-NoRichPIDLines_Reco14c_Stripping21Filtered_11574020_DSTTAUNU.SAFESTRIPTRIG.DST.root
 </code></pre></div></p>
