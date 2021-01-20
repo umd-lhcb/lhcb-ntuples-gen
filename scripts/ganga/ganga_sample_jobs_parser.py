@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri Jan 15, 2021 at 12:10 AM +0100
+# Last Change: Wed Jan 20, 2021 at 10:08 PM +0100
 #
 # Description: A demonstration on ganga option file with parser.
 #              This demo runs stand-alone, provided that Python is installed:
@@ -225,5 +225,5 @@ print('LFN: {}'.format(lfn))
 job_name_fields = [reco_sample, gen_date(), reco_type, lfn_jobname]
 if additional_flags:
     job_name_fields.insert(3, additional_flags)
-job_name = '--'.join(job_name_fields)
-print('Job name: {}'.format(job_name))
+ntuple_name = '--'.join(job_name_fields) + '.root'
+print('NTuple name: {}'.format(ntuple_name))
