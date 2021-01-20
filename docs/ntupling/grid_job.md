@@ -254,7 +254,17 @@ We prefer to merge all output `.root` files from subjobs. There's a helper
 
         The original filename can be figured out with:
         ```
-        Dst_D0--21_01_20--mc--MC_2012_Beam4000GeV-2012-MagDown-NoRICHesSim-Nu2.5-Pythia8_Sim09a_Trig0x409f0045-NoRichPIDLines_Reco14c_Stripping21Filtered_11574020_DSTTAUNU.SAFESTRIPTRIG.DST.root
+        ganga_sample_jobs_parser.py run1-rdx/reco_Dst_D0.py run1-rdx/conds/cond-mc-2012-mu-sim09a.py -p md -d Bd2DstMuNu
+        ```
+
+        The output would be:
+
+        ```
+        Reconstruction script: run1-rdx/reco_Dst_D0.py
+        Condition file: run1-rdx/conds/cond-mc-2012-mu-sim09a.py
+        Fields from cond file: OrderedDict([('year', '2012'), ('polarity', 'mu'), ('simcond', 'sim09a')])
+        LFN: /MC/2012/Beam4000GeV-2012-MagDown-NoRICHesSim-Nu2.5-Pythia8/Sim09a/Trig0x409f0045-NoRichPIDLines/Reco14c/Stripping21Filtered/11574020/DSTTAUNU.SAFESTRIPTRIG.DST
+        NTuple name: Dst_D0--21_01_20--mc--MC_2012_Beam4000GeV-2012-MagDown-NoRICHesSim-Nu2.5-Pythia8_Sim09a_Trig0x409f0045-NoRichPIDLines_Reco14c_Stripping21Filtered_11574020_DSTTAUNU.SAFESTRIPTRIG.DST.root
         ```
 
         Then the final filename should be:
