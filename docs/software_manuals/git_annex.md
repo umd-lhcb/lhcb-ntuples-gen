@@ -71,7 +71,7 @@ git add <path_to_file>
     for more information on configuring `.gitattributes`.
 
 
-## Change annexed files
+## Change the content of annexed files
 Files added via `git annex add` are read only. For example:
 ```
 echo change > <path_to_annexed_file>
@@ -99,6 +99,32 @@ Now you can edit the unlocked file as you wish. After editing, use
 
 
 Files added via `git add` can be changed just like a regular file.
+
+
+## Change the name of annexed files
+Once a file has been annexed with `git annex add`, the actual file will be
+moved automatically by `git-annex` inside `.git` folder in your project, and
+`git-annex` will create a symbolic link in-place pointing to that file.
+
+So, if you just want to **rename** the annexed file, **without changing its
+content**, just view that symbolic link as a regular file added to `git`.
+
+!!! example
+    Consider the following example:
+
+    1. Place `a.root` in `folderA/a.root`.
+    2. Annex the file with:
+        ```
+        git annex add folderA/a.root
+        ```
+    3. Now `folderA/a.root` will be just a symbolic link, and the actual root
+       file is placed in `.git` in your project root
+    4. Suppose you want to rename `a.root` to `b.root`. In this case, you can:
+        ```
+        mv folderA/a.root folderA/b.root
+        git add folderA/a.root folderA/b.root  # <-- We are not using annex here!!!
+        git commit -a
+        ```
 
 
 ## Synchronize files between local and remote repositories
