@@ -9,21 +9,21 @@
       
       
       
-        <link rel="canonical" href="https://umd-lhcb.github.io/lhcb-ntuples-gen/software_manuals/davinci/docker_image_usage/">
+        <link rel="canonical" href="https://umd-lhcb.github.io/lhcb-ntuples-gen/software_manuals/dirac/">
       
-      <link rel="shortcut icon" href="../../../assets/images/favicon.png">
+      <link rel="shortcut icon" href="../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-6.2.5">
     
     
       
-        <title>Docker image usage - lhcb-ntuples-gen wiki</title>
+        <title>DIRAC - lhcb-ntuples-gen wiki</title>
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.15aa0b43.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.15aa0b43.min.css">
       
         
-        <link rel="stylesheet" href="../../../assets/stylesheets/palette.75751829.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.75751829.min.css">
         
       
     
@@ -60,7 +60,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#launch-a-davinci-container" class="md-skip">
+        <a href="#production-monitoring" class="md-skip">
           Skip to content
         </a>
       
@@ -92,7 +92,7 @@
         <div class="md-header-nav__topic">
           <span class="md-ellipsis">
             
-              Docker image usage
+              DIRAC
             
           </span>
         </div>
@@ -221,7 +221,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../.." class="md-nav__link">
+      <a href="../.." class="md-nav__link">
         Getting started
       </a>
     </li>
@@ -265,7 +265,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../ntupling/nomenclature/" class="md-nav__link">
+      <a href="../../ntupling/nomenclature/" class="md-nav__link">
         Nomenclature
       </a>
     </li>
@@ -277,7 +277,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../ntupling/installation/" class="md-nav__link">
+      <a href="../../ntupling/installation/" class="md-nav__link">
         Installing dependencies
       </a>
     </li>
@@ -289,7 +289,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../ntupling/step1_davinci/" class="md-nav__link">
+      <a href="../../ntupling/step1_davinci/" class="md-nav__link">
         Step 1 ntuples with Davinci
       </a>
     </li>
@@ -301,7 +301,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../ntupling/step2_babymaker/" class="md-nav__link">
+      <a href="../../ntupling/step2_babymaker/" class="md-nav__link">
         Step 2 ntuples with babymaker
       </a>
     </li>
@@ -313,7 +313,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../ntupling/grid_job/" class="md-nav__link">
+      <a href="../../ntupling/grid_job/" class="md-nav__link">
         Submitting DaVinci jobs to GRID
       </a>
     </li>
@@ -325,7 +325,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../ntupling/dev/" class="md-nav__link">
+      <a href="../../ntupling/dev/" class="md-nav__link">
         Developing this project
       </a>
     </li>
@@ -371,7 +371,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../git_annex/" class="md-nav__link">
+      <a href="../git_annex/" class="md-nav__link">
         git-annex
       </a>
     </li>
@@ -381,14 +381,12 @@
             
   
   
-    
-  
   
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="nav-3-2" type="checkbox" id="nav-3-2" checked>
+        <input class="md-nav__toggle md-toggle" data-md-toggle="nav-3-2" type="checkbox" id="nav-3-2" >
       
       <label class="md-nav__link" for="nav-3-2">
         DaVinci
@@ -405,66 +403,11 @@
             
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          Docker image usage
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../davinci/docker_image_usage/" class="md-nav__link">
         Docker image usage
       </a>
-      
-        
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#launch-a-davinci-container" class="md-nav__link">
-    Launch a DaVinci container
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#use-official-davinci-inside-container" class="md-nav__link">
-    Use official DaVinci inside container
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#use-locally-compiled-davinci-inside-container" class="md-nav__link">
-    Use locally compiled DaVinci inside container
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#remove-old-docker-images" class="md-nav__link">
-    Remove old docker images
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -474,7 +417,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../tips_and_tricks/" class="md-nav__link">
+      <a href="../davinci/tips_and_tricks/" class="md-nav__link">
         Tips and tricks
       </a>
     </li>
@@ -486,7 +429,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../loki_functors/" class="md-nav__link">
+      <a href="../davinci/loki_functors/" class="md-nav__link">
         LoKi functors
       </a>
     </li>
@@ -498,7 +441,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../tuple_tools/" class="md-nav__link">
+      <a href="../davinci/tuple_tools/" class="md-nav__link">
         TupleTools
       </a>
     </li>
@@ -516,7 +459,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../bender/" class="md-nav__link">
+      <a href="../bender/" class="md-nav__link">
         bender
       </a>
     </li>
@@ -526,11 +469,45 @@
             
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../../dirac/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          DIRAC
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         DIRAC
       </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#production-monitoring" class="md-nav__link">
+    Production monitoring
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -540,7 +517,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../external/" class="md-nav__link">
+      <a href="../external/" class="md-nav__link">
         External manuals
       </a>
     </li>
@@ -584,7 +561,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../physics/momentum_scaling/" class="md-nav__link">
+      <a href="../../physics/momentum_scaling/" class="md-nav__link">
         Momentum scaling
       </a>
     </li>
@@ -596,7 +573,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../physics/wrong_sign_particles/" class="md-nav__link">
+      <a href="../../physics/wrong_sign_particles/" class="md-nav__link">
         Wrong-sign particles
       </a>
     </li>
@@ -640,7 +617,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../data/data_management/" class="md-nav__link">
+      <a href="../../data/data_management/" class="md-nav__link">
         Data management
       </a>
     </li>
@@ -652,7 +629,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../data/data_sources/" class="md-nav__link">
+      <a href="../../data/data_sources/" class="md-nav__link">
         Data sources
       </a>
     </li>
@@ -686,7 +663,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../data/cutflows/RDst_run1_vs_run2/overview/" class="md-nav__link">
+      <a href="../../data/cutflows/RDst_run1_vs_run2/overview/" class="md-nav__link">
         `R(D^{\star})` cutflow overview
       </a>
     </li>
@@ -698,7 +675,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../data/cutflows/RDst_run1_vs_run2/detail/" class="md-nav__link">
+      <a href="../../data/cutflows/RDst_run1_vs_run2/detail/" class="md-nav__link">
         `R(D^{\star})` cutflow detail
       </a>
     </li>
@@ -710,7 +687,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../data/cutflows/RDst_refit_Dst_only_vs_full_refit/" class="md-nav__link">
+      <a href="../../data/cutflows/RDst_refit_Dst_only_vs_full_refit/" class="md-nav__link">
         `R(D^{\star})` cutflow to study the effect of refit `D^{\star}` only
       </a>
     </li>
@@ -750,7 +727,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../data/comparison/RDst_vars_run1/RDst_vars_run1/" class="md-nav__link">
+      <a href="../../data/comparison/RDst_vars_run1/RDst_vars_run1/" class="md-nav__link">
         `R(D^{\star})` variables, run 1
       </a>
     </li>
@@ -762,7 +739,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../data/comparison/RDst_step2_cuts_validation/RDst_step2_cuts_validation/" class="md-nav__link">
+      <a href="../../data/comparison/RDst_step2_cuts_validation/RDst_step2_cuts_validation/" class="md-nav__link">
         `R(D^{\star})` run 1 step-2 cuts validation
       </a>
     </li>
@@ -774,7 +751,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../data/comparison/trigger_lines/" class="md-nav__link">
+      <a href="../../data/comparison/trigger_lines/" class="md-nav__link">
         Trigger lines
       </a>
     </li>
@@ -816,29 +793,8 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#launch-a-davinci-container" class="md-nav__link">
-    Launch a DaVinci container
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#use-official-davinci-inside-container" class="md-nav__link">
-    Use official DaVinci inside container
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#use-locally-compiled-davinci-inside-container" class="md-nav__link">
-    Use locally compiled DaVinci inside container
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#remove-old-docker-images" class="md-nav__link">
-    Remove old docker images
+  <a href="#production-monitoring" class="md-nav__link">
+    Production monitoring
   </a>
   
 </li>
@@ -855,74 +811,28 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/umd-lhcb/lhcb-ntuples-gen/edit/master/docs/software_manuals/davinci/docker_image_usage.md" title="Edit this page" class="md-content__button md-icon">
+                  <a href="https://github.com/umd-lhcb/lhcb-ntuples-gen/edit/master/docs/software_manuals/dirac.md" title="Edit this page" class="md-content__button md-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
                   </a>
                 
                 
-                  <h1>Docker image usage</h1>
+                  <h1>DIRAC</h1>
                 
-                <h2 id="launch-a-davinci-container">Launch a <code>DaVinci</code> container</h2>
-<p>The shortcut to run a <code>DaVinci</code> <code>docker</code> in this project is:
-<div class="highlight"><pre><span></span><code>make docker-dv
-</code></pre></div>
-in the project root.</p>
-<p>The <code>make</code> rule is actually defined as the following:
-<div class="highlight"><pre><span></span><code>docker run --rm -it -v `pwd`:/data -e UID=$(id -u) -e GID=$(id -g) --net=host umdlhcb/lhcb-stack-cc7:DaVinci-v45r4-SL
-</code></pre></div></p>
-<p>More generally, if you want to mount another folder, with a path <code>&lt;src_path&gt;</code>:
-<div class="highlight"><pre><span></span><code>docker run --rm -it -v &lt;src_path&gt;:/data -e UID=$(id -u) -e GID=$(id -g) --net=host umdlhcb/lhcb-stack-cc7:DaVinci-v45r4-SL
-</code></pre></div></p>
-<div class="admonition info">
-<p class="admonition-title">Info</p>
-<p><code>docker</code> <em>images</em> are read-only. When we launch a <code>docker</code> <em>container</em>, a
-writable layer is placed on top of the image.</p>
-</div>
-<h2 id="use-official-davinci-inside-container">Use official <code>DaVinci</code> inside container</h2>
-<p>The command is very similar to the one used on <code>lxplus</code>:
-<div class="highlight"><pre><span></span><code>lb-run DaVinci/latest gaudirun.py &lt;ntuple_options1&gt; &lt;ntuple_options2&gt; ...
-</code></pre></div>
-since we have only 1 version of <code>DaVinci</code> inside the container,
-<code>DaVinci/latest</code> would always work.</p>
-<h2 id="use-locally-compiled-davinci-inside-container">Use locally compiled <code>DaVinci</code> inside container</h2>
-<p>Since we need additional <code>TupleTool</code><sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup> in our reconstruction script, we also
-provide a locally compiled <code>DaVinci</code> inside the container, provided that you
-are using a <code>DaVinci</code> image with a <code>-SL</code> suffix.</p>
-<p>To launch this locally compiled <code>DaVinci</code>:
-<div class="highlight"><pre><span></span><code>run gaudirun.py &lt;ntuple_options1&gt; &lt;ntuple_options2&gt; ...
-</code></pre></div></p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>To make our lives easier, a <code>run.sh</code> command is typically created in each
-stripping lines, such as:
-<div class="highlight"><pre><span></span><code>run1-rdx/run.sh
-</code></pre></div></p>
-<p>If you see this file, take a look at it to see the availabe commands, and
-run it inside the <code>docker</code> container:
-<div class="highlight"><pre><span></span><code>./run.sh &lt;path_to_reco_file&gt; &lt;path_to_cond_file&gt;  <span class="c1"># inside docker</span>
-</code></pre></div>
-optionally, a <code>debug</code> flag can be supplied so that only the first couple of
-events will be considered.</p>
-</div>
-<h2 id="remove-old-docker-images">Remove old docker images</h2>
-<p>To list all local <code>docker</code> images:
-<div class="highlight"><pre><span></span><code>docker images
-</code></pre></div></p>
-<p>If you download a newer version of <code>docker</code> image, and want to remove the old
-ones to save disk space, you can:
-<div class="highlight"><pre><span></span><code>docker rmi &lt;docker_image_tag&gt;
-docker image prune
-</code></pre></div>
-here <code>&lt;docker_image_tag&gt;</code> should be something like
-<code>umdlhcb/lhcb-stack-cc7:DaVinci-v45r4-SL</code>.</p>
-<div class="footnote">
-<hr />
+                <p><a href="https://lhcb-portal-dirac.cern.ch/DIRAC/"><code>DIRAC</code></a> is a web interface to various LHCb's backends, including:</p>
+<ul>
+<li>Job monitoring</li>
+<li>Production monitoring</li>
+<li>Data bookkeeping</li>
+</ul>
+<h2 id="production-monitoring">Production monitoring</h2>
+<p>Follow these steps to monitor the progress of a production:</p>
 <ol>
-<li id="fn:1">
-<p>Such as <code>TupleToolApplyIsolation</code> and <code>TupleToolTauMuDiscVars</code>.&#160;<a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 1 in the text">&#8617;</a></p>
-</li>
+<li>Open the "folder" <strong>Applications</strong> -&gt; <strong>Data</strong></li>
+<li>Double click on the <strong>Production Request</strong></li>
+<li>In the interface on RHS, input the <strong>Request ID(s)</strong> then <strong>Submit</strong>.</li>
+<li>Productions satisfying with the desired IDs should now show up.
+   Right-click on the production to <strong>View</strong> more details.</li>
 </ol>
-</div>
                 
               
               
@@ -941,7 +851,7 @@ here <code>&lt;docker_image_tag&gt;</code> should be something like
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
         
-          <a href="../../git_annex/" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../bender/" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-footer-nav__button md-icon">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
             </div>
@@ -950,19 +860,19 @@ here <code>&lt;docker_image_tag&gt;</code> should be something like
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                git-annex
+                bender
               </div>
             </div>
           </a>
         
         
-          <a href="../tips_and_tricks/" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../external/" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-footer-nav__title">
               <div class="md-ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                Tips and tricks
+                External manuals
               </div>
             </div>
             <div class="md-footer-nav__button md-icon">
@@ -989,15 +899,15 @@ here <code>&lt;docker_image_tag&gt;</code> should be something like
       
     </div>
     
-      <script src="../../../assets/javascripts/vendor.93c04032.min.js"></script>
-      <script src="../../../assets/javascripts/bundle.83e5331e.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}</script>
+      <script src="../../assets/javascripts/vendor.93c04032.min.js"></script>
+      <script src="../../assets/javascripts/bundle.83e5331e.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}</script>
       
       <script>
         app = initialize({
-          base: "../../..",
+          base: "../..",
           features: [],
           search: Object.assign({
-            worker: "../../../assets/javascripts/worker/search.8c7e0a7e.min.js"
+            worker: "../../assets/javascripts/worker/search.8c7e0a7e.min.js"
           }, typeof search !== "undefined" && search)
         })
       </script>
