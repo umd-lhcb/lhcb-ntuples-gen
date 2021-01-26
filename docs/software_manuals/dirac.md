@@ -12,3 +12,7 @@ Follow these steps to monitor the progress of a production:
 3. In the interface on RHS, input the **Request ID(s)** then **Submit**.
 4. Productions satisfying with the desired IDs should now show up.
    Right-click on the production to **View** more details.
+
+    !!! info
+        The **View** action will provide software versions and base platform
+        used in that production.
