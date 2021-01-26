@@ -1,6 +1,6 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Mon Jan 11, 2021 at 05:00 PM +0100
+// Last Change: Tue Jan 26, 2021 at 08:41 PM +0100
 
 #ifndef _LNG_FUNCTOR_FLAG_H_
 #define _LNG_FUNCTOR_FLAG_H_
@@ -120,6 +120,11 @@ Bool_t FLAG_TWO_D_MU(std::vector<std::vector<Bool_t> >& mc_flags,
   auto abs_mu_gd_gd_mom_id = TMath::Abs(mu_gd_gd_mom_id);
   auto abs_dst_mom_id      = TMath::Abs(dst_mom_id);
 
+  // 10433: D+_s1(2536)
+  // 20433: D+_s1(2460)
+  // 511: B0
+  // 521: B+
+  // 531: B0_s
   auto mu_gd_gd_mom_possible_ids = std::vector<Int_t>({10433, 20433});
   auto dst_mom_possible_ids      = std::vector<Int_t>({511, 521, 531});
   // LN2754
@@ -127,6 +132,9 @@ Bool_t FLAG_TWO_D_MU(std::vector<std::vector<Bool_t> >& mc_flags,
       VEC_OR_EQ(dst_mom_possible_ids, abs_dst_mom_id))
     return true;
 
+  // 411: D+
+  // 421: D-
+  // 431: D+_s
   // LN2759
   auto mu_mom_possible_ids = std::vector<Int_t>({411, 421, 431});
   if ((VEC_OR(mc_flags[2]) || VEC_OR(mc_flags[3])) &&
