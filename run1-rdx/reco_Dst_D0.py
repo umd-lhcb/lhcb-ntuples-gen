@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Jan 11, 2021 at 11:25 PM +0100
+# Last Change: Wed Jan 27, 2021 at 02:41 AM +0100
 #
 # Description: Definitions of selection and reconstruction procedures for run 1
 #              R(D(*)), with thorough comments.
@@ -925,16 +925,20 @@ tuple_postpocess(tp_B0_ws_Pi)
 # B0 MC ########################################################################
 tp_B0_mc_Tau = tuple_initialize_aux(
     'MCTupleB0Tau',
-    '(' +
-    '${b0}[B~0 => ${dst}(D*(2010)+ => ${d0}(D0 => ${k}K- ${pi}pi+) ${spi}pi+) ${tau}(tau- => ${mu}mu- ${anu_mu}nu_mu~ ${nu_tau}nu_tau) ${anu_tau}nu_tau~]CC' +
+    '('
+    '${b0}[B~0 => ${dst}(D*(2010)+ => ${d0}(D0 => ${k}K- ${pi}pi+) ${spi}pi+) ${tau}(tau- => ${mu}mu- ${anu_mu}nu_mu~ ${nu_tau}nu_tau) ${anu_tau}nu_tau~]CC'
     '||'
-    '${b0}[B0 => ${dst}(D*(2010)+ => ${d0}(D0 => ${k}K- ${pi}pi+) ${spi}pi+) ${tau}(tau- => ${mu}mu- ${anu_mu}nu_mu~ ${nu_tau}nu_tau) ${anu_tau}nu_tau~]CC' +
+    '${b0}[B0 => ${dst}(D*(2010)+ => ${d0}(D0 => ${k}K- ${pi}pi+) ${spi}pi+) ${tau}(tau- => ${mu}mu- ${anu_mu}nu_mu~ ${nu_tau}nu_tau) ${anu_tau}nu_tau~]CC'
     ')'
 )
 
 tp_B0_mc_Mu = tuple_initialize_aux(
     'MCTupleB0Mu',
+    '('
     '${b0}[B~0 => ${dst}(D*(2010)+ => ${d0}(D0 => ${k}K- ${pi}pi+) ${spi}pi+) ${mu}mu- ${anu_mu}nu_mu~]CC'
+    '||'
+    '${b0}[B0 => ${dst}(D*(2010)+ => ${d0}(D0 => ${k}K- ${pi}pi+) ${spi}pi+) ${mu}mu- ${anu_mu}nu_mu~]CC'
+    ')'
 )
 
 # B*_0+ -> B0 Pi+ ##############################################################
