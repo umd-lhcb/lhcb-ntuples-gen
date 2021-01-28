@@ -769,8 +769,9 @@
 <p>For real data reconstruction, this doesn't require additional consideration,
 as we only know the quark content of the <span><span class="MathJax_Preview">B</span><script type="math/tex">B</script></span> mesons, be it <span><span class="MathJax_Preview">B_0</span><script type="math/tex">B_0</script></span> or <span><span class="MathJax_Preview">\bar{B_0}</span><script type="math/tex">\bar{B_0}</script></span>,
 before they decay.</p>
-<p>However, for MC truth reconstruction, we are concerned about the initial states
-of the <span><span class="MathJax_Preview">B</span><script type="math/tex">B</script></span> mesons. Instead of naively writing decay descriptors like this:
+<p>However, for MC truth reconstruction (this applies to <code>MCDecayTreeTuple</code> only),
+we are concerned about the <em>initial states</em> of the <span><span class="MathJax_Preview">B</span><script type="math/tex">B</script></span> mesons. Instead of
+naively writing decay descriptors like this:
 <div class="highlight"><pre><span></span><code><span class="s1">&#39;$</span><span class="si">{b0}</span><span class="s1">[B~0 -&gt; $</span><span class="si">{dst}</span><span class="s1">(D*(2010)+ -&gt; $</span><span class="si">{d0}</span><span class="s1">(D0 -&gt; $</span><span class="si">{k}</span><span class="s1">K- $</span><span class="si">{pi}</span><span class="s1">pi+) $</span><span class="si">{spi}</span><span class="s1">pi+) $</span><span class="si">{mu}</span><span class="s1">mu-]CC&#39;</span>
 </code></pre></div></p>
 <p>We need to take <span><span class="MathJax_Preview">B_0</span><script type="math/tex">B_0</script></span> oscillation into account:
