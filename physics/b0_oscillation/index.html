@@ -9,14 +9,14 @@
       
       
       
-        <link rel="canonical" href="https://umd-lhcb.github.io/lhcb-ntuples-gen/physics/momentum_scaling/">
+        <link rel="canonical" href="https://umd-lhcb.github.io/lhcb-ntuples-gen/physics/b0_oscillation/">
       
       <link rel="shortcut icon" href="../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-6.2.6">
     
     
       
-        <title>Momentum scaling - lhcb-ntuples-gen wiki</title>
+        <title>`B_0` oscillation - lhcb-ntuples-gen wiki</title>
       
     
     
@@ -87,7 +87,7 @@
         <div class="md-header-nav__topic">
           <span class="md-ellipsis">
             
-              Momentum scaling
+              `B_0` oscillation
             
           </span>
         </div>
@@ -516,18 +516,11 @@
             
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-      
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../momentum_scaling/" class="md-nav__link">
         Momentum scaling
       </a>
-      
     </li>
   
 
@@ -547,11 +540,18 @@
             
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../b0_oscillation/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         `B_0` oscillation
       </a>
+      
     </li>
   
 
@@ -757,20 +757,29 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/umd-lhcb/lhcb-ntuples-gen/edit/master/docs/physics/momentum_scaling.md" title="Edit this page" class="md-content__button md-icon">
+                  <a href="https://github.com/umd-lhcb/lhcb-ntuples-gen/edit/master/docs/physics/b0_oscillation.md" title="Edit this page" class="md-content__button md-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
                   </a>
                 
                 
-                  <h1>Momentum scaling</h1>
+                  <h1>`B_0` oscillation</h1>
                 
-                <p>For data processing, at LHCb:</p>
-<ul>
-<li><strong>Scale</strong> the <strong>data</strong> momentum, because data measurements are biased. This
-  bias can be detected and calibrated using some well-known decay mode (such as
-  <span><span class="MathJax_Preview">J/\Psi \rightarrow \mu \mu</span><script type="math/tex">J/\Psi \rightarrow \mu \mu</script></span>).</li>
-<li><strong>Smear</strong> the <strong>MC</strong> momentum, because MC measurements are too good.</li>
-</ul>
+                <p><span><span class="MathJax_Preview">B_0</span><script type="math/tex">B_0</script></span> oscillation refers to the fact some of the <span><span class="MathJax_Preview">B_0</span><script type="math/tex">B_0</script></span> oscillate into
+<span><span class="MathJax_Preview">\bar{B_0}</span><script type="math/tex">\bar{B_0}</script></span> before they decay.</p>
+<p>For real data reconstruction, this doesn't require additional consideration,
+as we only know the quark content of the <span><span class="MathJax_Preview">B</span><script type="math/tex">B</script></span> mesons, be it <span><span class="MathJax_Preview">B_0</span><script type="math/tex">B_0</script></span> or <span><span class="MathJax_Preview">\bar{B_0}</span><script type="math/tex">\bar{B_0}</script></span>,
+before they decay.</p>
+<p>However, for MC truth reconstruction, we are concerned about the initial states
+of the <span><span class="MathJax_Preview">B</span><script type="math/tex">B</script></span> mesons. Instead of naively writing decay descriptors like this:
+<div class="highlight"><pre><span></span><code><span class="s1">&#39;$</span><span class="si">{b0}</span><span class="s1">[B~0 -&gt; $</span><span class="si">{dst}</span><span class="s1">(D*(2010)+ -&gt; $</span><span class="si">{d0}</span><span class="s1">(D0 -&gt; $</span><span class="si">{k}</span><span class="s1">K- $</span><span class="si">{pi}</span><span class="s1">pi+) $</span><span class="si">{spi}</span><span class="s1">pi+) $</span><span class="si">{mu}</span><span class="s1">mu-]CC&#39;</span>
+</code></pre></div></p>
+<p>We need to take <span><span class="MathJax_Preview">B_0</span><script type="math/tex">B_0</script></span> oscillation into account:
+<div class="highlight"><pre><span></span><code><span class="s1">&#39;(&#39;</span>
+<span class="s1">&#39;$</span><span class="si">{b0}</span><span class="s1">[B~0 =&gt; $</span><span class="si">{dst}</span><span class="s1">(D*(2010)+ =&gt; $</span><span class="si">{d0}</span><span class="s1">(D0 =&gt; $</span><span class="si">{k}</span><span class="s1">K- $</span><span class="si">{pi}</span><span class="s1">pi+) $</span><span class="si">{spi}</span><span class="s1">pi+) $</span><span class="si">{mu}</span><span class="s1">mu- $</span><span class="si">{anu_mu}</span><span class="s1">nu_mu~]CC&#39;</span>
+<span class="s1">&#39;||&#39;</span>
+<span class="s1">&#39;$</span><span class="si">{b0}</span><span class="s1">[B0 =&gt; $</span><span class="si">{dst}</span><span class="s1">(D*(2010)+ =&gt; $</span><span class="si">{d0}</span><span class="s1">(D0 =&gt; $</span><span class="si">{k}</span><span class="s1">K- $</span><span class="si">{pi}</span><span class="s1">pi+) $</span><span class="si">{spi}</span><span class="s1">pi+) $</span><span class="si">{mu}</span><span class="s1">mu- $</span><span class="si">{anu_mu}</span><span class="s1">nu_mu~]CC&#39;</span>
+<span class="s1">&#39;)&#39;</span>
+</code></pre></div></p>
                 
               
               
@@ -789,7 +798,7 @@
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
         
-          <a href="../../software_manuals/external/" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../wrong_sign_particles/" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-footer-nav__button md-icon">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
             </div>
@@ -798,19 +807,19 @@
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                External manuals
+                Wrong-sign particles
               </div>
             </div>
           </a>
         
         
-          <a href="../wrong_sign_particles/" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../../data/data_management/" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-footer-nav__title">
               <div class="md-ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                Wrong-sign particles
+                Data management
               </div>
             </div>
             <div class="md-footer-nav__button md-icon">
