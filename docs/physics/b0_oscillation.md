@@ -5,8 +5,9 @@ For real data reconstruction, this doesn't require additional consideration,
 as we only know the quark content of the $B$ mesons, be it $B_0$ or $\bar{B_0}$,
 before they decay.
 
-However, for MC truth reconstruction, we are concerned about the initial states
-of the $B$ mesons. Instead of naively writing decay descriptors like this:
+However, for MC truth reconstruction (this applies to `MCDecayTreeTuple` only),
+we are concerned about the _initial states_ of the $B$ mesons. Instead of
+naively writing decay descriptors like this:
 ```python
 '${b0}[B~0 -> ${dst}(D*(2010)+ -> ${d0}(D0 -> ${k}K- ${pi}pi+) ${spi}pi+) ${mu}mu-]CC'
 ```
