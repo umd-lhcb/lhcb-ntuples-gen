@@ -1,0 +1,51 @@
+#-- GAUDI jobOptions generated on Fri Jan 29 02:44:55 2021
+#-- Contains event types : 
+#--   11574020 - 29 files - 614577 events - 143.91 GBytes
+
+#--  Extra information about the data processing phases:
+
+#--  Processing Pass: '/Sim08e/Digi13/Trig0x409f0045/Reco14a/Stripping20Filtered' 
+
+#--  StepId : 125477 
+#--  StepName : Merge14 for Sim08 2012 SLWG Filtered Productions (Ciezarek)  
+#--  ApplicationName : DaVinci 
+#--  ApplicationVersion : v33r5 
+#--  OptionFiles : $APPCONFIGOPTS/Merging/DVMergeDST.py;$APPCONFIGOPTS/DaVinci/DataType-2012.py;$APPCONFIGOPTS/Merging/WriteFSR.py;$APPCONFIGOPTS/Merging/MergeFSR.py 
+#--  DDDB : fromPreviousStep 
+#--  CONDDB : fromPreviousStep 
+#--  ExtraPackages : AppConfig.v3r274 
+#--  Visible : N 
+
+from Gaudi.Configuration import * 
+from GaudiConf import IOHelper
+IOHelper('ROOT').inputFiles([
+'LFN:/lhcb/MC/2012/DSTTAUNU.SAFESTRIPTRIG.DST/00037931/0000/00037931_00000004_1.dsttaunu.safestriptrig.dst',
+'LFN:/lhcb/MC/2012/DSTTAUNU.SAFESTRIPTRIG.DST/00037931/0000/00037931_00000008_1.dsttaunu.safestriptrig.dst',
+'LFN:/lhcb/MC/2012/DSTTAUNU.SAFESTRIPTRIG.DST/00037931/0000/00037931_00000023_1.dsttaunu.safestriptrig.dst',
+'LFN:/lhcb/MC/2012/DSTTAUNU.SAFESTRIPTRIG.DST/00037931/0000/00037931_00000013_1.dsttaunu.safestriptrig.dst',
+'LFN:/lhcb/MC/2012/DSTTAUNU.SAFESTRIPTRIG.DST/00037931/0000/00037931_00000014_1.dsttaunu.safestriptrig.dst',
+'LFN:/lhcb/MC/2012/DSTTAUNU.SAFESTRIPTRIG.DST/00037931/0000/00037931_00000028_1.dsttaunu.safestriptrig.dst',
+'LFN:/lhcb/MC/2012/DSTTAUNU.SAFESTRIPTRIG.DST/00037931/0000/00037931_00000020_1.dsttaunu.safestriptrig.dst',
+'LFN:/lhcb/MC/2012/DSTTAUNU.SAFESTRIPTRIG.DST/00037931/0000/00037931_00000021_1.dsttaunu.safestriptrig.dst',
+'LFN:/lhcb/MC/2012/DSTTAUNU.SAFESTRIPTRIG.DST/00037931/0000/00037931_00000009_1.dsttaunu.safestriptrig.dst',
+'LFN:/lhcb/MC/2012/DSTTAUNU.SAFESTRIPTRIG.DST/00037931/0000/00037931_00000011_1.dsttaunu.safestriptrig.dst',
+'LFN:/lhcb/MC/2012/DSTTAUNU.SAFESTRIPTRIG.DST/00037931/0000/00037931_00000007_1.dsttaunu.safestriptrig.dst',
+'LFN:/lhcb/MC/2012/DSTTAUNU.SAFESTRIPTRIG.DST/00037931/0000/00037931_00000002_1.dsttaunu.safestriptrig.dst',
+'LFN:/lhcb/MC/2012/DSTTAUNU.SAFESTRIPTRIG.DST/00037931/0000/00037931_00000029_1.dsttaunu.safestriptrig.dst',
+'LFN:/lhcb/MC/2012/DSTTAUNU.SAFESTRIPTRIG.DST/00037931/0000/00037931_00000024_1.dsttaunu.safestriptrig.dst',
+'LFN:/lhcb/MC/2012/DSTTAUNU.SAFESTRIPTRIG.DST/00037931/0000/00037931_00000017_1.dsttaunu.safestriptrig.dst',
+'LFN:/lhcb/MC/2012/DSTTAUNU.SAFESTRIPTRIG.DST/00037931/0000/00037931_00000022_1.dsttaunu.safestriptrig.dst',
+'LFN:/lhcb/MC/2012/DSTTAUNU.SAFESTRIPTRIG.DST/00037931/0000/00037931_00000012_1.dsttaunu.safestriptrig.dst',
+'LFN:/lhcb/MC/2012/DSTTAUNU.SAFESTRIPTRIG.DST/00037931/0000/00037931_00000026_1.dsttaunu.safestriptrig.dst',
+'LFN:/lhcb/MC/2012/DSTTAUNU.SAFESTRIPTRIG.DST/00037931/0000/00037931_00000001_1.dsttaunu.safestriptrig.dst',
+'LFN:/lhcb/MC/2012/DSTTAUNU.SAFESTRIPTRIG.DST/00037931/0000/00037931_00000019_1.dsttaunu.safestriptrig.dst',
+'LFN:/lhcb/MC/2012/DSTTAUNU.SAFESTRIPTRIG.DST/00037931/0000/00037931_00000016_1.dsttaunu.safestriptrig.dst',
+'LFN:/lhcb/MC/2012/DSTTAUNU.SAFESTRIPTRIG.DST/00037931/0000/00037931_00000027_1.dsttaunu.safestriptrig.dst',
+'LFN:/lhcb/MC/2012/DSTTAUNU.SAFESTRIPTRIG.DST/00037931/0000/00037931_00000018_1.dsttaunu.safestriptrig.dst',
+'LFN:/lhcb/MC/2012/DSTTAUNU.SAFESTRIPTRIG.DST/00037931/0000/00037931_00000025_1.dsttaunu.safestriptrig.dst',
+'LFN:/lhcb/MC/2012/DSTTAUNU.SAFESTRIPTRIG.DST/00037931/0000/00037931_00000006_1.dsttaunu.safestriptrig.dst',
+'LFN:/lhcb/MC/2012/DSTTAUNU.SAFESTRIPTRIG.DST/00037931/0000/00037931_00000010_1.dsttaunu.safestriptrig.dst',
+'LFN:/lhcb/MC/2012/DSTTAUNU.SAFESTRIPTRIG.DST/00037931/0000/00037931_00000005_1.dsttaunu.safestriptrig.dst',
+'LFN:/lhcb/MC/2012/DSTTAUNU.SAFESTRIPTRIG.DST/00037931/0000/00037931_00000015_1.dsttaunu.safestriptrig.dst',
+'LFN:/lhcb/MC/2012/DSTTAUNU.SAFESTRIPTRIG.DST/00037931/0000/00037931_00000003_1.dsttaunu.safestriptrig.dst',
+], clear=True)
