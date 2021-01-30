@@ -70,7 +70,7 @@ reco_sample = parse_reco_script_name(args.reco_script)
 
 # Try to add missing fields required to reconstruct LFNs
 lfn, lfn_jobname = gen_lfn_path(
-    LFN_PATH[reco_type+'-'+fields['year']], fields,
+    LFN_PATH[gen_lfn_key(reco_type, fields)], fields,
     odict({'polarity': args.polarity,
            'pythia': args.pythia,
            'decay': args.decay})
