@@ -1,6 +1,6 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Tue Jan 26, 2021 at 08:41 PM +0100
+// Last Change: Mon Feb 01, 2021 at 02:33 AM +0100
 
 #ifndef _LNG_FUNCTOR_FLAG_H_
 #define _LNG_FUNCTOR_FLAG_H_
@@ -364,8 +364,9 @@ Int_t B_TYPE(std::vector<std::vector<Bool_t> >& mc_flags, Bool_t flag_d0_mu,
     else if (VEC_OR_EQ(dst_ancester_possible_ids, abs_dst_gd_gd_mom_id))
       // LN2853
       b_type = abs_dst_gd_gd_mom_id;
-  } else
-    b_type = -1;  // LN2836, LN2862
+    else
+      b_type = -1;  // LN2862
+  }
 
   return b_type;
 }
