@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Jan 27, 2021 at 02:41 AM +0100
+# Last Change: Tue Feb 09, 2021 at 07:32 PM +0100
 #
 # Description: Definitions of selection and reconstruction procedures for run 1
 #              R(D(*)), with thorough comments.
@@ -303,10 +303,10 @@ algo_D0 = CombineParticles('MyD0')
 algo_D0.DecayDescriptor = '[D0 -> K- pi+]cc'
 
 algo_D0.DaughtersCuts = {
-    'K+': '(PIDK > 4.0) & (MIPCHI2DV(PRIMARY) > 45.0) &'
+    'K+': '(MIPCHI2DV(PRIMARY) > 45.0) &'
           '(P > 2.0*GeV) & (PT > 300.0*MeV) &'
           '(TRGHOSTPROB < 0.5)',
-    'pi-': '(P > 2.0*GeV) & (PT > 300.0*MeV) &'
+    'pi-': '(PT > 300.0*MeV) &'
            '(MIPCHI2DV(PRIMARY) > 45.0) &'
            '(PIDK < 2.0) & (TRGHOSTPROB < 0.5)'
 }
@@ -330,6 +330,17 @@ if has_flag('BARE'):
     algo_D0.CombinationCut = 'ATRUE'
     algo_D0.MotherCut = \
         "(VFASPF(VCHI2/VDOF) < 8.0) & (BPVVDCHI2 > 12.5) & (BPVDIRA> 0.998)"
+
+
+# PID for real data/cutflow only
+if not DaVinci().Simulation or has_flag('CUTFLOW'):
+    algo_D0.DaughtersCuts['K+'] = \
+        '(PIDK > 4.0) &' + \
+        algo_D0.DaughtersCuts['K+']
+
+    algo_D0.DaughtersCuts['pi-'] = \
+        '(PIDK < 2.0) &' + \
+        algo_D0.DaughtersCuts['pi-']
 
 
 if DaVinci().Simulation:
@@ -374,7 +385,8 @@ algo_Bminus.MotherCut = \
 
 
 # NOTE: For all but Non-Mu MisID reco, we add Muon PID requirement.
-if not has_flag('NON_MU_MISID'):
+if not (has_flag('NON_MU_MISID') or DaVinci().Simulation) or \
+        has_flag('CUTFLOW'):
     algo_Bminus.DaughtersCuts['mu-'] = \
         '(PIDmu > 2.0) &' + algo_Bminus.DaughtersCuts['mu-']
 
