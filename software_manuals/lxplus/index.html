@@ -9,14 +9,14 @@
       
       
       
-        <link rel="canonical" href="https://umd-lhcb.github.io/lhcb-ntuples-gen/physics/momentum_scaling/">
+        <link rel="canonical" href="https://umd-lhcb.github.io/lhcb-ntuples-gen/software_manuals/lxplus/">
       
       <link rel="shortcut icon" href="../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-6.2.8">
     
     
       
-        <title>Momentum scaling - lhcb-ntuples-gen wiki</title>
+        <title>Tips for lxplus - lhcb-ntuples-gen wiki</title>
       
     
     
@@ -59,6 +59,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#folder-permission-on-lxplus" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -87,7 +92,7 @@
         <div class="md-header-nav__topic">
           <span class="md-ellipsis">
             
-              Momentum scaling
+              Tips for lxplus
             
           </span>
         </div>
@@ -337,12 +342,14 @@
 
   
   
+    
+  
   
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3" >
+        <input class="md-nav__toggle md-toggle" data-md-toggle="nav-3" type="checkbox" id="nav-3" checked>
       
       <label class="md-nav__link" for="nav-3">
         Software
@@ -361,7 +368,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../software_manuals/git_annex/" class="md-nav__link">
+      <a href="../git_annex/" class="md-nav__link">
         git-annex
       </a>
     </li>
@@ -395,7 +402,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../software_manuals/davinci/docker_image_usage/" class="md-nav__link">
+      <a href="../davinci/docker_image_usage/" class="md-nav__link">
         Docker image usage
       </a>
     </li>
@@ -407,7 +414,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../software_manuals/davinci/tips_and_tricks/" class="md-nav__link">
+      <a href="../davinci/tips_and_tricks/" class="md-nav__link">
         Tips and tricks
       </a>
     </li>
@@ -419,7 +426,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../software_manuals/davinci/loki_functors/" class="md-nav__link">
+      <a href="../davinci/loki_functors/" class="md-nav__link">
         LoKi functors
       </a>
     </li>
@@ -431,7 +438,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../software_manuals/davinci/tuple_tools/" class="md-nav__link">
+      <a href="../davinci/tuple_tools/" class="md-nav__link">
         TupleTools
       </a>
     </li>
@@ -449,7 +456,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../software_manuals/bender/" class="md-nav__link">
+      <a href="../bender/" class="md-nav__link">
         bender
       </a>
     </li>
@@ -461,7 +468,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../software_manuals/dirac/" class="md-nav__link">
+      <a href="../dirac/" class="md-nav__link">
         DIRAC
       </a>
     </li>
@@ -471,11 +478,65 @@
             
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../../software_manuals/lxplus/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Tips for lxplus
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         Tips for lxplus
       </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#folder-permission-on-lxplus" class="md-nav__link">
+    Folder permission on lxplus
+  </a>
+  
+    <nav class="md-nav" aria-label="Folder permission on lxplus">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#afs" class="md-nav__link">
+    AFS
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#eos" class="md-nav__link">
+    EOS
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -485,7 +546,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../software_manuals/external/" class="md-nav__link">
+      <a href="../external/" class="md-nav__link">
         External manuals
       </a>
     </li>
@@ -504,14 +565,12 @@
 
   
   
-    
-  
   
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4" checked>
+        <input class="md-nav__toggle md-toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4" >
       
       <label class="md-nav__link" for="nav-4">
         Physics
@@ -528,18 +587,11 @@
             
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-      
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../physics/momentum_scaling/" class="md-nav__link">
         Momentum scaling
       </a>
-      
     </li>
   
 
@@ -549,7 +601,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../wrong_sign_particles/" class="md-nav__link">
+      <a href="../../physics/wrong_sign_particles/" class="md-nav__link">
         Wrong-sign particles
       </a>
     </li>
@@ -561,7 +613,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../b0_oscillation/" class="md-nav__link">
+      <a href="../../physics/b0_oscillation/" class="md-nav__link">
         `B_0` oscillation
       </a>
     </li>
@@ -764,25 +816,93 @@
               </div>
             
             
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#folder-permission-on-lxplus" class="md-nav__link">
+    Folder permission on lxplus
+  </a>
+  
+    <nav class="md-nav" aria-label="Folder permission on lxplus">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#afs" class="md-nav__link">
+    AFS
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#eos" class="md-nav__link">
+    EOS
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
           
           <div class="md-content">
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/umd-lhcb/lhcb-ntuples-gen/edit/master/docs/physics/momentum_scaling.md" title="Edit this page" class="md-content__button md-icon">
+                  <a href="https://github.com/umd-lhcb/lhcb-ntuples-gen/edit/master/docs/software_manuals/lxplus.md" title="Edit this page" class="md-content__button md-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
                   </a>
                 
                 
-                  <h1>Momentum scaling</h1>
+                  <h1>Tips for lxplus</h1>
                 
-                <p>For data processing, at LHCb:</p>
-<ul>
-<li><strong>Scale</strong> the <strong>data</strong> momentum, because data measurements are biased. This
-  bias can be detected and calibrated using some well-known decay mode (such as
-  <span><span class="MathJax_Preview">J/\Psi \rightarrow \mu \mu</span><script type="math/tex">J/\Psi \rightarrow \mu \mu</script></span>).</li>
-<li><strong>Smear</strong> the <strong>MC</strong> momentum, because MC measurements are too good.</li>
-</ul>
+                <h2 id="folder-permission-on-lxplus">Folder permission on <code>lxplus</code></h2>
+<p>This is needed to grant collogues access to certain files stored on <code>lxplus</code>.</p>
+<h3 id="afs">AFS</h3>
+<p>AFS (mostly) ignores UNIX permissions<sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup>. Instead, use <code>fs setacl</code> to control
+access right:
+<div class="highlight"><pre><span></span><code>fs setacl &lt;path_to_folder_on_afs&gt; system:anyuser read
+</code></pre></div></p>
+<p>To check current access permissions of a folder:
+<div class="highlight"><pre><span></span><code>fs listacl &lt;path_to_folder_on_afs&gt;
+</code></pre></div></p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Only new subdirectories inherit the parent directory's permissions.</p>
+</div>
+<p>For more info, consult this link<sup id="fnref2:1"><a class="footnote-ref" href="#fn:1">1</a></sup>.</p>
+<h3 id="eos">EOS</h3>
+<p>It is unclear on how to share files stored in EOS as naive <code>chmod</code> won't work
+and sharing via web interface won't work.</p>
+<div class="footnote">
+<hr />
+<ol>
+<li id="fn:1">
+<p>https://information-technology.web.cern.ch/services/fe/afs/howto/configure-afs-access-rights&#160;<a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 1 in the text">&#8617;</a><a class="footnote-backref" href="#fnref2:1" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div>
                 
               
               
@@ -801,7 +921,7 @@
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
         
-          <a href="../../software_manuals/external/" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../dirac/" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-footer-nav__button md-icon">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
             </div>
@@ -810,19 +930,19 @@
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                External manuals
+                DIRAC
               </div>
             </div>
           </a>
         
         
-          <a href="../wrong_sign_particles/" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../external/" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-footer-nav__title">
               <div class="md-ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                Wrong-sign particles
+                External manuals
               </div>
             </div>
             <div class="md-footer-nav__button md-icon">
