@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Feb 10, 2021 at 03:02 PM +0100
+# Last Change: Wed Feb 10, 2021 at 03:53 PM +0100
 #
 # Description: Definitions of selection and reconstruction procedures for run 1
 #              R(D(*)), with thorough comments.
@@ -262,14 +262,17 @@ if has_flag('BARE') or has_flag('DV_STRIP'):
     sel_charged_K = pr_loose_K
     sel_charged_Pi = pr_loose_Pi
     sel_Mu = pr_all_loose_Mu
+    sel_soft_Pi = pr_all_loose_Pi
 elif not DaVinci().Simulation or has_flag('CUTFLOW'):
     sel_charged_K = sel_stripped_charged_K
     sel_charged_Pi = sel_stripped_charged_Pi
     sel_Mu = sel_stripped_Mu
+    sel_soft_Pi = pr_all_loose_Pi
 else:
     sel_charged_K = pr_all_nopid_K
     sel_charged_Pi = pr_all_nopid_Pi
     sel_Mu = sel_unstripped_tis_filtered_Mu
+    sel_soft_Pi = pr_all_nopid_Pi
 
 
 #########################
@@ -522,7 +525,7 @@ if DaVinci().Simulation:
 sel_Dst = Selection(
     'SelMyDst',
     Algorithm=algo_Dst,
-    RequiredSelections=[sel_D0_combo, pr_all_loose_Pi]
+    RequiredSelections=[sel_D0_combo, sel_soft_Pi]
 )
 
 sel_refit_Dst2D0Pi = Selection(
@@ -547,7 +550,7 @@ algo_Dst_ws_Mu.MotherCut = algo_Dst.MotherCut
 sel_Dst_ws_Mu = Selection(
     'SelMyDstWSMu',
     Algorithm=algo_Dst_ws_Mu,
-    RequiredSelections=[sel_D0_ws_combo, pr_all_loose_Pi]
+    RequiredSelections=[sel_D0_ws_combo, sel_soft_Pi]
 )
 
 sel_refit_Dst2D0Pi_ws_Mu = Selection(
@@ -571,7 +574,7 @@ algo_Dst_ws_Pi.MotherCut = algo_Dst.MotherCut
 sel_Dst_ws_Pi = Selection(
     'SelMyDstWSPi',
     Algorithm=algo_Dst_ws_Pi,
-    RequiredSelections=[sel_D0_combo, pr_all_loose_Pi]
+    RequiredSelections=[sel_D0_combo, sel_soft_Pi]
 )
 
 sel_refit_Dst2D0Pi_ws_Pi = Selection(
