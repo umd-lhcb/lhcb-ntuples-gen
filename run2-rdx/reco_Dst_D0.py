@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Feb 09, 2021 at 07:34 PM +0100
+# Last Change: Wed Feb 10, 2021 at 03:01 PM +0100
 #
 # Description: Definitions of selection and reconstruction procedures for run 2
 #              R(D(*)). For more thorough comments, take a look at:
@@ -155,35 +155,26 @@ sel_stripped_Mu_filtered_evt = Selection(
     RequiredSelections=[pr_stripped]
 )
 
-# We build our own Muons, instead of using stripping line Muons for MC.
-# See https://github.com/umd-lhcb/lhcb-ntuples-gen/issues/25 for an explanation.
-sel_unstripped_tis_filtered_Mu = Selection(
-    'SelMyUnstrippedFilteredMu',
-    Algorithm=TisTosParticleTagger(
-        'MyMuTisTagger',
-        Inputs=['Phys/StdAllNoPIDsMuons/Particles'],
-        TisTosSpecs={'L0Global%TIS': 0}),
-    RequiredSelections=[pr_all_nopid_Mu]
-)
-
 # NOTE: 'stripped' selections require the existence of a stripping line, which
 #       only exists in data, not MC.
+# NOTE: We need to do TIS-filtering for real data because unfiltered real data
+#       tuples are too large.
 sel_stripped_charged_K = Selection(
     'SelMyStrippedChargedK',
     Algorithm=FilterInTrees('MyChargedK', Code="(ABSID == 'K+')"),
-    RequiredSelections=[pr_stripped]
+    RequiredSelections=[sel_stripped_Mu_filtered_evt]
 )
 
 sel_stripped_charged_Pi = Selection(
     'SelMyStrippedChargedPi',
     Algorithm=FilterInTrees('MyChargedPi', Code="(ABSID == 'pi+')"),
-    RequiredSelections=[pr_stripped]
+    RequiredSelections=[sel_stripped_Mu_filtered_evt]
 )
 
 sel_stripped_Mu = Selection(
     'SelMyStrippedMu',
     Algorithm=FilterInTrees('MyMu', Code="(ABSID == 'mu+')"),
-    RequiredSelections=[pr_stripped]
+    RequiredSelections=[sel_stripped_Mu_filtered_evt]
 )
 
 

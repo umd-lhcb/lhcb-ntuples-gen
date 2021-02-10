@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Feb 09, 2021 at 07:32 PM +0100
+# Last Change: Wed Feb 10, 2021 at 03:02 PM +0100
 #
 # Description: Definitions of selection and reconstruction procedures for run 1
 #              R(D(*)), with thorough comments.
@@ -224,35 +224,28 @@ sel_unstripped_tis_filtered_Mu = Selection(
     RequiredSelections=[pr_all_nopid_Mu]
 )
 
-
-# NOTE: We don't want to do Muon TIS-filtering on data for now so we have this:
-if has_flag('NON_MU_MISID'):
-    sel_stripped_req = sel_stripped_Mu_filtered_evt
-else:
-    sel_stripped_req = pr_stripped
-
-
 # NOTE: 'stripped' selections require the existence of a stripping line, which
 #       only exists in data, and flagged MC, NOT filtered MC.
 #
 #       This is because typically MC is either flagged or filtered, but not
 #       both.
+# NOTE: We decide to do Muon TIS-filtering for run 1 as well for consistency.
 sel_stripped_charged_K = Selection(
     'SelMyStrippedChargedK',
     Algorithm=FilterInTrees('MyChargedK', Code="(ABSID == 'K+')"),
-    RequiredSelections=[sel_stripped_req]
+    RequiredSelections=[sel_stripped_Mu_filtered_evt]
 )
 
 sel_stripped_charged_Pi = Selection(
     'SelMyStrippedChargedPi',
     Algorithm=FilterInTrees('MyChargedPi', Code="(ABSID == 'pi+')"),
-    RequiredSelections=[sel_stripped_req]
+    RequiredSelections=[sel_stripped_Mu_filtered_evt]
 )
 
 sel_stripped_Mu = Selection(
     'SelMyStrippedMu',
     Algorithm=FilterInTrees('MyMu', Code="(ABSID == 'mu+')"),
-    RequiredSelections=[sel_stripped_req]
+    RequiredSelections=[sel_stripped_Mu_filtered_evt]
 )
 
 
