@@ -31,29 +31,60 @@
     In `DIRAC`, make sure to switch from **Simulation Condition** to **Event
     type**. Then the event will be available at `MC/2012/<event_type_uid>`.
 
+### Normalization
 
-### With $D^{**}$ in intermediate product
-* `11873030`: $B^0 \rightarrow D^{**} \tau \nu \rightarrow D^0$
-* `11873010`: $B^0 \rightarrow D^{**} \mu \nu \rightarrow D^0$
-* `13873000`: $B_s \rightarrow D^{**} \mu \nu \rightarrow D^0$
-* `12873010`: $B^+ \rightarrow D^{**} \mu \nu \rightarrow D^0$
+| sample | MC ID | decay |
+|---|---|---|
+| $D^0$ | `12573010` | $B^- \rightarrow D^0 \mu \nu$ |
+| $D^0/D^{*+}$ | `11574020` | $B^0 \rightarrow D^{*+} \mu \nu$ |
+| $D^0$ | `12573031` | $B^- \rightarrow D^{*0} \mu \nu$ |
 
-### With $D^{*}$ in intermediate product
-* `11574010`: $B^0 \rightarrow D^* \tau \nu$
-* `11574020`: $B^0 \rightarrow D^* \mu \nu$
-* `12573020`: $B^+ \rightarrow D^{*0} \tau \nu$
-* `12573030`: $B^+ \rightarrow D^{*0} \mu \nu$
+### Signal
+| sample | MC ID | decay |
+|---|---|---|
+| $D^0$ | `12573000` | $B^- \rightarrow D^0 \tau \nu$ |
+| $D^0/D^{*+}$ | `11574010` | $B^0 \rightarrow D^{*+} \tau \nu$ |
+| $D^0$ | `12573021` | $B^- \rightarrow D^{*0} \tau \nu$ |
 
-### With $D^0$ in intermediate product
-* `12573000`: $B^+ \rightarrow D^0 \tau \nu$
-* `12573010`: $B^+ \rightarrow D^0 \mu \nu$
-* `11873000`: $B^0 \rightarrow D^0 DX \rightarrow \mu X$
-* `12873000`: $B^+ \rightarrow D^0 DX \rightarrow \mu X$
-* `11873020`: $B^0 \rightarrow D^0 D_s X \rightarrow \tau \nu$
-* `12873020`: $B^+ \rightarrow D^0 D_s X \rightarrow \tau \nu$
+### $D^{**}$
+| sample | MC ID | decay |
+|---|---|---|
+| $D^0/D^{*+}$ | `12873010` | $B^- \rightarrow D^{**0} \mu \nu \rightarrow D^0$ |
+| $D^0/D^{*+}$ | `11873010` | $B^0 \rightarrow D^{**+} \mu \nu \rightarrow D^0$ |
+| $D^0/D^{*+}$ | `12873030` | $B^- \rightarrow D^{**0} \tau \nu \rightarrow D^0$ |
+| $D^0/D^{*+}$ | `11873030` | $B^0 \rightarrow D^{**+} \tau \nu \rightarrow D^0$ |
+
+### $D^{**} \rightarrow D^{(*)} \pi \pi$
+| sample | MC ID | decay |
+|---|---|---|
+| $D^0$ | `12675010` | $B^- \rightarrow D^{**} (\rightarrow D^0 \pi \pi) \mu \nu$ |
+| $D^0$ | `11674400` | $B^0 \rightarrow D^{**} (\rightarrow D^0 \pi \pi) \mu \nu$ |
+| $D^0/D^{*+}$ | `12675400` | $B^- \rightarrow D^{**} (\rightarrow D^{*+} \pi \pi) \mu \nu$ |
+| $D^0/D^{*+}$ | `11676010` | $B^0 \rightarrow D^{**} (\rightarrow D^{*+} \pi \pi) \mu \nu$ |
+| $D^0$ | `12675430` | $B^- \rightarrow D^{**} (\rightarrow D^{*0} \pi \pi) \mu \nu$ |
+
+### $D_s^{**}$
+| sample | MC ID | decay |
+|---|---|---|
+| $D^0$ | `13873000` | $B_s \rightarrow D_s^{**} (\rightarrow D^0 K) \mu \nu$ |
+| $D^{*+}$ | `13874000` | $B_s \rightarrow D^{**+} \mu \nu$ |
+
+### $DDX$
+| sample | MC ID | decay |
+|---|---|---|
+| $D^0$ | `11873000` | $B^0 \rightarrow D^0 X_c (\rightarrow \mu \nu X') X$ |
+| $D^0$ | `12873000` | $B^+ \rightarrow D^0 X_c (\rightarrow \mu \nu X') X$ |
+| $D^0$ | `11873020` | $B^0 \rightarrow D^0 D_s (\rightarrow \tau \nu) X$ |
+| $D^0$ | `12873021` | $B^+ \rightarrow D^0 D_s (\rightarrow \tau \nu) X$ |
+| $D^{*+}$ | `11874050` | $B^0 \rightarrow D^{*+} X_c (\rightarrow \mu \nu X') X$ |
+| $D^{*+}$ | `12874010` | $B^+ \rightarrow D^{*+} X_c (\rightarrow \mu \nu X') X$ |
+| $D^{*+}$ | `11874070` | $B^0 \rightarrow D^{*+} D_s (\rightarrow \tau \nu) X$ |
+| $D^{*+}$ | `11874030` | $B^+ \rightarrow D^{*+} D_s (\rightarrow \tau \nu) X$ |
 
 ### Cocktail sample for cutflow study
-* `11874091`: $B_d \rightarrow D^0 X \mu \nu$, $D^0 = cocktail$.
+| sample | MC ID | decay |
+|---|---|---|
+| $D^0/D^{*+}$ | `11874091` | $B_d \rightarrow D^0 X \mu \nu$, $D^0 = cocktail$ |
 
 
 ## Run 2 muonic $R(D^{(*)})$ data
@@ -74,4 +105,6 @@
 ## Run 2 muonic $R(D^{(*)})$ Monte-Carlo
 
 ### Cocktail sample for cutflow study
-* `11874091`: $B_d \rightarrow D^0 X \mu \nu$, $D^0 = cocktail$.
+| sample | MC ID | decay |
+|---|---|---|
+| $D^0/D^{*+}$ | `11874091` | $B_d \rightarrow D^0 X \mu \nu$, $D^0 = cocktail$ |
