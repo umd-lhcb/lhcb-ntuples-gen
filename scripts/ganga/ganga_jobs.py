@@ -27,7 +27,7 @@ sys.path.insert(1, dirname(realpath(__file__)))
 
 # Stuff from ganga_sample_jobs_parser.py
 from ganga_sample_jobs_parser import (
-    LFN_PATH, MC_PYTHIA, MC_DECAY_MODE, MC_POLARITY,
+    LFN_PATH, MC_PYTHIA, MC_POLARITY,
     gen_date,
     parse_reco_script_name,
     parse_cond_file_name,
@@ -80,35 +80,29 @@ job_name_fields = [reco_sample, gen_date(), reco_type, lfn_jobname]
 if additional_flags:
     job_name_fields.insert(3, additional_flags)
 job_name = '--'.join(job_name_fields)[:80]
-submitted_jobs = [j.name for j in jobs]
 
-# Only create job if no existing job has the same name or force create
-if args.force or job_name not in submitted_jobs:
-    print('Preparing job {}'.format(job_name))
-    j = Job(name=job_name)
+print('Preparing job {}'.format(job_name))
+j = Job(name=job_name)
 
-    # Get input data from DIRAC
-    data = BKQuery(lfn, dqflag=['OK']).getDataset()
-    j.inputdata = data
+# Get input data from DIRAC
+data = BKQuery(lfn, dqflag=['OK']).getDataset()
+j.inputdata = data
 
-    # Provide weight file
-    weight_file = path_join(dirname(realpath(args.reco_script)), WEIGHT_FILE)
-    j.inputfiles = [LocalFile(weight_file)]
+# Provide weight file
+weight_file = path_join(dirname(realpath(args.reco_script)), WEIGHT_FILE)
+j.inputfiles = [LocalFile(weight_file)]
 
-    # Use DIRAC backend
-    j.backend = Dirac()
-    files_per_job = FILES_PER_JOB_MC if 'mc' in reco_type \
-        else FILES_PER_JOB_DATA
-    j.splitter = SplitByFiles(filesPerJob=files_per_job)
-    j.outputfiles = [LocalFile('*.root')]
+# Use DIRAC backend
+j.backend = Dirac()
+files_per_job = FILES_PER_JOB_MC if 'mc' in reco_type \
+    else FILES_PER_JOB_DATA
+j.splitter = SplitByFiles(filesPerJob=files_per_job)
+j.outputfiles = [LocalFile('*.root')]
 
-    # Get path to option files, also prepare DaVinci
-    options = [args.cond_file, args.reco_script]
-    app = conf_job_app(args.davinci, options)
-    j.application = app
+# Get path to option files, also prepare DaVinci
+options = [args.cond_file, args.reco_script]
+app = conf_job_app(args.davinci, options)
+j.application = app
 
-    # Submit!
-    j.submit()
-
-else:
-    print('Job with name {} already exist, skipping...'.format(job_name))
+# Submit!
+j.submit()

@@ -148,11 +148,6 @@ specify DaVinci base reconstruction script.''')
                         help='''
 specify DaVinci reconstruction condition file.  ''')
 
-    parser.add_argument('--force',
-                        action='store_true',
-                        help='''
-if this flag is supplied, don't skip existing jobs with the same name.''')
-
     parser.add_argument('--davinci',
                         default='~/build/DaVinciDev_v45r4',
                         help='''
