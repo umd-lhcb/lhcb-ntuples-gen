@@ -112,11 +112,12 @@ ganga_jobs.py <reco_script> <cond_files>
 
 For instance, for run 1 $R(D^{*})$ signal Monte Carlo:
 ```
-ganga_jobs.py ../../run1-rdx/reco_Dst_D0.py ../../run1-rdx/cond/cond-mc-2012-md-sim08a.py -p mu -P Pythia6 -d Bd2DstTauNu
+ganga_jobs.py ../../run1-rdx/reco_Dst_D0.py ../../run1-rdx/cond/cond-mc-2012-md-sim08a.py -p mu -P Pythia6 -d 11574020
 ```
 
 !!! note
-    The last three flags: `-p`, `-P`, and `-d` are optional. They have default values.
+    - The `-p` and `-P` are optional. They have default values.
+    - The `-d` flag has a dummy default of `00000000`. For actual values, consult [data sources](../data/data_sources.md).
 
 !!! note
     The usage of `ganga_jobs.py` is described by:
