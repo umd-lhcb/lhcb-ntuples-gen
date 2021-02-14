@@ -1051,11 +1051,14 @@ then following instructions on screen.</p>
 <div class="highlight"><pre><span></span><code>ganga_jobs.py &lt;reco_script&gt; &lt;cond_files&gt;
 </code></pre></div></p>
 <p>For instance, for run 1 <span><span class="MathJax_Preview">R(D^{*})</span><script type="math/tex">R(D^{*})</script></span> signal Monte Carlo:
-<div class="highlight"><pre><span></span><code>ganga_jobs.py ../../run1-rdx/reco_Dst_D0.py ../../run1-rdx/cond/cond-mc-2012-md-sim08a.py -p mu -P Pythia6 -d Bd2DstTauNu
+<div class="highlight"><pre><span></span><code>ganga_jobs.py ../../run1-rdx/reco_Dst_D0.py ../../run1-rdx/cond/cond-mc-2012-md-sim08a.py -p mu -P Pythia6 -d 11574020
 </code></pre></div></p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>The last three flags: <code>-p</code>, <code>-P</code>, and <code>-d</code> are optional. They have default values.</p>
+<ul>
+<li>The <code>-p</code> and <code>-P</code> are optional. They have default values.</li>
+<li>The <code>-d</code> flag has a dummy default of <code>00000000</code>. For actual values, consult <a href="../../data/data_sources/">data sources</a>.</li>
+</ul>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
