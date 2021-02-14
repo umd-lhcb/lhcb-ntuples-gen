@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sun Feb 14, 2021 at 05:35 PM +0100
+# Last Change: Sun Feb 14, 2021 at 05:39 PM +0100
 #
 # Description: A demonstration on ganga option file with parser.
 #              This demo runs stand-alone, provided that Python is installed:
@@ -102,7 +102,8 @@ def gen_lfn_key(reco_type, fields):
     key = reco_type + '-' + fields['year']
     if 'simcond' in fields:
         key += '-' + fields['simcond'][:-1]
-    if 'additional_flags' in fields:
+    if 'additional_flags' in fields and \
+            fields['additional_flags'] in KEY_ADD_FIELDS:
         key += '-' + fields['additional_flags']
     return key
 
