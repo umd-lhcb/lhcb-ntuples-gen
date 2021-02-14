@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Jan 13, 2021 at 12:11 PM +0100
+# Last Change: Sun Feb 14, 2021 at 05:34 PM +0100
 #
 # Description: A demonstration on ganga option file with parser.
 #              This demo runs stand-alone, provided that Python is installed:
@@ -77,8 +77,12 @@ lfn, lfn_jobname = gen_lfn_path(
 )
 
 job_name_fields = [reco_sample, gen_date(), reco_type, lfn_jobname]
+
 if additional_flags:
     job_name_fields.insert(3, additional_flags)
+if args.decay != '00000000':
+    job_name_fields.insert(3, args.decay)
+
 job_name = '--'.join(job_name_fields)[:80]
 
 print('Preparing job {}'.format(job_name))

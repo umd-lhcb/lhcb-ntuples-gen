@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sun Feb 14, 2021 at 04:56 PM +0100
+# Last Change: Sun Feb 14, 2021 at 05:35 PM +0100
 #
 # Description: A demonstration on ganga option file with parser.
 #              This demo runs stand-alone, provided that Python is installed:
@@ -184,8 +184,7 @@ print('Condition file: {}'.format(args.cond_file))
 
 fields, reco_type, additional_flags = parse_cond_file_name(args.cond_file)
 reco_sample = parse_reco_script_name(args.reco_script)
-
-print('Fields from cond file: {}'.format(fields))
+#print('Fields from cond file: {}'.format(fields))
 
 # Try to add missing fields required to reconstruct LFNs
 lfn_key = gen_lfn_key(reco_type, fields)
@@ -198,7 +197,13 @@ lfn, lfn_jobname = gen_lfn_path(
 print('LFN: {}'.format(lfn))
 
 job_name_fields = [reco_sample, gen_date(), reco_type, lfn_jobname]
+
 if additional_flags:
     job_name_fields.insert(3, additional_flags)
 ntuple_name = '--'.join(job_name_fields) + '.root'
 print('NTuple name: {}'.format(ntuple_name))
+
+if args.decay != '00000000':
+    job_name_fields.insert(3, args.decay)
+job_name = '--'.join(job_name_fields)[:80]
+print('Truncated job name: {}'.format(job_name))
