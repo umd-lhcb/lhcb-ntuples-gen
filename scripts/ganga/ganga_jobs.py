@@ -11,14 +11,8 @@
 #              Alternatively, in lxplus:
 #                  ganga ./ganga_job_parser.py [options]
 
-from argparse import ArgumentParser
-from itertools import product
-from datetime import datetime
-from pathlib import Path
-from collections import OrderedDict as odict
 from os.path import expanduser, realpath, dirname
 from os.path import join as path_join
-from re import search
 
 # Append current directly to PYTHONPATH so we can load stuff from
 # ganga_sample_jobs_parser.py
@@ -26,15 +20,7 @@ import sys
 sys.path.insert(1, dirname(realpath(__file__)))
 
 # Stuff from ganga_sample_jobs_parser.py
-from ganga_sample_jobs_parser import (
-    LFN_PATH, MC_PYTHIA, MC_POLARITY,
-    gen_date,
-    parse_reco_script_name,
-    parse_cond_file_name,
-    gen_lfn_key,
-    gen_lfn_path,
-    parse_input
-)
+from ganga_sample_jobs_parser import args, reco_type, lfn, job_name
 
 
 ##########################
@@ -62,28 +48,6 @@ def conf_job_app(davinci_path, options):
 ########
 # Main #
 ########
-
-args = parse_input()
-
-fields, reco_type, additional_flags = parse_cond_file_name(args.cond_file)
-reco_sample = parse_reco_script_name(args.reco_script)
-
-# Try to add missing fields required to reconstruct LFNs
-lfn, lfn_jobname = gen_lfn_path(
-    LFN_PATH[gen_lfn_key(reco_type, fields)], fields,
-    odict({'polarity': args.polarity,
-           'pythia': args.pythia,
-           'decay': args.decay})
-)
-
-job_name_fields = [reco_sample, gen_date(), reco_type, lfn_jobname]
-
-if additional_flags:
-    job_name_fields.insert(3, additional_flags)
-if args.decay != '00000000':
-    job_name_fields.insert(3, args.decay)
-
-job_name = '--'.join(job_name_fields)[:80]
 
 print('Preparing job {}'.format(job_name))
 j = Job(name=job_name)
