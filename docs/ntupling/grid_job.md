@@ -42,7 +42,7 @@ We are using some non-official `TupleTool`, so we need to compile `DaVinci` on l
 
 First, we need to figure out the runtime dependency for our version of DaVinci: {{ davinci_ver }}.
 ```
-lb-run -L DaVinci/v45r4
+lb-run -L DaVinci/{{ davinci_ver }}
 ```
 
 For {{davinci_ver}}, we pick the following runtime: `{{ davinci_runtime }}`.
