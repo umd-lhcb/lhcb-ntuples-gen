@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Jan 20, 2021 at 10:08 PM +0100
+# Last Change: Sun Feb 14, 2021 at 04:56 PM +0100
 #
 # Description: A demonstration on ganga option file with parser.
 #              This demo runs stand-alone, provided that Python is installed:
@@ -42,6 +42,9 @@ LFN_PATH = {
     # run 2 data
     'std-2015': '/LHCb/Collision15/Beam6500GeV-VeloClosed-Mag{polarity}/Real Data/Reco15a/Stripping24r2/90000000/SEMILEPTONIC.DST',
     'std-2016': '/LHCb/Collision16/Beam6500GeV-VeloClosed-Mag{polarity}/Real Data/Reco16/Stripping28r1/90000000/SEMILEPTONIC.DST',
+    # run 2 MC
+    'mc-2016-sim09': '/MC/2016/Beam6500GeV-2016-Mag{polarity}-Nu1.6-25ns-Pythia8/{simcond}/Trig0x6139160F/Reco16/Turbo03a/Filtered/{decay}/D0TAUNU.SAFESTRIPTRIG.DST',
+    'mc-2016-sim09-tracker_only': '/MC/2016/Beam6500GeV-2016-Mag{polarity}-TrackerOnly-Nu1.6-25ns-Pythia8/{simcond}/Reco16/Filtered/{decay}/D0TAUNU.SAFESTRIPTRIG.DST',
     # run 2 cocktail
     'cutflow_mc-2016-sim09': '/MC/2016/Beam6500GeV-2016-Mag{polarity}-Nu1.6-25ns-Pythia8/{simcond}/Trig0x6138160F/Reco16/Turbo03/Stripping26NoPrescalingFlagged/11874091/ALLSTREAMS.DST',
 }
@@ -49,32 +52,10 @@ LFN_PATH['cutflow_data-2012'] = LFN_PATH['std-2012']
 LFN_PATH['cutflow_data-2016'] = LFN_PATH['std-2016']
 
 MC_PYTHIA = ['Pythia6', 'Pythia8']
-
-# Decay mode IDs.
-MC_DECAY_MODE = {
-    # Dstst
-    'Bd2DststMuNu2D0': '11873010',
-    'Bd2DststTauNu2D0': '11873030',
-    'Bs2DststMuNu2D0': '13873000',
-    'Bu2DststMuNu2D0': '12873010',
-    # Dst
-    'Bd2DstTauNu': '11574010',
-    'Bd2DstMuNu': '11574020',
-    'Bu2Dst0TauNu': '12573020',
-    'Bu2Dst0MuNu': '12573030',
-    # D0
-    'Bu2D0TauNu': '12573000',
-    'Bu2D0MuNu': '12573010',
-    'Bd2D0DX2MuX': '11873000',
-    'Bu2D0DX2MuX': '12873000',
-    'Bd2D0DsX2TauNu': '11873020',
-    'Bu2D0DsX2TauNu': '12873020',
-}
-
-MC_POLARITY = {
-    'mu': 'Up',
-    'md': 'Down'
-}
+MC_POLARITY = {'mu': 'Up', 'md': 'Down'}
+KEY_ADD_FIELDS = [
+    'tracker_only'
+]
 
 
 ###########
@@ -112,8 +93,7 @@ def parse_cond_file_name(cond_file):
     # be used in the formatting of the DIRAC LFN path.
     reco_type, additional_flags = result['type'], result['additional_flags']
     result = odict({k: v for k, v in result.items()
-                    if v is not None and
-                    k != 'type' and k != 'additional_flags'})
+                    if v is not None and k != 'type'})
 
     return result, reco_type, additional_flags
 
@@ -122,13 +102,14 @@ def gen_lfn_key(reco_type, fields):
     key = reco_type + '-' + fields['year']
     if 'simcond' in fields:
         key += '-' + fields['simcond'][:-1]
+    if 'additional_flags' in fields:
+        key += '-' + fields['additional_flags']
     return key
 
 
 def gen_lfn_path(lfn, fields, additional_fields,
                  replacement_rules={
                      'polarity': MC_POLARITY,
-                     'decay': MC_DECAY_MODE,
                      'simcond': lambda x: x[0].upper()+x[1:]
                  }):
     for key, rule in replacement_rules.items():
@@ -190,8 +171,7 @@ specify polarity.''')
 specify Pythia version.''')
 
     parser.add_argument('-d', '--decay',
-                        choices=list(MC_DECAY_MODE.keys()),
-                        default=list(MC_DECAY_MODE.keys())[0],
+                        default='00000000',  # This mode doesn't exist!
                         help='''
 specify decay mode.''')
 
