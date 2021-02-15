@@ -120,25 +120,25 @@
 ### $D^{**}$
 | sample | MC ID | decay |
 |---|---|---|
-| $D^0/D^{*+}$ | ?`12873010` | $B^- \rightarrow D^{**0} \mu \nu \rightarrow D^0$ |
-| $D^0/D^{*+}$ | ?`11873010` | $B^0 \rightarrow D^{**+} \mu \nu \rightarrow D^0$ |
-| $D^0/D^{*+}$ | ?`12873030` | $B^- \rightarrow D^{**0} \tau \nu \rightarrow D^0$ |
-| $D^0/D^{*+}$ | ?`11873030` | $B^0 \rightarrow D^{**+} \tau \nu \rightarrow D^0$ |
+| $D^0/D^{*+}$ | `11874430` | $B^0 \rightarrow D^{**+} \mu \nu \rightarrow D^0$ |
+| $D^0/D^{*+}$ | `11874440` | $B^0 \rightarrow D^{**+} \tau \nu \rightarrow D^0$ |
+| $D^0/D^{*+}$ | `12873450` | $B^- \rightarrow D^{**0} \mu \nu \rightarrow D^0$ |
+| $D^0/D^{*+}$ | `12874060` | $B^- \rightarrow D^{**0} \tau \nu \rightarrow D^0$ |
 
 ### $D^{**} \rightarrow D^{(*)} \pi \pi$
 | sample | MC ID | decay |
 |---|---|---|
-| $D^0$ | ?`12675010` | $B^- \rightarrow D^{**} (\rightarrow D^0 \pi \pi) \mu \nu$ |
-| $D^0$ | ?`11674400` | $B^0 \rightarrow D^{**} (\rightarrow D^0 \pi \pi) \mu \nu$ |
-| $D^0/D^{*+}$ | ?`12675400` | $B^- \rightarrow D^{**} (\rightarrow D^{*+} \pi \pi) \mu \nu$ |
-| $D^0/D^{*+}$ | ?`11676010` | $B^0 \rightarrow D^{**} (\rightarrow D^{*+} \pi \pi) \mu \nu$ |
-| $D^0$ | ?`12675430` | $B^- \rightarrow D^{**} (\rightarrow D^{*0} \pi \pi) \mu \nu$ |
+| $D^0$ | `12675011` | $B^- \rightarrow D^{**} (\rightarrow D^0 \pi \pi) \mu \nu$ |
+| $D^0$ | `11674401` | $B^0 \rightarrow D^{**} (\rightarrow D^0 \pi \pi) \mu \nu$ |
+| $D^0/D^{*+}$ | `12675402` | $B^- \rightarrow D^{**} (\rightarrow D^{*+} \pi \pi) \mu \nu$ |
+| $D^0/D^{*+}$ | `11676012` | $B^0 \rightarrow D^{**} (\rightarrow D^{*+} \pi \pi) \mu \nu$ |
+| $D^0$ | `12875440` | $B^- \rightarrow D^{**} (\rightarrow D^{*0} \pi \pi) \mu \nu$ |
 
 ### $D_s^{**}$
 | sample | MC ID | decay |
 |---|---|---|
-| $D^0$ | ?`13873000` | $B_s \rightarrow D_s^{**} (\rightarrow D^0 K) \mu \nu$ |
-| $D^{*+}$ | ?`13874000` | $B_s \rightarrow D^{**+} \mu \nu$ |
+| $D^0$ | `13874020` | $B_s \rightarrow D_s^{**} (\rightarrow D^0 K) \mu \nu$ |
+| $D^{*+}$ | `13674000` | $B_s \rightarrow D^{**+} \mu \nu$ |
 
 ### $DDX$
 | sample | MC ID | decay |
