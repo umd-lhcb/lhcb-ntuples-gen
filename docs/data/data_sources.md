@@ -131,7 +131,7 @@
 | $D^0/D^{*+}$ | `11874430` | $B^0 \rightarrow D^{**+} \mu \nu \rightarrow D^0$ |
 | $D^0/D^{*+}$ | `11874440` | $B^0 \rightarrow D^{**+} \tau \nu \rightarrow D^0$ |
 | $D^0/D^{*+}$ | `12873450` | $B^- \rightarrow D^{**0} \mu \nu \rightarrow D^0$ |
-| $D^0/D^{*+}$ | `12874060` | $B^- \rightarrow D^{**0} \tau \nu \rightarrow D^0$ |
+| $D^0/D^{*+}$ | `12873460` | $B^- \rightarrow D^{**0} \tau \nu \rightarrow D^0$ |
 
 ### $D^{**} \rightarrow D^{(*)} \pi \pi$
 | sample | MC ID | decay |
