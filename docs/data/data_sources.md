@@ -103,6 +103,14 @@
 
 ## Run 2 muonic $R(D^{(*)})$ Monte-Carlo
 
+!!! info
+    The FullSim production IDs are: `74233, 74234, 74494, 74509`.
+
+!!! tips
+    To find the MC IDs of a production, go to DIRAC, then navigate:
+    **Data** -> **Production Request** -> input the production ID you'd like to
+    inspect.
+
 ### Normalization
 | sample | MC ID | decay |
 |---|---|---|
