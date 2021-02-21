@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sat Feb 20, 2021 at 03:47 AM +0100
+# Last Change: Sun Feb 21, 2021 at 05:23 PM +0100
 # Description: Merge and apply cuts on input .root files, each with multiple
 #              trees, to a single output .root file.
 #
@@ -22,8 +22,7 @@ import ROOT
 ROOT.PyConfig.DisableRootLogon = True  # Don't read .rootlogon.py
 
 from argparse import ArgumentParser
-from collections import namedtuple
-from ROOT import TTree, TDirectory
+from ROOT import TTree, TDirectory, TChain, TFile
 
 
 ################################
@@ -50,30 +49,57 @@ merge and apply cuts on input .root files to a single output .root file.
 # Helpers #
 ###########
 
-TTreeDir = namedtuple('TTreeDir', 'path name')
+def path_basename(full_path):
+    splitted = full_path.split('/')
+    return '/'.join(splitted[:-1]), splitted[-1]  # UNIX-like basename
 
 
 ####################
 # Ntuple operation #
 ####################
 
-def traverse_ntp(ntp, pwd=None):
-    list_of_trees = dict()
+def traverse_ntp(ntp, pwd='/'):
+    trees = []
 
     for key in ntp.GetListOfKeys():
         obj = key.ReadObj()
         if isinstance(obj, TDirectory):
-            path = key.GetName() if not pwd else pwd+'/'+key.GetName()
-            list_of_trees.update(traverse_ntp(obj, path))
+            trees += traverse_ntp(obj, pwd + key.GetName() + '/')
 
         elif isinstance(obj, TTree):
-            list_of_trees[TTreeDir(pwd, key.GetName())] = obj
+            trees.append(pwd + obj.GetName())
 
         else:
             print('Skipping object {} of type {}'.format(
                 obj.GetName(), type(obj)))
 
-    return list_of_trees
+    return trees
+
+
+def create_chains(input_ntp_name, trees):
+    chains = dict()
+
+    for tree_path in trees:
+        _, tree_name = path_basename(tree_path)
+        if tree_path not in chains:
+            chains[tree_path] = TChain(tree_name, tree_name)
+        chains[tree_path].Add(input_ntp_name+tree_path)
+
+    return chains
+
+
+def skim_chains(output_ntp_name, chains, cuts):
+    ntp = TFile(output_ntp_name, 'recreate')
+
+    for full_path, chain in chains.items():
+        path, _ = path_basename(full_path)
+        if not ntp.GetDirectory(path):
+            ntp.mkdir(path[1:])
+        ntp.cd(path)
+        tree = chain.CopyTree('')  # FIXME placeholder for cuts
+        tree.Write()
+
+    ntp.Close()
 
 
 ########
