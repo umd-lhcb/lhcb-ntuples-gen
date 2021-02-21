@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sun Feb 21, 2021 at 05:23 PM +0100
+# Last Change: Sun Feb 21, 2021 at 11:02 PM +0100
 # Description: Merge and apply cuts on input .root files, each with multiple
 #              trees, to a single output .root file.
 #
@@ -18,10 +18,13 @@ try:
 except ImportError:
     import ConfigParser as configparser  # Python 2 fallback
 
+import yaml
+
 import ROOT
 ROOT.PyConfig.DisableRootLogon = True  # Don't read .rootlogon.py
 
 from argparse import ArgumentParser
+from collections import defaultdict
 from ROOT import TTree, TDirectory, TChain, TFile
 
 
@@ -34,15 +37,41 @@ def parse_input():
 merge and apply cuts on input .root files to a single output .root file.
 ''')
 
-    parser.add_argument('output_ntp', help='''
+    parser.add_argument('output_ntp',
+                        help='''
         output ntuple.
 ''')
 
-    parser.add_argument('input_ntp', help='''
+    parser.add_argument('input_ntp',
+                        nargs='+',
+                        help='''
         input ntuple.
 ''')
 
+    parser.add_argument('--config', '-c',
+                        default=False,
+                        help='''
+specify the optional selection config file. By default all trees and entries are kept.
+''')
+
     return parser.parse_args()
+
+
+######################
+# YAML config parser #
+######################
+
+def parse_config(config_file):
+    raw_config = yaml.safe_load(config_file) if config_file else dict()
+    config = defaultdict(lambda: {
+        'keep': True,
+        'selection': [''],
+    })
+
+    for path, sub_config in raw_config.items():
+        config[path].update(sub_config)
+
+    return config
 
 
 ###########
@@ -54,11 +83,37 @@ def path_basename(full_path):
     return '/'.join(splitted[:-1]), splitted[-1]  # UNIX-like basename
 
 
+def concat_selections(sels):
+    if sels == ['']:
+        return ''
+    return ' && '.join('({})'.format(s) for s in sels)
+
+
+############
+# ROOT I/O #
+############
+
+class ROOTFile(object):
+    def __init__(self, path, mode):
+        self.path = path
+        self.mode = mode
+
+    def __enter__(self):
+        self.file = TFile(self.path, self.mode)
+        if self.file.IsZombie() or not self.file.IsOpen():
+            raise ValueError('Cannot open {} in mode {}'.format(
+                self.path, self.mode))
+        return self.file
+
+    def __exit__(self, obj_type, value, traceback):
+        self.file.Close()
+
+
 ####################
 # Ntuple operation #
 ####################
 
-def traverse_ntp(ntp, pwd='/'):
+def traverse_ntp(ntp, pwd=''):
     trees = []
 
     for key in ntp.GetListOfKeys():
@@ -76,30 +131,28 @@ def traverse_ntp(ntp, pwd='/'):
     return trees
 
 
-def create_chains(input_ntp_name, trees):
-    chains = dict()
-
+def update_chains(input_ntp_name, chains, trees):
     for tree_path in trees:
         _, tree_name = path_basename(tree_path)
         if tree_path not in chains:
             chains[tree_path] = TChain(tree_name, tree_name)
-        chains[tree_path].Add(input_ntp_name+tree_path)
-
-    return chains
+        chains[tree_path].Add(input_ntp_name+'/'+tree_path)
 
 
-def skim_chains(output_ntp_name, chains, cuts):
-    ntp = TFile(output_ntp_name, 'recreate')
+def skim_chains(output_ntp_name, chains, config):
+    with ROOTFile(output_ntp_name, 'recreate') as ntp:
+        for full_path, chain in chains.items():
+            if config[full_path]['keep']:
+                path, _ = path_basename(full_path)
 
-    for full_path, chain in chains.items():
-        path, _ = path_basename(full_path)
-        if not ntp.GetDirectory(path):
-            ntp.mkdir(path[1:])
-        ntp.cd(path)
-        tree = chain.CopyTree('')  # FIXME placeholder for cuts
-        tree.Write()
+                if not ntp.GetDirectory(path):
+                    ntp.mkdir(path)
 
-    ntp.Close()
+                ntp.cd(path)
+                tree = chain.CopyTree(concat_selections(
+                    config[full_path]['selection']
+                ))
+                tree.Write()
 
 
 ########
@@ -108,3 +161,12 @@ def skim_chains(output_ntp_name, chains, cuts):
 
 if __name__ == '__main__':
     args = parse_input()
+    config = parse_config(args.config)
+    chains = dict()
+
+    for ntp_path in args.input_ntp:
+        with ROOTFile(ntp_path, 'read') as ntp:
+            trees = traverse_ntp(ntp)
+            update_chains(ntp_path, chains, trees)
+
+    skim_chains(args.output_ntp, chains, config)
