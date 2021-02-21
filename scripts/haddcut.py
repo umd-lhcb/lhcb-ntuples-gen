@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sun Feb 21, 2021 at 11:34 PM +0100
+# Last Change: Sun Feb 21, 2021 at 11:51 PM +0100
 # Description: Merge and apply cuts on input .root files, each with multiple
 #              trees, to a single output .root file.
 #
@@ -62,7 +62,12 @@ specify the optional selection config file. By default all trees and entries are
 ######################
 
 def parse_config(config_file):
-    raw_config = yaml.safe_load(config_file) if config_file else dict()
+    if config_file:
+        with open(config_file) as f:
+            raw_config = yaml.safe_load(f)
+    else:
+        raw_config = dict()
+
     config = defaultdict(lambda: {
         'keep': True,
         'selection': [''],

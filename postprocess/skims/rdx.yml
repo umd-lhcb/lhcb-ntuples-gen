@@ -1,0 +1,31 @@
+##############
+# Data trees #
+##############
+
+TupleB0/DecayTree:
+    selection:
+        - "b0_L0Global_TIS || dst_L0HadronDecision_TOS"
+        - "mu_L0Global_TIS"
+
+TupleB0WSMu/DecayTree:
+    selection:
+        - "b0_L0Global_TIS || dst_L0HadronDecision_TOS"
+        - "mu_L0Global_TIS"
+
+TupleB0WSPi/DecayTree:
+    selection:
+        - "b0_L0Global_TIS || dst_L0HadronDecision_TOS"
+        - "mu_L0Global_TIS"
+
+TupleBminus/DecayTree:
+    selection:
+        - "b_L0Global_TIS || d0_L0HadronDecision_TOS"
+        - "mu_L0Global_TIS"
+
+TupleBminusWS/DecayTree:
+    selection:
+        - "b_L0Global_TIS || d0_L0HadronDecision_TOS"
+        - "mu_L0Global_TIS"
+
+GetIntegratedLuminosity/LumiTuple:
+    keep: false
