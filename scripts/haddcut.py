@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sun Feb 21, 2021 at 11:02 PM +0100
+# Last Change: Sun Feb 21, 2021 at 11:26 PM +0100
 # Description: Merge and apply cuts on input .root files, each with multiple
 #              trees, to a single output .root file.
 #
@@ -152,7 +152,11 @@ def skim_chains(output_ntp_name, chains, config):
                 tree = chain.CopyTree(concat_selections(
                     config[full_path]['selection']
                 ))
-                tree.Write()
+                # tree.Write()
+                # FIXME: Doesn't work on the first time above is called, but
+                # works on successive tries. No idea why!
+
+        ntp.Write()
 
 
 ########
