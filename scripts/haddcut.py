@@ -2,12 +2,15 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Feb 22, 2021 at 01:17 AM +0100
+# Last Change: Mon Feb 22, 2021 at 09:28 PM +0100
 # Description: Merge and apply cuts on input .root files, each with multiple
 #              trees, to a single output .root file.
 #
 #              Note that this is still based on Python 2, because on lxplus,
 #              ROOT is compiled with Python 2 only.
+
+# NOTE: On lxplus, invoke this script with python2:
+#       python2 ./haddcut.py ...
 
 # NOTE: Remove the __future__ imports once ROOT is available with Python 3 on
 #       lxplus.
@@ -127,16 +130,13 @@ def keep_latest_cycle(tkeys):
     result = []
 
     oldkey = None
-    firstkey = None
     for key in tkeys:
-        if not firstkey:
-            firstkey = key
-
         if oldkey and oldkey.GetName() != key.GetName():
             result.append(oldkey)
         oldkey = key
+    result.append(oldkey)
 
-    return [firstkey] if not result else result
+    return result
 
 
 def traverse_ntp(ntp, pwd=''):
