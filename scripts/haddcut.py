@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Feb 22, 2021 at 01:12 AM +0100
+# Last Change: Mon Feb 22, 2021 at 01:17 AM +0100
 # Description: Merge and apply cuts on input .root files, each with multiple
 #              trees, to a single output .root file.
 #
@@ -24,6 +24,7 @@ import ROOT
 ROOT.PyConfig.DisableRootLogon = True  # Don't read .rootlogon.py
 
 from argparse import ArgumentParser
+from glob import glob
 from collections import defaultdict
 from ROOT import TTree, TDirectory, TChain, TFile
 
@@ -92,6 +93,10 @@ def concat_selections(sels):
     if sels == ['']:
         return ''
     return ' && '.join('({})'.format(s) for s in sels)
+
+
+def glob_ntuples(paths):
+    return [m for p in paths for m in glob(p)]
 
 
 ############
@@ -190,7 +195,7 @@ if __name__ == '__main__':
     config = parse_config(args.config)
     chains = dict()
 
-    for ntp_path in args.input_ntp:
+    for ntp_path in glob_ntuples(args.input_ntp):
         with ROOTFile(ntp_path, 'read') as ntp:
             trees = traverse_ntp(ntp)
             update_chains(ntp_path, chains, trees)
