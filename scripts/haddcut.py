@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sun Feb 21, 2021 at 11:51 PM +0100
+# Last Change: Mon Feb 22, 2021 at 01:12 AM +0100
 # Description: Merge and apply cuts on input .root files, each with multiple
 #              trees, to a single output .root file.
 #
@@ -118,10 +118,26 @@ class ROOTFile(object):
 # Ntuple operation #
 ####################
 
+def keep_latest_cycle(tkeys):
+    result = []
+
+    oldkey = None
+    firstkey = None
+    for key in tkeys:
+        if not firstkey:
+            firstkey = key
+
+        if oldkey and oldkey.GetName() != key.GetName():
+            result.append(oldkey)
+        oldkey = key
+
+    return [firstkey] if not result else result
+
+
 def traverse_ntp(ntp, pwd=''):
     trees = []
 
-    for key in ntp.GetListOfKeys():
+    for key in keep_latest_cycle(ntp.GetListOfKeys()):
         obj = key.ReadObj()
         if isinstance(obj, TDirectory):
             trees += traverse_ntp(obj, pwd + key.GetName() + '/')
