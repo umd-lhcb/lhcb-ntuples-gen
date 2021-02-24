@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Feb 22, 2021 at 09:28 PM +0100
+# Last Change: Wed Feb 24, 2021 at 03:30 PM +0100
 # Description: Merge and apply cuts on input .root files, each with multiple
 #              trees, to a single output .root file.
 #
@@ -194,10 +194,13 @@ if __name__ == '__main__':
     args = parse_input()
     config = parse_config(args.config)
     chains = dict()
+    print('Output file: {}'.format(args.output_ntp))
 
     for ntp_path in glob_ntuples(args.input_ntp):
         with ROOTFile(ntp_path, 'read') as ntp:
+            print('Adding {}...'.format(ntp_path))
             trees = traverse_ntp(ntp)
             update_chains(ntp_path, chains, trees)
 
+    print('Start skimming...')
     skim_chains(args.output_ntp, chains, config)
