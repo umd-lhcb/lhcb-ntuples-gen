@@ -149,10 +149,19 @@ git annex sync julian
     this is harmless.
 
 !!! error
-    `git annex sync` will commit **all previously uncommitted** changes before
-    synchronizing!
+    By default, `git annex sync` will commit **all previously uncommitted**
+    changes before synchronizing!
 
-    Run `git status` before you do `git annex sync`, and make sure **NO** entry
+    This can be disabled on a per-repository basis by:
+    ```
+    git annex config --set annex.autocommit false
+    ```
+
+    Other clones will also be configured properly after they do a:
+    `git annex sync`.
+
+    If you don't want to do such config, it is highly recommended that you run
+    `git status` before you do `git annex sync`, and make sure **NO** entry
     looks like this:
     ```
     changes not staged for commit
