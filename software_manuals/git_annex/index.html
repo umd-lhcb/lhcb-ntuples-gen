@@ -1075,9 +1075,15 @@ this is harmless.</p>
 </div>
 <div class="admonition error">
 <p class="admonition-title">Error</p>
-<p><code>git annex sync</code> will commit <strong>all previously uncommitted</strong> changes before
-synchronizing!</p>
-<p>Run <code>git status</code> before you do <code>git annex sync</code>, and make sure <strong>NO</strong> entry
+<p>By default, <code>git annex sync</code> will commit <strong>all previously uncommitted</strong>
+changes before synchronizing!</p>
+<p>This can be disabled on a per-repository basis by:
+<div class="highlight"><pre><span></span><code>git annex config --set annex.autocommit false
+</code></pre></div></p>
+<p>Other clones will also be configured properly after they do a:
+<code>git annex sync</code>.</p>
+<p>If you don't want to do such config, it is highly recommended that you run
+<code>git status</code> before you do <code>git annex sync</code>, and make sure <strong>NO</strong> entry
 looks like this:
 <div class="highlight"><pre><span></span><code>changes not staged for commit
 </code></pre></div>
