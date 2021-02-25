@@ -302,9 +302,9 @@ algo_D0.DaughtersCuts = {
     'K+': '(MIPCHI2DV(PRIMARY) > 45.0) &'
           '(P > 2.0*GeV) & (PT > 300.0*MeV) &'
           '(TRGHOSTPROB < 0.5)',
-    'pi-': '(PT > 300.0*MeV) &'
+    'pi-': '(P > 2.0*GeV) & (PT > 300.0*MeV) &'
            '(MIPCHI2DV(PRIMARY) > 45.0) &'
-           '(PIDK < 2.0) & (TRGHOSTPROB < 0.5)'
+           '(TRGHOSTPROB < 0.5)'
 }
 
 algo_D0.CombinationCut = \
