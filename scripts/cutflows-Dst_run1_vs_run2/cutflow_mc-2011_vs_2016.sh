@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 OUTPUT_DIR="../../docs/data/cutflows/Dst_run1_vs_run2/cutflow_mc-2011_vs_2016"
 NTP_REF="../../ntuples/pre-0.9.0/Dst-cutflow_mc/Dst--20_03_18--cutflow_mc--cocktail--2011--md.root"
