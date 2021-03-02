@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri Feb 26, 2021 at 11:23 PM +0100
+# Last Change: Tue Mar 02, 2021 at 06:41 PM +0100
 #
 # Description: Definitions of selection and reconstruction procedures for run 2
 #              R(D(*)). For more thorough comments, take a look at:
@@ -603,6 +603,56 @@ else:
 
 
 ##################
+# HLT1 emulation #
+##################
+
+from Configurables import AddRelatedInfo, RelInfoHLT1Emulation
+
+
+def hlt1_get_var_gen(output_loc,
+                     keys=[
+                         'chi2',
+                         'fdchi2',
+                         'sumpt',
+                         'nlt16'
+                     ],
+                     vals=[
+                         'VERTEX_CHI2_COMB',
+                         'VDCHI2_MINIPPV_COMB',
+                         'SUMPT_COMB',
+                         'NLT_MINIPPV_COMB'
+                     ]):
+    relinfo_output = output_loc.replace('Particles', 'HLT1Emulation')
+
+    def get_var(i, j):
+        comb = '{}_{}'.format(i, j)
+        return {key: 'RELINFO("{}", "{}_{}", 0)'.format(
+            relinfo_output, val, comb
+        ) for key, val in zip(keys, vals)}
+
+    return get_var
+
+
+def add_hlt1_info(sel_seq):
+    relinfo = AddRelatedInfo('RelInfo_HLT1_' + sel_seq.name())
+    relinfo.addTool(RelInfoHLT1Emulation, 'RelInfoHLT1Emulation')
+    relinfo.Tool = "RelInfoHLT1Emulation"
+    relinfo.Location = 'HLT1Emulation'
+
+    dt_hlt1_emu = getattr(relinfo, 'RelInfoHLT1Emulation')
+    dt_hlt1_emu.Variables = []
+    dt_hlt1_emu.nltValue = 16
+
+    return relinfo
+
+
+if has_flag('TRACKER_ONLY'):
+    # Here some L0 variables, such as 'L0Calo_HCAL_xProjection', are added
+    DaVinci().appendToMainSequence(
+        [add_hlt1_info(x) for x in (seq_Bminus, seq_B0)])
+
+
+##################
 # Define ntuples #
 ##################
 
@@ -611,6 +661,11 @@ from DecayTreeTuple.Configuration import *  # for addTupleTool
 
 # Additional TupleTool for addTool only
 from Configurables import BackgroundCategory
+
+# HLT1 emulation
+from itertools import combinations
+from Configurables import TupleToolL0Calo
+from MVADictHelpers import addMatrixnetclassifierTuple
 
 
 def really_add_tool(tp, tool_name):
@@ -732,8 +787,48 @@ def tuple_postpocess_data(tp, B_meson='b0', Mu='mu',
     getattr(tp, Mu).ToolList += ['TupleToolANNPIDTraining']
 
 
-def tuple_postpocess_mc(*args, **kwargs):
-    tuple_postpocess_data(*args, **kwargs)
+def tuple_postpocess_mc(tp,
+                        B_meson='b0',
+                        emu_hlt1_lines=[
+                            'Hlt1TwoTrackMVA'
+                        ],
+                        **kwargs):
+    tuple_postpocess_data(tp, B_meson=B_meson, **kwargs)
+
+    if has_flag('TRACKER_ONLY'):
+        tp.ToolList.append('TupleToolTrackPosition')  # Add variables like 'b_X'
+
+        # Not sure if this is really needed.
+        tp.addTool(TupleToolL0Calo, name="HCALtool")
+        tp.HCALtool.WhichCalo = "HCAL"
+        tp.HCALtool.TriggerClusterLocation = "/Event/Trig/L0/Calo"
+        tp.ToolList += ["TupleToolL0Calo/HCALtool"]
+
+        get_var = hlt1_get_var_gen(tp.Inputs[0])
+        get_var_wrong_ip = hlt1_get_var_gen(tp.Inputs[0], vals=[
+            'VERTEX_CHI2_COMB',
+            'VDCHI2_MINIPPV_COMB',
+            'SUMPT_COMB',
+            'NLT_OWNPV_COMB'
+        ])
+
+        # HLT1 emulation
+        for hlt in emu_hlt1_lines:
+            for i, j in combinations([1, 2, 3, 4], 2):
+                addMatrixnetclassifierTuple(
+                    getattr(tp, B_meson),
+                    '$PARAMFILESROOT/data/{}.mx'.format(hlt),
+                    get_var(i, j),
+                    '{}Emulations_{}_{}'.format(hlt, i, j),
+                    True
+                )
+                addMatrixnetclassifierTuple(
+                    getattr(tp, B_meson),
+                    '$PARAMFILESROOT/data/{}.mx'.format(hlt),
+                    get_var_wrong_ip(i, j),
+                    '{}Emulations_WrongIP_{}_{}'.format(hlt, i, j),
+                    True
+                )
 
 
 if not DaVinci().Simulation:
