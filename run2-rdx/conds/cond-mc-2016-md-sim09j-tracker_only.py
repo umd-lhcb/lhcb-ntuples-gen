@@ -6,6 +6,9 @@ DaVinci().Simulation = True
 DaVinci().TupleFile = 'mc.root'
 # DaVinci().HistogramFile = 'mc-histo.root'
 
+# Additional global flags
+DaVinci().MoniSequence += ['TRACKER_ONLY']
+
 
 from Configurables import LHCbApp
 
