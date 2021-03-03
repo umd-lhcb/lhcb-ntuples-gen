@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Mar 02, 2021 at 06:41 PM +0100
+# Last Change: Wed Mar 03, 2021 at 01:57 AM +0100
 #
 # Description: Definitions of selection and reconstruction procedures for run 2
 #              R(D(*)). For more thorough comments, take a look at:
@@ -614,7 +614,7 @@ def hlt1_get_var_gen(output_loc,
                          'chi2',
                          'fdchi2',
                          'sumpt',
-                         'nlt16'
+                         'nlt'
                      ],
                      vals=[
                          'VERTEX_CHI2_COMB',
@@ -641,7 +641,7 @@ def add_hlt1_info(sel_seq):
 
     dt_hlt1_emu = getattr(relinfo, 'RelInfoHLT1Emulation')
     dt_hlt1_emu.Variables = []
-    dt_hlt1_emu.nltValue = 16
+    dt_hlt1_emu.nltValue = int(DaVinci().DataType[2:])  # figure out the year by yourself, DaVinci!
 
     return relinfo
 
@@ -664,7 +664,6 @@ from Configurables import BackgroundCategory
 
 # HLT1 emulation
 from itertools import combinations
-from Configurables import TupleToolL0Calo
 from MVADictHelpers import addMatrixnetclassifierTuple
 
 
@@ -797,12 +796,6 @@ def tuple_postpocess_mc(tp,
 
     if has_flag('TRACKER_ONLY'):
         tp.ToolList.append('TupleToolTrackPosition')  # Add variables like 'b_X'
-
-        # Not sure if this is really needed.
-        tp.addTool(TupleToolL0Calo, name="HCALtool")
-        tp.HCALtool.WhichCalo = "HCAL"
-        tp.HCALtool.TriggerClusterLocation = "/Event/Trig/L0/Calo"
-        tp.ToolList += ["TupleToolL0Calo/HCALtool"]
 
         get_var = hlt1_get_var_gen(tp.Inputs[0])
         get_var_wrong_ip = hlt1_get_var_gen(tp.Inputs[0], vals=[
