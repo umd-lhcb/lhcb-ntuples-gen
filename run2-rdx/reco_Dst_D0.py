@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Mar 03, 2021 at 01:57 AM +0100
+# Last Change: Sat Mar 06, 2021 at 03:16 AM +0100
 #
 # Description: Definitions of selection and reconstruction procedures for run 2
 #              R(D(*)). For more thorough comments, take a look at:
@@ -638,6 +638,7 @@ def add_hlt1_info(sel_seq):
     relinfo.addTool(RelInfoHLT1Emulation, 'RelInfoHLT1Emulation')
     relinfo.Tool = "RelInfoHLT1Emulation"
     relinfo.Location = 'HLT1Emulation'
+    relinfo.Inputs = [sel_seq.outputLocation()]
 
     dt_hlt1_emu = getattr(relinfo, 'RelInfoHLT1Emulation')
     dt_hlt1_emu.Variables = []
