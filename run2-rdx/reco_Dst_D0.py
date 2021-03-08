@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sat Mar 06, 2021 at 03:16 AM +0100
+# Last Change: Mon Mar 08, 2021 at 08:48 PM +0100
 #
 # Description: Definitions of selection and reconstruction procedures for run 2
 #              R(D(*)). For more thorough comments, take a look at:
@@ -622,13 +622,10 @@ def hlt1_get_var_gen(output_loc,
                          'SUMPT_COMB',
                          'NLT_MINIPPV_COMB'
                      ]):
-    relinfo_output = output_loc.replace('Particles', 'HLT1Emulation')
-
     def get_var(i, j):
         comb = '{}_{}'.format(i, j)
-        return {key: 'RELINFO("{}", "{}_{}", 0)'.format(
-            relinfo_output, val, comb
-        ) for key, val in zip(keys, vals)}
+        return {key: 'RELINFO("{}", "{}_{}", 0)'.format(output_loc, val, comb)
+                for key, val in zip(keys, vals)}
 
     return get_var
 
@@ -792,14 +789,43 @@ def tuple_postpocess_mc(tp,
                         emu_hlt1_lines=[
                             'Hlt1TwoTrackMVA'
                         ],
+                        extra_hlt1_vars=[
+                            'PT_DAU',
+                            'P_DAU',
+                            'IPCHI2_OWNPV_DAU',
+                            'IPCHI2_MINIPPV_DAU',
+                            'TRACK_GHOSTPROB_DAU',
+                            'TRACK_CHI2_DAU',
+                            'TRACK_NDOF_DAU'
+                        ],
+                        extra_hlt1_vars_combo=[
+                            'VERTEX_CHI2_COMB',
+                            'VERTEX_NDOF_COMB',
+                            'ETA_COMB',
+                            'MCORR_OWNPV_COMB',
+                            'MCORR_MINIPPV_COMB',
+                            'SUMPT_COMB',
+                            'DIRA_OWNPV_COMB',
+                            'DIRA_MINIPPV',
+                            'DOCA_COMB',
+                            'VDCHI2_OWNPV_COMB',
+                            'VDCHI2_MINIPPV_COMB',
+                            'IPCHI2_OWNPV_COMB',
+                            'IPCHI2_MINIPPV_COMB',
+                            'NLT_MINIPPV_COMB',
+                            'NLT_OWNPV_COMB',
+                            'PT_COMB',
+                            'P_COMB'
+                        ],
                         **kwargs):
     tuple_postpocess_data(tp, B_meson=B_meson, **kwargs)
 
     if has_flag('TRACKER_ONLY'):
+        relinfo_output = tp.Inputs[0].replace('Particles', 'HLT1Emulation')
         tp.ToolList.append('TupleToolTrackPosition')  # Add variables like 'b_X'
 
-        get_var = hlt1_get_var_gen(tp.Inputs[0])
-        get_var_wrong_ip = hlt1_get_var_gen(tp.Inputs[0], vals=[
+        get_var = hlt1_get_var_gen(relinfo_output)
+        get_var_wrong_ip = hlt1_get_var_gen(relinfo_output, vals=[
             'VERTEX_CHI2_COMB',
             'VDCHI2_MINIPPV_COMB',
             'SUMPT_COMB',
@@ -808,7 +834,7 @@ def tuple_postpocess_mc(tp,
 
         # HLT1 emulation
         for hlt in emu_hlt1_lines:
-            for i, j in combinations([1, 2, 3, 4], 2):
+            for i, j in combinations(range(1, 5), 2):
                 addMatrixnetclassifierTuple(
                     getattr(tp, B_meson),
                     '$PARAMFILESROOT/data/{}.mx'.format(hlt),
@@ -823,6 +849,23 @@ def tuple_postpocess_mc(tp,
                     '{}Emulations_WrongIP_{}_{}'.format(hlt, i, j),
                     True
                 )
+
+        # Additional HLT1 variables
+        tt_hlt1_emu = getattr(tp, B_meson).addTupleTool(
+            'LoKi::Hybrid::TupleTool/Hlt1TwoTrackMVAEmulation')
+        tt_hlt1_emu.Preambulo = []
+
+        for var in extra_hlt1_vars:
+            for i in range(1, 7):
+                key = '{}_{}'.format(var, i)
+                tt_hlt1_emu.Variables[key] = \
+                    'RELINFO("{}", "{}", 0)'.format(relinfo_output, key)
+
+        for var in extra_hlt1_vars_combo:
+            for i, j in combinations(range(1, 7), 2):
+                key = '{}_{}_{}'.format(var, i, j)
+                tt_hlt1_emu.Variables[key] = \
+                    'RELINFO("{}", "{}", 0)'.format(relinfo_output, key)
 
 
 if not DaVinci().Simulation:
