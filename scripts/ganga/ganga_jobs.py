@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sat Mar 06, 2021 at 11:46 PM +0100
+# Last Change: Wed Mar 10, 2021 at 01:56 AM +0100
 #
 # Description: A demonstration on ganga option file with parser.
 #              This demo runs stand-alone, provided that Python is installed:
@@ -31,7 +31,6 @@ PLATFORM = 'x86_64-centos7-gcc9-opt'
 WEIGHT_FILE = 'weights_soft.xml'
 FILES_PER_JOB_DATA = 5
 FILES_PER_JOB_MC = 2
-FILES_PER_JOB_MC_TO = 1
 
 
 ###########
@@ -64,11 +63,7 @@ j.inputfiles = [LocalFile(weight_file)]
 # Use DIRAC backend
 j.backend = Dirac()
 
-files_per_job = FILES_PER_JOB_DATA
-if 'mc' in reco_type:
-    files_per_job = FILES_PER_JOB_MC
-if 'tracker_only' in job_name:
-    files_per_job = FILES_PER_JOB_MC_TO  # A workaround due to tracker only MC prints out lots of superfluous errors
+files_per_job = FILES_PER_JOB_MC if 'mc' in reco_type else FILES_PER_JOB_DATA
 
 j.splitter = SplitByFiles(filesPerJob=files_per_job)
 j.outputfiles = [LocalFile('*.root')]
