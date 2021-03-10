@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sun Feb 14, 2021 at 05:34 PM +0100
+# Last Change: Wed Mar 10, 2021 at 01:56 AM +0100
 #
 # Description: A demonstration on ganga option file with parser.
 #              This demo runs stand-alone, provided that Python is installed:
@@ -62,8 +62,9 @@ j.inputfiles = [LocalFile(weight_file)]
 
 # Use DIRAC backend
 j.backend = Dirac()
-files_per_job = FILES_PER_JOB_MC if 'mc' in reco_type \
-    else FILES_PER_JOB_DATA
+
+files_per_job = FILES_PER_JOB_MC if 'mc' in reco_type else FILES_PER_JOB_DATA
+
 j.splitter = SplitByFiles(filesPerJob=files_per_job)
 j.outputfiles = [LocalFile('*.root')]
 

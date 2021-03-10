@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sun Feb 14, 2021 at 05:39 PM +0100
+# Last Change: Sat Mar 06, 2021 at 11:40 PM +0100
 #
 # Description: A demonstration on ganga option file with parser.
 #              This demo runs stand-alone, provided that Python is installed:
@@ -22,11 +22,6 @@ from re import search
 ##########################
 # Parameters for data/MC #
 ##########################
-
-PLATFORM = 'x86_64-centos7-gcc9-opt'
-WEIGHT_FILE = './weights_soft.xml'
-FILES_PER_JOB_DATA = 5
-FILES_PER_JOB_MC = 2
 
 # Example for a fully constructed MC file path:
 # '/MC/2012/Beam4000GeV-2012-MagDown-Nu2.5-Pythia6/Sim08a/Digi13/Trig0x409f0045/Reco14a/Stripping20Filtered/11873010/DSTTAUNU.SAFESTRIPTRIG'

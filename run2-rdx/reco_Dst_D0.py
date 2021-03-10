@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Mar 08, 2021 at 08:48 PM +0100
+# Last Change: Wed Mar 10, 2021 at 01:59 AM +0100
 #
 # Description: Definitions of selection and reconstruction procedures for run 2
 #              R(D(*)). For more thorough comments, take a look at:
@@ -26,18 +26,21 @@ def has_flag(flg):
 # Configure DaVinci #
 #####################
 
-from Gaudi.Configuration import *
-
-# Debug options
-# DaVinci().EvtMax = 300
-# MessageSvc().OutputLevel = DEBUG
-DaVinci().EvtMax = -1
+from Configurables import MessageSvc
 
 DaVinci().InputType = 'DST'
 DaVinci().SkipEvents = 0
 DaVinci().PrintFreq = 100
 
 DaVinci().Lumi = not DaVinci().Simulation
+
+# Debug options
+# DaVinci().EvtMax = 300
+DaVinci().EvtMax = -1
+
+
+if has_flag('TRACKER_ONLY'):
+    MessageSvc().OutputLevel = 6  # Suppress L0 error output
 
 
 ###################################
