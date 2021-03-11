@@ -1,6 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri Oct 23, 2020 at 12:36 AM +0200
+# Last Change: Thu Mar 11, 2021 at 02:07 AM +0100
 # Description: Targets for R(D(*))
 
 VPATH := run1-rdx/samples:run2-rdx/samples:$(VPATH)
@@ -350,7 +350,7 @@ gen/test/Dst--20_06_04--cutflow_mc--cocktail--2016--md--subset-bare-step2.root: 
 
 
 # Cutflow re-stripped ntuples for D*.
-gen/tes/Dst--20_06_05--cutflow_mc--cocktail--2011--md--bare-step2.root: \
+gen/test/Dst--20_06_05--cutflow_mc--cocktail--2011--md--bare-step2.root: \
 	Dst--20_06_05--cutflow_mc--bare--MC_2011_Beam3500GeV-2011-MagDown-Nu2-Pythia8_Sim08h_Digi13_Trig0x40760037_Reco14c_Stripping20r1NoPrescalingFlagged_11874091_ALLSTREAMS.DST.root \
 	rdst-run1-strip.pp
 	$(word 2, $^) $< $@
