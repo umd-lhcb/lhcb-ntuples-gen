@@ -1,9 +1,9 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Mon Feb 01, 2021 at 02:33 AM +0100
+// Last Change: Sat Mar 13, 2021 at 09:37 PM +0100
 
-#ifndef _LNG_FUNCTOR_FLAG_H_
-#define _LNG_FUNCTOR_FLAG_H_
+#ifndef _LNG_FUNCTOR_RDX_FLAG_H_
+#define _LNG_FUNCTOR_RDX_FLAG_H_
 
 #include <TMath.h>
 #include <TROOT.h>
