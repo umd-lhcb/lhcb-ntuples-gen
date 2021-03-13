@@ -92,6 +92,6 @@ output:
             - "dst_M - d0_M < 160.0*MeV"
             - "dst_ENDVERTEX_CHI2 / dst_ENDVERTEX_NDOF < 100.0"
             #### B0 meson
-            - "0.0*GeV < b0_MM < 10.0*GeV"
+            - "0.0*GeV < b0_MM && b0_MM < 10.0*GeV"
             - "b0_ENDVERTEX_CHI2 / b0_ENDVERTEX_NDOF < 6.0"
             - "b0_DIRA_OWNPV > 0.9995"

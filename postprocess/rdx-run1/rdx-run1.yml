@@ -3,20 +3,19 @@ headers:
         - TVector3.h
         - TLorentzVector.h
     user:
-        - functor/flag.h
-        - functor/kinematic.h
-        - functor/pid.h
+        - functor/rdx/flag.h
+        - functor/rdx/kinematic.h
+        - functor/rdx/pid.h
 
 keep:
     # Event uid
     - runNumber
     - eventNumber
-    #- GpsTime
-    #- EventInSequence
 
 rename:
     # General
     Polarity: polarity
+    EventInSequence: evt_in_seq
     # For pseudo-random sequence generation
     b0_PT: b_pt
     b0_TRUEPT: b_true_pt
