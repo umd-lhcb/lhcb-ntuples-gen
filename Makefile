@@ -1,6 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Nov 02, 2020 at 04:16 PM +0100
+# Last Change: Mon Mar 15, 2021 at 12:20 AM +0100
 
 BINPATH	:=	bin
 
@@ -9,7 +9,7 @@ export PATH := test:scripts:$(BINPATH):$(PATH)
 VPATH := postprocess:test:scripts:$(BINPATH)
 
 # Sub-makefiles for different analyses
-include ./postprocess/make/rdx.mk  # R(D(*))
+include ./workflows/rdx.mk  # R(D(*))
 
 # System env
 OS := $(shell uname)
