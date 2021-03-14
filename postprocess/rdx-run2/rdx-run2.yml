@@ -2,9 +2,9 @@ headers:
     system:
         - TLorentzVector.h
     user:
-        - functor/flag.h
-        - functor/kinematic.h
-        - functor/pid.h
+        - functor/rdx/flag.h
+        - functor/rdx/kinematic.h
+        - functor/rdx/pid.h
 
 keep:
     # Event uid, also needed for keeping only one B for multi-B events
@@ -14,19 +14,15 @@ keep:
 
 rename:
     # For pseudo-random sequence generation
-    b0_PT: b0_pt
+    b0_PT: b_pt
     # Isolation variables
     b0_ISOLATION_BDT: iso_bdt
-    # Fit variables
-    FitVar_El: el
-    FitVar_Mmiss2: mm2
-    FitVar_q2: q2
     # Triggers
-    b0_L0Global_TIS: b0_l0_tis
+    b0_L0Global_TIS: b_l0_tis
     dst_L0HadronDecision_TOS: dst_l0had_tos
     mu_L0Global_TIS: mu_l0_tis
     # B0
-    b0_M: b0_m
+    b0_M: b_m
     b0_BKGCAT: b_bkg_cat
     # D* mother
     dst_MC_MOTHER_ID: dst_mom_id
@@ -51,26 +47,30 @@ rename:
     mu_PIDmu: mu_pid_mu
 
 calculation:
+    # Fit variables
+    el: Double_t; GEV(FitVar_El)
+    mm2: Double_t; GEV2(FitVar_Mmiss2)
+    q2: Double_t; GEV2(FitVar_q2)
     # Temp variables for calculating MC flags
-    mu_true_id: ^auto; mu_TRUEID
-    mu_mc_mom_key: ^auto; mu_MC_MOTHER_KEY
-    mu_mc_mom_id: ^auto; mu_MC_MOTHER_ID
-    mu_mc_gd_mom_key: ^auto; mu_MC_GD_MOTHER_KEY
-    mu_mc_gd_mom_id: ^auto; mu_MC_GD_GD_MOTHER_ID
-    mu_mc_gd_gd_mom_key: ^auto; mu_MC_GD_GD_MOTHER_KEY
-    mu_mc_gd_gd_mom_id: ^auto; mu_MC_GD_GD_MOTHER_ID
-    d0_mc_mom_key: ^auto; d0_MC_MOTHER_KEY
-    dst_mc_mom_key: ^auto; dst_MC_MOTHER_KEY
-    dst_mc_mom_id: ^auto; dst_MC_MOTHER_ID
-    dst_mc_gd_mom_key: ^auto; dst_MC_GD_MOTHER_KEY
-    dst_mc_gd_mom_id: ^auto; dst_MC_GD_MOTHER_ID
-    dst_mc_gd_gd_mom_key: ^auto; dst_MC_GD_GD_MOTHER_KEY
-    dst_mc_gd_gd_mom_id: ^auto; dst_MC_GD_GD_MOTHER_ID
+    mu_true_id: ^Int_t; mu_TRUEID
+    mu_mc_mom_key: ^Int_t; mu_MC_MOTHER_KEY
+    mu_mc_mom_id: ^Int_t; mu_MC_MOTHER_ID
+    mu_mc_gd_mom_key: ^Int_t; mu_MC_GD_MOTHER_KEY
+    mu_mc_gd_mom_id: ^Int_t; mu_MC_GD_GD_MOTHER_ID
+    mu_mc_gd_gd_mom_key: ^Int_t; mu_MC_GD_GD_MOTHER_KEY
+    mu_mc_gd_gd_mom_id: ^Int_t; mu_MC_GD_GD_MOTHER_ID
+    d0_mc_mom_key: ^Int_t; d0_MC_MOTHER_KEY
+    dst_mc_mom_key: ^Int_t; dst_MC_MOTHER_KEY
+    dst_mc_mom_id: ^Int_t; dst_MC_MOTHER_ID
+    dst_mc_gd_mom_key: ^Int_t; dst_MC_GD_MOTHER_KEY
+    dst_mc_gd_mom_id: ^Int_t; dst_MC_GD_MOTHER_ID
+    dst_mc_gd_gd_mom_key: ^Int_t; dst_MC_GD_GD_MOTHER_KEY
+    dst_mc_gd_gd_mom_id: ^Int_t; dst_MC_GD_GD_MOTHER_ID
     # Temp variables
-    v_dst_mom_p: ^auto; TLorentzVector(dst_mc_mom_px, dst_mc_mom_py, dst_mc_mom_pz, dst_mc_mom_pe)
-    v_dst_p: ^auto; TLorentzVector(dst_px, dst_py, dst_pz, dst_pe)
+    v_dst_mom_p: ^TLorentzVector; TLorentzVector(dst_mc_mom_px, dst_mc_mom_py, dst_mc_mom_pz, dst_mc_mom_pe)
+    v_dst_p: ^TLorentzVector; TLorentzVector(dst_px, dst_py, dst_pz, dst_pe)
     v_mc_flags: >-
-        ^auto; MC_FLAGS(
+        ^std::vector<std::vector<Bool_t> >; MC_FLAGS(
         mu_mc_mom_key, d0_mc_mom_key, dst_mc_mom_key,
         mu_mc_gd_mom_key, dst_mc_gd_mom_key,
         mu_mc_gd_gd_mom_key, dst_mc_gd_gd_mom_key
@@ -91,7 +91,7 @@ calculation:
     # Other flags
     is_data: Bool_t; IS_DATA(GpsTime)
     is_2pi: Bool_t; IS_2PI(flag_mu, just_dst, dst_ok, mu_pid, dst_mc_mom_id, dst_mc_gd_mom_id)
-    just_dst: Bool_t; JUST_DST(v_mc_flags, mu_mc_mom_id, dst_mc_mom_id)
+    just_dst: Bool_t; JUST_DST(dst_mc_mom_id)
     dst_ok: Bool_t; DST_OK(d0_bkg_cat, dst_bkg_cat)
     # Types
     b_type: >-
@@ -102,6 +102,11 @@ calculation:
         )
     dss_type: Int_t; DSS_TYPE(flag_d0_mu, dst_mc_mom_id, dst_mc_gd_mom_id, dst_mc_gd_gd_mom_id)
 
+
+one_cand_only:
+    enable: true
+    branch: rename_b_pt
+
 output:
     dst_iso:
         input: TupleB0/DecayTree
@@ -109,10 +114,7 @@ output:
             - "mu_pid"
             - "iso_bdt < 0.15"
             #- "is_data"  # Well, this doesn't apply to MC
-            - "b0_m < 5280"
+            - "b_m < 5280"
             # L0 cuts
-            - "b0_l0_tis || dst_l0had_tos"
+            - "b_l0_tis || dst_l0had_tos"
             - "mu_l0_tis"
-        one_cand_only:
-            enable: true
-            branch: b0_pt

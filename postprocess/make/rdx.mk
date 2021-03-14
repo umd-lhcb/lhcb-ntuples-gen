@@ -1,6 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Mar 11, 2021 at 02:07 AM +0100
+# Last Change: Sun Mar 14, 2021 at 02:28 AM +0100
 # Description: Targets for R(D(*))
 
 VPATH := run1-rdx/samples:run2-rdx/samples:$(VPATH)
@@ -47,12 +47,6 @@ gen/run1-Dst-step2/Dst--20_09_16--std--data--2011--md--phoebe-step2.root: \
 #########
 # Run 2 #
 #########
-
-# Dst, std, 2016
-gen/run2-Dst-step2/Dst--19_09_09--std--data--2016--md--step2.root: \
-	Dst--19_09_09--std--data--2016--md.root \
-	rdx-run2-data.pp
-	$(word 2, $^) $< $@
 
 # Dst_D0, cutflow MC, cocktail, 2016
 gen/run2-Dst_D0-step2/Dst_D0--20_08_18--cutflow_mc--cocktail--2016--md--step2.root: \
@@ -104,7 +98,7 @@ gen/rdx-run1-mc-Bd2DstTauNu.cpp: \
 
 # Dst_D0, MC, run 2
 gen/rdx-run2-mc.cpp: \
-	rdx-run2/rdx-run2-mc.yml \
+	rdx-run2/rdx-run2.yml \
 	Dst_D0--20_08_18--cutflow_mc--MC_2016_Beam6500GeV-2016-MagDown-Nu1.6-25ns-Pythia8_Sim09b_Trig0x6138160F_Reco16_Turbo03_Stripping26NoPrescalingFlagged_11874091_ALLSTREAMS.DST.root \
 	cpp_templates/rdx.cpp
 	babymaker -i $< -o $@ -d $(word 2, $^) -t $(word 3, $^)
