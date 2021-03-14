@@ -53,7 +53,9 @@ void generator_/* {% output_tree %} */(TFile *input_file, TFile *output_file) {
   // {% for var in config.output %}
   //   {% format: "{} {};", var.type, var.fname %}
   //   {% format: "output.Branch(\"{}\", &{});", var.name, var.fname %}
+  //   {% if config.one_cand_only.enable then %}
   //   {% format: "vector<{}> {}_stash;", var.type, var.fname %}
+  //   {% endif %}
   // {% endfor %}
 
   // Define temporary variables
@@ -73,7 +75,8 @@ void generator_/* {% output_tree %} */(TFile *input_file, TFile *output_file) {
     // Now only keep candidates that pass selections
     if (/* {% join: (deref_var_list: config.sel, config.input_br), " && " %} */) {
 
-      // Keep only 1 B cand for multi-B events
+      // {% if config.one_cand_only.enable then %}
+      // Keep only 1 B candidate for multi-B events
       if (prevEventNumber != *raw_eventNumber && !pseudo_rand_seq.empty()) {
         // Select which B to keep for previous event
         //   We do this by finding the index of the largest element in PRS.
@@ -94,7 +97,18 @@ void generator_/* {% output_tree %} */(TFile *input_file, TFile *output_file) {
 
         prevEventNumber = *raw_eventNumber;
       }
+      // {% else %}
+      // Keep all B candidates for multi-B events
+      //
+      // Compute post-selection variables (i.e. temp and output variables)
+      // {% for var in config.post_sel_vars %}
+      //   {% format: "{} = {};", var.fname, (deref_var: var.rval, config.input_br) %}
+      // {% endfor %}
 
+      output.Fill();
+      // {% endif %}
+
+      // {% if config.one_cand_only.enable then %}
       // Always compute the pseudo random number for current candidate
       pseudo_rand_seq.push_back(calc_pseudo_rand_num(/* {% config.one_cand_only.branch %} */));
 
@@ -107,9 +121,11 @@ void generator_/* {% output_tree %} */(TFile *input_file, TFile *output_file) {
       // {% for var in config.output %}
       //   {% format: "{}_stash.push_back({});", var.fname, (deref_var: var.fname, config.input_br) %}
       // {% endfor %}
+      // {% endif %}
     }
   }
 
+  // {% if config.one_cand_only.enable then %}
   // Special treatment for the last event
   auto idx = max_elem_idx(pseudo_rand_seq);
 
@@ -118,8 +134,9 @@ void generator_/* {% output_tree %} */(TFile *input_file, TFile *output_file) {
   // {% endfor %}
 
   output.Fill();  // Fill the output tree
+  // {% endif %}
 
-  output_file->Write("", TObject::kOverwrite);
+  output_file->Write("", TObject::kOverwrite);  // Keep the latest cycle only
 }
 
 // {% endfor %}
