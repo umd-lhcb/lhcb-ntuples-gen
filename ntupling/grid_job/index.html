@@ -1042,7 +1042,7 @@ then following instructions on screen.</p>
 <div class="highlight"><pre><span></span><code>ganga_jobs.py &lt;reco_script&gt; &lt;cond_files&gt;
 </code></pre></div></p>
 <p>For instance, for run 1 <span><span class="MathJax_Preview">R(D^{*})</span><script type="math/tex">R(D^{*})</script></span> signal Monte Carlo:
-<div class="highlight"><pre><span></span><code>ganga_jobs.py ../../run1-rdx/reco_Dst_D0.py ../../run1-rdx/cond/cond-mc-2012-md-sim08a.py -p mu -P Pythia6 -d 11574020
+<div class="highlight"><pre><span></span><code>ganga_jobs.py run1-rdx/reco_Dst_D0.py run1-rdx/cond/cond-mc-2012-md-sim08a.py -p mu -P Pythia6 -d 11574020
 </code></pre></div></p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -1087,7 +1087,7 @@ about your jobs and download output of completed (sub)jobs.</p>
 <code>ganga</code> function written by Yipeng for that <sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup>. To use it:</p>
 <ol>
 <li>
-<p>Copy <a href="https://github.com/umd-lhcb/lhcb-ntuples-gen/blob/master/scripts/ganga/ganga.sample.py"><code>scripts/ganga/ganga.sample.py</code></a> to <code>$HOME/.ganga.py</code> <strong>on <code>lxplus</code></strong>.</p>
+<p>Copy <a href="https://github.com/umd-lhcb/lhcb-ntuples-gen/blob/master/ganga/ganga.sample.py"><code>ganga/ganga.sample.py</code></a> to <code>$HOME/.ganga.py</code> <strong>on <code>lxplus</code></strong>.</p>
 </li>
 <li>
 <p>In <code>ganga</code> shell, type in <code>hadd_completed_job_output(63)</code>, where <code>63</code> is some job index.</p>
