@@ -45,63 +45,67 @@ void generator_/* {% output_tree %} */(TFile *input_file, TFile *output_file) {
   TTree output(/* {% format: "\"{}\", \"{}\"", output_tree, output_tree %} */);
 
   // Load needed branches from ntuple
-  // {% for var in config.input_branches %}
-  //   {% format: "TTreeReaderValue<{}> {}(reader, \"{}\");", var.type, var.name, var.name %}
+  // {% for var in config.input %}
+  //   {% format: "TTreeReaderValue<{}> {}(reader, \"{}\");", var.type, var.fname, var.name %}
   // {% endfor %}
 
   // Define output branches and store output variables in vectors
-  // {% for var in config.output_branches %}
-  //   {% format: "{} {}_out;", var.type, var.name %}
-  //   {% format: "output.Branch(\"{}\", &{}_out);", var.name, var.name %}
-  //   {% format: "vector<{}> {}_out_stash;", var.type, var.name %}
+  // {% for var in config.output %}
+  //   {% format: "{} {};", var.type, var.fname %}
+  //   {% format: "output.Branch(\"{}\", &{});", var.name, var.fname %}
+  //   {% format: "vector<{}> {}_stash;", var.type, var.fname %}
   // {% endfor %}
 
-  ULong_t prevEventNumber = 0;
-  vector<Double_t> pseudo_rand_seq;  // "PRS"
+  // Define temporary variables
+  // {% for var in config.tmp %}
+  //   {% format: "{} {};", var.type, var.fname %}
+  // {% endfor %}
+
+  ULong64_t prevEventNumber = 0;
+  vector<Double_t> pseudo_rand_seq;
 
   while (reader.Next()) {
-    // Define all variables in case required by selection
-    //
-    // Input branches
-    //   All input branches are already available via TTreeReaderValue<>
-    //   variables.
-    //
-    // Transient variables (renamed output branches and temp variables)
-    // {% for var in config.transient_vars %}
-    //   {% format: "{} {} = {};", var.type, var.name, (deref_var: var.rvalue, config.input_branch_names) %}
+    // Define variables required by selection
+    // {% for var in config.pre_sel_vars %}
+    //   {% format: "{} = {};", var.fname, (deref_var: var.rval, config.input_br) %}
     // {% endfor %}
 
     // Now only keep candidates that pass selections
-    if (/* {% join: (deref_var_list: config.selection, config.input_branch_names), " && " %} */) {
+    if (/* {% join: (deref_var_list: config.sel, config.input_br), " && " %} */) {
 
       // Keep only 1 B cand for multi-B events
-      if (prevEventNumber != *eventNumber && !pseudo_rand_seq.empty()) {
+      if (prevEventNumber != *raw_eventNumber && !pseudo_rand_seq.empty()) {
         // Select which B to keep for previous event
         //   We do this by finding the index of the largest element in PRS.
         auto idx = max_elem_idx(pseudo_rand_seq);
 
         // Assign values for each output branch in this loop
-        // {% for var in config.output_branches %}
-        //   {% format: "{}_out = {}_out_stash[idx];", var.name, var.name %}
+        // {% for var in config.output %}
+        //   {% format: "{} = {}_stash[idx];", var.fname, var.fname %}
         // {% endfor %}
 
         // Clear values of vectors storing output branches
-        // {% for var in config.output_branches %}
-        //   {% format: "{}_out_stash.clear();", var.name %}
+        // {% for var in config.output %}
+        //   {% format: "{}_stash.clear();", var.fname %}
         // {% endfor %}
         pseudo_rand_seq.clear();
 
         output.Fill();  // Fill the output tree
 
-        prevEventNumber = *eventNumber;
+        prevEventNumber = *raw_eventNumber;
       }
 
       // Always compute the pseudo random number for current candidate
       pseudo_rand_seq.push_back(calc_pseudo_rand_num(/* {% config.one_cand_only.branch %} */));
 
-      // Store variables in vectors
-      // {% for var in config.output_branches %}
-      //   {% format: "{}_out_stash.push_back({});", var.name, (deref_var: var.name, config.input_branch_names) %}
+      // Compute post-selection variables (i.e. temp and output variables)
+      // {% for var in config.post_sel_vars %}
+      //   {% format: "{} = {};", var.fname, (deref_var: var.rval, config.input_br) %}
+      // {% endfor %}
+
+      // Store output variables in vectors
+      // {% for var in config.output %}
+      //   {% format: "{}_stash.push_back({});", var.fname, (deref_var: var.fname, config.input_br) %}
       // {% endfor %}
     }
   }
@@ -109,8 +113,8 @@ void generator_/* {% output_tree %} */(TFile *input_file, TFile *output_file) {
   // Special treatment for the last event
   auto idx = max_elem_idx(pseudo_rand_seq);
 
-  // {% for var in config.output_branches %}
-  //   {% format: "{}_out = {}_out_stash[idx];", var.name, var.name %}
+  // {% for var in config.output %}
+  //   {% format: "{} = {}_stash[idx];", var.fname, var.fname %}
   // {% endfor %}
 
   output.Fill();  // Fill the output tree

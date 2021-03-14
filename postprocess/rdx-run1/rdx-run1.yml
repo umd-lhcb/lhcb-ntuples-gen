@@ -161,7 +161,7 @@ calculation:
     is_data: Bool_t; IS_DATA(GpsTime)
     # B0/B-
     v3_b_flight: >-
-        ^auto; TVector3(
+        ^TVector3; TVector3(
         b_endvtx_x - b_pv_x,
         b_endvtx_y - b_pv_y,
         b_endvtx_z - b_pv_z
@@ -175,13 +175,13 @@ calculation:
     mu_pid: Bool_t; MU_PID(mu_is_mu, mu_pid_mu)
     mu_veto: Bool_t; MU_VETO(pi_is_mu, k_is_mu)
     mu_eta: Double_t; ETA(mu_p, mu_pz)
-    v3_mu_p: ^auto; TVector3(mu_PX, mu_PY, mu_PZ)
+    v3_mu_p: ^TVector3; TVector3(mu_PX, mu_PY, mu_PZ)
     # K
-    v3_k_p: ^auto; TVector3(k_PX, k_PY, k_PZ)
+    v3_k_p: ^TVector3; TVector3(k_PX, k_PY, k_PZ)
     # Pi
-    v3_pi_p: ^auto; TVector3(pi_PX, pi_PY, pi_PZ)
+    v3_pi_p: ^TVector3; TVector3(pi_PX, pi_PY, pi_PZ)
     # Slow Pi
-    v3_spi_p: ^auto; TVector3(spi_PX, spi_PY, spi_PZ)
+    v3_spi_p: ^TVector3; TVector3(spi_PX, spi_PY, spi_PZ)
     # Step-2 selection flags
     flag_sel_d0: >-
         Bool_t; FLAG_SEL_D0_RUN1(
@@ -225,7 +225,7 @@ calculation:
 
 one_cand_only:
     enable: true
-    branch: b_pt
+    branch: rename_b_pt
 
 output:
     dst_iso:
@@ -249,4 +249,4 @@ output:
     mc_dst_tau_aux:
         input: MCTupleB0Tau/MCDecayTree
         one_cand_only:  # Somehow the MC aux tree still have 1 duplicate eventNumber out of 21861
-            branch: b_true_pt
+            branch: rename_b_true_pt
