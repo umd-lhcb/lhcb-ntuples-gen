@@ -90,7 +90,7 @@ job output directory. On `lxplus`:
 
 For this repo, there is a **central** `ganga` job submitter that should handle
 **all** job submissions for **all** reconstruction scripts in **all** folders.
-The script is located at: [`scripts/ganga/ganga_jobs.py`](https://github.com/umd-lhcb/lhcb-ntuples-gen/blob/master/scripts/ganga/ganga_jobs.py).
+The script is located at: [`ganga/ganga_jobs.py`](https://github.com/umd-lhcb/lhcb-ntuples-gen/blob/master/ganga/ganga_jobs.py).
 
 !!! warning
     - The submitter script can only run on `lxplus` nodes!
