@@ -3,9 +3,9 @@ headers:
         - TVector3.h
         - TLorentzVector.h
     user:
-        - functor/flag.h
-        - functor/kinematic.h
-        - functor/pid.h
+        - functor/rdx/flag.h
+        - functor/rdx/kinematic.h
+        - functor/rdx/pid.h
 
 keep:
     # Event uid, also needed for keeping only one B for multi-B events
@@ -81,7 +81,7 @@ calculation:
     id_prod: Double_t; d0_id*mu_id
     # Physical variables
     mm2: Double_t; GEV2(v4_b_p_miss.M2())
-    v4_lep_p: ^auto; v4_b_p - v4_dst_p
+    v4_lep_p: ^TLorentzVector; v4_b_p - v4_dst_p
     el: Double_t; GEV(BOOST(v4_lep_p, -1*v4_b_p_est.BoostVector()).E())
     q2: Double_t; GEV2((v4_b_p_est - v4_dst_p).M2())
     # Flags
@@ -90,21 +90,21 @@ calculation:
     is_data: Bool_t; IS_DATA(GpsTime)
     # B0/B-
     v3_b_flight: >-
-        ^auto; TVector3(
+        ^TVector3; TVector3(
         Y_ENDVERTEX_X-Y_OWNPV_X,
         Y_ENDVERTEX_Y-Y_OWNPV_Y,
         Y_ENDVERTEX_Z-Y_OWNPV_Z
         )
     v4_b_p: >-
-        ^auto; TLorentzVector(
+        ^TLorentzVector; TLorentzVector(
         Y_PX, Y_PY, Y_PZ, Y_PE
         )
-    v4_b_p_est: ^auto; B_P_EST(b_pz, b_m, v3_b_flight)
-    v4_b_p_miss: ^auto; v4_b_p_est - v4_b_p
+    v4_b_p_est: ^TLorentzVector; B_P_EST(b_pz, b_m, v3_b_flight)
+    v4_b_p_miss: ^TLorentzVector; v4_b_p_est - v4_b_p
     b_fd_trans: Double_t; v3_b_flight.Perp()
     # D*
     v4_dst_p: >-
-        ^auto; TLorentzVector(
+        ^TLorentzVector; TLorentzVector(
         Dst_2010_minus_PX, Dst_2010_minus_PY, Dst_2010_minus_PZ,
         Dst_2010_minus_PE
         )
@@ -116,13 +116,13 @@ calculation:
     mu_pid: Bool_t; MU_PID(mu_is_mu, mu_pid_mu)
     mu_veto: Bool_t; MU_VETO(pi_is_mu, k_is_mu)
     mu_eta: Double_t; ETA(mu_p, mu_pz)
-    v3_mu_p: ^auto; TVector3(1, 0, 0)
+    v3_mu_p: ^TVector3; TVector3(1, 0, 0)
     # K
-    v3_k_p: ^auto; TVector3(0, 1, 0)
+    v3_k_p: ^TVector3; TVector3(0, 1, 0)
     # Pi
-    v3_pi_p: ^auto; TVector3(0, 0, 1)
+    v3_pi_p: ^TVector3; TVector3(0, 0, 1)
     # Slow Pi
-    v3_spi_p: ^auto; TVector3(1, 1, 0)
+    v3_spi_p: ^TVector3; TVector3(1, 1, 0)
     # Step-2 selection flags
     flag_sel_d0: >-
         Bool_t; FLAG_SEL_D0_RUN1(
@@ -164,6 +164,10 @@ calculation:
         iso_bdt
         )
 
+one_cand_only:
+    enable: true
+    branch: rename_b_pt
+
 output:
     dst_iso:
         input: YCands/DecayTree
@@ -190,6 +194,3 @@ output:
             #- "mu_bdt > 0.25"
             # Other selections from AddB.C
             - "spi_trk_type == 3"  # Phoebe decided to remove Upstream tracks and VELO-only tracks
-        one_cand_only:
-            enable: true
-            branch: b_pt
