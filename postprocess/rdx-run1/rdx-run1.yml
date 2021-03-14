@@ -81,6 +81,7 @@ rename:
     mu_TRACK_GhostProb: mu_gh_prob
     mu_L0Global_TIS: mu_l0_tis
     # Mu MC-only
+    mu_TRUEID: mu_true_id
     mu_TRUEP_E: mu_true_pe
     mu_TRUEP_X: mu_true_px
     mu_TRUEP_Y: mu_true_py
@@ -172,7 +173,7 @@ calculation:
     # Mu
     mu_p: Double_t; GEV(mu_P)
     mu_pz: Double_t; GEV(mu_PZ)
-    mu_pid: Bool_t; MU_PID(mu_is_mu, mu_pid_mu)
+    mu_pid: Bool_t; MU_PID(mu_true_id) ; MU_PID(mu_is_mu, mu_pid_mu)
     mu_veto: Bool_t; MU_VETO(pi_is_mu, k_is_mu)
     mu_eta: Double_t; ETA(mu_p, mu_pz)
     v3_mu_p: ^TVector3; TVector3(mu_PX, mu_PY, mu_PZ)

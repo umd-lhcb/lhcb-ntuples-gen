@@ -24,12 +24,18 @@ rename:
     # B0
     b0_M: b_m
     b0_BKGCAT: b_bkg_cat
-    # D* mother
+    # D* mother MC-only
     dst_MC_MOTHER_ID: dst_mom_id
     dst_MC_MOTHER_TRUEPX: dst_mc_mom_px
     dst_MC_MOTHER_TRUEPY: dst_mc_mom_py
     dst_MC_MOTHER_TRUEPZ: dst_mc_mom_pz
     dst_MC_MOTHER_TRUEPE: dst_mc_mom_pe
+    dst_MC_MOTHER_KEY: dst_mc_mom_key
+    dst_MC_MOTHER_ID: dst_mc_mom_id
+    dst_MC_GD_MOTHER_KEY: dst_mc_gd_mom_key
+    dst_MC_GD_MOTHER_ID: dst_mc_gd_mom_id
+    dst_MC_GD_GD_MOTHER_KEY: dst_mc_gd_gd_mom_key
+    dst_MC_GD_GD_MOTHER_ID: dst_mc_gd_gd_mom_id
     # D*
     dst_PX: dst_px
     dst_PY: dst_py
@@ -39,33 +45,28 @@ rename:
     # D0
     d0_ID: d0_id
     d0_BKGCAT: d0_bkg_cat
+    # D0 MC-only
+    d0_MC_MOTHER_KEY: d0_mc_mom_key
     # Pi
     pi_ID: pi_id
     # Mu
     mu_ID: mu_id
     mu_isMuon: mu_is_mu
     mu_PIDmu: mu_pid_mu
+    # Mu MC-only
+    mu_TRUEID: mu_true_id
+    mu_MC_MOTHER_KEY: mu_mc_mom_key
+    mu_MC_MOTHER_ID: mu_mc_mom_id
+    mu_MC_GD_MOTHER_KEY: mu_mc_gd_mom_key
+    mu_MC_GD_GD_MOTHER_ID: mu_mc_gd_mom_id
+    mu_MC_GD_GD_MOTHER_KEY: mu_mc_gd_gd_mom_key
+    mu_MC_GD_GD_MOTHER_ID: mu_mc_gd_gd_mom_id
 
 calculation:
     # Fit variables
     el: Double_t; GEV(FitVar_El)
     mm2: Double_t; GEV2(FitVar_Mmiss2)
     q2: Double_t; GEV2(FitVar_q2)
-    # Temp variables for calculating MC flags
-    mu_true_id: ^Int_t; mu_TRUEID
-    mu_mc_mom_key: ^Int_t; mu_MC_MOTHER_KEY
-    mu_mc_mom_id: ^Int_t; mu_MC_MOTHER_ID
-    mu_mc_gd_mom_key: ^Int_t; mu_MC_GD_MOTHER_KEY
-    mu_mc_gd_mom_id: ^Int_t; mu_MC_GD_GD_MOTHER_ID
-    mu_mc_gd_gd_mom_key: ^Int_t; mu_MC_GD_GD_MOTHER_KEY
-    mu_mc_gd_gd_mom_id: ^Int_t; mu_MC_GD_GD_MOTHER_ID
-    d0_mc_mom_key: ^Int_t; d0_MC_MOTHER_KEY
-    dst_mc_mom_key: ^Int_t; dst_MC_MOTHER_KEY
-    dst_mc_mom_id: ^Int_t; dst_MC_MOTHER_ID
-    dst_mc_gd_mom_key: ^Int_t; dst_MC_GD_MOTHER_KEY
-    dst_mc_gd_mom_id: ^Int_t; dst_MC_GD_MOTHER_ID
-    dst_mc_gd_gd_mom_key: ^Int_t; dst_MC_GD_GD_MOTHER_KEY
-    dst_mc_gd_gd_mom_id: ^Int_t; dst_MC_GD_GD_MOTHER_ID
     # Temp variables
     v_dst_mom_p: ^TLorentzVector; TLorentzVector(dst_mc_mom_px, dst_mc_mom_py, dst_mc_mom_pz, dst_mc_mom_pe)
     v_dst_p: ^TLorentzVector; TLorentzVector(dst_px, dst_py, dst_pz, dst_pe)
@@ -76,7 +77,7 @@ calculation:
         mu_mc_gd_gd_mom_key, dst_mc_gd_gd_mom_key
         )
     # PID
-    mu_pid: Bool_t; MU_PID(mu_true_id)
+    mu_pid: Bool_t; MU_PID(mu_true_id) ; MU_PID(mu_is_mu, mu_pid_mu)
     dst_id_prod: Double_t; d0_id*pi_id   # positive when physical
     id_prod: Double_t; d0_id*mu_id       # positive when physical
     # Physical variables
