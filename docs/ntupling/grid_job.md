@@ -112,7 +112,7 @@ ganga_jobs.py <reco_script> <cond_files>
 
 For instance, for run 1 $R(D^{*})$ signal Monte Carlo:
 ```
-ganga_jobs.py ../../run1-rdx/reco_Dst_D0.py ../../run1-rdx/cond/cond-mc-2012-md-sim08a.py -p mu -P Pythia6 -d 11574020
+ganga_jobs.py run1-rdx/reco_Dst_D0.py run1-rdx/cond/cond-mc-2012-md-sim08a.py -p mu -P Pythia6 -d 11574020
 ```
 
 !!! note
@@ -165,7 +165,7 @@ about your jobs and download output of completed (sub)jobs.
 We prefer to merge all output `.root` files from subjobs. There's a helper
 `ganga` function written by Yipeng for that [^1]. To use it:
 
-1. Copy [`scripts/ganga/ganga.sample.py`](https://github.com/umd-lhcb/lhcb-ntuples-gen/blob/master/scripts/ganga/ganga.sample.py) to `$HOME/.ganga.py` **on `lxplus`**.
+1. Copy [`ganga/ganga.sample.py`](https://github.com/umd-lhcb/lhcb-ntuples-gen/blob/master/ganga/ganga.sample.py) to `$HOME/.ganga.py` **on `lxplus`**.
 
 2. In `ganga` shell, type in `hadd_completed_job_output(63)`, where `63` is some job index.
 
