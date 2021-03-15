@@ -58,11 +58,11 @@ unset DBUS_SESSION_BUS_ADDRESS
 icewm &
 ```
 
-[^1]: Courtesy of Will
+[^1]: Courtesy of Will.
 
 Re-launch the `vncserver` on lxplus with the same command. If the port `:8`
 is taken by someone else, use a different port. Remember the lxplus hostname
-(denote as `lxplus_host`) and port name (denote as `port`).
+(denote as `lxplus_host`) and port number (denote as `port`).
 
 Now we need to map the VNC port to a localhost port, likely due to firewall
 issues:
