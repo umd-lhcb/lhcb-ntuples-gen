@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Mar 10, 2021 at 01:59 AM +0100
+# Last Change: Mon Mar 15, 2021 at 01:21 AM +0100
 #
 # Description: Definitions of selection and reconstruction procedures for run 2
 #              R(D(*)). For more thorough comments, take a look at:
@@ -703,8 +703,7 @@ def tuple_initialize_data(name, sel_seq, template):
         tp, 'LoKi::Hybrid::EvtTupleTool/LoKi__Hybrid__EvtTupleTool')
     tt_loki_evt.Preambulo += ['from LoKiCore.functions import *']
     tt_loki_evt.VOID_Variables = {
-        'nTracks': "CONTAINS('Rec/Track/Best')",
-        'nSPDhits': "CONTAINS('Raw/Spd/Digits')",
+        'nTracks': "CONTAINS('Rec/Track/Best')"
     }
 
     return tp
