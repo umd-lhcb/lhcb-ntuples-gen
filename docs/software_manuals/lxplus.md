@@ -71,7 +71,7 @@ ssh -L <port>:localhost:<port> <user>@<lxplus_host>.cern.ch
 ```
 
 !!! note
-    - Here `port` must be in full number. e.g. `:8` -> `5908`.
+    Here `port` must be in full number. e.g. `:8` -> `5908`.
 
 Finally, we can access our remote lxplus desktop with:
 ```
