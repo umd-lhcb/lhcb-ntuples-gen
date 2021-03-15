@@ -523,6 +523,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#vnc-to-lxplus" class="md-nav__link">
+    VNC to lxplus
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -844,6 +851,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#vnc-to-lxplus" class="md-nav__link">
+    VNC to lxplus
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -886,11 +900,49 @@ access right:
 <h3 id="eos">EOS</h3>
 <p>It is unclear on how to share files stored in EOS as naive <code>chmod</code> won't work
 and sharing via web interface won't work.</p>
+<h3 id="vnc-to-lxplus">VNC to lxplus</h3>
+<p>First, run the VNC server on a lxplus node:
+<div class="highlight"><pre><span></span><code>vncserver :8 -localhost -name Lxplus-Session -geometry 1024x768
+</code></pre></div></p>
+<p>If it is your first time running <code>vncserver</code>, it may prompt you to set a
+remote-access password.</p>
+<p>Unfortunately, the default <code>~/.vnc/xstartup</code> doesn't work out of box. You can
+confirm that by trying to kill the newly-launched server:
+<div class="highlight"><pre><span></span><code>vncserver -kill :8
+</code></pre></div>
+and you may get something like this:
+<div class="highlight"><pre><span></span><code>Can&#39;t find file /afs/cern.ch/user/s/suny/.vnc/lxplus732.cern.ch:8.pid
+You&#39;ll have to kill the Xvnc process manually
+</code></pre></div></p>
+<p>Now, we need to configure a working desktop for VNC. Clear your <code>~/.vnc/xstartup</code>
+and copy the following lines<sup id="fnref3:1"><a class="footnote-ref" href="#fn:1">1</a></sup> to that file:</p>
+<div class="highlight"><pre><span></span><code><span class="ch">#!/bin/sh</span>
+
+<span class="nb">unset</span> SESSION_MANAGER
+<span class="nb">unset</span> DBUS_SESSION_BUS_ADDRESS
+icewm <span class="p">&amp;</span>
+</code></pre></div>
+<p>Re-launch the <code>vncserver</code> on lxplus with the same command. If the port <code>:8</code>
+is taken by someone else, use a different port. Remember the lxplus hostname
+(denote as <code>lxplus_host</code>) and port name (denote as <code>port</code>).</p>
+<p>Now we need to map the VNC port to a localhost port, likely due to firewall
+issues:
+<div class="highlight"><pre><span></span><code>ssh -L &lt;port&gt;:localhost:&lt;port&gt; &lt;user&gt;@&lt;lxplus_host&gt;.cern.ch
+</code></pre></div></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<ul>
+<li>Here <code>port</code> must be in full number. e.g. <code>:8</code> -&gt; <code>5908</code>.</li>
+</ul>
+</div>
+<p>Finally, we can access our remote lxplus desktop with:
+<div class="highlight"><pre><span></span><code>vncviewer &lt;port&gt;
+</code></pre></div></p>
 <div class="footnote">
 <hr />
 <ol>
 <li id="fn:1">
-<p>https://information-technology.web.cern.ch/services/fe/afs/howto/configure-afs-access-rights&#160;<a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 1 in the text">&#8617;</a><a class="footnote-backref" href="#fnref2:1" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+<p>Courtesy of Will&#160;<a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 1 in the text">&#8617;</a><a class="footnote-backref" href="#fnref2:1" title="Jump back to footnote 1 in the text">&#8617;</a><a class="footnote-backref" href="#fnref3:1" title="Jump back to footnote 1 in the text">&#8617;</a></p>
 </li>
 </ol>
 </div>
