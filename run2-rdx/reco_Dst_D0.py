@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Mar 15, 2021 at 01:21 AM +0100
+# Last Change: Tue Mar 16, 2021 at 01:04 AM +0100
 #
 # Description: Definitions of selection and reconstruction procedures for run 2
 #              R(D(*)). For more thorough comments, take a look at:
@@ -647,12 +647,6 @@ def add_hlt1_info(sel_seq):
     return relinfo
 
 
-if has_flag('TRACKER_ONLY'):
-    # Here some L0 variables, such as 'L0Calo_HCAL_xProjection', are added
-    DaVinci().appendToMainSequence(
-        [add_hlt1_info(x) for x in (seq_Bminus, seq_B0)])
-
-
 ##################
 # Define ntuples #
 ##################
@@ -958,13 +952,17 @@ if has_flag('CUTFLOW') or has_flag('NON_MU_MISID'):
                                  # ntuples
                                  tp_Bminus, tp_B0]
 elif DaVinci().Simulation:
-    DaVinci().UserAlgorithms += [seq_Bminus.sequence(),
-                                 seq_B0.sequence(),
-                                 # ntuples
-                                 tp_Bminus, tp_B0,
+    DaVinci().UserAlgorithms += [seq_Bminus.sequence(), seq_B0.sequence()]
+
+    if has_flag('TRACKER_ONLY'):
+        # Here some L0 variables, such as 'L0Calo_HCAL_xProjection', are added
+        DaVinci().UserAlgorithms += [add_hlt1_info(x) for x in (seq_Bminus, seq_B0)]
+
+    DaVinci().UserAlgorithms += [tp_Bminus, tp_B0,
                                  # auxiliary ntuples
                                  tp_Bminus_mc_Tau, tp_Bminus_mc_Mu,
                                  tp_B0_mc_Tau, tp_B0_mc_Mu]
+
 else:
     DaVinci().UserAlgorithms += [seq_Bminus.sequence(),
                                  seq_Bminus_ws.sequence(),
