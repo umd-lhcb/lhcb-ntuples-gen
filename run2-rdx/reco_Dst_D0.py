@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Mar 16, 2021 at 01:04 AM +0100
+# Last Change: Wed Mar 17, 2021 at 10:00 PM +0100
 #
 # Description: Definitions of selection and reconstruction procedures for run 2
 #              R(D(*)). For more thorough comments, take a look at:
@@ -846,6 +846,11 @@ def tuple_postpocess_mc(tp,
                     True
                 )
 
+        # L0Calo variables
+        tt_l0_calo = tp.addTupleTool('TupleToolL0Calo/HCALtool')
+        tt_l0_calo.WhichCalo = "HCAL"
+        tt_l0_calo.TriggerClusterLocation = "/Event/Trig/L0/Calo"
+
         # Additional HLT1 variables
         tt_hlt1_emu = getattr(tp, B_meson).addTupleTool(
             'LoKi::Hybrid::TupleTool/Hlt1TwoTrackMVAEmulation')
@@ -956,7 +961,8 @@ elif DaVinci().Simulation:
 
     if has_flag('TRACKER_ONLY'):
         # Here some L0 variables, such as 'L0Calo_HCAL_xProjection', are added
-        DaVinci().UserAlgorithms += [add_hlt1_info(x) for x in (seq_Bminus, seq_B0)]
+        DaVinci().UserAlgorithms += [add_hlt1_info(x)
+                                     for x in (seq_Bminus, seq_B0)]
 
     DaVinci().UserAlgorithms += [tp_Bminus, tp_B0,
                                  # auxiliary ntuples
