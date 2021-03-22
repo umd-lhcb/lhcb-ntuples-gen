@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Mar 22, 2021 at 03:32 AM +0100
+# Last Change: Mon Mar 22, 2021 at 11:53 PM +0100
 #
 # Description: Definitions of selection and reconstruction procedures for run 2
 #              R(D(*)). For more thorough comments, take a look at:
@@ -685,12 +685,17 @@ def tuple_initialize_data(name, sel_seq, template):
     tp.ToolList += [
         'TupleToolAngles',
         'TupleToolMuonPid',  # This write out NN Mu inputs
-        'TupleToolL0Calo',
         'TupleToolTrackInfo',
     ]
 
     tt_pid = really_add_tool(tp, 'TupleToolPid')
     tt_pid.Verbose = True
+
+    # L0Calo variables
+    tt_l0_calo = really_add_tool(tp, 'TupleToolL0Calo')
+    tt_l0_calo.WhichCalo = "HCAL"
+    tt_l0_calo.TriggerClusterLocation = "/Event/Trig/L0/Calo"
+    tt_l0_calo.FillTriggerEt = True
 
     # Add event-level information.
     tt_loki_evt = really_add_tool(
@@ -846,12 +851,6 @@ def tuple_postpocess_mc(tp,
                     True
                 )
 
-        # L0Calo variables
-        tt_l0_calo = really_add_tool(tp, 'TupleToolL0Calo')
-        tt_l0_calo.WhichCalo = "HCAL"
-        tt_l0_calo.TriggerClusterLocation = "/Event/Trig/L0/Calo"
-        tt_l0_calo.FillTriggerEt = True
-
         # Additional HLT1 variables
         tt_hlt1_emu = getattr(tp, B_meson).addTupleTool(
             'LoKi::Hybrid::TupleTool/Hlt1TwoTrackMVAEmulation')
@@ -961,7 +960,6 @@ elif DaVinci().Simulation:
     DaVinci().UserAlgorithms += [seq_Bminus.sequence(), seq_B0.sequence()]
 
     if has_flag('TRACKER_ONLY'):
-        # Here some L0 variables, such as 'L0Calo_HCAL_xProjection', are added
         DaVinci().UserAlgorithms += [add_hlt1_info(x)
                                      for x in (seq_Bminus, seq_B0)]
 
