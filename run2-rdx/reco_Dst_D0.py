@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Mar 17, 2021 at 10:00 PM +0100
+# Last Change: Mon Mar 22, 2021 at 03:32 AM +0100
 #
 # Description: Definitions of selection and reconstruction procedures for run 2
 #              R(D(*)). For more thorough comments, take a look at:
@@ -847,9 +847,10 @@ def tuple_postpocess_mc(tp,
                 )
 
         # L0Calo variables
-        tt_l0_calo = tp.addTupleTool('TupleToolL0Calo/HCALtool')
+        tt_l0_calo = really_add_tool(tp, 'TupleToolL0Calo')
         tt_l0_calo.WhichCalo = "HCAL"
         tt_l0_calo.TriggerClusterLocation = "/Event/Trig/L0/Calo"
+        tt_l0_calo.FillTriggerEt = True
 
         # Additional HLT1 variables
         tt_hlt1_emu = getattr(tp, B_meson).addTupleTool(
