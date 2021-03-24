@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Mar 22, 2021 at 11:53 PM +0100
+# Last Change: Wed Mar 24, 2021 at 08:52 PM +0100
 #
 # Description: Definitions of selection and reconstruction procedures for run 2
 #              R(D(*)). For more thorough comments, take a look at:
@@ -612,19 +612,7 @@ else:
 from Configurables import AddRelatedInfo, RelInfoHLT1Emulation
 
 
-def hlt1_get_var_gen(output_loc,
-                     keys=[
-                         'chi2',
-                         'fdchi2',
-                         'sumpt',
-                         'nlt'
-                     ],
-                     vals=[
-                         'VERTEX_CHI2_COMB',
-                         'VDCHI2_MINIPPV_COMB',
-                         'SUMPT_COMB',
-                         'NLT_MINIPPV_COMB'
-                     ]):
+def hlt1_get_var_gen(output_loc, keys, vals):
     def get_var(i, j):
         comb = '{}_{}'.format(i, j)
         return {key: 'RELINFO("{}", "{}_{}", 0)'.format(output_loc, val, comb)
@@ -825,13 +813,25 @@ def tuple_postpocess_mc(tp,
         relinfo_output = tp.Inputs[0].replace('Particles', 'HLT1Emulation')
         tp.ToolList.append('TupleToolTrackPosition')  # Add variables like 'b_X'
 
-        get_var = hlt1_get_var_gen(relinfo_output)
-        get_var_wrong_ip = hlt1_get_var_gen(relinfo_output, vals=[
-            'VERTEX_CHI2_COMB',
-            'VDCHI2_MINIPPV_COMB',
-            'SUMPT_COMB',
-            'NLT_OWNPV_COMB'
-        ])
+        get_var = hlt1_get_var_gen(
+            relinfo_output,
+            keys=['chi2', 'fdchi2', 'sumpt', 'nlt'],
+            vals=[
+                'VERTEX_CHI2_COMB',
+                'VDCHI2_MINIPPV_COMB',
+                'SUMPT_COMB',
+                'NLT_MINIPPV_COMB'
+            ])
+        get_var_wrong_ip = hlt1_get_var_gen(
+            relinfo_output,
+            keys=['wrong_ip_chi2', 'wrong_ip_fdchi2', 'wrong_ip_sumpt',
+                  'wrong_ip_nlt'],
+            vals=[
+                'VERTEX_CHI2_COMB',
+                'VDCHI2_MINIPPV_COMB',
+                'SUMPT_COMB',
+                'NLT_OWNPV_COMB'
+            ])
 
         # HLT1 emulation
         for hlt in emu_hlt1_lines:
