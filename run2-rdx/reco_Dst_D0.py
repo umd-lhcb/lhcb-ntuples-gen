@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Mar 24, 2021 at 08:52 PM +0100
+# Last Change: Mon Mar 29, 2021 at 05:46 PM +0200
 #
 # Description: Definitions of selection and reconstruction procedures for run 2
 #              R(D(*)). For more thorough comments, take a look at:
@@ -728,21 +728,9 @@ def tuple_postpocess_data(tp, B_meson='b0', Mu='mu',
                           trigger_list_global=[
                               # L0
                               'L0HadronDecision',
-                              'L0DiMuonDecision',
-                              'L0ElectronDecision',
-                              'L0JetElDecision',
-                              'L0JetPhDecision',
-                              'L0MuonDecision',
-                              'L0MuonEWDecision',
-                              'L0PhotonDecision',
                               # HLT 1
-                              'Hlt1TrackAllL0Decision',
+                              'Hlt1TrackMVADecision',
                               'Hlt1TwoTrackMVADecision',
-                              'Hlt1TrackMVALooseDecision',
-                              'Hlt1TwoTrackMVALooseDecision',
-                              'Hlt1TrackMuonDecision',
-                              'Hlt1TrackMuonMVADecision',
-                              'Hlt1SingleMuonHighPTDecision',
                               # HLT 2
                               'Hlt2XcMuXForTauB2XcMuDecision'
                           ]
