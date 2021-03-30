@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Mar 29, 2021 at 05:46 PM +0200
+# Last Change: Tue Mar 30, 2021 at 10:57 PM +0200
 #
 # Description: Definitions of selection and reconstruction procedures for run 2
 #              R(D(*)). For more thorough comments, take a look at:
@@ -797,64 +797,64 @@ def tuple_postpocess_mc(tp,
                         **kwargs):
     tuple_postpocess_data(tp, B_meson=B_meson, **kwargs)
 
-    if has_flag('TRACKER_ONLY'):
-        relinfo_output = tp.Inputs[0].replace('Particles', 'HLT1Emulation')
-        tp.ToolList.append('TupleToolTrackPosition')  # Add variables like 'b_X'
+    # Always add L0 and HLT1 emulation variables for MC
+    relinfo_output = tp.Inputs[0].replace('Particles', 'HLT1Emulation')
+    tp.ToolList.append('TupleToolTrackPosition')  # Add variables like 'b_X'
 
-        get_var = hlt1_get_var_gen(
-            relinfo_output,
-            keys=['chi2', 'fdchi2', 'sumpt', 'nlt'],
-            vals=[
-                'VERTEX_CHI2_COMB',
-                'VDCHI2_MINIPPV_COMB',
-                'SUMPT_COMB',
-                'NLT_MINIPPV_COMB'
-            ])
-        get_var_wrong_ip = hlt1_get_var_gen(
-            relinfo_output,
-            keys=['wrong_ip_chi2', 'wrong_ip_fdchi2', 'wrong_ip_sumpt',
-                  'wrong_ip_nlt'],
-            vals=[
-                'VERTEX_CHI2_COMB',
-                'VDCHI2_MINIPPV_COMB',
-                'SUMPT_COMB',
-                'NLT_OWNPV_COMB'
-            ])
+    get_var = hlt1_get_var_gen(
+        relinfo_output,
+        keys=['chi2', 'fdchi2', 'sumpt', 'nlt'],
+        vals=[
+            'VERTEX_CHI2_COMB',
+            'VDCHI2_MINIPPV_COMB',
+            'SUMPT_COMB',
+            'NLT_MINIPPV_COMB'
+        ])
+    get_var_wrong_ip = hlt1_get_var_gen(
+        relinfo_output,
+        keys=['wrong_ip_chi2', 'wrong_ip_fdchi2', 'wrong_ip_sumpt',
+              'wrong_ip_nlt'],
+        vals=[
+            'VERTEX_CHI2_COMB',
+            'VDCHI2_MINIPPV_COMB',
+            'SUMPT_COMB',
+            'NLT_OWNPV_COMB'
+        ])
 
-        # HLT1 emulation
-        for hlt in emu_hlt1_lines:
-            for i, j in combinations(range(1, 5), 2):
-                addMatrixnetclassifierTuple(
-                    getattr(tp, B_meson),
-                    '$PARAMFILESROOT/data/{}.mx'.format(hlt),
-                    get_var(i, j),
-                    '{}Emulations_{}_{}'.format(hlt, i, j),
-                    True
-                )
-                addMatrixnetclassifierTuple(
-                    getattr(tp, B_meson),
-                    '$PARAMFILESROOT/data/{}.mx'.format(hlt),
-                    get_var_wrong_ip(i, j),
-                    '{}Emulations_WrongIP_{}_{}'.format(hlt, i, j),
-                    True
-                )
+    # HLT1 emulation
+    for hlt in emu_hlt1_lines:
+        for i, j in combinations(range(1, 5), 2):
+            addMatrixnetclassifierTuple(
+                getattr(tp, B_meson),
+                '$PARAMFILESROOT/data/{}.mx'.format(hlt),
+                get_var(i, j),
+                '{}Emulations_{}_{}'.format(hlt, i, j),
+                True
+            )
+            addMatrixnetclassifierTuple(
+                getattr(tp, B_meson),
+                '$PARAMFILESROOT/data/{}.mx'.format(hlt),
+                get_var_wrong_ip(i, j),
+                '{}Emulations_WrongIP_{}_{}'.format(hlt, i, j),
+                True
+            )
 
-        # Additional HLT1 variables
-        tt_hlt1_emu = getattr(tp, B_meson).addTupleTool(
-            'LoKi::Hybrid::TupleTool/Hlt1TwoTrackMVAEmulation')
-        tt_hlt1_emu.Preambulo = []
+    # Additional HLT1 variables
+    tt_hlt1_emu = getattr(tp, B_meson).addTupleTool(
+        'LoKi::Hybrid::TupleTool/Hlt1TwoTrackMVAEmulation')
+    tt_hlt1_emu.Preambulo = []
 
-        for var in extra_hlt1_vars:
-            for i in range(1, 7):
-                key = '{}_{}'.format(var, i)
-                tt_hlt1_emu.Variables[key] = \
-                    'RELINFO("{}", "{}", 0)'.format(relinfo_output, key)
+    for var in extra_hlt1_vars:
+        for i in range(1, 7):
+            key = '{}_{}'.format(var, i)
+            tt_hlt1_emu.Variables[key] = \
+                'RELINFO("{}", "{}", 0)'.format(relinfo_output, key)
 
-        for var in extra_hlt1_vars_combo:
-            for i, j in combinations(range(1, 7), 2):
-                key = '{}_{}_{}'.format(var, i, j)
-                tt_hlt1_emu.Variables[key] = \
-                    'RELINFO("{}", "{}", 0)'.format(relinfo_output, key)
+    for var in extra_hlt1_vars_combo:
+        for i, j in combinations(range(1, 7), 2):
+            key = '{}_{}_{}'.format(var, i, j)
+            tt_hlt1_emu.Variables[key] = \
+                'RELINFO("{}", "{}", 0)'.format(relinfo_output, key)
 
 
 if not DaVinci().Simulation:
