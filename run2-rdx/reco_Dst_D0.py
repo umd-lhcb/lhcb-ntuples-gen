@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Mar 30, 2021 at 10:57 PM +0200
+# Last Change: Wed Mar 31, 2021 at 02:14 AM +0200
 #
 # Description: Definitions of selection and reconstruction procedures for run 2
 #              R(D(*)). For more thorough comments, take a look at:
@@ -845,13 +845,13 @@ def tuple_postpocess_mc(tp,
     tt_hlt1_emu.Preambulo = []
 
     for var in extra_hlt1_vars:
-        for i in range(1, 7):
+        for i in range(1, 4):
             key = '{}_{}'.format(var, i)
             tt_hlt1_emu.Variables[key] = \
                 'RELINFO("{}", "{}", 0)'.format(relinfo_output, key)
 
     for var in extra_hlt1_vars_combo:
-        for i, j in combinations(range(1, 7), 2):
+        for i, j in combinations(range(1, 4), 2):
             key = '{}_{}_{}'.format(var, i, j)
             tt_hlt1_emu.Variables[key] = \
                 'RELINFO("{}", "{}", 0)'.format(relinfo_output, key)
