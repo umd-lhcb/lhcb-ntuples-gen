@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Mar 31, 2021 at 02:14 AM +0200
+# Last Change: Wed Mar 31, 2021 at 03:59 PM +0200
 #
 # Description: Definitions of selection and reconstruction procedures for run 2
 #              R(D(*)). For more thorough comments, take a look at:
@@ -673,8 +673,10 @@ def tuple_initialize_data(name, sel_seq, template):
     tp.ToolList += [
         'TupleToolAngles',
         'TupleToolMuonPid',  # This write out NN Mu inputs
-        'TupleToolTrackInfo',
     ]
+
+    tt_track_info = really_add_tool(tp, 'TupleToolTrackInfo')
+    tt_track_info.Verbose = True  # for 'TRACK_nTTHits'
 
     tt_pid = really_add_tool(tp, 'TupleToolPid')
     tt_pid.Verbose = True
