@@ -2,13 +2,13 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Apr 07, 2021 at 11:57 PM +0200
+# Last Change: Thu Apr 08, 2021 at 12:33 AM +0200
 
 import os.path as os_path
 
 from dataclasses import dataclass
 from typing import Dict, List, Any
-from os import makedirs
+from os import makedirs, listdir
 
 
 ###############
@@ -30,28 +30,45 @@ def abs_path(path, base_path=__file__):
 
 @dataclass
 class Executor:
-    filter: List
-    exec: List
+    filters: Dict[str, Any]
+    op: List
     inputs: List
-    generic_filter: List = []
+    generic_filters: Dict[str, Any] = dict()
     keep: Dict[str, str] = dict()
 
 
 class Processor:
-    def __init__(self, inputs, workdir, keep=[]):
-        self.input = inputs
+    def __init__(self, inputs, workdir, keep=None):
+        self.inputs = inputs
         self.workdir = workdir
-        self.keep = keep
+        self.keep = dict() if keep is None else keep
         self.outputs = {-1: inputs}
 
     def process(self, executors):
         for idx, exe in enumerate(executors):
             self.keep.update(exe.keep)
+            workdir = os_path.join(self.workdir, str(idx))
+            ensure_dir(workdir)
+
+            keys = self.gen_keys(exe)
+            # Now execute all operations
+            for op in exe.op:
+                op(keys)
+
+            # Take a snapshot
+            self.outputs[idx] = listdir(workdir)
 
     def link_keep(self):
         # Symbolic link generated files that match 'keep' patterns in separate
         # folders so that it's easier to find them.
         pass
+
+    def gen_keys(self, exe):
+        keys_filters = {k: f(self.inputs) for k, f in exe.filters.items()}
+        keys_generic_filters = {k: f(self.outputs)
+                                for k, f in exe.generic_filters.items()}
+        keys_filters.update(keys_generic_filters)
+        return keys_filters
 
 
 ################################
