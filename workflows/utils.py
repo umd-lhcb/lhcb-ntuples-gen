@@ -2,13 +2,26 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Apr 08, 2021 at 12:33 AM +0200
+# Last Change: Thu Apr 08, 2021 at 12:59 AM +0200
 
 import os.path as os_path
+import shlex
 
 from dataclasses import dataclass
 from typing import Dict, List, Any
 from os import makedirs, listdir
+from datetime import datetime
+from subprocess import check_output
+
+from pyBabyMaker.base import TermColor as TC
+
+
+###################
+# Generic helpers #
+###################
+
+def gen_date(fmt='%y_%m_%d'):
+    return datetime.now().strftime(fmt)
 
 
 ###############
@@ -28,6 +41,17 @@ def abs_path(path, base_path=__file__):
 # Containers #
 ##############
 
+def pipe_executor(cmd):
+    def operation(keys, debug=False):
+        args = [a.format(**keys) for a in shlex.split(cmd)]
+        if debug:
+            print('{}DEBUG: Executing{} {}'.format(
+                TC.YELLOW, TC.END, ' '.join(args)))
+        print(check_output(args))
+
+    return operation
+
+
 @dataclass
 class Executor:
     filters: Dict[str, Any]
@@ -44,7 +68,10 @@ class Processor:
         self.keep = dict() if keep is None else keep
         self.outputs = {-1: inputs}
 
-    def process(self, executors):
+    def process(self, executors, debug=False):
+        print('{}Processing {}...{}'.format(TC.BOLD+TC.GREEN, self.workdir,
+                                            TC.END))
+
         for idx, exe in enumerate(executors):
             self.keep.update(exe.keep)
             workdir = os_path.join(self.workdir, str(idx))
@@ -53,9 +80,9 @@ class Processor:
             keys = self.gen_keys(exe)
             # Now execute all operations
             for op in exe.op:
-                op(keys)
+                op(keys, debug)
 
-            # Take a snapshot
+            # Take a snapshot of the current working dir
             self.outputs[idx] = listdir(workdir)
 
     def link_keep(self):
