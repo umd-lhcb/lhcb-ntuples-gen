@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Apr 08, 2021 at 10:14 PM +0200
+# Last Change: Thu Apr 08, 2021 at 11:19 PM +0200
 
 import os.path as os_path
 import shlex
@@ -34,7 +34,8 @@ def ensure_dir(path, delete_if_exist=True):
 
 
 def abs_path(path, base_path=__file__):
-    return os_path.abspath(os_path.join(os_path.dirname(base_path), path))
+    return os_path.abspath(
+        os_path.join(os_path.dirname(os_path.abspath(base_path)), path))
 
 
 ##############
