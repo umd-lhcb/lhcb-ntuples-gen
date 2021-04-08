@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Apr 08, 2021 at 11:19 PM +0200
+# Last Change: Thu Apr 08, 2021 at 11:24 PM +0200
 
 import os.path as os_path
 import shlex
@@ -56,7 +56,7 @@ def pipe_executor(cmd):
 @dataclass
 class Executor:
     op: List
-    filters: Dict[str, Any]
+    filters: Dict[str, Any] = field(default_factory=dict)
     generic_filters: Dict[str, Any] = field(default_factory=dict)
     inputs: List = field(default_factory=list)
     keep: Dict[str, str] = field(default_factory=dict)
