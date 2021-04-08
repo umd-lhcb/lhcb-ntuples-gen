@@ -2,13 +2,11 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Apr 08, 2021 at 12:59 AM +0200
+# Last Change: Thu Apr 08, 2021 at 09:49 PM +0200
 
 import os.path as os_path
 import shlex
 
-from dataclasses import dataclass
-from typing import Dict, List, Any
 from os import makedirs, listdir
 from datetime import datetime
 from subprocess import check_output
@@ -34,7 +32,7 @@ def ensure_dir(path, delete_if_exist=True):
 
 
 def abs_path(path, base_path=__file__):
-    return os_path.abspath(os_path.join(base_path, path))
+    return os_path.abspath(os_path.join(os_path.dirname(base_path), path))
 
 
 ##############
@@ -52,13 +50,15 @@ def pipe_executor(cmd):
     return operation
 
 
-@dataclass
 class Executor:
-    filters: Dict[str, Any]
-    op: List
-    inputs: List
-    generic_filters: Dict[str, Any] = dict()
-    keep: Dict[str, str] = dict()
+    def __init__(self, op, filters, generic_filters=None, inputs=None,
+                 keep=None):
+        self.op = op
+        self.filters = filters
+        self.generic_filters = dict() \
+            if generic_filters is None else generic_filters
+        self.inputs = [] if inputs is None else inputs
+        self.keep = dict() if keep is None else keep
 
 
 class Processor:
