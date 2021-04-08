@@ -2,11 +2,13 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Apr 08, 2021 at 09:49 PM +0200
+# Last Change: Thu Apr 08, 2021 at 10:14 PM +0200
 
 import os.path as os_path
 import shlex
 
+from dataclasses import dataclass, field
+from typing import Dict, List, Any
 from os import makedirs, listdir
 from datetime import datetime
 from subprocess import check_output
@@ -50,15 +52,13 @@ def pipe_executor(cmd):
     return operation
 
 
+@dataclass
 class Executor:
-    def __init__(self, op, filters, generic_filters=None, inputs=None,
-                 keep=None):
-        self.op = op
-        self.filters = filters
-        self.generic_filters = dict() \
-            if generic_filters is None else generic_filters
-        self.inputs = [] if inputs is None else inputs
-        self.keep = dict() if keep is None else keep
+    op: List
+    filters: Dict[str, Any]
+    generic_filters: Dict[str, Any] = field(default_factory=dict)
+    inputs: List = field(default_factory=list)
+    keep: Dict[str, str] = field(default_factory=dict)
 
 
 class Processor:
