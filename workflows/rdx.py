@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri Apr 09, 2021 at 01:52 AM +0200
+# Last Change: Fri Apr 09, 2021 at 02:24 AM +0200
 
 import sys
 import os.path as os_path
@@ -52,11 +52,12 @@ specify output dir.
 
 WF_TEST = [
     Executor(
-        [pipe_executor('echo {input} > test.txt')],
-        {'input': lambda files: [f for f in files if f.endswith('.root')]}
+        [pipe_executor('touch test.txt')],
+        {'input': lambda files: [os_path.basename(f)
+                                 for f in files if f.endswith('.root')]}
     ),
     Executor(
-        [pipe_executor('cp {input} > test2.txt')],
+        [pipe_executor('cp {input} test2.txt')],
         {'input': lambda files: [f for f in files if f.endswith('.txt')]}
     )
 ]
@@ -67,8 +68,8 @@ WF_TEST = [
 #######################
 
 def workflow_test(inputs, output_dir, debug):
-    proc = Processor(inputs, output_dir, keep={'txt': '*.txt'})
-    proc.process(WF_TEST, debug)
+    proc = Processor(inputs, output_dir, keep={'txt': '*.txt'}, debug=debug)
+    proc.process(WF_TEST)
 
 
 WF_PROCESSORS = {

@@ -2,14 +2,14 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri Apr 09, 2021 at 02:10 AM +0200
+# Last Change: Fri Apr 09, 2021 at 02:36 AM +0200
 
 import os.path as os_path
 import shlex
 
 from dataclasses import dataclass, field
 from typing import Dict, List, Any
-from os import makedirs, listdir
+from os import makedirs, listdir, chdir, getcwd
 from datetime import datetime
 from subprocess import check_output
 from shutil import rmtree
@@ -48,9 +48,11 @@ def pipe_executor(cmd):
     def operation(keys, debug=False):
         args = [a.format(**keys) for a in shlex.split(cmd)]
         if debug:
-            print('{}DEBUG: Executing{} {}'.format(
+            print('{}DEBUG: Executing:{} {}'.format(
                 TC.YELLOW, TC.END, ' '.join(args)))
-        print(check_output(args))
+        output = check_output(args).decode('utf-8')
+        if output:
+            print(output)
 
     return operation
 
@@ -82,6 +84,11 @@ class Processor:
             ensure_dir(workdir)
 
             keys = self.gen_keys(exe)
+            chdir(workdir)
+
+            if self.debug:
+                print('{}DEBUG: Dir: {}{}'.format(TC.YELLOW, TC.END, getcwd()))
+
             # Now execute all operations
             for op in exe.op:
                 op(keys, self.debug)
@@ -109,7 +116,7 @@ class Processor:
 
         if self.debug:
             for k, v in keys_filters.items():
-                print('{}DEBUG Key: {}{} : {}'.format(TC.YELLOW, TC.END, k, v))
+                print('{}DEBUG: Key: {}{} : {}'.format(TC.YELLOW, TC.END, k, v))
 
         return keys_filters
 
