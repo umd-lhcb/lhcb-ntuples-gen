@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sat Apr 10, 2021 at 01:51 AM +0200
+# Last Change: Sat Apr 10, 2021 at 01:54 AM +0200
 
 import os.path as os_path
 import shlex
@@ -62,7 +62,7 @@ class Executor:
     op: List
     filters: Dict[str, Any] = field(default_factory=dict)
     generic_filters: Dict[str, Any] = field(default_factory=dict)
-    inputs: List = field(default_factory=list)
+    inputs: Dict[str, str] = field(default_factory=dict)
     keep: Dict[str, str] = field(default_factory=dict)
 
 
@@ -120,6 +120,9 @@ class Processor:
         for k, v in keys_filters.items():
             if isinstance(v, list):
                 keys_filters[k] = ' '.join(v)
+
+        # Now merge the inputs defined in the executor
+        keys_filters.update(exe.inputs)
 
         if self.debug:
             for k, v in keys_filters.items():
