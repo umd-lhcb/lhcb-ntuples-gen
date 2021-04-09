@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri Apr 09, 2021 at 02:24 AM +0200
+# Last Change: Fri Apr 09, 2021 at 02:48 AM +0200
 
 import sys
 import os.path as os_path
@@ -52,7 +52,8 @@ specify output dir.
 
 WF_TEST = [
     Executor(
-        [pipe_executor('touch test.txt')],
+        [pipe_executor('echo {input}'),
+         pipe_executor('touch {input}.txt')],
         {'input': lambda files: [os_path.basename(f)
                                  for f in files if f.endswith('.root')]}
     ),

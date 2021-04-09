@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri Apr 09, 2021 at 02:36 AM +0200
+# Last Change: Fri Apr 09, 2021 at 02:42 AM +0200
 
 import os.path as os_path
 import shlex
@@ -44,13 +44,13 @@ def abs_path(path, base_path=__file__):
 # Containers #
 ##############
 
-def pipe_executor(cmd):
+def pipe_executor(cmd, **kwargs):
     def operation(keys, debug=False):
         args = [a.format(**keys) for a in shlex.split(cmd)]
         if debug:
             print('{}DEBUG: Executing:{} {}'.format(
                 TC.YELLOW, TC.END, ' '.join(args)))
-        output = check_output(args).decode('utf-8')
+        output = check_output(args, **kwargs).decode('utf-8')
         if output:
             print(output)
 
