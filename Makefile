@@ -1,6 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri Apr 09, 2021 at 02:53 AM +0200
+# Last Change: Fri Apr 09, 2021 at 03:20 AM +0200
 
 export PATH := workflows:test:scripts:$(PATH)
 
@@ -28,7 +28,6 @@ DAVINCI_VERSION=DaVinci-v45r6-SL
 .PHONY: all clean history tagdate install-dep
 
 clean:
-	@rm -rf $(BINPATH)/*
 	@rm -rf ./gen/*
 
 history:
@@ -101,7 +100,11 @@ test-naming-conv:
 #######
 
 rdx-test:
-	@rdx.py test test.root --mode test --debug
+	@rdx.py $@ test.root --mode test --debug
+
+rdx-sample-trigger-emu: \
+	./run2-rdx/samples/Dst_D0--21_03_25--mc--Bd2DstMuNu--2016--md--py8-sim09j-dv45-tracker_only-subset.root
+	rdx.py $@ @< --mode mc --debug
 
 
 ####################
