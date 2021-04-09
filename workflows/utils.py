@@ -2,14 +2,14 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri Apr 09, 2021 at 02:42 AM +0200
+# Last Change: Fri Apr 09, 2021 at 03:12 AM +0200
 
 import os.path as os_path
 import shlex
 
 from dataclasses import dataclass, field
 from typing import Dict, List, Any
-from os import makedirs, listdir, chdir, getcwd
+from os import makedirs, listdir, chdir, getcwd, environ, pathsep
 from datetime import datetime
 from subprocess import check_output
 from shutil import rmtree
@@ -67,12 +67,19 @@ class Executor:
 
 
 class Processor:
-    def __init__(self, inputs, workdir, keep=None, debug=False):
+    def __init__(self, inputs, workdir, keep=None, debug=False,
+                 additional_path=[
+                     abs_path('../lib/python/TrackerOnlyEmu/scripts')
+                 ]):
         self.inputs = inputs
         self.workdir = workdir
         self.debug = debug
         self.keep = dict() if keep is None else keep
         self.outputs = {-1: inputs}
+
+        # Additional PATH
+        if additional_path:
+            environ['PATH'] += pathsep + pathsep.join(additional_path)
 
     def process(self, executors):
         print('{}Processing {}...{}'.format(TC.BOLD+TC.GREEN, self.workdir,
