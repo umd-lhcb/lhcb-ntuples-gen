@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri Apr 09, 2021 at 01:59 AM +0200
+# Last Change: Fri Apr 09, 2021 at 02:10 AM +0200
 
 import os.path as os_path
 import shlex
@@ -65,13 +65,14 @@ class Executor:
 
 
 class Processor:
-    def __init__(self, inputs, workdir, keep=None):
+    def __init__(self, inputs, workdir, keep=None, debug=False):
         self.inputs = inputs
         self.workdir = workdir
+        self.debug = debug
         self.keep = dict() if keep is None else keep
         self.outputs = {-1: inputs}
 
-    def process(self, executors, debug=False):
+    def process(self, executors):
         print('{}Processing {}...{}'.format(TC.BOLD+TC.GREEN, self.workdir,
                                             TC.END))
 
@@ -83,7 +84,7 @@ class Processor:
             keys = self.gen_keys(exe)
             # Now execute all operations
             for op in exe.op:
-                op(keys, debug)
+                op(keys, self.debug)
 
             # Take a snapshot of the current working dir
             self.outputs[idx] = [os_path.join(workdir, f)
@@ -102,9 +103,13 @@ class Processor:
         keys_filters.update(keys_generic_filters)
 
         # Always flatten list
-        for k, v in keys_generic_filters.items():
+        for k, v in keys_filters.items():
             if isinstance(v, list):
-                keys_generic_filters[k] = ' '.join(v)
+                keys_filters[k] = ' '.join(v)
+
+        if self.debug:
+            for k, v in keys_filters.items():
+                print('{}DEBUG Key: {}{} : {}'.format(TC.YELLOW, TC.END, k, v))
 
         return keys_filters
 
