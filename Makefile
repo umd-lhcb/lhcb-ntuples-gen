@@ -1,10 +1,8 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Mar 15, 2021 at 12:53 AM +0100
+# Last Change: Fri Apr 09, 2021 at 02:53 AM +0200
 
-BINPATH	:=	bin
-
-export PATH := test:scripts:$(BINPATH):$(PATH)
+export PATH := workflows:test:scripts:$(PATH)
 
 VPATH := postprocess:test:scripts:$(BINPATH)
 
@@ -31,9 +29,7 @@ DAVINCI_VERSION=DaVinci-v45r6-SL
 
 clean:
 	@rm -rf $(BINPATH)/*
-	@find ./gen -name '*.root' -delete
-	@find ./gen -name '*.cpp' -delete
-	@find ./gen -name '*.yml' -delete
+	@rm -rf ./gen/*
 
 history:
 	@git tag -l -n99
@@ -98,6 +94,14 @@ test-all: \
 # Test if specific files follow naming conventions.
 test-naming-conv:
 	@test_filename_convention.py
+
+
+#######
+# RDX #
+#######
+
+rdx-test:
+	@rdx.py test test.root --mode test --debug
 
 
 ####################
