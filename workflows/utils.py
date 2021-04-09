@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Apr 08, 2021 at 11:24 PM +0200
+# Last Change: Fri Apr 09, 2021 at 01:59 AM +0200
 
 import os.path as os_path
 import shlex
@@ -12,6 +12,7 @@ from typing import Dict, List, Any
 from os import makedirs, listdir
 from datetime import datetime
 from subprocess import check_output
+from shutil import rmtree
 
 from pyBabyMaker.base import TermColor as TC
 
@@ -29,8 +30,9 @@ def gen_date(fmt='%y_%m_%d'):
 ###############
 
 def ensure_dir(path, delete_if_exist=True):
-    if not os_path.isdir(path) or delete_if_exist:
-        makedirs(path)
+    if os_path.isdir(path) and delete_if_exist:
+        rmtree(path)
+    makedirs(path)
 
 
 def abs_path(path, base_path=__file__):
@@ -75,7 +77,7 @@ class Processor:
 
         for idx, exe in enumerate(executors):
             self.keep.update(exe.keep)
-            workdir = os_path.join(self.workdir, str(idx))
+            workdir = os_path.join(os_path.abspath(self.workdir), str(idx))
             ensure_dir(workdir)
 
             keys = self.gen_keys(exe)
@@ -84,7 +86,8 @@ class Processor:
                 op(keys, debug)
 
             # Take a snapshot of the current working dir
-            self.outputs[idx] = listdir(workdir)
+            self.outputs[idx] = [os_path.join(workdir, f)
+                                 for f in listdir(workdir)]
 
     def link_keep(self):
         # Symbolic link generated files that match 'keep' patterns in separate
@@ -92,10 +95,17 @@ class Processor:
         pass
 
     def gen_keys(self, exe):
-        keys_filters = {k: f(self.inputs) for k, f in exe.filters.items()}
+        keys_filters = {k: f(list(self.outputs.values())[-1])
+                        for k, f in exe.filters.items()}
         keys_generic_filters = {k: f(self.outputs)
                                 for k, f in exe.generic_filters.items()}
         keys_filters.update(keys_generic_filters)
+
+        # Always flatten list
+        for k, v in keys_generic_filters.items():
+            if isinstance(v, list):
+                keys_generic_filters[k] = ' '.join(v)
+
         return keys_filters
 
 
