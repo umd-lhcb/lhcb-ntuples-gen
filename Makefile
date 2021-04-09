@@ -1,6 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri Apr 09, 2021 at 03:20 AM +0200
+# Last Change: Sat Apr 10, 2021 at 01:37 AM +0200
 
 export PATH := workflows:test:scripts:$(PATH)
 
@@ -104,7 +104,7 @@ rdx-test:
 
 rdx-sample-trigger-emu: \
 	./run2-rdx/samples/Dst_D0--21_03_25--mc--Bd2DstMuNu--2016--md--py8-sim09j-dv45-tracker_only-subset.root
-	rdx.py $@ @< --mode mc --debug
+	@rdx.py $@ $< --mode mc --debug
 
 
 ####################

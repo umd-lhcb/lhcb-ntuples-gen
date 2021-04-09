@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri Apr 09, 2021 at 02:48 AM +0200
+# Last Change: Sat Apr 10, 2021 at 01:29 AM +0200
 
 import sys
 import os.path as os_path
@@ -63,6 +63,14 @@ WF_TEST = [
     )
 ]
 
+WF_MC = [
+    # First, generate trigger emulations
+    Executor(
+        [pipe_executor('run2-rdx-hlt1.py {input} b0_hlt1.root -t TupleB0/DecayTree')],
+        {'input': lambda files: [f for f in files if f.endswith('.root')]}
+    ),
+]
+
 
 #######################
 # Workflow processors #
@@ -73,8 +81,14 @@ def workflow_test(inputs, output_dir, debug):
     proc.process(WF_TEST)
 
 
+def workflow_mc(inputs, job_name, debug):
+    proc = Processor(inputs, job_name, keep={'txt': '*.txt'}, debug=debug)
+    proc.process(WF_MC)
+
+
 WF_PROCESSORS = {
-    'test': workflow_test
+    'test': workflow_test,
+    'mc': workflow_mc,
 }
 
 

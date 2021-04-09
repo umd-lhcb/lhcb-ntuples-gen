@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri Apr 09, 2021 at 03:12 AM +0200
+# Last Change: Sat Apr 10, 2021 at 01:51 AM +0200
 
 import os.path as os_path
 import shlex
@@ -71,11 +71,11 @@ class Processor:
                  additional_path=[
                      abs_path('../lib/python/TrackerOnlyEmu/scripts')
                  ]):
-        self.inputs = inputs
         self.workdir = workdir
         self.debug = debug
+        self.inputs = [os_path.abspath(f) for f in inputs]
         self.keep = dict() if keep is None else keep
-        self.outputs = {-1: inputs}
+        self.outputs = {-1: self.inputs}
 
         # Additional PATH
         if additional_path:
