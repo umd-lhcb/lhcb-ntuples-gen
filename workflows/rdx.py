@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sat Apr 10, 2021 at 01:29 AM +0200
+# Last Change: Sat Apr 10, 2021 at 02:23 AM +0200
 
 import sys
 import os.path as os_path
@@ -79,11 +79,13 @@ WF_MC = [
 def workflow_test(inputs, output_dir, debug):
     proc = Processor(inputs, output_dir, keep={'txt': '*.txt'}, debug=debug)
     proc.process(WF_TEST)
+    proc.link_keep()
 
 
 def workflow_mc(inputs, job_name, debug):
-    proc = Processor(inputs, job_name, keep={'txt': '*.txt'}, debug=debug)
+    proc = Processor(inputs, job_name, keep={'root': '*.root'}, debug=debug)
     proc.process(WF_MC)
+    proc.link_keep()
 
 
 WF_PROCESSORS = {

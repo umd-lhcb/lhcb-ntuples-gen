@@ -2,17 +2,18 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sat Apr 10, 2021 at 01:54 AM +0200
+# Last Change: Sat Apr 10, 2021 at 02:30 AM +0200
 
 import os.path as os_path
 import shlex
 
 from dataclasses import dataclass, field
 from typing import Dict, List, Any
-from os import makedirs, listdir, chdir, getcwd, environ, pathsep
+from os import makedirs, listdir, chdir, getcwd, environ, pathsep, symlink
 from datetime import datetime
 from subprocess import check_output
 from shutil import rmtree
+from glob import glob
 
 from pyBabyMaker.base import TermColor as TC
 
@@ -82,8 +83,8 @@ class Processor:
             environ['PATH'] += pathsep + pathsep.join(additional_path)
 
     def process(self, executors):
-        print('{}Processing {}...{}'.format(TC.BOLD+TC.GREEN, self.workdir,
-                                            TC.END))
+        print('{}Processing {}...{}'.format(
+            TC.BOLD+TC.GREEN, os_path.basename(self.workdir), TC.END))
 
         for idx, exe in enumerate(executors):
             self.keep.update(exe.keep)
@@ -107,7 +108,13 @@ class Processor:
     def link_keep(self):
         # Symbolic link generated files that match 'keep' patterns in separate
         # folders so that it's easier to find them.
-        pass
+        chdir(self.workdir)
+        for d, pattern in self.keep.items():
+            ensure_dir(d)
+            chdir(d)
+            for idx in range(len(self.outputs)):
+                for f in glob(os_path.join('..', str(idx), pattern)):
+                    symlink(f, os_path.join('.', os_path.basename(f)))
 
     def gen_keys(self, exe):
         keys_filters = {k: f(list(self.outputs.values())[-1])
