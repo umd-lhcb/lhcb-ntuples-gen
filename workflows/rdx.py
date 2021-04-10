@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sat Apr 10, 2021 at 02:23 AM +0200
+# Last Change: Sat Apr 10, 2021 at 05:16 PM +0200
 
 import sys
 import os.path as os_path
@@ -66,7 +66,8 @@ WF_TEST = [
 WF_MC = [
     # First, generate trigger emulations
     Executor(
-        [pipe_executor('run2-rdx-hlt1.py {input} b0_hlt1.root -t TupleB0/DecayTree')],
+        [pipe_executor('run2-rdx-hlt1.py {input} b0_hlt1.root -t TupleB0/DecayTree'),
+         pipe_executor('run2-rdx-hlt1.py {input} b_hlt1.root -t TupleBminus/DecayTree -B b')],
         {'input': lambda files: [f for f in files if f.endswith('.root')]}
     ),
 ]
