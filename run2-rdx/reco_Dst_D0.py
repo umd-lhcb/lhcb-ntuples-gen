@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sun Apr 11, 2021 at 05:58 PM +0200
+# Last Change: Sun Apr 11, 2021 at 11:30 PM +0200
 #
 # Description: Definitions of selection and reconstruction procedures for run 2
 #              R(D(*)). For more thorough comments, take a look at:
@@ -752,10 +752,8 @@ def tuple_postpocess_data(tp, B_meson='b0', Mu='mu',
     # tt_tistos_B.Verbose = True
     # tt_tistos_B.TriggerList = trigger_list_B
 
-    getattr(tp, B_meson).ToolList += [
-        'TupleToolTagDiscardDstMu',
-        'TupleToolTauMuDiscrVars',
-    ]
+    getattr(tp, B_meson).addTupleTool('TupleToolTagDiscardDstMu')
+    getattr(tp, B_meson).addTupleTool('TupleToolTauMuDiscrVars')
 
     tt_app_iso = getattr(tp, B_meson).addTupleTool('TupleToolApplyIsolation')
     tt_app_iso.WeightsFile = weights
