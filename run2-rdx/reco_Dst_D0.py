@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sun Apr 11, 2021 at 04:55 PM +0200
+# Last Change: Sun Apr 11, 2021 at 05:58 PM +0200
 #
 # Description: Definitions of selection and reconstruction procedures for run 2
 #              R(D(*)). For more thorough comments, take a look at:
@@ -794,15 +794,17 @@ def tuple_postpocess_mc(tp,
                             # 'IPCHI2_MINIPPV_COMB',
                             # 'NLT_MINIPPV_COMB',
                             # 'NLT_OWNPV_COMB',
-                            # 'PT_COMB',
-                            # 'P_COMB'
+                            'PT_COMB',
+                            'P_COMB'
                         ],
                         **kwargs):
     tuple_postpocess_data(tp, B_meson=B_meson, **kwargs)
 
     # Always add L0 and HLT1 emulation variables for MC
     relinfo_output = tp.Inputs[0].replace('Particles', 'HLT1Emulation')
-    # tp.ToolList.append('TupleToolTrackPosition')  # Add variables like 'b_X'
+
+    # Add variables like 'k_X'. This is used for L0 trigger emulation
+    tp.ToolList.append('TupleToolTrackPosition')
 
     get_var = hlt1_get_var_gen(
         relinfo_output,
