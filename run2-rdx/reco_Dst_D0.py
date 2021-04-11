@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sun Apr 11, 2021 at 11:30 PM +0200
+# Last Change: Mon Apr 12, 2021 at 01:29 AM +0200
 #
 # Description: Definitions of selection and reconstruction procedures for run 2
 #              R(D(*)). For more thorough comments, take a look at:
@@ -262,15 +262,27 @@ if not DaVinci().Simulation or has_flag('CUTFLOW'):
 if DaVinci().Simulation:
     algo_D0.Preambulo += algo_mc_match_preambulo
 
+    # NOTE: '(P > 5.0*GeV)' is from Hlt2XcMuXForTauB2XcMu line
     algo_D0.DaughtersCuts['K+'] = \
         "(mcMatch('[^K+]CC')) &" \
-        "(MCSELMATCH(MCNINANCESTORS(BEAUTY) > 0)) &" + \
+        '(MCSELMATCH(MCNINANCESTORS(BEAUTY) > 0)) &' + \
+        '(P > 5.0*GeV) &' + \
         algo_D0.DaughtersCuts['K+']
 
     algo_D0.DaughtersCuts['pi-'] = \
         '(MCSELMATCH(MCNINANCESTORS(BEAUTY) > 0)) &' + \
+        '(P > 5.0*GeV) &' + \
         algo_D0.DaughtersCuts['pi-']
 
+    # NOTE: All additional CombinationCut are from Hlt2XcMuXForTauB2XcMu line
+    algo_D0.CombinationCut = \
+        '(in_range(1830.0*MeV, AM, 1910.0*MeV)) &' + \
+        '(APT1 > 800.0*MeV | APT2 > 800.0*MeV) &' + \
+        '(APT > 2000.0*MeV) &' + \
+        "(AMINDOCA('') < 0.10) &"  + \
+        algo_D0.CombinationCut
+
+    # NOTE: Stripping cuts are already tighter than Hlt2XcMuXForTauB2XcMu line
     algo_D0.MotherCut = \
         "(mcMatch('[Charm -> K- pi+ {gamma}{gamma}{gamma}]CC')) &" + \
         algo_D0.MotherCut
@@ -316,14 +328,18 @@ if has_flag('BARE'):
 if DaVinci().Simulation:
     algo_Bminus.Preambulo += algo_mc_match_preambulo
 
-    if has_flag('BARE'):
-        algo_Bminus.DaughtersCuts['mu-'] = \
-            "(mcMatch('[^mu+]CC')) & (TRCHI2DOF < 6.0) &" + \
-            algo_Bminus.DaughtersCuts['mu-']
-    else:
-        algo_Bminus.DaughtersCuts['mu-'] = \
-            "(mcMatch('[^mu+]CC')) & (TRCHI2DOF < 3.0) &" + \
-            algo_Bminus.DaughtersCuts['mu-']
+    algo_Bminus.DaughtersCuts['mu-'] = \
+        "(mcMatch('[^mu+]CC')) &" + \
+        algo_Bminus.DaughtersCuts['mu-']
+
+    # NOTE: All cuts are from Hlt2XcMuXForTauB2XcMu
+    algo_Bminus.CombinationCut = \
+        "(AMAXDOCA('') < 0.50) &" + \
+        algo_Bminus.CombinationCut
+
+    algo_Bminus.MotherCut = \
+        '(BPVVDCHI2 > 50.0) &' + \
+        algo_Bminus.MotherCut
 
 
 sel_Bminus = Selection(
