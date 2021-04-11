@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Feb 24, 2021 at 03:30 PM +0100
+# Last Change: Sun Apr 11, 2021 at 02:13 AM +0200
 # Description: Merge and apply cuts on input .root files, each with multiple
 #              trees, to a single output .root file.
 #
@@ -75,6 +75,8 @@ def parse_config(config_file):
     config = defaultdict(lambda: {
         'keep': True,
         'selection': [''],
+        'deactivate': [],
+        'activate': [],
     })
 
     for path, sub_config in raw_config.items():
@@ -106,7 +108,7 @@ def glob_ntuples(paths):
 # ROOT I/O #
 ############
 
-class ROOTFile(object):
+class ROOTFile:
     def __init__(self, path, mode):
         self.path = path
         self.mode = mode
@@ -169,15 +171,25 @@ def skim_chains(output_ntp_name, chains, config):
     with ROOTFile(output_ntp_name, 'recreate') as ntp:
         for full_path, chain in chains.items():
             if config[full_path]['keep']:
+                print('Processing tree: {}'.format(full_path))
                 path, _ = path_basename(full_path)
 
                 if not ntp.GetDirectory(path):
                     ntp.mkdir(path)
-
                 ntp.cd(path)
+
+                # Remove branches, if specified
+                for br in config[full_path]['deactivate']:
+                    chain.SetBranchStatus(br, 0)
+
+                # Activate branches, if specified
+                for br in config[full_path]['activate']:
+                    chain.SetBranchStatus(br, 1)
+
                 tree = chain.CopyTree(concat_selections(
                     config[full_path]['selection']
                 ))
+
                 tree.Write()
 
         # NOTE: Sometimes tree.Write would complain about null-pointers. In that
