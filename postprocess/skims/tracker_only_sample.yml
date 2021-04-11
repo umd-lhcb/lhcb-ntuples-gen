@@ -1,0 +1,48 @@
+TupleB0/DecayTree:
+    keep: true
+    deactivate:
+        - '*'
+    activate:
+        # Global
+        - 'runNumber'
+        - 'eventNumber'
+        # K, pi
+        - 'k_P'
+        - 'k_PT'
+        - 'k_PX'
+        - 'k_PY'
+        - 'k_TRACK_CHI2NDOF'
+        - 'k_IPCHI2_OWNPV'
+        - 'k_TRACK_GhostProb'
+        - 'k_TRACK_nTTHits'
+        - 'pi_P'
+        - 'pi_PT'
+        - 'pi_PX'
+        - 'pi_PY'
+        - 'pi_TRACK_CHI2NDOF'
+        - 'pi_IPCHI2_OWNPV'
+        - 'pi_TRACK_GhostProb'
+        - 'pi_TRACK_nTTHits'
+        # Trigger
+        - 'd0_Hlt1*'
+        - '*Hlt2XcMuXForTauB2XcMu*'
+        - 'Num*Clusters'
+        - '*COMB*'
+        - '*Matrixnet_Hlt1*'
+        # Other kinematic variables
+        - 'FitVar*'
+
+TupleBminus/DecayTree:
+    keep: false
+
+MCTupleB0Mu/MCDecayTree:
+    keep: false
+
+MCTupleB0Tau/MCDecayTree:
+    keep: false
+
+MCTupleBminusMu/MCDecayTree:
+    keep: false
+
+MCTupleBminusTau/MCDecayTree:
+    keep: false
