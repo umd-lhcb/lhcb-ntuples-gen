@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sun Apr 11, 2021 at 12:54 AM +0200
+# Last Change: Sun Apr 11, 2021 at 04:55 PM +0200
 #
 # Description: Definitions of selection and reconstruction procedures for run 2
 #              R(D(*)). For more thorough comments, take a look at:
@@ -783,19 +783,19 @@ def tuple_postpocess_mc(tp,
                             'VERTEX_NDOF_COMB',
                             'ETA_COMB',
                             'MCORR_OWNPV_COMB',
-                            'MCORR_MINIPPV_COMB',
+                            # 'MCORR_MINIPPV_COMB',
                             'SUMPT_COMB',
                             'DIRA_OWNPV_COMB',
-                            'DIRA_MINIPPV',
+                            # 'DIRA_MINIPPV',
                             'DOCA_COMB',
                             'VDCHI2_OWNPV_COMB',
-                            'VDCHI2_MINIPPV_COMB',
+                            # 'VDCHI2_MINIPPV_COMB',
                             'IPCHI2_OWNPV_COMB',
-                            'IPCHI2_MINIPPV_COMB',
-                            'NLT_MINIPPV_COMB',
-                            'NLT_OWNPV_COMB',
-                            'PT_COMB',
-                            'P_COMB'
+                            # 'IPCHI2_MINIPPV_COMB',
+                            # 'NLT_MINIPPV_COMB',
+                            # 'NLT_OWNPV_COMB',
+                            # 'PT_COMB',
+                            # 'P_COMB'
                         ],
                         **kwargs):
     tuple_postpocess_data(tp, B_meson=B_meson, **kwargs)
@@ -950,9 +950,9 @@ if has_flag('CUTFLOW') or has_flag('NON_MU_MISID'):
 elif DaVinci().Simulation:
     DaVinci().UserAlgorithms += [seq_Bminus.sequence(), seq_B0.sequence()]
 
-    if has_flag('TRACKER_ONLY'):
-        DaVinci().UserAlgorithms += [add_hlt1_info(x)
-                                     for x in (seq_Bminus, seq_B0)]
+    # For trigger emulation
+    DaVinci().UserAlgorithms += [add_hlt1_info(x)
+                                 for x in (seq_Bminus, seq_B0)]
 
     DaVinci().UserAlgorithms += [tp_Bminus, tp_B0,
                                  # auxiliary ntuples
