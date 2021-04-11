@@ -1,5 +1,4 @@
 TupleB0/DecayTree:
-    keep: true
     deactivate:
         - '*'
     activate:
@@ -15,6 +14,9 @@ TupleB0/DecayTree:
         - 'k_IPCHI2_OWNPV'
         - 'k_TRACK_GhostProb'
         - 'k_TRACK_nTTHits'
+        - 'k_L0Calo*'
+        - 'k_X'
+        - 'k_Y'
         - 'pi_P'
         - 'pi_PT'
         - 'pi_PX'
@@ -23,6 +25,13 @@ TupleB0/DecayTree:
         - 'pi_IPCHI2_OWNPV'
         - 'pi_TRACK_GhostProb'
         - 'pi_TRACK_nTTHits'
+        - 'pi_L0Calo*'
+        - 'pi_X'
+        - 'pi_Y'
+        # Slow pi
+        - 'spi_X'
+        - 'spi_Y'
+        - 'spi_L0Calo*'
         # Trigger
         - 'd0_Hlt1*'
         - '*Hlt2XcMuXForTauB2XcMu*'
