@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Apr 13, 2021 at 02:22 AM +0200
+# Last Change: Tue Apr 13, 2021 at 02:46 AM +0200
 
 import sys
 import os.path as os_path
@@ -13,7 +13,8 @@ from os import chdir
 sys.path.insert(0, os_path.dirname(os_path.abspath(__file__)))
 
 from utils import (
-    abs_path, ensure_dir, find_all_input, append_path, pipe_executor
+    abs_path, ensure_dir, find_all_input, append_path, pipe_executor,
+    aggragate_output
 )
 
 
@@ -75,7 +76,7 @@ def workflow_general(job_name, inputs, output_dir,
 
     # Need to figure out the absolute path
     input_files = find_all_input(inputs, input_patterns)
-    subworkdirs = {os_path.splitext(os_path.basename(i)[0])[0]: i
+    subworkdirs = {os_path.splitext(os_path.basename(i))[0]: i
                    for i in input_files}
 
     # Now ensure the working dir
@@ -96,6 +97,7 @@ def workflow_mc(job_name, inputs, output_dir, debug):
             'input_ntp': f
         }
         exe(params, debug)
+        aggragate_output('..', d, {'root': ['*.root']})
         chdir('..')  # Switch back to parent workdir
 
 

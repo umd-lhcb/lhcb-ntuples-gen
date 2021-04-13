@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Apr 13, 2021 at 02:21 AM +0200
+# Last Change: Tue Apr 13, 2021 at 02:46 AM +0200
 
 import os.path as os_path
 import shlex
@@ -74,6 +74,9 @@ def pipe_executor(cmd, **kwargs):
 def aggragate_output(workdir, output_dir, keep):
     # Symbolic link generated files that match 'keep' patterns in separate
     # folders so that it's easier to find them.
+
+    # NOTE: 'workdir' is usually the main workdir of the fulljob,
+    #       'output_dir' the workdir of a subjob
     chdir(os_path.abspath(workdir))
     output_dir = os_path.abspath(output_dir)
 
