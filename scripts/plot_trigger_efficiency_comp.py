@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
 # Author: Yipeng Sun
-# Last Change: Tue Apr 13, 2021 at 07:17 PM +0200
+# Last Change: Tue Apr 13, 2021 at 07:40 PM +0200
 
 import uproot
 
@@ -76,6 +76,10 @@ specify triggers to be required True before evaluating efficiency.
 specify plotting range for the kinematic variables.
 ''')
 
+    parser.add_argument('--xlabel',
+                        nargs='+',
+                        default=['$q^2$', '$m_{miss}^2$', '$E_l$'])
+
     return parser
 
 
@@ -86,7 +90,7 @@ specify plotting range for the kinematic variables.
 if __name__ == '__main__':
     args = parse_input().parse_args()
 
-    plot_style()
+    plot_style(text_usetex=True, font_family='Times')
 
     ntp = uproot.open(args.ref)
 
@@ -105,7 +109,8 @@ if __name__ == '__main__':
         eff_branches.append(filtered)
 
     # Now generate efficiency plots regarding some kinematic variables
-    for br, data_range in zip(args.kinematic_vars, args.data_range):
+    for br, data_range, xlabel in zip(args.kinematic_vars, args.data_range,
+                                      args.xlabel):
         raw = read_branch(ntp, args.ref_tree, br)
         filtered = raw[cut]
         histos = []
@@ -126,4 +131,4 @@ if __name__ == '__main__':
 
         plot_two_histos(
             histos[0], bins, histos[1], bins,
-            dict(), dict(), output=filename)
+            dict(), dict(), output=filename, ylabel='Efficiency', xlabel=xlabel)
