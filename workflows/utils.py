@@ -2,14 +2,12 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Apr 12, 2021 at 10:38 PM +0200
+# Last Change: Tue Apr 13, 2021 at 02:21 AM +0200
 
 import os.path as os_path
 import shlex
 
-from dataclasses import dataclass, field
-from typing import Dict, List, Any
-from os import makedirs, listdir, chdir, getcwd, environ, pathsep, symlink
+from os import makedirs, chdir, symlink, getcwd, environ, pathsep
 from datetime import datetime
 from subprocess import check_output
 from shutil import rmtree
@@ -45,13 +43,24 @@ def abs_path(path, base_path=__file__):
         os_path.join(os_path.dirname(os_path.abspath(base_path)), path))
 
 
-##############
-# Containers #
-##############
+def find_all_input(inputs, patterns=['*.root']):
+    result = []
+    for f in inputs:
+        if os_path.isfile(f):
+            result.append(os_path.abspath(f))
+        elif os_path.isdir(f):
+            for p in patterns:
+                result += [os_path.abspath(g) for g in glob(os_path.join(f, p))]
+    return result
+
+
+#####################
+# Execution helpers #
+#####################
 
 def pipe_executor(cmd, **kwargs):
-    def operation(keys, debug=False):
-        args = [a.format(**keys) for a in shlex.split(cmd)]
+    def operation(params, debug=False):
+        args = [a.format(**params) for a in shlex.split(cmd)]
         if debug:
             print('{}DEBUG: Executing:{} {}'.format(
                 TC.YELLOW, TC.END, ' '.join(args)))
@@ -76,6 +85,11 @@ def aggragate_output(workdir, output_dir, keep):
         for p in patterns:
             for f in glob(os_path.join(relpath, p)):
                 symlink(f, os_path.join('.', os_path.basename(f)))
+
+
+def append_path(path=None):
+    path = getcwd if path is None else abs_path(path)
+    environ['PATH'] = pathsep.join([path, environ['PATH']])
 
 
 ################################

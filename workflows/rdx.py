@@ -2,17 +2,19 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sat Apr 10, 2021 at 05:16 PM +0200
+# Last Change: Tue Apr 13, 2021 at 02:22 AM +0200
 
 import sys
 import os.path as os_path
 
 from argparse import ArgumentParser
+from os import chdir
 
 sys.path.insert(0, os_path.dirname(os_path.abspath(__file__)))
 
-from utils import Executor, Processor
-from utils import pipe_executor, abs_path
+from utils import (
+    abs_path, ensure_dir, find_all_input, append_path, pipe_executor
+)
 
 
 #################################
@@ -46,51 +48,58 @@ specify output dir.
     return parser.parse_args()
 
 
+###########
+# Helpers #
+###########
+
+def ensure_output_dir(output_dir, **kwargs):
+    output_dir = os_path.abspath(output_dir)
+    ensure_dir(output_dir, **kwargs)
+    return output_dir
+
+
 #############
 # Workflows #
 #############
 
-WF_TEST = [
-    Executor(
-        [pipe_executor('echo {input}'),
-         pipe_executor('touch {input}.txt')],
-        {'input': lambda files: [os_path.basename(f)
-                                 for f in files if f.endswith('.root')]}
-    ),
-    Executor(
-        [pipe_executor('cp {input} test2.txt')],
-        {'input': lambda files: [f for f in files if f.endswith('.txt')]}
-    )
-]
+def workflow_general(job_name, inputs, output_dir,
+                     global_path_to_append=[
+                         '../lib/python/TrackerOnlyEmu/scripts'
+                     ],
+                     path_to_append=[
+                         './rdx'
+                     ],
+                     input_patterns=['*.root']):
+    for p in global_path_to_append+path_to_append:
+        append_path(p)
 
-WF_MC = [
-    # First, generate trigger emulations
-    Executor(
-        [pipe_executor('run2-rdx-hlt1.py {input} b0_hlt1.root -t TupleB0/DecayTree'),
-         pipe_executor('run2-rdx-hlt1.py {input} b_hlt1.root -t TupleBminus/DecayTree -B b')],
-        {'input': lambda files: [f for f in files if f.endswith('.root')]}
-    ),
-]
+    # Need to figure out the absolute path
+    input_files = find_all_input(inputs, input_patterns)
+    subworkdirs = {os_path.splitext(os_path.basename(i)[0])[0]: i
+                   for i in input_files}
 
+    # Now ensure the working dir
+    workdir = ensure_output_dir(os_path.join(output_dir, job_name))
 
-#######################
-# Workflow processors #
-#######################
-
-def workflow_test(inputs, output_dir, debug):
-    proc = Processor(inputs, output_dir, keep={'txt': '*.txt'}, debug=debug)
-    proc.process(WF_TEST)
-    proc.link_keep()
+    return subworkdirs, workdir
 
 
-def workflow_mc(inputs, job_name, debug):
-    proc = Processor(inputs, job_name, keep={'root': '*.root'}, debug=debug)
-    proc.process(WF_MC)
-    proc.link_keep()
+def workflow_mc(job_name, inputs, output_dir, debug):
+    subworkdirs, workdir = workflow_general(job_name, inputs, output_dir)
+    chdir(workdir)
+    exe = pipe_executor('mc.sh {input_ntp}')
+
+    for d, f in subworkdirs.items():
+        ensure_dir(d)
+        chdir(d)  # Switch to the workdir of the subjob
+        params = {
+            'input_ntp': f
+        }
+        exe(params, debug)
+        chdir('..')  # Switch back to parent workdir
 
 
-WF_PROCESSORS = {
-    'test': workflow_test,
+WORKFLOWS = {
     'mc': workflow_mc,
 }
 
@@ -103,5 +112,5 @@ if __name__ == '__main__':
     args = parse_input()
 
     if args.mode:
-        output_dir = os_path.join(args.output_dir, args.job_name)
-        WF_PROCESSORS[args.mode](args.inputs, output_dir, args.debug)
+        WORKFLOWS[args.mode](
+            args.job_name, args.inputs, args.output_dir, args.debug)
