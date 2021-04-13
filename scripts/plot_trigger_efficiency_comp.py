@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
 # Author: Yipeng Sun
-# Last Change: Tue Apr 13, 2021 at 07:52 PM +0200
+# Last Change: Tue Apr 13, 2021 at 08:10 PM +0200
 
 import uproot
 
@@ -102,16 +102,21 @@ specify title of the plot.
 # Main #
 ########
 
+def bar_style(label, color):
+    return {
+        'fill': False,
+        'edgecolor': color,
+        'label': label,
+    }
+
+
 if __name__ == '__main__':
     args = parse_input().parse_args()
 
     plot_style(text_usetex=True, font_family='Times')
 
     ntp = uproot.open(args.ref)
-    legends = [
-        {'color': 'red', 'label': args.legends[0]},
-        {'color': 'blue', 'label': args.legends[1]},
-    ]
+    legends = [bar_style(i, c) for i, c in zip(args.legends, ['red', 'blue'])]
 
     # Load trigger branches that we cut on
     cut = read_branches(ntp, args.ref_tree, args.cuts)
