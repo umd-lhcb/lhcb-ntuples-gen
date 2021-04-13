@@ -2,13 +2,15 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Apr 13, 2021 at 02:46 AM +0200
+# Last Change: Tue Apr 13, 2021 at 02:59 AM +0200
 
 import sys
 import os.path as os_path
 
 from argparse import ArgumentParser
 from os import chdir
+
+from pyBabyMaker.base import TermColor as TC
 
 sys.path.insert(0, os_path.dirname(os_path.abspath(__file__)))
 
@@ -86,18 +88,23 @@ def workflow_general(job_name, inputs, output_dir,
 
 
 def workflow_mc(job_name, inputs, output_dir, debug):
+    print('{}== Job: {} =={}'.format(TC.BOLD+TC.GREEN, job_name, TC.END))
     subworkdirs, workdir = workflow_general(job_name, inputs, output_dir)
     chdir(workdir)
     exe = pipe_executor('mc.sh {input_ntp}')
 
-    for d, f in subworkdirs.items():
-        ensure_dir(d)
-        chdir(d)  # Switch to the workdir of the subjob
+    for subdir, full_filename in subworkdirs.items():
+        print('{}Working on {}...{}'.format(TC.GREEN, full_filename, TC.END))
+        ensure_dir(subdir)
+        chdir(subdir)  # Switch to the workdir of the subjob
+
         params = {
-            'input_ntp': f
+            'input_ntp': full_filename
         }
         exe(params, debug)
-        aggragate_output('..', d, {'root': ['*.root']})
+
+        aggragate_output('..', subdir, {'root': ['*.root']})
+
         chdir('..')  # Switch back to parent workdir
 
 
