@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
 # Author: Yipeng Sun
-# Last Change: Tue Apr 13, 2021 at 07:48 PM +0200
+# Last Change: Tue Apr 13, 2021 at 07:52 PM +0200
 
 import uproot
 
@@ -90,6 +90,11 @@ specify the x axis label.
 specify legend labels.
 ''')
 
+    parser.add_argument('--title',
+                        help='''
+specify title of the plot.
+''')
+
     return parser
 
 
@@ -139,8 +144,12 @@ if __name__ == '__main__':
             # Replace NaN with 0
             histos.append(nan_to_num(histo_weighted / histo_orig))
 
-        filename = '_'.join([args.output_prefix, br])
+        filename = '_'.join([args.output_prefix,
+                             args.title.replace(' ', '_'), br])
 
         plot_two_histos(
-            histos[0], bins, histos[1], bins,
-            legends[0], legends[1], output=filename, ylabel='Efficiency', xlabel=xlabel)
+            histos[0], bins, histos[1], bins, legends[0], legends[1],
+            output=filename,
+            ylabel='Efficiency', xlabel=xlabel,
+            title=args.title
+        )
