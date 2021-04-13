@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
 # Author: Yipeng Sun
-# Last Change: Tue Apr 13, 2021 at 07:40 PM +0200
+# Last Change: Tue Apr 13, 2021 at 07:48 PM +0200
 
 import uproot
 
@@ -78,7 +78,17 @@ specify plotting range for the kinematic variables.
 
     parser.add_argument('--xlabel',
                         nargs='+',
-                        default=['$q^2$', '$m_{miss}^2$', '$E_l$'])
+                        default=['$q^2$', '$m_{miss}^2$', '$E_l$'],
+                        help='''
+specify the x axis label.
+''')
+
+    parser.add_argument('--legends',
+                        nargs='+',
+                        default=['Real response', 'Emulated'],
+                        help='''
+specify legend labels.
+''')
 
     return parser
 
@@ -93,6 +103,10 @@ if __name__ == '__main__':
     plot_style(text_usetex=True, font_family='Times')
 
     ntp = uproot.open(args.ref)
+    legends = [
+        {'color': 'red', 'label': args.legends[0]},
+        {'color': 'blue', 'label': args.legends[1]},
+    ]
 
     # Load trigger branches that we cut on
     cut = read_branches(ntp, args.ref_tree, args.cuts)
@@ -114,7 +128,6 @@ if __name__ == '__main__':
         raw = read_branch(ntp, args.ref_tree, br)
         filtered = raw[cut]
         histos = []
-        legends = []
 
         for tr_br in eff_branches:
             histo_orig, bins = gen_histo(
@@ -125,10 +138,9 @@ if __name__ == '__main__':
 
             # Replace NaN with 0
             histos.append(nan_to_num(histo_weighted / histo_orig))
-            legends.append(dict())
 
         filename = '_'.join([args.output_prefix, br])
 
         plot_two_histos(
             histos[0], bins, histos[1], bins,
-            dict(), dict(), output=filename, ylabel='Efficiency', xlabel=xlabel)
+            legends[0], legends[1], output=filename, ylabel='Efficiency', xlabel=xlabel)
