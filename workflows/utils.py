@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Apr 13, 2021 at 02:46 AM +0200
+# Last Change: Thu Apr 15, 2021 at 06:42 PM +0200
 
 import os.path as os_path
 import shlex
@@ -77,10 +77,12 @@ def aggragate_output(workdir, output_dir, keep):
 
     # NOTE: 'workdir' is usually the main workdir of the fulljob,
     #       'output_dir' the workdir of a subjob
+    workdir = os_path.abspath(workdir)
     chdir(os_path.abspath(workdir))
     output_dir = os_path.abspath(output_dir)
 
     for d, patterns in keep.items():
+        chdir(workdir)
         ensure_dir(d, False)
         chdir(d)
         relpath = os_path.relpath(output_dir, os_path.abspath('.'))

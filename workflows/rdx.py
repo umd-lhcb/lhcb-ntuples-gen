@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Apr 15, 2021 at 06:14 PM +0200
+# Last Change: Thu Apr 15, 2021 at 06:41 PM +0200
 
 import sys
 import os.path as os_path
@@ -104,7 +104,11 @@ def workflow_mc(job_name, inputs, output_dir, debug):
         }
         exe(params, debug)
 
-        aggragate_output('..', subdir, {'root': ['*.root']})
+        aggragate_output('..', subdir, {
+            'ntuple': ['*.root'],
+            'plots_raster': ['*.png'],
+            'plots_vector': ['*.pdf'],
+        })
 
         chdir('..')  # Switch back to parent workdir
 
