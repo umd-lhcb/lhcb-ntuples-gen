@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
 # Author: Yipeng Sun
-# Last Change: Thu Apr 15, 2021 at 02:52 AM +0200
+# Last Change: Thu Apr 15, 2021 at 09:53 PM +0200
 
 import uproot
 import numpy as np
@@ -51,7 +51,11 @@ specify prefix to all output files.
 
     parser.add_argument('-k', '--kinematic-vars',
                         nargs='+',
-                        default=['q2', 'mmiss2', 'el'],
+                        default=['q2',
+                                 'mmiss2',
+                                 'el',
+                                 'k_p', 'k_pt',
+                                 'pi_p', 'pi_pt'],
                         help='''
 specify efficiency regarding which kinematic variables.
 ''')
@@ -72,7 +76,13 @@ specify triggers to be required True before evaluating efficiency.
 
     parser.add_argument('-D', '--data-range',
                         nargs='+',
-                        default=[(-10, 10), (-10, 8), (0, 3)],
+                        default=[
+                            (-10, 10),
+                            (-10, 8),
+                            (0, 3),
+                            (0, 200), (0, 15),
+                            (0, 200), (0, 15)
+                        ],
                         action=DataRangeAction,
                         help='''
 specify plotting range for the kinematic variables.
@@ -80,9 +90,13 @@ specify plotting range for the kinematic variables.
 
     parser.add_argument('--xlabel',
                         nargs='+',
-                        default=['$q^2$ [GeV$^2$]',
-                                 '$m_{miss}^2$ [GeV$^2$]',
-                                 '$E_l$ [GeV]'],
+                        default=[
+                            '$q^2$ [GeV$^2$]',
+                            '$m_{miss}^2$ [GeV$^2$]',
+                            '$E_l$ [GeV]',
+                            '$K$ $p$ [GeV]', '$K$ $p_T$ [GeV]',
+                            '$\\pi$ $p$ [GeV]', '$\\pi$ $p_T$ [GeV]',
+                        ],
                         help='''
 specify the x axis label.
 ''')
