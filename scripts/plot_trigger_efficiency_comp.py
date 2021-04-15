@@ -1,18 +1,19 @@
 #!/usr/bin/env python3
 #
 # Author: Yipeng Sun
-# Last Change: Tue Apr 13, 2021 at 08:10 PM +0200
+# Last Change: Thu Apr 15, 2021 at 02:22 AM +0200
 
 import uproot
 
 from argparse import Action
 from numpy import logical_and as AND
 from numpy import nan_to_num
+from statsmodels.stats.proportion import proportion_confint
 
 from pyTuplingUtils.parse import single_ntuple_parser_no_output
 from pyTuplingUtils.utils import gen_histo
 from pyTuplingUtils.io import read_branches, read_branch
-from pyTuplingUtils.plot import plot_style, plot_two_histos, ax_add_args_simple
+from pyTuplingUtils.plot import plot_style, plot_two_errorbar
 
 
 #################################
@@ -95,6 +96,19 @@ specify legend labels.
 specify title of the plot.
 ''')
 
+    parser.add_argument('--colors',
+                        nargs='+',
+                        default=['red', 'blue'],
+                        help='''
+specify plot colors.
+''')
+
+    parser.add_argument('--ext',
+                        default='pdf',
+                        help='''
+specify output filetype.
+''')
+
     return parser
 
 
@@ -102,11 +116,13 @@ specify title of the plot.
 # Main #
 ########
 
-def bar_style(label, color):
+def errorbar_style(label, color, yerr=None):
     return {
-        'fill': False,
-        'edgecolor': color,
         'label': label,
+        'ls': 'none',
+        'color': color,
+        'marker': 'o',
+        'yerr': yerr,
     }
 
 
@@ -116,7 +132,6 @@ if __name__ == '__main__':
     plot_style(text_usetex=True, font_family='Times')
 
     ntp = uproot.open(args.ref)
-    legends = [bar_style(i, c) for i, c in zip(args.legends, ['red', 'blue'])]
 
     # Load trigger branches that we cut on
     cut = read_branches(ntp, args.ref_tree, args.cuts)
@@ -133,27 +148,39 @@ if __name__ == '__main__':
         eff_branches.append(filtered)
 
     # Now generate efficiency plots regarding some kinematic variables
-    for br, data_range, xlabel in zip(args.kinematic_vars, args.data_range,
-                                      args.xlabel):
+    for br, data_range, xlabel in zip(
+            args.kinematic_vars, args.data_range, args.xlabel):
         raw = read_branch(ntp, args.ref_tree, br)
         filtered = raw[cut]
         histos = []
+        errors = []
+        styles = []
 
-        for tr_br in eff_branches:
+        for tr_br, color, legend in zip(
+                eff_branches, args.colors, args.legends):
             histo_orig, bins = gen_histo(
                 filtered, bins=25, data_range=data_range)
             histo_weighted, bins = gen_histo(
                 filtered, bins=25, data_range=data_range,
                 weights=tr_br.astype(int))
 
+            # Proper error propagation with the assumption that for each
+            # histogram bin, the distribution is binomial
+            error = proportion_confint(histo_weighted, histo_orig,
+                                       method='beta', alpha=0.05)  # Clopper-Pearson
+            error = nan_to_num(error)
+
             # Replace NaN with 0
-            histos.append(nan_to_num(histo_weighted / histo_orig))
+            histo = nan_to_num(histo_weighted / histo_orig)
+            histos.append(histo)
+            styles.append(errorbar_style(legend, color, yerr=error))
 
         filename = '_'.join([args.output_prefix,
-                             args.title.replace(' ', '_'), br])
+                             args.title.replace(' ', '_'), br]) + '.' + \
+            args.ext
 
-        plot_two_histos(
-            histos[0], bins, histos[1], bins, legends[0], legends[1],
+        plot_two_errorbar(
+            bins, histos[0], bins, histos[1], styles[0], styles[1],
             output=filename,
             ylabel='Efficiency', xlabel=xlabel,
             title=args.title
