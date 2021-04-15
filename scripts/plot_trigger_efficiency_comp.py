@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
 # Author: Yipeng Sun
-# Last Change: Thu Apr 15, 2021 at 02:46 AM +0200
+# Last Change: Thu Apr 15, 2021 at 02:49 AM +0200
 
 import uproot
 import numpy as np
@@ -80,7 +80,9 @@ specify plotting range for the kinematic variables.
 
     parser.add_argument('--xlabel',
                         nargs='+',
-                        default=['$q^2$', '$m_{miss}^2$', '$E_l$'],
+                        default=['$q^2$ [GeV$^2$]',
+                                 '$m_{miss}^2$ [GeV$^2$]',
+                                 '$E_l$ [GeV]'],
                         help='''
 specify the x axis label.
 ''')
