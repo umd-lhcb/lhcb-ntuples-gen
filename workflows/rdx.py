@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Apr 13, 2021 at 02:59 AM +0200
+# Last Change: Thu Apr 15, 2021 at 06:14 PM +0200
 
 import sys
 import os.path as os_path
@@ -70,7 +70,8 @@ def workflow_general(job_name, inputs, output_dir,
                          '../lib/python/TrackerOnlyEmu/scripts'
                      ],
                      path_to_append=[
-                         './rdx'
+                         './rdx',
+                         '../scripts'
                      ],
                      input_patterns=['*.root']):
     for p in global_path_to_append+path_to_append:
