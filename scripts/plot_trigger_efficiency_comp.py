@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 #
 # Author: Yipeng Sun
-# Last Change: Thu Apr 15, 2021 at 02:25 AM +0200
+# Last Change: Thu Apr 15, 2021 at 02:46 AM +0200
 
 import uproot
+import numpy as np
 
 from argparse import Action
 from numpy import logical_and as AND
@@ -127,6 +128,14 @@ def errorbar_style(label, color, yerr=None):
     }
 
 
+def div_with_confint(num, denom):
+    ratio = num / denom
+    intv = proportion_confint(num, denom, method='beta', alpha=0.05)
+    err = np.abs(intv - ratio)  # Errors are allowed to be asymmetrical
+
+    return nan_to_num(ratio), nan_to_num(err)
+
+
 if __name__ == '__main__':
     args = parse_input().parse_args()
 
@@ -154,7 +163,6 @@ if __name__ == '__main__':
         raw = read_branch(ntp, args.ref_tree, br)
         filtered = raw[cut]
         histos = []
-        errors = []
         styles = []
 
         for tr_br, color, legend in zip(
@@ -165,20 +173,13 @@ if __name__ == '__main__':
                 filtered, bins=25, data_range=data_range,
                 weights=tr_br.astype(int))
 
-            # Proper error propagation with the assumption that for each
-            # histogram bin, the distribution is binomial
-            error = proportion_confint(histo_weighted, histo_orig,
-                                       method='beta', alpha=0.05)  # Clopper-Pearson
-            error = nan_to_num(error)
-
-            # Replace NaN with 0
-            histo = nan_to_num(histo_weighted / histo_orig)
+            histo, error = div_with_confint(histo_weighted, histo_orig)
             histos.append(histo)
             styles.append(errorbar_style(legend, color, yerr=error))
 
-        filename = '_'.join([args.output_prefix,
-                             args.title.replace(' ', '_'), br]) + '.' + \
-            args.ext
+        filename = '_'.join([
+            args.output_prefix, args.title.replace(' ', '_'), br]) + \
+            '.' + args.ext
 
         plot_two_errorbar(
             bins, histos[0], bins, histos[1], styles[0], styles[1],
