@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
 # Author: Yipeng Sun
-# Last Change: Thu Apr 15, 2021 at 02:22 AM +0200
+# Last Change: Thu Apr 15, 2021 at 02:25 AM +0200
 
 import uproot
 
@@ -122,6 +122,7 @@ def errorbar_style(label, color, yerr=None):
         'ls': 'none',
         'color': color,
         'marker': 'o',
+        'markeredgecolor': 'none',
         'yerr': yerr,
     }
 
