@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
 # Author: Yipeng Sun
-# Last Change: Thu Apr 15, 2021 at 02:49 AM +0200
+# Last Change: Thu Apr 15, 2021 at 02:52 AM +0200
 
 import uproot
 import numpy as np
@@ -184,7 +184,7 @@ if __name__ == '__main__':
             '.' + args.ext
 
         plot_two_errorbar(
-            bins, histos[0], bins, histos[1], styles[0], styles[1],
+            bins, histos[0], bins, histos[1], *styles,
             output=filename,
             ylabel='Efficiency', xlabel=xlabel,
             title=args.title
