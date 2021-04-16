@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
 # Author: Yipeng Sun
-# Last Change: Thu Apr 15, 2021 at 09:53 PM +0200
+# Last Change: Fri Apr 16, 2021 at 02:06 AM +0200
 
 import uproot
 import numpy as np
@@ -55,7 +55,10 @@ specify prefix to all output files.
                                  'mmiss2',
                                  'el',
                                  'k_p', 'k_pt',
-                                 'pi_p', 'pi_pt'],
+                                 'pi_p', 'pi_pt',
+                                 'k_chi2ndof', 'k_ipchi2', 'k_ghost',
+                                 'pi_chi2ndof', 'pi_ipchi2', 'pi_ghost',
+                                 ],
                         help='''
 specify efficiency regarding which kinematic variables.
 ''')
@@ -81,7 +84,9 @@ specify triggers to be required True before evaluating efficiency.
                             (-10, 8),
                             (0, 3),
                             (0, 200), (0, 15),
-                            (0, 200), (0, 15)
+                            (0, 200), (0, 15),
+                            (0, 4), (0, 10000), (0, 0.4),
+                            (0, 4), (0, 10000), (0, 0.4),
                         ],
                         action=DataRangeAction,
                         help='''
@@ -96,6 +101,8 @@ specify plotting range for the kinematic variables.
                             '$E_l$ [GeV]',
                             '$K$ $p$ [GeV]', '$K$ $p_T$ [GeV]',
                             '$\\pi$ $p$ [GeV]', '$\\pi$ $p_T$ [GeV]',
+                            '$K$ $\\chi^2/DOF$', '$K$ IP$\\chi^2$', '$K$ Ghost Prob',
+                            '$\\pi$ $\\chi^2/DOF$', '$\\pi$ IP$\\chi^2$', '$\\pi$ Ghost Prob',
                         ],
                         help='''
 specify the x axis label.
