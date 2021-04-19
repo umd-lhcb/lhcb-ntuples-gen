@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
 # Author: Yipeng Sun
-# Last Change: Fri Apr 16, 2021 at 02:06 AM +0200
+# Last Change: Mon Apr 19, 2021 at 08:47 PM +0200
 
 import uproot
 import numpy as np
@@ -71,7 +71,7 @@ specify trigger branches that will be used for efficiency comparison.
 ''')
 
     parser.add_argument('-c', '--cuts',
-                        nargs='+',
+                        nargs='*',
                         default=['d0_l0_global_dec'],
                         help='''
 specify triggers to be required True before evaluating efficiency.
@@ -128,9 +128,10 @@ specify plot colors.
 ''')
 
     parser.add_argument('--ext',
-                        default='pdf',
+                        nargs='+',
+                        default=['pdf', 'png'],
                         help='''
-specify output filetype.
+specify output filetypes.
 ''')
 
     return parser
@@ -167,11 +168,15 @@ if __name__ == '__main__':
     ntp = uproot.open(args.ref)
 
     # Load trigger branches that we cut on
-    cut = read_branches(ntp, args.ref_tree, args.cuts)
-    if len(cut) > 1:
-        cut = AND(cut)
+    if args.cuts:
+        cut = read_branches(ntp, args.ref_tree, args.cuts)
+        if len(cut) > 1:
+            cut = AND(cut)
+        else:
+            cut = cut[0]
     else:
-        cut = cut[0]
+        evt_num = read_branch(ntp, args.ref_tree, 'runNumber')
+        cut = np.array([True]*evt_num.size)
 
     # Load trigger branches that will be used for efficiency comparison
     eff_branches = []
@@ -200,13 +205,14 @@ if __name__ == '__main__':
             histos.append(histo)
             styles.append(errorbar_style(legend, color, yerr=error))
 
-        filename = '_'.join([
-            args.output_prefix, args.title.replace(' ', '_'), br]) + \
-            '.' + args.ext
+        for ext in args.ext:
+            filename = '_'.join([
+                args.output_prefix, args.title.replace(' ', '_'), br]) + \
+                '.' + ext
 
-        plot_two_errorbar(
-            bins, histos[0], bins, histos[1], *styles,
-            output=filename,
-            ylabel='Efficiency', xlabel=xlabel,
-            title=args.title
-        )
+            plot_two_errorbar(
+                bins, histos[0], bins, histos[1], *styles,
+                output=filename,
+                ylabel='Efficiency', xlabel=xlabel,
+                title=args.title
+            )
