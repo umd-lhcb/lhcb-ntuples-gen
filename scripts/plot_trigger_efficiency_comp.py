@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
 # Author: Yipeng Sun
-# Last Change: Mon Apr 19, 2021 at 08:47 PM +0200
+# Last Change: Tue Apr 20, 2021 at 07:19 PM +0200
 
 import uproot
 import numpy as np
@@ -199,7 +199,7 @@ if __name__ == '__main__':
                 filtered, bins=25, data_range=data_range)
             histo_weighted, bins = gen_histo(
                 filtered, bins=25, data_range=data_range,
-                weights=tr_br.astype(int))
+                weights=tr_br.astype(np.double))
 
             histo, error = div_with_confint(histo_weighted, histo_orig)
             histos.append(histo)
