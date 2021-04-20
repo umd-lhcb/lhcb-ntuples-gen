@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Author: Yipeng Sun
-# Last Change: Mon Apr 19, 2021 at 08:53 PM +0200
+# Last Change: Tue Apr 20, 2021 at 08:09 PM +0200
 
 INPUT_NTP=$1
 
@@ -16,7 +16,7 @@ plot_hlt_eff() {
         -t "${TREE}" --title "${TITLE}"
 }
 
-plot_l0_eff() {
+plot_l0_hadron_eff() {
     NTP=$1
     TREE=$2
     OUTPUT_PREFIX=$3
@@ -31,18 +31,45 @@ plot_l0_eff() {
         -D -10 10 -10 8 0 3
 }
 
+plot_l0_global_tis_eff() {
+    NTP=$1
+    TREE=$2
+    OUTPUT_PREFIX=$3
+    TRIGGER=$4
+    TITLE=$5
+
+    plot_trigger_efficiency_comp.py \
+        -n "${NTP}" -o "${OUTPUT_PREFIX}" -T ${TRIGGER} \
+        -t "${TREE}" --title "${TITLE}" \
+        -c \
+        -k "q2" "mmiss2" "el" \
+           "log_${OUTPUT_PREFIX}_true_pz" "log_${OUTPUT_PREFIX}_true_pt" \
+        -D -10 10 -10 8 0 3 9 14 6 12 \
+        --xlabel "\$q^2$ [GeV\$^2$]" \
+                 "\$m_{miss}^2$ [GeV\$^2$]" \
+                 "\$E_l$ [GeV]" \
+                 "\$\\log(P_Z)$" \
+                 "\$\\log(P_T)$"
+}
+
 
 # Hlt1 emulation: Hlt1TwoTrackMVA & Hlt1TrackMVA
 run2-rdx-hlt1.py ${INPUT_NTP} emu_hlt1_b0.root \
     -t TupleB0/DecayTree -B b0 --debug
 run2-rdx-hlt1.py ${INPUT_NTP} emu_hlt1_b.root \
-    -t TupleBminus/DecayTree -B b --debug
+    -t TupleBminus/DecayTree -B b --debug || exit 1
 
 # L0 emulation: L0Hadron
-run2-rdx-l0_hadron.py ${INPUT_NTP} emu_l0_b0.root \
+run2-rdx-l0_hadron.py ${INPUT_NTP} emu_l0_hadron_b0.root \
     -t TupleB0/DecayTree --debug
-run2-rdx-l0_hadron.py ${INPUT_NTP} emu_l0_b.root \
-    -t TupleBminus/DecayTree --debug
+run2-rdx-l0_hadron.py ${INPUT_NTP} emu_l0_hadron_b.root \
+    -t TupleBminus/DecayTree --debug || exit 1
+
+# L0 emulation: L0Global TIS
+run2-rdx-l0_global_tis.py ${INPUT_NTP} emu_l0_global_tis_b0.root \
+    -t TupleB0/DecayTree -B b0 --debug
+run2-rdx-l0_global_tis.py ${INPUT_NTP} emu_l0_global_tis_b.root \
+    -t TupleBminus/DecayTree -B b --debug || exit 1
 
 
 # Plot efficiencies: Hlt1TwoTrackMVA
@@ -69,10 +96,21 @@ plot_hlt_eff emu_hlt1_b.root "TupleBminus/DecayTree" b \
 
 # Plot efficiencies: L0Hadron
 #   D*
-plot_l0_eff emu_l0_b0.root "TupleB0/DecayTree" b0 \
+plot_l0_hadron_eff emu_l0_hadron_b0.root "TupleB0/DecayTree" b0 \
     "d0_l0_hadron_tos d0_l0_hadron_tos_emu" \
     "L0Hadron TOS"
 #   D0
-plot_l0_eff emu_l0_b.root "TupleBminus/DecayTree" b \
+plot_l0_hadron_eff emu_l0_hadron_b.root "TupleBminus/DecayTree" b \
     "d0_l0_hadron_tos d0_l0_hadron_tos_emu" \
     "L0Hadron TOS"
+
+
+# Plot efficiencies: L0Global TIS
+#   B0
+plot_l0_global_tis_eff emu_l0_global_tis_b0.root "TupleB0/DecayTree" b0 \
+    "b0_l0_global_tis b0_l0_global_tis_emu" \
+    "L0Global TIS"
+#   B
+plot_l0_global_tis_eff emu_l0_global_tis_b.root "TupleBminus/DecayTree" b \
+    "b_l0_global_tis b_l0_global_tis_emu" \
+    "L0Global TIS"
