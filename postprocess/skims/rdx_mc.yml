@@ -13,6 +13,8 @@ TupleB0/DecayTree:
         - "NumPVs"
         - "NumProtoParticles"
         - "OdinTCK"
+        # Kinematics
+        - "*_MMERR"
         # End vertex stuff
         - "*_ENDVERTEX_COV_"
         - "*_ENDVERTEX_X*"
@@ -75,7 +77,7 @@ TupleBminus/DecayTree:
 # MC truth trees #
 ##################
 
-MCTupleB0Tau/DecayTree:
+MCTupleB0Tau/MCDecayTree:
     deactivate:
         - "EventInSequence"
         - "GpsTime"
@@ -83,7 +85,7 @@ MCTupleB0Tau/DecayTree:
         - "*_TRUEENDVERTEX_*"
         - "*_TRUEORIGINVERTEX_*"
 
-MCTupleB0Mu/DecayTree:
+MCTupleB0Mu/MCDecayTree:
     deactivate:
         - "EventInSequence"
         - "GpsTime"
@@ -91,7 +93,7 @@ MCTupleB0Mu/DecayTree:
         - "*_TRUEENDVERTEX_*"
         - "*_TRUEORIGINVERTEX_*"
 
-MCTupleBminusTau/DecayTree:
+MCTupleBminusTau/MCDecayTree:
     deactivate:
         - "EventInSequence"
         - "GpsTime"
@@ -99,7 +101,7 @@ MCTupleBminusTau/DecayTree:
         - "*_TRUEENDVERTEX_*"
         - "*_TRUEORIGINVERTEX_*"
 
-MCTupleBminusMu/DecayTree:
+MCTupleBminusMu/MCDecayTree:
     deactivate:
         - "EventInSequence"
         - "GpsTime"
