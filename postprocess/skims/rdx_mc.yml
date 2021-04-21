@@ -13,6 +13,8 @@ TupleB0/DecayTree:
         - "NumPVs"
         - "NumProtoParticles"
         - "OdinTCK"
+        # Discard Mu
+        - "*_DISCARDMu_*ERR"
         # Kinematics
         - "*_MMERR"
         # End vertex stuff
