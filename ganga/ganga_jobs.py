@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Mar 10, 2021 at 01:56 AM +0100
+# Last Change: Wed Apr 21, 2021 at 02:19 AM +0200
 #
 # Description: A demonstration on ganga option file with parser.
 #              This demo runs stand-alone, provided that Python is installed:
@@ -20,7 +20,7 @@ import sys
 sys.path.insert(1, dirname(realpath(__file__)))
 
 # Stuff from ganga_sample_jobs_parser.py
-from ganga_sample_jobs_parser import args, reco_type, lfn, job_name
+from ganga_sample_jobs_parser import args, reco_type, lfn, job_name, ntuple_name
 
 
 ##########################
@@ -50,7 +50,7 @@ def conf_job_app(davinci_path, options):
 ########
 
 print('Preparing job {}'.format(job_name))
-j = Job(name=job_name)
+j = Job(name=job_name, metadata={'filename': ntuple_name})
 
 # Get input data from DIRAC
 data = BKQuery(lfn, dqflag=['OK']).getDataset()
