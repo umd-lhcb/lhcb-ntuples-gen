@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sat Mar 06, 2021 at 11:40 PM +0100
+# Last Change: Wed Apr 21, 2021 at 03:00 AM +0200
 #
 # Description: A demonstration on ganga option file with parser.
 #              This demo runs stand-alone, provided that Python is installed:
@@ -145,7 +145,7 @@ specify DaVinci base reconstruction script.''')
 specify DaVinci reconstruction condition file.  ''')
 
     parser.add_argument('--davinci',
-                        default='~/build/DaVinciDev_v45r4',
+                        default='~/build/DaVinciDev_v45r6',
                         help='''
 specify path to local DaVinci build.''')
 
