@@ -1,0 +1,45 @@
+############
+# MC trees #
+############
+
+TupleB0/DecayTree:
+    deactivate:
+        - "*_ENDVERTEX_COV_"
+        - "*RoutingBits*"
+        - "_MC12Tune*"
+        - "_MC15Tune*"
+
+MCTupleB0Tau/DecayTree:
+    deactivate:
+        - "*_ENDVERTEX_COV_"
+        - "*RoutingBits*"
+        - "_MC12Tune*"
+        - "_MC15Tune*"
+
+MCTupleB0Mu/DecayTree:
+    deactivate:
+        - "*_ENDVERTEX_COV_"
+        - "*RoutingBits*"
+        - "_MC12Tune*"
+        - "_MC15Tune*"
+
+TupleBminus/DecayTree:
+    deactivate:
+        - "*_ENDVERTEX_COV_"
+        - "*RoutingBits*"
+        - "_MC12Tune*"
+        - "_MC15Tune*"
+
+MCTupleBminusTau/DecayTree:
+    deactivate:
+        - "*_ENDVERTEX_COV_"
+        - "*RoutingBits*"
+        - "_MC12Tune*"
+        - "_MC15Tune*"
+
+MCTupleBminusMu/DecayTree:
+    deactivate:
+        - "*_ENDVERTEX_COV_"
+        - "*RoutingBits*"
+        - "_MC12Tune*"
+        - "_MC15Tune*"
