@@ -8,8 +8,13 @@ POLARITY = {'Up': 'mag_up', 'Down': 'mag_down'}
 SIMULATION = {'Pythia6': 'py6', 'Pythia8': 'py8'}
 
 
-def normalize_hadd_filename(job_name):
-    return job_name + '.root'
+def normalize_hadd_filename(job):
+    # For newer jobs, the canonical job filename is stored in the 'comment'
+    # field of the job
+    if job.comment:
+        return job.comment
+
+    return job.name + '.root'
 
 
 def get_ntuple_filename(j):
@@ -29,6 +34,11 @@ def gen_hadd_script(instructions, output_script, input_dir, output_dir='$1',
 INPUT_DIR={}
 OUTPUT_DIR={}
 MIN_NTUPLE_SIZE={}  # in KiB
+
+# User-specific settings, change them according to your environment!
+LNG_PATH=$HOME/eos/src/lhcb-ntuples-gen
+YAML_PATH=$LNG_PATH/postprocess/skims/rdx_mc.yml
+BIN_PATH=$LNG_PATH/tools
 
 '''.format(input_dir, output_dir, min_ntuple_size)
 
@@ -65,7 +75,8 @@ function concat_job () {
   check_job $1
 
   if [ $? -eq 0 ]; then
-    hadd -fk ${OUTPUT_DIR}/$3 ${INPUT_DIR}/$1/*/output/$2
+    python2 $BIN_PATH/haddcut.py ${OUTPUT_DIR}/$3 ${INPUT_DIR}/$1/*/output/$2 \\
+        -c $YAML_PATH
   fi
 }
 
@@ -108,7 +119,7 @@ def print_job_hadd_filename(init_idx=0):
         if j.id >= init_idx:
             print('----')
             print('Job {}: {}'.format(j.id, j.status))
-            print('hadd filename: {}'.format(normalize_hadd_filename(j.name)))
+            print('hadd filename: {}'.format(normalize_hadd_filename(j)))
 
 
 def hadd_completed_job_output(
@@ -131,6 +142,6 @@ def hadd_completed_job_output(
                     continue
 
             instructions.append((j.id, get_ntuple_filename(j),
-                                 normalize_hadd_filename(j.name)))
+                                 normalize_hadd_filename(j)))
 
     gen_hadd_script(instructions, output_script, input_dir)
