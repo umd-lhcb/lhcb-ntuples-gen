@@ -1,45 +1,108 @@
-############
-# MC trees #
-############
+#######################
+# Reconstructed trees #
+#######################
 
 TupleB0/DecayTree:
     deactivate:
-        - "*_ENDVERTEX_COV_"
+        # Generic event
         - "*RoutingBits*"
+        - "EventInSequence"
+        - "GpsTime"
+        - "MCVertex*"
+        - "MCVirtualMass"
+        - "NumPVs"
+        - "NumProtoParticles"
+        - "OdinTCK"
+        # End vertex stuff
+        - "*_ENDVERTEX_COV_"
+        - "*_ENDVERTEX_X*"
+        - "*_ENDVERTEX_Y*"
+        - "*_ENDVERTEX_Z*"
+        - "*_TRUEENDVERTEX_*"
+        # Own PV stuff
+        - "*_OWNPV_COV_"
+        - "*_OWNPV_X*"
+        - "*_OWNPV_Y*"
+        - "*_OWNPV_Z*"
+        # Original vertex stuff
+        - "*_ORIVX_COV_"
+        - "*_ORIVX_X*"
+        - "*_ORIVX_Y*"
+        - "*_ORIVX_Z*"
+        - "*_TRUEORIGINVERTEX_*"
+        # MC Tunes
         - "*_MC12Tune*"
         - "*_MC15Tune*"
-
-MCTupleB0Tau/DecayTree:
-    deactivate:
-        - "*_ENDVERTEX_COV_"
-        - "*RoutingBits*"
-        - "*_MC12Tune*"
-        - "*_MC15Tune*"
-
-MCTupleB0Mu/DecayTree:
-    deactivate:
-        - "*_ENDVERTEX_COV_"
-        - "*RoutingBits*"
-        - "*_MC12Tune*"
-        - "*_MC15Tune*"
+        # Track stuff
+        - "*_TRACK_FirstMeasurement*"
+        - "*_TRACK_CloneDist"
+        - "*_TRACK_*_UTID"
+        - "*_TRACK_History"
 
 TupleBminus/DecayTree:
     deactivate:
-        - "*_ENDVERTEX_COV_"
         - "*RoutingBits*"
+        - "EventInSequence"
+        - "GpsTime"
+        - "MCVertex*"
+        - "MCVirtualMass"
+        - "NumPVs"
+        - "NumProtoParticles"
+        - "OdinTCK"
+        - "*_ENDVERTEX_COV_"
+        - "*_ENDVERTEX_X*"
+        - "*_ENDVERTEX_Y*"
+        - "*_ENDVERTEX_Z*"
+        - "*_TRUEENDVERTEX_*"
+        - "*_OWNPV_COV_"
+        - "*_OWNPV_X*"
+        - "*_OWNPV_Y*"
+        - "*_OWNPV_Z*"
+        - "*_ORIVX_COV_"
+        - "*_ORIVX_X*"
+        - "*_ORIVX_Y*"
+        - "*_ORIVX_Z*"
+        - "*_TRUEORIGINVERTEX_*"
         - "*_MC12Tune*"
         - "*_MC15Tune*"
+        - "*_TRACK_FirstMeasurement*"
+        - "*_TRACK_CloneDist"
+        - "*_TRACK_*_UTID"
+        - "*_TRACK_History"
+
+
+##################
+# MC truth trees #
+##################
+
+MCTupleB0Tau/DecayTree:
+    deactivate:
+        - "EventInSequence"
+        - "GpsTime"
+        - "*TCK"
+        - "*_TRUEENDVERTEX_*"
+        - "*_TRUEORIGINVERTEX_*"
+
+MCTupleB0Mu/DecayTree:
+    deactivate:
+        - "EventInSequence"
+        - "GpsTime"
+        - "*TCK"
+        - "*_TRUEENDVERTEX_*"
+        - "*_TRUEORIGINVERTEX_*"
 
 MCTupleBminusTau/DecayTree:
     deactivate:
-        - "*_ENDVERTEX_COV_"
-        - "*RoutingBits*"
-        - "*_MC12Tune*"
-        - "*_MC15Tune*"
+        - "EventInSequence"
+        - "GpsTime"
+        - "*TCK"
+        - "*_TRUEENDVERTEX_*"
+        - "*_TRUEORIGINVERTEX_*"
 
 MCTupleBminusMu/DecayTree:
     deactivate:
-        - "*_ENDVERTEX_COV_"
-        - "*RoutingBits*"
-        - "*_MC12Tune*"
-        - "*_MC15Tune*"
+        - "EventInSequence"
+        - "GpsTime"
+        - "*TCK"
+        - "*_TRUEENDVERTEX_*"
+        - "*_TRUEORIGINVERTEX_*"
