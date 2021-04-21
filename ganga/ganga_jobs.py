@@ -50,7 +50,7 @@ def conf_job_app(davinci_path, options):
 ########
 
 print('Preparing job {}'.format(job_name))
-j = Job(name=job_name, metadata={'filename': ntuple_name})
+j = Job(name=job_name, comment=ntuple_name)
 
 # Get input data from DIRAC
 data = BKQuery(lfn, dqflag=['OK']).getDataset()
