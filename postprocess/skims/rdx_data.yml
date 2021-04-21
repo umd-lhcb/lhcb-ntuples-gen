@@ -6,8 +6,8 @@ TupleB0/DecayTree:
     deactivate:
         - "*_ENDVERTEX_COV_"
         - "*RoutingBits*"
-        - "_MC12Tune*"
-        - "_MC15Tune*"
+        - "*_MC12Tune*"
+        - "*_MC15Tune*"
     selection:
         - "b0_L0Global_TIS || dst_L0HadronDecision_TOS"
         - "mu_L0Global_TIS"
@@ -16,8 +16,8 @@ TupleB0WSMu/DecayTree:
     deactivate:
         - "*_ENDVERTEX_COV_"
         - "*RoutingBits*"
-        - "_MC12Tune*"
-        - "_MC15Tune*"
+        - "*_MC12Tune*"
+        - "*_MC15Tune*"
     selection:
         - "b0_L0Global_TIS || dst_L0HadronDecision_TOS"
         - "mu_L0Global_TIS"
@@ -26,8 +26,8 @@ TupleB0WSPi/DecayTree:
     deactivate:
         - "*_ENDVERTEX_COV_"
         - "*RoutingBits*"
-        - "_MC12Tune*"
-        - "_MC15Tune*"
+        - "*_MC12Tune*"
+        - "*_MC15Tune*"
     selection:
         - "b0_L0Global_TIS || dst_L0HadronDecision_TOS"
         - "mu_L0Global_TIS"
@@ -36,8 +36,8 @@ TupleBminus/DecayTree:
     deactivate:
         - "*_ENDVERTEX_COV_"
         - "*RoutingBits*"
-        - "_MC12Tune*"
-        - "_MC15Tune*"
+        - "*_MC12Tune*"
+        - "*_MC15Tune*"
     selection:
         - "b_L0Global_TIS || d0_L0HadronDecision_TOS"
         - "mu_L0Global_TIS"
@@ -46,8 +46,8 @@ TupleBminusWS/DecayTree:
     deactivate:
         - "*_ENDVERTEX_COV_"
         - "*RoutingBits*"
-        - "_MC12Tune*"
-        - "_MC15Tune*"
+        - "*_MC12Tune*"
+        - "*_MC15Tune*"
     selection:
         - "b_L0Global_TIS || d0_L0HadronDecision_TOS"
         - "mu_L0Global_TIS"
