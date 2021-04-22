@@ -53,28 +53,9 @@ export CMTCONFIG={{ davinci_runtime }}
 export BINARY_TAG=$CMTCONFIG
 ```
 
-Now, following these instruction to build a `DaVinci` with our custom `TupleTool`s:
-```bash
-mkdir -p build
-cd build
-
-DAVINCI_VERSION={{ davinci_ver }}
-TUPLETOOL_SL_VERSION={{ davinci_sl_tool_ver }}
-
-# Only do this if you don't have username and email settings configured for git
-#git config --global user.name "Physicist"
-#git config --global user.email "lhcb@physics.umd.edu"
-
-lb-dev DaVinci/${DAVINCI_VERSION}
-cd DaVinciDev_${DAVINCI_VERSION}
-
-git lb-use TupleToolSemiLeptonic https://github.com/umd-lhcb/TupleToolSemiLeptonic.git
-git lb-checkout TupleToolSemiLeptonic/${TUPLETOOL_SL_VERSION} Phys/TupleToolSemiLeptonic
-
-make configure && make
-```
-
-Now, the `DaVinci` will be available at `$HOME/build/DaVinciDev_{{ davinci_ver }}`.
+Now, follow [this script](https://github.com/umd-lhcb/docker-images/blob/master/lhcb-stack-cc7/compile_dv.sh)
+to build a `DaVinci` with our customizations.
+The `DaVinci` will be available at `$HOME/build/DaVinciDev_{{ davinci_ver }}`.
 
 ### Configure `ganga`
 
