@@ -1122,6 +1122,11 @@ jobs with a index that is greater or equal to the specified index.</p>
 <span class="nv">OUTPUT_DIR</span><span class="o">=</span><span class="nv">$1</span>
 <span class="nv">MIN_NTUPLE_SIZE</span><span class="o">=</span><span class="m">500</span>  <span class="c1"># in KiB</span>
 
+<span class="c1"># User-specific settings, change them according to your environment!</span>
+<span class="nv">LNG_PATH</span><span class="o">=</span><span class="nv">$HOME</span>/eos/src/lhcb-ntuples-gen
+<span class="nv">YAML_PATH</span><span class="o">=</span><span class="nv">$LNG_PATH</span>/postprocess/skims/rdx_mc.yml
+<span class="nv">BIN_PATH</span><span class="o">=</span><span class="nv">$LNG_PATH</span>/tools
+
 
 <span class="k">function</span> check_job <span class="o">()</span> <span class="o">{</span>
   <span class="nb">local</span> <span class="nv">error</span><span class="o">=</span><span class="m">0</span>
@@ -1155,56 +1160,28 @@ jobs with a index that is greater or equal to the specified index.</p>
   check_job <span class="nv">$1</span>
 
   <span class="k">if</span> <span class="o">[</span> <span class="nv">$?</span> -eq <span class="m">0</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
-    hadd -fk <span class="si">${</span><span class="nv">OUTPUT_DIR</span><span class="si">}</span>/<span class="nv">$3</span> <span class="si">${</span><span class="nv">INPUT_DIR</span><span class="si">}</span>/<span class="nv">$1</span>/*/output/<span class="nv">$2</span>
+    python2 <span class="nv">$BIN_PATH</span>/haddcut.py <span class="si">${</span><span class="nv">OUTPUT_DIR</span><span class="si">}</span>/<span class="nv">$3</span> <span class="si">${</span><span class="nv">INPUT_DIR</span><span class="si">}</span>/<span class="nv">$1</span>/*/output/<span class="nv">$2</span> <span class="se">\</span>
+        -c <span class="nv">$YAML_PATH</span>
   <span class="k">fi</span>
 <span class="o">}</span>
 
-concat_job <span class="m">73</span> std.root Dst_D0--20_10_12--std--LHCb_Collision11_Beam3500GeV-VeloClosed-MagDown_Real_Data.root
+concat_job <span class="m">110</span> mc.root Dst_D0--21_04_21--mc--MC_2016_Beam6500GeV-2016-MagDown-Nu1.6-25ns-Pythia8_Sim09j_Trig0x6139160F_Reco16_Turbo03a_Filtered_11574021_D0TAUNU.SAFESTRIPTRIG.DST.root
+concat_job <span class="m">111</span> mc.root Dst_D0--21_04_21--mc--tracker_only--MC_2016_Beam6500GeV-2016-MagDown-TrackerOnly-Nu1.6-25ns-Pythia8_Sim09j_Reco16_Filtered_11574021_D0TAUNU.SAFESTRIPTRIG.DST.root
 </code></pre></div>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>In the script above, the <code>INPUT_DIR</code>, <code>LNG_PATH</code> and <code>YAML_PATH</code> should
+be configured by user.</p>
 </div>
 </li>
 <li>
-<p>Finally, rename the merged ntuple in the following way:</p>
-<ol>
-<li>
-<p>The merged ntuple has a filename of 80 characters long. This is because
-   the <code>ganga_jobs.py</code> trims the job names (which is the same as the ntuple
-   name) because <code>ganga</code> doesn't allow super long job names.</p>
-</li>
-<li>
-<p>To figure out the full filename, do a fake submit with
-   <code>ganga_sample_jobs_parser.py</code>:
-    <div class="highlight"><pre><span></span><code>ganga_sample_jobs_parser.py &lt;reco_script&gt; &lt;cond_files&gt; [optional_flags]
-</code></pre></div></p>
-</li>
-<li>
-<p>Use this as the final filename. The <strong>date</strong> should come from the
-   trimmed filename, though.</p>
-</li>
-</ol>
-<div class="admonition example">
-<p class="admonition-title">Example</p>
-<p>Suppose after merging, the ntuple name is the following:
-<div class="highlight"><pre><span></span><code>Dst_D0--21_01_13--mc--MC_2012_Beam4000GeV-2012-MagDown-NoRICHesSim-Nu2.5-Pythia8.root
-</code></pre></div></p>
-<p>The original filename can be figured out with:
-<div class="highlight"><pre><span></span><code>ganga_sample_jobs_parser.py run1-rdx/reco_Dst_D0.py run1-rdx/conds/cond-mc-2012-mu-sim09a.py -p md -d Bd2DstMuNu
-</code></pre></div></p>
-<p>The output would be:</p>
-<div class="highlight"><pre><span></span><code>Reconstruction script: run1-rdx/reco_Dst_D0.py
-Condition file: run1-rdx/conds/cond-mc-2012-mu-sim09a.py
-Fields from cond file: OrderedDict([(&#39;year&#39;, &#39;2012&#39;), (&#39;polarity&#39;, &#39;mu&#39;), (&#39;simcond&#39;, &#39;sim09a&#39;)])
-LFN: /MC/2012/Beam4000GeV-2012-MagDown-NoRICHesSim-Nu2.5-Pythia8/Sim09a/Trig0x409f0045-NoRichPIDLines/Reco14c/Stripping21Filtered/11574020/DSTTAUNU.SAFESTRIPTRIG.DST
-NTuple name: Dst_D0--21_01_20--mc--MC_2012_Beam4000GeV-2012-MagDown-NoRICHesSim-Nu2.5-Pythia8_Sim09a_Trig0x409f0045-NoRichPIDLines_Reco14c_Stripping21Filtered_11574020_DSTTAUNU.SAFESTRIPTRIG.DST.root
-Truncated job name: Dst_D0--21_01_20--mc--11574020--MC_2012_Beam4000GeV-2012-MagDown-NoRICHesSim-Nu2
-</code></pre></div>
-<p>Then the final filename should be:
-<div class="highlight"><pre><span></span><code>Dst_D0--21_01_13--mc--MC_2012_Beam4000GeV-2012-MagDown-NoRICHesSim-Nu2.5-Pythia8_Sim09a_Trig0x409f0045-NoRichPIDLines_Reco14c_Stripping21Filtered_11574020_DSTTAUNU.SAFESTRIPTRIG.DST.root
-</code></pre></div></p>
-</div>
+<p>For <code>ganga</code> jobs submitted with the latest submitter, the actual ntuple
+    filename is stored as <code>comment</code> attribute of a job. With the latest
+    <code>hadd_completed_job_output</code>, correct ntuple filenames are used directly.</p>
 <div class="admonition info">
 <p class="admonition-title">Info</p>
-<p>The reason to use the super line filename that is derived directly from
+<p>The reason to use the super long filename that is derived directly from
 LFN is:
 The trimmed name lacks important info, such as simulation condition. If
 we don't include them in the filename, eventually they'll be forgotten.</p>
