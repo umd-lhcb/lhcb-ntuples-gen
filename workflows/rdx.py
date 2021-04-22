@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Apr 22, 2021 at 10:05 PM +0200
+# Last Change: Thu Apr 22, 2021 at 10:06 PM +0200
 
 import sys
 import os.path as os_path
@@ -88,11 +88,11 @@ def workflow_general(job_name, inputs, output_dir,
     return subworkdirs, workdir
 
 
-def workflow_mc(job_name, inputs, output_dir, debug):
+def workflow_trigger_emulation(job_name, inputs, output_dir, debug):
     print('{}== Job: {} =={}'.format(TC.BOLD+TC.GREEN, job_name, TC.END))
     subworkdirs, workdir = workflow_general(job_name, inputs, output_dir)
     chdir(workdir)
-    exe = pipe_executor('mc.sh {input_ntp}')
+    exe = pipe_executor('trigger_emulation.sh {input_ntp}')
 
     for subdir, full_filename in subworkdirs.items():
         print('{}Working on {}...{}'.format(TC.GREEN, full_filename, TC.END))
@@ -114,7 +114,7 @@ def workflow_mc(job_name, inputs, output_dir, debug):
 
 
 WORKFLOWS = {
-    'mc': workflow_mc,
+    'trigger_emulation': workflow_trigger_emulation,
 }
 
 
@@ -125,6 +125,5 @@ WORKFLOWS = {
 if __name__ == '__main__':
     args = parse_input()
 
-    if args.mode:
-        WORKFLOWS[args.mode](
-            args.job_name, args.inputs, args.output_dir, args.debug)
+    WORKFLOWS[args.mode](
+        args.job_name, args.inputs, args.output_dir, args.debug)
