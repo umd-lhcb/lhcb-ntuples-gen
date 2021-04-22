@@ -193,6 +193,11 @@ We prefer to merge all output `.root` files from subjobs. There's a helper
         OUTPUT_DIR=$1
         MIN_NTUPLE_SIZE=500  # in KiB
 
+        # User-specific settings, change them according to your environment!
+        LNG_PATH=$HOME/eos/src/lhcb-ntuples-gen
+        YAML_PATH=$LNG_PATH/postprocess/skims/rdx_mc.yml
+        BIN_PATH=$LNG_PATH/tools
+
 
         function check_job () {
           local error=0
@@ -226,56 +231,25 @@ We prefer to merge all output `.root` files from subjobs. There's a helper
           check_job $1
 
           if [ $? -eq 0 ]; then
-            hadd -fk ${OUTPUT_DIR}/$3 ${INPUT_DIR}/$1/*/output/$2
+            python2 $BIN_PATH/haddcut.py ${OUTPUT_DIR}/$3 ${INPUT_DIR}/$1/*/output/$2 \
+                -c $YAML_PATH
           fi
         }
 
-        concat_job 73 std.root Dst_D0--20_10_12--std--LHCb_Collision11_Beam3500GeV-VeloClosed-MagDown_Real_Data.root
+        concat_job 110 mc.root Dst_D0--21_04_21--mc--MC_2016_Beam6500GeV-2016-MagDown-Nu1.6-25ns-Pythia8_Sim09j_Trig0x6139160F_Reco16_Turbo03a_Filtered_11574021_D0TAUNU.SAFESTRIPTRIG.DST.root
+        concat_job 111 mc.root Dst_D0--21_04_21--mc--tracker_only--MC_2016_Beam6500GeV-2016-MagDown-TrackerOnly-Nu1.6-25ns-Pythia8_Sim09j_Reco16_Filtered_11574021_D0TAUNU.SAFESTRIPTRIG.DST.root
         ```
 
-5. Finally, rename the merged ntuple in the following way:
-    1. The merged ntuple has a filename of 80 characters long. This is because
-       the `ganga_jobs.py` trims the job names (which is the same as the ntuple
-       name) because `ganga` doesn't allow super long job names.
+    !!! warning
+        In the script above, the `INPUT_DIR`, `LNG_PATH` and `YAML_PATH` should
+        be configured by user.
 
-    2. To figure out the full filename, do a fake submit with
-       `ganga_sample_jobs_parser.py`:
-        ```
-        ganga_sample_jobs_parser.py <reco_script> <cond_files> [optional_flags]
-        ```
-
-    3. Use this as the final filename. The **date** should come from the
-       trimmed filename, though.
-
-    !!! example
-        Suppose after merging, the ntuple name is the following:
-        ```
-        Dst_D0--21_01_13--mc--MC_2012_Beam4000GeV-2012-MagDown-NoRICHesSim-Nu2.5-Pythia8.root
-        ```
-
-        The original filename can be figured out with:
-        ```
-        ganga_sample_jobs_parser.py run1-rdx/reco_Dst_D0.py run1-rdx/conds/cond-mc-2012-mu-sim09a.py -p md -d Bd2DstMuNu
-        ```
-
-        The output would be:
-
-        ```
-        Reconstruction script: run1-rdx/reco_Dst_D0.py
-        Condition file: run1-rdx/conds/cond-mc-2012-mu-sim09a.py
-        Fields from cond file: OrderedDict([('year', '2012'), ('polarity', 'mu'), ('simcond', 'sim09a')])
-        LFN: /MC/2012/Beam4000GeV-2012-MagDown-NoRICHesSim-Nu2.5-Pythia8/Sim09a/Trig0x409f0045-NoRichPIDLines/Reco14c/Stripping21Filtered/11574020/DSTTAUNU.SAFESTRIPTRIG.DST
-        NTuple name: Dst_D0--21_01_20--mc--MC_2012_Beam4000GeV-2012-MagDown-NoRICHesSim-Nu2.5-Pythia8_Sim09a_Trig0x409f0045-NoRichPIDLines_Reco14c_Stripping21Filtered_11574020_DSTTAUNU.SAFESTRIPTRIG.DST.root
-        Truncated job name: Dst_D0--21_01_20--mc--11574020--MC_2012_Beam4000GeV-2012-MagDown-NoRICHesSim-Nu2
-        ```
-
-        Then the final filename should be:
-        ```
-        Dst_D0--21_01_13--mc--MC_2012_Beam4000GeV-2012-MagDown-NoRICHesSim-Nu2.5-Pythia8_Sim09a_Trig0x409f0045-NoRichPIDLines_Reco14c_Stripping21Filtered_11574020_DSTTAUNU.SAFESTRIPTRIG.DST.root
-        ```
+5. For `ganga` jobs submitted with the latest submitter, the actual ntuple
+    filename is stored as `comment` attribute of a job. With the latest
+    `hadd_completed_job_output`, correct ntuple filenames are used directly.
 
     !!! info
-        The reason to use the super line filename that is derived directly from
+        The reason to use the super long filename that is derived directly from
         LFN is:
         The trimmed name lacks important info, such as simulation condition. If
         we don't include them in the filename, eventually they'll be forgotten.
