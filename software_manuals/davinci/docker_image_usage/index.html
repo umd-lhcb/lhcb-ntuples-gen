@@ -881,10 +881,10 @@
 </code></pre></div>
 in the project root.</p>
 <p>The <code>make</code> rule is actually defined as the following:
-<div class="highlight"><pre><span></span><code>docker run --rm -it -v `pwd`:/data -e UID=$(id -u) -e GID=$(id -g) --net=host umdlhcb/lhcb-stack-cc7:DaVinci-v45r4-SL
+<div class="highlight"><pre><span></span><code>docker run --rm -it -v `pwd`:/data -e UID=$(id -u) -e GID=$(id -g) --net=host umdlhcb/lhcb-stack-cc7:DaVinci-v45r6-SL
 </code></pre></div></p>
 <p>More generally, if you want to mount another folder, with a path <code>&lt;src_path&gt;</code>:
-<div class="highlight"><pre><span></span><code>docker run --rm -it -v &lt;src_path&gt;:/data -e UID=$(id -u) -e GID=$(id -g) --net=host umdlhcb/lhcb-stack-cc7:DaVinci-v45r4-SL
+<div class="highlight"><pre><span></span><code>docker run --rm -it -v &lt;src_path&gt;:/data -e UID=$(id -u) -e GID=$(id -g) --net=host umdlhcb/lhcb-stack-cc7:DaVinci-v45r6-SL
 </code></pre></div></p>
 <div class="admonition info">
 <p class="admonition-title">Info</p>
@@ -927,7 +927,7 @@ ones to save disk space, you can:
 docker image prune
 </code></pre></div>
 here <code>&lt;docker_image_tag&gt;</code> should be something like
-<code>umdlhcb/lhcb-stack-cc7:DaVinci-v45r4-SL</code>.</p>
+<code>umdlhcb/lhcb-stack-cc7:DaVinci-v45r6-SL</code>.</p>
 <div class="footnote">
 <hr />
 <ol>
