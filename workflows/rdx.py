@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Apr 15, 2021 at 06:41 PM +0200
+# Last Change: Thu Apr 22, 2021 at 10:05 PM +0200
 
 import sys
 import os.path as os_path
@@ -39,7 +39,7 @@ specify initial input files.
 enable debug mode
 ''')
 
-    parser.add_argument('-m', '--mode', default=None, help='''
+    parser.add_argument('-m', '--mode', required=True, help='''
 specify workflow mode.
 ''')
 
