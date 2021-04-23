@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
 # Author: Yipeng Sun
-# Last Change: Fri Apr 23, 2021 at 01:45 AM +0200
+# Last Change: Fri Apr 23, 2021 at 03:53 AM +0200
 
 import uproot
 import numpy as np
@@ -51,18 +51,104 @@ specify prefix to all output files.
 
     parser.add_argument('-k', '--kinematic-vars',
                         nargs='+',
-                        default=['q2',
-                                 'mmiss2',
-                                 'el',
+                        default=['q2', 'mmiss2', 'el',
                                  'k_p', 'k_pt',
                                  'pi_p', 'pi_pt',
                                  'k_chi2ndof', 'k_ipchi2', 'k_ghost',
                                  'pi_chi2ndof', 'pi_ipchi2', 'pi_ghost',
                                  'mu_theta', 'k_theta', 'pi_theta',
                                  'mu_phi', 'k_phi', 'pi_phi',
+                                 'mva_score_1_2', 'mva_score_1_3',
+                                 'mva_score_1_4', 'mva_score_2_3',
+                                 'mva_score_2_4', 'mva_score_3_4',
+                                 'k_pi_apt',
+                                 'mva_doca_1_2', 'mva_doca_1_3',
+                                 'mva_doca_1_4', 'mva_doca_2_3',
+                                 'mva_doca_2_4', 'mva_doca_3_4',
+                                 'mva_dira_1_2', 'mva_dira_1_3',
+                                 'mva_dira_1_4', 'mva_dira_2_3',
+                                 'mva_dira_2_4', 'mva_dira_3_4',
+                                 'mva_eta_1_2', 'mva_eta_1_3',
+                                 'mva_eta_1_4', 'mva_eta_2_3',
+                                 'mva_eta_2_4', 'mva_eta_3_4',
+                                 'mva_vertex_chi2_1_2', 'mva_vertex_chi2_1_3',
+                                 'mva_vertex_chi2_1_4', 'mva_vertex_chi2_2_3',
+                                 'mva_vertex_chi2_2_4', 'mva_vertex_chi2_3_4',
+                                 'mva_mcorr_1_2', 'mva_mcorr_1_3',
+                                 'mva_mcorr_1_4', 'mva_mcorr_2_3',
+                                 'mva_mcorr_2_4', 'mva_mcorr_3_4',
                                  ],
                         help='''
 specify efficiency regarding which kinematic variables.
+''')
+
+    parser.add_argument('--xlabel',
+                        nargs='+',
+                        default=[
+                            '$q^2$ [GeV$^2$]', '$m_{miss}^2$ [GeV$^2$]', '$E_l$ [GeV]',
+                            '$K$ $p$ [GeV]', '$K$ $p_T$ [GeV]',
+                            '$\\pi$ $p$ [GeV]', '$\\pi$ $p_T$ [GeV]',
+                            '$K$ $\\chi^2/DOF$', '$K$ IP$\\chi^2$', '$K$ Ghost Prob',
+                            '$\\pi$ $\\chi^2/DOF$', '$\\pi$ IP$\\chi^2$', '$\\pi$ Ghost Prob',
+                            '$\\mu$ $\\theta$', '$K$ $\\theta$', '$\\pi$ $\\theta$',
+                            '$\\mu$ $\\phi$', '$K$ $\\phi$', '$\\pi$ $\\phi$',
+                            'MVA score 1,2', 'MVA score 1,3',
+                            'MVA score 1,4', 'MVA score 2,3',
+                            'MVA score 2,4', 'MVA score 3,4',
+                            '$K-\\pi$ Sum $P_T$ [GeV]',
+                            'MVA DOCA 1,2', 'MVA DOCA 1,3',
+                            'MVA DOCA 1,4', 'MVA DOCA 2,3',
+                            'MVA DOCA 2,4', 'MVA DOCA 3,4',
+                            'MVA DIRA 1,2', 'MVA DIRA 1,3',
+                            'MVA DIRA 1,4', 'MVA DIRA 2,3',
+                            'MVA DIRA 2,4', 'MVA DIRA 3,4',
+                            'MVA $\\eta$ 1,2', 'MVA $\\eta$ 1,3',
+                            'MVA $\\eta$ 1,4', 'MVA $\\eta$ 2,3',
+                            'MVA $\\eta$ 2,4', 'MVA $\\eta$ 3,4',
+                            'MVA Vertex$\\chi^2$ 1,2', 'MVA Vertex$\\chi^2$ 1,3',
+                            'MVA Vertex$\\chi^2$ 1,4', 'MVA Vertex$\\chi^2$ 2,3',
+                            'MVA Vertex$\\chi^2$ 2,4', 'MVA Vertex$\\chi^2$ 3,4',
+                            'MVA MCORR 1,2', 'MVA MCORR 1,3',
+                            'MVA MCORR 1,4', 'MVA MCORR 2,3',
+                            'MVA MCORR 2,4', 'MVA MCORR 3,4',
+                        ],
+                        help='''
+specify the x axis label.
+''')
+
+    parser.add_argument('-D', '--data-range',
+                        nargs='+',
+                        default=[
+                            (-10, 10), (-10, 8), (0, 3),
+                            (0, 200), (0, 15),
+                            (0, 200), (0, 15),
+                            (0, 4), (0, 10000), (0, 0.4),
+                            (0, 4), (0, 10000), (0, 0.4),
+                            (0, 0.35), (0, 0.35), (0, 0.35),
+                            (-1.6, 1.6), (-1.6, 1.6), (-1.6, 1.6),
+                            (0.9, 1), (0.9, 1),
+                            (0.9, 1), (0.9, 1),
+                            (0.9, 1), (0.9, 1),
+                            (10, 30),
+                            (-5, 15), (-5, 15),
+                            (-5, 15), (-5, 15),
+                            (-5, 15), (-5, 15),
+                            (-1, 1), (-1, 1),
+                            (-1, 1), (-1, 1),
+                            (-1, 1), (-1, 1),
+                            (1.5, 5.5), (1.5, 5.5),
+                            (1.5, 5.5), (1.5, 5.5),
+                            (1.5, 5.5), (1.5, 5.5),
+                            (1, 15), (1, 15),
+                            (1, 15), (1, 15),
+                            (1, 15), (1, 15),
+                            (80, 1.1e10), (80, 1.1e10),
+                            (80, 1.1e10), (80, 1.1e10),
+                            (80, 1.1e10), (80, 1.1e10),
+                        ],
+                        action=DataRangeAction,
+                        help='''
+specify plotting range for the kinematic variables.
 ''')
 
     parser.add_argument('-T', '--triggers',
@@ -77,39 +163,6 @@ specify trigger branches that will be used for efficiency comparison.
                         default=['d0_l0_global_dec'],
                         help='''
 specify triggers to be required True before evaluating efficiency.
-''')
-
-    parser.add_argument('-D', '--data-range',
-                        nargs='+',
-                        default=[
-                            (-10, 10),
-                            (-10, 8),
-                            (0, 3),
-                            (0, 200), (0, 15),
-                            (0, 200), (0, 15),
-                            (0, 4), (0, 10000), (0, 0.4),
-                            (0, 4), (0, 10000), (0, 0.4),
-                            (0, 0.35), (0, 0.35), (0, 0.35),
-                            (-1.6, 1.6), (-1.6, 1.6), (-1.6, 1.6),
-                        ],
-                        action=DataRangeAction,
-                        help='''
-specify plotting range for the kinematic variables.
-''')
-
-    parser.add_argument('--xlabel',
-                        nargs='+',
-                        default=[
-                            '$q^2$ [GeV$^2$]',
-                            '$m_{miss}^2$ [GeV$^2$]',
-                            '$E_l$ [GeV]',
-                            '$K$ $p$ [GeV]', '$K$ $p_T$ [GeV]',
-                            '$\\pi$ $p$ [GeV]', '$\\pi$ $p_T$ [GeV]',
-                            '$K$ $\\chi^2/DOF$', '$K$ IP$\\chi^2$', '$K$ Ghost Prob',
-                            '$\\pi$ $\\chi^2/DOF$', '$\\pi$ IP$\\chi^2$', '$\\pi$ Ghost Prob',
-                        ],
-                        help='''
-specify the x axis label.
 ''')
 
     parser.add_argument('--legends',

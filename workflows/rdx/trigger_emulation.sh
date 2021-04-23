@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 # Author: Yipeng Sun
-# Last Change: Tue Apr 20, 2021 at 08:09 PM +0200
+# Last Change: Fri Apr 23, 2021 at 03:56 AM +0200
 
 INPUT_NTP=$1
 
-plot_hlt_eff() {
+plot_hlt1_twotrackmva() {
     NTP=$1
     TREE=$2
     OUTPUT_PREFIX=$3
@@ -14,6 +14,24 @@ plot_hlt_eff() {
     plot_trigger_efficiency_comp.py \
         -n "${NTP}" -o "${OUTPUT_PREFIX}" -T ${TRIGGER} \
         -t "${TREE}" --title "${TITLE}"
+}
+
+plot_hlt1_trackmva() {
+    NTP=$1
+    TREE=$2
+    OUTPUT_PREFIX=$3
+    TRIGGER=$4
+    TITLE=$5
+
+    plot_trigger_efficiency_comp.py \
+        -n "${NTP}" -o "${OUTPUT_PREFIX}" -T ${TRIGGER} \
+        -t "${TREE}" --title "${TITLE}" \
+        -k q2 mmiss2 el \
+           k_p k_pt pi_p pi_pt \
+           k_chi2ndof k_ipchi2 k_ghost \
+           pi_chi2ndof pi_ipchi2 pi_ghost \
+           mu_theta k_theta pi_theta \
+           mu_phi k_phi pi_phi
 }
 
 plot_l0_hadron_eff() {
@@ -74,22 +92,22 @@ run2-rdx-l0_global_tis.py ${INPUT_NTP} emu_l0_global_tis_b.root \
 
 # Plot efficiencies: Hlt1TwoTrackMVA
 #   D*
-plot_hlt_eff emu_hlt1_b0.root "TupleB0/DecayTree" b0 \
+plot_hlt1_twotrackmva emu_hlt1_b0.root "TupleB0/DecayTree" b0 \
     "d0_hlt1_twotrackmva_tos d0_hlt1_twotrackmva_tos_emu" \
     "Hlt1TwoTrackMVA TOS"
 #   D0
-plot_hlt_eff emu_hlt1_b.root "TupleBminus/DecayTree" b \
+plot_hlt1_twotrackmva emu_hlt1_b.root "TupleBminus/DecayTree" b \
     "d0_hlt1_twotrackmva_tos d0_hlt1_twotrackmva_tos_emu" \
     "Hlt1TwoTrackMVA TOS"
 
 
 # Plot efficiencies: Hlt1TrackMVA
 #   D*
-plot_hlt_eff emu_hlt1_b0.root "TupleB0/DecayTree" b0 \
+plot_hlt1_trackmva emu_hlt1_b0.root "TupleB0/DecayTree" b0 \
     "d0_hlt1_trackmva_tos d0_hlt1_trackmva_tos_emu" \
     "Hlt1TrackMVA TOS"
 #   D0
-plot_hlt_eff emu_hlt1_b.root "TupleBminus/DecayTree" b \
+plot_hlt1_trackmva emu_hlt1_b.root "TupleBminus/DecayTree" b \
     "d0_hlt1_trackmva_tos d0_hlt1_trackmva_tos_emu" \
     "Hlt1TrackMVA TOS"
 
