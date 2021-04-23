@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
 # Author: Yipeng Sun
-# Last Change: Tue Apr 20, 2021 at 07:19 PM +0200
+# Last Change: Fri Apr 23, 2021 at 01:45 AM +0200
 
 import uproot
 import numpy as np
@@ -58,6 +58,8 @@ specify prefix to all output files.
                                  'pi_p', 'pi_pt',
                                  'k_chi2ndof', 'k_ipchi2', 'k_ghost',
                                  'pi_chi2ndof', 'pi_ipchi2', 'pi_ghost',
+                                 'mu_theta', 'k_theta', 'pi_theta',
+                                 'mu_phi', 'k_phi', 'pi_phi',
                                  ],
                         help='''
 specify efficiency regarding which kinematic variables.
@@ -87,6 +89,8 @@ specify triggers to be required True before evaluating efficiency.
                             (0, 200), (0, 15),
                             (0, 4), (0, 10000), (0, 0.4),
                             (0, 4), (0, 10000), (0, 0.4),
+                            (0, 0.35), (0, 0.35), (0, 0.35),
+                            (-1.6, 1.6), (-1.6, 1.6), (-1.6, 1.6),
                         ],
                         action=DataRangeAction,
                         help='''
