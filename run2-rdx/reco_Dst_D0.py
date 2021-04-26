@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Apr 12, 2021 at 02:04 AM +0200
+# Last Change: Tue Apr 27, 2021 at 01:42 AM +0200
 #
 # Description: Definitions of selection and reconstruction procedures for run 2
 #              R(D(*)). For more thorough comments, take a look at:
@@ -153,7 +153,8 @@ sel_stripped_Mu_filtered_evt = Selection(
     'SelMyStrippedMuFilteredEvent',
     Algorithm=FilterDesktop(
         'MyStrippedFiltered',
-        Code="INTREE((ABSID == 'mu+') & (TIS('L0.*', 'L0TriggerTisTos')))"
+        Code="INTREE((ABSID == 'mu+'))"
+        # Code="INTREE((ABSID == 'mu+') & (TIS('L0.*', 'L0TriggerTisTos')))"
     ),
     RequiredSelections=[pr_stripped]
 )
@@ -746,6 +747,7 @@ def tuple_postpocess_data(tp, B_meson='b0', Mu='mu',
                           trigger_list_global=[
                               # L0
                               'L0HadronDecision',
+                              'L0MuonDecision',
                               # HLT 1
                               'Hlt1TrackMVADecision',
                               'Hlt1TwoTrackMVADecision',
