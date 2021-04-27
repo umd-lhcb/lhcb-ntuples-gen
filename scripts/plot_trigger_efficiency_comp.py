@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
 # Author: Yipeng Sun
-# Last Change: Fri Apr 23, 2021 at 04:09 AM +0200
+# Last Change: Tue Apr 27, 2021 at 02:41 AM +0200
 
 import uproot
 import numpy as np
@@ -194,9 +194,9 @@ specify output filetypes.
     return parser
 
 
-########
-# Main #
-########
+###########
+# Helpers #
+###########
 
 def errorbar_style(label, color, yerr=None):
     return {
@@ -216,6 +216,10 @@ def div_with_confint(num, denom):
 
     return nan_to_num(ratio), nan_to_num(err)
 
+
+########
+# Main #
+########
 
 if __name__ == '__main__':
     args = parse_input().parse_args()
