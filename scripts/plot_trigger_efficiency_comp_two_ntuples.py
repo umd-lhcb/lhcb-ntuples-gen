@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
 # Author: Yipeng Sun
-# Last Change: Fri Apr 23, 2021 at 08:40 PM +0200
+# Last Change: Tue Apr 27, 2021 at 08:35 PM +0200
 
 import uproot
 import numpy as np
@@ -14,7 +14,7 @@ from statsmodels.stats.proportion import proportion_confint
 from pyTuplingUtils.parse import double_ntuple_parser_no_output
 from pyTuplingUtils.utils import gen_histo
 from pyTuplingUtils.io import read_branches, read_branch
-from pyTuplingUtils.plot import plot_style, plot_two_errorbar
+from pyTuplingUtils.plot import plot_style, plot_top_errorbar_bot_errorbar
 
 
 #################################
@@ -245,14 +245,19 @@ if __name__ == '__main__':
             histos.append(histo)
             styles.append(errorbar_style(legend, color, yerr=error))
 
+        # Compute the ratio
+        ratio = histos[1] / histos[0]
+
         for ext in args.ext:
             filename = '_'.join([
                 args.output_prefix, args.title.replace(' ', '_'), br]) + \
                 '.' + ext
 
-            plot_two_errorbar(
-                bins, histos[0], bins, histos[1], *styles,
+            plot_top_errorbar_bot_errorbar(
+                bins, histos[0], bins, histos[1], bins, ratio,
+                styles[0], styles[1], errorbar_style('Ratio', 'black'),
                 output=filename,
-                ylabel='Efficiency', xlabel=xlabel,
+                ax1_ylabel='Efficiency', ax1_xlabel=xlabel,
+                ax2_ylabel='Ratio',
                 title=args.title
             )
