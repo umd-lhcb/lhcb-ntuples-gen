@@ -13,7 +13,9 @@ class bcolors:
 
 def parse_input():
     parser = ArgumentParser(description='Process some integers.')
-    parser.add_argument("-i", "--input", help="MC ID of sample", default="14543010")
+    parser.add_argument("-i", "--input",
+                        default="14543010",
+                        help="MC ID of sample")
     return parser.parse_args()
 
 
@@ -24,7 +26,7 @@ def decode_dirac_output(output):
 
     for line in lines:
         splits = line.split(' ')
-        if(len(splits) > 2):
+        if len(splits) > 2:
             nevents = int(splits[-2])
             sample = splits[0]
             print(f'{nevents:12,d}' + '   ' + sample)
@@ -34,7 +36,7 @@ def decode_dirac_output(output):
             else:
                 nrun1 += nevents
 
-    print('\n Total number of events for MC ID '+args.input+' in Run 1 is '+bcolors.BOLD+f'{nrun1:,d}'+bcolors.ENDC+' and in Run 2 is '+bcolors.BOLD+f'{nrun2:,d}'+bcolors.ENDC+'\n')
+    print('Total number of events for MC ID '+args.input+' in Run 1 is '+bcolors.BOLD+f'{nrun1:,d}'+bcolors.ENDC+' and in Run 2 is '+bcolors.BOLD+f'{nrun2:,d}'+bcolors.ENDC+'\n')
 
 
 if __name__ == '__main__':
