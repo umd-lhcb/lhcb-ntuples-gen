@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Apr 27, 2021 at 03:08 AM +0200
+# Last Change: Tue Apr 27, 2021 at 03:24 AM +0200
 
 from argparse import ArgumentParser
 
@@ -22,7 +22,7 @@ def parse_input():
     parser.add_argument('tree', help='specify tree name.')
 
     parser.add_argument('-t', '--trigger-paths',
-                        nargs='?',
+                        nargs='+',
                         help='specify trigger paths.')
 
     return parser.parse_args()
@@ -35,8 +35,11 @@ def parse_input():
 if __name__ == '__main__':
     args = parse_input()
 
-    init_frame = RDataFrame(args.tree, args.ntp)
+    frame = RDataFrame(args.tree, args.ntp)
+    cuts = []
     for tp in args.trigger_paths:
-        init_frame.Filter(tp, tp)
+        c = frame.Filter(tp, tp)  # This is to avoid garbage collector to delete our pointer
+        cuts.append(c)
 
-    init_frame.Report().Print()
+    report = frame.Report()
+    report.Print()
