@@ -1,3 +1,7 @@
+// Author: Manuel Franco Sevilla
+// License: BSD 2-clause
+// Last Change: Thu Apr 29, 2021 at 01:16 AM +0200
+
 #include <fstream>
 #include <iomanip>
 #include <iostream>
@@ -9,15 +13,15 @@ using namespace std;
 using std::cout;
 using std::endl;
 
-void compare_trigger_efficiency() {
+void trigger_efficiency_rdx_run1_vs_run2() {
   TString treename("TupleB0/DecayTree");
   TChain  run1(treename);
   run1.Add(
-      "../ntuples/pre-0.9.0/Dst-cutflow_mc/"
+      "../../ntuples/pre-0.9.0/Dst-cutflow_mc/"
       "Dst--20_03_18--cutflow_mc--cocktail--2011--md.root");
   TChain run2(treename);
   run2.Add(
-      "../ntuples/pre-0.9.0/Dst-cutflow_mc/"
+      "../../ntuples/pre-0.9.0/Dst-cutflow_mc/"
       "Dst--20_03_18--cutflow_mc--cocktail--2016--md.root");
 
   double n1 = run1.GetEntries(), n2 = run2.GetEntries();
