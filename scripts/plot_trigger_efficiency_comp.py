@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
 # Author: Yipeng Sun
-# Last Change: Thu Apr 29, 2021 at 01:24 AM +0200
+# Last Change: Thu Apr 29, 2021 at 01:32 AM +0200
 
 import uproot
 import numpy as np
@@ -121,9 +121,9 @@ specify the x axis label.
     parser.add_argument('-D', '--data-range',
                         nargs='+',
                         default=[
-                            (-10, 10), (-10, 8), (0, 3),
-                            (0, 200), (0, 15),
-                            (0, 200), (0, 15),
+                            (-10, 10), (-8, 8), (0, 3),
+                            (0, 150), (0, 15),
+                            (0, 150), (0, 15),
                             (0, 4), (0, 10000), (0, 0.4),
                             (0, 4), (0, 10000), (0, 0.4),
                             (0, 0.35), (0, 0.35), (0, 0.35),
@@ -221,7 +221,7 @@ def div_with_confint(num, denom):
 if __name__ == '__main__':
     args = parse_input().parse_args()
 
-    plot_style(text_usetex=True, font_family='Times')
+    plot_style(text_usetex=True)
 
     ntp = uproot.open(args.ref)
 

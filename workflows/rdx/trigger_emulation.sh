@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Author: Yipeng Sun
-# Last Change: Fri Apr 23, 2021 at 04:23 AM +0200
+# Last Change: Thu Apr 29, 2021 at 01:33 AM +0200
 
 INPUT_NTP=$1
 
@@ -47,8 +47,8 @@ plot_l0_hadron_eff() {
         -c \
         -k q2 mmiss2 el \
            d0_pt k_pt pi_pt \
-        -D -10 10 -10 8 0 3 \
-           0 100 0 50 0 50 \
+        -D -10 10 -8 8 0 3 \
+           0 50 0 25 0 25 \
         --xlabel "\$q^2$ [GeV\$^2$]" \
                  "\$m_{miss}^2$ [GeV\$^2$]" \
                  "\$E_l$ [GeV]" \
