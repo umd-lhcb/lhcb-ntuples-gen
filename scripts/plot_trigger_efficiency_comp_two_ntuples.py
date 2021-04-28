@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 #
 # Author: Yipeng Sun
-# Last Change: Tue Apr 27, 2021 at 08:42 PM +0200
+# Last Change: Thu Apr 29, 2021 at 01:08 AM +0200
 
 import uproot
 import numpy as np
+import matplotlib.pyplot as plt
 
 from argparse import Action
 from numpy import logical_and as AND
@@ -15,6 +16,7 @@ from pyTuplingUtils.parse import double_ntuple_parser_no_output
 from pyTuplingUtils.utils import gen_histo
 from pyTuplingUtils.io import read_branches, read_branch
 from pyTuplingUtils.plot import plot_style, plot_top_errorbar_bot_errorbar
+from pyTuplingUtils.plot import ax_add_args_errorbar as errorbar_style
 
 
 #################################
@@ -184,23 +186,18 @@ specify plot colors.
 specify output filetypes.
 ''')
 
+    parser.add_argument('--ax2-ylabel',
+                        default='TO / FS',
+                        help='''
+specify y label for the ratio plot.
+''')
+
     return parser
 
 
 ###########
 # Helpers #
 ###########
-
-def errorbar_style(label, color, yerr=None):
-    return {
-        'label': label,
-        'ls': 'none',
-        'color': color,
-        'marker': 'o',
-        'markeredgecolor': 'none',
-        'yerr': yerr,
-    }
-
 
 def div_with_confint(num, denom):
     ratio = num / denom
@@ -217,7 +214,7 @@ def div_with_confint(num, denom):
 if __name__ == '__main__':
     args = parse_input().parse_args()
 
-    plot_style(text_usetex=True, font_family='Times')
+    plot_style(text_usetex=True)
 
     ntp1 = uproot.open(args.ref)
     ntp2 = uproot.open(args.comp)
@@ -259,9 +256,12 @@ if __name__ == '__main__':
 
             plot_top_errorbar_bot_errorbar(
                 bins, histos[0], bins, histos[1], bins, ratio,
-                styles[0], styles[1], errorbar_style('Ratio', 'black'),
+                styles[0], styles[1],
                 output=filename,
-                ax1_ylabel='Efficiency', ax1_xlabel=xlabel,
-                ax2_ylabel='Ratio',
-                title=args.title
+                title=args.title,
+                xlabel=xlabel,
+                ax1_ylabel='Efficiency', ax2_ylabel=args.ax2_ylabel
             )
+
+            # Clear plot in memory
+            plt.close('all')
