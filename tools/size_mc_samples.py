@@ -1,47 +1,87 @@
 #!/usr/bin/env python3
 #
-# Description: Script to count sizes of given MC samples
+# Author: Manuel Franco Sevilla, Yipeng Sun
 
 from argparse import ArgumentParser
 from subprocess import check_output
+from collections import defaultdict
 
 
-class bcolors:
+class Colors:
     BOLD = '\033[1m'
     ENDC = '\033[0m'
 
 
 def parse_input():
-    parser = ArgumentParser(description='Process some integers.')
-    parser.add_argument("-i", "--input",
-                        default="14543010",
-                        help="MC ID of sample")
+    parser = ArgumentParser(
+        description='script to count sizes of given MC samples')
+
+    parser.add_argument('-i', '--input',
+                        nargs='+',
+                        default=['14543010'],
+                        help='MC IDs of sample.')
+
+    parser.add_argument('-m', '--mode',
+                        default='year',
+                        choices=['run', 'year'],
+                        help='group output')
+
     return parser.parse_args()
 
 
 def decode_dirac_output(output):
-    nrun1 = 0
-    nrun2 = 0
-    lines = output.decode().replace('\n', '').replace(',', '').replace('(', '').replace("'", '').split(')')
+    lines = output.decode().split('\n')
+    result = dict()
 
     for line in lines:
-        splits = line.split(' ')
-        if len(splits) > 2:
-            nevents = int(splits[-2])
-            sample = splits[0]
-            print(f'{nevents:12,d}' + '   ' + sample)
+        lfn, dddb_tag, sim_cond, num_of_files, num_of_evts, unknown = \
+            line.split(' ')
+        result[lfn] = {'dddb_tag': dddb_tag, 'sim_cond': sim_cond,
+                       'num_of_files': int(num_of_files),
+                       'num_of_evts': int(num_of_evts),
+                       'unknown': int(unknown)}
 
-            if ('2015' in sample or '2016' in sample or '2017' in sample or '2018' in sample):
-                nrun2 += nevents
-            else:
-                nrun1 += nevents
+    return result
 
-    print('Total number of events for MC ID '+args.input+' in Run 1 is '+bcolors.BOLD+f'{nrun1:,d}'+bcolors.ENDC+' and in Run 2 is '+bcolors.BOLD+f'{nrun2:,d}'+bcolors.ENDC+'\n')
+
+def group_by_year(decoded):
+    result = defaultdict(lambda: 0)
+
+    for lfn, attr in decoded.items():
+        year = lfn.split('/')[2]
+        result[year] += attr['num_of_evts']
+
+    return result
+
+
+def group_by_run(decoded):
+    result = defaultdict(lambda: 0)
+
+    for lfn, attr in decoded.items():
+        year = int(lfn.split('/')[2])
+
+        if year in (2011, 2012):
+            result['run 1'] += attr['num_of_evts']
+        elif year in (2015, 2016, 2017, 2018):
+            result['run 2'] += attr['num_of_evts']
+
+    return result
+
+
+GROUP_OUTPUT_BY = {
+    'run': group_by_run,
+    'year': group_by_year
+}
 
 
 if __name__ == '__main__':
     print("Before proceed, don't forget to run lb-proxy-init!!")
     args = parse_input()
-    dirac_output = check_output(
-        ['lb-dirac', 'dirac-bookkeeping-decays-path', args.input])
-    decode_dirac_output(dirac_output)
+
+    for i in args.input:
+        dirac_output = check_output(
+            ['lb-dirac', 'dirac-bookkeeping-decays-path', args.input])
+        decoded = decode_dirac_output(dirac_output)
+        print('For MC ID {}'.format(Colors.BOLD+i+Colors.ENDC))
+        for group, num in GROUP_OUTPUT_BY[args.mode](decoded).items():
+            print('  {}: {}'.format(group, Colors.BOLD+str(num)+Colors.ENDC))
