@@ -82,7 +82,7 @@ def csv_gen(modes):
 
     for mode, attr in modes.items():
         row = [mode]
-        row += list(attr.values())
+        row += [str(i) for i in attr.values()]
         rows.append(row)
 
     return rows
