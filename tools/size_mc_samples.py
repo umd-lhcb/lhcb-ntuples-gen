@@ -26,6 +26,10 @@ def parse_input():
                         choices=['run', 'year'],
                         help='group output')
 
+    parser.add_argument('-o', '--output',
+                        default=None,
+                        help='specify output csv file.')
+
     return parser.parse_args()
 
 
@@ -72,6 +76,17 @@ def group_by_run(decoded):
     return sort_dict(result)
 
 
+def csv_gen(modes):
+    header = ['mode'] + list(list(modes.values())[0].keys())
+    rows = [header]
+
+    for mode, attr in modes.items():
+        row = [mode]
+        row += list(attr.values())
+
+    return rows
+
+
 GROUP_OUTPUT_BY = {
     'run': group_by_run,
     'year': group_by_year
@@ -82,10 +97,21 @@ if __name__ == '__main__':
     args = parse_input()
     print("Before proceed, don't forget to run lb-proxy-init!!")
 
+    all_modes = dict()
+
     for i in args.input:
         dirac_output = check_output(
             ['lb-dirac', 'dirac-bookkeeping-decays-path', i])
         decoded = decode_dirac_output(dirac_output)
+        grouped = GROUP_OUTPUT_BY[args.mode](decoded)
+        all_modes[i] = grouped
+
         print('For MC ID {}'.format(Colors.BOLD+i+Colors.ENDC))
-        for group, num in GROUP_OUTPUT_BY[args.mode](decoded).items():
+        for group, num in grouped.items():
             print('  {}: {}'.format(group, Colors.BOLD+str(num)+Colors.ENDC))
+
+    # Optionally generate a CSV output
+    if args.output:
+        with open(args.output, 'w') as f:
+            for row in csv_gen(all_modes):
+                f.write(','.join(row)+'\n')
