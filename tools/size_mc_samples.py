@@ -80,7 +80,7 @@ if __name__ == '__main__':
 
     for i in args.input:
         dirac_output = check_output(
-            ['lb-dirac', 'dirac-bookkeeping-decays-path', args.input])
+            ['lb-dirac', 'dirac-bookkeeping-decays-path', i])
         decoded = decode_dirac_output(dirac_output)
         print('For MC ID {}'.format(Colors.BOLD+i+Colors.ENDC))
         for group, num in GROUP_OUTPUT_BY[args.mode](decoded).items():
