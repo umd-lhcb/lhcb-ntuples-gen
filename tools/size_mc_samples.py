@@ -22,7 +22,7 @@ def parse_input():
                         help='MC IDs of sample.')
 
     parser.add_argument('-m', '--mode',
-                        default='year',
+                        default='run',
                         choices=['run', 'year'],
                         help='group output')
 
@@ -30,12 +30,12 @@ def parse_input():
 
 
 def decode_dirac_output(output):
-    lines = output.decode().split('\n')
+    lines = [l for l in output.decode().split('\n') if l]
     result = dict()
 
     for line in lines:
         lfn, dddb_tag, sim_cond, num_of_files, num_of_evts, unknown = \
-            line.split(' ')
+            line.split()
         result[lfn] = {'dddb_tag': dddb_tag, 'sim_cond': sim_cond,
                        'num_of_files': int(num_of_files),
                        'num_of_evts': int(num_of_evts),
@@ -44,14 +44,18 @@ def decode_dirac_output(output):
     return result
 
 
+def sort_dict(dct):
+    return {k: dct[k] for k in sorted(dct)}
+
+
 def group_by_year(decoded):
     result = defaultdict(lambda: 0)
 
     for lfn, attr in decoded.items():
         year = lfn.split('/')[2]
-        result[year] += attr['num_of_evts']
+        result[year] += int(attr['num_of_evts'])
 
-    return result
+    return sort_dict(result)
 
 
 def group_by_run(decoded):
@@ -65,7 +69,7 @@ def group_by_run(decoded):
         elif year in (2015, 2016, 2017, 2018):
             result['run 2'] += attr['num_of_evts']
 
-    return result
+    return sort_dict(result)
 
 
 GROUP_OUTPUT_BY = {
@@ -75,8 +79,8 @@ GROUP_OUTPUT_BY = {
 
 
 if __name__ == '__main__':
-    print("Before proceed, don't forget to run lb-proxy-init!!")
     args = parse_input()
+    print("Before proceed, don't forget to run lb-proxy-init!!")
 
     for i in args.input:
         dirac_output = check_output(
