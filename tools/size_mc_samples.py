@@ -30,16 +30,33 @@ def parse_input():
                         default=None,
                         help='specify output csv file.')
 
+    parser.add_argument('-b', '--blocked-kw',
+                        nargs='+',
+                        default=[],
+                        help='specify blocked keywords in LFN.')
+
     return parser.parse_args()
 
 
-def decode_dirac_output(output):
-    lines = [l for l in output.decode().split('\n') if l]
+def decode_dirac_output(output, blocked_kw):
+    lines = [i for i in output.decode().split('\n') if i]
     result = dict()
 
     for line in lines:
         lfn, dddb_tag, sim_cond, num_of_files, num_of_evts, unknown = \
             line.split()
+
+        proceed = True
+        for kw in blocked_kw:
+            if kw in lfn:
+                print('Skip LFN: {} due to blocked keyword: {}'.format(
+                    lfn, kw))
+                proceed = False
+                continue
+
+        if not proceed:
+            continue
+
         result[lfn] = {'dddb_tag': dddb_tag, 'sim_cond': sim_cond,
                        'num_of_files': int(num_of_files),
                        'num_of_evts': int(num_of_evts),
@@ -103,7 +120,7 @@ if __name__ == '__main__':
     for i in args.input:
         dirac_output = check_output(
             ['lb-dirac', 'dirac-bookkeeping-decays-path', i])
-        decoded = decode_dirac_output(dirac_output)
+        decoded = decode_dirac_output(dirac_output, args.blocked_kw)
         grouped = GROUP_OUTPUT_BY[args.mode](decoded)
         all_modes[i] = grouped
 
