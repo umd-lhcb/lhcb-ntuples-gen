@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Author: Yipeng Sun
-# Last Change: Thu Apr 29, 2021 at 02:08 AM +0200
+# Last Change: Thu Apr 29, 2021 at 03:07 PM +0200
 
 INPUT_NTP=$1
 
@@ -12,7 +12,7 @@ plot_hlt1_twotrackmva() {
     TITLE=$5
 
     plot_trigger_efficiency_comp.py \
-        -n "${NTP}" -o "${OUTPUT_PREFIX}" -T ${TRIGGER} \
+        -n "${NTP}" -o "${OUTPUT_PREFIX}" --triggers ${TRIGGER} \
         -t "${TREE}" --title "${TITLE}"
 }
 
@@ -24,14 +24,16 @@ plot_hlt1_trackmva() {
     TITLE=$5
 
     plot_trigger_efficiency_comp.py \
-        -n "${NTP}" -o "${OUTPUT_PREFIX}" -T ${TRIGGER} \
+        -n "${NTP}" -o "${OUTPUT_PREFIX}" --triggers ${TRIGGER} \
         -t "${TREE}" --title "${TITLE}" \
         -k q2 mmiss2 el \
-           k_p k_pt pi_p pi_pt \
+           k_p k_pt pi_p pi_pt mu_p mu_pt \
            k_chi2ndof k_ipchi2 k_ghost \
            pi_chi2ndof pi_ipchi2 pi_ghost \
-           mu_theta k_theta pi_theta \
-           mu_phi k_phi pi_phi
+           mu_chi2ndof mu_ipchi2 mu_ghost \
+           k_theta pi_theta mu_theta \
+           k_phi pi_phi mu_phi \
+           nspd_hits
 }
 
 plot_l0_hadron_eff() {
@@ -42,19 +44,22 @@ plot_l0_hadron_eff() {
     TITLE=$5
 
     plot_trigger_efficiency_comp.py \
-        -n "${NTP}" -o "${OUTPUT_PREFIX}" -T ${TRIGGER} \
+        -n "${NTP}" -o "${OUTPUT_PREFIX}" --triggers ${TRIGGER} \
         -t "${TREE}" --title "${TITLE}" \
         -c \
         -k q2 mmiss2 el \
            d0_pt k_pt pi_pt \
+           nspd_hits \
         -D -10 10 -8 8 0 3 \
            0 40 0 20 0 20 \
+           0 500 \
         --xlabel "\$q^2$ [GeV\$^2$]" \
                  "\$m_{miss}^2$ [GeV\$^2$]" \
                  "\$E_l$ [GeV]" \
                  "\$D^0$ \$p_T$ [GeV]" \
                  "\$K$ \$p_T$ [GeV]" \
-                 "\$\\pi$ \$p_T$ [GeV]"
+                 "\$\\pi$ \$p_T$ [GeV]" \
+                 "Number of SPD hits"
 }
 
 plot_l0_global_tis_eff() {
@@ -65,17 +70,19 @@ plot_l0_global_tis_eff() {
     TITLE=$5
 
     plot_trigger_efficiency_comp.py \
-        -n "${NTP}" -o "${OUTPUT_PREFIX}" -T ${TRIGGER} \
+        -n "${NTP}" -o "${OUTPUT_PREFIX}" --triggers ${TRIGGER} \
         -t "${TREE}" --title "${TITLE}" \
         -c \
-        -k "q2" "mmiss2" "el" \
+        -k q2 mmiss2 el \
            "log_${OUTPUT_PREFIX}_true_pz" "log_${OUTPUT_PREFIX}_true_pt" \
-        -D -10 10 -10 8 0 3 9 14 6 12 \
+           nspd_hits \
+        -D -10 10 -10 8 0 3 9 14 6 12 0 500 \
         --xlabel "\$q^2$ [GeV\$^2$]" \
                  "\$m_{miss}^2$ [GeV\$^2$]" \
                  "\$E_l$ [GeV]" \
                  "\$\\log(P_Z)$" \
-                 "\$\\log(P_T)$"
+                 "\$\\log(P_T)$" \
+                 "Number of SPD hits"
 }
 
 
