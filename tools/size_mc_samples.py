@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 #
-# Description: Script to count
+# Description: Script to count sizes of given MC samples
 
 from argparse import ArgumentParser
 from subprocess import check_output
@@ -40,7 +40,8 @@ def decode_dirac_output(output):
 
 
 if __name__ == '__main__':
+    print("Before proceed, don't forget to run lb-proxy-init!!")
     args = parse_input()
     dirac_output = check_output(
-        ['lb-run', 'lhcbdirac', 'dirac-bookkeeping-decays-path', args.input])
+        ['lb-dirac', 'dirac-bookkeeping-decays-path', args.input])
     decode_dirac_output(dirac_output)
