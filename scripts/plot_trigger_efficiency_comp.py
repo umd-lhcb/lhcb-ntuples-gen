@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
 # Author: Yipeng Sun
-# Last Change: Thu Apr 29, 2021 at 02:09 AM +0200
+# Last Change: Thu Apr 29, 2021 at 02:35 AM +0200
 
 import uproot
 import numpy as np
@@ -153,7 +153,7 @@ specify the x axis label.
 specify plotting range for the kinematic variables.
 ''')
 
-    parser.add_argument('-T', '--triggers',
+    parser.add_argument('--triggers',
                         nargs='+',
                         required=True,
                         help='''

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
 # Author: Yipeng Sun
-# Last Change: Thu Apr 29, 2021 at 01:52 AM +0200
+# Last Change: Thu Apr 29, 2021 at 02:36 AM +0200
 
 import uproot
 import numpy as np
@@ -43,7 +43,10 @@ def modify_action(parser, dest, default):
 
 def parse_input(descr=DESCR):
     parser = parent_parse_input(descr)
+    parser = double_ntuple_parser_no_output(descr, parser)
+
     modify_action(parser, 'ax2_ylabel', 'TO / FS')
+
     return parser
 
 
@@ -54,7 +57,7 @@ def parse_input(descr=DESCR):
 if __name__ == '__main__':
     args = parse_input().parse_args()
 
-    plot_style(text_usetex=True)
+    plot_style(text_usetex=True, font_family='serif')
 
     ntp1 = uproot.open(args.ref)
     ntp2 = uproot.open(args.comp)
