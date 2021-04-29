@@ -1,11 +1,15 @@
 #!/usr/bin/env python3
 #
 # Author: Yipeng Sun
-# Last Change: Thu Apr 29, 2021 at 01:08 AM +0200
+# Last Change: Thu Apr 29, 2021 at 01:52 AM +0200
 
 import uproot
 import numpy as np
 import matplotlib.pyplot as plt
+import sys
+import os
+
+sys.path.insert(0, os.path.dirname(os.path.realpath(__file__)))
 
 from argparse import Action
 from numpy import logical_and as AND
@@ -18,193 +22,29 @@ from pyTuplingUtils.io import read_branches, read_branch
 from pyTuplingUtils.plot import plot_style, plot_top_errorbar_bot_errorbar
 from pyTuplingUtils.plot import ax_add_args_errorbar as errorbar_style
 
+from plot_trigger_efficiency_comp import parse_input as parent_parse_input
+from plot_trigger_efficiency_comp import div_with_confint
+
 
 #################################
 # Command line arguments parser #
 #################################
 
-class DataRangeAction(Action):
-    def __call__(self, parser, namespace, values, option_string=None):
-        if len(values) % 2 != 0:
-            raise ValueError('Odd number of min, max pairs!')
-
-        values = [float(v) for v in values]
-        min_max_pairs = self.divide_list_in_chunk(values)
-        setattr(namespace, self.dest, min_max_pairs)
-
-    @staticmethod
-    def divide_list_in_chunk(lst, chunk_size=2):
-        return [lst[i:i + chunk_size] for i in range(0, len(lst), chunk_size)]
-
-
 DESCR = '''
-generate trigger efficiency comparison plots
+generate trigger efficiency comparison plots in two different ntuples.
 '''
 
 
+def modify_action(parser, dest, default):
+    for action in parser._actions:
+        if action.dest == dest:
+            action.default = default
+
+
 def parse_input(descr=DESCR):
-    parser = double_ntuple_parser_no_output(descr)
-
-    parser.add_argument('-o', '--output-prefix',
-                        required=True,
-                        help='''
-specify prefix to all output files.
-''')
-
-    parser.add_argument('-k', '--kinematic-vars',
-                        nargs='+',
-                        default=['q2', 'mmiss2', 'el',
-                                 'k_p', 'k_pt',
-                                 'pi_p', 'pi_pt',
-                                 'k_chi2ndof', 'k_ipchi2', 'k_ghost',
-                                 'pi_chi2ndof', 'pi_ipchi2', 'pi_ghost',
-                                 'mu_theta', 'k_theta', 'pi_theta',
-                                 'mu_phi', 'k_phi', 'pi_phi',
-                                 'mva_score_1_2', 'mva_score_1_3',
-                                 'mva_score_1_4', 'mva_score_2_3',
-                                 'mva_score_2_4', 'mva_score_3_4',
-                                 'k_pi_apt',
-                                 'mva_doca_1_2', 'mva_doca_1_3',
-                                 'mva_doca_1_4', 'mva_doca_2_3',
-                                 'mva_doca_2_4', 'mva_doca_3_4',
-                                 'mva_dira_1_2', 'mva_dira_1_3',
-                                 'mva_dira_1_4', 'mva_dira_2_3',
-                                 'mva_dira_2_4', 'mva_dira_3_4',
-                                 'mva_eta_1_2', 'mva_eta_1_3',
-                                 'mva_eta_1_4', 'mva_eta_2_3',
-                                 'mva_eta_2_4', 'mva_eta_3_4',
-                                 'mva_vertex_chi2_1_2', 'mva_vertex_chi2_1_3',
-                                 'mva_vertex_chi2_1_4', 'mva_vertex_chi2_2_3',
-                                 'mva_vertex_chi2_2_4', 'mva_vertex_chi2_3_4',
-                                 'mva_mcorr_1_2', 'mva_mcorr_1_3',
-                                 'mva_mcorr_1_4', 'mva_mcorr_2_3',
-                                 'mva_mcorr_2_4', 'mva_mcorr_3_4',
-                                 ],
-                        help='''
-specify efficiency regarding which kinematic variables.
-''')
-
-    parser.add_argument('--xlabel',
-                        nargs='+',
-                        default=[
-                            '$q^2$ [GeV$^2$]', '$m_{miss}^2$ [GeV$^2$]', '$E_l$ [GeV]',
-                            '$K$ $p$ [GeV]', '$K$ $p_T$ [GeV]',
-                            '$\\pi$ $p$ [GeV]', '$\\pi$ $p_T$ [GeV]',
-                            '$K$ $\\chi^2/DOF$', '$K$ IP$\\chi^2$', '$K$ Ghost Prob',
-                            '$\\pi$ $\\chi^2/DOF$', '$\\pi$ IP$\\chi^2$', '$\\pi$ Ghost Prob',
-                            '$\\mu$ $\\theta$', '$K$ $\\theta$', '$\\pi$ $\\theta$',
-                            '$\\mu$ $\\phi$', '$K$ $\\phi$', '$\\pi$ $\\phi$',
-                            'MVA score 1,2', 'MVA score 1,3',
-                            'MVA score 1,4', 'MVA score 2,3',
-                            'MVA score 2,4', 'MVA score 3,4',
-                            '$K-\\pi$ Sum $P_T$ [GeV]',
-                            'MVA DOCA 1,2', 'MVA DOCA 1,3',
-                            'MVA DOCA 1,4', 'MVA DOCA 2,3',
-                            'MVA DOCA 2,4', 'MVA DOCA 3,4',
-                            'MVA DIRA 1,2', 'MVA DIRA 1,3',
-                            'MVA DIRA 1,4', 'MVA DIRA 2,3',
-                            'MVA DIRA 2,4', 'MVA DIRA 3,4',
-                            'MVA $\\eta$ 1,2', 'MVA $\\eta$ 1,3',
-                            'MVA $\\eta$ 1,4', 'MVA $\\eta$ 2,3',
-                            'MVA $\\eta$ 2,4', 'MVA $\\eta$ 3,4',
-                            'MVA Vertex$\\chi^2$ 1,2', 'MVA Vertex$\\chi^2$ 1,3',
-                            'MVA Vertex$\\chi^2$ 1,4', 'MVA Vertex$\\chi^2$ 2,3',
-                            'MVA Vertex$\\chi^2$ 2,4', 'MVA Vertex$\\chi^2$ 3,4',
-                            'MVA MCORR 1,2', 'MVA MCORR 1,3',
-                            'MVA MCORR 1,4', 'MVA MCORR 2,3',
-                            'MVA MCORR 2,4', 'MVA MCORR 3,4',
-                        ],
-                        help='''
-specify the x axis label.
-''')
-
-    parser.add_argument('-D', '--data-range',
-                        nargs='+',
-                        default=[
-                            (-10, 10), (-10, 8), (0, 3),
-                            (0, 200), (0, 15),
-                            (0, 200), (0, 15),
-                            (0, 4), (0, 10000), (0, 0.4),
-                            (0, 4), (0, 10000), (0, 0.4),
-                            (0, 0.35), (0, 0.35), (0, 0.35),
-                            (-1.6, 1.6), (-1.6, 1.6), (-1.6, 1.6),
-                            (0.9, 1), (0.9, 1),
-                            (0.9, 1), (0.9, 1),
-                            (0.9, 1), (0.9, 1),
-                            (10, 30),
-                            (-5, 15), (-5, 15),
-                            (-5, 15), (-5, 15),
-                            (-5, 15), (-5, 15),
-                            (-1, 1), (-1, 1),
-                            (-1, 1), (-1, 1),
-                            (-1, 1), (-1, 1),
-                            (1.5, 5.5), (1.5, 5.5),
-                            (1.5, 5.5), (1.5, 5.5),
-                            (1.5, 5.5), (1.5, 5.5),
-                            (-1, 12), (-1, 12),
-                            (-1, 12), (-1, 12),
-                            (-1, 12), (-1, 12),
-                            (80, 1.1e10), (80, 1.1e10),
-                            (80, 1.1e10), (80, 1.1e10),
-                            (80, 1.1e10), (80, 1.1e10),
-                        ],
-                        action=DataRangeAction,
-                        help='''
-specify plotting range for the kinematic variables.
-''')
-
-    parser.add_argument('--triggers',
-                        nargs=2,
-                        required=True,
-                        help='''
-specify trigger branches that will be used for efficiency comparison.
-''')
-
-    parser.add_argument('--legends',
-                        nargs=2,
-                        default=['FullSim', 'Tracker-only'],
-                        help='''
-specify legend labels.
-''')
-
-    parser.add_argument('--title',
-                        help='''
-specify title of the plot.
-''')
-
-    parser.add_argument('--colors',
-                        nargs=2,
-                        default=['red', 'blue'],
-                        help='''
-specify plot colors.
-''')
-
-    parser.add_argument('--ext',
-                        nargs='+',
-                        default=['pdf', 'png'],
-                        help='''
-specify output filetypes.
-''')
-
-    parser.add_argument('--ax2-ylabel',
-                        default='TO / FS',
-                        help='''
-specify y label for the ratio plot.
-''')
-
+    parser = parent_parse_input(descr)
+    modify_action(parser, 'ax2_ylabel', 'TO / FS')
     return parser
-
-
-###########
-# Helpers #
-###########
-
-def div_with_confint(num, denom):
-    ratio = num / denom
-    intv = proportion_confint(num, denom, method='beta', alpha=0.05)
-    err = np.abs(intv - ratio)  # Errors are allowed to be asymmetrical
-
-    return nan_to_num(ratio), nan_to_num(err)
 
 
 ########

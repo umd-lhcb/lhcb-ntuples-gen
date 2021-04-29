@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Jul 30, 2020 at 04:09 AM +0800
+# Last Change: Thu Apr 29, 2021 at 02:27 AM +0200
 
 import uproot
 import sys
@@ -12,10 +12,11 @@ sys.path.insert(0, os.path.dirname(os.path.realpath(__file__)))
 
 from yaml import safe_load
 from argparse import ArgumentParser
-from davinci_log_parser import yaml_gen
+
 from pyTuplingUtils.utils import extract_uid
 from pyTuplingUtils.cutflow import CutflowGen, CutflowRule as Rule
 from pyTuplingUtils.cutflow import cutflow_uniq_events_outer
+from cutflow_output_yml_gen import yaml_gen
 
 
 ALIASES = {

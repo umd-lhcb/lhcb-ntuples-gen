@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Jul 30, 2020 at 04:09 AM +0800
+# Last Change: Thu Apr 29, 2021 at 01:46 AM +0200
 
 from yaml import safe_load
 from argparse import ArgumentParser
@@ -106,7 +106,7 @@ def csv_gen(lst, latex_wrapper=True):
         ielem = 0
         for elem in row:
             if isinstance(elem, float):
-                if ielem == 3 or ielem == 4:
+                if ielem in (3, 4):
                     formatted.append('{:.1f}'.format(elem))
                 else:
                     formatted.append('{:.2f}'.format(elem))

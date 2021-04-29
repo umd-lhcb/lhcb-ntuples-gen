@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
 # Author: Yipeng Sun
-# Last Change: Thu Apr 29, 2021 at 01:32 AM +0200
+# Last Change: Thu Apr 29, 2021 at 02:09 AM +0200
 
 import uproot
 import numpy as np
@@ -221,7 +221,7 @@ def div_with_confint(num, denom):
 if __name__ == '__main__':
     args = parse_input().parse_args()
 
-    plot_style(text_usetex=True)
+    plot_style(text_usetex=True, font_family='serif')
 
     ntp = uproot.open(args.ref)
 
