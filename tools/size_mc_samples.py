@@ -35,10 +35,14 @@ def parse_input():
                         default=[],
                         help='specify blocked keywords in LFN.')
 
+    parser.add_argument('-d', '--debug',
+                        action='store_true',
+                        help='enable debug mode.')
+
     return parser.parse_args()
 
 
-def decode_dirac_output(output, blocked_kw):
+def decode_dirac_output(output, blocked_kw, debug=False):
     lines = [i for i in output.decode().split('\n') if i]
     result = dict()
 
@@ -49,8 +53,9 @@ def decode_dirac_output(output, blocked_kw):
         proceed = True
         for kw in blocked_kw:
             if kw in lfn:
-                print('Skip LFN: {} due to blocked keyword: {}'.format(
-                    lfn, kw))
+                if debug:
+                    print('Skip LFN: {} due to blocked keyword: {}'.format(
+                        lfn, kw))
                 proceed = False
                 break
 
@@ -116,11 +121,10 @@ if __name__ == '__main__':
     print("Before proceed, don't forget to run lhcb-proxy-init!!")
 
     all_modes = dict()
-
     for i in args.input:
         dirac_output = check_output(
             ['lb-dirac', 'dirac-bookkeeping-decays-path', i])
-        decoded = decode_dirac_output(dirac_output, args.blocked_kw)
+        decoded = decode_dirac_output(dirac_output, args.blocked_kw, args.debug)
         grouped = GROUP_OUTPUT_BY[args.mode](decoded)
         all_modes[i] = grouped
 
