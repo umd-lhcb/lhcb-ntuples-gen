@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri Apr 30, 2021 at 06:00 PM +0200
+# Last Change: Fri Apr 30, 2021 at 06:20 PM +0200
 
 import pathlib
 import os
@@ -14,6 +14,7 @@ os.environ['ROOT_INCLUDE_PATH'] = str(header_path)
 from argparse import ArgumentParser
 from glob import glob
 from re import search
+from csv import DictReader
 from ROOT import RDataFrame, gInterpreter
 
 from TrackerOnlyEmu.executor import ExecDirective as EXEC
@@ -64,6 +65,10 @@ specify blocked keywords in ntuple filenames''')
                         default='sel_eff.csv', help='''
 specify output CSV.''')
 
+    parser.add_argument('-r', '--ref-csv',
+                        default=None, help='''
+specify optional input CSV.''')
+
     return parser.parse_args()
 
 
@@ -111,16 +116,30 @@ def stat_gen(tree_name, *numbers,
     return dict(zip(keys, numbers))
 
 
+def csv_read(csv_file, key_row='mode'):
+    result = dict()
+
+    with open(csv_file) as f:
+        for line in DictReader(f):
+            result[line[key_row]] = {k: v for k, v in line.items()
+                                     if k != key_row}
+
+    return result
+
+
 def csv_gen(modes):
-    header = ['mode'] + list(list(modes.values())[0].keys())
-    rows = [header]
+    rows = []
+    max_header_len = 0
 
     for mode, attr in modes.items():
-        row = [mode]
-        row += [str(i) for i in attr.values()]
+        if len(tmp_headers := ['mode'] + list(attr.keys())) > max_header_len:
+            headers = tmp_headers
+            max_header_len = len(tmp_headers)
+
+        row = [mode] + [str(i) for i in attr.values()]
         rows.append(row)
 
-    return rows
+    return [headers] + rows
 
 
 ##############
@@ -273,7 +292,10 @@ if __name__ == '__main__':
     args = parse_input()
     ntps = glob_ntuples(args.input, args.blocked_kw)
 
-    all_modes = dict()
+    if args.ref_csv:
+        all_modes = csv_read(args.ref_csv)
+    else:
+        all_modes = dict()
 
     for ntp in ntps:
         mc_id = find_mc_id(ntp)
