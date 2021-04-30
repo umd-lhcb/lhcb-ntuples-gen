@@ -113,7 +113,7 @@ GROUP_OUTPUT_BY = {
 
 if __name__ == '__main__':
     args = parse_input()
-    print("Before proceed, don't forget to run lb-proxy-init!!")
+    print("Before proceed, don't forget to run lhcb-proxy-init!!")
 
     all_modes = dict()
 
