@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri Apr 30, 2021 at 06:40 PM +0200
+# Last Change: Fri Apr 30, 2021 at 07:10 PM +0200
 
 import pathlib
 import os
@@ -309,7 +309,6 @@ if __name__ == '__main__':
             print("Skipping {}, as we don't know its MC ID...".format(ntp))
             continue
 
-        all_modes[mc_id] = dict()
         for tree, init_dir in TREES.items():
             init_frame = RDataFrame(tree, ntp)
             n_tot = init_frame.Count().GetValue()
