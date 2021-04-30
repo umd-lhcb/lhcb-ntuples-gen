@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri Apr 30, 2021 at 03:39 PM +0200
+# Last Change: Fri Apr 30, 2021 at 05:16 PM +0200
 
 import pathlib
 import os
@@ -28,6 +28,11 @@ TREES = {
         EXEC('Filter', instruct='b0_L0Global_TIS || d0_L0HadronDecision_TOS'),
         EXEC('Filter', instruct='d0_Hlt1TrackMVALooseDecision_TOS || d0_Hlt1TwoTrackMVADecision_TOS'),
         EXEC('Filter', instruct='b0_Hlt2XcMuXForTauB2XcMuDecision_TOS'),
+    ],
+    'TupleBminus/DecayTree': [
+        EXEC('Filter', instruct='b_L0Global_TIS || d0_L0HadronDecision_TOS'),
+        EXEC('Filter', instruct='d0_Hlt1TrackMVALooseDecision_TOS || d0_Hlt1TwoTrackMVADecision_TOS'),
+        EXEC('Filter', instruct='b_Hlt2XcMuXForTauB2XcMuDecision_TOS'),
     ]
 }
 
@@ -179,6 +184,36 @@ FLAG_SEL_B0DST_RUN1(sel_d0, sel_mu,
                     b0_m)''', True),
 ]
 
+sel_bminus = [
+    EXEC('Define', 'b_endvtx_chi2', 'b_ENDVERTEX_CHI2', True),
+    EXEC('Define', 'b_endvtx_ndof', 'b_ENDVERTEX_NDOF', True),
+    EXEC('Define', 'v3_b_flight', '''
+TVector3(b_ENDVERTEX_X - b_OWNPV_X,
+         b_ENDVERTEX_Y - b_OWNPV_Y,
+         b_ENDVERTEX_Z - b_OWNPV_Z
+         )'''),
+    EXEC('Define', 'b_fd_trans', 'v3_b_flight.Perp()', True),
+    EXEC('Define', 'b_dira', 'b_DIRA_OWNPV', True),
+    EXEC('Define', 'b_m', 'b_M', True),
+
+    EXEC('Define', 'mu_px', 'mu_PX'),  # These need to be in MeV
+    EXEC('Define', 'mu_py', 'mu_PY'),  # These need to be in MeV
+    EXEC('Define', 'mu_pz', 'mu_PZ'),  # These need to be in MeV
+    EXEC('Define', 'd0_px', 'd0_PX'),
+    EXEC('Define', 'd0_py', 'd0_PY'),
+    EXEC('Define', 'd0_pz', 'd0_PZ'),
+
+    EXEC('Define', 'sel_b', '''
+FLAG_SEL_BMINUSD0_RUN1(sel_d0, sel_mu,
+                       b_endvtx_chi2, b_endvtx_ndof,
+                       b_fd_trans,
+                       b_dira,
+                       b_m,
+                       mu_px, mu_py, mu_pz,
+                       d0_px, d0_py, d0_pz,
+                       d0_m)''', True),
+]
+
 
 if __name__ == '__main__':
     args = parse_input()
@@ -212,7 +247,7 @@ if __name__ == '__main__':
                 EXEC('Define', 'mu_good_trks',
                      'FLAG_SEL_GOOD_TRACKS(v3_mu, v3_other_trks)'),
             ]
-            sel_b = []
+            sel_b = sel_bminus
 
         # Filter on Mu
         sel_mu_tmp += sel_mu

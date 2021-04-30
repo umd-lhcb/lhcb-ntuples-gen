@@ -1,6 +1,6 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Fri Apr 30, 2021 at 03:29 PM +0200
+// Last Change: Fri Apr 30, 2021 at 05:18 PM +0200
 
 #ifndef _LNG_FUNCTOR_RDX_FLAG_H_
 #define _LNG_FUNCTOR_RDX_FLAG_H_
@@ -254,6 +254,7 @@ Bool_t FLAG_SEL_BMINUSD0_RUN1(Bool_t flag_sel_d0, Bool_t flag_sel_mu,
   const Double_t pi_m      = 139.57;
   const Double_t d0_m_diff = 165.;
 
+  // Alternative mass hypothesis, where we now assume Muon is a Pion
   auto v4_mu_pi_m = ROOT::Math::PxPyPzMVector(mu_px, mu_py, mu_pz, pi_m);
   auto v4_d0      = ROOT::Math::PxPyPzMVector(d0_px, d0_py, d0_pz, d0_m);
   auto v4_d0_pi_m = v4_mu_pi_m + v4_d0;
@@ -263,7 +264,7 @@ Bool_t FLAG_SEL_BMINUSD0_RUN1(Bool_t flag_sel_d0, Bool_t flag_sel_mu,
   if (/* Daughter particles */
       flag_sel_d0 && flag_sel_mu &&
       /* FD */
-      b_fd_trans < 7. &&
+      b_fd_trans < 7 &&
       /* Vertex quality */
       b_endvtx_chi2/b_endvtx_ndof < 6 && b_dira > 0.9995 &&
       /* Mass */
