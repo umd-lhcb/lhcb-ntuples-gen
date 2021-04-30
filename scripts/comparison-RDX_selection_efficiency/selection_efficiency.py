@@ -2,11 +2,12 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri Apr 30, 2021 at 06:20 PM +0200
+# Last Change: Fri Apr 30, 2021 at 06:40 PM +0200
 
 import pathlib
 import os
 
+# Make ROOT aware of our custom header path
 pwd = pathlib.Path(__file__).parent.absolute()
 header_path = (pwd / '../../include').resolve()
 os.environ['ROOT_INCLUDE_PATH'] = str(header_path)
@@ -15,6 +16,10 @@ from argparse import ArgumentParser
 from glob import glob
 from re import search
 from csv import DictReader
+
+import ROOT
+ROOT.PyConfig.IgnoreCommandLineOptions = True  # Don't hijack my --help flag!
+
 from ROOT import RDataFrame, gInterpreter
 
 from TrackerOnlyEmu.executor import ExecDirective as EXEC
