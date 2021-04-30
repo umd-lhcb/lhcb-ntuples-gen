@@ -1,6 +1,6 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Mon Sep 21, 2020 at 03:26 PM +0800
+// Last Change: Fri Apr 30, 2021 at 03:10 AM +0200
 
 #ifndef _LNG_FUNCTOR_BASIC_H_
 #define _LNG_FUNCTOR_BASIC_H_
@@ -53,6 +53,25 @@ T GEV(T x) {
 template <typename T>
 T GEV2(T x) {
   return GEV(GEV(x));
+}
+
+// Index permutation ///////////////////////////////////////////////////////////
+
+std::vector<std::vector<int> > COMBINATION(int tot_size, int comb_size,
+                                           int head_idx = 0) {
+  std::vector<std::vector<int> > result;
+
+  for (int head = head_idx; head <= tot_size - comb_size; head++) {
+    if (comb_size > 1) {
+      for (auto subComb : COMBINATION(tot_size, comb_size - 1, head + 1)) {
+        subComb.emplace(subComb.begin(), head);
+        result.emplace_back(subComb);
+      }
+    } else
+      result.emplace_back(std::vector<int>{head});
+  }
+
+  return result;
 }
 
 #endif
