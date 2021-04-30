@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri Apr 30, 2021 at 04:42 AM +0200
+# Last Change: Fri Apr 30, 2021 at 02:06 PM +0200
 
 import pathlib
 import os
@@ -23,9 +23,13 @@ from TrackerOnlyEmu.loader import load_cpp
 # Configurables #
 #################
 
-TREES = [
-    'TupleB0/DecayTree'
-]
+TREES = {
+    'TupleB0/DecayTree': [
+        EXEC('Filter', instruct='b0_L0Global_TIS || d0_L0HadronDecision_TOS'),
+        EXEC('Filter', instruct='d0_Hlt1TrackMVALooseDecision_TOS || d0_Hlt1TwoTrackMVADecision_TOS'),
+        EXEC('Filter', instruct='b0_Hlt2XcMuXForTauB2XcMuDecision_TOS'),
+    ]
+}
 
 
 #################################
@@ -87,7 +91,7 @@ sel_d0 = [
     EXEC('Define', 'pi_gh_prob', 'pi_TRACK_GhostProb', True),
 
     EXEC('Define', 'd0_pt', 'd0_PT / 1e3', True),
-    EXEC('Define', 'd0_hlt2', 'd0_Hlt2XcMuXForTauB2XcMuDecision_TOS', True),
+    EXEC('Define', 'd0_hlt2', 'true', True),  # For run 2, our HLT2 is triggered on B
     EXEC('Define', 'd0_endvtx_chi2', 'd0_ENDVERTEX_CHI2', True),
     EXEC('Define', 'd0_endvtx_ndof', 'd0_ENDVERTEX_NDOF', True),
     EXEC('Define', 'd0_ip', 'd0_IP_OWNPV', True),
@@ -114,16 +118,30 @@ FLAG_SEL_D0_RUN1(k_pt, pi_pt,
          ''', True),
 ]
 
+sel_mu = [
+]
+
 
 if __name__ == '__main__':
     args = parse_input()
 
-    for tree in TREES:
+    for tree, init_dir in TREES.items():
         init_frame = RDataFrame(tree, args.input)
-        dfs, output_br_names = process_directives(sel_d0, init_frame)
+        n_tot = init_frame.Count().GetValue()
+
+        # Filter on trigger first
+        dfs_fltr, _ = process_directives(init_dir, init_frame)
+        n_fltr = dfs_fltr[-1].Count().GetValue()
+
+        # Filter on D0 selection
+        dfs_d0, output_br_names_d0 = process_directives(sel_d0, dfs_fltr[-1])
+        df_d0_sel = dfs_d0[-1].Filter('sel_d0')
+        n_d0 = df_d0_sel.Count().GetValue()
 
         # Debug only
         if args.output_dir:
+            output_br_names = output_br_names_d0
+            dfs = dfs_d0
             output_ntp = args.output_dir + '/' + normalize_tree_name(tree) + \
                 '.root'
             dfs[-1].Snapshot(tree, output_ntp, output_br_names)
