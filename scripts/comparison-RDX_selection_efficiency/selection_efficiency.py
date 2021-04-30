@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri Apr 30, 2021 at 05:16 PM +0200
+# Last Change: Fri Apr 30, 2021 at 05:49 PM +0200
 
 import pathlib
 import os
@@ -12,6 +12,8 @@ header_path = (pwd / '../../include').resolve()
 os.environ['ROOT_INCLUDE_PATH'] = str(header_path)
 
 from argparse import ArgumentParser
+from glob import glob
+from re import search
 from ROOT import RDataFrame, gInterpreter
 
 from TrackerOnlyEmu.executor import ExecDirective as EXEC
@@ -45,12 +47,22 @@ def parse_input():
     parser = ArgumentParser(
         description='Find selection efficiencies for RDX run 2.')
 
-    parser.add_argument('input', help='''
-specify input ntuple file.''')
+    parser.add_argument('input',
+                        nargs='+', help='''
+specify input ntuple files and folders.''')
 
     parser.add_argument('-o', '--output-dir',
                         default=None, help='''
 optionally specify output ntuple file.''')
+
+    parser.add_argument('-b', '--blocked-kw',
+                        default=['2012', 'TrackerOnly'],
+                        help='''
+specify blocked keywords in ntuple filenames''')
+
+    parser.add_argument('-c', '--csv',
+                        default='sel_eff.csv', help='''
+specify output CSV.''')
 
     return parser.parse_args()
 
@@ -71,6 +83,40 @@ def other_trks_gen(particles):
     v3 = ['{' + ', '.join([p+'_'+br for br in ['PX', 'PY', 'PZ']]) + '}'
           for p in particles]
     return 'std::vector<TVector3> {' + ', '.join(v3) + '}'
+
+
+def glob_ntuples(paths, blocked_kw=[]):
+    raw = [m for p in paths for m in glob(p)]
+    return [m for m in raw if True not in [k in m for k in blocked_kw]]
+
+
+def find_mc_id(ntp_name):
+    if result := search(r'\d{8}', ntp_name):
+        return result.group(0)
+    return False
+
+
+def stat_gen(tree_name, *numbers, raw_keys=['DaVinci', 'trigger', 'D0', 'Mu']):
+    if 'B0' in tree_name:
+        keys = ['B0 '+k for k in raw_keys]
+        keys.append('B0')
+    if 'Bminus' in tree_name:
+        keys = ['B '+k for k in raw_keys]
+        keys.append('B')
+
+    return dict(zip(keys, numbers))
+
+
+def csv_gen(modes):
+    header = ['mode'] + list(list(modes.values())[0].keys())
+    rows = [header]
+
+    for mode, attr in modes.items():
+        row = [mode]
+        row += [str(i) for i in attr.values()]
+        rows.append(row)
+
+    return rows
 
 
 ##############
@@ -217,55 +263,76 @@ FLAG_SEL_BMINUSD0_RUN1(sel_d0, sel_mu,
 
 if __name__ == '__main__':
     args = parse_input()
+    ntps = glob_ntuples(args.input, args.blocked_kw)
 
-    for tree, init_dir in TREES.items():
-        init_frame = RDataFrame(tree, args.input)
-        n_tot = init_frame.Count().GetValue()
+    all_modes = dict()
 
-        # Filter on trigger first
-        dfs_fltr, _ = process_directives(init_dir, init_frame)
-        n_fltr = dfs_fltr[-1].Count().GetValue()
+    for ntp in ntps:
+        mc_id = find_mc_id(ntp)
 
-        # Filter on D0 selection
-        dfs_d0, output_br_names_d0 = process_directives(sel_d0, dfs_fltr[-1])
-        df_d0_sel = dfs_d0[-1].Filter('sel_d0')
-        n_d0 = df_d0_sel.Count().GetValue()
+        if not mc_id:
+            print("Skipping {}, as we don't know its MC ID...".format(ntp))
+            continue
 
-        if 'B0' in tree:
-            sel_mu_tmp = [
-                EXEC('Define', 'v3_mu', 'TVector3(mu_PX, mu_PY, mu_PZ)'),
-                EXEC('Define', 'v3_other_trks',
-                     other_trks_gen(['k', 'pi', 'spi'])),
-                EXEC('Define', 'mu_good_trks',
-                     'FLAG_SEL_GOOD_TRACKS(v3_mu, v3_other_trks)', True),
-            ]
-            sel_b = sel_b0
-        elif 'Bminus' in tree:
-            sel_mu_tmp = [
-                EXEC('Define', 'v3_mu', 'TVector3(mu_PX, mu_PY, mu_PZ)'),
-                EXEC('Define', 'v3_other_trks', other_trks_gen(['k', 'pi'])),
-                EXEC('Define', 'mu_good_trks',
-                     'FLAG_SEL_GOOD_TRACKS(v3_mu, v3_other_trks)'),
-            ]
-            sel_b = sel_bminus
+        all_modes[mc_id] = dict()
+        for tree, init_dir in TREES.items():
+            init_frame = RDataFrame(tree, ntp)
+            n_tot = init_frame.Count().GetValue()
 
-        # Filter on Mu
-        sel_mu_tmp += sel_mu
-        dfs_mu, output_br_names_mu = process_directives(sel_mu_tmp, df_d0_sel)
-        df_mu_sel = dfs_mu[-1].Filter('sel_mu')
-        n_mu = df_mu_sel.Count().GetValue()
+            # Filter on trigger first
+            dfs_fltr, _ = process_directives(init_dir, init_frame)
+            n_fltr = dfs_fltr[-1].Count().GetValue()
 
-        # Filter on reconstructed B (D meson + Muon combo)
-        dfs_b, output_br_names_b = process_directives(sel_b, df_mu_sel)
-        df_b_sel = dfs_b[-1].Filter('sel_b')
-        n_b = df_b_sel.Count().GetValue()
+            # Filter on D0 selection
+            dfs_d0, output_br_names_d0 = process_directives(
+                sel_d0, dfs_fltr[-1])
+            df_d0_sel = dfs_d0[-1].Filter('sel_d0')
+            n_d0 = df_d0_sel.Count().GetValue()
 
-        # Debug only
-        if args.output_dir:
-            output_br_names = merge_vectors(
-                output_br_names_d0, output_br_names_mu, output_br_names_b)
+            if 'B0' in tree:
+                sel_mu_tmp = [
+                    EXEC('Define', 'v3_mu', 'TVector3(mu_PX, mu_PY, mu_PZ)'),
+                    EXEC('Define', 'v3_other_trks',
+                         other_trks_gen(['k', 'pi', 'spi'])),
+                    EXEC('Define', 'mu_good_trks',
+                         'FLAG_SEL_GOOD_TRACKS(v3_mu, v3_other_trks)', True),
+                ]
+                sel_b = sel_b0
+            elif 'Bminus' in tree:
+                sel_mu_tmp = [
+                    EXEC('Define', 'v3_mu', 'TVector3(mu_PX, mu_PY, mu_PZ)'),
+                    EXEC('Define', 'v3_other_trks',
+                         other_trks_gen(['k', 'pi'])),
+                    EXEC('Define', 'mu_good_trks',
+                         'FLAG_SEL_GOOD_TRACKS(v3_mu, v3_other_trks)'),
+                ]
+                sel_b = sel_bminus
 
-            final_frame = dfs_b[-1]
-            output_ntp = args.output_dir + '/' + normalize_tree_name(tree) + \
-                '.root'
-            final_frame.Snapshot(tree, output_ntp, output_br_names)
+            # Filter on Mu
+            sel_mu_tmp += sel_mu
+            dfs_mu, output_br_names_mu = process_directives(
+                sel_mu_tmp, df_d0_sel)
+            df_mu_sel = dfs_mu[-1].Filter('sel_mu')
+            n_mu = df_mu_sel.Count().GetValue()
+
+            # Filter on reconstructed B (D meson + Muon combo)
+            dfs_b, output_br_names_b = process_directives(sel_b, df_mu_sel)
+            df_b_sel = dfs_b[-1].Filter('sel_b')
+            n_b = df_b_sel.Count().GetValue()
+
+            all_modes[mc_id].update(stat_gen(
+                tree, n_tot, n_fltr, n_d0, n_mu, n_b))
+
+            # Debug only
+            if args.output_dir:
+                output_br_names = merge_vectors(
+                    output_br_names_d0, output_br_names_mu, output_br_names_b)
+
+                final_frame = dfs_b[-1]
+                output_ntp = args.output_dir + '/' + \
+                    normalize_tree_name(tree) + '.root'
+                final_frame.Snapshot(tree, output_ntp, output_br_names)
+
+    with open(args.csv, 'w') as f:
+        for row in csv_gen(all_modes):
+            f.write(','.join(row)+'\n')
