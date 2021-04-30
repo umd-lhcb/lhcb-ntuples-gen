@@ -1,10 +1,12 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Sat Mar 13, 2021 at 09:37 PM +0100
+// Last Change: Fri Apr 30, 2021 at 03:22 AM +0200
 
 #ifndef _LNG_FUNCTOR_RDX_FLAG_H_
 #define _LNG_FUNCTOR_RDX_FLAG_H_
 
+#include <Math/Vector4D.h>
+#include <Math/Vector4Dfwd.h>
 #include <TMath.h>
 #include <TROOT.h>
 #include <TVector3.h>
@@ -155,26 +157,33 @@ Bool_t FLAG_D0_MU(std::vector<std::vector<Bool_t> >& mc_flags,
   return false;
 }
 
+// Global selection flags for run 1 ////////////////////////////////////////////
+
 // NOTE: These P and PT variables are in GeV, NOT the default MeV!!
 //       Selections are based on Run 1 R(D(*)) ANA, v2020.07.31, p.11, Table 6.
-Bool_t FLAG_SEL_D0_RUN1(Double_t k_pt, Double_t pi_pt, Bool_t k_hlt1ta_tos,
-                        Bool_t pi_hlt1ta_tos, Double_t k_p, Double_t pi_p,
+// clang-format off
+Bool_t FLAG_SEL_D0_RUN1(Double_t k_pt, Double_t pi_pt,
+                        Double_t k_p, Double_t pi_p,
+                        Bool_t k_hlt1_tos, Bool_t pi_hlt1_tos,
                         Double_t k_ip_chi2, Double_t pi_ip_chi2,
-                        Double_t k_pid_k, Double_t pi_pid_k, Bool_t mu_veto,
-                        Double_t k_gh_prob, Double_t pi_gh_prob, Double_t d0_pt,
-                        Bool_t d0_hlt2charmhad_tos, Double_t d0_endvtx_chi2,
-                        Double_t d0_endvtx_ndof, Double_t d0_ip,
-                        Double_t d0_ip_chi2, Double_t d0_dira,
-                        Double_t d0_fd_chi2, Double_t d0_m) {
+                        Double_t k_pid_k, Double_t pi_pid_k,
+                        Double_t k_gh_prob, Double_t pi_gh_prob,
+                        Bool_t mu_veto,
+                        Double_t d0_pt,
+                        Bool_t d0_hlt2charmhad_tos,
+                        Double_t d0_endvtx_chi2, Double_t d0_endvtx_ndof,
+                        Double_t d0_ip, Double_t d0_ip_chi2,
+                        Double_t d0_dira,
+                        Double_t d0_fd_chi2,
+                        Double_t d0_m) {
+  // clang-format on
   auto d0_m_ref = 1865.49;
 
   // clang-format off
   if (/* K, pi */
-      // FIXME: AddB.C is different from ANA!
-      //k_pt > 0.8 && pi_pt > 0.8 &&
-      //((k_hlt1ta_tos && k_pt > 1.7) || (pi_hlt1ta_tos && pi_pt > 1.7)) &&
-      k_pt > 0.5 && pi_pt > 0.5 && k_pt+pi_pt > 1.4 &&  /* AddB.C, LN2554 */
-      (k_hlt1ta_tos || pi_hlt1ta_tos) &&  /* AddB.C, LN2572 */
+      ((k_hlt1_tos && k_pt > 1.7) || (pi_hlt1_tos && pi_pt > 1.7)) &&
+      k_pt > 0.8 && pi_pt > 0.8 && k_pt+pi_pt > 1.4 &&  /* AddB.C, LN2554 */
+      (k_hlt1_tos || pi_hlt1_tos) &&  /* AddB.C, LN2572 */
       ////
       k_p > 2 && pi_p > 2 &&
       k_ip_chi2 > 45 && pi_ip_chi2 > 45 &&
@@ -191,6 +200,71 @@ Bool_t FLAG_SEL_D0_RUN1(Double_t k_pt, Double_t pi_pt, Bool_t k_hlt1ta_tos,
       d0_dira > 0.9998 &&
       d0_fd_chi2 > 250 &&
       TMath::Abs(d0_m - d0_m_ref) < 23.4  /* This is in MeV!!! */
+      )
+    // clang-format on
+    return true;
+  return false;
+}
+
+Bool_t FLAG_SEL_GOOD_TRACKS(TVector3              ref_trk,
+                            std::vector<TVector3> other_trks) {
+  for (auto v3_other : other_trks) {
+    auto inner_prod = ref_trk.Dot(v3_other);
+    auto magnitude  = ref_trk.Mag() * v3_other.Mag();
+
+    if (TMath::Log10(1 - inner_prod / magnitude) <= -6.5) return false;
+  }
+  return true;
+}
+
+// clang-format off
+Bool_t FLAG_SEL_MU_RUN1(Double_t mu_p,
+                        Double_t mu_eta,
+                        Bool_t mu_is_mu,
+                        Double_t mu_pid_mu, Double_t mu_pid_e,
+                        Double_t mu_bdt_mu,
+                        Bool_t good_trks) {
+  if (/* PID related */
+      mu_is_mu && mu_pid_mu > 2 && mu_pid_e < 1 && mu_bdt_mu > 0.25 &&
+      /* Momentum */
+      mu_p > 3 && mu_p < 100 &&
+      /* Acceptance */
+      mu_eta > 1.7 && mu_eta < 5. &&
+      /* If tracks are well-separated angularly */
+      good_trks
+      )
+    // clang-format on
+    return true;
+  return false;
+}
+
+// clang-format off
+Bool_t FLAG_SEL_BMINUSD0_RUN1(Bool_t flag_sel_d0, Bool_t flag_sel_mu,
+                              Double_t b_endvtx_chi2, Double_t b_endvtx_ndof,
+                              Double_t b_fd_trans,
+                              Double_t b_dira,
+                              Double_t b_m,
+                              Double_t mu_px, Double_t mu_py, Double_t mu_pz,
+                              Double_t d0_px, Double_t d0_py, Double_t d0_pz,
+                              Double_t d0_m) {
+  const Double_t pi_m = 139.57;
+  const Double_t d0_m_diff = 165.;
+
+  auto v4_mu_pi_m = ROOT::Math::PxPyPzMVector(mu_px, mu_py, mu_pz, pi_m);
+  auto v4_d0 = ROOT::Math::PxPyPzMVector(d0_px, d0_py, d0_pz, d0_m);
+  auto v4_d0_pi_m = v4_mu_pi_m + v4_d0;
+  auto d0_m_pi_m = v4_d0_pi_m.M();
+
+  if (/* Daughter particles */
+      flag_sel_d0 && flag_sel_mu &&
+      /* FD */
+      b_fd_trans < 7. &&
+      /* Vertex quality */
+      b_endvtx_chi2/b_endvtx_ndof < 6 && b_dira > 0.9995 &&
+      /* Mass */
+      b_m < 5200 &&
+      /* Replace Muon mass hypothesis */
+      TMath::Abs(d0_m_pi_m - d0_m) > d0_m_diff
       )
     // clang-format on
     return true;
@@ -302,8 +376,7 @@ Bool_t JUST_DST(Int_t dst_mom_id) {
   auto abs_dst_mom_id = TMath::Abs(dst_mom_id);
 
   auto dst_mom_possible_ids = std::vector<Int_t>({511, 521, 531});
-  if (VEC_OR_EQ(dst_mom_possible_ids, abs_dst_mom_id) /* LN2814 */)
-    return true;
+  if (VEC_OR_EQ(dst_mom_possible_ids, abs_dst_mom_id) /* LN2814 */) return true;
 
   return false;
 }
