@@ -1,6 +1,6 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Fri Apr 30, 2021 at 03:22 AM +0200
+// Last Change: Fri Apr 30, 2021 at 04:04 AM +0200
 
 #ifndef _LNG_FUNCTOR_RDX_FLAG_H_
 #define _LNG_FUNCTOR_RDX_FLAG_H_
@@ -170,7 +170,7 @@ Bool_t FLAG_SEL_D0_RUN1(Double_t k_pt, Double_t pi_pt,
                         Double_t k_gh_prob, Double_t pi_gh_prob,
                         Bool_t mu_veto,
                         Double_t d0_pt,
-                        Bool_t d0_hlt2charmhad_tos,
+                        Bool_t d0_hlt2,
                         Double_t d0_endvtx_chi2, Double_t d0_endvtx_ndof,
                         Double_t d0_ip, Double_t d0_ip_chi2,
                         Double_t d0_dira,
@@ -193,7 +193,7 @@ Bool_t FLAG_SEL_D0_RUN1(Double_t k_pt, Double_t pi_pt,
       k_gh_prob < 0.5 && pi_gh_prob < 0.5 &&
       /* D0 */
       d0_pt > 2 &&
-      d0_hlt2charmhad_tos &&
+      d0_hlt2 &&
       d0_endvtx_chi2/d0_endvtx_ndof < 4 &&
       TMath::Log(d0_ip) > -3.5 &&
       d0_ip_chi2 > 9 &&
