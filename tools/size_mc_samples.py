@@ -52,7 +52,7 @@ def decode_dirac_output(output, blocked_kw):
                 print('Skip LFN: {} due to blocked keyword: {}'.format(
                     lfn, kw))
                 proceed = False
-                continue
+                break
 
         if not proceed:
             continue
