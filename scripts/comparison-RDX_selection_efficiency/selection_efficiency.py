@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri Apr 30, 2021 at 05:49 PM +0200
+# Last Change: Fri Apr 30, 2021 at 06:00 PM +0200
 
 import pathlib
 import os
@@ -96,13 +96,17 @@ def find_mc_id(ntp_name):
     return False
 
 
-def stat_gen(tree_name, *numbers, raw_keys=['DaVinci', 'trigger', 'D0', 'Mu']):
+def stat_gen(tree_name, *numbers,
+             raw_keys=['DaVinci', 'trigger', 'D0', 'Mu'],
+             raw_subkeys=['ISO']):
     if 'B0' in tree_name:
         keys = ['B0 '+k for k in raw_keys]
         keys.append('B0')
+        keys += ['B0 '+k for k in raw_subkeys]
     if 'Bminus' in tree_name:
         keys = ['B '+k for k in raw_keys]
         keys.append('B')
+        keys += ['B '+k for k in raw_subkeys]
 
     return dict(zip(keys, numbers))
 
@@ -228,6 +232,8 @@ FLAG_SEL_B0DST_RUN1(sel_d0, sel_mu,
                     b0_fd_trans,
                     b0_dira,
                     b0_m)''', True),
+
+    EXEC('Define', 'iso_bdt', 'b0_ISOLATION_BDT'),
 ]
 
 sel_bminus = [
@@ -258,6 +264,8 @@ FLAG_SEL_BMINUSD0_RUN1(sel_d0, sel_mu,
                        mu_px, mu_py, mu_pz,
                        d0_px, d0_py, d0_pz,
                        d0_m)''', True),
+
+    EXEC('Define', 'iso_bdt', 'b_ISOLATION_BDT'),
 ]
 
 
@@ -320,8 +328,12 @@ if __name__ == '__main__':
             df_b_sel = dfs_b[-1].Filter('sel_b')
             n_b = df_b_sel.Count().GetValue()
 
+            # Filter on isolation BDT
+            df_iso_sel = df_b_sel.Filter('iso_bdt < 0.15')
+            n_iso = df_iso_sel.Count().GetValue()
+
             all_modes[mc_id].update(stat_gen(
-                tree, n_tot, n_fltr, n_d0, n_mu, n_b))
+                tree, n_tot, n_fltr, n_d0, n_mu, n_b, n_iso))
 
             # Debug only
             if args.output_dir:
