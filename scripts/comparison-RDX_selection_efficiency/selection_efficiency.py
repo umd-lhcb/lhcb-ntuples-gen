@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri Apr 30, 2021 at 03:07 PM +0200
+# Last Change: Fri Apr 30, 2021 at 03:39 PM +0200
 
 import pathlib
 import os
@@ -12,12 +12,11 @@ header_path = (pwd / '../../include').resolve()
 os.environ['ROOT_INCLUDE_PATH'] = str(header_path)
 
 from argparse import ArgumentParser
-from ROOT import RDataFrame
+from ROOT import RDataFrame, gInterpreter
 
 from TrackerOnlyEmu.executor import ExecDirective as EXEC
 from TrackerOnlyEmu.executor import process_directives
 from TrackerOnlyEmu.executor import merge_vectors
-from TrackerOnlyEmu.loader import load_cpp
 
 
 #################
@@ -55,9 +54,8 @@ optionally specify output ntuple file.''')
 # Helpers #
 ###########
 
-load_cpp('<functor/rdx/flag.h>', current_file_path=str(header_path / 'dummy'))
-load_cpp('<functor/rdx/kinematic.h>',
-         current_file_path=str(header_path / 'dummy'))
+gInterpreter.Declare('#include "functor/rdx/flag.h"')
+gInterpreter.Declare('#include "functor/rdx/kinematic.h"')
 
 
 def normalize_tree_name(tree_name):
@@ -131,6 +129,9 @@ sel_mu = [
     EXEC('Define', 'mu_p', 'mu_P / 1e3', True),
     EXEC('Define', 'mu_eta', 'ETA(mu_P, mu_PZ)', True),
 
+    EXEC('Define', 'mu_ip_chi2', 'mu_IPCHI2_OWNPV', True),
+    EXEC('Define', 'mu_gh_prob', 'mu_TRACK_GhostProb', True),
+
     # Dummy PID variables
     EXEC('Define', 'mu_is_mu', 'true'),
     EXEC('Define', 'mu_pid_mu', '10'),
@@ -142,8 +143,40 @@ sel_mu = [
     EXEC('Define', 'sel_mu', '''
 FLAG_SEL_MU_RUN1(mu_p,
                  mu_eta,
+                 mu_ip_chi2, mu_gh_prob,
                  mu_is_mu, mu_pid_mu, mu_pid_e, mu_bdt_mu,
                  mu_good_trks)''', True),
+]
+
+sel_b0 = [
+    EXEC('Define', 'spi_gh_prob', 'spi_TRACK_GhostProb', True),
+
+    EXEC('Define', 'dst_endvtx_chi2', 'dst_ENDVERTEX_CHI2', True),
+    EXEC('Define', 'dst_endvtx_ndof', 'dst_ENDVERTEX_NDOF', True),
+    EXEC('Define', 'dst_m', 'dst_M', True),
+
+    EXEC('Define', 'b0_discard_mu_chi2', 'b0_DISCARDMu_CHI2', True),
+    EXEC('Define', 'b0_endvtx_chi2', 'b0_ENDVERTEX_CHI2', True),
+    EXEC('Define', 'b0_endvtx_ndof', 'b0_ENDVERTEX_NDOF', True),
+    EXEC('Define', 'v3_b0_flight', '''
+TVector3(b0_ENDVERTEX_X - b0_OWNPV_X,
+         b0_ENDVERTEX_Y - b0_OWNPV_Y,
+         b0_ENDVERTEX_Z - b0_OWNPV_Z
+         )'''),
+    EXEC('Define', 'b0_fd_trans', 'v3_b0_flight.Perp()', True),
+    EXEC('Define', 'b0_dira', 'b0_DIRA_OWNPV', True),
+    EXEC('Define', 'b0_m', 'b0_M', True),
+
+    EXEC('Define', 'sel_b', '''
+FLAG_SEL_B0DST_RUN1(sel_d0, sel_mu,
+                    spi_gh_prob,
+                    dst_endvtx_chi2, dst_endvtx_ndof,
+                    dst_m, d0_m,
+                    b0_discard_mu_chi2,
+                    b0_endvtx_chi2, b0_endvtx_ndof,
+                    b0_fd_trans,
+                    b0_dira,
+                    b0_m)''', True),
 ]
 
 
@@ -163,7 +196,6 @@ if __name__ == '__main__':
         df_d0_sel = dfs_d0[-1].Filter('sel_d0')
         n_d0 = df_d0_sel.Count().GetValue()
 
-        # Filter on Mu
         if 'B0' in tree:
             sel_mu_tmp = [
                 EXEC('Define', 'v3_mu', 'TVector3(mu_PX, mu_PY, mu_PZ)'),
@@ -172,6 +204,7 @@ if __name__ == '__main__':
                 EXEC('Define', 'mu_good_trks',
                      'FLAG_SEL_GOOD_TRACKS(v3_mu, v3_other_trks)', True),
             ]
+            sel_b = sel_b0
         elif 'Bminus' in tree:
             sel_mu_tmp = [
                 EXEC('Define', 'v3_mu', 'TVector3(mu_PX, mu_PY, mu_PZ)'),
@@ -179,18 +212,25 @@ if __name__ == '__main__':
                 EXEC('Define', 'mu_good_trks',
                      'FLAG_SEL_GOOD_TRACKS(v3_mu, v3_other_trks)'),
             ]
+            sel_b = []
 
+        # Filter on Mu
         sel_mu_tmp += sel_mu
         dfs_mu, output_br_names_mu = process_directives(sel_mu_tmp, df_d0_sel)
         df_mu_sel = dfs_mu[-1].Filter('sel_mu')
         n_mu = df_mu_sel.Count().GetValue()
 
+        # Filter on reconstructed B (D meson + Muon combo)
+        dfs_b, output_br_names_b = process_directives(sel_b, df_mu_sel)
+        df_b_sel = dfs_b[-1].Filter('sel_b')
+        n_b = df_b_sel.Count().GetValue()
+
         # Debug only
         if args.output_dir:
             output_br_names = merge_vectors(
-                output_br_names_d0, output_br_names_mu)
+                output_br_names_d0, output_br_names_mu, output_br_names_b)
 
-            final_frame = dfs_mu[-1]
+            final_frame = dfs_b[-1]
             output_ntp = args.output_dir + '/' + normalize_tree_name(tree) + \
                 '.root'
             final_frame.Snapshot(tree, output_ntp, output_br_names)

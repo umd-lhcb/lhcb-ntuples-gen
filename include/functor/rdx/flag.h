@@ -1,6 +1,6 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Fri Apr 30, 2021 at 03:07 PM +0200
+// Last Change: Fri Apr 30, 2021 at 03:29 PM +0200
 
 #ifndef _LNG_FUNCTOR_RDX_FLAG_H_
 #define _LNG_FUNCTOR_RDX_FLAG_H_
@@ -220,6 +220,7 @@ Bool_t FLAG_SEL_GOOD_TRACKS(TVector3              ref_trk,
 // clang-format off
 Bool_t FLAG_SEL_MU_RUN1(Double_t mu_p,
                         Double_t mu_eta,
+                        Double_t mu_ip_chi2, Double_t mu_gh_prob,
                         Bool_t mu_is_mu,
                         Double_t mu_pid_mu, Double_t mu_pid_e,
                         Double_t mu_bdt_mu,
@@ -230,6 +231,8 @@ Bool_t FLAG_SEL_MU_RUN1(Double_t mu_p,
       mu_p > 3 && mu_p < 100 &&
       /* Acceptance */
       mu_eta > 1.7 && mu_eta < 5. &&
+      /* Track quality */
+      mu_ip_chi2 > 45 && mu_gh_prob < 0.5 &&
       /* If tracks are well-separated angularly */
       good_trks
       )
@@ -247,14 +250,16 @@ Bool_t FLAG_SEL_BMINUSD0_RUN1(Bool_t flag_sel_d0, Bool_t flag_sel_mu,
                               Double_t mu_px, Double_t mu_py, Double_t mu_pz,
                               Double_t d0_px, Double_t d0_py, Double_t d0_pz,
                               Double_t d0_m) {
-  const Double_t pi_m = 139.57;
+  // clang-format on
+  const Double_t pi_m      = 139.57;
   const Double_t d0_m_diff = 165.;
 
   auto v4_mu_pi_m = ROOT::Math::PxPyPzMVector(mu_px, mu_py, mu_pz, pi_m);
-  auto v4_d0 = ROOT::Math::PxPyPzMVector(d0_px, d0_py, d0_pz, d0_m);
+  auto v4_d0      = ROOT::Math::PxPyPzMVector(d0_px, d0_py, d0_pz, d0_m);
   auto v4_d0_pi_m = v4_mu_pi_m + v4_d0;
-  auto d0_m_pi_m = v4_d0_pi_m.M();
+  auto d0_m_pi_m  = v4_d0_pi_m.M();
 
+  // clang-format off
   if (/* Daughter particles */
       flag_sel_d0 && flag_sel_mu &&
       /* FD */
@@ -277,45 +282,26 @@ Bool_t FLAG_SEL_BMINUSD0_RUN1(Bool_t flag_sel_d0, Bool_t flag_sel_mu,
 // AddB.C:
 //       mu_ip_chi2 > 45
 //       mu_gh_prob < 0.5
-Bool_t FLAG_SEL_B0DST_RUN1(Bool_t flag_sel_d0, Double_t spi_gh_prob,
+// clang-format off
+Bool_t FLAG_SEL_B0DST_RUN1(Bool_t flag_sel_d0, Bool_t flag_sel_mu,
+                           Double_t spi_gh_prob,
                            Double_t dst_endvtx_chi2, Double_t dst_endvtx_ndof,
-                           Double_t dst_m, Double_t d0_m, Bool_t mu_is_mu,
-                           Double_t mu_p, Double_t mu_eta, Double_t mu_pid_mu,
-                           Double_t mu_pid_e, Double_t mu_ip_chi2,
-                           Double_t mu_gh_prob, TVector3 v3_mu_p,
-                           TVector3 v3_k_p, TVector3 v3_pi_p, TVector3 v3_spi_p,
-                           Double_t b0_discard_mu_chi2, Double_t b0_endvtx_chi2,
-                           Double_t b0_endvtx_ndof, Double_t b0_fd_trans,
-                           Double_t b0_dira, Double_t b0_m, Double_t iso_bdt) {
+                           Double_t dst_m, Double_t d0_m,
+                           Double_t b0_discard_mu_chi2,
+                           Double_t b0_endvtx_chi2, Double_t b0_endvtx_ndof,
+                           Double_t b0_fd_trans,
+                           Double_t b0_dira,
+                           Double_t b0_m) {
+  // clang-format on
   auto dst_d0_delta_m_ref = 145.454;
 
-  auto track_well_separated = true;
-  for (auto v3_p : std::vector<TVector3>{v3_k_p, v3_pi_p, v3_spi_p}) {
-    auto inner_prod = v3_mu_p.Dot(v3_p);
-    auto magnitude  = v3_mu_p.Mag() * v3_p.Mag();
-
-    if (TMath::Log10(1 - inner_prod / magnitude) <= -6.5) {
-      track_well_separated = false;
-      break;
-    }
-  }
-
   // clang-format off
-  if (flag_sel_d0 && /* For D*, we require it to pass all D0 selections */
+  if (flag_sel_d0 && flag_sel_mu &&
       /* slow Pi */
       spi_gh_prob < 0.25 &&
       /* D* */
       dst_endvtx_chi2/dst_endvtx_ndof < 10 &&
       TMath::Abs(dst_m - d0_m - dst_d0_delta_m_ref) < 2 &&
-      /* Mu */
-      mu_is_mu &&
-      (mu_p > 3 && mu_p < 100) &&
-      (mu_eta > 1.7 && mu_eta < 5) &&
-      mu_pid_mu > 2 &&
-      mu_pid_e < 1 &&
-      mu_ip_chi2 > 45 &&   /* AddB.C, LN2562 */
-      mu_gh_prob < 0.5 &&  /* AddB.C, LN2563 */
-      track_well_separated &&
       /* D0 Mu combo, already applied in DaVinci */
       /* D* Mu combo */
       b0_discard_mu_chi2 <= 6 &&  /* AddB.C, LN2567 */
@@ -323,8 +309,7 @@ Bool_t FLAG_SEL_B0DST_RUN1(Bool_t flag_sel_d0, Double_t spi_gh_prob,
       b0_endvtx_chi2/b0_endvtx_ndof < 6 &&
       b0_fd_trans < 7 &&
       b0_dira > 0.9995 &&
-      b0_m < 5280 /* MeV! */ &&
-      iso_bdt < 0.15
+      b0_m < 5280 /* MeV! */
       )
     // clang-format on
     return true;
