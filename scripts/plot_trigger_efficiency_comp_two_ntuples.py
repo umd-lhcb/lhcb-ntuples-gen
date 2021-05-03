@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
 # Author: Yipeng Sun
-# Last Change: Thu Apr 29, 2021 at 02:36 AM +0200
+# Last Change: Mon May 03, 2021 at 09:05 PM +0200
 
 import uproot
 import numpy as np
@@ -63,9 +63,10 @@ if __name__ == '__main__':
     ntp2 = uproot.open(args.comp)
 
     # Load trigger branches that will be used for efficiency comparison
+    trigger = args.triggers[0]
     eff_branches = []
-    eff_branches.append(read_branch(ntp1, args.ref_tree, args.triggers[0]))
-    eff_branches.append(read_branch(ntp2, args.comp_tree, args.triggers[1]))
+    eff_branches.append(read_branch(ntp1, args.ref_tree, trigger))
+    eff_branches.append(read_branch(ntp2, args.comp_tree, trigger))
 
     # Now generate efficiency plots regarding some kinematic variables
     for br, data_range, xlabel in zip(
@@ -103,7 +104,8 @@ if __name__ == '__main__':
                 output=filename,
                 title=args.title,
                 xlabel=xlabel,
-                ax1_ylabel='Efficiency', ax2_ylabel=args.ax2_ylabel
+                ax1_ylabel='Efficiency', ax2_ylabel=args.ax2_ylabel,
+                hline_pos=1
             )
 
             # Clear plot in memory

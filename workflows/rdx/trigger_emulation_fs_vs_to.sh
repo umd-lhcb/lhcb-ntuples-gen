@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Author: Yipeng Sun
-# Last Change: Mon May 03, 2021 at 04:35 PM +0200
+# Last Change: Mon May 03, 2021 at 09:04 PM +0200
 
 INPUT_NTP1=$1
 INPUT_NTP2=$2
@@ -17,7 +17,8 @@ plot_hlt1_twotrackmva() {
         -n "${NTP1}" -N "${NTP2}" -o "${OUTPUT_PREFIX}" \
         -t "${TREE}" -T "${TREE}" \
         --title "${TITLE}" \
-        --triggers ${TRIGGER}
+        --triggers ${TRIGGER} \
+        --legends FS TO
 }
 
 plot_hlt1_trackmva() {
@@ -33,6 +34,7 @@ plot_hlt1_trackmva() {
         -t "${TREE}" -T "${TREE}" \
         --title "${TITLE}" \
         --triggers ${TRIGGER} \
+        --legends FS TO \
         -k q2 mmiss2 el \
            k_p k_pt pi_p pi_pt \
            k_chi2ndof k_ipchi2 k_ghost \
@@ -54,6 +56,7 @@ plot_l0_hadron_eff() {
         -t "${TREE}" -T "${TREE}" \
         --title "${TITLE}" \
         --triggers ${TRIGGER} \
+        --legends FS TO \
         -c \
         -k q2 mmiss2 el \
            d0_pt k_pt pi_pt \
@@ -80,6 +83,7 @@ plot_l0_global_tis_eff() {
         -t "${TREE}" -T "${TREE}" \
         --title "${TITLE}" \
         --triggers ${TRIGGER} \
+        --legends FS TO \
         -c \
         -k "q2" "mmiss2" "el" \
            "log_${OUTPUT_PREFIX}_true_pz" "log_${OUTPUT_PREFIX}_true_pt" \
@@ -130,12 +134,12 @@ run2-rdx-l0_global_tis.py ${INPUT_NTP2} emu_l0_global_tis_to_b.root \
 #   D*
 plot_hlt1_twotrackmva emu_hlt1_fs_b0.root emu_hlt1_to_b0.root \
     "TupleB0/DecayTree" b0 \
-    "d0_hlt1_twotrackmva_tos d0_hlt1_twotrackmva_tos_emu" \
+    "d0_hlt1_twotrackmva_tos_emu" \
     "Hlt1TwoTrackMVA TOS"
 #   D0
 plot_hlt1_twotrackmva emu_hlt1_fs_b.root emu_hlt1_to_b.root \
     "TupleBminus/DecayTree" b \
-    "d0_hlt1_twotrackmva_tos d0_hlt1_twotrackmva_tos_emu" \
+    "d0_hlt1_twotrackmva_tos_emu" \
     "Hlt1TwoTrackMVA TOS"
 
 
@@ -143,12 +147,12 @@ plot_hlt1_twotrackmva emu_hlt1_fs_b.root emu_hlt1_to_b.root \
 #   D*
 plot_hlt1_trackmva emu_hlt1_fs_b0.root emu_hlt1_to_b0.root \
     "TupleB0/DecayTree" b0 \
-    "d0_hlt1_trackmva_tos d0_hlt1_trackmva_tos_emu" \
+    "d0_hlt1_trackmva_tos_emu" \
     "Hlt1TrackMVA TOS"
 #   D0
 plot_hlt1_trackmva emu_hlt1_fs_b.root emu_hlt1_to_b.root \
     "TupleBminus/DecayTree" b \
-    "d0_hlt1_trackmva_tos d0_hlt1_trackmva_tos_emu" \
+    "d0_hlt1_trackmva_tos_emu" \
     "Hlt1TrackMVA TOS"
 
 
@@ -156,12 +160,12 @@ plot_hlt1_trackmva emu_hlt1_fs_b.root emu_hlt1_to_b.root \
 #   D*
 plot_l0_hadron_eff emu_l0_hadron_fs_b0.root emu_l0_hadron_to_b0.root \
     "TupleB0/DecayTree" b0 \
-    "d0_l0_hadron_tos d0_l0_hadron_tos_emu" \
+    "d0_l0_hadron_tos_emu" \
     "L0Hadron TOS"
 #   D0
 plot_l0_hadron_eff emu_l0_hadron_fs_b.root emu_l0_hadron_to_b.root \
     "TupleBminus/DecayTree" b \
-    "d0_l0_hadron_tos d0_l0_hadron_tos_emu" \
+    "d0_l0_hadron_tos_emu" \
     "L0Hadron TOS"
 
 
@@ -170,11 +174,11 @@ plot_l0_hadron_eff emu_l0_hadron_fs_b.root emu_l0_hadron_to_b.root \
 plot_l0_global_tis_eff \
     emu_l0_global_tis_fs_b0.root emu_l0_global_tis_to_b0.root \
     "TupleB0/DecayTree" b0 \
-    "b0_l0_global_tis b0_l0_global_tis_emu" \
+    "b0_l0_global_tis_emu" \
     "L0Global TIS"
-#   B
+#   B-
 plot_l0_global_tis_eff \
     emu_l0_global_tis_fs_b.root emu_l0_global_tis_to_b.root \
     "TupleBminus/DecayTree" b \
-    "b_l0_global_tis b_l0_global_tis_emu" \
+    "b_l0_global_tis_emu" \
     "L0Global TIS"
