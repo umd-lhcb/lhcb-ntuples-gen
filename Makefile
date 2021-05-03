@@ -1,6 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Apr 22, 2021 at 11:39 PM +0200
+# Last Change: Mon May 03, 2021 at 02:38 AM +0200
 
 export PATH := workflows:test:scripts:$(PATH)
 
@@ -99,9 +99,16 @@ test-naming-conv:
 # RDX #
 #######
 
+.PHONY: rdx-trigger-emu-nor rdx-trigger-emu-nor-fs-vs-to
+
 rdx-trigger-emu-nor: \
 	./ntuples/0.9.4-trigger_emulation/Dst_D0-mc/Dst_D0--21_04_21--mc--MC_2016_Beam6500GeV-2016-MagDown-Nu1.6-25ns-Pythia8_Sim09j_Trig0x6139160F_Reco16_Turbo03a_Filtered_11574021_D0TAUNU.SAFESTRIPTRIG.DST.root
 	@rdx.py $@ $< --mode trigger_emulation --debug
+
+rdx-trigger-emu-nor-fs-vs-to: \
+	./ntuples/0.9.4-trigger_emulation/Dst_D0-mc/Dst_D0--21_04_21--mc--MC_2016_Beam6500GeV-2016-MagDown-Nu1.6-25ns-Pythia8_Sim09j_Trig0x6139160F_Reco16_Turbo03a_Filtered_11574021_D0TAUNU.SAFESTRIPTRIG.DST.root \
+	./ntuples/0.9.4-trigger_emulation/Dst_D0-mc/Dst_D0--21_04_21--mc--tracker_only--MC_2016_Beam6500GeV-2016-MagDown-TrackerOnly-Nu1.6-25ns-Pythia8_Sim09j_Reco16_Filtered_11574021_D0TAUNU.SAFESTRIPTRIG.DST.root
+	@rdx.py $@ $^ --mode trigger_emulation_fs_vs_to --debug
 
 
 ####################

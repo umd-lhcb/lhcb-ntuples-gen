@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Apr 22, 2021 at 10:06 PM +0200
+# Last Change: Mon May 03, 2021 at 03:27 PM +0200
 
 import sys
 import os.path as os_path
@@ -113,8 +113,38 @@ def workflow_trigger_emulation(job_name, inputs, output_dir, debug):
         chdir('..')  # Switch back to parent workdir
 
 
+def workflow_trigger_emulation_fs_vs_to(job_name, inputs, output_dir, debug):
+    print('{}== Job: {} =={}'.format(TC.BOLD+TC.GREEN, job_name, TC.END))
+    subworkdirs, workdir = workflow_general(job_name, inputs, output_dir)
+    chdir(workdir)
+    exe = pipe_executor(
+        'trigger_emulation_fs_vs_to.sh {input_ntp1} {input_ntp2}')
+
+    ntps = list(subworkdirs.values())
+    subdir = list(subworkdirs.keys())[0] + '--fs_vs_to'
+    params = {
+        'input_ntp1': ntps[0],
+        'input_ntp2': ntps[1]
+    }
+
+    print('{}Working on {}...{}'.format(TC.GREEN, subdir, TC.END))
+    ensure_dir(subdir)
+    chdir(subdir)  # Switch to the workdir of the subjob
+
+    exe(params, debug)
+
+    aggragate_output('..', subdir, {
+        'ntuple': ['*.root'],
+        'plots_raster': ['*.png'],
+        'plots_vector': ['*.pdf'],
+    })
+
+    chdir('..')  # Switch back to parent workdir
+
+
 WORKFLOWS = {
     'trigger_emulation': workflow_trigger_emulation,
+    'trigger_emulation_fs_vs_to': workflow_trigger_emulation_fs_vs_to,
 }
 
 

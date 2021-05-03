@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Author: Yipeng Sun
-# Last Change: Mon May 03, 2021 at 02:32 AM +0200
+# Last Change: Mon May 03, 2021 at 04:35 PM +0200
 
 INPUT_NTP1=$1
 INPUT_NTP2=$2
@@ -32,7 +32,7 @@ plot_hlt1_trackmva() {
         -n "${NTP1}" -N "${NTP2}" -o "${OUTPUT_PREFIX}" \
         -t "${TREE}" -T "${TREE}" \
         --title "${TITLE}" \
-        -triggers ${TRIGGER} \
+        --triggers ${TRIGGER} \
         -k q2 mmiss2 el \
            k_p k_pt pi_p pi_pt \
            k_chi2ndof k_ipchi2 k_ghost \
@@ -49,11 +49,11 @@ plot_l0_hadron_eff() {
     TRIGGER=$5
     TITLE=$6
 
-    plot_trigger_efficiency_comp.py \
+    plot_trigger_efficiency_comp_two_ntuples.py \
         -n "${NTP1}" -N "${NTP2}" -o "${OUTPUT_PREFIX}" \
         -t "${TREE}" -T "${TREE}" \
         --title "${TITLE}" \
-        -triggers ${TRIGGER} \
+        --triggers ${TRIGGER} \
         -c \
         -k q2 mmiss2 el \
            d0_pt k_pt pi_pt \
@@ -75,11 +75,11 @@ plot_l0_global_tis_eff() {
     TRIGGER=$5
     TITLE=$6
 
-    plot_trigger_efficiency_comp.py \
+    plot_trigger_efficiency_comp_two_ntuples.py \
         -n "${NTP1}" -N "${NTP2}" -o "${OUTPUT_PREFIX}" \
         -t "${TREE}" -T "${TREE}" \
         --title "${TITLE}" \
-        -triggers ${TRIGGER} \
+        --triggers ${TRIGGER} \
         -c \
         -k "q2" "mmiss2" "el" \
            "log_${OUTPUT_PREFIX}_true_pz" "log_${OUTPUT_PREFIX}_true_pt" \
@@ -121,9 +121,9 @@ run2-rdx-l0_global_tis.py ${INPUT_NTP2} emu_l0_global_tis_to_b0.root \
     -t TupleB0/DecayTree -B b0 --debug || exit 1
 
 run2-rdx-l0_global_tis.py ${INPUT_NTP1} emu_l0_global_tis_fs_b.root \
-    -t TupleBminus/DecayTree -B b0 --debug
+    -t TupleBminus/DecayTree -B b --debug
 run2-rdx-l0_global_tis.py ${INPUT_NTP2} emu_l0_global_tis_to_b.root \
-    -t TupleBminus/DecayTree -B b0 --debug || exit 1
+    -t TupleBminus/DecayTree -B b --debug || exit 1
 
 
 # Plot efficiencies: Hlt1TwoTrackMVA
