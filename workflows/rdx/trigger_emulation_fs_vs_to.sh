@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Author: Yipeng Sun
-# Last Change: Mon May 03, 2021 at 09:04 PM +0200
+# Last Change: Mon May 03, 2021 at 10:45 PM +0200
 
 INPUT_NTP1=$1
 INPUT_NTP2=$2
@@ -36,11 +36,13 @@ plot_hlt1_trackmva() {
         --triggers ${TRIGGER} \
         --legends FS TO \
         -k q2 mmiss2 el \
-           k_p k_pt pi_p pi_pt \
+           k_p k_pt pi_p pi_pt mu_p mu_pt \
            k_chi2ndof k_ipchi2 k_ghost \
            pi_chi2ndof pi_ipchi2 pi_ghost \
-           mu_theta k_theta pi_theta \
-           mu_phi k_phi pi_phi
+           mu_chi2ndof mu_ipchi2 mu_ghost \
+           k_theta pi_theta mu_theta \
+           k_phi pi_phi mu_phi \
+           nspd_hits
 }
 
 plot_l0_hadron_eff() {
