@@ -4,50 +4,111 @@
 
 TupleB0/DecayTree:
     deactivate:
-        - "*_ENDVERTEX_COV_"
+        # Event diagnostics
         - "*RoutingBits*"
+        - "EventInSequence"
+        - "OdinTCK"
+        # Generic MC stuff---useless in real data
+        - "MCFrom*"
+        - "MCParticle*"
+        - "MCVertex*"
+        - "MCVirtualMass"
+        # Global event stuff
+        - "NumPVs"
+        - "NumProtoParticles"
+        - "NumPVs"
+        - "NumProtoParticles"
+        - "NumMuonCoordsS*"
+        - "NumGhosts"
+        - "TrackCloneDist"
+        # MC Tunes
         - "*_MC12Tune*"
         - "*_MC15Tune*"
-    selection:
-        - "b0_L0Global_TIS || dst_L0HadronDecision_TOS"
-        - "mu_L0Global_TIS"
-
-TupleB0WSMu/DecayTree:
-    deactivate:
+        # Discard Mu
+        - "*_DISCARDMu_*ERR"
+        # Kinematics
+        - "*_MMERR"
+        # End vertex stuff
         - "*_ENDVERTEX_COV_"
-        - "*RoutingBits*"
-        - "*_MC12Tune*"
-        - "*_MC15Tune*"
+        - "*_ENDVERTEX_X*"
+        - "*_ENDVERTEX_Y*"
+        - "*_ENDVERTEX_Z*"
+        # Own PV stuff
+        - "*_OWNPV_COV_"
+        - "*_OWNPV_X*"
+        - "*_OWNPV_Y*"
+        - "*_OWNPV_Z*"
+        # Original vertex stuff
+        - "*_ORIVX_COV_"
+        - "*_ORIVX_X*"
+        - "*_ORIVX_Y*"
+        - "*_ORIVX_Z*"
+        # Track stuff
+        - "*_TRACK_FirstMeasurement*"
+        - "*_TRACK_CloneDist"
+        - "*_TRACK_*_UTID"
+        - "*_TRACK_History"
+        # Detector stuff
+        - "*_Rich*"
+        - "*_MuonBkgLL"
+        - "*_MuonMuLL"
+        - "*_MuonNShared"
+        - "*_InAcc*"
+        - "*_EcalPID*"
+        - "*_HcalPID*"
+        - "*_PrsPID*"
+        - "*_BremPID*"
+        - "*_VeloCharge"
+        - "*_isMuonLoose"
+        - "*_UsedRich*"
+        - "*_Calo*"
+    activate:
+        - "b0_ENDVERTEX_X"
+        - "b0_ENDVERTEX_Y"
+        - "b0_ENDVERTEX_Z"
+        - "b0_OWNPV_X"
+        - "b0_OWNPV_Y"
+        - "b0_OWNPV_Z"
     selection:
-        - "b0_L0Global_TIS || dst_L0HadronDecision_TOS"
-        - "mu_L0Global_TIS"
-
-TupleB0WSPi/DecayTree:
-    deactivate:
-        - "*_ENDVERTEX_COV_"
-        - "*RoutingBits*"
-        - "*_MC12Tune*"
-        - "*_MC15Tune*"
-    selection:
-        - "b0_L0Global_TIS || dst_L0HadronDecision_TOS"
+        - "b0_L0Global_TIS || d0_L0HadronDecision_TOS"
         - "mu_L0Global_TIS"
 
 TupleBminus/DecayTree:
-    deactivate:
-        - "*_ENDVERTEX_COV_"
-        - "*RoutingBits*"
-        - "*_MC12Tune*"
-        - "*_MC15Tune*"
+    deactivate: TupleB0/DecayTree
+    activate:
+        - "b_ENDVERTEX_X"
+        - "b_ENDVERTEX_Y"
+        - "b_ENDVERTEX_Z"
+        - "b_OWNPV_X"
+        - "b_OWNPV_Y"
+        - "b_OWNPV_Z"
     selection:
         - "b_L0Global_TIS || d0_L0HadronDecision_TOS"
         - "mu_L0Global_TIS"
 
+#########################
+# Data wrong-sign trees #
+#########################
+
+TupleB0WSMu/DecayTree:
+    deactivate: TupleB0/DecayTree
+    activate: TupleB0/DecayTree
+    selection: TupleB0/DecayTree
+
+TupleB0WSPi/DecayTree:
+    deactivate: TupleB0/DecayTree
+    activate: TupleB0/DecayTree
+    selection: TupleB0/DecayTree
+
+
 TupleBminusWS/DecayTree:
-    deactivate:
-        - "*_ENDVERTEX_COV_"
-        - "*RoutingBits*"
-        - "*_MC12Tune*"
-        - "*_MC15Tune*"
-    selection:
-        - "b_L0Global_TIS || d0_L0HadronDecision_TOS"
-        - "mu_L0Global_TIS"
+    deactivate: TupleBminus/DecayTree
+    activate: TupleBminus/DecayTree
+    selection: TupleBminus/DecayTree
+
+########
+# MISC #
+########
+
+GetIntegratedLuminosity/LumiTuple:
+    keep: false
