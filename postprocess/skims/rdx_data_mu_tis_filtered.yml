@@ -1,18 +1,21 @@
-#######################
-# Reconstructed trees #
-#######################
+##############
+# Data trees #
+##############
 
 TupleB0/DecayTree:
     deactivate:
-        # Event diagnostic
+        # Event diagnostics
         - "*RoutingBits*"
         - "EventInSequence"
-        - "GpsTime"
         - "OdinTCK"
-        # Generic MC stuff
+        # Generic MC stuff---useless in real data
+        - "MCFrom*"
+        - "MCParticle*"
         - "MCVertex*"
         - "MCVirtualMass"
         # Global event stuff
+        - "NumPVs"
+        - "NumProtoParticles"
         - "NumPVs"
         - "NumProtoParticles"
         - "NumMuonCoordsS*"
@@ -29,7 +32,6 @@ TupleB0/DecayTree:
         - "*_ENDVERTEX_X*"
         - "*_ENDVERTEX_Y*"
         - "*_ENDVERTEX_Z*"
-        - "*_TRUEENDVERTEX_*"
         # Own PV stuff
         - "*_OWNPV_COV_"
         - "*_OWNPV_X*"
@@ -40,7 +42,6 @@ TupleB0/DecayTree:
         - "*_ORIVX_X*"
         - "*_ORIVX_Y*"
         - "*_ORIVX_Z*"
-        - "*_TRUEORIGINVERTEX_*"
         # Track stuff
         - "*_TRACK_FirstMeasurement*"
         - "*_TRACK_CloneDist"
@@ -53,6 +54,9 @@ TupleB0/DecayTree:
         - "b0_OWNPV_X"
         - "b0_OWNPV_Y"
         - "b0_OWNPV_Z"
+    selection:
+        - "b0_L0Global_TIS || d0_L0HadronDecision_TOS"
+        - "mu_L0Global_TIS"
 
 TupleBminus/DecayTree:
     deactivate: TupleB0/DecayTree
@@ -63,27 +67,29 @@ TupleBminus/DecayTree:
         - "b_OWNPV_X"
         - "b_OWNPV_Y"
         - "b_OWNPV_Z"
+    selection:
+        - "b_L0Global_TIS || d0_L0HadronDecision_TOS"
+        - "mu_L0Global_TIS"
 
-##################
-# MC truth trees #
-##################
+#########################
+# Data wrong-sign trees #
+#########################
 
-MCTupleB0Tau/MCDecayTree:
-    deactivate:
-        - "EventInSequence"
-        - "GpsTime"
-        - "*TCK"
-        - "*_TRUEENDVERTEX_*"
-        - "*_TRUEORIGINVERTEX_*"
+TupleB0WSMu/DecayTree:
+    deactivate: TupleB0/DecayTree
+    activate: TupleB0/DecayTree
+    selection: TupleB0/DecayTree
 
-MCTupleB0Mu/MCDecayTree:
-    deactivate: MCTupleB0Tau/MCDecayTree
+TupleB0WSPi/DecayTree:
+    deactivate: TupleB0/DecayTree
+    activate: TupleB0/DecayTree
+    selection: TupleB0/DecayTree
 
-MCTupleBminusTau/MCDecayTree:
-    deactivate: MCTupleB0Tau/MCDecayTree
 
-MCTupleBminusMu/MCDecayTree:
-    deactivate: MCTupleB0Tau/MCDecayTree
+TupleBminusWS/DecayTree:
+    deactivate: TupleBminus/DecayTree
+    activate: TupleBminus/DecayTree
+    selection: TupleBminus/DecayTree
 
 ########
 # MISC #
