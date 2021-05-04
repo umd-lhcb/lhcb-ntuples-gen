@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue May 04, 2021 at 07:51 PM +0200
+# Last Change: Tue May 04, 2021 at 11:21 PM +0200
 
 import pathlib
 import os
@@ -340,7 +340,8 @@ if __name__ == '__main__':
         print('No input ntuple retained after filtering on blocked keywords.')
         sys.exit(1)
 
-    ids = args.headers if args.headers else list(range(0, len(ntps)))
+    ids = args.headers if args.headers else [str(n)
+                                             for n in range(0, len(ntps))]
 
     if args.ref_csv:
         all_modes = csv_read(args.ref_csv)
