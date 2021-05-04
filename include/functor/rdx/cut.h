@@ -1,6 +1,6 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Tue May 04, 2021 at 11:59 AM +0200
+// Last Change: Tue May 04, 2021 at 06:51 PM +0200
 
 #ifndef _LNG_FUNCTOR_RDX_CUT_H_
 #define _LNG_FUNCTOR_RDX_CUT_H_
@@ -46,7 +46,7 @@ Bool_t FLAG_SEL_D0_RUN1(Bool_t flag_d0_pid_ok,
       /* K, pi */
       ((k_hlt1_tos && k_pt > 1.7) || (pi_hlt1_tos && pi_pt > 1.7)) &&
       k_pt > 0.8 && pi_pt > 0.8 && k_pt+pi_pt > 1.4 &&  /* AddB.C, LN2554 */
-      (k_hlt1_tos || pi_hlt1_tos) &&  /* AddB.C, LN2572 */
+      //(k_hlt1_tos || pi_hlt1_tos) &&  /* AddB.C, LN2572, this is redundant */
       ////
       k_p > 2 && pi_p > 2 &&
       k_ip_chi2 > 45 && pi_ip_chi2 > 45 &&
