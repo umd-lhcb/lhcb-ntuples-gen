@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue May 04, 2021 at 07:02 PM +0200
+# Last Change: Tue May 04, 2021 at 07:51 PM +0200
 
 import pathlib
 import os
@@ -34,16 +34,49 @@ from TrackerOnlyEmu.executor import merge_vectors
 #################
 
 TREES = {
-    'TupleB0/DecayTree': [
-        EXEC('Filter', instruct='b0_L0Global_TIS || d0_L0HadronDecision_TOS'),
-        EXEC('Filter', instruct='d0_Hlt1TrackMVALooseDecision_TOS || d0_Hlt1TwoTrackMVADecision_TOS'),
-        EXEC('Filter', instruct='b0_Hlt2XcMuXForTauB2XcMuDecision_TOS'),
+    'run2-loose': {
+        'TupleB0/DecayTree': [
+            EXEC('Filter', instruct='b0_L0Global_TIS || d0_L0HadronDecision_TOS'),
+            EXEC('Filter', instruct='d0_Hlt1TrackMVALooseDecision_TOS || d0_Hlt1TwoTrackMVADecision_TOS'),
+            EXEC('Filter', instruct='b0_Hlt2XcMuXForTauB2XcMuDecision_TOS'),
+        ],
+        'TupleBminus/DecayTree': [
+            EXEC('Filter', instruct='b_L0Global_TIS || d0_L0HadronDecision_TOS'),
+            EXEC('Filter', instruct='d0_Hlt1TrackMVALooseDecision_TOS || d0_Hlt1TwoTrackMVADecision_TOS'),
+            EXEC('Filter', instruct='b_Hlt2XcMuXForTauB2XcMuDecision_TOS'),
+        ]
+    },
+    'run2': {
+        'TupleB0/DecayTree': [
+            EXEC('Filter', instruct='b0_L0Global_TIS || d0_L0HadronDecision_TOS'),
+            EXEC('Filter', instruct='d0_Hlt1TrackMVADecision_TOS || d0_Hlt1TwoTrackMVADecision_TOS'),
+            EXEC('Filter', instruct='b0_Hlt2XcMuXForTauB2XcMuDecision_TOS'),
+        ],
+        'TupleBminus/DecayTree': [
+            EXEC('Filter', instruct='b_L0Global_TIS || d0_L0HadronDecision_TOS'),
+            EXEC('Filter', instruct='d0_Hlt1TrackMVADecision_TOS || d0_Hlt1TwoTrackMVADecision_TOS'),
+            EXEC('Filter', instruct='b_Hlt2XcMuXForTauB2XcMuDecision_TOS'),
+        ]
+    },
+}
+
+K_PI_TRIGGERS = {
+    'run2-loose': [
+        EXEC('Define', 'k_hlt1_tos',
+             'd0_Hlt1TwoTrackMVADecision_TOS || k_Hlt1TrackMVALooseDecision_TOS',
+             True),
+        EXEC('Define', 'pi_hlt1_tos',
+             'd0_Hlt1TwoTrackMVADecision_TOS || pi_Hlt1TrackMVALooseDecision_TOS',
+             True),
     ],
-    'TupleBminus/DecayTree': [
-        EXEC('Filter', instruct='b_L0Global_TIS || d0_L0HadronDecision_TOS'),
-        EXEC('Filter', instruct='d0_Hlt1TrackMVALooseDecision_TOS || d0_Hlt1TwoTrackMVADecision_TOS'),
-        EXEC('Filter', instruct='b_Hlt2XcMuXForTauB2XcMuDecision_TOS'),
-    ]
+    'run2': [
+        EXEC('Define', 'k_hlt1_tos',
+             'd0_Hlt1TwoTrackMVADecision_TOS || k_Hlt1TrackMVADecision_TOS',
+             True),
+        EXEC('Define', 'pi_hlt1_tos',
+             'd0_Hlt1TwoTrackMVADecision_TOS || pi_Hlt1TrackMVADecision_TOS',
+             True),
+    ],
 }
 
 
@@ -83,6 +116,12 @@ specify ntuple IDs in the generated CSV.''')
     parser.add_argument('-O', '--ordering',
                         default=None, nargs='+', help='''
 specify an ordering for MC ntuples.
+''')
+
+    parser.add_argument('-t', '--trigger-mode',
+                        default='run2-loose', choices=list(TREES.keys()),
+                        help='''
+specify trigger cut mode.
 ''')
 
     return parser.parse_args()
@@ -167,14 +206,6 @@ sel_d0 = [
     EXEC('Define', 'pi_pt', 'pi_PT / 1e3', True),
     EXEC('Define', 'k_p', 'k_P / 1e3', True),
     EXEC('Define', 'pi_p', 'pi_P / 1e3', True),
-
-    # Trigger is a bit different than what we plan to use
-    EXEC('Define', 'k_hlt1_tos',
-         'd0_Hlt1TwoTrackMVADecision_TOS || k_Hlt1TrackMVALooseDecision_TOS',
-         True),
-    EXEC('Define', 'pi_hlt1_tos',
-         'd0_Hlt1TwoTrackMVADecision_TOS || pi_Hlt1TrackMVALooseDecision_TOS',
-         True),
 
     EXEC('Define', 'k_ip_chi2', 'k_IPCHI2_OWNPV', True),
     EXEC('Define', 'pi_ip_chi2', 'pi_IPCHI2_OWNPV', True),
@@ -316,6 +347,9 @@ if __name__ == '__main__':
     else:
         all_modes = defaultdict(dict)
 
+    trigger_trees = TREES[args.trigger_mode]
+    k_pi_triggers = K_PI_TRIGGERS[args.trigger_mode]
+
     for ntp, alt_id in zip(ntps, ids):
         ntp_id = find_ntp_id(ntp)  # This works for MC only
 
@@ -323,7 +357,7 @@ if __name__ == '__main__':
             print('Use ID specified in cli: {}'.format(alt_id))
             ntp_id = alt_id
 
-        for tree, init_dir in TREES.items():
+        for tree, init_dir in trigger_trees.items():
             init_frame = RDataFrame(tree, ntp)
             n_tot = init_frame.Count().GetValue()
 
@@ -332,8 +366,9 @@ if __name__ == '__main__':
             n_fltr = dfs_fltr[-1].Count().GetValue()
 
             # Filter on D0 selection
+            sel_d0_tmp = k_pi_triggers + sel_d0
             dfs_d0, output_br_names_d0 = process_directives(
-                sel_d0, dfs_fltr[-1])
+                sel_d0_tmp, dfs_fltr[-1])
             df_d0_sel = dfs_d0[-1].Filter('sel_d0')
             n_d0 = df_d0_sel.Count().GetValue()
 
