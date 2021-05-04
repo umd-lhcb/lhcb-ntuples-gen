@@ -1,6 +1,6 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Tue May 04, 2021 at 11:40 AM +0200
+// Last Change: Tue May 04, 2021 at 11:53 AM +0200
 
 #ifndef _LNG_FUNCTOR_RDX_FLAG_H_
 #define _LNG_FUNCTOR_RDX_FLAG_H_
@@ -18,8 +18,9 @@
 // Global selection flags for run 1 ////////////////////////////////////////////
 // Selections are based on Run 1 R(D(*)) ANA, v2020.07.31, p.11, Table 6.
 
-Bool_t FLAG_SEL_D0_PID_OK_RUN1(Double_t k_pid_k, Double_t pi_pid_k) {
-  return k_pid_k > 4 && pi_pid_k < 2;
+Bool_t FLAG_SEL_D0_PID_OK_RUN1(Double_t k_pid_k, Double_t pi_pid_k,
+                               Bool_t k_is_mu, Bool_t pi_is_mu) {
+  return k_pid_k > 4 && pi_pid_k < 2 && !k_is_mu && !pi_is_mu;
 }
 
 // NOTE: These P and PT variables are in GeV, NOT the default MeV!!
@@ -30,7 +31,6 @@ Bool_t FLAG_SEL_D0_RUN1(Bool_t flag_d0_pid_ok,
                         Bool_t k_hlt1_tos, Bool_t pi_hlt1_tos,
                         Double_t k_ip_chi2, Double_t pi_ip_chi2,
                         Double_t k_gh_prob, Double_t pi_gh_prob,
-                        Bool_t mu_veto,
                         Double_t d0_pt,
                         Bool_t d0_hlt2,
                         Double_t d0_endvtx_chi2, Double_t d0_endvtx_ndof,
@@ -50,8 +50,6 @@ Bool_t FLAG_SEL_D0_RUN1(Bool_t flag_d0_pid_ok,
       ////
       k_p > 2 && pi_p > 2 &&
       k_ip_chi2 > 45 && pi_ip_chi2 > 45 &&
-      /* The sum of 2 PT are trivially true */
-      !mu_veto &&  /* Equivalent to: neither K nor Pi is Mu */
       k_gh_prob < 0.5 && pi_gh_prob < 0.5 &&
       /* D0 */
       d0_pt > 2 &&
