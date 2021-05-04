@@ -1,9 +1,9 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Tue May 04, 2021 at 11:53 AM +0200
+// Last Change: Tue May 04, 2021 at 11:59 AM +0200
 
-#ifndef _LNG_FUNCTOR_RDX_FLAG_H_
-#define _LNG_FUNCTOR_RDX_FLAG_H_
+#ifndef _LNG_FUNCTOR_RDX_CUT_H_
+#define _LNG_FUNCTOR_RDX_CUT_H_
 
 #include <Math/Vector4D.h>
 #include <Math/Vector4Dfwd.h>
@@ -179,3 +179,5 @@ Bool_t FLAG_SEL_B0DST_RUN1(Bool_t flag_sel_d0, Bool_t flag_sel_mu,
     return true;
   return false;
 }
+
+#endif

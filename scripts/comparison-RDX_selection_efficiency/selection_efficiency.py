@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri Apr 30, 2021 at 07:10 PM +0200
+# Last Change: Tue May 04, 2021 at 12:00 PM +0200
 
 import pathlib
 import os
@@ -16,6 +16,7 @@ from argparse import ArgumentParser
 from glob import glob
 from re import search
 from csv import DictReader
+from collections import defaultdict
 
 import ROOT
 ROOT.PyConfig.IgnoreCommandLineOptions = True  # Don't hijack my --help flag!
@@ -81,7 +82,7 @@ specify optional input CSV.''')
 # Helpers #
 ###########
 
-gInterpreter.Declare('#include "functor/rdx/flag.h"')
+gInterpreter.Declare('#include "functor/rdx/cut.h"')
 gInterpreter.Declare('#include "functor/rdx/kinematic.h"')
 
 
@@ -168,10 +169,8 @@ sel_d0 = [
     EXEC('Define', 'k_ip_chi2', 'k_IPCHI2_OWNPV', True),
     EXEC('Define', 'pi_ip_chi2', 'pi_IPCHI2_OWNPV', True),
 
-    # Dummy PID variables to make sure everything is true
-    EXEC('Define', 'k_pid_k', '6.0'),
-    EXEC('Define', 'pi_pid_k', '0.0'),
-    EXEC('Define', 'mu_veto', 'false'),
+    # Dummy PID
+    EXEC('Define', 'd0_pid_ok', 'true'),
 
     EXEC('Define', 'k_gh_prob', 'k_TRACK_GhostProb', True),
     EXEC('Define', 'pi_gh_prob', 'pi_TRACK_GhostProb', True),
@@ -187,13 +186,12 @@ sel_d0 = [
     EXEC('Define', 'd0_m', 'd0_M', True),
 
     EXEC('Define', 'sel_d0', '''
-FLAG_SEL_D0_RUN1(k_pt, pi_pt,
+FLAG_SEL_D0_RUN1(d0_pid_ok,
+                 k_pt, pi_pt,
                  k_p, pi_p,
                  k_hlt1_tos, pi_hlt1_tos,
                  k_ip_chi2, pi_ip_chi2,
-                 k_pid_k, pi_pid_k,
                  k_gh_prob, pi_gh_prob,
-                 mu_veto,
                  d0_pt,
                  d0_hlt2,
                  d0_endvtx_chi2, d0_endvtx_ndof,
@@ -211,20 +209,16 @@ sel_mu = [
     EXEC('Define', 'mu_ip_chi2', 'mu_IPCHI2_OWNPV', True),
     EXEC('Define', 'mu_gh_prob', 'mu_TRACK_GhostProb', True),
 
-    # Dummy PID variables
-    EXEC('Define', 'mu_is_mu', 'true'),
-    EXEC('Define', 'mu_pid_mu', '10'),
-    EXEC('Define', 'mu_pid_e', '0'),
-    EXEC('Define', 'mu_bdt_mu', '0.5'),
+    # Dummy PID
+    EXEC('Define', 'mu_pid_ok', 'true'),
 
     # NOTE: The 'mu_good_trks' are undefined here; it needs to be defined in the
     # actual loop because it depends on the mode we are looking at
     EXEC('Define', 'sel_mu', '''
-FLAG_SEL_MU_RUN1(mu_p,
+FLAG_SEL_MU_RUN1(mu_good_trks, mu_pid_ok,
+                 mu_p,
                  mu_eta,
-                 mu_ip_chi2, mu_gh_prob,
-                 mu_is_mu, mu_pid_mu, mu_pid_e, mu_bdt_mu,
-                 mu_good_trks)''', True),
+                 mu_ip_chi2, mu_gh_prob)''', True),
 ]
 
 sel_b0 = [
@@ -300,7 +294,7 @@ if __name__ == '__main__':
     if args.ref_csv:
         all_modes = csv_read(args.ref_csv)
     else:
-        all_modes = dict()
+        all_modes = defaultdict(dict)
 
     for ntp in ntps:
         mc_id = find_mc_id(ntp)
