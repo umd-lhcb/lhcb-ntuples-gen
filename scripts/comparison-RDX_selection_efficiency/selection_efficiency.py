@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue May 04, 2021 at 06:33 PM +0200
+# Last Change: Tue May 04, 2021 at 07:02 PM +0200
 
 import pathlib
 import os
@@ -79,6 +79,11 @@ specify optional input CSV.''')
     parser.add_argument('-H', '--headers',
                         nargs='+', default=None, help='''
 specify ntuple IDs in the generated CSV.''')
+
+    parser.add_argument('-O', '--ordering',
+                        default=None, nargs='+', help='''
+specify an ordering for MC ntuples.
+''')
 
     return parser.parse_args()
 
@@ -295,6 +300,10 @@ FLAG_SEL_BMINUSD0_RUN1(sel_d0, sel_mu,
 if __name__ == '__main__':
     args = parse_input()
     ntps = glob_ntuples(args.input, args.blocked_kw)
+
+    if args.ordering:
+        ntps_ord = {find_ntp_id(n): n for n in ntps}
+        ntps = [ntps_ord[i] for i in args.ordering]
 
     if not ntps:
         print('No input ntuple retained after filtering on blocked keywords.')
