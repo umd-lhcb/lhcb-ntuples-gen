@@ -71,7 +71,8 @@ TupleB0/DecayTree:
         - "b0_OWNPV_Z"
     selection:
         - "b0_L0Global_TIS || d0_L0HadronDecision_TOS"
-        - "mu_L0Global_TIS"
+        - "d0_Hlt1TrackMVADecision_TOS || d0_Hlt1TwoTrackMVADecision_TOS"
+        - "b0_Hlt2XcMuXForTauB2XcMuDecision_TOS"
 
 TupleBminus/DecayTree:
     deactivate: TupleB0/DecayTree
@@ -84,7 +85,8 @@ TupleBminus/DecayTree:
         - "b_OWNPV_Z"
     selection:
         - "b_L0Global_TIS || d0_L0HadronDecision_TOS"
-        - "mu_L0Global_TIS"
+        - "d0_Hlt1TrackMVADecision_TOS || d0_Hlt1TwoTrackMVADecision_TOS"
+        - "b_Hlt2XcMuXForTauB2XcMuDecision_TOS"
 
 #########################
 # Data wrong-sign trees #
