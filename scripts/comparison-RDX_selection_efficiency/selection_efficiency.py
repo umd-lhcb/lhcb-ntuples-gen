@@ -2,10 +2,11 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue May 04, 2021 at 12:00 PM +0200
+# Last Change: Tue May 04, 2021 at 06:33 PM +0200
 
 import pathlib
 import os
+import sys
 
 # Make ROOT aware of our custom header path
 pwd = pathlib.Path(__file__).parent.absolute()
@@ -75,6 +76,10 @@ specify output CSV.''')
                         default=None, help='''
 specify optional input CSV.''')
 
+    parser.add_argument('-H', '--headers',
+                        nargs='+', default=None, help='''
+specify ntuple IDs in the generated CSV.''')
+
     return parser.parse_args()
 
 
@@ -101,7 +106,7 @@ def glob_ntuples(paths, blocked_kw=[]):
     return [m for m in raw if True not in [k in m for k in blocked_kw]]
 
 
-def find_mc_id(ntp_name):
+def find_ntp_id(ntp_name):
     if result := search(r'\d{8}', ntp_name):
         return result.group(0)
     return False
@@ -160,10 +165,10 @@ sel_d0 = [
 
     # Trigger is a bit different than what we plan to use
     EXEC('Define', 'k_hlt1_tos',
-         'k_Hlt1TwoTrackMVADecision_TOS || k_Hlt1TrackMVALooseDecision_TOS',
+         'd0_Hlt1TwoTrackMVADecision_TOS || k_Hlt1TrackMVALooseDecision_TOS',
          True),
     EXEC('Define', 'pi_hlt1_tos',
-         'pi_Hlt1TwoTrackMVADecision_TOS || pi_Hlt1TrackMVALooseDecision_TOS',
+         'd0_Hlt1TwoTrackMVADecision_TOS || pi_Hlt1TrackMVALooseDecision_TOS',
          True),
 
     EXEC('Define', 'k_ip_chi2', 'k_IPCHI2_OWNPV', True),
@@ -291,17 +296,23 @@ if __name__ == '__main__':
     args = parse_input()
     ntps = glob_ntuples(args.input, args.blocked_kw)
 
+    if not ntps:
+        print('No input ntuple retained after filtering on blocked keywords.')
+        sys.exit(1)
+
+    ids = args.headers if args.headers else list(range(0, len(ntps)))
+
     if args.ref_csv:
         all_modes = csv_read(args.ref_csv)
     else:
         all_modes = defaultdict(dict)
 
-    for ntp in ntps:
-        mc_id = find_mc_id(ntp)
+    for ntp, alt_id in zip(ntps, ids):
+        ntp_id = find_ntp_id(ntp)  # This works for MC only
 
-        if not mc_id:
-            print("Skipping {}, as we don't know its MC ID...".format(ntp))
-            continue
+        if not ntp_id:
+            print('Use ID specified in cli: {}'.format(alt_id))
+            ntp_id = alt_id
 
         for tree, init_dir in TREES.items():
             init_frame = RDataFrame(tree, ntp)
@@ -352,7 +363,7 @@ if __name__ == '__main__':
             df_iso_sel = df_b_sel.Filter('iso_bdt < 0.15')
             n_iso = df_iso_sel.Count().GetValue()
 
-            all_modes[mc_id].update(stat_gen(
+            all_modes[ntp_id].update(stat_gen(
                 tree, n_tot, n_fltr, n_d0, n_mu, n_b, n_iso))
 
             # Debug only
