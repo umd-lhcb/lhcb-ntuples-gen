@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed May 05, 2021 at 10:44 PM +0200
+# Last Change: Wed May 05, 2021 at 11:02 PM +0200
 #
 # Description: Definitions of selection and reconstruction procedures for run 2
 #              R(D(*)). For more thorough comments, take a look at:
@@ -147,37 +147,24 @@ pr_all_loose_Mu = AutomaticData(Location='Phys/StdAllLooseMuons/Particles')
 from PhysSelPython.Wrappers import Selection
 from Configurables import FilterDesktop, FilterInTrees
 
-# We don't plan to filtering on Muon with global TIS for run 2, for now.
-sel_stripped_Mu_filtered_evt = Selection(
-    'SelMyStrippedMuFilteredEvent',
-    Algorithm=FilterDesktop(
-        'MyStrippedFiltered',
-        Code="INTREE((ABSID == 'mu+'))"
-        # Code="INTREE((ABSID == 'mu+') & (TIS('L0.*', 'L0TriggerTisTos')))"
-    ),
-    RequiredSelections=[pr_stripped]
-)
-
 # NOTE: 'stripped' selections require the existence of a stripping line, which
 #       only exists in data, not MC.
-# NOTE: We need to do TIS-filtering for real data because unfiltered real data
-#       tuples are too large.
 sel_stripped_charged_K = Selection(
     'SelMyStrippedChargedK',
     Algorithm=FilterInTrees('MyChargedK', Code="(ABSID == 'K+')"),
-    RequiredSelections=[sel_stripped_Mu_filtered_evt]
+    RequiredSelections=[pr_stripped]
 )
 
 sel_stripped_charged_Pi = Selection(
     'SelMyStrippedChargedPi',
     Algorithm=FilterInTrees('MyChargedPi', Code="(ABSID == 'pi+')"),
-    RequiredSelections=[sel_stripped_Mu_filtered_evt]
+    RequiredSelections=[pr_stripped]
 )
 
 sel_stripped_Mu = Selection(
     'SelMyStrippedMu',
     Algorithm=FilterInTrees('MyMu', Code="(ABSID == 'mu+')"),
-    RequiredSelections=[sel_stripped_Mu_filtered_evt]
+    RequiredSelections=[pr_stripped]
 )
 
 
@@ -536,16 +523,6 @@ sel_B0 = Selection(
     RequiredSelections=[sel_Dst_stub, sel_Mu_combo]
 )
 
-sel_refit_B02DstMu = Selection(
-    'SelMyRefitB02DstMu',
-    Algorithm=FitDecayTrees(
-        'MyRefitB02DstMu',
-        Code="DECTREE('[B~0 -> (D*(2010)+ -> (D0->K- pi+) pi+) mu-]CC')",
-        UsePVConstraint=False,
-    ),
-    RequiredSelections=[sel_B0]
-)
-
 # B0_ws_Mu #####################################################################
 # Here the muon has the wrong sign---charge not conserved.
 algo_B0_ws_Mu = CombineParticles('MyB0WSMu')
@@ -558,17 +535,6 @@ sel_B0_ws_Mu = Selection(
     'SelMyB0WSMu',
     Algorithm=algo_B0_ws_Mu,
     RequiredSelections=[sel_Dst_ws_Mu_stub, sel_Mu_ws_combo]
-)
-
-sel_refit_B02DstMu_ws_Mu = Selection(
-    'SelMyRefitB02DstMuWSMu',
-    Algorithm=FitDecayTrees(
-        'MyRefitB02DstMuwsMu',
-        Code="DECTREE('[B~0 -> (D*(2010)+ -> (D0->K- pi+) pi+) mu+]CC')",
-        UsePVConstraint=False,
-        Inputs=[sel_B0_ws_Mu.outputLocation()]
-    ),
-    RequiredSelections=[sel_B0_ws_Mu]
 )
 
 # B0_ws_Pi #####################################################################
@@ -587,19 +553,10 @@ sel_B0_ws_Pi = Selection(
     RequiredSelections=[sel_Dst_ws_Pi_stub, sel_Mu_combo]
 )
 
-sel_refit_B02DstMu_ws_Pi = Selection(
-    'SelMyRefitB02DstMuWSPi',
-    Algorithm=FitDecayTrees(
-        'MyRefitB02DstMuWSPi',
-        Code="DECTREE('[B~0 -> (D*(2010)- -> (D0->K- pi+) pi-) mu-]CC')",
-        UsePVConstraint=False,
-        Inputs=[sel_B0_ws_Pi.outputLocation()]
-    ),
-    RequiredSelections=[sel_B0_ws_Pi]
-)
-
 
 # Trigger filtering on B0 and B- ###############################################
+# NOTE: We need to do trigger filtering for real data because unfiltered real
+# data tuples are too large.
 
 def trigger_filter(sel, B_meson='B0', suffix=''):
     sel_name = 'My{}{}Triggered'.format(B_meson, suffix)
