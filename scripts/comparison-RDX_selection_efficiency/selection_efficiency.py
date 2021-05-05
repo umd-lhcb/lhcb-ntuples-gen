@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue May 04, 2021 at 11:21 PM +0200
+# Last Change: Wed May 05, 2021 at 05:44 PM +0200
 
 import pathlib
 import os
@@ -345,6 +345,11 @@ if __name__ == '__main__':
 
     if args.ref_csv:
         all_modes = csv_read(args.ref_csv)
+
+        # Also need to reorder CSV here
+        if args.ordering:
+            all_modes = {k: all_modes[k] for k in args.ordering}
+
     else:
         all_modes = defaultdict(dict)
 
