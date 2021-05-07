@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri May 07, 2021 at 03:39 PM +0200
+# Last Change: Fri May 07, 2021 at 03:53 PM +0200
 
 import pathlib
 import os
@@ -58,6 +58,18 @@ TREES = {
             EXEC('Filter', instruct='b_Hlt2XcMuXForTauB2XcMuDecision_TOS'),
         ]
     },
+    'run1': {
+        'TupleB0/DecayTree': [
+            EXEC('Filter', instruct='mu_L0Global_TIS && (b0_L0Global_TIS || d0_L0HadronDecision_TOS)'),
+            EXEC('Filter', instruct='k_Hlt1TrackAllL0Decision_TOS || pi_Hlt1TrackAllL0Decision_TOS'),
+            EXEC('Filter', instruct='d0_Hlt2CharmHadD02HH_D02KPiDecision_TOS'),
+        ],
+        'TupleBminus/DecayTree': [
+            EXEC('Filter', instruct='mu_L0Global_TIS && (b_L0Global_TIS || d0_L0HadronDecision_TOS)'),
+            EXEC('Filter', instruct='k_Hlt1TrackAllL0Decision_TOS || pi_Hlt1TrackAllL0Decision_TOS'),
+            EXEC('Filter', instruct='d0_Hlt2CharmHadD02HH_D02KPiDecision_TOS'),
+        ]
+    },
 }
 
 K_PI_TRIGGERS = {
@@ -76,6 +88,10 @@ K_PI_TRIGGERS = {
         EXEC('Define', 'pi_hlt1_tos',
              'd0_Hlt1TwoTrackMVADecision_TOS || pi_Hlt1TrackMVADecision_TOS',
              True),
+    ],
+    'run1': [
+        EXEC('Define', 'k_hlt1_tos', 'k_Hlt1TrackAllL0Decision_TOS', True),
+        EXEC('Define', 'pi_hlt1_tos', 'pi_Hlt1TrackAllL0Decision_TOS', True),
     ],
 }
 
