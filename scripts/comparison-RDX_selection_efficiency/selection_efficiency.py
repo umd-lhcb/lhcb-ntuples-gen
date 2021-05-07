@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri May 07, 2021 at 03:53 PM +0200
+# Last Change: Fri May 07, 2021 at 04:02 PM +0200
 
 import pathlib
 import os
@@ -356,8 +356,15 @@ if __name__ == '__main__':
         print('No input ntuple retained after filtering on blocked keywords.')
         sys.exit(1)
 
-    ids = args.headers if args.headers else [str(n)
-                                             for n in range(0, len(ntps))]
+    if args.headers:
+        print('Using IDs specified in cli...')
+        ids = args.headers
+    else:
+        try:
+            ids = [find_ntp_id(n) for n in ntps]
+        except Exception:
+            print('Using automatic IDs...')
+            ids = [str(n) for n in range(0, len(ntps))]
 
     if args.ref_csv:
         all_modes = csv_read(args.ref_csv)
@@ -372,13 +379,7 @@ if __name__ == '__main__':
     trigger_trees = TREES[args.trigger_mode]
     k_pi_triggers = K_PI_TRIGGERS[args.trigger_mode]
 
-    for ntp, alt_id in zip(ntps, ids):
-        ntp_id = find_ntp_id(ntp)  # This works for MC only
-
-        if not ntp_id:
-            print('Use ID specified in cli: {}'.format(alt_id))
-            ntp_id = alt_id
-
+    for ntp, ntp_id in zip(ntps, ids):
         for tree, init_dir in trigger_trees.items():
             init_frame = RDataFrame(tree, ntp)
             n_tot = init_frame.Count().GetValue()
