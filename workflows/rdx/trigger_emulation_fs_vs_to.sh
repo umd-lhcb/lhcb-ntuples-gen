@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Author: Yipeng Sun
-# Last Change: Mon May 03, 2021 at 10:45 PM +0200
+# Last Change: Fri May 07, 2021 at 02:20 PM +0200
 
 INPUT_NTP1=$1
 INPUT_NTP2=$2
@@ -63,7 +63,7 @@ plot_l0_hadron_eff() {
         -k q2 mmiss2 el \
            d0_pt k_pt pi_pt \
         -D -10 10 -10 8 0 3 \
-           0 100 0 50 0 50 \
+           0 50 0 25 0 25 \
         --xlabel "\$q^2$ [GeV\$^2$]" \
                  "\$m_{miss}^2$ [GeV\$^2$]" \
                  "\$E_l$ [GeV]" \
@@ -88,13 +88,14 @@ plot_l0_global_tis_eff() {
         --legends FS TO \
         -c \
         -k "q2" "mmiss2" "el" \
-           "log_${OUTPUT_PREFIX}_true_pz" "log_${OUTPUT_PREFIX}_true_pt" \
+           "log_${OUTPUT_PREFIX}_pz" "log_${OUTPUT_PREFIX}_pt" \
         -D -10 10 -10 8 0 3 9 14 6 12 \
+        --bins 10 \
         --xlabel "\$q^2$ [GeV\$^2$]" \
                  "\$m_{miss}^2$ [GeV\$^2$]" \
                  "\$E_l$ [GeV]" \
-                 "\$\\log(P_Z)$" \
-                 "\$\\log(P_T)$"
+                 "\$\\log(p_Z)$" \
+                 "\$\\log(p_T)$"
 }
 
 

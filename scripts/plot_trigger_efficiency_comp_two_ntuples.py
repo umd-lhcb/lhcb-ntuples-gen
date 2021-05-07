@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
 # Author: Yipeng Sun
-# Last Change: Mon May 03, 2021 at 09:05 PM +0200
+# Last Change: Fri May 07, 2021 at 02:48 AM +0200
 
 import uproot
 import numpy as np
@@ -81,9 +81,9 @@ if __name__ == '__main__':
         for raw_br, tr_br, color, legend in zip(
                 raw, eff_branches, args.colors, args.legends):
             histo_orig, bins = gen_histo(
-                raw_br, bins=25, data_range=data_range)
+                raw_br, bins=args.bins, data_range=data_range)
             histo_weighted, bins = gen_histo(
-                raw_br, bins=25, data_range=data_range,
+                raw_br, bins=args.bins, data_range=data_range,
                 weights=tr_br.astype(np.double))
 
             histo, error = div_with_confint(histo_weighted, histo_orig)

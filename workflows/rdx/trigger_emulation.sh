@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Author: Yipeng Sun
-# Last Change: Thu Apr 29, 2021 at 03:07 PM +0200
+# Last Change: Fri May 07, 2021 at 01:27 AM +0200
 
 INPUT_NTP=$1
 
@@ -74,14 +74,15 @@ plot_l0_global_tis_eff() {
         -t "${TREE}" --title "${TITLE}" \
         -c \
         -k q2 mmiss2 el \
-           "log_${OUTPUT_PREFIX}_true_pz" "log_${OUTPUT_PREFIX}_true_pt" \
+           "log_${OUTPUT_PREFIX}_pz" "log_${OUTPUT_PREFIX}_pt" \
            nspd_hits \
         -D -10 10 -10 8 0 3 9 14 6 12 0 500 \
+        --bins 10 \
         --xlabel "\$q^2$ [GeV\$^2$]" \
                  "\$m_{miss}^2$ [GeV\$^2$]" \
                  "\$E_l$ [GeV]" \
-                 "\$\\log(P_Z)$" \
-                 "\$\\log(P_T)$" \
+                 "\$\\log(p_Z)$" \
+                 "\$\\log(p_T)$" \
                  "Number of SPD hits"
 }
 
