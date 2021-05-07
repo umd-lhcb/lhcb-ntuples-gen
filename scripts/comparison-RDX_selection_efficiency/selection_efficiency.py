@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri May 07, 2021 at 04:02 PM +0200
+# Last Change: Fri May 07, 2021 at 04:45 PM +0200
 
 import pathlib
 import os
@@ -113,6 +113,7 @@ specify input ntuple files and folders.''')
 optionally specify output ntuple file.''')
 
     parser.add_argument('-b', '--blocked-kw',
+                        nargs='+',
                         default=['2012', 'TrackerOnly'],
                         help='''
 specify blocked keywords in ntuple filenames''')
