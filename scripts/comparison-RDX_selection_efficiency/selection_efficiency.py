@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed May 05, 2021 at 05:44 PM +0200
+# Last Change: Fri May 07, 2021 at 03:39 PM +0200
 
 import pathlib
 import os
@@ -158,7 +158,7 @@ def find_ntp_id(ntp_name):
 
 def stat_gen(tree_name, *numbers,
              raw_keys=['DaVinci', 'trigger', 'D0', 'Mu'],
-             raw_subkeys=['ISO']):
+             raw_subkeys=['ISO', 'ISO tight']):
     if 'B0' in tree_name:
         keys = ['B0 '+k for k in raw_keys]
         keys.append('B0')
@@ -413,8 +413,12 @@ if __name__ == '__main__':
             df_iso_sel = df_b_sel.Filter('iso_bdt < 0.15')
             n_iso = df_iso_sel.Count().GetValue()
 
+            # Filter on q2
+            df_q2_sel = df_iso_sel.Filter('FitVar_q2 / 1e6 < 2.85')
+            n_q2 = df_q2_sel.Count().GetValue()
+
             all_modes[ntp_id].update(stat_gen(
-                tree, n_tot, n_fltr, n_d0, n_mu, n_b, n_iso))
+                tree, n_tot, n_fltr, n_d0, n_mu, n_b, n_iso, n_q2))
 
             # Debug only
             if args.output_dir:
