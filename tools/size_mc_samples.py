@@ -62,6 +62,8 @@ def decode_dirac_output(output, blocked_kw, debug=False):
         if not proceed:
             continue
 
+        if debug:
+            print('Use LFN: {}'.format(lfn))
         result[lfn] = {'dddb_tag': dddb_tag, 'sim_cond': sim_cond,
                        'num_of_files': int(num_of_files),
                        'num_of_evts': int(num_of_evts),
