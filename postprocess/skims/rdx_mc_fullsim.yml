@@ -1,7 +1,6 @@
 #######################
 # Reconstructed trees #
 #######################
-# NOTE: This is for TO MC!
 
 TupleB0/DecayTree:
     deactivate:
@@ -61,48 +60,6 @@ TupleB0/DecayTree:
         - "*_isMuonLoose"
         - "*_UsedRich*"
         - "*_Calo*"
-        # L0Calo
-        - '*_L0Calo_HCAL_*Trigger*'
-        - '*_L0Calo_HCAL_*Projection'
-        # Additional removal for TO
-        - 'RecoPIDcode'
-        - 'Rich*'
-        - 'Prs*'
-        - 'Calo*'
-        - 'InAcc*'
-        - 'Ecal*'
-        - 'Hcal*'
-        # Triggers
-        - '*L0*Decision*'
-        - '*Hlt1*Decision*'
-        - '*Hlt2*Decision*'
-        - '*L0Global*'
-        - '*Hlt1Global*'
-        - '*Hlt2Global*'
-        - '*Hlt1Phys*'
-        - 'L0nSelections'
-        - 'Hlt1nSelections'
-        - 'Hlt2nSelections'
-        # PID
-        - 'MuonIs*'
-        - 'CombDLL*'
-        - 'BremPID*'
-        - '*_ISOLATION_NNk*'
-        - '*_ISOLATION_NNp*'
-        - '*_ISOLATION_NNpi*'
-        - '*_ISOLATION_IsMuon*'
-        - '*_PID*'
-        - '*_ProbNN*'
-        - '*_isMuon*'
-        - '*_MuonChi2Corr'
-        - '*_MuonDist2'
-        - '*_MuonLL*'
-        - '*_CombDLL*'
-        # Diagnostics for Hlt1TwoTrackMVA BDT
-        - '*_Matrixnet_*chi2'
-        - '*_Matrixnet_*nlt'
-        - '*_Matrixnet_*sumpt'
-
     activate:
         - "b0_ENDVERTEX_X"
         - "b0_ENDVERTEX_Y"
