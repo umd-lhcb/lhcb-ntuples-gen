@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Apr 21, 2021 at 03:00 AM +0200
+# Last Change: Wed May 12, 2021 at 02:25 AM +0200
 #
 # Description: A demonstration on ganga option file with parser.
 #              This demo runs stand-alone, provided that Python is installed:
@@ -36,7 +36,7 @@ LFN_PATH = {
     'cutflow_mc-2011-sim08': '/MC/2011/Beam3500GeV-2011-Mag{polarity}-Nu2-Pythia8/{simcond}/Digi13/Trig0x40760037/Reco14c/Stripping20r1NoPrescalingFlagged/11874091/ALLSTREAMS.DST',
     # run 2 data
     'std-2015': '/LHCb/Collision15/Beam6500GeV-VeloClosed-Mag{polarity}/Real Data/Reco15a/Stripping24r2/90000000/SEMILEPTONIC.DST',
-    'std-2016': '/LHCb/Collision16/Beam6500GeV-VeloClosed-Mag{polarity}/Real Data/Reco16/Stripping28r1/90000000/SEMILEPTONIC.DST',
+    'std-2016': '/LHCb/Collision16/Beam6500GeV-VeloClosed-Mag{polarity}/Real Data/Reco16/Stripping28r2/90000000/SEMILEPTONIC.DST',
     # run 2 MC
     'mc-2016-sim09': '/MC/2016/Beam6500GeV-2016-Mag{polarity}-Nu1.6-25ns-Pythia8/{simcond}/Trig0x6139160F/Reco16/Turbo03a/Filtered/{decay}/D0TAUNU.SAFESTRIPTRIG.DST',
     'mc-2016-sim09-tracker_only': '/MC/2016/Beam6500GeV-2016-Mag{polarity}-TrackerOnly-Nu1.6-25ns-Pythia8/{simcond}/Reco16/Filtered/{decay}/D0TAUNU.SAFESTRIPTRIG.DST',
