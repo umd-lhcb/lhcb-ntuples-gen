@@ -1,6 +1,6 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Tue May 04, 2021 at 06:51 PM +0200
+// Last Change: Wed May 12, 2021 at 04:25 PM +0200
 
 #ifndef _LNG_FUNCTOR_RDX_CUT_H_
 #define _LNG_FUNCTOR_RDX_CUT_H_
@@ -57,7 +57,7 @@ Bool_t FLAG_SEL_D0_RUN1(Bool_t flag_d0_pid_ok,
       d0_endvtx_chi2/d0_endvtx_ndof < 4 &&
       TMath::Log(d0_ip) > -3.5 &&
       d0_ip_chi2 > 9 &&
-      d0_dira > 0.9998 &&
+      d0_dira > 0.9998 &&  /* should be loosed for run 2 */
       d0_fd_chi2 > 250 &&
       TMath::Abs(d0_m - d0_m_ref) < 23.4  /* This is in MeV!!! */
       )
