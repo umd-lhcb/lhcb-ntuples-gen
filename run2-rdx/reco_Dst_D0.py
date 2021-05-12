@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed May 05, 2021 at 11:02 PM +0200
+# Last Change: Thu May 13, 2021 at 01:46 AM +0200
 #
 # Description: Definitions of selection and reconstruction procedures for run 2
 #              R(D(*)). For more thorough comments, take a look at:
@@ -146,9 +146,12 @@ pr_all_loose_Mu = AutomaticData(Location='Phys/StdAllLooseMuons/Particles')
 
 from PhysSelPython.Wrappers import Selection
 from Configurables import FilterDesktop, FilterInTrees
+from Configurables import TisTosParticleTagger
 
 # NOTE: 'stripped' selections require the existence of a stripping line, which
 #       only exists in data, not MC.
+# NOTE: We don't TIS-filtering Muon for run 2 because that trigger is not
+#       emulated
 sel_stripped_charged_K = Selection(
     'SelMyStrippedChargedK',
     Algorithm=FilterInTrees('MyChargedK', Code="(ABSID == 'K+')"),
@@ -505,10 +508,17 @@ sel_refit_Dst2D0Pi_ws_Pi = Selection(
     RequiredSelections=[sel_Dst_ws_Pi]
 )
 
-# NOTE: The 'FULL_REFIT' flag is not honored anymore ###########################
-sel_Dst_stub = sel_refit_Dst2D0Pi
-sel_Dst_ws_Mu_stub = sel_refit_Dst2D0Pi_ws_Mu
-sel_Dst_ws_Pi_stub = sel_refit_Dst2D0Pi_ws_Pi
+# Define Dst stubs depending if we have 'FULL_REFIT' flag ######################
+
+if has_flag('FULL_REFIT'):
+    sel_Dst_stub = sel_Dst
+    sel_Dst_ws_Mu_stub = sel_Dst_ws_Mu
+    sel_Dst_ws_Pi_stub = sel_Dst_ws_Pi
+else:
+    sel_Dst_stub = sel_refit_Dst2D0Pi
+    sel_Dst_ws_Mu_stub = sel_refit_Dst2D0Pi_ws_Mu
+    sel_Dst_ws_Pi_stub = sel_refit_Dst2D0Pi_ws_Pi
+
 
 # B0 ###########################################################################
 algo_B0 = CombineParticles('MyB0')
@@ -523,6 +533,16 @@ sel_B0 = Selection(
     RequiredSelections=[sel_Dst_stub, sel_Mu_combo]
 )
 
+sel_refit_B02DstMu = Selection(
+    'SelMyRefitB02DstMu',
+    Algorithm=FitDecayTrees(
+        'MyRefitB02DstMu',
+        Code="DECTREE('[B~0 -> (D*(2010)+ -> (D0->K- pi+) pi+) mu-]CC')",
+        UsePVConstraint=False,
+    ),
+    RequiredSelections=[sel_B0]
+)
+
 # B0_ws_Mu #####################################################################
 # Here the muon has the wrong sign---charge not conserved.
 algo_B0_ws_Mu = CombineParticles('MyB0WSMu')
@@ -535,6 +555,17 @@ sel_B0_ws_Mu = Selection(
     'SelMyB0WSMu',
     Algorithm=algo_B0_ws_Mu,
     RequiredSelections=[sel_Dst_ws_Mu_stub, sel_Mu_ws_combo]
+)
+
+sel_refit_B02DstMu_ws_Mu = Selection(
+    'SelMyRefitB02DstMuWSMu',
+    Algorithm=FitDecayTrees(
+        'MyRefitB02DstMuwsMu',
+        Code="DECTREE('[B~0 -> (D*(2010)+ -> (D0->K- pi+) pi+) mu+]CC')",
+        UsePVConstraint=False,
+        Inputs=[sel_B0_ws_Mu.outputLocation()]
+    ),
+    RequiredSelections=[sel_B0_ws_Mu]
 )
 
 # B0_ws_Pi #####################################################################
@@ -553,50 +584,31 @@ sel_B0_ws_Pi = Selection(
     RequiredSelections=[sel_Dst_ws_Pi_stub, sel_Mu_combo]
 )
 
+sel_refit_B02DstMu_ws_Pi = Selection(
+    'SelMyRefitB02DstMuWSPi',
+    Algorithm=FitDecayTrees(
+        'MyRefitB02DstMuWSPi',
+        Code="DECTREE('[B~0 -> (D*(2010)- -> (D0->K- pi+) pi-) mu-]CC')",
+        UsePVConstraint=False,
+        Inputs=[sel_B0_ws_Pi.outputLocation()]
+    ),
+    RequiredSelections=[sel_B0_ws_Pi]
+)
 
-# Trigger filtering on B0 and B- ###############################################
-# NOTE: We need to do trigger filtering for real data because unfiltered real
-# data tuples are too large.
+# Define B0 stubs depending if we have 'FULL_REFIT' flag #######################
 
-def trigger_filter(sel, B_meson='B0', suffix=''):
-    sel_name = 'My{}{}Triggered'.format(B_meson, suffix)
-
-    return Selection(
-        sel_name,
-        Algorithm=FilterDesktop(
-            'MyTriggerFilteredB',
-            Code='''
-INTREE((ABSID == 'D0') & (
-    TOS('Hlt1TrackMVADecision', 'Hlt1TriggerTisTos') |
-    TOS('Hlt1TwoTrackMVADecision', 'Hlt1TriggerTisTos')
-)) & (
-    INTREE((ABSID == '{b}') &
-    TIS('L0.*', 'L0TriggerTisTos')
-    ) |
-    INTREE((ABSID == 'D0')) &
-    TOS('L0HadronDecision', 'L0TriggerTisTos')
-)'''.format(b=B_meson)
-        ),
-        RequiredSelections=[sel]
-    )
-
-
-if DaVinci().Simulation or has_flag('CUTFLOW'):
-    sel_B0_stub = sel_B0
-    sel_B0_ws_Mu_stub = sel_B0_ws_Mu
-    sel_B0_ws_Pi_stub = sel_B0_ws_Pi
+if has_flag('FULL_REFIT'):
+    seq_B0 = SelectionSequence('SeqMyB0', TopSelection=sel_refit_B02DstMu)
+    seq_B0_ws_Mu = SelectionSequence('SeqMyB0WSMu',
+                                     TopSelection=sel_refit_B02DstMu_ws_Mu)
+    seq_B0_ws_Pi = SelectionSequence('SeqMyB0WSPi',
+                                     TopSelection=sel_refit_B02DstMu_ws_Pi)
 else:
-    sel_B0_stub = trigger_filter(sel_B0)
-    sel_B0_ws_Mu_stub = trigger_filter(sel_B0_ws_Mu, 'WSMu')
-    sel_B0_ws_Pi_stub = trigger_filter(sel_B0_ws_Pi, 'WSPi')
-
-
-# NOTE: The 'FULL_REFIT' flag is not honored anymore ###########################
-seq_B0 = SelectionSequence('SeqMyB0', TopSelection=sel_B0_stub)
-seq_B0_ws_Mu = SelectionSequence('SeqMyB0WSMu',
-                                 TopSelection=sel_B0_ws_Mu_stub)
-seq_B0_ws_Pi = SelectionSequence('SeqMyB0WSPi',
-                                 TopSelection=sel_B0_ws_Pi_stub)
+    seq_B0 = SelectionSequence('SeqMyB0', TopSelection=sel_B0)
+    seq_B0_ws_Mu = SelectionSequence('SeqMyB0WSMu',
+                                     TopSelection=sel_B0_ws_Mu)
+    seq_B0_ws_Pi = SelectionSequence('SeqMyB0WSPi',
+                                     TopSelection=sel_B0_ws_Pi)
 
 
 ##################
