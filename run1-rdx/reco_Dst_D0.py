@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu May 13, 2021 at 02:08 AM +0200
+# Last Change: Thu May 13, 2021 at 05:09 PM +0200
 #
 # Description: Definitions of selection and reconstruction procedures for run 1
 #              R(D(*)), with thorough comments.
@@ -41,8 +41,11 @@ user_config = DaVinci().MoniSequence
 DaVinci().MoniSequence = []  # Nothing should be in the sequence after all!
 
 
-def has_flag(flg):
-    return flg in user_config
+def has_flag(*flg):
+    for f in flg:
+        if f in user_config:
+            return True
+    return False
 
 
 #####################
@@ -150,7 +153,7 @@ fltr_hlt = HDRFilter(
     Code="HLT_PASS('{0}')".format(hlt2_trigger))
 
 
-if has_flag('BARE') or has_flag('DV_STRIP'):
+if has_flag('BARE', 'DV_STRIP'):
     pass
 elif has_flag('CUTFLOW'):
     DaVinci().EventPreFilters = [fltr_strip]
@@ -258,12 +261,8 @@ sel_stripped_Mu = Selection(
 #
 # NOTE: Muons that do not pass stripping still get saved *but we don't want
 #       to use them*.
-if has_flag('BARE') or has_flag('DV_STRIP'):
-    sel_charged_K = pr_loose_K
-    sel_charged_Pi = pr_loose_Pi
-    sel_Mu = pr_all_loose_Mu
-    sel_soft_Pi = pr_all_loose_Pi
-elif not DaVinci().Simulation or has_flag('CUTFLOW'):
+if not DaVinci().Simulation or (has_flag('CUTFLOW') and
+                                not has_flag('BARE', 'DV_STRIP')):
     sel_charged_K = sel_stripped_charged_K
     sel_charged_Pi = sel_stripped_charged_Pi
     sel_Mu = sel_stripped_Mu
@@ -317,10 +316,8 @@ algo_D0.MotherCut = \
 
 if has_flag('BARE'):
     algo_D0.DaughtersCuts = {
-        'K+': '(PIDK > 2.0) & (MIPCHI2DV(PRIMARY) > 4.5) &'
-              '(TRGHOSTPROB < 1.0)',
-        'pi-': '(MIPCHI2DV(PRIMARY) > 4.5) &'
-               '(PIDK < 4.0) & (TRGHOSTPROB < 1.0)'
+        'K+': '(MIPCHI2DV(PRIMARY) > 4.5) & (TRGHOSTPROB < 1.0)',
+        'pi-': '(MIPCHI2DV(PRIMARY) > 4.5) & (TRGHOSTPROB < 1.0)'
     }
 
     algo_D0.CombinationCut = 'ATRUE'
@@ -329,7 +326,8 @@ if has_flag('BARE'):
 
 
 # PID for real data/cutflow only
-if not DaVinci().Simulation or has_flag('CUTFLOW'):
+if not DaVinci().Simulation or (has_flag('CUTFLOW') and
+                                not has_flag('BARE', 'DV_STRIP')):
     algo_D0.DaughtersCuts['K+'] = \
         '(PIDK > 4.0) &' + \
         algo_D0.DaughtersCuts['K+']
@@ -380,17 +378,16 @@ algo_Bminus.MotherCut = \
     '(VFASPF(VCHI2/VDOF) < 6.0) & (BPVDIRA > 0.9995)'
 
 
-# NOTE: For all but Non-Mu MisID reco, we add Muon PID requirement.
+# NOTE: Add PID cuts for real data w/ std reconstruction
 if not (has_flag('NON_MU_MISID') or DaVinci().Simulation) or \
-        has_flag('CUTFLOW'):
+        (has_flag('CUTFLOW') and not has_flag('BARE', 'DV_STRIP')):
     algo_Bminus.DaughtersCuts['mu-'] = \
         '(PIDmu > 2.0) &' + algo_Bminus.DaughtersCuts['mu-']
 
 
 if has_flag('BARE'):
     algo_Bminus.DaughtersCuts['mu-'] = \
-        '(MIPCHI2DV(PRIMARY) > 8.0) & (TRGHOSTPROB < 1.0) &' \
-        '(PIDmu > -400.0)'
+        '(MIPCHI2DV(PRIMARY) > 8.0) & (TRGHOSTPROB < 1.0)' \
 
     algo_Bminus.CombinationCut = 'ATRUE'
     algo_Bminus.MotherCut = '(VFASPF(VCHI2/VDOF) < 12.0) & (BPVDIRA > 0.998)'
@@ -967,7 +964,7 @@ tp_Bst0 = tuple_initialize(
 # Add selection & tupling sequences to DaVinci #
 ################################################
 
-if has_flag('CUTFLOW') or has_flag('NON_MU_MISID'):
+if has_flag('CUTFLOW', 'NON_MU_MISID', 'BARE'):
     DaVinci().UserAlgorithms += [seq_Bminus.sequence(),
                                  seq_B0.sequence(),
                                  # ntuples
