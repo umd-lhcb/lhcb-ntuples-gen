@@ -52,7 +52,7 @@
             export LD_LIBRARY_PATH=${pkgs.stdenv.cc.cc.lib}/lib:$LD_LIBRARY_PATH
 
             # Update PATH
-            export PATH=$(pwd)/tools:$(pwd)/ganga:$(pwd)/scripts:$PATH
+            export PATH=$(pwd)/test:$(pwd)/tools:$(pwd)/ganga:$(pwd)/scripts:$PATH
           '';
         };
       });
