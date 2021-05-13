@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu May 13, 2021 at 02:06 AM +0200
+# Last Change: Thu May 13, 2021 at 08:40 PM +0200
 #
 # Description: Definitions of selection and reconstruction procedures for run 2
 #              R(D(*)). For more thorough comments, take a look at:
@@ -374,10 +374,35 @@ sel_refit_Bminus2D0Mu_ws = Selection(
     RequiredSelections=[sel_Bminus_ws]
 )
 
+
+# Trigger filtering ############################################################
+
+def trigger_filter(sel, B_meson='B0', suffix=''):
+    sel_name = 'SelMy{}{}TriggerFiltered'.format(B_meson, suffix)
+
+    algo = FilterDesktop(
+        'MyTriggerFiltered{}{}'.format(B_meson, suffix),
+        Code='''
+INTREE((ABSID == 'D0') & TOS('Hlt1.*TrackMVADecision', 'Hlt1TriggerTisTos')) & (
+    INTREE((ABSID == '{b}') &
+        TIS('L0Global', 'L0TriggerTisTos')
+    ) |
+    INTREE((ABSID == 'D0') &
+        TOS('L0HadronDecision', 'L0TriggerTisTos'))
+) & INTREE((ABSID == '{b}') &
+        TOS('{hlt2}', 'Hlt2TriggerTisTos')
+)'''.format(b=B_meson, hlt2=hlt2_trigger)
+    )
+
+    return Selection(sel_name, Algorithm=algo, RequiredSelections=[sel])
+
+
 # Define B- sequence ###########################################################
-seq_Bminus = SelectionSequence('SeqMyB-', TopSelection=sel_refit_Bminus2D0Mu)
-seq_Bminus_ws = SelectionSequence('SeqMyB-WS',
-                                  TopSelection=sel_refit_Bminus2D0Mu_ws)
+sel_Bminus_stub = trigger_filter(sel_refit_Bminus2D0Mu, 'B-')
+sel_Bminus_ws_stub = trigger_filter(sel_refit_Bminus2D0Mu_ws, 'B-', 'WS')
+
+seq_Bminus = SelectionSequence('SeqMyB-', TopSelection=sel_Bminus_stub)
+seq_Bminus_ws = SelectionSequence('SeqMyB-WS', TopSelection=sel_Bminus_ws_stub)
 
 # Filtered D0 and Mu from the D0 Mu combo ######################################
 sel_D0_combo = Selection(
@@ -599,17 +624,18 @@ sel_refit_B02DstMu_ws_Pi = Selection(
 # Define B0 sequence ###########################################################
 
 if has_flag('FULL_REFIT'):
-    seq_B0 = SelectionSequence('SeqMyB0', TopSelection=sel_refit_B02DstMu)
-    seq_B0_ws_Mu = SelectionSequence('SeqMyB0WSMu',
-                                     TopSelection=sel_refit_B02DstMu_ws_Mu)
-    seq_B0_ws_Pi = SelectionSequence('SeqMyB0WSPi',
-                                     TopSelection=sel_refit_B02DstMu_ws_Pi)
+    sel_B0_stub = trigger_filter(sel_refit_B02DstMu)
+    sel_B0_ws_Mu_stub = trigger_filter(sel_refit_B02DstMu_ws_Mu, suffix='WSMu')
+    sel_B0_ws_Pi_stub = trigger_filter(sel_refit_B02DstMu_ws_Pi, suffix='WSPi')
 else:
-    seq_B0 = SelectionSequence('SeqMyB0', TopSelection=sel_B0)
-    seq_B0_ws_Mu = SelectionSequence('SeqMyB0WSMu',
-                                     TopSelection=sel_B0_ws_Mu)
-    seq_B0_ws_Pi = SelectionSequence('SeqMyB0WSPi',
-                                     TopSelection=sel_B0_ws_Pi)
+    sel_B0_stub = trigger_filter(sel_B0)
+    sel_B0_ws_Mu_stub = trigger_filter(sel_B0_ws_Mu, suffix='WSMu')
+    sel_B0_ws_Pi_stub = trigger_filter(sel_B0_ws_Pi, suffix='WSPi')
+
+
+seq_B0 = SelectionSequence('SeqMyB0', TopSelection=sel_B0_stub)
+seq_B0_ws_Mu = SelectionSequence('SeqMyB0WSMu', TopSelection=sel_B0_ws_Mu_stub)
+seq_B0_ws_Pi = SelectionSequence('SeqMyB0WSPi', TopSelection=sel_B0_ws_Pi_stub)
 
 
 ##################
