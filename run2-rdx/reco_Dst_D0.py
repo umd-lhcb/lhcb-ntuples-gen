@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu May 13, 2021 at 01:46 AM +0200
+# Last Change: Thu May 13, 2021 at 02:00 AM +0200
 #
 # Description: Definitions of selection and reconstruction procedures for run 2
 #              R(D(*)). For more thorough comments, take a look at:
@@ -90,25 +90,26 @@ from Configurables import LoKi__HDRFilter as HDRFilter
 
 if has_flag('NON_MU_MISID'):
     line_strip = 'b2D0MuXFakeB2DMuForTauMuLine'
+    hlt2_trigger = 'Hlt2XcMuXForTauB2XcFakeMuDecision'
 else:
     line_strip = 'b2D0MuXB2DMuForTauMuLine'
+    hlt2_trigger = 'Hlt2XcMuXForTauB2XcMuDecision'
 
 
 fltr_strip = HDRFilter(
     'StrippedBCands',
     Code="HLT_PASS('Stripping{0}Decision')".format(line_strip))
 
-# NOTE: Run 2 stripping contains a HLT2 filter, so this is only needed for
-#       'DV_STRIP' flag.
-line_hlt = 'Hlt2XcMuXForTauB2XcMu'
 fltr_hlt = HDRFilter(
     'Hlt2StrippingLine',
-    Code="HLT_PASS('{0}Decision')".format(line_hlt))
+    Code="HLT_PASS('{0}')".format(hlt2_trigger))
 
 
 if has_flag('BARE'):
     pass
 elif has_flag('DV_STRIP'):
+    # NOTE: Run 2 stripping contains a HLT2 filter, so this is only needed for
+    #       'DV_STRIP' flag.
     DaVinci().EventPreFilters = [fltr_hlt]
 elif not DaVinci().Simulation or has_flag('CUTFLOW'):
     DaVinci().EventPreFilters = [fltr_strip]

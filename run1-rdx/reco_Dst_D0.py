@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Mar 15, 2021 at 01:21 AM +0100
+# Last Change: Thu May 13, 2021 at 01:59 AM +0200
 #
 # Description: Definitions of selection and reconstruction procedures for run 1
 #              R(D(*)), with thorough comments.
@@ -144,10 +144,10 @@ fltr_strip = HDRFilter(
     'StrippedBCands',
     Code="HLT_PASS('Stripping{0}Decision')".format(line_strip))
 
-line_hlt = 'Hlt2CharmHadD02HH_D02KPi'
+hlt2_trigger = 'Hlt2CharmHadD02HH_D02KPiDecision'
 fltr_hlt = HDRFilter(
     'Hlt2TriggeredD0',
-    Code="HLT_PASS('{0}Decision')".format(line_hlt))
+    Code="HLT_PASS('{0}')".format(hlt2_trigger))
 
 
 if has_flag('BARE') or has_flag('DV_STRIP'):
