@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Sep 23, 2020 at 12:21 AM +0800
+# Last Change: Thu May 13, 2021 at 07:10 PM +0200
 
 import uproot
 
@@ -43,37 +43,31 @@ if __name__ == '__main__':
     ntp1 = uproot.open(args.ref)
     ntp2 = uproot.open(args.comp)
 
-    _, _, _, uniq1, dupl1 = extract_uid(ntp1, args.ref_tree,
-                                        args.runNumber, args.eventNumber,
-                                        keep_single_candidate_events_only=True)
-    _, _, _, uniq2, dupl2 = extract_uid(ntp2, args.comp_tree,
-                                        args.runNumber, args.eventNumber,
-                                        keep_single_candidate_events_only=True)
+    _, _, *stat1 = extract_uid(ntp1, args.ref_tree, args.runNumber,
+                               args.eventNumber)
+    _, _, *stat2 = extract_uid(ntp2, args.comp_tree, args.runNumber,
+                               args.eventNumber)
     uniq_common, _, _ = find_common_uid(ntp1, ntp2,
                                         args.ref_tree, args.comp_tree,
                                         run_branch=args.runNumber,
                                         event_branch=args.eventNumber)
-    uniq_common = len(uniq_common)
 
-    uniq_diff = abs(uniq1-uniq2)
-    dupl_diff = abs(dupl1-dupl2)
-
-    uniq_common_diff = abs(uniq_common-uniq1) + abs(uniq_common-uniq2)
-
-    badness = uniq_diff + dupl_diff + uniq_common_diff
+    # Here we check both ntuples have same number of events, same number of IDs,
+    # same number of duplicated IDs and same number of duplicated events
+    badness = sum([abs(x-y) for x, y in zip(stat1, stat2)])
 
     if not badness:
         print('The two ntuples agree: {} unique cands, {} duplicate cands.'.format(
-            uniq1, dupl1
+            stat1[1], stat1[-1]
         ))
     else:
         print('The two ntuples disagree.')
         print('{} has {} unique cands, {} duplicate cands.'.format(
-            args.ref, uniq1, dupl1
+            args.ref, stat1[1], stat1[-1]
         ))
         print('{} has {} unique cands, {} duplicate cands.'.format(
-            args.comp, uniq2, dupl2
+            args.comp, stat2[1], stat2[-1]
         ))
-        print('They have {} common cands.'.format(uniq_common))
+        print('They have {} common cands.'.format(uniq_common.size))
 
     exit(badness)

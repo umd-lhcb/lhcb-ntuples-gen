@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Apr 29, 2021 at 02:27 AM +0200
+# Last Change: Thu May 13, 2021 at 08:35 PM +0200
 
 import uproot
 import sys
@@ -101,7 +101,7 @@ def parse_input(descr='Generate cutflow output YAML based on input ntuple and YA
 if __name__ == '__main__':
     args = parse_input()
     ntp = uproot.open(args.ntp)
-    _, _, _, uniq_size, _ = extract_uid(ntp, args.tree)
+    _, _, _, uniq_size, _, _ = extract_uid(ntp, args.tree)
 
     with open(args.input_yml) as f:
         result = safe_load(f)
