@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu May 13, 2021 at 01:59 AM +0200
+# Last Change: Thu May 13, 2021 at 02:08 AM +0200
 #
 # Description: Definitions of selection and reconstruction procedures for run 1
 #              R(D(*)), with thorough comments.
@@ -425,8 +425,6 @@ sel_refit_Bminus2D0Mu = Selection(
     RequiredSelections=[sel_Bminus]
 )
 
-seq_Bminus = SelectionSequence('SeqMyB-', TopSelection=sel_refit_Bminus2D0Mu)
-
 # B-_ws ########################################################################
 # 'WS' means wrong-sign.
 algo_Bminus_ws = CombineParticles('MyB-WS')
@@ -453,6 +451,8 @@ sel_refit_Bminus2D0Mu_ws = Selection(
     RequiredSelections=[sel_Bminus_ws]
 )
 
+# Define B- sequence ###########################################################
+seq_Bminus = SelectionSequence('SeqMyB-', TopSelection=sel_refit_Bminus2D0Mu)
 seq_Bminus_ws = SelectionSequence('SeqMyB-WS',
                                   TopSelection=sel_refit_Bminus2D0Mu_ws)
 
@@ -678,7 +678,7 @@ sel_refit_B02DstMu_ws_Pi = Selection(
     RequiredSelections=[sel_B0_ws_Pi]
 )
 
-# Define B0 stubs depending if we have 'FULL_REFIT' flag #######################
+# Define B0 sequence ###########################################################
 
 if has_flag('FULL_REFIT'):
     seq_B0 = SelectionSequence('SeqMyB0', TopSelection=sel_refit_B02DstMu)
