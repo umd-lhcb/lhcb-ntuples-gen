@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu May 13, 2021 at 08:40 PM +0200
+# Last Change: Fri May 14, 2021 at 02:05 AM +0200
 #
 # Description: Definitions of selection and reconstruction procedures for run 2
 #              R(D(*)). For more thorough comments, take a look at:
@@ -18,8 +18,11 @@ user_config = DaVinci().MoniSequence
 DaVinci().MoniSequence = []  # Nothing should be in the sequence after all!
 
 
-def has_flag(flg):
-    return flg in user_config
+def has_flag(*flg):
+    for f in flg:
+        if f in user_config:
+            return True
+    return False
 
 
 #####################
@@ -174,12 +177,8 @@ sel_stripped_Mu = Selection(
 
 # For run 2, use unstripped Muon and don't put additional cut on Muons yet.
 # We can always do TIS-filtering in step 2.
-if has_flag('BARE') or has_flag('DV_STRIP'):
-    sel_charged_K = pr_loose_K
-    sel_charged_Pi = pr_loose_Pi
-    sel_Mu = pr_all_loose_Mu
-    sel_soft_Pi = pr_all_loose_Pi
-elif not DaVinci().Simulation or has_flag('CUTFLOW'):
+if not DaVinci().Simulation or (has_flag('CUTFLOW') and
+                                not has_flag('BARE', 'DV_STRIP')):
     sel_charged_K = sel_stripped_charged_K
     sel_charged_Pi = sel_stripped_charged_Pi
     sel_Mu = sel_stripped_Mu
@@ -228,10 +227,8 @@ algo_D0.MotherCut = \
 
 if has_flag('BARE'):
     algo_D0.DaughtersCuts = {
-        'K+': '(PIDK > 2.0) & (MIPCHI2DV(PRIMARY) > 4.5) &'
-              '(TRGHOSTPROB < 1.0)',
-        'pi-': '(MIPCHI2DV(PRIMARY) > 4.5) &'
-               '(PIDK < 4.0) & (TRGHOSTPROB < 1.0)'
+        'K+': '(MIPCHI2DV(PRIMARY) > 4.5) & (TRGHOSTPROB < 1.0)',
+        'pi-': '(MIPCHI2DV(PRIMARY) > 4.5) & (TRGHOSTPROB < 1.0)'
     }
 
     algo_D0.CombinationCut = "ATRUE"
@@ -240,7 +237,8 @@ if has_flag('BARE'):
 
 
 # PID for real data/cutflow only
-if not DaVinci().Simulation or has_flag('CUTFLOW'):
+if not DaVinci().Simulation or (has_flag('CUTFLOW') and
+                                not has_flag('BARE', 'DV_STRIP')):
     algo_D0.DaughtersCuts['K+'] = \
         '(PIDK > 4.0) &' + \
         algo_D0.DaughtersCuts['K+']
@@ -296,7 +294,7 @@ algo_Bminus.DaughtersCuts = {
 
 
 if not (has_flag('NON_MU_MISID') or DaVinci().Simulation) or \
-        has_flag('CUTFLOW'):
+        (has_flag('CUTFLOW') and not has_flag('BARE', 'DV_STRIP')):
     algo_Bminus.DaughtersCuts['mu-'] = \
         '(PIDmu > -200.0) &' + algo_Bminus.DaughtersCuts['mu-']
 
@@ -378,6 +376,9 @@ sel_refit_Bminus2D0Mu_ws = Selection(
 # Trigger filtering ############################################################
 
 def trigger_filter(sel, B_meson='B0', suffix=''):
+    if DaVinci().Simulation or has_flag('CUTFLOW'):
+        return sel  # Don't do anything about trigger for these modes!
+
     sel_name = 'SelMy{}{}TriggerFiltered'.format(B_meson, suffix)
 
     algo = FilterDesktop(
@@ -457,8 +458,8 @@ if has_flag('BARE'):
                '(TRGHOSTPROB < 0.5)'
     }
 
-    algo_Dst.CombinationCut = "ATRUE"
-    algo_Dst.MotherCut = "(VFASPF(VCHI2/VDOF) < 200.0)"
+    algo_Dst.CombinationCut = 'ATRUE'
+    algo_Dst.MotherCut = '(VFASPF(VCHI2/VDOF) < 200.0)'
 
 
 if DaVinci().Simulation:

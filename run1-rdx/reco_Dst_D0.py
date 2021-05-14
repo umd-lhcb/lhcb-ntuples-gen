@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu May 13, 2021 at 05:09 PM +0200
+# Last Change: Fri May 14, 2021 at 02:02 AM +0200
 #
 # Description: Definitions of selection and reconstruction procedures for run 1
 #              R(D(*)), with thorough comments.
@@ -508,7 +508,7 @@ if has_flag('BARE'):
     }
 
     algo_Dst.CombinationCut = 'ATRUE'
-    algo_Dst.MotherCut = "(VFASPF(VCHI2/VDOF) < 200.0)"
+    algo_Dst.MotherCut = '(VFASPF(VCHI2/VDOF) < 200.0)'
 
 
 if DaVinci().Simulation:
