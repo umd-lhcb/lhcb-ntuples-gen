@@ -11,6 +11,7 @@
       let
         pkgs = import nixpkgs {
           inherit system;
+          config = { allowUnfree = true; };
           # overlays = [ self.overlay ];
         };
         python = pkgs.python3;
@@ -34,6 +35,12 @@
             # Python requirements (enough to get a virtualenv going).
             virtualenvwrapper
           ];
+
+          FONTCONFIG_FILE = pkgs.makeFontsConf {
+            fontDirectories = with pkgs; [
+              corefonts
+            ];
+          };
 
           shellHook = ''
             # Allow the use of wheels.
