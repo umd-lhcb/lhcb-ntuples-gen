@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 #
 # Author: Yipeng Sun
-# Last Change: Sat May 15, 2021 at 01:40 AM +0200
+# Last Change: Sat May 15, 2021 at 02:29 AM +0200
 
 import uproot
 import numpy as np
 import matplotlib.pyplot as plt
+import mplhep as hep
 
 from argparse import Action
 from numpy import logical_and as AND
@@ -236,8 +237,7 @@ def div_with_confint(num, denom):
 
 if __name__ == '__main__':
     args = parse_input().parse_args()
-
-    plot_style(text_usetex=True, font_family='serif')
+    hep.set_style('LHCb2')
 
     ntp = uproot.open(args.ref)
 

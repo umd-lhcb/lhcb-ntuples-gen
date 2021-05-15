@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 #
 # Author: Yipeng Sun
-# Last Change: Sat May 15, 2021 at 01:41 AM +0200
+# Last Change: Sat May 15, 2021 at 02:29 AM +0200
 
 import uproot
 import numpy as np
 import matplotlib.pyplot as plt
+import mplhep as hep
 import sys
 import os
 
@@ -56,8 +57,7 @@ def parse_input(descr=DESCR):
 
 if __name__ == '__main__':
     args = parse_input().parse_args()
-
-    plot_style(text_usetex=True, font_family='serif')
+    hep.set_style('LHCb2')
 
     ntp1 = uproot.open(args.ref)
     ntp2 = uproot.open(args.comp)
