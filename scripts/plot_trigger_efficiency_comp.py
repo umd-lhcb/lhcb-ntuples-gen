@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
 # Author: Yipeng Sun
-# Last Change: Fri May 07, 2021 at 01:05 AM +0200
+# Last Change: Sat May 15, 2021 at 01:40 AM +0200
 
 import uproot
 import numpy as np
@@ -294,7 +294,8 @@ if __name__ == '__main__':
                 title=args.title,
                 xlabel=xlabel,
                 ax1_ylabel='Efficiency', ax2_ylabel=args.ax2_ylabel,
-                hline_pos=1
+                hline_pos=1,
+                xlim=data_range
             )
 
             # Clear plot in memory
