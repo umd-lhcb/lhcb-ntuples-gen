@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
 # Author: Yipeng Sun
-# Last Change: Sat May 15, 2021 at 02:29 AM +0200
+# Last Change: Sun May 16, 2021 at 12:46 AM +0200
 
 import uproot
 import numpy as np
@@ -128,7 +128,7 @@ specify the x axis label.
     parser.add_argument('-D', '--data-range',
                         nargs='+',
                         default=[
-                            (-5, 15), (-6, 12), (0, 4),
+                            (-3, 11), (-6, 12), (0, 4),
                             (0, 150), (0, 15),
                             (0, 150), (0, 15),
                             (0, 150), (0, 15),
@@ -191,7 +191,7 @@ specify title of the plot.
 
     parser.add_argument('--colors',
                         nargs='+',
-                        default=['red', 'blue'],
+                        default=['black', 'red'],
                         help='''
 specify plot colors.
 ''')
