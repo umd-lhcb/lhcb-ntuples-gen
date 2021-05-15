@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Apr 15, 2021 at 03:03 AM +0200
+# Last Change: Sat May 15, 2021 at 02:26 AM +0200
 
 from datetime import datetime
 from re import match, sub
@@ -100,6 +100,7 @@ ALLOWED_IN_FIELD = {
     'polarity': lambda x: x in ['mu', 'md', 'md-mu'],  # NOTE: We don't allow 'mu-md'
     'dirac_path': lambda x: ' ' not in x,
     'additional_flags': validate_additional_flags,
+    'simcond': lambda x: bool(match(r'sim\d+[a-z]', x))
 }
 
 
@@ -185,12 +186,12 @@ def validate_cond_file_name(f):
     if len(fields) > 3 and 'std' not in fields:
         fields = fields[0:3] + ['-'.join(fields[3:])]
     elif len(fields) >= 3 and 'std' in fields:
-        fields = fields[0:2] + ['md-mu'] + ['-'.join(fields[2:])]
+        fields = fields[0:2] + ['sim00fake'] + ['-'.join(fields[2:])]
 
     return field_dict_gen([
         'type',
         'year',
-        'polarity',
+        'simcond',
         'additional_flags'
     ], fields)
 
