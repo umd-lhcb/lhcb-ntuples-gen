@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue May 04, 2021 at 12:21 PM +0200
+# Last Change: Sun May 16, 2021 at 05:54 PM +0200
 # Description: Merge and apply cuts on input .root files, each with multiple
 #              trees, to a single output .root file.
 #
@@ -53,7 +53,7 @@ merge and apply cuts on input .root files to a single output .root file.
         input ntuple.
 ''')
 
-    parser.add_argument('--config', '-c',
+    parser.add_argument('-c', '--config',
                         default=False,
                         help='''
 specify the optional selection config file. By default all trees and entries are kept.
