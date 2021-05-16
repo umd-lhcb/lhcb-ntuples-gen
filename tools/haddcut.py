@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sun May 16, 2021 at 05:54 PM +0200
+# Last Change: Sun May 16, 2021 at 11:03 PM +0200
 # Description: Merge and apply cuts on input .root files, each with multiple
 #              trees, to a single output .root file.
 #
@@ -15,11 +15,6 @@
 # NOTE: Remove the __future__ imports once ROOT is available with Python 3 on
 #       lxplus.
 from __future__ import print_function
-
-try:
-    import configparser
-except ImportError:
-    import ConfigParser as configparser  # Python 2 fallback
 
 import yaml
 
@@ -44,19 +39,26 @@ merge and apply cuts on input .root files to a single output .root file.
 
     parser.add_argument('output_ntp',
                         help='''
-        output ntuple.
+output ntuple.
 ''')
 
     parser.add_argument('input_ntp',
                         nargs='+',
                         help='''
-        input ntuple.
+input ntuple.
 ''')
 
     parser.add_argument('-c', '--config',
                         default=False,
                         help='''
 specify the optional selection config file. By default all trees and entries are kept.
+''')
+
+    parser.add_argument('-m', '--mode',
+                        default='chain',
+                        choices=['chain', 'friend'],
+                        help='''
+specify working mode.
 ''')
 
     return parser.parse_args()
@@ -176,8 +178,9 @@ def traverse_ntp(ntp, pwd=''):
     return trees
 
 
-def update_chains(input_ntp_name, chains, trees):
-    for tree_path in trees:
+# For 'chain' mode #############################################################
+def update_chains(input_ntp_name, chains, tree_paths):
+    for tree_path in tree_paths:
         _, tree_name = path_basename(tree_path)
         if tree_path not in chains:
             chains[tree_path] = TChain(tree_name, tree_name)
@@ -214,6 +217,16 @@ def skim_chains(output_ntp_name, chains, config):
         ntp.Write('', TFile.kOverwrite)
 
 
+# For 'friend' mode ############################################################
+def add_friend(input_ntp, friends, tree_paths):
+    for tree_path in tree_paths:
+        tree = input_ntp.Get(tree_path)
+        if tree_path not in friends:
+            friends[tree_path] = tree
+        else:
+            friends[tree_path].AddFriend(tree)
+
+
 ########
 # Main #
 ########
@@ -222,13 +235,26 @@ if __name__ == '__main__':
     args = parse_input()
     config = parse_config(args.config)
     chains = dict()
+    ntps = []
     print('Output file: {}'.format(args.output_ntp))
 
     for ntp_path in glob_ntuples(args.input_ntp):
-        with ROOTFile(ntp_path, 'read') as ntp:
-            print('Adding {}...'.format(ntp_path))
+        print('Adding {}...'.format(ntp_path))
+
+        if args.mode == 'chain':
+            with ROOTFile(ntp_path, 'read') as ntp:
+                trees = traverse_ntp(ntp)
+                update_chains(ntp_path, chains, trees)
+
+        if args.mode == 'friend':
+            ntp = TFile(ntp_path, 'read')
             trees = traverse_ntp(ntp)
-            update_chains(ntp_path, chains, trees)
+            add_friend(ntp, chains, trees)
+            ntps.append(ntp)
 
     print('Start skimming...')
     skim_chains(args.output_ntp, chains, config)
+
+    print('Cleanups...')
+    for n in ntps:
+        n.Close()
