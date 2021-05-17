@@ -2,28 +2,31 @@
   description = "ntuple generation with DaVinci and babymaker.";
 
   inputs = rec {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-20.09";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     flake-utils.url = "github:numtide/flake-utils";
+    root-curated = {
+      url = "github:umd-lhcb/root-curated";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { self, nixpkgs, flake-utils }:
+  outputs = { self, nixpkgs, flake-utils, root-curated }:
     flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = import nixpkgs {
           inherit system;
           config = { allowUnfree = true; };
-          # overlays = [ self.overlay ];
+           overlays = [ root-curated.overlay ];
         };
         python = pkgs.python3;
         pythonPackages = python.pkgs;
-        root = pkgs.root;
       in
       {
         devShell = pkgs.mkShell {
           name = "lhcb-ntuples-gen";
           buildInputs = with pythonPackages; [
             pkgs.clang-tools # For clang-format
-            root
+            pkgs.root
 
             # Auto completion
             jedi
