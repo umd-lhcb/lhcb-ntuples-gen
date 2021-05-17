@@ -22,5 +22,5 @@ rm -rf ./bdt_sample_tmp.root
 
 # Skim final output file
 ../../tools/haddcut.py \
-    bdt_train_sample.root ./bdt_sample_tmp.root \
+    rdx-bdt_train_sample.root ./bdt_sample_tmp.root \
     -c ./l0_hadron_bdt_train_sample.yml
