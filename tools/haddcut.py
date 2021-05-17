@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sun May 16, 2021 at 11:03 PM +0200
+# Last Change: Mon May 17, 2021 at 03:22 AM +0200
 # Description: Merge and apply cuts on input .root files, each with multiple
 #              trees, to a single output .root file.
 #
@@ -25,7 +25,9 @@ ROOT.PyConfig.DisableRootLogon = True  # Don't read .rootlogon.py
 from argparse import ArgumentParser
 from glob import glob
 from collections import defaultdict
+
 from ROOT import TTree, TDirectory, TChain, TFile
+from ROOT import RDF, RDataFrame
 
 
 ################################
@@ -178,6 +180,10 @@ def traverse_ntp(ntp, pwd=''):
     return trees
 
 
+def get_branch_names(tree):
+    return [br.GetName() for br in tree.GetListOfBranches()]
+
+
 # For 'chain' mode #############################################################
 def update_chains(input_ntp_name, chains, tree_paths):
     for tree_path in tree_paths:
@@ -209,7 +215,7 @@ def skim_chains(output_ntp_name, chains, config):
                 tree = chain.CopyTree(concat_selections(
                     config[full_path]['selection']
                 ))
-                # tree.Write()
+                tree.Write('', TFile.kOverwrite)
 
         # NOTE: Sometimes tree.Write would complain about null-pointers. In that
         #       case, comment out the tree.Write() line and uncomment the line
@@ -218,13 +224,43 @@ def skim_chains(output_ntp_name, chains, config):
 
 
 # For 'friend' mode ############################################################
-def add_friend(input_ntp, friends, tree_paths):
+def update_friend(input_ntp, friends, tree_branch_dict, tree_paths):
     for tree_path in tree_paths:
         tree = input_ntp.Get(tree_path)
+        # FIXME: RDataFrame doesn't support indexing as of ROOT 6.18
+        # tree.BuildIndex('runNumber', 'eventNumber')
+
         if tree_path not in friends:
             friends[tree_path] = tree
+            tree_branch_dict[tree_path] = get_branch_names(tree)
         else:
             friends[tree_path].AddFriend(tree)
+            tree_branch_dict[tree_path] += get_branch_names(tree)
+
+
+def make_output_vec(branches):
+    output = ROOT.std.vector('string')()
+    for br in branches:
+        output.push_back(br)
+    return output
+
+
+def merge_friend(output_ntp_name, friends, tree_branch_dict, config):
+    # Here we don't drop any branch. We do only keep specified trees.
+    opts = RDF.RSnapshotOptions()
+    opts.fMode = 'UPDATE'
+
+    for full_path, tree in friends.items():
+        if config[full_path]['keep']:
+            rd1 = RDataFrame(tree)
+
+            if cut := concat_selections(config[full_path]['selection']):
+                rd2 = rd1.Filter(cut)
+            else:
+                rd2 = rd1
+
+            output_br = make_output_vec(tree_branch_dict[full_path])
+            rd2.Snapshot(full_path, output_ntp_name, output_br, opts)
 
 
 ########
@@ -234,27 +270,33 @@ def add_friend(input_ntp, friends, tree_paths):
 if __name__ == '__main__':
     args = parse_input()
     config = parse_config(args.config)
-    chains = dict()
-    ntps = []
-    print('Output file: {}'.format(args.output_ntp))
 
-    for ntp_path in glob_ntuples(args.input_ntp):
-        print('Adding {}...'.format(ntp_path))
+    if args.mode == 'chain':
+        chains = dict()
+        print('Output file: {}'.format(args.output_ntp))
 
-        if args.mode == 'chain':
+        for ntp_path in glob_ntuples(args.input_ntp):
+            print('Adding {}...'.format(ntp_path))
             with ROOTFile(ntp_path, 'read') as ntp:
-                trees = traverse_ntp(ntp)
-                update_chains(ntp_path, chains, trees)
+                update_chains(ntp_path, chains, traverse_ntp(ntp))
 
-        if args.mode == 'friend':
+        print('Start skimming...')
+        skim_chains(args.output_ntp, chains, config)
+
+    elif args.mode == 'friend':
+        ntps = []
+        friends = dict()
+        tree_branch_dict = dict()
+
+        for ntp_path in glob_ntuples(args.input_ntp):
+            print('Adding {}...'.format(ntp_path))
             ntp = TFile(ntp_path, 'read')
-            trees = traverse_ntp(ntp)
-            add_friend(ntp, chains, trees)
             ntps.append(ntp)
 
-    print('Start skimming...')
-    skim_chains(args.output_ntp, chains, config)
+            update_friend(ntp, friends, tree_branch_dict, traverse_ntp(ntp))
 
-    print('Cleanups...')
-    for n in ntps:
-        n.Close()
+        print('Merging all friend trees...')
+        merge_friend(args.output_ntp, friends, tree_branch_dict, config)
+
+        for n in ntps:
+            n.Close()
