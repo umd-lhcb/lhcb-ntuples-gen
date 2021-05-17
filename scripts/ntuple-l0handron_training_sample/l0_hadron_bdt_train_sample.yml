@@ -7,19 +7,14 @@ TupleB0/DecayTree:
         - 'eventNumber'
         # K
         - 'k_L0Calo_HCAL_realET'
-        - 'k_X'
-        - 'k_Y'
         # pi
         - 'pi_L0Calo_HCAL_realET'
-        - 'pi_X'
-        - 'pi_Y'
         # D0
         - 'd0_PT'
         - 'd0_P'
-        # Trigger
-        - 'd0_L0HadronDecision_TOS'
-        - 'k_L0HadronDecision_TOS'
-        - 'pi_L0HadronDecision_TOS'
+        - 'd0_et_emu_no_bdt'
+        # Radial separation between K and pi
+        - 'rdiff_k_pi'
 
 TupleBminus/DecayTree:
     keep: false
@@ -34,4 +29,7 @@ MCTupleBminusMu/MCDecayTree:
     keep: false
 
 MCTupleBminusTau/MCDecayTree:
+    keep: false
+
+DecayTree:
     keep: false
