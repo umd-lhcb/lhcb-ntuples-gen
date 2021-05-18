@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Author: Yipeng Sun
-# Last Change: Tue May 18, 2021 at 04:22 AM +0200
+# Last Change: Tue May 18, 2021 at 03:36 PM +0200
 
 INPUT_NTP=$1
 
@@ -69,7 +69,7 @@ plot_l0_hadron_eff_step() {
     TRIGGER=$4
     TITLE=$5
 
-    plot_trigger_efficiency_comp.py \
+    plot_trigger_efficiency_comp_special.py \
         -n "${NTP}" -o "${OUTPUT_PREFIX}" --triggers ${TRIGGER} \
         -t "${TREE}" --title "${TITLE}" \
         -c \
@@ -97,7 +97,7 @@ plot_l0_global_tis_eff() {
     TRIGGER=$4
     TITLE=$5
 
-    plot_trigger_efficiency_comp_special.py \
+    plot_trigger_efficiency_comp.py \
         -n "${NTP}" -o "${OUTPUT_PREFIX}" --triggers ${TRIGGER} \
         -t "${TREE}" --title "${TITLE}" \
         -c \
