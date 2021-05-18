@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri May 14, 2021 at 02:05 AM +0200
+# Last Change: Tue May 18, 2021 at 11:32 PM +0200
 #
 # Description: Definitions of selection and reconstruction procedures for run 2
 #              R(D(*)). For more thorough comments, take a look at:
@@ -836,8 +836,8 @@ def tuple_postpocess_mc(tp,
     # Always add L0 and HLT1 emulation variables for MC
     relinfo_output = tp.Inputs[0].replace('Particles', 'HLT1Emulation')
 
-    # Add variables like 'k_X'. This is used for L0 trigger emulation
-    tp.ToolList.append('TupleToolTrackPosition')
+    # Add variables like 'k_X'. NOT used in L0Hadron emulation
+    # tp.ToolList.append('TupleToolTrackPosition')
 
     get_var = hlt1_get_var_gen(
         relinfo_output,
