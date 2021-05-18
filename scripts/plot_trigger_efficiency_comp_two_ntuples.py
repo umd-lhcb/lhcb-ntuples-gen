@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
 # Author: Yipeng Sun
-# Last Change: Sat May 15, 2021 at 02:29 AM +0200
+# Last Change: Tue May 18, 2021 at 03:32 AM +0200
 
 import uproot
 import numpy as np
@@ -13,14 +13,11 @@ import os
 sys.path.insert(0, os.path.dirname(os.path.realpath(__file__)))
 
 from argparse import Action
-from numpy import logical_and as AND
-from numpy import nan_to_num
-from statsmodels.stats.proportion import proportion_confint
 
 from pyTuplingUtils.parse import double_ntuple_parser_no_output
 from pyTuplingUtils.utils import gen_histo
-from pyTuplingUtils.io import read_branches, read_branch
-from pyTuplingUtils.plot import plot_style, plot_top_errorbar_bot_errorbar
+from pyTuplingUtils.io import read_branch
+from pyTuplingUtils.plot import plot_top_errorbar_bot_errorbar
 from pyTuplingUtils.plot import ax_add_args_errorbar as errorbar_style
 
 from plot_trigger_efficiency_comp import parse_input as parent_parse_input
