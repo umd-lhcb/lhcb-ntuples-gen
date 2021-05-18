@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
 # Author: Yipeng Sun
-# Last Change: Tue May 18, 2021 at 07:07 PM +0200
+# Last Change: Tue May 18, 2021 at 07:50 PM +0200
 
 import uproot
 import numpy as np
@@ -114,7 +114,8 @@ if __name__ == '__main__':
                     plot_step(bins, hist, style,
                               figure=fig, axis=ax, show_legend=True,
                               output=filename, xlabel=xlabel,
-                              ylabel='Efficiency')
+                              ylabel='Efficiency',
+                              title=args.title)
 
             # Clear plot in memory
             plt.close('all')
