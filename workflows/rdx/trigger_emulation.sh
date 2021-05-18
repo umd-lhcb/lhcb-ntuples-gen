@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Author: Yipeng Sun
-# Last Change: Fri May 07, 2021 at 01:27 AM +0200
+# Last Change: Tue May 18, 2021 at 04:22 AM +0200
 
 INPUT_NTP=$1
 
@@ -62,7 +62,7 @@ plot_l0_hadron_eff() {
                  "Number of SPD hits"
 }
 
-plot_l0_global_tis_eff() {
+plot_l0_hadron_eff_step() {
     NTP=$1
     TREE=$2
     OUTPUT_PREFIX=$3
@@ -70,6 +70,34 @@ plot_l0_global_tis_eff() {
     TITLE=$5
 
     plot_trigger_efficiency_comp.py \
+        -n "${NTP}" -o "${OUTPUT_PREFIX}" --triggers ${TRIGGER} \
+        -t "${TREE}" --title "${TITLE}" \
+        -c \
+        -k q2 mmiss2 el \
+           d0_pt k_pt pi_pt \
+           nspd_hits \
+        --legends "Real response" "Emulated" "BDT" \
+        --colors black red blue \
+        -D -10 10 -8 8 0 3 \
+           0 40 0 20 0 20 \
+           0 500 \
+        --xlabel "\$q^2$ [GeV\$^2$]" \
+                 "\$m_{miss}^2$ [GeV\$^2$]" \
+                 "\$E_l$ [GeV]" \
+                 "\$D^0$ \$p_T$ [GeV]" \
+                 "\$K$ \$p_T$ [GeV]" \
+                 "\$\\pi$ \$p_T$ [GeV]" \
+                 "Number of SPD hits"
+}
+
+plot_l0_global_tis_eff() {
+    NTP=$1
+    TREE=$2
+    OUTPUT_PREFIX=$3
+    TRIGGER=$4
+    TITLE=$5
+
+    plot_trigger_efficiency_comp_special.py \
         -n "${NTP}" -o "${OUTPUT_PREFIX}" --triggers ${TRIGGER} \
         -t "${TREE}" --title "${TITLE}" \
         -c \
@@ -85,7 +113,6 @@ plot_l0_global_tis_eff() {
                  "\$\\log(p_T)$" \
                  "Number of SPD hits"
 }
-
 
 # Hlt1 emulation: Hlt1TwoTrackMVA & Hlt1TrackMVA
 run2-rdx-hlt1.py ${INPUT_NTP} emu_hlt1_b0.root \
@@ -133,9 +160,15 @@ plot_hlt1_trackmva emu_hlt1_b.root "TupleBminus/DecayTree" b \
 plot_l0_hadron_eff emu_l0_hadron_b0.root "TupleB0/DecayTree" b0 \
     "d0_l0_hadron_tos d0_l0_hadron_tos_emu" \
     "L0Hadron TOS"
+plot_l0_hadron_eff_step emu_l0_hadron_b0.root "TupleB0/DecayTree" b0 \
+    "d0_l0_hadron_tos d0_l0_hadron_tos_emu_no_bdt d0_l0_hadron_tos_emu" \
+    "L0Hadron TOS"
 #   D0
 plot_l0_hadron_eff emu_l0_hadron_b.root "TupleBminus/DecayTree" b \
     "d0_l0_hadron_tos d0_l0_hadron_tos_emu" \
+    "L0Hadron TOS"
+plot_l0_hadron_eff_step emu_l0_hadron_b.root "TupleBminus/DecayTree" b \
+    "d0_l0_hadron_tos d0_l0_hadron_tos_emu_no_bdt d0_l0_hadron_tos_emu" \
     "L0Hadron TOS"
 
 
