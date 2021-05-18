@@ -5,6 +5,10 @@ TupleB0/DecayTree:
         # Global
         - 'runNumber'
         - 'eventNumber'
+        # L0Calo
+        - '*_L0Calo_HCAL_realET'
+        - '*_L0Calo_HCAL_region'
+        - '*_L0Calo_HCAL_*Projection'
         # B
         - 'b0_PZ'
         - 'b0_PT'
@@ -19,14 +23,11 @@ TupleB0/DecayTree:
         - 'k_PX'
         - 'k_PY'
         - 'k_PE'
-        - 'k_X'
-        - 'k_Y'
         - 'k_TRACK_CHI2NDOF'
         - 'k_IPCHI2_OWNPV'
         - 'k_TRACK_GhostProb'
         - 'k_TRACK_nTTHits'
         - 'k_L0Global_*'
-        - 'k_L0Calo*'
         - 'k_Hlt1*'
         # pi
         - 'pi_P'
@@ -34,14 +35,11 @@ TupleB0/DecayTree:
         - 'pi_PX'
         - 'pi_PY'
         - 'pi_PE'
-        - 'pi_X'
-        - 'pi_Y'
         - 'pi_TRACK_CHI2NDOF'
         - 'pi_IPCHI2_OWNPV'
         - 'pi_TRACK_GhostProb'
         - 'pi_TRACK_nTTHits'
         - 'pi_L0Global_*'
-        - 'pi_L0Calo*'
         - 'pi_Hlt1*'
         # Slow pi
         - 'spi_P'
@@ -49,10 +47,7 @@ TupleB0/DecayTree:
         - 'spi_PX'
         - 'spi_PY'
         - 'spi_PE'
-        - 'spi_X'
-        - 'spi_Y'
         - 'spi_L0Global_*'
-        - 'spi_L0Calo*'
         - 'spi_Hlt1*'
         # Trigger
         - 'd0_Hlt1*'
