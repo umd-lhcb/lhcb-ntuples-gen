@@ -63,7 +63,6 @@ TupleB0/DecayTree:
         - "*_Calo*"
         # L0Calo
         - '*_L0Calo_HCAL_*Trigger*'
-        - '*_L0Calo_HCAL_*Projection'
         # Additional removal for TO
         - 'RecoPIDcode'
         - 'Rich*'
