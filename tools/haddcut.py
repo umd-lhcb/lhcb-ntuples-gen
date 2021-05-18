@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon May 17, 2021 at 03:22 AM +0200
+# Last Change: Tue May 18, 2021 at 07:20 PM +0200
 # Description: Merge and apply cuts on input .root files, each with multiple
 #              trees, to a single output .root file.
 #
@@ -253,8 +253,9 @@ def merge_friend(output_ntp_name, friends, tree_branch_dict, config):
     for full_path, tree in friends.items():
         if config[full_path]['keep']:
             rd1 = RDataFrame(tree)
+            cut = concat_selections(config[full_path]['selection'])
 
-            if cut := concat_selections(config[full_path]['selection']):
+            if cut:
                 rd2 = rd1.Filter(cut)
             else:
                 rd2 = rd1
