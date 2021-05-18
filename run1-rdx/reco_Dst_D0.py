@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri May 14, 2021 at 02:02 AM +0200
+# Last Change: Tue May 18, 2021 at 11:35 PM +0200
 #
 # Description: Definitions of selection and reconstruction procedures for run 1
 #              R(D(*)), with thorough comments.
@@ -390,7 +390,9 @@ if has_flag('BARE'):
         '(MIPCHI2DV(PRIMARY) > 8.0) & (TRGHOSTPROB < 1.0)' \
 
     algo_Bminus.CombinationCut = 'ATRUE'
-    algo_Bminus.MotherCut = '(VFASPF(VCHI2/VDOF) < 12.0) & (BPVDIRA > 0.998)'
+    # NOTE: This cut is at its original strength because we can't apply it
+    #       anywhere else
+    algo_Bminus.MotherCut = '(VFASPF(VCHI2/VDOF) < 6.0) & (BPVDIRA > 0.9995)'
 
 
 if DaVinci().Simulation:
