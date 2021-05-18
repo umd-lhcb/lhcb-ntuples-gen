@@ -9,7 +9,15 @@ DaVinci().TupleFile = 'std.root'
 
 from GaudiConf import IOHelper
 
+# Stripping v28r1
+# IOHelper().inputFiles([
+#     './data/data-2016-md/00069529_00017556_1.semileptonic.dst',  # 1.2 GB
+#     './data/data-2016-md/00069527_00003141_1.semileptonic.dst',  # 3.5 GB
+# ], clear=True)
+
+# Stripping v28r2
 IOHelper().inputFiles([
-    './data/data-2016-md/00069529_00017556_1.semileptonic.dst',  # 1.2 GB
-    './data/data-2016-md/00069527_00003141_1.semileptonic.dst',  # 3.5 GB
+    './data/data-2016-md/00102837_00003269_1.semileptonic.dst',
+    './data/data-2016-md/00102837_00003459_1.semileptonic.dst',
+    './data/data-2016-md/00103398_00017120_1.semileptonic.dst',
 ], clear=True)
