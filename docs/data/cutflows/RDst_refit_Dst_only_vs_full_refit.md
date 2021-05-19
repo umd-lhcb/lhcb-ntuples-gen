@@ -1,3 +1,5 @@
+# $R(D^*)$ cutflow to study the effect of refit $D^*$ only
+
 ## Component-wise cutflow table with run 2 cocktail MC, refit $D^*$ only
 
 | cut name                     | Signal   | Normaliz.   | D**   |   Sig eff |   Nor eff |   D** eff |

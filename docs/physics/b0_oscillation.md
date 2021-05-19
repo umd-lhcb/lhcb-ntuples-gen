@@ -1,3 +1,5 @@
+# $B_0$ oscillation
+
 $B_0$ oscillation refers to the fact some of the $B_0$ oscillate into
 $\bar{B_0}$ before they decay.
 

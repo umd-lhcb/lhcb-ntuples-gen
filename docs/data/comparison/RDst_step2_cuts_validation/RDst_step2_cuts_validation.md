@@ -1,3 +1,5 @@
+# $R(D^*)$ run 1 step-2 cuts validation
+
 We took Phoebe's $D^*$ step-2 ntuple located at:
 ```
 ntuples/ref-rdx-run1/Dst-mix/Dst--20_07_02--mix--all--2011-2012--md-mu--phoebe.root

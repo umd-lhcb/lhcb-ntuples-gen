@@ -1,3 +1,5 @@
+# $R(D^*)$ variables, run 1
+
 In general, we find the unique events [^1] in both ntuples, then see if they
 occur in both ntuples, and find their:
 

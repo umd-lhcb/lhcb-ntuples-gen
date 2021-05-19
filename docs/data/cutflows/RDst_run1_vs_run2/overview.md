@@ -1,3 +1,5 @@
+# $R(D^*)$ cutflow overview
+
 ## Generation steps
 
 1. Extract DaVinci-level cut efficiencies with [`davinci_log_parser.py`](https://github.com/umd-lhcb/lhcb-ntuples-gen/blob/master/scripts/davinci_log_parser.py):

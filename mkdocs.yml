@@ -38,30 +38,34 @@ nav:
     - Physics:
         - Momentum scaling: physics/momentum_scaling.md
         - Wrong-sign particles: physics/wrong_sign_particles.md
-        - "`B_0` oscillation": physics/b0_oscillation.md
+        - "B0 oscillation": physics/b0_oscillation.md
     - Data:
         - Data management: data/data_management.md
         - Data sources: data/data_sources.md
         - Cutflows:
-            - "`R(D^{\\star})` cutflow overview": data/cutflows/RDst_run1_vs_run2/overview.md
-            - "`R(D^{\\star})` cutflow detail": data/cutflows/RDst_run1_vs_run2/detail.md
-            - "`R(D^{\\star})` cutflow to study the effect of refit `D^{\\star}` only": data/cutflows/RDst_refit_Dst_only_vs_full_refit.md
+            - "R(D*) cutflow overview": data/cutflows/RDst_run1_vs_run2/overview.md
+            - "R(D*) cutflow detail": data/cutflows/RDst_run1_vs_run2/detail.md
+            - "R(D*) cutflow to study the effect of refit D* only": data/cutflows/RDst_refit_Dst_only_vs_full_refit.md
         - Comparisons:
-            - "`R(D^{\\star})` variables, run 1": data/comparison/RDst_vars_run1/RDst_vars_run1.md
-            - "`R(D^{\\star})` run 1 step-2 cuts validation": data/comparison/RDst_step2_cuts_validation/RDst_step2_cuts_validation.md
+            - "R(D*) variables, run 1": data/comparison/RDst_vars_run1/RDst_vars_run1.md
+            - "R(D*) run 1 step-2 cuts validation": data/comparison/RDst_step2_cuts_validation/RDst_step2_cuts_validation.md
             - Trigger lines: data/comparison/trigger_lines.md
 
 markdown_extensions:
     - admonition
     - pymdownx.critic
-    - pymdownx.arithmatex
+    - pymdownx.arithmatex:
+        generic: true
     - pymdownx.superfences
     - pymdownx.caret
     - footnotes
     - codehilite
 
 extra_javascript:
-    - 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML'
+    - javascripts/config.js
+    - https://polyfill.io/v3/polyfill.min.js?features=es6
+    - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+
 
 extra:
     davinci_ver: v45r6

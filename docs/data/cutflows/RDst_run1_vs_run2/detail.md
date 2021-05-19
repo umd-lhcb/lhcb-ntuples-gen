@@ -1,3 +1,5 @@
+# $R(D^*)$ cutflow detail
+
 ## Comparison between physical variables
 
 For now, we focus on $P_T$ of all reconstructed particles, generated with
