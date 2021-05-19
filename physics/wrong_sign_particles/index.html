@@ -557,7 +557,7 @@
   
     <li class="md-nav__item">
       <a href="../b0_oscillation/" class="md-nav__link">
-        `B_0` oscillation
+        B0 oscillation
       </a>
     </li>
   
@@ -644,7 +644,7 @@
   
     <li class="md-nav__item">
       <a href="../../data/cutflows/RDst_run1_vs_run2/overview/" class="md-nav__link">
-        `R(D^{\star})` cutflow overview
+        R(D*) cutflow overview
       </a>
     </li>
   
@@ -656,7 +656,7 @@
   
     <li class="md-nav__item">
       <a href="../../data/cutflows/RDst_run1_vs_run2/detail/" class="md-nav__link">
-        `R(D^{\star})` cutflow detail
+        R(D*) cutflow detail
       </a>
     </li>
   
@@ -668,7 +668,7 @@
   
     <li class="md-nav__item">
       <a href="../../data/cutflows/RDst_refit_Dst_only_vs_full_refit/" class="md-nav__link">
-        `R(D^{\star})` cutflow to study the effect of refit `D^{\star}` only
+        R(D*) cutflow to study the effect of refit D* only
       </a>
     </li>
   
@@ -707,7 +707,7 @@
   
     <li class="md-nav__item">
       <a href="../../data/comparison/RDst_vars_run1/RDst_vars_run1/" class="md-nav__link">
-        `R(D^{\star})` variables, run 1
+        R(D*) variables, run 1
       </a>
     </li>
   
@@ -719,7 +719,7 @@
   
     <li class="md-nav__item">
       <a href="../../data/comparison/RDst_step2_cuts_validation/RDst_step2_cuts_validation/" class="md-nav__link">
-        `R(D^{\star})` run 1 step-2 cuts validation
+        R(D*) run 1 step-2 cuts validation
       </a>
     </li>
   
@@ -778,31 +778,31 @@ that tracks don't have an origin point.</p>
 that <strong>did not</strong> originate from a common mother (charged was not conserved in
 this "decay" mode, so it is not physical). We can be absolutely sure that no
 signal or physics background contaminates these samples because there is no
-such thing as a <span><span class="MathJax_Preview">B^{++}</span><script type="math/tex">B^{++}</script></span> (again, charge not conserved). Therefore, these
+such thing as a <span class="arithmatex">\(B^{++}\)</span> (again, charge not conserved). Therefore, these
 combinations can be used to study and model these random combinations of tracks
 that pass our selection.</p>
 <p>A caveat to remember is that the wrong-sign combinations are not guaranteed to
 look exactly like the background in the right-sign we are trying to understand.
-This is where the candidates with mass greater than <span><span class="MathJax_Preview">m_B</span><script type="math/tex">m_B</script></span> come in handy. Here we
+This is where the candidates with mass greater than <span class="arithmatex">\(m_B\)</span> come in handy. Here we
 know neither the right-sign nor the wrong-sign has any physics candidates in
 them, and we can see how the two differ.</p>
 <div class="admonition example">
-<p class="admonition-title">An example from muonic <span><span class="MathJax_Preview">R(D^{(*)})</span><script type="math/tex">R(D^{(*)})</script></span></p>
+<p class="admonition-title">An example from muonic <span class="arithmatex">\(R(D^{(*)})\)</span></p>
 <p>In <a href="http://lhcbdoc.web.cern.ch/lhcbdoc/stripping/config/stripping21/semileptonic/strippingb2d0muxfakeb2dmunufortaumuline.html"><code>b2D0MuXFakeB2DMuNuForTauMuLine</code></a>,
-the decay <span><span class="MathJax_Preview">B^- \to D^0 \mu^-</span><script type="math/tex">B^- \to D^0 \mu^-</script></span> is defined by:</p>
+the decay <span class="arithmatex">\(B^- \to D^0 \mu^-\)</span> is defined by:</p>
 <div class="highlight"><pre><span></span><code><span class="n">DecayDescriptors</span> <span class="o">=</span> <span class="p">[</span> <span class="s1">&#39;[B- -&gt; D0 mu-]cc&#39;</span> <span class="p">,</span> <span class="s1">&#39;[B+ -&gt; D0 mu+]cc&#39;</span> <span class="p">]</span>
 </code></pre></div>
 <p>Note the latter decay is actually wrong-sign; the right-sign should be
-a <code>D~0</code> (<span><span class="MathJax_Preview">\bar{D^0}</span><script type="math/tex">\bar{D^0}</script></span>), instead of a <code>D0</code> (<span><span class="MathJax_Preview">D^0</span><script type="math/tex">D^0</script></span>).</p>
+a <code>D~0</code> (<span class="arithmatex">\(\bar{D^0}\)</span>), instead of a <code>D0</code> (<span class="arithmatex">\(D^0\)</span>).</p>
 <p>Therefore, if in our reconstruction, we define the decay to be:</p>
 <div class="highlight"><pre><span></span><code><span class="n">DecayDescriptor</span> <span class="o">=</span> <span class="s1">&#39;[B- -&gt; D0 mu-]cc&#39;</span>
 </code></pre></div>
-<p>Then <strong>NOT ALL</strong> events passing stripping cuts contain a <span><span class="MathJax_Preview">B^-</span><script type="math/tex">B^-</script></span> candidate,
+<p>Then <strong>NOT ALL</strong> events passing stripping cuts contain a <span class="arithmatex">\(B^-\)</span> candidate,
 because we are only reconstructing <em>right-sign</em> candidates with the decay
 descriptor above.</p>
 <p>Indeed, if we inspect the <code>DaVinci</code> log with the two decay descriptors:</p>
 <ul>
-<li><span><span class="MathJax_Preview">B^-</span><script type="math/tex">B^-</script></span> with both signs:
+<li><span class="arithmatex">\(B^-\)</span> with both signs:
     <div class="highlight"><pre><span></span><code>SELECT:/Event/Semileptonic/Phys/b2D0MuXFakeB|     2.232 |     2.417 |    0.685      10.7     0.86 |    1868 |     4.517 |
 SelMyStrippedMuFilteredEvent                |    16.129 |    17.152 |    2.212    2950.3    68.08 |    1868 |    32.042 |
 SelMyStrippedChargedK                       |     0.016 |     0.005 |    0.003       0.1     0.00 |    1833 |     0.010 |
@@ -812,7 +812,7 @@ SelMyStrippedMu                             |     0.000 |     0.004 |    0.003  
 SelMyB-                                     |     0.197 |     0.178 |    0.116       0.7     0.05 |    1823 |     0.325 |
 SelMyComboD0                                |     0.005 |     0.004 |    0.003       0.0     0.00 |    1812 |     0.008 |
 </code></pre></div></li>
-<li><span><span class="MathJax_Preview">B^-</span><script type="math/tex">B^-</script></span> with right-sign only:
+<li><span class="arithmatex">\(B^-\)</span> with right-sign only:
     <div class="highlight"><pre><span></span><code>SELECT:/Event/Semileptonic/Phys/b2D0MuXFakeB|     1.761 |     1.887 |    0.618       6.2     0.65 |    1868 |     3.526 |
 SelMyStrippedMuFilteredEvent                |    13.238 |    13.371 |    1.952    1455.4    33.61 |    1868 |    24.978 |
 SelMyStrippedChargedK                       |     0.000 |     0.004 |    0.002       0.2     0.00 |    1833 |     0.007 |
@@ -823,7 +823,7 @@ SelMyB-                                     |     0.093 |     0.121 |    0.087  
 SelMyComboD0                                |     0.000 |     0.003 |    0.002       0.0     0.00 |    1197 |     0.004 |
 </code></pre></div></li>
 </ul>
-<p>With both signs, <span><span class="MathJax_Preview">B^-</span><script type="math/tex">B^-</script></span> selection only kills 11 events (1823 -&gt; 1812). With
+<p>With both signs, <span class="arithmatex">\(B^-\)</span> selection only kills 11 events (1823 -&gt; 1812). With
 right-sign only, the same selection (with a different decay descriptor, of
 course) kills 626 events (1823 -&gt; 1197).</p>
 </div>
@@ -866,7 +866,7 @@ course) kills 626 events (1823 -&gt; 1197).</p>
               <span class="md-footer__direction">
                 Next
               </span>
-              `B_0` oscillation
+              B0 oscillation
             </div>
           </div>
           <div class="md-footer__button md-icon">
@@ -900,7 +900,11 @@ course) kills 626 events (1823 -&gt; 1197).</p>
     
       <script src="../../assets/javascripts/bundle.a1609d9a.min.js"></script>
       
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+        <script src="../../javascripts/config.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
       
     
   </body>

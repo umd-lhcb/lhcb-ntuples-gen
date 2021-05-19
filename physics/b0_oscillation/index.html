@@ -16,7 +16,7 @@
     
     
       
-        <title>`B_0` oscillation - lhcb-ntuples-gen wiki</title>
+        <title>B0 oscillation - lhcb-ntuples-gen wiki</title>
       
     
     
@@ -60,6 +60,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#b_0-oscillation" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -86,7 +91,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              `B_0` oscillation
+              B0 oscillation
             
           </span>
         </div>
@@ -554,9 +559,11 @@
       <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
       
       
+        
+      
       
       <a href="./" class="md-nav__link md-nav__link--active">
-        `B_0` oscillation
+        B0 oscillation
       </a>
       
     </li>
@@ -644,7 +651,7 @@
   
     <li class="md-nav__item">
       <a href="../../data/cutflows/RDst_run1_vs_run2/overview/" class="md-nav__link">
-        `R(D^{\star})` cutflow overview
+        R(D*) cutflow overview
       </a>
     </li>
   
@@ -656,7 +663,7 @@
   
     <li class="md-nav__item">
       <a href="../../data/cutflows/RDst_run1_vs_run2/detail/" class="md-nav__link">
-        `R(D^{\star})` cutflow detail
+        R(D*) cutflow detail
       </a>
     </li>
   
@@ -668,7 +675,7 @@
   
     <li class="md-nav__item">
       <a href="../../data/cutflows/RDst_refit_Dst_only_vs_full_refit/" class="md-nav__link">
-        `R(D^{\star})` cutflow to study the effect of refit `D^{\star}` only
+        R(D*) cutflow to study the effect of refit D* only
       </a>
     </li>
   
@@ -707,7 +714,7 @@
   
     <li class="md-nav__item">
       <a href="../../data/comparison/RDst_vars_run1/RDst_vars_run1/" class="md-nav__link">
-        `R(D^{\star})` variables, run 1
+        R(D*) variables, run 1
       </a>
     </li>
   
@@ -719,7 +726,7 @@
   
     <li class="md-nav__item">
       <a href="../../data/comparison/RDst_step2_cuts_validation/RDst_step2_cuts_validation/" class="md-nav__link">
-        `R(D^{\star})` run 1 step-2 cuts validation
+        R(D*) run 1 step-2 cuts validation
       </a>
     </li>
   
@@ -756,6 +763,23 @@
               </div>
             
             
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
           
           <div class="md-content" data-md-component="content">
             <article class="md-content__inner md-typeset">
@@ -766,19 +790,18 @@
                   </a>
                 
                 
-                  <h1>`B_0` oscillation</h1>
-                
-                <p><span><span class="MathJax_Preview">B_0</span><script type="math/tex">B_0</script></span> oscillation refers to the fact some of the <span><span class="MathJax_Preview">B_0</span><script type="math/tex">B_0</script></span> oscillate into
-<span><span class="MathJax_Preview">\bar{B_0}</span><script type="math/tex">\bar{B_0}</script></span> before they decay.</p>
+                <h1 id="b_0-oscillation"><span class="arithmatex">\(B_0\)</span> oscillation</h1>
+<p><span class="arithmatex">\(B_0\)</span> oscillation refers to the fact some of the <span class="arithmatex">\(B_0\)</span> oscillate into
+<span class="arithmatex">\(\bar{B_0}\)</span> before they decay.</p>
 <p>For real data reconstruction, this doesn't require additional consideration,
-as we only know the quark content of the <span><span class="MathJax_Preview">B</span><script type="math/tex">B</script></span> mesons, be it <span><span class="MathJax_Preview">B_0</span><script type="math/tex">B_0</script></span> or <span><span class="MathJax_Preview">\bar{B_0}</span><script type="math/tex">\bar{B_0}</script></span>,
+as we only know the quark content of the <span class="arithmatex">\(B\)</span> mesons, be it <span class="arithmatex">\(B_0\)</span> or <span class="arithmatex">\(\bar{B_0}\)</span>,
 before they decay.</p>
 <p>However, for MC truth reconstruction (this applies to <code>MCDecayTreeTuple</code> only),
-we are concerned about the <em>initial states</em> of the <span><span class="MathJax_Preview">B</span><script type="math/tex">B</script></span> mesons. Instead of
+we are concerned about the <em>initial states</em> of the <span class="arithmatex">\(B\)</span> mesons. Instead of
 naively writing decay descriptors like this:
 <div class="highlight"><pre><span></span><code><span class="s1">&#39;$</span><span class="si">{b0}</span><span class="s1">[B~0 -&gt; $</span><span class="si">{dst}</span><span class="s1">(D*(2010)+ -&gt; $</span><span class="si">{d0}</span><span class="s1">(D0 -&gt; $</span><span class="si">{k}</span><span class="s1">K- $</span><span class="si">{pi}</span><span class="s1">pi+) $</span><span class="si">{spi}</span><span class="s1">pi+) $</span><span class="si">{mu}</span><span class="s1">mu-]CC&#39;</span>
 </code></pre></div></p>
-<p>We need to take <span><span class="MathJax_Preview">B_0</span><script type="math/tex">B_0</script></span> oscillation into account:
+<p>We need to take <span class="arithmatex">\(B_0\)</span> oscillation into account:
 <div class="highlight"><pre><span></span><code><span class="s1">&#39;(&#39;</span>
 <span class="s1">&#39;$</span><span class="si">{b0}</span><span class="s1">[B~0 =&gt; $</span><span class="si">{dst}</span><span class="s1">(D*(2010)+ =&gt; $</span><span class="si">{d0}</span><span class="s1">(D0 =&gt; $</span><span class="si">{k}</span><span class="s1">K- $</span><span class="si">{pi}</span><span class="s1">pi+) $</span><span class="si">{spi}</span><span class="s1">pi+) $</span><span class="si">{mu}</span><span class="s1">mu- $</span><span class="si">{anu_mu}</span><span class="s1">nu_mu~]CC&#39;</span>
 <span class="s1">&#39;||&#39;</span>
@@ -858,7 +881,11 @@ naively writing decay descriptors like this:
     
       <script src="../../assets/javascripts/bundle.a1609d9a.min.js"></script>
       
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+        <script src="../../javascripts/config.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
       
     
   </body>

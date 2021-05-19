@@ -612,7 +612,7 @@
   
     <li class="md-nav__item">
       <a href="../../../physics/b0_oscillation/" class="md-nav__link">
-        `B_0` oscillation
+        B0 oscillation
       </a>
     </li>
   
@@ -699,7 +699,7 @@
   
     <li class="md-nav__item">
       <a href="../../../data/cutflows/RDst_run1_vs_run2/overview/" class="md-nav__link">
-        `R(D^{\star})` cutflow overview
+        R(D*) cutflow overview
       </a>
     </li>
   
@@ -711,7 +711,7 @@
   
     <li class="md-nav__item">
       <a href="../../../data/cutflows/RDst_run1_vs_run2/detail/" class="md-nav__link">
-        `R(D^{\star})` cutflow detail
+        R(D*) cutflow detail
       </a>
     </li>
   
@@ -723,7 +723,7 @@
   
     <li class="md-nav__item">
       <a href="../../../data/cutflows/RDst_refit_Dst_only_vs_full_refit/" class="md-nav__link">
-        `R(D^{\star})` cutflow to study the effect of refit `D^{\star}` only
+        R(D*) cutflow to study the effect of refit D* only
       </a>
     </li>
   
@@ -762,7 +762,7 @@
   
     <li class="md-nav__item">
       <a href="../../../data/comparison/RDst_vars_run1/RDst_vars_run1/" class="md-nav__link">
-        `R(D^{\star})` variables, run 1
+        R(D*) variables, run 1
       </a>
     </li>
   
@@ -774,7 +774,7 @@
   
     <li class="md-nav__item">
       <a href="../../../data/comparison/RDst_step2_cuts_validation/RDst_step2_cuts_validation/" class="md-nav__link">
-        `R(D^{\star})` run 1 step-2 cuts validation
+        R(D*) run 1 step-2 cuts validation
       </a>
     </li>
   
@@ -888,13 +888,13 @@ Independent Signal</em>. There's another similar term: <em>TOS: Trigger On Signa
 </code></pre></div>
 <p>The line above should be interpreted as following:</p>
 <ol>
-<li>In the decay tree, find a <span><span class="MathJax_Preview">\mu</span><script type="math/tex">\mu</script></span>.</li>
+<li>In the decay tree, find a <span class="arithmatex">\(\mu\)</span>.</li>
 <li>We look over all <code>L0.*</code> trigger lines with <code>TES</code> <code>L0TriggerTisTos</code>, and
    require to have a trigger independent signal:<ul>
-<li>Since we are triggering on <span><span class="MathJax_Preview">\mu</span><script type="math/tex">\mu</script></span>, this requires that the trigger cannot
-  be due to the <span><span class="MathJax_Preview">\mu</span><script type="math/tex">\mu</script></span>.</li>
-<li>Also note that the whole decay tree is just a <span><span class="MathJax_Preview">\mu</span><script type="math/tex">\mu</script></span> and a <span><span class="MathJax_Preview">D</span><script type="math/tex">D</script></span>, so it
-  means that we are either TOS on <span><span class="MathJax_Preview">D</span><script type="math/tex">D</script></span>, TIS in the <strong>whole</strong> event, or both.</li>
+<li>Since we are triggering on <span class="arithmatex">\(\mu\)</span>, this requires that the trigger cannot
+  be due to the <span class="arithmatex">\(\mu\)</span>.</li>
+<li>Also note that the whole decay tree is just a <span class="arithmatex">\(\mu\)</span> and a <span class="arithmatex">\(D\)</span>, so it
+  means that we are either TOS on <span class="arithmatex">\(D\)</span>, TIS in the <strong>whole</strong> event, or both.</li>
 </ul>
 </li>
 </ol>
@@ -971,7 +971,11 @@ Independent Signal</em>. There's another similar term: <em>TOS: Trigger On Signa
     
       <script src="../../../assets/javascripts/bundle.a1609d9a.min.js"></script>
       
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+        <script src="../../../javascripts/config.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
       
     
   </body>
