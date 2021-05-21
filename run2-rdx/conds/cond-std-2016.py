@@ -7,6 +7,15 @@ DaVinci().TupleFile = 'std.root'
 # DaVinci().HistogramFile = 'std-histo.root'
 
 
+# Optionally force latest, instead of default, tags for real data
+# from Configurables import CondDB
+# CondDB(Tags={
+#     'LHCBCOND': '<latest:2016>',
+#     'DDDB':     '<latest:2016>',
+#     'DQFLAGS':  '<latest:2016>'
+# })
+
+
 from GaudiConf import IOHelper
 
 # Stripping v28r1
