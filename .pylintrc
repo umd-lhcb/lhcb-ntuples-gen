@@ -279,7 +279,8 @@ ignored-modules=Configurables,
                 CommonParticles,
                 PhysSelPython,
                 DecayTreeTuple,
-                MVADictHelpers
+                MVADictHelpers,
+                GaudiConf
 
 # Show a hint with possible names when a member name was not found. The aspect
 # of finding the hint is based on edit distance.
