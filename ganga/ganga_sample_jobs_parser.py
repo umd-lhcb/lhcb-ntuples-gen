@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri May 14, 2021 at 04:09 AM +0200
+# Last Change: Wed May 12, 2021 at 02:25 AM +0200
 #
 # Description: A demonstration on ganga option file with parser.
 #              This demo runs stand-alone, provided that Python is installed:
@@ -67,11 +67,11 @@ def parse_reco_script_name(reco_script):
 
 def parse_cond_file_name(cond_file):
     result = odict({
-        'type': None, 'year': None, 'simcond': None, 'additional_flags': None,
-        'polarity': None
+        'type': None, 'year': None, 'polarity': None, 'simcond': None,
+        'additional_flags': None
     })
     fields = Path(cond_file).stem.split('-')[1:]  # Drop the 'cond' prefix.
-    terminating_non_flag_fields = r'^(sim\d+[a-z])$'
+    terminating_non_flag_fields = r'^(mu|md|sim\d+[a-z])$'
 
     if len(fields) >= 3:
         if not bool(search(terminating_non_flag_fields, fields[-1])):
@@ -180,7 +180,7 @@ print('Condition file: {}'.format(args.cond_file))
 
 fields, reco_type, additional_flags = parse_cond_file_name(args.cond_file)
 reco_sample = parse_reco_script_name(args.reco_script)
-# print('Fields from cond file: {}'.format(fields))
+#print('Fields from cond file: {}'.format(fields))
 
 # Try to add missing fields required to reconstruct LFNs
 lfn_key = gen_lfn_key(reco_type, fields)
