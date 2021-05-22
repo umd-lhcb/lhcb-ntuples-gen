@@ -38,39 +38,19 @@ lb-dirac dirac-dms-get-file -D <target_dir> -l <lfn>
 ```
 
 
-## Query MC DDB and CONDDB tags
+## Query MC DDDB and CONDDB tags
 
 !!! warning
     MagUp and MagDown have different tags. Typically you can replace `mu100`
     with `md100`.
 
-For older productions, these tags are directly available in BKK. Just download
-the Python version of the `.DST` file from BKK.
-
-For newer productions, the Python file list these tags as:
-```python
-#-- GAUDI jobOptions generated on Fri May 21 18:19:43 2021
-#-- Contains event types :
-#--   11574021 - 112 files - 1500395 events - 400.11 GBytes
-
-#--  Extra information about the data processing phases:
-
-#--  Processing Pass: '/Sim09j/Trig0x6139160F/Reco16/Turbo03a/Filtered'
-
-#--  StepId : 143000
-#--  StepName : Merge for SL Filtered Productions (muonic B to D(*) tau nu) - DST
-#--  ApplicationName : DaVinci
-#--  ApplicationVersion : v45r5
-#--  OptionFiles : $APPCONFIGOPTS/Merging/DVMergeDST.py;$APPCONFIGOPTS/DaVinci/DataType-2016.py;$APPCONFIGOPTS/Merging/WriteFSR.py;$APPCONFIGOPTS/Merging/MergeFSR.py;$APPCONFIGOPTS/Persistency/Compression-LZMA-4.py;$APPCONFIGOPTS/DaVinci/Simulation.py
-#--  DDDB : fromPreviousStep
-#--  CONDDB : fromPreviousStep
-#--  ExtraPackages : AppConfig.v3r402
-#--  Visible : N
+Open **DIRAC**, then for a given MC LFN, say:
+```
+/MC/2012/11873010/Beam4000GeV-2012-MagDown-Nu2.5-Pythia8/Sim08a/Digi13/Trig0x409f0045/Reco14a/Stripping20Filtered/DSTTAUNU.SAFESTRIPTRIG.DST
 ```
 
-If you have a MC production ID (e.g. `74509`), you can either:
+Expand up to the **`Sim08a`** folder, then right click **More info**. We should see something like this:
 
-1. **DIRAC** -> **Data** -> **Production Request**, then input the ID in **Request ID(s)** field
-2. On lxplus:
+![DIRAC MC tags](./dirac_mc_tags.png)
 
-        lb-dirac dirac-bookkeeping-production-information <prod_id>
+Now, the DDDB tags should start with `dddb-`, and CONDDB `sim-`.
