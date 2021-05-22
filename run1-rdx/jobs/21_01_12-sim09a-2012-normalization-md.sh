@@ -5,5 +5,5 @@ export PATH=$DIR/../../ganga:$PATH
 
 ganga_jobs.py \
     ../reco_Dst_D0.py \
-    ../conds/cond-mc-2012-sim09a.py \
-    -p md -d Bd2DstMuNu
+    ../conds/cond-mc-2012-md-sim09a.py \
+    -p md -d 11574020
