@@ -2,12 +2,9 @@
   description = "ntuple generation with DaVinci and babymaker.";
 
   inputs = rec {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    flake-utils.url = "github:numtide/flake-utils";
-    root-curated = {
-      url = "github:umd-lhcb/root-curated";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    root-curated.url = "github:umd-lhcb/root-curated";
+    nixpkgs.follows = "root-curated/nixpkgs";
+    flake-utils.follows = "root-curated/flake-utils";
   };
 
   outputs = { self, nixpkgs, flake-utils, root-curated }:
