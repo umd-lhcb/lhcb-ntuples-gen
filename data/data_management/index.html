@@ -894,12 +894,15 @@ lb-dirac dirac-dms-get-file -D &lt;target_dir&gt; --File &lt;file_with_list_of_l
 <p>MagUp and MagDown have different tags. Typically you can replace <code>mu100</code>
 with <code>md100</code>.</p>
 </div>
-<p>Open <strong>DIRAC</strong>, then for a given MC LFN, say:
-<div class="highlight"><pre><span></span><code>/MC/2012/11873010/Beam4000GeV-2012-MagDown-Nu2.5-Pythia8/Sim08a/Digi13/Trig0x409f0045/Reco14a/Stripping20Filtered/DSTTAUNU.SAFESTRIPTRIG.DST
+<p>Find the production number for a given <code>.dst</code> LFN, say:
+<div class="highlight"><pre><span></span><code>/lhcb/LHCb/Collision12/SEMILEPTONIC.DST/00067251/0000/00067251_00000841_1.Semileptonic.dst
 </code></pre></div></p>
-<p>Expand up to the <strong><code>Sim08a</code></strong> folder, then right click <strong>More info</strong>. We should see something like this:</p>
-<p><img alt="DIRAC MC tags" src="../dirac_mc_tags.png" /></p>
-<p>Now, the DDDB tags should start with <code>dddb-</code>, and CONDDB <code>sim-</code>.</p>
+<p>It's production number is <code>67251</code>.</p>
+<p>On lxplus, do the following:
+<div class="highlight"><pre><span></span><code>lhcb-proxy-init
+lb-dirac dirac-bookkeeping-production-information 67251
+</code></pre></div></p>
+<p>The output contains both DDDB and CONDDB tags.</p>
                 
               
               
