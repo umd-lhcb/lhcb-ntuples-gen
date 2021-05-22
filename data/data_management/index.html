@@ -637,6 +637,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#query-mc-ddb-and-conddb-tags" class="md-nav__link">
+    Query MC DDB and CONDDB tags
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -826,6 +833,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#query-mc-ddb-and-conddb-tags" class="md-nav__link">
+    Query MC DDB and CONDDB tags
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -874,6 +888,41 @@ lb-dirac dirac-dms-get-file -D &lt;target_dir&gt; --File &lt;file_with_list_of_l
 <p>If you know a <code>LFN</code>, instead of a file that contains a list of <code>LFN</code>s, you can:
 <div class="highlight"><pre><span></span><code>lb-dirac dirac-dms-get-file -D &lt;target_dir&gt; -l &lt;lfn&gt;
 </code></pre></div></p>
+<h2 id="query-mc-ddb-and-conddb-tags">Query MC DDB and CONDDB tags</h2>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>MagUp and MagDown have different tags. Typically you can replace <code>mu100</code>
+with <code>md100</code>.</p>
+</div>
+<p>For older productions, these tags are directly available in BKK. Just download
+the Python version of the <code>.DST</code> file from BKK.</p>
+<p>For newer productions, the Python file list these tags as:
+<div class="highlight"><pre><span></span><code><span class="c1">#-- GAUDI jobOptions generated on Fri May 21 18:19:43 2021</span>
+<span class="c1">#-- Contains event types :</span>
+<span class="c1">#--   11574021 - 112 files - 1500395 events - 400.11 GBytes</span>
+
+<span class="c1">#--  Extra information about the data processing phases:</span>
+
+<span class="c1">#--  Processing Pass: &#39;/Sim09j/Trig0x6139160F/Reco16/Turbo03a/Filtered&#39;</span>
+
+<span class="c1">#--  StepId : 143000</span>
+<span class="c1">#--  StepName : Merge for SL Filtered Productions (muonic B to D(*) tau nu) - DST</span>
+<span class="c1">#--  ApplicationName : DaVinci</span>
+<span class="c1">#--  ApplicationVersion : v45r5</span>
+<span class="c1">#--  OptionFiles : $APPCONFIGOPTS/Merging/DVMergeDST.py;$APPCONFIGOPTS/DaVinci/DataType-2016.py;$APPCONFIGOPTS/Merging/WriteFSR.py;$APPCONFIGOPTS/Merging/MergeFSR.py;$APPCONFIGOPTS/Persistency/Compression-LZMA-4.py;$APPCONFIGOPTS/DaVinci/Simulation.py</span>
+<span class="c1">#--  DDDB : fromPreviousStep</span>
+<span class="c1">#--  CONDDB : fromPreviousStep</span>
+<span class="c1">#--  ExtraPackages : AppConfig.v3r402</span>
+<span class="c1">#--  Visible : N</span>
+</code></pre></div></p>
+<p>If you have a MC production ID (e.g. <code>74509</code>), you can either:</p>
+<ol>
+<li><strong>DIRAC</strong> -&gt; <strong>Data</strong> -&gt; <strong>Production Request</strong>, then input the ID in <strong>Request ID(s)</strong> field</li>
+<li>On lxplus:<div class="codehilite"><pre><span></span><code>lb-dirac dirac-bookkeeping-production-information &lt;prod_id&gt;
+</code></pre></div>
+
+</li>
+</ol>
                 
               
               
