@@ -123,7 +123,7 @@ def groub_by_detail(decoded):
         if addon:
             key += '-{}'.format(addon)
 
-        result[key] += attr('num_of_evts')
+        result[key] += attr['num_of_evts']
 
     return sort_dict(result)
 
