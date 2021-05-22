@@ -2,6 +2,7 @@
 #
 # Author: Manuel Franco Sevilla, Yipeng Sun
 
+from re import search
 from argparse import ArgumentParser
 from subprocess import check_output
 from collections import defaultdict
@@ -23,7 +24,7 @@ def parse_input():
 
     parser.add_argument('-m', '--mode',
                         default='run',
-                        choices=['run', 'year'],
+                        choices=['run', 'year', 'detail'],
                         help='group output')
 
     parser.add_argument('-o', '--output',
@@ -76,6 +77,15 @@ def sort_dict(dct):
     return {k: dct[k] for k in sorted(dct)}
 
 
+def search_addon(lfn):
+    # Here we see if additional flags like 'TrackerOnly' or 'NoRICHesSim' is
+    # present
+    addon = lfn.split('/')[3].split('-')[3]
+    if not bool(search(r'^Nu\d\.\d', addon)):
+        return addon
+    return None
+
+
 def group_by_year(decoded):
     result = defaultdict(lambda: 0)
 
@@ -100,6 +110,24 @@ def group_by_run(decoded):
     return sort_dict(result)
 
 
+def groub_by_detail(decoded):
+    result = defaultdict(lambda: 0)
+
+    for lfn, attr in decoded.items():
+        year = lfn.split('/')[2]
+        pythia = search(r'Pythia\d', lfn).group(0)
+        simcond = search(r'Sim\d\d[a-z]', lfn).group(0)
+        addon = search_addon(lfn)
+
+        key = '{}-{}-{}'.format(year, pythia, simcond)
+        if addon:
+            key += '-{}'.format(addon)
+
+        result[key] += attr('num_of_evts')
+
+    return sort_dict(result)
+
+
 def csv_gen(modes):
     header = ['mode'] + list(list(modes.values())[0].keys())
     rows = [header]
@@ -114,7 +142,8 @@ def csv_gen(modes):
 
 GROUP_OUTPUT_BY = {
     'run': group_by_run,
-    'year': group_by_year
+    'year': group_by_year,
+    'detail': groub_by_detail,
 }
 
 
