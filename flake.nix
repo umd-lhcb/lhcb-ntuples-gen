@@ -13,7 +13,7 @@
         pkgs = import nixpkgs {
           inherit system;
           config = { allowUnfree = true; };
-           overlays = [ root-curated.overlay ];
+          overlays = [ root-curated.overlay ];
         };
         python = pkgs.python3;
         pythonPackages = python.pkgs;
