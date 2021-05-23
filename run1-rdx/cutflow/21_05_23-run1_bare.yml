@@ -1,0 +1,36 @@
+SELECT:Phys/StdAllNoPIDsKaons:
+    input: 1025230
+    output: 1025109
+SELECT:Phys/StdAllNoPIDsPions:
+    input: 1025109
+    output: 1025109
+SelMyD0:
+    input: 1025109
+    output: 207210
+SELECT:Phys/StdAllNoPIDsMuons:
+    input: 207210
+    output: 207210
+SelMyUnstrippedFilteredMu:
+    input: 207210
+    output: 127916
+SelMyB-:
+    input: 127916
+    output: 50970
+SelMyRefitB-2D0Mu:
+    input: 50970
+    output: null
+SelMyComboD0:
+    input: 50970
+    output: 50970
+SelMyDst:
+    input: 50970
+    output: 48437
+SelMyRefitDst2D0Pi:
+    input: 48437
+    output: 46146
+SelMyComboMu:
+    input: 46146
+    output: 46146
+SelMyB0:
+    input: 46146
+    output: null
