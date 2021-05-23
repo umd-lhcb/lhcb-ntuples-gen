@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Jul 01, 2020 at 09:36 PM +0800
+# Last Change: Sun May 23, 2021 at 02:32 AM +0200
 
 import re
 import sys
@@ -17,7 +17,7 @@ from glob import glob
 
 def fltr_regex(filename, pattern=r'^TimingAuditor\.T\.\.\.'):
     with open(filename) as f:
-        result = [l for l in f if bool(re.match(pattern, l))]
+        result = [line for line in f if bool(re.match(pattern, line))]
 
     return result
 
@@ -53,15 +53,7 @@ def normalize_data(lst):
     return result
 
 
-def extract_data(lst, name_idx=0, num_idx=4,
-                 names=[
-                     'SeqMyB0',
-                     'StrippedBCands',
-                     'SelMyD0',
-                     'SelMyDst',
-                     'SelMyB0',
-                     'SelMyRefitB02DstMu'
-                 ]):
+def extract_data(lst, name_idx=0, num_idx=4):
     result = odict()
 
     for idx, data in enumerate(lst):
