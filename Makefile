@@ -1,10 +1,10 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon May 03, 2021 at 02:38 AM +0200
+# Last Change: Sun May 23, 2021 at 02:27 AM +0200
 
 export PATH := workflows:test:scripts:$(PATH)
 
-VPATH := postprocess:test:scripts:$(BINPATH)
+VPATH := postprocess:test:scripts
 
 # Sub-makefiles for different analyses
 include ./workflows/rdx.mk  # R(D(*))
@@ -118,7 +118,7 @@ rdx-trigger-emu-nor-fs-vs-to: \
 %.pp: gen/%.cpp \
 	include/functor/*.h \
 	include/*.h
-	$(COMPILER) $(CXXFLAGS) $(ADDFLAGS) -o $(BINPATH)/$@ $< $(LINKFLAGS)
+	$(COMPILER) $(CXXFLAGS) $(ADDFLAGS) -o bin/$@ $< $(LINKFLAGS)
 
 %.root:
 	@echo -e "No such file present:" $@
