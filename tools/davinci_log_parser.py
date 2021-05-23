@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sun May 23, 2021 at 02:43 AM +0200
+# Last Change: Sun May 23, 2021 at 02:57 AM +0200
 
 from __future__ import print_function
 
@@ -138,6 +138,7 @@ def glob_logfiles(files):
     log_filepaths = []
     for log in files:
         log_filepaths += glob(log)
+    return log_filepaths
 
 
 if __name__ == '__main__':
