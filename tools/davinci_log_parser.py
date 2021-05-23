@@ -2,13 +2,39 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sun May 23, 2021 at 02:32 AM +0200
+# Last Change: Sun May 23, 2021 at 02:43 AM +0200
+
+from __future__ import print_function
 
 import re
 import sys
 
+from argparse import ArgumentParser
 from collections import OrderedDict as odict
 from glob import glob
+
+
+################################
+# Command line argument parser #
+################################
+
+def parse_input():
+    parser = ArgumentParser(description='''
+Parse and merge DaVinci log file stats, mainly for cutflow studies.
+''')
+
+    parser.add_argument('output_yml',
+                        help='''
+output YAML file.
+''')
+
+    parser.add_argument('input_log',
+                        nargs='+',
+                        help='''
+input log files.
+''')
+
+    return parser.parse_args()
 
 
 #############
@@ -108,17 +134,19 @@ def file_parse(filename):
     return extract_data(data)
 
 
-if __name__ == '__main__':
-    output = sys.argv[1]
-    result = odict()
+def glob_logfiles(files):
     log_filepaths = []
-
-    for log in sys.argv[2:]:
+    for log in files:
         log_filepaths += glob(log)
 
-    for log_filename in log_filepaths:
+
+if __name__ == '__main__':
+    args = parse_input()
+    result = odict()
+
+    for log_filename in glob_logfiles(args.input_log):
         parsed = file_parse(log_filename)
         update_dict(result, parsed)
 
-    with open(output, 'w') as f:
+    with open(args.output_yml, 'w') as f:
         f.write(yaml_gen(result))
