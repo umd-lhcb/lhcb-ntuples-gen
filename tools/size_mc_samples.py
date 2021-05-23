@@ -81,7 +81,7 @@ def search_addon(lfn):
     # Here we see if additional flags like 'TrackerOnly' or 'NoRICHesSim' is
     # present
     addon = lfn.split('/')[3].split('-')[3]
-    if not bool(search(r'^Nu\d\.\d', addon)):
+    if not bool(search(r'^Nu\d(\.\d)?$', addon)):
         return addon
     return None
 
