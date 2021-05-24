@@ -1,6 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sun Mar 14, 2021 at 02:28 AM +0100
+# Last Change: Mon May 24, 2021 at 02:35 AM +0200
 # Description: Targets for R(D(*))
 
 VPATH := run1-rdx/samples:run2-rdx/samples:$(VPATH)
@@ -144,34 +144,6 @@ gen/cutflow/output-rdst-run2-bare.yml: \
 	input-run2-bare.yml \
 	cutflow_output_yml_gen.py
 	@$(word 3, $^) $< $(word 2, $^) $@ run2-bare -t 'TupleB0/DecayTree'
-
-
-# Cutflow output YAML for D*, MC.
-gen/cutflow/output-rdst-run1.yml: \
-	Dst--20_03_18--cutflow_mc--cocktail--2011--md.root \
-	input-run1.yml \
-	cutflow_output_yml_gen_pre_0.9.0.py
-	@$(word 3, $^) $< $(word 2, $^) $@ run1 -t 'TupleB0/DecayTree'
-
-gen/cutflow/output-rdst-run2.yml: \
-	Dst--20_03_18--cutflow_mc--cocktail--2016--md.root \
-	input-run2.yml \
-	cutflow_output_yml_gen_pre_0.9.0.py
-	@$(word 3, $^) $< $(word 2, $^) $@ run2 -t 'TupleB0/DecayTree'
-
-
-# Cutflow output YAML for D*, data.
-gen/cutflow/output-rdst-run1-data.yml: \
-	Dst--20_04_03--cutflow_data--data--2012--md.root \
-	input-run1-data.yml \
-	cutflow_output_yml_gen_pre_0.9.0.py
-	@$(word 3, $^) $< $(word 2, $^) $@ run1 -t 'TupleB0/DecayTree'
-
-gen/cutflow/output-rdst-run2-data.yml: \
-	Dst--20_04_03--cutflow_data--data--2016--md.root \
-	input-run2-data.yml \
-	cutflow_output_yml_gen_pre_0.9.0.py
-	@$(word 3, $^) $< $(word 2, $^) $@ run2-data -t 'TupleB0/DecayTree'
 
 
 # Cutflow output YAML for signal, normalization, and D** yield, run 1
