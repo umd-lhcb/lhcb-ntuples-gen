@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon May 24, 2021 at 04:43 AM +0200
+# Last Change: Mon May 24, 2021 at 05:51 PM +0200
 
 import pathlib
 import os
@@ -160,7 +160,12 @@ if __name__ == '__main__':
 
         result_addon = CutflowGen(ntp_path, args.tree, cuts, uniq_size).do(
             output_regulator=cutflow_output_regulator)
-        result.update(result_addon)
+        for key, val in result_addon.items():
+            if key not in result:
+                result[key] = val
+            else:
+                result[key]['input'] += val['input']
+                result[key]['output'] += val['output']
 
         with open(args.output_yml, 'w') as f:
             f.write(yaml_gen(result))

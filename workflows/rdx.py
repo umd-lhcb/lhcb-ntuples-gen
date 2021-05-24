@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon May 24, 2021 at 05:48 PM +0200
+# Last Change: Mon May 24, 2021 at 05:52 PM +0200
 
 import sys
 import os
@@ -166,7 +166,7 @@ def workflow_cutflow(job_name, inputs, output_dir, debug, kws):
         'mode': kws['mode'],
     }
 
-    print('{}Working on {}...{}'.format(TC.GREEN, subdir, TC.END))
+    print('{}Working on {}...{}'.format(TC.GREEN, workdir, TC.END))
     exe(params, debug)
 
 
