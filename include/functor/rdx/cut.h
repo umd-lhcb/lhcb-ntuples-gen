@@ -1,6 +1,6 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Mon May 24, 2021 at 04:42 AM +0200
+// Last Change: Mon May 24, 2021 at 10:19 PM +0200
 
 #ifndef _LNG_FUNCTOR_RDX_CUT_H_
 #define _LNG_FUNCTOR_RDX_CUT_H_
@@ -206,7 +206,7 @@ Bool_t FLAG_SEL_B0DST_RUN1(Bool_t flag_sel_d0, Bool_t flag_sel_mu,
                            Double_t spi_gh_prob,
                            Double_t dst_endvtx_chi2, Double_t dst_endvtx_ndof,
                            Double_t dst_m, Double_t d0_m,
-                           Double_t b0_discard_mu_chi2,
+                           // Double_t b0_discard_mu_chi2,
                            Double_t b0_endvtx_chi2, Double_t b0_endvtx_ndof,
                            Double_t b0_fd_trans,
                            Double_t b0_dira,
@@ -223,7 +223,7 @@ Bool_t FLAG_SEL_B0DST_RUN1(Bool_t flag_sel_d0, Bool_t flag_sel_mu,
       TMath::Abs(dst_m - d0_m - dst_d0_delta_m_ref) < 2 &&
       /* D0 Mu combo, already applied in DaVinci */
       /* D* Mu combo */
-      b0_discard_mu_chi2 <= 6 &&  /* AddB.C, LN2567 */
+      // b0_discard_mu_chi2 <= 6 &&  // AddB.C, LN2567, but not in ANA!
       b0_endvtx_chi2 < 24 &&  /* FIXME: AddB.C, LN2569, different from ANA! */
       b0_endvtx_chi2/b0_endvtx_ndof < 6 &&
       b0_fd_trans < 7 &&
