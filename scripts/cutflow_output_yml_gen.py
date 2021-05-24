@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon May 24, 2021 at 10:10 PM +0200
+# Last Change: Tue May 25, 2021 at 01:45 AM +0200
 
 import pathlib
 import os
@@ -35,7 +35,7 @@ from TrackerOnlyEmu.loader import load_cpp
 ALIASES = {
     'run1-Dst-bare': {
         'SELECT:Phys/StdAllNoPIDsKaons': 'Total events',
-        'SelMyB-': r'Relaxed $D^0 \mu$ cands',
+        'SelMyB-': r'Relaxed $D^0 \mu$ combo',
         'SelMyDst': r'$D^{*+} \rightarrow D^0 \pi^+$',
         'SelMyB0': r'$\bar{B}^0 \rightarrow D^{*+} \mu^-$',
     }
@@ -85,9 +85,14 @@ CUTFLOW = {
                                  mu_isMuon, mu_PIDmu, mu_PIDe,
                                  mu_P, mu_IPCHI2_OWNPV, mu_TRACK_GhostProb)''',
              key=r'Offline $\mu$ cuts'),
-        # Rule('mu_isMuon & mu_PIDmu > 2 & mu_PIDe < 1 & mu_P < 100.0*GeV & ETA(mu_P,mu_PZ)>1.7 & ETA(mu_P,mu_PZ)<5 & LOG10pp(mu_PX, mu_PY, mu_PZ, k_PX, k_PY, k_PZ)>-6.5 & LOG10pp(mu_PX, mu_PY, mu_PZ, pi_PX, pi_PY, pi_PZ)>-6.5 & LOG10pp(mu_PX, mu_PY, mu_PZ, pi_PX, pi_PY, pi_PZ)>-6.5', r'$\mu$'),
-        # Rule('spi_TRACK_GhostProb < 0.25 & dst_ENDVERTEX_CHI2 / dst_ENDVERTEX_NDOF < 10 & abs(dst_MM - d0_MM - 145.43) < 2', r'$D^{*+} \rightarrow D^0 \pi$'),
-        # Rule('b0_ISOLATION_BDT < 0.15 & (b0_ENDVERTEX_CHI2/b0_ENDVERTEX_NDOF) < 6 & b0_MM<5280 & b0_DIRA_OWNPV>0.9995 & sin(b0_FlightDir_Zangle)*b0_FD_OWNPV < 7', r'$B^0 \rightarrow D^{*+} \mu$')
+        Rule('''flag_sel_b0dst_run1(spi_TRACK_GhostProb,
+                                    dst_ENDVERTEX_CHI2, dst_ENDVERTEX_NDOF,
+                                    dst_M, d0_M,
+                                    b0_ENDVERTEX_CHI2, b0_ENDVERTEX_NDOF,
+                                    b0_ENDVERTEX_X, b0_ENDVERTEX_Y,
+                                    b0_OWNPV_X, b0_OWNPV_Y,
+                                    b0_DIRA_OWNPV, b0_M)''',
+             key=r'Offline $D^* \mu$ combo cuts'),
     ],
     'run2-bare': [
         # Trigger
@@ -168,6 +173,8 @@ flag_sel_mu_pid_ok_run1 = vectorize(ROOT.FLAG_SEL_MU_PID_OK_RUN1)
 flag_sel_mu_run1_raw = vectorize(ROOT.FLAG_SEL_MU_RUN1)
 kinematic_eta = vectorize(ROOT.ETA)
 
+flag_sel_b0dst_run1_raw = vectorize(ROOT.FLAG_SEL_B0DST_RUN1)
+
 
 def flag_sel_d0_run1(k_pid_k, pi_pid_k, k_is_mu, pi_is_mu,
                      k_pt, pi_pt,
@@ -229,10 +236,35 @@ def flag_sel_mu_run1(mu_px, mu_py, mu_pz,
                                 mu_ip_chi2, mu_gh_prob)
 
 
+def vec_trans(x, y):
+    return sqrt(x*x + y*y)
+
+
+def flag_sel_b0dst_run1(spi_gh_prob,
+                        dst_endvtx_chi2, dst_endvtx_ndof,
+                        dst_m, d0_m,
+                        b0_endvtx_chi2, b0_endvtx_ndof,
+                        b0_endvtx_x, b0_endvtx_y,
+                        b0_pv_x, b0_pv_y,
+                        b0_dira, b0_m):
+    fake_sel_d0 = np.full(spi_gh_prob.size, True)
+    fake_sel_mu = fake_sel_d0
+    b0_fd_trans = vec_trans(b0_endvtx_x - b0_pv_x, b0_endvtx_y - b0_pv_y)
+
+    return flag_sel_b0dst_run1_raw(fake_sel_d0, fake_sel_mu,
+                                   spi_gh_prob,
+                                   dst_endvtx_chi2, dst_endvtx_ndof,
+                                   dst_m, d0_m,
+                                   b0_endvtx_chi2, b0_endvtx_ndof,
+                                   b0_fd_trans, b0_dira, b0_m)
+
+
 KNOWN_FUNC['flag_sel_run1_strip'] = vectorize(ROOT.FLAG_SEL_RUN1_STRIP)
 KNOWN_FUNC['flag_sel_run1_dv'] = vectorize(ROOT.FLAG_SEL_RUN1_DV)
 KNOWN_FUNC['flag_sel_d0_run1'] = flag_sel_d0_run1
 KNOWN_FUNC['flag_sel_mu_run1'] = flag_sel_mu_run1
+KNOWN_FUNC['flag_sel_b0dst_run1'] = flag_sel_b0dst_run1
+KNOWN_FUNC['flag_sel_b0dst_run1'] = flag_sel_b0dst_run1
 
 
 ########
