@@ -2,17 +2,31 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon May 24, 2021 at 03:10 AM +0200
+# Last Change: Mon May 24, 2021 at 04:43 AM +0200
+
+import pathlib
+import os
+import sys
+
+# Make ROOT aware of our custom header path
+pwd = pathlib.Path(__file__).parent.absolute()
+header_path = str((pwd / '../include').resolve())
+os.environ['ROOT_INCLUDE_PATH'] = header_path
 
 import uproot
+import ROOT
+ROOT.PyConfig.IgnoreCommandLineOptions = True
 
 from yaml import safe_load
 from argparse import ArgumentParser
 from collections import OrderedDict as odict
+from numpy import vectorize
 
 from pyTuplingUtils.utils import extract_uid
 from pyTuplingUtils.cutflow import CutflowGen, CutflowRule as Rule
 from pyTuplingUtils.cutflow import cutflow_uniq_events_outer
+from pyTuplingUtils.boolean.const import KNOWN_FUNC
+from TrackerOnlyEmu.loader import load_cpp
 
 
 ALIASES = {
@@ -31,8 +45,10 @@ CUTFLOW = {
         Rule('k_Hlt1TrackAllL0Decision_TOS | pi_Hlt1TrackAllL0Decision_TOS', key='Hlt1'),
         Rule('d0_Hlt2CharmHadD02HH_D02KPiDecision_TOS', key='Hlt2'),
         # Stripping
-        Rule('(mu_IPCHI2_OWNPV > 45.0) & (mu_TRACK_GhostProb < 0.5) & (mu_PIDmu > 2.0) & (mu_P > 3.0*GeV) & (mu_TRACK_CHI2NDOF < 3.0) & (k_PIDK > 4.0) & (k_IPCHI2_OWNPV > 45.0) & (k_P > 2.0*GeV) & (k_PT > 300.0*MeV) & (k_TRACK_GhostProb < 0.5) & (pi_P > 2.0*GeV) & (pi_PT > 300.0*MeV) & (pi_IPCHI2_OWNPV > 45.0) & (pi_PIDK < 2.0) & (pi_TRACK_GhostProb < 0.5) & (spi_IPCHI2_OWNPV > 0.0) & (spi_TRACK_CHI2NDOF < 3.0) & (spi_TRACK_GhostProb < 0.25) & (k_PT + pi_PT > 1400.0*MeV) & (abs(d0_MM - PDG_M_D0) < 80.0*MeV) & (d0_ENDVERTEX_CHI2 / d0_ENDVERTEX_NDOF < 4.0) & (d0_FDCHI2_OWNPV > 250.0) & (d0_DIRA_OWNPV > 0.9998) & (abs(dst_MM - PDG_M_Dst) < 125.0*MeV) & (dst_M - d0_M < 160.0*MeV) & (dst_ENDVERTEX_CHI2 / dst_ENDVERTEX_NDOF < 100.0) & (0.0*GeV < b0_MM < 10.0*GeV) & (b0_ENDVERTEX_CHI2 / b0_ENDVERTEX_NDOF < 6.0) & (b0_DIRA_OWNPV > 0.9995)',
-             key='Stripping (partial)'),
+        Rule('flag_sel_run1_strip(mu_IPCHI2_OWNPV, mu_TRACK_GhostProb, mu_PIDmu, mu_P, mu_TRACK_CHI2NDOF, k_PIDK, k_IPCHI2_OWNPV, k_P, k_PT, k_TRACK_GhostProb, pi_PIDK, pi_IPCHI2_OWNPV, pi_P, pi_PT, pi_TRACK_GhostProb, d0_MM, d0_ENDVERTEX_CHI2, d0_ENDVERTEX_NDOF, d0_FDCHI2_OWNPV, d0_DIRA_OWNPV)',
+             key='Stripping'),
+        Rule('flag_sel_run1_dv(spi_IPCHI2_OWNPV, spi_TRACK_GhostProb, spi_TRACK_CHI2NDOF, d0_M, dst_MM, dst_M, dst_ENDVERTEX_CHI2, dst_ENDVERTEX_NDOF, b0_MM, b0_ENDVERTEX_CHI2, b0_ENDVERTEX_NDOF, b0_DIRA_OWNPV)',
+             key='DaVinci cuts for $D^*$'),
         # Newer step 2 cuts
         # Rule('k_PT > 800.0*MeV & !k_isMuon & k_IPCHI2_OWNPV > 45', r'Kaon'),
         # Rule('pi_PT > 800.0*MeV & !pi_isMuon & pi_IPCHI2_OWNPV > 45', r'Pion'),
@@ -104,6 +120,16 @@ def yaml_gen(data, indent='', indent_increment=' '*4):
         else:
             result += ' {}\n'.format(items)
     return result
+
+
+###################
+# Known functions #
+###################
+
+load_cpp(header_path + '/functor/rdx/cut.h')
+
+KNOWN_FUNC['flag_sel_run1_strip'] = vectorize(ROOT.FLAG_SEL_RUN1_STRIP)
+KNOWN_FUNC['flag_sel_run1_dv'] = vectorize(ROOT.FLAG_SEL_RUN1_DV)
 
 
 if __name__ == '__main__':
