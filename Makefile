@@ -1,10 +1,10 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sun May 23, 2021 at 02:27 AM +0200
+# Last Change: Mon May 24, 2021 at 05:46 PM +0200
 
 export PATH := workflows:test:scripts:$(PATH)
 
-VPATH := postprocess:test:scripts
+VPATH := postprocess:test:scripts:ntuples:run1-rdx/cutflow
 
 # Sub-makefiles for different analyses
 include ./workflows/rdx.mk  # R(D(*))
@@ -102,13 +102,18 @@ test-naming-conv:
 .PHONY: rdx-trigger-emu-nor rdx-trigger-emu-nor-fs-vs-to
 
 rdx-trigger-emu-nor: \
-	./ntuples/0.9.4-trigger_emulation/Dst_D0-mc/Dst_D0--21_04_21--mc--MC_2016_Beam6500GeV-2016-MagDown-Nu1.6-25ns-Pythia8_Sim09j_Trig0x6139160F_Reco16_Turbo03a_Filtered_11574021_D0TAUNU.SAFESTRIPTRIG.DST.root
-	@rdx.py $@ $< --mode trigger_emulation --debug
+	0.9.4-trigger_emulation/Dst_D0-mc/Dst_D0--21_04_21--mc--MC_2016_Beam6500GeV-2016-MagDown-Nu1.6-25ns-Pythia8_Sim09j_Trig0x6139160F_Reco16_Turbo03a_Filtered_11574021_D0TAUNU.SAFESTRIPTRIG.DST.root
+	@rdx.py $@ $< --mode trigger_emulation
 
 rdx-trigger-emu-nor-fs-vs-to: \
-	./ntuples/0.9.4-trigger_emulation/Dst_D0-mc/Dst_D0--21_04_21--mc--MC_2016_Beam6500GeV-2016-MagDown-Nu1.6-25ns-Pythia8_Sim09j_Trig0x6139160F_Reco16_Turbo03a_Filtered_11574021_D0TAUNU.SAFESTRIPTRIG.DST.root \
-	./ntuples/0.9.4-trigger_emulation/Dst_D0-mc/Dst_D0--21_04_21--mc--tracker_only--MC_2016_Beam6500GeV-2016-MagDown-TrackerOnly-Nu1.6-25ns-Pythia8_Sim09j_Reco16_Filtered_11574021_D0TAUNU.SAFESTRIPTRIG.DST.root
-	@rdx.py $@ $^ --mode trigger_emulation_fs_vs_to --debug
+	0.9.4-trigger_emulation/Dst_D0-mc/Dst_D0--21_04_21--mc--MC_2016_Beam6500GeV-2016-MagDown-Nu1.6-25ns-Pythia8_Sim09j_Trig0x6139160F_Reco16_Turbo03a_Filtered_11574021_D0TAUNU.SAFESTRIPTRIG.DST.root \
+	0.9.4-trigger_emulation/Dst_D0-mc/Dst_D0--21_04_21--mc--tracker_only--MC_2016_Beam6500GeV-2016-MagDown-TrackerOnly-Nu1.6-25ns-Pythia8_Sim09j_Reco16_Filtered_11574021_D0TAUNU.SAFESTRIPTRIG.DST.root
+	@rdx.py $@ $^ --mode trigger_emulation_fs_vs_to
+
+rdx-cutflow-run1-Dst-bare: \
+	0.9.4-trigger_emulation/Dst_D0-cutflow_mc \
+	21_05_23-run1_bare.yml
+	@rdx.py $@ $< --mode cutflow -A keep:2011,bare mode:run1-Dst-bare input_yml:$(abspath $(word 2, $^))
 
 
 ####################

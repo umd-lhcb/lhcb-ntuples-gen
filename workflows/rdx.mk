@@ -1,6 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon May 24, 2021 at 02:35 AM +0200
+# Last Change: Mon May 24, 2021 at 05:05 PM +0200
 # Description: Targets for R(D(*))
 
 VPATH := run1-rdx/samples:run2-rdx/samples:$(VPATH)
@@ -131,20 +131,6 @@ gen/rdst-run2-trig_strip.cpp: \
 ###########################
 # Cutflow: required files #
 ###########################
-
-# Cutflow output YAML for D*, MC, bare.
-gen/cutflow/output-rdst-run1-bare.yml: \
-	Dst--20_06_05--cutflow_mc--bare--MC_2011_Beam3500GeV-2011-MagDown-Nu2-Pythia8_Sim08h_Digi13_Trig0x40760037_Reco14c_Stripping20r1NoPrescalingFlagged_11874091_ALLSTREAMS.DST.root \
-	input-run1-bare.yml \
-	cutflow_output_yml_gen.py
-	@$(word 3, $^) $< $(word 2, $^) $@ run1-bare -t 'TupleB0/DecayTree'
-
-gen/cutflow/output-rdst-run2-bare.yml: \
-	Dst--20_06_05--cutflow_mc--bare--MC_2016_Beam6500GeV-2016-MagDown-Nu1.6-25ns-Pythia8_Sim09b_Trig0x6138160F_Reco16_Turbo03_Stripping26NoPrescalingFlagged_11874091_ALLSTREAMS.DST.root \
-	input-run2-bare.yml \
-	cutflow_output_yml_gen.py
-	@$(word 3, $^) $< $(word 2, $^) $@ run2-bare -t 'TupleB0/DecayTree'
-
 
 # Cutflow output YAML for signal, normalization, and D** yield, run 1
 gen/cutflow/output-rdst-run1-%.yml: \

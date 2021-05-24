@@ -2,12 +2,13 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon May 03, 2021 at 03:27 PM +0200
+# Last Change: Mon May 24, 2021 at 05:48 PM +0200
 
 import sys
+import os
 import os.path as os_path
 
-from argparse import ArgumentParser
+from argparse import ArgumentParser, Action
 from os import chdir
 
 from pyBabyMaker.base import TermColor as TC
@@ -23,6 +24,11 @@ from utils import (
 #################################
 # Command line arguments parser #
 #################################
+
+class AddKwsAction(Action):
+    def __call__(self, parser, namespace, values, option_string=None):
+        setattr(namespace, self.dest, dict(kv.split(':') for kv in values))
+
 
 def parse_input():
     parser = ArgumentParser(description='workflow for R(D(*)).')
@@ -47,6 +53,11 @@ specify workflow mode.
                         default=abs_path('../gen'), help='''
 specify output dir.
 ''')
+
+    parser.add_argument('-A', '--additional_kws', nargs='+', default=dict(),
+                        action=AddKwsAction,
+                        help='''
+specify optional additional keywords passing to the workflow.''')
 
     return parser.parse_args()
 
@@ -74,6 +85,7 @@ def workflow_general(job_name, inputs, output_dir,
                          '../scripts'
                      ],
                      input_patterns=['*.root']):
+    print('{}== Job: {} =={}'.format(TC.BOLD+TC.GREEN, job_name, TC.END))
     for p in global_path_to_append+path_to_append:
         append_path(p)
 
@@ -88,8 +100,7 @@ def workflow_general(job_name, inputs, output_dir,
     return subworkdirs, workdir
 
 
-def workflow_trigger_emulation(job_name, inputs, output_dir, debug):
-    print('{}== Job: {} =={}'.format(TC.BOLD+TC.GREEN, job_name, TC.END))
+def workflow_trigger_emulation(job_name, inputs, output_dir, debug, kws):
     subworkdirs, workdir = workflow_general(job_name, inputs, output_dir)
     chdir(workdir)
     exe = pipe_executor('trigger_emulation.sh {input_ntp}')
@@ -113,8 +124,8 @@ def workflow_trigger_emulation(job_name, inputs, output_dir, debug):
         chdir('..')  # Switch back to parent workdir
 
 
-def workflow_trigger_emulation_fs_vs_to(job_name, inputs, output_dir, debug):
-    print('{}== Job: {} =={}'.format(TC.BOLD+TC.GREEN, job_name, TC.END))
+def workflow_trigger_emulation_fs_vs_to(job_name, inputs, output_dir, debug,
+                                        kws):
     subworkdirs, workdir = workflow_general(job_name, inputs, output_dir)
     chdir(workdir)
     exe = pipe_executor(
@@ -142,9 +153,27 @@ def workflow_trigger_emulation_fs_vs_to(job_name, inputs, output_dir, debug):
     chdir('..')  # Switch back to parent workdir
 
 
+def workflow_cutflow(job_name, inputs, output_dir, debug, kws):
+    subworkdirs, workdir = workflow_general(job_name, inputs, output_dir)
+    chdir(workdir)
+    exe = pipe_executor('cutflow.sh "{input_ntps}" {input_yml} {mode}')
+
+    ntps = [n for n in subworkdirs.values()
+            if False not in [kw in n for kw in kws['keep'].split(',')]]
+    params = {
+        'input_ntps': ' '.join(ntps),
+        'input_yml': kws['input_yml'],
+        'mode': kws['mode'],
+    }
+
+    print('{}Working on {}...{}'.format(TC.GREEN, subdir, TC.END))
+    exe(params, debug)
+
+
 WORKFLOWS = {
     'trigger_emulation': workflow_trigger_emulation,
     'trigger_emulation_fs_vs_to': workflow_trigger_emulation_fs_vs_to,
+    'cutflow': workflow_cutflow,
 }
 
 
@@ -156,4 +185,5 @@ if __name__ == '__main__':
     args = parse_input()
 
     WORKFLOWS[args.mode](
-        args.job_name, args.inputs, args.output_dir, args.debug)
+        args.job_name, args.inputs, args.output_dir, args.debug,
+        args.additional_kws)
