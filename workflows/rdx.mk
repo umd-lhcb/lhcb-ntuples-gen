@@ -1,6 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon May 24, 2021 at 05:05 PM +0200
+# Last Change: Mon May 24, 2021 at 08:02 PM +0200
 # Description: Targets for R(D(*))
 
 VPATH := run1-rdx/samples:run2-rdx/samples:$(VPATH)
@@ -179,21 +179,6 @@ gen/cutflow/output-rdst-run2-cocktail-full_refit-%.yml: \
 cutflow-rdst-all: \
 	cutflow-rdst cutflow-rdst-bare cutflow-rdst-data \
 	cutflow-rdst-run1-sig-nor-dss cutflow-rdst-run2-sig-nor-dss
-
-
-# Cutflow for D*, MC, bare.
-.PHONY: cutflow-rdst-bare cutflow-rdst-bare-web
-cutflow-rdst-bare: \
-	gen/cutflow/output-rdst-run1-bare.yml \
-	gen/cutflow/output-rdst-run2-bare.yml \
-	cutflow_gen.py
-	@$(word 3, $^) -o $< -t $(word 2, $^) -n | tabgen.py -f latex_booktabs_raw
-
-cutflow-rdst-bare-web: \
-	gen/cutflow/output-rdst-run1-bare.yml \
-	gen/cutflow/output-rdst-run2-bare.yml \
-	cutflow_gen.py
-	@$(word 3, $^) -o $< -t $(word 2, $^) -n | tabgen.py -f github
 
 
 # Cutflow for D*, MC.
