@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon May 24, 2021 at 02:43 AM +0200
+# Last Change: Mon May 24, 2021 at 03:10 AM +0200
 
 import uproot
 
@@ -18,11 +18,9 @@ from pyTuplingUtils.cutflow import cutflow_uniq_events_outer
 ALIASES = {
     'run1-Dst-bare': {
         'SELECT:Phys/StdAllNoPIDsKaons': 'Total events',
-        'StrippedBCands': r'Stripped $D^0 \mu^-$',
-        'SelMyD0': r'$D^0 \rightarrow K^- \pi^+$',
+        'SelMyB-': r'Relaxed $D^0 \mu$ cands',
         'SelMyDst': r'$D^{*+} \rightarrow D^0 \pi^+$',
         'SelMyB0': r'$\bar{B}^0 \rightarrow D^{*+} \mu^-$',
-        'SelMyRefitB02DstMu': r'Refit $\bar{B}^0$ decay tree',
     }
 }
 
@@ -112,20 +110,25 @@ if __name__ == '__main__':
     args = parse_input()
     aliases = ALIASES[args.mode]
     cuts = CUTFLOW[args.mode]
+    cut_to_update = list(aliases.values())[-1]
 
     with open(args.input_yml) as f:
-        result = safe_load(f)
+        raw = safe_load(f)
 
-    for cut, val in result.items():
-        if cut in aliases:
-            val['name'] = aliases[cut]
+    result = dict()
+    for cut, val in raw.items():
         if val['output'] is None:
-            cut_to_update = cut
             val['output'] = 0
+
+        if cut in aliases:
+            result[aliases[cut]] = val
 
     for ntp_path in args.ntps:
         ntp = uproot.open(ntp_path)
         _, _, _, uniq_size, _, _ = extract_uid(ntp, args.tree)
+
+        # Update the total number after the DaVinci step
+        result[cut_to_update]['output'] += uniq_size
 
         cutflow_output_regulator = cutflow_uniq_events_outer(ntp, args.tree)
 
