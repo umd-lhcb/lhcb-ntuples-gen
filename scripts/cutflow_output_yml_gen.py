@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon May 24, 2021 at 08:37 PM +0200
+# Last Change: Mon May 24, 2021 at 10:10 PM +0200
 
 import pathlib
 import os
@@ -20,7 +20,10 @@ ROOT.PyConfig.IgnoreCommandLineOptions = True
 from yaml import safe_load
 from argparse import ArgumentParser
 from collections import OrderedDict as odict
-from numpy import vectorize
+
+import numpy as np
+from numpy import vectorize, sqrt, log10
+from numpy import logical_and as AND
 
 from pyTuplingUtils.utils import extract_uid
 from pyTuplingUtils.cutflow import CutflowGen, CutflowRule as Rule
@@ -62,7 +65,7 @@ CUTFLOW = {
                                  dst_ENDVERTEX_NDOF,
                                  b0_MM, b0_ENDVERTEX_CHI2, b0_ENDVERTEX_NDOF,
                                  b0_DIRA_OWNPV)''',
-             key=r'DaVinci cuts for $D^*$'),
+             key=r'DaVinci $D^* \mu$ cuts'),
         # Step 2 cuts
         Rule('''flag_sel_d0_run1(k_PIDK, pi_PIDK, k_isMuon, pi_isMuon,
                                  k_PT, pi_PT, k_P, pi_P,
@@ -74,7 +77,14 @@ CUTFLOW = {
                                  d0_ENDVERTEX_NDOF, d0_ENDVERTEX_CHI2,
                                  d0_IP_OWNPV, d0_IPCHI2_OWNPV,
                                  d0_DIRA_OWNPV, d0_FDCHI2_OWNPV, d0_M)''',
-             key=r'$D^0$'),
+             key=r'Offline $D^0$ cuts'),
+        Rule('''flag_sel_mu_run1(mu_PX, mu_PY, mu_PZ,
+                                 k_PX, k_PY, k_PZ,
+                                 pi_PX, pi_PY, pi_PZ,
+                                 spi_PX, spi_PY, spi_PZ,
+                                 mu_isMuon, mu_PIDmu, mu_PIDe,
+                                 mu_P, mu_IPCHI2_OWNPV, mu_TRACK_GhostProb)''',
+             key=r'Offline $\mu$ cuts'),
         # Rule('mu_isMuon & mu_PIDmu > 2 & mu_PIDe < 1 & mu_P < 100.0*GeV & ETA(mu_P,mu_PZ)>1.7 & ETA(mu_P,mu_PZ)<5 & LOG10pp(mu_PX, mu_PY, mu_PZ, k_PX, k_PY, k_PZ)>-6.5 & LOG10pp(mu_PX, mu_PY, mu_PZ, pi_PX, pi_PY, pi_PZ)>-6.5 & LOG10pp(mu_PX, mu_PY, mu_PZ, pi_PX, pi_PY, pi_PZ)>-6.5', r'$\mu$'),
         # Rule('spi_TRACK_GhostProb < 0.25 & dst_ENDVERTEX_CHI2 / dst_ENDVERTEX_NDOF < 10 & abs(dst_MM - d0_MM - 145.43) < 2', r'$D^{*+} \rightarrow D^0 \pi$'),
         # Rule('b0_ISOLATION_BDT < 0.15 & (b0_ENDVERTEX_CHI2/b0_ENDVERTEX_NDOF) < 6 & b0_MM<5280 & b0_DIRA_OWNPV>0.9995 & sin(b0_FlightDir_Zangle)*b0_FD_OWNPV < 7', r'$B^0 \rightarrow D^{*+} \mu$')
@@ -149,9 +159,14 @@ def yaml_gen(data, indent='', indent_increment=' '*4):
 ###################
 
 load_cpp(header_path + '/functor/rdx/cut.h')
+load_cpp(header_path + '/functor/rdx/kinematic.h')
 
 flag_sel_d0_pid_ok_run1 = vectorize(ROOT.FLAG_SEL_D0_PID_OK_RUN1)
 flag_sel_d0_run1_raw = vectorize(ROOT.FLAG_SEL_D0_RUN1)
+
+flag_sel_mu_pid_ok_run1 = vectorize(ROOT.FLAG_SEL_MU_PID_OK_RUN1)
+flag_sel_mu_run1_raw = vectorize(ROOT.FLAG_SEL_MU_RUN1)
+kinematic_eta = vectorize(ROOT.ETA)
 
 
 def flag_sel_d0_run1(k_pid_k, pi_pid_k, k_is_mu, pi_is_mu,
@@ -165,9 +180,9 @@ def flag_sel_d0_run1(k_pid_k, pi_pid_k, k_is_mu, pi_is_mu,
                      d0_endvtx_chi2, d0_endvtx_ndof,
                      d0_ip, d0_ip_chi2,
                      d0_dira, d0_fd_chi2, d0_m):
-    flag_d0_pid_ok = flag_sel_d0_pid_ok_run1(k_pid_k, pi_pid_k, k_is_mu,
+    d0_pid_ok = flag_sel_d0_pid_ok_run1(k_pid_k, pi_pid_k, k_is_mu,
                                              pi_is_mu)
-    return flag_sel_d0_run1_raw(flag_d0_pid_ok, k_pt, pi_pt, k_p, pi_p,
+    return flag_sel_d0_run1_raw(d0_pid_ok, k_pt, pi_pt, k_p, pi_p,
                                 k_hlt1_tos, pi_hlt1_tos,
                                 k_ip_chi2, pi_ip_chi2, k_gh_prob, pi_gh_prob,
                                 d0_pt, d0_hlt2,
@@ -175,10 +190,54 @@ def flag_sel_d0_run1(k_pid_k, pi_pid_k, k_is_mu, pi_is_mu,
                                 d0_ip, d0_ip_chi2, d0_dira, d0_fd_chi2, d0_m)
 
 
+# I decide to NOT use the C++ implementation here
+def flag_sel_good_tracks(mu_px, mu_py, mu_pz, k_px, k_py, k_pz,
+                         pi_px, pi_py, pi_pz, spi_px, spi_py, spi_pz):
+    other_px = (k_px, pi_px, spi_px)
+    other_py = (k_py, pi_py, spi_py)
+    other_pz = (k_pz, pi_pz, spi_pz)
+    flag = []
+
+    for px, py, pz in zip(other_px, other_py, other_pz):
+        inner_prod = mu_px*px + mu_py*py + mu_pz*pz
+        magnitude = sqrt(mu_px*mu_px + mu_py*mu_py + mu_pz*mu_pz) * \
+            sqrt(px*px + py*py + pz*pz)
+        flag.append(log10(1 - inner_prod / magnitude) > -6.5)
+
+    return AND(*flag)
+
+
+def flag_sel_mu_run1(mu_px, mu_py, mu_pz,
+                     k_px, k_py, k_pz,
+                     pi_px, pi_py, pi_pz,
+                     spi_px, spi_py, spi_pz,
+                     mu_is_mu, mu_pid_mu, mu_pid_e,
+                     mu_p, mu_ip_chi2, mu_gh_prob):
+    good_tracks = flag_sel_good_tracks(mu_px, mu_py, mu_pz, k_px, k_py, k_pz,
+                                       pi_px, pi_py, pi_pz, spi_px, spi_py,
+                                       spi_pz)
+
+    fake_mu_bdt_mu = np.full(mu_px.size, 0.4)
+    mu_pid_ok = flag_sel_mu_pid_ok_run1(mu_is_mu, mu_pid_mu, mu_pid_e,
+                                        fake_mu_bdt_mu)
+
+    mu_eta = kinematic_eta(mu_p, mu_pz)
+    # Need to do unit conversion here, since in C++ 'mu_p' is expected to be in
+    # GeV
+    mu_p = mu_p / 1000
+    return flag_sel_mu_run1_raw(good_tracks, mu_pid_ok, mu_p, mu_eta,
+                                mu_ip_chi2, mu_gh_prob)
+
+
 KNOWN_FUNC['flag_sel_run1_strip'] = vectorize(ROOT.FLAG_SEL_RUN1_STRIP)
 KNOWN_FUNC['flag_sel_run1_dv'] = vectorize(ROOT.FLAG_SEL_RUN1_DV)
-KNOWN_FUNC['flag_sel_d0_run1'] = vectorize(flag_sel_d0_run1)
+KNOWN_FUNC['flag_sel_d0_run1'] = flag_sel_d0_run1
+KNOWN_FUNC['flag_sel_mu_run1'] = flag_sel_mu_run1
 
+
+########
+# Main #
+########
 
 if __name__ == '__main__':
     args = parse_input()
@@ -205,9 +264,11 @@ if __name__ == '__main__':
         result[cut_to_update]['output'] += uniq_size
 
         cutflow_output_regulator = cutflow_uniq_events_outer(ntp, args.tree)
+        cutflow_generator = CutflowGen(ntp_path, args.tree, cuts, uniq_size)
 
-        result_addon = CutflowGen(ntp_path, args.tree, cuts, uniq_size).do(
+        result_addon = cutflow_generator.do(
             output_regulator=cutflow_output_regulator)
+
         for key, val in result_addon.items():
             if key not in result:
                 result[key] = val
