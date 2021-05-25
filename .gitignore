@@ -7,6 +7,9 @@ gen
 site
 run*/*.root
 scripts/**/*.root
+scripts/**/*.tex
+scripts/**/*.md
+scripts/**/*.yml
 *.csv
 
 .lvimrc
