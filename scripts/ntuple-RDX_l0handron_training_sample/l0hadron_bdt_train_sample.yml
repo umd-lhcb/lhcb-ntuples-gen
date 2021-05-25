@@ -7,8 +7,10 @@ TupleB0/DecayTree:
         - 'eventNumber'
         # K
         - 'k_L0Calo_HCAL_realET'
+        - 'k_L0Calo_HCAL_TriggerHCALET'
         # pi
         - 'pi_L0Calo_HCAL_realET'
+        - 'pi_L0Calo_HCAL_TriggerHCALET'
         # D0
         - 'd0_PT'
         - 'd0_P'
