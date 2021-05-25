@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue May 25, 2021 at 02:08 AM +0200
+# Last Change: Tue May 25, 2021 at 02:12 AM +0200
 
 import pathlib
 import os
@@ -135,6 +135,32 @@ CUTFLOW = {
                                  b0_DIRA_OWNPV)''',
              key=r'DaVinci $D^* \mu$ cuts'),
         # Step 2 cuts (currently same as in run 1)
+        Rule('''flag_sel_d0_run1(k_PIDK, pi_PIDK, k_isMuon, pi_isMuon,
+                                 k_PT, pi_PT, k_P, pi_P,
+                                 k_Hlt1TrackMVADecision_TOS,
+                                 pi_Hlt1TrackMVADecision_TOS,
+                                 k_IPCHI2_OWNPV, pi_IPCHI2_OWNPV,
+                                 k_TRACK_GhostProb, pi_TRACK_GhostProb,
+                                 d0_PT, true,
+                                 d0_ENDVERTEX_NDOF, d0_ENDVERTEX_CHI2,
+                                 d0_IP_OWNPV, d0_IPCHI2_OWNPV,
+                                 d0_DIRA_OWNPV, d0_FDCHI2_OWNPV, d0_M)''',
+             key=r'Offline $D^0$ cuts'),
+        Rule('''flag_sel_mu_run1(mu_PX, mu_PY, mu_PZ,
+                                 k_PX, k_PY, k_PZ,
+                                 pi_PX, pi_PY, pi_PZ,
+                                 spi_PX, spi_PY, spi_PZ,
+                                 mu_isMuon, mu_PIDmu, mu_PIDe,
+                                 mu_P, mu_IPCHI2_OWNPV, mu_TRACK_GhostProb)''',
+             key=r'Offline $\mu$ cuts'),
+        Rule('''flag_sel_b0dst_run1(spi_TRACK_GhostProb,
+                                    dst_ENDVERTEX_CHI2, dst_ENDVERTEX_NDOF,
+                                    dst_M, d0_M,
+                                    b0_ENDVERTEX_CHI2, b0_ENDVERTEX_NDOF,
+                                    b0_ENDVERTEX_X, b0_ENDVERTEX_Y,
+                                    b0_OWNPV_X, b0_OWNPV_Y,
+                                    b0_DIRA_OWNPV, b0_M)''',
+             key=r'Offline $D^* \mu$ combo cuts'),
     ]
 }
 
