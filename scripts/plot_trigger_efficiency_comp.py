@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
 # Author: Yipeng Sun
-# Last Change: Tue May 18, 2021 at 03:29 AM +0200
+# Last Change: Tue May 25, 2021 at 08:28 PM +0200
 
 import uproot
 import numpy as np
@@ -237,7 +237,7 @@ def div_with_confint(num, denom):
 
 if __name__ == '__main__':
     args = parse_input().parse_args()
-    hep.set_style('LHCb2')
+    hep.style.use('LHCb2')
 
     ntp = uproot.open(args.ref)
 
