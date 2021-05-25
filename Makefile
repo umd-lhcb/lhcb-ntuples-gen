@@ -1,6 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue May 25, 2021 at 04:04 AM +0200
+# Last Change: Tue May 25, 2021 at 06:10 PM +0200
 
 export PATH := workflows:test:scripts:tools:$(PATH)
 
@@ -119,7 +119,11 @@ rdx-trigger-emu-nor-fs-vs-to: \
 .PHONY: rdx-cutflow
 .SECONDARY:  # Don't delete intermediate files!
 
-rdx-cutflow: gen/rdx-cutflow-Dst-bare
+rdx-cutflow: \
+	gen/rdx-cutflow-Dst-bare \
+	gen/rdx-cutflow-Dst-bare-sig \
+	gen/rdx-cutflow-Dst-bare-nor \
+	gen/rdx-cutflow-Dst-bare-dss
 
 # Generic cutflow table generation
 gen/rdx-cutflow-Dst-%: \

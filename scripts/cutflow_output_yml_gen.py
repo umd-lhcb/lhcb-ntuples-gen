@@ -1,8 +1,8 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 #
-# Author: Yipeng Sun
+# Author: Yipeng Sun, Manual Franco Sevilla
 # License: BSD 2-clause
-# Last Change: Tue May 25, 2021 at 02:12 AM +0200
+# Last Change: Tue May 25, 2021 at 06:06 PM +0200
 
 import pathlib
 import os
@@ -20,6 +20,7 @@ ROOT.PyConfig.IgnoreCommandLineOptions = True
 from yaml import safe_load
 from argparse import ArgumentParser
 from collections import OrderedDict as odict
+from itertools import product
 
 import numpy as np
 from numpy import vectorize, sqrt, log10
@@ -45,8 +46,8 @@ ALIASES = {
 }
 
 for mode in ['run2-Dst-bare',
-             'run1-Dst-bare-nor', 'run1-Dst-bare-sig', 'run1-Dst-bare-dd',
-             'run2-Dst-bare-nor', 'run2-Dst-bare-sig', 'run2-Dst-bare-dd']:
+             'run1-Dst-bare-nor', 'run1-Dst-bare-sig', 'run1-Dst-bare-dss',
+             'run2-Dst-bare-nor', 'run2-Dst-bare-sig', 'run2-Dst-bare-dss']:
     ALIASES[mode] = ALIASES['run1-Dst-bare']
 
 
@@ -163,6 +164,40 @@ CUTFLOW = {
              key=r'Offline $D^* \mu$ combo cuts'),
     ]
 }
+
+TRUTH_MATCHING = {
+    'sig': Rule('''abs(mu_MC_MOTHER_ID) == 15 &
+                   abs(d0_MC_MOTHER_ID) == 413 &
+                   abs(d0_MC_GD_MOTHER_ID) == 511''',
+                key='Signal truth-matching'),
+
+    'nor': Rule('''abs(mu_MC_MOTHER_ID) == 511 &
+                   abs(d0_MC_MOTHER_ID) == 413 &
+                   abs(d0_MC_GD_MOTHER_ID) == 511''',
+                key='Normalization truth-matching'),
+
+    'dss': Rule('''(abs(mu_MC_MOTHER_ID) == 511 &
+                    abs(d0_MC_MOTHER_ID) == 10411 &
+                    abs(d0_MC_GD_MOTHER_ID) == 511) |
+                   (abs(mu_MC_MOTHER_ID) == 511 &
+                    abs(d0_MC_GD_MOTHER_ID) == 10413 &
+                    abs(d0_MC_GD_GD_MOTHER_ID) == 511) |
+                   (abs(mu_MC_MOTHER_ID) == 511 &
+                    abs(d0_MC_GD_MOTHER_ID) == 20413 &
+                    abs(d0_MC_GD_GD_MOTHER_ID) == 511) |
+                   (abs(mu_MC_MOTHER_ID) == 511 &
+                    (abs(d0_MC_MOTHER_ID) == 415 &
+                     abs(d0_MC_GD_MOTHER_ID) == 511 |
+                     abs(d0_MC_GD_MOTHER_ID)==415 &
+                     abs(d0_MC_GD_GD_MOTHER_ID)==511))''',
+                key='$D^{**}$ truth-matching'),
+}
+
+for run, decay_mode in product(['run1', 'run2'], TRUTH_MATCHING):
+    orig_key = '{}-Dst-bare'.format(run)
+    rules = [TRUTH_MATCHING[decay_mode]] + CUTFLOW[orig_key]
+    key = '{}-{}'.format(orig_key, decay_mode)
+    CUTFLOW[key] = rules
 
 
 ################################
