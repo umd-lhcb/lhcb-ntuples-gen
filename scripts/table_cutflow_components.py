@@ -2,33 +2,17 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Jul 30, 2020 at 07:58 PM +0800
+# Last Change: Tue May 25, 2021 at 02:27 AM +0200
+
+import sys
+import os
+
+sys.path.insert(0, os.path.dirname(os.path.realpath(__file__)))
 
 from yaml import safe_load
 from argparse import ArgumentParser
-from uncertainties import ufloat, UFloat
-from statsmodels.stats.proportion import proportion_confint
 
-
-#######################
-# Uncertainty-related #
-#######################
-
-def div_with_confint(num, denom):
-    ratio = num / denom
-    intv = proportion_confint(num, denom, method='beta', alpha=0.32)  # Clopper-Pearson
-    # Use the larger error bar and pretend its a Gaussian
-    err_bar = max([abs(x - ratio) for x in intv])
-    return ufloat(ratio, err_bar)
-
-
-def div(num, denom):
-    if type(num) == type(denom):
-        result = num / denom*100.
-    else:
-        result = 'naN'
-
-    return result
+from cutflow_gen import div
 
 
 ###############

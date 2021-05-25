@@ -1,10 +1,11 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue May 25, 2021 at 02:04 AM +0200
+# Last Change: Tue May 25, 2021 at 04:04 AM +0200
 
-export PATH := workflows:test:scripts:$(PATH)
+export PATH := workflows:test:scripts:tools:$(PATH)
 
-VPATH := postprocess:test:scripts:ntuples:run1-rdx/cutflow:run2-rdx/cutflow
+VPATH := postprocess:test:scripts:ntuples
+VPATH := run1-rdx/cutflow:run2-rdx/cutflow:$(VPATH)
 
 # Sub-makefiles for different analyses
 include ./workflows/rdx.mk  # R(D(*))
@@ -115,15 +116,36 @@ rdx-trigger-emu-nor-fs-vs-to: \
 # RDX cutflow #
 ###############
 
-rdx-cutflow-run1-Dst-bare: \
+.PHONY: rdx-cutflow
+.SECONDARY:  # Don't delete intermediate files!
+
+rdx-cutflow: gen/rdx-cutflow-Dst-bare
+
+# Generic cutflow table generation
+gen/rdx-cutflow-Dst-%: \
+	gen/rdx-cutflow-run1-Dst-%/cutflow.yml \
+	gen/rdx-cutflow-run2-Dst-%/cutflow.yml
+	@mkdir -p $@
+	@cutflow_gen.py -o $< -t $(word 2, $^) -n > $@/cutflow.csv
+	@cat $@/cutflow.csv | tabgen.py -f latex_booktabs_raw > $@/cutflow.tex
+	@cat $@/cutflow.csv | tabgen.py -f github > $@/cutflow.md
+
+# Generic cutflow YAML generation
+gen/rdx-cutflow-run1-Dst-%/cutflow.yml: \
 	0.9.4-trigger_emulation/Dst_D0-cutflow_mc \
 	21_05_23-run1_bare.yml
-	@rdx.py $@ $< --mode cutflow -A keep:2011,bare mode:run1-Dst-bare input_yml:$(abspath $(word 2, $^))
+	$(eval JOBNAME	:=	$(notdir $(patsubst %/,%,$(dir $@))))
+	$(eval MODE	:=	$(subst rdx-cutflow-,,${JOBNAME}))
+	@rdx.py ${JOBNAME} $< --mode cutflow \
+		-A keep:2011,bare mode:${MODE} input_yml:$(abspath $(word 2, $^))
 
-rdx-cutflow-run2-Dst-bare: \
+gen/rdx-cutflow-run2-Dst-%/cutflow.yml: \
 	0.9.4-trigger_emulation/Dst_D0-cutflow_mc \
 	21_05_23-run2_bare.yml
-	@rdx.py $@ $< --mode cutflow -A keep:2016,bare mode:run2-Dst-bare input_yml:$(abspath $(word 2, $^))
+	$(eval JOBNAME	:=	$(notdir $(patsubst %/,%,$(dir $@))))
+	$(eval MODE	:=	$(subst rdx-cutflow-,,${JOBNAME}))
+	@rdx.py ${JOBNAME} $< --mode cutflow \
+		-A keep:2016,bare mode:${MODE} input_yml:$(abspath $(word 2, $^))
 
 
 ####################
