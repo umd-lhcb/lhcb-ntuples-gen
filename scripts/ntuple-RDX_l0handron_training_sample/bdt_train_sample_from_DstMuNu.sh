@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 # Generate the base ntuple
 ../../tools/haddcut.py \

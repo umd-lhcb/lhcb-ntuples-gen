@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 # NOTE: Don't forget to run lhcb-proxy-init
 
 # 2011 MD
