@@ -1,6 +1,6 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Mon May 24, 2021 at 10:19 PM +0200
+// Last Change: Tue May 25, 2021 at 02:01 AM +0200
 
 #ifndef _LNG_FUNCTOR_RDX_CUT_H_
 #define _LNG_FUNCTOR_RDX_CUT_H_
@@ -48,6 +48,33 @@ Bool_t FLAG_SEL_RUN1_STRIP(Double_t mu_ip_chi2, Double_t mu_gh_prob,
 }
 
 // clang-format off
+Bool_t FLAG_SEL_RUN2_STRIP(Double_t mu_ip_chi2, Double_t mu_gh_prob,
+                           Double_t mu_pid_mu, Double_t mu_p,
+                           Double_t mu_tr_chi2ndof,
+                           Double_t k_pid_k, Double_t k_ip_chi2,
+                           Double_t k_p, Double_t k_pt, Double_t k_gh_prob,
+                           Double_t pi_pid_k, Double_t pi_ip_chi2,
+                           Double_t pi_p, Double_t pi_pt, Double_t pi_gh_prob,
+                           Double_t d0_mm,
+                           Double_t d0_endvtx_chi2, Double_t d0_endvtx_ndof,
+                           Double_t d0_fd_chi2, Double_t d0_dira) {
+  // clang-format on
+  auto mu_cuts = (mu_ip_chi2 > 16.0) && (mu_gh_prob < 0.5) &&
+                 (mu_pid_mu > -200) && (mu_p > 3000.0) &&
+                 (mu_tr_chi2ndof < 3.0);
+  auto k_cuts = (k_pid_k > 4.0) && (k_ip_chi2 > 9.0) && (k_p > 2000.0) &&
+                (k_pt > 300.0) && (k_gh_prob < 0.5);
+  auto pi_cuts = (pi_pid_k < 2.0) && (pi_ip_chi2 > 9.0) && (pi_p > 2000.0) &&
+                 (pi_pt > 300.0) && (pi_gh_prob < 0.5);
+  auto k_pi_cuts = (k_pt + pi_pt > 2500.0);
+  auto d0_cuts   = (TMath::Abs(d0_mm - PDG_M_D0) < 80.0) &&
+                 (d0_endvtx_chi2 / d0_endvtx_ndof < 4.0) &&
+                 (d0_fd_chi2 > 25.0) && (d0_dira > 0.999);
+
+  return mu_cuts && k_cuts && pi_cuts && k_pi_cuts && d0_cuts;
+}
+
+// clang-format off
 Bool_t FLAG_SEL_RUN1_DV(Double_t spi_ip_chi2, Double_t spi_gh_prob,
                         Double_t spi_tr_chi2ndof,
                         Double_t d0_m,
@@ -64,6 +91,24 @@ Bool_t FLAG_SEL_RUN1_DV(Double_t spi_ip_chi2, Double_t spi_gh_prob,
   auto d0_dst_cuts = (dst_m - d0_m < 160.0);
   auto b0_cuts     = (0.0 < b0_mm && b0_mm < 10000.0) &&
                  (b0_endvtx_chi2 / b0_endvtx_ndof < 6.0) && (b0_dira > 0.9995);
+
+  return spi_cuts && dst_cuts && d0_dst_cuts && b0_cuts;
+}
+
+Bool_t FLAG_SEL_RUN2_DV(Double_t spi_ip_chi2, Double_t spi_gh_prob,
+                        Double_t spi_tr_chi2ndof, Double_t d0_m,
+                        Double_t dst_mm, Double_t dst_m,
+                        Double_t dst_endvtx_chi2, Double_t dst_endvtx_ndof,
+                        Double_t b0_mm, Double_t b0_endvtx_chi2,
+                        Double_t b0_endvtx_ndof, Double_t b0_dira) {
+  // clang-format on
+  auto spi_cuts =
+      (spi_ip_chi2 > 0.0) && (spi_gh_prob < 0.25) && (spi_tr_chi2ndof < 3.0);
+  auto dst_cuts = (TMath::Abs(dst_mm - PDG_M_Dst) < 125.0) &&
+                  (dst_endvtx_chi2 / dst_endvtx_ndof < 100.0);
+  auto d0_dst_cuts = (dst_m - d0_m < 160.0);
+  auto b0_cuts     = (0.0 < b0_mm && b0_mm < 10000.0) &&
+                 (b0_endvtx_chi2 / b0_endvtx_ndof < 6.0) && (b0_dira > 0.999);
 
   return spi_cuts && dst_cuts && d0_dst_cuts && b0_cuts;
 }

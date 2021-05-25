@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue May 25, 2021 at 01:45 AM +0200
+# Last Change: Tue May 25, 2021 at 02:08 AM +0200
 
 import pathlib
 import os
@@ -31,6 +31,9 @@ from pyTuplingUtils.cutflow import cutflow_uniq_events_outer
 from pyTuplingUtils.boolean.const import KNOWN_FUNC
 from TrackerOnlyEmu.loader import load_cpp
 
+#################################
+# DaVinci log selection aliases #
+#################################
 
 ALIASES = {
     'run1-Dst-bare': {
@@ -41,11 +44,23 @@ ALIASES = {
     }
 }
 
+for mode in ['run2-Dst-bare',
+             'run1-Dst-bare-nor', 'run1-Dst-bare-sig', 'run1-Dst-bare-dd',
+             'run2-Dst-bare-nor', 'run2-Dst-bare-sig', 'run2-Dst-bare-dd']:
+    ALIASES[mode] = ALIASES['run1-Dst-bare']
+
+
+################
+# Offline cuts #
+################
+
 CUTFLOW = {
     'run1-Dst-bare': [
         # Trigger
-        Rule('mu_L0Global_TIS & (b0_L0Global_TIS | dst_L0HadronDecision_TOS)', key='L0'),
-        Rule('k_Hlt1TrackAllL0Decision_TOS | pi_Hlt1TrackAllL0Decision_TOS', key='Hlt1'),
+        Rule('mu_L0Global_TIS & (b0_L0Global_TIS | d0_L0HadronDecision_TOS)',
+             key='L0'),
+        Rule('k_Hlt1TrackAllL0Decision_TOS | pi_Hlt1TrackAllL0Decision_TOS',
+             key='Hlt1'),
         Rule('d0_Hlt2CharmHadD02HH_D02KPiDecision_TOS', key='Hlt2'),
         # Stripping
         Rule('''flag_sel_run1_strip(mu_IPCHI2_OWNPV, mu_TRACK_GhostProb,
@@ -94,21 +109,32 @@ CUTFLOW = {
                                     b0_DIRA_OWNPV, b0_M)''',
              key=r'Offline $D^* \mu$ combo cuts'),
     ],
-    'run2-bare': [
+    'run2-Dst-bare': [
         # Trigger
-        Rule('mu_L0Global_TIS & (b0_L0Global_TIS | dst_L0HadronDecision_TOS)', key='L0'),
-        Rule('k_Hlt1TrackMVALooseDecision_TOS | pi_Hlt1TrackMVALooseDecision_TOS  | d0_Hlt1TwoTrackMVADecision_TOS', key='Hlt1'),
-        Rule('d0_Hlt2XcMuXForTauB2XcMuDecision_Dec', key='Hlt2'),
+        Rule('b0_L0Global_TIS | d0_L0HadronDecision_TOS', key='L0'),
+        Rule('''k_Hlt1TrackMVADecision_TOS | pi_Hlt1TrackMVADecision_TOS |
+                d0_Hlt1TwoTrackMVADecision_TOS''', key='Hlt1'),
+        Rule('b0_Hlt2XcMuXForTauB2XcMuDecision_TOS', key='Hlt2'),
         # Stripping
-        Rule('(mu_IPCHI2_OWNPV > 16.0) & (mu_TRACK_GhostProb < 0.5) & (mu_PIDmu > -200.0) & (mu_P > 3.0*GeV) & (mu_TRACK_CHI2NDOF < 3.0) & (k_PIDK > 4.0) & (k_IPCHI2_OWNPV > 9.0) & (k_P > 2.0*GeV) & (k_PT > 300.0*MeV) & (k_TRACK_GhostProb < 0.5) & (pi_P > 2.0*GeV) & (pi_PT > 300.0*MeV) & (pi_IPCHI2_OWNPV > 9.0) & (pi_PIDK < 2.0) & (pi_TRACK_GhostProb < 0.5) & (spi_IPCHI2_OWNPV > 0.0) & (spi_TRACK_CHI2NDOF < 3.0) & (spi_TRACK_GhostProb < 0.25) & (k_PT + pi_PT > 2500.0*MeV) & (abs(d0_MM - PDG_M_D0) < 80.0*MeV) & (d0_ENDVERTEX_CHI2 / d0_ENDVERTEX_NDOF < 4.0) & (d0_FDCHI2_OWNPV > 25.0) & (d0_DIRA_OWNPV > 0.999) & (abs(dst_MM - PDG_M_Dst) < 125.0*MeV) & (dst_M - d0_M < 160.0*MeV) & (dst_ENDVERTEX_CHI2 / dst_ENDVERTEX_NDOF < 100.0) & (0.0*GeV < b0_MM < 10.0*GeV) & (b0_ENDVERTEX_CHI2 / b0_ENDVERTEX_NDOF < 6.0) & (b0_DIRA_OWNPV > 0.999)',
-             key='Stripping (partial)'),
-        # Newer step 2 cuts
-        Rule('k_PT > 800.0*MeV & !k_isMuon & k_IPCHI2_OWNPV > 45', r'Kaon'),
-        Rule('pi_PT > 800.0*MeV & !pi_isMuon & pi_IPCHI2_OWNPV > 45', r'Pion'),
-        Rule('d0_P > 2.0*GeV & d0_FDCHI2_OWNPV > 250 & abs(d0_MM - PDG_M_D0) < 23.4 & ((k_PT > 1.7*GeV & k_Hlt1TrackMVALooseDecision_TOS) | (pi_PT > 1.7*GeV & pi_Hlt1TrackMVALooseDecision_TOS)) & log(d0_IP_OWNPV) > -3.5 & d0_IPCHI2_OWNPV > 9', r'$D^0 \\rightarrow K \\pi$'),
-        Rule('mu_isMuon & mu_PIDmu > 2 & mu_PIDe < 1 & mu_P < 100.0*GeV & ETA(mu_P,mu_PZ)>1.7 & ETA(mu_P,mu_PZ)<5 & LOG10pp(mu_PX, mu_PY, mu_PZ, k_PX, k_PY, k_PZ)>-6.5 & LOG10pp(mu_PX, mu_PY, mu_PZ, pi_PX, pi_PY, pi_PZ)>-6.5 & LOG10pp(mu_PX, mu_PY, mu_PZ, pi_PX, pi_PY, pi_PZ)>-6.5', r'$\mu$'),
-        Rule('spi_TRACK_GhostProb < 0.25 & dst_ENDVERTEX_CHI2 / dst_ENDVERTEX_NDOF < 10 & abs(dst_MM - d0_MM - 145.43) < 2', r'$D^{*+} \rightarrow D^0 \pi$'),
-        Rule('b0_ISOLATION_BDT < 0.15 & (b0_ENDVERTEX_CHI2/b0_ENDVERTEX_NDOF) < 6 & b0_MM<5280 & b0_DIRA_OWNPV>0.9995 & sin(b0_FlightDir_Zangle)*b0_FD_OWNPV < 7', r'$B^0 \rightarrow D^{*+} \mu$')
+        Rule('''flag_sel_run2_strip(mu_IPCHI2_OWNPV, mu_TRACK_GhostProb,
+                                    mu_PIDmu, mu_P, mu_TRACK_CHI2NDOF,
+                                    k_PIDK, k_IPCHI2_OWNPV, k_P, k_PT,
+                                    k_TRACK_GhostProb,
+                                    pi_PIDK, pi_IPCHI2_OWNPV, pi_P, pi_PT,
+                                    pi_TRACK_GhostProb,
+                                    d0_MM, d0_ENDVERTEX_CHI2,
+                                    d0_ENDVERTEX_NDOF, d0_FDCHI2_OWNPV,
+                                    d0_DIRA_OWNPV)''',
+             key='Stripping'),
+        Rule('''flag_sel_run2_dv(spi_IPCHI2_OWNPV, spi_TRACK_GhostProb,
+                                 spi_TRACK_CHI2NDOF,
+                                 d0_M,
+                                 dst_MM, dst_M, dst_ENDVERTEX_CHI2,
+                                 dst_ENDVERTEX_NDOF,
+                                 b0_MM, b0_ENDVERTEX_CHI2, b0_ENDVERTEX_NDOF,
+                                 b0_DIRA_OWNPV)''',
+             key=r'DaVinci $D^* \mu$ cuts'),
+        # Step 2 cuts (currently same as in run 1)
     ]
 }
 
@@ -265,6 +291,9 @@ KNOWN_FUNC['flag_sel_d0_run1'] = flag_sel_d0_run1
 KNOWN_FUNC['flag_sel_mu_run1'] = flag_sel_mu_run1
 KNOWN_FUNC['flag_sel_b0dst_run1'] = flag_sel_b0dst_run1
 KNOWN_FUNC['flag_sel_b0dst_run1'] = flag_sel_b0dst_run1
+
+KNOWN_FUNC['flag_sel_run2_strip'] = vectorize(ROOT.FLAG_SEL_RUN2_STRIP)
+KNOWN_FUNC['flag_sel_run2_dv'] = vectorize(ROOT.FLAG_SEL_RUN2_DV)
 
 
 ########
