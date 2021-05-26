@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun, Manual Franco Sevilla
 # License: BSD 2-clause
-# Last Change: Tue May 25, 2021 at 06:06 PM +0200
+# Last Change: Wed May 26, 2021 at 11:44 PM +0200
 
 import pathlib
 import os
@@ -188,8 +188,8 @@ TRUTH_MATCHING = {
                    (abs(mu_MC_MOTHER_ID) == 511 &
                     (abs(d0_MC_MOTHER_ID) == 415 &
                      abs(d0_MC_GD_MOTHER_ID) == 511 |
-                     abs(d0_MC_GD_MOTHER_ID)==415 &
-                     abs(d0_MC_GD_GD_MOTHER_ID)==511))''',
+                     abs(d0_MC_GD_MOTHER_ID) == 415 &
+                     abs(d0_MC_GD_GD_MOTHER_ID) == 511))''',
                 key='$D^{**}$ truth-matching'),
 }
 

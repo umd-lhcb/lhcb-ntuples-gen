@@ -1,6 +1,6 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Tue May 25, 2021 at 02:01 AM +0200
+// Last Change: Wed May 26, 2021 at 11:43 PM +0200
 
 #ifndef _LNG_FUNCTOR_RDX_CUT_H_
 #define _LNG_FUNCTOR_RDX_CUT_H_
@@ -125,9 +125,8 @@ Bool_t FLAG_SEL_RUN2_DV(Double_t spi_ip_chi2, Double_t spi_gh_prob,
   return spi_cuts && dst_cuts && d0_dst_cuts && b0_cuts;
 }
 
-// Global selection flags for run 1
-// //////////////////////////////////////////// Selections are based on Run 1
-// R(D(*)) ANA, v2020.07.31, p.11, Table 6.
+// Global selection flags for run 1, 2 /////////////////////////////////////////
+// Selections are based on Run 1 R(D(*)) ANA, v2020.07.31, p.11, Table 6.
 
 Bool_t FLAG_SEL_D0_PID_OK_RUN1(Double_t k_pid_k, Double_t pi_pid_k,
                                Bool_t k_is_mu, Bool_t pi_is_mu) {
@@ -177,6 +176,7 @@ Bool_t FLAG_SEL_D0_RUN1(Bool_t flag_d0_pid_ok,
   return false;
 }
 
+// clang-format off
 Bool_t FLAG_SEL_D0_RUN2(Bool_t flag_d0_pid_ok,
                         Double_t k_pt, Double_t pi_pt,
                         Double_t k_p, Double_t pi_p,
@@ -333,14 +333,13 @@ Bool_t FLAG_SEL_B0DST_RUN1(Bool_t flag_sel_d0, Bool_t flag_sel_mu,
   return false;
 }
 
+// clang-format off
 Bool_t FLAG_SEL_B0DST_RUN2(Bool_t flag_sel_d0, Bool_t flag_sel_mu,
                            Double_t spi_gh_prob,
                            Double_t dst_endvtx_chi2, Double_t dst_endvtx_ndof,
                            Double_t dst_m, Double_t d0_m,
-                           // Double_t b0_discard_mu_chi2,
                            Double_t b0_endvtx_chi2, Double_t b0_endvtx_ndof,
-                           Double_t b0_fd_trans,
-                           Double_t b0_dira,
+                           Double_t b0_fd_trans, Double_t b0_dira,
                            Double_t b0_m) {
   // clang-format on
   auto dst_d0_delta_m_ref = 145.454;
@@ -354,7 +353,6 @@ Bool_t FLAG_SEL_B0DST_RUN2(Bool_t flag_sel_d0, Bool_t flag_sel_mu,
       TMath::Abs(dst_m - d0_m - dst_d0_delta_m_ref) < 2 &&
       /* D0 Mu combo, already applied in DaVinci */
       /* D* Mu combo */
-      // b0_discard_mu_chi2 <= 6 &&  // AddB.C, LN2567, but not in ANA!
       b0_endvtx_chi2 < 24 &&  /* FIXME: AddB.C, LN2569, different from ANA! */
       b0_endvtx_chi2/b0_endvtx_ndof < 6 &&
       b0_fd_trans < 7 &&

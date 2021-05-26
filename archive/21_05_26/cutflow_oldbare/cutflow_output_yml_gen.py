@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun, Manual Franco Sevilla
 # License: BSD 2-clause
-# Last Change: Tue May 25, 2021 at 06:06 PM +0200
+# Last Change: Wed May 26, 2021 at 11:40 PM +0200
 
 import pathlib
 import os
@@ -113,7 +113,8 @@ CUTFLOW = {
     'run2-Dst-bare': [
         # Trigger
         Rule('b0_L0Global_TIS | d0_L0HadronDecision_TOS', key='L0'),
-        Rule('''k_Hlt1TrackMVALooseDecision_TOS | pi_Hlt1TrackMVALooseDecision_TOS |
+        Rule('''k_Hlt1TrackMVALooseDecision_TOS |
+                pi_Hlt1TrackMVALooseDecision_TOS |
                 d0_Hlt1TwoTrackMVADecision_TOS''', key='Hlt1'),
         Rule('b0_Hlt2XcMuXForTauB2XcMuDecision_TOS', key='Hlt2'),
         # Stripping
@@ -190,8 +191,8 @@ TRUTH_MATCHING = {
                    (abs(mu_MC_MOTHER_ID) == 511 &
                     (abs(d0_MC_MOTHER_ID) == 415 &
                      abs(d0_MC_GD_MOTHER_ID) == 511 |
-                     abs(d0_MC_GD_MOTHER_ID)==415 &
-                     abs(d0_MC_GD_GD_MOTHER_ID)==511))''',
+                     abs(d0_MC_GD_MOTHER_ID) == 415 &
+                     abs(d0_MC_GD_GD_MOTHER_ID) == 511))''',
                 key=r'Total $D^{**}\mu\nu$'),
 }
 
@@ -407,7 +408,7 @@ KNOWN_FUNC['flag_sel_run2_dv'] = vectorize(ROOT.FLAG_SEL_RUN2_DV)
 if __name__ == '__main__':
     args = parse_input()
     result = dict()
-    
+
     #aliases = ALIASES[args.mode]
     #cut_to_update = list(aliases.values())[-1]
     #
