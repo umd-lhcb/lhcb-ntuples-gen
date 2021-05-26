@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed May 26, 2021 at 03:36 PM +0200
+# Last Change: Wed May 26, 2021 at 03:50 PM +0200
 #
 # Description: Definitions of selection and reconstruction procedures for run 1
 #              R(D(*)), with thorough comments.
@@ -243,7 +243,7 @@ if has_flag('BARE'):
     sel_charged_K = pr_all_nopid_K
     sel_charged_Pi = pr_all_nopid_Pi
     sel_Mu = pr_all_nopid_Mu
-    self_soft_Pi = pr_all_nopid_Pi
+    sel_soft_Pi = pr_all_nopid_Pi
 elif DaVinci().Simulation:
     sel_charged_K = pr_all_nopid_K
     sel_charged_Pi = pr_all_nopid_Pi
@@ -370,7 +370,7 @@ if has_flag('BARE'):
 
 
 # Add PID cuts for real data w/ std reconstruction
-if not DaVinci().Simulation() and not has_flag('NON_MU_MISID', 'BARE'):
+if not DaVinci().Simulation and not has_flag('NON_MU_MISID', 'BARE'):
     algo_Bminus.DaughtersCuts['mu-'] = \
         '(PIDmu > 2.0) &' + algo_Bminus.DaughtersCuts['mu-']
 
