@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed May 26, 2021 at 03:50 PM +0200
+# Last Change: Wed May 26, 2021 at 03:54 PM +0200
 #
 # Description: Definitions of selection and reconstruction procedures for run 1
 #              R(D(*)), with thorough comments.
@@ -380,7 +380,7 @@ if DaVinci().Simulation:
 
     if has_flag('BARE'):
         algo_Bminus.DaughtersCuts['mu-'] = \
-            "(mcMatch('[^mu+]CC'))" + \
+            "(mcMatch('[^mu+]CC')) &" + \
             algo_Bminus.DaughtersCuts['mu-']
     else:
         # The TRCHI2DOF is from run 1 trigger
