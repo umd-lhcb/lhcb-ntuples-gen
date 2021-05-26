@@ -1,33 +1,15 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue May 18, 2021 at 11:35 PM +0200
+# Last Change: Wed May 26, 2021 at 03:36 PM +0200
 #
 # Description: Definitions of selection and reconstruction procedures for run 1
 #              R(D(*)), with thorough comments.
 #
-# Meanings for flags:
-# NOTE: The CUTFLOW, BARE, and DV_STRIP flags are all used for cutflow studies
-#
-#   CUTFLOW:
-#     Use stripping line and stripping line only. Don't apply additional HLT
-#     cuts.
-#
-#   BARE:
-#     Apply way less and way looser cuts compared to the stripping line. This
-#     implies that we don't use stripping line at all.
-#
-#     This is for cutflow studies without biasing the trigger efficiencies from
-#     the trigger cuts in the stripping line.
-#
-#   DV_STRIP:
-#     Apply all stripping line cuts in DaVinci, but don't use stripping line.
-#     This is used to show that applying cuts later is very similar to applying
-#     cuts in the official stripping production (with admittedly minor
-#     differences).
-#
-#   NON_MU_MISID:
-#     Don't apply Muon PID cuts for Muon, and use the dedicated Fake stripping
-#     line instead of the regular one. The misID sample is used in fit.
+# Flags for run 1:
+#   NO_SMEAR:     Don't smear MC
+#   NON_MU_MISID: For non-Muon misID sample reco in data
+#   CUTFLOW:      For 2011 cocktail MC (stripping name is different)
+#   BARE:         Apply very loose cuts, for trigger efficiency study
 
 
 #########################################
@@ -153,11 +135,7 @@ fltr_hlt = HDRFilter(
     Code="HLT_PASS('{0}')".format(hlt2_trigger))
 
 
-if has_flag('BARE', 'DV_STRIP'):
-    pass
-elif has_flag('CUTFLOW'):
-    DaVinci().EventPreFilters = [fltr_strip]
-elif not DaVinci().Simulation:
+if not DaVinci().Simulation:
     DaVinci().EventPreFilters = [fltr_strip, fltr_hlt]
 
 
@@ -261,17 +239,21 @@ sel_stripped_Mu = Selection(
 #
 # NOTE: Muons that do not pass stripping still get saved *but we don't want
 #       to use them*.
-if not DaVinci().Simulation or (has_flag('CUTFLOW') and
-                                not has_flag('BARE', 'DV_STRIP')):
-    sel_charged_K = sel_stripped_charged_K
-    sel_charged_Pi = sel_stripped_charged_Pi
-    sel_Mu = sel_stripped_Mu
-    sel_soft_Pi = pr_all_loose_Pi
-else:
+if has_flag('BARE'):
+    sel_charged_K = pr_all_nopid_K
+    sel_charged_Pi = pr_all_nopid_Pi
+    sel_Mu = pr_all_nopid_Mu
+    self_soft_Pi = pr_all_nopid_Pi
+elif DaVinci().Simulation:
     sel_charged_K = pr_all_nopid_K
     sel_charged_Pi = pr_all_nopid_Pi
     sel_Mu = sel_unstripped_tis_filtered_Mu
     sel_soft_Pi = pr_all_nopid_Pi
+else:
+    sel_charged_K = sel_stripped_charged_K
+    sel_charged_Pi = sel_stripped_charged_Pi
+    sel_Mu = sel_stripped_Mu
+    sel_soft_Pi = pr_all_loose_Pi
 
 
 #########################
@@ -322,12 +304,11 @@ if has_flag('BARE'):
 
     algo_D0.CombinationCut = 'ATRUE'
     algo_D0.MotherCut = \
-        "(VFASPF(VCHI2/VDOF) < 8.0) & (BPVVDCHI2 > 12.5) & (BPVDIRA> 0.998)"
+        "(VFASPF(VCHI2/VDOF) < 8.0) & (BPVVDCHI2 > 12.5) & (BPVDIRA> 0.99)"
 
 
-# PID for real data/cutflow only
-if not DaVinci().Simulation or (has_flag('CUTFLOW') and
-                                not has_flag('BARE', 'DV_STRIP')):
+# PID for real data only
+if not DaVinci().Simulation and not has_flag('BARE'):
     algo_D0.DaughtersCuts['K+'] = \
         '(PIDK > 4.0) &' + \
         algo_D0.DaughtersCuts['K+']
@@ -378,21 +359,20 @@ algo_Bminus.MotherCut = \
     '(VFASPF(VCHI2/VDOF) < 6.0) & (BPVDIRA > 0.9995)'
 
 
-# NOTE: Add PID cuts for real data w/ std reconstruction
-if not (has_flag('NON_MU_MISID') or DaVinci().Simulation) or \
-        (has_flag('CUTFLOW') and not has_flag('BARE', 'DV_STRIP')):
-    algo_Bminus.DaughtersCuts['mu-'] = \
-        '(PIDmu > 2.0) &' + algo_Bminus.DaughtersCuts['mu-']
-
-
 if has_flag('BARE'):
     algo_Bminus.DaughtersCuts['mu-'] = \
         '(MIPCHI2DV(PRIMARY) > 8.0) & (TRGHOSTPROB < 1.0)' \
 
     algo_Bminus.CombinationCut = 'ATRUE'
-    # NOTE: This cut is at its original strength because we can't apply it
-    #       anywhere else
-    algo_Bminus.MotherCut = '(VFASPF(VCHI2/VDOF) < 6.0) & (BPVDIRA > 0.9995)'
+    # NOTE: This cut is looser than the official one
+    #       It will create some problem for Dst Mu combo
+    algo_Bminus.MotherCut = '(VFASPF(VCHI2/VDOF) < 12.0) & (BPVDIRA > 0.99)'
+
+
+# Add PID cuts for real data w/ std reconstruction
+if not DaVinci().Simulation() and not has_flag('NON_MU_MISID', 'BARE'):
+    algo_Bminus.DaughtersCuts['mu-'] = \
+        '(PIDmu > 2.0) &' + algo_Bminus.DaughtersCuts['mu-']
 
 
 if DaVinci().Simulation:
@@ -400,9 +380,10 @@ if DaVinci().Simulation:
 
     if has_flag('BARE'):
         algo_Bminus.DaughtersCuts['mu-'] = \
-            "(mcMatch('[^mu+]CC')) & (TRCHI2DOF < 6.0) &" + \
+            "(mcMatch('[^mu+]CC'))" + \
             algo_Bminus.DaughtersCuts['mu-']
     else:
+        # The TRCHI2DOF is from run 1 trigger
         algo_Bminus.DaughtersCuts['mu-'] = \
             "(mcMatch('[^mu+]CC')) & (TRCHI2DOF < 3.0) &" + \
             algo_Bminus.DaughtersCuts['mu-']
@@ -505,8 +486,7 @@ algo_Dst.MotherCut = \
 
 if has_flag('BARE'):
     algo_Dst.DaughtersCuts = {
-        'pi+': '(MIPCHI2DV(PRIMARY) > 0.0) & (TRCHI2DOF < 6.0) &'
-               '(TRGHOSTPROB < 0.5)'
+        'pi+': '(MIPCHI2DV(PRIMARY) > 0.0) & (TRGHOSTPROB < 0.5)'
     }
 
     algo_Dst.CombinationCut = 'ATRUE'
@@ -586,18 +566,6 @@ sel_refit_Dst2D0Pi_ws_Pi = Selection(
     RequiredSelections=[sel_Dst_ws_Pi]
 )
 
-# Define Dst stubs depending if we have 'FULL_REFIT' flag ######################
-
-if has_flag('FULL_REFIT'):
-    sel_Dst_stub = sel_Dst
-    sel_Dst_ws_Mu_stub = sel_Dst_ws_Mu
-    sel_Dst_ws_Pi_stub = sel_Dst_ws_Pi
-else:
-    sel_Dst_stub = sel_refit_Dst2D0Pi
-    sel_Dst_ws_Mu_stub = sel_refit_Dst2D0Pi_ws_Mu
-    sel_Dst_ws_Pi_stub = sel_refit_Dst2D0Pi_ws_Pi
-
-
 # B0 ###########################################################################
 algo_B0 = CombineParticles('MyB0')
 algo_B0.DecayDescriptor = "[B~0 -> D*(2010)+ mu-]cc"  # B~0 is the CC of B0
@@ -614,17 +582,7 @@ algo_B0.MotherCut = "(VFASPF(VCHI2/VDOF) < 100.0)"  # Loose cuts here
 sel_B0 = Selection(
     'SelMyB0',
     Algorithm=algo_B0,
-    RequiredSelections=[sel_Dst_stub, sel_Mu_combo]
-)
-
-sel_refit_B02DstMu = Selection(
-    'SelMyRefitB02DstMu',
-    Algorithm=FitDecayTrees(
-        'MyRefitB02DstMu',
-        Code="DECTREE('[B~0 -> (D*(2010)+ -> (D0->K- pi+) pi+) mu-]CC')",
-        UsePVConstraint=False
-    ),
-    RequiredSelections=[sel_B0]
+    RequiredSelections=[sel_refit_Dst2D0Pi, sel_Mu_combo]
 )
 
 # B0_ws_Mu #####################################################################
@@ -638,17 +596,7 @@ algo_B0_ws_Mu.MotherCut = algo_B0.MotherCut
 sel_B0_ws_Mu = Selection(
     'SelMyB0WSMu',
     Algorithm=algo_B0_ws_Mu,
-    RequiredSelections=[sel_Dst_ws_Mu_stub, sel_Mu_ws_combo]
-)
-
-sel_refit_B02DstMu_ws_Mu = Selection(
-    'SelMyRefitB02DstMuWSMu',
-    Algorithm=FitDecayTrees(
-        'MyRefitB02DstMuwsMu',
-        Code="DECTREE('[B~0 -> (D*(2010)+ -> (D0->K- pi+) pi+) mu+]CC')",
-        UsePVConstraint=False
-    ),
-    RequiredSelections=[sel_B0_ws_Mu]
+    RequiredSelections=[sel_refit_Dst2D0Pi_ws_Mu, sel_Mu_ws_combo]
 )
 
 # B0_ws_Pi #####################################################################
@@ -664,33 +612,15 @@ algo_B0_ws_Pi.MotherCut = algo_B0.MotherCut
 sel_B0_ws_Pi = Selection(
     'SelMyB0WSPi',
     Algorithm=algo_B0_ws_Pi,
-    RequiredSelections=[sel_Dst_ws_Pi_stub, sel_Mu_combo]
-)
-
-sel_refit_B02DstMu_ws_Pi = Selection(
-    'SelMyRefitB02DstMuWSPi',
-    Algorithm=FitDecayTrees(
-        'MyRefitB02DstMuWSPi',
-        Code="DECTREE('[B~0 -> (D*(2010)- -> (D0->K- pi+) pi-) mu-]CC')",
-        UsePVConstraint=False
-    ),
-    RequiredSelections=[sel_B0_ws_Pi]
+    RequiredSelections=[sel_refit_Dst2D0Pi_ws_Pi, sel_Mu_combo]
 )
 
 # Define B0 sequence ###########################################################
-
-if has_flag('FULL_REFIT'):
-    seq_B0 = SelectionSequence('SeqMyB0', TopSelection=sel_refit_B02DstMu)
-    seq_B0_ws_Mu = SelectionSequence('SeqMyB0WSMu',
-                                     TopSelection=sel_refit_B02DstMu_ws_Mu)
-    seq_B0_ws_Pi = SelectionSequence('SeqMyB0WSPi',
-                                     TopSelection=sel_refit_B02DstMu_ws_Pi)
-else:
-    seq_B0 = SelectionSequence('SeqMyB0', TopSelection=sel_B0)
-    seq_B0_ws_Mu = SelectionSequence('SeqMyB0WSMu',
-                                     TopSelection=sel_B0_ws_Mu)
-    seq_B0_ws_Pi = SelectionSequence('SeqMyB0WSPi',
-                                     TopSelection=sel_B0_ws_Pi)
+seq_B0 = SelectionSequence('SeqMyB0', TopSelection=sel_B0)
+seq_B0_ws_Mu = SelectionSequence('SeqMyB0WSMu',
+                                 TopSelection=sel_B0_ws_Mu)
+seq_B0_ws_Pi = SelectionSequence('SeqMyB0WSPi',
+                                 TopSelection=sel_B0_ws_Pi)
 
 
 ##########################
