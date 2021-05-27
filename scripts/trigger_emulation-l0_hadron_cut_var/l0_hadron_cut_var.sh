@@ -16,14 +16,17 @@ INPUT_NTP=../../ntuples/0.9.4-trigger_emulation/Dst_D0-mc/Dst_D0--21_04_21--mc--
        pi_trg_et pi_trg_hcal_et \
        k_pi_trg_et_sum k_pi_trg_hcal_et_sum \
        d0_et_emu_no_bdt \
-    -D 0 6100 0 6100 \
-       0 6100 0 6100 \
-       0 6100 0 6100 \
-       0 6100 \
+       k_pi_trg_et_cap \
+    -D 3000 4500 3000 4500 \
+       3000 4500 3000 4500 \
+       3000 4500 3000 4500 \
+       3000 4500 \
+       3000 4500 \
     --xlabel "\$K$ trigger \$E_T$" \
              "\$K$ trigger HCAL \$E_T$" \
              "\$\\pi$ trigger \$E_T$" \
              "\$\\pi$ trigger HCAL \$E_T$" \
-             "\$K+\\pi$ trigger \$E_T$" \
-             "\$K+\\pi$ trigger HCAL \$E_T$" \
-             "\$D^0$ emulated \$E_T$ (no BDT)"
+             "\$K+\\pi$ trigger \$E_T$ (capped)" \
+             "\$K+\\pi$ trigger HCAL \$E_T$ (capped)" \
+             "\$D^0$ emulated \$E_T$ (no BDT)" \
+             "\$Max(K, \\pi)$ trigger \$E_T$ (capped)"
