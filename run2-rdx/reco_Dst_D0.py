@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu May 27, 2021 at 05:57 PM +0200
+# Last Change: Thu May 27, 2021 at 08:25 PM +0200
 #
 # Description: Definitions of selection and reconstruction procedures for run 2
 #              R(D(*)). For more thorough comments, take a look at:
@@ -298,7 +298,7 @@ algo_Bminus.MotherCut = \
 
 if has_flag('BARE'):
     algo_Bminus.DaughtersCuts['mu-'] = \
-        '(MIPCHI2DV(PRIMARY) > 8.0) & (TRGHOSTPROB < 1.0) &'
+        '(MIPCHI2DV(PRIMARY) > 8.0) & (TRGHOSTPROB < 1.0)'
 
     algo_Bminus.CombinationCut = 'ATRUE'
     # NOTE: This cut is looser than the official one
