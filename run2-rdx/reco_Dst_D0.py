@@ -1,10 +1,17 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue May 18, 2021 at 11:35 PM +0200
+# Last Change: Thu May 27, 2021 at 05:57 PM +0200
 #
 # Description: Definitions of selection and reconstruction procedures for run 2
 #              R(D(*)). For more thorough comments, take a look at:
 #                  run1-rdx/reco_Dst_D0.py
+#
+# Flags for run 2:
+#   NO_SMEAR:     Don't smear MC
+#   NON_MU_MISID: For non-Muon misID sample reco in data
+#   CUTFLOW:      For 2016 cocktail MC (stripping name is different)
+#   BARE:         Apply very loose cuts, for trigger efficiency study
+#   TRACKER_ONLY: Mute DaVinci error log for tracker-only MC
 
 
 #########################################
@@ -108,13 +115,7 @@ fltr_hlt = HDRFilter(
     Code="HLT_PASS('{0}')".format(hlt2_trigger))
 
 
-if has_flag('BARE'):
-    pass
-elif has_flag('DV_STRIP'):
-    # NOTE: Run 2 stripping contains a HLT2 filter, so this is only needed for
-    #       'DV_STRIP' flag.
-    DaVinci().EventPreFilters = [fltr_hlt]
-elif not DaVinci().Simulation or has_flag('CUTFLOW'):
+if not DaVinci().Simulation:
     DaVinci().EventPreFilters = [fltr_strip]
 
 
@@ -175,10 +176,8 @@ sel_stripped_Mu = Selection(
 )
 
 
-# For run 2, use unstripped Muon and don't put additional cut on Muons yet.
-# We can always do TIS-filtering in step 2.
-if not DaVinci().Simulation or (has_flag('CUTFLOW') and
-                                not has_flag('BARE', 'DV_STRIP')):
+# For run 2, don't put additional cut on Muons because we can't.
+if not DaVinci().Simulation:
     sel_charged_K = sel_stripped_charged_K
     sel_charged_Pi = sel_stripped_charged_Pi
     sel_Mu = sel_stripped_Mu
@@ -233,12 +232,11 @@ if has_flag('BARE'):
 
     algo_D0.CombinationCut = "ATRUE"
     algo_D0.MotherCut = \
-        "(VFASPF(VCHI2/VDOF) < 8.0) & (BPVVDCHI2 > 12.5) & (BPVDIRA> 0.998)"
+        "(VFASPF(VCHI2/VDOF) < 8.0) & (BPVVDCHI2 > 12.5) & (BPVDIRA> 0.99)"
 
 
-# PID for real data/cutflow only
-if not DaVinci().Simulation or (has_flag('CUTFLOW') and
-                                not has_flag('BARE', 'DV_STRIP')):
+# PID for real data only
+if not DaVinci().Simulation and not has_flag('BARE'):
     algo_D0.DaughtersCuts['K+'] = \
         '(PIDK > 4.0) &' + \
         algo_D0.DaughtersCuts['K+']
@@ -248,7 +246,7 @@ if not DaVinci().Simulation or (has_flag('CUTFLOW') and
         algo_D0.DaughtersCuts['pi-']
 
 
-if DaVinci().Simulation:
+if DaVinci().Simulation and not has_flag('BARE'):
     algo_D0.Preambulo += algo_mc_match_preambulo
 
     # NOTE: '(P > 5.0*GeV)' is from Hlt2XcMuXForTauB2XcMu line
@@ -292,13 +290,6 @@ algo_Bminus.DaughtersCuts = {
            '(P > 3.0*GeV)'  # NOTE: Mu PID is added later
 }
 
-
-if not (has_flag('NON_MU_MISID') or DaVinci().Simulation) or \
-        (has_flag('CUTFLOW') and not has_flag('BARE', 'DV_STRIP')):
-    algo_Bminus.DaughtersCuts['mu-'] = \
-        '(PIDmu > -200.0) &' + algo_Bminus.DaughtersCuts['mu-']
-
-
 algo_Bminus.CombinationCut = '(AM < 10.2*GeV)'
 algo_Bminus.MotherCut = \
     "(MM < 10.0*GeV) & (MM > 0.0*GeV) &" \
@@ -307,30 +298,36 @@ algo_Bminus.MotherCut = \
 
 if has_flag('BARE'):
     algo_Bminus.DaughtersCuts['mu-'] = \
-        "(MIPCHI2DV(PRIMARY) > 8.0) & (TRGHOSTPROB < 1.0) &" \
-        "(PIDmu > -400.0)"
+        '(MIPCHI2DV(PRIMARY) > 8.0) & (TRGHOSTPROB < 1.0) &'
 
     algo_Bminus.CombinationCut = 'ATRUE'
-    # NOTE: This cut is at its original strength because we can't apply it
-    #       anywhere else
-    algo_Bminus.MotherCut = '(VFASPF(VCHI2/VDOF) < 6.0) & (BPVDIRA > 0.999)'
+    # NOTE: This cut is looser than the official one
+    #       It will create some problem for Dst Mu combo
+    algo_Bminus.MotherCut = '(VFASPF(VCHI2/VDOF) < 12.0) & (BPVDIRA > 0.99)'
+
+
+# Add PID cuts for real data w/ std reconstruction
+if not DaVinci().Simulation and not has_flag('NON_MU_MISID', 'BARE'):
+    algo_Bminus.DaughtersCuts['mu-'] = \
+        '(PIDmu > -200.0) &' + algo_Bminus.DaughtersCuts['mu-']
 
 
 if DaVinci().Simulation:
     algo_Bminus.Preambulo += algo_mc_match_preambulo
 
-    algo_Bminus.DaughtersCuts['mu-'] = \
-        "(mcMatch('[^mu+]CC')) &" + \
-        algo_Bminus.DaughtersCuts['mu-']
+    if has_flag('BARE'):
+        algo_Bminus.DaughtersCuts['mu-'] = \
+            "(mcMatch('[^mu+]CC')) &" + \
+            algo_Bminus.DaughtersCuts['mu-']
+    else:
+        # NOTE: All cuts are from Hlt2XcMuXForTauB2XcMu
+        algo_Bminus.CombinationCut = \
+            "(AMAXDOCA('') < 0.50) &" + \
+            algo_Bminus.CombinationCut
 
-    # NOTE: All cuts are from Hlt2XcMuXForTauB2XcMu
-    algo_Bminus.CombinationCut = \
-        "(AMAXDOCA('') < 0.50) &" + \
-        algo_Bminus.CombinationCut
-
-    algo_Bminus.MotherCut = \
-        '(BPVVDCHI2 > 50.0) &' + \
-        algo_Bminus.MotherCut
+        algo_Bminus.MotherCut = \
+            "(mcMatch('[^mu+]CC')) & (BPVVDCHI2 > 50.0) &" + \
+            algo_Bminus.MotherCut
 
 
 sel_Bminus = Selection(
@@ -438,26 +435,23 @@ sel_Mu_ws_combo = Selection(
 ##########################
 
 # Dst ##########################################################################
-# NOTE: We are using the same made-up cuts for Dst, for now.
 algo_Dst = CombineParticles('MyDst')
 algo_Dst.DecayDescriptor = '[D*(2010)+ -> D0 pi+]cc'
 
 algo_Dst.DaughtersCuts = {
-    'pi+': '(MIPCHI2DV(PRIMARY) > 0.0) & (TRCHI2DOF < 3.0) &'
-           '(TRGHOSTPROB < 0.25)'
+    'pi+': '(MIPCHI2DV(PRIMARY) > 0.0) & (TRGHOSTPROB < 0.25)'
 }
 
 algo_Dst.CombinationCut = "(ADAMASS('D*(2010)+') < 220.0*MeV)"
 algo_Dst.MotherCut = \
     "(ADMASS('D*(2010)+') < 125.0*MeV) &" \
-    "(M-MAXTREE(ABSID=='D0', M) < 160.0*MeV) &" \
+    "(M-MAXTREE(ABSID=='D0',M) < 160.0*MeV) &" \
     "(VFASPF(VCHI2/VDOF) < 100.0)"
 
 
 if has_flag('BARE'):
     algo_Dst.DaughtersCuts = {
-        'pi+': '(MIPCHI2DV(PRIMARY) > 0.0) & (TRCHI2DOF < 6.0) &'
-               '(TRGHOSTPROB < 0.5)'
+        'pi+': '(MIPCHI2DV(PRIMARY) > 0.0) & (TRGHOSTPROB < 0.5)'
     }
 
     algo_Dst.CombinationCut = 'ATRUE'
@@ -562,16 +556,6 @@ sel_B0 = Selection(
     RequiredSelections=[sel_Dst_stub, sel_Mu_combo]
 )
 
-sel_refit_B02DstMu = Selection(
-    'SelMyRefitB02DstMu',
-    Algorithm=FitDecayTrees(
-        'MyRefitB02DstMu',
-        Code="DECTREE('[B~0 -> (D*(2010)+ -> (D0->K- pi+) pi+) mu-]CC')",
-        UsePVConstraint=False,
-    ),
-    RequiredSelections=[sel_B0]
-)
-
 # B0_ws_Mu #####################################################################
 # Here the muon has the wrong sign---charge not conserved.
 algo_B0_ws_Mu = CombineParticles('MyB0WSMu')
@@ -584,17 +568,6 @@ sel_B0_ws_Mu = Selection(
     'SelMyB0WSMu',
     Algorithm=algo_B0_ws_Mu,
     RequiredSelections=[sel_Dst_ws_Mu_stub, sel_Mu_ws_combo]
-)
-
-sel_refit_B02DstMu_ws_Mu = Selection(
-    'SelMyRefitB02DstMuWSMu',
-    Algorithm=FitDecayTrees(
-        'MyRefitB02DstMuwsMu',
-        Code="DECTREE('[B~0 -> (D*(2010)+ -> (D0->K- pi+) pi+) mu+]CC')",
-        UsePVConstraint=False,
-        Inputs=[sel_B0_ws_Mu.outputLocation()]
-    ),
-    RequiredSelections=[sel_B0_ws_Mu]
 )
 
 # B0_ws_Pi #####################################################################
@@ -613,32 +586,10 @@ sel_B0_ws_Pi = Selection(
     RequiredSelections=[sel_Dst_ws_Pi_stub, sel_Mu_combo]
 )
 
-sel_refit_B02DstMu_ws_Pi = Selection(
-    'SelMyRefitB02DstMuWSPi',
-    Algorithm=FitDecayTrees(
-        'MyRefitB02DstMuWSPi',
-        Code="DECTREE('[B~0 -> (D*(2010)- -> (D0->K- pi+) pi-) mu-]CC')",
-        UsePVConstraint=False,
-        Inputs=[sel_B0_ws_Pi.outputLocation()]
-    ),
-    RequiredSelections=[sel_B0_ws_Pi]
-)
-
 # Define B0 sequence ###########################################################
-
-if has_flag('FULL_REFIT'):
-    sel_B0_stub = trigger_filter(sel_refit_B02DstMu)
-    sel_B0_ws_Mu_stub = trigger_filter(sel_refit_B02DstMu_ws_Mu, suffix='WSMu')
-    sel_B0_ws_Pi_stub = trigger_filter(sel_refit_B02DstMu_ws_Pi, suffix='WSPi')
-else:
-    sel_B0_stub = trigger_filter(sel_B0)
-    sel_B0_ws_Mu_stub = trigger_filter(sel_B0_ws_Mu, suffix='WSMu')
-    sel_B0_ws_Pi_stub = trigger_filter(sel_B0_ws_Pi, suffix='WSPi')
-
-
-seq_B0 = SelectionSequence('SeqMyB0', TopSelection=sel_B0_stub)
-seq_B0_ws_Mu = SelectionSequence('SeqMyB0WSMu', TopSelection=sel_B0_ws_Mu_stub)
-seq_B0_ws_Pi = SelectionSequence('SeqMyB0WSPi', TopSelection=sel_B0_ws_Pi_stub)
+seq_B0 = SelectionSequence('SeqMyB0', TopSelection=sel_B0)
+seq_B0_ws_Mu = SelectionSequence('SeqMyB0WSMu', TopSelection=sel_B0_ws_Mu)
+seq_B0_ws_Pi = SelectionSequence('SeqMyB0WSPi', TopSelection=sel_B0_ws_Pi)
 
 
 ##################
@@ -979,7 +930,7 @@ tp_B0_mc_Mu = tuple_initialize_aux(
 # Add selection & tupling sequences to DaVinci #
 ################################################
 
-if has_flag('CUTFLOW') or has_flag('NON_MU_MISID'):
+if has_flag('CUTFLOW', 'NON_MU_MISID', 'BARE'):
     DaVinci().UserAlgorithms += [seq_Bminus.sequence(),
                                  seq_B0.sequence(),
                                  # ntuples
