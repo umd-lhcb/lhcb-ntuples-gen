@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sun May 23, 2021 at 02:57 AM +0200
+# Last Change: Thu May 27, 2021 at 04:14 AM +0200
 
 from __future__ import print_function
 
@@ -41,7 +41,7 @@ input log files.
 # Filtering #
 #############
 
-def fltr_regex(filename, pattern=r'^TimingAuditor\.T\.\.\.'):
+def fltr_regex(filename, pattern=r'^TimingAuditor\.T\.\.\.\s+INFO\s+\w'):
     with open(filename) as f:
         result = [line for line in f if bool(re.match(pattern, line))]
 
