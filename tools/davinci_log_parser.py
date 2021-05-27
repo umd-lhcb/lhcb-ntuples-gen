@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu May 27, 2021 at 04:14 AM +0200
+# Last Change: Thu May 27, 2021 at 04:16 AM +0200
 
 from __future__ import print_function
 
@@ -83,13 +83,16 @@ def extract_data(lst, name_idx=0, num_idx=4):
     result = odict()
 
     for idx, data in enumerate(lst):
+        num_in = int(data[num_idx])
+
         try:
             num_out = int(lst[idx+1][num_idx])
+            if num_out > num_in:
+                num_out = None
         except Exception:
             num_out = None
 
         name = data[name_idx]
-        num_in = int(data[num_idx])
         result[name] = {'input': num_in, 'output': num_out}
 
     return result
