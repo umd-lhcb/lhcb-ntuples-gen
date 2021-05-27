@@ -1,6 +1,6 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Tue May 25, 2021 at 02:01 AM +0200
+// Last Change: Thu May 27, 2021 at 04:28 AM +0200
 
 #ifndef _LNG_FUNCTOR_RDX_CUT_H_
 #define _LNG_FUNCTOR_RDX_CUT_H_
@@ -16,7 +16,7 @@
 #include "functor/basic.h"
 #include "pdg.h"
 
-// DaVinci cuts ////////////////////////////////////////////////////////////////
+// Run 1 DaVinci cuts //////////////////////////////////////////////////////////
 // Here we should assume all variables are in their original DaVinci units.
 
 // NOTE: We can't have too many inputs variables (up to 32 for input+output) as
@@ -48,6 +48,29 @@ Bool_t FLAG_SEL_RUN1_STRIP(Double_t mu_ip_chi2, Double_t mu_gh_prob,
 }
 
 // clang-format off
+Bool_t FLAG_SEL_RUN1_DV(Double_t spi_ip_chi2, Double_t spi_gh_prob,
+                        Double_t spi_tr_chi2ndof,
+                        Double_t d0_m,
+                        Double_t dst_mm, Double_t dst_m,
+                        Double_t dst_endvtx_chi2, Double_t dst_endvtx_ndof,
+                        Double_t b0_mm,
+                        Double_t b0_endvtx_chi2, Double_t b0_endvtx_ndof,
+                        Double_t b0_dira) {
+  // clang-format on
+  auto spi_cuts =
+      (spi_ip_chi2 > 0.0) && (spi_gh_prob < 0.25) && (spi_tr_chi2ndof < 3.0);
+  auto dst_cuts = (TMath::Abs(dst_mm - PDG_M_Dst) < 125.0) &&
+                  (dst_endvtx_chi2 / dst_endvtx_ndof < 100.0);
+  auto d0_dst_cuts = (dst_m - d0_m < 160.0);
+  auto b0_cuts     = (0.0 < b0_mm && b0_mm < 10000.0) &&
+                 (b0_endvtx_chi2 / b0_endvtx_ndof < 6.0) && (b0_dira > 0.9995);
+
+  return spi_cuts && dst_cuts && d0_dst_cuts && b0_cuts;
+}
+
+// Run 2 DaVinci cuts //////////////////////////////////////////////////////////
+
+// clang-format off
 Bool_t FLAG_SEL_RUN2_STRIP(Double_t mu_ip_chi2, Double_t mu_gh_prob,
                            Double_t mu_pid_mu, Double_t mu_p,
                            Double_t mu_tr_chi2ndof,
@@ -74,27 +97,6 @@ Bool_t FLAG_SEL_RUN2_STRIP(Double_t mu_ip_chi2, Double_t mu_gh_prob,
   return mu_cuts && k_cuts && pi_cuts && k_pi_cuts && d0_cuts;
 }
 
-// clang-format off
-Bool_t FLAG_SEL_RUN1_DV(Double_t spi_ip_chi2, Double_t spi_gh_prob,
-                        Double_t spi_tr_chi2ndof,
-                        Double_t d0_m,
-                        Double_t dst_mm, Double_t dst_m,
-                        Double_t dst_endvtx_chi2, Double_t dst_endvtx_ndof,
-                        Double_t b0_mm,
-                        Double_t b0_endvtx_chi2, Double_t b0_endvtx_ndof,
-                        Double_t b0_dira) {
-  // clang-format on
-  auto spi_cuts =
-      (spi_ip_chi2 > 0.0) && (spi_gh_prob < 0.25) && (spi_tr_chi2ndof < 3.0);
-  auto dst_cuts = (TMath::Abs(dst_mm - PDG_M_Dst) < 125.0) &&
-                  (dst_endvtx_chi2 / dst_endvtx_ndof < 100.0);
-  auto d0_dst_cuts = (dst_m - d0_m < 160.0);
-  auto b0_cuts     = (0.0 < b0_mm && b0_mm < 10000.0) &&
-                 (b0_endvtx_chi2 / b0_endvtx_ndof < 6.0) && (b0_dira > 0.9995);
-
-  return spi_cuts && dst_cuts && d0_dst_cuts && b0_cuts;
-}
-
 Bool_t FLAG_SEL_RUN2_DV(Double_t spi_ip_chi2, Double_t spi_gh_prob,
                         Double_t spi_tr_chi2ndof, Double_t d0_m,
                         Double_t dst_mm, Double_t dst_m,
@@ -113,9 +115,8 @@ Bool_t FLAG_SEL_RUN2_DV(Double_t spi_ip_chi2, Double_t spi_gh_prob,
   return spi_cuts && dst_cuts && d0_dst_cuts && b0_cuts;
 }
 
-// Global selection flags for run 1
-// //////////////////////////////////////////// Selections are based on Run 1
-// R(D(*)) ANA, v2020.07.31, p.11, Table 6.
+// Global selection flags for run 1 ////////////////////////////////////////////
+//  Selections are based on Run 1 R(D(*)) ANA, v2020.07.31, p.11, Table 6.
 
 Bool_t FLAG_SEL_D0_PID_OK_RUN1(Double_t k_pid_k, Double_t pi_pid_k,
                                Bool_t k_is_mu, Bool_t pi_is_mu) {
