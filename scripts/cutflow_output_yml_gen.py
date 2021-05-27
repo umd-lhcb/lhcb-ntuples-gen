@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun, Manual Franco Sevilla
 # License: BSD 2-clause
-# Last Change: Wed May 26, 2021 at 11:44 PM +0200
+# Last Change: Thu May 27, 2021 at 04:24 AM +0200
 
 import pathlib
 import os
@@ -38,7 +38,7 @@ from TrackerOnlyEmu.loader import load_cpp
 
 ALIASES = {
     'run1-Dst-bare': {
-        'SELECT:Phys/StdAllNoPIDsKaons': 'Total events',
+        'DaVinciEventSeq': 'Total events',
         'SelMyB-': r'Relaxed $D^0 \mu$ combo',
         'SelMyDst': r'$D^{*+} \rightarrow D^0 \pi^+$',
         'SelMyB0': r'$\bar{B}^0 \rightarrow D^{*+} \mu^-$',
