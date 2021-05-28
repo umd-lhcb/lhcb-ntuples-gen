@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sat May 29, 2021 at 12:20 AM +0200
+# Last Change: Sat May 29, 2021 at 12:35 AM +0200
 #
 # Description: Definitions of selection and reconstruction procedures for run 2
 #              R(D(*)). For more thorough comments, take a look at:
@@ -115,7 +115,7 @@ fltr_hlt = HDRFilter(
     Code="HLT_PASS('{0}')".format(hlt2_trigger))
 
 
-if not DaVinci().Simulation:
+if not DaVinci().Simulation and not has_flag('BARE'):
     DaVinci().EventPreFilters = [fltr_strip]
 
 
@@ -176,7 +176,7 @@ sel_stripped_Mu = Selection(
 )
 
 
-# For run 2, don't put additional cut on Muons because we can't.
+# For run 2, we can't TIS-filtering on Muon because most of MC samples are TO
 if not DaVinci().Simulation:
     sel_charged_K = sel_stripped_charged_K
     sel_charged_Pi = sel_stripped_charged_Pi
@@ -251,7 +251,6 @@ if DaVinci().Simulation:
         "(mcMatch('[^K+]CC')) &" \
         '(MCSELMATCH(MCNINANCESTORS(BEAUTY) > 0)) &' + \
         algo_D0.DaughtersCuts['K+']
-
     algo_D0.DaughtersCuts['pi-'] = \
         '(MCSELMATCH(MCNINANCESTORS(BEAUTY) > 0)) &' + \
         algo_D0.DaughtersCuts['pi-']
