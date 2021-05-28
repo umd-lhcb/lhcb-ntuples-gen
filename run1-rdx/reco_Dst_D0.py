@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed May 26, 2021 at 03:54 PM +0200
+# Last Change: Fri May 28, 2021 at 06:07 PM +0200
 #
 # Description: Definitions of selection and reconstruction procedures for run 1
 #              R(D(*)), with thorough comments.
@@ -33,8 +33,6 @@ def has_flag(*flg):
 #####################
 # Configure DaVinci #
 #####################
-
-from Gaudi.Configuration import *
 
 # Debug options
 # DaVinci().EvtMax = 300
@@ -310,12 +308,10 @@ if has_flag('BARE'):
 # PID for real data only
 if not DaVinci().Simulation and not has_flag('BARE'):
     algo_D0.DaughtersCuts['K+'] = \
-        '(PIDK > 4.0) &' + \
-        algo_D0.DaughtersCuts['K+']
+        '(PIDK > 4.0) &' + algo_D0.DaughtersCuts['K+']
 
     algo_D0.DaughtersCuts['pi-'] = \
-        '(PIDK < 2.0) &' + \
-        algo_D0.DaughtersCuts['pi-']
+        '(PIDK < 2.0) &' + algo_D0.DaughtersCuts['pi-']
 
 
 if DaVinci().Simulation:
@@ -323,7 +319,7 @@ if DaVinci().Simulation:
 
     algo_D0.DaughtersCuts['K+'] = \
         "(mcMatch('[^K+]CC')) &" \
-        "(MCSELMATCH(MCNINANCESTORS(BEAUTY) > 0)) &" + \
+        '(MCSELMATCH(MCNINANCESTORS(BEAUTY) > 0)) &' + \
         algo_D0.DaughtersCuts['K+']
 
     algo_D0.DaughtersCuts['pi-'] = \
@@ -346,7 +342,6 @@ sel_D0 = Selection(
 # This corresponds to the B-meson cuts defined in the stripping line
 algo_Bminus = CombineParticles('MyB-')
 algo_Bminus.DecayDescriptor = '[B- -> D0 mu-]cc'
-# algo_Bminus.DecayDescriptors = ['[B- -> D0 mu-]cc', '[B+ -> D0 mu+]cc']
 
 algo_Bminus.DaughtersCuts = {
     'mu-': '(MIPCHI2DV(PRIMARY) > 45.0) & (TRGHOSTPROB < 0.5) &'
@@ -361,7 +356,7 @@ algo_Bminus.MotherCut = \
 
 if has_flag('BARE'):
     algo_Bminus.DaughtersCuts['mu-'] = \
-        '(MIPCHI2DV(PRIMARY) > 8.0) & (TRGHOSTPROB < 1.0)' \
+        '(MIPCHI2DV(PRIMARY) > 8.0) & (TRGHOSTPROB < 1.0)'
 
     algo_Bminus.CombinationCut = 'ATRUE'
     # NOTE: This cut is looser than the official one
@@ -378,15 +373,15 @@ if not DaVinci().Simulation and not has_flag('NON_MU_MISID', 'BARE'):
 if DaVinci().Simulation:
     algo_Bminus.Preambulo += algo_mc_match_preambulo
 
-    if has_flag('BARE'):
-        algo_Bminus.DaughtersCuts['mu-'] = \
-            "(mcMatch('[^mu+]CC')) &" + \
-            algo_Bminus.DaughtersCuts['mu-']
-    else:
-        # The TRCHI2DOF is from run 1 trigger
-        algo_Bminus.DaughtersCuts['mu-'] = \
-            "(mcMatch('[^mu+]CC')) & (TRCHI2DOF < 3.0) &" + \
-            algo_Bminus.DaughtersCuts['mu-']
+    algo_Bminus.DaughtersCuts['mu-'] = \
+        "(mcMatch('[^mu+]CC')) &" + \
+        algo_Bminus.DaughtersCuts['mu-']
+
+
+# NOTE: The track chi2/dof cut is from run 1 trigger
+if DaVinci().Simulation and not has_flag('BARE'):
+    algo_Bminus.DaughtersCuts['mu-'] = \
+        '(TRCHI2DOF < 3.0) &' + algo_Bminus.DaughtersCuts['mu-']
 
 
 sel_Bminus = Selection(
@@ -617,10 +612,8 @@ sel_B0_ws_Pi = Selection(
 
 # Define B0 sequence ###########################################################
 seq_B0 = SelectionSequence('SeqMyB0', TopSelection=sel_B0)
-seq_B0_ws_Mu = SelectionSequence('SeqMyB0WSMu',
-                                 TopSelection=sel_B0_ws_Mu)
-seq_B0_ws_Pi = SelectionSequence('SeqMyB0WSPi',
-                                 TopSelection=sel_B0_ws_Pi)
+seq_B0_ws_Mu = SelectionSequence('SeqMyB0WSMu', TopSelection=sel_B0_ws_Mu)
+seq_B0_ws_Pi = SelectionSequence('SeqMyB0WSPi', TopSelection=sel_B0_ws_Pi)
 
 
 ##########################
@@ -897,18 +890,17 @@ tp_Bst0 = tuple_initialize(
 ################################################
 
 if has_flag('CUTFLOW', 'NON_MU_MISID', 'BARE'):
-    DaVinci().UserAlgorithms += [seq_Bminus.sequence(),
-                                 seq_B0.sequence(),
+    DaVinci().UserAlgorithms += [seq_Bminus.sequence(), seq_B0.sequence(),
                                  # ntuples
                                  tp_Bminus, tp_B0]
 elif DaVinci().Simulation:
-    DaVinci().UserAlgorithms += [seq_Bminus.sequence(),
-                                 seq_B0.sequence(),
+    DaVinci().UserAlgorithms += [seq_Bminus.sequence(), seq_B0.sequence(),
                                  # ntuples
                                  tp_Bminus, tp_B0,
                                  # auxiliary ntuples
                                  tp_Bminus_mc_Tau, tp_Bminus_mc_Mu,
                                  tp_B0_mc_Tau, tp_B0_mc_Mu]
+
 else:
     DaVinci().UserAlgorithms += [seq_Bminus.sequence(),
                                  seq_Bminus_ws.sequence(),

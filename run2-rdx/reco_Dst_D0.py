@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu May 27, 2021 at 08:25 PM +0200
+# Last Change: Fri May 28, 2021 at 06:07 PM +0200
 #
 # Description: Definitions of selection and reconstruction procedures for run 2
 #              R(D(*)). For more thorough comments, take a look at:
@@ -230,7 +230,7 @@ if has_flag('BARE'):
         'pi-': '(MIPCHI2DV(PRIMARY) > 4.5) & (TRGHOSTPROB < 1.0)'
     }
 
-    algo_D0.CombinationCut = "ATRUE"
+    algo_D0.CombinationCut = 'ATRUE'
     algo_D0.MotherCut = \
         "(VFASPF(VCHI2/VDOF) < 8.0) & (BPVVDCHI2 > 12.5) & (BPVDIRA> 0.99)"
 
@@ -238,41 +238,44 @@ if has_flag('BARE'):
 # PID for real data only
 if not DaVinci().Simulation and not has_flag('BARE'):
     algo_D0.DaughtersCuts['K+'] = \
-        '(PIDK > 4.0) &' + \
-        algo_D0.DaughtersCuts['K+']
+        '(PIDK > 4.0) &' + algo_D0.DaughtersCuts['K+']
 
     algo_D0.DaughtersCuts['pi-'] = \
-        '(PIDK < 2.0) &' + \
-        algo_D0.DaughtersCuts['pi-']
+        '(PIDK < 2.0) &' + algo_D0.DaughtersCuts['pi-']
 
 
-if DaVinci().Simulation and not has_flag('BARE'):
+if DaVinci().Simulation:
     algo_D0.Preambulo += algo_mc_match_preambulo
 
-    # NOTE: '(P > 5.0*GeV)' is from Hlt2XcMuXForTauB2XcMu line
     algo_D0.DaughtersCuts['K+'] = \
         "(mcMatch('[^K+]CC')) &" \
-        '(MCSELMATCH(MCNINANCESTORS(BEAUTY) > 0)) &' \
-        '(P > 5.0*GeV) &' + \
+        '(MCSELMATCH(MCNINANCESTORS(BEAUTY) > 0)) &' + \
         algo_D0.DaughtersCuts['K+']
 
     algo_D0.DaughtersCuts['pi-'] = \
-        '(MCSELMATCH(MCNINANCESTORS(BEAUTY) > 0)) &' \
-        '(P > 5.0*GeV) &' + \
+        '(MCSELMATCH(MCNINANCESTORS(BEAUTY) > 0)) &' + \
         algo_D0.DaughtersCuts['pi-']
 
-    # NOTE: All additional CombinationCut are from Hlt2XcMuXForTauB2XcMu line
+    algo_D0.MotherCut = \
+        "(mcMatch('[Charm -> K- pi+ {gamma}{gamma}{gamma}]CC')) &" + \
+        algo_D0.MotherCut
+
+
+# NOTE: These cuts are from Hlt2XcMuXForTauB2XcMu lines. They are tigher than
+#       stripping cuts
+if DaVinci().Simulation and not has_flag('BARE'):
+    algo_D0.DaughtersCuts['K+'] = \
+        '(P > 5.0*GeV) &' + algo_D0.DaughtersCuts['K+']
+
+    algo_D0.DaughtersCuts['pi-'] = \
+        '(P > 5.0*GeV) &' + algo_D0.DaughtersCuts['pi-']
+
     algo_D0.CombinationCut = \
         '(in_range(1830.0*MeV, AM, 1910.0*MeV)) &' \
         '((APT1 > 800.0*MeV) | (APT2 > 800.0*MeV)) &' \
         '(APT > 2000.0*MeV) &' \
         "(AMINDOCA('') < 0.10) &" + \
         algo_D0.CombinationCut
-
-    # NOTE: Stripping cuts are already tighter than Hlt2XcMuXForTauB2XcMu line
-    algo_D0.MotherCut = \
-        "(mcMatch('[Charm -> K- pi+ {gamma}{gamma}{gamma}]CC')) &" + \
-        algo_D0.MotherCut
 
 
 sel_D0 = Selection(
@@ -286,14 +289,14 @@ algo_Bminus = CombineParticles('MyB-')
 algo_Bminus.DecayDescriptor = '[B- -> D0 mu-]cc'
 
 algo_Bminus.DaughtersCuts = {
-    'mu-': '(MIPCHI2DV(PRIMARY)> 16.0) & (TRGHOSTPROB < 0.5) &'
+    'mu-': '(MIPCHI2DV(PRIMARY) > 16.0) & (TRGHOSTPROB < 0.5) &'
            '(P > 3.0*GeV)'  # NOTE: Mu PID is added later
 }
 
 algo_Bminus.CombinationCut = '(AM < 10.2*GeV)'
 algo_Bminus.MotherCut = \
-    "(MM < 10.0*GeV) & (MM > 0.0*GeV) &" \
-    "(VFASPF(VCHI2/VDOF) < 6.0) & (BPVDIRA > 0.999)"
+    '(MM < 10.0*GeV) & (MM > 0.0*GeV) &' \
+    '(VFASPF(VCHI2/VDOF) < 6.0) & (BPVDIRA > 0.999)'
 
 
 if has_flag('BARE'):
@@ -315,19 +318,18 @@ if not DaVinci().Simulation and not has_flag('NON_MU_MISID', 'BARE'):
 if DaVinci().Simulation:
     algo_Bminus.Preambulo += algo_mc_match_preambulo
 
-    if has_flag('BARE'):
-        algo_Bminus.DaughtersCuts['mu-'] = \
-            "(mcMatch('[^mu+]CC')) &" + \
-            algo_Bminus.DaughtersCuts['mu-']
-    else:
-        # NOTE: All cuts are from Hlt2XcMuXForTauB2XcMu
-        algo_Bminus.CombinationCut = \
-            "(AMAXDOCA('') < 0.50) &" + \
-            algo_Bminus.CombinationCut
+    algo_Bminus.DaughtersCuts['mu-'] = \
+        "(mcMatch('[^mu+]CC')) &" + \
+        algo_Bminus.DaughtersCuts['mu-']
 
-        algo_Bminus.MotherCut = \
-            "(mcMatch('[^mu+]CC')) & (BPVVDCHI2 > 50.0) &" + \
-            algo_Bminus.MotherCut
+
+# NOTE: All cuts are from Hlt2XcMuXForTauB2XcMu
+if DaVinci().Simulation and not has_flag('BARE'):
+    algo_Bminus.CombinationCut = \
+        "(AMAXDOCA('') < 0.50) &" + algo_Bminus.CombinationCut
+
+    algo_Bminus.MotherCut = \
+        '(BPVVDCHI2 > 50.0) &' + algo_Bminus.MotherCut
 
 
 sel_Bminus = Selection(
@@ -531,18 +533,6 @@ sel_refit_Dst2D0Pi_ws_Pi = Selection(
     RequiredSelections=[sel_Dst_ws_Pi]
 )
 
-# Define Dst stubs depending if we have 'FULL_REFIT' flag ######################
-
-if has_flag('FULL_REFIT'):
-    sel_Dst_stub = sel_Dst
-    sel_Dst_ws_Mu_stub = sel_Dst_ws_Mu
-    sel_Dst_ws_Pi_stub = sel_Dst_ws_Pi
-else:
-    sel_Dst_stub = sel_refit_Dst2D0Pi
-    sel_Dst_ws_Mu_stub = sel_refit_Dst2D0Pi_ws_Mu
-    sel_Dst_ws_Pi_stub = sel_refit_Dst2D0Pi_ws_Pi
-
-
 # B0 ###########################################################################
 algo_B0 = CombineParticles('MyB0')
 algo_B0.DecayDescriptor = "[B~0 -> D*(2010)+ mu-]cc"  # B~0 is the CC of B0
@@ -553,7 +543,7 @@ algo_B0.MotherCut = "(VFASPF(VCHI2/VDOF) < 100.0)"  # Loose cuts here
 sel_B0 = Selection(
     'SelMyB0',
     Algorithm=algo_B0,
-    RequiredSelections=[sel_Dst_stub, sel_Mu_combo]
+    RequiredSelections=[sel_refit_Dst2D0Pi, sel_Mu_combo]
 )
 
 # B0_ws_Mu #####################################################################
@@ -567,7 +557,7 @@ algo_B0_ws_Mu.MotherCut = algo_B0.MotherCut
 sel_B0_ws_Mu = Selection(
     'SelMyB0WSMu',
     Algorithm=algo_B0_ws_Mu,
-    RequiredSelections=[sel_Dst_ws_Mu_stub, sel_Mu_ws_combo]
+    RequiredSelections=[sel_refit_Dst2D0Pi_ws_Mu, sel_Mu_ws_combo]
 )
 
 # B0_ws_Pi #####################################################################
@@ -583,7 +573,7 @@ algo_B0_ws_Pi.MotherCut = algo_B0.MotherCut
 sel_B0_ws_Pi = Selection(
     'SelMyB0WSPi',
     Algorithm=algo_B0_ws_Pi,
-    RequiredSelections=[sel_Dst_ws_Pi_stub, sel_Mu_combo]
+    RequiredSelections=[sel_refit_Dst2D0Pi_ws_Pi, sel_Mu_combo]
 )
 
 # Define B0 sequence ###########################################################
@@ -627,7 +617,7 @@ def add_hlt1_info(sel_seq):
 ##################
 
 from Configurables import DecayTreeTuple, MCDecayTreeTuple
-from DecayTreeTuple.Configuration import *  # for addTupleTool
+from DecayTreeTuple.Configuration import *  # to use addTupleTool
 
 # Additional TupleTool for addTool only
 from Configurables import BackgroundCategory
@@ -931,8 +921,7 @@ tp_B0_mc_Mu = tuple_initialize_aux(
 ################################################
 
 if has_flag('CUTFLOW', 'NON_MU_MISID', 'BARE'):
-    DaVinci().UserAlgorithms += [seq_Bminus.sequence(),
-                                 seq_B0.sequence(),
+    DaVinci().UserAlgorithms += [seq_Bminus.sequence(), seq_B0.sequence(),
                                  # ntuples
                                  tp_Bminus, tp_B0]
 elif DaVinci().Simulation:
