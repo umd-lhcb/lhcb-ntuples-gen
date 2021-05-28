@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sat May 29, 2021 at 12:35 AM +0200
+# Last Change: Sat May 29, 2021 at 01:45 AM +0200
 #
 # Description: Definitions of selection and reconstruction procedures for run 2
 #              R(D(*)). For more thorough comments, take a look at:
@@ -154,7 +154,7 @@ from Configurables import FilterDesktop, FilterInTrees
 from Configurables import TisTosParticleTagger
 
 # NOTE: 'stripped' selections require the existence of a stripping line, which
-#       only exists in data, not MC.
+#       only exists in data, and flagged MC, NOT filtered MC.
 # NOTE: We don't TIS-filtering Muon for run 2 because that trigger is not
 #       emulated
 sel_stripped_charged_K = Selection(
@@ -265,7 +265,6 @@ if DaVinci().Simulation:
 if DaVinci().Simulation and not has_flag('BARE'):
     algo_D0.DaughtersCuts['K+'] = \
         '(P > 5.0*GeV) &' + algo_D0.DaughtersCuts['K+']
-
     algo_D0.DaughtersCuts['pi-'] = \
         '(P > 5.0*GeV) &' + algo_D0.DaughtersCuts['pi-']
 

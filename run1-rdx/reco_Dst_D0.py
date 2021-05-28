@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri May 28, 2021 at 11:55 PM +0200
+# Last Change: Sat May 29, 2021 at 01:48 AM +0200
 #
 # Description: Definitions of selection and reconstruction procedures for run 1
 #              R(D(*)), with thorough comments.
@@ -34,10 +34,7 @@ def has_flag(*flg):
 # Configure DaVinci #
 #####################
 
-# Debug options
-# DaVinci().EvtMax = 300
-# MessageSvc().OutputLevel = DEBUG
-DaVinci().EvtMax = -1
+from Configurables import MessageSvc
 
 DaVinci().InputType = 'DST'
 DaVinci().SkipEvents = 0
@@ -45,6 +42,11 @@ DaVinci().PrintFreq = 100
 
 # Only ask for luminosity information when not using simulated data
 DaVinci().Lumi = not DaVinci().Simulation
+
+# Debug options
+# DaVinci().EvtMax = 300
+# MessageSvc().OutputLevel = DEBUG
+DaVinci().EvtMax = -1
 
 
 ###################################
@@ -133,7 +135,7 @@ fltr_hlt = HDRFilter(
     Code="HLT_PASS('{0}')".format(hlt2_trigger))
 
 
-if not DaVinci().Simulation:
+if not DaVinci().Simulation and not has_flag('BARE'):
     DaVinci().EventPreFilters = [fltr_strip, fltr_hlt]
 
 
@@ -321,7 +323,6 @@ if DaVinci().Simulation:
         "(mcMatch('[^K+]CC')) &" \
         '(MCSELMATCH(MCNINANCESTORS(BEAUTY) > 0)) &' + \
         algo_D0.DaughtersCuts['K+']
-
     algo_D0.DaughtersCuts['pi-'] = \
         '(MCSELMATCH(MCNINANCESTORS(BEAUTY) > 0)) &' + \
         algo_D0.DaughtersCuts['pi-']
@@ -776,10 +777,8 @@ def tuple_postpocess_data(tp, B_meson='b0', Mu='mu',
     tt_tistos_B.Verbose = True
     tt_tistos_B.TriggerList = trigger_list_B
 
-    getattr(tp, B_meson).ToolList += [
-        'TupleToolTagDiscardDstMu',
-        'TupleToolTauMuDiscrVars',
-    ]
+    getattr(tp, B_meson).addTupleTool('TupleToolTagDiscardDstMu')
+    getattr(tp, B_meson).addTupleTool('TupleToolTauMuDiscrVars')
 
     tt_app_iso = getattr(tp, B_meson).addTupleTool('TupleToolApplyIsolation')
     tt_app_iso.WeightsFile = weights
