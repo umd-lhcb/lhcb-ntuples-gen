@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri May 28, 2021 at 11:55 PM +0200
+# Last Change: Sat May 29, 2021 at 12:20 AM +0200
 #
 # Description: Definitions of selection and reconstruction procedures for run 2
 #              R(D(*)). For more thorough comments, take a look at:
@@ -575,9 +575,13 @@ sel_B0_ws_Pi = Selection(
 )
 
 # Define B0 sequence ###########################################################
-seq_B0 = SelectionSequence('SeqMyB0', TopSelection=sel_B0)
-seq_B0_ws_Mu = SelectionSequence('SeqMyB0WSMu', TopSelection=sel_B0_ws_Mu)
-seq_B0_ws_Pi = SelectionSequence('SeqMyB0WSPi', TopSelection=sel_B0_ws_Pi)
+sel_B0_stub = trigger_filter(sel_B0)
+sel_B0_ws_Mu_stub = trigger_filter(sel_B0_ws_Mu, suffix='WSMu')
+sel_B0_ws_Pi_stub = trigger_filter(sel_B0_ws_Pi, suffix='WSPi')
+
+seq_B0 = SelectionSequence('SeqMyB0', TopSelection=sel_B0_stub)
+seq_B0_ws_Mu = SelectionSequence('SeqMyB0WSMu', TopSelection=sel_B0_ws_Mu_stub)
+seq_B0_ws_Pi = SelectionSequence('SeqMyB0WSPi', TopSelection=sel_B0_ws_Pi_stub)
 
 
 ##################
