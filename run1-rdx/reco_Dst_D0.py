@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri May 28, 2021 at 06:07 PM +0200
+# Last Change: Fri May 28, 2021 at 11:55 PM +0200
 #
 # Description: Definitions of selection and reconstruction procedures for run 1
 #              R(D(*)), with thorough comments.
@@ -372,10 +372,8 @@ if not DaVinci().Simulation and not has_flag('NON_MU_MISID', 'BARE'):
 
 if DaVinci().Simulation:
     algo_Bminus.Preambulo += algo_mc_match_preambulo
-
     algo_Bminus.DaughtersCuts['mu-'] = \
-        "(mcMatch('[^mu+]CC')) &" + \
-        algo_Bminus.DaughtersCuts['mu-']
+        "(mcMatch('[^mu+]CC')) &" + algo_Bminus.DaughtersCuts['mu-']
 
 
 # NOTE: The track chi2/dof cut is from run 1 trigger
