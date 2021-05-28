@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sat May 29, 2021 at 01:45 AM +0200
+# Last Change: Sat May 29, 2021 at 01:50 AM +0200
 #
 # Description: Definitions of selection and reconstruction procedures for run 2
 #              R(D(*)). For more thorough comments, take a look at:
@@ -744,32 +744,17 @@ def tuple_postpocess_mc(tp,
                         emu_hlt1_lines=[
                             'Hlt1TwoTrackMVA'
                         ],
-                        # extra_hlt1_vars=[
-                        #     'PT_DAU',
-                        #     'P_DAU',
-                        #     'IPCHI2_OWNPV_DAU',
-                        #     'IPCHI2_MINIPPV_DAU',
-                        #     'TRACK_GHOSTPROB_DAU',
-                        #     'TRACK_CHI2_DAU',
-                        #     'TRACK_NDOF_DAU'
-                        # ],
                         extra_hlt1_vars=[],
                         extra_hlt1_vars_combo=[
                             'VERTEX_CHI2_COMB',
                             'VERTEX_NDOF_COMB',
                             'ETA_COMB',
                             'MCORR_OWNPV_COMB',
-                            # 'MCORR_MINIPPV_COMB',
                             'SUMPT_COMB',
                             'DIRA_OWNPV_COMB',
-                            # 'DIRA_MINIPPV',
                             'DOCA_COMB',
                             'VDCHI2_OWNPV_COMB',
-                            # 'VDCHI2_MINIPPV_COMB',
                             'IPCHI2_OWNPV_COMB',
-                            # 'IPCHI2_MINIPPV_COMB',
-                            # 'NLT_MINIPPV_COMB',
-                            # 'NLT_OWNPV_COMB',
                             'PT_COMB',
                             'P_COMB'
                         ],
