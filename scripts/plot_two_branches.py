@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
 # Author: Yipeng Sun
-# Last Change: Sun May 30, 2021 at 12:20 AM +0200
+# Last Change: Sun May 30, 2021 at 12:30 AM +0200
 
 import uproot
 import mplhep as hep
@@ -14,7 +14,7 @@ from pyTuplingUtils.parse import single_ntuple_parser
 from pyTuplingUtils.io import read_branches
 from pyTuplingUtils.utils import gen_histo
 from pyTuplingUtils.plot import plot_histo, plot_errorbar
-from pyTuplingUtils.plot import ax_add_args_histo
+from pyTuplingUtils.plot import ax_add_args_histo, ax_add_args_errorbar
 
 from plot_trigger_efficiency_comp import DataRangeAction
 
@@ -59,6 +59,14 @@ specify binning.''')
                         help='''
 specify plotting range for the kinematic variable multiplicities.''')
 
+    parser.add_argument('--xlabel', default='Trigger $E_T$ [GeV$^2$]',
+                        help='''
+specify xlabel.''')
+
+    parser.add_argument('--ylabel', default='Number of candidates',
+                        help='''
+specify ylabel.''')
+
     return parser
 
 
@@ -77,12 +85,13 @@ if __name__ == '__main__':
     histo2, _ = gen_histo(branch2, args.bins)
 
     histo_args = ax_add_args_histo(args.ref_label, '#87CEFA')  # light blue
-    pts_args = {'label': args.comp_label, 'color': 'black', 'marker': '_',
-                'ls': 'none'}
+    pts_args = ax_add_args_errorbar(args.comp_label, 'black', marker='+',
+                                    markeredgecolor='black')
     fig, ax = plot_histo(histo1, bins, histo_args,
                          output=None, yscale=args.y_axis_scale,
                          show_legend=False, ylim=args.data_range[0])
     plot_errorbar(bins, histo2, pts_args,
                   output=args.output,
                   figure=fig, axis=ax, yscale=args.y_axis_scale,
-                  ylim=args.data_range[0])
+                  ylim=args.data_range[0],
+                  xlabel=args.xlabel, ylabel=args.ylabel)
