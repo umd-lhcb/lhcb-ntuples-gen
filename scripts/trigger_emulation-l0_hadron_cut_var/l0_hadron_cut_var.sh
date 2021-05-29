@@ -17,11 +17,11 @@ INPUT_NTP=../../ntuples/0.9.4-trigger_emulation/Dst_D0-mc/Dst_D0--21_04_21--mc--
        k_pi_trg_et_sum k_pi_trg_hcal_et_sum \
        d0_et_emu_no_bdt \
        k_pi_trg_et_cap \
-    -D 3000 4500 3000 4500 \
-       3000 4500 3000 4500 \
-       3000 4500 3000 4500 \
-       3000 4500 \
-       3000 4500 \
+    -D 3244 4244 3244 4244 \
+       3244 4244 3244 4244 \
+       3244 4244 3244 4244 \
+       3244 4244 \
+       3244 4244 \
     --xlabel "\$K$ trigger \$E_T$" \
              "\$K$ trigger HCAL \$E_T$" \
              "\$\\pi$ trigger \$E_T$" \
@@ -29,4 +29,5 @@ INPUT_NTP=../../ntuples/0.9.4-trigger_emulation/Dst_D0-mc/Dst_D0--21_04_21--mc--
              "\$K+\\pi$ trigger \$E_T$ (capped)" \
              "\$K+\\pi$ trigger HCAL \$E_T$ (capped)" \
              "\$D^0$ emulated \$E_T$ (no BDT)" \
-             "\$Max(K, \\pi)$ trigger \$E_T$ (capped)"
+             "\$Max(K, \\pi)$ trigger \$E_T$ (capped)" \
+    --bins 50
