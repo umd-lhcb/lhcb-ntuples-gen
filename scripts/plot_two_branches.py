@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
 # Author: Yipeng Sun
-# Last Change: Sun May 30, 2021 at 12:30 AM +0200
+# Last Change: Sun May 30, 2021 at 12:43 AM +0200
 
 import uproot
 import mplhep as hep
@@ -24,7 +24,7 @@ from plot_trigger_efficiency_comp import DataRangeAction
 #################################
 
 DESCR = '''
-generate a plot from a branch of tree contained in a n-tuple.
+generate a plot from two branches of a tree contained in a n-tuple.
 '''
 
 
@@ -53,9 +53,17 @@ specify label for comparison branch.''')
                         help='''
 specify binning.''')
 
-    parser.add_argument('-D', '--data-range',
+    parser.add_argument('-XD', '--x-data-range',
                         nargs='+',
-                        default=[(0, 4e4)],
+                        action=DataRangeAction,
+                        default=[(0, 6100)],
+                        help='''
+specify plotting range for the kinematic variables.''')
+
+    parser.add_argument('-YD', '--y-data-range',
+                        nargs='+',
+                        action=DataRangeAction,
+                        default=[(0, 3.5e4)],
                         help='''
 specify plotting range for the kinematic variable multiplicities.''')
 
@@ -81,17 +89,23 @@ if __name__ == '__main__':
     ntp = uproot.open(args.ref)
     branch1, branch2 = read_branches(ntp, args.ref_tree,
                                      [args.ref_branch, args.comp_branch])
-    histo1, bins = gen_histo(branch1, args.bins)
-    histo2, _ = gen_histo(branch2, args.bins)
+    histo1, bins = gen_histo(branch1, args.bins,
+                             data_range=args.x_data_range[0])
+    histo2, _ = gen_histo(branch2, args.bins,
+                          data_range=args.x_data_range[0])
 
     histo_args = ax_add_args_histo(args.ref_label, '#87CEFA')  # light blue
     pts_args = ax_add_args_errorbar(args.comp_label, 'black', marker='+',
                                     markeredgecolor='black')
+    pts_args['markeredgewidth'] = 2
     fig, ax = plot_histo(histo1, bins, histo_args,
                          output=None, yscale=args.y_axis_scale,
-                         show_legend=False, ylim=args.data_range[0])
+                         show_legend=False,
+                         xlim=args.x_data_range[0],
+                         ylim=args.y_data_range[0])
     plot_errorbar(bins, histo2, pts_args,
                   output=args.output,
                   figure=fig, axis=ax, yscale=args.y_axis_scale,
-                  ylim=args.data_range[0],
+                  xlim=args.x_data_range[0],
+                  ylim=args.y_data_range[0],
                   xlabel=args.xlabel, ylabel=args.ylabel)

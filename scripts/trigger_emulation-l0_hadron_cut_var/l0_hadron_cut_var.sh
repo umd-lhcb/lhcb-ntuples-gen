@@ -31,3 +31,10 @@ INPUT_NTP=../../ntuples/0.9.4-trigger_emulation/Dst_D0-mc/Dst_D0--21_04_21--mc--
              "\$D^0$ emulated \$E_T$ (no BDT)" \
              "\$Max(K, \\pi)$ trigger \$E_T$ (capped)" \
     --bins 50
+
+# Plot differences between Trigger ET variables
+../plot_two_branches.py -n ./emu_l0_hadron_debug.root -t TupleB0/DecayTree \
+    -b k_trg_et -B pi_trg_et \
+    -l "\$K$ Trigger \$E_T$" -L "\$\\pi$ Trigger \$E_T$" \
+    -o k_pi_trg_et_comparison.png \
+    -XD -10 6200
