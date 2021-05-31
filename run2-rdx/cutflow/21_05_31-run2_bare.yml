@@ -1,0 +1,90 @@
+EVENT LOOP:
+    input: 1035959
+    output: 1035959
+DaVinciEventSeq:
+    input: 1035959
+    output: 1035959
+DaVinciInitAlg:
+    input: 1035959
+    output: 1035959
+FilteredEventSeq:
+    input: 1035959
+    output: 1035959
+DaVinciEventInitSeq:
+    input: 1035959
+    output: 1035959
+PhysInitSeq:
+    input: 1035959
+    output: 1035959
+AnalysisInitSeq:
+    input: 1035959
+    output: 1035959
+DaVinciAnalysisSeq:
+    input: 1035959
+    output: 1035959
+DaVinciUserSequence:
+    input: 1035959
+    output: 1035959
+StateSmear:
+    input: 1035959
+    output: 1035959
+MyProtoPMaker:
+    input: 1035959
+    output: 1035959
+StdNoPIDsVeloPions:
+    input: 1035959
+    output: 1035959
+SeqMyB-:
+    input: 1035959
+    output: 1035959
+SELECT:Phys/StdAllNoPIDsKaons:
+    input: 1035959
+    output: 1035587
+SELECT:Phys/StdAllNoPIDsPions:
+    input: 1035587
+    output: 1035587
+SelMyD0:
+    input: 1035587
+    output: 233144
+SELECT:Phys/StdAllNoPIDsMuons:
+    input: 233144
+    output: 233144
+SelMyB-:
+    input: 233144
+    output: 144221
+SelMyRefitB-2D0Mu:
+    input: 144221
+    output: null
+SeqMyB0:
+    input: 1035959
+    output: 144221
+SelMyComboD0:
+    input: 144221
+    output: 144221
+SelMyDst:
+    input: 144221
+    output: 136011
+SelMyRefitDst2D0Pi:
+    input: 136011
+    output: 130021
+SelMyComboMu:
+    input: 130021
+    output: 130021
+SelMyB0:
+    input: 130021
+    output: null
+TupleBminus:
+    input: 1035959
+    output: 1035959
+TupleB0:
+    input: 1035959
+    output: 1035959
+MonitoringSequence:
+    input: 1035959
+    output: 1035959
+LumiSeq:
+    input: 1035959
+    output: 1035959
+EventAccount:
+    input: 1035959
+    output: null
