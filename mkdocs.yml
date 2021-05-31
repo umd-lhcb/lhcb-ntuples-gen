@@ -27,10 +27,10 @@ nav:
     - Software:
         - git-annex: software_manuals/git_annex.md
         - DaVinci:
-            - "Docker image usage": software_manuals/davinci/docker_image_usage.md
-            - "Tips and tricks": software_manuals/davinci/tips_and_tricks.md
-            - "LoKi functors": software_manuals/davinci/loki_functors.md
-            - "TupleTools": software_manuals/davinci/tuple_tools.md
+            - Docker image usage: software_manuals/davinci/docker_image_usage.md
+            - Tips and tricks: software_manuals/davinci/tips_and_tricks.md
+            - LoKi functors: software_manuals/davinci/loki_functors.md
+            - TupleTools: software_manuals/davinci/tuple_tools.md
         - bender: software_manuals/bender.md
         - DIRAC: software_manuals/dirac.md
         - Tips for lxplus: software_manuals/lxplus.md
@@ -38,17 +38,18 @@ nav:
     - Physics:
         - Momentum scaling: physics/momentum_scaling.md
         - Wrong-sign particles: physics/wrong_sign_particles.md
-        - "B0 oscillation": physics/b0_oscillation.md
+        - B0 oscillation: physics/b0_oscillation.md
+        - Track χ²/DOF inconsistency in run 2 data-MC: physics/track_chi2ndof_data_mc_inconsistency.md
     - Data:
         - Data management: data/data_management.md
         - Data sources: data/data_sources.md
         - Cutflows:
-            - "R(D*) cutflow overview": data/cutflows/RDst_run1_vs_run2/overview.md
-            - "R(D*) cutflow detail": data/cutflows/RDst_run1_vs_run2/detail.md
-            - "R(D*) cutflow to study the effect of refit D* only": data/cutflows/RDst_refit_Dst_only_vs_full_refit.md
+            - R(D*) cutflow overview: data/cutflows/RDst_run1_vs_run2/overview.md
+            - R(D*) cutflow detail: data/cutflows/RDst_run1_vs_run2/detail.md
+            - R(D*) cutflow to study the effect of refit D* only: data/cutflows/RDst_refit_Dst_only_vs_full_refit.md
         - Comparisons:
-            - "R(D*) variables, run 1": data/comparison/RDst_vars_run1/RDst_vars_run1.md
-            - "R(D*) run 1 step-2 cuts validation": data/comparison/RDst_step2_cuts_validation/RDst_step2_cuts_validation.md
+            - R(D*) variables, run 1: data/comparison/RDst_vars_run1/RDst_vars_run1.md
+            - R(D*) run 1 step-2 cuts validation: data/comparison/RDst_step2_cuts_validation/RDst_step2_cuts_validation.md
             - Trigger lines: data/comparison/trigger_lines.md
 
 markdown_extensions:
