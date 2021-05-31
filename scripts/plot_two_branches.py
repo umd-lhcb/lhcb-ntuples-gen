@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
 # Author: Yipeng Sun
-# Last Change: Sun May 30, 2021 at 12:43 AM +0200
+# Last Change: Mon May 31, 2021 at 03:17 AM +0200
 
 import uproot
 import mplhep as hep
@@ -95,9 +95,9 @@ if __name__ == '__main__':
                           data_range=args.x_data_range[0])
 
     histo_args = ax_add_args_histo(args.ref_label, '#87CEFA')  # light blue
-    pts_args = ax_add_args_errorbar(args.comp_label, 'black', marker='+',
-                                    markeredgecolor='black')
-    pts_args['markeredgewidth'] = 2
+    pts_args = ax_add_args_errorbar(
+        args.comp_label, 'black', marker='+',
+        markeredgecolor='black', markeredgewidth=2)
     fig, ax = plot_histo(histo1, bins, histo_args,
                          output=None, yscale=args.y_axis_scale,
                          show_legend=False,
