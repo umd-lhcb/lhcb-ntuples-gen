@@ -1,98 +1,92 @@
 # $R(D^*)$ cutflow overview
 
-## Generation steps
-
-1. Extract DaVinci-level cut efficiencies with [`davinci_log_parser.py`](https://github.com/umd-lhcb/lhcb-ntuples-gen/blob/master/scripts/davinci_log_parser.py):
-    ```
-    ./davinci_log_parser.py <output_yaml_filename> <input_log1> <input_log2> ...
-    ```
-
-    !!! note
-        `<output_yaml_filename>` is the generated file. Same below.
-
-        For input logs files, wildcard `*` is supported. So instead of
-        providing a list of log files, you can just provide a single
-        **pattern** that matches to all log files.
-
-        Example usage:
-        ```
-        ./davinci_log_parser.py input-run1.yml $INPUT_DIR/53/*/output/*.log
-        ```
-
-2. Generate cut flow table with:
-    ```
-    make cutflow-rdst
-    ```
-    Please refer to the [`rdx.mk`](https://github.com/umd-lhcb/lhcb-ntuples-gen/blob/master/postprocess/make/rdx.mk) on the implementation details.
-
-
-## Cutflow table with cocktail MC
-
-| cut name                                     | run 1 yield   | run 2 yield   | run 1 efficiency   | run 2 efficiency   | double ratio   |
-|----------------------------------------------|---------------|---------------|--------------------|--------------------|----------------|
-| Total events                                 | 502736        | 520046        | -                  | -                  | -              |
-| Stripped $D^0 \mu^-$                         | 10422         | 13807         | 0.02073±0.00020    | 0.02655±0.00022    | 1.281±0.016    |
-| $D^0 \rightarrow K^- \pi^+$ (tighter $K\pi$) | 10080         | 13397         | 0.9672±0.0018      | 0.9703±0.0015      | 1.0032±0.0025  |
-| $D^{*+} \rightarrow D^0 \pi^+$               | 5988          | 7891          | 0.5940±0.0049      | 0.5890±0.0043      | 0.992±0.011    |
-| $\bar{B}^0 \rightarrow D^{*+} \mu^-$         | 5500          | 6449          | 0.9185±0.0037      | 0.8173±0.0044      | 0.8898±0.0060  |
-| Refit $\bar{B}^0$ decay tree                 | 5482          | 6423          | 0.99673±0.00096    | 0.99597±0.00095    | 0.9992±0.0014  |
-| L0                                           | 2463          | 3529          | 0.4493±0.0068      | 0.5494±0.0063      | 1.223±0.023    |
-| Hlt1                                         | 1819          | 3529          | 0.7385±0.0091      | 1.00000±0.00052    | 1.354±0.017    |
-| Hlt2                                         | 1242          | 3529          | 0.683±0.011        | 1.00000±0.00052    | 1.465±0.024    |
-| $\mu$ PID                                    | 1174          | 3131          | 0.9452±0.0072      | 0.8872±0.0055      | 0.9386±0.0093  |
-| $\text{IsoBDT}_{B^0} < 0.15$                 | 910           | 2342          | 0.775±0.013        | 0.7480±0.0080      | 0.965±0.019    |
-| $B^0$ cuts                                   | 910           | 2340          | 1.0000±0.0020      | 0.9991±0.0011      | 0.9991±0.0023  |
-| $K$ cuts                                     | 897           | 1915          | 0.9857±0.0051      | 0.8184±0.0083      | 0.8302±0.0094  |
-| $\pi$ cuts                                   | 888           | 1587          | 0.9900±0.0045      | 0.8287±0.0090      | 0.8371±0.0099  |
-| $\pi_{soft}$ cuts                            | 888           | 1587          | 1.0000±0.0021      | 1.0000±0.0012      | 1.0000±0.0024  |
-| $D^0$ cuts                                   | 863           | 1454          | 0.9718±0.0067      | 0.9162±0.0075      | 0.943±0.010    |
-| $D^*$ cuts                                   | 782           | 1323          | 0.906±0.011        | 0.9099±0.0081      | 1.004±0.015    |
-| Total ratio                                  | -             | -             | 0.001555±0.000057  | 0.002544±0.000071  | 1.636±0.076    |
-
-!!! note
-    - With run 1 `DaVinci` script plus the run 2 stripping condition, we find
-      2016 (run 2 year) ntuple contains ~5x candidates than that of 2012 (run 1
-      year). See [released figures in this project](https://github.com/umd-lhcb/RDRDstRun2AnalysisPreservation/releases/latest).
-    - The luminosity between 2016 and 2012 are similar. We figured this out with DaVinci and DIRAC.
-    - We have a factor of 2 from the cross section. See [this paper](https://arxiv.org/pdf/1612.05140.pdf)
-    - This leaves a factor of 2.5. We are expecting ~1.7.
-    - Cut flow generated with very similar script and cocktail MC data agrees
-      with **the result from real data**.
-    - This table uses **full MagDown** run 1 and 2 cocktail MC.
-    - **ALL** numbers are number of events, **NOT** number of candidates.
-
-!!! info
-    - Run 1 stripping conditions can be found at [`Strippingb2D0MuXB2DMuNuForTauMuLine`](http://lhcbdoc.web.cern.ch/lhcbdoc/stripping/config/stripping21/semileptonic/strippingb2d0muxb2dmunufortaumuline.html)
-    - Run 2 stripping conditions can be found at [`Strippingb2D0MuXB2DMuForTauMuLine`](http://lhcbdoc.web.cern.ch/lhcbdoc/stripping/config/stripping28r2/semileptonic/strippingb2d0muxb2dmufortaumuline.html)
-
-
 ## Cutflow table with cocktail MC, bare
 
-| cut name                             | run 1 yield   | run 2 yield   | run 1 efficiency   | run 2 efficiency   | double ratio    |
-|--------------------------------------|---------------|---------------|--------------------|--------------------|-----------------|
-| Total events                         | 502736        | 520046        | -                  | -                  | -               |
-| $D^0 \rightarrow K^- \pi^+$          | 89441         | 94498         | 0.18680±0.00056    | 0.19328±0.00056    | 1.0347±0.0043   |
-| $D^{*+} \rightarrow D^0 \pi^+$       | 89277         | 94412         | 0.99817±0.00015    | 0.99909±0.00011    | 1.00093±0.00019 |
-| $\bar{B}^0 \rightarrow D^{*+} \mu^-$ | 47858         | 51329         | 0.6181±0.0017      | 0.6082±0.0017      | 0.9840±0.0039   |
-| L0                                   | 18742         | 16392         | 0.3916±0.0022      | 0.3194±0.0021      | 0.8155±0.0070   |
-| Hlt1                                 | 9201          | 16383         | 0.4909±0.0037      | 0.99945±0.00025    | 2.036±0.015     |
-| Hlt2                                 | 3761          | 8232          | 0.4088±0.0052      | 0.5025±0.0039      | 1.229±0.018     |
-| Stripping (partial)                  | 1303          | 4168          | 0.3465±0.0079      | 0.5063±0.0055      | 1.461±0.037     |
-| $\mu$ PID                            | 1229          | 3672          | 0.9432±0.0071      | 0.8810±0.0052      | 0.9340±0.0090   |
-| $\text{IsoBDT}_{B^0} < 0.15$         | 921           | 2593          | 0.749±0.013        | 0.7062±0.0077      | 0.942±0.019     |
-| $B^0$ cuts                           | 921           | 2516          | 1.0000±0.0020      | 0.9703±0.0037      | 0.9703±0.0042   |
-| $K$ cuts                             | 907           | 2050          | 0.9848±0.0052      | 0.8148±0.0080      | 0.8274±0.0092   |
-| $\pi$ cuts                           | 901           | 1668          | 0.9934±0.0039      | 0.8137±0.0090      | 0.8191±0.0096   |
-| $\pi_{soft}$ cuts                    | 901           | 1668          | 1.0000±0.0020      | 1.0000±0.0011      | 1.0000±0.0023   |
-| $D^0$ cuts                           | 870           | 1519          | 0.9656±0.0072      | 0.9107±0.0075      | 0.943±0.010     |
-| $D^*$ cuts                           | 803           | 1402          | 0.923±0.010        | 0.9230±0.0074      | 1.000±0.014     |
-| Total ratio                          | -             | -             | 0.001597±0.000058  | 0.002696±0.000073  | 1.688±0.077     |
+| cut name                             | run 1 yield   | run 2 yield   | run 1 efficiency   | run 2 efficiency   | double ratio   |
+|--------------------------------------|---------------|---------------|--------------------|--------------------|----------------|
+| Total events                         | 1025230       | 1035959       | -                  | -                  | -              |
+| Relaxed $D^0 \mu$ combo              | 139906        | 144221        | 61.9               | 61.9               | 1.00           |
+| $D^{*+} \rightarrow D^0 \pi^+$       | 129550        | 136011        | 92.6               | 94.3               | 1.02           |
+| $\bar{B}^0 \rightarrow D^{*+} \mu^-$ | 118213        | 126958        | 97.0               | 97.6               | 1.01           |
+| L0                                   | 46733         | 42182         | 39.5               | 33.2               | 0.84           |
+| Hlt1                                 | 22334         | 29928         | 47.8               | 70.9               | 1.48           |
+| Hlt2                                 | 9123          | 15110         | 40.8               | 50.5               | 1.24           |
+| Stripping                            | 4313          | 13005         | 47.3               | 86.1               | 1.82           |
+| DaVinci $D^* \mu$ cuts               | 2830          | 7837          | 65.6               | 60.3               | 0.92           |
+| Offline $D^0$ cuts                   | 1511          | 2371          | 53.4               | 30.3               | 0.57           |
+| Offline $\mu$ cuts                   | 1327          | 1880          | 87.8               | 79.3               | 0.90           |
+| Offline $D^* \mu$ combo cuts         | 1277          | 1769          | 96.2               | 94.1               | 0.98           |
+| Total ratio                          | -             | -             | 0.1                | 0.2                | 1.37           |
 
 !!! note
     - We removed all kinematic cuts and loosened some vertex quality cuts when generating bare ntuples.
     - This table uses **full MagDown** run 1 and 2 cocktail MC.
     - Additional step 2 cuts are applied here.
     - **ALL** numbers are number of events.
+
+!!! info
+    - Run 1 stripping conditions can be found at [`Strippingb2D0MuXB2DMuNuForTauMuLine`](http://lhcbdoc.web.cern.ch/lhcbdoc/stripping/config/stripping21/semileptonic/strippingb2d0muxb2dmunufortaumuline.html)
+    - Run 2 stripping conditions can be found at [`Strippingb2D0MuXB2DMuForTauMuLine`](http://lhcbdoc.web.cern.ch/lhcbdoc/stripping/config/stripping28r2/semileptonic/strippingb2d0muxb2dmufortaumuline.html)
+
+
+## Cutflow table with cocktail MC, bare, with truth-matched signal, normalization, and $D^{**}$
+
+### Signal
+
+| cut name                             | run 1 yield   | run 2 yield   | run 1 efficiency   | run 2 efficiency   | double ratio   |
+|--------------------------------------|---------------|---------------|--------------------|--------------------|----------------|
+| Total events                         | 1025230       | 1035959       | -                  | -                  | -              |
+| Relaxed $D^0 \mu$ combo              | 139906        | 144221        | 61.9               | 61.9               | 1.00           |
+| $D^{*+} \rightarrow D^0 \pi^+$       | 129550        | 136011        | 92.6               | 94.3               | 1.02           |
+| $\bar{B}^0 \rightarrow D^{*+} \mu^-$ | 118213        | 126958        | 97.0               | 97.6               | 1.01           |
+| Signal truth-matching                | 4388          | 4638          | 3.7                | 3.7                | 0.98           |
+| L0                                   | 1633          | 1442          | 37.2               | 31.1               | 0.84           |
+| Hlt1                                 | 677           | 947           | 41.5               | 65.7               | 1.58           |
+| Hlt2                                 | 310           | 453           | 45.8               | 47.8               | 1.04           |
+| Stripping                            | 151           | 397           | 48.7               | 87.6               | 1.80           |
+| DaVinci $D^* \mu$ cuts               | 116           | 290           | 76.8               | 73.0               | 0.95           |
+| Offline $D^0$ cuts                   | 56            | 102           | 48.3               | 35.2               | 0.73           |
+| Offline $\mu$ cuts                   | 52            | 76            | 92.9               | 74.5               | 0.80           |
+| Offline $D^* \mu$ combo cuts         | 50            | 74            | 96.2               | 97.4               | 1.01           |
+| Total ratio                          | -             | -             | 0.0                | 0.0                | 1.46           |
+
+### Normalization
+
+| cut name                             | run 1 yield   | run 2 yield   | run 1 efficiency   | run 2 efficiency   | double ratio   |
+|--------------------------------------|---------------|---------------|--------------------|--------------------|----------------|
+| Total events                         | 1025230       | 1035959       | -                  | -                  | -              |
+| Relaxed $D^0 \mu$ combo              | 139906        | 144221        | 61.9               | 61.9               | 1.00           |
+| $D^{*+} \rightarrow D^0 \pi^+$       | 129550        | 136011        | 92.6               | 94.3               | 1.02           |
+| $\bar{B}^0 \rightarrow D^{*+} \mu^-$ | 118213        | 126958        | 97.0               | 97.6               | 1.01           |
+| Normalization truth-matching         | 76567         | 82950         | 64.8               | 65.3               | 1.01           |
+| L0                                   | 29880         | 27255         | 39.0               | 32.9               | 0.84           |
+| Hlt1                                 | 14556         | 19556         | 48.7               | 71.8               | 1.47           |
+| Hlt2                                 | 5993          | 10104         | 41.2               | 51.7               | 1.25           |
+| Stripping                            | 2898          | 8702          | 48.4               | 86.1               | 1.78           |
+| DaVinci $D^* \mu$ cuts               | 2280          | 6287          | 78.7               | 72.2               | 0.92           |
+| Offline $D^0$ cuts                   | 1227          | 1898          | 53.8               | 30.2               | 0.56           |
+| Offline $\mu$ cuts                   | 1068          | 1503          | 87.0               | 79.2               | 0.91           |
+| Offline $D^* \mu$ combo cuts         | 1039          | 1420          | 97.3               | 94.5               | 0.97           |
+| Total ratio                          | -             | -             | 0.1                | 0.1                | 1.35           |
+
+### $D^{**}$
+
+| cut name                             | run 1 yield   | run 2 yield   | run 1 efficiency   | run 2 efficiency   | double ratio   |
+|--------------------------------------|---------------|---------------|--------------------|--------------------|----------------|
+| Total events                         | 1025230       | 1035959       | -                  | -                  | -              |
+| Relaxed $D^0 \mu$ combo              | 139906        | 144221        | 61.9               | 61.9               | 1.00           |
+| $D^{*+} \rightarrow D^0 \pi^+$       | 129550        | 136011        | 92.6               | 94.3               | 1.02           |
+| $\bar{B}^0 \rightarrow D^{*+} \mu^-$ | 118213        | 126958        | 97.0               | 97.6               | 1.01           |
+| $D^{**}$ truth-matching              | 35827         | 37755         | 30.3               | 29.7               | 0.98           |
+| L0                                   | 14076         | 12375         | 39.3               | 32.8               | 0.83           |
+| Hlt1                                 | 6726          | 8822          | 47.8               | 71.3               | 1.49           |
+| Hlt2                                 | 2666          | 4443          | 39.6               | 50.4               | 1.27           |
+| Stripping                            | 1225          | 3818          | 45.9               | 85.9               | 1.87           |
+| DaVinci $D^* \mu$ cuts               | 423           | 1222          | 34.5               | 32.0               | 0.93           |
+| Offline $D^0$ cuts                   | 224           | 366           | 53.0               | 30.0               | 0.57           |
+| Offline $\mu$ cuts                   | 203           | 298           | 90.6               | 81.4               | 0.90           |
+| Offline $D^* \mu$ combo cuts         | 185           | 273           | 91.1               | 91.6               | 1.01           |
+| Total ratio                          | -             | -             | 0.0                | 0.0                | 1.46           |
 
 
 ## Cutflow table with real data
