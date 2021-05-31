@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sat May 29, 2021 at 01:50 AM +0200
+# Last Change: Mon May 31, 2021 at 03:22 AM +0200
 #
 # Description: Definitions of selection and reconstruction procedures for run 2
 #              R(D(*)). For more thorough comments, take a look at:
@@ -920,7 +920,6 @@ elif DaVinci().Simulation:
                                  # auxiliary ntuples
                                  tp_Bminus_mc_Tau, tp_Bminus_mc_Mu,
                                  tp_B0_mc_Tau, tp_B0_mc_Mu]
-
 else:
     DaVinci().UserAlgorithms += [seq_Bminus.sequence(),
                                  seq_Bminus_ws.sequence(),
