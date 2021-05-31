@@ -687,23 +687,43 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#generation-steps" class="md-nav__link">
-    Generation steps
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#cutflow-table-with-cocktail-mc" class="md-nav__link">
-    Cutflow table with cocktail MC
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#cutflow-table-with-cocktail-mc-bare" class="md-nav__link">
     Cutflow table with cocktail MC, bare
   </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cutflow-table-with-cocktail-mc-bare-with-truth-matched-signal-normalization-and-d" class="md-nav__link">
+    Cutflow table with cocktail MC, bare, with truth-matched signal, normalization, and \(D^{**}\)
+  </a>
+  
+    <nav class="md-nav" aria-label="Cutflow table with cocktail MC, bare, with truth-matched signal, normalization, and \(D^{**}\)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signal" class="md-nav__link">
+    Signal
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#normalization" class="md-nav__link">
+    Normalization
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#d" class="md-nav__link">
+    \(D^{**}\)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -847,23 +867,43 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#generation-steps" class="md-nav__link">
-    Generation steps
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#cutflow-table-with-cocktail-mc" class="md-nav__link">
-    Cutflow table with cocktail MC
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#cutflow-table-with-cocktail-mc-bare" class="md-nav__link">
     Cutflow table with cocktail MC, bare
   </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cutflow-table-with-cocktail-mc-bare-with-truth-matched-signal-normalization-and-d" class="md-nav__link">
+    Cutflow table with cocktail MC, bare, with truth-matched signal, normalization, and \(D^{**}\)
+  </a>
+  
+    <nav class="md-nav" aria-label="Cutflow table with cocktail MC, bare, with truth-matched signal, normalization, and \(D^{**}\)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signal" class="md-nav__link">
+    Signal
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#normalization" class="md-nav__link">
+    Normalization
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#d" class="md-nav__link">
+    \(D^{**}\)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -892,211 +932,6 @@
                 
                 
                 <h1 id="rd-cutflow-overview"><span class="arithmatex">\(R(D^*)\)</span> cutflow overview</h1>
-<h2 id="generation-steps">Generation steps</h2>
-<ol>
-<li>
-<p>Extract DaVinci-level cut efficiencies with <a href="https://github.com/umd-lhcb/lhcb-ntuples-gen/blob/master/scripts/davinci_log_parser.py"><code>davinci_log_parser.py</code></a>:
-    <div class="highlight"><pre><span></span><code>./davinci_log_parser.py &lt;output_yaml_filename&gt; &lt;input_log1&gt; &lt;input_log2&gt; ...
-</code></pre></div></p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p><code>&lt;output_yaml_filename&gt;</code> is the generated file. Same below.</p>
-<p>For input logs files, wildcard <code>*</code> is supported. So instead of
-providing a list of log files, you can just provide a single
-<strong>pattern</strong> that matches to all log files.</p>
-<p>Example usage:
-<div class="highlight"><pre><span></span><code>./davinci_log_parser.py input-run1.yml $INPUT_DIR/53/*/output/*.log
-</code></pre></div></p>
-</div>
-</li>
-<li>
-<p>Generate cut flow table with:
-    <div class="highlight"><pre><span></span><code>make cutflow-rdst
-</code></pre></div>
-    Please refer to the <a href="https://github.com/umd-lhcb/lhcb-ntuples-gen/blob/master/postprocess/make/rdx.mk"><code>rdx.mk</code></a> on the implementation details.</p>
-</li>
-</ol>
-<h2 id="cutflow-table-with-cocktail-mc">Cutflow table with cocktail MC</h2>
-<table>
-<thead>
-<tr>
-<th>cut name</th>
-<th>run 1 yield</th>
-<th>run 2 yield</th>
-<th>run 1 efficiency</th>
-<th>run 2 efficiency</th>
-<th>double ratio</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Total events</td>
-<td>502736</td>
-<td>520046</td>
-<td>-</td>
-<td>-</td>
-<td>-</td>
-</tr>
-<tr>
-<td>Stripped <span class="arithmatex">\(D^0 \mu^-\)</span></td>
-<td>10422</td>
-<td>13807</td>
-<td>0.02073±0.00020</td>
-<td>0.02655±0.00022</td>
-<td>1.281±0.016</td>
-</tr>
-<tr>
-<td><span class="arithmatex">\(D^0 \rightarrow K^- \pi^+\)</span> (tighter <span class="arithmatex">\(K\pi\)</span>)</td>
-<td>10080</td>
-<td>13397</td>
-<td>0.9672±0.0018</td>
-<td>0.9703±0.0015</td>
-<td>1.0032±0.0025</td>
-</tr>
-<tr>
-<td><span class="arithmatex">\(D^{*+} \rightarrow D^0 \pi^+\)</span></td>
-<td>5988</td>
-<td>7891</td>
-<td>0.5940±0.0049</td>
-<td>0.5890±0.0043</td>
-<td>0.992±0.011</td>
-</tr>
-<tr>
-<td><span class="arithmatex">\(\bar{B}^0 \rightarrow D^{*+} \mu^-\)</span></td>
-<td>5500</td>
-<td>6449</td>
-<td>0.9185±0.0037</td>
-<td>0.8173±0.0044</td>
-<td>0.8898±0.0060</td>
-</tr>
-<tr>
-<td>Refit <span class="arithmatex">\(\bar{B}^0\)</span> decay tree</td>
-<td>5482</td>
-<td>6423</td>
-<td>0.99673±0.00096</td>
-<td>0.99597±0.00095</td>
-<td>0.9992±0.0014</td>
-</tr>
-<tr>
-<td>L0</td>
-<td>2463</td>
-<td>3529</td>
-<td>0.4493±0.0068</td>
-<td>0.5494±0.0063</td>
-<td>1.223±0.023</td>
-</tr>
-<tr>
-<td>Hlt1</td>
-<td>1819</td>
-<td>3529</td>
-<td>0.7385±0.0091</td>
-<td>1.00000±0.00052</td>
-<td>1.354±0.017</td>
-</tr>
-<tr>
-<td>Hlt2</td>
-<td>1242</td>
-<td>3529</td>
-<td>0.683±0.011</td>
-<td>1.00000±0.00052</td>
-<td>1.465±0.024</td>
-</tr>
-<tr>
-<td><span class="arithmatex">\(\mu\)</span> PID</td>
-<td>1174</td>
-<td>3131</td>
-<td>0.9452±0.0072</td>
-<td>0.8872±0.0055</td>
-<td>0.9386±0.0093</td>
-</tr>
-<tr>
-<td><span class="arithmatex">\(\text{IsoBDT}_{B^0} &lt; 0.15\)</span></td>
-<td>910</td>
-<td>2342</td>
-<td>0.775±0.013</td>
-<td>0.7480±0.0080</td>
-<td>0.965±0.019</td>
-</tr>
-<tr>
-<td><span class="arithmatex">\(B^0\)</span> cuts</td>
-<td>910</td>
-<td>2340</td>
-<td>1.0000±0.0020</td>
-<td>0.9991±0.0011</td>
-<td>0.9991±0.0023</td>
-</tr>
-<tr>
-<td><span class="arithmatex">\(K\)</span> cuts</td>
-<td>897</td>
-<td>1915</td>
-<td>0.9857±0.0051</td>
-<td>0.8184±0.0083</td>
-<td>0.8302±0.0094</td>
-</tr>
-<tr>
-<td><span class="arithmatex">\(\pi\)</span> cuts</td>
-<td>888</td>
-<td>1587</td>
-<td>0.9900±0.0045</td>
-<td>0.8287±0.0090</td>
-<td>0.8371±0.0099</td>
-</tr>
-<tr>
-<td><span class="arithmatex">\(\pi_{soft}\)</span> cuts</td>
-<td>888</td>
-<td>1587</td>
-<td>1.0000±0.0021</td>
-<td>1.0000±0.0012</td>
-<td>1.0000±0.0024</td>
-</tr>
-<tr>
-<td><span class="arithmatex">\(D^0\)</span> cuts</td>
-<td>863</td>
-<td>1454</td>
-<td>0.9718±0.0067</td>
-<td>0.9162±0.0075</td>
-<td>0.943±0.010</td>
-</tr>
-<tr>
-<td><span class="arithmatex">\(D^*\)</span> cuts</td>
-<td>782</td>
-<td>1323</td>
-<td>0.906±0.011</td>
-<td>0.9099±0.0081</td>
-<td>1.004±0.015</td>
-</tr>
-<tr>
-<td>Total ratio</td>
-<td>-</td>
-<td>-</td>
-<td>0.001555±0.000057</td>
-<td>0.002544±0.000071</td>
-<td>1.636±0.076</td>
-</tr>
-</tbody>
-</table>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<ul>
-<li>With run 1 <code>DaVinci</code> script plus the run 2 stripping condition, we find
-  2016 (run 2 year) ntuple contains ~5x candidates than that of 2012 (run 1
-  year). See <a href="https://github.com/umd-lhcb/RDRDstRun2AnalysisPreservation/releases/latest">released figures in this project</a>.</li>
-<li>The luminosity between 2016 and 2012 are similar. We figured this out with DaVinci and DIRAC.</li>
-<li>We have a factor of 2 from the cross section. See <a href="https://arxiv.org/pdf/1612.05140.pdf">this paper</a></li>
-<li>This leaves a factor of 2.5. We are expecting ~1.7.</li>
-<li>Cut flow generated with very similar script and cocktail MC data agrees
-  with <strong>the result from real data</strong>.</li>
-<li>This table uses <strong>full MagDown</strong> run 1 and 2 cocktail MC.</li>
-<li><strong>ALL</strong> numbers are number of events, <strong>NOT</strong> number of candidates.</li>
-</ul>
-</div>
-<div class="admonition info">
-<p class="admonition-title">Info</p>
-<ul>
-<li>Run 1 stripping conditions can be found at <a href="http://lhcbdoc.web.cern.ch/lhcbdoc/stripping/config/stripping21/semileptonic/strippingb2d0muxb2dmunufortaumuline.html"><code>Strippingb2D0MuXB2DMuNuForTauMuLine</code></a></li>
-<li>Run 2 stripping conditions can be found at <a href="http://lhcbdoc.web.cern.ch/lhcbdoc/stripping/config/stripping28r2/semileptonic/strippingb2d0muxb2dmufortaumuline.html"><code>Strippingb2D0MuXB2DMuForTauMuLine</code></a></li>
-</ul>
-</div>
 <h2 id="cutflow-table-with-cocktail-mc-bare">Cutflow table with cocktail MC, bare</h2>
 <table>
 <thead>
@@ -1112,139 +947,107 @@ providing a list of log files, you can just provide a single
 <tbody>
 <tr>
 <td>Total events</td>
-<td>502736</td>
-<td>520046</td>
+<td>1025230</td>
+<td>1035959</td>
 <td>-</td>
 <td>-</td>
 <td>-</td>
 </tr>
 <tr>
-<td><span class="arithmatex">\(D^0 \rightarrow K^- \pi^+\)</span></td>
-<td>89441</td>
-<td>94498</td>
-<td>0.18680±0.00056</td>
-<td>0.19328±0.00056</td>
-<td>1.0347±0.0043</td>
+<td>Relaxed <span class="arithmatex">\(D^0 \mu\)</span> combo</td>
+<td>139906</td>
+<td>144221</td>
+<td>61.9</td>
+<td>61.9</td>
+<td>1.00</td>
 </tr>
 <tr>
 <td><span class="arithmatex">\(D^{*+} \rightarrow D^0 \pi^+\)</span></td>
-<td>89277</td>
-<td>94412</td>
-<td>0.99817±0.00015</td>
-<td>0.99909±0.00011</td>
-<td>1.00093±0.00019</td>
+<td>129550</td>
+<td>136011</td>
+<td>92.6</td>
+<td>94.3</td>
+<td>1.02</td>
 </tr>
 <tr>
 <td><span class="arithmatex">\(\bar{B}^0 \rightarrow D^{*+} \mu^-\)</span></td>
-<td>47858</td>
-<td>51329</td>
-<td>0.6181±0.0017</td>
-<td>0.6082±0.0017</td>
-<td>0.9840±0.0039</td>
+<td>118213</td>
+<td>126958</td>
+<td>97.0</td>
+<td>97.6</td>
+<td>1.01</td>
 </tr>
 <tr>
 <td>L0</td>
-<td>18742</td>
-<td>16392</td>
-<td>0.3916±0.0022</td>
-<td>0.3194±0.0021</td>
-<td>0.8155±0.0070</td>
+<td>46733</td>
+<td>42182</td>
+<td>39.5</td>
+<td>33.2</td>
+<td>0.84</td>
 </tr>
 <tr>
 <td>Hlt1</td>
-<td>9201</td>
-<td>16383</td>
-<td>0.4909±0.0037</td>
-<td>0.99945±0.00025</td>
-<td>2.036±0.015</td>
+<td>22334</td>
+<td>29928</td>
+<td>47.8</td>
+<td>70.9</td>
+<td>1.48</td>
 </tr>
 <tr>
 <td>Hlt2</td>
-<td>3761</td>
-<td>8232</td>
-<td>0.4088±0.0052</td>
-<td>0.5025±0.0039</td>
-<td>1.229±0.018</td>
+<td>9123</td>
+<td>15110</td>
+<td>40.8</td>
+<td>50.5</td>
+<td>1.24</td>
 </tr>
 <tr>
-<td>Stripping (partial)</td>
-<td>1303</td>
-<td>4168</td>
-<td>0.3465±0.0079</td>
-<td>0.5063±0.0055</td>
-<td>1.461±0.037</td>
+<td>Stripping</td>
+<td>4313</td>
+<td>13005</td>
+<td>47.3</td>
+<td>86.1</td>
+<td>1.82</td>
 </tr>
 <tr>
-<td><span class="arithmatex">\(\mu\)</span> PID</td>
-<td>1229</td>
-<td>3672</td>
-<td>0.9432±0.0071</td>
-<td>0.8810±0.0052</td>
-<td>0.9340±0.0090</td>
+<td>DaVinci <span class="arithmatex">\(D^* \mu\)</span> cuts</td>
+<td>2830</td>
+<td>7837</td>
+<td>65.6</td>
+<td>60.3</td>
+<td>0.92</td>
 </tr>
 <tr>
-<td><span class="arithmatex">\(\text{IsoBDT}_{B^0} &lt; 0.15\)</span></td>
-<td>921</td>
-<td>2593</td>
-<td>0.749±0.013</td>
-<td>0.7062±0.0077</td>
-<td>0.942±0.019</td>
+<td>Offline <span class="arithmatex">\(D^0\)</span> cuts</td>
+<td>1511</td>
+<td>2371</td>
+<td>53.4</td>
+<td>30.3</td>
+<td>0.57</td>
 </tr>
 <tr>
-<td><span class="arithmatex">\(B^0\)</span> cuts</td>
-<td>921</td>
-<td>2516</td>
-<td>1.0000±0.0020</td>
-<td>0.9703±0.0037</td>
-<td>0.9703±0.0042</td>
+<td>Offline <span class="arithmatex">\(\mu\)</span> cuts</td>
+<td>1327</td>
+<td>1880</td>
+<td>87.8</td>
+<td>79.3</td>
+<td>0.90</td>
 </tr>
 <tr>
-<td><span class="arithmatex">\(K\)</span> cuts</td>
-<td>907</td>
-<td>2050</td>
-<td>0.9848±0.0052</td>
-<td>0.8148±0.0080</td>
-<td>0.8274±0.0092</td>
-</tr>
-<tr>
-<td><span class="arithmatex">\(\pi\)</span> cuts</td>
-<td>901</td>
-<td>1668</td>
-<td>0.9934±0.0039</td>
-<td>0.8137±0.0090</td>
-<td>0.8191±0.0096</td>
-</tr>
-<tr>
-<td><span class="arithmatex">\(\pi_{soft}\)</span> cuts</td>
-<td>901</td>
-<td>1668</td>
-<td>1.0000±0.0020</td>
-<td>1.0000±0.0011</td>
-<td>1.0000±0.0023</td>
-</tr>
-<tr>
-<td><span class="arithmatex">\(D^0\)</span> cuts</td>
-<td>870</td>
-<td>1519</td>
-<td>0.9656±0.0072</td>
-<td>0.9107±0.0075</td>
-<td>0.943±0.010</td>
-</tr>
-<tr>
-<td><span class="arithmatex">\(D^*\)</span> cuts</td>
-<td>803</td>
-<td>1402</td>
-<td>0.923±0.010</td>
-<td>0.9230±0.0074</td>
-<td>1.000±0.014</td>
+<td>Offline <span class="arithmatex">\(D^* \mu\)</span> combo cuts</td>
+<td>1277</td>
+<td>1769</td>
+<td>96.2</td>
+<td>94.1</td>
+<td>0.98</td>
 </tr>
 <tr>
 <td>Total ratio</td>
 <td>-</td>
 <td>-</td>
-<td>0.001597±0.000058</td>
-<td>0.002696±0.000073</td>
-<td>1.688±0.077</td>
+<td>0.1</td>
+<td>0.2</td>
+<td>1.37</td>
 </tr>
 </tbody>
 </table>
@@ -1257,6 +1060,395 @@ providing a list of log files, you can just provide a single
 <li><strong>ALL</strong> numbers are number of events.</li>
 </ul>
 </div>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<ul>
+<li>Run 1 stripping conditions can be found at <a href="http://lhcbdoc.web.cern.ch/lhcbdoc/stripping/config/stripping21/semileptonic/strippingb2d0muxb2dmunufortaumuline.html"><code>Strippingb2D0MuXB2DMuNuForTauMuLine</code></a></li>
+<li>Run 2 stripping conditions can be found at <a href="http://lhcbdoc.web.cern.ch/lhcbdoc/stripping/config/stripping28r2/semileptonic/strippingb2d0muxb2dmufortaumuline.html"><code>Strippingb2D0MuXB2DMuForTauMuLine</code></a></li>
+</ul>
+</div>
+<h2 id="cutflow-table-with-cocktail-mc-bare-with-truth-matched-signal-normalization-and-d">Cutflow table with cocktail MC, bare, with truth-matched signal, normalization, and <span class="arithmatex">\(D^{**}\)</span></h2>
+<h3 id="signal">Signal</h3>
+<table>
+<thead>
+<tr>
+<th>cut name</th>
+<th>run 1 yield</th>
+<th>run 2 yield</th>
+<th>run 1 efficiency</th>
+<th>run 2 efficiency</th>
+<th>double ratio</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Total events</td>
+<td>1025230</td>
+<td>1035959</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>Relaxed <span class="arithmatex">\(D^0 \mu\)</span> combo</td>
+<td>139906</td>
+<td>144221</td>
+<td>61.9</td>
+<td>61.9</td>
+<td>1.00</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(D^{*+} \rightarrow D^0 \pi^+\)</span></td>
+<td>129550</td>
+<td>136011</td>
+<td>92.6</td>
+<td>94.3</td>
+<td>1.02</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(\bar{B}^0 \rightarrow D^{*+} \mu^-\)</span></td>
+<td>118213</td>
+<td>126958</td>
+<td>97.0</td>
+<td>97.6</td>
+<td>1.01</td>
+</tr>
+<tr>
+<td>Signal truth-matching</td>
+<td>4388</td>
+<td>4638</td>
+<td>3.7</td>
+<td>3.7</td>
+<td>0.98</td>
+</tr>
+<tr>
+<td>L0</td>
+<td>1633</td>
+<td>1442</td>
+<td>37.2</td>
+<td>31.1</td>
+<td>0.84</td>
+</tr>
+<tr>
+<td>Hlt1</td>
+<td>677</td>
+<td>947</td>
+<td>41.5</td>
+<td>65.7</td>
+<td>1.58</td>
+</tr>
+<tr>
+<td>Hlt2</td>
+<td>310</td>
+<td>453</td>
+<td>45.8</td>
+<td>47.8</td>
+<td>1.04</td>
+</tr>
+<tr>
+<td>Stripping</td>
+<td>151</td>
+<td>397</td>
+<td>48.7</td>
+<td>87.6</td>
+<td>1.80</td>
+</tr>
+<tr>
+<td>DaVinci <span class="arithmatex">\(D^* \mu\)</span> cuts</td>
+<td>116</td>
+<td>290</td>
+<td>76.8</td>
+<td>73.0</td>
+<td>0.95</td>
+</tr>
+<tr>
+<td>Offline <span class="arithmatex">\(D^0\)</span> cuts</td>
+<td>56</td>
+<td>102</td>
+<td>48.3</td>
+<td>35.2</td>
+<td>0.73</td>
+</tr>
+<tr>
+<td>Offline <span class="arithmatex">\(\mu\)</span> cuts</td>
+<td>52</td>
+<td>76</td>
+<td>92.9</td>
+<td>74.5</td>
+<td>0.80</td>
+</tr>
+<tr>
+<td>Offline <span class="arithmatex">\(D^* \mu\)</span> combo cuts</td>
+<td>50</td>
+<td>74</td>
+<td>96.2</td>
+<td>97.4</td>
+<td>1.01</td>
+</tr>
+<tr>
+<td>Total ratio</td>
+<td>-</td>
+<td>-</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>1.46</td>
+</tr>
+</tbody>
+</table>
+<h3 id="normalization">Normalization</h3>
+<table>
+<thead>
+<tr>
+<th>cut name</th>
+<th>run 1 yield</th>
+<th>run 2 yield</th>
+<th>run 1 efficiency</th>
+<th>run 2 efficiency</th>
+<th>double ratio</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Total events</td>
+<td>1025230</td>
+<td>1035959</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>Relaxed <span class="arithmatex">\(D^0 \mu\)</span> combo</td>
+<td>139906</td>
+<td>144221</td>
+<td>61.9</td>
+<td>61.9</td>
+<td>1.00</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(D^{*+} \rightarrow D^0 \pi^+\)</span></td>
+<td>129550</td>
+<td>136011</td>
+<td>92.6</td>
+<td>94.3</td>
+<td>1.02</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(\bar{B}^0 \rightarrow D^{*+} \mu^-\)</span></td>
+<td>118213</td>
+<td>126958</td>
+<td>97.0</td>
+<td>97.6</td>
+<td>1.01</td>
+</tr>
+<tr>
+<td>Normalization truth-matching</td>
+<td>76567</td>
+<td>82950</td>
+<td>64.8</td>
+<td>65.3</td>
+<td>1.01</td>
+</tr>
+<tr>
+<td>L0</td>
+<td>29880</td>
+<td>27255</td>
+<td>39.0</td>
+<td>32.9</td>
+<td>0.84</td>
+</tr>
+<tr>
+<td>Hlt1</td>
+<td>14556</td>
+<td>19556</td>
+<td>48.7</td>
+<td>71.8</td>
+<td>1.47</td>
+</tr>
+<tr>
+<td>Hlt2</td>
+<td>5993</td>
+<td>10104</td>
+<td>41.2</td>
+<td>51.7</td>
+<td>1.25</td>
+</tr>
+<tr>
+<td>Stripping</td>
+<td>2898</td>
+<td>8702</td>
+<td>48.4</td>
+<td>86.1</td>
+<td>1.78</td>
+</tr>
+<tr>
+<td>DaVinci <span class="arithmatex">\(D^* \mu\)</span> cuts</td>
+<td>2280</td>
+<td>6287</td>
+<td>78.7</td>
+<td>72.2</td>
+<td>0.92</td>
+</tr>
+<tr>
+<td>Offline <span class="arithmatex">\(D^0\)</span> cuts</td>
+<td>1227</td>
+<td>1898</td>
+<td>53.8</td>
+<td>30.2</td>
+<td>0.56</td>
+</tr>
+<tr>
+<td>Offline <span class="arithmatex">\(\mu\)</span> cuts</td>
+<td>1068</td>
+<td>1503</td>
+<td>87.0</td>
+<td>79.2</td>
+<td>0.91</td>
+</tr>
+<tr>
+<td>Offline <span class="arithmatex">\(D^* \mu\)</span> combo cuts</td>
+<td>1039</td>
+<td>1420</td>
+<td>97.3</td>
+<td>94.5</td>
+<td>0.97</td>
+</tr>
+<tr>
+<td>Total ratio</td>
+<td>-</td>
+<td>-</td>
+<td>0.1</td>
+<td>0.1</td>
+<td>1.35</td>
+</tr>
+</tbody>
+</table>
+<h3 id="d"><span class="arithmatex">\(D^{**}\)</span></h3>
+<table>
+<thead>
+<tr>
+<th>cut name</th>
+<th>run 1 yield</th>
+<th>run 2 yield</th>
+<th>run 1 efficiency</th>
+<th>run 2 efficiency</th>
+<th>double ratio</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Total events</td>
+<td>1025230</td>
+<td>1035959</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>Relaxed <span class="arithmatex">\(D^0 \mu\)</span> combo</td>
+<td>139906</td>
+<td>144221</td>
+<td>61.9</td>
+<td>61.9</td>
+<td>1.00</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(D^{*+} \rightarrow D^0 \pi^+\)</span></td>
+<td>129550</td>
+<td>136011</td>
+<td>92.6</td>
+<td>94.3</td>
+<td>1.02</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(\bar{B}^0 \rightarrow D^{*+} \mu^-\)</span></td>
+<td>118213</td>
+<td>126958</td>
+<td>97.0</td>
+<td>97.6</td>
+<td>1.01</td>
+</tr>
+<tr>
+<td><span class="arithmatex">\(D^{**}\)</span> truth-matching</td>
+<td>35827</td>
+<td>37755</td>
+<td>30.3</td>
+<td>29.7</td>
+<td>0.98</td>
+</tr>
+<tr>
+<td>L0</td>
+<td>14076</td>
+<td>12375</td>
+<td>39.3</td>
+<td>32.8</td>
+<td>0.83</td>
+</tr>
+<tr>
+<td>Hlt1</td>
+<td>6726</td>
+<td>8822</td>
+<td>47.8</td>
+<td>71.3</td>
+<td>1.49</td>
+</tr>
+<tr>
+<td>Hlt2</td>
+<td>2666</td>
+<td>4443</td>
+<td>39.6</td>
+<td>50.4</td>
+<td>1.27</td>
+</tr>
+<tr>
+<td>Stripping</td>
+<td>1225</td>
+<td>3818</td>
+<td>45.9</td>
+<td>85.9</td>
+<td>1.87</td>
+</tr>
+<tr>
+<td>DaVinci <span class="arithmatex">\(D^* \mu\)</span> cuts</td>
+<td>423</td>
+<td>1222</td>
+<td>34.5</td>
+<td>32.0</td>
+<td>0.93</td>
+</tr>
+<tr>
+<td>Offline <span class="arithmatex">\(D^0\)</span> cuts</td>
+<td>224</td>
+<td>366</td>
+<td>53.0</td>
+<td>30.0</td>
+<td>0.57</td>
+</tr>
+<tr>
+<td>Offline <span class="arithmatex">\(\mu\)</span> cuts</td>
+<td>203</td>
+<td>298</td>
+<td>90.6</td>
+<td>81.4</td>
+<td>0.90</td>
+</tr>
+<tr>
+<td>Offline <span class="arithmatex">\(D^* \mu\)</span> combo cuts</td>
+<td>185</td>
+<td>273</td>
+<td>91.1</td>
+<td>91.6</td>
+<td>1.01</td>
+</tr>
+<tr>
+<td>Total ratio</td>
+<td>-</td>
+<td>-</td>
+<td>0.0</td>
+<td>0.0</td>
+<td>1.46</td>
+</tr>
+</tbody>
+</table>
 <h2 id="cutflow-table-with-real-data">Cutflow table with real data</h2>
 <table>
 <thead>
