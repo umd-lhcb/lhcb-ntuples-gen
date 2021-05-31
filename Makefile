@@ -1,6 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue May 25, 2021 at 06:10 PM +0200
+# Last Change: Mon May 31, 2021 at 06:09 PM +0200
 
 export PATH := workflows:test:scripts:tools:$(PATH)
 
@@ -137,7 +137,7 @@ gen/rdx-cutflow-Dst-%: \
 # Generic cutflow YAML generation
 gen/rdx-cutflow-run1-Dst-%/cutflow.yml: \
 	0.9.4-trigger_emulation/Dst_D0-cutflow_mc \
-	21_05_23-run1_bare.yml
+	21_05_31-run1_bare.yml
 	$(eval JOBNAME	:=	$(notdir $(patsubst %/,%,$(dir $@))))
 	$(eval MODE	:=	$(subst rdx-cutflow-,,${JOBNAME}))
 	@rdx.py ${JOBNAME} $< --mode cutflow \
@@ -145,7 +145,7 @@ gen/rdx-cutflow-run1-Dst-%/cutflow.yml: \
 
 gen/rdx-cutflow-run2-Dst-%/cutflow.yml: \
 	0.9.4-trigger_emulation/Dst_D0-cutflow_mc \
-	21_05_23-run2_bare.yml
+	21_05_31-run2_bare.yml
 	$(eval JOBNAME	:=	$(notdir $(patsubst %/,%,$(dir $@))))
 	$(eval MODE	:=	$(subst rdx-cutflow-,,${JOBNAME}))
 	@rdx.py ${JOBNAME} $< --mode cutflow \
