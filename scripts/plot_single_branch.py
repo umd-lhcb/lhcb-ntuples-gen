@@ -1,14 +1,15 @@
 #!/usr/bin/env python3
 #
 # Author: Yipeng Sun
-# Last Change: Mon Oct 21, 2019 at 03:34 AM -0400
+# Last Change: Tue Jun 01, 2021 at 08:49 PM +0200
 
 import uproot
+import mplhep as hep
 
 from pyTuplingUtils.parse import single_ntuple_parser
 from pyTuplingUtils.io import read_branch
 from pyTuplingUtils.utils import gen_histo
-from pyTuplingUtils.plot import plot_style, plot_histo, ax_add_args_default
+from pyTuplingUtils.plot import plot_histo, ax_add_args_default
 
 
 #################################
@@ -38,8 +39,7 @@ y axis scale (linear or log).''')
 
 if __name__ == '__main__':
     args = parse_input().parse_args()
-
-    plot_style()
+    hep.style.use('LHCb2')
 
     ntp = uproot.open(args.ref)
     branch = read_branch(ntp, args.ref_tree, args.ref_branch)

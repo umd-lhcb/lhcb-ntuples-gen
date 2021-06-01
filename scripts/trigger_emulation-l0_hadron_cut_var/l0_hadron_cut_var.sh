@@ -38,3 +38,10 @@ INPUT_NTP=../../ntuples/0.9.4-trigger_emulation/Dst_D0-mc/Dst_D0--21_04_21--mc--
     -l "\$K$ Trigger \$E_T$" -L "\$\\pi$ Trigger \$E_T$" \
     -o k_pi_trg_et_comparison.png \
     -XD -10 6200
+
+# Plot the radial differences
+../plot_single_branch.py -n ./emu_l0_hadron_debug.root -t TupleB0/DecayTree \
+    -b rdiff_k_pi -o rdiff_k_pi.png
+
+../plot_single_branch.py -n ./emu_l0_hadron_debug.root -t TupleB0/DecayTree \
+    -b rdiff_k_pi_wrong -o rdiff_k_pi_wrong.png
