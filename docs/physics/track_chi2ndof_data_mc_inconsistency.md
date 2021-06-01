@@ -16,7 +16,7 @@ Puzzled by this, we asked experts[^1] about this. The answer was:
 
         | mode | residual | resolution |
         |---|---|---|
-        | data | old | new |
+        | data | new | old |
         | MC   | new | new |
 
     - Note that $\chi^2$ here is computed by $\frac{\text{residual}}{\text{resolution}}$.
