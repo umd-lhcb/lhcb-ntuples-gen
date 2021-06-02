@@ -1,4 +1,4 @@
-# lhcb-ntuples-gen [![github CI](https://github.com/umd-lhcb/lhcb-ntuples-gen/workflows/CI/badge.svg?branch=build)](https://github.com/umd-lhcb/lhcb-ntuples-gen/actions?query=workflow%3ACI)
+# lhcb-ntuples-gen [![github CI](https://github.com/umd-lhcb/lhcb-ntuples-gen/workflows/CI/badge.svg?branch=master)](https://github.com/umd-lhcb/lhcb-ntuples-gen/actions?query=workflow%3ACI)
 
 ntuples generation with DaVinci and babymaker.
 Please refer to [project wiki](https://umd-lhcb.github.io/lhcb-ntuples-gen/)
