@@ -1,0 +1,25 @@
+name: "CI"
+
+on:
+  push:
+      branches:
+          - master
+
+jobs:
+  tests:
+    if: "!contains(github.event.head_commit.message, 'skip ci')"
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-python@v2
+      with:
+          python-version: '3.8.x'
+
+    - run: pip install -r ./docs/requirements.txt
+    - run: ./test/test_filename_convention.py
+    - run: mkdocs build --strict
+
+    - uses: JamesIves/github-pages-deploy-action@4.1.3
+      with:
+          branch: gh-pages
+          folder: site
