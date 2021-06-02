@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun, Manual Franco Sevilla
 # License: BSD 2-clause
-# Last Change: Thu May 27, 2021 at 04:24 AM +0200
+# Last Change: Wed Jun 02, 2021 at 03:42 AM +0200
 
 import pathlib
 import os
@@ -109,6 +109,7 @@ CUTFLOW = {
                                     b0_OWNPV_X, b0_OWNPV_Y,
                                     b0_DIRA_OWNPV, b0_M)''',
              key=r'Offline $D^* \mu$ combo cuts'),
+        Rule('b0_ISOLATION_BDT < 0.15', key=r'$BDT_{iso} < 0.15$'),
     ],
     'run2-Dst-bare': [
         # Trigger
@@ -162,6 +163,7 @@ CUTFLOW = {
                                     b0_OWNPV_X, b0_OWNPV_Y,
                                     b0_DIRA_OWNPV, b0_M)''',
              key=r'Offline $D^* \mu$ combo cuts'),
+        Rule('b0_ISOLATION_BDT < 0.15', key=r'$BDT_{iso} < 0.15$'),
     ]
 }
 
