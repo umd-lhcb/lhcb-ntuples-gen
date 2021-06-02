@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Apr 15, 2021 at 03:03 AM +0200
+# Last Change: Thu Jun 03, 2021 at 12:38 AM +0200
 
 from datetime import datetime
 from re import match, sub
@@ -26,7 +26,7 @@ FILES_TO_CHECK = {
     'cond_file': ('**/cond-*.py', lambda x: Path(x).stem),
 }
 
-IGNORED_PATHS = ['lib', 'gen']
+IGNORED_PATHS = ['lib', 'gen', 'scripts']
 
 
 ####################################
