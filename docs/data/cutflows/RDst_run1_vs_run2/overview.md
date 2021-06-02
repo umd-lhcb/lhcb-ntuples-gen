@@ -16,7 +16,8 @@
 | Offline $D^0$ cuts                   | 1511          | 2371          | 53.4               | 30.3               | 0.57           |
 | Offline $\mu$ cuts                   | 1327          | 1880          | 87.8               | 79.3               | 0.90           |
 | Offline $D^* \mu$ combo cuts         | 1277          | 1769          | 96.2               | 94.1               | 0.98           |
-| Total ratio                          | -             | -             | 0.1                | 0.2                | 1.37           |
+| $BDT_{iso} < 0.15$                   | 985           | 1262          | 77.1               | 71.3               | 0.92           |
+| Total ratio                          | -             | -             | 0.1                | 0.1                | 1.27           |
 
 !!! note
     - We removed all kinematic cuts and loosened some vertex quality cuts when generating bare ntuples.
@@ -48,7 +49,8 @@
 | Offline $D^0$ cuts                   | 56            | 102           | 48.3               | 35.2               | 0.73           |
 | Offline $\mu$ cuts                   | 52            | 76            | 92.9               | 74.5               | 0.80           |
 | Offline $D^* \mu$ combo cuts         | 50            | 74            | 96.2               | 97.4               | 1.01           |
-| Total ratio                          | -             | -             | 0.0                | 0.0                | 1.46           |
+| $BDT_{iso} < 0.15$                   | 43            | 47            | 86.0               | 63.5               | 0.74           |
+| Total ratio                          | -             | -             | 0.0                | 0.0                | 1.08           |
 
 ### Normalization
 
@@ -67,7 +69,8 @@
 | Offline $D^0$ cuts                   | 1227          | 1898          | 53.8               | 30.2               | 0.56           |
 | Offline $\mu$ cuts                   | 1068          | 1503          | 87.0               | 79.2               | 0.91           |
 | Offline $D^* \mu$ combo cuts         | 1039          | 1420          | 97.3               | 94.5               | 0.97           |
-| Total ratio                          | -             | -             | 0.1                | 0.1                | 1.35           |
+| $BDT_{iso} < 0.15$                   | 880           | 1127          | 84.7               | 79.4               | 0.94           |
+| Total ratio                          | -             | -             | 0.1                | 0.1                | 1.27           |
 
 ### $D^{**}$
 
@@ -86,7 +89,8 @@
 | Offline $D^0$ cuts                   | 224           | 366           | 53.0               | 30.0               | 0.57           |
 | Offline $\mu$ cuts                   | 203           | 298           | 90.6               | 81.4               | 0.90           |
 | Offline $D^* \mu$ combo cuts         | 185           | 273           | 91.1               | 91.6               | 1.01           |
-| Total ratio                          | -             | -             | 0.0                | 0.0                | 1.46           |
+| $BDT_{iso} < 0.15$                   | 60            | 86            | 32.4               | 31.5               | 0.97           |
+| Total ratio                          | -             | -             | 0.0                | 0.0                | 1.42           |
 
 
 ## Cutflow table with real data
