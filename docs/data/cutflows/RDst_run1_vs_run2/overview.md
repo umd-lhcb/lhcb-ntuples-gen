@@ -125,7 +125,7 @@
       - Cut flow ntuples contain additional Hlt1 cuts.
     - **ALL** numbers are number of events.
 
-!!! warn
+!!! warning
     The first few entries are extracted from the DaVinci log, and should not be
     trusted for data cutflow.
 
