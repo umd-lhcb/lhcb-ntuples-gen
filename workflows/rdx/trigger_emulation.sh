@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Author: Yipeng Sun
-# Last Change: Tue May 18, 2021 at 03:36 PM +0200
+# Last Change: Fri Jun 04, 2021 at 03:45 PM +0200
 
 INPUT_NTP=$1
 
@@ -50,16 +50,21 @@ plot_l0_hadron_eff() {
         -k q2 mmiss2 el \
            d0_pt k_pt pi_pt \
            nspd_hits \
+           d0_p k_p pi_p \
         -D -10 10 -8 8 0 3 \
            0 40 0 20 0 20 \
            0 500 \
+           0 250 0 150 0 150 \
         --xlabel "\$q^2$ [GeV\$^2$]" \
                  "\$m_{miss}^2$ [GeV\$^2$]" \
                  "\$E_l$ [GeV]" \
                  "\$D^0$ \$p_T$ [GeV]" \
                  "\$K$ \$p_T$ [GeV]" \
                  "\$\\pi$ \$p_T$ [GeV]" \
-                 "Number of SPD hits"
+                 "Number of SPD hits" \
+                 "\$D^0$ \$p$ [GeV]" \
+                 "\$K$ \$p$ [GeV]" \
+                 "\$\\pi$ \$p$ [GeV]"
 }
 
 plot_l0_hadron_eff_step() {
@@ -76,18 +81,23 @@ plot_l0_hadron_eff_step() {
         -k q2 mmiss2 el \
            d0_pt k_pt pi_pt \
            nspd_hits \
+           d0_p k_p pi_p \
         --legends "Real response" "Emulated" "BDT" \
         --colors black red blue \
         -D -10 10 -8 8 0 3 \
            0 40 0 20 0 20 \
            0 500 \
+           0 250 0 150 0 150 \
         --xlabel "\$q^2$ [GeV\$^2$]" \
                  "\$m_{miss}^2$ [GeV\$^2$]" \
                  "\$E_l$ [GeV]" \
                  "\$D^0$ \$p_T$ [GeV]" \
                  "\$K$ \$p_T$ [GeV]" \
                  "\$\\pi$ \$p_T$ [GeV]" \
-                 "Number of SPD hits"
+                 "Number of SPD hits" \
+                 "\$D^0$ \$p$ [GeV]" \
+                 "\$K$ \$p$ [GeV]" \
+                 "\$\\pi$ \$p$ [GeV]"
 }
 
 plot_l0_global_tis_eff() {
