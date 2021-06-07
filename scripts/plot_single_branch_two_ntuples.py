@@ -1,15 +1,22 @@
 #!/usr/bin/env python3
 #
 # Author: Yipeng Sun
-# Last Change: Wed Oct 23, 2019 at 02:33 AM -0400
+# Last Change: Mon Jun 07, 2021 at 02:54 AM +0200
 
 import uproot
+import mplhep as hep
+import sys
+import os
+
+sys.path.insert(0, os.path.dirname(os.path.realpath(__file__)))
 
 from pyTuplingUtils.parse import double_ntuple_parser
 from pyTuplingUtils.io import read_branch
 from pyTuplingUtils.utils import gen_histo
-from pyTuplingUtils.plot import plot_style, plot_histo, ax_add_args_default
+from pyTuplingUtils.plot import plot_histo, plot_errorbar
+from pyTuplingUtils.plot import ax_add_args_histo, ax_add_args_errorbar
 
+from plot_trigger_efficiency_comp import DataRangeAction
 
 #################################
 # Command line arguments parser #
@@ -29,6 +36,40 @@ def parse_input(descr=DESCR):
                         help='''
 y axis scale (linear or log).''')
 
+    parser.add_argument('-l', '--ref-label',
+                        help='''
+specify label for reference branch.''')
+
+    parser.add_argument('-L', '--comp-label',
+                        help='''
+specify label for comparison branch.''')
+
+    parser.add_argument('--bins', type=int, default=25,
+                        help='''
+specify binning.''')
+
+    parser.add_argument('-XD', '--x-data-range',
+                        nargs='+',
+                        action=DataRangeAction,
+                        default=[(0, 6100)],
+                        help='''
+specify plotting range for the kinematic variables.''')
+
+    parser.add_argument('-YD', '--y-data-range',
+                        nargs='+',
+                        action=DataRangeAction,
+                        default=[(0, 3.5e4)],
+                        help='''
+specify plotting range for the kinematic variable multiplicities.''')
+
+    parser.add_argument('--xlabel', default='Trigger $E_T$ [GeV$^2$]',
+                        help='''
+specify xlabel.''')
+
+    parser.add_argument('--ylabel', default='Number of candidates',
+                        help='''
+specify ylabel.''')
+
     return parser
 
 
@@ -38,26 +79,29 @@ y axis scale (linear or log).''')
 
 if __name__ == '__main__':
     args = parse_input().parse_args()
-
-    plot_style()
+    hep.style.use('LHCb2')
 
     ntps = map(uproot.open, (args.ref, args.comp))
-    branch1, branch2 = map(lambda x, y, z: read_branch(x, y, z),
+    branch1, branch2 = map(read_branch,
                            ntps,
                            (args.ref_tree, args.comp_tree),
                            (args.ref_branch, args.comp_branch))
-    (histo1, bins1), (histo2, bins2) = map(gen_histo, (branch1, branch2))
+    (histo1, bins1), (histo2, bins2) = \
+        [gen_histo(br, args.bins, data_range=args.x_data_range[0])
+         for br in (branch1, branch2)]
 
-    plot1_add_args = ax_add_args_default(
-        branch1.size, branch1.mean(), branch1.std(),
-        color=(0, 0, 1, .5), edgecolor=(0, 0, 0, 0)
-    )
-    plot2_add_args = ax_add_args_default(
-        branch2.size, branch2.mean(), branch2.std(),
-        color=(1, 0, 0, .5), edgecolor=(0, 0, 0, 0)
-    )
-
-    fig, ax = plot_histo(histo1, bins1, plot1_add_args, None)
-    plot_histo(histo2, bins2, plot2_add_args,
-               output=args.output, figure=fig, axis=ax,
-               title=args.ref_branch, yscale=args.y_axis_scale)
+    histo_args = ax_add_args_histo(args.ref_label, '#87CEFA')  # light blue
+    pts_args = ax_add_args_errorbar(
+        args.comp_label, 'black', marker='+',
+        markeredgecolor='black', markeredgewidth=2)
+    fig, ax = plot_histo(histo1, bins1, histo_args,
+                         output=None, yscale=args.y_axis_scale,
+                         show_legend=False,
+                         xlim=args.x_data_range[0],
+                         ylim=args.y_data_range[0])
+    plot_errorbar(bins2, histo2, pts_args,
+                  output=args.output,
+                  figure=fig, axis=ax, yscale=args.y_axis_scale,
+                  xlim=args.x_data_range[0],
+                  ylim=args.y_data_range[0],
+                  xlabel=args.xlabel, ylabel=args.ylabel)
