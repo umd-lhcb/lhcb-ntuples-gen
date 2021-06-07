@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
 # Author: Yipeng Sun
-# Last Change: Mon Jun 07, 2021 at 03:18 AM +0200
+# Last Change: Mon Jun 07, 2021 at 03:40 AM +0200
 
 import uproot
 import numpy as np
@@ -26,6 +26,9 @@ from pyTuplingUtils.plot import ax_add_args_errorbar as errorbar_style
 
 class DataRangeAction(Action):
     def __call__(self, parser, namespace, values, option_string=None):
+        if values == [None]:
+            setattr(namespace, self.dest, values)
+
         if len(values) % 2 != 0:
             raise ValueError('Odd number of min, max pairs!')
 

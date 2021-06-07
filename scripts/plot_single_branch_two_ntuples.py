@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
 # Author: Yipeng Sun
-# Last Change: Mon Jun 07, 2021 at 03:14 AM +0200
+# Last Change: Mon Jun 07, 2021 at 03:51 AM +0200
 
 import uproot
 import mplhep as hep
@@ -39,14 +39,14 @@ y axis scale (linear or log).''')
     parser.add_argument('-XD', '--x-data-range',
                         nargs='+',
                         action=DataRangeAction,
-                        default=[(0, 6100)],
+                        default=[None],
                         help='''
 specify plotting range for the kinematic variables.''')
 
     parser.add_argument('-YD', '--y-data-range',
                         nargs='+',
                         action=DataRangeAction,
-                        default=[(0, 3.5e4)],
+                        default=[None],
                         help='''
 specify plotting range for the kinematic variable multiplicities.''')
 
@@ -70,6 +70,17 @@ if __name__ == '__main__':
         [gen_histo(br, args.bins, data_range=args.x_data_range[0])
          for br in (branch1, branch2)]
 
+    if not args.x_data_range[0]:
+        xmin, xmax = (bins1[0], bins1[-1])
+    else:
+        xmin, xmax = args.x_data_range[0]
+
+    if not args.y_data_range[0]:
+        ymin = 0
+        ymax = max(histo1.max(), histo2.max()) + 0.1*histo1.max()
+    else:
+        ymin, ymax = args.y_data_range[0]
+
     histo_args = ax_add_args_histo(args.ref_label, '#87CEFA')  # light blue
     pts_args = ax_add_args_errorbar(
         args.comp_label, 'black', marker='+',
@@ -77,11 +88,11 @@ if __name__ == '__main__':
     fig, ax = plot_histo(histo1, bins1, histo_args,
                          output=None, yscale=args.y_axis_scale,
                          show_legend=False,
-                         xlim=args.x_data_range[0],
-                         ylim=args.y_data_range[0])
+                         xlim=(xmin, xmax),
+                         ylim=(ymin, ymax))
     plot_errorbar(bins2, histo2, pts_args,
                   output=args.output,
                   figure=fig, axis=ax, yscale=args.y_axis_scale,
-                  xlim=args.x_data_range[0],
-                  ylim=args.y_data_range[0],
+                  xlim=(xmin, xmax),
+                  ylim=(ymin, ymax),
                   xlabel=args.xlabel, ylabel=args.ylabel)
