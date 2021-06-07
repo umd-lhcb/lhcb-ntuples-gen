@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
 # Author: Yipeng Sun
-# Last Change: Mon Jun 07, 2021 at 03:23 AM +0200
+# Last Change: Mon Jun 07, 2021 at 04:10 AM +0200
 
 import uproot
 import mplhep as hep
@@ -45,7 +45,7 @@ if __name__ == '__main__':
     branch = read_branch(ntp, args.ref_tree, args.ref_branch)
     histo, bins = gen_histo(branch, args.bins)
 
-    plot_add_args = ax_add_args_histo(args.ref_label)
+    plot_add_args = ax_add_args_histo(args.ref_label, 'cornflowerblue')
     plot_histo(histo, bins, plot_add_args, args.output,
                yscale=args.y_axis_scale,
                xlabel=args.xlabel, ylabel=args.ylabel)

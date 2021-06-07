@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
 # Author: Yipeng Sun
-# Last Change: Mon Jun 07, 2021 at 03:51 AM +0200
+# Last Change: Mon Jun 07, 2021 at 04:11 AM +0200
 
 import uproot
 import mplhep as hep
@@ -81,7 +81,7 @@ if __name__ == '__main__':
     else:
         ymin, ymax = args.y_data_range[0]
 
-    histo_args = ax_add_args_histo(args.ref_label, '#87CEFA')  # light blue
+    histo_args = ax_add_args_histo(args.ref_label, 'cornflowerblue')  # light blue
     pts_args = ax_add_args_errorbar(
         args.comp_label, 'black', marker='+',
         markeredgecolor='black', markeredgewidth=2)
