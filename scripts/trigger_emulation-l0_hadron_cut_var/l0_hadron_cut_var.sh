@@ -3,10 +3,10 @@
 INPUT_NTP=../../ntuples/0.9.4-trigger_emulation/Dst_D0-mc/Dst_D0--21_04_21--mc--MC_2016_Beam6500GeV-2016-MagDown-Nu1.6-25ns-Pythia8_Sim09j_Trig0x6139160F_Reco16_Turbo03a_Filtered_11574021_D0TAUNU.SAFESTRIPTRIG.DST.root
 
 # Emulate L0 Hadron
-#../../lib/python/TrackerOnlyEmu/scripts/run2-rdx-l0_hadron.py ${INPUT_NTP} \
-    #emu_l0_hadron_debug.root --debug
-#../../lib/python/TrackerOnlyEmu/scripts/run2-rdx-l0_hadron.py ${INPUT_NTP} \
-    #emu_l0_hadron_no_debug.root
+../../lib/python/TrackerOnlyEmu/scripts/run2-rdx-l0_hadron.py ${INPUT_NTP} \
+    emu_l0_hadron_debug.root --debug
+../../lib/python/TrackerOnlyEmu/scripts/run2-rdx-l0_hadron.py ${INPUT_NTP} \
+    emu_l0_hadron_no_debug.root
 
 # Generate comparison plots
 ../plot_trigger_efficiency_comp.py \
@@ -39,7 +39,7 @@ INPUT_NTP=../../ntuples/0.9.4-trigger_emulation/Dst_D0-mc/Dst_D0--21_04_21--mc--
     -b k_trg_et -B pi_trg_et \
     -l "\$K$ Trigger \$E_T$" -L "\$\\pi$ Trigger \$E_T$" \
     -o k_pi_trg_et_comparison.png \
-    -XD -10 6200
+    -XD -10 6200 -YD 0 5e4
 
 # Plot the difference between D0 PT and ET
 ../plot_two_branches.py -n ./emu_l0_hadron_debug.root -t TupleB0/DecayTree \
@@ -63,6 +63,10 @@ INPUT_NTP=../../ntuples/0.9.4-trigger_emulation/Dst_D0-mc/Dst_D0--21_04_21--mc--
     -XD 0 6200 -YD 0 9e4 \
     --xlabel "\$D^0$ \$E_T$"
 
+# Plot the difference between real and emulated D0 HCAL ET
+../plot_single_branch.py -n ./emu_l0_hadron_debug.root -t TupleB0/DecayTree \
+    -b d0_et_diff -o d0_et_diff.png -l "\$D^0$ \$E_T$ real-emulated"
+
 # Plot the radial differences
 ../plot_single_branch.py -n ./emu_l0_hadron_debug.root -t TupleB0/DecayTree \
     -l "\$K$ \$\\pi$ radial distance" \
@@ -77,6 +81,6 @@ INPUT_NTP=../../ntuples/0.9.4-trigger_emulation/Dst_D0-mc/Dst_D0--21_04_21--mc--
     -n ./emu_l0_hadron_no_debug.root -t TupleB0/DecayTree -b rdiff_k_pi \
     -N ./emu_l0_hadron_debug.root -T TupleB0/DecayTree -B rdiff_k_pi \
     -l "no nSPDHits \$< 450$ cut" -L "with nSPDhits cut" \
-    -XD 0 5000 -YD 0 1e5 \
+    -XD 0 5000 \
     --xlabel "\$K$ \$\\pi$ radial distance" \
     -o rdiff_k_pi_nspd_cut_comp.png
