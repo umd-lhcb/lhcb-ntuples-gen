@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
 # Author: Yipeng Sun
-# Last Change: Tue Jun 01, 2021 at 08:49 PM +0200
+# Last Change: Mon Jun 07, 2021 at 03:23 AM +0200
 
 import uproot
 import mplhep as hep
@@ -9,7 +9,7 @@ import mplhep as hep
 from pyTuplingUtils.parse import single_ntuple_parser
 from pyTuplingUtils.io import read_branch
 from pyTuplingUtils.utils import gen_histo
-from pyTuplingUtils.plot import plot_histo, ax_add_args_default
+from pyTuplingUtils.plot import plot_histo, ax_add_args_histo
 
 
 #################################
@@ -43,9 +43,9 @@ if __name__ == '__main__':
 
     ntp = uproot.open(args.ref)
     branch = read_branch(ntp, args.ref_tree, args.ref_branch)
-    histo, bins = gen_histo(branch)
+    histo, bins = gen_histo(branch, args.bins)
 
-    plot_add_args = ax_add_args_default(
-        branch.size, branch.mean(), branch.std())
+    plot_add_args = ax_add_args_histo(args.ref_label)
     plot_histo(histo, bins, plot_add_args, args.output,
-               title=args.ref_branch, yscale=args.y_axis_scale)
+               yscale=args.y_axis_scale,
+               xlabel=args.xlabel, ylabel=args.ylabel)

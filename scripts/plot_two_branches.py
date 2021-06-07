@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
 # Author: Yipeng Sun
-# Last Change: Mon May 31, 2021 at 03:17 AM +0200
+# Last Change: Mon Jun 07, 2021 at 03:25 AM +0200
 
 import uproot
 import mplhep as hep
@@ -41,17 +41,9 @@ y axis scale (linear or log).''')
                         help='''
 comparison branch name.''')
 
-    parser.add_argument('-l', '--ref-label',
-                        help='''
-specify label for reference branch.''')
-
     parser.add_argument('-L', '--comp-label',
                         help='''
 specify label for comparison branch.''')
-
-    parser.add_argument('--bins', type=int, default=25,
-                        help='''
-specify binning.''')
 
     parser.add_argument('-XD', '--x-data-range',
                         nargs='+',
@@ -66,14 +58,6 @@ specify plotting range for the kinematic variables.''')
                         default=[(0, 3.5e4)],
                         help='''
 specify plotting range for the kinematic variable multiplicities.''')
-
-    parser.add_argument('--xlabel', default='Trigger $E_T$ [GeV$^2$]',
-                        help='''
-specify xlabel.''')
-
-    parser.add_argument('--ylabel', default='Number of candidates',
-                        help='''
-specify ylabel.''')
 
     return parser
 

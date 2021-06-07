@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
 # Author: Yipeng Sun
-# Last Change: Tue May 25, 2021 at 08:28 PM +0200
+# Last Change: Mon Jun 07, 2021 at 03:18 AM +0200
 
 import uproot
 import numpy as np
@@ -207,13 +207,6 @@ specify output filetypes.
                         default='Emulated / Real',
                         help='''
 specify y label for the ratio plot.
-''')
-
-    parser.add_argument('--bins',
-                        default=25,
-                        type=int,
-                        help='''
-specify number of bins.
 ''')
 
     return parser
