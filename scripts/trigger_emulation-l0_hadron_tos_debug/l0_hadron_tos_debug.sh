@@ -41,6 +41,28 @@ INPUT_NTP=../../ntuples/0.9.4-trigger_emulation/Dst_D0-mc/Dst_D0--21_04_21--mc--
     -o k_pi_trg_et_comparison.png \
     -XD -10 6200 -YD 0 5e4
 
+# Plot the difference between realET and TriggerET
+../plot_two_branches.py -n ./emu_l0_hadron_debug.root -t TupleB0/DecayTree \
+    -B k_real_et -b k_trg_et \
+    -L "\$K$ MC true \$E_T$" -l "\$K$ trigger \$E_T$" \
+    -o k_real_trg_et_comparison.png \
+    -XD -100 8000 -YD 0 9e4 \
+    --xlabel "\$K$ \$E_T$"
+
+../plot_two_branches.py -n ./emu_l0_hadron_debug.root -t TupleB0/DecayTree \
+    -B pi_real_et -b pi_trg_et \
+    -L "\$\\pi$ MC true \$E_T$" -l "\$\\pi$ trigger \$E_T$" \
+    -o pi_real_trg_et_comparison.png \
+    -XD -100 8000 -YD 0 9e4 \
+
+# Plot the difference between K, pi MC True ET
+../plot_two_branches.py -n ./emu_l0_hadron_debug.root -t TupleB0/DecayTree \
+    -b k_real_et -B pi_real_et \
+    -l "\$K$ MC true \$E_T$" -L "\$\\pi$ MC true \$E_T$" \
+    -o k_pi_real_et_comparison.png \
+    -XD -10 8000 -YD 0 1e5 \
+    --xlabel "\$K/\\pi$ \$E_T$"
+
 # Plot the difference between D0 PT and ET
 ../plot_two_branches.py -n ./emu_l0_hadron_debug.root -t TupleB0/DecayTree \
     -b d0_pt_raw -B k_pi_trg_et_cap \
