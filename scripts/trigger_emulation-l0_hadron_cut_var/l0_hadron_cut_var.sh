@@ -67,6 +67,19 @@ INPUT_NTP=../../ntuples/0.9.4-trigger_emulation/Dst_D0-mc/Dst_D0--21_04_21--mc--
 ../plot_single_branch.py -n ./emu_l0_hadron_debug.root -t TupleB0/DecayTree \
     -b d0_et_diff -o d0_et_diff.png -l "\$D^0$ \$E_T$ real-emulated"
 
+# Plot the difference between real and emulated D0 HCAL ET, separated by low and
+# high ET components
+../../tools/haddcut.py low_et.root  ./emu_l0_hadron_debug.root -c ./low_et.yml
+../../tools/haddcut.py high_et.root ./emu_l0_hadron_debug.root -c ./high_et.yml
+
+../plot_single_branch_two_ntuples.py \
+    -n ./low_et.root -t TupleB0/DecayTree -b d0_et_diff \
+    -N ./high_et.root -T TupleB0/DecayTree -B d0_et_diff \
+    -l "\$D^0$ \$E_T < 3744$" -L "\$D^0$ \$E_T \\geq 3744$" \
+    -XD -6500 6500 \
+    --xlabel "\$D^0$ \$E_T$ real-emulated" \
+    -o d0_et_diff_low_high.png
+
 # Plot the radial differences
 ../plot_single_branch.py -n ./emu_l0_hadron_debug.root -t TupleB0/DecayTree \
     -l "\$K$ \$\\pi$ radial distance" \
