@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon May 31, 2021 at 03:22 AM +0200
+# Last Change: Thu Jun 10, 2021 at 08:38 PM +0200
 #
 # Description: Definitions of selection and reconstruction procedures for run 2
 #              R(D(*)). For more thorough comments, take a look at:
@@ -662,7 +662,6 @@ def tuple_initialize_data(name, sel_seq, template):
     tt_l0_calo = really_add_tool(tp, 'TupleToolL0Calo')
     tt_l0_calo.WhichCalo = "HCAL"
     tt_l0_calo.TriggerClusterLocation = "/Event/Trig/L0/Calo"
-    tt_l0_calo.FillTriggerEt = True
 
     # Add event-level information.
     tt_loki_evt = really_add_tool(
