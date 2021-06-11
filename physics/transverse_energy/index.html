@@ -1037,8 +1037,8 @@ is associated with the track.</p>
 </code></pre></div>
 <h3 id="triggerhcalet"><code>TriggerHCALET</code></h3>
 <p>This is the <em>maximum</em> <span class="arithmatex">\(E_T\)</span> measured by <strong>HCAL only</strong> for all hadron
-candidates associated with the track. Note that:</p>
-<p>The procedure is similar <code>TriggerET</code>, the only difference is:
+candidates associated with the track.</p>
+<p>The procedure is similar to that of <code>TriggerET</code>, the only difference is:
 instead of using <code>theCand-&gt;et()</code>, we find the associated HCAL cells and readout
 the ADC values associated with the hadron candidate and convert it to energy.</p>
 <div class="highlight"><pre><span></span><code><span class="c1">// Compute the HCAL energy of this cluster</span>
