@@ -135,9 +135,9 @@ for ( cand = candidates->begin(); candidates->end() != cand; ++cand ) {
 ### `TriggerHCALET`
 
 This is the _maximum_ $E_T$ measured by **HCAL only** for all hadron
-candidates associated with the track. Note that:
+candidates associated with the track.
 
-The procedure is similar `TriggerET`, the only difference is:
+The procedure is similar to that of `TriggerET`, the only difference is:
 instead of using `theCand->et()`, we find the associated HCAL cells and readout
 the ADC values associated with the hadron candidate and convert it to energy.
 
