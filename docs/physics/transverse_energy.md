@@ -72,7 +72,7 @@ it a good name.
     ```
 
 This is the _maximum_ $E_T$ measured by **the whole detector** for all L0
-hadron candidates. Note that:
+hadron candidates associated with the track. Note that:
 
 1. For the track, we find the center cell it supposed to hit based on its
     projectile, as well as the 3x3 neighbor cells, denote it track cells.
@@ -84,6 +84,10 @@ hadron candidates. Note that:
 3. Check if there's any overlap between the candidate cells and the track cells.
     If there is overlap, use this candidate's $E_T$ as track $E_T$ if
     $E_{T_{cand}} > E_{T_{prev}}$.
+
+    !!! note
+        Checking overlap is basically checking whether this L0 hadron candidate
+        is associated with the track.
 
 4. Repeat this process for all L0 hadron candidates.
 
