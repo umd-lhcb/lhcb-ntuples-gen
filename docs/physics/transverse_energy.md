@@ -71,8 +71,8 @@ it a good name.
     test &= tuple->column( prefix + "_L0Calo_HCAL_TriggerHCALET", triggerHCALET );
     ```
 
-This is the _maximum_ $E_T$ measured by **the whole detector** for all hadron
-candidates associated with the track. Note that:
+This is the _maximum_ $E_T$ measured by **the whole detector** for all L0
+hadron candidates. Note that:
 
 1. For the track, we find the center cell it supposed to hit based on its
     projectile, as well as the 3x3 neighbor cells, denote it track cells.
@@ -85,7 +85,7 @@ candidates associated with the track. Note that:
     If there is overlap, use this candidate's $E_T$ as track $E_T$ if
     $E_{T_{cand}} > E_{T_{prev}}$.
 
-4. Repeat this process for all hadron candidates associated with the track.
+4. Repeat this process for all L0 hadron candidates.
 
 ```cpp
 // First get the CALO cells in the 3x3 cluster around the track projection
