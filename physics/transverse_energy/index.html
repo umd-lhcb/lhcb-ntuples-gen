@@ -972,7 +972,7 @@ Muon stations.</p>
 </code></pre></div>
 </div>
 <p>This is the <em>maximum</em> <span class="arithmatex">\(E_T\)</span> measured by <strong>the whole detector</strong> for all L0
-hadron candidates. Note that:</p>
+hadron candidates associated with the track. Note that:</p>
 <ol>
 <li>
 <p>For the track, we find the center cell it supposed to hit based on its
@@ -987,6 +987,11 @@ hadron candidates. Note that:</p>
 <p>Check if there's any overlap between the candidate cells and the track cells.
     If there is overlap, use this candidate's <span class="arithmatex">\(E_T\)</span> as track <span class="arithmatex">\(E_T\)</span> if
     <span class="arithmatex">\(E_{T_{cand}} &gt; E_{T_{prev}}\)</span>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Checking overlap is basically checking whether this L0 hadron candidate
+is associated with the track.</p>
+</div>
 </li>
 <li>
 <p>Repeat this process for all L0 hadron candidates.</p>
