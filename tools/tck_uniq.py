@@ -1,8 +1,8 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sun May 09, 2021 at 03:08 AM +0200
+# Last Change: Sun Jun 13, 2021 at 05:48 PM +0200
 # NOTE: For tracker-only, the TCK branches are identically 0!
 
 import uproot
