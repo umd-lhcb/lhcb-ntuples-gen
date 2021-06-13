@@ -87,26 +87,23 @@ plotbr -n ./emu_l0_hadron_debug.root/TupleB0/DecayTree \
 
 # Plot the difference between real and emulated D0 HCAL ET, separated by low and
 # high ET components
-plotbr \
-    -n ./emu_l0_hadron_debug.root/TupleB0/DecayTree -b d0_et_diff \
-    -l "\$D^0$ \$E_T$ (no cut)" \
+plotbr -n ./emu_l0_hadron_debug.root/TupleB0/DecayTree \
+    -b d0_et_diff d0_et_diff d0_et_diff \
+    -l "no cut" \
+       "\$D^0$ \$E_T < 3744$" \
+       "\$D^0$ \$E_T \\geq 3744$" \
     --cuts "true" \
-    -n ./emu_l0_hadron_debug.root/TupleB0/DecayTree -b d0_et_diff \
-    -l "\$D^0$ \$E_T < 3744$" \
-    --cuts "k_pi_trg_et_cap < 3744" \
-    -n ./emu_l0_hadron_debug.root/TupleB0/DecayTree -b d0_et_diff \
-    -l "\$D^0$ \$E_T \\geq 3744$" \
-    --cuts "k_pi_trg_et_cap >= 3744" \
+           "k_pi_trg_et_cap < 3744" \
+           "k_pi_trg_et_cap >= 3744" \
     -XD -6500 6500 \
     --xlabel "\$D^0$ \$E_T$ real-emulated" \
     -o d0_et_diff_low_high.png
 
 # Plot the radial differences vs radial differences (wrong)
-plotbr \
-    -n ./emu_l0_hadron_debug.root/TupleB0/DecayTree -b rdiff_k_pi  \
+plotbr -n ./emu_l0_hadron_debug.root/TupleB0/DecayTree \
+    -b rdiff_k_pi "rdiff_k_pi_wrong*10" \
     -l "\$K$ \$\\pi$ radial distance" \
-    -n ./emu_l0_hadron_debug.root/TupleB0/DecayTree -b "rdiff_k_pi_wrong*10" \
-    -l "\$K$ \$\\pi$ radial distance (wrong) \$\\times 10$" \
+       "\$K$ \$\\pi$ radial distance (wrong) \$\\times 10$" \
     --normalize \
     --ylabel "Normalized" \
     -o rdiff_k_pi_vs_rdiff_k_pi_wrong.png
