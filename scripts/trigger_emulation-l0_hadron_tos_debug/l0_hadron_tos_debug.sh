@@ -105,10 +105,8 @@ plotbr \
 plotbr \
     -n ./emu_l0_hadron_debug.root/TupleB0/DecayTree -b rdiff_k_pi  \
     -l "\$K$ \$\\pi$ radial distance" \
-    --multipliers 1 \
-    -n ./emu_l0_hadron_debug.root/TupleB0/DecayTree -b rdiff_k_pi_wrong \
+    -n ./emu_l0_hadron_debug.root/TupleB0/DecayTree -b "rdiff_k_pi_wrong*10" \
     -l "\$K$ \$\\pi$ radial distance (wrong) \$\\times 10$" \
-    --multipliers 10 \
     --normalize \
     --ylabel "Normalized" \
     -o rdiff_k_pi_vs_rdiff_k_pi_wrong.png
