@@ -1,9 +1,0 @@
-TupleB0/DecayTree:
-    deactivate:
-        - "*"
-    activate:
-        - "k_pi_trg_et_cap"
-        - "d0_et_emu_no_bdt"
-        - "d0_et_diff"
-    selection:
-        - "k_pi_trg_et_cap < 3744"
