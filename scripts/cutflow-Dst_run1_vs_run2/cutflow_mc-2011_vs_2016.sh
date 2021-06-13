@@ -15,9 +15,9 @@ BRANCHES_TWO_NTP=(
 )
 
 for branch in "${BRANCHES_TWO_NTP[@]}"; do
-    ../plot_single_branch_two_ntuples.py -n "${NTP_REF}" -N "${NTP_COM}" \
-        -t "TupleB0/DecayTree" -T "TupleB0/DecayTree" \
-        -l 2011 -L 2016 \
+    plotbr \
+        -n "${NTP_REF}/TupleB0/DecayTree" -b "${branch}" -l 2011 \
+        -n "${NTP_COM}/TupleB0/DecayTree" -b "${branch}" -l 2016 \
         --xlabel ${branch} \
-        -b "${branch}" -B "${branch}" -o "${OUTPUT_DIR}/${branch}_dist.png"
+         -o "${OUTPUT_DIR}/${branch}_dist.png"
 done
