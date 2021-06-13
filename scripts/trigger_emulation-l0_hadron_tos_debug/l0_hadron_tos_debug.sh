@@ -85,13 +85,12 @@ plotbr -n ./emu_l0_hadron_debug.root/TupleB0/DecayTree \
     -XD 0 6200 -YD 0 9e4 \
     --xlabel "\$D^0$ \$E_T$"
 
-# Plot the difference between real and emulated D0 HCAL ET
-plotbr -n ./emu_l0_hadron_debug.root/TupleB0/DecayTree \
-    -b d0_et_diff -o d0_et_diff.png -l "\$D^0$ \$E_T$ real-emulated"
-
 # Plot the difference between real and emulated D0 HCAL ET, separated by low and
 # high ET components
 plotbr \
+    -n ./emu_l0_hadron_debug.root/TupleB0/DecayTree -b d0_et_diff \
+    -l "\$D^0$ \$E_T$ (no cut)" \
+    --cuts "true" \
     -n ./emu_l0_hadron_debug.root/TupleB0/DecayTree -b d0_et_diff \
     -l "\$D^0$ \$E_T < 3744$" \
     --cuts "k_pi_trg_et_cap < 3744" \
