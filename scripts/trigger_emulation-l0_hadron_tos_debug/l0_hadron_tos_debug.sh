@@ -58,7 +58,7 @@ plotbr -n ./emu_l0_hadron_debug.root/TupleB0/DecayTree \
 # Plot the difference between realET, TriggerET, and TriggerHCALET
 plotbr -n ./emu_l0_hadron_debug.root/TupleB0/DecayTree \
     -b k_real_et k_trg_et k_trg_hcal_et \
-    -l "\$K$ real \$E_T$" "\$K$ trigger \$E_T$" "\$K$ trigger HAL \$E_T$" \
+    -l "\$K$ real \$E_T$" "\$K$ trigger \$E_T$" "\$K$ trigger HCAL \$E_T$" \
     -o k_real_trg_trg_hcal_et_comparison.png \
     -XD -100 8000 -YD 0 9e4 \
     --xlabel "\$K$ \$E_T$"
@@ -112,7 +112,7 @@ plotbr -n ./emu_l0_hadron_debug.root/TupleB0/DecayTree \
            "k_pi_trg_et_cap < 3744" \
            "k_pi_trg_et_cap >= 3744" \
     -XD -6500 6500 \
-    --xlabel "\$D^0$ \$E_T$ real-emulated (no BDT)" \
+    --xlabel "\$D^0$ trigger \$-$ emulated \$E_T$ (no BDT)" \
     -o d0_et_diff_low_high.png
 
 plotbr -n ./emu_l0_hadron_debug.root/TupleB0/DecayTree \
@@ -125,7 +125,7 @@ plotbr -n ./emu_l0_hadron_debug.root/TupleB0/DecayTree \
            "k_pi_trg_et_cap < 3744" \
            "k_pi_trg_et_cap >= 3744" \
     -XD -6500 6500 \
-    --xlabel "\$D^0$ \$E_T$ real-emulated (BDT)" \
+    --xlabel "\$D^0$ trigger \$-$ emulated \$E_T$ (BDT)" \
     -o d0_et_bdt_diff_low_high.png
 
 # Plot the radial differences vs radial differences (wrong)
