@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
 # Author: Yipeng Sun
-# Last Change: Mon Jun 07, 2021 at 03:40 AM +0200
+# Last Change: Mon Jun 14, 2021 at 05:31 AM +0200
 
 import uproot
 import numpy as np
@@ -13,7 +13,7 @@ from numpy import logical_and as AND
 from numpy import nan_to_num
 from statsmodels.stats.proportion import proportion_confint
 
-from pyTuplingUtils.parse import single_ntuple_parser_no_output
+from pyTuplingUtils.argparse import single_ntuple_parser_no_output, DataRangeAction
 from pyTuplingUtils.utils import gen_histo
 from pyTuplingUtils.io import read_branches, read_branch
 from pyTuplingUtils.plot import plot_top_errorbar_bot_errorbar
@@ -23,23 +23,6 @@ from pyTuplingUtils.plot import ax_add_args_errorbar as errorbar_style
 #################################
 # Command line arguments parser #
 #################################
-
-class DataRangeAction(Action):
-    def __call__(self, parser, namespace, values, option_string=None):
-        if values == [None]:
-            setattr(namespace, self.dest, values)
-
-        if len(values) % 2 != 0:
-            raise ValueError('Odd number of min, max pairs!')
-
-        values = [float(v) for v in values]
-        min_max_pairs = self.divide_list_in_chunk(values)
-        setattr(namespace, self.dest, min_max_pairs)
-
-    @staticmethod
-    def divide_list_in_chunk(lst, chunk_size=2):
-        return [lst[i:i + chunk_size] for i in range(0, len(lst), chunk_size)]
-
 
 DESCR = '''
 generate trigger efficiency comparison plots
