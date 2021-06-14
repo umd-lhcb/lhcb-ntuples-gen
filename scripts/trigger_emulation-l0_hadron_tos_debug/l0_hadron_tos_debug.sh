@@ -3,10 +3,10 @@
 INPUT_NTP=../../ntuples/0.9.4-trigger_emulation/Dst_D0-mc/Dst_D0--21_04_21--mc--MC_2016_Beam6500GeV-2016-MagDown-Nu1.6-25ns-Pythia8_Sim09j_Trig0x6139160F_Reco16_Turbo03a_Filtered_11574021_D0TAUNU.SAFESTRIPTRIG.DST.root
 
 # Emulate L0 Hadron
-#../../lib/python/TrackerOnlyEmu/scripts/run2-rdx-l0_hadron.py ${INPUT_NTP} \
-    #emu_l0_hadron_debug.root --debug
-#../../lib/python/TrackerOnlyEmu/scripts/run2-rdx-l0_hadron.py ${INPUT_NTP} \
-    #emu_l0_hadron_no_debug.root
+../../lib/python/TrackerOnlyEmu/scripts/run2-rdx-l0_hadron.py ${INPUT_NTP} \
+    emu_l0_hadron_debug.root --debug
+../../lib/python/TrackerOnlyEmu/scripts/run2-rdx-l0_hadron.py ${INPUT_NTP} \
+    emu_l0_hadron_no_debug.root
 
 # Generate trigger efficiency comparison plots, zoomed out
 ../plot_trigger_efficiencies.py \
@@ -137,8 +137,7 @@ plotbr -n ./emu_l0_hadron_debug.root/TupleB0/DecayTree \
     -o rdiff_k_pi_vs_rdiff_k_pi_wrong.png
 
 # Plot the effect of nSPDhits < 450 for radial differences
-# plotbr \
-#     -n ./emu_l0_hadron_no_debug.root/TupleB0/DecayTree -b rdiff_k_pi \
+# plotbr -n ./emu_l0_hadron_no_debug.root/TupleB0/DecayTree -b rdiff_k_pi \
 #     -l "no nSPDHits \$< 450$ cut" \
 #     -n ./emu_l0_hadron_debug.root/TupleB0/DecayTree -b rdiff_k_pi \
 #     -l "with nSPDhits cut" \
