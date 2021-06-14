@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Author: Yipeng Sun
-# Last Change: Fri Jun 04, 2021 at 03:45 PM +0200
+# Last Change: Mon Jun 14, 2021 at 06:49 PM +0200
 
 INPUT_NTP=$1
 
@@ -11,9 +11,9 @@ plot_hlt1_twotrackmva() {
     TRIGGER=$4
     TITLE=$5
 
-    plot_trigger_efficiency_comp.py \
-        -n "${NTP}" -o "${OUTPUT_PREFIX}" --triggers ${TRIGGER} \
-        -t "${TREE}" --title "${TITLE}"
+    plot_trigger_efficiencies.py \
+        -n "${NTP}/${TREE}" -b ${TRIGGER} -o "${OUTPUT_PREFIX}" \
+        --title "${TITLE}" --default-cut d0_l0_global_dec --ratio-plot
 }
 
 plot_hlt1_trackmva() {
@@ -23,9 +23,9 @@ plot_hlt1_trackmva() {
     TRIGGER=$4
     TITLE=$5
 
-    plot_trigger_efficiency_comp.py \
-        -n "${NTP}" -o "${OUTPUT_PREFIX}" --triggers ${TRIGGER} \
-        -t "${TREE}" --title "${TITLE}" \
+    plot_trigger_efficiencies.py \
+        -n "${NTP}/${TREE}" -b ${TRIGGER} -o "${OUTPUT_PREFIX}"  \
+        --title "${TITLE}" --default-cut d0_l0_global_dec --ratio-plot \
         -k q2 mmiss2 el \
            k_p k_pt pi_p pi_pt mu_p mu_pt \
            k_chi2ndof k_ipchi2 k_ghost \
@@ -43,10 +43,9 @@ plot_l0_hadron_eff() {
     TRIGGER=$4
     TITLE=$5
 
-    plot_trigger_efficiency_comp.py \
-        -n "${NTP}" -o "${OUTPUT_PREFIX}" --triggers ${TRIGGER} \
-        -t "${TREE}" --title "${TITLE}" \
-        -c \
+    plot_trigger_efficiencies.py \
+        -n "${NTP}/${TREE}" -b ${TRIGGER} -o "${OUTPUT_PREFIX}" \
+        --title "${TITLE}" --ratio-plot \
         -k q2 mmiss2 el \
            d0_pt k_pt pi_pt \
            nspd_hits \
@@ -67,23 +66,20 @@ plot_l0_hadron_eff() {
                  "\$\\pi$ \$p$ [GeV]"
 }
 
-plot_l0_hadron_eff_step() {
+plot_l0_hadron_eff_all() {
     NTP=$1
     TREE=$2
     OUTPUT_PREFIX=$3
     TRIGGER=$4
     TITLE=$5
 
-    plot_trigger_efficiency_comp_special.py \
-        -n "${NTP}" -o "${OUTPUT_PREFIX}" --triggers ${TRIGGER} \
-        -t "${TREE}" --title "${TITLE}" \
-        -c \
+    plot_trigger_efficiencies.py \
+        -n "${NTP}/${TREE}" -b ${TRIGGER} -o "${OUTPUT_PREFIX}" \
+        --title "${TITLE}" \
         -k q2 mmiss2 el \
            d0_pt k_pt pi_pt \
            nspd_hits \
            d0_p k_p pi_p \
-        --legends "Real response" "Emulated" "BDT" \
-        --colors black red blue \
         -D -10 10 -8 8 0 3 \
            0 40 0 20 0 20 \
            0 500 \
@@ -107,15 +103,14 @@ plot_l0_global_tis_eff() {
     TRIGGER=$4
     TITLE=$5
 
-    plot_trigger_efficiency_comp.py \
-        -n "${NTP}" -o "${OUTPUT_PREFIX}" --triggers ${TRIGGER} \
-        -t "${TREE}" --title "${TITLE}" \
-        -c \
+    plot_trigger_efficiencies.py \
+        -n "${NTP}/${TREE}" -b ${TRIGGER} -o "${OUTPUT_PREFIX}" \
+        --title "${TITLE}" --ratio-plot \
         -k q2 mmiss2 el \
            "log_${OUTPUT_PREFIX}_pz" "log_${OUTPUT_PREFIX}_pt" \
            nspd_hits \
         -D -10 10 -10 8 0 3 9 14 6 12 0 500 \
-        --bins 10 \
+        --bins 8 \
         --xlabel "\$q^2$ [GeV\$^2$]" \
                  "\$m_{miss}^2$ [GeV\$^2$]" \
                  "\$E_l$ [GeV]" \
@@ -170,14 +165,14 @@ plot_hlt1_trackmva emu_hlt1_b.root "TupleBminus/DecayTree" b \
 plot_l0_hadron_eff emu_l0_hadron_b0.root "TupleB0/DecayTree" b0 \
     "d0_l0_hadron_tos d0_l0_hadron_tos_emu" \
     "L0Hadron TOS"
-plot_l0_hadron_eff_step emu_l0_hadron_b0.root "TupleB0/DecayTree" b0 \
+plot_l0_hadron_eff_all emu_l0_hadron_b0.root "TupleB0/DecayTree" b0 \
     "d0_l0_hadron_tos d0_l0_hadron_tos_emu_no_bdt d0_l0_hadron_tos_emu" \
     "L0Hadron TOS"
 #   D0
 plot_l0_hadron_eff emu_l0_hadron_b.root "TupleBminus/DecayTree" b \
     "d0_l0_hadron_tos d0_l0_hadron_tos_emu" \
     "L0Hadron TOS"
-plot_l0_hadron_eff_step emu_l0_hadron_b.root "TupleBminus/DecayTree" b \
+plot_l0_hadron_eff_all emu_l0_hadron_b.root "TupleBminus/DecayTree" b \
     "d0_l0_hadron_tos d0_l0_hadron_tos_emu_no_bdt d0_l0_hadron_tos_emu" \
     "L0Hadron TOS"
 
