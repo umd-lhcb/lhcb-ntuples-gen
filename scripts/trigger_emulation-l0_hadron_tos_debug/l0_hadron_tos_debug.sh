@@ -55,19 +55,21 @@ plotbr -n ./emu_l0_hadron_debug.root/TupleB0/DecayTree \
     -o k_pi_trg_et_diff_comparison.png \
     -YD 0 5.8e5
 
-# Plot the difference between realET and TriggerET
+# Plot the difference between realET, TriggerET, and TriggerHCALET
 plotbr -n ./emu_l0_hadron_debug.root/TupleB0/DecayTree \
-    -b k_real_et k_trg_et \
-    -l "\$K$ real \$E_T$" "\$K$ trigger \$E_T$" \
-    -o k_real_trg_et_comparison.png \
+    -b k_real_et k_trg_et k_trg_hcal_et \
+    -l "\$K$ real \$E_T$" "\$K$ trigger \$E_T$" "\$K$ trigger HAL \$E_T$" \
+    -o k_real_trg_trg_hcal_et_comparison.png \
     -XD -100 8000 -YD 0 9e4 \
     --xlabel "\$K$ \$E_T$"
 
 plotbr -n ./emu_l0_hadron_debug.root/TupleB0/DecayTree \
-    -b pi_real_et pi_trg_et \
+    -b pi_real_et pi_trg_et pi_trg_hcal_et \
     -l "\$\\pi$ real \$E_T$" "\$\\pi$ trigger \$E_T$" \
-    -o pi_real_trg_et_comparison.png \
+       "\$\\pi$ trigger HCAL \$E_T$" \
+    -o pi_real_trg_trg_hcal_et_comparison.png \
     -XD -100 8000 -YD 0 9e4 \
+    --xlabel "\$\\pi$ \$E_T$"
 
 # Plot the difference between K, pi MC True ET
 plotbr -n ./emu_l0_hadron_debug.root/TupleB0/DecayTree \
