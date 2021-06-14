@@ -49,6 +49,12 @@ plotbr -n ./emu_l0_hadron_debug.root/TupleB0/DecayTree \
     -o k_pi_trg_et_comparison.png \
     -XD -10 6200 -YD 0 5e4
 
+plotbr -n ./emu_l0_hadron_debug.root/TupleB0/DecayTree \
+    -b "k_trg_et-pi_trg_et" \
+    -l "\$K$ Trigger \$E_T - \\pi$ Trigger \$E_T$" \
+    -o k_pi_trg_et_diff_comparison.png \
+    -YD 0 5.8e5
+
 # Plot the difference between realET and TriggerET
 plotbr -n ./emu_l0_hadron_debug.root/TupleB0/DecayTree \
     -b k_real_et k_trg_et \
@@ -104,8 +110,21 @@ plotbr -n ./emu_l0_hadron_debug.root/TupleB0/DecayTree \
            "k_pi_trg_et_cap < 3744" \
            "k_pi_trg_et_cap >= 3744" \
     -XD -6500 6500 \
-    --xlabel "\$D^0$ \$E_T$ real-emulated" \
+    --xlabel "\$D^0$ \$E_T$ real-emulated (no BDT)" \
     -o d0_et_diff_low_high.png
+
+plotbr -n ./emu_l0_hadron_debug.root/TupleB0/DecayTree \
+    -b "k_pi_trg_et_cap-d0_et_emu" "k_pi_trg_et_cap-d0_et_emu" \
+       "k_pi_trg_et_cap-d0_et_emu" \
+    -l "no cut" \
+       "\$D^0$ \$E_T < 3744$" \
+       "\$D^0$ \$E_T \\geq 3744$" \
+    --cuts "true" \
+           "k_pi_trg_et_cap < 3744" \
+           "k_pi_trg_et_cap >= 3744" \
+    -XD -6500 6500 \
+    --xlabel "\$D^0$ \$E_T$ real-emulated (BDT)" \
+    -o d0_et_bdt_diff_low_high.png
 
 # Plot the radial differences vs radial differences (wrong)
 plotbr -n ./emu_l0_hadron_debug.root/TupleB0/DecayTree \
@@ -118,11 +137,11 @@ plotbr -n ./emu_l0_hadron_debug.root/TupleB0/DecayTree \
     -o rdiff_k_pi_vs_rdiff_k_pi_wrong.png
 
 # Plot the effect of nSPDhits < 450 for radial differences
-plotbr \
-    -n ./emu_l0_hadron_no_debug.root/TupleB0/DecayTree -b rdiff_k_pi \
-    -l "no nSPDHits \$< 450$ cut" \
-    -n ./emu_l0_hadron_debug.root/TupleB0/DecayTree -b rdiff_k_pi \
-    -l "with nSPDhits cut" \
-    -XD 0 5000 \
-    --xlabel "\$K$ \$\\pi$ radial distance" \
-    -o rdiff_k_pi_nspd_cut_comp.png
+# plotbr \
+#     -n ./emu_l0_hadron_no_debug.root/TupleB0/DecayTree -b rdiff_k_pi \
+#     -l "no nSPDHits \$< 450$ cut" \
+#     -n ./emu_l0_hadron_debug.root/TupleB0/DecayTree -b rdiff_k_pi \
+#     -l "with nSPDhits cut" \
+#     -XD 0 5000 \
+#     --xlabel "\$K$ \$\\pi$ radial distance" \
+#     -o rdiff_k_pi_nspd_cut_comp.png
