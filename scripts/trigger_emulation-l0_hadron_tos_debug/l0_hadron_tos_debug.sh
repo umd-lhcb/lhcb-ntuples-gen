@@ -32,6 +32,16 @@ INPUT_NTP=../../ntuples/0.9.4-trigger_emulation/Dst_D0-mc/Dst_D0--21_04_21--mc--
              "\$Max(K, \\pi)$ trigger \$E_T$ (capped)" \
     -o b0 --bins 25 --title "L0Hadron TOS" --ext png --ratio-plot
 
+# Generate trigger efficiency comparison plots, with a different zoom but the
+# same bin width
+../plot_trigger_efficiencies.py \
+    -n ./emu_l0_hadron_debug.root/TupleB0/DecayTree  \
+    -b d0_l0_hadron_tos d0_l0_hadron_tos_emu_no_bdt d0_l0_hadron_tos_emu \
+    -k d0_pt_raw  \
+    -D 2500 10500 \
+    --xlabel "\$D^0$ \$p_T$" \
+    -o b0 --bins 40 --title "L0Hadron TOS" --ext png --ratio-plot
+
 # Plot differences between Trigger ET variables
 plotbr -n ./emu_l0_hadron_debug.root/TupleB0/DecayTree \
     -b k_trg_et pi_trg_et \
@@ -42,21 +52,21 @@ plotbr -n ./emu_l0_hadron_debug.root/TupleB0/DecayTree \
 # Plot the difference between realET and TriggerET
 plotbr -n ./emu_l0_hadron_debug.root/TupleB0/DecayTree \
     -b k_real_et k_trg_et \
-    -l "\$K$ MC true \$E_T$" "\$K$ trigger \$E_T$" \
+    -l "\$K$ real \$E_T$" "\$K$ trigger \$E_T$" \
     -o k_real_trg_et_comparison.png \
     -XD -100 8000 -YD 0 9e4 \
     --xlabel "\$K$ \$E_T$"
 
 plotbr -n ./emu_l0_hadron_debug.root/TupleB0/DecayTree \
     -b pi_real_et pi_trg_et \
-    -l "\$\\pi$ MC true \$E_T$" "\$\\pi$ trigger \$E_T$" \
+    -l "\$\\pi$ real \$E_T$" "\$\\pi$ trigger \$E_T$" \
     -o pi_real_trg_et_comparison.png \
     -XD -100 8000 -YD 0 9e4 \
 
 # Plot the difference between K, pi MC True ET
 plotbr -n ./emu_l0_hadron_debug.root/TupleB0/DecayTree \
     -b k_real_et pi_real_et \
-    -l "\$K$ MC true \$E_T$" "\$\\pi$ MC true \$E_T$" \
+    -l "\$K$ real \$E_T$" "\$\\pi$ real \$E_T$" \
     -o k_pi_real_et_comparison.png \
     -XD -10 8000 -YD 0 1e5 \
     --xlabel "\$K/\\pi$ \$E_T$"
