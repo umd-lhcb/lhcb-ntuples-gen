@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
 # Author: Yipeng Sun
-# Last Change: Mon Jun 14, 2021 at 06:04 PM +0200
+# Last Change: Mon Jun 14, 2021 at 07:13 PM +0200
 
 import sys
 import uproot
@@ -216,7 +216,7 @@ if __name__ == '__main__':
     hep.style.use('LHCb2')
 
     if not args.colors:
-        good_colors = ['black', 'crimson', 'cornflowerblue', 'darkgoldenrod']
+        good_colors = ['black', 'crimson', 'mediumblue', 'darkgoldenrod']
         good_colors.reverse()
         try:
             args.colors = [[good_colors.pop() for _ in br]
@@ -288,7 +288,7 @@ if __name__ == '__main__':
                         lambda fig, ax, b=bins, h=histo, add=step_args:
                         plot_step(b, h, add, figure=fig, axis=ax,
                                   show_legend=False))
-                    fill_args = ax_add_args_fill(clr)
+                    fill_args = ax_add_args_fill(clr, alpha=0.4)
                     top_plotters.append(
                         lambda fig, ax, b=bins, y=intv, add=fill_args:
                         plot_fill(b, y, add, figure=fig, axis=ax,
