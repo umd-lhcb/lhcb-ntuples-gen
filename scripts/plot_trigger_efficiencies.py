@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
 # Author: Yipeng Sun
-# Last Change: Mon Jun 14, 2021 at 03:21 PM +0200
+# Last Change: Mon Jun 14, 2021 at 06:04 PM +0200
 
 import sys
 import uproot
@@ -17,8 +17,8 @@ from pyTuplingUtils.argparse import (
     single_branch_parser_no_output, DataRangeAction, split_ntp_tree)
 from pyTuplingUtils.utils import gen_histo
 from pyTuplingUtils.plot import (
-    plot_errorbar, plot_step, plot_top, plot_top_bot,
-    ax_add_args_errorbar, ax_add_args_step
+    plot_errorbar, plot_step, plot_fill, plot_top, plot_top_bot,
+    ax_add_args_errorbar, ax_add_args_step, ax_add_args_fill
 )
 from pyTuplingUtils.boolean.eval import BooleanEvaluator
 
@@ -175,6 +175,10 @@ def parse_input(descr='generate trigger efficiency comparison plots'):
                         default=None,
                         help='specify triggers to be required True before evaluating efficiency.')
 
+    parser.add_argument('--default-cut',
+                        default='true',
+                        help='default cut to fill for cuts')
+
     parser.add_argument('-l', '--legends',
                         nargs='+',
                         action='append',
@@ -195,9 +199,10 @@ def parse_input(descr='generate trigger efficiency comparison plots'):
 ###########
 
 def div_with_confint(num, denom):
-    ratio = num / denom
-    intv = proportion_confint(num, denom, method='beta', alpha=0.05)
-    err = np.abs(intv - ratio)  # Errors are allowed to be asymmetrical
+    with np.errstate(divide='ignore', invalid='ignore'):
+        ratio = num / denom
+        intv = proportion_confint(num, denom, method='beta', alpha=0.05)
+        err = np.abs(intv - ratio)  # Errors are allowed to be asymmetrical
 
     return nan_to_num(ratio), nan_to_num(err), nan_to_num(intv)
 
@@ -223,7 +228,7 @@ if __name__ == '__main__':
 
     if not args.legends:
         default_legends = [
-            'Real response', 'Emulated (no BDT)', 'Emulated (BDT)']
+            'Real response', 'Emulated', 'BDT']
         default_legends.reverse()
 
         try:
@@ -235,7 +240,7 @@ if __name__ == '__main__':
             sys.exit(255)
 
     if not args.cuts:
-        args.cuts = [['true']*len(br) for br in args.ref_branch]
+        args.cuts = [[args.default_cut]*len(br) for br in args.ref_branch]
 
     for ntp_tree, trigger_branches, colors, legends, cuts in zip(
             args.ref, args.ref_branch, args.colors, args.legends, args.cuts):
@@ -282,6 +287,11 @@ if __name__ == '__main__':
                     top_plotters.append(
                         lambda fig, ax, b=bins, h=histo, add=step_args:
                         plot_step(b, h, add, figure=fig, axis=ax,
+                                  show_legend=False))
+                    fill_args = ax_add_args_fill(clr)
+                    top_plotters.append(
+                        lambda fig, ax, b=bins, y=intv, add=fill_args:
+                        plot_fill(b, y, add, figure=fig, axis=ax,
                                   show_legend=False))
 
                 default_val = 1. if first_plot else 0.

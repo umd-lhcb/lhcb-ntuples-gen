@@ -3,12 +3,12 @@
 INPUT_NTP=../../ntuples/0.9.4-trigger_emulation/Dst_D0-mc/Dst_D0--21_04_21--mc--MC_2016_Beam6500GeV-2016-MagDown-Nu1.6-25ns-Pythia8_Sim09j_Trig0x6139160F_Reco16_Turbo03a_Filtered_11574021_D0TAUNU.SAFESTRIPTRIG.DST.root
 
 # Emulate L0 Hadron
-../../lib/python/TrackerOnlyEmu/scripts/run2-rdx-l0_hadron.py ${INPUT_NTP} \
-    emu_l0_hadron_debug.root --debug
-../../lib/python/TrackerOnlyEmu/scripts/run2-rdx-l0_hadron.py ${INPUT_NTP} \
-    emu_l0_hadron_no_debug.root
+#../../lib/python/TrackerOnlyEmu/scripts/run2-rdx-l0_hadron.py ${INPUT_NTP} \
+    #emu_l0_hadron_debug.root --debug
+#../../lib/python/TrackerOnlyEmu/scripts/run2-rdx-l0_hadron.py ${INPUT_NTP} \
+    #emu_l0_hadron_no_debug.root
 
-# Generate comparison plots
+# Generate trigger efficiency comparison plots, zoomed out
 ../plot_trigger_efficiencies.py \
     -n ./emu_l0_hadron_debug.root/TupleB0/DecayTree  \
     -b d0_l0_hadron_tos d0_l0_hadron_tos_emu_no_bdt \
@@ -99,9 +99,9 @@ plotbr -n ./emu_l0_hadron_debug.root/TupleB0/DecayTree \
 
 # Plot the radial differences vs radial differences (wrong)
 plotbr -n ./emu_l0_hadron_debug.root/TupleB0/DecayTree \
-    -b rdiff_k_pi "rdiff_k_pi_wrong*8" \
+    -b rdiff_k_pi "rdiff_k_pi_wrong*10" \
     -l "\$K$ \$\\pi$ radial distance" \
-       "\$K$ \$\\pi$ radial distance (wrong) \$\\times 8$" \
+       "\$K$ \$\\pi$ radial distance (wrong) \$\\times 10$" \
     --normalize \
     --ylabel "Normalized" \
     -XD 0 5000 \
