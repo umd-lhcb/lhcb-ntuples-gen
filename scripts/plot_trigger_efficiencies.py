@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
 # Author: Yipeng Sun
-# Last Change: Wed Jun 16, 2021 at 03:41 AM +0200
+# Last Change: Wed Jun 16, 2021 at 02:43 PM +0200
 
 import sys
 import uproot
@@ -217,6 +217,7 @@ if __name__ == '__main__':
 
     top_plotters = dict()
     bot_plotters = dict()
+    ref_histos = dict()
 
     if not args.colors:
         good_colors = ['black', 'crimson', 'mediumblue', 'darkgoldenrod']
@@ -269,7 +270,7 @@ if __name__ == '__main__':
                 if first_plot:
                     top_plotters[k_br_name] = []
                     bot_plotters[k_br_name] = []
-                    ref_histo = histo
+                    ref_histos[k_br_name] = histo
 
                     pts_args = ax_add_args_errorbar(lbl, clr, yerr=err)
                     top_plotters[k_br_name].append(
@@ -298,7 +299,7 @@ if __name__ == '__main__':
 
                 default_val = 1. if first_plot else 0.
                 with np.errstate(divide='ignore', invalid='ignore'):
-                    ratio_histo =  histo / ref_histo
+                    ratio_histo =  histo / ref_histos[k_br_name]
                     ratio_histo[ratio_histo == np.inf] = default_val
                     ratio_histo[np.isnan(ratio_histo)] = default_val
 
