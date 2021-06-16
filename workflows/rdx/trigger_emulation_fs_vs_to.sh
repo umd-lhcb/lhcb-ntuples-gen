@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Author: Yipeng Sun
-# Last Change: Fri May 07, 2021 at 02:20 PM +0200
+# Last Change: Wed Jun 16, 2021 at 04:02 AM +0200
 
 INPUT_NTP1=$1
 INPUT_NTP2=$2
@@ -13,12 +13,12 @@ plot_hlt1_twotrackmva() {
     TRIGGER=$5
     TITLE=$6
 
-    plot_trigger_efficiency_comp_two_ntuples.py \
-        -n "${NTP1}" -N "${NTP2}" -o "${OUTPUT_PREFIX}" \
-        -t "${TREE}" -T "${TREE}" \
-        --title "${TITLE}" \
-        --triggers ${TRIGGER} \
-        --legends FS TO
+    plot_trigger_efficiencies.py \
+        -n "${NTP1}/${TREE}" -b ${TRIGGER} -l FS \
+        -n "${NTP2}/${TREE}" -b ${TRIGGER} -l TO \
+        -o "${OUTPUT_PREFIX}" \
+        --title "${TITLE}" --ratio-plot \
+        --ax2-ylabel "TO / FS"
 }
 
 plot_hlt1_trackmva() {
@@ -29,20 +29,19 @@ plot_hlt1_trackmva() {
     TRIGGER=$5
     TITLE=$6
 
-    plot_trigger_efficiency_comp_two_ntuples.py \
-        -n "${NTP1}" -N "${NTP2}" -o "${OUTPUT_PREFIX}" \
-        -t "${TREE}" -T "${TREE}" \
-        --title "${TITLE}" \
-        --triggers ${TRIGGER} \
-        --legends FS TO \
+    plot_trigger_efficiencies.py \
+        -n "${NTP1}/${TREE}" -b ${TRIGGER} -l FS  \
+        -n "${NTP2}/${TREE}" -b ${TRIGGER} -l TO  \
+        -o "${OUTPUT_PREFIX}" \
+        --title "${TITLE}" --ratio-plot \
+        --ax2-ylabel "TO / FS" \
         -k q2 mmiss2 el \
            k_p k_pt pi_p pi_pt mu_p mu_pt \
            k_chi2ndof k_ipchi2 k_ghost \
            pi_chi2ndof pi_ipchi2 pi_ghost \
            mu_chi2ndof mu_ipchi2 mu_ghost \
            k_theta pi_theta mu_theta \
-           k_phi pi_phi mu_phi \
-           nspd_hits
+           k_phi pi_phi mu_phi
 }
 
 plot_l0_hadron_eff() {
@@ -53,13 +52,11 @@ plot_l0_hadron_eff() {
     TRIGGER=$5
     TITLE=$6
 
-    plot_trigger_efficiency_comp_two_ntuples.py \
-        -n "${NTP1}" -N "${NTP2}" -o "${OUTPUT_PREFIX}" \
-        -t "${TREE}" -T "${TREE}" \
-        --title "${TITLE}" \
-        --triggers ${TRIGGER} \
-        --legends FS TO \
-        -c \
+    plot_trigger_efficiencies.py \
+        -n "${NTP1}/${TREE}" -b ${TRIGGER} -l FS \
+        -n "${NTP2}/${TREE}" -b ${TRIGGER} -l TO \
+        -o "${OUTPUT_PREFIX}" \
+        --title "${TITLE}" --ax2-ylabel "TO / FS" --ratio-plot \
         -k q2 mmiss2 el \
            d0_pt k_pt pi_pt \
         -D -10 10 -10 8 0 3 \
@@ -80,17 +77,15 @@ plot_l0_global_tis_eff() {
     TRIGGER=$5
     TITLE=$6
 
-    plot_trigger_efficiency_comp_two_ntuples.py \
-        -n "${NTP1}" -N "${NTP2}" -o "${OUTPUT_PREFIX}" \
-        -t "${TREE}" -T "${TREE}" \
-        --title "${TITLE}" \
-        --triggers ${TRIGGER} \
-        --legends FS TO \
-        -c \
+    plot_trigger_efficiencies.py \
+        -n "${NTP1}/${TREE}" -b ${TRIGGER} -l FS \
+        -n "${NTP2}/${TREE}" -b ${TRIGGER} -l TO \
+        -o "${OUTPUT_PREFIX}" \
+        --title "${TITLE}" --ax2-ylabel "TO / FS" --ratio-plot \
         -k "q2" "mmiss2" "el" \
            "log_${OUTPUT_PREFIX}_pz" "log_${OUTPUT_PREFIX}_pt" \
         -D -10 10 -10 8 0 3 9 14 6 12 \
-        --bins 10 \
+        --bins 8 \
         --xlabel "\$q^2$ [GeV\$^2$]" \
                  "\$m_{miss}^2$ [GeV\$^2$]" \
                  "\$E_l$ [GeV]" \
