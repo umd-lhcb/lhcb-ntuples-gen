@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
 # Author: Yipeng Sun
-# Last Change: Mon Jun 14, 2021 at 07:13 PM +0200
+# Last Change: Wed Jun 16, 2021 at 03:41 AM +0200
 
 import sys
 import uproot
@@ -215,6 +215,9 @@ if __name__ == '__main__':
     args = parse_input()
     hep.style.use('LHCb2')
 
+    top_plotters = dict()
+    bot_plotters = dict()
+
     if not args.colors:
         good_colors = ['black', 'crimson', 'mediumblue', 'darkgoldenrod']
         good_colors.reverse()
@@ -247,11 +250,7 @@ if __name__ == '__main__':
         ntp_name, tree = split_ntp_tree(ntp_tree)
         cutter = BooleanEvaluator(uproot.open(ntp_name), tree)
 
-        for k_br_name, d_range, xlabel in zip(
-                args.kinematic_vars, args.data_range, args.xlabel):
-            first_plot = True
-            top_plotters = []
-            bot_plotters = []
+        for k_br_name, d_range in zip(args.kinematic_vars, args.data_range):
 
             for tr_br_name, cut, clr, lbl in zip(
                     trigger_branches, cuts, colors, legends):
@@ -266,30 +265,33 @@ if __name__ == '__main__':
 
                 histo, err, intv = div_with_confint(histo_weighted, histo_orig)
 
+                first_plot = k_br_name not in top_plotters
                 if first_plot:
+                    top_plotters[k_br_name] = []
+                    bot_plotters[k_br_name] = []
                     ref_histo = histo
 
                     pts_args = ax_add_args_errorbar(lbl, clr, yerr=err)
-                    top_plotters.append(
+                    top_plotters[k_br_name].append(
                         lambda fig, ax, b=bins, h=histo, add=pts_args:
                         plot_errorbar(b, h, add, figure=fig, axis=ax,
                                       show_legend=False))
 
                 elif args.errorbar_plot:
                     pts_args = ax_add_args_errorbar(lbl, clr, yerr=err)
-                    top_plotters.append(
+                    top_plotters[k_br_name].append(
                         lambda fig, ax, b=bins, h=histo, add=pts_args:
                         plot_errorbar(b, h, add, figure=fig, axis=ax,
                                       show_legend=False))
 
                 else:
                     step_args = ax_add_args_step(lbl, clr)
-                    top_plotters.append(
+                    top_plotters[k_br_name].append(
                         lambda fig, ax, b=bins, h=histo, add=step_args:
                         plot_step(b, h, add, figure=fig, axis=ax,
                                   show_legend=False))
                     fill_args = ax_add_args_fill(clr, alpha=0.4)
-                    top_plotters.append(
+                    top_plotters[k_br_name].append(
                         lambda fig, ax, b=bins, y=intv, add=fill_args:
                         plot_fill(b, y, add, figure=fig, axis=ax,
                                   show_legend=False))
@@ -300,35 +302,34 @@ if __name__ == '__main__':
                     ratio_histo[ratio_histo == np.inf] = default_val
                     ratio_histo[np.isnan(ratio_histo)] = default_val
 
-                first_plot = False
-
                 # Bottom will always be a series of step plots
                 bot_args = ax_add_args_step(lbl, clr)
-                bot_plotters.append(
+                bot_plotters[k_br_name].append(
                     lambda fig, ax, b=bins, h=ratio_histo, add=bot_args:
                     plot_step(b, h, add, figure=fig, axis=ax,
                               show_legend=False))
 
-                # Now do the actual plot
-                if args.ratio_plot:
-                    fig, *_ = plot_top_bot(
-                        top_plotters, bot_plotters,
-                        title=args.title, xlabel=xlabel,
-                        ax1_ylabel=args.ax1_ylabel, ax2_ylabel=args.ax2_ylabel,
-                        ax1_yscale=args.ax1_yscale)
-                else:
-                    fig, *_ = plot_top(
-                        top_plotters,
-                        title=args.title,
-                        xlabel=xlabel, ylabel=args.ax1_ylabel,
-                        yscale=args.ax1_yscale)
+    # Now do the actual plot
+    for k_br_name, xlabel in zip(top_plotters, args.xlabel):
+        if args.ratio_plot:
+            fig, *_ = plot_top_bot(
+                top_plotters[k_br_name], bot_plotters[k_br_name],
+                title=args.title, xlabel=xlabel,
+                ax1_ylabel=args.ax1_ylabel, ax2_ylabel=args.ax2_ylabel,
+                ax1_yscale=args.ax1_yscale)
+        else:
+            fig, *_ = plot_top(
+                top_plotters[k_br_name],
+                title=args.title,
+                xlabel=xlabel, ylabel=args.ax1_ylabel,
+                yscale=args.ax1_yscale)
 
-                for ext in args.ext:
-                    filename = '_'.join([
-                        args.output_prefix, args.title.replace(' ', '_'),
-                        k_br_name]) + '.' + ext
+        for ext in args.ext:
+            filename = '_'.join([
+                args.output_prefix, args.title.replace(' ', '_'),
+                k_br_name]) + '.' + ext
 
-                    fig.savefig(filename)
+            fig.savefig(filename)
 
-                # Clear plot in memory
-                plt.close('all')
+        # Clear plot in memory
+        plt.close('all')
