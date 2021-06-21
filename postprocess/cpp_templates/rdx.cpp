@@ -1,13 +1,16 @@
 // {% gendate: %}
+
 #include <TFile.h>
+#include <TString.h>
 #include <TTree.h>
 #include <TTreeReader.h>
-#include <TBranch.h>
-#include <TObject.h>
 
-#include <vector>
-#include <TH1D.h>
+#include <Math/Vector3D.h>
+#include <Math/Vector4D.h>
 #include <TMath.h>
+
+#include <istream>
+#include <vector>
 
 // System headers
 // {% join: (format_list: "#include <{}>", directive.system_headers), "\n" %}
@@ -16,16 +19,17 @@
 // {% join: (format_list: "#include \"{}\"", directive.user_headers), "\n" %}
 
 using namespace std;
+using namespace ROOT::Math;
 
 //////////////////////
 // Helper functions //
 //////////////////////
 
-Double_t calc_pseudo_rand_num(Double_t value, int magic=9) {
-  Double_t denom_ref = TMath::Power(10, TMath::Floor(log10(value))     - magic);
+Double_t calc_pseudo_rand_num(Double_t value, int magic = 9) {
+  Double_t denom_ref = TMath::Power(10, TMath::Floor(log10(value)) - magic);
   Double_t denom_com = TMath::Power(10, static_cast<int>(log10(value)) - magic);
 
-  return value/denom_ref - TMath::Floor(value/denom_com);
+  return value / denom_ref - TMath::Floor(value / denom_com);
 }
 
 template <class T>
@@ -33,16 +37,20 @@ Int_t max_elem_idx(vector<T>& vec) {
   return distance(vec.begin(), max_element(vec.begin(), vec.end()));
 }
 
-
 /////////////////////////
 // Generated functions //
 /////////////////////////
 
 // Generator for each output tree
-// {% for output_tree, config in directive.trees->items: %}
-void generator_/* {% output_tree %} */(TFile *input_file, TFile *output_file) {
-  TTreeReader reader("/* {% config.input_tree %} */", input_file);
-  TTree output(/* {% format: "\"{}\", \"{}\"", output_tree, output_tree %} */);
+// {% for tree_out, config in directive.trees->items: %}
+void generator_/* {% guard: tree_out %} */ (TTree*  input_tree,
+                                            TString output_prefix) {
+  cout << "Generating output ntuple: " << /* {% quote: tree_out %} */ << endl;
+
+  auto output_file = new TFile(
+      output_prefix + /* {% quote: tree_out %} */ +".root", "recreate");
+  TTreeReader reader(input_tree);
+  TTree       output("tree", "tree");
 
   // Load needed branches from ntuple
   // {% for var in config.input %}
@@ -51,30 +59,29 @@ void generator_/* {% output_tree %} */(TFile *input_file, TFile *output_file) {
 
   // Define output branches and store output variables in vectors
   // {% for var in config.output %}
-  //   {% format: "{} {};", var.type, var.fname %}
+  //   {% declare: var.type, var.fname %}
   //   {% format: "output.Branch(\"{}\", &{});", var.name, var.fname %}
   //   {% if config.one_cand_only.enable then %}
-  //   {% format: "vector<{}> {}_stash;", var.type, var.fname %}
+  //     {% format: "vector<{}> {}_stash;", var.type, var.fname %}
   //   {% endif %}
   // {% endfor %}
 
   // Define temporary variables
   // {% for var in config.tmp %}
-  //   {% format: "{} {};", var.type, var.fname %}
+  //   {% declare: var.type, var.fname %}
   // {% endfor %}
 
-  ULong64_t prevEventNumber = 0;
+  ULong64_t        prevEventNumber = 0;
   vector<Double_t> pseudo_rand_seq;
 
   while (reader.Next()) {
     // Define variables required by selection
     // {% for var in config.pre_sel_vars %}
-    //   {% format: "{} = {};", var.fname, (deref_var: var.rval, config.input_br) %}
+    //   {% assign: var.fname, (deref_var: var.rval, config.input_br) %}
     // {% endfor %}
 
     // Now only keep candidates that pass selections
     if (/* {% join: (deref_var_list: config.sel, config.input_br), " && " %} */) {
-
       // {% if config.one_cand_only.enable then %}
       // Keep only 1 B candidate for multi-B events
       if (prevEventNumber != *raw_eventNumber && !pseudo_rand_seq.empty()) {
@@ -102,7 +109,7 @@ void generator_/* {% output_tree %} */(TFile *input_file, TFile *output_file) {
       //
       // Compute post-selection variables (i.e. temp and output variables)
       // {% for var in config.post_sel_vars %}
-      //   {% format: "{} = {};", var.fname, (deref_var: var.rval, config.input_br) %}
+      //   {% assign: var.fname, (deref_var: var.rval, config.input_br) %}
       // {% endfor %}
 
       output.Fill();
@@ -110,11 +117,12 @@ void generator_/* {% output_tree %} */(TFile *input_file, TFile *output_file) {
 
       // {% if config.one_cand_only.enable then %}
       // Always compute the pseudo random number for current candidate
-      pseudo_rand_seq.push_back(calc_pseudo_rand_num(/* {% config.one_cand_only.branch %} */));
+      pseudo_rand_seq.push_back(
+          calc_pseudo_rand_num(/* {% config.one_cand_only.branch %} */));
 
       // Compute post-selection variables (i.e. temp and output variables)
       // {% for var in config.post_sel_vars %}
-      //   {% format: "{} = {};", var.fname, (deref_var: var.rval, config.input_br) %}
+      //   {% assign: var.fname, (deref_var: var.rval, config.input_br) %}
       // {% endfor %}
 
       // Store output variables in vectors
@@ -141,23 +149,53 @@ void generator_/* {% output_tree %} */(TFile *input_file, TFile *output_file) {
 
 // {% endfor %}
 
-
 //////////
 // Main //
 //////////
 
 int main(int, char** argv) {
-  TFile* input_file = new TFile(argv[1], "read");
-  TFile* output_file = new TFile(argv[2], "recreate");
+  TString out_prefix = TString(argv[2]);
 
-  // {% for output_tree in directive.trees->keys: %}
-  generator_/* {% output_tree %} */(input_file, output_file);
+  TFile* ntuple = new TFile(/* {% quote: directive.ntuple %} */);
+  cout << "The ntuple being worked on is: " << /* {% quote: directive.ntuple %} */ << endl;
+
+  vector<TFile*> friend_ntuples;
+  // {% for friend in directive.friends %}
+  friend_ntuples.push_back(new TFile(/* {% quote: friend %} */));
+  cout << "Additional friend ntuple: " << /* {% quote: friend %} */ << endl;
   // {% endfor %}
 
-  output_file->Close();
+  // Define input trees and container to store associated friend trees
+  // {% for tree in directive.input_trees %}
+  //   {% format: "auto tree_{} = static_cast<TTree*>(ntuple->Get(\"{}\"));", (guard: tree), tree %}
+  //   {% format: "vector<TTree*> friends_{};", (guard: tree) %}
+  // {% endfor %}
 
-  delete input_file;
-  delete output_file;
+  // Handle friend trees
+  TTree* tmp_tree;
+  // {% for tree in directive.input_trees %}
+  //   {% for idx, state in enum: directive.tree_relations[tree] %}
+  //     {% if state then %}
+  //       {% format: "tmp_tree = static_cast<TTree*>(friend_ntuples[{}]->Get(\"{}\"));", idx, tree %}
+           tmp_tree->BuildIndex("runNumber", "eventNumber");
+  //       {% format: "tree_{}->AddFriend(tmp_tree, \"{}\", true);", (guard: tree), idx %}
+           friends_/* {% guard: tree %} */.push_back(tmp_tree);
+           cout << "Handling input tree: " << /* {% quote: tree %} */ << endl;
+  //     {% endif %}
+  //   {% endfor %}
+  // {% endfor %}
+
+  // {% for tree_out, prop in directive.trees->items: %}
+  //   {% format: "generator_{}(tree_{}, out_prefix);", (guard: tree_out), (guard: prop.input_tree) %}
+  // {% endfor %}
+
+  // Cleanups
+  cout << "Cleanups" << endl;
+  delete ntuple;
+  // {% for tree in directive.input_trees %}
+    for (auto tree : friends_/* {% guard: tree %} */) delete tree;
+  // {% endfor %}
+  for (auto ntp : friend_ntuples) delete ntp;
 
   return 0;
 }
