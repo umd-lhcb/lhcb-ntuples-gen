@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun, Manual Franco Sevilla
 # License: BSD 2-clause
-# Last Change: Wed Jun 02, 2021 at 03:42 AM +0200
+# Last Change: Tue Jun 22, 2021 at 02:14 AM +0200
 
 import pathlib
 import os
@@ -352,7 +352,6 @@ KNOWN_FUNC['flag_sel_run1_strip'] = vectorize(ROOT.FLAG_SEL_RUN1_STRIP)
 KNOWN_FUNC['flag_sel_run1_dv'] = vectorize(ROOT.FLAG_SEL_RUN1_DV)
 KNOWN_FUNC['flag_sel_d0_run1'] = flag_sel_d0_run1
 KNOWN_FUNC['flag_sel_mu_run1'] = flag_sel_mu_run1
-KNOWN_FUNC['flag_sel_b0dst_run1'] = flag_sel_b0dst_run1
 KNOWN_FUNC['flag_sel_b0dst_run1'] = flag_sel_b0dst_run1
 
 KNOWN_FUNC['flag_sel_run2_strip'] = vectorize(ROOT.FLAG_SEL_RUN2_STRIP)
