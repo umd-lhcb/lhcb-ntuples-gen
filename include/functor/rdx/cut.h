@@ -1,14 +1,13 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Thu May 27, 2021 at 04:28 AM +0200
+// Last Change: Tue Jun 22, 2021 at 02:00 AM +0200
 
 #ifndef _LNG_FUNCTOR_RDX_CUT_H_
 #define _LNG_FUNCTOR_RDX_CUT_H_
 
+#include <Math/Vector3D.h>
 #include <Math/Vector4D.h>
-#include <Math/Vector4Dfwd.h>
 #include <TMath.h>
-#include <TROOT.h>
 #include <TVector3.h>
 
 #include <vector>
@@ -166,11 +165,19 @@ Bool_t FLAG_SEL_D0_RUN1(Bool_t flag_d0_pid_ok,
   return false;
 }
 
-Bool_t FLAG_SEL_GOOD_TRACKS(TVector3              ref_trk,
-                            std::vector<TVector3> other_trks) {
+// A helper to build other_trks vector
+std::vector<ROOT::Math::XYZVector> BUILD_OTHER_TRKS(
+    std::initializer_list<ROOT::Math::XYZVector> &vec) {
+  std::vector<ROOT::Math::XYZVector> result;
+  for (auto v : vec) result.push_back(v);
+  return result;
+}
+
+Bool_t FLAG_SEL_GOOD_TRACKS(ROOT::Math::XYZVector              ref_trk,
+                            std::vector<ROOT::Math::XYZVector> other_trks) {
   for (auto v3_other : other_trks) {
     auto inner_prod = ref_trk.Dot(v3_other);
-    auto magnitude  = ref_trk.Mag() * v3_other.Mag();
+    auto magnitude  = TMath::Sqrt(ref_trk.Mag2() * v3_other.Mag2());
 
     if (TMath::Log10(1 - inner_prod / magnitude) <= -6.5) return false;
   }

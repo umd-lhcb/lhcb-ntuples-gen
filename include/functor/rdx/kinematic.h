@@ -1,6 +1,6 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Sat Mar 13, 2021 at 09:37 PM +0100
+// Last Change: Tue Jun 22, 2021 at 03:04 AM +0200
 
 #ifndef _LNG_FUNCTOR_RDX_KINEMATIC_H_
 #define _LNG_FUNCTOR_RDX_KINEMATIC_H_
@@ -43,6 +43,13 @@ Double_t MM_DST_MOM(TLorentzVector& v_dst_mom_p, TLorentzVector& v_dst_p) {
 
 Double_t ETA(Double_t p, Double_t pz) {
   return 0.5 * TMath::Log((p + pz) / (p - pz));
+}
+
+Double_t FD_TRANS(Double_t endvtx_x, Double_t ownpv_x, Double_t endvtx_y,
+                  Double_t ownpv_y) {
+  auto x = endvtx_x - ownpv_x;
+  auto y = endvtx_y - ownpv_y;
+  return TMath::Sqrt(x * x + y * y);
 }
 
 // Rest frame approximation ////////////////////////////////////////////////////
