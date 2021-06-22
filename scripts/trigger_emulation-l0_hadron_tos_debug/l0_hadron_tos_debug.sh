@@ -82,27 +82,27 @@ plotbr -n ./emu_l0_hadron_debug.root/TupleB0/DecayTree \
 # Plot the difference between D0 PT and ET
 plotbr -n ./emu_l0_hadron_debug.root/TupleB0/DecayTree \
     -b d0_pt_raw k_pi_trg_et_cap \
-    -l "\$D^0$ \$p_T$" "\$D^0$ HCAL \$E_T$" \
+    -l "\$D^0$ \$p_T$" "\$D^0$ Trigger \$E_T$" \
     -o d0_pt_et_comparison.png \
     -XD 0 8000 -YD 0 9e4 \
     --xlabel "\$D^0$ \$E_T$ or \$p_T$"
 
 plotbr -n ./emu_l0_hadron_debug.root/TupleB0/DecayTree \
     -b d0_pt_raw d0_et_emu_no_bdt \
-    -l "\$D^0$ \$p_T$" "\$D^0$ emulated HCAL \$E_T$" \
+    -l "\$D^0$ \$p_T$" "\$D^0$ emulated \$E_T$" \
     -o d0_pt_et_emu_comparison.png \
     -XD 0 8000 -YD 0 9e4 \
     --xlabel "\$D^0$ \$E_T$ or \$p_T$"
 
 plotbr -n ./emu_l0_hadron_debug.root/TupleB0/DecayTree \
     -b k_pi_trg_et_cap d0_et_emu_no_bdt \
-    -l "\$D^0$ HCAL \$E_T$" "\$D^0$ emulated HCAL \$E_T$" \
+    -l "\$D^0$ Trigger \$E_T$" "\$D^0$ emulated \$E_T$" \
     -o d0_et_et_emu_comparison.png \
     -XD 0 6200 -YD 0 9e4 \
     --xlabel "\$D^0$ \$E_T$"
 
-# Plot the difference between real and emulated D0 HCAL ET, separated by low and
-# high ET components
+# Plot the difference between official and emulated D0 Trigger ET, separated by
+# low and high ET components
 plotbr -n ./emu_l0_hadron_debug.root/TupleB0/DecayTree \
     -b d0_et_diff d0_et_diff d0_et_diff \
     -l "no cut" \
