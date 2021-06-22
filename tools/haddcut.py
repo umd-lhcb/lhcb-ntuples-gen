@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sun Jun 13, 2021 at 05:48 PM +0200
+# Last Change: Tue Jun 22, 2021 at 05:47 PM +0200
 # Description: Merge and apply cuts on input .root files, each with multiple
 #              trees, to a single output .root file.
 #
@@ -227,8 +227,7 @@ def skim_chains(output_ntp_name, chains, config):
 def update_friend(input_ntp, friends, tree_branch_dict, tree_paths):
     for tree_path in tree_paths:
         tree = input_ntp.Get(tree_path)
-        # FIXME: RDataFrame doesn't support indexing as of ROOT 6.18
-        # tree.BuildIndex('runNumber', 'eventNumber')
+        tree.BuildIndex('runNumber', 'eventNumber')
 
         if tree_path not in friends:
             friends[tree_path] = tree
