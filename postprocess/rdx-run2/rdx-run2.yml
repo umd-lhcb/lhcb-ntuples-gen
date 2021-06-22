@@ -1,10 +1,7 @@
 headers:
-    system:
-        - TLorentzVector.h
     user:
-        - functor/rdx/flag.h
+        - functor/rdx/cut.h
         - functor/rdx/kinematic.h
-        - functor/rdx/pid.h
 
 keep:
     # Event uid, also needed for keeping only one B for multi-B events
@@ -17,14 +14,11 @@ rename:
     b0_PT: b_pt
     # Isolation variables
     b0_ISOLATION_BDT: iso_bdt
-    # Triggers
-    b0_L0Global_TIS: b_l0_tis
-    dst_L0HadronDecision_TOS: dst_l0had_tos
-    mu_L0Global_TIS: mu_l0_tis
     # B0
     b0_M: b_m
+    # B0, MC-only
     b0_BKGCAT: b_bkg_cat
-    # D* mother MC-only
+    # D* mother, MC-only
     dst_MC_MOTHER_ID: dst_mom_id
     dst_MC_MOTHER_TRUEPX: dst_mc_mom_px
     dst_MC_MOTHER_TRUEPY: dst_mc_mom_py
@@ -37,23 +31,21 @@ rename:
     dst_MC_GD_GD_MOTHER_KEY: dst_mc_gd_gd_mom_key
     dst_MC_GD_GD_MOTHER_ID: dst_mc_gd_gd_mom_id
     # D*
-    dst_PX: dst_px
-    dst_PY: dst_py
-    dst_PZ: dst_pz
-    dst_PE: dst_pe
+    dst_P: dst_p
+    dst_PT: dst_pt
+    dst_PE: dst_e
+    # D*, MC-only
     dst_BKGCAT: dst_bkg_cat
-    # D0
-    d0_ID: d0_id
-    d0_BKGCAT: d0_bkg_cat
-    # D0 MC-only
+    # D0 mother, MC-only
     d0_MC_MOTHER_KEY: d0_mc_mom_key
-    # Pi
-    pi_ID: pi_id
+    # D0, MC-only
+    d0_BKGCAT: d0_bkg_cat
+    # Pi, MC-only
+    pi_TRUEID: pi_true_id
     # Mu
-    mu_ID: mu_id
     mu_isMuon: mu_is_mu
     mu_PIDmu: mu_pid_mu
-    # Mu MC-only
+    # Mu, MC-only
     mu_TRUEID: mu_true_id
     mu_MC_MOTHER_KEY: mu_mc_mom_key
     mu_MC_MOTHER_ID: mu_mc_mom_id
@@ -64,58 +56,29 @@ rename:
 
 calculation:
     # Fit variables
-    el: Double_t; GEV(FitVar_El)
-    mm2: Double_t; GEV2(FitVar_Mmiss2)
-    q2: Double_t; GEV2(FitVar_q2)
-    # Temp variables
-    v_dst_mom_p: ^TLorentzVector; TLorentzVector(dst_mc_mom_px, dst_mc_mom_py, dst_mc_mom_pz, dst_mc_mom_pe)
-    v_dst_p: ^TLorentzVector; TLorentzVector(dst_px, dst_py, dst_pz, dst_pe)
-    v_mc_flags: >-
-        ^std::vector<std::vector<Bool_t> >; MC_FLAGS(
-        mu_mc_mom_key, d0_mc_mom_key, dst_mc_mom_key,
-        mu_mc_gd_mom_key, dst_mc_gd_mom_key,
-        mu_mc_gd_gd_mom_key, dst_mc_gd_gd_mom_key
-        )
-    # PID
-    mu_pid: Bool_t; MU_PID(mu_true_id) ; MU_PID(mu_is_mu, mu_pid_mu)
-    dst_id_prod: Double_t; d0_id*pi_id   # positive when physical
-    id_prod: Double_t; d0_id*mu_id       # positive when physical
-    # Physical variables
-    mm_dst_mom: Double_t; MM_DST_MOM(v_dst_mom_p, v_dst_p)  # Missing mass between Dst and its mother
-    # Flags
-    flag_tau: Bool_t; FLAG_TAU(v_mc_flags, mu_true_id, mu_mc_mom_id, mu_mc_gd_mom_id)
-    flag_mu: Bool_t; FLAG_MU(v_mc_flags, mu_true_id, mu_mc_mom_id)
-    flag_two_d_tau: Bool_t; FLAG_TWO_D_TAU(mu_mc_mom_id, mu_mc_gd_mom_id)
-    flag_two_d_mu: Bool_t; FLAG_TWO_D_MU(v_mc_flags, mu_mc_mom_id, mu_mc_gd_gd_mom_id, dst_mc_mom_id)
-    flag_d0_mu: Bool_t; FLAG_D0_MU(v_mc_flags, mu_true_id)
-    # flag_dst_sb: <-- D* side band flag. Obsolete.
-    # Other flags
-    is_data: Bool_t; IS_DATA(GpsTime)
-    is_2pi: Bool_t; IS_2PI(flag_mu, just_dst, dst_ok, mu_pid, dst_mc_mom_id, dst_mc_gd_mom_id)
-    just_dst: Bool_t; JUST_DST(dst_mc_mom_id)
-    dst_ok: Bool_t; DST_OK(d0_bkg_cat, dst_bkg_cat)
-    # Types
-    b_type: >-
-        Int_t; B_TYPE(
-        v_mc_flags, flag_d0_mu,
-        mu_true_id, mu_mc_mom_id, mu_mc_gd_mom_id,
-        dst_mc_mom_id, dst_mc_gd_mom_id, dst_mc_gd_gd_mom_id
-        )
-    dss_type: Int_t; DSS_TYPE(flag_d0_mu, dst_mc_mom_id, dst_mc_gd_mom_id, dst_mc_gd_gd_mom_id)
+    el: double; GEV(FitVar_El)
+    mm2: double; GEV2(FitVar_Mmiss2)
+    q2: double; GEV2(FitVar_q2)
+    # Selection flags
+    flag_d0_pid_ok: >-
+        bool; FLAG_SEL_D0_PID_OK_RUN1(mu_IPCHI2_OWNPV, mu_TRACK_GhostProb,
+                                  mu_
 
+        )
+
+global_selection:
+    # Trigger (L0, HLT1, HLT2)
+    - "b0_L0Global_TIS || d0_L0HadronDecision_TOS"
+    - "k_Hlt1TrackMVADecision_TOS || pi_Hlt1TrackMVADecision_TOS || d0_Hlt1TwoTrackMVADecision_TOS"
+    - "b0_Hlt2XcMuXForTauB2XcMuDecision_TOS"
+    # Stripping
 
 one_cand_only:
     enable: true
     branch: rename_b_pt
 
 output:
-    dst_iso:
+    iso_Dst:
         input: TupleB0/DecayTree
         selection:
-            - "mu_pid"
             - "iso_bdt < 0.15"
-            #- "is_data"  # Well, this doesn't apply to MC
-            - "b_m < 5280"
-            # L0 cuts
-            - "b_l0_tis || dst_l0had_tos"
-            - "mu_l0_tis"
