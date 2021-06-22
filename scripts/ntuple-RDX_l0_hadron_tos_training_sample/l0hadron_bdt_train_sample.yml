@@ -1,6 +1,6 @@
 TupleB0/DecayTree:
     selection:
-        - "!(d0_L0HadronDecision_TOS && max(k_L0Calo_HCAL_TriggerET, pi_L0Calo_HCAL_TriggerET) <= 3744)"
+        - "max(k_L0Calo_HCAL_TriggerET, pi_L0Calo_HCAL_TriggerET) > 0"
     deactivate:
         - '*'
     activate:
