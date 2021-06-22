@@ -1,22 +1,27 @@
 TupleB0/DecayTree:
+    selection:
+        - "d0_L0HadronDecision_TOS"
+        - "max(k_L0Calo_HCAL_TriggerET, pi_L0Calo_HCAL_TriggerET) > 3744"
     deactivate:
         - '*'
     activate:
         # Global
-        - 'runNumber'
-        - 'eventNumber'
+        - runNumber
+        - eventNumber
+        # Trigger
+        - d0_L0HadronDecision_TOS
         # K
-        - 'k_L0Calo_HCAL_realET'
-        - 'k_L0Calo_HCAL_TriggerET'
+        - k_L0Calo_HCAL_realET
+        - k_L0Calo_HCAL_TriggerET
         # pi
-        - 'pi_L0Calo_HCAL_realET'
-        - 'pi_L0Calo_HCAL_TriggerET'
+        - pi_L0Calo_HCAL_realET
+        - pi_L0Calo_HCAL_TriggerET
         # D0
-        - 'd0_PT'
-        - 'd0_P'
-        - 'd0_et_emu_no_bdt'
+        - d0_PT
+        - d0_P
+        - d0_et_emu_no_bdt
         # Radial separation between K and pi
-        - 'rdiff_k_pi'
+        - rdiff_k_pi
 
 TupleBminus/DecayTree:
     keep: false

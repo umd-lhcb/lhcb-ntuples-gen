@@ -5,18 +5,18 @@ INPUT_NTP=../../ntuples/0.9.4-trigger_emulation/Dst_D0-mc/Dst_D0--21_04_21--mc--
 # Generate the base ntuple
 ../../tools/haddcut.py \
     bdt_sample_raw.root \
-    ${INPUT_NTP}
+    ${INPUT_NTP} \
     -c ./l0hadron_bdt_train_sample.yml
 
 # Generate the emulated HCAL ET
-../../lib/python/TrackerOnlyEmu/scripts/run2-rdx-l0_hadron.py ${INPUT_NTP}
+../../lib/python/TrackerOnlyEmu/scripts/run2-rdx-l0_hadron.py ${INPUT_NTP} \
     emu_l0_hadron.root -t TupleB0/DecayTree
 
 # Merge the two
 rm -rf ./bdt_sample_tmp.root
 ../../tools/haddcut.py \
     bdt_sample_tmp.root \
-    ./emu_l0_hadron.root ./bdt_sample_raw.root \
+    ./bdt_sample_raw.root ./emu_l0_hadron.root \
     -c ./l0hadron_bdt_train_sample.yml \
     -m friend
 
