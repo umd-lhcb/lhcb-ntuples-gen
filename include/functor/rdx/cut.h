@@ -1,6 +1,6 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Tue Jun 22, 2021 at 02:00 AM +0200
+// Last Change: Wed Jun 23, 2021 at 05:09 AM +0200
 
 #ifndef _LNG_FUNCTOR_RDX_CUT_H_
 #define _LNG_FUNCTOR_RDX_CUT_H_
@@ -163,14 +163,6 @@ Bool_t FLAG_SEL_D0_RUN1(Bool_t flag_d0_pid_ok,
     // clang-format on
     return true;
   return false;
-}
-
-// A helper to build other_trks vector
-std::vector<ROOT::Math::XYZVector> BUILD_OTHER_TRKS(
-    std::initializer_list<ROOT::Math::XYZVector> &vec) {
-  std::vector<ROOT::Math::XYZVector> result;
-  for (auto v : vec) result.push_back(v);
-  return result;
 }
 
 Bool_t FLAG_SEL_GOOD_TRACKS(ROOT::Math::XYZVector              ref_trk,
