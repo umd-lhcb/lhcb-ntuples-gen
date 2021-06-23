@@ -12,6 +12,8 @@
 #include <istream>
 #include <vector>
 
+#include "ui.h"  // Progress bar
+
 // System headers
 // {% join: (format_list: "#include <{}>", directive.system_headers), "\n" %}
 
@@ -45,8 +47,6 @@ Int_t max_elem_idx(vector<T>& vec) {
 // {% for tree_out, config in directive.trees->items: %}
 void generator_/* {% guard: tree_out %} */ (TTree*  input_tree,
                                             TString output_prefix) {
-  cout << "Generating output ntuple: " << /* {% quote: tree_out %} */ << endl;
-
   auto output_file = new TFile(
       output_prefix + /* {% quote: tree_out %} */ +".root", "recreate");
   TTreeReader reader(input_tree);
@@ -74,12 +74,16 @@ void generator_/* {% guard: tree_out %} */ (TTree*  input_tree,
   ULong64_t        prevEventNumber = 0;
   Long64_t         num_of_cand = input_tree->GetEntries();
   Long64_t         cand_idx = 0;
+  Long64_t         step_size = TMath::Max(1ll, num_of_cand / 100);
+  string           progress_msg = "Generating ";
+  auto progress = new progress_bar(std::clog, 79u, progress_msg + /* {% quote: tree_out %} */);
   vector<Double_t> pseudo_rand_seq;
 
   while (reader.Next()) {
     cand_idx += 1;
-    if (cand_idx % 50000 || cand_idx == num_of_cand)
-      cout << cand_idx << " / " << num_of_cand << endl;
+    if (!(cand_idx % step_size) || cand_idx == num_of_cand)
+      progress->write(
+        static_cast<float>(cand_idx) / static_cast<float>(num_of_cand));
 
     // Define variables required by selection
     // {% for var in config.pre_sel_vars %}
@@ -153,6 +157,7 @@ void generator_/* {% guard: tree_out %} */ (TTree*  input_tree,
   // {% endif %}
 
   output_file->Write("", TObject::kOverwrite);  // Keep the latest cycle only
+  delete progress;
   delete output_file;
 }
 
