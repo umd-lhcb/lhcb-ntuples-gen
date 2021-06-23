@@ -168,7 +168,7 @@ void generator_/* {% guard: tree_out %} */ (TTree*  input_tree,
 //////////
 
 int main(int, char** argv) {
-  TString out_prefix = TString(argv[1]) + "/";
+  TString out_prefix = TString(argv[1]);
 
   TFile* ntuple = new TFile(/* {% quote: directive.ntuple %} */);
   cout << "The ntuple being worked on is: " << /* {% quote: directive.ntuple %} */ << endl;
