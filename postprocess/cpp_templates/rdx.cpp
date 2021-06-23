@@ -72,9 +72,15 @@ void generator_/* {% guard: tree_out %} */ (TTree*  input_tree,
   // {% endfor %}
 
   ULong64_t        prevEventNumber = 0;
+  Long64_t         num_of_cand = input_tree->GetEntries();
+  Long64_t         cand_idx = 0;
   vector<Double_t> pseudo_rand_seq;
 
   while (reader.Next()) {
+    cand_idx += 1;
+    if (cand_idx % 50000 || cand_idx == num_of_cand)
+      cout << cand_idx << " / " << num_of_cand << endl;
+
     // Define variables required by selection
     // {% for var in config.pre_sel_vars %}
     //   {% assign: var.fname, (deref_var: var.rval, config.input_br) %}
@@ -135,16 +141,19 @@ void generator_/* {% guard: tree_out %} */ (TTree*  input_tree,
 
   // {% if config.one_cand_only.enable then %}
   // Special treatment for the last event
-  auto idx = max_elem_idx(pseudo_rand_seq);
+  if (!pseudo_rand_seq.empty()) {
+    auto idx = max_elem_idx(pseudo_rand_seq);
 
-  // {% for var in config.output %}
-  //   {% format: "{} = {}_stash[idx];", var.fname, var.fname %}
-  // {% endfor %}
+    // {% for var in config.output %}
+    //   {% format: "{} = {}_stash[idx];", var.fname, var.fname %}
+    // {% endfor %}
 
-  output.Fill();  // Fill the output tree
+    output.Fill();  // Fill the output tree
+  }
   // {% endif %}
 
   output_file->Write("", TObject::kOverwrite);  // Keep the latest cycle only
+  delete output_file;
 }
 
 // {% endfor %}
@@ -154,7 +163,7 @@ void generator_/* {% guard: tree_out %} */ (TTree*  input_tree,
 //////////
 
 int main(int, char** argv) {
-  TString out_prefix = TString(argv[2]);
+  TString out_prefix = TString(argv[1]) + "/";
 
   TFile* ntuple = new TFile(/* {% quote: directive.ntuple %} */);
   cout << "The ntuple being worked on is: " << /* {% quote: directive.ntuple %} */ << endl;
