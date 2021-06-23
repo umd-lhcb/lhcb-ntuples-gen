@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 # Author: Yipeng Sun
-# Last Change: Tue Jun 22, 2021 at 02:59 AM +0200
+# Last Change: Wed Jun 23, 2021 at 04:41 AM +0200
+
+INPUT_NTP=$1
+INPUT_YML=$2
 
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
 CPP_TMPL=$DIR/../../postprocess/cpp_templates/rdx.cpp
@@ -10,9 +13,6 @@ COMPILER=$(root-config --cxx)
 CXX_FLAGS=$(root-config --cflags)
 LINK_FLAGS=$(root-config --libs)
 ADDF_FLAGS="-I${HEADER_DIR}"
-
-INPUT_NTP=$1
-INPUT_YML=$2
 
 cpp_gen() {
     babymaker -i ${INPUT_YML} -o baby.cpp -n ${INPUT_NTP} -t ${CPP_TMPL}
