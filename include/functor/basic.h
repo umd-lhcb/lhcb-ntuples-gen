@@ -1,12 +1,11 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Wed Jun 23, 2021 at 05:12 AM +0200
+// Last Change: Thu Jun 24, 2021 at 01:58 AM +0200
 
 #ifndef _LNG_FUNCTOR_BASIC_H_
 #define _LNG_FUNCTOR_BASIC_H_
 
 #include <TMath.h>
-#include <TROOT.h>
 
 #include <vector>
 
@@ -15,6 +14,23 @@
 template <class T>
 T ABS(T num) {
   return TMath::Abs(num);
+}
+
+template <typename T, typename... ARGS>
+T MAG(T arg0, ARGS... args) {
+  auto result = arg0 * arg0;
+  auto vec    = std::vector<T>{args...};
+  for (auto val : vec) result += val * val;
+  return TMath::Sqrt(result);
+}
+
+template <typename T, typename... ARGS>
+T MAX(T arg0, ARGS... args) {
+  auto result = arg0;
+  auto vec    = std::vector<T>{args...};
+  for (auto val : vec)
+    if (val > result) result = val;
+  return result;
 }
 
 // Boolean /////////////////////////////////////////////////////////////////////
@@ -74,7 +90,7 @@ std::vector<std::vector<int> > COMBINATION(int tot_size, int comb_size,
   return result;
 }
 
-// Vector-general //////////////////////////////////////////////////////////////
+// Vector construction /////////////////////////////////////////////////////////
 template <typename T, typename... ARGS>
 std::vector<T> BUILD_VEC(T const& arg0, ARGS const&... args) {
   return std::vector<T>{{arg0, args...}};
