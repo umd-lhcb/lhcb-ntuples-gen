@@ -20,11 +20,12 @@ large files, mostly the input `.dst` files or important `.root` outputs. For mor
 
 Now clone the repository and set up the `annex` component. We have a private server, `julian`, that hosts
 `git-annex` files.
-```
+```shell
 git clone git@github.com:umd-lhcb/lhcb-ntuples-gen
 cd lhcb-ntuples-gen
 git remote add julian git@129.2.92.92:lhcb-ntuples-gen
 git annex init --version=7
+git submodule update --init  # Do this before git annex sync to avoid potential mess-up of submodule pointers!
 git annex sync julian
 ```
 
@@ -47,6 +48,7 @@ git annex get <path_to_file>
 
 
 ## Install `docker` to run `DaVinci` locally
+
 We use `docker` to run a pre-built `DaVinci` image locally. To install
 `docker`:
 
@@ -68,6 +70,7 @@ docker pull umdlhcb/lhcb-stack-cc7:DaVinci-v45r3-SL
 
 
 ## Install `babymaker`
+
 `babymaker` is part of the `pyBabyMaker` Python package. It requires
 `gcc`[^1], `ROOT`, `python3`, and a couple of other `Python` packages[^2].
 
@@ -106,26 +109,3 @@ make install-dep
       for your OS. See [this guide](./dev.md#installing-pyenv-for-python-development).
 [^3]: `clang-format` usually comes with `clang`. A notable exception is on
       macOS. In that case, just type in `brew install clang-format`.
-
-
-## Use a pre-built `VirtualBox` image on Windows
-The pre-built `VirtualBox` image is based on Arch Linux. It contains `git`,
-`git-annex`, `docker` (`DaVinci` image _not_ downloaded), `sublime` text
-editor, `gcc`[^1], `ROOT`, and a couple of dependencies[^2] for `pyBabyMaker`.
-
-To use the virtual machine image, Please follow these steps on Microsoft
-Windows:
-
-1. Download and install the latest `VirtualBox` from [here](https://www.virtualbox.org/wiki/Downloads).
-2. Download the pre-built image from [here](https://www.dropbox.com/sh/zyohmvod41pc4oc/AAACD1LOaRjiVM-YdkdLzd_Ca?dl=0)
-   (choose the latest date, then download both `.ovf` and `.vmdk` files).
-3. Launch `VirtualBox`, click **Tools**, then click **Import**, choose the `ovf`
-   file, then proceed with default settings.
-
-!!! info
-    Both the username and password of the virtual machine are `vagrant`.
-
-!!! info
-    By default the virtual machine can maximally use 4 GB of RAM. If your
-    computer has 16 GB or more RAM, it is recommended to allocate 8 GB of RAM
-    to the virtual machine.
