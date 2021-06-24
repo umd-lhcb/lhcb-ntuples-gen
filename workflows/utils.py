@@ -2,10 +2,11 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Apr 15, 2021 at 06:42 PM +0200
+# Last Change: Thu Jun 24, 2021 at 04:42 PM +0200
 
 import os.path as os_path
 import shlex
+import re
 
 from os import makedirs, chdir, symlink, getcwd, environ, pathsep
 from datetime import datetime
@@ -100,3 +101,27 @@ def append_path(path=None):
 ################################
 # Ntuple filename manipulation #
 ################################
+
+def generate_step2_name(ntp_name):
+    try:
+        name, _, reco_mode, add_flag, lfn = ntp_name.split('--')
+    except ValueError:
+        name, _, reco_mode, lfn = ntp_name.split('--')
+        add_flag = None
+
+    date = gen_date()
+
+    polarity_trans = {'Up': 'u', 'Down': 'd'}
+    polarity = 'm'+polarity_trans[re.search(r'Mag(Up|Down)', lfn).group(1)]
+
+    if 'Real_Data' in lfn:
+        year = '20' + re.search(r'_Collision(\d\d)_', lfn).group(1)
+        decay_mode = 'data'
+    else:
+        year = re.search(r'_(\d\d\d\d)_', lfn).group(1)
+        decay_mode = re.search(r'_(\d\d\d\d\d\d\d\d)_', lfn).group(1)
+
+    fields = [date, reco_mode, decay_mode, year, polarity]
+    if add_flag is not None:
+        fields.append(add_flag)
+    return '--'.join(fields)
