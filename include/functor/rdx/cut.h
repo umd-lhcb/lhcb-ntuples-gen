@@ -1,6 +1,6 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Wed Jun 23, 2021 at 05:09 AM +0200
+// Last Change: Thu Jun 24, 2021 at 05:48 AM +0200
 
 #ifndef _LNG_FUNCTOR_RDX_CUT_H_
 #define _LNG_FUNCTOR_RDX_CUT_H_
@@ -17,6 +17,7 @@
 
 // Run 1 DaVinci cuts //////////////////////////////////////////////////////////
 // Here we should assume all variables are in their original DaVinci units.
+// WARN: Here all kinematic variables are in MeV
 
 // NOTE: We can't have too many inputs variables (up to 32 for input+output) as
 //       numpy doesn't support that
@@ -68,6 +69,7 @@ Bool_t FLAG_SEL_RUN1_DV(Double_t spi_ip_chi2, Double_t spi_gh_prob,
 }
 
 // Run 2 DaVinci cuts //////////////////////////////////////////////////////////
+// WARN: Here all kinematic variables are in MeV
 
 // clang-format off
 Bool_t FLAG_SEL_RUN2_STRIP(Double_t mu_ip_chi2, Double_t mu_gh_prob,
@@ -115,7 +117,8 @@ Bool_t FLAG_SEL_RUN2_DV(Double_t spi_ip_chi2, Double_t spi_gh_prob,
 }
 
 // Global selection flags for run 1 ////////////////////////////////////////////
-//  Selections are based on Run 1 R(D(*)) ANA, v2020.07.31, p.11, Table 6.
+// WARN: Here all kinematic variables are in GeV, except for mass (still in MeV)
+// Selections are based on Run 1 R(D(*)) ANA, v2020.07.31, p.11, Table 6.
 
 Bool_t FLAG_SEL_D0_PID_OK_RUN1(Double_t k_pid_k, Double_t pi_pid_k,
                                Bool_t k_is_mu, Bool_t pi_is_mu) {
