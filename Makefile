@@ -1,6 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon May 31, 2021 at 06:09 PM +0200
+# Last Change: Thu Jun 24, 2021 at 03:34 PM +0200
 
 export PATH := workflows:test:scripts:tools:$(PATH)
 
@@ -83,13 +83,7 @@ ntuple-rdx-run2: \
 # Tests #
 #########
 
-.PHONY: test-all test-naming-conv
-
-test-all: \
-	test-naming-conv \
-	test-cutflow-rdst-run1 \
-	test-cutflow-rdst-run2 \
-	test-cutflow-consistency-rdst
+.PHONY: test-naming-conv
 
 # Test if specific files follow naming conventions.
 test-naming-conv:
