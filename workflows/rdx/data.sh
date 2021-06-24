@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
 # Author: Yipeng Sun
-# Last Change: Wed Jun 23, 2021 at 04:41 AM +0200
+# Last Change: Thu Jun 24, 2021 at 05:14 PM +0200
 
 INPUT_NTP=$1
 INPUT_YML=$2
+OUTPUT_PREFIX=$3
 
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
 CPP_TMPL=$DIR/../../postprocess/cpp_templates/rdx.cpp
@@ -24,3 +25,4 @@ cpp_compile() {
 
 cpp_gen
 cpp_compile baby.cpp baby
+./baby "${OUTPUT_PREFIX}--"

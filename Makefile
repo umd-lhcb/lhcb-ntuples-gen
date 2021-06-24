@@ -1,28 +1,17 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Jun 24, 2021 at 03:34 PM +0200
+# Last Change: Thu Jun 24, 2021 at 05:45 PM +0200
 
 export PATH := workflows:test:scripts:tools:$(PATH)
 
 VPATH := postprocess:test:scripts:ntuples
 VPATH := run1-rdx/cutflow:run2-rdx/cutflow:$(VPATH)
 
-# Sub-makefiles for different analyses
-include ./workflows/rdx.mk  # R(D(*))
-
 # System env
 OS := $(shell uname)
 PWD := $(shell pwd)
-
 # In-house Python libraries
 LIB_PY := $(wildcard lib/python/*)
-
-# Compiler settings
-COMPILER	:=	$(shell root-config --cxx)
-CXXFLAGS	:=	$(shell root-config --cflags)
-LINKFLAGS	:=	$(shell root-config --libs)
-ADDFLAGS	:=	-Iinclude
-
 DAVINCI_VERSION=DaVinci-v45r6-SL
 
 
@@ -67,16 +56,13 @@ docker-dv:
 # Generic ntuple generation #
 #############################
 
-.PHONY: ntuple-rdx-run1 ntuple-rdx-run2
+.PHONY: rdx-ntuple-run2-oldcut
 
-ntuple-rdx-run1: \
-	gen/run1-Dst_D0-step2/Dst_D0--20_10_14--mc--Bd2DstTauNu--2012--md--py6-sim08a-dv45-subset-step1.1.root \
-	gen/run1-Dst_D0-step2/Dst_D0--20_10_12--std--data--2011--md--step2.root \
-	gen/run1-Dst-step2/Dst--20_07_02--mix--data--2011--md--phoebe-step2.root \
-	gen/run1-Dst-step2/Dst--20_09_16--std--data--2011--md--phoebe-step2.root
-
-ntuple-rdx-run2: \
-	gen/run2-Dst-step2/Dst--19_09_09--std--data--2016--md--step2.root
+rdx-ntuple-run2-oldcut: \
+	0.9.4-trigger_emulation/Dst_D0-std \
+	rdx-run2/rdx-run2_with_run1_cuts.yml
+	@rdx.py $@ $< --debug \
+		--mode data -A input_yml:$(abspath $(word 2, $^))
 
 
 #########
@@ -149,11 +135,6 @@ gen/rdx-cutflow-run2-Dst-%/cutflow.yml: \
 ####################
 # Generic patterns #
 ####################
-
-%.pp: gen/%.cpp \
-	include/functor/*.h \
-	include/*.h
-	$(COMPILER) $(CXXFLAGS) $(ADDFLAGS) -o bin/$@ $< $(LINKFLAGS)
 
 %.root:
 	@echo -e "No such file present:" $@

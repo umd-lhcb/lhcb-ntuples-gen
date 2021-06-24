@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon May 24, 2021 at 05:52 PM +0200
+# Last Change: Thu Jun 24, 2021 at 05:17 PM +0200
 
 import sys
 import os
@@ -17,7 +17,8 @@ sys.path.insert(0, os_path.dirname(os_path.abspath(__file__)))
 
 from utils import (
     abs_path, ensure_dir, find_all_input, append_path, pipe_executor,
-    aggragate_output
+    aggragate_output,
+    generate_step2_name
 )
 
 
@@ -84,7 +85,8 @@ def workflow_general(job_name, inputs, output_dir,
                          './rdx',
                          '../scripts'
                      ],
-                     input_patterns=['*.root']):
+                     input_patterns=['*.root'],
+                     ):
     print('{}== Job: {} =={}'.format(TC.BOLD+TC.GREEN, job_name, TC.END))
     for p in global_path_to_append+path_to_append:
         append_path(p)
@@ -170,16 +172,40 @@ def workflow_cutflow(job_name, inputs, output_dir, debug, kws):
     exe(params, debug)
 
 
-WORKFLOWS = {
-    'trigger_emulation': workflow_trigger_emulation,
-    'trigger_emulation_fs_vs_to': workflow_trigger_emulation_fs_vs_to,
-    'cutflow': workflow_cutflow,
-}
+def workflow_data(job_name, inputs, output_dir, debug, kws):
+    subworkdirs, workdir = workflow_general(job_name, inputs, output_dir)
+    chdir(workdir)
+    exe = pipe_executor('data.sh "{input_ntp}" "{input_yml}" "{output_prefix}"')
+
+    for subdir, full_filename in subworkdirs.items():
+        print('{}Working on {}...{}'.format(TC.GREEN, full_filename, TC.END))
+        ensure_dir(subdir)
+        chdir(subdir)  # Switch to the workdir of the subjob
+
+        params = {
+            'input_ntp': full_filename,
+            'input_yml': kws['input_yml'],
+            'output_prefix': generate_step2_name(full_filename)
+        }
+        exe(params, debug)
+
+        aggragate_output('..', subdir, {
+            'ntuple': ['*--std--*.root']
+        })
+
+        chdir('..')  # Switch back to parent workdir
 
 
 ########
 # Main #
 ########
+
+WORKFLOWS = {
+    'trigger_emulation': workflow_trigger_emulation,
+    'trigger_emulation_fs_vs_to': workflow_trigger_emulation_fs_vs_to,
+    'cutflow': workflow_cutflow,
+    'data': workflow_data,
+}
 
 if __name__ == '__main__':
     args = parse_input()
