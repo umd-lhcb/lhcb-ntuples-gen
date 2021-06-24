@@ -13,17 +13,18 @@
 | Hlt2                                 | 9123          | 15110         | 40.8               | 50.5               | 1.24           |
 | Stripping                            | 4313          | 13005         | 47.3               | 86.1               | 1.82           |
 | DaVinci $D^* \mu$ cuts               | 2830          | 7837          | 65.6               | 60.3               | 0.92           |
-| Offline $D^0$ cuts                   | 1511          | 2371          | 53.4               | 30.3               | 0.57           |
-| Offline $\mu$ cuts                   | 1327          | 1880          | 87.8               | 79.3               | 0.90           |
-| Offline $D^* \mu$ combo cuts         | 1277          | 1769          | 96.2               | 94.1               | 0.98           |
-| $BDT_{iso} < 0.15$                   | 985           | 1262          | 77.1               | 71.3               | 0.92           |
-| Total ratio                          | -             | -             | 0.1                | 0.1                | 1.27           |
+| Offline $D^0$ cuts                   | 1511          | 2091          | 53.4               | 26.7               | 0.50           |
+| Offline $\mu$ cuts                   | 1327          | 1664          | 87.8               | 79.6               | 0.91           |
+| Offline $D^* \mu$ combo cuts         | 1277          | 1573          | 96.2               | 94.5               | 0.98           |
+| $BDT_{iso} < 0.15$                   | 985           | 1129          | 77.1               | 71.8               | 0.93           |
+| Total ratio                          | -             | -             | 0.1                | 0.1                | 1.13           |
 
 !!! note
     - We removed all kinematic cuts and loosened some vertex quality cuts when generating bare ntuples.
     - This table uses **full MagDown** run 1 and 2 cocktail MC.
     - Additional step 2 cuts are applied here.
     - **ALL** numbers are number of events.
+    - We applied the same cuts for run 1 and 2.
 
 !!! info
     - Run 1 stripping conditions can be found at [`Strippingb2D0MuXB2DMuNuForTauMuLine`](http://lhcbdoc.web.cern.ch/lhcbdoc/stripping/config/stripping21/semileptonic/strippingb2d0muxb2dmunufortaumuline.html)
@@ -46,11 +47,11 @@
 | Hlt2                                 | 310           | 453           | 45.8               | 47.8               | 1.04           |
 | Stripping                            | 151           | 397           | 48.7               | 87.6               | 1.80           |
 | DaVinci $D^* \mu$ cuts               | 116           | 290           | 76.8               | 73.0               | 0.95           |
-| Offline $D^0$ cuts                   | 56            | 102           | 48.3               | 35.2               | 0.73           |
-| Offline $\mu$ cuts                   | 52            | 76            | 92.9               | 74.5               | 0.80           |
-| Offline $D^* \mu$ combo cuts         | 50            | 74            | 96.2               | 97.4               | 1.01           |
-| $BDT_{iso} < 0.15$                   | 43            | 47            | 86.0               | 63.5               | 0.74           |
-| Total ratio                          | -             | -             | 0.0                | 0.0                | 1.08           |
+| Offline $D^0$ cuts                   | 56            | 86            | 48.3               | 29.7               | 0.61           |
+| Offline $\mu$ cuts                   | 52            | 61            | 92.9               | 70.9               | 0.76           |
+| Offline $D^* \mu$ combo cuts         | 50            | 60            | 96.2               | 98.4               | 1.02           |
+| $BDT_{iso} < 0.15$                   | 43            | 39            | 86.0               | 65.0               | 0.76           |
+| Total ratio                          | -             | -             | 0.0                | 0.0                | 0.90           |
 
 ### Normalization
 
@@ -66,11 +67,11 @@
 | Hlt2                                 | 5993          | 10104         | 41.2               | 51.7               | 1.25           |
 | Stripping                            | 2898          | 8702          | 48.4               | 86.1               | 1.78           |
 | DaVinci $D^* \mu$ cuts               | 2280          | 6287          | 78.7               | 72.2               | 0.92           |
-| Offline $D^0$ cuts                   | 1227          | 1898          | 53.8               | 30.2               | 0.56           |
-| Offline $\mu$ cuts                   | 1068          | 1503          | 87.0               | 79.2               | 0.91           |
-| Offline $D^* \mu$ combo cuts         | 1039          | 1420          | 97.3               | 94.5               | 0.97           |
-| $BDT_{iso} < 0.15$                   | 880           | 1127          | 84.7               | 79.4               | 0.94           |
-| Total ratio                          | -             | -             | 0.1                | 0.1                | 1.27           |
+| Offline $D^0$ cuts                   | 1227          | 1677          | 53.8               | 26.7               | 0.50           |
+| Offline $\mu$ cuts                   | 1068          | 1335          | 87.0               | 79.6               | 0.91           |
+| Offline $D^* \mu$ combo cuts         | 1039          | 1267          | 97.3               | 94.9               | 0.98           |
+| $BDT_{iso} < 0.15$                   | 880           | 1012          | 84.7               | 79.9               | 0.94           |
+| Total ratio                          | -             | -             | 0.1                | 0.1                | 1.14           |
 
 ### $D^{**}$
 
@@ -86,11 +87,11 @@
 | Hlt2                                 | 2666          | 4443          | 39.6               | 50.4               | 1.27           |
 | Stripping                            | 1225          | 3818          | 45.9               | 85.9               | 1.87           |
 | DaVinci $D^* \mu$ cuts               | 423           | 1222          | 34.5               | 32.0               | 0.93           |
-| Offline $D^0$ cuts                   | 224           | 366           | 53.0               | 30.0               | 0.57           |
-| Offline $\mu$ cuts                   | 203           | 298           | 90.6               | 81.4               | 0.90           |
-| Offline $D^* \mu$ combo cuts         | 185           | 273           | 91.1               | 91.6               | 1.01           |
-| $BDT_{iso} < 0.15$                   | 60            | 86            | 32.4               | 31.5               | 0.97           |
-| Total ratio                          | -             | -             | 0.0                | 0.0                | 1.42           |
+| Offline $D^0$ cuts                   | 224           | 324           | 53.0               | 26.5               | 0.50           |
+| Offline $\mu$ cuts                   | 203           | 265           | 90.6               | 81.8               | 0.90           |
+| Offline $D^* \mu$ combo cuts         | 185           | 244           | 91.1               | 92.1               | 1.01           |
+| $BDT_{iso} < 0.15$                   | 60            | 76            | 32.4               | 31.1               | 0.96           |
+| Total ratio                          | -             | -             | 0.0                | 0.0                | 1.25           |
 
 
 ## Cutflow table with real data
