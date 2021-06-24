@@ -325,13 +325,6 @@
   
 </li>
       
-        <li class="md-nav__item">
-  <a href="#use-a-pre-built-virtualbox-image-on-windows" class="md-nav__link">
-    Use a pre-built VirtualBox image on Windows
-  </a>
-  
-</li>
-      
     </ul>
   
 </nav>
@@ -873,13 +866,6 @@
   
 </li>
       
-        <li class="md-nav__item">
-  <a href="#use-a-pre-built-virtualbox-image-on-windows" class="md-nav__link">
-    Use a pre-built VirtualBox image on Windows
-  </a>
-  
-</li>
-      
     </ul>
   
 </nav>
@@ -923,9 +909,10 @@ permission to the <code>git-annex</code> server.</p>
 <p>Now clone the repository and set up the <code>annex</code> component. We have a private server, <code>julian</code>, that hosts
 <code>git-annex</code> files.
 <div class="highlight"><pre><span></span><code>git clone git@github.com:umd-lhcb/lhcb-ntuples-gen
-cd lhcb-ntuples-gen
+<span class="nb">cd</span> lhcb-ntuples-gen
 git remote add julian git@129.2.92.92:lhcb-ntuples-gen
-git annex init --version=7
+git annex init --version<span class="o">=</span><span class="m">7</span>
+git submodule update --init  <span class="c1"># Do this before git annex sync to avoid potential mess-up of submodule pointers!</span>
 git annex sync julian
 </code></pre></div></p>
 <p>Note that these commands will only initialize the files controlled by <code>git-annex</code> (several GB in total)
@@ -978,42 +965,19 @@ library for simple plotting and cutflow study.</p>
 <p>For more info on local development of in-house Python modules (included as
 submodules), refer to <a href="../dev/#local-development-of-in-house-python-packages">this guide</a>.</p>
 </div>
-<h2 id="use-a-pre-built-virtualbox-image-on-windows">Use a pre-built <code>VirtualBox</code> image on Windows</h2>
-<p>The pre-built <code>VirtualBox</code> image is based on Arch Linux. It contains <code>git</code>,
-<code>git-annex</code>, <code>docker</code> (<code>DaVinci</code> image <em>not</em> downloaded), <code>sublime</code> text
-editor, <code>gcc</code><sup id="fnref2:1"><a class="footnote-ref" href="#fn:1">1</a></sup>, <code>ROOT</code>, and a couple of dependencies<sup id="fnref2:2"><a class="footnote-ref" href="#fn:2">2</a></sup> for <code>pyBabyMaker</code>.</p>
-<p>To use the virtual machine image, Please follow these steps on Microsoft
-Windows:</p>
-<ol>
-<li>Download and install the latest <code>VirtualBox</code> from <a href="https://www.virtualbox.org/wiki/Downloads">here</a>.</li>
-<li>Download the pre-built image from <a href="https://www.dropbox.com/sh/zyohmvod41pc4oc/AAACD1LOaRjiVM-YdkdLzd_Ca?dl=0">here</a>
-   (choose the latest date, then download both <code>.ovf</code> and <code>.vmdk</code> files).</li>
-<li>Launch <code>VirtualBox</code>, click <strong>Tools</strong>, then click <strong>Import</strong>, choose the <code>ovf</code>
-   file, then proceed with default settings.</li>
-</ol>
-<div class="admonition info">
-<p class="admonition-title">Info</p>
-<p>Both the username and password of the virtual machine are <code>vagrant</code>.</p>
-</div>
-<div class="admonition info">
-<p class="admonition-title">Info</p>
-<p>By default the virtual machine can maximally use 4 GB of RAM. If your
-computer has 16 GB or more RAM, it is recommended to allocate 8 GB of RAM
-to the virtual machine.</p>
-</div>
 <div class="footnote">
 <hr />
 <ol>
 <li id="fn:1">
 <p><code>gcc</code> must be recent enough to support <code>c++17</code> standard. Effectively,
-  <code>gcc 6</code> or newer is required.&#160;<a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 1 in the text">&#8617;</a><a class="footnote-backref" href="#fnref2:1" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+  <code>gcc 6</code> or newer is required.&#160;<a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 1 in the text">&#8617;</a></p>
 </li>
 <li id="fn:2">
 <p>These packages are listed in <code>&lt;project_root&gt;/requirements.txt</code>. It is
   highly recommended to install <code>pip</code> to manage Python packages.</p>
 <p>It is also highly recommended to use <code>pyenv</code> and <code>pyenv-virtualenv</code> to
   manage Python enviroments. Please google the installation instructions
-  for your OS. See <a href="../dev/#installing-pyenv-for-python-development">this guide</a>.&#160;<a class="footnote-backref" href="#fnref:2" title="Jump back to footnote 2 in the text">&#8617;</a><a class="footnote-backref" href="#fnref2:2" title="Jump back to footnote 2 in the text">&#8617;</a></p>
+  for your OS. See <a href="../dev/#installing-pyenv-for-python-development">this guide</a>.&#160;<a class="footnote-backref" href="#fnref:2" title="Jump back to footnote 2 in the text">&#8617;</a></p>
 </li>
 <li id="fn:3">
 <p><code>clang-format</code> usually comes with <code>clang</code>. A notable exception is on
