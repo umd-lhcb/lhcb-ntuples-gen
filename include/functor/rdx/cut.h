@@ -1,6 +1,7 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Thu Jun 24, 2021 at 05:48 AM +0200
+// Last Change: Thu Jun 24, 2021 at 03:02 PM +0200
+// NOTE: All kinematic variables are in MeV
 
 #ifndef _LNG_FUNCTOR_RDX_CUT_H_
 #define _LNG_FUNCTOR_RDX_CUT_H_
@@ -17,7 +18,6 @@
 
 // Run 1 DaVinci cuts //////////////////////////////////////////////////////////
 // Here we should assume all variables are in their original DaVinci units.
-// WARN: Here all kinematic variables are in MeV
 
 // NOTE: We can't have too many inputs variables (up to 32 for input+output) as
 //       numpy doesn't support that
@@ -69,7 +69,6 @@ Bool_t FLAG_SEL_RUN1_DV(Double_t spi_ip_chi2, Double_t spi_gh_prob,
 }
 
 // Run 2 DaVinci cuts //////////////////////////////////////////////////////////
-// WARN: Here all kinematic variables are in MeV
 
 // clang-format off
 Bool_t FLAG_SEL_RUN2_STRIP(Double_t mu_ip_chi2, Double_t mu_gh_prob,
@@ -117,12 +116,11 @@ Bool_t FLAG_SEL_RUN2_DV(Double_t spi_ip_chi2, Double_t spi_gh_prob,
 }
 
 // Global selection flags for run 1 ////////////////////////////////////////////
-// WARN: Here all kinematic variables are in GeV, except for mass (still in MeV)
 // Selections are based on Run 1 R(D(*)) ANA, v2020.07.31, p.11, Table 6.
 
 Bool_t FLAG_SEL_D0_PID_OK_RUN1(Double_t k_pid_k, Double_t pi_pid_k,
                                Bool_t k_is_mu, Bool_t pi_is_mu) {
-  return k_pid_k > 4 && pi_pid_k < 2 && !k_is_mu && !pi_is_mu;
+  return k_pid_k > 4.0 && pi_pid_k < 2.0 && !k_is_mu && !pi_is_mu;
 }
 
 // NOTE: These P and PT variables are in GeV, NOT the default MeV!!
@@ -146,21 +144,21 @@ Bool_t FLAG_SEL_D0_RUN1(Bool_t flag_d0_pid_ok,
   // clang-format off
   if (flag_d0_pid_ok &&
       /* K, pi */
-      ((k_hlt1_tos && k_pt > 1.7) || (pi_hlt1_tos && pi_pt > 1.7)) &&
-      k_pt > 0.8 && pi_pt > 0.8 && k_pt+pi_pt > 1.4 &&  /* AddB.C, LN2554 */
+      ((k_hlt1_tos && k_pt > 1700.0) || (pi_hlt1_tos && pi_pt > 1700.0)) &&
+      k_pt > 800.0 && pi_pt > 800.0 && k_pt+pi_pt > 1400.0 &&  /* AddB.C, LN2554 */
       //(k_hlt1_tos || pi_hlt1_tos) &&  /* AddB.C, LN2572, this is redundant */
       ////
-      k_p > 2 && pi_p > 2 &&
+      k_p > 2000.0 && pi_p > 2000.0 &&
       k_ip_chi2 > 45 && pi_ip_chi2 > 45 &&
       k_gh_prob < 0.5 && pi_gh_prob < 0.5 &&
       /* D0 */
-      d0_pt > 2 &&
+      d0_pt > 2000.0 &&
       d0_hlt2 &&
-      d0_endvtx_chi2/d0_endvtx_ndof < 4 &&
+      d0_endvtx_chi2/d0_endvtx_ndof < 4.0 &&
       TMath::Log(d0_ip) > -3.5 &&
-      d0_ip_chi2 > 9 &&
+      d0_ip_chi2 > 9.0 &&
       d0_dira > 0.9998 &&  /* should be loosed for run 2 */
-      d0_fd_chi2 > 250 &&
+      d0_fd_chi2 > 250.0 &&
       TMath::Abs(d0_m - d0_m_ref) < 23.4  /* This is in MeV!!! */
       )
     // clang-format on
@@ -174,14 +172,14 @@ Bool_t FLAG_SEL_GOOD_TRACKS(ROOT::Math::XYZVector              ref_trk,
     auto inner_prod = ref_trk.Dot(v3_other);
     auto magnitude  = TMath::Sqrt(ref_trk.Mag2() * v3_other.Mag2());
 
-    if (TMath::Log10(1 - inner_prod / magnitude) <= -6.5) return false;
+    if (TMath::Log10(1.0 - inner_prod / magnitude) <= -6.5) return false;
   }
   return true;
 }
 
 Bool_t FLAG_SEL_MU_PID_OK_RUN1(Bool_t mu_is_mu, Double_t mu_pid_mu,
                                Double_t mu_pid_e, Double_t mu_bdt_mu) {
-  return mu_is_mu && mu_pid_mu > 2 && mu_pid_e < 1 && mu_bdt_mu > 0.25;
+  return mu_is_mu && mu_pid_mu > 2.0 && mu_pid_e < 1.0 && mu_bdt_mu > 0.25;
 }
 
 // clang-format off
@@ -195,11 +193,11 @@ Bool_t FLAG_SEL_MU_RUN1(Bool_t flag_good_trks, Bool_t flag_mu_pid_ok,
       /* Mu PID related */
       flag_mu_pid_ok &&
       /* Momentum */
-      mu_p > 3 && mu_p < 100 &&
+      mu_p > 3000.0 && mu_p < 100000.0 &&
       /* Acceptance */
-      mu_eta > 1.7 && mu_eta < 5. &&
+      mu_eta > 1.7 && mu_eta < 5.0 &&
       /* Track quality */
-      mu_ip_chi2 > 45 && mu_gh_prob < 0.5
+      mu_ip_chi2 > 45.0 && mu_gh_prob < 0.5
       )
     // clang-format on
     return true;
@@ -217,7 +215,7 @@ Bool_t FLAG_SEL_BMINUSD0_RUN1(Bool_t flag_sel_d0, Bool_t flag_sel_mu,
                               Double_t d0_m) {
   // clang-format on
   const Double_t pi_m      = 139.57;
-  const Double_t d0_m_diff = 165.;
+  const Double_t d0_m_diff = 165.0;
 
   // Alternative mass hypothesis, where we now assume Muon is a Pion
   auto v4_mu_pi_m = ROOT::Math::PxPyPzMVector(mu_px, mu_py, mu_pz, pi_m);
@@ -229,11 +227,11 @@ Bool_t FLAG_SEL_BMINUSD0_RUN1(Bool_t flag_sel_d0, Bool_t flag_sel_mu,
   if (/* Daughter particles */
       flag_sel_d0 && flag_sel_mu &&
       /* FD */
-      b_fd_trans < 7 &&
+      b_fd_trans < 7.0 &&
       /* Vertex quality */
-      b_endvtx_chi2/b_endvtx_ndof < 6 && b_dira > 0.9995 &&
+      b_endvtx_chi2/b_endvtx_ndof < 6.0 && b_dira > 0.9995 &&
       /* Mass */
-      b_m < 5200 &&
+      b_m < 5200.0 &&
       /* Replace Muon mass hypothesis */
       TMath::Abs(d0_m_pi_m - d0_m) > d0_m_diff
       )
@@ -267,16 +265,16 @@ Bool_t FLAG_SEL_B0DST_RUN1(Bool_t flag_sel_d0, Bool_t flag_sel_mu,
       /* slow Pi */
       spi_gh_prob < 0.25 &&
       /* D* */
-      dst_endvtx_chi2/dst_endvtx_ndof < 10 &&
-      TMath::Abs(dst_m - d0_m - dst_d0_delta_m_ref) < 2 &&
+      dst_endvtx_chi2/dst_endvtx_ndof < 10.0 &&
+      TMath::Abs(dst_m - d0_m - dst_d0_delta_m_ref) < 2.0 &&
       /* D0 Mu combo, already applied in DaVinci */
       /* D* Mu combo */
       // b0_discard_mu_chi2 <= 6 &&  // AddB.C, LN2567, but not in ANA!
-      b0_endvtx_chi2 < 24 &&  /* FIXME: AddB.C, LN2569, different from ANA! */
-      b0_endvtx_chi2/b0_endvtx_ndof < 6 &&
-      b0_fd_trans < 7 &&
+      b0_endvtx_chi2 < 24.0 &&  /* FIXME: AddB.C, LN2569, different from ANA! */
+      b0_endvtx_chi2/b0_endvtx_ndof < 6.0 &&
+      b0_fd_trans < 7.0 &&
       b0_dira > 0.9995 &&
-      b0_m < 5280 /* MeV! */
+      b0_m < 5280.0 /* MeV! */
       )
     // clang-format on
     return true;

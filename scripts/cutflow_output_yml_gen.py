@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun, Manual Franco Sevilla
 # License: BSD 2-clause
-# Last Change: Tue Jun 22, 2021 at 02:14 AM +0200
+# Last Change: Thu Jun 24, 2021 at 03:05 PM +0200
 
 import pathlib
 import os
@@ -318,9 +318,6 @@ def flag_sel_mu_run1(mu_px, mu_py, mu_pz,
                                         fake_mu_bdt_mu)
 
     mu_eta = kinematic_eta(mu_p, mu_pz)
-    # Need to do unit conversion here, since in C++ 'mu_p' is expected to be in
-    # GeV
-    mu_p = mu_p / 1000
     return flag_sel_mu_run1_raw(good_tracks, mu_pid_ok, mu_p, mu_eta,
                                 mu_ip_chi2, mu_gh_prob)
 
