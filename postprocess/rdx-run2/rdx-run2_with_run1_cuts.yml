@@ -9,6 +9,7 @@ keep:
     - runNumber
     - eventNumber
     - GpsTime
+    - mu_bdt_mu
 
 rename:
     # For pseudo-random sequence generation
@@ -42,15 +43,6 @@ rename:
     b_ISOLATION_CHARGE: iso_chrg1
     b_ISOLATION_CHARGE2: iso_chrg2
 
-    #######################
-    # Kinematic variables #
-    #######################
-    # B0
-    b0_M: b0_m
-
-    # B
-    b_M: b_m
-
 calculation:
     #######################
     # Isolation variables #
@@ -69,23 +61,73 @@ calculation:
     #######################
     # Kinematic variables #
     #######################
-    # D0
-    d0_pt: double; GEV(d0_PT)
+    # B0
+    b0_m: double; GEV(b0_M)
+    b0_p: double; GEV(b0_P)
+    b0_pt: double; GEV(b0_PT)
+    # B
+    b_m: double; GEV(b_M)
+    b_p: double; GEV(b_P)
+    b_pt: double; GEV(b_PT)
 
+    # D*
+    dst_m: double; GEV(dst_M)
+    dst_p: double; GEV(dst_P)
+    dst_pt: double; GEV(dst_PT)
+    # slow Pi
+    spi_p: double; GEV(spi_P)
+    spi_pt: double; GEV(spi_PT)
+
+    # D0
+    d0_m: double; GEV(d0_M)
+    d0_p: double; GEV(d0_P)
+    d0_pt: double; GEV(d0_PT)
     # K
     k_p: double; GEV(k_P)
     k_pt: double; GEV(k_PT)
-
     # Pi
     pi_p: double; GEV(pi_P)
     pi_pt: double; GEV(pi_PT)
 
     # Mu
     mu_p: double; GEV(mu_P)
+    mu_pt: double; GEV(mu_PT)
 
     #################
     # PID variables #
     #################
+    # K
+    k_is_mu: k_isMuon
+    k_pid_mu: k_PIDmu
+    k_pid_k: k_PIDK
+    k_pid_e: k_PIDe
+    # Mu
+    mu_is_mu: mu_isMuon
+    mu_pid_mu: mu_PIDmu
+    mu_pid_k: mu_PIDK
+    mu_pid_e: mu_PIDe
+    # Pi
+    pi_is_mu: pi_isMuon
+    pi_pid_mu: pi_PIDmu
+    pi_pid_k: pi_PIDK
+    pi_pid_e: pi_PIDe
+    # Slow Pi
+    spi_is_mu: spi_isMuon
+    spi_pid_mu: spi_PIDmu
+    spi_pid_k: spi_PIDK
+    spi_pid_e: spi_PIDe
+
+    ############
+    # Triggers #
+    ############
+    b0_l0_global_tis: bool; b0_L0Global_TIS
+    b_l0_global_tis: bool; b_L0Global_TIS
+    d0_l0_haddron_tos: bool; d0_L0HadronDecision_TOS
+    k_hlt1_trackmva_tos: bool; k_Hlt1TrackMVADecision_TOS
+    pi_hlt1_trackmva_tos: bool; pi_Hlt1TrackMVADecision_TOS
+    d0_hlt1_twotrackmva_tos: bool; d0_Hlt1TwoTrackMVADecision_TOS
+    b0_hlt2_tos: bool; b0_Hlt2XcMuXForTauB2XcMuDecision_TOS
+    b_hlt2_tos: bool; b_Hlt2XcMuXForTauB2XcMuDecision_TOS
 
     ###################
     # Selection flags #
@@ -119,8 +161,7 @@ calculation:
     mu_eta: double; ETA(mu_P, mu_PZ)
     # Mu selection
     flag_good_trks: bool; FLAG_SEL_GOOD_TRACKS(trk_mu, other_trks)
-    flag_mu_pid_ok: bool; FLAG_SEL_MU_PID_OK_RUN1(mu_isMuon, mu_PIDmu, mu_PIDe, 1.0)
-    # ^^^^The last '1.0' represents the bdt_mu branch
+    flag_mu_pid_ok: bool; FLAG_SEL_MU_PID_OK_RUN1(mu_isMuon, mu_PIDmu, mu_PIDe, mu_bdt_mu)
     flag_mu: >-
         bool; FLAG_SEL_MU_RUN1(
         flag_good_trks, flag_mu_pid_ok,
@@ -168,6 +209,17 @@ one_cand_only:
     branch: rename_prs_in
 
 output:
+    # main trees
+    Dst:
+        input: TupleB0/DecayTree
+        selection:
+            - "true"
+    D0:
+        input: TupleBminus/DecayTree
+        selection:
+            - "true"
+
+    # "skims"
     Dst_iso:
         input: TupleB0/DecayTree
         selection:
