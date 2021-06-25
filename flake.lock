@@ -1,12 +1,55 @@
 {
   "nodes": {
+    "MuonBDTPid": {
+      "inputs": {
+        "flake-utils": [
+          "MuonBDTPid",
+          "root-curated",
+          "flake-utils"
+        ],
+        "nixpkgs": [
+          "MuonBDTPid",
+          "root-curated",
+          "nixpkgs"
+        ],
+        "root-curated": "root-curated"
+      },
+      "locked": {
+        "lastModified": 1624651151,
+        "narHash": "sha256-SMiftexvAK/SeKwRgqxILeS1TYyZY3NIcVjas2ub8Ck=",
+        "owner": "umd-lhcb",
+        "repo": "MuonBDTPid",
+        "rev": "e2ff3b7add5768acdb27208499da443dfcc9d156",
+        "type": "github"
+      },
+      "original": {
+        "owner": "umd-lhcb",
+        "repo": "MuonBDTPid",
+        "type": "github"
+      }
+    },
     "flake-utils": {
       "locked": {
-        "lastModified": 1622445595,
-        "narHash": "sha256-m+JRe6Wc5OZ/mKw2bB3+Tl0ZbtyxxxfnAWln8Q5qs+Y=",
+        "lastModified": 1623875721,
+        "narHash": "sha256-A8BU7bjS5GirpAUv4QA+QnJ4CceLHkcXdRp4xITDB0s=",
         "owner": "numtide",
         "repo": "flake-utils",
-        "rev": "7d706970d94bc5559077eb1a6600afddcd25a7c8",
+        "rev": "f7e004a55b120c02ecb6219596820fcd32ca8772",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "type": "github"
+      }
+    },
+    "flake-utils_2": {
+      "locked": {
+        "lastModified": 1623875721,
+        "narHash": "sha256-A8BU7bjS5GirpAUv4QA+QnJ4CceLHkcXdRp4xITDB0s=",
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "rev": "f7e004a55b120c02ecb6219596820fcd32ca8772",
         "type": "github"
       },
       "original": {
@@ -17,21 +60,37 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1622545032,
-        "narHash": "sha256-1Y+2LFqnMBEH9OZzMBdLWl6GWFt/xzNz0V5X+m05Ing=",
+        "lastModified": 1623862044,
+        "narHash": "sha256-mY7nldu9Wl/Yb0qMPihZrWw0bRWXNsk6iyYztw/6F6Y=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "1c2986bbb806c57f9470bf3231d8da7250ab9091",
+        "rev": "0747387223edf1aa5beaedf48983471315d95e16",
         "type": "github"
       },
       "original": {
         "id": "nixpkgs",
-        "ref": "nixos-unstable",
+        "ref": "nixpkgs-unstable",
+        "type": "indirect"
+      }
+    },
+    "nixpkgs_2": {
+      "locked": {
+        "lastModified": 1623862044,
+        "narHash": "sha256-mY7nldu9Wl/Yb0qMPihZrWw0bRWXNsk6iyYztw/6F6Y=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "0747387223edf1aa5beaedf48983471315d95e16",
+        "type": "github"
+      },
+      "original": {
+        "id": "nixpkgs",
+        "ref": "nixpkgs-unstable",
         "type": "indirect"
       }
     },
     "root": {
       "inputs": {
+        "MuonBDTPid": "MuonBDTPid",
         "flake-utils": [
           "root-curated",
           "flake-utils"
@@ -40,7 +99,7 @@
           "root-curated",
           "nixpkgs"
         ],
-        "root-curated": "root-curated"
+        "root-curated": "root-curated_2"
       }
     },
     "root-curated": {
@@ -49,11 +108,30 @@
         "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "lastModified": 1623241591,
-        "narHash": "sha256-LmbHHBsyhhGdHgqIpxvH4IaitcUqZwNApuc3X6unHVI=",
+        "lastModified": 1624394431,
+        "narHash": "sha256-N0WFMijl5GtTaPzkAGJCT0e4/HBMEvF4F3/a+yQ0iEw=",
         "owner": "umd-lhcb",
         "repo": "root-curated",
-        "rev": "bf888c1b5d3f8d62b10412677a1bfb5a5b1003ba",
+        "rev": "f07459c1ec09f7843a38ac55f374bf0e86ca67d9",
+        "type": "github"
+      },
+      "original": {
+        "owner": "umd-lhcb",
+        "repo": "root-curated",
+        "type": "github"
+      }
+    },
+    "root-curated_2": {
+      "inputs": {
+        "flake-utils": "flake-utils_2",
+        "nixpkgs": "nixpkgs_2"
+      },
+      "locked": {
+        "lastModified": 1624394431,
+        "narHash": "sha256-N0WFMijl5GtTaPzkAGJCT0e4/HBMEvF4F3/a+yQ0iEw=",
+        "owner": "umd-lhcb",
+        "repo": "root-curated",
+        "rev": "f07459c1ec09f7843a38ac55f374bf0e86ca67d9",
         "type": "github"
       },
       "original": {

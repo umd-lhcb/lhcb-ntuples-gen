@@ -5,15 +5,16 @@
     root-curated.url = "github:umd-lhcb/root-curated";
     nixpkgs.follows = "root-curated/nixpkgs";
     flake-utils.follows = "root-curated/flake-utils";
+    MuonBDTPid.url = "github:umd-lhcb/MuonBDTPid";
   };
 
-  outputs = { self, nixpkgs, flake-utils, root-curated }:
+  outputs = { self, nixpkgs, flake-utils, root-curated, MuonBDTPid }:
     flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = import nixpkgs {
           inherit system;
           config = { allowUnfree = true; };
-          overlays = [ root-curated.overlay ];
+          overlays = [ root-curated.overlay MuonBDTPid.overlay ];
         };
         python = pkgs.python3;
         pythonPackages = python.pkgs;
@@ -24,6 +25,9 @@
           buildInputs = with pythonPackages; [
             pkgs.clang-tools # For clang-format
             pkgs.root
+
+            # UBDT adder
+            pkgs.addUBDTBranchWrapped
 
             # Auto completion
             jedi
