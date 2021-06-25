@@ -1,6 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Jun 24, 2021 at 05:45 PM +0200
+# Last Change: Sat Jun 26, 2021 at 12:07 AM +0200
 
 export PATH := workflows:test:scripts:tools:$(PATH)
 
@@ -28,11 +28,11 @@ tagdate:
 
 install-dep:
 	@echo "Installing third-party Python libraries..."
-	@pip install -U -r ./requirements.txt
+	@pip install -r ./requirements.txt
 	@echo "Installing in-house Python libraries..."
 	@for p in $(LIB_PY); do \
 			cd $(PWD)/$$p; \
-			pip install --force-reinstall .; \
+			pip install .; \
 		done;
 
 
