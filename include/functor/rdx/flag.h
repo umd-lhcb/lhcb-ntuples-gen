@@ -1,15 +1,11 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Tue May 04, 2021 at 11:31 AM +0200
+// Last Change: Sun Jun 27, 2021 at 01:13 AM +0200
 
 #ifndef _LNG_FUNCTOR_RDX_FLAG_H_
 #define _LNG_FUNCTOR_RDX_FLAG_H_
 
-#include <Math/Vector4D.h>
-#include <Math/Vector4Dfwd.h>
 #include <TMath.h>
-#include <TROOT.h>
-#include <TVector3.h>
 
 #include <vector>
 
