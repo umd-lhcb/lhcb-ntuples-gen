@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Author: Yipeng Sun
-# Last Change: Sat Jun 26, 2021 at 05:16 PM +0200
+# Last Change: Sat Jun 26, 2021 at 05:22 PM +0200
 
 INPUT_NTP=$1
 INPUT_YML=$2
@@ -21,7 +21,7 @@ cpp_gen() {
 }
 
 cpp_compile() {
-    ${COMPILER} ${CXX_FLAGS} ${ADDF_FLAGS} -o $2 $1 ${LINK_FLAGS}
+    ${COMPILER} ${CXX_FLAGS} ${ADDF_FLAGS} -o baby baby.cpp ${LINK_FLAGS}
 }
 
 add_mu_bdt() {
@@ -31,5 +31,5 @@ add_mu_bdt() {
 
 add_mu_bdt "TupleB0/DecayTree" "TupleBminus/DecayTree"
 cpp_gen mu_bdt.root
-cpp_compile baby.cpp baby
+cpp_compile
 ./baby "--${OUTPUT_SUFFIX}"
