@@ -1,6 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sat Jun 26, 2021 at 12:07 AM +0200
+# Last Change: Sat Jun 26, 2021 at 02:42 AM +0200
 
 export PATH := workflows:test:scripts:tools:$(PATH)
 
@@ -138,3 +138,4 @@ gen/rdx-cutflow-run2-Dst-%/cutflow.yml: \
 
 %.root:
 	@echo -e "No such file present:" $@
+	@exit 1
