@@ -1,253 +1,228 @@
 headers:
-    system:
-        - TVector3.h
-        - TLorentzVector.h
     user:
-        - functor/rdx/flag.h
+        - functor/rdx/cut.h
         - functor/rdx/kinematic.h
-        - functor/rdx/pid.h
+        - functor/basic.h
 
 keep:
-    # Event uid
+    # Event uid, also needed for keeping only one B for multi-B events
     - runNumber
     - eventNumber
+    - GpsTime
 
 rename:
-    # General
-    Polarity: polarity
-    EventInSequence: evt_in_seq
-    # For pseudo-random sequence generation
-    b0_PT: b_pt
-    b0_TRUEPT: b_true_pt
-    # NOTE: We decide to NOT differentiate between B0 and B- in step-2 variable names.
-    # B0
-    b0_L0Global_TIS: b_l0_tis
-    b0_L0Global_TOS: b_l0_tos
-    b0_DIRA_OWNPV: b_dira
-    b0_ISOLATION_BDT: iso_bdt  # Isolation BDT
-    b0_ENDVERTEX_CHI2: b_endvtx_chi2
-    b0_ENDVERTEX_NDOF: b_endvtx_ndof
-    b0_DISCARDMu_CHI2: b_discard_mu_chi2
-    b0_M: b_m
-    b0_PT: b_pt
-    b0_PZ: b_pz
-    b0_ENDVERTEX_X: b_endvtx_x
-    b0_ENDVERTEX_Y: b_endvtx_y
-    b0_ENDVERTEX_Z: b_endvtx_z
-    b0_OWNPV_X: b_pv_x
-    b0_OWNPV_Y: b_pv_y
-    b0_OWNPV_Z: b_pv_z
-    # B0 MC-only
-    b0_ID: b_id
-    b0_TRUEP_E: b_true_pe
-    b0_TRUEP_X: b_true_px
-    b0_TRUEP_Y: b_true_py
-    b0_TRUEP_Z: b_true_pz
-    # D*
-    dst_M: dst_m
-    dst_ENDVERTEX_CHI2: dst_endvtx_chi2
-    dst_ENDVERTEX_NDOF: dst_endvtx_ndof
-    dst_L0Global_TOS: dst_l0_tos
-    dst_Hlt1Phys_TOS: dst_hlt1_tos
-    # D* MC-only
-    dst_ID: dst_id
-    dst_TRUEP_E: dst_true_pe
-    dst_TRUEP_X: dst_true_px
-    dst_TRUEP_Y: dst_true_py
-    dst_TRUEP_Z: dst_true_pz
-    # D0
-    d0_Hlt2CharmHadD02HH_D02KPiDecision_TOS: d0_hlt2charmhad_tos
-    d0_DIRA_OWNPV: d0_dira
-    d0_M: d0_m
-    d0_ID: d0_id
-    d0_ENDVERTEX_CHI2: d0_endvtx_chi2
-    d0_ENDVERTEX_NDOF: d0_endvtx_ndof
-    d0_IP_OWNPV: d0_ip
-    d0_IPCHI2_OWNPV: d0_ip_chi2
-    d0_FDCHI2_OWNPV: d0_fd_chi2
-    d0_L0HadronDecision_TOS: d0_l0had_tos
-    d0_Hlt2CharmHadD02HH_D02KPiDecision_TOS: d0_hlt2charmhad_tos
-    # D0 MC-only
-    d0_TRUEP_E: d0_true_pe
-    d0_TRUEP_X: d0_true_px
-    d0_TRUEP_Y: d0_true_py
-    d0_TRUEP_Z: d0_true_pz
-    # Mu
-    mu_isMuon: mu_is_mu
-    mu_PIDmu: mu_pid_mu
-    mu_PIDe: mu_pid_e
-    mu_ID: mu_id
-    mu_IPCHI2_OWNPV: mu_ip_chi2
-    mu_TRACK_GhostProb: mu_gh_prob
-    mu_L0Global_TIS: mu_l0_tis
-    # Mu MC-only
-    mu_TRUEID: mu_true_id
-    mu_TRUEP_E: mu_true_pe
-    mu_TRUEP_X: mu_true_px
-    mu_TRUEP_Y: mu_true_py
-    mu_TRUEP_Z: mu_true_pz
-    # K
-    k_P: k_p
-    k_PT: k_pt
-    k_Hlt1Global_TOS: k_hlt1_tos
-    k_Hlt1TrackAllL0Decision_TOS: k_hlt1ta_tos
-    k_PIDK: k_pid_k
-    k_IPCHI2_OWNPV: k_ip_chi2
-    k_TRACK_GhostProb: k_gh_prob
-    k_isMuon: k_is_mu
-    # K MC-only
-    k_ID: k_id
-    k_TRUEP_E: k_true_pe
-    k_TRUEP_X: k_true_px
-    k_TRUEP_Y: k_true_py
-    k_TRUEP_Z: k_true_pz
-    # Pi
-    pi_ID: pi_id
-    pi_P: pi_p
-    pi_PT: pi_pt
-    pi_Hlt1Global_TOS: pi_hlt1_tos
-    pi_Hlt1TrackAllL0Decision_TOS: pi_hlt1ta_tos
-    pi_PIDK: pi_pid_k
-    pi_IPCHI2_OWNPV: pi_ip_chi2
-    pi_TRACK_GhostProb: pi_gh_prob
-    pi_isMuon: pi_is_mu
-    # Pi MC-only
-    pi_TRUEP_E: pi_true_pe
-    pi_TRUEP_X: pi_true_px
-    pi_TRUEP_Y: pi_true_py
-    pi_TRUEP_Z: pi_true_pz
-    # Slow Pi
-    spi_TRACK_GhostProb: spi_gh_prob
-    spi_TRACK_Type: spi_trk_type
-    # Slow Pi MC-only
-    spi_ID: spi_id
-    spi_TRUEP_E: spi_true_pe
-    spi_TRUEP_X: spi_true_px
-    spi_TRUEP_Y: spi_true_py
-    spi_TRUEP_Z: spi_true_pz
-    # Tau MC-only
-    tau_ID: tau_id
-    tau_TRUEP_E: tau_true_pe
-    tau_TRUEP_X: tau_true_px
-    tau_TRUEP_Y: tau_true_py
-    tau_TRUEP_Z: tau_true_pz
-    # Anti-Nu_Tau MC-only
-    anu_tau_ID: anu_tau_id
-    anu_tau_TRUEP_E: anu_tau_true_pe
-    anu_tau_TRUEP_X: anu_tau_true_px
-    anu_tau_TRUEP_Y: anu_tau_true_py
-    anu_tau_TRUEP_Z: anu_tau_true_pz
-    # Nu_Tau MC-only
-    nu_tau_ID: nu_tau_id
-    nu_tau_TRUEP_E: nu_tau_true_pe
-    nu_tau_TRUEP_X: nu_tau_true_px
-    nu_tau_TRUEP_Y: nu_tau_true_py
-    nu_tau_TRUEP_Z: nu_tau_true_pz
-    # Anti-Nu_Mu MC-only
-    anu_mu_ID: anu_mu_id
-    anu_mu_TRUEP_E: anu_mu_true_pe
-    anu_mu_TRUEP_X: anu_mu_true_px
-    anu_mu_TRUEP_Y: anu_mu_true_py
-    anu_mu_TRUEP_Z: anu_mu_true_pz
+    # L0
+    b0_L0Global_TIS: b0_l0_global_tis
+    b_L0Global_TIS: b_l0_global_tis
+    d0_L0HadronDecision_TOS: d0_l0_hadron_tos
+    mu_L0Global_TI: mu_l0_global_tis
+    # HLT1
+    k_Hlt1TrackAllL0Decision_TOS: k_hlt1_trackalll0_tos
+    pi_Hlt1TrackAllL0Decision_TOS: pi_htl1_trackalll0_tos
+    # HLT2
+    d0_Hlt2CharmHadD02HH_D02KPiDecision_TOS: d0_hlt2_tos
 
 calculation:
+    # For pseudo-random sequence generation
+    prs_in: double; b0_PT; b_PT
+    #######################
+    # Isolation variables #
+    #######################
+    # Isolation BDTs
+    iso_bdt1: double; b0_ISOLATION_BDT;  b_ISOLATION_BDT
+    iso_bdt2: double; b0_ISOLATION_BDT2; b_ISOLATION_BDT2
+    iso_bdt3: double; b0_ISOLATION_BDT3; b_ISOLATION_BDT3
     # PID
-    dst_id_prod: Double_t; d0_id*pi_id
-    id_prod: Double_t; d0_id*mu_id
-    # Fit variables
-    mm2: Double_t; GEV2(FitVar_Mmiss2)
-    q2: Double_t; GEV2(FitVar_q2)
-    el: Double_t; GEV(FitVar_El)
-    # Other flags
-    is_data: Bool_t; IS_DATA(GpsTime)
-    # B0/B-
-    v3_b_flight: >-
-        ^TVector3; TVector3(
-        b_endvtx_x - b_pv_x,
-        b_endvtx_y - b_pv_y,
-        b_endvtx_z - b_pv_z
-        )
-    b_fd_trans: Double_t; v3_b_flight.Perp()
+    iso_nnk1: float; b0_ISOLATION_NNk;  b_ISOLATION_NNk
+    iso_nnk2: float; b0_ISOLATION_NNk2; b_ISOLATION_NNk2
+    iso_nnk2: float; b0_ISOLATION_NNk3; b_ISOLATION_NNk3
+    # Charge
+    iso_chrg1: int; b0_ISOLATION_CHARGE;  b_ISOLATION_CHARGE
+    iso_chrg2: int; b0_ISOLATION_CHARGE2; b_ISOLATION_CHARGE2
+    # Kinematic
+    iso_p1: float; GEV(MAG(b0_ISOLATION_PX, b0_ISOLATION_PY, b0_ISOLATION_PZ)); GEV(MAG(b_ISOLATION_PX, b_ISOLATION_PY, b_ISOLATION_PZ))
+    iso_pt1: float; GEV(MAG(b0_ISOLATION_PX, b0_ISOLATION_PY)); GEV(MAG(b_ISOLATION_PX, b_ISOLATION_PY))
+
+    #################
+    # Fit variables #
+    #################
+    el: double; GEV(FitVar_El)
+    mm2: double; GEV2(FitVar_Mmiss2)
+    q2: double; GEV2(FitVar_q2)
+
+    #######################
+    # Kinematic variables #
+    #######################
+    # B0
+    b0_m: double; GEV(b0_M)
+    b0_p: double; GEV(b0_P)
+    b0_pt: double; GEV(b0_PT)
+    # B
+    b_m: double; GEV(b_M)
+    b_p: double; GEV(b_P)
+    b_pt: double; GEV(b_PT)
+    # D*
+    dst_m: double; GEV(dst_M)
+    dst_p: double; GEV(dst_P)
+    dst_pt: double; GEV(dst_PT)
     # D0
-    d0_pt: Double_t; GEV(d0_PT)
-    # Mu
-    mu_p: Double_t; GEV(mu_P)
-    mu_pz: Double_t; GEV(mu_PZ)
-    mu_pid: Bool_t; MU_PID(mu_true_id) ; MU_PID(mu_is_mu, mu_pid_mu)
-    mu_veto: Bool_t; MU_VETO(pi_is_mu, k_is_mu)
-    mu_eta: Double_t; ETA(mu_p, mu_pz)
-    v3_mu_p: ^TVector3; TVector3(mu_PX, mu_PY, mu_PZ)
+    d0_m: double; GEV(d0_M)
+    d0_p: double; GEV(d0_P)
+    d0_pt: double; GEV(d0_PT)
     # K
-    v3_k_p: ^TVector3; TVector3(k_PX, k_PY, k_PZ)
+    k_p: double; GEV(k_P)
+    k_pt: double; GEV(k_PT)
     # Pi
-    v3_pi_p: ^TVector3; TVector3(pi_PX, pi_PY, pi_PZ)
-    # Slow Pi
-    v3_spi_p: ^TVector3; TVector3(spi_PX, spi_PY, spi_PZ)
-    # Step-2 selection flags
-    flag_sel_d0: >-
-        Bool_t; FLAG_SEL_D0_RUN1(
-        k_pt, pi_pt,
-        k_hlt1ta_tos, pi_hlt1ta_tos,
-        k_p, pi_p,
-        k_ip_chi2, pi_ip_chi2,
-        k_pid_k, pi_pid_k,
-        mu_veto,
-        k_gh_prob, pi_gh_prob,
-        d0_pt,
-        d0_hlt2charmhad_tos,
-        d0_endvtx_chi2, d0_endvtx_ndof,
-        d0_ip,
-        d0_ip_chi2,
-        d0_dira,
-        d0_fd_chi2,
-        d0_m
+    pi_p: double; GEV(pi_P)
+    pi_pt: double; GEV(pi_PT)
+    # slow Pi
+    spi_p: double; GEV(spi_P)
+    spi_pt: double; GEV(spi_PT)
+    # Mu
+    mu_p: double; GEV(mu_P)
+    mu_pt: double; GEV(mu_PT)
+
+    #################
+    # PID variables #
+    #################
+    # K
+    k_is_mu: bool; k_isMuon
+    k_pid_mu: double; k_PIDmu
+    k_pid_k: double; k_PIDK
+    k_pid_e: double; k_PIDe
+    # Pi
+    pi_is_mu: bool; pi_isMuon
+    pi_pid_mu: double; pi_PIDmu
+    pi_pid_k: double; pi_PIDK
+    pi_pid_e: double; pi_PIDe
+    # slow Pi
+    spi_is_mu: bool; spi_isMuon
+    spi_pid_mu: double; spi_PIDmu
+    spi_pid_k: double; spi_PIDK
+    spi_pid_e: double; spi_PIDe
+    # Mu
+    mu_is_mu: bool; mu_isMuon
+    mu_pid_mu: double; mu_PIDmu
+    mu_pid_k: double; mu_PIDK
+    mu_pid_e: double; mu_PIDe
+
+    ###################
+    # Track variables #
+    ###################
+    # B0
+    b0_endvtx_chi2ndof: double; b0_ENDVERTEX_CHI2 / b0_ENDVERTEX_NDOF
+    b0_fd_trans: double; FD_TRANS(b0_ENDVERTEX_X, b0_OWNPV_X, b0_ENDVERTEX_Y, b0_OWNPV_Y)
+    # B
+    b_endvtx_chi2ndof: double; b_ENDVERTEX_CHI2 / b_ENDVERTEX_NDOF
+    b_fd_trans: double; FD_TRANS(b_ENDVERTEX_X, b_OWNPV_X, b_ENDVERTEX_Y, b_OWNPV_Y)
+    b_dira: double; b_DIRA_OWNPV
+    # D*
+    dst_endvtx_chi2ndof: double; dst_ENDVERTEX_CHI2 / dst_ENDVERTEX_NDOF
+    # D0
+    d0_endvtx_chi2ndof: double; d0_ENDVERTEX_CHI2 / d0_ENDVERTEX_NDOF
+    d0_dira: double; d0_DIRA_OWNPV
+    d0_fd_chi2: double; d0_FDCHI2_OWNPV
+    d0_ip: double; d0_IP_OWNPV
+    d0_ipchi2: double; d0_IPCHI2_OWNPV
+    # K
+    k_gh_prob: double; k_TRACK_GhostProb
+    k_ipchi2: double; k_IPCHI2_OWNPV
+    # Pi
+    pi_gh_prob: double; pi_TRACK_GhostProb
+    pi_ipchi2: double; pi_IPCHI2_OWNPV
+    # slow Pi
+    spi_gh_prob: double; spi_TRACK_GhostProb
+    spi_ipchi2: double; spi_IPCHI2_OWNPV
+    # Mu
+    mu_gh_prob: double; mu_TRACK_GhostProb
+    mu_ipchi2: double; mu_IPCHI2_OWNPV
+    mu_eta: double; ETA(mu_P, mu_PZ)
+
+    ###################
+    # Selection flags #
+    ###################
+    # Trigger
+    flag_l0: "bool; mu_L0Global_TIS && (b0_L0Global_TIS || d0_L0HadronDecision_TOS)"
+    flag_hlt1: "bool; k_Hlt1TrackAllL0Decision_TOS || pi_Hlt1TrackAllL0Decision_TOS"
+    flag_hlt2: "bool; d0_Hlt2CharmHadD02HH_D02KPiDecision_TOS"
+
+    # D0 selection
+    flag_d0_pid_ok: bool; FLAG_SEL_D0_PID_OK_RUN1(k_PIDK, pi_PIDK, k_isMuon, pi_isMuon)
+    flag_d0: >-
+        bool; FLAG_SEL_D0_RUN1(
+        flag_d0_pid_ok,
+        k_PT, pi_PT, k_P, pi_P,
+        k_Hlt1TrackMVADecision_TOS, pi_Hlt1TrackMVADecision_TOS,
+        k_IPCHI2_OWNPV, pi_IPCHI2_OWNPV,
+        k_TRACK_GhostProb, pi_TRACK_GhostProb,
+        d0_PT, true,
+        d0_ENDVERTEX_NDOF, d0_ENDVERTEX_CHI2,
+        d0_IP_OWNPV, d0_IPCHI2_OWNPV,
+        d0_DIRA_OWNPV, d0_FDCHI2_OWNPV, d0_M
         )
-    flag_sel_b0dst: >-
-        Bool_t; FLAG_SEL_B0DST_RUN1(
-        flag_sel_d0,
-        spi_gh_prob,
-        dst_endvtx_chi2, dst_endvtx_ndof,
-        dst_m, d0_m,
-        mu_is_mu,
-        mu_p,
-        mu_eta,
-        mu_pid_mu,
-        mu_pid_e,
-        mu_ip_chi2,
-        mu_gh_prob,
-        v3_mu_p, v3_k_p, v3_pi_p, v3_spi_p,
-        b_discard_mu_chi2,
-        b_endvtx_chi2, b_endvtx_ndof,
+
+    # Mu selection
+    # Variables needed for Mu selection
+    trk_mu:  ^XYZVector; XYZVector(mu_PX, mu_PY, mu_PZ)
+    trk_k:   ^XYZVector; XYZVector(k_PX, k_PY, k_PZ)
+    trk_pi:  ^XYZVector; XYZVector(pi_PX, pi_PY, pi_PZ)
+    trk_spi: ^XYZVector; XYZVector(spi_PX, spi_PY, spi_PZ)
+    other_trks: ^vector<XYZVector>; BUILD_VEC(trk_k, trk_pi, trk_spi); BUILD_VEC(trk_k, trk_pi)
+    # Actual flags
+    flag_good_trks: bool; FLAG_SEL_GOOD_TRACKS(trk_mu, other_trks)
+    flag_mu_pid_ok: bool; FLAG_SEL_MU_PID_OK_RUN1(mu_isMuon, mu_PIDmu, mu_PIDe, 1.0)
+    # ^^^^ '1.0' is mu_bdt_mu
+    flag_mu: >-
+        bool; FLAG_SEL_MU_RUN1(
+        flag_good_trks, flag_mu_pid_ok,
+        mu_P, mu_eta,
+        mu_IPCHI2_OWNPV, mu_TRACK_GhostProb
+        )
+
+    # D0Mu combo selection
+    flag_d0mu: >-
+        bool; FLAG_SEL_BMINUSD0_RUN1(
+        flag_d0, flag_mu,
+        b_ENDVERTEX_CHI2, b_ENDVERTEX_NDOF,
         b_fd_trans,
-        b_dira,
-        b_m,
-        iso_bdt
+        b_DIRA_OWNPV,
+        b_M,
+        mu_PX, mu_PY, mu_PZ,
+        d0_PX, d0_PY, d0_PZ, d0_M
         )
+
+    # D*Mu combo selection
+    flag_dstmu: >-
+        bool; FLAG_SEL_B0DST_RUN1(
+        flag_d0, flag_mu,
+        spi_TRACK_GhostProb,
+        dst_ENDVERTEX_CHI2, dst_ENDVERTEX_NDOF,
+        dst_M, d0_M,
+        b0_ENDVERTEX_CHI2, b0_ENDVERTEX_NDOF,
+        b0_fd_trans,
+        b0_DIRA_OWNPV, b0_M
+        )
+
+global_selection:
+    # Trigger (L0, HLT1, HLT2)
+    - flag_l0
+    - flag_hlt1
+    - flag_hlt2
+    # Offline cuts
+    - flag_d0mu
+    - flag_dstmu
 
 one_cand_only:
     enable: true
-    branch: rename_b_pt
+    branch: calculation_prs_in
 
 output:
-    dst_iso:
+    # main trees
+    Dst:
         input: TupleB0/DecayTree
         selection:
-            - "dst_id_prod > 0"
-            - "id_prod > 0"
-            - "mu_pid > 0"
-            # Trigger cuts
-            - "b_l0_tis || d0_l0had_tos"
-            - "d0_hlt2charmhad_tos"
-            - "mu_l0_tis"
-            - "dst_hlt1_tos"
-            # Cuts on fit variables
-            - "-2.0 <= mm2 && mm2 <= 10.0"
-            - "0.1 <= el && el <= 2.5"
-            - "-0.4 <= q2 && q2 <= 12.6"
-            # Selection flags
-            - "flag_sel_b0dst"
-
-    mc_dst_tau_aux:
-        input: MCTupleB0Tau/MCDecayTree
-        one_cand_only:  # Somehow the MC aux tree still have 1 duplicate eventNumber out of 21861
-            branch: rename_b_true_pt
+            - "true"
+    D0:
+        input: TupleBminus/DecayTree
+        selection:
+            - "true"
