@@ -33,7 +33,7 @@ calculation:
     # Isolation BDTs
     iso_bdt1: double; b0_ISOLATION_BDT;  b_ISOLATION_BDT
     iso_bdt2: double; b0_ISOLATION_BDT2; b_ISOLATION_BDT2
-    iso_bdt3: double; b0_ISOLATION_BDT3  b_ISOLATION_BDT3
+    iso_bdt3: double; b0_ISOLATION_BDT3; b_ISOLATION_BDT3
     # PID
     iso_nnk1: float; b0_ISOLATION_NNk;  b_ISOLATION_NNk
     iso_nnk2: float; b0_ISOLATION_NNk2; b_ISOLATION_NNk2
@@ -117,7 +117,7 @@ calculation:
     # B
     b_endvtx_chi2ndof: double; b_ENDVERTEX_CHI2 / b_ENDVERTEX_NDOF
     b_fd_trans: double; FD_TRANS(b_ENDVERTEX_X, b_OWNPV_X, b_ENDVERTEX_Y, b_OWNPV_Y)
-    b_dira: double;
+    b_dira: double; b_DIRA_OWNPV
     # D*
     dst_endvtx_chi2ndof: double; dst_ENDVERTEX_CHI2 / dst_ENDVERTEX_NDOF
     # slow Pi
