@@ -25,6 +25,7 @@ rename:
 calculation:
     # For pseudo-random sequence generation
     prs_in: double; b0_PT; b_PT
+
     #######################
     # Isolation variables #
     #######################
@@ -106,9 +107,9 @@ calculation:
     mu_pid_k: double; mu_PIDK
     mu_pid_e: double; mu_PIDe
 
-    ###################
-    # Track variables #
-    ###################
+    ######################
+    # Tracking variables #
+    ######################
     # B0
     b0_endvtx_chi2ndof: double; b0_ENDVERTEX_CHI2 / b0_ENDVERTEX_NDOF
     b0_fd_trans: double; FD_TRANS(b0_ENDVERTEX_X, b0_OWNPV_X, b0_ENDVERTEX_Y, b0_OWNPV_Y)
