@@ -46,9 +46,9 @@ Int_t max_elem_idx(vector<T>& vec) {
 // Generator for each output tree
 // {% for tree_out, config in directive.trees->items: %}
 void generator_/* {% guard: tree_out %} */ (TTree*  input_tree,
-                                            TString output_prefix) {
+                                            TString output_suffix) {
   auto output_file = new TFile(
-      output_prefix + /* {% quote: tree_out %} */ +".root", "recreate");
+      /* {% quote: tree_out %} */ + output_suffix +".root", "recreate");
   TTreeReader reader(input_tree);
   TTree       output("tree", "tree");
 
@@ -168,7 +168,7 @@ void generator_/* {% guard: tree_out %} */ (TTree*  input_tree,
 //////////
 
 int main(int, char** argv) {
-  TString out_prefix = TString(argv[1]);
+  TString out_suffix = TString(argv[1]);
 
   TFile* ntuple = new TFile(/* {% quote: directive.ntuple %} */);
   cout << "The ntuple being worked on is: " << /* {% quote: directive.ntuple %} */ << endl;
@@ -200,7 +200,7 @@ int main(int, char** argv) {
   // {% endfor %}
 
   // {% for tree_out, prop in directive.trees->items: %}
-  //   {% format: "generator_{}(tree_{}, out_prefix);", (guard: tree_out), (guard: prop.input_tree) %}
+  //   {% format: "generator_{}(tree_{}, out_suffix);", (guard: tree_out), (guard: prop.input_tree) %}
   // {% endfor %}
 
   // Cleanups

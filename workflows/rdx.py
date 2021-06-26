@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Jun 24, 2021 at 05:17 PM +0200
+# Last Change: Sat Jun 26, 2021 at 05:12 PM +0200
 
 import sys
 import os
@@ -172,10 +172,11 @@ def workflow_cutflow(job_name, inputs, output_dir, debug, kws):
     exe(params, debug)
 
 
-def workflow_data(job_name, inputs, output_dir, debug, kws):
+def workflow_data(job_name, inputs, output_dir, debug, kws, script='data.sh'):
     subworkdirs, workdir = workflow_general(job_name, inputs, output_dir)
     chdir(workdir)
-    exe = pipe_executor('data.sh "{input_ntp}" "{input_yml}" "{output_prefix}"')
+    exe = pipe_executor(
+        script + ' ' + '"{input_ntp}" "{input_yml}" "{output_suffix}"')
 
     for subdir, full_filename in subworkdirs.items():
         print('{}Working on {}...{}'.format(TC.GREEN, full_filename, TC.END))
@@ -185,7 +186,7 @@ def workflow_data(job_name, inputs, output_dir, debug, kws):
         params = {
             'input_ntp': full_filename,
             'input_yml': kws['input_yml'],
-            'output_prefix': generate_step2_name(full_filename)
+            'output_suffix': generate_step2_name(full_filename)
         }
         exe(params, debug)
 
