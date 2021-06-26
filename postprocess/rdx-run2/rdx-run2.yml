@@ -67,9 +67,6 @@ calculation:
     dst_m: double; GEV(dst_M)
     dst_p: double; GEV(dst_P)
     dst_pt: double; GEV(dst_PT)
-    # slow Pi
-    spi_p: double; GEV(spi_P)
-    spi_pt: double; GEV(spi_PT)
     # D0
     d0_m: double; GEV(d0_M)
     d0_p: double; GEV(d0_P)
@@ -80,6 +77,9 @@ calculation:
     # Pi
     pi_p: double; GEV(pi_P)
     pi_pt: double; GEV(pi_PT)
+    # slow Pi
+    spi_p: double; GEV(spi_P)
+    spi_pt: double; GEV(spi_PT)
     # Mu
     mu_p: double; GEV(mu_P)
     mu_pt: double; GEV(mu_PT)
@@ -87,26 +87,26 @@ calculation:
     #################
     # PID variables #
     #################
-    # Slow Pi
-    spi_is_mu: bool; spi_isMuon
-    spi_pid_mu: double; spi_PIDmu
-    spi_pid_k: double; spi_PIDK
-    spi_pid_e: double; spi_PIDe
     # K
     k_is_mu: bool; k_isMuon
     k_pid_mu: double; k_PIDmu
     k_pid_k: double; k_PIDK
     k_pid_e: double; k_PIDe
-    # Mu
-    mu_is_mu: bool; mu_isMuon
-    mu_pid_mu: double; mu_PIDmu
-    mu_pid_k: double; mu_PIDK
-    mu_pid_e: double; mu_PIDe
     # Pi
     pi_is_mu: bool; pi_isMuon
     pi_pid_mu: double; pi_PIDmu
     pi_pid_k: double; pi_PIDK
     pi_pid_e: double; pi_PIDe
+    # slow Pi
+    spi_is_mu: bool; spi_isMuon
+    spi_pid_mu: double; spi_PIDmu
+    spi_pid_k: double; spi_PIDK
+    spi_pid_e: double; spi_PIDe
+    # Mu
+    mu_is_mu: bool; mu_isMuon
+    mu_pid_mu: double; mu_PIDmu
+    mu_pid_k: double; mu_PIDK
+    mu_pid_e: double; mu_PIDe
 
     ###################
     # Track variables #
@@ -120,9 +120,6 @@ calculation:
     b_dira: double; b_DIRA_OWNPV
     # D*
     dst_endvtx_chi2ndof: double; dst_ENDVERTEX_CHI2 / dst_ENDVERTEX_NDOF
-    # slow Pi
-    spi_gh_prob: double; spi_TRACK_GhostProb
-    spi_ipchi2: double; spi_IPCHI2_OWNPV
     # D0
     d0_endvtx_chi2ndof: double; d0_ENDVERTEX_CHI2 / d0_ENDVERTEX_NDOF
     d0_dira: double; d0_DIRA_OWNPV
@@ -135,6 +132,9 @@ calculation:
     # Pi
     pi_gh_prob: double; pi_TRACK_GhostProb
     pi_ipchi2: double; pi_IPCHI2_OWNPV
+    # slow Pi
+    spi_gh_prob: double; spi_TRACK_GhostProb
+    spi_ipchi2: double; spi_IPCHI2_OWNPV
     # Mu
     mu_gh_prob: double; mu_TRACK_GhostProb
     mu_ipchi2: double; mu_IPCHI2_OWNPV
