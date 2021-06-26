@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun, Manual Franco Sevilla
 # License: BSD 2-clause
-# Last Change: Wed May 26, 2021 at 11:40 PM +0200
+# Last Change: Sat Jun 26, 2021 at 06:05 PM +0200
 
 import pathlib
 import os
@@ -341,9 +341,6 @@ def flag_sel_mu_run1(mu_px, mu_py, mu_pz,
                                         fake_mu_bdt_mu)
 
     mu_eta = kinematic_eta(mu_p, mu_pz)
-    # Need to do unit conversion here, since in C++ 'mu_p' is expected to be in
-    # GeV
-    mu_p = mu_p / 1000
     return flag_sel_mu_run1_raw(good_tracks, mu_pid_ok, mu_p, mu_eta,
                                 mu_ip_chi2, mu_gh_prob)
 
@@ -409,26 +406,13 @@ if __name__ == '__main__':
     args = parse_input()
     result = dict()
 
-    #aliases = ALIASES[args.mode]
-    #cut_to_update = list(aliases.values())[-1]
-    #
-    #with open(args.input_yml) as f:
-    #    raw = safe_load(f)
-    #
-    #for cut, val in raw.items():
-    #    if val['output'] is None:
-    #        val['output'] = 0
-    #
-    #    if cut in aliases:
-    #        result[aliases[cut]] = val
-
     cuts = CUTFLOW[args.mode]
     for ntp_path in args.ntps:
         ntp = uproot.open(ntp_path)
         _, _, _, uniq_size, _, _ = extract_uid(ntp, args.tree)
 
         # Update the total number after the DaVinci step
-        #result[cut_to_update]['output'] += uniq_size
+        # result[cut_to_update]['output'] += uniq_size
 
         cutflow_output_regulator = cutflow_uniq_events_outer(ntp, args.tree)
         cutflow_generator = CutflowGen(ntp_path, args.tree, cuts, uniq_size)
