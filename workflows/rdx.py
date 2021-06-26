@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sat Jun 26, 2021 at 05:12 PM +0200
+# Last Change: Sun Jun 27, 2021 at 01:02 AM +0200
 
 import sys
 import os
@@ -206,6 +206,8 @@ WORKFLOWS = {
     'trigger_emulation_fs_vs_to': workflow_trigger_emulation_fs_vs_to,
     'cutflow': workflow_cutflow,
     'data': workflow_data,
+    'data_no_mu_bdt': lambda *args: workflow_data(*args,
+                                                  script='data_no_mu_bdt.sh'),
 }
 
 if __name__ == '__main__':

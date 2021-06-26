@@ -1,6 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sat Jun 26, 2021 at 02:42 AM +0200
+# Last Change: Sun Jun 27, 2021 at 01:03 AM +0200
 
 export PATH := workflows:test:scripts:tools:$(PATH)
 
@@ -63,6 +63,12 @@ rdx-ntuple-run2-oldcut: \
 	rdx-run2/rdx-run2_with_run1_cuts.yml
 	@rdx.py $@ $< --debug \
 		--mode data -A input_yml:$(abspath $(word 2, $^))
+
+rdx-ntuple-run1: \
+	0.9.2-2011_production/Dst_D0-std \
+	rdx-run1/rdx-run1.yml
+	@rdx.py $@ $< --debug \
+		--mode data_no_mu_bdt -A input_yml:$(abspath $(word 2, $^))
 
 
 #########
