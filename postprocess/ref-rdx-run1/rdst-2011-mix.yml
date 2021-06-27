@@ -1,8 +1,8 @@
 headers:
-    system:
-        - TVector3.h
     user:
-        - functor/rdx/flag.h
+        - functor/rdx/cut.h
+        - functor/rdx/kinematic.h
+        - functor/basic.h
 
 keep:
     # For event matching
@@ -12,56 +12,17 @@ keep:
 rename:
     # General
     Polarity: polarity
-    # Fit variables
-    m_nu1: mm2  # Already in GeV?
-    # PID
-    DstIDprod: dst_id_prod
-    IDprod: id_prod
-    # Flags
-    flag2011: flag_2011
-    # Other flags
-    isData: is_data
-    # B0/B-
-    YTIS: b_l0_tis
-    Y_DIRA_OWNPV: b_dira
-    iso_BDT: iso_bdt  # Isolation BDT
-    Y_ENDVERTEX_CHI2: b_endvtx_chi2
-    Y_DISCARDMu_CHI2: b_discard_mu_chi2
-    Y_M: b_m
-    dxy: b_fd_trans
-    Y_PT: b_pt
-    # D*
-    Dst_M: dst_m
-    Dst_ENDVERTEX_CHI2: dst_endvtx_chi2
-    Hlt1: dst_hlt1_tos
-    # D0
-    YTOS: d0_l0had_tos
-    Hlt2: d0_hlt2charmhad_tos  # The full Hlt2 trigger name is 'Hlt2CharmHadD02HH_D02KPiDecision'
-    D0_DIRA_OWNPV: d0_dira
-    D0_M: d0_m
-    # Mu
-    BDTmu: mu_bdt  # uboost BDT
-    muPID: mu_pid
-    muVeto: mu_veto
-    mu_is: mu_is_mu
-    mu_ETA: mu_eta
-    muIPCHI2: mu_ip_chi2
-    L0: mu_l0_tis
-    # K
-    K_P: k_p
-    K_PT: k_pt
+    # L0
+    YTIS: b0_l0_global_tis
+    YTOS: d0_l0_hadron_tos
+    L0: mu_l0_global_tis
+    # HLT1
     Hlt1K: k_hlt1_tos
-    Hlt1TAL0K: k_hlt1ta_tos  # 'ta' -> 'TrackAllL0Decision'
-    KPID: k_pid_k
-    # Pi
-    pi_P: pi_p
-    pi_PT: pi_pt
+    Hlt1TAL0K: k_hlt1_trackalll0_tos
     Hlt1pi: pi_hlt1_tos
-    Hlt1TAL0pi: pi_hlt1ta_tos
-    piPID: pi_pid_k
-    # Slow Pi
-    pislow_GhostProb: spi_gh_prob
-    piminus_TRACK_Type: spi_trk_type
+    Hlt1TAL0pi: pi_hlt1_trackalll0_tos
+    # HLT2
+    Hlt2: d0_hlt2_tos  # The full Hlt2 trigger name is 'Hlt2CharmHadD02HH_D02KPiDecision'
 
 # NOTE: We don't have these branches in Phoebe's step 2:
 #       k_ip_chi2, pi_ip_chi2 (*_IPCHI2_OWNPV):
@@ -89,104 +50,167 @@ rename:
 #           All events in the step 2 pass CHI2/NDOF selection
 
 calculation:
-    # Fit variables
-    el: Double_t; GEV(El)
-    q2: Double_t; GEV2(q2)
-    # B0/B-
-    b_endvtx_ndof: ^Double_t; 1000.0
+    # For pseudo-random sequence generation
+    prs_in: double; Y_PT
+
+    #######################
+    # Isolation variables #
+    #######################
+    iso_bdt1: double; iso_BDT
+
+    #################
+    # Fit variables #
+    #################
+    el: double; GEV(El)
+    mm2: double; m_nu1  # Already in GeV?
+    q2: double; GEV2(q2)
+
+    #######################
+    # Kinematic variables #
+    #######################
+    # B0
+    b0_m: double; GEV(Y_M)
+    b_pt: double; GEV(Y_PT)
     # D*
-    dst_endvtx_ndof: ^Double_t; 1000.0
+    dst_m: double; GEV(Dst_M)
     # D0
-    d0_pt: Double_t; GEV(D0_PT)
-    d0_endvtx_chi2: ^Double_t; 0.0
-    d0_endvtx_ndof: ^Double_t; 1.0
-    d0_ip: ^Double_t; 100.0
-    d0_ip_chi2: ^Double_t; 10.0
-    d0_fd_chi2: ^Double_t; 500.0
-    # Mu
-    mu_p: Double_t; GEV(mu_P)
-    v3_mu_p: ^TVector3; TVector3(1, 0, 0)
-    mu_pid_mu: ^Double_t; 4.0
-    mu_pid_e: ^Double_t; 0.0
-    mu_gh_prob: ^Double_t; 0.0
+    d0_m: double; GEV(D0_M)
+    d0_pt: double; GEV(D0_PT)
     # K
-    v3_k_p: ^TVector3; TVector3(0, 1, 0)
-    k_ip_chi2: ^Double_t; 100.0
-    k_gh_prob: ^Double_t; 0.0
+    k_p: double; GEV(K_P)
+    k_pt: double; GEV(K_PT)
     # Pi
-    v3_pi_p: ^TVector3; TVector3(0, 0, 1)
-    pi_ip_chi2: ^Double_t; 100.0
-    pi_gh_prob: ^Double_t; 0.0
+    pi_p: double; GEV(pi_P)
+    pi_pt: double; GEV(pi_PT)
+    # Mu
+    mu_p: double; GEV(mu_P)
+
+    #################
+    # PID variables #
+    #################
+    # K
+    k_pid_k: double; KPID
+    # Pi
+    pi_pid_k: double; piPID
+    # Mu
+    mu_is_mu: bool; mu_is
+    mu_bdt_mu: float; BDTmu  # uboost BDT
+
+    ######################
+    # Tracking variables #
+    ######################
+    # B0
+    b0_fd_trans: double; dxy
+    b0_dira: double; Y_DIRA_OWNPV
+    b0_discard_mu_chi2: double; Y_DISCARDMu_CHI2
+    b0_endvtx_chi2: double; Y_ENDVERTEX_CHI2
+    b0_endvtx_ndof: ^double; 1000.0
+    # D*
+    dst_endvtx_chi2: double; Dst_ENDVERTEX_CHI2
+    dst_endvtx_ndof: ^double; 1000.0
+    # D0
+    d0_dira: double; D0_DIRA_OWNPV
+    d0_endvtx_chi2: ^double; 0.0
+    d0_endvtx_ndof: ^double; 1.0
+    d0_ip: ^double; 100.0
+    d0_ip_chi2: ^double; 10.0
+    d0_fd_chi2: ^double; 500.0
+    # Mu
+    mu_ip_chi2: double; muIPCHI2
+    mu_eta: double; mu_ETA
+    mu_gh_prob: ^double; 0.0
+    # K
+    k_ip_chi2: ^double; 100.0
+    k_gh_prob: ^double; 0.0
+    # Pi
+    pi_ip_chi2: ^double; 100.0
+    pi_gh_prob: ^double; 0.0
     # Slow Pi
-    v3_spi_p: ^TVector3; TVector3(1, 1, 0)
-    # Step-2 selection flags
-    flag_sel_d0: >-
-        Bool_t; FLAG_SEL_D0_RUN1(
-        k_pt, pi_pt,
-        k_hlt1ta_tos, pi_hlt1ta_tos,
-        k_p, pi_p,
+    spi_gh_prob: double; pislow_GhostProb
+    spi_trk_type: int; piminus_TRACK_Type
+
+    ###################
+    # Selection flags #
+    ###################
+    # Misc.
+    dst_id_prod: int; DstIDprod
+    id_prod: int; IDprod
+    flag_is_data: bool; isData
+    flag_2011: bool; flag2011
+
+    # Trigger
+    flag_l0: "bool; mu_l0_global_tis && (b0_l0_global_tis || d0_l0_hadron_tos)"
+    flag_hlt1: "bool; k_hlt1_trackalll0_tos || pi_hlt1_trackalll0_tos"
+    flag_hlt2: "bool; d0_hlt2_tos"
+
+    # D0 selection
+    flag_d0_pid_ok: "bool; !muVeto"
+    flag_d0: >-
+        bool; FLAG_SEL_D0_RUN1(
+        flag_d0_pid_ok,
+        K_PT, pi_PT, K_P, pi_P,
+        k_hlt1_trackalll0_tos, pi_hlt1_trackalll0_tos,
         k_ip_chi2, pi_ip_chi2,
-        k_pid_k, pi_pid_k,
-        mu_veto,
         k_gh_prob, pi_gh_prob,
-        d0_pt,
-        d0_hlt2charmhad_tos,
+        D0_PT,
+        d0_hlt2_tos,
         d0_endvtx_chi2, d0_endvtx_ndof,
         d0_ip,
         d0_ip_chi2,
         d0_dira,
         d0_fd_chi2,
-        d0_m
+        D0_M
         )
-    flag_sel_b0dst: >-
-        Bool_t; FLAG_SEL_B0DST_RUN1(
-        flag_sel_d0,
+
+    # Mu selection
+    flag_good_trks: "^bool; true"
+    flag_mu_pid_ok: "bool; muPID"
+    # ^^^^ '1.0' is mu_bdt_mu
+    flag_mu: >-
+        bool; FLAG_SEL_MU_RUN1(
+        flag_good_trks, flag_mu_pid_ok,
+        mu_P, mu_eta,
+        mu_ip_chi2, mu_gh_prob
+        )
+
+    # D*Mu combo selection
+    flag_dstmu: >-
+        bool; FLAG_SEL_B0DST_RUN1(
+        flag_d0, flag_mu,
         spi_gh_prob,
         dst_endvtx_chi2, dst_endvtx_ndof,
-        dst_m, d0_m,
-        mu_is_mu,
-        mu_p,
-        mu_eta,
-        mu_pid_mu,
-        mu_pid_e,
-        mu_ip_chi2,
-        mu_gh_prob,
-        v3_mu_p, v3_k_p, v3_pi_p, v3_spi_p,
-        b_discard_mu_chi2,
-        b_endvtx_chi2, b_endvtx_ndof,
-        b_fd_trans,
-        b_dira,
-        b_m,
-        iso_bdt
+        Dst_M, D0_M,
+        b0_endvtx_chi2, b0_endvtx_ndof,
+        b0_fd_trans,
+        b0_dira, Y_M
         )
+
+global_selection:
+    # Trigger
+    - flag_l0
+    - flag_hlt1
+    - flag_hlt2
+    # Offline cuts
+    - flag_dstmu
+    # Cuts on fit variables
+    - "-2.0 <= mm2 && mm2 <= 10.0"
+    - "0.1 <= el && el <= 2.5"
+    - "-0.4 <= q2 && q2 <= 12.6"
+    # Remove VELO slow Pi
+    - "spi_trk_type == 3"
 
 one_cand_only:
     enable: true
-    branch: rename_b_pt
+    branch: calculation_prs_in
 
 output:
-    dst_iso:
+    Dst_data_2011_md:
         input: ntp1
         selection:
             # Signature for event type 'data'
             - "dst_id_prod > 0"
             - "id_prod > 0"
-            - "mu_pid > 0"
-            - "is_data > 0"
+            - flag_is_data
             # Keep only 2011 MagDown
-            - "flag_2011"
-            - "polarity < 0"  # MagDown only
-            # Trigger cuts
-            - "b_l0_tis || d0_l0had_tos"
-            - "d0_hlt2charmhad_tos"
-            - "mu_l0_tis"
-            - "dst_hlt1_tos"
-            # Cuts on fit variables
-            - "-2.0 <= mm2 && mm2 <= 10.0"
-            - "0.1 <= el && el <= 2.5"
-            - "-0.4 <= q2 && q2 <= 12.6"
-            # Selection flags
-            - "flag_sel_b0dst"
-            #- "mu_bdt > 0.25"
-            # Other selections from AddB.C
-            - "spi_trk_type == 3"
+            - flag_2011
+            - "polarity < 0"
