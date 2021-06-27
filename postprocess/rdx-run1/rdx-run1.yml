@@ -124,19 +124,19 @@ calculation:
     d0_dira: double; d0_DIRA_OWNPV
     d0_fd_chi2: double; d0_FDCHI2_OWNPV
     d0_ip: double; d0_IP_OWNPV
-    d0_ipchi2: double; d0_IPCHI2_OWNPV
+    d0_ip_chi2: double; d0_IPCHI2_OWNPV
     # K
     k_gh_prob: double; k_TRACK_GhostProb
-    k_ipchi2: double; k_IPCHI2_OWNPV
+    k_ip_chi2: double; k_IPCHI2_OWNPV
     # Pi
     pi_gh_prob: double; pi_TRACK_GhostProb
-    pi_ipchi2: double; pi_IPCHI2_OWNPV
+    pi_ip_chi2: double; pi_IPCHI2_OWNPV
     # slow Pi
     spi_gh_prob: double; spi_TRACK_GhostProb
-    spi_ipchi2: double; spi_IPCHI2_OWNPV
+    spi_ip_chi2: double; spi_IPCHI2_OWNPV
     # Mu
     mu_gh_prob: double; mu_TRACK_GhostProb
-    mu_ipchi2: double; mu_IPCHI2_OWNPV
+    mu_ip_chi2: double; mu_IPCHI2_OWNPV
     mu_eta: double; ETA(mu_P, mu_PZ)
 
     ###################
