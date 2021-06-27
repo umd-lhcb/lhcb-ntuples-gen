@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Jun 24, 2021 at 04:42 PM +0200
+# Last Change: Sun Jun 27, 2021 at 02:41 AM +0200
 
 import os.path as os_path
 import shlex
@@ -104,9 +104,9 @@ def append_path(path=None):
 
 def generate_step2_name(ntp_name):
     try:
-        name, _, reco_mode, add_flag, lfn = ntp_name.split('--')
+        _, _, reco_mode, add_flag, lfn = ntp_name.split('--')
     except ValueError:
-        name, _, reco_mode, lfn = ntp_name.split('--')
+        _, _, reco_mode, lfn = ntp_name.split('--')
         add_flag = None
 
     date = gen_date()
@@ -124,4 +124,15 @@ def generate_step2_name(ntp_name):
     fields = [date, reco_mode, decay_mode, year, polarity]
     if add_flag is not None:
         fields.append(add_flag)
+    return '--'.join(fields)
+
+
+def parse_step2_name(ntp_name):
+    _, _, reco_mode, decay_mode, year, polarity, *add_flag = \
+        ntp_name.split('--')
+
+    date = gen_date()
+    fields = [date, reco_mode, decay_mode, year, polarity]
+    if add_flag:
+        fields.append(add_flag[0])
     return '--'.join(fields)

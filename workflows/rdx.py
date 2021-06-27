@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sun Jun 27, 2021 at 01:02 AM +0200
+# Last Change: Sun Jun 27, 2021 at 02:47 AM +0200
 
 import sys
 import os
@@ -18,7 +18,7 @@ sys.path.insert(0, os_path.dirname(os_path.abspath(__file__)))
 from utils import (
     abs_path, ensure_dir, find_all_input, append_path, pipe_executor,
     aggragate_output,
-    generate_step2_name
+    generate_step2_name, parse_step2_name
 )
 
 
@@ -172,7 +172,8 @@ def workflow_cutflow(job_name, inputs, output_dir, debug, kws):
     exe(params, debug)
 
 
-def workflow_data(job_name, inputs, output_dir, debug, kws, script='data.sh'):
+def workflow_data(job_name, inputs, output_dir, debug, kws,
+                  script='data.sh', output_ntp_name_gen=generate_step2_name):
     subworkdirs, workdir = workflow_general(job_name, inputs, output_dir)
     chdir(workdir)
     exe = pipe_executor(
@@ -186,7 +187,7 @@ def workflow_data(job_name, inputs, output_dir, debug, kws, script='data.sh'):
         params = {
             'input_ntp': full_filename,
             'input_yml': kws['input_yml'],
-            'output_suffix': generate_step2_name(full_filename)
+            'output_suffix': output_ntp_name_gen(full_filename)
         }
         exe(params, debug)
 
@@ -206,8 +207,11 @@ WORKFLOWS = {
     'trigger_emulation_fs_vs_to': workflow_trigger_emulation_fs_vs_to,
     'cutflow': workflow_cutflow,
     'data': workflow_data,
-    'data_no_mu_bdt': lambda *args: workflow_data(*args,
-                                                  script='data_no_mu_bdt.sh'),
+    'data_no_mu_bdt': lambda *args: workflow_data(
+        *args, script='data_no_mu_bdt.sh'),
+    'data_ref': lambda *args: workflow_data(
+        *args, script='data_no_mu_bdt.sh',
+        output_ntp_name_gen=parse_step2_name),
 }
 
 if __name__ == '__main__':
