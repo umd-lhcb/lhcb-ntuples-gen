@@ -9,7 +9,6 @@ keep:
     - runNumber
     - eventNumber
     - GpsTime
-    - mu_bdt_mu  # Greg's Mu UBDT PID
 
 rename:
     # L0
@@ -108,6 +107,7 @@ calculation:
     mu_pid_mu: double; mu_PIDmu
     mu_pid_k: double; mu_PIDK
     mu_pid_e: double; mu_PIDe
+    mu_bdt_mu: float; mu_bdt_mu; 1.0;  # Greg's Mu UBDT PID
 
     ######################
     # Tracking variables #
