@@ -1,53 +1,5 @@
-## Installing `pyenv` for Python development
-
-We recommend `pyenv` to manage your Python versions and virtual environments.
-The two main advantage of using `pyenv`, instead of the Python that comes with
-your systems are:
-
-1. No Python package is installed globally to your system Python, this prevents
-   conflicting packages to break your system
-2. Different versions of the same package can co-exist in different virtual
-   environments, making this setup more flexible
-
-First, follow [this instruction](https://github.com/pyenv/pyenv#installation)
-to install `pyenv`.
-
-Then, follow [this instruction](https://github.com/pyenv/pyenv-virtualenv#installation)
-to install `pyenv-virtualenv`
-
-
-!!! note
-    - Microsoft Windows not supported!
-    - If you are using macOS, you can use `homebrew` to install both. Though
-      the change in shell configuration file is still needed.
-    - Don't forget to change your shell configuration file **manually** after
-      installation!
-    - After installation, restart your shell.
-
-
-## Create a virtual environment
-
-First, install a specific version of Python (Python 3.7.7 used here):
-```
-pyenv install 3.7.7
-```
-
-Then create a virtualenv:
-```
-pyenv virtualenv 3.7.7 ntuples
-```
-
-Now go to the project root, and set the local python version:
-```
-pyenv local ntuples
-```
-
-Now, every time you `cd` into the project root, virtual environment `ntuples`
-will be automatically activated.
-
-
 ## Local development of in-house Python packages
-We have made two in-house Python packages:
+We have made several in-house Python packages, for example:
 
 - [`pyBabyMaker`](https://github.com/umd-lhcb/pyBabyMaker): For producing step-2 ntuples.
 - [`pyTuplingUtils`](https://github.com/umd-lhcb/pyTuplingUtils): For simple plotting and cutflow study.
@@ -115,19 +67,3 @@ would produce a certain target:
 ```
 make --dry-run --always-make <target_name>
 ```
-
-For example, `make --dry-run --always-make test-cutflow-rdst-run1` will produce the
-following output:
-```
-babymaker -i postprocess/rdx-run1/rdst-run1-strip.yml -o gen/rdst-run1-strip.cpp -d run1-rdx/samples/Dst--20_06_04--cutflow_mc--cocktail--2011--md--dv45-subset-dv_strip.root
-clang++ -pthread -stdlib=libc++ -std=c++11 -m64 -I/nix/store/w8phplhy3ll0kh2zrkncj9hbp2k9kjfy-root-6.18.04/include -Iinclude -o bin/rdst-run1-strip.pp gen/rdst-run1-strip.cpp -L/nix/store/w8phplhy3ll0kh2zrkncj9hbp2k9kjfy-root-6.18.04/lib -lCore -lImt -lRIO -lNet -lHist -lGraf -lGraf3d -lGpad -lROOTVecOps -lTree -lTreePlayer -lRint -lPostscript -lMatrix -lPhysics -lMathCore -lThread -lMultiProc -lROOTDataFrame -lpthread -Wl,-rpath,/nix/store/w8phplhy3ll0kh2zrkncj9hbp2k9kjfy-root-6.18.04/lib -stdlib=libc++ -lm -ldl
-rdst-run1-strip.pp run1-rdx/samples/Dst--20_06_04--cutflow_mc--cocktail--2011--md--dv45-subset-bare.root gen/test/Dst--20_06_04--cutflow_mc--cocktail--2011--md--subset-bare-step2.root
-rdst-run1-strip.pp run1-rdx/samples/Dst--20_06_04--cutflow_mc--cocktail--2011--md--dv45-subset-dv_strip.root gen/test/Dst--20_06_04--cutflow_mc--cocktail--2011--md--subset-dv_strip-step2.root
-echo "===="
-echo "Test results:"
-test_ntuple_identical.py -n gen/test/Dst--20_06_04--cutflow_mc--cocktail--2011--md--subset-bare-step2.root -N run1-rdx/samples/Dst--20_06_04--cutflow_mc--cocktail--2011--md--dv45-subset-dv_strip.root -t b0dst -T TupleB0/DecayTree
-test_ntuple_identical.py -n gen/test/Dst--20_06_04--cutflow_mc--cocktail--2011--md--subset-dv_strip-step2.root -N run1-rdx/samples/Dst--20_06_04--cutflow_mc--cocktail--2011--md--dv45-subset-dv_strip.root -t b0dst -T TupleB0/DecayTree
-```
-
-!!! note
-    The compilation flags may vary.
