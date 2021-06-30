@@ -69,6 +69,13 @@ docker pull umdlhcb/lhcb-stack-cc7:DaVinci-v45r3-SL
 ```
 
 
+## Install `nix`
+
+All of our C++ dependencies are installed with `nix`. To install `nix`, refer
+to [the guide](https://github.com/umd-lhcb/root-curated#install-nix-on-macos)
+in `root-curated` repo.
+
+
 ## Install `babymaker`
 
 `babymaker` is part of the `pyBabyMaker` Python package. It requires
