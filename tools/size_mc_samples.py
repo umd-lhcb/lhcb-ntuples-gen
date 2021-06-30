@@ -55,8 +55,7 @@ def decode_dirac_output(output, blocked_kw, debug=False):
         for kw in blocked_kw:
             if kw in lfn:
                 if debug:
-                    print('Skip LFN: {} due to blocked keyword: {}'.format(
-                        lfn, kw))
+                    print('Skip LFN: {} evts in {}'.format(num_of_evts,lfn))
                 proceed = False
                 break
 
@@ -64,7 +63,7 @@ def decode_dirac_output(output, blocked_kw, debug=False):
             continue
 
         if debug:
-            print('Use LFN: {}'.format(lfn))
+            print('Use LFN:  {} evts in {}'.format(num_of_evts,lfn))
         result[lfn] = {'dddb_tag': dddb_tag, 'sim_cond': sim_cond,
                        'num_of_files': int(num_of_files),
                        'num_of_evts': int(num_of_evts),
