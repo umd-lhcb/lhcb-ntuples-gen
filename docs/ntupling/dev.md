@@ -47,7 +47,7 @@ git submodule update --init
 4. Test everything out.
 5. After everything works out:
     1. Commit changes inside the `pyBabyMaker` directory.
-    2. Optionally, inside `pyBabyMaker` directory, push changes to `pyBabyMaker` remote.
+    2. Inside `pyBabyMaker` directory, push changes to `pyBabyMaker` remote.
     3. Go back to project root, Update pointer to the `pyBabyMaker` commit in
         the mother project.
 
