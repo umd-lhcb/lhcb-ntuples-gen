@@ -63,7 +63,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#installing-pyenv-for-python-development" class="md-skip">
+        <a href="#local-development-of-in-house-python-packages" class="md-skip">
           Skip to content
         </a>
       
@@ -351,20 +351,6 @@
       Table of contents
     </label>
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#installing-pyenv-for-python-development" class="md-nav__link">
-    Installing pyenv for Python development
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#create-a-virtual-environment" class="md-nav__link">
-    Create a virtual environment
-  </a>
-  
-</li>
       
         <li class="md-nav__item">
   <a href="#local-development-of-in-house-python-packages" class="md-nav__link">
@@ -873,20 +859,6 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#installing-pyenv-for-python-development" class="md-nav__link">
-    Installing pyenv for Python development
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#create-a-virtual-environment" class="md-nav__link">
-    Create a virtual environment
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#local-development-of-in-house-python-packages" class="md-nav__link">
     Local development of in-house Python packages
   </a>
@@ -939,45 +911,8 @@
                 
                   <h1>Developing this project</h1>
                 
-                <h2 id="installing-pyenv-for-python-development">Installing <code>pyenv</code> for Python development</h2>
-<p>We recommend <code>pyenv</code> to manage your Python versions and virtual environments.
-The two main advantage of using <code>pyenv</code>, instead of the Python that comes with
-your systems are:</p>
-<ol>
-<li>No Python package is installed globally to your system Python, this prevents
-   conflicting packages to break your system</li>
-<li>Different versions of the same package can co-exist in different virtual
-   environments, making this setup more flexible</li>
-</ol>
-<p>First, follow <a href="https://github.com/pyenv/pyenv#installation">this instruction</a>
-to install <code>pyenv</code>.</p>
-<p>Then, follow <a href="https://github.com/pyenv/pyenv-virtualenv#installation">this instruction</a>
-to install <code>pyenv-virtualenv</code></p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<ul>
-<li>Microsoft Windows not supported!</li>
-<li>If you are using macOS, you can use <code>homebrew</code> to install both. Though
-  the change in shell configuration file is still needed.</li>
-<li>Don't forget to change your shell configuration file <strong>manually</strong> after
-  installation!</li>
-<li>After installation, restart your shell.</li>
-</ul>
-</div>
-<h2 id="create-a-virtual-environment">Create a virtual environment</h2>
-<p>First, install a specific version of Python (Python 3.7.7 used here):
-<div class="highlight"><pre><span></span><code>pyenv install 3.7.7
-</code></pre></div></p>
-<p>Then create a virtualenv:
-<div class="highlight"><pre><span></span><code>pyenv virtualenv 3.7.7 ntuples
-</code></pre></div></p>
-<p>Now go to the project root, and set the local python version:
-<div class="highlight"><pre><span></span><code>pyenv local ntuples
-</code></pre></div></p>
-<p>Now, every time you <code>cd</code> into the project root, virtual environment <code>ntuples</code>
-will be automatically activated.</p>
-<h2 id="local-development-of-in-house-python-packages">Local development of in-house Python packages</h2>
-<p>We have made two in-house Python packages:</p>
+                <h2 id="local-development-of-in-house-python-packages">Local development of in-house Python packages</h2>
+<p>We have made several in-house Python packages, for example:</p>
 <ul>
 <li><a href="https://github.com/umd-lhcb/pyBabyMaker"><code>pyBabyMaker</code></a>: For producing step-2 ntuples.</li>
 <li><a href="https://github.com/umd-lhcb/pyTuplingUtils"><code>pyTuplingUtils</code></a>: For simple plotting and cutflow study.</li>
@@ -1040,21 +975,6 @@ we define targets to generate output files and results, such as:</p>
 would produce a certain target:
 <div class="highlight"><pre><span></span><code>make --dry-run --always-make &lt;target_name&gt;
 </code></pre></div></p>
-<p>For example, <code>make --dry-run --always-make test-cutflow-rdst-run1</code> will produce the
-following output:
-<div class="highlight"><pre><span></span><code>babymaker -i postprocess/rdx-run1/rdst-run1-strip.yml -o gen/rdst-run1-strip.cpp -d run1-rdx/samples/Dst--20_06_04--cutflow_mc--cocktail--2011--md--dv45-subset-dv_strip.root
-clang++ -pthread -stdlib=libc++ -std=c++11 -m64 -I/nix/store/w8phplhy3ll0kh2zrkncj9hbp2k9kjfy-root-6.18.04/include -Iinclude -o bin/rdst-run1-strip.pp gen/rdst-run1-strip.cpp -L/nix/store/w8phplhy3ll0kh2zrkncj9hbp2k9kjfy-root-6.18.04/lib -lCore -lImt -lRIO -lNet -lHist -lGraf -lGraf3d -lGpad -lROOTVecOps -lTree -lTreePlayer -lRint -lPostscript -lMatrix -lPhysics -lMathCore -lThread -lMultiProc -lROOTDataFrame -lpthread -Wl,-rpath,/nix/store/w8phplhy3ll0kh2zrkncj9hbp2k9kjfy-root-6.18.04/lib -stdlib=libc++ -lm -ldl
-rdst-run1-strip.pp run1-rdx/samples/Dst--20_06_04--cutflow_mc--cocktail--2011--md--dv45-subset-bare.root gen/test/Dst--20_06_04--cutflow_mc--cocktail--2011--md--subset-bare-step2.root
-rdst-run1-strip.pp run1-rdx/samples/Dst--20_06_04--cutflow_mc--cocktail--2011--md--dv45-subset-dv_strip.root gen/test/Dst--20_06_04--cutflow_mc--cocktail--2011--md--subset-dv_strip-step2.root
-echo &quot;====&quot;
-echo &quot;Test results:&quot;
-test_ntuple_identical.py -n gen/test/Dst--20_06_04--cutflow_mc--cocktail--2011--md--subset-bare-step2.root -N run1-rdx/samples/Dst--20_06_04--cutflow_mc--cocktail--2011--md--dv45-subset-dv_strip.root -t b0dst -T TupleB0/DecayTree
-test_ntuple_identical.py -n gen/test/Dst--20_06_04--cutflow_mc--cocktail--2011--md--subset-dv_strip-step2.root -N run1-rdx/samples/Dst--20_06_04--cutflow_mc--cocktail--2011--md--dv45-subset-dv_strip.root -t b0dst -T TupleB0/DecayTree
-</code></pre></div></p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>The compilation flags may vary.</p>
-</div>
 <div class="footnote">
 <hr />
 <ol>
