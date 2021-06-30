@@ -75,6 +75,18 @@ All of our C++ dependencies are installed with `nix`. To install `nix`, refer
 to [the guide](https://github.com/umd-lhcb/root-curated#install-nix-on-macos)
 in `root-curated` repo.
 
+!!! warning
+    `nix develop` also provides a Python virtualenv. It is located in
+    `.virtualenv` in project root[^4].
+
+    If a major update in `nixpkgs` occurs, Python may also get a significate
+    update (e.g. Python 3.8 -> Python 3.9). In this case, the virtualenv may
+    stop working.
+
+    In any case, if you see any weired Python problem, simply delete the
+    `.virtualenv` folder, then run `nix develop` again: A new virtualenv will
+    be re-created.
+
 
 ## Install `babymaker`
 
@@ -116,3 +128,4 @@ make install-dep
       for your OS. See [this guide](./dev.md#installing-pyenv-for-python-development).
 [^3]: `clang-format` usually comes with `clang`. A notable exception is on
       macOS. In that case, just type in `brew install clang-format`.
+[^4]: Unless your first name is Yipeng.
