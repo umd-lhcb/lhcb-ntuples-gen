@@ -319,6 +319,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#install-nix" class="md-nav__link">
+    Install nix
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#install-babymaker" class="md-nav__link">
     Install babymaker
   </a>
@@ -860,6 +867,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#install-nix" class="md-nav__link">
+    Install nix
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#install-babymaker" class="md-nav__link">
     Install babymaker
   </a>
@@ -940,6 +954,21 @@ to finish the setup:
 <p>Now it's time to pull (download) the pre-built <code>DaVinci</code> docker:
 <div class="highlight"><pre><span></span><code>docker pull umdlhcb/lhcb-stack-cc7:DaVinci-v45r3-SL
 </code></pre></div></p>
+<h2 id="install-nix">Install <code>nix</code></h2>
+<p>All of our C++ dependencies are installed with <code>nix</code>. To install <code>nix</code>, refer
+to <a href="https://github.com/umd-lhcb/root-curated#install-nix-on-macos">the guide</a>
+in <code>root-curated</code> repo.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p><code>nix develop</code> also provides a Python virtualenv. It is located in
+<code>.virtualenv</code> in project root<sup id="fnref:4"><a class="footnote-ref" href="#fn:4">4</a></sup>.</p>
+<p>If a major update in <code>nixpkgs</code> occurs, Python may also get a significate
+update (e.g. Python 3.8 -&gt; Python 3.9). In this case, the virtualenv may
+stop working.</p>
+<p>In any case, if you see any weired Python problem, simply delete the
+<code>.virtualenv</code> folder, then run <code>nix develop</code> again: A new virtualenv will
+be re-created.</p>
+</div>
 <h2 id="install-babymaker">Install <code>babymaker</code></h2>
 <p><code>babymaker</code> is part of the <code>pyBabyMaker</code> Python package. It requires
 <code>gcc</code><sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup>, <code>ROOT</code>, <code>python3</code>, and a couple of other <code>Python</code> packages<sup id="fnref:2"><a class="footnote-ref" href="#fn:2">2</a></sup>.</p>
@@ -982,6 +1011,9 @@ submodules), refer to <a href="../dev/#local-development-of-in-house-python-pack
 <li id="fn:3">
 <p><code>clang-format</code> usually comes with <code>clang</code>. A notable exception is on
   macOS. In that case, just type in <code>brew install clang-format</code>.&#160;<a class="footnote-backref" href="#fnref:3" title="Jump back to footnote 3 in the text">&#8617;</a></p>
+</li>
+<li id="fn:4">
+<p>Unless your first name is Yipeng.&#160;<a class="footnote-backref" href="#fnref:4" title="Jump back to footnote 4 in the text">&#8617;</a></p>
 </li>
 </ol>
 </div>
