@@ -30,7 +30,7 @@ The ntuples[^1] generation is separated into **2 steps**:
 
 ## Directory structures
 
-```
+```shell
 .
 ├── archive      # storage for plots, csv, and some old code
 ├── docs
