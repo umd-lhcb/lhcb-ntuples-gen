@@ -30,10 +30,28 @@ LINK_FLAGS=$(root-config --libs)
 ADDF_FLAGS="-I${HEADER_DIR}"
 
 cpp_compile() {
-    ${COMPILER} ${CXX_FLAGS} ${ADDF_FLAGS} -o baby baby.cpp ${LINK_FLAGS}
+    ${COMPILER} -O2 ${CXX_FLAGS} ${ADDF_FLAGS} -o baby baby.cpp ${LINK_FLAGS}
+    # -O2 is the optimization level flag
 }
 
 cpp_compile  # assuming generated C++ file is named 'baby.cpp'
 ```
 
 The actual usage of comiled `baby` depends on your C++ "template".
+
+
+## How does `babymaker` work, internally?
+
+Internally `babymaker` really does 2 things (conceptually):
+
+1. **Directive generation**: Figure out needed branches based on input ntuples
+   and YML file and define output in a way that the branch dependencies are
+   resolved properly.
+
+    Internally, a `directive` is generated and passed to the next step.
+
+2. **C++ generation**: The `directive` from the previous step is passed to a
+   general macro processor, similar to `jekyll`.
+
+    Based on the input C++ template, the `directive` is _implemented_ in a C++
+    output file.
