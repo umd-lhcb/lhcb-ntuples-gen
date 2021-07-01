@@ -28,6 +28,36 @@ The ntuples[^1] generation is separated into **2 steps**:
     - For some tips on the general development of this project, see [here](ntupling/dev.md)
 
 
+## Directory structures
+
+```
+.
+├── archive      # storage for plots, csv, and some old code
+├── docs
+├── ganga
+├── gen          # output produced by make rules, e.g. ntuple, cutflow MD
+├── include      # headers
+│   └── functor
+│       └── rdx  # RDX-specific headers
+├── lib
+│   └── python   # Python submodules, e.g. pyBabyMaker
+├── ntuples      # storage for (mostly) GRID-produced ntuples
+├── postprocess
+│   ├── cpp_templates  # C++ templates for babymaker
+│   ├── rdx-run1
+│   ├── rdx-run2
+│   ├── ref-rdx-run1   # For Phoebe's sample ntuples
+│   └── skims          # For branch removal at lxplus level
+├── run1-rdx     # DaVinci scripts, sample ntuples for RDX run 1
+├── run2-rdx     # ^^^^ for RDX run 2
+├── scripts      # plotting and cutflow scripts, as well as some studies
+├── test
+├── tools
+└── workflows    # workflows to be used by make
+    └── rdx
+```
+
+
 ## Modifying this wiki
 This wiki is written in a series of markdown files (`.md`) committed to the
 [docs](https://github.com/umd-lhcb/lhcb-ntuples-gen/tree/master/docs) folder of the
