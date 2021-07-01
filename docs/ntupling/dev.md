@@ -69,6 +69,41 @@ make --dry-run --always-make <target_name>
 ```
 
 
+## Workflows
+
+The default workflow for an analysis should add the shell script folder to
+`PATH`, so that scripts inside are callable without their full path specified.
+
+!!! example
+
+    In `rdx.py`, we have:
+
+    ```python
+    def workflow_general(job_name, inputs, output_dir,
+                         global_path_to_append=[
+                             '../lib/python/TrackerOnlyEmu/scripts'
+                         ],
+                         path_to_append=[
+                             './rdx',
+                             '../scripts'
+                         ],
+                         input_patterns=['*.root'],
+                         ):
+        pass  # snippet
+    ```
+
+    The `path_to_append` argument adds the `workflows/rdx` folder to `PATH`.
+
+    Now, in an actual workflow, we typically call `workflow_general` first:
+    ```python
+    def workflow_trigger_emulation(job_name, inputs, output_dir, debug, kws):
+        subworkdirs, workdir = workflow_general(job_name, inputs, output_dir)
+        # The 'trigger_emulation.sh' is directly callable because we've added
+        # its folder to PATH
+        exe = pipe_executor('trigger_emulation.sh {input_ntp}')
+    ```
+
+
 ## External programs used by workflows
 
 ### Greg's $\mu$ UBDT adder
