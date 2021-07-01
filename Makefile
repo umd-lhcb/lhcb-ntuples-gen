@@ -1,6 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sun Jun 27, 2021 at 02:47 AM +0200
+# Last Change: Thu Jul 01, 2021 at 02:12 AM +0200
 
 export PATH := workflows:test:scripts:tools:$(PATH)
 
@@ -52,9 +52,20 @@ docker-dv:
 	@eval $(DV_CMD)
 
 
-#############################
-# Generic ntuple generation #
-#############################
+#########
+# Tests #
+#########
+
+.PHONY: test-naming-conv
+
+# Test if specific files follow naming conventions.
+test-naming-conv:
+	@test_filename_convention.py
+
+
+#########################
+# RDX ntuple generation #
+#########################
 
 .PHONY: rdx-ntuple-run2-oldcut
 
@@ -81,17 +92,6 @@ ref-rdx-ntuple-run1: \
 	ref-rdx-run1/rdst-2011-mix.yml
 	@rdx.py $@ $< --debug \
 		--mode data_ref -A input_yml:$(abspath $(word 2, $^))
-
-
-#########
-# Tests #
-#########
-
-.PHONY: test-naming-conv
-
-# Test if specific files follow naming conventions.
-test-naming-conv:
-	@test_filename_convention.py
 
 
 #########################
@@ -155,5 +155,5 @@ gen/rdx-cutflow-run2-Dst-%/cutflow.yml: \
 ####################
 
 %.root:
-	@echo -e "No such file present:" $@
+	@echo -e "No such file present: " $@
 	@exit 1
