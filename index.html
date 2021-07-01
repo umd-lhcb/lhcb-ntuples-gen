@@ -895,16 +895,26 @@ such as <code>git-annex</code>, that will be used in this project.</p>
 <ol>
 <li>Use <code>DaVinci</code> to generate ntuples from raw data<sup id="fnref:2"><a class="footnote-ref" href="#fn:2">2</a></sup>.
    Follow <a href="ntupling/installation/#install-docker-to-run-davinci-locally">this section</a> to install required programs.
-   Use <a href="ntupling/step1_davinci/">this manual</a> to learn how to use <code>DaVinci</code> locally.</li>
+   Use <a href="ntupling/step1_davinci/">this manual</a> to learn how to use <code>DaVinci</code> locally.
+   Follow <a href="ntupling/grid_job/">this section</a> to learn submitting <code>DaVinci</code>
+   jobs to the GRID.</li>
 <li>Use <code>babymaker</code> frame work to do slimming, skimming, and additional
    calculation on previous ntuples, generating new ntuples.
-   Use <a href="ntupling/installation/#install-babymaker">this section</a> for installation.
-   The <code>babymaker</code> manual can be found <a href="ntupling/step2_babymaker/">here</a>.</li>
+   Follow <a href="ntupling/installation.md/#install-nix">these two</a> <a href="ntupling/installation/#install-babymaker">section</a> for installation.
+   A general guide for generating step-2 ntuple can be found <a href="ntupling/step2_babymaker/">here</a>.</li>
 </ol>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>These two steps have separate dependencies. If you only need to run one
 step, just follow the installation instruction for that particular step.</p>
+</div>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<ul>
+<li>The step-1 and step-2 ntuples have <a href="ntupling/nomenclature/">the following</a>
+  naming conventions.</li>
+<li>For some tips on the general development of this project, see <a href="ntupling/dev/">here</a></li>
+</ul>
 </div>
 <h2 id="modifying-this-wiki">Modifying this wiki</h2>
 <p>This wiki is written in a series of markdown files (<code>.md</code>) committed to the
