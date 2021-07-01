@@ -60,7 +60,7 @@ The ntuples[^1] generation is separated into **2 steps**:
 
 ## Modifying this wiki
 This wiki is written in a series of markdown files (`.md`) committed to the
-[docs](https://github.com/umd-lhcb/lhcb-ntuples-gen/tree/master/docs) folder of the
+[`docs`](https://github.com/umd-lhcb/lhcb-ntuples-gen/tree/master/docs) folder of the
 `lhcb-ntuples-gen` repository. The structure of the wiki is defined in
 [`mkdocs.yml`](https://github.com/umd-lhcb/lhcb-ntuples-gen/blob/master/mkdocs.yml).
 This file contains the title of each page in the wiki, and the markdown file
