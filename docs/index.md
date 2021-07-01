@@ -15,7 +15,7 @@ The ntuples[^1] generation is separated into **2 steps**:
    jobs to the GRID.
 2. Use `babymaker` frame work to do slimming, skimming, and additional
    calculation on previous ntuples, generating new ntuples.
-   Follow [these two](ntupling/installation.md/#install-nix) [section](ntupling/installation/#install-babymaker) for installation.
+   Follow [these two](ntupling/installation/#install-nix) [section](ntupling/installation/#install-babymaker) for installation.
    A general guide for generating step-2 ntuple can be found [here](ntupling/step2_babymaker.md).
 
 !!! note
@@ -32,18 +32,22 @@ The ntuples[^1] generation is separated into **2 steps**:
 This wiki is written in a series of markdown files (`.md`) committed to the
 [docs](https://github.com/umd-lhcb/lhcb-ntuples-gen/tree/master/docs) folder of the
 `lhcb-ntuples-gen` repository. The structure of the wiki is defined in
-[`mkdocs.yml`](https://github.com/umd-lhcb/lhcb-ntuples-gen/blob/master/mkdocs.yml). This file contains the
-title of each page in the wiki, and the markdown file that defines that page.
+[`mkdocs.yml`](https://github.com/umd-lhcb/lhcb-ntuples-gen/blob/master/mkdocs.yml).
+This file contains the title of each page in the wiki, and the markdown file
+that defines that page.
 
-To modify the wiki just modify `mkdocs.yml` or the `.md` files, and commit the changes to the repo. In about
-a minute Travis will deploy the new website to [https://umd-lhcb.github.io/lhcb-ntuples-gen/](https://umd-lhcb.github.io/lhcb-ntuples-gen/).
+To modify the wiki just modify `mkdocs.yml` or the `.md` files, and commit the
+changes to the repo. In about a minute _Github Action_ will deploy the new
+website to
+[https://umd-lhcb.github.io/lhcb-ntuples-gen/](https://umd-lhcb.github.io/lhcb-ntuples-gen/).
 
-To view the website locally (for instance, before committing), you will need to install `mkdocs` and
-the `material` theme
+To view the website locally (for instance, before committing), you will need to
+install `mkdocs` and the `material` theme
 ```
-pip3 install --user -r docs/requirements.txt
+pip install --user -r docs/requirements.txt
 ```
-Then, from `lhcb-ntuples-gen` you generate the website at the local address [http://127.0.0.1:8000](http://127.0.0.1:8000) with the command
+Then, from `lhcb-ntuples-gen` you generate the website at the local address
+[http://127.0.0.1:8000](http://127.0.0.1:8000) with the command
 ```
 mkdocs serve
 ```
