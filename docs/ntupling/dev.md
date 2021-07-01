@@ -67,3 +67,81 @@ would produce a certain target:
 ```
 make --dry-run --always-make <target_name>
 ```
+
+
+## External programs used by workflows
+
+### Greg's $\mu$ UBDT adder
+
+The name of the program is `addUBDTBranch`. It's source code, along with its
+`Makefile`, is available [here](https://github.com/umd-lhcb/MuonBDTPid/tree/master/src).
+
+Let's back track on how it is made available in our `lhcb-ntuples-gen` environment:
+
+1. In this project's [`flake.nix`](https://github.com/umd-lhcb/lhcb-ntuples-gen/blob/master/flake.nix),
+we have:
+
+    ```nix
+    # snippet only
+
+    inputs = {
+      nixpkgs = ...;  # software foundation, including compiles, etc.
+      MuonBDTPid.url = "github:umd-lhcb/MuonBDTPid";
+    };
+
+    outputs = { nixpkgs, MuonBDTPid, ... }:
+        let
+          pkgs = import nixpkgs {
+            # We make packages defined in MuonBDTPid's overlay available
+            overlays = [ MuonBDTPid.overlay ];
+          };
+        in
+        {
+          devShell = pkgs.mkShell {
+            buildInputs = [
+              pkgs.addUBDTBranchWrapped  # Install UBDT adder
+            ];
+          };
+        }
+    ```
+
+2. What we learned is that the UBDT adder is defined in `MuonBDTPid`'s
+   [overlay](https://github.com/umd-lhcb/MuonBDTPid/blob/master/nix/overlay.nix).
+   Let's inspect its content:
+
+    ```nix
+    final: prev:
+
+    {
+      root5-ubdt = prev.callPackage ./root5 {
+        inherit (prev.darwin.apple_sdk.frameworks) Cocoa OpenGL;
+        stdenv = if prev.stdenv.cc.isClang then prev.llvmPackages_5.stdenv else prev.gcc8Stdenv;
+      };
+
+      addUBDTBranch = prev.callPackage ./addUBDTBranch {
+        root = final.root5-ubdt;
+        stdenv = if prev.stdenv.cc.isClang then prev.llvmPackages_5.stdenv else prev.gcc8Stdenv;
+      };
+
+      addUBDTBranchWrapped = prev.writeScriptBin "addUBDTBranch" ''
+        unset LD_LIBRARY_PATH
+        unset DYLD_LIBRARY_PATH
+        exec ${final.addUBDTBranch}/bin/addUBDTBranchRun2 $@
+      '';
+    }
+    ```
+
+    1. Now we see `addUBDTBranchWrapped` is just a shell script that wraps
+       around the executables in `addUBDTBranch`.
+
+        The reason is that when you make ROOT available in a `devShell`, on
+        Linux it will set `LD_LIBRARY_PATH` environment variable, which will
+        mess up with the `addUBDTBranch` executables. We need to unset it
+        first.
+
+    2. Also, `addUBDTBranch` has an input called `root`, which is explicitly
+       set to a patched version of ROOT 5 that contains UBDT.
+
+3. Finally, the actual derivation (directive on how to compile it with `nix`) of
+   `addUBDTBranch` is defined [here](https://github.com/umd-lhcb/MuonBDTPid/blob/master/nix/addUBDTBranch/default.nix).
+   It is actually quite simple but we won't go over it here.

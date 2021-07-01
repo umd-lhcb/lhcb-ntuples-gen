@@ -35,3 +35,5 @@ cpp_compile() {
 
 cpp_compile  # assuming generated C++ file is named 'baby.cpp'
 ```
+
+The actual usage of comiled `baby` depends on your C++ "template".
