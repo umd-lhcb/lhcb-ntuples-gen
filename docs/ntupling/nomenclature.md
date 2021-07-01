@@ -10,7 +10,7 @@ These rules are checked by [a script](https://github.com/umd-lhcb/lhcb-ntuples-g
 ## Filenames
 ### Step 1 ntuples
 
-Step 1 ntuple filenames, DaVinci logs, and ganga jobs should follow the following form:
+Step 1 ntuple filenames, DaVinci logs, and ganga jobs should follow this form:
 ```
 <reco_sample>--<date>--<type>--<additional_flags>--<dirac_path>.root
 ```
@@ -32,7 +32,7 @@ Step 1 ntuple filenames, DaVinci logs, and ganga jobs should follow the followin
 
 ### Step 2 ntuples
 
-Step 2 ntuple filenames should follow the following form:
+Step 2 ntuple filenames should follow this form:
 ```
 <reco_sample>--<date>--<type>--<sample>--<year>--<polarity>--<additional_flags>.root
 ```
@@ -67,7 +67,7 @@ Step 2 ntuple filenames should follow the following form:
 
 ### Condition files
 
-Condition files should follow the following filename:
+Condition files should follow this filename:
 
 ```
 cond-<type>-<year>-<polarity>-<additional_flags>.py
@@ -106,13 +106,13 @@ like
 0.9.0-cutflow/Dst-cutflow_mc
 0.9.0-cutflow/Dst-cutflow_data
 
-0.9.1-FirstFull/Dst-mc
-0.9.1-FirstFull/Dst-data
-0.9.1-FirstFull/D0-mc
-0.9.1-FirstFull/D0-data
-0.9.1-FirstFull/Dst-cutflow_mc
+0.9.1-first_full/Dst-mc
+0.9.1-first_full/Dst-data
+0.9.1-first_full/D0-mc
+0.9.1-first_full/D0-data
+0.9.1-first_full/Dst-cutflow_mc
 
-0.9.2-TriggerFix/Dst-mc
+0.9.2-trigger_fix/Dst-mc
 ```
 
 ### DST folders
