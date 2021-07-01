@@ -9,16 +9,15 @@ if [ ! -f ${INPUT_NTP} ]; then
 fi
 
 # Train BDT w/ different max_depth
-for d in 3 4 5 6 7 8 9 10 11 12 15 20 25 40
+for d in 3 4 5 6 7 8 9 10 11 12 15 20 25 40 50 80 100
 do
     echo "========"
     echo "BDT max_depth is set to ${d}"
 
     # Generate debug ntuples w/ different BDT max_depth
     ../../lib/python/TrackerOnlyEmu/scripts/run2-rdx-l0_hadron_train_bdt.py \
-        ${INPUT_NTP} fake_bdt_output \
-        --debug-ntuple "bdt_max_depth_${d}.root" \
-        --debug --no-bdt-export --max-depth $d
+        ${INPUT_NTP} None \
+        --debug-ntuple "bdt_max_depth_${d}.root" --max-depth $d
 
     # Debug plots
     plotbr -n "./bdt_max_depth_${d}.root/TupleB0/DecayTree" \
