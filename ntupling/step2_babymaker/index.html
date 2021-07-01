@@ -62,6 +62,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#generating-a-c-file-with-babymaker" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -302,9 +307,37 @@
       
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Step 2 ntuples with babymaker
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         Step 2 ntuples with babymaker
       </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#generating-a-c-file-with-babymaker" class="md-nav__link">
+    Generating a C++ file with babymaker
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -782,6 +815,36 @@
               </div>
             
             
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#generating-a-c-file-with-babymaker" class="md-nav__link">
+    Generating a C++ file with babymaker
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
           
           <div class="md-content" data-md-component="content">
             <article class="md-content__inner md-typeset">
@@ -795,15 +858,36 @@
                   <h1>Step 2 ntuples with babymaker</h1>
                 
                 <p><code>babymaker</code> is a part of the <code>pyBabyMaker</code> library. Please refer to the
-<a href="https://pybabymaker.readthedocs.io">official document</a> for more info.</p>
+<a href="https://pybabymaker.readthedocs.io">official document</a> for its command line
+usage and internal APIs.</p>
+<h2 id="generating-a-c-file-with-babymaker">Generating a C++ file with <code>babymaker</code></h2>
 <p>The general idea is that <code>babymaker</code> takes:</p>
 <ul>
-<li>a <code>YAML</code> file as configuration</li>
-<li>a <code>.root</code> ntuple file to dump its tree structure and data type of each branch
-    in the trees.</li>
+<li>A <code>YAML</code> file as configuration, denote as <code>cfg_yml</code></li>
+<li>A C++ "template" that <code>babymaker</code> can work on, denote as <code>cpp_tmpl</code></li>
+<li>Main ntuple file that you want to work on, denote as <code>main_ntp</code></li>
+<li>Optionally many friend ntuples that have part of their tree structures
+  identical to that of the main, denote as <code>friend_ntp1</code>, <code>friend_ntp2</code>, ...</li>
 </ul>
-<p>and generates a <code>C++</code> file. The generated file then will be compiled, and the
-compiled binary will be used to generate second stage <code>.root</code> ntuples.</p>
+<p>To generate our final C++ file:</p>
+<div class="highlight"><pre><span></span><code>babymaker -i &lt;cfg_yml&gt; -n &lt;main_ntp&gt; -f &lt;friend_ntp1&gt; &lt;friend_ntp2&gt; ... -o &lt;output_cpp&gt; -t &lt;cpp_tmpl&gt;
+</code></pre></div>
+<p>Next, the following shell snippet should be enough to get generated C++
+compiled in this repo:</p>
+<div class="highlight"><pre><span></span><code><span class="nv">DIR</span><span class="o">=</span><span class="s2">&quot;</span><span class="k">$(</span><span class="nb">cd</span> <span class="s2">&quot;</span><span class="k">$(</span>dirname <span class="s2">&quot;</span><span class="si">${</span><span class="nv">BASH_SOURCE</span><span class="p">[0]</span><span class="si">}</span><span class="s2">&quot;</span><span class="k">)</span><span class="s2">&quot;</span> <span class="p">&amp;</span>&gt; /dev/null <span class="o">&amp;&amp;</span> <span class="nb">pwd</span><span class="k">)</span><span class="s2">&quot;</span>
+<span class="nv">HEADER_DIR</span><span class="o">=</span><span class="nv">$DIR</span>/../../include
+<span class="nv">COMPILER</span><span class="o">=</span><span class="k">$(</span>root-config --cxx<span class="k">)</span>
+<span class="nv">CXX_FLAGS</span><span class="o">=</span><span class="k">$(</span>root-config --cflags<span class="k">)</span>
+<span class="nv">LINK_FLAGS</span><span class="o">=</span><span class="k">$(</span>root-config --libs<span class="k">)</span>
+<span class="nv">ADDF_FLAGS</span><span class="o">=</span><span class="s2">&quot;-I</span><span class="si">${</span><span class="nv">HEADER_DIR</span><span class="si">}</span><span class="s2">&quot;</span>
+
+cpp_compile<span class="o">()</span> <span class="o">{</span>
+    <span class="si">${</span><span class="nv">COMPILER</span><span class="si">}</span> <span class="si">${</span><span class="nv">CXX_FLAGS</span><span class="si">}</span> <span class="si">${</span><span class="nv">ADDF_FLAGS</span><span class="si">}</span> -o baby baby.cpp <span class="si">${</span><span class="nv">LINK_FLAGS</span><span class="si">}</span>
+<span class="o">}</span>
+
+cpp_compile  <span class="c1"># assuming generated C++ file is named &#39;baby.cpp&#39;</span>
+</code></pre></div>
+<p>The actual usage of comiled <code>baby</code> depends on your C++ "template".</p>
                 
               
               

@@ -386,6 +386,26 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#external-programs-used-by-workflows" class="md-nav__link">
+    External programs used by workflows
+  </a>
+  
+    <nav class="md-nav" aria-label="External programs used by workflows">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gregs-mu-ubdt-adder" class="md-nav__link">
+    Greg's \(\mu\) UBDT adder
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -892,6 +912,26 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#external-programs-used-by-workflows" class="md-nav__link">
+    External programs used by workflows
+  </a>
+  
+    <nav class="md-nav" aria-label="External programs used by workflows">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gregs-mu-ubdt-adder" class="md-nav__link">
+    Greg's \(\mu\) UBDT adder
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -975,6 +1015,83 @@ we define targets to generate output files and results, such as:</p>
 would produce a certain target:
 <div class="highlight"><pre><span></span><code>make --dry-run --always-make &lt;target_name&gt;
 </code></pre></div></p>
+<h2 id="external-programs-used-by-workflows">External programs used by workflows</h2>
+<h3 id="gregs-mu-ubdt-adder">Greg's <span class="arithmatex">\(\mu\)</span> UBDT adder</h3>
+<p>The name of the program is <code>addUBDTBranch</code>. It's source code, along with its
+<code>Makefile</code>, is available <a href="https://github.com/umd-lhcb/MuonBDTPid/tree/master/src">here</a>.</p>
+<p>Let's back track on how it is made available in our <code>lhcb-ntuples-gen</code> environment:</p>
+<ol>
+<li>
+<p>In this project's <a href="https://github.com/umd-lhcb/lhcb-ntuples-gen/blob/master/flake.nix"><code>flake.nix</code></a>,
+we have:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># snippet only</span>
+
+<span class="ss">inputs =</span> <span class="p">{</span>
+  <span class="ss">nixpkgs =</span> <span class="o">...</span><span class="p">;</span>  <span class="c1"># software foundation, including compiles, etc.</span>
+  MuonBDTPid<span class="o">.</span><span class="ss">url =</span> <span class="s2">&quot;github:umd-lhcb/MuonBDTPid&quot;</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="ss">outputs =</span> <span class="p">{</span> nixpkgs<span class="p">,</span> MuonBDTPid<span class="p">,</span> <span class="o">...</span> <span class="p">}:</span>
+    <span class="k">let</span>
+      <span class="ss">pkgs =</span> <span class="nb">import</span> nixpkgs <span class="p">{</span>
+        <span class="c1"># We make packages defined in MuonBDTPid&#39;s overlay available</span>
+        <span class="ss">overlays =</span> <span class="p">[</span> MuonBDTPid<span class="o">.</span>overlay <span class="p">];</span>
+      <span class="p">};</span>
+    <span class="k">in</span>
+    <span class="p">{</span>
+      <span class="ss">devShell =</span> pkgs<span class="o">.</span>mkShell <span class="p">{</span>
+        <span class="ss">buildInputs =</span> <span class="p">[</span>
+          pkgs<span class="o">.</span>addUBDTBranchWrapped  <span class="c1"># Install UBDT adder</span>
+        <span class="p">];</span>
+      <span class="p">};</span>
+    <span class="p">}</span>
+</code></pre></div>
+</li>
+<li>
+<p>What we learned is that the UBDT adder is defined in <code>MuonBDTPid</code>'s
+   <a href="https://github.com/umd-lhcb/MuonBDTPid/blob/master/nix/overlay.nix">overlay</a>.
+   Let's inspect its content:</p>
+<div class="highlight"><pre><span></span><code>final<span class="p">:</span> prev<span class="p">:</span>
+
+<span class="p">{</span>
+  <span class="ss">root5-ubdt =</span> prev<span class="o">.</span>callPackage <span class="o">.</span><span class="l">/root5</span> <span class="p">{</span>
+    <span class="k">inherit</span> <span class="p">(</span>prev<span class="o">.</span>darwin<span class="o">.</span>apple_sdk<span class="o">.</span>frameworks<span class="p">)</span> Cocoa OpenGL<span class="p">;</span>
+    <span class="ss">stdenv =</span> <span class="k">if</span> prev<span class="o">.</span>stdenv<span class="o">.</span>cc<span class="o">.</span>isClang <span class="k">then</span> prev<span class="o">.</span>llvmPackages_5<span class="o">.</span>stdenv <span class="k">else</span> prev<span class="o">.</span>gcc8Stdenv<span class="p">;</span>
+  <span class="p">};</span>
+
+  <span class="ss">addUBDTBranch =</span> prev<span class="o">.</span>callPackage <span class="o">.</span><span class="l">/addUBDTBranch</span> <span class="p">{</span>
+    <span class="ss">root =</span> final<span class="o">.</span>root5-ubdt<span class="p">;</span>
+    <span class="ss">stdenv =</span> <span class="k">if</span> prev<span class="o">.</span>stdenv<span class="o">.</span>cc<span class="o">.</span>isClang <span class="k">then</span> prev<span class="o">.</span>llvmPackages_5<span class="o">.</span>stdenv <span class="k">else</span> prev<span class="o">.</span>gcc8Stdenv<span class="p">;</span>
+  <span class="p">};</span>
+
+  <span class="ss">addUBDTBranchWrapped =</span> prev<span class="o">.</span>writeScriptBin <span class="s2">&quot;addUBDTBranch&quot;</span> <span class="s1">&#39;&#39;</span>
+<span class="s1">    unset LD_LIBRARY_PATH</span>
+<span class="s1">    unset DYLD_LIBRARY_PATH</span>
+<span class="s1">    exec </span><span class="si">${</span>final<span class="o">.</span>addUBDTBranch<span class="si">}</span><span class="s1">/bin/addUBDTBranchRun2 $@</span>
+<span class="s1">  &#39;&#39;</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+<ol>
+<li>
+<p>Now we see <code>addUBDTBranchWrapped</code> is just a shell script that wraps
+   around the executables in <code>addUBDTBranch</code>.</p>
+<p>The reason is that when you make ROOT available in a <code>devShell</code>, on
+Linux it will set <code>LD_LIBRARY_PATH</code> environment variable, which will
+mess up with the <code>addUBDTBranch</code> executables. We need to unset it
+first.</p>
+</li>
+<li>
+<p>Also, <code>addUBDTBranch</code> has an input called <code>root</code>, which is explicitly
+   set to a patched version of ROOT 5 that contains UBDT.</p>
+</li>
+</ol>
+</li>
+<li>
+<p>Finally, the actual derivation (directive on how to compile it with <code>nix</code>) of
+   <code>addUBDTBranch</code> is defined <a href="https://github.com/umd-lhcb/MuonBDTPid/blob/master/nix/addUBDTBranch/default.nix">here</a>.
+   It is actually quite simple but we won't go over it here.</p>
+</li>
+</ol>
 <div class="footnote">
 <hr />
 <ol>
