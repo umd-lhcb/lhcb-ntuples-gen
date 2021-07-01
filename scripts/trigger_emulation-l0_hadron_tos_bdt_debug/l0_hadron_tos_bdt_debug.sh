@@ -1,9 +1,12 @@
 #!/usr/bin/env bash
 
-# Need to generate a ntuple for BDT training use this script:
-#   ../ntuple-RDX_l0_hadron_tos_training_sample/bdt_train_sample_from_DstMuNu.sh
-
 INPUT_NTP=../ntuple-RDX_l0_hadron_tos_training_sample/rdx-bdt_train_sample.root
+
+if [ ! -f ${INPUT_NTP} ]; then
+    echo "Input ntuple: ${INPUT_NTP} doesn't exist!"
+    echo "Generating required ntuple..."
+    ../ntuple-RDX_l0_hadron_tos_training_sample/bdt_train_sample_from_DstMuNu.sh
+fi
 
 # Train BDT w/ different max_depth
 for d in 3 4 5 6 7 8 9 10 11 12 15 20 25 40
