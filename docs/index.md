@@ -11,14 +11,21 @@ The ntuples[^1] generation is separated into **2 steps**:
 1. Use `DaVinci` to generate ntuples from raw data[^2].
    Follow [this section](ntupling/installation/#install-docker-to-run-davinci-locally) to install required programs.
    Use [this manual](ntupling/step1_davinci.md) to learn how to use `DaVinci` locally.
+   Follow [this section](ntupling/grid_job.md) to learn submitting `DaVinci`
+   jobs to the GRID.
 2. Use `babymaker` frame work to do slimming, skimming, and additional
    calculation on previous ntuples, generating new ntuples.
-   Use [this section](ntupling/installation/#install-babymaker) for installation.
-   The `babymaker` manual can be found [here](ntupling/step2_babymaker.md).
+   Follow [these two](ntupling/installation.md/#install-nix) [section](ntupling/installation/#install-babymaker) for installation.
+   A general guide for generating step-2 ntuple can be found [here](ntupling/step2_babymaker.md).
 
 !!! note
     These two steps have separate dependencies. If you only need to run one
     step, just follow the installation instruction for that particular step.
+
+!!! info
+    - The step-1 and step-2 ntuples have [the following](ntupling/nomenclature.md)
+      naming conventions.
+    - For some tips on the general development of this project, see [here](ntupling/dev.md)
 
 
 ## Modifying this wiki
