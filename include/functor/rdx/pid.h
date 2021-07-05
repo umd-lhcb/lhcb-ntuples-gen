@@ -1,12 +1,11 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Sat Mar 13, 2021 at 09:37 PM +0100
+// Last Change: Mon Jul 05, 2021 at 02:07 AM +0200
 
 #ifndef _LNG_FUNCTOR_RDX_PID_H_
 #define _LNG_FUNCTOR_RDX_PID_H_
 
 #include <TMath.h>
-#include <TROOT.h>
 
 // Original name: muPID
 // Current name: mu_pid
