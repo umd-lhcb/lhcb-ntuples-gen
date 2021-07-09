@@ -1,6 +1,6 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Thu Jun 24, 2021 at 01:58 AM +0200
+// Last Change: Fri Jul 09, 2021 at 09:45 PM +0200
 
 #ifndef _LNG_FUNCTOR_BASIC_H_
 #define _LNG_FUNCTOR_BASIC_H_
@@ -94,6 +94,13 @@ std::vector<std::vector<int> > COMBINATION(int tot_size, int comb_size,
 template <typename T, typename... ARGS>
 std::vector<T> BUILD_VEC(T const& arg0, ARGS const&... args) {
   return std::vector<T>{{arg0, args...}};
+}
+
+// Boolean /////////////////////////////////////////////////////////////////////
+template <typename T>
+T IF(bool condition, T true_val, T false_val) {
+  if (condition) return true_val;
+  return false_val;
 }
 
 #endif
