@@ -5,10 +5,14 @@
     root-curated.url = "github:umd-lhcb/root-curated";
     nixpkgs.follows = "root-curated/nixpkgs";
     flake-utils.follows = "root-curated/flake-utils";
+
     MuonBDTPid.url = "github:umd-lhcb/MuonBDTPid";
+
+    mach-nix.url = "github:DavHau/mach-nix";
+    mach-nix.inputs.nixpkgs.follows = "root-curated/nixpkgs";
   };
 
-  outputs = { self, nixpkgs, flake-utils, root-curated, MuonBDTPid }:
+  outputs = { self, nixpkgs, flake-utils, root-curated, MuonBDTPid, mach-nix }:
     flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = import nixpkgs {
@@ -18,11 +22,18 @@
         };
         python = pkgs.python3;
         pythonPackages = python.pkgs;
+        mkdocs = mach-nix.lib.${system}.mkPython {
+          requirements = builtins.readFile ./docs/requirements.txt;
+          ignoreDataOutdated = true;
+        };
       in
       {
         devShell = pkgs.mkShell {
           name = "lhcb-ntuples-gen";
           buildInputs = with pythonPackages; [
+            # for documentation
+            mkdocs
+
             pkgs.clang-tools # For clang-format
             pkgs.root
 
