@@ -11,14 +11,20 @@
 
   outputs = { self, nixpkgs, flake-utils, root-curated, MuonBDTPid }:
     {
-      overlay = import ./nix/overlay.nix;
+      overlayPython = import ./nix/overlay-python.nix;
+      overlayMkDoc = import ./nix/overlay.nix;
     } //
     flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = import nixpkgs {
           inherit system;
           config = { allowUnfree = true; };
-          overlays = [ self.overlay root-curated.overlay MuonBDTPid.overlay ];
+          overlays = [
+            root-curated.overlay
+            MuonBDTPid.overlay
+            self.overlayPython
+            self.overlayMkDoc
+          ];
         };
         python = pkgs.python3;
         pythonPackages = python.pkgs;
