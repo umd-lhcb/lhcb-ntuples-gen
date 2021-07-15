@@ -7,38 +7,34 @@
     flake-utils.follows = "root-curated/flake-utils";
 
     MuonBDTPid.url = "github:umd-lhcb/MuonBDTPid";
-
-    mach-nix.url = "github:DavHau/mach-nix";
-    mach-nix.inputs.nixpkgs.follows = "root-curated/nixpkgs";
   };
 
-  outputs = { self, nixpkgs, flake-utils, root-curated, MuonBDTPid, mach-nix }:
+  outputs = { self, nixpkgs, flake-utils, root-curated, MuonBDTPid }:
+    {
+      overlay = import ./nix/overlay.nix;
+    } //
     flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = import nixpkgs {
           inherit system;
           config = { allowUnfree = true; };
-          overlays = [ root-curated.overlay MuonBDTPid.overlay ];
+          overlays = [ self.overlay root-curated.overlay MuonBDTPid.overlay ];
         };
         python = pkgs.python3;
         pythonPackages = python.pkgs;
-        mkdocs = mach-nix.lib.${system}.mkPython {
-          requirements = builtins.readFile ./docs/requirements.txt;
-          ignoreDataOutdated = true;
-        };
       in
       {
         devShell = pkgs.mkShell {
           name = "lhcb-ntuples-gen";
           buildInputs = with pythonPackages; [
             # for documentation
-            mkdocs
+            pkgs.mkdocs-material
 
             pkgs.clang-tools # For clang-format
-            pkgs.root
+            #pkgs.root
 
             # UBDT adder
-            pkgs.addUBDTBranchWrapped
+            #pkgs.addUBDTBranchWrapped
 
             # Auto completion
             jedi
