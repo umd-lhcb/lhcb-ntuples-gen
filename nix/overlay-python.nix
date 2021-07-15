@@ -1,15 +1,9 @@
-# Conceptually:
-#   'self'  <-> 'final'
-#   'super' <-> 'prev'
-# But we need to use self super literally to make it actually work.
-#  ^^^^refers to 'pythonPackageOverlay' function parameters
-
 let
-  pythonPackageOverlay = overlay: attr: self: super: {
-    ${attr} = self.lib.fix (py:
-      super.${attr}.override (old: {
+  pythonPackageOverlay = overlay: attr: final: prev: {
+    ${attr} = final.lib.fix (py:
+      prev.${attr}.override (old: {
         self = py;
-        packageOverrides = self.lib.composeExtensions
+        packageOverrides = final.lib.composeExtensions
           (old.packageOverrides or (_: _: { }))
           overlay;
       }));
