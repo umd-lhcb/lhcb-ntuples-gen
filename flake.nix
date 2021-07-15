@@ -22,8 +22,8 @@
           overlays = [
             root-curated.overlay
             MuonBDTPid.overlay
-            self.overlayPython
-            self.overlayMkDoc
+            #self.overlayPython
+            #self.overlayMkDoc
           ];
         };
         python = pkgs.python3;
@@ -33,8 +33,8 @@
         devShell = pkgs.mkShell {
           name = "lhcb-ntuples-gen";
           buildInputs = with pythonPackages; [
-            # for documentation
-            pkgs.mkdocs-material
+            # for documentation (broken on macOS)
+            #pkgs.mkdocs-material
 
             pkgs.clang-tools # For clang-format
             pkgs.root
