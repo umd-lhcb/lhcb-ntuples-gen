@@ -31,10 +31,10 @@
             pkgs.mkdocs-material
 
             pkgs.clang-tools # For clang-format
-            #pkgs.root
+            pkgs.root
 
             # UBDT adder
-            #pkgs.addUBDTBranchWrapped
+            pkgs.addUBDTBranchWrapped
 
             # Auto completion
             jedi
