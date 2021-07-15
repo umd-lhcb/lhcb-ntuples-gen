@@ -10,10 +10,6 @@
   };
 
   outputs = { self, nixpkgs, flake-utils, root-curated, MuonBDTPid }:
-    {
-      overlayPython = import ./nix/overlay-python.nix;
-      overlayMkDoc = import ./nix/overlay.nix;
-    } //
     flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = import nixpkgs {
@@ -22,8 +18,6 @@
           overlays = [
             root-curated.overlay
             MuonBDTPid.overlay
-            #self.overlayPython
-            #self.overlayMkDoc
           ];
         };
         python = pkgs.python3;
@@ -33,9 +27,6 @@
         devShell = pkgs.mkShell {
           name = "lhcb-ntuples-gen";
           buildInputs = with pythonPackages; [
-            # for documentation (broken on macOS)
-            #pkgs.mkdocs-material
-
             pkgs.clang-tools # For clang-format
             pkgs.root
 
