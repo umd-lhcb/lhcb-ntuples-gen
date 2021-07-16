@@ -1,29 +1,25 @@
-## Install VCS (`git` and `git-annex`)
-
-We use `git` to version-control the ntupling code and the wiki, and `git-annex` to version-control
-large files, mostly the input `.dst` files or important `.root` outputs. For more details on
-`git-annex`, see [this brief introduction](../software_manuals/git_annex.md).
-
-- On Arch Linux, simply issue the following command to install both programs:
-    ```
-    sudo pacman -S git git-annex
-    ```
-
-- On macOS, if you have `homebrew` installed:
-    ```
-    brew install git git-annex
-    ```
-
 !!! note
-    Before proceed, send us a SSH key so that we can give your read/write
-    permission to the `git-annex` server.
+    Before proceeding, send Yipeng or Manuel an [SSH key](https://docs.github.com/en/github/authenticating-to-github/connecting-to-github-with-ssh/checking-for-existing-ssh-keys)
+    to your system so that we can give you read/write
+    permission to `julian`, the `git-annex` server where our ntuples are stored.
 
-Now clone the repository and set up the `annex` component. We have a private server, `julian`, that hosts
+Clone the repository and set up the `annex` component[^1]. We have a private server, `julian`, that hosts
 `git-annex` files.
 ```shell
+## Repo with code to make ntuples and annex with STEP 1 ntuples
 git clone git@github.com:umd-lhcb/lhcb-ntuples-gen
 cd lhcb-ntuples-gen
 git remote add julian git@129.2.92.92:lhcb-ntuples-gen
+git annex init --version=7
+git submodule update --init  # Do this before git annex sync to avoid potential mess-up of submodule pointers!
+git annex sync julian
+make install-dep
+cd ..
+
+## Repo with STEP 2 ntuples
+git clone git@github.com:umd-lhcb/rdx-run2-analysis
+cd rdx-run2-analysis
+git remote add julian git@129.2.92.92:rdx-run2-analysis
 git annex init --version=7
 git submodule update --init  # Do this before git annex sync to avoid potential mess-up of submodule pointers!
 git annex sync julian
@@ -35,33 +31,23 @@ with symbolic links. You typically will download individual files as you need th
 git annex get <path_to_file>
 ```
 
-
-!!! warning "Microsoft Windows not supported, require pre-build image below"
-    Windows filesystems don't support symbolic links, which
-    makes `git-annex` almost unusable.
-
-    Please use the pre-built image listed in [this section](#use-a-pre-built-virtualbox-image-on-windows) that
-    has everything installed.  Note that `VirtualBox` needs to be installed on Ubuntu manually first.
-
-    Alternatively, use WSL or WSL2.
-
-
+The set up above also installs in the `lib/python/` folder `pyBabyMaker`, `pyTuplingUtils, and other packages that
+are needed. Each commit of `lhcb-ntuples-gen` points to specific commits of these packages. Thus, every time
+you pull new code in `lhcb-ntuples-gen`, you need to make sure you have the appropriate commits of the other
+packages installed with
+```
+git pull
+git submodule update --init --recursive
+make install-dep
+```
 
 ## Install `docker` to run `DaVinci` locally
 
 We use `docker` to run a pre-built `DaVinci` image locally. To install
 `docker`:
 
-On Arch Linux run the command below and follow this [Arch wiki entry](https://wiki.archlinux.org/index.php/Docker)
-to finish the setup:
-```
-sudo pacman -S docker
-```
-
-On macOS, with `homebrew`:
-```
-brew install docker
-```
+On Arch Linux run `sudo pacman -S docker` and follow this [Arch wiki entry](https://wiki.archlinux.org/index.php/Docker)
+to finish the setup. In macOS, you can install it using homebrew with `brew install docker`
 
 Now it's time to pull (download) the pre-built `DaVinci` docker:
 ```
@@ -88,13 +74,13 @@ in `root-curated` repo.
     be re-created.
 
 
-## Install `babymaker`
+## `babymaker` code
 
 `babymaker` is part of the `pyBabyMaker` Python package. It requires
-`gcc`[^1], `ROOT`, `python3`, and a couple of other `Python` packages[^2].
+`gcc`[^2], `ROOT`, `python3`, and a couple of other `Python` packages[^3].
 
 !!! note
-    It is strongly recommended to install `clang-format`[^3], so the generated
+    It is strongly recommended to install `clang-format`[^4], so the generated
     `C++` code looks much nicer.
 
 `pyBabyMaker` is included in this project as a submodule. After cloning this
@@ -109,22 +95,43 @@ Then `pyBabyMaker` can be installed with:
 make install-dep
 ```
 
-!!! note
-    `make install-dep` will also install `pyTuplingUtils`, a pure Python
-    library for simple plotting and cutflow study.
-
 !!! info
     For more info on local development of in-house Python modules (included as
     submodules), refer to [this guide](./dev.md#local-development-of-in-house-python-packages).
 
+## Install VCS (`git` and `git-annex`)
 
-[^1]: `gcc` must be recent enough to support `c++17` standard. Effectively,
+We use `git` to version-control the ntupling code and the wiki, and `git-annex` to version-control
+large files, mostly the input `.dst` files or important `.root` outputs. For more details on
+`git-annex`, see [this brief introduction](../software_manuals/git_annex.md).
+
+- On Arch Linux, simply issue the following command to install both programs:
+    ```
+    sudo pacman -S git git-annex
+    ```
+
+- On macOS, if you have `homebrew` installed:
+    ```
+    brew install git git-annex
+    ```
+
+
+[^1]: "Microsoft Windows not supported, require pre-build image below"
+      Windows filesystems don't support symbolic links, which
+      makes `git-annex` almost unusable.
+
+      Please use the pre-built image listed in [this section](#use-a-pre-built-virtualbox-image-on-windows) that
+      has everything installed.  Note that `VirtualBox` needs to be installed on Ubuntu manually first.
+
+      Alternatively, use WSL or WSL2.
+
+[^2]: `gcc` must be recent enough to support `c++17` standard. Effectively,
       `gcc 6` or newer is required.
-[^2]: These packages are listed in `<project_root>/requirements.txt`. It is
+[^3]: These packages are listed in `<project_root>/requirements.txt`. It is
       highly recommended to install `pip` to manage Python packages.
 
       It is also highly recommended to use `pyenv` and `pyenv-virtualenv` to
       manage Python enviroments. Please google the installation instructions
       for your OS. See [this guide](./dev.md#installing-pyenv-for-python-development).
-[^3]: `clang-format` usually comes with `clang`. A notable exception is on
+[^4]: `clang-format` usually comes with `clang`. A notable exception is on
       macOS. In that case, just type in `brew install clang-format`.

@@ -5,15 +5,15 @@ required dependencies for this project, as well as the usage of some tools,
 such as `git-annex`, that will be used in this project.
 
 
-## Ntuple generation
-The ntuples[^1] generation is separated into **2 steps**:
+## Generation of analysis ntuples
+The ntuples[^1] generation is separated into:
 
-1. Use `DaVinci` to generate ntuples from raw data[^2].
+1. **STEP 1**: Use LHCb's `DaVinci` to generate ntuples from raw LHCb data[^2].
    Follow [this section](ntupling/installation/#install-docker-to-run-davinci-locally) to install required programs.
    Use [this manual](ntupling/step1_davinci.md) to learn how to use `DaVinci` locally.
    Follow [this section](ntupling/grid_job.md) to learn submitting `DaVinci`
    jobs to the GRID.
-2. Use `babymaker` frame work to do slimming, skimming, and additional
+2. **STEP 2**: Use `babymaker` frame work to do slimming, skimming, and additional
    calculation on previous ntuples, generating new ntuples.
    Follow [these two](ntupling/installation/#install-nix) [section](ntupling/installation/#install-babymaker) for installation.
    A general guide for generating step-2 ntuple can be found [here](ntupling/step2_babymaker.md).
@@ -81,6 +81,16 @@ Then, from `lhcb-ntuples-gen` you generate the website at the local address
 ```
 mkdocs serve
 ```
+
+!!! note
+    If you have problems installing `mkdocs`, you can also install it and run it inside
+    [nix](ntupling/installation/#install-nix) with
+    
+    ```
+    nix develop  ## Enter the nix shell in lhcb-ntuples-gen
+    pip install -r docs/requirements.txt
+    ```
+    
 
 ## Version control systems (VCS)
 This project requires the following VCS to be installed in your system:

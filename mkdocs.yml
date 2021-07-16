@@ -15,15 +15,14 @@ plugins:
     - markdownextradata
 
 nav:
-    - Home:
-        - Getting started: index.md
+    - Home: index.md
     - Ntupling:
-        - Nomenclature: ntupling/nomenclature.md
         - Installing dependencies: ntupling/installation.md
         - Step 1 ntuples with Davinci: ntupling/step1_davinci.md
         - Step 2 ntuples with babymaker: ntupling/step2_babymaker.md
         - Submitting DaVinci jobs to GRID: ntupling/grid_job.md
         - Developing this project: ntupling/dev.md
+        - Nomenclature: ntupling/nomenclature.md
     - Software:
         - git-annex: software_manuals/git_annex.md
         - DaVinci:
