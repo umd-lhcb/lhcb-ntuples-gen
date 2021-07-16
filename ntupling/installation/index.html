@@ -63,7 +63,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#install-vcs-git-and-git-annex" class="md-skip">
+        <a href="#install-docker-to-run-davinci-locally" class="md-skip">
           Skip to content
         </a>
       
@@ -198,37 +198,10 @@
   
   
   
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-      
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1" type="checkbox" id="__nav_1" >
-      
-      <label class="md-nav__link" for="__nav_1">
-        Home
-        <span class="md-nav__icon md-icon"></span>
-      </label>
-      <nav class="md-nav" aria-label="Home" data-md-level="1">
-        <label class="md-nav__title" for="__nav_1">
-          <span class="md-nav__icon md-icon"></span>
-          Home
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-  
-  
-  
     <li class="md-nav__item">
       <a href="../.." class="md-nav__link">
-        Getting started
+        Home
       </a>
-    </li>
-  
-
-          
-        </ul>
-      </nav>
     </li>
   
 
@@ -258,18 +231,6 @@
           Ntupling
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../nomenclature/" class="md-nav__link">
-        Nomenclature
-      </a>
-    </li>
-  
-
           
             
   
@@ -305,13 +266,6 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#install-vcs-git-and-git-annex" class="md-nav__link">
-    Install VCS (git and git-annex)
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#install-docker-to-run-davinci-locally" class="md-nav__link">
     Install docker to run DaVinci locally
   </a>
@@ -326,8 +280,15 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#install-babymaker" class="md-nav__link">
-    Install babymaker
+  <a href="#babymaker-code" class="md-nav__link">
+    babymaker code
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#install-vcs-git-and-git-annex" class="md-nav__link">
+    Install VCS (git and git-annex)
   </a>
   
 </li>
@@ -383,6 +344,18 @@
     <li class="md-nav__item">
       <a href="../dev/" class="md-nav__link">
         Developing this project
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nomenclature/" class="md-nav__link">
+        Nomenclature
       </a>
     </li>
   
@@ -853,13 +826,6 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#install-vcs-git-and-git-annex" class="md-nav__link">
-    Install VCS (git and git-annex)
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#install-docker-to-run-davinci-locally" class="md-nav__link">
     Install docker to run DaVinci locally
   </a>
@@ -874,8 +840,15 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#install-babymaker" class="md-nav__link">
-    Install babymaker
+  <a href="#babymaker-code" class="md-nav__link">
+    babymaker code
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#install-vcs-git-and-git-annex" class="md-nav__link">
+    Install VCS (git and git-annex)
   </a>
   
 </li>
@@ -899,32 +872,28 @@
                 
                   <h1>Installing dependencies</h1>
                 
-                <h2 id="install-vcs-git-and-git-annex">Install VCS (<code>git</code> and <code>git-annex</code>)</h2>
-<p>We use <code>git</code> to version-control the ntupling code and the wiki, and <code>git-annex</code> to version-control
-large files, mostly the input <code>.dst</code> files or important <code>.root</code> outputs. For more details on
-<code>git-annex</code>, see <a href="../../software_manuals/git_annex/">this brief introduction</a>.</p>
-<ul>
-<li>
-<p>On Arch Linux, simply issue the following command to install both programs:
-    <div class="highlight"><pre><span></span><code>sudo pacman -S git git-annex
-</code></pre></div></p>
-</li>
-<li>
-<p>On macOS, if you have <code>homebrew</code> installed:
-    <div class="highlight"><pre><span></span><code>brew install git git-annex
-</code></pre></div></p>
-</li>
-</ul>
-<div class="admonition note">
+                <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Before proceed, send us a SSH key so that we can give your read/write
-permission to the <code>git-annex</code> server.</p>
+<p>Before proceeding, send Yipeng or Manuel an <a href="https://docs.github.com/en/github/authenticating-to-github/connecting-to-github-with-ssh/checking-for-existing-ssh-keys">SSH key</a>
+to your system so that we can give you read/write
+permission to <code>julian</code>, the <code>git-annex</code> server where our ntuples are stored.</p>
 </div>
-<p>Now clone the repository and set up the <code>annex</code> component. We have a private server, <code>julian</code>, that hosts
+<p>Clone the repository and set up the <code>annex</code> component<sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup>. We have a private server, <code>julian</code>, that hosts
 <code>git-annex</code> files.
-<div class="highlight"><pre><span></span><code>git clone git@github.com:umd-lhcb/lhcb-ntuples-gen
+<div class="highlight"><pre><span></span><code><span class="c1">## Repo with code to make ntuples and annex with STEP 1 ntuples</span>
+git clone git@github.com:umd-lhcb/lhcb-ntuples-gen
 <span class="nb">cd</span> lhcb-ntuples-gen
 git remote add julian git@129.2.92.92:lhcb-ntuples-gen
+git annex init --version<span class="o">=</span><span class="m">7</span>
+git submodule update --init  <span class="c1"># Do this before git annex sync to avoid potential mess-up of submodule pointers!</span>
+git annex sync julian
+make install-dep
+<span class="nb">cd</span> ..
+
+<span class="c1">## Repo with STEP 2 ntuples</span>
+git clone git@github.com:umd-lhcb/rdx-run2-analysis
+<span class="nb">cd</span> rdx-run2-analysis
+git remote add julian git@129.2.92.92:rdx-run2-analysis
 git annex init --version<span class="o">=</span><span class="m">7</span>
 git submodule update --init  <span class="c1"># Do this before git annex sync to avoid potential mess-up of submodule pointers!</span>
 git annex sync julian
@@ -933,24 +902,19 @@ git annex sync julian
 with symbolic links. You typically will download individual files as you need them with
 <div class="highlight"><pre><span></span><code>git annex get &lt;path_to_file&gt;
 </code></pre></div></p>
-<div class="admonition warning">
-<p class="admonition-title">Microsoft Windows not supported, require pre-build image below</p>
-<p>Windows filesystems don't support symbolic links, which
-makes <code>git-annex</code> almost unusable.</p>
-<p>Please use the pre-built image listed in <a href="#use-a-pre-built-virtualbox-image-on-windows">this section</a> that
-has everything installed.  Note that <code>VirtualBox</code> needs to be installed on Ubuntu manually first.</p>
-<p>Alternatively, use WSL or WSL2.</p>
-</div>
+<p>The set up above also installs in the <code>lib/python/</code> folder <code>pyBabyMaker</code>, <code>pyTuplingUtils, and other packages that
+are needed. Each commit of</code>lhcb-ntuples-gen<code>points to specific commits of these packages. Thus, every time
+you pull new code in</code>lhcb-ntuples-gen`, you need to make sure you have the appropriate commits of the other
+packages installed with
+<div class="highlight"><pre><span></span><code>git pull
+git submodule update --init --recursive
+make install-dep
+</code></pre></div></p>
 <h2 id="install-docker-to-run-davinci-locally">Install <code>docker</code> to run <code>DaVinci</code> locally</h2>
 <p>We use <code>docker</code> to run a pre-built <code>DaVinci</code> image locally. To install
 <code>docker</code>:</p>
-<p>On Arch Linux run the command below and follow this <a href="https://wiki.archlinux.org/index.php/Docker">Arch wiki entry</a>
-to finish the setup:
-<div class="highlight"><pre><span></span><code>sudo pacman -S docker
-</code></pre></div></p>
-<p>On macOS, with <code>homebrew</code>:
-<div class="highlight"><pre><span></span><code>brew install docker
-</code></pre></div></p>
+<p>On Arch Linux run <code>sudo pacman -S docker</code> and follow this <a href="https://wiki.archlinux.org/index.php/Docker">Arch wiki entry</a>
+to finish the setup. In macOS, you can install it using homebrew with <code>brew install docker</code></p>
 <p>Now it's time to pull (download) the pre-built <code>DaVinci</code> docker:
 <div class="highlight"><pre><span></span><code>docker pull umdlhcb/lhcb-stack-cc7:DaVinci-v45r3-SL
 </code></pre></div></p>
@@ -969,12 +933,12 @@ stop working.</p>
 <code>.virtualenv</code> folder, then run <code>nix develop</code> again: A new virtualenv will
 be re-created.</p>
 </div>
-<h2 id="install-babymaker">Install <code>babymaker</code></h2>
+<h2 id="babymaker-code"><code>babymaker</code> code</h2>
 <p><code>babymaker</code> is part of the <code>pyBabyMaker</code> Python package. It requires
-<code>gcc</code><sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup>, <code>ROOT</code>, <code>python3</code>, and a couple of other <code>Python</code> packages<sup id="fnref:2"><a class="footnote-ref" href="#fn:2">2</a></sup>.</p>
+<code>gcc</code><sup id="fnref:2"><a class="footnote-ref" href="#fn:2">2</a></sup>, <code>ROOT</code>, <code>python3</code>, and a couple of other <code>Python</code> packages<sup id="fnref:3"><a class="footnote-ref" href="#fn:3">3</a></sup>.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>It is strongly recommended to install <code>clang-format</code><sup id="fnref:3"><a class="footnote-ref" href="#fn:3">3</a></sup>, so the generated
+<p>It is strongly recommended to install <code>clang-format</code><sup id="fnref:4"><a class="footnote-ref" href="#fn:4">4</a></sup>, so the generated
 <code>C++</code> code looks much nicer.</p>
 </div>
 <p><code>pyBabyMaker</code> is included in this project as a submodule. After cloning this
@@ -984,33 +948,52 @@ project for the first time, initialize the submodules with:</p>
 <p>Then <code>pyBabyMaker</code> can be installed with:
 <div class="highlight"><pre><span></span><code>make install-dep
 </code></pre></div></p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p><code>make install-dep</code> will also install <code>pyTuplingUtils</code>, a pure Python
-library for simple plotting and cutflow study.</p>
-</div>
 <div class="admonition info">
 <p class="admonition-title">Info</p>
 <p>For more info on local development of in-house Python modules (included as
 submodules), refer to <a href="../dev/#local-development-of-in-house-python-packages">this guide</a>.</p>
 </div>
+<h2 id="install-vcs-git-and-git-annex">Install VCS (<code>git</code> and <code>git-annex</code>)</h2>
+<p>We use <code>git</code> to version-control the ntupling code and the wiki, and <code>git-annex</code> to version-control
+large files, mostly the input <code>.dst</code> files or important <code>.root</code> outputs. For more details on
+<code>git-annex</code>, see <a href="../../software_manuals/git_annex/">this brief introduction</a>.</p>
+<ul>
+<li>
+<p>On Arch Linux, simply issue the following command to install both programs:
+    <div class="highlight"><pre><span></span><code>sudo pacman -S git git-annex
+</code></pre></div></p>
+</li>
+<li>
+<p>On macOS, if you have <code>homebrew</code> installed:
+    <div class="highlight"><pre><span></span><code>brew install git git-annex
+</code></pre></div></p>
+</li>
+</ul>
 <div class="footnote">
 <hr />
 <ol>
 <li id="fn:1">
-<p><code>gcc</code> must be recent enough to support <code>c++17</code> standard. Effectively,
-  <code>gcc 6</code> or newer is required.&#160;<a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+<p>"Microsoft Windows not supported, require pre-build image below"
+  Windows filesystems don't support symbolic links, which
+  makes <code>git-annex</code> almost unusable.</p>
+<p>Please use the pre-built image listed in <a href="#use-a-pre-built-virtualbox-image-on-windows">this section</a> that
+  has everything installed.  Note that <code>VirtualBox</code> needs to be installed on Ubuntu manually first.</p>
+<p>Alternatively, use WSL or WSL2.&#160;<a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 1 in the text">&#8617;</a></p>
 </li>
 <li id="fn:2">
+<p><code>gcc</code> must be recent enough to support <code>c++17</code> standard. Effectively,
+  <code>gcc 6</code> or newer is required.&#160;<a class="footnote-backref" href="#fnref:2" title="Jump back to footnote 2 in the text">&#8617;</a></p>
+</li>
+<li id="fn:3">
 <p>These packages are listed in <code>&lt;project_root&gt;/requirements.txt</code>. It is
   highly recommended to install <code>pip</code> to manage Python packages.</p>
 <p>It is also highly recommended to use <code>pyenv</code> and <code>pyenv-virtualenv</code> to
   manage Python enviroments. Please google the installation instructions
-  for your OS. See <a href="../dev/#installing-pyenv-for-python-development">this guide</a>.&#160;<a class="footnote-backref" href="#fnref:2" title="Jump back to footnote 2 in the text">&#8617;</a></p>
+  for your OS. See <a href="../dev/#installing-pyenv-for-python-development">this guide</a>.&#160;<a class="footnote-backref" href="#fnref:3" title="Jump back to footnote 3 in the text">&#8617;</a></p>
 </li>
-<li id="fn:3">
+<li id="fn:4">
 <p><code>clang-format</code> usually comes with <code>clang</code>. A notable exception is on
-  macOS. In that case, just type in <code>brew install clang-format</code>.&#160;<a class="footnote-backref" href="#fnref:3" title="Jump back to footnote 3 in the text">&#8617;</a></p>
+  macOS. In that case, just type in <code>brew install clang-format</code>.&#160;<a class="footnote-backref" href="#fnref:4" title="Jump back to footnote 4 in the text">&#8617;</a></p>
 </li>
 </ol>
 </div>
@@ -1033,7 +1016,7 @@ submodules), refer to <a href="../dev/#local-development-of-in-house-python-pack
     <nav class="md-footer__inner md-grid" aria-label="Footer">
       
         
-        <a href="../nomenclature/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Nomenclature" rel="prev">
+        <a href="../.." class="md-footer__link md-footer__link--prev" aria-label="Previous: Home" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
           </div>
@@ -1042,7 +1025,7 @@ submodules), refer to <a href="../dev/#local-development-of-in-house-python-pack
               <span class="md-footer__direction">
                 Previous
               </span>
-              Nomenclature
+              Home
             </div>
           </div>
         </a>

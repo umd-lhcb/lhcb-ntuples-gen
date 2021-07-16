@@ -16,7 +16,7 @@
     
     
       
-        <title>Getting started - lhcb-ntuples-gen wiki</title>
+        <title>lhcb-ntuples-gen wiki</title>
       
     
     
@@ -63,7 +63,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#ntuple-generation" class="md-skip">
+        <a href="#generation-of-analysis-ntuples" class="md-skip">
           Skip to content
         </a>
       
@@ -93,7 +93,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Getting started
+              Home
             
           </span>
         </div>
@@ -200,29 +200,6 @@
     
   
   
-    
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
-      
-      
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1" type="checkbox" id="__nav_1" checked>
-      
-      <label class="md-nav__link" for="__nav_1">
-        Home
-        <span class="md-nav__icon md-icon"></span>
-      </label>
-      <nav class="md-nav" aria-label="Home" data-md-level="1">
-        <label class="md-nav__title" for="__nav_1">
-          <span class="md-nav__icon md-icon"></span>
-          Home
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-  
-  
-    
-  
-  
     <li class="md-nav__item md-nav__item--active">
       
       <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
@@ -230,12 +207,12 @@
       
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
-          Getting started
+          Home
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <a href="." class="md-nav__link md-nav__link--active">
-        Getting started
+        Home
       </a>
       
         
@@ -251,8 +228,8 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#ntuple-generation" class="md-nav__link">
-    Ntuple generation
+  <a href="#generation-of-analysis-ntuples" class="md-nav__link">
+    Generation of analysis ntuples
   </a>
   
 </li>
@@ -285,12 +262,6 @@
     </li>
   
 
-          
-        </ul>
-      </nav>
-    </li>
-  
-
     
       
       
@@ -315,18 +286,6 @@
           Ntupling
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="ntupling/nomenclature/" class="md-nav__link">
-        Nomenclature
-      </a>
-    </li>
-  
-
           
             
   
@@ -383,6 +342,18 @@
     <li class="md-nav__item">
       <a href="ntupling/dev/" class="md-nav__link">
         Developing this project
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="ntupling/nomenclature/" class="md-nav__link">
+        Nomenclature
       </a>
     </li>
   
@@ -853,8 +824,8 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#ntuple-generation" class="md-nav__link">
-    Ntuple generation
+  <a href="#generation-of-analysis-ntuples" class="md-nav__link">
+    Generation of analysis ntuples
   </a>
   
 </li>
@@ -897,22 +868,22 @@
                   </a>
                 
                 
-                  <h1>Getting started</h1>
+                  <h1>Home</h1>
                 
                 <p>Welcome to the wiki for <code>lhcb-ntuples-gen</code>, the repository that generates the
 ntuples for some LHCb analyses at UMD, currently just run 2 <span class="arithmatex">\(R(D^{(*)})\)</span>
 analysis. In this section, you'll find useful information for installing the
 required dependencies for this project, as well as the usage of some tools,
 such as <code>git-annex</code>, that will be used in this project.</p>
-<h2 id="ntuple-generation">Ntuple generation</h2>
-<p>The ntuples<sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup> generation is separated into <strong>2 steps</strong>:</p>
+<h2 id="generation-of-analysis-ntuples">Generation of analysis ntuples</h2>
+<p>The ntuples<sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup> generation is separated into:</p>
 <ol>
-<li>Use <code>DaVinci</code> to generate ntuples from raw data<sup id="fnref:2"><a class="footnote-ref" href="#fn:2">2</a></sup>.
+<li><strong>STEP 1</strong>: Use LHCb's <code>DaVinci</code> to generate ntuples from raw LHCb data<sup id="fnref:2"><a class="footnote-ref" href="#fn:2">2</a></sup>.
    Follow <a href="ntupling/installation/#install-docker-to-run-davinci-locally">this section</a> to install required programs.
    Use <a href="ntupling/step1_davinci/">this manual</a> to learn how to use <code>DaVinci</code> locally.
    Follow <a href="ntupling/grid_job/">this section</a> to learn submitting <code>DaVinci</code>
    jobs to the GRID.</li>
-<li>Use <code>babymaker</code> frame work to do slimming, skimming, and additional
+<li><strong>STEP 2</strong>: Use <code>babymaker</code> frame work to do slimming, skimming, and additional
    calculation on previous ntuples, generating new ntuples.
    Follow <a href="ntupling/installation/#install-nix">these two</a> <a href="ntupling/installation/#install-babymaker">section</a> for installation.
    A general guide for generating step-2 ntuple can be found <a href="ntupling/step2_babymaker/">here</a>.</li>
@@ -975,6 +946,14 @@ Then, from <code>lhcb-ntuples-gen</code> you generate the website at the local a
 <a href="http://127.0.0.1:8000">http://127.0.0.1:8000</a> with the command
 <div class="highlight"><pre><span></span><code>mkdocs serve
 </code></pre></div></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you have problems installing <code>mkdocs</code>, you can also install it and run it inside
+<a href="ntupling/installation/#install-nix">nix</a> with</p>
+<div class="highlight"><pre><span></span><code>nix develop  ## Enter the nix shell in lhcb-ntuples-gen
+pip install -r docs/requirements.txt
+</code></pre></div>
+</div>
 <h2 id="version-control-systems-vcs">Version control systems (VCS)</h2>
 <p>This project requires the following VCS to be installed in your system:</p>
 <ul>
@@ -1015,13 +994,13 @@ In addition, we provide <a href="software_manuals/git_annex">a brief introductio
       
       
         
-        <a href="ntupling/nomenclature/" class="md-footer__link md-footer__link--next" aria-label="Next: Nomenclature" rel="next">
+        <a href="ntupling/installation/" class="md-footer__link md-footer__link--next" aria-label="Next: Installing dependencies" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              Nomenclature
+              Installing dependencies
             </div>
           </div>
           <div class="md-footer__button md-icon">
