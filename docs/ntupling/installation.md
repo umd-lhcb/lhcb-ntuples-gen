@@ -3,8 +3,9 @@
     to your system so that we can give you read/write
     permission to `julian`, the `git-annex` server where our ntuples are stored.
 
-Clone the repository and set up the `annex` component[^1]. We have a private server, `julian`, that hosts
-`git-annex` files.
+Clone the repository and set up the `annex` component[^1].
+We have a private server, `julian`, that hosts `git-annex` files.
+
 ```shell
 ## Repo with code to make ntuples and annex with STEP 1 ntuples
 git clone git@github.com:umd-lhcb/lhcb-ntuples-gen
@@ -13,15 +14,18 @@ git remote add julian git@129.2.92.92:lhcb-ntuples-gen
 git annex init --version=7
 git submodule update --init  # Do this before git annex sync to avoid potential mess-up of submodule pointers!
 git annex sync julian
+# It is higly recommended to install nix now before proceed! See below for some pointers on how to do it
+# If you have nix installed:
+# nix develop
 make install-dep
-cd ..
 
 ## Repo with STEP 2 ntuples
+# Make sure you are NOT inside any of the previous repos!
 git clone git@github.com:umd-lhcb/rdx-run2-analysis
 cd rdx-run2-analysis
 git remote add julian git@129.2.92.92:rdx-run2-analysis
 git annex init --version=7
-git submodule update --init  # Do this before git annex sync to avoid potential mess-up of submodule pointers!
+git submodule update --init  # Do this before git annex sync!
 git annex sync julian
 ```
 
@@ -31,10 +35,11 @@ with symbolic links. You typically will download individual files as you need th
 git annex get <path_to_file>
 ```
 
-The set up above also installs in the `lib/python/` folder `pyBabyMaker`, `pyTuplingUtils, and other packages that
-are needed. Each commit of `lhcb-ntuples-gen` points to specific commits of these packages. Thus, every time
-you pull new code in `lhcb-ntuples-gen`, you need to make sure you have the appropriate commits of the other
-packages installed with
+The set up above also installs in the `lib/python/` folder `pyBabyMaker`,
+`pyTuplingUtils`, and other packages that are needed.
+Each commit of `lhcb-ntuples-gen` points to specific commits of these packages.
+Thus, every time you pull new code in `lhcb-ntuples-gen`, you need to make sure
+you have the appropriate commits of the other packages installed with
 ```
 git pull
 git submodule update --init --recursive
@@ -51,7 +56,7 @@ to finish the setup. In macOS, you can install it using homebrew with `brew inst
 
 Now it's time to pull (download) the pre-built `DaVinci` docker:
 ```
-docker pull umdlhcb/lhcb-stack-cc7:DaVinci-v45r3-SL
+docker pull umdlhcb/lhcb-stack-cc7:DaVinci-{{ davinci_sl_ver }}
 ```
 
 
@@ -77,23 +82,15 @@ in `root-curated` repo.
 ## `babymaker` code
 
 `babymaker` is part of the `pyBabyMaker` Python package. It requires
-`gcc`[^2], `ROOT`, `python3`, and a couple of other `Python` packages[^3].
+`python3` and a couple of `Python` dependencies[^3].
 
 !!! note
     It is strongly recommended to install `clang-format`[^4], so the generated
     `C++` code looks much nicer.
 
-`pyBabyMaker` is included in this project as a submodule. After cloning this
-project for the first time, initialize the submodules with:
-
-```
-git submodule update --init
-```
-
-Then `pyBabyMaker` can be installed with:
-```
-make install-dep
-```
+`pyBabyMaker` is included in this project as a submodule. If you follow the
+project initialization procedure listed at the beginning of this instruction,
+you should already have it installed.
 
 !!! info
     For more info on local development of in-house Python modules (included as
@@ -125,12 +122,14 @@ large files, mostly the input `.dst` files or important `.root` outputs. For mor
 [^2]: `gcc` must be recent enough to support `c++17` standard. Effectively,
       `gcc6` or `clang5` (or newer) is required.
 
-      In reality, you typically don't need to worry about this, as the
+      In reality, you typically don't need to worry about this, as
       `nix develop` will prepare you a shell with almost all tools needed for
       this project.
 
-[^3]: These packages are listed in `<project_root>/requirements.txt`. It is
+[^3]: These dependencies are listed in `<project_root>/requirements.txt`. It is
       highly recommended to install `pip` to manage Python packages.
+
+      Note that `pyBabyMaker` doesn't rely on ROOT at all.
 
       It is also highly recommended to use `pyenv` and `pyenv-virtualenv` to
       manage Python enviroments. Please google the installation instructions
