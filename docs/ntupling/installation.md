@@ -116,22 +116,25 @@ large files, mostly the input `.dst` files or important `.root` outputs. For mor
     ```
 
 
-[^1]: "Microsoft Windows not supported, require pre-build image below"
-      Windows filesystems don't support symbolic links, which
+[^1]: Windows filesystems don't support symbolic links, which
       makes `git-annex` almost unusable.
 
-      Please use the pre-built image listed in [this section](#use-a-pre-built-virtualbox-image-on-windows) that
-      has everything installed.  Note that `VirtualBox` needs to be installed on Ubuntu manually first.
-
-      Alternatively, use WSL or WSL2.
+      Please use WSL or WSL2, and make sure the project is stored on a Linux
+      file system!
 
 [^2]: `gcc` must be recent enough to support `c++17` standard. Effectively,
-      `gcc 6` or newer is required.
+      `gcc6` or `clang5` (or newer) is required.
+
+      In reality, you typically don't need to worry about this, as the
+      `nix develop` will prepare you a shell with almost all tools needed for
+      this project.
+
 [^3]: These packages are listed in `<project_root>/requirements.txt`. It is
       highly recommended to install `pip` to manage Python packages.
 
       It is also highly recommended to use `pyenv` and `pyenv-virtualenv` to
       manage Python enviroments. Please google the installation instructions
-      for your OS. See [this guide](./dev.md#installing-pyenv-for-python-development).
+      for your OS.
+
 [^4]: `clang-format` usually comes with `clang`. A notable exception is on
       macOS. In that case, just type in `brew install clang-format`.

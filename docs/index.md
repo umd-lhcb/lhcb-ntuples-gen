@@ -85,12 +85,12 @@ mkdocs serve
 !!! note
     If you have problems installing `mkdocs`, you can also install it and run it inside
     [nix](ntupling/installation/#install-nix) with
-    
-    ```
-    nix develop  ## Enter the nix shell in lhcb-ntuples-gen
+
+    ```shell
+    nix develop  # Enter the nix shell in lhcb-ntuples-gen
     pip install -r docs/requirements.txt
     ```
-    
+
 
 ## Version control systems (VCS)
 This project requires the following VCS to be installed in your system:
