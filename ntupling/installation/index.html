@@ -973,23 +973,24 @@ large files, mostly the input <code>.dst</code> files or important <code>.root</
 <hr />
 <ol>
 <li id="fn:1">
-<p>"Microsoft Windows not supported, require pre-build image below"
-  Windows filesystems don't support symbolic links, which
+<p>Windows filesystems don't support symbolic links, which
   makes <code>git-annex</code> almost unusable.</p>
-<p>Please use the pre-built image listed in <a href="#use-a-pre-built-virtualbox-image-on-windows">this section</a> that
-  has everything installed.  Note that <code>VirtualBox</code> needs to be installed on Ubuntu manually first.</p>
-<p>Alternatively, use WSL or WSL2.&#160;<a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+<p>Please use WSL or WSL2, and make sure the project is stored on a Linux
+  file system!&#160;<a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 1 in the text">&#8617;</a></p>
 </li>
 <li id="fn:2">
 <p><code>gcc</code> must be recent enough to support <code>c++17</code> standard. Effectively,
-  <code>gcc 6</code> or newer is required.&#160;<a class="footnote-backref" href="#fnref:2" title="Jump back to footnote 2 in the text">&#8617;</a></p>
+  <code>gcc6</code> or <code>clang5</code> (or newer) is required.</p>
+<p>In reality, you typically don't need to worry about this, as the
+  <code>nix develop</code> will prepare you a shell with almost all tools needed for
+  this project.&#160;<a class="footnote-backref" href="#fnref:2" title="Jump back to footnote 2 in the text">&#8617;</a></p>
 </li>
 <li id="fn:3">
 <p>These packages are listed in <code>&lt;project_root&gt;/requirements.txt</code>. It is
   highly recommended to install <code>pip</code> to manage Python packages.</p>
 <p>It is also highly recommended to use <code>pyenv</code> and <code>pyenv-virtualenv</code> to
   manage Python enviroments. Please google the installation instructions
-  for your OS. See <a href="../dev/#installing-pyenv-for-python-development">this guide</a>.&#160;<a class="footnote-backref" href="#fnref:3" title="Jump back to footnote 3 in the text">&#8617;</a></p>
+  for your OS.&#160;<a class="footnote-backref" href="#fnref:3" title="Jump back to footnote 3 in the text">&#8617;</a></p>
 </li>
 <li id="fn:4">
 <p><code>clang-format</code> usually comes with <code>clang</code>. A notable exception is on
