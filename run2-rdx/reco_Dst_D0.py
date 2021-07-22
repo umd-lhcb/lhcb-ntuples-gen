@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Jun 10, 2021 at 08:38 PM +0200
+# Last Change: Thu Jul 22, 2021 at 03:45 PM +0200
 #
 # Description: Definitions of selection and reconstruction procedures for run 2
 #              R(D(*)). For more thorough comments, take a look at:
@@ -804,6 +804,10 @@ def tuple_postpocess_mc(tp,
                 True
             )
 
+    # Additional branches for HAMMER
+    tt_sl_truth = getattr(tp, B_meson).addTupleTool('TupleToolSLTruth')
+    tt_sl_truth.Verbose = True
+
     # Additional HLT1 variables
     tt_hlt1_emu = getattr(tp, B_meson).addTupleTool(
         'LoKi::Hybrid::TupleTool/Hlt1TwoTrackMVAEmulation')
@@ -915,10 +919,8 @@ elif DaVinci().Simulation:
     DaVinci().UserAlgorithms += [add_hlt1_info(x)
                                  for x in (seq_Bminus, seq_B0)]
 
-    DaVinci().UserAlgorithms += [tp_Bminus, tp_B0,
-                                 # auxiliary ntuples
-                                 tp_Bminus_mc_Tau, tp_Bminus_mc_Mu,
-                                 tp_B0_mc_Tau, tp_B0_mc_Mu]
+    DaVinci().UserAlgorithms += [tp_Bminus, tp_B0]
+
 else:
     DaVinci().UserAlgorithms += [seq_Bminus.sequence(),
                                  seq_Bminus_ws.sequence(),
