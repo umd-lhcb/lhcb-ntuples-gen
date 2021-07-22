@@ -56,6 +56,13 @@ for mode in ['run2-Dst-bare',
 ################
 
 CUTFLOW = {
+    'run2-std': [
+        # Trigger
+        Rule('''(b0_L0Global_TIS | d0_L0HadronDecision_TOS) & 
+        (k_Hlt1TrackMVADecision_TOS | pi_Hlt1TrackMVADecision_TOS |
+        d0_Hlt1TwoTrackMVADecision_TOS) & b0_Hlt2XcMuXForTauB2XcMuDecision_TOS''', key='Trigger'),
+    ],
+
     'run1-Dst-bare': [
         # Trigger
         Rule('mu_L0Global_TIS & (b0_L0Global_TIS | d0_L0HadronDecision_TOS)',
@@ -212,7 +219,7 @@ def parse_input(descr='Generate cutflow output YAML based on input ntuple and YA
     parser.add_argument('ntps', nargs='+',
                         help='specify input ntuple paths.')
 
-    parser.add_argument('-i', '--input_yml', required=True,
+    parser.add_argument('-i', '--input_yml', 
                         help='specify input YAML path.')
 
     parser.add_argument('-o', '--output_yml', required=True,
@@ -361,27 +368,39 @@ KNOWN_FUNC['flag_sel_run2_dv'] = vectorize(ROOT.FLAG_SEL_RUN2_DV)
 
 if __name__ == '__main__':
     args = parse_input()
-    aliases = ALIASES[args.mode]
     cuts = CUTFLOW[args.mode]
-    cut_to_update = list(aliases.values())[-1]
-
-    with open(args.input_yml) as f:
-        raw = safe_load(f)
 
     result = dict()
-    for cut, val in raw.items():
-        if val['output'] is None:
-            val['output'] = 0
-
-        if cut in aliases:
-            result[aliases[cut]] = val
+    if args.input_yml is not None:
+        aliases = ALIASES[args.mode]
+        cut_to_update = list(aliases.values())[-1]
+        with open(args.input_yml) as f:
+            raw = safe_load(f)
+    	
+        for cut, val in raw.items():
+    	    if val['output'] is None:
+    	        val['output'] = 0
+    	
+    	    if cut in aliases:
+    	        result[aliases[cut]] = val
 
     for ntp_path in args.ntps:
         ntp = uproot.open(ntp_path)
         _, _, _, uniq_size, _, _ = extract_uid(ntp, args.tree)
 
         # Update the total number after the DaVinci step
-        result[cut_to_update]['output'] += uniq_size
+        if args.input_yml is None:
+            key = 'Total events'
+            if key not in result:
+                val = dict()
+                val['input'] = uniq_size
+                val['output'] = uniq_size
+                result['Total events'] = val
+            else:
+               result[key]['input'] += uniq_size
+               result[key]['output'] += uniq_size    
+        else:
+            result[cut_to_update]['output'] += uniq_size
 
         cutflow_output_regulator = cutflow_uniq_events_outer(ntp, args.tree)
         cutflow_generator = CutflowGen(ntp_path, args.tree, cuts, uniq_size)
