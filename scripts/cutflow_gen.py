@@ -45,11 +45,11 @@ def div(num, denom, doErrors=True):
 # CSV-related #
 ###############
 
-CSV_HEADERS = ['cut name', 'run 1 yield', 'run 2 yield',
-               'run 1 efficiency', 'run 2 efficiency', 'double ratio']
+CSV_HEADERS = ['Cut', 'Run 1', 'Run 2',
+               r'Run 1 $\epsilon$', r'Run 2 $\epsilon$', r'$\epsilon$ ratio']
 
 
-def list_gen(run1_descr, run2_descr, header=CSV_HEADERS):
+def list_gen(run1_descr, run2_descr, rfactor=1, header=CSV_HEADERS):
     result = [CSV_HEADERS]
     run1_total_input = None
     run2_total_input = None
@@ -89,12 +89,19 @@ def list_gen(run1_descr, run2_descr, header=CSV_HEADERS):
             row += [run1_yield, run2_yield, run1_eff, run2_eff, double_ratio]
             result.append(row)
 
+    # Append the total eff. ratio
+    run1_total_eff = div(run1_yield, run1_total_input, False)*100
+    run2_total_eff = div(run2_yield, run2_total_input, False)*100
+    result.append(['Total eff.'] + ['-']*(len(header)-4) +
+                  [run1_total_eff, run2_total_eff,
+                   run2_total_eff / run1_total_eff])
+
     # Append the total ratio
     run1_total_eff = div(run1_yield, run1_total_input, False)*100
     run2_total_eff = div(run2_yield, run2_total_input, False)*100
-    result.append(['Total ratio'] + ['-']*(len(header)-4) +
-                  [run1_total_eff, run2_total_eff,
-                   run2_total_eff / run1_total_eff])
+    result.append(['Yield ratio x '+'{:.2f}'.format(rfactor)] + ['-']*(len(header)-4) +
+                  [run1_yield, run2_yield,
+                   run2_yield / run1_yield * rfactor])
 
     return result
 
@@ -106,7 +113,7 @@ def csv_gen(lst, latex_wrapper=True):
         ielem = 0
         for elem in row:
             if isinstance(elem, float):
-                if ielem in (3, 4):
+                if ielem in (3, 4) and elem > 1:
                     formatted.append('{:.1f}'.format(elem))
                 else:
                     formatted.append('{:.2f}'.format(elem))
@@ -134,6 +141,11 @@ def parse_input(descr='Generate cut flow CSV from YAML files.'):
                         help='specify the run 1 cutflow YAML file.'
                         )
 
+    parser.add_argument('-r', '--rfactor',
+                        default='1',
+                        help='Factor to normalize the total ratio'
+                        )
+
     parser.add_argument('-t', '--runTwo',
                         required=True,
                         help='specify the run 2 cutflow YAML file.'
@@ -156,5 +168,5 @@ if __name__ == '__main__':
     with open(args.runTwo) as f:
         run2_descr = safe_load(f)
 
-    tab = list_gen(run1_descr, run2_descr)
+    tab = list_gen(run1_descr, run2_descr, float(args.rfactor))
     csv_gen(tab, not args.noLaTeX)

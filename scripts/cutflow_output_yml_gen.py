@@ -304,6 +304,11 @@ for run, decay_mode in product(['run1', 'run2'], TRUTH_MATCHING):
     key = '{}-{}'.format(orig_key, decay_mode)
     CUTFLOW[key] = rules
 
+for run, decay_mode in product(['run1', 'run2'], TRUTH_MATCHING):
+    orig_key = '{}-std'.format(run)
+    rules = [TRUTH_MATCHING[decay_mode]] + CUTFLOW[orig_key]
+    key = '{}-{}'.format(orig_key, decay_mode)
+    CUTFLOW[key] = rules
 
 ################################
 # Command line argument parser #
@@ -323,6 +328,11 @@ def parse_input(descr='Generate cutflow output YAML based on input ntuple and YA
 
     parser.add_argument('-m', '--mode', required=True,
                         help='specify mode.')
+
+    parser.add_argument('-s', '--silent',
+                        action='store_true',
+                        help='do no print output'
+                        )
 
     parser.add_argument('-t', '--tree',
                         default='TupleB0/DecayTree',
@@ -513,3 +523,4 @@ if __name__ == '__main__':
 
         with open(args.output_yml, 'w') as f:
             f.write(yaml_gen(result))
+            if not args.silent: print(" cat  "+args.output_yml)
