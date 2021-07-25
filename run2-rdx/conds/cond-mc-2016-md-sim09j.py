@@ -16,8 +16,20 @@ LHCbApp().DDDBtag = "dddb-20170721-3"
 from GaudiConf import IOHelper
 
 # FullSim
+
+# Normalization
 IOHelper().inputFiles([
     './data/Bd2DstMuNu-2016-md-py8-sim09j-fullsim/00121222_00000002_1.d0taunu.safestriptrig.dst',
     './data/Bd2DstMuNu-2016-md-py8-sim09j-fullsim/00121222_00000030_1.d0taunu.safestriptrig.dst',
     './data/Bd2DstMuNu-2016-md-py8-sim09j-fullsim/00121222_00000082_1.d0taunu.safestriptrig.dst'
 ], clear=True)
+
+# Signal
+# IOHelper().inputFiles([
+#     './data/Bd2DstTauNu-2016-md-py8-sim09j-fullsim/00121210_00000016_1.d0taunu.safestriptrig.dst'
+# ], clear=True)
+
+# D**
+# IOHelper().inputFiles([
+#     './data/Bd2DststTauNu-2016-md-py8-sim09j-fullsim/00121651_00000001_1.d0taunu.safestriptrig.dst'
+# ], clear=True)
