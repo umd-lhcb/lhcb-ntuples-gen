@@ -2,10 +2,10 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Jun 03, 2021 at 12:38 AM +0200
+# Last Change: Sun Jul 25, 2021 at 02:26 AM +0200
 
 from datetime import datetime
-from re import match, sub
+from re import match, sub, search
 
 from glob import glob
 from pathlib import Path
@@ -86,16 +86,15 @@ TYPES = ['std', 'mc',
 SAMPLES = [
     'data', 'cocktail', 'all',
     # MC modes
-    'Bd2DstTauNu',
-    'Bd2DstMuNu',
-    'Bd2D0XMuNu_D0_cocktail',
+    r'Bd\w.*',
+    r'Bu\w.*',
 ]
 
 ALLOWED_IN_FIELD = {
     'reco_sample': lambda x: x in RECO_SAMPLES,
     'date': validate_date,
     'type': lambda x: x in TYPES,
-    'sample': lambda x: x in SAMPLES,
+    'sample': lambda x: True in [bool(search(p, x)) for p in SAMPLES],
     'year': validate_year,
     'polarity': lambda x: x in ['mu', 'md', 'md-mu'],  # NOTE: We don't allow 'mu-md'
     'dirac_path': lambda x: ' ' not in x,
