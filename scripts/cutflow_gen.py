@@ -96,12 +96,12 @@ def list_gen(run1_descr, run2_descr, rfactor=1, header=CSV_HEADERS):
                   [run1_total_eff, run2_total_eff,
                    run2_total_eff / run1_total_eff])
 
-    # Append the total ratio
+    # Append the yield ratio
     run1_total_eff = div(run1_yield, run1_total_input, False)*100
     run2_total_eff = div(run2_yield, run2_total_input, False)*100
-    result.append(['Yield ratio x '+'{:.2f}'.format(rfactor)] + ['-']*(len(header)-4) +
-                  [run1_yield, run2_yield,
-                   run2_yield / run1_yield * rfactor])
+    result.append(['Yield ratio x '+'{:.2f}'.format(rfactor)] +
+                  [run1_yield, run2_yield]  + ['-']*(len(header)-4) +
+                   [run2_yield / run1_yield * rfactor])
 
     return result
 

@@ -2,7 +2,8 @@
 
 #### Script to run several cutflows
 
-import os, pathlib
+import os
+import pathlib
 
 def run_cmd(cmd):
     print('  '+cmd)
@@ -40,5 +41,5 @@ r2_data = ['ntuples/0.9.4-trigger_emulation/Dst_D0-std/Dst_D0--21_04_27--std--LH
 do_cutflow(r1_bare, r2_bare, 'gen/cutflow_bare-sig', (522494+502736)/(520046+515913.), 'std-sig')
 do_cutflow(r1_bare, r2_bare, 'gen/cutflow_bare-nor', (522494+502736)/(520046+515913.), 'std-nor')
 do_cutflow(r1_bare, r2_bare, 'gen/cutflow_bare-dss', (522494+502736)/(520046+515913.), 'std-dss')
-do_cutflow(r1_dstmu, r2_dstmu, 'gen/cutflow_dstmu',614577*0.23*0.080/(1500395*0.07*0.059))
+do_cutflow(r1_dstmu, r2_dstmu, 'gen/cutflow_dstmu',614577*0.247*0.080/(1500395*0.105*0.059))
 do_cutflow(r1_data, r2_data, 'gen/cutflow_data', 1/1.41/2)
