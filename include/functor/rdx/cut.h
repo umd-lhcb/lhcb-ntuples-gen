@@ -1,6 +1,6 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Sat Jun 26, 2021 at 06:03 PM +0200
+// Last Change: Tue Jul 27, 2021 at 03:54 PM +0200
 // NOTE: All kinematic variables are in MeV
 
 #ifndef _LNG_FUNCTOR_RDX_CUT_H_
@@ -123,7 +123,6 @@ Bool_t FLAG_SEL_D0_PID_OK_RUN1(Double_t k_pid_k, Double_t pi_pid_k,
   return k_pid_k > 4.0 && pi_pid_k < 2.0 && !k_is_mu && !pi_is_mu;
 }
 
-// NOTE: These P and PT variables are in GeV, NOT the default MeV!!
 // clang-format off
 Bool_t FLAG_SEL_D0_RUN1(Bool_t flag_d0_pid_ok,
                         Double_t k_pt, Double_t pi_pt,
@@ -239,7 +238,6 @@ Bool_t FLAG_SEL_BMINUSD0_RUN1(Bool_t flag_sel_d0, Bool_t flag_sel_mu,
   return false;
 }
 
-// NOTE: These P and PT variables are in GeV, NOT the default MeV!!
 //       Selections are based on Run 1 R(D(*)) ANA, v2020.07.31, p.11,
 //       Table 8.
 // NOTE: The following cuts are missing from Table 6, and are recovered in
