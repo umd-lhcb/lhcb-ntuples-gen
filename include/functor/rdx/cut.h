@@ -1,6 +1,6 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Tue Jul 27, 2021 at 03:54 PM +0200
+// Last Change: Tue Jul 27, 2021 at 03:56 PM +0200
 // NOTE: All kinematic variables are in MeV
 
 #ifndef _LNG_FUNCTOR_RDX_CUT_H_
@@ -238,8 +238,7 @@ Bool_t FLAG_SEL_BMINUSD0_RUN1(Bool_t flag_sel_d0, Bool_t flag_sel_mu,
   return false;
 }
 
-//       Selections are based on Run 1 R(D(*)) ANA, v2020.07.31, p.11,
-//       Table 8.
+// Selections are based on Run 1 R(D(*)) ANA, v2020.07.31, p.11, Table 8.
 // NOTE: The following cuts are missing from Table 6, and are recovered in
 // AddB.C:
 //       mu_ip_chi2 > 45
