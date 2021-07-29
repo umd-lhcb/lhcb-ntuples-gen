@@ -1,24 +1,23 @@
 __pycache__
-*.pyc
 .DS_Store
 .vscode
+*.pyc
 *~
 
-bin
 gen
 site
 run*/*.root
-scripts/**/*.root
-scripts/**/*.tex
-scripts/**/*.md
-scripts/**/*.yml
-scripts/**/*.png
-scripts/**/*.pdf
+studies/**/*.root
+studies/**/*.tex
+studies/**/*.md
+studies/**/*.yml
+studies/**/*.png
+studies/**/*.pdf
 *.csv
 
+compile_commands.json
 .lvimrc
 .python-version
-compile_commands.json
 .ccls-cache
 .virtualenv
 .direnv
