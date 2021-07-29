@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sun Jun 27, 2021 at 02:47 AM +0200
+# Last Change: Thu Jul 29, 2021 at 03:46 PM +0200
 
 import sys
 import os
@@ -155,23 +155,6 @@ def workflow_trigger_emulation_fs_vs_to(job_name, inputs, output_dir, debug,
     chdir('..')  # Switch back to parent workdir
 
 
-def workflow_cutflow(job_name, inputs, output_dir, debug, kws):
-    subworkdirs, workdir = workflow_general(job_name, inputs, output_dir)
-    chdir(workdir)
-    exe = pipe_executor('cutflow.sh "{input_ntps}" {input_yml} {mode}')
-
-    ntps = [n for n in subworkdirs.values()
-            if False not in [kw in n for kw in kws['keep'].split(',')]]
-    params = {
-        'input_ntps': ' '.join(ntps),
-        'input_yml': kws['input_yml'],
-        'mode': kws['mode'],
-    }
-
-    print('{}Working on {}...{}'.format(TC.GREEN, workdir, TC.END))
-    exe(params, debug)
-
-
 def workflow_data(job_name, inputs, output_dir, debug, kws,
                   script='data.sh', output_ntp_name_gen=generate_step2_name):
     subworkdirs, workdir = workflow_general(job_name, inputs, output_dir)
@@ -205,7 +188,6 @@ def workflow_data(job_name, inputs, output_dir, debug, kws,
 WORKFLOWS = {
     'trigger_emulation': workflow_trigger_emulation,
     'trigger_emulation_fs_vs_to': workflow_trigger_emulation_fs_vs_to,
-    'cutflow': workflow_cutflow,
     'data': workflow_data,
     'data_no_mu_bdt': lambda *args: workflow_data(
         *args, script='data_no_mu_bdt.sh'),
