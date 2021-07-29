@@ -1,8 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Jul 29, 2021 at 03:44 PM +0200
-
-export PATH := workflows:test:scripts:tools:$(PATH)
+# Last Change: Thu Jul 29, 2021 at 05:16 PM +0200
 
 VPATH := postprocess:test:scripts:ntuples
 VPATH := run1-rdx/cutflow:run2-rdx/cutflow:$(VPATH)
