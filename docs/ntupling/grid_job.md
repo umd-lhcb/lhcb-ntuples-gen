@@ -177,7 +177,7 @@ We prefer to merge all output `.root` files from subjobs. There's a helper
         # User-specific settings, change them according to your environment!
         LNG_PATH=$HOME/eos/src/lhcb-ntuples-gen
         YAML_PATH=$LNG_PATH/postprocess/skims/rdx_mc.yml
-        BIN_PATH=$LNG_PATH/tools
+        BIN_PATH=$LNG_PATH/scripts
 
 
         function check_job () {
