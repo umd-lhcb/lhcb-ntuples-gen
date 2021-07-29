@@ -1,6 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Jul 01, 2021 at 02:12 AM +0200
+# Last Change: Thu Jul 29, 2021 at 03:44 PM +0200
 
 export PATH := workflows:test:scripts:tools:$(PATH)
 
@@ -114,40 +114,10 @@ rdx-trigger-emu-nor-fs-vs-to: \
 # RDX cutflow #
 ###############
 
-.PHONY: rdx-cutflow
-.SECONDARY:  # Don't delete intermediate files!
+.PHONY: rdx-cutflows
 
-rdx-cutflow: \
-	gen/rdx-cutflow-Dst-bare \
-	gen/rdx-cutflow-Dst-bare-sig \
-	gen/rdx-cutflow-Dst-bare-nor \
-	gen/rdx-cutflow-Dst-bare-dss
-
-# Generic cutflow table generation
-gen/rdx-cutflow-Dst-%: \
-	gen/rdx-cutflow-run1-Dst-%/cutflow.yml \
-	gen/rdx-cutflow-run2-Dst-%/cutflow.yml
-	@mkdir -p $@
-	@cutflow_gen.py -o $< -t $(word 2, $^) -n > $@/cutflow.csv
-	@cat $@/cutflow.csv | tabgen.py -f latex_booktabs_raw > $@/cutflow.tex
-	@cat $@/cutflow.csv | tabgen.py -f github > $@/cutflow.md
-
-# Generic cutflow YAML generation
-gen/rdx-cutflow-run1-Dst-%/cutflow.yml: \
-	0.9.4-trigger_emulation/Dst_D0-cutflow_mc \
-	21_05_31-run1_bare.yml
-	$(eval JOBNAME	:=	$(notdir $(patsubst %/,%,$(dir $@))))
-	$(eval MODE	:=	$(subst rdx-cutflow-,,${JOBNAME}))
-	@rdx.py ${JOBNAME} $< --mode cutflow \
-		-A keep:2011,bare mode:${MODE} input_yml:$(abspath $(word 2, $^))
-
-gen/rdx-cutflow-run2-Dst-%/cutflow.yml: \
-	0.9.4-trigger_emulation/Dst_D0-cutflow_mc \
-	21_05_31-run2_bare.yml
-	$(eval JOBNAME	:=	$(notdir $(patsubst %/,%,$(dir $@))))
-	$(eval MODE	:=	$(subst rdx-cutflow-,,${JOBNAME}))
-	@rdx.py ${JOBNAME} $< --mode cutflow \
-		-A keep:2016,bare mode:${MODE} input_yml:$(abspath $(word 2, $^))
+rdx-cutflows:
+	@rdx-cutflows.py
 
 
 ####################
