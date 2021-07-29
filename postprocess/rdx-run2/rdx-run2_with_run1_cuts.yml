@@ -44,6 +44,10 @@ calculation:
     # Kinematic
     iso_p1: float; GEV(MAG(b0_ISOLATION_PX, b0_ISOLATION_PY, b0_ISOLATION_PZ)); GEV(MAG(b_ISOLATION_PX, b_ISOLATION_PY, b_ISOLATION_PZ))
     iso_pt1: float; GEV(MAG(b0_ISOLATION_PX, b0_ISOLATION_PY)); GEV(MAG(b_ISOLATION_PX, b_ISOLATION_PY))
+    # Track types
+    iso_type1: int; b0_ISOLATION_Type; b_ISOLATION_Type
+    iso_type2: int; b0_ISOLATION_Type2; b_ISOLATION_Type2
+    iso_type3: int; b0_ISOLATION_Type3; b_ISOLATION_Type3
 
     #################
     # Fit variables #
@@ -67,10 +71,14 @@ calculation:
     dst_m: double; GEV(dst_M)
     dst_p: double; GEV(dst_P)
     dst_pt: double; GEV(dst_PT)
+    dst_iso_invm: double; MINV( b0_ISOLATION_PX, b0_ISOLATION_PY, b0_ISOLATION_PZ, b0_ISOLATION_PE, dst_PX, dst_PY, dst_PZ, dst_PE)
+    dst_iso_deltam: double; ISO_DELTAM(b0_ISOLATION_PX, b0_ISOLATION_PY, b0_ISOLATION_PZ, b0_ISOLATION_PE, dst_PX, dst_PY, dst_PZ, dst_PE, dst_M)
+    dst_ID: int; dst_ID
     # D0
     d0_m: double; GEV(d0_M)
     d0_p: double; GEV(d0_P)
     d0_pt: double; GEV(d0_PT)
+    d0_ID: int; d0_ID
     # K
     k_p: double; GEV(k_P)
     k_pt: double; GEV(k_PT)
@@ -230,6 +238,7 @@ output:
             - "true"
 
     # "skims"
+
     Dst_iso:
         input: TupleB0/DecayTree
         selection:
@@ -237,67 +246,81 @@ output:
     Dst_DD:
         input: TupleB0/DecayTree
         selection:
+            - "IF(iso_bdt1<=1.1,iso_nnk1=0.0,iso_nnk1)"
+            - "IF(iso_bdt2<=1.1,iso_nnk2=0.0,iso_nnk2)"
+            - "IF(iso_bdt3<=1.1,iso_nnk3=0.0,iso_nnk3)"
             - "iso_bdt1 > 0.15"
-            - "MAX(iso_nnk1, iso_nnk2, iso_nnk3) > 0.2"
-    Dst_1os:
-        input: TupleB0/DecayTree
-        selection:
-            - "iso_bdt1 > 0.15"
-            - "iso_bdt2 < 0.15"
-            - "iso_nnk1 < 0.2"
-            - "iso_p1 > 5"
-            - "iso_pt1 > 0.15"
+            - "MAX(iso_nnk1*(iso_type1==3), iso_nnk2*(iso_type2==3), iso_nnk3*(iso_type3==3)) > 0.2"
+            - "MAX(iso_p1*(iso_pt1>150),iso_p2*(iso_pt2>150)*(iso_bdt2 > -1.1),iso_p3*(iso_pt3>150)*(iso_bdt3 > -1.1))>5e3"
+
     Dst_Dstst:
         input: TupleB0/DecayTree
         selection:
             - "iso_bdt1 > 0.15"
             - "iso_bdt2 < 0.15"
+            - "iso_type1==3"
             - "iso_nnk1 < 0.2"
-            - "iso_p1 > 5"
+            - "iso_chrg1*dst_ID <0 "
+            - "iso_p1 > 5e3"
             - "iso_pt1 > 0.15"
-            - "2400 < d0_M+pi_M && d0_M+pi_M > 2520"
+            - "360 < dst_iso_deltam && dst_iso_deltam < 600" #Phoebe's cut
+            # Greg's cut - "2400 < dst_iso_invm && dst_iso_invm < 2520"
+    
     Dst_2os:
         input: TupleB0/DecayTree
         selection:
             - "iso_bdt1 > 0.15"
-            - "iso_bdt2 > 0."
-            - "iso_bdt3 < 0."
-            - "iso_chrg1+iso_chrg2 == 0"
+            - "iso_bdt2 > 0.15"
+            - "iso_bdt3 < 0.15"
+            - "iso_chrg1!=0"
+            - "iso_chrg2!=0"
+            - "iso_chrg1!=iso_chrg2"
+            - "iso_chrg1<100"
+            - "iso_type2==3"
+            - "iso_type1==3
             - "iso_nnk1 < 0.2"
+            - "iso_nnk2 < 0.2"
+            - "MAX(iso_p1*(iso_pt1>150),iso_p2*(iso_pt2>150))>5e3"
 
     D0_iso:
         input: TupleBminus/DecayTree
         selection:
             - "iso_bdt1 < 0.15"
+    
     D0_DD:
         input: TupleBminus/DecayTree
         selection:
+            - "IF(iso_bdt1<=1.1,iso_nnk1=0.0,iso_nnk1)"
+            - "IF(iso_bdt2<=1.1,iso_nnk2=0.0,iso_nnk2)"
+            - "IF(iso_bdt3<=1.1,iso_nnk3=0.0,iso_nnk3)"
             - "iso_bdt1 > 0.15"
-            - "MAX(iso_nnk1, iso_nnk2, iso_nnk3) > 0.2"
+            - "MAX(iso_nnk1*(iso_type1==3), iso_nnk2*(iso_type2==3), iso_nnk3*(iso_type3==3)) > 0.2"
+            - "MAX(iso_p1*(iso_pt1>150),iso_p2*(iso_pt2>150)*(iso_bdt2 > -1.1),iso_p3*(iso_pt3>150)*(iso_bdt3 > -1.1))>5e3"
+ 
     D0_1os:
         input: TupleBminus/DecayTree
         selection:
             - "iso_bdt1 > 0.15"
             - "iso_bdt2 < 0.15"
+            - "iso_type1==3"
             - "iso_nnk1 < 0.2"
-            - "iso_p1 > 5"
+            - "iso_chrg1*d0_ID >0 "
+            - "iso_p1 > 5e3"
             - "iso_pt1 > 0.15"
-    D0_Dstst:
-        input: TupleBminus/DecayTree
-        selection:
-            - "iso_bdt1 > 0.15"
-            - "iso_bdt2 < 0.15"
-            - "iso_nnk1 < 0.2"
-            - "iso_p1 > 5"
-            - "iso_pt1 > 0.15"
-            - "2400 < d0_M+pi_M && d0_M+pi_M > 2520"
+
     D0_2os:
         input: TupleBminus/DecayTree
         selection:
             - "iso_bdt1 > 0.15"
-            - "iso_bdt2 > 0."
-            - "iso_bdt3 < 0."
-            - "iso_chrg1+iso_chrg2 == 0"
+            - "iso_bdt2 > 0.15"
+            - "iso_bdt3 < 0.15"
+            - "iso_chrg1!=0"
+            - "iso_chrg2!=0"
+            - "iso_chrg1!=iso_chrg2"
+            - "iso_chrg1<100"
+            - "iso_type2==3"
+            - "iso_type1==3
             - "iso_nnk1 < 0.2"
             - "iso_nnk2 < 0.2"
-            - "iso_nnk2 < 0.2"
+            - "MAX(iso_p1*(iso_pt1>150),iso_p2*(iso_pt2>150))>5e3"
+            
