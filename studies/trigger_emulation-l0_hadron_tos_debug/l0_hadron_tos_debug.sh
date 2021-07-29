@@ -9,7 +9,7 @@ INPUT_NTP=../../ntuples/0.9.4-trigger_emulation/Dst_D0-mc/Dst_D0--21_04_21--mc--
     emu_l0_hadron_no_debug.root
 
 # Generate trigger efficiency comparison plots, zoomed out
-../plot_trigger_efficiencies.py \
+plot_trigger_efficiencies.py \
     -n ./emu_l0_hadron_debug.root/TupleB0/DecayTree  \
     -b d0_l0_hadron_tos d0_l0_hadron_tos_emu_no_bdt \
     -k k_trg_et k_trg_hcal_et \
@@ -34,7 +34,7 @@ INPUT_NTP=../../ntuples/0.9.4-trigger_emulation/Dst_D0-mc/Dst_D0--21_04_21--mc--
 
 # Generate trigger efficiency comparison plots, with a different zoom but the
 # same bin width
-../plot_trigger_efficiencies.py \
+plot_trigger_efficiencies.py \
     -n ./emu_l0_hadron_debug.root/TupleB0/DecayTree  \
     -b d0_l0_hadron_tos d0_l0_hadron_tos_emu_no_bdt d0_l0_hadron_tos_emu \
     -k d0_pt_raw  \

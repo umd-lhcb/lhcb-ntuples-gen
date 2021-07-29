@@ -1,13 +1,19 @@
 #!/usr/bin/env bash
+#
+# Go to ../ntuple-RDX_l0_hadron_tos_training_sample folder first to generate
+# required ntuples!!
 
 INPUT_NTP=../ntuple-RDX_l0_hadron_tos_training_sample/rdx-bdt_train_sample.root
 
+echo "Training a BDT (over-trained)..."
 ../../lib/python/TrackerOnlyEmu/scripts/run2-rdx-l0_hadron_train_bdt.py \
     ${INPUT_NTP} None \
     --max-depth 40 \
     --debug-ntuple bdt_train_sample.root \
     --test-ntuple bdt_test_sample.root
 
+
+echo "Plotting test vs. training sample w/ a over-trained BDT..."
 plotbr \
     -n bdt_train_sample.root/TupleB0/DecayTree -b d0_et_trg_pred_diff \
     -n bdt_test_sample.root/TupleB0/DecayTree -b d0_et_trg_pred_diff \
