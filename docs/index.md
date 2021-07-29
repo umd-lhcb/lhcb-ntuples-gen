@@ -50,9 +50,9 @@ The ntuples[^1] generation is separated into:
 │   └── skims          # For branch removal at lxplus level
 ├── run1-rdx     # DaVinci scripts, sample ntuples for RDX run 1
 ├── run2-rdx     # ^^^^ for RDX run 2
-├── scripts      # plotting and cutflow scripts, as well as some studies
+├── scripts      # plotting, cutflow, and utility scripts
+├── studies      # One-off studies
 ├── test
-├── tools
 └── workflows    # workflows to be used by make
     └── rdx
 ```

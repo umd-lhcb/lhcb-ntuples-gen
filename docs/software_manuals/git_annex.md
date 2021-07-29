@@ -213,9 +213,9 @@ key: SHA256E-s1800364650--cb5222668f21032b81ede5f18eb86026e21188c54441917258e8aa
 present: false
 ```
 
-For directories, we have a home-made wrapper script `tools/count_root_files.py`. For example:
+For directories, we have a home-made wrapper script `scripts/count_root_files.py`. For example:
 ```
-$ ./tools/count_root_files.py ntuples
+$ ./scripts/count_root_files.py ntuples
    2 .root   total: 171.30 MiB   local:   0.00 KiB   ntuples/0.9.1-partial_refit
    2 .root   total: 171.30 MiB   local:   0.00 KiB   ntuples/0.9.1-partial_refit/Dst_D0-cutflow_mc
    5 .root   total:  47.49 GiB   local:   0.00 KiB   ntuples/ref-rdx-run1
@@ -232,6 +232,10 @@ $ ./tools/count_root_files.py ntuples
    1 .root   total: 179.56 MiB   local:   0.00 KiB   ntuples/pre-0.9.0/Dst-mc
    2 .root   total:  20.19 GiB   local:   0.00 KiB   ntuples/pre-0.9.0/Dst-std
 ```
+
+!!! info
+    If you are in the `nix` shell, `count_root_files.py` is added to PATH so
+    you can call it directly.
 
 
 ## Check annexed file availability
