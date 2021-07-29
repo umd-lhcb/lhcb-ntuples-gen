@@ -11,16 +11,16 @@ RUN2_NTP_MD=../../ntuples/0.9.4-trigger_emulation/Dst_D0-cutflow_mc/Dst_D0--21_0
 RUN2_INPUT_YML=../../run2-rdx/cutflow/21_05_31-run2_bare.yml
 
 # Run 1
-../cutflow_output_yml_gen.py ${RUN1_NTP_MU} ${RUN1_NTP_MD} \
+cutflow_output_yml_gen.py ${RUN1_NTP_MU} ${RUN1_NTP_MD} \
     -i ${RUN1_INPUT_YML} -o ./cutflow_run1.yml \
     -m run1-Dst-bare-sig
 
 # Run 2
-../cutflow_output_yml_gen.py ${RUN2_NTP_MU} ${RUN2_NTP_MD} \
+cutflow_output_yml_gen.py ${RUN2_NTP_MU} ${RUN2_NTP_MD} \
     -i ${RUN2_INPUT_YML} -o ./cutflow_run2.yml \
     -m run2-Dst-bare-sig
 
 # Actual cutflow table
-../cutflow_gen.py -o ./cutflow_run1.yml -t ./cutflow_run2.yml -n > ./cutflow.csv
+cutflow_gen.py -o ./cutflow_run1.yml -t ./cutflow_run2.yml -n > ./cutflow.csv
 cat ./cutflow.csv | tabgen.py -f latex_booktabs_raw > ./cutflow.tex
 cat ./cutflow.csv | tabgen.py -f github > ./cutflow.md
