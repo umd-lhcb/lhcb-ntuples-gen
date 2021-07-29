@@ -2,7 +2,7 @@
 #
 # NOTE: This should be run on lxplus!
 
-../../tools/size_mc_samples.py -o mc_on_dirac.csv -i \
+../../../scripts/size_mc_samples.py -o mc_on_dirac.csv -i \
     12573012 11574021 12773410 \
     12573001 11574011 12773400 \
     11874430 11874440 12873450 12873460 \
