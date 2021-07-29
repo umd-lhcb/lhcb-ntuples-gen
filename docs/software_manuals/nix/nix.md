@@ -6,7 +6,7 @@ post](https://nixos.org/guides/nix-pills/why-you-should-give-it-a-try.html) expl
 but basically, it stores each package and its version at `/nix/store/hash-name` (eg,
 `/nix/store/s4zia7hhqkin1di0f187b79sa2srhv6k-bash-4.2-p45/`). Everything in this store is immutable, and packages are
 built against absolute paths whose code never changes. Per *nix-pills*,
-> What does all this mean? It means that you could run mysql 5.2 with glibc-2.18, and mysql 5.5 with glibc-2.19. 
+> What does all this mean? It means that you could run mysql 5.2 with glibc-2.18, and mysql 5.5 with glibc-2.19.
 > You could use your python module with python 2.7 compiled with gcc 4.6 and the same python module with python 3 compiled with gcc 4.8, all in the same system.
 
 For our purposes, we configure the dependencies needed in some of our repos with `flake.nix` files such as [the one in
@@ -46,4 +46,4 @@ the `nixpkgs` pointer in `root-curated`.
 
 The diagram below gives a visual example of the `nixpkgs` version changing, and only being picked up by `root-curated`
 with the pinning changes.
-![nix_hierarchy](https://user-images.githubusercontent.com/33738176/124521401-a8921400-ddef-11eb-867d-15d4898a228e.png)
+![nix_hierarchy](./nix_hierarchy.png)
