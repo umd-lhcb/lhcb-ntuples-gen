@@ -9,14 +9,14 @@
       
       
       
-        <link rel="canonical" href="https://umd-lhcb.github.io/lhcb-ntuples-gen/physics/track_chi2ndof_data_mc_inconsistency/">
+        <link rel="canonical" href="https://umd-lhcb.github.io/lhcb-ntuples-gen/software_manuals/root/">
       
       <link rel="icon" href="../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.2.2, mkdocs-material-7.2.1">
     
     
       
-        <title>Track χ²/DOF inconsistency in run 2 data-MC - lhcb-ntuples-gen wiki</title>
+        <title>Compiling ROOT - lhcb-ntuples-gen wiki</title>
       
     
     
@@ -63,7 +63,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#track-chi2dof-data-mc-inconsistency" class="md-skip">
+        <a href="#compiling-root-without-nix-on-macos" class="md-skip">
           Skip to content
         </a>
       
@@ -93,7 +93,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Track χ²/DOF inconsistency in run 2 data-MC
+              Compiling ROOT
             
           </span>
         </div>
@@ -318,12 +318,14 @@
 
   
   
+    
+  
   
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" checked>
       
       <label class="md-nav__link" for="__nav_3">
         Software
@@ -341,7 +343,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../software_manuals/git_annex/" class="md-nav__link">
+      <a href="../git_annex/" class="md-nav__link">
         git-annex
       </a>
     </li>
@@ -374,7 +376,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../software_manuals/davinci/docker_image_usage/" class="md-nav__link">
+      <a href="../davinci/docker_image_usage/" class="md-nav__link">
         Docker image usage
       </a>
     </li>
@@ -386,7 +388,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../software_manuals/davinci/tips_and_tricks/" class="md-nav__link">
+      <a href="../davinci/tips_and_tricks/" class="md-nav__link">
         Tips and tricks
       </a>
     </li>
@@ -398,7 +400,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../software_manuals/davinci/loki_functors/" class="md-nav__link">
+      <a href="../davinci/loki_functors/" class="md-nav__link">
         LoKi functors
       </a>
     </li>
@@ -410,7 +412,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../software_manuals/davinci/tuple_tools/" class="md-nav__link">
+      <a href="../davinci/tuple_tools/" class="md-nav__link">
         TupleTools
       </a>
     </li>
@@ -428,7 +430,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../software_manuals/nix/" class="md-nav__link">
+      <a href="../nix/" class="md-nav__link">
         nix
       </a>
     </li>
@@ -438,11 +440,47 @@
             
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../../software_manuals/root/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Compiling ROOT
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         Compiling ROOT
       </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#compiling-root-without-nix-on-macos" class="md-nav__link">
+    Compiling ROOT without nix on macOS
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -452,7 +490,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../software_manuals/bender/" class="md-nav__link">
+      <a href="../bender/" class="md-nav__link">
         bender
       </a>
     </li>
@@ -464,7 +502,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../software_manuals/dirac/" class="md-nav__link">
+      <a href="../dirac/" class="md-nav__link">
         DIRAC
       </a>
     </li>
@@ -476,7 +514,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../software_manuals/lxplus/" class="md-nav__link">
+      <a href="../lxplus/" class="md-nav__link">
         Tips for lxplus
       </a>
     </li>
@@ -488,7 +526,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../software_manuals/external/" class="md-nav__link">
+      <a href="../external/" class="md-nav__link">
         External manuals
       </a>
     </li>
@@ -507,14 +545,12 @@
 
   
   
-    
-  
   
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" checked>
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
       
       <label class="md-nav__link" for="__nav_4">
         Physics
@@ -532,7 +568,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../momentum_scaling/" class="md-nav__link">
+      <a href="../../physics/momentum_scaling/" class="md-nav__link">
         Momentum scaling
       </a>
     </li>
@@ -544,7 +580,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../wrong_sign_particles/" class="md-nav__link">
+      <a href="../../physics/wrong_sign_particles/" class="md-nav__link">
         Wrong-sign particles
       </a>
     </li>
@@ -556,7 +592,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../b0_oscillation/" class="md-nav__link">
+      <a href="../../physics/b0_oscillation/" class="md-nav__link">
         B0 oscillation
       </a>
     </li>
@@ -566,21 +602,11 @@
             
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../physics/track_chi2ndof_data_mc_inconsistency/" class="md-nav__link">
         Track χ²/DOF inconsistency in run 2 data-MC
       </a>
-      
     </li>
   
 
@@ -590,7 +616,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../transverse_energy/" class="md-nav__link">
+      <a href="../../physics/transverse_energy/" class="md-nav__link">
         Transverse energy
       </a>
     </li>
@@ -799,8 +825,21 @@
   
   
   
-    
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#compiling-root-without-nix-on-macos" class="md-nav__link">
+    Compiling ROOT without nix on macOS
+  </a>
+  
+</li>
+      
+    </ul>
   
 </nav>
                   </div>
@@ -812,73 +851,23 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/umd-lhcb/lhcb-ntuples-gen/edit/master/docs/physics/track_chi2ndof_data_mc_inconsistency.md" title="Edit this page" class="md-content__button md-icon">
+                  <a href="https://github.com/umd-lhcb/lhcb-ntuples-gen/edit/master/docs/software_manuals/root.md" title="Edit this page" class="md-content__button md-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
                   </a>
                 
                 
-                <h1 id="track-chi2dof-data-mc-inconsistency">Track <span class="arithmatex">\(\chi^2/DOF\)</span> data-MC inconsistency</h1>
-<p>For the run 1 and 2 data-MC comparison, we observed that for run 1 data, MC and
-run 2 MC, their track <span class="arithmatex">\(\chi^2/DOF\)</span> distributions are all centered around 1, yet
-that of run 2 data is centered around 0.75:</p>
-<p><img alt="Track chi2 inconsistency" src="../track_chi2ndof_inconsistency.png" /></p>
-<p>Puzzled by this, we asked experts<sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup> about this. The answer was:</p>
-<ul>
-<li>The OT drift time was improved so the actual tracking performance is better<ul>
-<li>This is mostly due to better alignment and calibrations.</li>
-</ul>
-</li>
-<li>
-<p>However, the OT uncertainties used in <span class="arithmatex">\(\chi^2\)</span> calculation was <strong>not updated
-   for data, and data only</strong>.</p>
-<ul>
-<li>
-<p>Now we have something like this:</p>
-<table>
-<thead>
-<tr>
-<th>mode</th>
-<th>residual</th>
-<th>resolution</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>data</td>
-<td>new</td>
-<td>old</td>
-</tr>
-<tr>
-<td>MC</td>
-<td>new</td>
-<td>new</td>
-</tr>
-</tbody>
-</table>
-</li>
-<li>
-<p>Note that <span class="arithmatex">\(\chi^2\)</span> here is computed by <span class="arithmatex">\(\frac{\text{residual}}{\text{resolution}}\)</span>.</p>
-</li>
-<li>As a result, MC does not agree with data.</li>
-</ul>
-</li>
-</ul>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<ul>
-<li>In <code>DaVinci</code>, the branch name is <code>_TRACK_CHI2NDOF</code></li>
-<li>This also affects related variables, like Ghost probability rate (<code>_TRACK_GhostProb</code>)</li>
-<li>The implication of this is still under discussion</li>
-</ul>
-</div>
-<div class="footnote">
-<hr />
-<ol>
-<li id="fn:1">
-<p>Gregory Ciezarek and Lucia Grillo&#160;<a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 1 in the text">&#8617;</a></p>
-</li>
-</ol>
-</div>
+                  <h1>Compiling ROOT</h1>
+                
+                <h3 id="compiling-root-without-nix-on-macos">Compiling ROOT without <code>nix</code> on macOS</h3>
+<p>For of our repos have a <code>nix</code> flake with <code>ROOT</code> in it, but if you want to have <code>ROOT</code> installed in your mac with the
+<code>HistFactory</code> pacthes, you can follow the instructions below.</p>
+<p>If you alread have a <code>ROOT</code> installation, you should delete it first as it often collides with new ones (<code>rm -rf root_build root_install</code>).
+<div class="highlight"><pre><span></span><code>git clone --branch histfactory_patch https://github.com/umd-lhcb/root.git
+mkdir root_build root_install &amp;&amp; cd root_build
+cmake -DCMAKE_INSTALL_PREFIX=../root_install/ -Dsqlite=OFF -Dmysql=OFF -Dx11=ON  -Droofit=ON -Dmt=ON -Dminuit2=ON -Dccache=ON -Dlibcxx=ON -Drpath=ON ../root 
+cmake --build . -- install -j6
+</code></pre></div></p>
+<p>Note:  For <code>-jN</code>, <code>N</code> should be your number of CPU cores (or fewer).</p>
                 
               
               
@@ -898,7 +887,7 @@ that of run 2 data is centered around 0.75:</p>
     <nav class="md-footer__inner md-grid" aria-label="Footer">
       
         
-        <a href="../b0_oscillation/" class="md-footer__link md-footer__link--prev" aria-label="Previous: B0 oscillation" rel="prev">
+        <a href="../nix/" class="md-footer__link md-footer__link--prev" aria-label="Previous: nix" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
           </div>
@@ -907,20 +896,20 @@ that of run 2 data is centered around 0.75:</p>
               <span class="md-footer__direction">
                 Previous
               </span>
-              B0 oscillation
+              nix
             </div>
           </div>
         </a>
       
       
         
-        <a href="../transverse_energy/" class="md-footer__link md-footer__link--next" aria-label="Next: Transverse energy" rel="next">
+        <a href="../bender/" class="md-footer__link md-footer__link--next" aria-label="Next: bender" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              Transverse energy
+              bender
             </div>
           </div>
           <div class="md-footer__button md-icon">
