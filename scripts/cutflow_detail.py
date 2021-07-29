@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu May 13, 2021 at 08:34 PM +0200
+# Last Change: Thu Jul 29, 2021 at 03:51 PM +0200
 
 import uproot
 import sys
@@ -11,11 +11,12 @@ import os
 sys.path.insert(0, os.path.dirname(os.path.realpath(__file__)))
 
 from argparse import ArgumentParser
-from pyTuplingUtils.utils import extract_uid, tabl as TAB
+from pyTuplingUtils.utils import extract_uid
 from pyTuplingUtils.cutflow import CutflowGen, CutflowRule as Rule
 
 from cutflow_gen import div_with_confint as DIV
 from cutflow_output_yml_gen import yaml_gen
+from tabgen import TAB
 
 
 L0 = {

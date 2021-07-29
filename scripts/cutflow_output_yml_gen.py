@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun, Manual Franco Sevilla
 # License: BSD 2-clause
-# Last Change: Thu Jun 24, 2021 at 03:05 PM +0200
+# Last Change: Thu Jul 29, 2021 at 03:50 PM +0200
 
 import pathlib
 import os
@@ -58,8 +58,8 @@ for mode in ['run2-Dst-bare',
 CUTFLOW = {
     'run1-std': [
         # Trigger + stripping (already applied in data) + DaVinci
-        Rule('''(mu_L0Global_TIS & (b0_L0Global_TIS | d0_L0HadronDecision_TOS)) & 
-        (k_Hlt1TrackAllL0Decision_TOS | pi_Hlt1TrackAllL0Decision_TOS) & 
+        Rule('''(mu_L0Global_TIS & (b0_L0Global_TIS | d0_L0HadronDecision_TOS)) &
+        (k_Hlt1TrackAllL0Decision_TOS | pi_Hlt1TrackAllL0Decision_TOS) &
         d0_Hlt2CharmHadD02HH_D02KPiDecision_TOS &
         flag_sel_run1_strip(mu_IPCHI2_OWNPV, mu_TRACK_GhostProb,
                                     mu_PIDmu, mu_P, mu_TRACK_CHI2NDOF,
@@ -96,7 +96,7 @@ CUTFLOW = {
                                     b0_ENDVERTEX_CHI2, b0_ENDVERTEX_NDOF,
                                     b0_ENDVERTEX_X, b0_ENDVERTEX_Y,
                                     b0_OWNPV_X, b0_OWNPV_Y,
-                                    b0_DIRA_OWNPV, b0_M) & 
+                                    b0_DIRA_OWNPV, b0_M) &
         flag_sel_run1_dv(spi_IPCHI2_OWNPV, spi_TRACK_GhostProb,
                                  spi_TRACK_CHI2NDOF,
                                  d0_M,
@@ -109,7 +109,7 @@ CUTFLOW = {
     ],
     'run2-std': [
         # Trigger + stripping (already applied in data) + DaVinci
-        Rule('''(b0_L0Global_TIS | d0_L0HadronDecision_TOS) & 
+        Rule('''(b0_L0Global_TIS | d0_L0HadronDecision_TOS) &
         (k_Hlt1TrackMVADecision_TOS | pi_Hlt1TrackMVADecision_TOS |
         d0_Hlt1TwoTrackMVADecision_TOS) & b0_Hlt2XcMuXForTauB2XcMuDecision_TOS &
         flag_sel_run2_strip(mu_IPCHI2_OWNPV, mu_TRACK_GhostProb,
@@ -147,7 +147,7 @@ CUTFLOW = {
                                     b0_ENDVERTEX_CHI2, b0_ENDVERTEX_NDOF,
                                     b0_ENDVERTEX_X, b0_ENDVERTEX_Y,
                                     b0_OWNPV_X, b0_OWNPV_Y,
-                                    b0_DIRA_OWNPV, b0_M) & 
+                                    b0_DIRA_OWNPV, b0_M) &
         flag_sel_run2_dv(spi_IPCHI2_OWNPV, spi_TRACK_GhostProb,
                                  spi_TRACK_CHI2NDOF,
                                  d0_M,
@@ -310,6 +310,7 @@ for run, decay_mode in product(['run1', 'run2'], TRUTH_MATCHING):
     key = '{}-{}'.format(orig_key, decay_mode)
     CUTFLOW[key] = rules
 
+
 ################################
 # Command line argument parser #
 ################################
@@ -320,7 +321,7 @@ def parse_input(descr='Generate cutflow output YAML based on input ntuple and YA
     parser.add_argument('ntps', nargs='+',
                         help='specify input ntuple paths.')
 
-    parser.add_argument('-i', '--input_yml', 
+    parser.add_argument('-i', '--input_yml',
                         help='specify input YAML path.')
 
     parser.add_argument('-o', '--output_yml', required=True,
@@ -482,13 +483,13 @@ if __name__ == '__main__':
         cut_to_update = list(aliases.values())[-1]
         with open(args.input_yml) as f:
             raw = safe_load(f)
-    	
+
         for cut, val in raw.items():
-    	    if val['output'] is None:
-    	        val['output'] = 0
-    	
-    	    if cut in aliases:
-    	        result[aliases[cut]] = val
+            if val['output'] is None:
+                val['output'] = 0
+
+            if cut in aliases:
+                result[aliases[cut]] = val
 
     for ntp_path in args.ntps:
         ntp = uproot.open(ntp_path)
@@ -503,8 +504,8 @@ if __name__ == '__main__':
                 val['output'] = uniq_size
                 result['Total events'] = val
             else:
-               result[key]['input'] += uniq_size
-               result[key]['output'] += uniq_size    
+                result[key]['input'] += uniq_size
+                result[key]['output'] += uniq_size
         else:
             result[cut_to_update]['output'] += uniq_size
 
@@ -523,4 +524,5 @@ if __name__ == '__main__':
 
         with open(args.output_yml, 'w') as f:
             f.write(yaml_gen(result))
-            if not args.silent: print(" cat  "+args.output_yml)
+            if not args.silent:
+                print(" cat  "+args.output_yml)

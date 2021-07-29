@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Apr 29, 2021 at 01:46 AM +0200
+# Last Change: Thu Jul 29, 2021 at 03:53 PM +0200
 
 from yaml import safe_load
 from argparse import ArgumentParser
@@ -23,7 +23,7 @@ def div_with_confint(num, denom):
 
 
 def div(num, denom, doErrors=True):
-    if type(num) == type(denom):
+    if isinstance(num, type(denom)):
         if isinstance(num, UFloat) or (isinstance(num, (int, float)) and not doErrors):
             result = num / denom
 
@@ -101,7 +101,7 @@ def list_gen(run1_descr, run2_descr, rfactor=1, header=CSV_HEADERS):
     run2_total_eff = div(run2_yield, run2_total_input, False)*100
     result.append(['Yield ratio x '+'{:.2f}'.format(rfactor)] +
                   [run1_yield, run2_yield]  + ['-']*(len(header)-4) +
-                   [run2_yield / run1_yield * rfactor])
+                  [run2_yield / run1_yield * rfactor])
 
     return result
 
