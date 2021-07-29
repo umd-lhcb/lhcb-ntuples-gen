@@ -9,18 +9,18 @@ RUN2_NTP=../../run2-rdx/samples/Dst_D0--21_05_28--cutflow_mc--cocktail--2016--md
 RUN2_LOG=../../run2-rdx/logs/Dst_D0-21_05_28-cutflow_mc-bare.log
 
 # Log
-../../tools/davinci_log_parser.py ./run1_debug.yml $RUN1_LOG
-../../tools/davinci_log_parser.py ./run2_debug.yml $RUN2_LOG
+davinci_log_parser.py ./run1_debug.yml $RUN1_LOG
+davinci_log_parser.py ./run2_debug.yml $RUN2_LOG
 
 # Cutflow yml
-../cutflow_output_yml_gen.py ${RUN1_NTP} \
+cutflow_output_yml_gen.py ${RUN1_NTP} \
     -i ./run1_debug.yml -o ./cutflow_run1_debug.yml \
     -m run1-Dst-bare
-../cutflow_output_yml_gen.py ${RUN2_NTP} \
+cutflow_output_yml_gen.py ${RUN2_NTP} \
     -i ./run2_debug.yml -o ./cutflow_run2_debug.yml \
     -m run2-Dst-bare
 
 # Table
-../cutflow_gen.py -o ./cutflow_run1_debug.yml -t ./cutflow_run2_debug.yml \
+cutflow_gen.py -o ./cutflow_run1_debug.yml -t ./cutflow_run2_debug.yml \
     -n > ./cutflow_debug.csv
 cat ./cutflow_debug.csv | tabgen.py -f github > ./cutflow_debug.md
