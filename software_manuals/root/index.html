@@ -477,6 +477,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#using-pyroot-in-macos" class="md-nav__link">
+    Using pyroot in macOS
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -839,6 +846,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#using-pyroot-in-macos" class="md-nav__link">
+    Using pyroot in macOS
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -858,16 +872,24 @@
                 
                   <h1>Compiling ROOT</h1>
                 
-                <h3 id="compiling-root-without-nix-on-macos">Compiling ROOT without <code>nix</code> on macOS</h3>
+                <h2 id="compiling-root-without-nix-on-macos">Compiling ROOT without <code>nix</code> on macOS</h2>
 <p>For of our repos have a <code>nix</code> flake with <code>ROOT</code> in it, but if you want to have <code>ROOT</code> installed in your mac with the
 <code>HistFactory</code> pacthes, you can follow the instructions below.</p>
 <p>If you alread have a <code>ROOT</code> installation, you should delete it first as it often collides with new ones (<code>rm -rf root_build root_install</code>).
 <div class="highlight"><pre><span></span><code>git clone --branch histfactory_patch https://github.com/umd-lhcb/root.git
 mkdir root_build root_install &amp;&amp; cd root_build
-cmake -DCMAKE_INSTALL_PREFIX=../root_install/ -Dsqlite=OFF -Dmysql=OFF -Dx11=ON  -Droofit=ON -Dmt=ON -Dminuit2=ON -Dccache=ON -Dlibcxx=ON -Drpath=ON ../root 
+cmake -DCMAKE_INSTALL_PREFIX=../root_install/ -Dsqlite=OFF -Dmysql=OFF -Dx11=ON  -Droofit=ON -Dmt=ON -Dminuit2=ON -Dccache=ON -Dlibcxx=ON -Drpath=ON -DCMAKE_CXX_STANDARD=17 -Droot7=OFF ../root 
 cmake --build . -- install -j6
 </code></pre></div></p>
 <p>Note:  For <code>-jN</code>, <code>N</code> should be your number of CPU cores (or fewer).</p>
+<h2 id="using-pyroot-in-macos">Using <code>pyroot</code> in macOS</h2>
+<p>Starting in <code>ROOT</code> 6.22, the compilation is done for both <code>python</code> 2 and 3. Several of our scripts, which require
+<code>python</code> 3, rely on the <code>python</code> and <code>pip</code> commands, which in macOS are by default bound to <code>python</code> 2. This can be
+changed installing the python version that you want and adding the appropriate soft links. For instance,</p>
+<div class="highlight"><pre><span></span><code>brew install python
+ln -s ../Cellar/python@3.9/3.9.6/bin/python3 /usr/local/bin/python
+ln -s ../Cellar/python@3.9/3.9.6/bin/pip3 /usr/local/bin/pip
+</code></pre></div>
                 
               
               
