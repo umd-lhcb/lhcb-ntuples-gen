@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Jul 28, 2021 at 03:33 PM +0200
+# Last Change: Fri Jul 30, 2021 at 05:01 PM +0200
 #
 # Description: Definitions of selection and reconstruction procedures for run 2
 #              R(D(*)). For more thorough comments, take a look at:
@@ -807,7 +807,6 @@ def tuple_postpocess_mc(tp,
     # Additional branches for HAMMER
     tt_sl_truth = getattr(tp, B_meson).addTupleTool('TupleToolSLTruth')
     tt_sl_truth.Verbose = True
-    tt_sl_truth.KeepPhotons = False
 
     # Additional HLT1 variables
     tt_hlt1_emu = getattr(tp, B_meson).addTupleTool(
