@@ -58,7 +58,7 @@ docker-dv:
 
 # Test if specific files follow naming conventions.
 test-naming-conv:
-	@test_filename_convention.py
+	test/test_filename_convention.py
 
 
 #########################
@@ -70,25 +70,25 @@ test-naming-conv:
 rdx-ntuple-run2-oldcut: \
 	0.9.4-trigger_emulation/Dst_D0-std \
 	rdx-run2/rdx-run2_with_run1_cuts.yml
-	@rdx.py $@ $< --debug \
+	workflows/rdx.py $@ $< --debug \
 		--mode data -A input_yml:$(abspath $(word 2, $^))
 
 rdx-ntuple-run2-oldcut-no-ubdt: \
 	0.9.4-trigger_emulation/Dst_D0-std \
 	rdx-run2/rdx-run2_with_run1_cuts.yml
-	@rdx.py $@ $< --debug \
+	workflows/rdx.py $@ $< --debug \
 		--mode data_no_mu_bdt -A input_yml:$(abspath $(word 2, $^))
 
 rdx-ntuple-run1: \
 	0.9.2-2011_production/Dst_D0-std \
 	rdx-run1/rdx-run1.yml
-	@rdx.py $@ $< --debug \
+	workflows/rdx.py $@ $< --debug \
 		--mode data_no_mu_bdt -A input_yml:$(abspath $(word 2, $^))
 
 ref-rdx-ntuple-run1: \
 	ref-rdx-run1/Dst-mix \
 	ref-rdx-run1/rdst-2011-mix.yml
-	@rdx.py $@ $< --debug \
+	workflows/rdx.py $@ $< --debug \
 		--mode data_ref -A input_yml:$(abspath $(word 2, $^))
 
 
@@ -100,12 +100,12 @@ ref-rdx-ntuple-run1: \
 
 rdx-trigger-emu-nor: \
 	0.9.4-trigger_emulation/Dst_D0-mc/Dst_D0--21_04_21--mc--MC_2016_Beam6500GeV-2016-MagDown-Nu1.6-25ns-Pythia8_Sim09j_Trig0x6139160F_Reco16_Turbo03a_Filtered_11574021_D0TAUNU.SAFESTRIPTRIG.DST.root
-	@rdx.py $@ $< --mode trigger_emulation
+	workflows/rdx.py $@ $< --mode trigger_emulation
 
 rdx-trigger-emu-nor-fs-vs-to: \
 	0.9.4-trigger_emulation/Dst_D0-mc/Dst_D0--21_04_21--mc--MC_2016_Beam6500GeV-2016-MagDown-Nu1.6-25ns-Pythia8_Sim09j_Trig0x6139160F_Reco16_Turbo03a_Filtered_11574021_D0TAUNU.SAFESTRIPTRIG.DST.root \
 	0.9.4-trigger_emulation/Dst_D0-mc/Dst_D0--21_04_21--mc--tracker_only--MC_2016_Beam6500GeV-2016-MagDown-TrackerOnly-Nu1.6-25ns-Pythia8_Sim09j_Reco16_Filtered_11574021_D0TAUNU.SAFESTRIPTRIG.DST.root
-	@rdx.py $@ $^ --mode trigger_emulation_fs_vs_to
+	workflows/rdx.py $@ $^ --mode trigger_emulation_fs_vs_to
 
 
 ###############
@@ -115,7 +115,7 @@ rdx-trigger-emu-nor-fs-vs-to: \
 .PHONY: rdx-cutflows
 
 rdx-cutflows:
-	@rdx-cutflows.py
+	workflows/rdx-cutflows.py
 
 
 ####################
