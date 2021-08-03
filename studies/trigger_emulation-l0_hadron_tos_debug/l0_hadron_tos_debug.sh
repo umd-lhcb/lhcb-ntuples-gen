@@ -9,7 +9,7 @@ INPUT_NTP=../../ntuples/0.9.4-trigger_emulation/Dst_D0-mc/Dst_D0--21_04_21--mc--
     emu_l0_hadron_no_debug.root
 
 # Generate trigger efficiency comparison plots, zoomed out
-plot_trigger_efficiencies.py \
+../../scripts/plot_trigger_efficiencies.py \
     -n ./emu_l0_hadron_debug.root/TupleB0/DecayTree  \
     -b d0_l0_hadron_tos d0_l0_hadron_tos_emu_no_bdt \
     -k k_trg_et k_trg_hcal_et \
@@ -34,7 +34,7 @@ plot_trigger_efficiencies.py \
 
 # Generate trigger efficiency comparison plots, with a different zoom but the
 # same bin width
-plot_trigger_efficiencies.py \
+../../scripts/plot_trigger_efficiencies.py \
     -n ./emu_l0_hadron_debug.root/TupleB0/DecayTree  \
     -b d0_l0_hadron_tos d0_l0_hadron_tos_emu_no_bdt d0_l0_hadron_tos_emu \
     -k d0_pt_raw  \
@@ -146,3 +146,7 @@ plotbr -n ./emu_l0_hadron_debug.root/TupleB0/DecayTree \
 #     -XD 0 5000 \
 #     --xlabel "\$K$ \$\\pi$ radial distance" \
 #     -o rdiff_k_pi_nspd_cut_comp.png
+
+plotbr -n ./emu_l0_hadron_debug.root/TupleB0/DecayTree -b d0_pt_raw d0_pt_raw d0_pt_raw -l "\$D^0$ \$p_T$ for \$E_T^{emu} \\in [-inf,3744]$" "\$D^0$ \$p_T$ for \$E_T^{emu} \\in [3744,6000)$" "\$D^0$ \$p_T$ for \$E_T^{emu} \\in [6000+]$" -o d0_pt_emubins.png --xlabel "\$D^0$ \$p_T$" -XD 1800 12000 --cuts "d0_et_emu_no_bdt<3744" "d0_et_emu_no_bdt>=3744 & d0_et_emu_no_bdt<6000" "d0_et_emu_no_bdt>=6000"
+
+plotbr -n ./emu_l0_hadron_debug.root/TupleB0/DecayTree -b d0_et_emu_no_bdt d0_et_emu_no_bdt d0_et_emu_no_bdt -l "\$E_T^{emu}$ for \$D^0$ \$p_T \\in [-inf,5000]$" "\$E_T^{emu}$ for \$D^0$ \$p_T \\in [5000,10000)$" "\$E_T^{emu}$ for \$D^0$ \$p_T \\in [10000+]$" -o emu_et_d0ptbins.png --xlabel "\$D^0$ \$E^{emu}_T$" -XD 0 7000 --cuts "d0_pt_raw<5000" "d0_pt_raw>=5000 & d0_pt_raw<10000" "d0_pt_raw>=10000"
