@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri Jul 30, 2021 at 05:01 PM +0200
+# Last Change: Thu Aug 05, 2021 at 01:28 AM +0200
 #
 # Description: Definitions of selection and reconstruction procedures for run 2
 #              R(D(*)). For more thorough comments, take a look at:
@@ -850,17 +850,6 @@ tp_Bminus_ws = tuple_initialize(
 )
 tuple_postpocess(tp_Bminus_ws, B_meson='b')
 
-# B- MC ########################################################################
-tp_Bminus_mc_Tau = tuple_initialize_aux(
-    'MCTupleBminusTau',
-    '${b}[B- => ${d0}(D0 => ${k}K- ${pi}pi+) ${tau}(tau- => ${mu}mu- ${amu_mu}nu_mu~ ${nu_tau}nu_tau) ${anu_tau}nu_tau~]CC'
-)
-
-tp_Bminus_mc_Mu = tuple_initialize_aux(
-    'MCTupleBminusMu',
-    '${b}[B- => ${d0}(D0 => ${k}K- ${pi}pi+) ${mu}mu- ${anu_mu}nu_mu~]CC'
-)
-
 # B0 ###########################################################################
 tp_B0 = tuple_initialize(
     'TupleB0',
@@ -883,25 +872,6 @@ tp_B0_ws_Pi = tuple_initialize(
     '${b0}[B~0 -> ${dst}(D*(2010)- -> ${d0}(D0 -> ${k}K- ${pi}pi+) ${spi}pi-) ${mu}mu-]CC'
 )
 tuple_postpocess(tp_B0_ws_Pi)
-
-# B0 MC ########################################################################
-tp_B0_mc_Tau = tuple_initialize_aux(
-    'MCTupleB0Tau',
-    '('
-    '${b0}[B~0 => ${dst}(D*(2010)+ => ${d0}(D0 => ${k}K- ${pi}pi+) ${spi}pi+) ${tau}(tau- => ${mu}mu- ${anu_mu}nu_mu~ ${nu_tau}nu_tau) ${anu_tau}nu_tau~]CC'
-    '||'
-    '${b0}[B0 => ${dst}(D*(2010)+ => ${d0}(D0 => ${k}K- ${pi}pi+) ${spi}pi+) ${tau}(tau- => ${mu}mu- ${anu_mu}nu_mu~ ${nu_tau}nu_tau) ${anu_tau}nu_tau~]CC'
-    ')'
-)
-
-tp_B0_mc_Mu = tuple_initialize_aux(
-    'MCTupleB0Mu',
-    '('
-    '${b0}[B~0 => ${dst}(D*(2010)+ => ${d0}(D0 => ${k}K- ${pi}pi+) ${spi}pi+) ${mu}mu- ${anu_mu}nu_mu~]CC'
-    '||'
-    '${b0}[B0 => ${dst}(D*(2010)+ => ${d0}(D0 => ${k}K- ${pi}pi+) ${spi}pi+) ${mu}mu- ${anu_mu}nu_mu~]CC'
-    ')'
-)
 
 
 ################################################
