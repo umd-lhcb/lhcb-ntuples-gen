@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon May 31, 2021 at 03:22 AM +0200
+# Last Change: Thu Aug 05, 2021 at 01:36 AM +0200
 #
 # Description: Definitions of selection and reconstruction procedures for run 1
 #              R(D(*)), with thorough comments.
@@ -740,29 +740,29 @@ def tuple_initialize_aux(name, template):
     return tp
 
 
-def tuple_postpocess_data(tp, B_meson='b0', Mu='mu',
-                          weights='./weights_soft.xml',
-                          trigger_list_global=[
-                              # L0
-                              'L0HadronDecision',
-                              # HLT 1
-                              'Hlt1TrackAllL0Decision',
-                              # HLT 2
-                              'Hlt2CharmHadD02HH_D02KPiDecision'
-                          ],
-                          trigger_list_B=[
-                              # L0
-                              'L0HadronDecision',  # Hadron decision needed everywhere.
-                              'L0DiMuonDecision',
-                              'L0ElectronDecision',
-                              'L0ElectronHiDecision',
-                              'L0HighSumETJetDecision',
-                              'L0MuonDecision',
-                              'L0NoPVFlagDecision',
-                              'L0PhotonDecision',
-                              'L0PhotonHiDecision'
-                          ]
-                          ):
+def tuple_postprocess_data(tp, B_meson='b0', Mu='mu',
+                           weights='./weights_soft.xml',
+                           trigger_list_global=[
+                               # L0
+                               'L0HadronDecision',
+                               # HLT 1
+                               'Hlt1TrackAllL0Decision',
+                               # HLT 2
+                               'Hlt2CharmHadD02HH_D02KPiDecision'
+                           ],
+                           trigger_list_B=[
+                               # L0
+                               'L0HadronDecision',  # Hadron decision needed everywhere.
+                               'L0DiMuonDecision',
+                               'L0ElectronDecision',
+                               'L0ElectronHiDecision',
+                               'L0HighSumETJetDecision',
+                               'L0MuonDecision',
+                               'L0NoPVFlagDecision',
+                               'L0PhotonDecision',
+                               'L0PhotonHiDecision'
+                           ]
+                           ):
     # Trigger decisions to be saved for every particle
     tt_trigger = tp.addTupleTool('TupleToolTrigger')
     tt_trigger.Verbose = True
@@ -786,16 +786,20 @@ def tuple_postpocess_data(tp, B_meson='b0', Mu='mu',
     getattr(tp, Mu).ToolList += ['TupleToolANNPIDTraining']
 
 
-def tuple_postpocess_mc(*args, **kwargs):
-    tuple_postpocess_data(*args, **kwargs)
+def tuple_postprocess_mc(tp, B_meson='b0', **kwargs):
+    tuple_postprocess_data(tp, B_meson=B_meson, **kwargs)
+
+    # Additional branches for HAMMER
+    tt_sl_truth = getattr(tp, B_meson).addTupleTool('TupleToolSLTruth')
+    tt_sl_truth.Verbose = True
 
 
 if not DaVinci().Simulation:
     tuple_initialize = tuple_initialize_data
-    tuple_postpocess = tuple_postpocess_data
+    tuple_postprocess = tuple_postprocess_data
 else:
     tuple_initialize = tuple_initialize_mc
-    tuple_postpocess = tuple_postpocess_mc
+    tuple_postprocess = tuple_postprocess_mc
 
 
 # B- ###########################################################################
@@ -804,7 +808,7 @@ tp_Bminus = tuple_initialize(
     seq_Bminus,
     '${b}[B- -> ${d0}(D0 -> ${k}K- ${pi}pi+) ${mu}mu-]CC'
 )
-tuple_postpocess(tp_Bminus, B_meson='b')
+tuple_postprocess(tp_Bminus, B_meson='b')
 
 # B- wrong-sign ################################################################
 tp_Bminus_ws = tuple_initialize(
@@ -812,18 +816,7 @@ tp_Bminus_ws = tuple_initialize(
     seq_Bminus_ws,
     '${b}[B+ -> ${d0}(D0 -> ${k}K- ${pi}pi+) ${mu}mu+]CC'
 )
-tuple_postpocess(tp_Bminus_ws, B_meson='b')
-
-# B- MC ########################################################################
-tp_Bminus_mc_Tau = tuple_initialize_aux(
-    'MCTupleBminusTau',
-    '${b}[B- => ${d0}(D0 => ${k}K- ${pi}pi+) ${tau}(tau- => ${mu}mu- ${amu_mu}nu_mu~ ${nu_tau}nu_tau) ${anu_tau}nu_tau~]CC'
-)
-
-tp_Bminus_mc_Mu = tuple_initialize_aux(
-    'MCTupleBminusMu',
-    '${b}[B- => ${d0}(D0 => ${k}K- ${pi}pi+) ${mu}mu- ${anu_mu}nu_mu~]CC'
-)
+tuple_postprocess(tp_Bminus_ws, B_meson='b')
 
 # B0 ###########################################################################
 tp_B0 = tuple_initialize(
@@ -831,7 +824,7 @@ tp_B0 = tuple_initialize(
     seq_B0,
     '${b0}[B~0 -> ${dst}(D*(2010)+ -> ${d0}(D0 -> ${k}K- ${pi}pi+) ${spi}pi+) ${mu}mu-]CC'
 )
-tuple_postpocess(tp_B0)
+tuple_postprocess(tp_B0)
 
 # B0 wrong-sign ################################################################
 tp_B0_ws_Mu = tuple_initialize(
@@ -839,47 +832,14 @@ tp_B0_ws_Mu = tuple_initialize(
     seq_B0_ws_Mu,
     '${b0}[B~0 -> ${dst}(D*(2010)+ -> ${d0}(D0 -> ${k}K- ${pi}pi+) ${spi}pi+) ${mu}mu+]CC'
 )
-tuple_postpocess(tp_B0_ws_Mu)
+tuple_postprocess(tp_B0_ws_Mu)
 
 tp_B0_ws_Pi = tuple_initialize(
     'TupleB0WSPi',
     seq_B0_ws_Pi,
     '${b0}[B~0 -> ${dst}(D*(2010)- -> ${d0}(D0 -> ${k}K- ${pi}pi+) ${spi}pi-) ${mu}mu-]CC'
 )
-tuple_postpocess(tp_B0_ws_Pi)
-
-# B0 MC ########################################################################
-tp_B0_mc_Tau = tuple_initialize_aux(
-    'MCTupleB0Tau',
-    '('
-    '${b0}[B~0 => ${dst}(D*(2010)+ => ${d0}(D0 => ${k}K- ${pi}pi+) ${spi}pi+) ${tau}(tau- => ${mu}mu- ${anu_mu}nu_mu~ ${nu_tau}nu_tau) ${anu_tau}nu_tau~]CC'
-    '||'
-    '${b0}[B0 => ${dst}(D*(2010)+ => ${d0}(D0 => ${k}K- ${pi}pi+) ${spi}pi+) ${tau}(tau- => ${mu}mu- ${anu_mu}nu_mu~ ${nu_tau}nu_tau) ${anu_tau}nu_tau~]CC'
-    ')'
-)
-
-tp_B0_mc_Mu = tuple_initialize_aux(
-    'MCTupleB0Mu',
-    '('
-    '${b0}[B~0 => ${dst}(D*(2010)+ => ${d0}(D0 => ${k}K- ${pi}pi+) ${spi}pi+) ${mu}mu- ${anu_mu}nu_mu~]CC'
-    '||'
-    '${b0}[B0 => ${dst}(D*(2010)+ => ${d0}(D0 => ${k}K- ${pi}pi+) ${spi}pi+) ${mu}mu- ${anu_mu}nu_mu~]CC'
-    ')'
-)
-
-# B*_0+ -> B0 Pi+ ##############################################################
-tp_BstPlus = tuple_initialize(
-    'TupleBstPlus',
-    seq_BstPlus,
-    '[${bst}B*_0- -> ${b0}(B~0 -> ${dst}(D*(2010)- -> ${d0}(D0 -> ${k}K- ${pi}pi+) ${spi}pi-) ${mu}mu-) ${bpi}pi-]CC'
-)
-
-# B*_00 -> B0 Pi+ Pi- ##########################################################
-tp_Bst0 = tuple_initialize(
-    'TupleBst0',
-    seq_Bst0,
-    '[${bst0}B*_0~0 -> ${b0}(B~0 -> ${dst}(D*(2010)- -> ${d0}(D0 -> ${k}K- ${pi}pi+) ${spi}pi-) ${mu}mu-) ${bpi1}pi+ ${bpi2}pi-]CC'
-)
+tuple_postprocess(tp_B0_ws_Pi)
 
 
 ################################################
@@ -893,10 +853,8 @@ if has_flag('CUTFLOW', 'NON_MU_MISID', 'BARE'):
 elif DaVinci().Simulation:
     DaVinci().UserAlgorithms += [seq_Bminus.sequence(), seq_B0.sequence(),
                                  # ntuples
-                                 tp_Bminus, tp_B0,
-                                 # auxiliary ntuples
-                                 tp_Bminus_mc_Tau, tp_Bminus_mc_Mu,
-                                 tp_B0_mc_Tau, tp_B0_mc_Mu]
+                                 tp_Bminus, tp_B0]
+
 else:
     DaVinci().UserAlgorithms += [seq_Bminus.sequence(),
                                  seq_Bminus_ws.sequence(),
