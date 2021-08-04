@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Aug 05, 2021 at 01:28 AM +0200
+# Last Change: Thu Aug 05, 2021 at 01:33 AM +0200
 #
 # Description: Definitions of selection and reconstruction procedures for run 2
 #              R(D(*)). For more thorough comments, take a look at:
@@ -701,7 +701,7 @@ def tuple_initialize_aux(name, template):
     return tp
 
 
-def tuple_postpocess_data(tp, B_meson='b0', Mu='mu',
+def tuple_postprocess_data(tp, B_meson='b0', Mu='mu',
                           weights='./weights_soft.xml',
                           trigger_list_global=[
                               # L0
@@ -738,7 +738,7 @@ def tuple_postpocess_data(tp, B_meson='b0', Mu='mu',
     getattr(tp, Mu).ToolList += ['TupleToolANNPIDTraining']
 
 
-def tuple_postpocess_mc(tp,
+def tuple_postprocess_mc(tp,
                         B_meson='b0',
                         emu_hlt1_lines=[
                             'Hlt1TwoTrackMVA'
@@ -758,7 +758,7 @@ def tuple_postpocess_mc(tp,
                             'P_COMB'
                         ],
                         **kwargs):
-    tuple_postpocess_data(tp, B_meson=B_meson, **kwargs)
+    tuple_postprocess_data(tp, B_meson=B_meson, **kwargs)
 
     # Always add L0 and HLT1 emulation variables for MC
     relinfo_output = tp.Inputs[0].replace('Particles', 'HLT1Emulation')
@@ -828,10 +828,10 @@ def tuple_postpocess_mc(tp,
 
 if not DaVinci().Simulation:
     tuple_initialize = tuple_initialize_data
-    tuple_postpocess = tuple_postpocess_data
+    tuple_postprocess = tuple_postprocess_data
 else:
     tuple_initialize = tuple_initialize_mc
-    tuple_postpocess = tuple_postpocess_mc
+    tuple_postprocess = tuple_postprocess_mc
 
 
 # B- ###########################################################################
@@ -840,7 +840,7 @@ tp_Bminus = tuple_initialize(
     seq_Bminus,
     '${b}[B- -> ${d0}(D0 -> ${k}K- ${pi}pi+) ${mu}mu-]CC'
 )
-tuple_postpocess(tp_Bminus, B_meson='b')
+tuple_postprocess(tp_Bminus, B_meson='b')
 
 # B- wrong-sign ################################################################
 tp_Bminus_ws = tuple_initialize(
@@ -848,7 +848,7 @@ tp_Bminus_ws = tuple_initialize(
     seq_Bminus_ws,
     '${b}[B+ -> ${d0}(D0 -> ${k}K- ${pi}pi+) ${mu}mu+]CC'
 )
-tuple_postpocess(tp_Bminus_ws, B_meson='b')
+tuple_postprocess(tp_Bminus_ws, B_meson='b')
 
 # B0 ###########################################################################
 tp_B0 = tuple_initialize(
@@ -856,7 +856,7 @@ tp_B0 = tuple_initialize(
     seq_B0,
     '${b0}[B~0 -> ${dst}(D*(2010)+ -> ${d0}(D0 -> ${k}K- ${pi}pi+) ${spi}pi+) ${mu}mu-]CC'
 )
-tuple_postpocess(tp_B0)
+tuple_postprocess(tp_B0)
 
 # B0 wrong-sign ################################################################
 tp_B0_ws_Mu = tuple_initialize(
@@ -864,14 +864,14 @@ tp_B0_ws_Mu = tuple_initialize(
     seq_B0_ws_Mu,
     '${b0}[B~0 -> ${dst}(D*(2010)+ -> ${d0}(D0 -> ${k}K- ${pi}pi+) ${spi}pi+) ${mu}mu+]CC'
 )
-tuple_postpocess(tp_B0_ws_Mu)
+tuple_postprocess(tp_B0_ws_Mu)
 
 tp_B0_ws_Pi = tuple_initialize(
     'TupleB0WSPi',
     seq_B0_ws_Pi,
     '${b0}[B~0 -> ${dst}(D*(2010)- -> ${d0}(D0 -> ${k}K- ${pi}pi+) ${spi}pi-) ${mu}mu-]CC'
 )
-tuple_postpocess(tp_B0_ws_Pi)
+tuple_postprocess(tp_B0_ws_Pi)
 
 
 ################################################
