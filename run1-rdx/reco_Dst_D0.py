@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Aug 05, 2021 at 01:36 AM +0200
+# Last Change: Thu Aug 05, 2021 at 01:39 AM +0200
 #
 # Description: Definitions of selection and reconstruction procedures for run 1
 #              R(D(*)), with thorough comments.
@@ -850,6 +850,7 @@ if has_flag('CUTFLOW', 'NON_MU_MISID', 'BARE'):
     DaVinci().UserAlgorithms += [seq_Bminus.sequence(), seq_B0.sequence(),
                                  # ntuples
                                  tp_Bminus, tp_B0]
+
 elif DaVinci().Simulation:
     DaVinci().UserAlgorithms += [seq_Bminus.sequence(), seq_B0.sequence(),
                                  # ntuples
