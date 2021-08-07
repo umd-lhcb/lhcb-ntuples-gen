@@ -50,6 +50,10 @@ output ntuple.
 input ntuple.
 ''')
 
+    parser.add_argument('-s', '--silent',
+                        action='store_true',
+                        help='do no print output')
+
     parser.add_argument('-c', '--config',
                         default=False,
                         help='''
@@ -197,7 +201,7 @@ def skim_chains(output_ntp_name, chains, config):
     with ROOTFile(output_ntp_name, 'recreate') as ntp:
         for full_path, chain in chains.items():
             if config[full_path]['keep']:
-                print('Processing tree: {}'.format(full_path))
+                if not args.silent: print('Processing tree: {}'.format(full_path))
                 path, _ = path_basename(full_path)
 
                 if not ntp.GetDirectory(path):
@@ -273,14 +277,14 @@ if __name__ == '__main__':
 
     if args.mode == 'chain':
         chains = dict()
-        print('Output file: {}'.format(args.output_ntp))
+        if not args.silent: print('Output file: {}'.format(args.output_ntp))
 
         for ntp_path in glob_ntuples(args.input_ntp):
-            print('Adding {}...'.format(ntp_path))
+            if not args.silent: print('Adding {}...'.format(ntp_path))
             with ROOTFile(ntp_path, 'read') as ntp:
                 update_chains(ntp_path, chains, traverse_ntp(ntp))
 
-        print('Start skimming...')
+        if not args.silent: print('Slimming ntuple into '+args.output_ntp)
         skim_chains(args.output_ntp, chains, config)
 
     elif args.mode == 'friend':
@@ -289,13 +293,13 @@ if __name__ == '__main__':
         tree_branch_dict = dict()
 
         for ntp_path in glob_ntuples(args.input_ntp):
-            print('Adding {}...'.format(ntp_path))
+            if not args.silent: print('Adding {}...'.format(ntp_path))
             ntp = TFile(ntp_path, 'read')
             ntps.append(ntp)
 
             update_friend(ntp, friends, tree_branch_dict, traverse_ntp(ntp))
 
-        print('Merging all friend trees...')
+        if not args.silent: print('Merging all friend trees into '+args.output_ntp)
         merge_friend(args.output_ntp, friends, tree_branch_dict, config)
 
         for n in ntps:
