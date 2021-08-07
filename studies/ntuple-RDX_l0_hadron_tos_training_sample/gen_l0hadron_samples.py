@@ -7,7 +7,7 @@ import pathlib
 
 def run_cmd(cmd):
     print('\n \033[92m'+cmd+'\033[0m')
-    # os.system(cmd)
+    os.system(cmd)
 
 def mergeSlim(tag, ntpIn, ntpTrig):
     tmpFile1 = 'l0had_emu_'+tag+'_full_tmp.root'
