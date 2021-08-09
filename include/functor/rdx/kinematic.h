@@ -1,10 +1,11 @@
-// Author: Yipeng Sun
+// Author: Yipeng Sun, Svede Braun
 // License: BSD 2-clause
-// Last Change: Tue Jun 22, 2021 at 03:04 AM +0200
+// Last Change: Mon Aug 09, 2021 at 05:57 PM +0200
 
 #ifndef _LNG_FUNCTOR_RDX_KINEMATIC_H_
 #define _LNG_FUNCTOR_RDX_KINEMATIC_H_
 
+#include <Math/Vector4D.h>
 #include <TLorentzVector.h>
 #include <TMath.h>
 #include <TROOT.h>
@@ -29,29 +30,24 @@ Double_t M2(TLorentzVector v) { return v.M2(); }
 
 Double_t MINV(Double_t pi_px, Double_t pi_py, Double_t pi_pz, Double_t pi_pe,
               Double_t dst_px, Double_t dst_py, Double_t dst_pz,
-	      Double_t dst_pe) {
-  
-  
-  auto v4_pi = ROOT::Math::PxPyPzEVector(pi_px, pi_py, pi_pz, pi_pe);
-  auto v4_dst      = ROOT::Math::PxPyPzEVector(dst_px, dst_py, dst_pz, dst_pe);
+              Double_t dst_pe) {
+  auto v4_pi     = ROOT::Math::PxPyPzEVector(pi_px, pi_py, pi_pz, pi_pe);
+  auto v4_dst    = ROOT::Math::PxPyPzEVector(dst_px, dst_py, dst_pz, dst_pe);
   auto v4_dst_pi = v4_pi + v4_dst;
-  auto dst_iso_m  = v4_dst_pi.M();
-  //Double_t minv=(i+j).M()
-    return dst_iso_m;
+  auto dst_iso_m = v4_dst_pi.M();
+  return dst_iso_m;
 }
 
-Double_t ISO_DELTAM(Double_t pi_px, Double_t pi_py, Double_t pi_pz, Double_t pi_pe,
-              Double_t dst_px, Double_t dst_py, Double_t dst_pz,
-	      Double_t dst_pe, Double_t dst_m) {
-  
-  
-  auto v4_pi = ROOT::Math::PxPyPzEVector(pi_px, pi_py, pi_pz, pi_pe);
-  auto v4_dst      = ROOT::Math::PxPyPzEVector(dst_px, dst_py, dst_pz, dst_pe);
+Double_t ISO_DELTAM(Double_t pi_px, Double_t pi_py, Double_t pi_pz,
+                    Double_t pi_pe, Double_t dst_px, Double_t dst_py,
+                    Double_t dst_pz, Double_t dst_pe, Double_t dst_m) {
+  auto v4_pi     = ROOT::Math::PxPyPzEVector(pi_px, pi_py, pi_pz, pi_pe);
+  auto v4_dst    = ROOT::Math::PxPyPzEVector(dst_px, dst_py, dst_pz, dst_pe);
   auto v4_dst_pi = v4_pi + v4_dst;
-  auto dst_iso_m  = v4_dst_pi.M();
-  //Double_t minv=(i+j).M()
-    return dst_iso_m-dst_m;
+  auto dst_iso_m = v4_dst_pi.M();
+  return dst_iso_m - dst_m;
 }
+
 // Kinematics //////////////////////////////////////////////////////////////////
 
 // Original name: mm_mom
