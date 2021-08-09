@@ -1,6 +1,6 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Fri Jul 09, 2021 at 09:45 PM +0200
+// Last Change: Mon Aug 09, 2021 at 05:53 PM +0200
 
 #ifndef _LNG_FUNCTOR_BASIC_H_
 #define _LNG_FUNCTOR_BASIC_H_
@@ -79,12 +79,12 @@ std::vector<std::vector<int> > COMBINATION(int tot_size, int comb_size,
 
   for (int head = head_idx; head <= tot_size - comb_size; head++) {
     if (comb_size > 1) {
-      for (auto subComb : COMBINATION(tot_size, comb_size - 1, head + 1)) {
-        subComb.emplace(subComb.begin(), head);
-        result.emplace_back(subComb);
+      for (auto sub_comb : COMBINATION(tot_size, comb_size - 1, head + 1)) {
+        sub_comb.emplace(sub_comb.begin(), head);
+        result.push_back(sub_comb);
       }
     } else
-      result.emplace_back(std::vector<int>{head});
+      result.push_back(std::vector<int>{head});
   }
 
   return result;
