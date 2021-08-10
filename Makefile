@@ -1,6 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Jul 29, 2021 at 05:16 PM +0200
+# Last Change: Tue Aug 10, 2021 at 08:45 PM +0200
 
 VPATH := postprocess:test:scripts:ntuples
 VPATH := run1-rdx/cutflow:run2-rdx/cutflow:$(VPATH)
@@ -26,7 +26,7 @@ tagdate:
 
 install-dep:
 	@echo "Installing third-party Python libraries..."
-	@pip install -r ./requirements.txt
+	@pip install -r ./requirements.txt -U
 	@echo "Installing in-house Python libraries..."
 	@for p in $(LIB_PY); do \
 			cd $(PWD)/$$p; \
