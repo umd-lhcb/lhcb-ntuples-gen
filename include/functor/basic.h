@@ -1,6 +1,6 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Tue Aug 10, 2021 at 03:02 PM +0200
+// Last Change: Tue Aug 10, 2021 at 07:12 PM +0200
 
 #ifndef _LNG_FUNCTOR_BASIC_H_
 #define _LNG_FUNCTOR_BASIC_H_
@@ -11,7 +11,7 @@
 
 // Basic arithmetic ////////////////////////////////////////////////////////////
 
-template <class T>
+template <typename T>
 T ABS(T num) {
   return TMath::Abs(num);
 }
@@ -51,12 +51,26 @@ Bool_t VEC_OR(std::vector<Bool_t>& vec) {
   return std::find(vec.begin(), vec.end(), true) != vec.end();
 }
 
-template <class T>
+template <typename T>
 Bool_t VEC_OR_EQ(std::vector<T>& vec, T expr) {
   for (auto v : vec) {
     if (expr == v) return true;
   }
   return false;
+}
+
+// Conditional /////////////////////////////////////////////////////////////////
+
+template <typename T>
+T IF(bool condition, T true_val, T false_val) {
+  if (condition) return true_val;
+  return false_val;
+}
+
+template <typename T, typename U>
+T IF(bool condition, T true_val, U false_val) {
+  if (condition) return true_val;
+  return static_cast<T>(false_val);
 }
 
 // Units ///////////////////////////////////////////////////////////////////////
@@ -91,22 +105,10 @@ std::vector<std::vector<int> > COMBINATION(int tot_size, int comb_size,
 }
 
 // Vector construction /////////////////////////////////////////////////////////
+
 template <typename T, typename... ARGS>
 std::vector<T> BUILD_VEC(T const& arg0, ARGS const&... args) {
   return std::vector<T>{{arg0, args...}};
-}
-
-// Boolean /////////////////////////////////////////////////////////////////////
-template <typename T>
-T IF(bool condition, T true_val, T false_val) {
-  if (condition) return true_val;
-  return false_val;
-}
-
-template <typename T, typename U>
-T IF(bool condition, T true_val, U false_val) {
-  if (condition) return true_val;
-  return static_cast<T>(false_val);
 }
 
 #endif
