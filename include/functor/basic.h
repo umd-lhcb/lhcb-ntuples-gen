@@ -1,6 +1,6 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Mon Aug 09, 2021 at 05:53 PM +0200
+// Last Change: Tue Aug 10, 2021 at 03:02 PM +0200
 
 #ifndef _LNG_FUNCTOR_BASIC_H_
 #define _LNG_FUNCTOR_BASIC_H_
@@ -101,6 +101,12 @@ template <typename T>
 T IF(bool condition, T true_val, T false_val) {
   if (condition) return true_val;
   return false_val;
+}
+
+template <typename T, typename U>
+T IF(bool condition, T true_val, U false_val) {
+  if (condition) return true_val;
+  return static_cast<T>(false_val);
 }
 
 #endif
