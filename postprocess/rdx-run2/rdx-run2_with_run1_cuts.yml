@@ -231,28 +231,40 @@ one_cand_only:
     branch: calculation_prs_in
 
 output:
+    # Note: Units are in GeV!
     # main trees
     Dst:
         input: TupleB0/DecayTree
         selection:
             - "true"
+
     D0:
         input: TupleBminus/DecayTree
         selection:
             - "true"
 
     # "skims"
-    # Note: Units are in GeV!
     Dst_iso:
         input: TupleB0/DecayTree
         selection:
             - "iso_bdt1 < 0.15"
+
     Dst_DD:
         input: TupleB0/DecayTree
         selection:
             - "iso_bdt1 > 0.15"
-            - "MAX(iso_nnk1*(iso_type1 == 3), iso_nnk2*(iso_type2 == 3), iso_nnk3*(iso_type3 == 3)) > 0.2"
-            - "MAX(iso_p1*(iso_pt1 > 0.15), iso_p2*(iso_pt2 > 0.15)*(iso_bdt2 > -1.1), iso_p3*(iso_pt3 > 0.15)*(iso_bdt3 > -1.1)) > 5"
+            - >-
+                MAX(
+                IF(iso_bdt1 <= -1.1, 0.0f, iso_nnk1)*(iso_type1 == 3),
+                IF(iso_bdt2 <= -1.1, 0.0f, iso_nnk2)*(iso_type2 == 3),
+                IF(iso_bdt3 <= -1.1, 0.0f, iso_nnk3)*(iso_type3 == 3)
+                ) > 0.2
+            - >-
+                MAX(
+                iso_p1*(iso_pt1 > 0.15),
+                iso_p2*(iso_pt2 > 0.15)*(iso_bdt2 > -1.1),
+                iso_p3*(iso_pt3 > 0.15)*(iso_bdt3 > -1.1)
+                ) > 5
 
     Dst_Dstst:
         input: TupleB0/DecayTree
@@ -274,8 +286,7 @@ output:
             - "iso_bdt2 > 0.15"
             - "iso_bdt3 < 0.15"
             - "iso_chrg1 != 0"
-            - "iso_chrg2 != 0"
-            - "iso_chrg1 != iso_chrg2"
+            - "iso_chrg1+iso_chrg2 == 0"
             - "iso_chrg1 < 100"  # Yipeng: This I don't understand, because charge should be -1, 0, or 1 so this will always be true
             - "iso_type1 == 3"
             - "iso_type2 == 3"
@@ -323,8 +334,7 @@ output:
             - "iso_bdt2 > 0.15"
             - "iso_bdt3 < 0.15"
             - "iso_chrg1 != 0"
-            - "iso_chrg2 != 0"
-            - "iso_chrg1 != iso_chrg2"
+            - "iso_chrg1+iso_chrg2 == 0"
             - "iso_chrg1 < 100"  # Yipeng: again, same problem
             - "iso_type1 == 3"
             - "iso_type2 == 3"
