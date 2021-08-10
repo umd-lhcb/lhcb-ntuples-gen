@@ -1,6 +1,6 @@
 TupleB0/DecayTree:
     selection:
-        - "max(k_L0Calo_HCAL_TriggerET, pi_L0Calo_HCAL_TriggerET) > 0"
+        - "max(k_L0Calo_HCAL_TriggerET, pi_L0Calo_HCAL_TriggerET) <= 0"
     deactivate:
         - '*'
     activate:
