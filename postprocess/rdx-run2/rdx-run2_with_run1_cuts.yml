@@ -35,9 +35,9 @@ calculation:
     iso_bdt2: double; b0_ISOLATION_BDT2; b_ISOLATION_BDT2
     iso_bdt3: double; b0_ISOLATION_BDT3; b_ISOLATION_BDT3
     # PID
-    iso_nnk1: float; b0_ISOLATION_NNk; b_ISOLATION_NNk;
-    iso_nnk2: float; b0_ISOLATION_NNk2; b_ISOLATION_NNk2;
-    iso_nnk3: float; b0_ISOLATION_NNk3; b_ISOLATION_NNk3;
+    iso_nnk1: float; b0_ISOLATION_NNk; b_ISOLATION_NNk
+    iso_nnk2: float; b0_ISOLATION_NNk2; b_ISOLATION_NNk2
+    iso_nnk3: float; b0_ISOLATION_NNk3; b_ISOLATION_NNk3
     # Charge
     iso_chrg1: int; b0_ISOLATION_CHARGE;  b_ISOLATION_CHARGE
     iso_chrg2: int; b0_ISOLATION_CHARGE2; b_ISOLATION_CHARGE2
