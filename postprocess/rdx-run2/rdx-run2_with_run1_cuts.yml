@@ -35,7 +35,7 @@ calculation:
     iso_bdt2: double; b0_ISOLATION_BDT2; b_ISOLATION_BDT2
     iso_bdt3: double; b0_ISOLATION_BDT3; b_ISOLATION_BDT3
     # PID
-    iso_nnk1: "float; IF(iso_bdt1 <= 1.1, 0.0f, b0_ISOLATION_NNk); IF(iso_bdt1 <= 1.1, 0.0f, b_ISOLATION_NNk);"
+    iso_nnk1: "float; IF(iso_bdt1 <= 1.1, 0.0f, b0_ISOLATION_NNk); IF(iso_bdt1 <= 1.1, 0.0f, b_ISOLATION_NNk);"  # Yipeng: Even max(iso_bdt1) < 1. Did you mean -1.1?
     iso_nnk2: "float; IF(iso_bdt2 <= 1.1, 0.0f, b0_ISOLATION_NNk2); IF(iso_bdt2 <= 1.1, 0.0f, b_ISOLATION_NNk2);"
     iso_nnk3: "float; IF(iso_bdt3 <= 1.1, 0.0f, b0_ISOLATION_NNk3); IF(iso_bdt3 <= 1.1, 0.0f, b_ISOLATION_NNk3);"
     # Charge
