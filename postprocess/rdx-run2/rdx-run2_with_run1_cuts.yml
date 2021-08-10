@@ -35,15 +35,24 @@ calculation:
     iso_bdt2: double; b0_ISOLATION_BDT2; b_ISOLATION_BDT2
     iso_bdt3: double; b0_ISOLATION_BDT3; b_ISOLATION_BDT3
     # PID
-    iso_nnk1: float; b0_ISOLATION_NNk;  b_ISOLATION_NNk
-    iso_nnk2: float; b0_ISOLATION_NNk2; b_ISOLATION_NNk2
-    iso_nnk2: float; b0_ISOLATION_NNk3; b_ISOLATION_NNk3
+    iso_nnk1: >-
+        float;
+        IF(iso_bdt1 <= 1.1, 0.0, b0_ISOLATION_NNk);
+        IF(iso_bdt1 <= 1.1, 0.0, b_ISOLATION_NNk);
+    iso_nnk2: >-
+        float;
+        IF(iso_bdt2 <= 1.1, 0.0, b0_ISOLATION_NNk2);
+        IF(iso_bdt2 <= 1.1, 0.0, b_ISOLATION_NNk2);
+    iso_nnk3: >-
+        float;
+        IF(iso_bdt3 <= 1.1, 0.0, b0_ISOLATION_NNk3);
+        IF(iso_bdt3 <= 1.1, 0.0, b_ISOLATION_NNk3);
     # Charge
     iso_chrg1: int; b0_ISOLATION_CHARGE;  b_ISOLATION_CHARGE
     iso_chrg2: int; b0_ISOLATION_CHARGE2; b_ISOLATION_CHARGE2
     # Kinematic
     iso_p1: float; GEV(MAG(b0_ISOLATION_PX, b0_ISOLATION_PY, b0_ISOLATION_PZ)); GEV(MAG(b_ISOLATION_PX, b_ISOLATION_PY, b_ISOLATION_PZ))
-    iso_pt1: float; GEV(MAG(b0_ISOLATION_PX, b0_ISOLATION_PY)); GEV(MAG(b_ISOLATION_PX, b_ISOLATION_PY))
+    #iso_pt1: float; GEV(MAG(b0_ISOLATION_PX, b0_ISOLATION_PY)); GEV(MAG(b_ISOLATION_PX, b_ISOLATION_PY))
     # Track types
     iso_type1: int; b0_ISOLATION_Type; b_ISOLATION_Type
     iso_type2: int; b0_ISOLATION_Type2; b_ISOLATION_Type2
@@ -71,8 +80,8 @@ calculation:
     dst_m: double; GEV(dst_M)
     dst_p: double; GEV(dst_P)
     dst_pt: double; GEV(dst_PT)
-    dst_iso_invm: double; MINV( b0_ISOLATION_PX, b0_ISOLATION_PY, b0_ISOLATION_PZ, b0_ISOLATION_PE, dst_PX, dst_PY, dst_PZ, dst_PE)
-    dst_iso_deltam: double; ISO_DELTAM(b0_ISOLATION_PX, b0_ISOLATION_PY, b0_ISOLATION_PZ, b0_ISOLATION_PE, dst_PX, dst_PY, dst_PZ, dst_PE, dst_M)
+    dst_iso_invm: double; GEV(MINV(b0_ISOLATION_PX, b0_ISOLATION_PY, b0_ISOLATION_PZ, b0_ISOLATION_PE, dst_PX, dst_PY, dst_PZ, dst_PE))
+    dst_iso_deltam: double; GEV(ISO_DELTAM(b0_ISOLATION_PX, b0_ISOLATION_PY, b0_ISOLATION_PZ, b0_ISOLATION_PE, dst_PX, dst_PY, dst_PZ, dst_PE, dst_M))
     dst_ID: int; dst_ID
     # D0
     d0_m: double; GEV(d0_M)
@@ -238,7 +247,7 @@ output:
             - "true"
 
     # "skims"
-
+    # Note: Units are in GeV!
     Dst_iso:
         input: TupleB0/DecayTree
         selection:
@@ -246,66 +255,60 @@ output:
     Dst_DD:
         input: TupleB0/DecayTree
         selection:
-            - "IF(iso_bdt1<=1.1,iso_nnk1=0.0,iso_nnk1)"
-            - "IF(iso_bdt2<=1.1,iso_nnk2=0.0,iso_nnk2)"
-            - "IF(iso_bdt3<=1.1,iso_nnk3=0.0,iso_nnk3)"
             - "iso_bdt1 > 0.15"
-            - "MAX(iso_nnk1*(iso_type1==3), iso_nnk2*(iso_type2==3), iso_nnk3*(iso_type3==3)) > 0.2"
-            - "MAX(iso_p1*(iso_pt1>150),iso_p2*(iso_pt2>150)*(iso_bdt2 > -1.1),iso_p3*(iso_pt3>150)*(iso_bdt3 > -1.1))>5e3"
+            - "MAX(iso_nnk1*(iso_type1 == 3), iso_nnk2*(iso_type2 == 3), iso_nnk3*(iso_type3 == 3)) > 0.2"
+            - "MAX(iso_p1*(iso_pt1 > 0.15), iso_p2*(iso_pt2 > 0.15)*(iso_bdt2 > -1.1), iso_p3*(iso_pt3 > 0.15)*(iso_bdt3 > -1.1)) > 5"
 
     Dst_Dstst:
         input: TupleB0/DecayTree
         selection:
             - "iso_bdt1 > 0.15"
             - "iso_bdt2 < 0.15"
-            - "iso_type1==3"
+            - "iso_type1 == 3"
             - "iso_nnk1 < 0.2"
-            - "iso_chrg1*dst_ID <0 "
-            - "iso_p1 > 5e3"
+            - "iso_chrg1*dst_ID < 0"
+            - "iso_p1 > 5"
             - "iso_pt1 > 0.15"
-            - "360 < dst_iso_deltam && dst_iso_deltam < 600" #Phoebe's cut
-            # Greg's cut - "2400 < dst_iso_invm && dst_iso_invm < 2520"
-    
+            - "0.36 < dst_iso_deltam && dst_iso_deltam < 0.6"  # Phoebe's cut
+            # Greg's cut - "2.4 < dst_iso_invm && dst_iso_invm < 2.52"
+
     Dst_2os:
         input: TupleB0/DecayTree
         selection:
             - "iso_bdt1 > 0.15"
             - "iso_bdt2 > 0.15"
             - "iso_bdt3 < 0.15"
-            - "iso_chrg1!=0"
-            - "iso_chrg2!=0"
-            - "iso_chrg1!=iso_chrg2"
-            - "iso_chrg1<100"
-            - "iso_type2==3"
-            - "iso_type1==3
+            - "iso_chrg1 != 0"
+            - "iso_chrg2 != 0"
+            - "iso_chrg1 != iso_chrg2"
+            - "iso_chrg1 < 100"  # Yipeng: This I don't understand, because charge should be -1, 0, or 1 so this will always be true
+            - "iso_type1 == 3"
+            - "iso_type2 == 3"
             - "iso_nnk1 < 0.2"
             - "iso_nnk2 < 0.2"
-            - "MAX(iso_p1*(iso_pt1>150),iso_p2*(iso_pt2>150))>5e3"
+            - "MAX(iso_p1*(iso_pt1 > 0.15), iso_p2*(iso_pt2 > 0.15)) > 0.5"
 
     D0_iso:
         input: TupleBminus/DecayTree
         selection:
             - "iso_bdt1 < 0.15"
-    
+
     D0_DD:
         input: TupleBminus/DecayTree
         selection:
-            - "IF(iso_bdt1<=1.1,iso_nnk1=0.0,iso_nnk1)"
-            - "IF(iso_bdt2<=1.1,iso_nnk2=0.0,iso_nnk2)"
-            - "IF(iso_bdt3<=1.1,iso_nnk3=0.0,iso_nnk3)"
             - "iso_bdt1 > 0.15"
-            - "MAX(iso_nnk1*(iso_type1==3), iso_nnk2*(iso_type2==3), iso_nnk3*(iso_type3==3)) > 0.2"
-            - "MAX(iso_p1*(iso_pt1>150),iso_p2*(iso_pt2>150)*(iso_bdt2 > -1.1),iso_p3*(iso_pt3>150)*(iso_bdt3 > -1.1))>5e3"
- 
+            - "MAX(iso_nnk1*(iso_type1 == 3), iso_nnk2*(iso_type2 == 3), iso_nnk3*(iso_type3 == 3)) > 0.2"
+            - "MAX(iso_p1*(iso_pt1 > 0.15), iso_p2*(iso_pt2 > 0.15)*(iso_bdt2 > -1.1), iso_p3*(iso_pt3 > 0.15)*(iso_bdt3 > -1.1)) > 5"
+
     D0_1os:
         input: TupleBminus/DecayTree
         selection:
             - "iso_bdt1 > 0.15"
             - "iso_bdt2 < 0.15"
-            - "iso_type1==3"
+            - "iso_type1 == 3"
             - "iso_nnk1 < 0.2"
-            - "iso_chrg1*d0_ID >0 "
-            - "iso_p1 > 5e3"
+            - "iso_chrg1*d0_ID > 0"  # Note: different requirement then D*
+            - "iso_p1 > 5"
             - "iso_pt1 > 0.15"
 
     D0_2os:
@@ -314,13 +317,12 @@ output:
             - "iso_bdt1 > 0.15"
             - "iso_bdt2 > 0.15"
             - "iso_bdt3 < 0.15"
-            - "iso_chrg1!=0"
-            - "iso_chrg2!=0"
-            - "iso_chrg1!=iso_chrg2"
-            - "iso_chrg1<100"
-            - "iso_type2==3"
-            - "iso_type1==3
+            - "iso_chrg1 != 0"
+            - "iso_chrg2 != 0"
+            - "iso_chrg1 != iso_chrg2"
+            - "iso_chrg1 < 100"  # Yipeng: again, same problem
+            - "iso_type1 == 3"
+            - "iso_type2 == 3"
             - "iso_nnk1 < 0.2"
             - "iso_nnk2 < 0.2"
-            - "MAX(iso_p1*(iso_pt1>150),iso_p2*(iso_pt2>150))>5e3"
-            
+            - "MAX(iso_p1*(iso_pt1 > 0.15), iso_p2*(iso_pt2 > 0.15)) > 5"
