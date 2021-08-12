@@ -7,6 +7,11 @@ TupleB0/DecayTree:
         - eventNumber
         # Fit variables
         - "FitVar_*"
+        # B kinematics
+        - "b*_TRUEP*"
+        # Truth info
+        - "b*_TRUEID"
+        - "mu_TRUEID"
         # Potential HAMMER inputs
         - "*_TrueHadron_*"
         - "*_True_Q2"
