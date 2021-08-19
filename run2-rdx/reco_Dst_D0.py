@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Aug 19, 2021 at 03:35 AM +0200
+# Last Change: Fri Aug 20, 2021 at 12:32 AM +0200
 #
 # Description: Definitions of selection and reconstruction procedures for run 2
 #              R(D(*)). For more thorough comments, take a look at:
@@ -702,18 +702,18 @@ def tuple_initialize_aux(name, template):
 
 
 def tuple_postprocess_data(tp, B_meson='b0', Mu='mu',
-                          weights='./weights_soft.xml',
-                          trigger_list_global=[
-                              # L0
-                              'L0HadronDecision',
-                              'L0MuonDecision',
-                              # HLT 1
-                              'Hlt1TrackMVADecision',
-                              'Hlt1TwoTrackMVADecision',
-                              # HLT 2
-                              'Hlt2XcMuXForTauB2XcMuDecision'
-                          ]
-                          ):
+                           weights='./weights_soft.xml',
+                           trigger_list_global=[
+                               # L0
+                               'L0HadronDecision',
+                               'L0MuonDecision',
+                               # HLT 1
+                               'Hlt1TrackMVADecision',
+                               'Hlt1TwoTrackMVADecision',
+                               # HLT 2
+                               'Hlt2XcMuXForTauB2XcMuDecision'
+                           ]
+                           ):
     tt_trigger = tp.addTupleTool('TupleToolTrigger')
     tt_trigger.Verbose = True
     tt_trigger.TriggerList = trigger_list_global
@@ -729,10 +729,11 @@ def tuple_postprocess_data(tp, B_meson='b0', Mu='mu',
     # tt_tistos_B.Verbose = True
     # tt_tistos_B.TriggerList = trigger_list_B
 
-    # D* veto in D0
-    tt_dst_veto = getattr(tp, B_meson).addTupleTool(
-        'TupleToolApplyIsolationVetoDst')
-    tt_dst_veto.WeightsFile = weights
+    # D* veto in D0. Only add in D* trees
+    if B_meson.lower() == 'b0':
+        tt_dst_veto = getattr(tp, B_meson).addTupleTool(
+            'TupleToolApplyIsolationVetoDst')
+        tt_dst_veto.WeightsFile = weights
 
     getattr(tp, B_meson).addTupleTool('TupleToolTagDiscardDstMu')
     getattr(tp, B_meson).addTupleTool('TupleToolTauMuDiscrVars')
@@ -744,25 +745,25 @@ def tuple_postprocess_data(tp, B_meson='b0', Mu='mu',
 
 
 def tuple_postprocess_mc(tp,
-                        B_meson='b0',
-                        emu_hlt1_lines=[
-                            'Hlt1TwoTrackMVA'
-                        ],
-                        extra_hlt1_vars=[],
-                        extra_hlt1_vars_combo=[
-                            'VERTEX_CHI2_COMB',
-                            'VERTEX_NDOF_COMB',
-                            'ETA_COMB',
-                            'MCORR_OWNPV_COMB',
-                            'SUMPT_COMB',
-                            'DIRA_OWNPV_COMB',
-                            'DOCA_COMB',
-                            'VDCHI2_OWNPV_COMB',
-                            'IPCHI2_OWNPV_COMB',
-                            'PT_COMB',
-                            'P_COMB'
-                        ],
-                        **kwargs):
+                         B_meson='b0',
+                         emu_hlt1_lines=[
+                             'Hlt1TwoTrackMVA'
+                         ],
+                         extra_hlt1_vars=[],
+                         extra_hlt1_vars_combo=[
+                             'VERTEX_CHI2_COMB',
+                             'VERTEX_NDOF_COMB',
+                             'ETA_COMB',
+                             'MCORR_OWNPV_COMB',
+                             'SUMPT_COMB',
+                             'DIRA_OWNPV_COMB',
+                             'DOCA_COMB',
+                             'VDCHI2_OWNPV_COMB',
+                             'IPCHI2_OWNPV_COMB',
+                             'PT_COMB',
+                             'P_COMB'
+                         ],
+                         **kwargs):
     tuple_postprocess_data(tp, B_meson=B_meson, **kwargs)
 
     # Always add L0 and HLT1 emulation variables for MC
