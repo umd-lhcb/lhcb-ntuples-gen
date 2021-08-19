@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Jul 29, 2021 at 03:46 PM +0200
+# Last Change: Thu Aug 19, 2021 at 08:43 PM +0200
 
 import sys
 import os
@@ -73,6 +73,14 @@ def ensure_output_dir(output_dir, **kwargs):
     return output_dir
 
 
+def handle_blacklist(files, patterns):
+    ok_files = []
+    for f in files:
+        if True not in [p in f for p in patterns]:
+            ok_files.append(f)
+    return ok_files
+
+
 #############
 # Workflows #
 #############
@@ -86,6 +94,7 @@ def workflow_general(job_name, inputs, output_dir,
                          '../scripts'
                      ],
                      input_patterns=['*.root'],
+                     blacklist_patterns=['__aux']
                      ):
     print('{}== Job: {} =={}'.format(TC.BOLD+TC.GREEN, job_name, TC.END))
     for p in global_path_to_append+path_to_append:
@@ -93,6 +102,7 @@ def workflow_general(job_name, inputs, output_dir,
 
     # Need to figure out the absolute path
     input_files = find_all_input(inputs, input_patterns)
+    input_files = handle_blacklist(input_files, blacklist_patterns)
     subworkdirs = {os_path.splitext(os_path.basename(i))[0]: i
                    for i in input_files}
 
