@@ -1,6 +1,6 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Tue Jul 27, 2021 at 03:56 PM +0200
+// Last Change: Thu Aug 19, 2021 at 03:54 PM +0200
 // NOTE: All kinematic variables are in MeV
 
 #ifndef _LNG_FUNCTOR_RDX_CUT_H_
@@ -9,7 +9,6 @@
 #include <Math/Vector3D.h>
 #include <Math/Vector4D.h>
 #include <TMath.h>
-#include <TVector3.h>
 
 #include <vector>
 
