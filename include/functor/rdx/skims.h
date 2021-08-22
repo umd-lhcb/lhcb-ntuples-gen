@@ -57,7 +57,7 @@ Bool_t FLAG_2OS(Double_t iso_bdt1, Double_t iso_bdt2, Double_t iso_bdt3,
                 Float_t iso_pt1, Float_t iso_pt2,
                 Int_t iso_chrg1, Int_t iso_chrg2,
                 Float_t iso_nnk1, Float_t iso_nnk2) {
-  return (iso_bdt1 > 0.15) && (iso_bdt2 < 0.15) && (iso_bdt3 < 0.15) &&
+  return (iso_bdt1 > 0.15) && (iso_bdt2 > 0.15) && (iso_bdt3 < 0.15) &&
     (iso_type1 == 3) && (iso_type2 == 3) &&
     (MAX(iso_p1*(iso_pt1 > 0.15), iso_p2*(iso_pt2 > 0.15)) > 5.0) &&
     (iso_chrg1 != 0) && (iso_chrg1 + iso_chrg2 == 0) && (iso_chrg1 < 100) &&
@@ -74,7 +74,7 @@ Bool_t FLAG_1OS(Double_t iso_bdt1, Double_t iso_bdt2,
   return (iso_bdt1 > 0.15) && (iso_bdt2 < 0.15) &&
     (iso_type1 == 3) &&
     (iso_p1 > 5.0) && (iso_pt1 > 0.15) &&
-    (iso_chrg1*d0_id) > 0 &&
+    (iso_chrg1*d0_id) < 0 &&
     (iso_nnk1 < 0.2);
 }
 // clang-format on
