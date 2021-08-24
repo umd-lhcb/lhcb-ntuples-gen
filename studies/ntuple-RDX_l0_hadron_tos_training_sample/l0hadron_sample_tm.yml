@@ -9,6 +9,10 @@ TupleB0/DecayTree:
         - eventNumber
         - NumSPDHits
         - nTracks
+        - FitVar_El
+        - FitVar_q2
+        - FitVar_Mmiss2
+        - b0_ISOLATION_BDT
         # Trigger
         - k_L0HadronDecision_TOS
         - pi_L0HadronDecision_TOS
@@ -35,6 +39,17 @@ TupleB0/DecayTree:
         - pi_L0Calo_HCAL_xProjection
         - pi_L0Calo_HCAL_yProjection
         - pi_L0Calo_HCAL_region
+        # spi
+        - spi_TRUEPT
+        - spi_P
+        - spi_PT
+        - spi_X
+        - spi_Y
+        - spi_L0Calo_HCAL_realET
+        - spi_L0Calo_HCAL_TriggerET
+        - spi_L0Calo_HCAL_xProjection
+        - spi_L0Calo_HCAL_yProjection
+        - spi_L0Calo_HCAL_region
         # D0
         - d0_PT
         - d0_P
