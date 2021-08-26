@@ -1,6 +1,6 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Tue Aug 10, 2021 at 07:12 PM +0200
+// Last Change: Thu Aug 26, 2021 at 08:05 PM +0200
 
 #ifndef _LNG_FUNCTOR_BASIC_H_
 #define _LNG_FUNCTOR_BASIC_H_
@@ -30,6 +30,15 @@ T MAX(T arg0, ARGS... args) {
   auto vec    = std::vector<T>{args...};
   for (auto val : vec)
     if (val > result) result = val;
+  return result;
+}
+
+template <typename T, typename... ARGS>
+T MIN(T arg0, ARGS... args) {
+  auto result = arg0;
+  auto vec    = std::vector<T>{args...};
+  for (auto val : vec)
+    if (val < result) result = val;
   return result;
 }
 
