@@ -1,6 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Aug 10, 2021 at 08:45 PM +0200
+# Last Change: Fri Aug 27, 2021 at 01:01 AM +0200
 
 VPATH := postprocess:test:scripts:ntuples
 VPATH := run1-rdx/cutflow:run2-rdx/cutflow:$(VPATH)
@@ -115,7 +115,7 @@ rdx-trigger-emu-nor-fs-vs-to: \
 .PHONY: rdx-cutflows
 
 rdx-cutflows:
-	workflows/rdx-cutflows.py
+	workflows/rdx_cutflows.py
 
 
 ####################
