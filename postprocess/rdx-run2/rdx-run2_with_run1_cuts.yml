@@ -81,7 +81,7 @@ calculation:
     dst_pt: double; GEV(dst_PT)
     dst_iso_invm: double; GEV(MINV(b0_ISOLATION_PX, b0_ISOLATION_PY, b0_ISOLATION_PZ, b0_ISOLATION_PE, dst_PX, dst_PY, dst_PZ, dst_PE))
     dst_iso_deltam: double; GEV(ISO_DELTAM(b0_ISOLATION_PX, b0_ISOLATION_PY, b0_ISOLATION_PZ, b0_ISOLATION_PE, dst_PX, dst_PY, dst_PZ, dst_PE, dst_M))
-    dst_veto_deltam: double; MIN(ABS(b_ISOLATION_DstWindowDELTAM-145.454), ABS(b_ISOLATION_DstWindowDELTAM2-145.454)); ABS(dst_M-d0_M-145.454)  # MeV!
+    dst_veto_deltam: double; MIN(ABS(b_ISOLATION_DstWindowDELTAM-145.454), ABS(b_ISOLATION_DstWindowDELTAM2-145.454)); ABS(dst_M-d0_M-145.454); -1  # MeV!
     # D0
     d0_m: double; GEV(d0_M)
     d0_p: double; GEV(d0_P)
@@ -191,7 +191,7 @@ calculation:
     trk_spi: ^XYZVector; XYZVector(spi_PX, spi_PY, spi_PZ)
     trks_other: ^vector<XYZVector>; BUILD_VEC(trk_k, trk_pi, trk_spi); BUILD_VEC(trk_k, trk_pi)
     # Actual flags
-    trks_ok: bool; FLAG_SEL_GOOD_TRACKS(trk_mu, other_trks)
+    trks_ok: bool; FLAG_SEL_GOOD_TRACKS(trk_mu, trks_other)
     mu_pid_ok: bool; FLAG_SEL_MU_PID_OK_RUN1(mu_isMuon, mu_PIDmu, mu_PIDe, mu_bdt_mu)
     mu_ok: >-
         bool; FLAG_SEL_MU_RUN1(
