@@ -203,7 +203,7 @@ calculation:
     # D0Mu combo selection
     d0mu_ok: >-
         bool; FLAG_SEL_BMINUSD0_RUN1(
-        d0_ok, is_mu,
+        d0_ok, mu_ok,
         b_ENDVERTEX_CHI2, b_ENDVERTEX_NDOF,
         b_fd_trans,
         b_DIRA_OWNPV,
@@ -280,3 +280,14 @@ output:
         input: TupleBminus/DecayTree
         selection:
             - "true"
+        mute:
+            - "^b0_.*"
+            - "^spi_.*"
+            - "trk_spi"
+            - "dst_m"
+            - "dst_id"
+            - "dst_endvtx_chi2ndof"
+            - "dst_p.*"
+            - "dst_iso.*"
+            - "dstmu_ok"
+            - "is_dstst"
