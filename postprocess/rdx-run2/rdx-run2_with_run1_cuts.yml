@@ -11,6 +11,8 @@ keep:
     - GpsTime
 
 rename:
+    runNumber: run
+    eventNumber: event
     # L0
     b0_L0Global_TIS: b0_l0_global_tis
     b_L0Global_TIS: b_l0_global_tis
@@ -24,10 +26,6 @@ rename:
     b_Hlt2XcMuXForTauB2XcMuDecision_TOS: b_hlt2_tos
 
 calculation:
-    # Global (cannot be renamed and kept at the same time)
-    run: int; runNumber
-    event: long; eventNumber
-
     # For pseudo-random sequence generation
     prs_in: double; b0_PT; b_PT
 
@@ -81,7 +79,7 @@ calculation:
     dst_pt: double; GEV(dst_PT)
     dst_iso_invm: double; GEV(MINV(b0_ISOLATION_PX, b0_ISOLATION_PY, b0_ISOLATION_PZ, b0_ISOLATION_PE, dst_PX, dst_PY, dst_PZ, dst_PE))
     dst_iso_deltam: double; GEV(ISO_DELTAM(b0_ISOLATION_PX, b0_ISOLATION_PY, b0_ISOLATION_PZ, b0_ISOLATION_PE, dst_PX, dst_PY, dst_PZ, dst_PE, dst_M))
-    dst_veto_deltam: double; MIN(ABS(b_ISOLATION_DstWindowDELTAM-145.454), ABS(b_ISOLATION_DstWindowDELTAM2-145.454)); ABS(dst_M-d0_M-145.454); -1  # MeV!
+    dst_veto_deltam: double; MIN(ABS(b_ISOLATION_DstWindowDELTAM-145.454), ABS(b_ISOLATION_DstWindowDELTAM2-145.454)); ABS(dst_M-d0_M-145.454); 100.0  # MeV!
     # D0
     d0_m: double; GEV(d0_M)
     d0_p: double; GEV(d0_P)
