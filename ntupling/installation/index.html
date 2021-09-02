@@ -913,10 +913,11 @@ We have a private server, <code>julian</code>, that hosts <code>git-annex</code>
 git remote add julian git@129.2.92.92:lhcb-ntuples-gen
 git annex init --version<span class="o">=</span><span class="m">7</span>
 git submodule update --init  <span class="c1"># Do this before git annex sync to avoid potential mess-up of submodule pointers!</span>
-git annex sync julian
+git annex sync
+
 <span class="c1"># It is higly recommended to install nix now before proceed! See below for some pointers on how to do it</span>
 <span class="c1"># If you have nix installed:</span>
-<span class="c1"># nix develop</span>
+<span class="c1">#   nix develop</span>
 make install-dep
 </code></pre></div>
 <p>Note that these commands will only initialize the files controlled by <code>git-annex</code> (several GB in total)
