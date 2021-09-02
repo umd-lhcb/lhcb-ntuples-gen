@@ -7,7 +7,6 @@ Clone the repository and set up the `annex` component[^1].
 We have a private server, `julian`, that hosts `git-annex` files.
 
 ```shell
-## Repo with code to make ntuples and annex with STEP 1 ntuples
 git clone git@github.com:umd-lhcb/lhcb-ntuples-gen
 cd lhcb-ntuples-gen
 git remote add julian git@129.2.92.92:lhcb-ntuples-gen
@@ -18,15 +17,6 @@ git annex sync julian
 # If you have nix installed:
 # nix develop
 make install-dep
-
-## Repo with STEP 2 ntuples
-# Make sure you are NOT inside any of the previous repos!
-git clone git@github.com:umd-lhcb/rdx-run2-analysis
-cd rdx-run2-analysis
-git remote add julian git@129.2.92.92:rdx-run2-analysis
-git annex init --version=7
-git submodule update --init  # Do this before git annex sync!
-git annex sync julian
 ```
 
 Note that these commands will only initialize the files controlled by `git-annex` (several GB in total)
