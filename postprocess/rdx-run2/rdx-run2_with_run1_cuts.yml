@@ -190,7 +190,7 @@ calculation:
     trks_other: ^vector<XYZVector>; BUILD_VEC(trk_k, trk_pi, trk_spi); BUILD_VEC(trk_k, trk_pi)
     # Actual flags
     trks_ok: bool; FLAG_SEL_GOOD_TRACKS(trk_mu, trks_other)
-    mu_pid_ok: bool; FLAG_SEL_MU_PID_OK_RUN1(mu_isMuon, mu_PIDmu, mu_PIDe, mu_bdt_mu)
+    mu_pid_ok: bool; FLAG_SEL_MU_PID_OK_RUN1(mu_isMuon, mu_PIDmu, mu_PIDe, mu_ubdt)
     mu_ok: >-
         bool; FLAG_SEL_MU_RUN1(
         trks_ok, mu_pid_ok,
