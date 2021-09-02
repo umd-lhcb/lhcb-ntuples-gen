@@ -7,9 +7,11 @@ import pathlib
 import sys
 from datetime import date
 
+
 def runCmd(cmd):
     print('\n \033[92m'+cmd+'\033[0m')
     os.system(cmd)
+
 
 def makeNtuple(ntpIn, yml, tag, addBDT=True):
     ## Checking input ntuple exists
@@ -36,9 +38,9 @@ def makeNtuple(ntpIn, yml, tag, addBDT=True):
 
     ## Compiling c++ file
     exeBaby = './baby.exe'
-    compiler = os.popen('root-config --cxx').read().replace('\n','')
-    cxxFlags = ' '+os.popen('root-config --cflags').read().replace('\n','')
-    linkFlags = ' '+os.popen('root-config --libs').read().replace('\n','')
+    compiler = os.popen('root-config --cxx').read().replace('\n', '')
+    cxxFlags = ' '+os.popen('root-config --cflags').read().replace('\n', '')
+    linkFlags = ' '+os.popen('root-config --libs').read().replace('\n', '')
     runCmd(compiler+cxxFlags+' -Iinclude -o '+exeBaby+' '+cppBaby+' '+linkFlags)
 
     ## Producing step 2 ntuple
