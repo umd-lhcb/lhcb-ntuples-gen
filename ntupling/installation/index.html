@@ -908,8 +908,7 @@ permission to <code>julian</code>, the <code>git-annex</code> server where our n
 </div>
 <p>Clone the repository and set up the <code>annex</code> component<sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup>.
 We have a private server, <code>julian</code>, that hosts <code>git-annex</code> files.</p>
-<div class="highlight"><pre><span></span><code><span class="c1">## Repo with code to make ntuples and annex with STEP 1 ntuples</span>
-git clone git@github.com:umd-lhcb/lhcb-ntuples-gen
+<div class="highlight"><pre><span></span><code>git clone git@github.com:umd-lhcb/lhcb-ntuples-gen
 <span class="nb">cd</span> lhcb-ntuples-gen
 git remote add julian git@129.2.92.92:lhcb-ntuples-gen
 git annex init --version<span class="o">=</span><span class="m">7</span>
@@ -919,15 +918,6 @@ git annex sync julian
 <span class="c1"># If you have nix installed:</span>
 <span class="c1"># nix develop</span>
 make install-dep
-
-<span class="c1">## Repo with STEP 2 ntuples</span>
-<span class="c1"># Make sure you are NOT inside any of the previous repos!</span>
-git clone git@github.com:umd-lhcb/rdx-run2-analysis
-<span class="nb">cd</span> rdx-run2-analysis
-git remote add julian git@129.2.92.92:rdx-run2-analysis
-git annex init --version<span class="o">=</span><span class="m">7</span>
-git submodule update --init  <span class="c1"># Do this before git annex sync!</span>
-git annex sync julian
 </code></pre></div>
 <p>Note that these commands will only initialize the files controlled by <code>git-annex</code> (several GB in total)
 with symbolic links. You typically will download individual files as you need them with
