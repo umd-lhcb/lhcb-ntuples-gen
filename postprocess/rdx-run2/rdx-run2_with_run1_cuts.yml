@@ -271,16 +271,12 @@ one_cand_only:
 output:
     Dst:
         input: TupleB0/DecayTree
-        selection:
-            - "true"
         mute:
             - "^b_.*"
             - "d0mu_ok"
 
     D0:
         input: TupleBminus/DecayTree
-        selection:
-            - "true"
         mute:
             - "^b0_.*"
             - "^spi_.*"
