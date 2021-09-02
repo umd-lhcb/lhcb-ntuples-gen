@@ -66,6 +66,7 @@ calculation:
     dst_m: double; GEV(dst_M)
     dst_p: double; GEV(dst_P)
     dst_pt: double; GEV(dst_PT)
+    dst_veto_deltam: double; MIN(ABS(b_ISOLATION_DstWindowDELTAM-145.454), ABS(b_ISOLATION_DstWindowDELTAM2-145.454)); ABS(dst_M-d0_M-145.454); 100.0  # MeV!
     # D0
     d0_m: double; GEV(d0_M)
     d0_p: double; GEV(d0_P)
@@ -143,15 +144,15 @@ calculation:
     # Selection flags #
     ###################
     # Trigger
-    flag_l0: "bool; mu_L0Global_TIS && (b0_L0Global_TIS || d0_L0HadronDecision_TOS); mu_L0Global_TIS && (b_L0Global_TIS || d0_L0HadronDecision_TOS)"
-    flag_hlt1: "bool; k_Hlt1TrackAllL0Decision_TOS || pi_Hlt1TrackAllL0Decision_TOS"
-    flag_hlt2: "bool; d0_Hlt2CharmHadD02HH_D02KPiDecision_TOS"
+    l0: "bool; mu_L0Global_TIS && (b0_L0Global_TIS || d0_L0HadronDecision_TOS); mu_L0Global_TIS && (b_L0Global_TIS || d0_L0HadronDecision_TOS)"
+    hlt1: "bool; k_Hlt1TrackAllL0Decision_TOS || pi_Hlt1TrackAllL0Decision_TOS"
+    hlt2: "bool; d0_Hlt2CharmHadD02HH_D02KPiDecision_TOS"
 
     # D0 selection
-    flag_d0_pid_ok: bool; FLAG_SEL_D0_PID_OK_RUN1(k_PIDK, pi_PIDK, k_isMuon, pi_isMuon)
-    flag_d0: >-
+    d0_pid_ok: bool; FLAG_SEL_D0_PID_OK_RUN1(k_PIDK, pi_PIDK, k_isMuon, pi_isMuon)
+    d0_ok: >-
         bool; FLAG_SEL_D0_RUN1(
-        flag_d0_pid_ok,
+        d0_pid_ok,
         k_PT, pi_PT, k_P, pi_P,
         k_Hlt1TrackAllL0Decision_TOS, pi_Hlt1TrackAllL0Decision_TOS,
         k_IPCHI2_OWNPV, pi_IPCHI2_OWNPV,
@@ -168,37 +169,38 @@ calculation:
     trk_k:   ^XYZVector; XYZVector(k_PX, k_PY, k_PZ)
     trk_pi:  ^XYZVector; XYZVector(pi_PX, pi_PY, pi_PZ)
     trk_spi: ^XYZVector; XYZVector(spi_PX, spi_PY, spi_PZ)
-    other_trks: ^vector<XYZVector>; BUILD_VEC(trk_k, trk_pi, trk_spi); BUILD_VEC(trk_k, trk_pi)
+    trk_others: ^vector<XYZVector>; BUILD_VEC(trk_k, trk_pi, trk_spi); BUILD_VEC(trk_k, trk_pi)
     # Actual flags
-    flag_good_trks: bool; FLAG_SEL_GOOD_TRACKS(trk_mu, other_trks)
-    flag_mu_pid_ok: bool; FLAG_SEL_MU_PID_OK_RUN1(mu_isMuon, mu_PIDmu, mu_PIDe, 1.0)
+    trks_ok: bool; FLAG_SEL_GOOD_TRACKS(trk_mu, trk_others)
+    mu_pid_ok: bool; FLAG_SEL_MU_PID_OK_RUN1(mu_isMuon, mu_PIDmu, mu_PIDe, 1.0)
     # ^^^^ '1.0' is mu_bdt_mu
-    flag_mu: >-
+    mu_ok: >-
         bool; FLAG_SEL_MU_RUN1(
-        flag_good_trks, flag_mu_pid_ok,
+        trks_ok, mu_pid_ok,
         mu_P, mu_eta,
         mu_IPCHI2_OWNPV, mu_TRACK_GhostProb
         )
 
     # D0Mu combo selection
-    flag_d0mu: >-
+    d0mu_ok: >-
         bool; FLAG_SEL_BMINUSD0_RUN1(
-        flag_d0, flag_mu,
+        d0_ok, mu_ok,
         b_ENDVERTEX_CHI2, b_ENDVERTEX_NDOF,
         b_fd_trans,
         b_DIRA_OWNPV,
         b_M,
         mu_PX, mu_PY, mu_PZ,
-        d0_PX, d0_PY, d0_PZ, d0_M
+        d0_PX, d0_PY, d0_PZ, d0_M,
+        dst_veto_deltam
         )
 
     # D*Mu combo selection
-    flag_dstmu: >-
+    dstmu_ok: >-
         bool; FLAG_SEL_B0DST_RUN1(
-        flag_d0, flag_mu,
+        d0_ok, mu_ok,
         spi_TRACK_GhostProb,
         dst_ENDVERTEX_CHI2, dst_ENDVERTEX_NDOF,
-        dst_M, d0_M,
+        dst_veto_deltam,
         b0_ENDVERTEX_CHI2, b0_ENDVERTEX_NDOF,
         b0_fd_trans,
         b0_DIRA_OWNPV, b0_M
@@ -206,12 +208,12 @@ calculation:
 
 global_selection:
     # Trigger (L0, HLT1, HLT2)
-    - flag_l0
-    - flag_hlt1
-    - flag_hlt2
+    - l0
+    - hlt1
+    - hlt2
     # Offline cuts
-    - flag_d0mu
-    - flag_dstmu
+    - d0mu_ok
+    - dstmu_ok
 
 one_cand_only:
     enable: true
@@ -221,9 +223,20 @@ output:
     # main trees
     Dst:
         input: TupleB0/DecayTree
-        selection:
-            - "true"
+        mute:
+            - "^b_.*"
+            - "d0mu_ok"
+
     D0:
         input: TupleBminus/DecayTree
-        selection:
-            - "true"
+        mute:
+            - "^b0_.*"
+            - "^spi_.*"
+            - "trk_spi"
+            - "dst_m"
+            - "dst_id"
+            - "dst_endvtx_chi2ndof"
+            - "dst_p.*"
+            - "dst_iso.*"
+            - "dstmu_ok"
+            - "is_dstst"
