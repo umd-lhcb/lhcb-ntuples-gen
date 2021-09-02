@@ -108,6 +108,7 @@ calculation:
     # D*
     dst_endvtx_chi2: double; Dst_ENDVERTEX_CHI2
     dst_endvtx_ndof: ^double; 1000.0
+    dst_veto_deltam: double; ABS(Dst_M-D0_M-145.454)  # MeV!
     # D0
     d0_dira: double; D0_DIRA_OWNPV
     d0_endvtx_chi2: ^double; 0.0
@@ -135,19 +136,19 @@ calculation:
     # Misc.
     dst_id_prod: int; DstIDprod
     id_prod: int; IDprod
-    flag_is_data: bool; isData
-    flag_2011: bool; flag2011
+    is_data: bool; isData
+    is_2011: bool; flag2011
 
     # Trigger
-    flag_l0: "bool; mu_l0_global_tis && (b0_l0_global_tis || d0_l0_hadron_tos)"
-    flag_hlt1: "bool; k_hlt1_trackalll0_tos || pi_hlt1_trackalll0_tos"
-    flag_hlt2: "bool; d0_hlt2_tos"
+    l0: "bool; mu_l0_global_tis && (b0_l0_global_tis || d0_l0_hadron_tos)"
+    hlt1: "bool; k_hlt1_trackalll0_tos || pi_hlt1_trackalll0_tos"
+    hlt2: "bool; d0_hlt2_tos"
 
     # D0 selection
-    flag_d0_pid_ok: "bool; !muVeto"
-    flag_d0: >-
+    d0_pid_ok: "bool; !muVeto"
+    d0_ok: >-
         bool; FLAG_SEL_D0_RUN1(
-        flag_d0_pid_ok,
+        d0_pid_ok,
         K_PT, pi_PT, K_P, pi_P,
         k_hlt1_trackalll0_tos, pi_hlt1_trackalll0_tos,
         k_ip_chi2, pi_ip_chi2,
@@ -163,23 +164,23 @@ calculation:
         )
 
     # Mu selection
-    flag_good_trks: "^bool; true"
-    flag_mu_pid_ok: "bool; muPID"
+    trks_ok: "^bool; true"
+    mu_pid_ok: "bool; muPID"
     # ^^^^ '1.0' is mu_bdt_mu
-    flag_mu: >-
+    mu_ok: >-
         bool; FLAG_SEL_MU_RUN1(
-        flag_good_trks, flag_mu_pid_ok,
+        trks_ok, mu_pid_ok,
         mu_P, mu_eta,
         mu_ip_chi2, mu_gh_prob
         )
 
     # D*Mu combo selection
-    flag_dstmu: >-
+    dstmu_ok: >-
         bool; FLAG_SEL_B0DST_RUN1(
-        flag_d0, flag_mu,
+        d0_ok, mu_ok,
         spi_gh_prob,
         dst_endvtx_chi2, dst_endvtx_ndof,
-        Dst_M, D0_M,
+        dst_veto_deltam,
         b0_endvtx_chi2, b0_endvtx_ndof,
         b0_fd_trans,
         b0_dira, Y_M
@@ -187,11 +188,11 @@ calculation:
 
 global_selection:
     # Trigger
-    - flag_l0
-    - flag_hlt1
-    - flag_hlt2
+    - l0
+    - hlt1
+    - hlt2
     # Offline cuts
-    - flag_dstmu
+    - dstmu_ok
     # Cuts on fit variables
     - "-2.0 <= mm2 && mm2 <= 10.0"
     - "0.1 <= el && el <= 2.5"
@@ -210,7 +211,7 @@ output:
             # Signature for event type 'data'
             - "dst_id_prod > 0"
             - "id_prod > 0"
-            - flag_is_data
+            - is_data
             # Keep only 2011 MagDown
-            - flag_2011
+            - is_2011
             - "polarity < 0"
