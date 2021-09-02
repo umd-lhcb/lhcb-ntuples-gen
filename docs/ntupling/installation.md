@@ -12,10 +12,11 @@ cd lhcb-ntuples-gen
 git remote add julian git@129.2.92.92:lhcb-ntuples-gen
 git annex init --version=7
 git submodule update --init  # Do this before git annex sync to avoid potential mess-up of submodule pointers!
-git annex sync julian
+git annex sync
+
 # It is higly recommended to install nix now before proceed! See below for some pointers on how to do it
 # If you have nix installed:
-# nix develop
+#   nix develop
 make install-dep
 ```
 
