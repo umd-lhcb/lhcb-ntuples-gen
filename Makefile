@@ -1,6 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri Aug 27, 2021 at 01:01 AM +0200
+# Last Change: Fri Sep 03, 2021 at 04:16 PM +0200
 
 VPATH := postprocess:test:scripts:ntuples
 VPATH := run1-rdx/cutflow:run2-rdx/cutflow:$(VPATH)
@@ -84,6 +84,12 @@ rdx-ntuple-run1: \
 	rdx-run1/rdx-run1.yml
 	workflows/rdx.py $@ $< --debug \
 		--mode data_no_mu_bdt -A input_yml:$(abspath $(word 2, $^))
+
+rdx-ntuple-run1-no-Dst-veto: \
+	run1-rdx/samples/Dst_D0--21_08_25--std--data--2012--md--dv45-subset.root \
+	rdx-run1/rdx-run1_no_Dst_veto.yml
+	workflows/rdx.py $@ $< --debug \
+		--mode data_ref -A input_yml:$(abspath $(word 2, $^))
 
 ref-rdx-ntuple-run1: \
 	ref-rdx-run1/Dst-mix \
