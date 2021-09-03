@@ -30,7 +30,7 @@ The technical details are in `LinkedTo` class, which is in `LHCb` project in
 Event/LinkerEvent/Linker/LinkedTo.h
 ```
 
-But I couldn't find its implementation so how it finds _the best matched_ particle remains unclear.
+The MC `DST` will provide several relation tables for truth-matching. See [this TWiki](https://twiki.cern.ch/twiki/bin/view/LHCb/CaloEventModel#Relations).
 
 
 ## Basic stable charged particles
