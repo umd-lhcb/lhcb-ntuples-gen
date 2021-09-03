@@ -68,3 +68,95 @@ For each of these variables, it admits 3 possible values of type `float`:
 
     DaVinci().appendToMainSequence([ms_all_protos, ms_velo_pions])
     ```
+
+
+## `TupleToolSLTruth`
+The truth-matching is done with a `getMCParticle` class method, which is defined as following:
+
+```cpp
+const LHCb::MCParticle* TupleToolSLTruth::getMCParticle(
+    const LHCb::Particle* P ) {
+  const LHCb::MCParticle* mcp( NULL );
+  if ( P ) {
+    // assignedPid = P->particleID().pid();
+    if ( msgLevel( MSG::VERBOSE ) )
+      verbose() << "Getting related MCP to " << P << endmsg;
+    for ( std::vector<IParticle2MCAssociator*>::const_iterator iMCAss =
+              m_p2mcAssocs.begin();
+          iMCAss != m_p2mcAssocs.end(); ++iMCAss ) {
+      mcp = ( *iMCAss )->relatedMCP( P );
+      if ( mcp ) break;
+    }
+    if ( msgLevel( MSG::VERBOSE ) ) verbose() << "Got mcp " << mcp << endmsg;
+  }
+  return mcp;
+}
+```
+
+Here it is trying to use the following MC associators in order:
+
+- `DaVinciSmartAssociator`
+- `MCMatchObjP2MCRelator`
+
+And if one of them return a non-empty match, it will return that match right away.
+
+!!! info
+    These accociators are derived classes of `Particle2MCAssociatorBase`, which
+    is defined in the `Phys` project in the
+    `Phys/DaVinciMCKernel/Kernel/Particle2MCAssociatorBase.h` file.
+
+
+### `DaVinciSmartAssociator`
+
+It's implementation is defined in the `Analysis` project,
+in [`Phys/DaVinciMCTools/src/DaVinciSmartAssociator.cpp`](https://gitlab.cern.ch/lhcb/Analysis/-/blob/07f66f49d637380a02dd34f9b4c91530cbfe2871/Phys/DaVinciMCTools/src/DaVinciSmartAssociator.cpp).
+
+```cpp
+Particle2MCParticle::ToVector
+DaVinciSmartAssociator::relatedMCPsImpl( const LHCb::Particle*                particle,
+                                         const LHCb::MCParticle::ConstVector& mcps ) const {
+  // We associate according to the particle type: protoparticle associators
+  // are used for neutral and charged stable tracks, otherwise we use BackCat
+  // for composites. The associator wrapper makes sure the linkers thus created are
+  // deleted in the correct manner.
+
+  if ( !particle ) Exception( "The smart associator was asked to associate a NULL particle, exiting." );
+
+  Particle2MCParticle::ToVector associatedParts;
+
+  if ( msgLevel( MSG::VERBOSE ) ) verbose() << "Performing smart association on " << *particle << endmsg;
+
+  // Now we get the association result based on the particle type
+
+  if ( m_calo2MC->isPureNeutralCaloFuture( particle ) && m_redoNeutral ) {
+    // pure neutral calo object (stable like gamma/mergedPi0 or composite like eta/resolvedPi0/Ks->pi0pi0/...)
+    if ( msgLevel( MSG::VERBOSE ) )
+      verbose() << "Associating a calorimetric particle with pid = " << particle->particleID().pid() << " "
+                << m_calo2MC->from( particle )->descriptor() << endmsg;
+
+    associatedParts.push_back(
+        MCAssociation( m_calo2MC->from( particle )->findMCOrBest( particle->particleID(), m_caloWeight ), 1 ) );
+
+  } else if ( particle->isBasicParticle() ) { // if this is a stable
+    if ( msgLevel( MSG::VERBOSE ) )
+      verbose() << "Associating a basic particle with pid = " << particle->particleID().pid() << endmsg;
+
+    associatedParts = m_weightedAssociation->relatedMCPs( particle, mcps );
+
+    if ( msgLevel( MSG::VERBOSE ) )
+      verbose() << "Associated a basic particle with pid = " << particle->particleID().pid() << endmsg;
+  } else { // If composite use BackCat
+    if ( msgLevel( MSG::VERBOSE ) )
+      verbose() << "Associating a composite particle with pid = " << particle->particleID().pid() << endmsg;
+    associatedParts.push_back( MCAssociation( m_bkg->origin( particle ), 1. ) );
+    if ( msgLevel( MSG::VERBOSE ) )
+      verbose() << "Associated a composite particle with pid = " << particle->particleID().pid() << endmsg;
+  }
+
+  // check if the associated MCPs are in the input container, if not,
+  // remove the association!
+  return Particle2MCParticle::FilterMCAssociations( associatedParts, mcps );
+}
+```
+
+For the actual MC associators, take a look at [this article](../../physics/truth_matching.md)
