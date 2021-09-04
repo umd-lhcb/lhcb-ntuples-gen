@@ -159,4 +159,4 @@ DaVinciSmartAssociator::relatedMCPsImpl( const LHCb::Particle*                pa
 }
 ```
 
-For the actual MC associators, take a look at [this article](../../physics/truth_matching.md)
+For the actual MC associators, take a look at [this article](../../technical_concepts/truth_matching.md).
