@@ -474,19 +474,6 @@
     TupleToolSLTruth
   </a>
   
-    <nav class="md-nav" aria-label="TupleToolSLTruth">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#davincismartassociator" class="md-nav__link">
-    DaVinciSmartAssociator
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
 </li>
       
     </ul>
@@ -948,19 +935,6 @@
     TupleToolSLTruth
   </a>
   
-    <nav class="md-nav" aria-label="TupleToolSLTruth">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#davincismartassociator" class="md-nav__link">
-    DaVinciSmartAssociator
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
 </li>
       
     </ul>
@@ -1081,56 +1055,10 @@ lines in <code>reco_Dst.py</code>:</p>
 is defined in the <code>Phys</code> project in the
 <code>Phys/DaVinciMCKernel/Kernel/Particle2MCAssociatorBase.h</code> file.</p>
 </div>
-<h3 id="davincismartassociator"><code>DaVinciSmartAssociator</code></h3>
-<p>It's implementation is defined in the <code>Analysis</code> project,
-in <a href="https://gitlab.cern.ch/lhcb/Analysis/-/blob/07f66f49d637380a02dd34f9b4c91530cbfe2871/Phys/DaVinciMCTools/src/DaVinciSmartAssociator.cpp"><code>Phys/DaVinciMCTools/src/DaVinciSmartAssociator.cpp</code></a>.</p>
-<div class="highlight"><pre><span></span><code><span class="n">Particle2MCParticle</span><span class="o">::</span><span class="n">ToVector</span><span class="w"></span>
-<span class="nf">DaVinciSmartAssociator::relatedMCPsImpl</span><span class="p">(</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">LHCb</span><span class="o">::</span><span class="n">Particle</span><span class="o">*</span><span class="w">                </span><span class="n">particle</span><span class="p">,</span><span class="w"></span>
-<span class="w">                                         </span><span class="k">const</span><span class="w"> </span><span class="n">LHCb</span><span class="o">::</span><span class="n">MCParticle</span><span class="o">::</span><span class="n">ConstVector</span><span class="o">&amp;</span><span class="w"> </span><span class="n">mcps</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">  </span><span class="c1">// We associate according to the particle type: protoparticle associators</span>
-<span class="w">  </span><span class="c1">// are used for neutral and charged stable tracks, otherwise we use BackCat</span>
-<span class="w">  </span><span class="c1">// for composites. The associator wrapper makes sure the linkers thus created are</span>
-<span class="w">  </span><span class="c1">// deleted in the correct manner.</span>
-
-<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="o">!</span><span class="n">particle</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="n">Exception</span><span class="p">(</span><span class="w"> </span><span class="s">&quot;The smart associator was asked to associate a NULL particle, exiting.&quot;</span><span class="w"> </span><span class="p">);</span><span class="w"></span>
-
-<span class="w">  </span><span class="n">Particle2MCParticle</span><span class="o">::</span><span class="n">ToVector</span><span class="w"> </span><span class="n">associatedParts</span><span class="p">;</span><span class="w"></span>
-
-<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">msgLevel</span><span class="p">(</span><span class="w"> </span><span class="n">MSG</span><span class="o">::</span><span class="n">VERBOSE</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="n">verbose</span><span class="p">()</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Performing smart association on &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="o">*</span><span class="n">particle</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endmsg</span><span class="p">;</span><span class="w"></span>
-
-<span class="w">  </span><span class="c1">// Now we get the association result based on the particle type</span>
-
-<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">m_calo2MC</span><span class="o">-&gt;</span><span class="n">isPureNeutralCaloFuture</span><span class="p">(</span><span class="w"> </span><span class="n">particle</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">m_redoNeutral</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="c1">// pure neutral calo object (stable like gamma/mergedPi0 or composite like eta/resolvedPi0/Ks-&gt;pi0pi0/...)</span>
-<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">msgLevel</span><span class="p">(</span><span class="w"> </span><span class="n">MSG</span><span class="o">::</span><span class="n">VERBOSE</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">)</span><span class="w"></span>
-<span class="w">      </span><span class="n">verbose</span><span class="p">()</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Associating a calorimetric particle with pid = &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">particle</span><span class="o">-&gt;</span><span class="n">particleID</span><span class="p">().</span><span class="n">pid</span><span class="p">()</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot; &quot;</span><span class="w"></span>
-<span class="w">                </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">m_calo2MC</span><span class="o">-&gt;</span><span class="n">from</span><span class="p">(</span><span class="w"> </span><span class="n">particle</span><span class="w"> </span><span class="p">)</span><span class="o">-&gt;</span><span class="n">descriptor</span><span class="p">()</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endmsg</span><span class="p">;</span><span class="w"></span>
-
-<span class="w">    </span><span class="n">associatedParts</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="w"></span>
-<span class="w">        </span><span class="n">MCAssociation</span><span class="p">(</span><span class="w"> </span><span class="n">m_calo2MC</span><span class="o">-&gt;</span><span class="n">from</span><span class="p">(</span><span class="w"> </span><span class="n">particle</span><span class="w"> </span><span class="p">)</span><span class="o">-&gt;</span><span class="n">findMCOrBest</span><span class="p">(</span><span class="w"> </span><span class="n">particle</span><span class="o">-&gt;</span><span class="n">particleID</span><span class="p">(),</span><span class="w"> </span><span class="n">m_caloWeight</span><span class="w"> </span><span class="p">),</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">);</span><span class="w"></span>
-
-<span class="w">  </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">particle</span><span class="o">-&gt;</span><span class="n">isBasicParticle</span><span class="p">()</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c1">// if this is a stable</span>
-<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">msgLevel</span><span class="p">(</span><span class="w"> </span><span class="n">MSG</span><span class="o">::</span><span class="n">VERBOSE</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">)</span><span class="w"></span>
-<span class="w">      </span><span class="n">verbose</span><span class="p">()</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Associating a basic particle with pid = &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">particle</span><span class="o">-&gt;</span><span class="n">particleID</span><span class="p">().</span><span class="n">pid</span><span class="p">()</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endmsg</span><span class="p">;</span><span class="w"></span>
-
-<span class="w">    </span><span class="n">associatedParts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">m_weightedAssociation</span><span class="o">-&gt;</span><span class="n">relatedMCPs</span><span class="p">(</span><span class="w"> </span><span class="n">particle</span><span class="p">,</span><span class="w"> </span><span class="n">mcps</span><span class="w"> </span><span class="p">);</span><span class="w"></span>
-
-<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">msgLevel</span><span class="p">(</span><span class="w"> </span><span class="n">MSG</span><span class="o">::</span><span class="n">VERBOSE</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">)</span><span class="w"></span>
-<span class="w">      </span><span class="n">verbose</span><span class="p">()</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Associated a basic particle with pid = &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">particle</span><span class="o">-&gt;</span><span class="n">particleID</span><span class="p">().</span><span class="n">pid</span><span class="p">()</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endmsg</span><span class="p">;</span><span class="w"></span>
-<span class="w">  </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="c1">// If composite use BackCat</span>
-<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">msgLevel</span><span class="p">(</span><span class="w"> </span><span class="n">MSG</span><span class="o">::</span><span class="n">VERBOSE</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">)</span><span class="w"></span>
-<span class="w">      </span><span class="n">verbose</span><span class="p">()</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Associating a composite particle with pid = &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">particle</span><span class="o">-&gt;</span><span class="n">particleID</span><span class="p">().</span><span class="n">pid</span><span class="p">()</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endmsg</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="n">associatedParts</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="w"> </span><span class="n">MCAssociation</span><span class="p">(</span><span class="w"> </span><span class="n">m_bkg</span><span class="o">-&gt;</span><span class="n">origin</span><span class="p">(</span><span class="w"> </span><span class="n">particle</span><span class="w"> </span><span class="p">),</span><span class="w"> </span><span class="mf">1.</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">);</span><span class="w"></span>
-<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">msgLevel</span><span class="p">(</span><span class="w"> </span><span class="n">MSG</span><span class="o">::</span><span class="n">VERBOSE</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">)</span><span class="w"></span>
-<span class="w">      </span><span class="n">verbose</span><span class="p">()</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Associated a composite particle with pid = &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">particle</span><span class="o">-&gt;</span><span class="n">particleID</span><span class="p">().</span><span class="n">pid</span><span class="p">()</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endmsg</span><span class="p">;</span><span class="w"></span>
-<span class="w">  </span><span class="p">}</span><span class="w"></span>
-
-<span class="w">  </span><span class="c1">// check if the associated MCPs are in the input container, if not,</span>
-<span class="w">  </span><span class="c1">// remove the association!</span>
-<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">Particle2MCParticle</span><span class="o">::</span><span class="n">FilterMCAssociations</span><span class="p">(</span><span class="w"> </span><span class="n">associatedParts</span><span class="p">,</span><span class="w"> </span><span class="n">mcps</span><span class="w"> </span><span class="p">);</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
-</code></pre></div>
-<p>For the actual MC associators, take a look at <a href="../../../technical_concepts/truth_matching/">this article</a>.</p>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>For more info on MC truth-matching, take a look at <a href="../../../technical_concepts/truth_matching/">this article</a>.</p>
+</div>
                 
               
               

@@ -655,23 +655,29 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#davincismartassociator" class="md-nav__link">
+    DaVinciSmartAssociator
+  </a>
+  
+    <nav class="md-nav" aria-label="DaVinciSmartAssociator">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
   <a href="#neutral-particles" class="md-nav__link">
     Neutral particles
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#basic-stable-charged-particles" class="md-nav__link">
     Basic stable charged particles
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#composite-charged-particles" class="md-nav__link">
-    Composite charged particles
-  </a>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -895,23 +901,29 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#davincismartassociator" class="md-nav__link">
+    DaVinciSmartAssociator
+  </a>
+  
+    <nav class="md-nav" aria-label="DaVinciSmartAssociator">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
   <a href="#neutral-particles" class="md-nav__link">
     Neutral particles
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#basic-stable-charged-particles" class="md-nav__link">
     Basic stable charged particles
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#composite-charged-particles" class="md-nav__link">
-    Composite charged particles
-  </a>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -933,47 +945,57 @@
                 
                 
                 <h1 id="truth-matching">Truth matching</h1>
-<p>In LHCb, truth-matching are separated into 3 categories:</p>
+<p>In LHCb, the general procedure works as follows:</p>
+<ol>
+<li>In the MC generation, after <code>Gauss</code> and <code>Boole</code>, <code>Brunel</code> is used to
+    reconstruct events.</li>
+<li>
+<p>During this reconstruction, truth-matching maps for
+    <code>ProtoParticle</code>-<code>MCParticle</code> are also created.</p>
+<p>This only applies to stable particles in the detector.</p>
+<p>An example on truth-matching in <code>Brunel</code> is provided <a href="https://twiki.cern.ch/twiki/bin/view/LHCb/FAQ/BrunelFAQ#How_do_I_implement_MC_truth_matc">in this TWiki</a>.</p>
+<div class="admonition info tes locations of the truth-matching tables">
+<p class="admonition-title">Info</p>
+<p>An example of these TES locations for <code>TurboDst</code> can be found
+at <a href="https://twiki.cern.ch/twiki/bin/view/LHCb/MakeNTupleFromTurbo">this TWiki</a>.</p>
+</div>
+</li>
+<li>
+<p>Reconstructed events and truth-matching maps are stored in the <code>dst</code> files.</p>
+</li>
+<li>When reconstructing events in <code>DaVinci</code>, the truth-matching maps are loaded
+    from the <code>dst</code> file and used to truth-match stable particles.</li>
+<li>For composite particles: Each reconstructed final state daughter of the
+    composite Particle has an associated <code>MCParticle</code>, and all these associated
+    <code>MCParticle</code>s have the same final <code>MCParticle</code> mother.</li>
+</ol>
+<p>LHCb has implemented many truth-matching strategies.</p>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>Take a look at <a href="https://twiki.cern.ch/twiki/bin/view/LHCb/Particle2MC">the Particle2MC TWiki</a>
+for an overview on these strategies.</p>
+</div>
+<h2 id="davincismartassociator"><code>DaVinciSmartAssociator</code></h2>
+<p>In this implementation, truth-matching are separated into 3 categories:</p>
 <ol>
 <li>Neutral particles (both basic and composite)</li>
 <li>Basic stable charged particles</li>
 <li>Composite charged particles</li>
 </ol>
-<p>They have different truth-matching strategies.</p>
-<p>Also, take a look at <a href="https://twiki.cern.ch/twiki/bin/view/LHCb/Particle2MC">the Particle2MC TWiki</a>.</p>
-<div class="admonition info">
-<p class="admonition-title">Info</p>
-<p>The <a href="https://twiki.cern.ch/twiki/bin/view/LHCb/LHCbPhysicsEventModelTaskForce">event model TWiki</a> might also be helpful.</p>
-</div>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>The code below might be phased out as some of them are not present in
 <code>master</code> branch of the related projects.</p>
 </div>
-<h2 id="neutral-particles">Neutral particles</h2>
+<h3 id="neutral-particles">Neutral particles</h3>
 <p>The truth-matching is done purely with calorimeter info. It is implemented in
 <a href="https://gitlab.cern.ch/lhcb/Rec/-/blob/7a48b9c4084f398fa7c867a8e3165e9db7682e16/Calo/CaloTools/src/Calo2MCTool.cpp"><code>Calo2MCTool</code></a>.</p>
-<p>The tool returns the MC particle that is <em>best matched</em> to the reconstructed particle.
-The technical details are in <code>LinkedTo</code> class, which is in <code>LHCb</code> project in</p>
-<div class="highlight"><pre><span></span><code>Event/LinkerEvent/Linker/LinkedTo.h
-</code></pre></div>
-<p>The MC <code>DST</code> will provide several relation tables for truth-matching. See <a href="https://twiki.cern.ch/twiki/bin/view/LHCb/CaloEventModel#Relations">this TWiki</a>.</p>
-<h2 id="basic-stable-charged-particles">Basic stable charged particles</h2>
+<p>The tool returns the MC particle that is <em>best matched</em> to the reconstructed particle.</p>
+<p>The MC <code>dst</code> will provide several relation tables for truth-matching. See <a href="https://twiki.cern.ch/twiki/bin/view/LHCb/CaloEventModel#Relations">this TWiki</a>.</p>
+<h3 id="basic-stable-charged-particles">Basic stable charged particles</h3>
 <p>This is done with <a href="https://gitlab.cern.ch/lhcb/Analysis/-/blob/master/Phys/DaVinciMCTools/src/P2MCPFromProtoP.cpp"><code>P2MCPFromProtoP</code></a>.</p>
-<p>It finds the <code>ProtoParticle</code> of the reconstructed <code>Particle</code>. Then:</p>
-<div class="admonition error">
-<p class="admonition-title">Before you proceed</p>
-<p>This is my own understanding! It may not be correct!</p>
-</div>
-<p>The MC <code>DST</code> file should come with a truth-table for stable charged particles.
-See <a href="https://twiki.cern.ch/twiki/bin/view/LHCb/MakeNTupleFromTurbo">this TWiki</a>.</p>
-<p>How is this table constructed? I have no idea. But here we should be able to go
-from <code>ProtoParticle</code> to <code>MCParticle</code> with this table.</p>
-<h2 id="composite-charged-particles">Composite charged particles</h2>
-<p>From the <em>Particle2MC TWiki</em>:</p>
-<blockquote>
-<p>Each reconstructed final state daughter of the composite Particle has an associated <code>MCParticle</code>, and all these associated <code>MCParticle</code>s have the same final <code>MCParticle</code> mother.</p>
-</blockquote>
+<p>It finds the <code>ProtoParticle</code> of the reconstructed <code>Particle</code>. Then use the standard
+truth-matching table to find the linked <code>MCParticle</code>.</p>
                 
               
               
