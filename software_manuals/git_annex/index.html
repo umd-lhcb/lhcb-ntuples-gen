@@ -1019,6 +1019,10 @@ data outside of the collaboration.</p>
 tracked files under <code>&lt;project_root&gt;/.git/annex</code>, and link/copy these files to
 the expected locations.</p>
 <h2 id="initialize-git-annex-repository">Initialize <code>git-annex</code> repository</h2>
+<div class="admonition info">
+<p class="admonition-title">Before you proceed</p>
+<p>This needs to be done <strong>only once</strong> for each repository!</p>
+</div>
 <p>We have a private server<sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup> that hosts <code>git</code> repositories with <code>git-annex</code>
 capabilities.
 After cloning the <code>umd-lhcb/lhcb-ntuples-gen</code> repository from github, add our private repository:
@@ -1059,7 +1063,7 @@ as <code>.dst</code> data files, use the following command:
 repository <strong>by default</strong>. Configuration is required to add only <code>.root</code>
 files to <code>git-annex</code>, and the rest to <code>git</code>. This has been done for this
 repository, in:
-<div class="highlight"><pre><span></span><code>&lt;project_root&gt;/.gitattributes`
+<div class="highlight"><pre><span></span><code>&lt;project_root&gt;/.gitattributes
 </code></pre></div></p>
 <p>See <a href="https://git-annex.branchable.com/tips/largefiles/">this article</a>
 for more information on configuring <code>.gitattributes</code>.</p>
@@ -1120,13 +1124,20 @@ git commit -a
 </code></pre></div></p>
 <p>If there are uncommitted local changes, commit then and write sensible
 messages. This way, <code>git annex sync</code> won't make unwanted commits!</p>
+<div class="admonition info">
+<p class="admonition-title">Before you proceed</p>
+<p>Do <code>git pull origin master</code> to get latest changes from <code>origin</code> first.</p>
+</div>
 <p>Now, you can do this:
 <div class="highlight"><pre><span></span><code>git annex sync
 </code></pre></div></p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>The command above don't download the actual data; rather, it only download
+<p>The command above doesn't download the actual data; rather, it only download
 the metadata so that <code>git annex</code> <em>knows</em> how to download the actual data.</p>
+<p>The command above will also make sure your local <code>master</code> is now identical
+to remote <code>master</code>. That's why it's better to do <code>git pull origin master</code>
+beforehand to avoid surprises.</p>
 </div>
 <div class="admonition error">
 <p class="admonition-title">Error</p>
