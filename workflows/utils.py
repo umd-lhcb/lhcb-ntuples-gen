@@ -2,11 +2,12 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sun Jun 27, 2021 at 02:41 AM +0200
+# Last Change: Mon Sep 13, 2021 at 05:31 PM +0200
 
 import os.path as os_path
 import shlex
 import re
+import yaml
 
 from os import makedirs, chdir, symlink, getcwd, environ, pathsep
 from datetime import datetime
@@ -23,6 +24,19 @@ from pyBabyMaker.base import TermColor as TC
 
 def gen_date(fmt='%y_%m_%d'):
     return datetime.now().strftime(fmt)
+
+
+def load_yaml_db(yaml_db=[
+        './rdx/rdx-run2.yml'
+]):
+    result = dict()
+    base_path = os_path.abspath(os_path.dirname(__file__))
+
+    for db in yaml_db:
+        with open(os_path.join(base_path, db)) as f:
+            result.update(yaml.safe_load(f))
+
+    return result
 
 
 ###############
@@ -110,6 +124,7 @@ def generate_step2_name(ntp_name):
         add_flag = None
 
     date = gen_date()
+    db = load_yaml_db()
 
     polarity_trans = {'Up': 'u', 'Down': 'd'}
     polarity = 'm'+polarity_trans[re.search(r'Mag(Up|Down)', lfn).group(1)]
@@ -120,6 +135,11 @@ def generate_step2_name(ntp_name):
     else:
         year = re.search(r'_(\d\d\d\d)_', lfn).group(1)
         decay_mode = re.search(r'_(\d\d\d\d\d\d\d\d)_', lfn).group(1)
+
+        if db.get(decay_mode):
+            decay_mode = db[decay_mode]['Filename']
+            # NOTE: Remember to remove useless strings in the 'Filename' key and
+            # replace ',' with '__'
 
     fields = [date, reco_mode, decay_mode, year, polarity]
     if add_flag is not None:

@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Aug 19, 2021 at 08:43 PM +0200
+# Last Change: Mon Sep 13, 2021 at 05:18 PM +0200
 
 import sys
 import os
@@ -191,6 +191,32 @@ def workflow_data(job_name, inputs, output_dir, debug, kws,
         chdir('..')  # Switch back to parent workdir
 
 
+def workflow_mc(job_name, inputs, output_dir, debug, kws,
+                script='data_no_mu_bdt.sh', output_ntp_name_gen=generate_step2_name):
+    subworkdirs, workdir = workflow_general(job_name, inputs, output_dir)
+    chdir(workdir)
+    exe = pipe_executor(
+        script + ' ' + '"{input_ntp}" "{input_yml}" "{output_suffix}"')
+
+    for subdir, full_filename in subworkdirs.items():
+        print('{}Working on {}...{}'.format(TC.GREEN, full_filename, TC.END))
+        ensure_dir(subdir)
+        chdir(subdir)  # Switch to the workdir of the subjob
+
+        params = {
+            'input_ntp': full_filename,
+            'input_yml': kws['input_yml'],
+            'output_suffix': output_ntp_name_gen(full_filename)
+        }
+        exe(params, debug)
+
+        aggragate_output('..', subdir, {
+            'ntuple': ['*--mc--*.root']
+        })
+
+        chdir('..')  # Switch back to parent workdir
+
+
 ########
 # Main #
 ########
@@ -204,6 +230,7 @@ WORKFLOWS = {
     'data_ref': lambda *args: workflow_data(
         *args, script='data_no_mu_bdt.sh',
         output_ntp_name_gen=parse_step2_name),
+    'mc': workflow_mc
 }
 
 if __name__ == '__main__':
