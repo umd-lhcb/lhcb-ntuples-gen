@@ -58,6 +58,49 @@
         "type": "github"
       }
     },
+    "flake-utils_3": {
+      "locked": {
+        "lastModified": 1623875721,
+        "narHash": "sha256-A8BU7bjS5GirpAUv4QA+QnJ4CceLHkcXdRp4xITDB0s=",
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "rev": "f7e004a55b120c02ecb6219596820fcd32ca8772",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "type": "github"
+      }
+    },
+    "hammer-reweight": {
+      "inputs": {
+        "flake-utils": [
+          "hammer-reweight",
+          "root-curated",
+          "flake-utils"
+        ],
+        "nixpkgs": [
+          "hammer-reweight",
+          "root-curated",
+          "nixpkgs"
+        ],
+        "root-curated": "root-curated_2"
+      },
+      "locked": {
+        "lastModified": 1631563591,
+        "narHash": "sha256-dYSw8Yh69xtUEn7oAl3ngSL0KyauuPxNdOqXQCoURis=",
+        "owner": "umd-lhcb",
+        "repo": "hammer-reweight",
+        "rev": "f680327702848df0bc6879998e37fa1ce970435c",
+        "type": "github"
+      },
+      "original": {
+        "owner": "umd-lhcb",
+        "repo": "hammer-reweight",
+        "type": "github"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1625223284,
@@ -88,6 +131,21 @@
         "type": "indirect"
       }
     },
+    "nixpkgs_3": {
+      "locked": {
+        "lastModified": 1625223284,
+        "narHash": "sha256-jjLcDSU1rRiJb+n3uez23XAa7kbnPcGZTa6jIKh1GMQ=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "357d2c8f6087685fe35cb1889a005a4dd4cce7b8",
+        "type": "github"
+      },
+      "original": {
+        "id": "nixpkgs",
+        "ref": "nixpkgs-unstable",
+        "type": "indirect"
+      }
+    },
     "root": {
       "inputs": {
         "MuonBDTPid": "MuonBDTPid",
@@ -95,11 +153,12 @@
           "root-curated",
           "flake-utils"
         ],
+        "hammer-reweight": "hammer-reweight",
         "nixpkgs": [
           "root-curated",
           "nixpkgs"
         ],
-        "root-curated": "root-curated_2"
+        "root-curated": "root-curated_3"
       }
     },
     "root-curated": {
@@ -127,11 +186,30 @@
         "nixpkgs": "nixpkgs_2"
       },
       "locked": {
-        "lastModified": 1625924567,
-        "narHash": "sha256-ECnjP8e5Nopj76vwBuOeN6Z506xVFGuHDl20tyKR17I=",
+        "lastModified": 1631207108,
+        "narHash": "sha256-SE7c+GlbgL34NDhyYgViK9cxCk9iX7qP38TKNPvASlE=",
         "owner": "umd-lhcb",
         "repo": "root-curated",
-        "rev": "60a0b26aef7e23fca288304bc3e6bbd295364bdc",
+        "rev": "22e6efbec2d76a7be6f19d50f9406a31bb21eaca",
+        "type": "github"
+      },
+      "original": {
+        "owner": "umd-lhcb",
+        "repo": "root-curated",
+        "type": "github"
+      }
+    },
+    "root-curated_3": {
+      "inputs": {
+        "flake-utils": "flake-utils_3",
+        "nixpkgs": "nixpkgs_3"
+      },
+      "locked": {
+        "lastModified": 1631207108,
+        "narHash": "sha256-SE7c+GlbgL34NDhyYgViK9cxCk9iX7qP38TKNPvASlE=",
+        "owner": "umd-lhcb",
+        "repo": "root-curated",
+        "rev": "22e6efbec2d76a7be6f19d50f9406a31bb21eaca",
         "type": "github"
       },
       "original": {
