@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Sep 13, 2021 at 05:31 PM +0200
+# Last Change: Mon Sep 13, 2021 at 09:12 PM +0200
 
 import os.path as os_path
 import shlex
@@ -27,7 +27,8 @@ def gen_date(fmt='%y_%m_%d'):
 
 
 def load_yaml_db(yaml_db=[
-        './rdx/rdx-run2.yml'
+        'rdx/rdx-run2.yml',
+        'rdx/rdx-run1.yml',
 ]):
     result = dict()
     base_path = os_path.abspath(os_path.dirname(__file__))
