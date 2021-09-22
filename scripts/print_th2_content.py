@@ -2,17 +2,24 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Sep 22, 2021 at 11:52 PM +0200
+# Last Change: Thu Sep 23, 2021 at 12:35 AM +0200
 
 import sys
 import ROOT
 
+from tabulate import tabulate
 
-def print_th2_content(histo):
-    for x in range(histo.GetNbinsX()+1):
-        for y in range(histo.GetNbinsY()+1):
-            print('x: {}, y: {}, val: {}'.format(
-                x, y, histo.GetBinContent(x, y)))
+
+def get_th2_content(histo):
+    result = []
+
+    for y in range(histo.GetNbinsY()+1):
+        row = [y]
+        for x in range(histo.GetNbinsX()+1):
+            row.append('{:.3f}'.format(histo.GetBinContent(x, y)))
+        result.append(row)
+
+    return result
 
 
 if __name__ == '__main__':
@@ -26,4 +33,6 @@ if __name__ == '__main__':
     print("File: {}, Histo: {}".format(sys.argv[1], histo_name))
 
     histo = ntp.Get(histo_name)
-    print_th2_content(histo)
+    tab = get_th2_content(histo)
+    print(tabulate(tab, headers=['y \\ x']+[
+        str(i) for i in range(histo.GetNbinsX()+1)]))
