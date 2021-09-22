@@ -11,5 +11,6 @@ for part in "${!SAMPLES[@]}"; do
     lb-conda pidcalib pidcalib2.make_eff_hists \
         --output-dir pidcalib_output \
         --sample Turbo16 --magnet down \
-        --particle ${part} --pid-cut ${SAMPLES[${part}]} \
+        --particle ${part} --pid-cut "${SAMPLES[${part}]}" \
         --bin-var P --bin-var ETA
+done
