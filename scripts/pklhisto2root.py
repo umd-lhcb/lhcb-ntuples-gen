@@ -117,7 +117,13 @@ def convert_pklfile_to_rootfile(path: str, output_path: str):
 
 
 def main():
-    convert_pklfile_to_rootfile(sys.argv[1], sys.argv[2])
+    file_in = sys.argv[1]
+    try:
+        file_out = sys.argv[2]
+    except IndexError:
+        file_out = pathlib.Path(sys.argv[1]).with_suffix('.root')
+
+    convert_pklfile_to_rootfile(file_in, file_out)
 
 
 if __name__ == "__main__":
