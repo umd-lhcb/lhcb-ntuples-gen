@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Sep 23, 2021 at 02:17 AM +0200
+# Last Change: Thu Sep 23, 2021 at 02:23 AM +0200
 # Description: Merge and apply cuts on input .root files, each with multiple
 #              trees, to a single output .root file.
 #
@@ -15,7 +15,7 @@ ROOT.PyConfig.DisableRootLogon = True  # Don't read .rootlogon.py
 
 from argparse import ArgumentParser
 
-from ROOT import RDataFrame
+from ROOT import gInterpreter, RDataFrame
 from ROOT.std import vector
 
 
@@ -56,7 +56,7 @@ apply weights from a histogram to a ntuple.
 # C++ helpers #
 ###############
 
-ROOT.gROOT.Declare('''
+gInterpreter.Declare('''
 #include <cmath>
 
 #include <TMath.h>
@@ -73,7 +73,7 @@ Double_t GET_WEIGHT(Double_t x, Double_t y, TH2D* histo) {
 
   if (isnan(wt)) {
     return -999.0;
-  } elif (wt < 0.000001) {
+  } else if (wt < 0.000001) {
     return -1.0;
   }
   return wt;
@@ -82,10 +82,10 @@ Double_t GET_WEIGHT(Double_t x, Double_t y, TH2D* histo) {
 
 
 def load_histo(input_histo_ntp, histo_name):
-    ROOT.gROOT.ProcessLine(
+    gInterpreter.Declare(
         '''
-        auto input_ntp = new TFile({}, 'read');
-        auto histo = dynamic_cast<TH2D*>(input_ntp->Get({}));
+        auto input_ntp = new TFile("{}", "read");
+        auto histo = dynamic_cast<TH2D*>(input_ntp->Get("{}"));
         '''.format(input_histo_ntp, histo_name)
     )
 
@@ -105,9 +105,10 @@ if __name__ == '__main__':
 
     count_tot = wt_frame.Count().GetValue()
     count_bad = wt_frame.Filter('{} < 0'.format(args.wt_name)).Count().GetValue()
+    count_nan = wt_frame.Filter('{} < -10'.format(args.wt_name)).Count().GetValue()
 
     output_brs = vector('string')(['runNumber', 'eventNumber', args.wt_name])
     wt_frame.Snapshot(args.tree, args.output_ntp, output_brs)
 
-    print('Total event processed: {}, bad: {}, bad fraction: {:.2f}'.format(
-        count_tot, count_bad, count_bad / count_tot))
+    print('Total event processed: {}, bad: {}, nan: {} bad fraction: {:.2f}'.format(
+        count_tot, count_bad, count_nan, count_bad / count_tot))
