@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Sep 23, 2021 at 02:23 AM +0200
+# Last Change: Thu Sep 23, 2021 at 02:24 AM +0200
 # Description: Merge and apply cuts on input .root files, each with multiple
 #              trees, to a single output .root file.
 #
@@ -110,5 +110,5 @@ if __name__ == '__main__':
     output_brs = vector('string')(['runNumber', 'eventNumber', args.wt_name])
     wt_frame.Snapshot(args.tree, args.output_ntp, output_brs)
 
-    print('Total event processed: {}, bad: {}, nan: {} bad fraction: {:.2f}'.format(
-        count_tot, count_bad, count_nan, count_bad / count_tot))
+    print('Total event processed: {}, bad: {}, nan: {}. Bad fraction: {:.1f}%'.format(
+        count_tot, count_bad, count_nan, count_bad / count_tot * 100))
