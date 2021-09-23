@@ -3,8 +3,8 @@
 # Note: Run this on lxplus!
 
 declare -A SAMPLES
-SAMPLES[K]="DLLK > 4"
-SAMPLES[Pi]="DLLK < 2"
+SAMPLES[K]="DLLK > 4.0 & IsMuon == 0.0"
+SAMPLES[Pi]="DLLK < 2.0 & IsMuon == 0.0"
 SAMPLES[Mu]="DLLmu > 2.0 & DLLe < 1.0 & IsMuon == 1.0"
 
 for year in 15 16 17 18; do
