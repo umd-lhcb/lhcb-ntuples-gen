@@ -68,3 +68,42 @@ For each of these variables, it admits 3 possible values of type `float`:
 
     DaVinci().appendToMainSequence([ms_all_protos, ms_velo_pions])
     ```
+
+
+## `TupleToolSLTruth`
+The truth-matching is done with a `getMCParticle` class method, which is defined as following:
+
+```cpp
+const LHCb::MCParticle* TupleToolSLTruth::getMCParticle(
+    const LHCb::Particle* P ) {
+  const LHCb::MCParticle* mcp( NULL );
+  if ( P ) {
+    // assignedPid = P->particleID().pid();
+    if ( msgLevel( MSG::VERBOSE ) )
+      verbose() << "Getting related MCP to " << P << endmsg;
+    for ( std::vector<IParticle2MCAssociator*>::const_iterator iMCAss =
+              m_p2mcAssocs.begin();
+          iMCAss != m_p2mcAssocs.end(); ++iMCAss ) {
+      mcp = ( *iMCAss )->relatedMCP( P );
+      if ( mcp ) break;
+    }
+    if ( msgLevel( MSG::VERBOSE ) ) verbose() << "Got mcp " << mcp << endmsg;
+  }
+  return mcp;
+}
+```
+
+Here it is trying to use the following MC associators in order:
+
+- `DaVinciSmartAssociator`
+- `MCMatchObjP2MCRelator`
+
+And if one of them return a non-empty match, it will return that match right away.
+
+!!! info
+    These accociators are derived classes of `Particle2MCAssociatorBase`, which
+    is defined in the `Phys` project in the
+    `Phys/DaVinciMCKernel/Kernel/Particle2MCAssociatorBase.h` file.
+
+!!! info
+    For more info on MC truth-matching, take a look at [this article](../../technical_concepts/truth_matching.md).

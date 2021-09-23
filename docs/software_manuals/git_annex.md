@@ -8,6 +8,10 @@ the expected locations.
 
 
 ## Initialize `git-annex` repository
+
+!!! info "Before you proceed"
+    This needs to be done **only once** for each repository!
+
 We have a private server[^1] that hosts `git` repositories with `git-annex`
 capabilities.
 After cloning the `umd-lhcb/lhcb-ntuples-gen` repository from github, add our private repository:
@@ -60,7 +64,7 @@ git annex add <path_to_file>
     files to `git-annex`, and the rest to `git`. This has been done for this
     repository, in:
     ```
-    <project_root>/.gitattributes`
+    <project_root>/.gitattributes
     ```
 
     See [this article](https://git-annex.branchable.com/tips/largefiles/)
@@ -138,6 +142,8 @@ changes not staged for commit
 If there are uncommitted local changes, commit then and write sensible
 messages. This way, `git annex sync` won't make unwanted commits!
 
+!!! info "Before you proceed"
+    Do `git pull origin master` to get latest changes from `origin` first.
 
 Now, you can do this:
 ```
@@ -145,8 +151,12 @@ git annex sync
 ```
 
 !!! note
-    The command above don't download the actual data; rather, it only download
+    The command above doesn't download the actual data; rather, it only download
     the metadata so that `git annex` _knows_ how to download the actual data.
+
+    The command above will also make sure your local `master` is now identical
+    to remote `master`. That's why it's better to do `git pull origin master`
+    beforehand to avoid surprises.
 
 !!! error
     By default, `git annex sync` will commit **all previously uncommitted**

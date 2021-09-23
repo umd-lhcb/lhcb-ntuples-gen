@@ -21,6 +21,8 @@ TupleB0/DecayTree:
         - "*_TrueNeutrino_*"
         - "*_TrueTauNuMu_*"
         - "*_TrueTauNuTau_*"
+        # True gammas
+        - "*_MCTrue_gamma_*"
 
 TupleBminus/DecayTree:
     deactivate: TupleB0/DecayTree

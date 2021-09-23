@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+#
+# Note: Run this on lxplus!
+
+declare -A SAMPLES
+SAMPLES[K]="DLLK > 4.0 & IsMuon == 0.0"
+SAMPLES[Pi]="DLLK < 2.0 & IsMuon == 0.0"
+SAMPLES[Mu]="DLLmu > 2.0 & DLLe < 1.0 & IsMuon == 1.0"
+
+for year in 15 16 17 18; do
+    for polarity in "up" "down"; do
+        for part in "${!SAMPLES[@]}"; do
+            lb-conda pidcalib pidcalib2.make_eff_hists \
+                --output-dir pidcalib_output \
+                --sample "Turbo${year}" --magnet ${polarity} \
+                --particle ${part} --pid-cut "${SAMPLES[${part}]}" \
+                --bin-var P --bin-var ETA
+        done
+    done
+done

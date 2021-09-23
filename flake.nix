@@ -7,9 +7,10 @@
     flake-utils.follows = "root-curated/flake-utils";
 
     MuonBDTPid.url = "github:umd-lhcb/MuonBDTPid";
+    hammer-reweight.url = "github:umd-lhcb/hammer-reweight";
   };
 
-  outputs = { self, nixpkgs, flake-utils, root-curated, MuonBDTPid }:
+  outputs = { self, nixpkgs, flake-utils, root-curated, MuonBDTPid, hammer-reweight }:
     flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = import nixpkgs {
@@ -18,6 +19,7 @@
           overlays = [
             root-curated.overlay
             MuonBDTPid.overlay
+            hammer-reweight.overlay
           ];
         };
         python = pkgs.python3;
@@ -32,6 +34,9 @@
 
             # UBDT adder
             pkgs.addUBDTBranchWrapped
+
+            # HAMMER reweighter
+            pkgs.hammer-reweight
 
             # Auto completion
             jedi

@@ -1,6 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri Aug 27, 2021 at 01:01 AM +0200
+# Last Change: Mon Sep 13, 2021 at 10:50 PM +0200
 
 VPATH := postprocess:test:scripts:ntuples
 VPATH := run1-rdx/cutflow:run2-rdx/cutflow:$(VPATH)
@@ -61,11 +61,9 @@ test-naming-conv:
 	test/test_filename_convention.py
 
 
-#########################
-# RDX ntuple generation #
-#########################
-
-.PHONY: rdx-ntuple-run2-oldcut
+###############################
+# RDX run 2 ntuple generation #
+###############################
 
 rdx-ntuple-run2-oldcut: \
 	0.9.4-trigger_emulation/Dst_D0-std \
@@ -79,11 +77,34 @@ rdx-ntuple-run2-oldcut-no-ubdt: \
 	workflows/rdx.py $@ $< --debug \
 		--mode data_no_mu_bdt -A input_yml:$(abspath $(word 2, $^))
 
+rdx-ntuple-run2-mc: \
+	0.9.4-trigger_emulation/Dst_D0-mc \
+	rdx-run2/rdx-run2_with_run1_cuts.yml
+	workflows/rdx.py $@ $< --debug \
+		--mode mc -A input_yml:$(abspath $(word 2, $^))
+
+rdx-ntuple-run2-mc-demo: \
+	./run2-rdx/samples/Dst_D0--21_07_22--mc--Bd2DstMuNu--2016--md--py8-sim09j-dv45-subset.root \
+	rdx-run2/rdx-run2_with_run1_cuts.yml
+	workflows/rdx.py $@ $< --debug \
+		--mode mc_ref -A input_yml:$(abspath $(word 2, $^))
+
+
+###############################
+# RDX run 2 ntuple generation #
+###############################
+
 rdx-ntuple-run1: \
 	0.9.2-2011_production/Dst_D0-std \
 	rdx-run1/rdx-run1.yml
 	workflows/rdx.py $@ $< --debug \
 		--mode data_no_mu_bdt -A input_yml:$(abspath $(word 2, $^))
+
+rdx-ntuple-run1-no-Dst-veto: \
+	run1-rdx/samples/Dst_D0--21_08_25--std--data--2012--md--dv45-subset.root \
+	rdx-run1/rdx-run1_no_Dst_veto.yml
+	workflows/rdx.py $@ $< --debug \
+		--mode data_ref -A input_yml:$(abspath $(word 2, $^))
 
 ref-rdx-ntuple-run1: \
 	ref-rdx-run1/Dst-mix \

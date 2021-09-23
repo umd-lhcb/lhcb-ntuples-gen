@@ -31,7 +31,7 @@ def do_cutflow(ntp1, ntp2, outfolder, rfactor=1, mode='std'):
     print('\n  cat '+mdfile+'\n')
 
 
-# BARE MC ntuples
+## BARE MC ntuples
 r1_bare = [
     'ntuples/0.9.4-trigger_emulation/Dst_D0-cutflow_mc/Dst_D0--21_05_29--cutflow_mc--bare--MC_2011_Beam3500GeV-2011-MagUp-Nu2-Pythia8_Sim08h_Digi13_Trig0x40760037_Reco14c_Stripping20r1NoPrescalingFlagged_11874091_ALLSTREAMS.DST.root',
     'ntuples/0.9.4-trigger_emulation/Dst_D0-cutflow_mc/Dst_D0--21_05_29--cutflow_mc--bare--MC_2011_Beam3500GeV-2011-MagDown-Nu2-Pythia8_Sim08h_Digi13_Trig0x40760037_Reco14c_Stripping20r1NoPrescalingFlagged_11874091_ALLSTREAMS.DST.root'
@@ -41,7 +41,7 @@ r2_bare = [
     'ntuples/0.9.4-trigger_emulation/Dst_D0-cutflow_mc/Dst_D0--21_05_29--cutflow_mc--bare--MC_2016_Beam6500GeV-2016-MagDown-Nu1.6-25ns-Pythia8_Sim09b_Trig0x6138160F_Reco16_Turbo03_Stripping26NoPrescalingFlagged_11874091_ALLSTREAMS.DST.root'
 ]
 
-# B -> D*+ mu nu MC ntuples
+## B -> D*+ mu nu MC ntuples
 r1_dstmu = [
     'ntuples/0.9.3-production_for_validation/Dst_D0-mc/Dst_D0--21_01_30--mc--MC_2012_Beam4000GeV-2012-MagDown-Nu2.5-Pythia8_Sim08e_Digi13_Trig0x409f0045_Reco14a_Stripping20Filtered_11574020_DSTTAUNU.SAFESTRIPTRIG.DST.root'
 ]
@@ -49,7 +49,7 @@ r2_dstmu = [
     'ntuples/0.9.4-trigger_emulation/Dst_D0-mc/Dst_D0--21_04_21--mc--MC_2016_Beam6500GeV-2016-MagDown-Nu1.6-25ns-Pythia8_Sim09j_Trig0x6139160F_Reco16_Turbo03a_Filtered_11574021_D0TAUNU.SAFESTRIPTRIG.DST.root'
 ]
 
-# Data ntuples
+## Data ntuples
 r1_data = [
     'ntuples/0.9.2-2011_production/Dst_D0-std/Dst_D0--20_10_12--std--LHCb_Collision11_Beam3500GeV-VeloClosed-MagDown_Real_Data_Reco14_Stripping21r1_90000000_SEMILEPTONIC.DST.root'
 ]
@@ -57,8 +57,8 @@ r2_data = [
     'ntuples/0.9.4-trigger_emulation/Dst_D0-std/Dst_D0--21_04_27--std--LHCb_Collision16_Beam6500GeV-VeloClosed-MagDown_Real_Data_Reco16_Stripping28r1_90000000_SEMILEPTONIC.DST.root'
 ]
 
-# Running BARE, D*+ mu, and Data cutflows
-# rfactors are calculated from the sample yields in Dirac (for MC) and lumi x xsec (for data)
+## Running BARE, D*+ mu, and Data cutflows
+## rfactors are calculated from the sample yields in Dirac (for MC) and lumi x xsec (for data)
 do_cutflow(r1_bare, r2_bare, 'gen/cutflow_bare-sig', (522494+502736)/(520046+515913.), 'std-sig')
 do_cutflow(r1_bare, r2_bare, 'gen/cutflow_bare-nor', (522494+502736)/(520046+515913.), 'std-nor')
 do_cutflow(r1_bare, r2_bare, 'gen/cutflow_bare-dss', (522494+502736)/(520046+515913.), 'std-dss')

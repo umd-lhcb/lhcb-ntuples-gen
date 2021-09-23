@@ -74,7 +74,7 @@ Bool_t FLAG_1OS(Double_t iso_bdt1, Double_t iso_bdt2,
   return (iso_bdt1 > 0.15) && (iso_bdt2 < 0.15) &&
     (iso_type1 == 3) &&
     (iso_p1 > 5.0) && (iso_pt1 > 0.15) &&
-    (iso_chrg1*d0_id) < 0 &&
+    (iso_chrg1*d0_id) > 0 &&
     (iso_nnk1 < 0.2);
 }
 // clang-format on
