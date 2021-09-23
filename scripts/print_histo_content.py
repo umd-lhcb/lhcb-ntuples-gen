@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Sep 23, 2021 at 02:21 PM +0200
+# Last Change: Thu Sep 23, 2021 at 02:36 PM +0200
 
 import sys
 import ROOT
@@ -10,14 +10,18 @@ import ROOT
 from tabulate import tabulate
 
 
-def bin_info(histo, bin_idx, bin_idx_max, axis=lambda x: x.GetXaxis()):
+def bin_info(histo, bin_idx, bin_idx_max,
+             axis=lambda x: x.GetXaxis(), multiline=True):
     if bin_idx == 0:
-        return '0 (under)'
+        lbl = '(U)'
+    elif bin_idx == bin_idx_max + 1:
+        lbl = '(O)'
+    else:
+        lbl = '({:.1f})'.format(axis(histo).GetBinCenter(bin_idx))
 
-    if bin_idx == bin_idx_max + 1:
-        return '{} (over)'.format(bin_idx)
+    fmt = '{} \n {}' if multiline else '{} {}'
 
-    return '{} ({:.1f})'.format(bin_idx, axis(histo).GetBinCenter(bin_idx))
+    return fmt.format(bin_idx, lbl)
 
 
 def get_th2_content(histo):
@@ -27,11 +31,11 @@ def get_th2_content(histo):
     y_max = histo.GetNbinsY()
 
     for y in range(y_max+2):
-        row = [bin_info(histo, y, y_max, lambda x: x.GetYaxis())]
+        row = [bin_info(histo, y, y_max, lambda x: x.GetYaxis(), False)]
 
         for x in range(x_max+2):
             headers.append(bin_info(histo, x, x_max))
-            row.append('{:.3f}'.format(histo.GetBinContent(x, y)))
+            row.append('{:.2f}'.format(histo.GetBinContent(x, y)))
 
         tab.append(row)
 
@@ -50,4 +54,4 @@ if __name__ == '__main__':
 
     histo = ntp.Get(histo_name)
     tab, headers = get_th2_content(histo)
-    print(tabulate(tab, headers=headers))
+    print(tabulate(tab, headers=headers, tablefmt='pretty'))
