@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Sep 23, 2021 at 12:35 AM +0200
+# Last Change: Thu Sep 23, 2021 at 02:21 PM +0200
 
 import sys
 import ROOT
@@ -10,16 +10,32 @@ import ROOT
 from tabulate import tabulate
 
 
+def bin_info(histo, bin_idx, bin_idx_max, axis=lambda x: x.GetXaxis()):
+    if bin_idx == 0:
+        return '0 (under)'
+
+    if bin_idx == bin_idx_max + 1:
+        return '{} (over)'.format(bin_idx)
+
+    return '{} ({:.1f})'.format(bin_idx, axis(histo).GetBinCenter(bin_idx))
+
+
 def get_th2_content(histo):
-    result = []
+    tab = []
+    headers = ['y \\ x']
+    x_max = histo.GetNbinsX()
+    y_max = histo.GetNbinsY()
 
-    for y in range(histo.GetNbinsY()+1):
-        row = [y]
-        for x in range(histo.GetNbinsX()+1):
+    for y in range(y_max+2):
+        row = [bin_info(histo, y, y_max, lambda x: x.GetYaxis())]
+
+        for x in range(x_max+2):
+            headers.append(bin_info(histo, x, x_max))
             row.append('{:.3f}'.format(histo.GetBinContent(x, y)))
-        result.append(row)
 
-    return result
+        tab.append(row)
+
+    return tab, headers
 
 
 if __name__ == '__main__':
@@ -33,6 +49,5 @@ if __name__ == '__main__':
     print("File: {}, Histo: {}".format(sys.argv[1], histo_name))
 
     histo = ntp.Get(histo_name)
-    tab = get_th2_content(histo)
-    print(tabulate(tab, headers=['y \\ x']+[
-        str(i) for i in range(histo.GetNbinsX()+1)]))
+    tab, headers = get_th2_content(histo)
+    print(tabulate(tab, headers=headers))
