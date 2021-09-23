@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Sep 23, 2021 at 03:11 PM +0200
+# Last Change: Thu Sep 23, 2021 at 03:18 PM +0200
 
 import sys
 import ROOT
@@ -26,7 +26,7 @@ def parse_input():
                         help='specify table format.')
 
     parser.add_argument('-m', '--multiline', action='store_true',
-                        help='single line for header row.')
+                        help='multiple lines for header row.')
 
     return parser.parse_args()
 
@@ -45,7 +45,7 @@ def bin_info(histo, bin_idx, bin_idx_max,
     return fmt.format(bin_idx, lbl)
 
 
-def get_th2_content(histo, overunder=True, singleline=False):
+def get_th2_content(histo, overunder=True, multiline=False):
     tab = []
     headers = ['y \\ x']
     x_max = histo.GetNbinsX()
@@ -62,7 +62,7 @@ def get_th2_content(histo, overunder=True, singleline=False):
         row = [bin_info(histo, y, y_max, lambda x: x.GetYaxis(), False)]
 
         for x in range(lower, x_max+upper):
-            headers.append(bin_info(histo, x, x_max, multiline=not singleline))
+            headers.append(bin_info(histo, x, x_max, multiline=multiline))
             row.append('{:.2f}'.format(histo.GetBinContent(x, y)))
 
         tab.append(row)
