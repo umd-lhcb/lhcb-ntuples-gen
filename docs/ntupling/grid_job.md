@@ -53,8 +53,8 @@ export CMTCONFIG={{ davinci_runtime }}
 export BINARY_TAG=$CMTCONFIG
 ```
 
-Now, follow [this script](https://github.com/umd-lhcb/docker-images/blob/master/lhcb-stack-cc7/compile_dv.sh)
-to build a `DaVinci` with our customizations.
+Now, run [this script](https://github.com/umd-lhcb/docker-images/blob/master/lhcb-stack-cc7/compile_dv.sh)
+anywhere to build a `DaVinci` with our customizations.
 The `DaVinci` will be available at `$HOME/build/DaVinciDev_{{ davinci_ver }}`.
 
 ### Configure `ganga`
