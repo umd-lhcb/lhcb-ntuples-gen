@@ -8,6 +8,7 @@ declare -A NTPS=(
     ["rdx-run2-Bd2DstTauNu.root"]="../../run2-rdx/samples/Dst_D0--21_07_30--mc--Bd2DstTauNu--2016--md--py8-sim09j-dv45-subset.root"
     ["rdx-run2-Bd2DstMuNu.root"]="../../run2-rdx/samples/Dst_D0--21_07_30--mc--Bd2DstMuNu--2016--md--py8-sim09j-dv45-subset.root"
     ["rdx-run2-Bd2DststTauNu.root"]="../../run2-rdx/samples/Dst_D0--21_07_30--mc--Bd2DststTauNu--2016--md--py8-sim09j-dv45-subset.root"
+    ["rdx-run2-Bd2D0DX_MuNu.root"]="../../run2-rdx/samples/Dst_D0--21_09_25--mc--Bd2D0DX_MuNu--2016--md--py8-sim09j-dv45-subset.root"
 )
 
 for key in "${!NTPS[@]}"; do
