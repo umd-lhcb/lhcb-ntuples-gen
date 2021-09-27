@@ -33,3 +33,10 @@ IOHelper().inputFiles([
 # IOHelper().inputFiles([
 #     './data/Bd2DststTauNu-2016-md-py8-sim09j-fullsim/00121651_00000001_1.d0taunu.safestriptrig.dst'
 # ], clear=True)
+
+# DD
+# IOHelper().inputFiles([
+#     './data/Bd2D0DX_MuNu-2016-md-py8-sim09j-fullsim/00121213_00000026_1.d0taunu.safestriptrig.dst',
+#     './data/Bd2D0DX_MuNu-2016-md-py8-sim09j-fullsim/00121213_00000028_1.d0taunu.safestriptrig.dst',
+#     './data/Bd2D0DX_MuNu-2016-md-py8-sim09j-fullsim/00121213_00000040_1.d0taunu.safestriptrig.dst'
+# ], clear=True)
