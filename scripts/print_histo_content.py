@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Sep 23, 2021 at 03:18 PM +0200
+# Last Change: Fri Oct 01, 2021 at 02:34 AM +0200
 
 import sys
 import ROOT
@@ -28,6 +28,9 @@ def parse_input():
     parser.add_argument('-m', '--multiline', action='store_true',
                         help='multiple lines for header row.')
 
+    parser.add_argument('-T', '--transpose', action='store_true',
+                        help='transpose the x, y axis')
+
     return parser.parse_args()
 
 
@@ -45,29 +48,41 @@ def bin_info(histo, bin_idx, bin_idx_max,
     return fmt.format(bin_idx, lbl)
 
 
-def get_th2_content(histo, overunder=True, multiline=False):
+def get_th2_content(histo, overunder=True, multiline=False, transpose=False):
     tab = []
-    headers = ['y \\ x']
+    first_col = []
+    headers = ['y \\ x'] if not transpose else ['x \\ y']
+
     x_max = histo.GetNbinsX()
     y_max = histo.GetNbinsY()
-
-    if overunder:
-        lower = 0
-        upper = 2
-    else:
-        lower = 1
-        upper = 1
+    (lower, upper) = (0, 2) if overunder else (1, 1)
 
     for y in range(lower, y_max+upper):
-        row = [bin_info(histo, y, y_max, lambda x: x.GetYaxis(), False)]
+        row = []
+        if not transpose:
+            first_col.append(
+                bin_info(histo, y, y_max, lambda x: x.GetYaxis(), False))
+        else:
+            headers.append(
+                bin_info(histo, y, y_max, lambda x: x.GetYaxis(),
+                         multiline=multiline))
 
         for x in range(lower, x_max+upper):
-            headers.append(bin_info(histo, x, x_max, multiline=multiline))
-            row.append('{:.2f}'.format(histo.GetBinContent(x, y)))
+            if not transpose:
+                headers.append(bin_info(histo, x, x_max, multiline=multiline))
+            else:
+                first_col.append(bin_info(histo, x, x_max, multiline=False))
+
+            row.append('{:.2f} (-{:.2f} +{:.2f})'.format(
+                histo.GetBinContent(x, y),
+                histo.GetBinErrorLow(x, y), histo.GetBinErrorUp(x, y)))
 
         tab.append(row)
 
-    return tab, headers
+    if transpose:
+        tab = zip(*tab)
+
+    return [[lbl] + list(r) for r, lbl in zip(tab, first_col)], headers
 
 
 if __name__ == '__main__':
@@ -77,5 +92,6 @@ if __name__ == '__main__':
     print("File: {}, Histo: {}".format(args.ntp, args.histo))
 
     histo = ntp.Get(args.histo)
-    tab, headers = get_th2_content(histo, args.overunder, args.multiline)
+    tab, headers = get_th2_content(
+        histo, args.overunder, args.multiline, args.transpose)
     print(tabulate(tab, headers=headers, tablefmt=args.format))
