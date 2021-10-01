@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri Oct 01, 2021 at 02:34 AM +0200
+# Last Change: Fri Oct 01, 2021 at 02:35 AM +0200
 
 import sys
 import ROOT
@@ -73,9 +73,9 @@ def get_th2_content(histo, overunder=True, multiline=False, transpose=False):
             else:
                 first_col.append(bin_info(histo, x, x_max, multiline=False))
 
-            row.append('{:.2f} (-{:.2f} +{:.2f})'.format(
-                histo.GetBinContent(x, y),
-                histo.GetBinErrorLow(x, y), histo.GetBinErrorUp(x, y)))
+            row.append('{:.2f} ± {:.2f}'.format(
+                histo.GetBinContent(x, y), histo.GetBinErrorLow(x, y)))
+            # Assume symmetric error
 
         tab.append(row)
 
