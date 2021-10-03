@@ -12,7 +12,7 @@
         <link rel="canonical" href="https://umd-lhcb.github.io/lhcb-ntuples-gen/ntupling/grid_job/">
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.2.2, mkdocs-material-7.3.0">
+      <meta name="generator" content="mkdocs-1.2.2, mkdocs-material-7.3.1">
     
     
       
@@ -20,7 +20,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.8b42a75e.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.1c75ef36.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.3f5d1f46.min.css">
@@ -365,6 +365,13 @@
         <li class="md-nav__item">
   <a href="#submitting-a-job-with-ganga" class="md-nav__link">
     Submitting a job with ganga
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#update-subjob-status-and-force-status-to-be-failed-when-necessary" class="md-nav__link">
+    Update subjob status and force status to be "failed" when necessary
   </a>
   
 </li>
@@ -1083,6 +1090,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#update-subjob-status-and-force-status-to-be-failed-when-necessary" class="md-nav__link">
+    Update subjob status and force status to be "failed" when necessary
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#handling-failing-subjobs" class="md-nav__link">
     Handling failing subjobs
   </a>
@@ -1222,6 +1236,15 @@ then following instructions on screen.</p>
 <li>Launch <code>ganga</code> from a <code>lxplus</code> session</li>
 <li>In the <code>ganga</code> shell, type in <code>jobs</code></li>
 </ol>
+<h2 id="update-subjob-status-and-force-status-to-be-failed-when-necessary">Update subjob status and force status to be "failed" when necessary</h2>
+<p>Sometimes ganga would stuck at updating job status. To reset the status for
+"completing" and "failed" subjobs, do:
+<div class="highlight"><pre><span></span><code>jobs[73].backend.reset(True)
+</code></pre></div></p>
+<p>If that still doesn't bring a job to a stable state (i.e. "finished" or
+"failed"), force the job to fail:
+<div class="highlight"><pre><span></span><code>jobs[73].force_status(&quot;failed&quot;, force=True)
+</code></pre></div></p>
 <h2 id="handling-failing-subjobs">Handling failing subjobs</h2>
 <p>The GRID job are split into subjobs, enabling parallel execution. Some subjobs may fail. Considering the following <code>jobs</code> output in <code>ganga</code> shell:
 <div class="highlight"><pre><span></span><code>[01:30:22]
@@ -1433,10 +1456,10 @@ of the <code>git-annex</code> manual.</p>
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": "../..", "features": [], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../../assets/javascripts/workers/search.f8263e09.min.js", "version": null}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../../assets/javascripts/workers/search.e99e714c.min.js", "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.4fc53ad4.min.js"></script>
+      <script src="../../assets/javascripts/bundle.c7d1b464.min.js"></script>
       
         <script src="../../javascripts/config.js"></script>
       
