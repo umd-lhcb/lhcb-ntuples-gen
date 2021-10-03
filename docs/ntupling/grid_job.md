@@ -112,6 +112,21 @@ After a successfully submission, the progress of the job can be checked with gan
 2. In the `ganga` shell, type in `jobs`
 
 
+## Update subjob status and force status to be "failed" when necessary
+
+Sometimes ganga would stuck at updating job status. To reset the status for
+"completing" and "failed" subjobs, do:
+```
+jobs[73].backend.reset(True)
+```
+
+If that still doesn't bring a job to a stable state (i.e. "finished" or
+"failed"), force the job to fail:
+```
+jobs[73].force_status("failed", force=True)
+```
+
+
 ## Handling failing subjobs
 
 The GRID job are split into subjobs, enabling parallel execution. Some subjobs may fail. Considering the following `jobs` output in `ganga` shell:
