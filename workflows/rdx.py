@@ -2,34 +2,30 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Sep 13, 2021 at 10:49 PM +0200
+# Last Change: Tue Oct 05, 2021 at 12:37 AM +0200
 
 import sys
 import os
-import os.path as os_path
+import os.path as op
 
 from argparse import ArgumentParser, Action
 from os import chdir
 
 from pyBabyMaker.base import TermColor as TC
 
-sys.path.insert(0, os_path.dirname(os_path.abspath(__file__)))
+sys.path.insert(0, op.dirname(op.abspath(__file__)))
 
 from utils import (
-    abs_path, ensure_dir, find_all_input, append_path, pipe_executor,
-    aggragate_output,
-    generate_step2_name, parse_step2_name
+    run_cmd_wrapper,
+    append_path, abs_path, ensure_dir, find_all_input, aggragate_output,
+    generate_step2_name, parse_step2_name,
+    workflow_compile_cpp
 )
 
 
 #################################
 # Command line arguments parser #
 #################################
-
-class AddKwsAction(Action):
-    def __call__(self, parser, namespace, values, option_string=None):
-        setattr(namespace, self.dest, dict(kv.split(':') for kv in values))
-
 
 def parse_input():
     parser = ArgumentParser(description='workflow for R(D(*)).')
@@ -38,206 +34,106 @@ def parse_input():
 specify job name.
 ''')
 
-    parser.add_argument('inputs', nargs='+', help='''
-specify initial input files.
-''')
-
     parser.add_argument('-d', '--debug', action='store_true', help='''
 enable debug mode
 ''')
 
-    parser.add_argument('-m', '--mode', required=True, help='''
-specify workflow mode.
-''')
-
-    parser.add_argument('-o', '--output-dir',
-                        default=abs_path('../gen'), help='''
-specify output dir.
-''')
-
-    parser.add_argument('-A', '--additional_kws', nargs='+', default=dict(),
-                        action=AddKwsAction,
-                        help='''
-specify optional additional keywords passing to the workflow.''')
-
     return parser.parse_args()
-
-
-###########
-# Helpers #
-###########
-
-def ensure_output_dir(output_dir, **kwargs):
-    output_dir = os_path.abspath(output_dir)
-    ensure_dir(output_dir, **kwargs)
-    return output_dir
-
-
-def handle_blacklist(files, patterns):
-    ok_files = []
-    for f in files:
-        if True not in [p in f for p in patterns]:
-            ok_files.append(f)
-    return ok_files
 
 
 #############
 # Workflows #
 #############
 
-def workflow_general(job_name, inputs, output_dir,
-                     global_path_to_append=[
-                         '../lib/python/TrackerOnlyEmu/scripts'
-                     ],
-                     path_to_append=[
-                         './rdx',
-                         '../scripts'
-                     ],
-                     input_patterns=['*.root'],
-                     blacklist_patterns=['__aux']
+def workflow_data_mc(job_name, inputs,
+                     output_dir=abs_path('../gen'),
+                     patterns=['*.root'],
+                     blocked_patterns=['__aux'],
+                     executor=run_cmd_wrapper()
                      ):
     print('{}== Job: {} =={}'.format(TC.BOLD+TC.GREEN, job_name, TC.END))
-    for p in global_path_to_append+path_to_append:
-        append_path(p)
 
     # Need to figure out the absolute path
-    input_files = find_all_input(inputs, input_patterns)
-    input_files = handle_blacklist(input_files, blacklist_patterns)
-    subworkdirs = {os_path.splitext(os_path.basename(i))[0]: i
+    input_files = find_all_input(inputs, patterns, blocked_patterns)
+    subworkdirs = {op.splitext(op.basename(i))[0]: i
                    for i in input_files}
 
     # Now ensure the working dir
-    workdir = ensure_output_dir(os_path.join(output_dir, job_name))
+    workdir = ensure_dir(op.join(output_dir, job_name))
 
-    return subworkdirs, workdir
+    return subworkdirs, workdir, executor
 
 
-def workflow_trigger_emulation(job_name, inputs, output_dir, debug, kws):
-    subworkdirs, workdir = workflow_general(job_name, inputs, output_dir)
+def workflow_data(job_name, inputs, input_yml,
+                  output_ntp_name_gen=generate_step2_name, **kwargs):
+    subworkdirs, workdir, executor = workflow_data_mc(
+        job_name, inputs, **kwargs)
     chdir(workdir)
-    exe = pipe_executor('trigger_emulation.sh {input_ntp}')
+    cpp_template = abs_path('../postprocess/cpp_templates/rdx.cpp')
 
     for subdir, full_filename in subworkdirs.items():
         print('{}Working on {}...{}'.format(TC.GREEN, full_filename, TC.END))
-        ensure_dir(subdir)
+        ensure_dir(subdir, make_absolute=False)
         chdir(subdir)  # Switch to the workdir of the subjob
 
-        params = {
-            'input_ntp': full_filename
-        }
-        exe(params, debug)
+        executor('babymaker -i {} -o baby.cpp -n {} -t {}'.format(
+            abs_path(input_yml), full_filename, cpp_template))
+        workflow_compile_cpp('baby.cpp')
 
-        aggragate_output('..', subdir, {
-            'ntuple': ['*.root'],
-            'plots_raster': ['*.png'],
-            'plots_vector': ['*.pdf'],
-        })
-
+        # aggragate_output('..', subdir, {
+            # 'ntuple': ['*--std--*.root']
+        # })
         chdir('..')  # Switch back to parent workdir
 
 
-def workflow_trigger_emulation_fs_vs_to(job_name, inputs, output_dir, debug,
-                                        kws):
-    subworkdirs, workdir = workflow_general(job_name, inputs, output_dir)
-    chdir(workdir)
-    exe = pipe_executor(
-        'trigger_emulation_fs_vs_to.sh {input_ntp1} {input_ntp2}')
+# def workflow_mc(job_name, inputs, output_dir, debug, kws,
+                # script='mc.sh', output_ntp_name_gen=generate_step2_name):
 
-    ntps = list(subworkdirs.values())
-    subdir = list(subworkdirs.keys())[0] + '--fs_vs_to'
-    params = {
-        'input_ntp1': ntps[0],
-        'input_ntp2': ntps[1]
-    }
+                     # path_to_append=[
+                         # '../lib/python/TrackerOnlyEmu/scripts'
+                     # ],
+    # subworkdirs, workdir = workflow_general(job_name, inputs, output_dir)
+    # chdir(workdir)
+    # exe = pipe_executor(
+        # script + ' ' + '"{input_ntp}" "{input_yml}" "{output_suffix}"')
 
-    print('{}Working on {}...{}'.format(TC.GREEN, subdir, TC.END))
-    ensure_dir(subdir)
-    chdir(subdir)  # Switch to the workdir of the subjob
+    # for subdir, full_filename in subworkdirs.items():
+        # print('{}Working on {}...{}'.format(TC.GREEN, full_filename, TC.END))
+        # ensure_dir(subdir)
+        # chdir(subdir)  # Switch to the workdir of the subjob
 
-    exe(params, debug)
+        # params = {
+            # 'input_ntp': full_filename,
+            # 'input_yml': kws['input_yml'],
+            # 'output_suffix': output_ntp_name_gen(full_filename)
+        # }
+        # exe(params, debug)
 
-    aggragate_output('..', subdir, {
-        'ntuple': ['*.root'],
-        'plots_raster': ['*.png'],
-        'plots_vector': ['*.pdf'],
-    })
+        # aggragate_output('..', subdir, {
+            # 'ntuple': ['*--mc--*.root']
+        # })
 
-    chdir('..')  # Switch back to parent workdir
-
-
-def workflow_data(job_name, inputs, output_dir, debug, kws,
-                  script='data.sh', output_ntp_name_gen=generate_step2_name):
-    subworkdirs, workdir = workflow_general(job_name, inputs, output_dir)
-    chdir(workdir)
-    exe = pipe_executor(
-        script + ' ' + '"{input_ntp}" "{input_yml}" "{output_suffix}"')
-
-    for subdir, full_filename in subworkdirs.items():
-        print('{}Working on {}...{}'.format(TC.GREEN, full_filename, TC.END))
-        ensure_dir(subdir)
-        chdir(subdir)  # Switch to the workdir of the subjob
-
-        params = {
-            'input_ntp': full_filename,
-            'input_yml': kws['input_yml'],
-            'output_suffix': output_ntp_name_gen(full_filename)
-        }
-        exe(params, debug)
-
-        aggragate_output('..', subdir, {
-            'ntuple': ['*--std--*.root']
-        })
-
-        chdir('..')  # Switch back to parent workdir
+        # chdir('..')  # Switch back to parent workdir
 
 
-def workflow_mc(job_name, inputs, output_dir, debug, kws,
-                script='mc.sh', output_ntp_name_gen=generate_step2_name):
-    subworkdirs, workdir = workflow_general(job_name, inputs, output_dir)
-    chdir(workdir)
-    exe = pipe_executor(
-        script + ' ' + '"{input_ntp}" "{input_yml}" "{output_suffix}"')
+#####################
+# Production config #
+#####################
 
-    for subdir, full_filename in subworkdirs.items():
-        print('{}Working on {}...{}'.format(TC.GREEN, full_filename, TC.END))
-        ensure_dir(subdir)
-        chdir(subdir)  # Switch to the workdir of the subjob
+args = parse_input()
+executor = run_cmd_wrapper(args.debug)
 
-        params = {
-            'input_ntp': full_filename,
-            'input_yml': kws['input_yml'],
-            'output_suffix': output_ntp_name_gen(full_filename)
-        }
-        exe(params, debug)
-
-        aggragate_output('..', subdir, {
-            'ntuple': ['*--mc--*.root']
-        })
-
-        chdir('..')  # Switch back to parent workdir
-
-
-########
-# Main #
-########
-
-WORKFLOWS = {
-    'trigger_emulation': workflow_trigger_emulation,
-    'trigger_emulation_fs_vs_to': workflow_trigger_emulation_fs_vs_to,
-    'data': workflow_data,
-    'data_no_mu_bdt': lambda *args: workflow_data(
-        *args, script='data_no_mu_bdt.sh'),
-    'data_ref': lambda *args: workflow_data(
-        *args, script='data_no_mu_bdt.sh',
-        output_ntp_name_gen=parse_step2_name),
-    'mc': workflow_mc,
-    'mc_ref': lambda *args: workflow_mc(
-        *args, output_ntp_name_gen=parse_step2_name),
+JOBS = {
+    'rdx-ntuple-run2-oldcut': lambda name: workflow_data(
+        name,
+        '../ntuples/0.9.4-trigger_emulation/Dst_D0-std',
+        '../postprocess/rdx-run2/rdx-run2_with_run1_cuts.yml',
+        executor=run_cmd_wrapper(args.debug)
+    ),
 }
 
-if __name__ == '__main__':
-    args = parse_input()
 
-    WORKFLOWS[args.mode](
-        args.job_name, args.inputs, args.output_dir, args.debug,
-        args.additional_kws)
+if args.job_name in JOBS:
+    JOBS[args.job_name](args.job_name)
+else:
+    print('Unknown job name: {}'.format(args.job_name))

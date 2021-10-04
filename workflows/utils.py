@@ -2,20 +2,18 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Oct 04, 2021 at 10:26 PM +0200
+# Last Change: Tue Oct 05, 2021 at 12:36 AM +0200
 
 import re
 import yaml
 import shlex
 import os.path as op  # Note: Can't use pathlib because that doesn't handle symbolic link well
 
-from os import makedirs, chdir, symlink, getcwd, system
+from os import makedirs, chdir, symlink, system, pathsep, environ
 from datetime import datetime
 from subprocess import check_output
 from shutil import rmtree
 from glob import glob
-
-from pyBabyMaker.base import TermColor as TC
 
 
 ################
@@ -26,12 +24,17 @@ def abs_path(path, base_path=op.abspath(op.dirname(__file__))):
     return op.abspath(op.join(base_path, path))
 
 
+def append_path(paths):
+    for p in paths:
+        environ['PATH'] = pathsep.join([abs_path(p), environ['PATH']])
+
+
 def with_suffix(path, ext):
     return op.splitext(path)[0] + ext
 
 
-def ensure_dir(path, delete_if_exist=True, **kwargs):
-    path = abs_path(path, **kwargs)
+def ensure_dir(path, delete_if_exist=True, make_absolute=True, **kwargs):
+    path = abs_path(path, **kwargs) if make_absolute else path
 
     if delete_if_exist and op.isdir(path):
         rmtree(path)
@@ -42,6 +45,9 @@ def ensure_dir(path, delete_if_exist=True, **kwargs):
 
 def find_all_input(inputs, patterns=['*.root'], blocked_patterns=['__aux']):
     result = []
+    if not isinstance(inputs, list):
+        inputs = [inputs]
+
     for f in inputs:
         if op.isfile(f):
             result.append(op.abspath(f))
@@ -65,7 +71,7 @@ def aggragate_output(workdir, output_dir, keep):
 
     for d, patterns in keep.items():
         chdir(workdir)
-        ensure_dir(d, False)
+        ensure_dir(d, False, False)
         chdir(d)
         relpath = op.relpath(output_dir, op.abspath('.'))
 
@@ -163,9 +169,14 @@ def parse_step2_name(ntp_name):
 # Generic workflows #
 #####################
 
-def wf_compile_cpp(input_cpp, add_flags='-I{}'.format(abs_path('../include'))):
+def workflow_compile_cpp(
+        input_cpp, add_flags='-I{}'.format(abs_path('../include')),
+        executor=run_cmd_wrapper()):
     compiler = run_cmd_with_output('root-config --cxx')
     base_flags = run_cmd_with_output('root-config --cflags')
     link_flags = run_cmd_with_output('root-config --libs')
 
-    # output_exe = Path(input_cpp).bas
+    output_exe = with_suffix(input_cpp, '.exe')
+
+    executor('{} {} {} -o {} {} {}'.format(
+        compiler, base_flags, add_flags, output_exe, input_cpp, link_flags))
