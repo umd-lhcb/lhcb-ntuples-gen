@@ -2,10 +2,7 @@
 #
 # Script to run several cutflows
 
-import os
-import pathlib
-
-from utils import run_cmd_wrapper, abs_path, ensure_dir
+from utils import run_cmd_wrapper, abs_path, ensure_dir, with_suffix
 
 
 ###########
@@ -33,15 +30,15 @@ def gen_cutflow(outyml1, outyml2, csvfile, texfile, mdfile, rfactor):
 
 def do_cutflow(ntp1, ntp2, outfolder, rfactor=1, mode='std'):
     print('\n======= Running cutflow and saving output to '+outfolder)
-    outfolder = ensure_dir('../gen/'+outfolder)
+    outfolder = ensure_dir('../gen/{}'.format(outfolder))
 
     outyml1 = outfolder + "/run1_yields.yml"
     outyml2 = outfolder + "/run2_yields.yml"
     gen_cutflow_yml(ntp1, ntp2, outyml1, outyml2, mode)
 
     csvfile = outfolder + "/cutflow.csv"
-    texfile = csvfile.replace('.csv', '.tex')
-    mdfile = csvfile.replace('.csv', '.md')
+    texfile = with_suffix(csvfile, '.tex')
+    mdfile = with_suffix(csvfile, '.md')
     gen_cutflow(outyml1, outyml2, csvfile, texfile, mdfile, rfactor)
 
     print('\n  cat '+mdfile+'\n')
