@@ -41,7 +41,8 @@ def do_cutflow(ntp1, ntp2, outfolder, rfactor=1, mode='std'):
     mdfile = with_suffix(csvfile, '.md')
     gen_cutflow(outyml1, outyml2, csvfile, texfile, mdfile, rfactor)
 
-    print('\n  cat '+mdfile+'\n')
+    print()
+    run_cmd('cat {}'.format(mdfile))
 
 
 #####################
