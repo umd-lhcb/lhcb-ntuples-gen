@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Oct 04, 2021 at 04:20 PM +0200
+# Last Change: Mon Oct 04, 2021 at 05:23 PM +0200
 
 import re
 import yaml
@@ -53,8 +53,13 @@ def run_cmd_wrapper(only_print=False):
 # I/O helpers #
 ###############
 
-def ensure_dir(path, delete_if_exist=True):
-    path = os_path.abspath(path)
+def abs_path(path, base_path=__file__):
+    return os_path.abspath(
+        os_path.join(os_path.dirname(os_path.abspath(base_path)), path))
+
+
+def ensure_dir(path, delete_if_exist=True, **kwargs):
+    path = abs_path(path, **kwargs)
 
     if os_path.isdir(path):
         if delete_if_exist:
@@ -65,11 +70,6 @@ def ensure_dir(path, delete_if_exist=True):
         makedirs(path)
 
     return path
-
-
-def abs_path(path, base_path=__file__):
-    return os_path.abspath(
-        os_path.join(os_path.dirname(os_path.abspath(base_path)), path))
 
 
 def find_all_input(inputs, patterns=['*.root']):
