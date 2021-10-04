@@ -2,12 +2,12 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Sep 13, 2021 at 09:12 PM +0200
+# Last Change: Mon Oct 04, 2021 at 04:20 PM +0200
 
-import os.path as os_path
-import shlex
 import re
 import yaml
+import os
+import os.path as os_path
 
 from os import makedirs, chdir, symlink, getcwd, environ, pathsep
 from datetime import datetime
@@ -40,11 +40,22 @@ def load_yaml_db(yaml_db=[
     return result
 
 
+def run_cmd_wrapper(only_print=False):
+    def inner(cmd):
+        print('  {}'.format(cmd))
+
+        if not only_print:
+            os.system(cmd)
+    return inner
+
+
 ###############
 # I/O helpers #
 ###############
 
 def ensure_dir(path, delete_if_exist=True):
+    path = os_path.abspath(path)
+
     if os_path.isdir(path):
         if delete_if_exist:
             rmtree(path)
@@ -52,6 +63,8 @@ def ensure_dir(path, delete_if_exist=True):
 
     else:
         makedirs(path)
+
+    return path
 
 
 def abs_path(path, base_path=__file__):
@@ -74,19 +87,6 @@ def find_all_input(inputs, patterns=['*.root']):
 # Execution helpers #
 #####################
 
-def pipe_executor(cmd, **kwargs):
-    def operation(params, debug=False):
-        args = [a.format(**params) for a in shlex.split(cmd)]
-        if debug:
-            print('{}DEBUG: Executing:{} {}'.format(
-                TC.YELLOW, TC.END, ' '.join(args)))
-        output = check_output(args, **kwargs).decode('utf-8')
-        if output:
-            print(output)
-
-    return operation
-
-
 def aggragate_output(workdir, output_dir, keep):
     # Symbolic link generated files that match 'keep' patterns in separate
     # folders so that it's easier to find them.
@@ -106,11 +106,6 @@ def aggragate_output(workdir, output_dir, keep):
         for p in patterns:
             for f in glob(os_path.join(relpath, p)):
                 symlink(f, os_path.join('.', os_path.basename(f)))
-
-
-def append_path(path=None):
-    path = getcwd if path is None else abs_path(path)
-    environ['PATH'] = pathsep.join([path, environ['PATH']])
 
 
 ################################
@@ -157,3 +152,8 @@ def parse_step2_name(ntp_name):
     if add_flag:
         fields.append(add_flag[0])
     return '--'.join(fields)
+
+
+#####################
+# Generic workflows #
+#####################

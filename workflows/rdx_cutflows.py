@@ -5,14 +5,14 @@
 import os
 import pathlib
 
+from utils import run_cmd_wrapper
+
 
 ###########
 # Helpers #
 ###########
 
-def run_cmd(cmd):
-    print('  '+cmd)
-    os.system(cmd)
+run_cmd = run_cmd_wrapper(only_print=False)
 
 
 def do_cutflow(ntp1, ntp2, outfolder, rfactor=1, mode='std'):
@@ -30,6 +30,10 @@ def do_cutflow(ntp1, ntp2, outfolder, rfactor=1, mode='std'):
     run_cmd('cat '+csvfile+' | tabgen.py -f github > '+mdfile)
     print('\n  cat '+mdfile+'\n')
 
+
+#####################
+# Production config #
+#####################
 
 ## BARE MC ntuples
 r1_bare = [
