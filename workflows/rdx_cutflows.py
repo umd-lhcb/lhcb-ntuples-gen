@@ -28,7 +28,7 @@ def gen_cutflow(outyml1, outyml2, csvfile, texfile, mdfile, rfactor):
         csvfile, mdfile))
 
 
-def do_cutflow(ntp1, ntp2, outfolder, rfactor=1, mode='std'):
+def workflow_cutflow(ntp1, ntp2, outfolder, rfactor=1, mode='std'):
     print('\n======= Running cutflow and saving output to '+outfolder)
     outfolder = ensure_dir('../gen/{}'.format(outfolder))
 
@@ -77,12 +77,12 @@ r2_data = [
 
 ## Running BARE, D*+ mu, and Data cutflows
 ## rfactors are calculated from the sample yields in Dirac (for MC) and lumi x xsec (for data)
-do_cutflow(r1_bare, r2_bare, 'cutflow_bare-sig',
-           (522494+502736)/(520046+515913.), 'std-sig')
-do_cutflow(r1_bare, r2_bare, 'cutflow_bare-nor',
-           (522494+502736)/(520046+515913.), 'std-nor')
-do_cutflow(r1_bare, r2_bare, 'cutflow_bare-dss',
-           (522494+502736)/(520046+515913.), 'std-dss')
-do_cutflow(r1_dstmu, r2_dstmu, 'cutflow_dstmu',
-           614577*0.247*0.080/(1500395*0.105*0.059))
-do_cutflow(r1_data, r2_data, 'cutflow_data', 1/1.41/2)
+workflow_cutflow(r1_bare, r2_bare, 'cutflow_bare-sig',
+                 (522494+502736)/(520046+515913.), 'std-sig')
+workflow_cutflow(r1_bare, r2_bare, 'cutflow_bare-nor',
+                 (522494+502736)/(520046+515913.), 'std-nor')
+workflow_cutflow(r1_bare, r2_bare, 'cutflow_bare-dss',
+                 (522494+502736)/(520046+515913.), 'std-dss')
+workflow_cutflow(r1_dstmu, r2_dstmu, 'cutflow_dstmu',
+                 614577*0.247*0.080/(1500395*0.105*0.059))
+workflow_cutflow(r1_data, r2_data, 'cutflow_data', 1/1.41/2)
