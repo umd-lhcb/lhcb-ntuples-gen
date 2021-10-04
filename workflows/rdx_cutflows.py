@@ -25,9 +25,9 @@ def gen_cutflow_yml(ntp1, ntp2, outyml1, outyml2, mode):
 def gen_cutflow(outyml1, outyml2, csvfile, texfile, mdfile, rfactor):
     run_cmd('cutflow_gen.py -o {} -t {} -n > {} -r {}'.format(
         outyml1, outyml2, csvfile, rfactor))
-    run_cmd_wrapper('cat {} | tabgen.py -f latex_booktabs_raw > {}'.format(
+    run_cmd('cat {} | tabgen.py -f latex_booktabs_raw > {}'.format(
         csvfile, texfile))
-    run_cmd_wrapper('cat {} | tabgen.py -f github > {}'.format(
+    run_cmd('cat {} | tabgen.py -f github > {}'.format(
         csvfile, mdfile))
 
 
