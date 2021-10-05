@@ -65,6 +65,7 @@ job output directory. On `lxplus`:
 1. Run `ganga` once. This should create a `.gangarc` in `$HOME`.
 2. Locate `gangadir` option, point it to some directory that is large enough.
    The user's EOS directory should do.
+3. Copy [`ganga/ganga.sample.py`](https://github.com/umd-lhcb/lhcb-ntuples-gen/blob/master/ganga/ganga.sample.py) to `$HOME/.ganga.py` **on `lxplus`**.
 
 
 ## Submitting a job with `ganga`
@@ -169,6 +170,22 @@ simple `job[63].resubmit()` won't resubmit these killed jobs. To resubmit them:
 jobs[63].subjobs.select(status="killed").resubmit()
 ```
 
+If for some jobs keep failing, consider the backend bad and ban it in:
+
+- `ganga_jobs.py`: In `BannedSites`
+- `.ganga.py`: In `remake_uncompleted_job` function parameter
+
+And remake the job (this may take a while before any output is printed out):
+
+```python
+remake_uncompleted_job(63)
+```
+
+
+!!! note
+    Unfortunately the `backend` option is read-only for existing jobs, so we
+    have to remake a new job.
+
 
 ## Manage `ganga` job output
 
@@ -178,18 +195,16 @@ about your jobs and download output of completed (sub)jobs.
 We prefer to merge all output `.root` files from subjobs. There's a helper
 `ganga` function written by Yipeng for that [^1]. To use it:
 
-1. Copy [`ganga/ganga.sample.py`](https://github.com/umd-lhcb/lhcb-ntuples-gen/blob/master/ganga/ganga.sample.py) to `$HOME/.ganga.py` **on `lxplus`**.
-
-2. In `ganga` shell, type in `hadd_completed_job_output(63)`, where `63` is some job index.
+1. In `ganga` shell, type in `hadd_completed_job_output(63)`, where `63` is some job index.
 
     !!! info
         This will generated a `batch_hadd.sh` in `$HOME`. The generated script
         contains commands to merge output `.root` files for **all** completed
         jobs with a index that is greater or equal to the specified index.
 
-3. Change the `INPUT_DIR` variable of the script to your ganga output workspace
+2. Change the `INPUT_DIR` variable of the script to your ganga output workspace
 
-4. `chmod+x batch_hadd.sh`, then run it with `./batch_hadd.sh <output_dir_for_merged_ntuple>`
+3. `chmod+x batch_hadd.sh`, then run it with `./batch_hadd.sh <output_dir_for_merged_ntuple>`
 
     !!! note
         The `batch_hadd.sh` script will check the outputs of the jobs so that:
@@ -257,7 +272,7 @@ We prefer to merge all output `.root` files from subjobs. There's a helper
         In the script above, the `INPUT_DIR`, `LNG_PATH` and `YAML_PATH` should
         be configured by user.
 
-5. For `ganga` jobs submitted with the latest submitter, the actual ntuple
+4. For `ganga` jobs submitted with the latest submitter, the actual ntuple
     filename is stored as `comment` attribute of a job. With the latest
     `hadd_completed_job_output`, correct ntuple filenames are used directly.
 
