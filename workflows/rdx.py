@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Oct 05, 2021 at 01:47 AM +0200
+# Last Change: Tue Oct 05, 2021 at 02:44 AM +0200
 
 import sys
 import os
@@ -55,7 +55,7 @@ def workflow_ubdt(input_ntp,
     workflow_cached_ntuple(cmd, input_ntp, **kwargs)
     try:
         rmtree('./weights')
-    except Exception:
+    except FileNotFoundError:
         pass
 
 
@@ -83,6 +83,7 @@ def workflow_data_mc(job_name, inputs,
 #############
 
 def workflow_data(job_name, inputs, input_yml,
+                  use_ubdt=True,
                   output_ntp_name_gen=generate_step2_name, **kwargs):
     subworkdirs, workdir, executor = workflow_data_mc(
         job_name, inputs, **kwargs)
@@ -94,8 +95,36 @@ def workflow_data(job_name, inputs, input_yml,
         ensure_dir(subdir, make_absolute=False)
         chdir(subdir)  # Switch to the workdir of the subjob
 
-        # Generate a ubdt ntuple
-        workflow_ubdt(input_ntp, executor=executor)
+        if use_ubdt:
+            # Generate a ubdt ntuple
+            workflow_ubdt(input_ntp, executor=executor)
+            bm_cmd = 'babymaker -i {} -o baby.cpp -n {} -t {} -f ubdt.root'
+        else:
+            bm_cmd = 'babymaker -i {} -o baby.cpp -n {} -t {}'
+
+        executor(bm_cmd.format(abs_path(input_yml), input_ntp, cpp_template))
+        workflow_compile_cpp('baby.cpp', executor=executor)
+
+        output_suffix = output_ntp_name_gen(input_ntp)
+        executor('./baby.exe --{}'.format(output_suffix))
+
+        aggragate_output('..', subdir, {
+            'ntuple': ['*--std--*.root']
+        })
+        chdir('..')  # Switch back to parent workdir
+
+
+def workflow_mc(job_name, inputs, input_yml,
+                output_ntp_name_gen=generate_step2_name, **kwargs):
+    subworkdirs, workdir, executor = workflow_data_mc(
+        job_name, inputs, **kwargs)
+    chdir(workdir)
+    cpp_template = abs_path('../postprocess/cpp_templates/rdx.cpp')
+
+    for subdir, input_ntp in subworkdirs.items():
+        print('{}Working on {}...{}'.format(TC.GREEN, input_ntp, TC.END))
+        ensure_dir(subdir, make_absolute=False)
+        chdir(subdir)  # Switch to the workdir of the subjob
 
         executor('babymaker -i {} -o baby.cpp -n {} -t {} -f ubdt.root'.format(
             abs_path(input_yml), input_ntp, cpp_template))
@@ -110,36 +139,6 @@ def workflow_data(job_name, inputs, input_yml,
         chdir('..')  # Switch back to parent workdir
 
 
-# def workflow_mc(job_name, inputs, output_dir, debug, kws,
-                # script='mc.sh', output_ntp_name_gen=generate_step2_name):
-
-                     # path_to_append=[
-                         # '../lib/python/TrackerOnlyEmu/scripts'
-                     # ],
-    # subworkdirs, workdir = workflow_general(job_name, inputs, output_dir)
-    # chdir(workdir)
-    # exe = pipe_executor(
-        # script + ' ' + '"{input_ntp}" "{input_yml}" "{output_suffix}"')
-
-    # for subdir, input_ntp in subworkdirs.items():
-        # print('{}Working on {}...{}'.format(TC.GREEN, input_ntp, TC.END))
-        # ensure_dir(subdir)
-        # chdir(subdir)  # Switch to the workdir of the subjob
-
-        # params = {
-            # 'input_ntp': input_ntp,
-            # 'input_yml': kws['input_yml'],
-            # 'output_suffix': output_ntp_name_gen(input_ntp)
-        # }
-        # exe(params, debug)
-
-        # aggragate_output('..', subdir, {
-            # 'ntuple': ['*--mc--*.root']
-        # })
-
-        # chdir('..')  # Switch back to parent workdir
-
-
 #####################
 # Production config #
 #####################
@@ -152,8 +151,23 @@ JOBS = {
         name,
         '../ntuples/0.9.4-trigger_emulation/Dst_D0-std',
         '../postprocess/rdx-run2/rdx-run2_with_run1_cuts.yml',
-        executor=run_cmd_wrapper(args.debug)
+        executor=executor
     ),
+    'rdx-ntuple-run1': lambda name: workflow_data(
+        name,
+        '../ntuples/0.9.2-2011_production/Dst_D0-std',
+        '../postprocess/rdx-run1/rdx-run1.yml',
+        use_ubdt=False,
+        executor=executor
+    ),
+    'ref-rdx-ntuple-run1': lambda name: workflow_data(
+        name,
+        '../ntuples/ref-rdx-run1/Dst-mix',
+        '../postprocess/ref-rdx-run1/rdst-2011-mix.yml',
+        use_ubdt=False,
+        output_ntp_name_gen=parse_step2_name,
+        executor=executor
+    )
 }
 
 

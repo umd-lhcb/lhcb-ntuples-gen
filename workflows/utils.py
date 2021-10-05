@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Oct 05, 2021 at 02:19 AM +0200
+# Last Change: Tue Oct 05, 2021 at 02:34 AM +0200
 
 import re
 import yaml
@@ -43,10 +43,14 @@ def ensure_dir(path, delete_if_exist=True, make_absolute=True, **kwargs):
     return path
 
 
-def find_all_input(inputs, patterns=['*.root'], blocked_patterns=['__aux']):
+def find_all_input(inputs,
+                   patterns=['*.root'], blocked_patterns=['__aux'],
+                   make_absolute=True):
     result = []
     if not isinstance(inputs, list):
         inputs = [inputs]
+    if make_absolute:
+        inputs = [abs_path(p) for p in inputs]
 
     for f in inputs:
         if op.isfile(f):
