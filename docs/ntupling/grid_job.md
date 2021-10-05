@@ -117,22 +117,13 @@ After a successfully submission, the progress of the job can be checked with gan
 Sometimes ganga would stuck at updating job status. To reset the status for
 "completing" and "failed" subjobs, do:
 ```
-jobs[73].backend.reset(True)
+jobs[63].backend.reset(True)
 ```
 
 If that still doesn't bring a job to a stable state (i.e. "finished" or
 "failed"), force the job to fail:
 ```
-jobs[73].force_status("failed", force=True)
-```
-
-
-## Resubmit killed subjobs
-
-If you forced a "failed" status, some sub-jobs may be in "killed" state. A
-simple `job[73].resubmit()` won't resubmit these killed jobs. To resubmit them:
-```
-jobs[73].subjobs.select(status="killed").resubmit()
+jobs[63].force_status("failed", force=True)
 ```
 
 
@@ -158,7 +149,13 @@ Jobs 63 and 66 are marked as `failed` because all of their subjobs are either co
 
 To resubmit failed subjobs for, say, `job[66]`:
 ```
-jobs[66].resubmit()
+jobs[63].resubmit()
+```
+
+If you forced a "failed" status, some sub-jobs may be in "killed" state. A
+simple `job[63].resubmit()` won't resubmit these killed jobs. To resubmit them:
+```
+jobs[63].subjobs.select(status="killed").resubmit()
 ```
 
 
