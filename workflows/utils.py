@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Oct 05, 2021 at 03:00 AM +0200
+# Last Change: Tue Oct 05, 2021 at 03:20 AM +0200
 
 import re
 import yaml
@@ -81,7 +81,10 @@ def aggragate_output(workdir, output_dir, keep):
 
         for p in patterns:
             for f in glob(op.join(relpath, p)):
-                symlink(f, op.join('.', op.basename(f)))
+                try:
+                    symlink(f, op.join('.', op.basename(f)))
+                except FileExistsError:
+                    pass
 
 
 ################
@@ -198,4 +201,6 @@ def workflow_cached_ntuple(
         symlink(cached_ntp, output_ntp)
     else:
         print('No aux ntuple cached, generating anew...')
-        executor(cmd)
+        cmd = [cmd] if not isinstance(cmd, list) else cmd
+        for c in cmd:
+            executor(c)

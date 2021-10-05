@@ -1,6 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Oct 05, 2021 at 02:35 AM +0200
+# Last Change: Tue Oct 05, 2021 at 03:15 AM +0200
 
 VPATH := postprocess:test:scripts:ntuples
 VPATH := run1-rdx/cutflow:run2-rdx/cutflow:$(VPATH)
@@ -65,24 +65,25 @@ test-naming-conv:
 # RDX run 2 ntuple generation #
 ###############################
 
-rdx-ntuple-run2-oldcut:
+rdx-ntuple-run2-all: rdx-ntuple-run2-data-oldcut rdx-ntuple-run2-mc-demo
+
+rdx-ntuple-run2-data-oldcut:
 	workflows/rdx.py $@
 
-rdx-ntuple-run2-mc-demo: \
-	./run2-rdx/samples/Dst_D0--21_07_22--mc--Bd2DstMuNu--2016--md--py8-sim09j-dv45-subset.root \
-	rdx-run2/rdx-run2_with_run1_cuts.yml
-	workflows/rdx.py $@ $< --debug \
-		--mode mc_ref -A input_yml:$(abspath $(word 2, $^))
+rdx-ntuple-run2-mc-demo:
+	workflows/rdx.py $@
 
 
 ###############################
 # RDX run 1 ntuple generation #
 ###############################
 
-rdx-ntuple-run1:
+rdx-ntuple-run1-all: rdx-ntuple-run1-data ref-rdx-ntuple-run1-data
+
+rdx-ntuple-run1-data:
 	workflows/rdx.py $@
 
-ref-rdx-ntuple-run1:
+ref-rdx-ntuple-run1-data:
 	workflows/rdx.py $@
 
 
