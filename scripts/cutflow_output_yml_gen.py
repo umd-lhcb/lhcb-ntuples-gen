@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun, Manual Franco Sevilla
 # License: BSD 2-clause
-# Last Change: Thu Sep 02, 2021 at 04:11 PM +0200
+# Last Change: Tue Oct 05, 2021 at 04:50 PM +0200
 
 import pathlib
 import os
@@ -427,9 +427,7 @@ def flag_sel_mu_run1(mu_px, mu_py, mu_pz,
                                        pi_px, pi_py, pi_pz, spi_px, spi_py,
                                        spi_pz)
 
-    fake_mu_bdt_mu = np.full(mu_px.size, 0.4)
-    mu_pid_ok = flag_sel_mu_pid_ok_run1(mu_is_mu, mu_pid_mu, mu_pid_e,
-                                        fake_mu_bdt_mu)
+    mu_pid_ok = flag_sel_mu_pid_ok_run1(mu_is_mu, mu_pid_mu, mu_pid_e)
 
     mu_eta = kinematic_eta(mu_p, mu_pz)
     return flag_sel_mu_run1_raw(good_tracks, mu_pid_ok, mu_p, mu_eta,
