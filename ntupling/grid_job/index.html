@@ -1192,6 +1192,7 @@ job output directory. On <code>lxplus</code>:</p>
 <li>Run <code>ganga</code> once. This should create a <code>.gangarc</code> in <code>$HOME</code>.</li>
 <li>Locate <code>gangadir</code> option, point it to some directory that is large enough.
    The user's EOS directory should do.</li>
+<li>Copy <a href="https://github.com/umd-lhcb/lhcb-ntuples-gen/blob/master/ganga/ganga.sample.py"><code>ganga/ganga.sample.py</code></a> to <code>$HOME/.ganga.py</code> <strong>on <code>lxplus</code></strong>.</li>
 </ol>
 <h2 id="submitting-a-job-with-ganga">Submitting a job with <code>ganga</code></h2>
 <p>For this repo, there is a <strong>central</strong> <code>ganga</code> job submitter that should handle
@@ -1271,15 +1272,25 @@ To resubmit the failed sub-jobs ASAP:</p>
 simple <code>job[63].resubmit()</code> won't resubmit these killed jobs. To resubmit them:</p>
 <div class="highlight"><pre><span></span><code><span class="n">jobs</span><span class="p">[</span><span class="mi">63</span><span class="p">]</span><span class="o">.</span><span class="n">subjobs</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">status</span><span class="o">=</span><span class="s2">&quot;killed&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">resubmit</span><span class="p">()</span>
 </code></pre></div>
+<p>If for some jobs keep failing, consider the backend bad and ban it in:</p>
+<ul>
+<li><code>ganga_jobs.py</code>: In <code>BannedSites</code></li>
+<li><code>.ganga.py</code>: In <code>remake_uncompleted_job</code> function parameter</li>
+</ul>
+<p>And remake the job (this may take a while before any output is printed out):</p>
+<div class="highlight"><pre><span></span><code><span class="n">remake_uncompleted_job</span><span class="p">(</span><span class="mi">63</span><span class="p">)</span>
+</code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Unfortunately the <code>backend</code> option is read-only for existing jobs, so we
+have to remake a new job.</p>
+</div>
 <h2 id="manage-ganga-job-output">Manage <code>ganga</code> job output</h2>
 <p>You need to keep <code>ganga</code> running in a <code>lxplus</code> session to get up-to-date info
 about your jobs and download output of completed (sub)jobs.</p>
 <p>We prefer to merge all output <code>.root</code> files from subjobs. There's a helper
 <code>ganga</code> function written by Yipeng for that <sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup>. To use it:</p>
 <ol>
-<li>
-<p>Copy <a href="https://github.com/umd-lhcb/lhcb-ntuples-gen/blob/master/ganga/ganga.sample.py"><code>ganga/ganga.sample.py</code></a> to <code>$HOME/.ganga.py</code> <strong>on <code>lxplus</code></strong>.</p>
-</li>
 <li>
 <p>In <code>ganga</code> shell, type in <code>hadd_completed_job_output(63)</code>, where <code>63</code> is some job index.</p>
 <div class="admonition info">
