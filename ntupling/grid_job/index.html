@@ -1239,11 +1239,11 @@ then following instructions on screen.</p>
 <h2 id="update-subjob-status-and-force-status-to-be-failed-when-necessary">Update subjob status and force status to be "failed" when necessary</h2>
 <p>Sometimes ganga would stuck at updating job status. To reset the status for
 "completing" and "failed" subjobs, do:
-<div class="highlight"><pre><span></span><code>jobs[73].backend.reset(True)
+<div class="highlight"><pre><span></span><code>jobs[63].backend.reset(True)
 </code></pre></div></p>
 <p>If that still doesn't bring a job to a stable state (i.e. "finished" or
 "failed"), force the job to fail:
-<div class="highlight"><pre><span></span><code>jobs[73].force_status(&quot;failed&quot;, force=True)
+<div class="highlight"><pre><span></span><code>jobs[63].force_status(&quot;failed&quot;, force=True)
 </code></pre></div></p>
 <h2 id="handling-failing-subjobs">Handling failing subjobs</h2>
 <p>The GRID job are split into subjobs, enabling parallel execution. Some subjobs may fail. Considering the following <code>jobs</code> output in <code>ganga</code> shell:
@@ -1261,7 +1261,15 @@ Registry Slice: jobs (30 objects)
 </code></pre></div></p>
 <p>Jobs 63 and 66 are marked as <code>failed</code> because all of their subjobs are either completed or failed.</p>
 <p>To resubmit failed subjobs for, say, <code>job[66]</code>:
-<div class="highlight"><pre><span></span><code>jobs[66].resubmit()
+<div class="highlight"><pre><span></span><code>jobs[63].resubmit()
+</code></pre></div></p>
+<p>However, above won't work unless all sub-jobs are either completed or failed.
+To resubmit the failed sub-jobs ASAP:
+<div class="highlight"><pre><span></span><code>jobs[63].subjobs.select(status=&quot;failed&quot;).resubmit()
+</code></pre></div></p>
+<p>If you forced a "failed" status, some sub-jobs may be in "killed" state. A
+simple <code>job[63].resubmit()</code> won't resubmit these killed jobs. To resubmit them:
+<div class="highlight"><pre><span></span><code>jobs[63].subjobs.select(status=&quot;killed&quot;).resubmit()
 </code></pre></div></p>
 <h2 id="manage-ganga-job-output">Manage <code>ganga</code> job output</h2>
 <p>You need to keep <code>ganga</code> running in a <code>lxplus</code> session to get up-to-date info
