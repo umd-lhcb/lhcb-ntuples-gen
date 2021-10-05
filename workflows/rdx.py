@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Oct 05, 2021 at 12:37 AM +0200
+# Last Change: Tue Oct 05, 2021 at 01:47 AM +0200
 
 import sys
 import os
@@ -10,6 +10,7 @@ import os.path as op
 
 from argparse import ArgumentParser, Action
 from os import chdir
+from shutil import rmtree
 
 from pyBabyMaker.base import TermColor as TC
 
@@ -19,7 +20,7 @@ from utils import (
     run_cmd_wrapper,
     append_path, abs_path, ensure_dir, find_all_input, aggragate_output,
     generate_step2_name, parse_step2_name,
-    workflow_compile_cpp
+    workflow_compile_cpp, workflow_cached_ntuple
 )
 
 
@@ -41,9 +42,22 @@ enable debug mode
     return parser.parse_args()
 
 
-#############
-# Workflows #
-#############
+######################
+# Workflows: helpers #
+######################
+
+def workflow_ubdt(input_ntp,
+                  trees=['TupleB0/DecayTree', 'TupleBminus/DecayTree'],
+                  **kwargs):
+    weight_file = abs_path('../run2-rdx/weights_run2_no_cut_ubdt.xml')
+    cmd = 'addUBDTBranch {} mu_isMuonTight {} ubdt.root {}'.format(
+        input_ntp, weight_file, ' '.join(trees))
+    workflow_cached_ntuple(cmd, input_ntp, **kwargs)
+    try:
+        rmtree('./weights')
+    except Exception:
+        pass
+
 
 def workflow_data_mc(job_name, inputs,
                      output_dir=abs_path('../gen'),
@@ -64,6 +78,10 @@ def workflow_data_mc(job_name, inputs,
     return subworkdirs, workdir, executor
 
 
+#############
+# Workflows #
+#############
+
 def workflow_data(job_name, inputs, input_yml,
                   output_ntp_name_gen=generate_step2_name, **kwargs):
     subworkdirs, workdir, executor = workflow_data_mc(
@@ -71,18 +89,24 @@ def workflow_data(job_name, inputs, input_yml,
     chdir(workdir)
     cpp_template = abs_path('../postprocess/cpp_templates/rdx.cpp')
 
-    for subdir, full_filename in subworkdirs.items():
-        print('{}Working on {}...{}'.format(TC.GREEN, full_filename, TC.END))
+    for subdir, input_ntp in subworkdirs.items():
+        print('{}Working on {}...{}'.format(TC.GREEN, input_ntp, TC.END))
         ensure_dir(subdir, make_absolute=False)
         chdir(subdir)  # Switch to the workdir of the subjob
 
-        executor('babymaker -i {} -o baby.cpp -n {} -t {}'.format(
-            abs_path(input_yml), full_filename, cpp_template))
-        workflow_compile_cpp('baby.cpp')
+        # Generate a ubdt ntuple
+        workflow_ubdt(input_ntp, executor=executor)
 
-        # aggragate_output('..', subdir, {
-            # 'ntuple': ['*--std--*.root']
-        # })
+        executor('babymaker -i {} -o baby.cpp -n {} -t {} -f ubdt.root'.format(
+            abs_path(input_yml), input_ntp, cpp_template))
+        workflow_compile_cpp('baby.cpp', executor=executor)
+
+        output_suffix = output_ntp_name_gen(input_ntp)
+        executor('./baby.exe --{}'.format(output_suffix))
+
+        aggragate_output('..', subdir, {
+            'ntuple': ['*--std--*.root']
+        })
         chdir('..')  # Switch back to parent workdir
 
 
@@ -97,15 +121,15 @@ def workflow_data(job_name, inputs, input_yml,
     # exe = pipe_executor(
         # script + ' ' + '"{input_ntp}" "{input_yml}" "{output_suffix}"')
 
-    # for subdir, full_filename in subworkdirs.items():
-        # print('{}Working on {}...{}'.format(TC.GREEN, full_filename, TC.END))
+    # for subdir, input_ntp in subworkdirs.items():
+        # print('{}Working on {}...{}'.format(TC.GREEN, input_ntp, TC.END))
         # ensure_dir(subdir)
         # chdir(subdir)  # Switch to the workdir of the subjob
 
         # params = {
-            # 'input_ntp': full_filename,
+            # 'input_ntp': input_ntp,
             # 'input_yml': kws['input_yml'],
-            # 'output_suffix': output_ntp_name_gen(full_filename)
+            # 'output_suffix': output_ntp_name_gen(input_ntp)
         # }
         # exe(params, debug)
 

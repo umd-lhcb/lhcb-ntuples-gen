@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Oct 05, 2021 at 12:36 AM +0200
+# Last Change: Tue Oct 05, 2021 at 02:19 AM +0200
 
 import re
 import yaml
@@ -66,7 +66,7 @@ def aggragate_output(workdir, output_dir, keep):
     # NOTE: 'workdir' is usually the main workdir of the fulljob,
     #       'output_dir' the workdir of a subjob
     workdir = op.abspath(workdir)
-    chdir(op.abspath(workdir))
+    chdir(workdir)
     output_dir = op.abspath(output_dir)
 
     for d, patterns in keep.items():
@@ -180,3 +180,17 @@ def workflow_compile_cpp(
 
     executor('{} {} {} -o {} {} {}'.format(
         compiler, base_flags, add_flags, output_exe, input_cpp, link_flags))
+
+
+def workflow_cached_ntuple(
+        cmd, input_ntp,
+        output_ntp='./ubdt.root', cache_suffix='__aux_mu_bdt',
+        executor=run_cmd_wrapper()):
+    cached_ntp = with_suffix(input_ntp, '') + cache_suffix + '.root'
+
+    if op.isfile(cached_ntp):
+        print('Aux ntuple already cached!')
+        symlink(cached_ntp, output_ntp)
+    else:
+        print('No aux ntuple cached, generating anew...')
+        executor(cmd)
