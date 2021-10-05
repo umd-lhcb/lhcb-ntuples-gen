@@ -225,15 +225,17 @@ calculation:
         )
 
     # Skims
-    is_iso: bool; FLAG_ISO(iso_bdt1)
+    is_iso: bool; FLAG_ISO(mu_ubdt_ok, iso_bdt1)
     is_dd: >-
         bool; FLAG_DD(
+        mu_ubdt_ok,
         iso_bdt1, iso_bdt2, iso_bdt2, iso_type1, iso_type2, iso_type3,
         iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
         iso_nnk1, iso_nnk2, iso_nnk3
         )
     is_dstst: >-
         bool; FLAG_DSTST(
+        mu_ubdt_ok,
         iso_bdt1, iso_bdt2, iso_type1,
         iso_p1, iso_pt1,
         iso_chrg1,
@@ -242,6 +244,7 @@ calculation:
         )
     is_2os: >-
         bool; FLAG_2OS(
+        mu_ubdt_ok,
         iso_bdt1, iso_bdt2, iso_bdt3, iso_type1, iso_type2,
         iso_p1, iso_p2, iso_pt1, iso_pt2,
         iso_chrg1, iso_chrg2,
@@ -249,6 +252,7 @@ calculation:
         )
     is_1os: >-
         bool; FLAG_1OS(
+        mu_ubdt_ok,
         iso_bdt1, iso_bdt2, iso_type1,
         iso_p1, iso_pt1,
         iso_chrg1,
