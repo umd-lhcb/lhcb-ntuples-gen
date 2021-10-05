@@ -71,37 +71,49 @@ make --dry-run --always-make <target_name>
 
 ## Workflows
 
-The default workflow for an analysis should add the shell script folder to
-`PATH`, so that scripts inside are callable without their full path specified.
+Each analysis can have many workflows. For example RDX run 2 has
+`rdx.py` and `rdx_cutflows.py` in the `workflows` folder.
 
 !!! example
 
     In `rdx.py`, we have:
 
     ```python
-    def workflow_general(job_name, inputs, output_dir,
-                         global_path_to_append=[
-                             '../lib/python/TrackerOnlyEmu/scripts'
-                         ],
-                         path_to_append=[
-                             './rdx',
-                             '../scripts'
-                         ],
-                         input_patterns=['*.root'],
-                         ):
-        pass  # snippet
+    JOBS = {
+        # Run 2
+        'rdx-ntuple-run2-data-oldcut': lambda name: workflow_data(
+            name,
+            '../ntuples/0.9.4-trigger_emulation/Dst_D0-std',
+            '../postprocess/rdx-run2/rdx-run2_with_run1_cuts.yml',
+            executor=executor
+        ),
+        'rdx-ntuple-run2-mc-demo': lambda name: workflow_mc(
+            name,
+            '../run2-rdx/samples/Dst_D0--21_07_30--mc--Bd2DstMuNu--2016--md--py8-sim09j-dv45-subset.root',
+            '../postprocess/rdx-run2/rdx-run2_with_run1_cuts.yml',
+            output_ntp_name_gen=parse_step2_name,
+            executor=executor
+        ),
+        # Run 1
+        'rdx-ntuple-run1-data': lambda name: workflow_data(
+            name,
+            '../ntuples/0.9.2-2011_production/Dst_D0-std',
+            '../postprocess/rdx-run1/rdx-run1.yml',
+            use_ubdt=False,
+            executor=executor
+        ),
+        'ref-rdx-ntuple-run1-data': lambda name: workflow_data(
+            name,
+            '../ntuples/ref-rdx-run1/Dst-mix',
+            '../postprocess/ref-rdx-run1/rdst-2011-mix.yml',
+            use_ubdt=False,
+            output_ntp_name_gen=parse_step2_name,
+            executor=executor
+        )
+    }
     ```
 
-    The `path_to_append` argument adds the `workflows/rdx` folder to `PATH`.
-
-    Now, in an actual workflow, we typically call `workflow_general` first:
-    ```python
-    def workflow_trigger_emulation(job_name, inputs, output_dir, debug, kws):
-        subworkdirs, workdir = workflow_general(job_name, inputs, output_dir)
-        # The 'trigger_emulation.sh' is directly callable because we've added
-        # its folder to PATH
-        exe = pipe_executor('trigger_emulation.sh {input_ntp}')
-    ```
+    The actual workflows are defined earlier in the same file.
 
 
 ## External programs used by workflows
