@@ -1238,13 +1238,13 @@ then following instructions on screen.</p>
 </ol>
 <h2 id="update-subjob-status-and-force-status-to-be-failed-when-necessary">Update subjob status and force status to be "failed" when necessary</h2>
 <p>Sometimes ganga would stuck at updating job status. To reset the status for
-"completing" and "failed" subjobs, do:
-<div class="highlight"><pre><span></span><code>jobs[63].backend.reset(True)
-</code></pre></div></p>
+"completing" and "failed" subjobs, do:</p>
+<div class="highlight"><pre><span></span><code><span class="n">jobs</span><span class="p">[</span><span class="mi">63</span><span class="p">]</span><span class="o">.</span><span class="n">backend</span><span class="o">.</span><span class="n">reset</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+</code></pre></div>
 <p>If that still doesn't bring a job to a stable state (i.e. "finished" or
-"failed"), force the job to fail:
-<div class="highlight"><pre><span></span><code>jobs[63].force_status(&quot;failed&quot;, force=True)
-</code></pre></div></p>
+"failed"), force the job to fail:</p>
+<div class="highlight"><pre><span></span><code><span class="n">jobs</span><span class="p">[</span><span class="mi">63</span><span class="p">]</span><span class="o">.</span><span class="n">force_status</span><span class="p">(</span><span class="s2">&quot;failed&quot;</span><span class="p">,</span> <span class="n">force</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</code></pre></div>
 <h2 id="handling-failing-subjobs">Handling failing subjobs</h2>
 <p>The GRID job are split into subjobs, enabling parallel execution. Some subjobs may fail. Considering the following <code>jobs</code> output in <code>ganga</code> shell:
 <div class="highlight"><pre><span></span><code>[01:30:22]
@@ -1260,17 +1260,17 @@ Registry Slice: jobs (30 objects)
       73 | completed |Dst_D0--20 |     772 |      GaudiExec |          Dirac |                                         None |                               |      0/0/0/772
 </code></pre></div></p>
 <p>Jobs 63 and 66 are marked as <code>failed</code> because all of their subjobs are either completed or failed.</p>
-<p>To resubmit failed subjobs for, say, <code>job[66]</code>:
-<div class="highlight"><pre><span></span><code>jobs[63].resubmit()
-</code></pre></div></p>
+<p>To resubmit failed subjobs for, say, <code>job[66]</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="n">jobs</span><span class="p">[</span><span class="mi">63</span><span class="p">]</span><span class="o">.</span><span class="n">resubmit</span><span class="p">()</span>
+</code></pre></div>
 <p>However, above won't work unless all sub-jobs are either completed or failed.
-To resubmit the failed sub-jobs ASAP:
-<div class="highlight"><pre><span></span><code>jobs[63].subjobs.select(status=&quot;failed&quot;).resubmit()
-</code></pre></div></p>
+To resubmit the failed sub-jobs ASAP:</p>
+<div class="highlight"><pre><span></span><code><span class="n">jobs</span><span class="p">[</span><span class="mi">63</span><span class="p">]</span><span class="o">.</span><span class="n">subjobs</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">status</span><span class="o">=</span><span class="s2">&quot;failed&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">resubmit</span><span class="p">()</span>
+</code></pre></div>
 <p>If you forced a "failed" status, some sub-jobs may be in "killed" state. A
-simple <code>job[63].resubmit()</code> won't resubmit these killed jobs. To resubmit them:
-<div class="highlight"><pre><span></span><code>jobs[63].subjobs.select(status=&quot;killed&quot;).resubmit()
-</code></pre></div></p>
+simple <code>job[63].resubmit()</code> won't resubmit these killed jobs. To resubmit them:</p>
+<div class="highlight"><pre><span></span><code><span class="n">jobs</span><span class="p">[</span><span class="mi">63</span><span class="p">]</span><span class="o">.</span><span class="n">subjobs</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">status</span><span class="o">=</span><span class="s2">&quot;killed&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">resubmit</span><span class="p">()</span>
+</code></pre></div>
 <h2 id="manage-ganga-job-output">Manage <code>ganga</code> job output</h2>
 <p>You need to keep <code>ganga</code> running in a <code>lxplus</code> session to get up-to-date info
 about your jobs and download output of completed (sub)jobs.</p>
