@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Apr 21, 2021 at 02:19 AM +0200
+# Last Change: Tue Oct 05, 2021 at 04:37 PM +0200
 #
 # Description: A demonstration on ganga option file with parser.
 #              This demo runs stand-alone, provided that Python is installed:
@@ -62,6 +62,11 @@ j.inputfiles = [LocalFile(weight_file)]
 
 # Use DIRAC backend
 j.backend = Dirac()
+j.backend.settings['BannedSites'] = [
+    'LCG.NCBJ.pl',
+    'LCG.NIPNE-07.ro',
+    'LCG.Beijing.cn'
+]
 
 files_per_job = FILES_PER_JOB_MC if 'mc' in reco_type else FILES_PER_JOB_DATA
 

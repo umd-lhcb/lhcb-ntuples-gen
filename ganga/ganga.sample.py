@@ -36,7 +36,7 @@ OUTPUT_DIR={}
 MIN_NTUPLE_SIZE={}  # in KiB
 
 # User-specific settings, change them according to your environment!
-LNG_PATH=$HOME/eos/src/lhcb-ntuples-gen
+LNG_PATH=$HOME/src/lhcb-ntuples-gen
 YAML_PATH=$LNG_PATH/postprocess/skims/rdx_mc.yml
 BIN_PATH=$LNG_PATH/scripts
 
@@ -102,7 +102,11 @@ def kill_uncompleted_subjobs(idx):
             sj.kill()
 
 
-def remake_uncompleted_job(idx, banned_sites=['LCG.NCBJ.pl', 'LCG.NIPNE-07.ro']):
+def remake_uncompleted_job(idx, banned_sites=[
+        'LCG.NCBJ.pl',
+        'LCG.NIPNE-07.ro',
+        'LCG.Beijing.cn'
+]):
     ds = LHCbDataset()
     for sj in jobs(idx).subjobs:
         if sj.status != 'completed':
