@@ -1,6 +1,6 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Thu Aug 26, 2021 at 08:30 PM +0200
+// Last Change: Tue Oct 05, 2021 at 02:38 PM +0200
 // NOTE: All kinematic variables are in MeV
 
 #ifndef _LNG_FUNCTOR_RDX_CUT_H_
@@ -175,9 +175,11 @@ Bool_t FLAG_SEL_GOOD_TRACKS(ROOT::Math::XYZVector              ref_trk,
 }
 
 Bool_t FLAG_SEL_MU_PID_OK_RUN1(Bool_t mu_is_mu, Double_t mu_pid_mu,
-                               Double_t mu_pid_e, Double_t mu_bdt_mu) {
-  return mu_is_mu && mu_pid_mu > 2.0 && mu_pid_e < 1.0 && mu_bdt_mu > 0.25;
+                               Double_t mu_pid_e) {
+  return mu_is_mu && mu_pid_mu > 2.0 && mu_pid_e < 1.0;
 }
+
+Bool_t FLAG_SEL_MU_UBDT_OK_RUN1(Double_t mu_bdt_mu) { return mu_bdt_mu > 0.25; }
 
 // clang-format off
 Bool_t FLAG_SEL_MU_RUN1(Bool_t flag_good_trks, Bool_t flag_mu_pid_ok,

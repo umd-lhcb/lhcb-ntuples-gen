@@ -122,7 +122,7 @@ calculation:
     mu_pid_mu: double; mu_PIDmu
     mu_pid_k: double; mu_PIDK
     mu_pid_e: double; mu_PIDe
-    mu_ubdt: float; mu_bdt_mu; 1.0;  # Greg's Mu UBDT PID
+    mu_ubdt: float; mu_bdt_mu; 1.0  # Greg's Mu UBDT PID
 
     ######################
     # Tracking variables #
@@ -188,7 +188,8 @@ calculation:
     trks_other: ^vector<XYZVector>; BUILD_VEC(trk_k, trk_pi, trk_spi); BUILD_VEC(trk_k, trk_pi)
     # Actual flags
     trks_ok: bool; FLAG_SEL_GOOD_TRACKS(trk_mu, trks_other)
-    mu_pid_ok: bool; FLAG_SEL_MU_PID_OK_RUN1(mu_isMuon, mu_PIDmu, mu_PIDe, mu_ubdt)
+    mu_pid_ok: bool; FLAG_SEL_MU_PID_OK_RUN1(mu_isMuon, mu_PIDmu, mu_PIDe)
+    mu_ubdt_ok: bool; FLAG_SEL_MU_UBDT_OK_RUN1(mu_ubdt)
     mu_ok: >-
         bool; FLAG_SEL_MU_RUN1(
         trks_ok, mu_pid_ok,
