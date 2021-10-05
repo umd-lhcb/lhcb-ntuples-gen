@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Oct 05, 2021 at 02:34 AM +0200
+# Last Change: Tue Oct 05, 2021 at 03:00 AM +0200
 
 import re
 import yaml
@@ -159,6 +159,7 @@ def generate_step2_name(ntp_name):
 
 
 def parse_step2_name(ntp_name):
+    ntp_name = ntp_name.strip('.root')
     _, _, reco_mode, decay_mode, year, polarity, *add_flag = \
         ntp_name.split('--')
 

@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Oct 05, 2021 at 02:44 AM +0200
+# Last Change: Tue Oct 05, 2021 at 03:03 AM +0200
 
 import sys
 import os
@@ -109,7 +109,7 @@ def workflow_data(job_name, inputs, input_yml,
         executor('./baby.exe --{}'.format(output_suffix))
 
         aggragate_output('..', subdir, {
-            'ntuple': ['*--std--*.root']
+            'ntuple': ['*--std--*.root', 'Dst*.root', 'D0*.root']
         })
         chdir('..')  # Switch back to parent workdir
 
@@ -134,7 +134,7 @@ def workflow_mc(job_name, inputs, input_yml,
         executor('./baby.exe --{}'.format(output_suffix))
 
         aggragate_output('..', subdir, {
-            'ntuple': ['*--std--*.root']
+            'ntuple': ['*--mc--*.root', 'Dst*.root', 'D0*.root']
         })
         chdir('..')  # Switch back to parent workdir
 
