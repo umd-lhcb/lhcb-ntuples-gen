@@ -1178,31 +1178,45 @@ would produce a certain target:
 <div class="highlight"><pre><span></span><code>make --dry-run --always-make &lt;target_name&gt;
 </code></pre></div></p>
 <h2 id="workflows">Workflows</h2>
-<p>The default workflow for an analysis should add the shell script folder to
-<code>PATH</code>, so that scripts inside are callable without their full path specified.</p>
+<p>Each analysis can have many workflows. For example RDX run 2 has
+<code>rdx.py</code> and <code>rdx_cutflows.py</code> in the <code>workflows</code> folder.</p>
 <div class="admonition example">
 <p class="admonition-title">Example</p>
 <p>In <code>rdx.py</code>, we have:</p>
-<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">workflow_general</span><span class="p">(</span><span class="n">job_name</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">output_dir</span><span class="p">,</span>
-                     <span class="n">global_path_to_append</span><span class="o">=</span><span class="p">[</span>
-                         <span class="s1">&#39;../lib/python/TrackerOnlyEmu/scripts&#39;</span>
-                     <span class="p">],</span>
-                     <span class="n">path_to_append</span><span class="o">=</span><span class="p">[</span>
-                         <span class="s1">&#39;./rdx&#39;</span><span class="p">,</span>
-                         <span class="s1">&#39;../scripts&#39;</span>
-                     <span class="p">],</span>
-                     <span class="n">input_patterns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;*.root&#39;</span><span class="p">],</span>
-                     <span class="p">):</span>
-    <span class="k">pass</span>  <span class="c1"># snippet</span>
+<div class="highlight"><pre><span></span><code><span class="n">JOBS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="c1"># Run 2</span>
+    <span class="s1">&#39;rdx-ntuple-run2-data-oldcut&#39;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">name</span><span class="p">:</span> <span class="n">workflow_data</span><span class="p">(</span>
+        <span class="n">name</span><span class="p">,</span>
+        <span class="s1">&#39;../ntuples/0.9.4-trigger_emulation/Dst_D0-std&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;../postprocess/rdx-run2/rdx-run2_with_run1_cuts.yml&#39;</span><span class="p">,</span>
+        <span class="n">executor</span><span class="o">=</span><span class="n">executor</span>
+    <span class="p">),</span>
+    <span class="s1">&#39;rdx-ntuple-run2-mc-demo&#39;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">name</span><span class="p">:</span> <span class="n">workflow_mc</span><span class="p">(</span>
+        <span class="n">name</span><span class="p">,</span>
+        <span class="s1">&#39;../run2-rdx/samples/Dst_D0--21_07_30--mc--Bd2DstMuNu--2016--md--py8-sim09j-dv45-subset.root&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;../postprocess/rdx-run2/rdx-run2_with_run1_cuts.yml&#39;</span><span class="p">,</span>
+        <span class="n">output_ntp_name_gen</span><span class="o">=</span><span class="n">parse_step2_name</span><span class="p">,</span>
+        <span class="n">executor</span><span class="o">=</span><span class="n">executor</span>
+    <span class="p">),</span>
+    <span class="c1"># Run 1</span>
+    <span class="s1">&#39;rdx-ntuple-run1-data&#39;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">name</span><span class="p">:</span> <span class="n">workflow_data</span><span class="p">(</span>
+        <span class="n">name</span><span class="p">,</span>
+        <span class="s1">&#39;../ntuples/0.9.2-2011_production/Dst_D0-std&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;../postprocess/rdx-run1/rdx-run1.yml&#39;</span><span class="p">,</span>
+        <span class="n">use_ubdt</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">executor</span><span class="o">=</span><span class="n">executor</span>
+    <span class="p">),</span>
+    <span class="s1">&#39;ref-rdx-ntuple-run1-data&#39;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">name</span><span class="p">:</span> <span class="n">workflow_data</span><span class="p">(</span>
+        <span class="n">name</span><span class="p">,</span>
+        <span class="s1">&#39;../ntuples/ref-rdx-run1/Dst-mix&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;../postprocess/ref-rdx-run1/rdst-2011-mix.yml&#39;</span><span class="p">,</span>
+        <span class="n">use_ubdt</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">output_ntp_name_gen</span><span class="o">=</span><span class="n">parse_step2_name</span><span class="p">,</span>
+        <span class="n">executor</span><span class="o">=</span><span class="n">executor</span>
+    <span class="p">)</span>
+<span class="p">}</span>
 </code></pre></div>
-<p>The <code>path_to_append</code> argument adds the <code>workflows/rdx</code> folder to <code>PATH</code>.</p>
-<p>Now, in an actual workflow, we typically call <code>workflow_general</code> first:
-<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">workflow_trigger_emulation</span><span class="p">(</span><span class="n">job_name</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">output_dir</span><span class="p">,</span> <span class="n">debug</span><span class="p">,</span> <span class="n">kws</span><span class="p">):</span>
-    <span class="n">subworkdirs</span><span class="p">,</span> <span class="n">workdir</span> <span class="o">=</span> <span class="n">workflow_general</span><span class="p">(</span><span class="n">job_name</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">output_dir</span><span class="p">)</span>
-    <span class="c1"># The &#39;trigger_emulation.sh&#39; is directly callable because we&#39;ve added</span>
-    <span class="c1"># its folder to PATH</span>
-    <span class="n">exe</span> <span class="o">=</span> <span class="n">pipe_executor</span><span class="p">(</span><span class="s1">&#39;trigger_emulation.sh </span><span class="si">{input_ntp}</span><span class="s1">&#39;</span><span class="p">)</span>
-</code></pre></div></p>
+<p>The actual workflows are defined earlier in the same file.</p>
 </div>
 <h2 id="external-programs-used-by-workflows">External programs used by workflows</h2>
 <h3 id="gregs-mu-ubdt-adder">Greg's <span class="arithmatex">\(\mu\)</span> UBDT adder</h3>
