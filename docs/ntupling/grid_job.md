@@ -127,6 +127,15 @@ jobs[73].force_status("failed", force=True)
 ```
 
 
+## Resubmit killed subjobs
+
+If you forced a "failed" status, some sub-jobs may be in "killed" state. A
+simple `job[73].resubmit()` won't resubmit these killed jobs. To resubmit them:
+```
+jobs[73].subjobs.select(status="killed").resubmit()
+```
+
+
 ## Handling failing subjobs
 
 The GRID job are split into subjobs, enabling parallel execution. Some subjobs may fail. Considering the following `jobs` output in `ganga` shell:
