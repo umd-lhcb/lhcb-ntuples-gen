@@ -116,13 +116,15 @@ After a successfully submission, the progress of the job can be checked with gan
 
 Sometimes ganga would stuck at updating job status. To reset the status for
 "completing" and "failed" subjobs, do:
-```
+
+```python
 jobs[63].backend.reset(True)
 ```
 
 If that still doesn't bring a job to a stable state (i.e. "finished" or
 "failed"), force the job to fail:
-```
+
+```python
 jobs[63].force_status("failed", force=True)
 ```
 
@@ -148,19 +150,22 @@ Registry Slice: jobs (30 objects)
 Jobs 63 and 66 are marked as `failed` because all of their subjobs are either completed or failed.
 
 To resubmit failed subjobs for, say, `job[66]`:
-```
+
+```python
 jobs[63].resubmit()
 ```
 
 However, above won't work unless all sub-jobs are either completed or failed.
 To resubmit the failed sub-jobs ASAP:
-```
+
+```python
 jobs[63].subjobs.select(status="failed").resubmit()
 ```
 
 If you forced a "failed" status, some sub-jobs may be in "killed" state. A
 simple `job[63].resubmit()` won't resubmit these killed jobs. To resubmit them:
-```
+
+```python
 jobs[63].subjobs.select(status="killed").resubmit()
 ```
 
