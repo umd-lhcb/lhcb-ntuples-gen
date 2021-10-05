@@ -152,6 +152,12 @@ To resubmit failed subjobs for, say, `job[66]`:
 jobs[63].resubmit()
 ```
 
+However, above won't work unless all sub-jobs are either completed or failed.
+To resubmit the failed sub-jobs ASAP:
+```
+jobs[63].subjobs.select(status="failed").resubmit()
+```
+
 If you forced a "failed" status, some sub-jobs may be in "killed" state. A
 simple `job[63].resubmit()` won't resubmit these killed jobs. To resubmit them:
 ```
