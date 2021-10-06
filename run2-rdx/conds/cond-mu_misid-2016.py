@@ -13,6 +13,7 @@ DaVinci().MoniSequence += ['MU_MISID']
 from GaudiConf import IOHelper
 
 IOHelper().inputFiles([
-    './data/data-2016-md/00069529_00017556_1.semileptonic.dst',  # 1.2 GB
-    './data/data-2016-md/00069527_00003141_1.semileptonic.dst',  # 3.5 GB
+    './data/data-2016-md/00102837_00003269_1.semileptonic.dst',
+    './data/data-2016-md/00102837_00003459_1.semileptonic.dst',
+    './data/data-2016-md/00103398_00017120_1.semileptonic.dst',
 ], clear=True)
