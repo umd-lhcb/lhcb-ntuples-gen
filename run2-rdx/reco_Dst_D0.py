@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Oct 06, 2021 at 02:38 PM +0200
+# Last Change: Wed Oct 06, 2021 at 03:01 PM +0200
 #
 # Description: Definitions of selection and reconstruction procedures for run 2
 #              R(D(*)). For more thorough comments, take a look at:
@@ -9,7 +9,8 @@
 # Flags for run 2:
 #   NO_SMEAR:     Don't smear MC
 #   MU_MISID:     For Muon misID sample reco in data
-#   CUTFLOW:      For 2016 cocktail MC (stripping name is different)
+#   CUTFLOW:      Don't filter on triggers for data; use a different particle
+#                 container for MC
 #   BARE:         Apply very loose cuts, for trigger efficiency study
 #   TRACKER_ONLY: Mute DaVinci error log for tracker-only MC
 
