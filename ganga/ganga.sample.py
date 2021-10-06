@@ -44,7 +44,7 @@ function check_job () {
 
   echo "Verifying output for Job $1..."
 
-  for sj in $(ls $job_dir | grep -E "^[0-9]$"); do
+  for sj in $(ls $job_dir | grep -E "^[0-9].*$"); do
     local file=$(find $job_dir/$sj/output -name '*.root')
 
     if [[ -z $file ]]; then
