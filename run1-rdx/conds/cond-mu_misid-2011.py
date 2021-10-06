@@ -3,10 +3,10 @@ from Configurables import DaVinci
 DaVinci().DataType = '2011'
 DaVinci().Simulation = False
 
-DaVinci().TupleFile = 'non_mu_misid.root'
+DaVinci().TupleFile = 'mu_misid.root'
 
 # Additional global flags
-DaVinci().MoniSequence += ['NON_MU_MISID']
+DaVinci().MoniSequence += ['MU_MISID']
 
 # Specify tags
 # DaVinci().DDDBtag = 'dddb-20130929-1'

@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sat Sep 25, 2021 at 01:43 AM +0200
+# Last Change: Wed Oct 06, 2021 at 03:31 PM +0200
 
 from datetime import datetime
 from re import match, sub, search
@@ -82,7 +82,7 @@ TYPES = ['std', 'mc',
          'cutflow_data', 'cutflow_mc',
          'validation',
          'mix',
-         'non_mu_misid']
+         'mu_misid']
 SAMPLES = [
     'data', 'cocktail', 'all',
     # MC modes
