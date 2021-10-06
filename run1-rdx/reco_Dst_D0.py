@@ -1,13 +1,13 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Aug 25, 2021 at 01:51 PM +0200
+# Last Change: Wed Oct 06, 2021 at 02:37 PM +0200
 #
 # Description: Definitions of selection and reconstruction procedures for run 1
 #              R(D(*)), with thorough comments.
 #
 # Flags for run 1:
 #   NO_SMEAR:     Don't smear MC
-#   NON_MU_MISID: For non-Muon misID sample reco in data
+#   MU_MISID:     For Muon misID sample reco in data
 #   CUTFLOW:      For 2011 cocktail MC (stripping name is different)
 #   BARE:         Apply very loose cuts, for trigger efficiency study
 
@@ -115,7 +115,7 @@ from Configurables import LoKi__HDRFilter as HDRFilter
 
 if DaVinci().Simulation and has_flag('CUTFLOW'):
     line_strip = 'b2D0MuXB2DMuForTauMuLine'  # Name of the stripping line back in 2011.
-elif has_flag('NON_MU_MISID'):
+elif has_flag('MU_MISID'):
     line_strip = 'b2D0MuXFakeB2DMuNuForTauMuLine'
 else:
     line_strip = 'b2D0MuXB2DMuNuForTauMuLine'
@@ -366,7 +366,7 @@ if has_flag('BARE'):
 
 
 # Add PID cuts for real data w/ std reconstruction
-if not DaVinci().Simulation and not has_flag('NON_MU_MISID', 'BARE'):
+if not DaVinci().Simulation and not has_flag('MU_MISID', 'BARE'):
     algo_Bminus.DaughtersCuts['mu-'] = \
         '(PIDmu > 2.0) &' + algo_Bminus.DaughtersCuts['mu-']
 
@@ -853,7 +853,7 @@ tuple_postprocess(tp_B0_ws_Pi)
 # Add selection & tupling sequences to DaVinci #
 ################################################
 
-if has_flag('CUTFLOW', 'NON_MU_MISID', 'BARE'):
+if has_flag('CUTFLOW', 'MU_MISID', 'BARE'):
     DaVinci().UserAlgorithms += [seq_Bminus.sequence(), seq_B0.sequence(),
                                  # ntuples
                                  tp_Bminus, tp_B0]
