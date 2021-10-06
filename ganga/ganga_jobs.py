@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Oct 05, 2021 at 04:37 PM +0200
+# Last Change: Thu Oct 07, 2021 at 12:46 AM +0200
 #
 # Description: A demonstration on ganga option file with parser.
 #              This demo runs stand-alone, provided that Python is installed:
@@ -29,8 +29,8 @@ from ganga_sample_jobs_parser import args, reco_type, lfn, job_name, ntuple_name
 
 PLATFORM = 'x86_64-centos7-gcc9-opt'
 WEIGHT_FILE = 'weights_soft.xml'
-FILES_PER_JOB_DATA = 5
-FILES_PER_JOB_MC = 2
+FILES_PER_JOB_DATA = 12
+FILES_PER_JOB_MC = 4
 
 
 ###########
