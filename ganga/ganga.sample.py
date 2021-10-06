@@ -70,8 +70,7 @@ function concat_job () {
   check_job $1
 
   if [ $? -eq 0 ]; then
-    hadd -fk ${OUTPUT_DIR}/$3 ${INPUT_DIR}/$1/*/output/$2 \\
-        -c $YAML_PATH
+    hadd -fk ${OUTPUT_DIR}/$3 ${INPUT_DIR}/$1/*/output/$2
   fi
 }
 
