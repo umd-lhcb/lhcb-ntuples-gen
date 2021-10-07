@@ -1,0 +1,108 @@
+EVENT LOOP:
+    input: 999373140
+    output: 991026065
+DaVinciEventSeq:
+    input: 991026065
+    output: 991026065
+DaVinciInitAlg:
+    input: 991026065
+    output: 991026065
+FilteredEventSeq:
+    input: 991026065
+    output: 991026065
+StrippedBCands:
+    input: 991026065
+    output: 35588762
+DaVinciEventInitSeq:
+    input: 35588762
+    output: 35588762
+PhysInitSeq:
+    input: 35588762
+    output: 35588762
+AnalysisInitSeq:
+    input: 35588762
+    output: 35588762
+DaVinciAnalysisSeq:
+    input: 35588762
+    output: 35588762
+DaVinciUserSequence:
+    input: 35588762
+    output: 35588762
+StateScale:
+    input: 35588762
+    output: 35588762
+MyProtoPMaker:
+    input: 35588762
+    output: 35588762
+StdNoPIDsVeloPions:
+    input: 35588762
+    output: 35588762
+SeqMyB-:
+    input: 35588762
+    output: 35588762
+SELECT:/Event/Semileptonic/Phys/b2D0MuXB2DMu:
+    input: 35588762
+    output: 35588762
+SelMyStrippedChargedK:
+    input: 35588762
+    output: 35588762
+SelMyStrippedChargedPi:
+    input: 35588762
+    output: 35588762
+SelMyD0:
+    input: 35588762
+    output: 35574724
+SelMyStrippedMu:
+    input: 35574724
+    output: 35574724
+SelMyB-:
+    input: 35574724
+    output: 26256303
+SelMyRefitB-2D0Mu:
+    input: 26256303
+    output: null
+SeqMyB0:
+    input: 35588762
+    output: 26256303
+SelMyComboD0:
+    input: 26256303
+    output: 26256303
+SELECT:Phys/StdAllLoosePions:
+    input: 26256303
+    output: 26256303
+SelMyDst:
+    input: 26256303
+    output: 5580476
+SelMyRefitDst2D0Pi:
+    input: 5580476
+    output: 5379156
+SelMyComboMu:
+    input: 5379156
+    output: 5379156
+SelMyB0:
+    input: 5379156
+    output: null
+TupleBminus:
+    input: 35588762
+    output: 35588762
+TupleB0:
+    input: 35588762
+    output: 35588762
+MonitoringSequence:
+    input: 35588762
+    output: null
+LumiSeq:
+    input: 991026065
+    output: 991026065
+EventAccount:
+    input: 991026065
+    output: 991026065
+IntegratorSeq:
+    input: 991026065
+    output: 991026065
+IntegrateBeamCrossing:
+    input: 991026065
+    output: 991026065
+GetIntegratedLuminosity:
+    input: 991026065
+    output: null

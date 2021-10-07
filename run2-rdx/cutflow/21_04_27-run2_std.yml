@@ -1,0 +1,159 @@
+EVENT LOOP:
+    input: 490996260
+    output: 487033904
+DaVinciEventSeq:
+    input: 487033904
+    output: 487033904
+DaVinciInitAlg:
+    input: 487033904
+    output: 487033904
+FilteredEventSeq:
+    input: 487033904
+    output: 487033904
+StrippedBCands:
+    input: 487033904
+    output: 35547611
+DaVinciEventInitSeq:
+    input: 35547611
+    output: 35547611
+PhysInitSeq:
+    input: 35547611
+    output: 35547611
+AnalysisInitSeq:
+    input: 35547611
+    output: 35547611
+DaVinciAnalysisSeq:
+    input: 35547611
+    output: 35547611
+DaVinciUserSequence:
+    input: 35547611
+    output: 35547611
+StateScale:
+    input: 35547611
+    output: 35547611
+MyProtoPMaker:
+    input: 35547611
+    output: 35547611
+StdNoPIDsVeloPions:
+    input: 35547611
+    output: 35547611
+SeqMyB-:
+    input: 35547611
+    output: 35547611
+SELECT:/Event/Semileptonic/Phys/b2D0MuXB2DMu:
+    input: 35547611
+    output: 35547611
+SelMyStrippedMuFilteredEvent:
+    input: 35547611
+    output: 35547611
+SelMyStrippedChargedK:
+    input: 35547611
+    output: 35547611
+SelMyStrippedChargedPi:
+    input: 35547611
+    output: 35547611
+SelMyD0:
+    input: 35547611
+    output: 35533620
+SelMyStrippedMu:
+    input: 35533620
+    output: 35533620
+SelMyB-:
+    input: 35533620
+    output: 26225889
+SelMyRefitB-2D0Mu:
+    input: 26225889
+    output: null
+SeqMyB-WS:
+    input: 35547611
+    output: 35533620
+SelMyB-WS:
+    input: 35533620
+    output: 10092115
+SelMyRefitB-2D0MuWS:
+    input: 10092115
+    output: null
+SeqMyB0:
+    input: 35547611
+    output: 26225889
+SelMyComboD0:
+    input: 26225889
+    output: null
+SELECT:Phys/StdAllLoosePions:
+    input: 35525381
+    output: 26225889
+SelMyDst:
+    input: 26225889
+    output: 5510510
+SelMyRefitDst2D0Pi:
+    input: 5510510
+    output: null
+SelMyComboMu:
+    input: 6668199
+    output: 5312632
+SelMyB0:
+    input: 5312632
+    output: null
+SeqMyB0WSMu:
+    input: 35547611
+    output: 10092115
+SelMyComboD0WS:
+    input: 10092115
+    output: 10092115
+SelMyDstWSMu:
+    input: 10092115
+    output: 2007450
+SelMyRefitDst2D0PiWSMu:
+    input: 2007450
+    output: 1927259
+SelMyComboMuWS:
+    input: 1927259
+    output: 1927259
+SelMyB0WSMu:
+    input: 1927259
+    output: null
+SeqMyB0WSPi:
+    input: 35547611
+    output: 26225889
+SelMyDstWSPi:
+    input: 26225889
+    output: 1966980
+SelMyRefitDst2D0PiWSPi:
+    input: 1966980
+    output: 1778150
+SelMyB0WSPi:
+    input: 1778150
+    output: null
+TupleBminus:
+    input: 35547611
+    output: 35547611
+TupleBminusWS:
+    input: 35547611
+    output: 35547611
+TupleB0:
+    input: 35547611
+    output: 35547611
+TupleB0WSMu:
+    input: 35547611
+    output: 35547611
+TupleB0WSPi:
+    input: 35547611
+    output: 35547611
+MonitoringSequence:
+    input: 35547611
+    output: null
+LumiSeq:
+    input: 487033904
+    output: 487033904
+EventAccount:
+    input: 487033904
+    output: 487033904
+IntegratorSeq:
+    input: 487033904
+    output: 487033904
+IntegrateBeamCrossing:
+    input: 487033904
+    output: 487033904
+GetIntegratedLuminosity:
+    input: 487033904
+    output: null
