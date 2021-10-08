@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Oct 05, 2021 at 03:20 AM +0200
+# Last Change: Fri Oct 08, 2021 at 03:22 PM +0200
 
 import re
 import yaml
@@ -39,7 +39,11 @@ def ensure_dir(path, delete_if_exist=True, make_absolute=True, **kwargs):
     if delete_if_exist and op.isdir(path):
         rmtree(path)
 
-    makedirs(path)
+    try:
+        makedirs(path)
+    except FileExistsError:
+        pass
+
     return path
 
 
