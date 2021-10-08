@@ -1,6 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Oct 05, 2021 at 03:15 AM +0200
+# Last Change: Fri Oct 08, 2021 at 02:44 PM +0200
 
 VPATH := postprocess:test:scripts:ntuples
 VPATH := run1-rdx/cutflow:run2-rdx/cutflow:$(VPATH)
@@ -68,6 +68,9 @@ test-naming-conv:
 rdx-ntuple-run2-all: rdx-ntuple-run2-data-oldcut rdx-ntuple-run2-mc-demo
 
 rdx-ntuple-run2-data-oldcut:
+	workflows/rdx.py $@
+
+rdx-ntuple-run2-data-oldcut-no-Dst-veto:
 	workflows/rdx.py $@
 
 rdx-ntuple-run2-mc-demo:

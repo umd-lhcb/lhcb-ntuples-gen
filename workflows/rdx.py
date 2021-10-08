@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri Oct 08, 2021 at 03:10 AM +0200
+# Last Change: Fri Oct 08, 2021 at 02:44 PM +0200
 
 import sys
 import os
@@ -163,10 +163,7 @@ JOBS = {
     # Run 2
     'rdx-ntuple-run2-data-oldcut': lambda name: workflow_data(
         name,
-        [
-            '../ntuples/0.9.4-trigger_emulation/Dst_D0-std/',
-            '../ntuples/0.9.5-bugfix/Dst_D0-cutflow_data',
-        ],
+        '../ntuples/0.9.5-bugfix/Dst_D0-cutflow_data',
         '../postprocess/rdx-run2/rdx-run2_with_run1_cuts.yml',
         executor=executor
     ),
@@ -177,6 +174,16 @@ JOBS = {
         output_ntp_name_gen=parse_step2_name,
         executor=executor
     ),
+    # Run 2 debug
+    'rdx-ntuple-run2-data-oldcut-no-Dst-veto': lambda name: workflow_data(
+        name,
+        [
+            '../ntuples/0.9.4-trigger_emulation/Dst_D0-std/',
+            '../ntuples/0.9.5-bugfix/Dst_D0-cutflow_data',
+        ],
+        '../postprocess/rdx-run2/rdx-run2_with_run1_cuts_no_Dst_veto.yml',
+        executor=executor
+    ),
     # Run 1
     'rdx-ntuple-run1-data': lambda name: workflow_data(
         name,
@@ -185,6 +192,7 @@ JOBS = {
         use_ubdt=False,
         executor=executor
     ),
+    # Run 1 debug
     'ref-rdx-ntuple-run1-data': lambda name: workflow_data(
         name,
         '../ntuples/ref-rdx-run1/Dst-mix',
