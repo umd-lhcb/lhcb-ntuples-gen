@@ -122,7 +122,7 @@ calculation:
     mu_pid_mu: double; mu_PIDmu
     mu_pid_k: double; mu_PIDK
     mu_pid_e: double; mu_PIDe
-    mu_ubdt: float; mu_bdt_mu; 1.0;  # Greg's Mu UBDT PID
+    mu_ubdt: float; mu_bdt_mu; 1.0  # Greg's Mu UBDT PID
 
     ######################
     # Tracking variables #
@@ -223,6 +223,40 @@ calculation:
         b0_DIRA_OWNPV, b0_M
         )
 
+    # Skims
+    is_iso: bool; FLAG_ISO(mu_ubdt_ok, iso_bdt1)
+    is_dd: >-
+        bool; FLAG_DD(
+        mu_ubdt_ok,
+        iso_bdt1, iso_bdt2, iso_bdt2, iso_type1, iso_type2, iso_type3,
+        iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+        iso_nnk1, iso_nnk2, iso_nnk3
+        )
+    is_2os: >-
+        bool; FLAG_2OS(
+        mu_ubdt_ok,
+        iso_bdt1, iso_bdt2, iso_bdt3, iso_type1, iso_type2,
+        iso_p1, iso_p2, iso_pt1, iso_pt2,
+        iso_chrg1, iso_chrg2,
+        iso_nnk1, iso_nnk2
+        )
+    is_1os: >-
+        bool; FLAG_1OS(
+        mu_ubdt_ok,
+        iso_bdt1, iso_bdt2, iso_type1,
+        iso_p1, iso_pt1,
+        iso_chrg1,
+        iso_nnk1,
+        dst_id, dst_iso_deltam
+        ); FLAG_1OS(
+        mu_ubdt_ok,
+        iso_bdt1, iso_bdt2, iso_type1,
+        iso_p1, iso_pt1,
+        iso_chrg1,
+        iso_nnk1,
+        d0_id
+        )
+
 global_selection:
     # Trigger (L0, HLT1, HLT2)
     - l0
@@ -255,4 +289,3 @@ output:
             - "dst_p.*"
             - "dst_iso.*"
             - "dstmu_ok"
-            - "is_dstst"

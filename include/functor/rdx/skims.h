@@ -1,6 +1,6 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Tue Oct 05, 2021 at 04:21 PM +0200
+// Last Change: Sat Oct 09, 2021 at 12:13 AM +0200
 // NOTE: All kinematic variables are in MeV
 
 #ifndef _LNG_FUNCTOR_RDX_SKIMS_H_
@@ -38,22 +38,6 @@ Bool_t FLAG_DD(Bool_t add_flags,
 }
 
 // clang-format off
-Bool_t FLAG_DSTST(Bool_t add_flags,
-                  Double_t iso_bdt1, Double_t iso_bdt2,
-                  Int_t iso_type1,
-                  Float_t iso_p1, Float_t iso_pt1,
-                  Int_t iso_chrg1,
-                  Float_t iso_nnk1,
-                  Int_t dst_id, Double_t dst_iso_deltam) {
-  // clang-format on
-  return add_flags && (iso_bdt1 > 0.15) && (iso_bdt2 < 0.15) &&
-         (iso_type1 == 3) && (iso_p1 > 5.0) && (iso_pt1 > 0.15) &&
-         (iso_chrg1 * dst_id < 0) && (iso_nnk1 < 0.2) &&
-         (0.36 < dst_iso_deltam) && (dst_iso_deltam < 0.6);  // Phoebe's cut
-  // (2.4 < dst_iso_invm && dst_iso_invm < 2.52)  // Greg's cut
-}
-
-// clang-format off
 Bool_t FLAG_2OS(Bool_t add_flags,
                 Double_t iso_bdt1, Double_t iso_bdt2, Double_t iso_bdt3,
                 Int_t iso_type1, Int_t iso_type2,
@@ -82,6 +66,23 @@ Bool_t FLAG_1OS(Bool_t add_flags,
   return add_flags && (iso_bdt1 > 0.15) && (iso_bdt2 < 0.15) &&
          (iso_type1 == 3) && (iso_p1 > 5.0) && (iso_pt1 > 0.15) &&
          (iso_chrg1 * d0_id) > 0 && (iso_nnk1 < 0.2);
+}
+
+// clang-format off
+// For D**
+Bool_t FLAG_1OS(Bool_t add_flags,
+                Double_t iso_bdt1, Double_t iso_bdt2,
+                Int_t iso_type1,
+                Float_t iso_p1, Float_t iso_pt1,
+                Int_t iso_chrg1,
+                Float_t iso_nnk1,
+                Int_t dst_id, Double_t dst_iso_deltam) {
+  // clang-format on
+  return add_flags && (iso_bdt1 > 0.15) && (iso_bdt2 < 0.15) &&
+         (iso_type1 == 3) && (iso_p1 > 5.0) && (iso_pt1 > 0.15) &&
+         (iso_chrg1 * dst_id < 0) && (iso_nnk1 < 0.2) &&
+         (0.36 < dst_iso_deltam) && (dst_iso_deltam < 0.6);  // Phoebe's cut
+  // (2.4 < dst_iso_invm && dst_iso_invm < 2.52)  // Greg's cut
 }
 
 #endif
