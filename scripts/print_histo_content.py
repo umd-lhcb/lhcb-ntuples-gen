@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri Oct 01, 2021 at 02:35 AM +0200
+# Last Change: Mon Oct 11, 2021 at 11:30 PM +0200
 
 import sys
 import ROOT
@@ -48,6 +48,10 @@ def bin_info(histo, bin_idx, bin_idx_max,
     return fmt.format(bin_idx, lbl)
 
 
+def get_other_bins(idx, others=['x', 'y', 'z']):
+    return [b for b in others if b != idx]
+
+
 def get_th2_content(histo, overunder=True, multiline=False, transpose=False):
     tab = []
     first_col = []
@@ -83,6 +87,12 @@ def get_th2_content(histo, overunder=True, multiline=False, transpose=False):
         tab = zip(*tab)
 
     return [[lbl] + list(r) for r, lbl in zip(tab, first_col)], headers
+
+
+def get_th3_content(histo, overunder=True, multiline=False, transpose=False,
+                    project_axis='y'):
+    tab = []
+    pass
 
 
 if __name__ == '__main__':
