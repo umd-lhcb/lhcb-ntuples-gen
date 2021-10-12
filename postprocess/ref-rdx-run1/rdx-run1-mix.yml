@@ -13,6 +13,8 @@ keep:
 rename:
     # General
     Polarity: polarity
+    runNumber: run
+    eventNumber: event
     # L0
     YTIS: b0_l0_global_tis
     YTOS: d0_l0_hadron_tos
@@ -76,24 +78,34 @@ calculation:
     iso_pt2: float; iso_PT2
     iso_pt3: float; iso_PT3
     # Track types
+    iso_type1: int; TO_TYPE(iso_Type, 1)
+    iso_type2: int; TO_TYPE(iso_Type2, 1)
+    iso_type3: int; TO_TYPE(iso_Type3, 1)
 
     #################
     # Fit variables #
     #################
     el: double; GEV(El)
-    mm2: double; m_nu1  # Already in GeV?
+    mm2: double; m_nu1  # Already in GeV
     q2: double; GEV2(q2)
 
     #######################
     # Kinematic variables #
     #######################
-    # B0
-    b0_m: double; GEV(Y_M)
+    # B0/B
+    b_m: double; GEV(Y_M)
+    b_p: double; GEV(Y_P)
     b_pt: double; GEV(Y_PT)
     # D*
     dst_m: double; GEV(Dst_M)
+    dst_p: double; GEV(Dst_P)
+    dst_pt: double; GEV(Dst_PT)
+    dst_iso_invm: double; 0.0  # Not implemented by Phoebe; Greg only
+    dst_iso_deltam: double; GEV(iso_DeltaM)
+    dst_veto_deltam: double; MIN(ABS(DeltaM-145.454), ABS(DeltaM2-145.454)); ABS(Dst_M-D0_M-145.454)  # MeV!
     # D0
     d0_m: double; GEV(D0_M)
+    d0_p: double; GEV(D0_P)
     d0_pt: double; GEV(D0_PT)
     # K
     k_p: double; GEV(K_P)
@@ -103,17 +115,25 @@ calculation:
     pi_pt: double; GEV(pi_PT)
     # Mu
     mu_p: double; GEV(mu_P)
+    mu_pt: double; GEV(mu_PT)
 
     #################
     # PID variables #
     #################
+    # Dst
+    dst_id: int; Dst_ID
+    # D0
+    d0_id: int;
     # K
+    k_is_mu: bool;
+    k_pid_mu: double;
     k_pid_k: double; KPID
+    k_pid_e: double;
     # Pi
     pi_pid_k: double; piPID
     # Mu
     mu_is_mu: bool; mu_is
-    mu_bdt_mu: float; BDTmu  # uboost BDT
+    mu_ubdt: float; BDTmu  # Greg's Mu UBDT PID
 
     ######################
     # Tracking variables #
@@ -127,7 +147,6 @@ calculation:
     # D*
     dst_endvtx_chi2: double; Dst_ENDVERTEX_CHI2
     dst_endvtx_ndof: ^double; 1000.0
-    dst_veto_deltam: double; ABS(Dst_M-D0_M-145.454)  # MeV!
     # D0
     d0_dira: double; D0_DIRA_OWNPV
     d0_endvtx_chi2: ^double; 0.0
