@@ -1,6 +1,7 @@
 headers:
     user:
         - functor/rdx/cut.h
+        - functor/rdx/skims.h
         - functor/rdx/kinematic.h
         - functor/basic.h
 
@@ -56,7 +57,25 @@ calculation:
     #######################
     # Isolation variables #
     #######################
+    # Isolation BDTs
     iso_bdt1: double; iso_BDT
+    iso_bdt2: double; iso_BDT2
+    iso_bdt3: double; iso_BDT3
+    # PID
+    iso_nnk1: float; iso_NNk
+    iso_nnk2: float; iso_NNk2
+    iso_nnk3: float; iso_NNk3
+    # Charge
+    iso_chrg1: int; TO_TYPE(iso_CHARGE, 1)
+    iso_chrg2: int; TO_TYPE(iso_CHARGE2, 1)
+    # Kinematic
+    iso_p1: float; iso_P
+    iso_p2: float; iso_P2
+    iso_p3: float; iso_P3
+    iso_pt1: float; iso_PT
+    iso_pt2: float; iso_PT2
+    iso_pt3: float; iso_PT3
+    # Track types
 
     #################
     # Fit variables #

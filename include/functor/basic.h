@@ -1,6 +1,6 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Thu Aug 26, 2021 at 08:05 PM +0200
+// Last Change: Wed Oct 13, 2021 at 12:04 AM +0200
 
 #ifndef _LNG_FUNCTOR_BASIC_H_
 #define _LNG_FUNCTOR_BASIC_H_
@@ -118,6 +118,13 @@ std::vector<std::vector<int> > COMBINATION(int tot_size, int comb_size,
 template <typename T, typename... ARGS>
 std::vector<T> BUILD_VEC(T const& arg0, ARGS const&... args) {
   return std::vector<T>{{arg0, args...}};
+}
+
+// Type coercion ///////////////////////////////////////////////////////////////
+
+template <typename T, typename U>
+T TO_TYPE(U src, T tgt) {
+  return static_cast<T>(src);
 }
 
 #endif
