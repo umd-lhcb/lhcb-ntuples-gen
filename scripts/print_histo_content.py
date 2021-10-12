@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Oct 12, 2021 at 02:10 AM +0200
+# Last Change: Tue Oct 12, 2021 at 03:32 AM +0200
 
 import sys
 import ROOT
@@ -10,6 +10,9 @@ import ROOT
 from tabulate import tabulate
 from argparse import ArgumentParser
 
+################################
+# Command line argument parser #
+################################
 
 def parse_input():
     parser = ArgumentParser(description='print the content of a ROOT histogram')
@@ -34,9 +37,13 @@ def parse_input():
     return parser.parse_args()
 
 
+###########
+# Helpers #
+###########
+
 def bin_info(histo, bin_idx, bin_lbl, multiline=True):
-    bin_idx_max = getattr(histo, 'GetNbins{}'.format(bin_lbl.upper()))()
-    axis = getattr(histo, 'Get{}axis'.format(bin_lbl.upper()))()
+    bin_idx_max = getattr(histo, 'GetNbins{}'.format(bin_lbl))()
+    axis = getattr(histo, 'Get{}axis'.format(bin_lbl))()
 
     if bin_idx == 0:
         lbl = '(U)'
@@ -50,48 +57,49 @@ def bin_info(histo, bin_idx, bin_lbl, multiline=True):
     return fmt.format(bin_idx, lbl)
 
 
-def get_other_bins(lbl, others=['x', 'y', 'z']):
-    return [b for b in others if b != lbl]
+def get_other_bins(lbl, axes=['X', 'Y', 'Z']):
+    return [b for b in axes if b != lbl]
 
 
 def loop_over_idx(histo, lbl, overunder=True):
     (lower, upper) = (0, 2) if overunder else (1, 1)
-    idx_max = getattr(histo, "GetNbins{}".format(lbl.upper()))()
+    idx_max = getattr(histo, "GetNbins{}".format(lbl))()
     return range(lower, idx_max+upper)
 
 
+def get_val(histo, *bin_spec, method='GetBinContent'):
+    args = dict(bin_spec)
+    getter = getattr(histo, method)
+
+    if 'Z' in args:
+        return getter(args['X'], args['Y'], args['Z'])
+    return getter(args['X'], args['Y'])
+
+
+#############################
+# Histogram content getters #
+#############################
+
 def get_th2_content(histo, overunder=True, multiline=False, transpose=False):
     tab = []
-    first_col = []
-    headers = ['y \\ x'] if not transpose else ['x \\ y']
+    lbl0, lbl1 = ['Y', 'X'] if not transpose else ['X', 'Y']
+    headers = [lbl0 + ' \\ ' + lbl1]
 
-    x_max = histo.GetNbinsX()
-    y_max = histo.GetNbinsY()
-    (lower, upper) = (0, 2) if overunder else (1, 1)
-
-    for y in range(lower, y_max+upper):
+    for i in loop_over_idx(histo, lbl0, overunder):
         row = []
-        if not transpose:
-            first_col.append(bin_info(histo, y, 'y', False))
-        else:
-            headers.append(bin_info(histo, y, 'y', multiline=multiline))
+        row.append(bin_info(histo, i, lbl0, False))
 
-        for x in range(lower, x_max+upper):
-            if not transpose:
-                headers.append(bin_info(histo, x, 'x', multiline=multiline))
-            else:
-                first_col.append(bin_info(histo, x, 'x', multiline=False))
+        for j in loop_over_idx(histo, lbl1, overunder):
+            headers.append(bin_info(histo, j, lbl1, multiline=multiline))
 
-            row.append('{:.2f} ± {:.2f}'.format(
-                histo.GetBinContent(x, y), histo.GetBinErrorLow(x, y)))
             # Assume symmetric error
+            row.append('{:.2f} ± {:.2f}'.format(
+                get_val(histo, (lbl0, i), (lbl1, j)),
+                get_val(histo, (lbl0, i), (lbl1, j), method='GetBinErrorLow')))
 
         tab.append(row)
 
-    if transpose:
-        tab = zip(*tab)
-
-    return [[lbl] + list(r) for r, lbl in zip(tab, first_col)], headers
+    return tab, headers
 
 
 def get_th3_content(histo, overunder=True, multiline=False, transpose=False,
