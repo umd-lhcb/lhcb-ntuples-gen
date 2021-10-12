@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Oct 12, 2021 at 03:32 AM +0200
+# Last Change: Tue Oct 12, 2021 at 04:10 AM +0200
 
 import sys
 import ROOT
@@ -34,6 +34,12 @@ def parse_input():
     parser.add_argument('-T', '--transpose', action='store_true',
                         help='transpose the x, y axis')
 
+    parser.add_argument('-D', '--dimension', default='2',
+                        help='specify dimension of the histo.')
+
+    parser.add_argument('-A', '--axis', default='Y',
+                        help='specify axis to slice for TH3.')
+
     return parser.parse_args()
 
 
@@ -57,7 +63,7 @@ def bin_info(histo, bin_idx, bin_lbl, multiline=True):
     return fmt.format(bin_idx, lbl)
 
 
-def get_other_bins(lbl, axes=['X', 'Y', 'Z']):
+def get_other_lbls(lbl, axes=['X', 'Y', 'Z']):
     return [b for b in axes if b != lbl]
 
 
@@ -80,9 +86,11 @@ def get_val(histo, *bin_spec, method='GetBinContent'):
 # Histogram content getters #
 #############################
 
-def get_th2_content(histo, overunder=True, multiline=False, transpose=False):
-    tab = []
+def get_th2_content(histo, overunder=True, multiline=False, transpose=False,
+                    lbl0='Y',
+                    formatter=lambda x, y: tabulate(x, headers=y)):
     lbl0, lbl1 = ['Y', 'X'] if not transpose else ['X', 'Y']
+    tab = []
     headers = [lbl0 + ' \\ ' + lbl1]
 
     for i in loop_over_idx(histo, lbl0, overunder):
@@ -99,22 +107,61 @@ def get_th2_content(histo, overunder=True, multiline=False, transpose=False):
 
         tab.append(row)
 
-    return tab, headers
+    return formatter(tab, headers)
 
 
 def get_th3_content(histo, overunder=True, multiline=False, transpose=False,
-                    project_axis='y'):
-    tab = []
-    pass
+                    lbl0='Y',
+                    formatter=lambda x, y: tabulate(x, headers=y)):
+    output = 'Slicing axis: {}\n\n'.format(lbl0)
+    lbl1, lbl2 = get_other_lbls(lbl0)
+    if transpose:
+        lbl1, lbl2 = lbl2, lbl1
 
+    for i in loop_over_idx(histo, lbl0, overunder):
+        output += '{}, {}\n'.format(lbl0, bin_info(histo, i, lbl0, False))
+        tab = []
+        headers = [lbl1 + ' \\ ' + lbl2]
+
+        for j in loop_over_idx(histo, lbl1, overunder):
+            row = []
+            row.append(bin_info(histo, j, lbl1, False))
+
+            for k in loop_over_idx(histo, lbl2, overunder):
+                headers.append(bin_info(histo, k, lbl2, multiline=multiline))
+
+                # Assume symmetric error
+                row.append('{:.2f} ± {:.2f}'.format(
+                    get_val(histo, (lbl0, i), (lbl1, j), (lbl2, k)),
+                    get_val(histo, (lbl0, i), (lbl1, j), (lbl2, k),
+                            method='GetBinErrorLow')))
+
+            tab.append(row)
+
+        output += formatter(tab, headers)
+        output += '\n\n'
+
+    return output
+
+
+########
+# Main #
+########
+
+GETTERS = {
+    '2': get_th2_content,
+    '3': get_th3_content,
+}
 
 if __name__ == '__main__':
     args = parse_input()
     ntp = ROOT.TFile(args.ntp, "read")
+    formatter = lambda x, y: tabulate(x, headers=y, tablefmt=args.format)
+    getter = GETTERS[args.dimension]
+    lbl0 = args.axis.upper()
 
     print("File: {}, Histo: {}".format(args.ntp, args.histo))
 
     histo = ntp.Get(args.histo)
-    tab, headers = get_th2_content(
-        histo, args.overunder, args.multiline, args.transpose)
-    print(tabulate(tab, headers=headers, tablefmt=args.format))
+    print(getter(
+        histo, args.overunder, args.multiline, args.transpose, lbl0, formatter))
