@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Oct 12, 2021 at 04:10 AM +0200
+# Last Change: Tue Oct 12, 2021 at 04:29 AM +0200
 
 import sys
 import ROOT
@@ -119,7 +119,7 @@ def get_th3_content(histo, overunder=True, multiline=False, transpose=False,
         lbl1, lbl2 = lbl2, lbl1
 
     for i in loop_over_idx(histo, lbl0, overunder):
-        output += '{}, {}\n'.format(lbl0, bin_info(histo, i, lbl0, False))
+        output += '## {}, {}\n'.format(lbl0, bin_info(histo, i, lbl0, False))
         tab = []
         headers = [lbl1 + ' \\ ' + lbl2]
 
