@@ -8,8 +8,8 @@
 #PARTICLE="Pi"
 #CUTS="DLLK < 2.0 & IsMuon == 0.0"
 
-#PARTICLE="Mu"
-PARTICLE="Mu_nopt"
+PARTICLE="Mu"
+#PARTICLE="Mu_nopt"
 CUTS="DLLmu > 2.0 & DLLe < 1.0 & IsMuon == 1.0"
 
 lb-conda pidcalib pidcalib2.make_eff_hists \
