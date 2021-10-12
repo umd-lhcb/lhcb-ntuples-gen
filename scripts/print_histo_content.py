@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Oct 11, 2021 at 11:30 PM +0200
+# Last Change: Tue Oct 12, 2021 at 02:10 AM +0200
 
 import sys
 import ROOT
@@ -34,22 +34,30 @@ def parse_input():
     return parser.parse_args()
 
 
-def bin_info(histo, bin_idx, bin_idx_max,
-             axis=lambda x: x.GetXaxis(), multiline=True):
+def bin_info(histo, bin_idx, bin_lbl, multiline=True):
+    bin_idx_max = getattr(histo, 'GetNbins{}'.format(bin_lbl.upper()))()
+    axis = getattr(histo, 'Get{}axis'.format(bin_lbl.upper()))()
+
     if bin_idx == 0:
         lbl = '(U)'
     elif bin_idx == bin_idx_max + 1:
         lbl = '(O)'
     else:
-        lbl = '({:.1f})'.format(axis(histo).GetBinCenter(bin_idx))
+        lbl = '({:.1f})'.format(axis.GetBinCenter(bin_idx))
 
     fmt = '{} \n {}' if multiline else '{} {}'
 
     return fmt.format(bin_idx, lbl)
 
 
-def get_other_bins(idx, others=['x', 'y', 'z']):
-    return [b for b in others if b != idx]
+def get_other_bins(lbl, others=['x', 'y', 'z']):
+    return [b for b in others if b != lbl]
+
+
+def loop_over_idx(histo, lbl, overunder=True):
+    (lower, upper) = (0, 2) if overunder else (1, 1)
+    idx_max = getattr(histo, "GetNbins{}".format(lbl.upper()))()
+    return range(lower, idx_max+upper)
 
 
 def get_th2_content(histo, overunder=True, multiline=False, transpose=False):
@@ -64,18 +72,15 @@ def get_th2_content(histo, overunder=True, multiline=False, transpose=False):
     for y in range(lower, y_max+upper):
         row = []
         if not transpose:
-            first_col.append(
-                bin_info(histo, y, y_max, lambda x: x.GetYaxis(), False))
+            first_col.append(bin_info(histo, y, 'y', False))
         else:
-            headers.append(
-                bin_info(histo, y, y_max, lambda x: x.GetYaxis(),
-                         multiline=multiline))
+            headers.append(bin_info(histo, y, 'y', multiline=multiline))
 
         for x in range(lower, x_max+upper):
             if not transpose:
-                headers.append(bin_info(histo, x, x_max, multiline=multiline))
+                headers.append(bin_info(histo, x, 'x', multiline=multiline))
             else:
-                first_col.append(bin_info(histo, x, x_max, multiline=False))
+                first_col.append(bin_info(histo, x, 'x', multiline=False))
 
             row.append('{:.2f} ± {:.2f}'.format(
                 histo.GetBinContent(x, y), histo.GetBinErrorLow(x, y)))
