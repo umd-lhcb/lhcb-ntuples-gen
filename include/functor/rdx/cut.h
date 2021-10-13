@@ -1,6 +1,6 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Tue Oct 05, 2021 at 02:38 PM +0200
+// Last Change: Wed Oct 13, 2021 at 01:16 PM +0200
 // NOTE: All kinematic variables are in MeV
 
 #ifndef _LNG_FUNCTOR_RDX_CUT_H_
@@ -209,18 +209,10 @@ Bool_t FLAG_SEL_BMINUSD0_RUN1(Bool_t flag_sel_d0, Bool_t flag_sel_mu,
                               Double_t b_fd_trans,
                               Double_t b_dira,
                               Double_t b_m,
-                              Double_t mu_px, Double_t mu_py, Double_t mu_pz,
-                              Double_t d0_px, Double_t d0_py, Double_t d0_pz,
-                              Double_t d0_m, Double_t dst_veto_deltam) {
+                              Double_t d0_m_pi_m, Double_t d0_m,
+                              Double_t dst_veto_deltam) {
   // clang-format on
-  const Double_t pi_m      = 139.57;
   const Double_t d0_m_diff = 165.0;
-
-  // Alternative mass hypothesis, where we now assume Muon is a Pion
-  auto v4_mu_pi_m = ROOT::Math::PxPyPzMVector(mu_px, mu_py, mu_pz, pi_m);
-  auto v4_d0      = ROOT::Math::PxPyPzMVector(d0_px, d0_py, d0_pz, d0_m);
-  auto v4_d0_pi_m = v4_mu_pi_m + v4_d0;
-  auto d0_m_pi_m  = v4_d0_pi_m.M();
 
   // clang-format off
   if (/* Daughter particles */
@@ -228,7 +220,7 @@ Bool_t FLAG_SEL_BMINUSD0_RUN1(Bool_t flag_sel_d0, Bool_t flag_sel_mu,
       /* FD */
       b_fd_trans < 7.0 &&
       /* Vertex quality */
-      b_endvtx_chi2/b_endvtx_ndof < 6.0 && b_dira > 0.9995 &&
+      b_endvtx_chi2 / b_endvtx_ndof < 6.0 && b_dira > 0.9995 &&
       /* Mass */
       b_m < 5200.0 &&
       /* Replace Muon mass hypothesis */
@@ -239,6 +231,37 @@ Bool_t FLAG_SEL_BMINUSD0_RUN1(Bool_t flag_sel_d0, Bool_t flag_sel_mu,
     // clang-format on
     return true;
   return false;
+}
+
+// clang-format off
+Bool_t FLAG_SEL_BMINUSD0_RUN1(Bool_t flag_sel_d0, Bool_t flag_sel_mu,
+                              Double_t b_endvtx_chi2, Double_t b_endvtx_ndof,
+                              Double_t b_fd_trans,
+                              Double_t b_dira,
+                              Double_t b_m,
+                              Double_t mu_px, Double_t mu_py, Double_t mu_pz,
+                              Double_t d0_px, Double_t d0_py, Double_t d0_pz,
+                              Double_t d0_m, Double_t dst_veto_deltam) {
+  // clang-format on
+  const Double_t pi_m = 139.57;
+
+  // Alternative mass hypothesis, where we now assume Muon is a Pion
+  auto v4_mu_pi_m = ROOT::Math::PxPyPzMVector(mu_px, mu_py, mu_pz, pi_m);
+  auto v4_d0      = ROOT::Math::PxPyPzMVector(d0_px, d0_py, d0_pz, d0_m);
+  auto v4_d0_pi_m = v4_mu_pi_m + v4_d0;
+  auto d0_m_pi_m  = v4_d0_pi_m.M();
+
+  // clang-format off
+  return FLAG_SEL_BMINUSD0_RUN1(
+      flag_sel_d0, flag_sel_mu,
+      b_endvtx_chi2, b_endvtx_ndof,
+      b_fd_trans,
+      b_dira,
+      b_m,
+      d0_m_pi_m, d0_m,
+      dst_veto_deltam
+  );
+  // clang-format on
 }
 
 // Selections are based on Run 1 R(D(*)) ANA, v2020.07.31, p.11, Table 8.

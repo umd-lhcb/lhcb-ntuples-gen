@@ -34,20 +34,10 @@ rename:
 #           All events in the step 2 pass gh_prob selection
 #       d0_endvtx_chi2, d0_endvtx_ndof (*_ENDVERTEX_{CHI2/NDOF}):
 #           Not sure if we have it, assuming always true
-#       d0_ip (D0_IP_OWNPV):
-#           Not sure, but assume true
-#       d0_ip_chi2 (D0_IPCHI2_OWNPV):
-#           Not sure, but assume true
 #       d0_fd_chi2 (D0_FDCHI2_OWNPV):
 #           Not sure, but assume true
 #       dst_endvtx_ndof (D0_ENDVERTEX_NDOF):
 #           Not sure, and can't see anything in AddB.C
-#       mu_pid_mu (muplus_PIDmu):
-#           All events in the step 2 pass pid_mu selection
-#       mu_pid_mu (muplus_PIDe):
-#           All events in the step 2 pass pid_e selection
-#       mu_gh_prob (muplus_TRACK_GhostProb):
-#           All events in the step 2 pass ghost probablity selection
 #       Missing all momentum components!
 #       b_endvtx_ndof (Y_ENDVERTEX_NDOF):
 #           All events in the step 2 pass CHI2/NDOF selection
@@ -86,7 +76,7 @@ calculation:
     # Fit variables #
     #################
     el: double; GEV(El)
-    mm2: double; m_nu1  # Already in GeV
+    mm2: double; IF_VAR_EXISTS(D0_ID, GEV2(m_nu1)); m_nu1  # in GeV for D*, in MeV for D0 :-(
     q2: double; GEV2(q2)
 
     #######################
@@ -123,21 +113,14 @@ calculation:
     # Dst
     dst_id: int; Dst_ID
     # D0
-    d0_id: int; SIGN(dst_id)*421  # Faked from D* ID
+    d0_id: int; D0_ID; SIGN(dst_id)*421  # Faked from D* ID
     # K
-    k_is_mu: bool; true
-    k_pid_mu: double; 1.0
     k_pid_k: double; KPID
-    k_pid_e: double; 1.0
     # Pi
-    pi_is_mu: bool; true
-    pi_pid_mu: double; 1.0
     pi_pid_k: double; piPID
-    pi_pid_e: double; 1.0
     # Mu
     mu_is_mu: bool; mu_is
     mu_pid_mu: double; DLLmu
-    mu_pid_k: double; 1.0
     mu_pid_e: double; DLLe
     mu_ubdt: float; BDTmu  # Greg's Mu UBDT PID
 
@@ -145,32 +128,32 @@ calculation:
     # Tracking variables #
     ######################
     # B0/B
-    b0_fd_trans: double; dxy
-    b0_dira: double; Y_DIRA_OWNPV
-    b0_discard_mu_chi2: double; Y_DISCARDMu_CHI2
-    b0_endvtx_chi2: double; Y_ENDVERTEX_CHI2
-    b0_endvtx_ndof: ^double; 1000.0
+    b_endvtx_chi2: double; Y_ENDVERTEX_CHI2; 0.0
+    b_endvtx_ndof: ^double; 1000.0
+    b_dira: double; Y_DIRA_OWNPV
+    b_fd_trans: double; dxy
+    b_discard_mu_chi2: double; Y_DISCARDMu_CHI2
     # D*
     dst_endvtx_chi2: double; Dst_ENDVERTEX_CHI2
     dst_endvtx_ndof: ^double; 1000.0
     # D0
-    d0_dira: double; D0_DIRA_OWNPV
     d0_endvtx_chi2: ^double; 0.0
     d0_endvtx_ndof: ^double; 1.0
-    d0_ip: ^double; 100.0
-    d0_ip_chi2: ^double; 10.0
+    d0_dira: double; D0_DIRA_OWNPV
     d0_fd_chi2: ^double; 500.0
+    d0_ip: ^double; D0IP; 100.0
+    d0_ip_chi2: double; D0IPCHI2; 10.0
     # K
-    k_ip_chi2: ^double; 100.0
     k_gh_prob: ^double; 0.0
+    k_ip_chi2: ^double; 100.0
     # Pi
-    pi_ip_chi2: ^double; 100.0
     pi_gh_prob: ^double; 0.0
+    pi_ip_chi2: ^double; 100.0
     # Slow Pi
     spi_gh_prob: double; pislow_GhostProb
     spi_trk_type: int; piminus_TRACK_Type
     # Mu
-    mu_gh_prob: ^double; 0.0
+    mu_gh_prob: double; GhostProb
     mu_ip_chi2: double; muIPCHI2
     mu_eta: double; mu_ETA
 
@@ -179,7 +162,7 @@ calculation:
     ###################
     # Misc.
     is_data: bool; isData
-    is_std: "bool; is_data && DstIDprod > 0 && IDprod > 0"
+    is_std: "bool; is_data && DstIDprod > 0 && IDprod > 0; is_data"
     is_2011: bool; flag2011
 
     # Trigger
@@ -199,8 +182,7 @@ calculation:
         D0_PT,
         d0_hlt2_tos,
         d0_endvtx_chi2, d0_endvtx_ndof,
-        d0_ip,
-        d0_ip_chi2,
+        d0_ip, d0_ip_chi2,
         d0_dira,
         d0_fd_chi2,
         D0_M
@@ -208,12 +190,24 @@ calculation:
 
     # Mu selection
     trks_ok: "^bool; true"
-    mu_pid_ok: "bool; muPID"
+    mu_pid_ok: bool; FLAG_SEL_MU_PID_OK_RUN1(mu_is_mu, mu_pid_mu, mu_pid_e)
     mu_ok: >-
         bool; FLAG_SEL_MU_RUN1(
         trks_ok, mu_pid_ok,
         mu_P, mu_eta,
         mu_ip_chi2, mu_gh_prob
+        )
+
+    # D0Mu combo selection
+    d0mu_ok: >-
+        bool; FLAG_SEL_BMINUSD0_RUN1(
+        d0_ok, mu_ok,
+        b_endvtx_chi2, b_endvtx_ndof,
+        b_fd_trans,
+        b_dira,
+        Y_M,
+        1000.0, 0.0,
+        dst_veto_deltam
         )
 
     # D*Mu combo selection
@@ -223,9 +217,9 @@ calculation:
         spi_gh_prob,
         dst_endvtx_chi2, dst_endvtx_ndof,
         dst_veto_deltam,
-        b0_endvtx_chi2, b0_endvtx_ndof,
-        b0_fd_trans,
-        b0_dira, Y_M
+        b_endvtx_chi2, b_endvtx_ndof,
+        b_fd_trans,
+        b_dira, Y_M
         )
 
 global_selection:
@@ -233,9 +227,6 @@ global_selection:
     - l0
     - hlt1
     - hlt2
-    # Offline cuts
-    - d0mu_ok
-    - dstmu_ok
     # Cuts on fit variables
     - "-2.0 <= mm2 && mm2 <= 10.0"
     - "0.1 <= el && el <= 2.5"
@@ -248,8 +239,16 @@ one_cand_only:
     branch: calculation_prs_in
 
 output:
-    Dst_D0_data_2011:  # This works for both Phoebe's D* and D0 trees
+    Dst_data_2011:
         input: ntp1
         selection:
             - is_std  # Signature for 'std' reconstruction mode
             - is_2011
+            - dstmu_ok
+
+    D0_data_2011:
+        input: ntp1
+        selection:
+            - is_std
+            - is_2011
+            - d0mu_ok
