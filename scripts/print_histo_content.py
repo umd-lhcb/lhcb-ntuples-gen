@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Oct 13, 2021 at 02:53 PM +0200
+# Last Change: Wed Oct 13, 2021 at 04:19 PM +0200
 
 import sys
 import ROOT
@@ -107,9 +107,13 @@ def get_th2_content(histo, overunder=True, multiline=False, transpose=False,
             headers.append(bin_info(histo, j, lbl1, multiline=multiline))
 
             # Assume symmetric error
-            row.append('{:.2f} ± {:.2f}'.format(
-                get_val(histo, (lbl0, i), (lbl1, j)),
-                get_val(histo, (lbl0, i), (lbl1, j), method='GetBinErrorLow')))
+            val = get_val(histo, (lbl0, i), (lbl1, j))
+            err = get_val(histo, (lbl0, i), (lbl1, j), method='GetBinErrorLow')
+
+            if str(val) != 'nan':
+                row.append('{:.2f} ± {:.2f}'.format(val, err))
+            else:
+                row.append(val)
 
         tab.append(row)
 
@@ -139,10 +143,14 @@ def get_th3_content(histo, overunder=True, multiline=False, transpose=False,
                 headers.append(bin_info(histo, k, lbl2, multiline=multiline))
 
                 # Assume symmetric error
-                row.append('{:.2f} ± {:.2f}'.format(
-                    get_val(histo, (lbl0, i), (lbl1, j), (lbl2, k)),
-                    get_val(histo, (lbl0, i), (lbl1, j), (lbl2, k),
-                            method='GetBinErrorLow')))
+                val = get_val(histo, (lbl0, i), (lbl1, j), (lbl2, k))
+                err = get_val(histo, (lbl0, i), (lbl1, j), (lbl2, k),
+                              method='GetBinErrorLow')
+
+                if str(val) != 'nan':
+                    row.append('{:.2f} ± {:.2f}'.format(val, err))
+                else:
+                    row.append(val)
 
             tab.append(row)
 
