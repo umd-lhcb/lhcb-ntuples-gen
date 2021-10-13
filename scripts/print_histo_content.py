@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Oct 13, 2021 at 02:45 PM +0200
+# Last Change: Wed Oct 13, 2021 at 02:53 PM +0200
 
 import sys
 import ROOT
@@ -39,6 +39,8 @@ def parse_input():
 
     parser.add_argument('-A', '--axis', default='Y',
                         help='specify axis to slice for TH3.')
+
+    parser.add_argument('--aliases', nargs='+', default=['p', 'η', 'nTrk'])
 
     return parser.parse_args()
 
@@ -91,10 +93,11 @@ def get_val(histo, *bin_spec, method='GetBinContent'):
 
 def get_th2_content(histo, overunder=True, multiline=False, transpose=False,
                     lbl0='Y',
-                    formatter=lambda x, y: tabulate(x, headers=y)):
+                    formatter=lambda x, y: tabulate(x, headers=y),
+                    aliases=dict()):
     lbl0, lbl1 = ['Y', 'X'] if not transpose else ['X', 'Y']
     tab = []
-    headers = [lbl0 + ' \\ ' + lbl1]
+    headers = [aliases[lbl0] + ' \\ ' + aliases[lbl1]]
 
     for i in loop_over_idx(histo, lbl0, overunder):
         row = []
@@ -115,16 +118,18 @@ def get_th2_content(histo, overunder=True, multiline=False, transpose=False,
 
 def get_th3_content(histo, overunder=True, multiline=False, transpose=False,
                     lbl0='Y',
-                    formatter=lambda x, y: tabulate(x, headers=y)):
+                    formatter=lambda x, y: tabulate(x, headers=y),
+                    aliases=dict()):
     output = 'Slicing axis: {}\n\n'.format(lbl0)
     lbl1, lbl2 = get_other_lbls(lbl0)
     if transpose:
         lbl1, lbl2 = lbl2, lbl1
 
     for i in loop_over_idx(histo, lbl0, overunder):
-        output += '## {}, {}\n'.format(lbl0, bin_info(histo, i, lbl0, False))
+        output += '## {}, {}\n'.format(
+            aliases[lbl0], bin_info(histo, i, lbl0, False))
         tab = []
-        headers = [lbl1 + ' \\ ' + lbl2]
+        headers = [aliases[lbl1] + ' \\ ' + aliases[lbl2]]
 
         for j in loop_over_idx(histo, lbl1, overunder):
             row = []
@@ -162,9 +167,11 @@ if __name__ == '__main__':
     formatter = lambda x, y: tabulate(x, headers=y, tablefmt=args.format)
     getter = GETTERS[args.dimension]
     lbl0 = args.axis.upper()
+    aliases = dict(zip(['X', 'Y', 'Z'], args.aliases))
 
     print("File: {}, Histo: {}".format(args.ntp, args.histo))
 
     histo = ntp.Get(args.histo)
     print(getter(
-        histo, args.overunder, args.multiline, args.transpose, lbl0, formatter))
+        histo, args.overunder, args.multiline, args.transpose, lbl0,
+        formatter, aliases))
