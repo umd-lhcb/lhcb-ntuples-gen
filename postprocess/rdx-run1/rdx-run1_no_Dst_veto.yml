@@ -175,9 +175,11 @@ calculation:
         k_IPCHI2_OWNPV, pi_IPCHI2_OWNPV,
         k_TRACK_GhostProb, pi_TRACK_GhostProb,
         d0_PT, d0_Hlt2CharmHadD02HH_D02KPiDecision_TOS,
-        d0_ENDVERTEX_NDOF, d0_ENDVERTEX_CHI2,
+        d0_ENDVERTEX_CHI2, d0_ENDVERTEX_NDOF,
         d0_IP_OWNPV, d0_IPCHI2_OWNPV,
-        d0_DIRA_OWNPV, d0_FDCHI2_OWNPV, d0_M
+        d0_DIRA_OWNPV,
+        d0_FDCHI2_OWNPV,
+        d0_M
         )
 
     # Mu selection
