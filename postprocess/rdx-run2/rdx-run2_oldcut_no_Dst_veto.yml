@@ -175,10 +175,13 @@ calculation:
         k_Hlt1TrackMVADecision_TOS, pi_Hlt1TrackMVADecision_TOS,
         k_IPCHI2_OWNPV, pi_IPCHI2_OWNPV,
         k_TRACK_GhostProb, pi_TRACK_GhostProb,
-        d0_PT, true,
-        d0_ENDVERTEX_NDOF, d0_ENDVERTEX_CHI2,
+        d0_PT,
+        true,
+        d0_ENDVERTEX_CHI2, d0_ENDVERTEX_NDOF,
         d0_IP_OWNPV, d0_IPCHI2_OWNPV,
-        d0_DIRA_OWNPV, d0_FDCHI2_OWNPV, d0_M
+        d0_DIRA_OWNPV,
+        d0_FDCHI2_OWNPV,
+        d0_M
         )
 
     # Mu selection
@@ -200,6 +203,7 @@ calculation:
         )
 
     # D0Mu combo selection
+    d0_dst_veto_ok: bool; dst_veto_deltam > 4
     d0mu_ok: >-
         bool; FLAG_SEL_BMINUSD0_RUN1(
         d0_ok, mu_ok,
@@ -209,7 +213,7 @@ calculation:
         b_M,
         mu_PX, mu_PY, mu_PZ,
         d0_PX, d0_PY, d0_PZ, d0_M,
-        dst_veto_deltam
+        100.0
         )
 
     # D*Mu combo selection
