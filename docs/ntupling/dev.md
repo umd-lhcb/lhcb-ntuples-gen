@@ -84,13 +84,13 @@ Each analysis can have many workflows. For example RDX run 2 has
         'rdx-ntuple-run2-data-oldcut': lambda name: workflow_data(
             name,
             '../ntuples/0.9.4-trigger_emulation/Dst_D0-std',
-            '../postprocess/rdx-run2/rdx-run2_with_run1_cuts.yml',
+            '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
             executor=executor
         ),
         'rdx-ntuple-run2-mc-demo': lambda name: workflow_mc(
             name,
             '../run2-rdx/samples/Dst_D0--21_07_30--mc--Bd2DstMuNu--2016--md--py8-sim09j-dv45-subset.root',
-            '../postprocess/rdx-run2/rdx-run2_with_run1_cuts.yml',
+            '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
             output_ntp_name_gen=parse_step2_name,
             executor=executor
         ),

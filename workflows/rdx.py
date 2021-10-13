@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Oct 13, 2021 at 12:06 AM +0200
+# Last Change: Wed Oct 13, 2021 at 02:36 AM +0200
 
 import sys
 import os
@@ -164,13 +164,13 @@ JOBS = {
     'rdx-ntuple-run2-data-oldcut': lambda name: workflow_data(
         name,
         '../ntuples/0.9.5-bugfix/Dst_D0-cutflow_data',
-        '../postprocess/rdx-run2/rdx-run2_with_run1_cuts.yml',
+        '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
         executor=executor
     ),
     'rdx-ntuple-run2-mc-demo': lambda name: workflow_mc(
         name,
         '../run2-rdx/samples/Dst_D0--21_07_30--mc--Bd2DstMuNu--2016--md--py8-sim09j-dv45-subset.root',
-        '../postprocess/rdx-run2/rdx-run2_with_run1_cuts.yml',
+        '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
         output_ntp_name_gen=parse_step2_name,
         executor=executor
     ),
@@ -181,7 +181,7 @@ JOBS = {
             '../ntuples/0.9.4-trigger_emulation/Dst_D0-std/',
             '../ntuples/0.9.5-bugfix/Dst_D0-cutflow_data',
         ],
-        '../postprocess/rdx-run2/rdx-run2_with_run1_cuts_no_Dst_veto.yml',
+        '../postprocess/rdx-run2/rdx-run2_oldcut_no_Dst_veto.yml',
         executor=executor
     ),
     # Run 1
