@@ -1,6 +1,6 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Wed Oct 13, 2021 at 12:04 AM +0200
+// Last Change: Wed Oct 13, 2021 at 02:13 AM +0200
 
 #ifndef _LNG_FUNCTOR_BASIC_H_
 #define _LNG_FUNCTOR_BASIC_H_
@@ -40,6 +40,11 @@ T MIN(T arg0, ARGS... args) {
   for (auto val : vec)
     if (val < result) result = val;
   return result;
+}
+
+template <typename T>
+Int_t SIGN(T num) {
+  return static_cast<Int_t>(ABS(num) / num);
 }
 
 // Boolean /////////////////////////////////////////////////////////////////////
