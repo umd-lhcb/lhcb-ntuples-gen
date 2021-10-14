@@ -171,7 +171,7 @@ calculation:
     hlt2: "bool; d0_hlt2_tos"
 
     # D0 selection
-    d0_pid_ok: "bool; !muVeto"
+    d0_pid_ok: bool; FLAG_SEL_D0_PID_OK_RUN1(k_pid_k, pi_pid_k, muVeto, muVeto)
     d0_ok: >-
         bool; FLAG_SEL_D0_RUN1(
         d0_pid_ok,
@@ -207,7 +207,7 @@ calculation:
         b_fd_trans,
         b_dira,
         Y_M,
-        1000.0, 0.0,
+        Mmu2pismearpi_eCut, D0_M,
         dst_veto_deltam
         )
 
