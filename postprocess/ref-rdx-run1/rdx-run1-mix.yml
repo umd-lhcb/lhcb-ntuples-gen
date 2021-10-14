@@ -191,6 +191,7 @@ calculation:
     # Mu selection
     trks_ok: "^bool; true"
     mu_pid_ok: bool; FLAG_SEL_MU_PID_OK_RUN1(mu_is_mu, mu_pid_mu, mu_pid_e)
+    mu_ubdt_ok: bool; FLAG_SEL_MU_UBDT_OK_RUN1(mu_ubdt)
     mu_ok: >-
         bool; FLAG_SEL_MU_RUN1(
         trks_ok, mu_pid_ok,
@@ -220,6 +221,40 @@ calculation:
         b_endvtx_chi2, b_endvtx_ndof,
         b_fd_trans,
         b_dira, Y_M
+        )
+
+    # Skims
+    is_iso: bool; FLAG_ISO(mu_ubdt_ok, iso_bdt1)
+    is_dd: >-
+        bool; FLAG_DD(
+        mu_ubdt_ok,
+        iso_bdt1, iso_bdt2, iso_bdt2, iso_type1, iso_type2, iso_type3,
+        iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+        iso_nnk1, iso_nnk2, iso_nnk3
+        )
+    is_2os: >-
+        bool; FLAG_2OS(
+        mu_ubdt_ok,
+        iso_bdt1, iso_bdt2, iso_bdt3, iso_type1, iso_type2,
+        iso_p1, iso_p2, iso_pt1, iso_pt2,
+        iso_chrg1, iso_chrg2,
+        iso_nnk1, iso_nnk2
+        )
+    is_1os: >-
+        bool; FLAG_1OS(
+        mu_ubdt_ok,
+        iso_bdt1, iso_bdt2, iso_type1,
+        iso_p1, iso_pt1,
+        iso_chrg1,
+        iso_nnk1,
+        dst_id, dst_iso_deltam
+        ); FLAG_1OS(
+        mu_ubdt_ok,
+        iso_bdt1, iso_bdt2, iso_type1,
+        iso_p1, iso_pt1,
+        iso_chrg1,
+        iso_nnk1,
+        d0_id
         )
 
 global_selection:
