@@ -274,16 +274,14 @@ one_cand_only:
     branch: calculation_prs_in
 
 output:
-    Dst_data_2011:
+    Dst_data:
         input: ntp1
         selection:
             - is_std  # Signature for 'std' reconstruction mode
-            - is_2011
             - dstmu_ok
 
-    D0_data_2011:
+    D0_data:
         input: ntp1
         selection:
             - is_std
-            - is_2011
             - d0mu_ok
