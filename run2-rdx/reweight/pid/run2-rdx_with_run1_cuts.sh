@@ -15,7 +15,7 @@ for year in 15 16 17 18; do
                 --output-dir pidcalib_output \
                 --sample "Turbo${year}" --magnet ${polarity} \
                 --particle ${part} --pid-cut "${SAMPLES[${part}]}" \
-                --bin-var P --bin-var ETA --bin-var nTracks
+                --bin-var P --bin-var ETA --bin-var nTracks_Brunel
         done
     done
 done
