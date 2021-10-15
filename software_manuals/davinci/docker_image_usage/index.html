@@ -1083,10 +1083,11 @@ are using a <code>DaVinci</code> image with a <code>-SL</code> suffix.</p>
 <p>To make our lives easier, a <code>run.sh</code> command is typically created in each
 stripping lines, such as:
 <div class="highlight"><pre><span></span><code>run1-rdx/run.sh
+run2-rdx/run.sh
 </code></pre></div></p>
 <p>If you see this file, take a look at it to see the availabe commands, and
 run it inside the <code>docker</code> container:
-<div class="highlight"><pre><span></span><code>./run.sh &lt;path_to_reco_file&gt; &lt;path_to_cond_file&gt;  <span class="c1"># inside docker</span>
+<div class="highlight"><pre><span></span><code>./run.sh &lt;path_to_cond_file&gt;  <span class="c1"># inside docker</span>
 </code></pre></div>
 optionally, a <code>debug</code> flag can be supplied so that only the first couple of
 events will be considered.</p>
