@@ -44,12 +44,13 @@ run gaudirun.py <ntuple_options1> <ntuple_options2> ...
     stripping lines, such as:
     ```
     run1-rdx/run.sh
+    run2-rdx/run.sh
     ```
 
     If you see this file, take a look at it to see the availabe commands, and
     run it inside the `docker` container:
     ```bash
-    ./run.sh <path_to_reco_file> <path_to_cond_file>  # inside docker
+    ./run.sh <path_to_cond_file>  # inside docker
     ```
     optionally, a `debug` flag can be supplied so that only the first couple of
     events will be considered.
