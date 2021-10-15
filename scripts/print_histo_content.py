@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Oct 13, 2021 at 04:19 PM +0200
+# Last Change: Sat Oct 16, 2021 at 12:03 AM +0200
 
 import sys
 import ROOT
@@ -124,7 +124,7 @@ def get_th3_content(histo, overunder=True, multiline=False, transpose=False,
                     lbl0='Y',
                     formatter=lambda x, y: tabulate(x, headers=y),
                     aliases=dict()):
-    output = 'Slicing axis: {}\n\n'.format(lbl0)
+    output = 'Slicing axis: {}\n\n'.format(aliases[lbl0])
     lbl1, lbl2 = get_other_lbls(lbl0)
     if transpose:
         lbl1, lbl2 = lbl2, lbl1
