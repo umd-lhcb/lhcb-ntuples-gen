@@ -2,12 +2,8 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Oct 18, 2021 at 06:14 PM +0200
-# Description: Merge and apply cuts on input .root files, each with multiple
-#              trees, to a single output .root file.
-#
-#              Note that this is still based on Python 2, because on lxplus,
-#              ROOT is compiled with Python 2 only.
+# Last Change: Tue Oct 19, 2021 at 12:03 AM +0200
+# Description: Apply weights from histos.
 
 import ROOT
 ROOT.PyConfig.IgnoreCommandLineOptions = True  # Don't hijack argparse!
