@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri Oct 08, 2021 at 03:22 PM +0200
+# Last Change: Mon Oct 18, 2021 at 02:59 PM +0200
 
 import re
 import yaml
@@ -133,6 +133,26 @@ def run_cmd_with_output(cmd):
 ################################
 # Ntuple filename manipulation #
 ################################
+
+def find_year(filename):
+    search = re.search(r'_Collision(\d\d)_', filename)
+
+    if not search:
+        search = re.search(r'--20(\d\d[-\d]*)--', filename)
+
+    if not search:
+        raise ValueError("Can't find year from {}!".format(filename))
+
+    return '20' + search.group(1)
+
+
+def find_polarity(filename):
+    if 'MagDown' in filename or '--md--' in filename:
+        return 'md'
+    if 'MagUp' in filename or '--mu--' in filename:
+        return 'mu'
+    return 'md-mu'
+
 
 def generate_step2_name(ntp_name):
     try:
