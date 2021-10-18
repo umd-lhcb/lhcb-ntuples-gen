@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Oct 13, 2021 at 03:38 AM +0200
+# Last Change: Mon Oct 18, 2021 at 03:21 PM +0200
 
 import sys
 import os
@@ -19,6 +19,7 @@ sys.path.insert(0, op.dirname(op.abspath(__file__)))
 from utils import (
     run_cmd_wrapper,
     append_path, abs_path, ensure_dir, find_all_input, aggragate_output,
+    find_year, find_polarity,
     generate_step2_name, parse_step2_name,
     workflow_compile_cpp, workflow_cached_ntuple
 )
@@ -66,6 +67,21 @@ def workflow_hammer(input_ntp,
     cmd = ['ReweightRDX '+input_ntp+' hammer.root '+t+' '+run for t in trees]
     workflow_cached_ntuple(
         cmd, input_ntp, output_ntp='hammer.root', cache_suffix='__aux_hammer',
+        **kwargs)
+
+
+def workflow_pid(input_ntp, pid_histo_folder, config, **kwargs):
+    pid_histo_folder = abs_path(pid_histo_folder)
+    config = abs_path(config)
+
+    year = find_year(input_ntp)
+    polarity = find_polarity(input_ntp)
+
+    # This is in 'scripts' folder!
+    cmd = 'apply_histo_weight.py {} {} pid.root -c {} --year {} --polarity {}'.format(
+        input_ntp, pid_histo_folder, config, year, polarity)
+    workflow_cached_ntuple(
+        cmd, input_ntp, output_ntp='pid.root', cache_suffix='__aux_pid',
         **kwargs)
 
 
@@ -125,7 +141,10 @@ def workflow_data(job_name, inputs, input_yml,
 
 
 def workflow_mc(job_name, inputs, input_yml,
-                output_ntp_name_gen=generate_step2_name, **kwargs):
+                output_ntp_name_gen=generate_step2_name,
+                pid_histo_folder='../run2-rdx/reweight/pid/root-run2-rdx_oldcut',
+                config='../run2-rdx/reweight/pid/run2-rdx_oldcut.yml',
+                **kwargs):
     subworkdirs, workdir, executor = workflow_data_mc(
         job_name, inputs, **kwargs)
     chdir(workdir)
@@ -138,6 +157,9 @@ def workflow_mc(job_name, inputs, input_yml,
 
         # Generate a HAMMER ntuple
         workflow_hammer(input_ntp, executor=executor)
+
+        # Generate PID weights
+        workflow_pid(input_ntp, pid_histo_folder, config)
 
         executor('babymaker -i {} -o baby.cpp -n {} -t {} -f hammer.root'.format(
             abs_path(input_yml), input_ntp, cpp_template))
