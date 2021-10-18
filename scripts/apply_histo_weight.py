@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Oct 18, 2021 at 03:25 PM +0200
+# Last Change: Mon Oct 18, 2021 at 04:59 PM +0200
 # Description: Merge and apply cuts on input .root files, each with multiple
 #              trees, to a single output .root file.
 #
@@ -141,6 +141,18 @@ Double_t GET_WEIGHT(Double_t x, Double_t y, Double_t z, TH3D* histo) {
   if (isnan(wt) || wt < 0) return -999.0;
   return wt;
 }
+
+Int_t GET_BIN(Double_t x, TH1D* histo) {
+  return histo->FindBin(x);
+}
+
+Int_t GET_BIN(Double_t x, Double_t y, TH2D* histo) {
+  return histo->FindBin(x, y);
+}
+
+Int_t GET_BIN(Double_t x, Double_t y, Double_t z, TH3D* histo) {
+  return histo->FindBin(x, y, z);
+}
 ''')
 
 
@@ -198,7 +210,9 @@ if __name__ == '__main__':
                 args.year, args.polarity, directive['particle'],
                 histo_name, histo_dim, histos, loaded_histos)
             wt_frame = frames[-1].Define(
-                br, 'GET_WEIGHT({}, {})'.format(params, wt_histo))
+                br, 'GET_WEIGHT({}, {})'.format(params, wt_histo)).Define(
+                    'debug_{}_bin_idx'.format(br), 'GET_BIN({}, {})'.format(
+                        params, wt_histo))
             frames.append(wt_frame)
 
             output_brs.push_back(br)
