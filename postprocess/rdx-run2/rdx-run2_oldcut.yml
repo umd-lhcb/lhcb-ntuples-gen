@@ -9,6 +9,7 @@ keep:
     - runNumber
     - eventNumber
     - GpsTime
+    - "wpid*"
 
 rename:
     runNumber: run

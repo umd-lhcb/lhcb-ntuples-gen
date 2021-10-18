@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Oct 18, 2021 at 03:21 PM +0200
+# Last Change: Mon Oct 18, 2021 at 03:26 PM +0200
 
 import sys
 import os
@@ -159,9 +159,9 @@ def workflow_mc(job_name, inputs, input_yml,
         workflow_hammer(input_ntp, executor=executor)
 
         # Generate PID weights
-        workflow_pid(input_ntp, pid_histo_folder, config)
+        workflow_pid(input_ntp, pid_histo_folder, config, executor=executor)
 
-        executor('babymaker -i {} -o baby.cpp -n {} -t {} -f hammer.root'.format(
+        executor('babymaker -i {} -o baby.cpp -n {} -t {} -f hammer.root pid.root'.format(
             abs_path(input_yml), input_ntp, cpp_template))
         workflow_compile_cpp('baby.cpp', executor=executor)
 
