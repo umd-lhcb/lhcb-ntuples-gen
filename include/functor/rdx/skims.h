@@ -1,6 +1,6 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Sat Oct 09, 2021 at 12:13 AM +0200
+// Last Change: Tue Oct 19, 2021 at 01:59 AM +0200
 // NOTE: All kinematic variables are in MeV
 
 #ifndef _LNG_FUNCTOR_RDX_SKIMS_H_
@@ -15,6 +15,10 @@
 
 Bool_t FLAG_ISO(Bool_t add_flags, Double_t iso_bdt1) {
   return add_flags && iso_bdt1 < 0.15;
+}
+
+Double_t WT_ISO(Bool_t add_flags, Double_t iso_bdt1) {
+  return static_cast<Double_t>(FLAG_ISO(add_flags, iso_bdt1));
 }
 
 // clang-format off
@@ -35,6 +39,36 @@ Bool_t FLAG_DD(Bool_t add_flags,
                           iso_p3 * (iso_pt3 > 0.15) * (iso_bdt3 > -1.1)) > 5.0;
 
   return add_flags && (iso_bdt1 > 0.15) && pid_ok && kinematic_ok;
+}
+
+// clang-format off
+Double_t WT_DD(Bool_t add_flags,
+               Double_t iso_bdt1, Double_t iso_bdt2, Double_t iso_bdt3,
+               Int_t iso_type1, Int_t iso_type2, Int_t iso_type3,
+               Float_t iso_p1, Float_t iso_p2, Float_t iso_p3,
+               Float_t iso_pt1, Float_t iso_pt2, Float_t iso_pt3,
+               Double_t iso_nnk1_wt, Double_t iso_nnk2_wt, Double_t iso_nnk3_wt) {
+  // clang-format on
+  auto kinematic_ok = MAX(iso_p1 * (iso_pt1 > 0.15),
+                          iso_p2 * (iso_pt2 > 0.15) * (iso_bdt2 > -1.1),
+                          iso_p3 * (iso_pt3 > 0.15) * (iso_bdt3 > -1.1)) > 5.0;
+  auto prefac =
+      static_cast<Double_t>(kinematic_ok && add_flags && iso_bdt1 > 0.15);
+
+  // This is to translate the 'MAX' PID lines.
+  // Think in terms of Venn diagram!
+  // Don't know why Phoebe chose '-2' instead of '-1.1' in her code:
+  //   https://gitlab.cern.ch/bhamilto/rdvsrdst-histfactory/-/blob/master/proc/redoHistos_Dst.C#L1603
+  iso_nnk1_wt = IF(iso_bdt1 <= -1.1, 0.0, iso_nnk1_wt) * (iso_type1 == 3);
+  iso_nnk2_wt = IF(iso_bdt2 <= -1.1, 0.0, iso_nnk2_wt) * (iso_type2 == 3);
+  iso_nnk3_wt = IF(iso_bdt3 <= -1.1, 0.0, iso_nnk3_wt) * (iso_type3 == 3);
+
+  Double_t wt_pid = iso_nnk1_wt + iso_nnk2_wt + iso_nnk3_wt -
+                    iso_nnk1_wt * iso_nnk2_wt - iso_nnk1_wt * iso_nnk3_wt -
+                    iso_nnk2_wt * iso_nnk3_wt +
+                    iso_nnk1_wt * iso_nnk2_wt * iso_nnk3_wt;
+
+  return prefac * wt_pid;
 }
 
 // clang-format off
