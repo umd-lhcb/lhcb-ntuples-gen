@@ -1,22 +1,23 @@
-trees:
+trees:  # This is optional
     - TupleB0/DecayTree
     - TupleBminus/DecayTree
 
 config:
     wpid_mu:
-        histo_glob: Mu_nopt
+        histo_name: eff  # This is optional. Declared here for demonstration only
+        particle: Mu_nopt
         vars:
             - mu_PT
             - ETA(mu_P, mu_PZ)
             - nTracks
     wpid_k:
-        histo_glob: K
+        particle: K
         vars:
             - k_PT
             - ETA(k_P, k_PZ)
             - nTracks
     wpid_pi:
-        histo_glob: Pi
+        particle: Pi
         vars:
             - pi_PT
             - ETA(pi_P, pi_PZ)
