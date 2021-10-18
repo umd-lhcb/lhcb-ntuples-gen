@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Oct 18, 2021 at 02:59 PM +0200
+# Last Change: Mon Oct 18, 2021 at 03:39 PM +0200
 
 import re
 import yaml
@@ -139,6 +139,9 @@ def find_year(filename):
 
     if not search:
         search = re.search(r'--20(\d\d[-\d]*)--', filename)
+
+    if not search:
+        search = re.search(r'MC_20(\d\d)_', filename)
 
     if not search:
         raise ValueError("Can't find year from {}!".format(filename))
