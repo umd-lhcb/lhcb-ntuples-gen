@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Oct 18, 2021 at 03:52 AM +0200
+# Last Change: Mon Oct 18, 2021 at 12:50 PM +0200
 # Description: Merge and apply cuts on input .root files, each with multiple
 #              trees, to a single output .root file.
 #
@@ -178,6 +178,7 @@ if __name__ == '__main__':
     loaded_histos = dict()
     output_opts = RSnapshotOptions()
     output_opts.fMode = 'UPDATE'
+    first_write = True
 
     for tree in config['trees']:
         print('Processing tree {}...'.format(tree))
@@ -201,4 +202,8 @@ if __name__ == '__main__':
 
             output_brs.push_back(br)
 
-        frames[-1].Snapshot(tree, args.output_ntp, output_brs, output_opts)
+        if first_write:
+            frames[-1].Snapshot(tree, args.output_ntp, output_brs)
+            first_write = False
+        else:
+            frames[-1].Snapshot(tree, args.output_ntp, output_brs, output_opts)
