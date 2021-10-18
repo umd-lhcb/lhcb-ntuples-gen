@@ -5,21 +5,20 @@ trees:  # This is optional
 config:
     wpid_mu:
         histo_name: eff  # This is optional. Declared here for demonstration only
-        #particle: Mu_nopt
-        particle: Mu
+        particle: Mu_nopt
         vars:
-            - mu_PT
+            - mu_P
             - ETA(mu_P, mu_PZ)
             - nTracks
     wpid_k:
         particle: K
         vars:
-            - k_PT
+            - k_P
             - ETA(k_P, k_PZ)
             - nTracks
     wpid_pi:
         particle: Pi
         vars:
-            - pi_PT
+            - pi_P
             - ETA(pi_P, pi_PZ)
             - nTracks
