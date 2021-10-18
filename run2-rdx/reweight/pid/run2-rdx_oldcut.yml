@@ -5,7 +5,8 @@ trees:  # This is optional
 config:
     wpid_mu:
         histo_name: eff  # This is optional. Declared here for demonstration only
-        particle: Mu_nopt
+        #particle: Mu_nopt
+        particle: Mu
         vars:
             - mu_PT
             - ETA(mu_P, mu_PZ)

@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Oct 18, 2021 at 03:20 AM +0200
+# Last Change: Mon Oct 18, 2021 at 03:47 AM +0200
 # Description: Merge and apply cuts on input .root files, each with multiple
 #              trees, to a single output .root file.
 #
@@ -91,9 +91,10 @@ def glob_histos(root_dir):
     return glob('{}/*.root'.format(root_dir))
 
 
-def find_histo(histos, year, polarity, name):
+def find_histo(histos, year, polarity, particle):
     # Always return the first match
-    return [h for h in histos if year in h and polarity in h and name in h][0]
+    return [h for h in histos
+            if year in h and polarity in h and particle in h][0]
 
 
 ###############
@@ -142,14 +143,27 @@ Double_t GET_WEIGHT(Double_t x, Double_t y, Double_t z, TH3D* histo) {
 ''')
 
 
-def load_histo(year, polarity, particle):
-    gInterpreter.Declare('ntp_histo = new TFile("{}", "read");'.format(
-        histo_ntp))
+def load_histo(year, polarity, particle, histo_name, histo_dim,
+               histos, loaded_histos):
+    histo_lbl = '_'.join([year, polarity, particle])
 
+    if histo_lbl in loaded_histos:
+        return loaded_histos[histo_lbl]
+
+    try:
+        ntp_filename = find_histo(histos, year, polarity, particle)
+    except IndexError:
+        raise(ValueError('Histo {} cannot be loaded! Abort!'.format(histo_lbl)))
+
+    gInterpreter.Declare('auto ntp_{} = new TFile("{}", "read");'.format(
+        histo_lbl, ntp_filename))
     gInterpreter.Declare('''
-        histo_{dim}d = dynamic_cast<TH{dim}D*>(ntp_histo->Get("{name}"));
-        '''.format(dim=dimension, name=histo_name)
+        auto histo_{lbl} = dynamic_cast<TH{dim}D*>(ntp_{lbl}->Get("{name}"));
+        '''.format(lbl=histo_lbl, dim=histo_dim, name=histo_name)
     )
+
+    loaded_histos[histo_lbl] = 'histo_' + histo_lbl
+    return loaded_histos[histo_lbl]
 
 
 ########
@@ -163,26 +177,25 @@ if __name__ == '__main__':
     loaded_histos = dict()
 
     for tree in config['trees']:
+        print('Processing tree {}...'.format(tree))
         init_frame = RDataFrame(tree, args.input_ntp)
         frames = [init_frame]
+        output_brs = vector('string')(['runNumber', 'eventNumber'])
 
-        for br, directive in config['config']:
-            args = ', '.join(directive['vars'])
+        for br, directive in config['config'].items():
+            print('Processing {}...'.format(br))
+            params = ', '.join(directive['vars'])
 
-            wt_histo = load_histo()
+            histo_name = directive['histo_name']
+            histo_dim = len(directive['vars'])
+
+            wt_histo = load_histo(
+                args.year, args.polarity, directive['particle'],
+                histo_name, histo_dim, histos, loaded_histos)
             wt_frame = frames[-1].Define(
-                br, 'GET_WEIGHT({}, {})'.format(args, wt_histo))
+                br, 'GET_WEIGHT({}, {})'.format(params, wt_histo))
+            frames.append(wt_frame)
 
-    load_histo(args.input_histo_ntp, args.histo_name)
+            output_brs.push_back(br)
 
-    histo_frame = init_frame.Define('x', args.x_name).Define('y', args.y_name)
-    wt_frame = histo_frame.Define(args.wt_name, 'GET_WEIGHT(x, y, histo)')
-
-    count_tot = wt_frame.Count().GetValue()
-    count_bad = wt_frame.Filter('{} < 0'.format(args.wt_name)).Count().GetValue()
-
-    output_brs = vector('string')(['runNumber', 'eventNumber', args.wt_name])
-    wt_frame.Snapshot(args.tree, args.output_ntp, output_brs)
-
-    print('Total event processed: {}, bad: {}. Bad fraction: {:.1f}%'.format(
-        count_tot, count_bad, count_bad / count_tot * 100))
+        frames[-1].Snapshot(tree, args.output_ntp, output_brs)
