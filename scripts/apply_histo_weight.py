@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Oct 18, 2021 at 05:08 PM +0200
+# Last Change: Mon Oct 18, 2021 at 06:14 PM +0200
 # Description: Merge and apply cuts on input .root files, each with multiple
 #              trees, to a single output .root file.
 #
@@ -109,17 +109,24 @@ gInterpreter.Declare('''
 
 using namespace std;
 
-TFile* ntp_histo;
-TH1D*  histo_1d;
-TH2D*  histo_2d;
-TH3D*  histo_3d;
-
 Double_t ETA(Double_t p, Double_t pz) {
   return 0.5 * TMath::Log((p + pz) / (p - pz));
 }
 
+Int_t GET_BIN(Double_t x, TH1D* histo) {
+  return histo->FindFixBin(x);
+}
+
+Int_t GET_BIN(Double_t x, Double_t y, TH2D* histo) {
+  return histo->FindFixBin(x, y);
+}
+
+Int_t GET_BIN(Double_t x, Double_t y, Double_t z, TH3D* histo) {
+  return histo->FindFixBin(x, y, z);
+}
+
 Double_t GET_WEIGHT(Double_t x, TH1D* histo) {
-  auto bin_idx = histo->FindBin(x);
+  auto bin_idx = GET_BIN(x, histo);
   Double_t wt = histo->GetBinContent(bin_idx);
 
   if (isnan(wt) || wt < 0) return -999.0;
@@ -127,7 +134,7 @@ Double_t GET_WEIGHT(Double_t x, TH1D* histo) {
 }
 
 Double_t GET_WEIGHT(Double_t x, Double_t y, TH2D* histo) {
-  auto bin_idx = histo->FindBin(x, y);
+  auto bin_idx = GET_BIN(x, y, histo);
   Double_t wt = histo->GetBinContent(bin_idx);
 
   if (isnan(wt) || wt < 0) return -999.0;
@@ -135,23 +142,11 @@ Double_t GET_WEIGHT(Double_t x, Double_t y, TH2D* histo) {
 }
 
 Double_t GET_WEIGHT(Double_t x, Double_t y, Double_t z, TH3D* histo) {
-  auto bin_idx = histo->FindBin(x, y, z);
+  auto bin_idx = GET_BIN(x, y, z, histo);
   Double_t wt = histo->GetBinContent(bin_idx);
 
   if (isnan(wt) || wt < 0) return -999.0;
   return wt;
-}
-
-Int_t GET_BIN(Double_t x, TH1D* histo) {
-  return histo->FindBin(x);
-}
-
-Int_t GET_BIN(Double_t x, Double_t y, TH2D* histo) {
-  return histo->FindBin(x, y);
-}
-
-Int_t GET_BIN(Double_t x, Double_t y, Double_t z, TH3D* histo) {
-  return histo->FindBin(x, y, z);
 }
 ''')
 
