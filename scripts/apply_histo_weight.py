@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Oct 19, 2021 at 04:38 PM +0200
+# Last Change: Tue Oct 19, 2021 at 04:57 PM +0200
 # Description: Apply weights from histos.
 
 import ROOT
@@ -108,6 +108,8 @@ def resolve_params(params, idx):
         except IndexError:
             resolved.append(cands[0])
 
+    print('  Histo variables: {}'.format(', '.join(resolved)))
+
     return resolved
 
 
@@ -185,7 +187,7 @@ def load_histo(year, polarity, particle, histo_name, histo_dim,
     except IndexError:
         raise(ValueError('Histo {} cannot be loaded! Abort!'.format(histo_lbl)))
 
-    print('Loading histo {} from ntuple {}'.format(histo_name, ntp_filename))
+    print('  Loading histo {} from ntuple {}'.format(histo_name, ntp_filename))
     gInterpreter.Declare('auto ntp_{} = new TFile("{}", "read");'.format(
         histo_lbl, ntp_filename))
     gInterpreter.Declare('''
@@ -217,7 +219,7 @@ if __name__ == '__main__':
         output_brs = vector('string')(['runNumber', 'eventNumber'])
 
         for br, directive in config['config'].items():
-            print('Processing {}...'.format(br))
+            print('  Processing {}...'.format(br))
             params = ', '.join(resolve_params(directive['vars'], idx))
 
             histo_name = directive['histo_name']
