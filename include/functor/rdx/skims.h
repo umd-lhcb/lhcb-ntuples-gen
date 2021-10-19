@@ -1,6 +1,6 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Tue Oct 19, 2021 at 02:08 AM +0200
+// Last Change: Tue Oct 19, 2021 at 02:19 AM +0200
 // NOTE: All kinematic variables are in MeV
 
 #ifndef _LNG_FUNCTOR_RDX_SKIMS_H_
@@ -102,7 +102,7 @@ Double_t WT_2OS(Bool_t add_flags,
                iso_p1, iso_p2,
                iso_pt1, iso_pt2,
                iso_chrg1, iso_chrg2,
-               0.0, 0.0));
+               0.0f, 0.0f));
   // clang-format on
 
   return prefac * iso_nnk1_wt * iso_nnk2_wt;
@@ -112,8 +112,7 @@ Double_t WT_2OS(Bool_t add_flags,
 Bool_t FLAG_1OS(Bool_t add_flags,
                 Double_t iso_bdt1, Double_t iso_bdt2,
                 Int_t iso_type1,
-                Float_t iso_p1,
-                Float_t iso_pt1,
+                Float_t iso_p1, Float_t iso_pt1,
                 Int_t iso_chrg1,
                 Float_t iso_nnk1,
                 Int_t d0_id) {
@@ -121,6 +120,27 @@ Bool_t FLAG_1OS(Bool_t add_flags,
   return add_flags && (iso_bdt1 > 0.15) && (iso_bdt2 < 0.15) &&
          (iso_type1 == 3) && (iso_p1 > 5.0) && (iso_pt1 > 0.15) &&
          (iso_chrg1 * d0_id) > 0 && (iso_nnk1 < 0.2);
+}
+
+// clang-format off
+Double_t WT_1OS(Bool_t add_flags,
+                Double_t iso_bdt1, Double_t iso_bdt2,
+                Int_t iso_type1,
+                Float_t iso_p1, Float_t iso_pt1,
+                Int_t iso_chrg1,
+                Double_t iso_nnk1_wt,
+                Int_t d0_true_id) {
+  auto prefac = static_cast<Double_t>(
+      FLAG_1OS(add_flags,
+               iso_bdt1, iso_bdt2,
+               iso_type1,
+               iso_p1, iso_pt1,
+               iso_chrg1,
+               0.0f,
+               d0_true_id));
+  // clang-format on
+
+  return prefac * iso_nnk1_wt;
 }
 
 // clang-format off
@@ -138,6 +158,29 @@ Bool_t FLAG_1OS(Bool_t add_flags,
          (iso_chrg1 * dst_id < 0) && (iso_nnk1 < 0.2) &&
          (0.36 < dst_iso_deltam) && (dst_iso_deltam < 0.6);  // Phoebe's cut
   // (2.4 < dst_iso_invm && dst_iso_invm < 2.52)  // Greg's cut
+}
+
+// clang-format off
+// For D**
+Double_t WT_1OS(Bool_t add_flags,
+                Double_t iso_bdt1, Double_t iso_bdt2,
+                Int_t iso_type1,
+                Float_t iso_p1, Float_t iso_pt1,
+                Int_t iso_chrg1,
+                Double_t iso_nnk1_wt,
+                Int_t dst_true_id, Double_t dst_iso_deltam) {
+  auto prefac = static_cast<Double_t>(
+      FLAG_1OS(add_flags,
+               iso_bdt1, iso_bdt2,
+               iso_type1,
+               iso_p1, iso_pt1,
+               iso_chrg1,
+               0.0f,
+               dst_true_id, dst_iso_deltam)
+      );
+  // clang-format on
+
+  return prefac * iso_nnk1_wt;
 }
 
 #endif
