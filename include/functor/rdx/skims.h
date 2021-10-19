@@ -1,6 +1,6 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Tue Oct 19, 2021 at 02:19 AM +0200
+// Last Change: Tue Oct 19, 2021 at 04:19 PM +0200
 // NOTE: All kinematic variables are in MeV
 
 #ifndef _LNG_FUNCTOR_RDX_SKIMS_H_
@@ -47,7 +47,8 @@ Double_t WT_DD(Bool_t add_flags,
                Int_t iso_type1, Int_t iso_type2, Int_t iso_type3,
                Float_t iso_p1, Float_t iso_p2, Float_t iso_p3,
                Float_t iso_pt1, Float_t iso_pt2, Float_t iso_pt3,
-               Double_t iso_nnk1_wt, Double_t iso_nnk2_wt, Double_t iso_nnk3_wt) {
+               Double_t iso_nnk1_wt, Double_t iso_nnk2_wt,
+               Double_t iso_nnk3_wt) {
   // clang-format on
   auto kinematic_ok = MAX(iso_p1 * (iso_pt1 > 0.15),
                           iso_p2 * (iso_pt2 > 0.15) * (iso_bdt2 > -1.1),
