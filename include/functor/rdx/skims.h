@@ -1,6 +1,6 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Tue Oct 19, 2021 at 01:59 AM +0200
+// Last Change: Tue Oct 19, 2021 at 02:08 AM +0200
 // NOTE: All kinematic variables are in MeV
 
 #ifndef _LNG_FUNCTOR_RDX_SKIMS_H_
@@ -85,6 +85,27 @@ Bool_t FLAG_2OS(Bool_t add_flags,
          (MAX(iso_p1 * (iso_pt1 > 0.15), iso_p2 * (iso_pt2 > 0.15)) > 5.0) &&
          (iso_chrg1 != 0) && (iso_chrg1 + iso_chrg2 == 0) &&
          (iso_chrg1 < 100) && (iso_nnk1 < 0.2) && (iso_nnk2 < 0.2);
+}
+
+// clang-format off
+Double_t WT_2OS(Bool_t add_flags,
+                Double_t iso_bdt1, Double_t iso_bdt2, Double_t iso_bdt3,
+                Int_t iso_type1, Int_t iso_type2,
+                Float_t iso_p1, Float_t iso_p2,
+                Float_t iso_pt1, Float_t iso_pt2,
+                Int_t iso_chrg1, Int_t iso_chrg2,
+                Double_t iso_nnk1_wt, Double_t iso_nnk2_wt) {
+  auto prefac = static_cast<Double_t>(
+      FLAG_2OS(add_flags,
+               iso_bdt1, iso_bdt2, iso_bdt3,
+               iso_type1, iso_type2,
+               iso_p1, iso_p2,
+               iso_pt1, iso_pt2,
+               iso_chrg1, iso_chrg2,
+               0.0, 0.0));
+  // clang-format on
+
+  return prefac * iso_nnk1_wt * iso_nnk2_wt;
 }
 
 // clang-format off
