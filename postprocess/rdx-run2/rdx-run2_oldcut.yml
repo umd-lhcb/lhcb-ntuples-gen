@@ -159,6 +159,14 @@ calculation:
     mu_ip_chi2: double; mu_IPCHI2_OWNPV
     mu_eta: double; ETA(mu_P, mu_PZ)
 
+    #####################
+    # MC true variables #
+    #####################
+    # D*
+    dst_true_id: int; dst_TRUEID
+    # D0
+    d0_true_id: int; d0_TRUEID
+
     ###################
     # Selection flags #
     ###################
@@ -262,6 +270,40 @@ calculation:
         d0_id
         )
 
+    # Skims, but in weights, for MC
+    wskim_iso: double; WT_ISO(true, iso_bdt1)
+    wskim_dd: >-
+        double; WT_DD(
+        true,
+        iso_bdt1, iso_bdt2, iso_bdt2, iso_type1, iso_type2, iso_type3,
+        iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+        wpid_iso_nnk1_high_prob, wpid_iso_nnk1_high_prob, wpid_iso_nnk3_high_prob
+        )
+    wskim_2os: >-
+        double; WT_2OS(
+        true,
+        iso_bdt1, iso_bdt2, iso_bdt3, iso_type1, iso_type2,
+        iso_p1, iso_p2, iso_pt1, iso_pt2,
+        iso_chrg1, iso_chrg2,
+        wpid_iso_nnk1_low_prob, wpid_iso_nnk2_low_prob
+        )
+    wskim_1os: >-
+        bool; WT_1OS(
+        true,
+        iso_bdt1, iso_bdt2, iso_type1,
+        iso_p1, iso_pt1,
+        iso_chrg1,
+        wpid_iso_nnk1_low_prob,
+        dst_true_id, dst_iso_deltam
+        ); FLAG_1OS(
+        true,
+        iso_bdt1, iso_bdt2, iso_type1,
+        iso_p1, iso_pt1,
+        iso_chrg1,
+        wpid_iso_nnk1_low_prob,
+        d0_true_id
+        )
+
 global_selection:
     # Trigger (L0, HLT1, HLT2)
     - l0
@@ -294,3 +336,4 @@ output:
             - "dst_p.*"
             - "dst_iso.*"
             - "dstmu_ok"
+            - "dst_true.*"
