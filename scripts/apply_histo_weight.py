@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Oct 19, 2021 at 12:03 AM +0200
+# Last Change: Tue Oct 19, 2021 at 04:38 PM +0200
 # Description: Apply weights from histos.
 
 import ROOT
@@ -89,9 +89,26 @@ def glob_histos(root_dir):
 
 
 def find_histo(histos, year, polarity, particle):
+    # NOTE: We add '-' around 'particle' to make sure the match is exact
+    particle = '-{}-'.format(particle)
     # Always return the first match
     return [h for h in histos
             if year in h and polarity in h and particle in h][0]
+
+
+def resolve_params(params, idx):
+    resolved = []
+
+    for p in params:
+        cands = p.split(';')
+        cands = [i.strip() for i in cands if i != '']
+
+        try:
+            resolved.append(cands[idx])
+        except IndexError:
+            resolved.append(cands[0])
+
+    return resolved
 
 
 ###############
@@ -105,8 +122,17 @@ gInterpreter.Declare('''
 
 using namespace std;
 
+Double_t P(Double_t px, Double_t py, Double_t pz) {
+  return TMath::Sqrt(px*px + py*py + pz*pz);
+}
+
 Double_t ETA(Double_t p, Double_t pz) {
   return 0.5 * TMath::Log((p + pz) / (p - pz));
+}
+
+Double_t ETA(Double_t px, Double_t py, Double_t pz) {
+  auto p = P(px, py, pz);
+  return ETA(p, pz);
 }
 
 Int_t GET_BIN(Double_t x, TH1D* histo) {
@@ -184,7 +210,7 @@ if __name__ == '__main__':
     output_opts.fMode = 'UPDATE'
     first_write = True
 
-    for tree in config['trees']:
+    for idx, tree in enumerate(config['trees']):
         print('Processing tree {}...'.format(tree))
         init_frame = RDataFrame(tree, args.input_ntp)
         frames = [init_frame]
@@ -192,7 +218,7 @@ if __name__ == '__main__':
 
         for br, directive in config['config'].items():
             print('Processing {}...'.format(br))
-            params = ', '.join(directive['vars'])
+            params = ', '.join(resolve_params(directive['vars'], idx))
 
             histo_name = directive['histo_name']
             histo_dim = len(directive['vars'])

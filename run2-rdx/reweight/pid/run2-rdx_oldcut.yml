@@ -22,3 +22,13 @@ config:
             - pi_P
             - ETA(pi_P, pi_PZ)
             - nTracks
+    wpid_iso_nnk1_high_prob:
+        particle: K_high_prob
+        vars:
+            - >-
+              P(b0_ISOLATION_PX, b0_ISOLATION_PY, b0_ISOLATION_PZ);
+              P(b_ISOLATION_PX, b_ISOLATION_PY, b_ISOLATION_PZ)
+            - >-
+              ETA(b0_ISOLATION_PX, b0_ISOLATION_PY, b0_ISOLATION_PZ);
+              ETA(b_ISOLATION_PX, b_ISOLATION_PY, b_ISOLATION_PZ)
+            - nTracks
