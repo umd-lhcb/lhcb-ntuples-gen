@@ -304,14 +304,17 @@ calculation:
         d0_id
         )
 
+    ###############
+    # Global cuts #
+    ###############
+    # These are defined so that we can turn them on/off with external variables
+    # supplied in babymaker cli arguments
+    trg_ok: "bool; cli_cutflow; l0 && hlt1 && hlt2"
+    global_cut_ok: "bool; cli_cutflow; dstmu_ok; d0mu_ok"
+
 global_selection:
-    # Trigger (L0, HLT1, HLT2)
-    - l0
-    - hlt1
-    - hlt2
-    # Offline cuts
-    - d0mu_ok
-    - dstmu_ok
+    - trg_ok
+    - global_cut_ok
 
 one_cand_only:
     enable: true
@@ -323,6 +326,8 @@ output:
         mute:
             - "^b_.*"
             - "d0mu_ok"
+            - ".*_true_id"
+            - "wskim_.*"
 
     D0:
         input: TupleBminus/DecayTree
@@ -336,4 +341,5 @@ output:
             - "dst_p.*"
             - "dst_iso.*"
             - "dstmu_ok"
-            - "dst_true.*"
+            - ".*_true_id"
+            - "wskim_.*"

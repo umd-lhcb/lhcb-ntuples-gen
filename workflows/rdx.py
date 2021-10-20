@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Oct 20, 2021 at 01:45 PM +0200
+# Last Change: Wed Oct 20, 2021 at 10:22 PM +0200
 
 import sys
 import os
@@ -131,11 +131,15 @@ def workflow_data(job_name, inputs, input_yml,
                   output_fltr={
                       'ntuple': rdx_default_fltr,
                   },
+                  cli_vars=None,
                   **kwargs):
     subworkdirs, workdir, executor = workflow_data_mc(
         job_name, inputs, **kwargs)
     chdir(workdir)
     cpp_template = abs_path('../postprocess/cpp_templates/rdx.cpp')
+
+    if cli_vars:
+        cli_vars = ' '.join([k+':'+v for k, v in cli_vars.items()])
 
     for subdir, input_ntp in subworkdirs.items():
         print('{}Working on {}...{}'.format(TC.GREEN, input_ntp, TC.END))
@@ -148,6 +152,9 @@ def workflow_data(job_name, inputs, input_yml,
             bm_cmd = 'babymaker -i {} -o baby.cpp -n {} -t {} -f ubdt.root'
         else:
             bm_cmd = 'babymaker -i {} -o baby.cpp -n {} -t {}'
+
+        if cli_vars:
+            bm_cmd += ' -V '+cli_vars
 
         executor(bm_cmd.format(abs_path(input_yml), input_ntp, cpp_template))
         workflow_compile_cpp('baby.cpp', executor=executor)
@@ -226,6 +233,14 @@ JOBS = {
         ],
         '../postprocess/rdx-run2/rdx-run2_oldcut_no_Dst_veto.yml',
         executor=executor
+    ),
+    # Run 2 cutflow
+    'rdx-ntuple-run2-data-oldcut-cutflow': lambda name: workflow_data(
+        name,
+        '../ntuples/0.9.5-bugfix/Dst_D0-cutflow_data',
+        '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
+        executor=executor,
+        cli_vars={'cli_cutflow': 'true'}
     ),
     # Run 1
     'rdx-ntuple-run1-data': lambda name: workflow_data(
