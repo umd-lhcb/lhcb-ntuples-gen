@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Oct 21, 2021 at 01:05 AM +0200
+# Last Change: Thu Oct 21, 2021 at 01:35 AM +0200
 
 import sys
 import os
@@ -60,7 +60,7 @@ def rdx_mc_fltr(decay_mode):
         '|'.join(db[decay_mode]))])
 
 
-def rdx_mc_blocked_trees(decay_mode):
+def rdx_mc_blocked_input_trees(decay_mode):
     known_trees = ['D0', 'Dst']
     tree_dict = {
         'D0': 'TupleBminus/DecayTree',
@@ -148,7 +148,8 @@ def workflow_data(job_name, inputs, input_yml,
                   output_ntp_name_gen=generate_step2_name,
                   output_fltr={'ntuple': rdx_default_fltr},
                   cli_vars=None,
-                  blocked_trees=None,
+                  blocked_input_trees=None,
+                  blocked_output_trees=None,
                   **kwargs):
     subworkdirs, workdir, executor = workflow_data_mc(
         job_name, inputs, **kwargs)
@@ -173,8 +174,11 @@ def workflow_data(job_name, inputs, input_yml,
         if cli_vars:
             bm_cmd += ' -V '+cli_vars
 
-        if blocked_trees:
-            bm_cmd += ' -B '+' '.join(blocked_trees)
+        if blocked_input_trees:
+            bm_cmd += ' -B '+' '.join(blocked_input_trees)
+
+        if blocked_output_trees:
+            bm_cmd += ' -X '+' '.join(blocked_output_trees)
 
         executor(bm_cmd.format(abs_path(input_yml), input_ntp, cpp_template))
         workflow_compile_cpp('baby.cpp', executor=executor)
@@ -204,7 +208,7 @@ def workflow_mc(job_name, inputs, input_yml,
 
         output_suffix = output_ntp_name_gen(input_ntp)
         decay_mode = output_suffix.split('--')[2]
-        blocked_trees = rdx_mc_blocked_trees(decay_mode)
+        blocked_input_trees = rdx_mc_blocked_input_trees(decay_mode)
 
         # Generate a HAMMER ntuple
         workflow_hammer(input_ntp, executor=executor)
@@ -214,8 +218,8 @@ def workflow_mc(job_name, inputs, input_yml,
 
         bm_cmd = 'babymaker -i {} -o baby.cpp -n {} -t {} -f hammer.root pid.root'
 
-        if blocked_trees:
-            bm_cmd += ' -B '+' '.join(blocked_trees)
+        if blocked_input_trees:
+            bm_cmd += ' -B '+' '.join(blocked_input_trees)
 
         executor(bm_cmd.format(abs_path(input_yml), input_ntp, cpp_template))
         workflow_compile_cpp('baby.cpp', executor=executor)
@@ -282,9 +286,7 @@ JOBS = {
         use_ubdt=False,
         output_ntp_name_gen=parse_step2_name,
         executor=executor,
-        output_fltr={
-            'ntuple': aggregate_fltr(keep=[r'^Dst.*\.root'])
-        }
+        blocked_output_trees=['D0_data']
     ),
     'ref-rdx-ntuple-run1-data-D0': lambda name: workflow_data(
         name,
@@ -293,9 +295,7 @@ JOBS = {
         use_ubdt=False,
         output_ntp_name_gen=parse_step2_name,
         executor=executor,
-        output_fltr={
-            'ntuple': aggregate_fltr(keep=[r'^D0.*\.root'])
-        }
+        blocked_output_trees=['Dst_data']
     ),
 }
 
