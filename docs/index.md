@@ -53,7 +53,7 @@ The ntuples[^1] generation is separated into:
 ├── scripts      # plotting, cutflow, and utility scripts
 ├── studies      # One-off studies
 ├── test
-└── workflows    # workflows to be used by make
+└── workflows    # workflows for ntuple production, cutflow, etc.
     └── rdx
 ```
 
