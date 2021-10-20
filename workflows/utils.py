@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Oct 18, 2021 at 03:39 PM +0200
+# Last Change: Wed Oct 20, 2021 at 03:02 AM +0200
 
 import re
 import yaml
@@ -67,7 +67,33 @@ def find_all_input(inputs,
     return [f for f in result if True not in [p in f for p in blocked_patterns]]
 
 
-def aggragate_output(workdir, output_dir, keep):
+def aggregate_fltr(blocked=[], keep=[r'\.root'], debug=False):
+    def inner(filename):
+        filename = op.basename(filename)
+        if debug:
+            print(filename)
+
+        for p in blocked:
+            if bool(re.search(p, filename)):
+                if debug:
+                    print('Matched to pattern: {}'.format(p))
+                return False
+
+        for p in keep:
+            if bool(re.search(p, filename)):
+                if debug:
+                    print('Matched to pattern: {}'.format(p))
+                return True
+
+        if debug:
+            print('The file is neither blocked or kept. Ignoring it...')
+
+        return False
+
+    return inner
+
+
+def aggregate_output(workdir, output_dir, keep):
     # Symbolic link generated files that match 'keep' patterns in separate
     # folders so that it's easier to find them.
 
@@ -77,16 +103,16 @@ def aggragate_output(workdir, output_dir, keep):
     chdir(workdir)
     output_dir = op.abspath(output_dir)
 
-    for d, patterns in keep.items():
+    for d, fltr in keep.items():
         chdir(workdir)
         ensure_dir(d, False, False)
         chdir(d)
         relpath = op.relpath(output_dir, op.abspath('.'))
 
-        for p in patterns:
-            for f in glob(op.join(relpath, p)):
+        for obj in glob(op.join(relpath, '*')):
+            if fltr(obj):
                 try:
-                    symlink(f, op.join('.', op.basename(f)))
+                    symlink(obj, op.join('.', op.basename(obj)))
                 except FileExistsError:
                     pass
 

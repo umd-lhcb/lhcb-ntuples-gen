@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Oct 20, 2021 at 02:04 AM +0200
+# Last Change: Wed Oct 20, 2021 at 03:03 AM +0200
 
 import sys
 import os
@@ -18,7 +18,8 @@ sys.path.insert(0, op.dirname(op.abspath(__file__)))
 
 from utils import (
     run_cmd_wrapper,
-    append_path, abs_path, ensure_dir, find_all_input, aggragate_output,
+    append_path, abs_path, ensure_dir, find_all_input,
+    aggregate_fltr, aggregate_output,
     find_year, find_polarity,
     generate_step2_name, parse_step2_name,
     workflow_compile_cpp, workflow_cached_ntuple
@@ -38,6 +39,13 @@ def parse_input():
                         help='enable debug mode.')
 
     return parser.parse_args()
+
+
+###########
+# Helpers #
+###########
+
+rdx_default_fltr = aggregate_fltr(keep=[r'^[Dst|D0].*\.root'])
 
 
 ######################
@@ -107,7 +115,11 @@ def workflow_data_mc(job_name, inputs,
 
 def workflow_data(job_name, inputs, input_yml,
                   use_ubdt=True,
-                  output_ntp_name_gen=generate_step2_name, **kwargs):
+                  output_ntp_name_gen=generate_step2_name,
+                  output_fltr={
+                      'ntuple': rdx_default_fltr,
+                  },
+                  **kwargs):
     subworkdirs, workdir, executor = workflow_data_mc(
         job_name, inputs, **kwargs)
     chdir(workdir)
@@ -131,9 +143,7 @@ def workflow_data(job_name, inputs, input_yml,
         output_suffix = output_ntp_name_gen(input_ntp)
         executor('./baby.exe --{}'.format(output_suffix))
 
-        aggragate_output('..', subdir, {
-            'ntuple': ['*--std--*.root', 'Dst*.root', 'D0*.root']
-        })
+        aggregate_output('..', subdir, output_fltr)
         chdir('..')  # Switch back to parent workdir
 
 
@@ -141,6 +151,9 @@ def workflow_mc(job_name, inputs, input_yml,
                 output_ntp_name_gen=generate_step2_name,
                 pid_histo_folder='../run2-rdx/reweight/pid/root-run2-rdx_oldcut',
                 config='../run2-rdx/reweight/pid/run2-rdx_oldcut.yml',
+                output_fltr={
+                    'ntuple': rdx_default_fltr
+                },
                 **kwargs):
     subworkdirs, workdir, executor = workflow_data_mc(
         job_name, inputs, **kwargs)
@@ -165,9 +178,7 @@ def workflow_mc(job_name, inputs, input_yml,
         output_suffix = output_ntp_name_gen(input_ntp)
         executor('./baby.exe --{}'.format(output_suffix))
 
-        aggragate_output('..', subdir, {
-            'ntuple': ['*--mc--*.root', 'Dst*.root', 'D0*.root']
-        })
+        aggregate_output('..', subdir, output_fltr)
         chdir('..')  # Switch back to parent workdir
 
 
@@ -217,7 +228,10 @@ JOBS = {
         '../postprocess/ref-rdx-run1/ref-rdx-run1-mix.yml',
         use_ubdt=False,
         output_ntp_name_gen=parse_step2_name,
-        executor=executor
+        executor=executor,
+        output_fltr={
+            'ntuple': aggregate_fltr(keep=[r'^Dst.*\.root'])
+        }
     ),
     'ref-rdx-ntuple-run1-data-D0': lambda name: workflow_data(
         name,
@@ -225,7 +239,10 @@ JOBS = {
         '../postprocess/ref-rdx-run1/ref-rdx-run1-mix.yml',
         use_ubdt=False,
         output_ntp_name_gen=parse_step2_name,
-        executor=executor
+        executor=executor,
+        output_fltr={
+            'ntuple': aggregate_fltr(keep=[r'^D0.*\.root'])
+        }
     ),
 }
 
