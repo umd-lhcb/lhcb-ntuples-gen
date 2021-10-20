@@ -14,7 +14,8 @@ from utils import run_cmd_wrapper, abs_path, ensure_dir, with_suffix
 def parse_input():
     parser = ArgumentParser(description='workflow for R(D(*)).')
 
-    parser.add_argument('job_name', help='specify job name.')
+    parser.add_argument('job_name', default='all', nargs='?',
+                        help='specify job name.')
 
     return parser.parse_args()
 

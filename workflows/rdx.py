@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Oct 20, 2021 at 12:49 PM +0200
+# Last Change: Wed Oct 20, 2021 at 12:56 PM +0200
 
 import sys
 import os
@@ -151,14 +151,15 @@ def workflow_mc(job_name, inputs, input_yml,
                 output_ntp_name_gen=generate_step2_name,
                 pid_histo_folder='../run2-rdx/reweight/pid/root-run2-rdx_oldcut',
                 config='../run2-rdx/reweight/pid/run2-rdx_oldcut.yml',
-                output_fltr={
-                    'ntuple': rdx_default_fltr
-                },
+                output_fltr=None,
                 **kwargs):
     subworkdirs, workdir, executor = workflow_data_mc(
         job_name, inputs, **kwargs)
     chdir(workdir)
     cpp_template = abs_path('../postprocess/cpp_templates/rdx.cpp')
+
+    if not output_fltr:
+        output_fltr = {'ntuple': rdx_default_fltr}
 
     for subdir, input_ntp in subworkdirs.items():
         print('{}Working on {}...{}'.format(TC.GREEN, input_ntp, TC.END))
@@ -207,7 +208,7 @@ JOBS = {
     'rdx-ntuple-run2-data-oldcut-no-Dst-veto': lambda name: workflow_data(
         name,
         [
-            '../ntuples/0.9.4-trigger_emulation/Dst_D0-std/',
+            '../ntuples/0.9.4-trigger_emulation/Dst_D0-std',
             '../ntuples/0.9.5-bugfix/Dst_D0-cutflow_data',
         ],
         '../postprocess/rdx-run2/rdx-run2_oldcut_no_Dst_veto.yml',
