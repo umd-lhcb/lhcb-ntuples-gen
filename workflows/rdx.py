@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Oct 20, 2021 at 12:52 AM +0200
+# Last Change: Wed Oct 20, 2021 at 02:04 AM +0200
 
 import sys
 import os
@@ -32,13 +32,10 @@ from utils import (
 def parse_input():
     parser = ArgumentParser(description='workflow for R(D(*)).')
 
-    parser.add_argument('job_name', help='''
-specify job name.
-''')
+    parser.add_argument('job_name', help='specify job name.')
 
-    parser.add_argument('-d', '--debug', action='store_true', help='''
-enable debug mode
-''')
+    parser.add_argument('-d', '--debug', action='store_true',
+                        help='enable debug mode.')
 
     return parser.parse_args()
 

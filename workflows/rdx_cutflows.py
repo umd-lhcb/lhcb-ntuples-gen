@@ -2,7 +2,20 @@
 #
 # Script to run several cutflows
 
+from argparse import ArgumentParser
 from utils import run_cmd_wrapper, abs_path, ensure_dir, with_suffix
+
+
+#################################
+# Command line arguments parser #
+#################################
+
+def parse_input():
+    parser = ArgumentParser(description='workflow for R(D(*)).')
+
+    parser.add_argument('job_name', help='specify job name.')
+
+    return parser.parse_args()
 
 
 ###########
@@ -28,7 +41,7 @@ def gen_cutflow(outyml1, outyml2, csvfile, texfile, mdfile, rfactor):
         csvfile, mdfile))
 
 
-def workflow_cutflow(ntp1, ntp2, outfolder, rfactor=1, mode='std'):
+def workflow_cutflow(outfolder, ntp1, ntp2, rfactor=1, mode='std'):
     print('\n======= Running cutflow and saving output to '+outfolder)
     outfolder = ensure_dir('../gen/{}'.format(outfolder))
 
@@ -75,14 +88,33 @@ r2_data = [
     '../ntuples/0.9.4-trigger_emulation/Dst_D0-std/Dst_D0--21_04_27--std--LHCb_Collision16_Beam6500GeV-VeloClosed-MagDown_Real_Data_Reco16_Stripping28r1_90000000_SEMILEPTONIC.DST.root'
 ]
 
-## Running BARE, D*+ mu, and Data cutflows
 ## rfactors are calculated from the sample yields in Dirac (for MC) and lumi x xsec (for data)
-workflow_cutflow(r1_bare, r2_bare, 'cutflow_bare-sig',
-                 (522494+502736)/(520046+515913.), 'std-sig')
-workflow_cutflow(r1_bare, r2_bare, 'cutflow_bare-nor',
-                 (522494+502736)/(520046+515913.), 'std-nor')
-workflow_cutflow(r1_bare, r2_bare, 'cutflow_bare-dss',
-                 (522494+502736)/(520046+515913.), 'std-dss')
-workflow_cutflow(r1_dstmu, r2_dstmu, 'cutflow_dstmu',
-                 614577*0.247*0.080/(1500395*0.105*0.059))
-workflow_cutflow(r1_data, r2_data, 'cutflow_data', 1/1.41/2)
+JOBS = {
+    'rdx-cutflow-bare-sig': lambda name: workflow_cutflow(
+        name, r1_bare, r2_bare,
+        (522494+502736) / (520046+515913), 'std-sig'
+    ),
+    'rdx-cutflow-bare-nor': lambda name: workflow_cutflow(
+        name, r1_bare, r2_bare,
+        (522494+502736) / (520046+515913), 'std-nor'
+    ),
+    'rdx-cutflow-bare-dss': lambda name: workflow_cutflow(
+        name, r1_bare, r2_bare,
+        (522494+502736) / (520046+515913), 'std-dss'
+    ),
+    'rdx-cutflow-dstmu': lambda name: workflow_cutflow(
+        name, r1_dstmu, r2_dstmu,
+        614577*0.247*0.080 / (1500395*0.105*0.059)
+    ),
+    'rdx-cutflow-data': lambda name: workflow_cutflow(
+        name, r1_data, r2_data, 1/1.41/2)
+}
+
+args = parse_input()
+if args.job_name in JOBS:
+    JOBS[args.job_name](args.job_name)
+else:
+    print('Unknown cutflow mode: {}. Trying to produce all known modes'.format(
+        args.job_name))
+    for name, func in JOBS.items():
+        func(name)
