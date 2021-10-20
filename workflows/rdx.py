@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Oct 20, 2021 at 03:03 AM +0200
+# Last Change: Wed Oct 20, 2021 at 12:49 PM +0200
 
 import sys
 import os
@@ -96,7 +96,7 @@ def workflow_data_mc(job_name, inputs,
                      blocked_patterns=['__aux'],
                      executor=run_cmd_wrapper()
                      ):
-    print('{}== Job: {} =={}'.format(TC.BOLD+TC.GREEN, job_name, TC.END))
+    print('{}==== Job: {} ===={}'.format(TC.BOLD+TC.GREEN, job_name, TC.END))
 
     # Need to figure out the absolute path
     input_files = find_all_input(inputs, patterns, blocked_patterns)

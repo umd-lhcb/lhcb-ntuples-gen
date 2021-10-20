@@ -3,6 +3,7 @@
 # Script to run several cutflows
 
 from argparse import ArgumentParser
+from pyBabyMaker.base import TermColor as TC
 from utils import run_cmd_wrapper, abs_path, ensure_dir, with_suffix
 
 
@@ -45,7 +46,8 @@ def gen_cutflow(outyml1, outyml2, csvfile, texfile, mdfile, rfactor):
 
 
 def workflow_cutflow(outfolder, ntp1, ntp2, rfactor=1, mode='std'):
-    print('\n======= Running cutflow and saving output to '+outfolder)
+    print('{}==== Running cutflow and saving output to {} ===={}'.format(
+        TC.BOLD+TC.GREEN, outfolder, TC.END))
     outfolder = ensure_dir('../gen/{}'.format(outfolder))
 
     outyml1 = outfolder + "/run1_yields.yml"
