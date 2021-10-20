@@ -294,14 +294,14 @@ calculation:
         iso_p1, iso_pt1,
         iso_chrg1,
         wpid_iso_nnk1_low_prob,
-        dst_true_id, dst_iso_deltam
+        dst_id, dst_iso_deltam
         ); FLAG_1OS(
         true,
         iso_bdt1, iso_bdt2, iso_type1,
         iso_p1, iso_pt1,
         iso_chrg1,
         wpid_iso_nnk1_low_prob,
-        d0_true_id
+        d0_id
         )
 
 global_selection:

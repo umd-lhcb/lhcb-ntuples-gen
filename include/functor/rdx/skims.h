@@ -1,6 +1,6 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Tue Oct 19, 2021 at 04:19 PM +0200
+// Last Change: Wed Oct 20, 2021 at 02:23 AM +0200
 // NOTE: All kinematic variables are in MeV
 
 #ifndef _LNG_FUNCTOR_RDX_SKIMS_H_
@@ -130,7 +130,7 @@ Double_t WT_1OS(Bool_t add_flags,
                 Float_t iso_p1, Float_t iso_pt1,
                 Int_t iso_chrg1,
                 Double_t iso_nnk1_wt,
-                Int_t d0_true_id) {
+                Int_t d0_id) {
   auto prefac = static_cast<Double_t>(
       FLAG_1OS(add_flags,
                iso_bdt1, iso_bdt2,
@@ -138,7 +138,7 @@ Double_t WT_1OS(Bool_t add_flags,
                iso_p1, iso_pt1,
                iso_chrg1,
                0.0f,
-               d0_true_id));
+               d0_id));
   // clang-format on
 
   return prefac * iso_nnk1_wt;
@@ -169,7 +169,7 @@ Double_t WT_1OS(Bool_t add_flags,
                 Float_t iso_p1, Float_t iso_pt1,
                 Int_t iso_chrg1,
                 Double_t iso_nnk1_wt,
-                Int_t dst_true_id, Double_t dst_iso_deltam) {
+                Int_t dst_id, Double_t dst_iso_deltam) {
   auto prefac = static_cast<Double_t>(
       FLAG_1OS(add_flags,
                iso_bdt1, iso_bdt2,
@@ -177,7 +177,7 @@ Double_t WT_1OS(Bool_t add_flags,
                iso_p1, iso_pt1,
                iso_chrg1,
                0.0f,
-               dst_true_id, dst_iso_deltam)
+               dst_id, dst_iso_deltam)
       );
   // clang-format on
 
