@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Oct 20, 2021 at 10:22 PM +0200
+# Last Change: Wed Oct 20, 2021 at 11:12 PM +0200
 
 import sys
 import os
@@ -231,8 +231,9 @@ JOBS = {
             '../ntuples/0.9.4-trigger_emulation/Dst_D0-std',
             '../ntuples/0.9.5-bugfix/Dst_D0-cutflow_data',
         ],
-        '../postprocess/rdx-run2/rdx-run2_oldcut_no_Dst_veto.yml',
-        executor=executor
+        '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
+        executor=executor,
+        cli_vars={'cli_no_dst_veto': '100.0'}
     ),
     # Run 2 cutflow
     'rdx-ntuple-run2-data-oldcut-cutflow': lambda name: workflow_data(
@@ -274,7 +275,6 @@ JOBS = {
         }
     ),
 }
-
 
 if args.job_name in JOBS:
     JOBS[args.job_name](args.job_name)

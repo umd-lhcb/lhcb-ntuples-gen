@@ -109,6 +109,7 @@ JOBS = {
 }
 
 args = parse_input()
+
 if args.job_name in JOBS:
     JOBS[args.job_name](args.job_name)
 elif args.job_name == 'all':

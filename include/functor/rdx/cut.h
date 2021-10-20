@@ -1,6 +1,6 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Thu Oct 14, 2021 at 11:42 PM +0200
+// Last Change: Wed Oct 20, 2021 at 11:07 PM +0200
 // NOTE: All kinematic variables are in MeV
 
 #ifndef _LNG_FUNCTOR_RDX_CUT_H_
@@ -210,7 +210,7 @@ Bool_t FLAG_SEL_BMINUSD0_RUN1(Bool_t flag_sel_d0, Bool_t flag_sel_mu,
                               Double_t b_dira,
                               Double_t b_m,
                               Double_t d0_m_pi_m, Double_t d0_m,
-                              Double_t dst_veto_deltam) {
+                              Double_t d0_dst_veto_deltam) {
   // clang-format on
   const Double_t d0_m_diff = 165.0;
 
@@ -226,7 +226,7 @@ Bool_t FLAG_SEL_BMINUSD0_RUN1(Bool_t flag_sel_d0, Bool_t flag_sel_mu,
       /* Replace Muon mass hypothesis */
       TMath::Abs(d0_m_pi_m - d0_m) > d0_m_diff &&
       /* Veto D* in D0 sample */
-      dst_veto_deltam > 4.0 /* MeV! */
+      d0_dst_veto_deltam > 4.0 /* MeV! */
       )
     // clang-format on
     return true;
@@ -241,7 +241,7 @@ Bool_t FLAG_SEL_BMINUSD0_RUN1(Bool_t flag_sel_d0, Bool_t flag_sel_mu,
                               Double_t b_m,
                               Double_t mu_px, Double_t mu_py, Double_t mu_pz,
                               Double_t d0_px, Double_t d0_py, Double_t d0_pz,
-                              Double_t d0_m, Double_t dst_veto_deltam) {
+                              Double_t d0_m, Double_t d0_dst_veto_deltam) {
   // clang-format on
   const Double_t pi_m = 139.57;
 
@@ -259,7 +259,7 @@ Bool_t FLAG_SEL_BMINUSD0_RUN1(Bool_t flag_sel_d0, Bool_t flag_sel_mu,
       b_dira,
       b_m,
       d0_m_pi_m, d0_m,
-      dst_veto_deltam
+      d0_dst_veto_deltam
   );
   // clang-format on
 }
@@ -273,7 +273,7 @@ Bool_t FLAG_SEL_BMINUSD0_RUN1(Bool_t flag_sel_d0, Bool_t flag_sel_mu,
 Bool_t FLAG_SEL_B0DST_RUN1(Bool_t flag_sel_d0, Bool_t flag_sel_mu,
                            Double_t spi_gh_prob,
                            Double_t dst_endvtx_chi2, Double_t dst_endvtx_ndof,
-                           Double_t dst_veto_deltam,
+                           Double_t dst_ref_deltam,
                            // Double_t b0_discard_mu_chi2,
                            Double_t b0_endvtx_chi2, Double_t b0_endvtx_ndof,
                            Double_t b0_fd_trans,
@@ -284,7 +284,7 @@ Bool_t FLAG_SEL_B0DST_RUN1(Bool_t flag_sel_d0, Bool_t flag_sel_mu,
       spi_gh_prob < 0.25 &&
       /* D* */
       dst_endvtx_chi2/dst_endvtx_ndof < 10.0 &&
-      dst_veto_deltam < 2.0 &&
+      dst_ref_deltam < 2.0 &&
       /* D0 Mu combo, already applied in DaVinci */
       /* D* Mu combo */
       // b0_discard_mu_chi2 <= 6 &&  // AddB.C, LN2567, but not in ANA!

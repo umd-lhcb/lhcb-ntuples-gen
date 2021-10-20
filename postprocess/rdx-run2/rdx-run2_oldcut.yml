@@ -80,11 +80,13 @@ calculation:
     dst_pt: double; GEV(dst_PT)
     dst_iso_invm: double; GEV(MINV(b0_ISOLATION_PX, b0_ISOLATION_PY, b0_ISOLATION_PZ, b0_ISOLATION_PE, dst_PX, dst_PY, dst_PZ, dst_PE))
     dst_iso_deltam: double; GEV(ISO_DELTAM(b0_ISOLATION_PX, b0_ISOLATION_PY, b0_ISOLATION_PZ, b0_ISOLATION_PE, dst_PX, dst_PY, dst_PZ, dst_PE, dst_M))
-    dst_veto_deltam: double; MIN(ABS(b_ISOLATION_DstWindowDELTAM-145.454), ABS(b_ISOLATION_DstWindowDELTAM2-145.454)); ABS(dst_M-d0_M-145.454); 100.0  # MeV!
+    dst_ref_deltam: double; ABS(dst_M-d0_M-145.454)  # MeV!
     # D0
     d0_m: double; GEV(d0_M)
     d0_p: double; GEV(d0_P)
     d0_pt: double; GEV(d0_PT)
+    d0_dst_veto_deltam: double; MIN(ABS(b_ISOLATION_DstWindowDELTAM-145.454), ABS(b_ISOLATION_DstWindowDELTAM2-145.454))  # MeV!
+    d0_dst_veto_deltam_stub: "^double; cli_no_dst_veto; d0_dst_veto_deltam; 100.0"
     # K
     k_p: double; GEV(k_P)
     k_pt: double; GEV(k_PT)
@@ -212,6 +214,7 @@ calculation:
         )
 
     # D0Mu combo selection
+    d0_dst_veto_ok: bool; d0_dst_veto_deltam > 4.0
     d0mu_ok: >-
         bool; FLAG_SEL_BMINUSD0_RUN1(
         d0_ok, mu_ok,
@@ -221,7 +224,7 @@ calculation:
         b_M,
         mu_PX, mu_PY, mu_PZ,
         d0_PX, d0_PY, d0_PZ, d0_M,
-        dst_veto_deltam
+        d0_dst_veto_deltam_stub
         )
 
     # D*Mu combo selection
@@ -230,7 +233,7 @@ calculation:
         d0_ok, mu_ok,
         spi_TRACK_GhostProb,
         dst_ENDVERTEX_CHI2, dst_ENDVERTEX_NDOF,
-        dst_veto_deltam,
+        dst_ref_deltam,
         b0_ENDVERTEX_CHI2, b0_ENDVERTEX_NDOF,
         b0_fd_trans,
         b0_DIRA_OWNPV, b0_M
@@ -325,6 +328,8 @@ output:
         input: TupleB0/DecayTree
         mute:
             - "^b_.*"
+            - "d0_dst_veto_deltam"
+            - "d0_dst_veto_ok"
             - "d0mu_ok"
             - ".*_true_id"
             - "wskim_.*"
@@ -334,12 +339,8 @@ output:
         mute:
             - "^b0_.*"
             - "^spi_.*"
+            - "^dst_.*"
             - "trk_spi"
-            - "dst_m"
-            - "dst_id"
-            - "dst_endvtx_chi2ndof"
-            - "dst_p.*"
-            - "dst_iso.*"
             - "dstmu_ok"
             - ".*_true_id"
             - "wskim_.*"
