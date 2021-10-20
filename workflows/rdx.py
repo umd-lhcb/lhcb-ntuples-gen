@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Oct 21, 2021 at 12:53 AM +0200
+# Last Change: Thu Oct 21, 2021 at 01:05 AM +0200
 
 import sys
 import os
@@ -75,9 +75,7 @@ def rdx_mc_blocked_trees(decay_mode):
     if decay_mode not in db:
         return None
 
-    blocked_trees = [tree_dict[t] for t in known_trees
-                     if t not in db[decay_mode]]
-    return ' '.join(blocked_trees)
+    return [tree_dict[t] for t in known_trees if t not in db[decay_mode]]
 
 
 ######################
@@ -150,6 +148,7 @@ def workflow_data(job_name, inputs, input_yml,
                   output_ntp_name_gen=generate_step2_name,
                   output_fltr={'ntuple': rdx_default_fltr},
                   cli_vars=None,
+                  blocked_trees=None,
                   **kwargs):
     subworkdirs, workdir, executor = workflow_data_mc(
         job_name, inputs, **kwargs)
@@ -173,6 +172,9 @@ def workflow_data(job_name, inputs, input_yml,
 
         if cli_vars:
             bm_cmd += ' -V '+cli_vars
+
+        if blocked_trees:
+            bm_cmd += ' -B '+' '.join(blocked_trees)
 
         executor(bm_cmd.format(abs_path(input_yml), input_ntp, cpp_template))
         workflow_compile_cpp('baby.cpp', executor=executor)
@@ -213,7 +215,7 @@ def workflow_mc(job_name, inputs, input_yml,
         bm_cmd = 'babymaker -i {} -o baby.cpp -n {} -t {} -f hammer.root pid.root'
 
         if blocked_trees:
-            bm_cmd += ' -B '+blocked_trees
+            bm_cmd += ' -B '+' '.join(blocked_trees)
 
         executor(bm_cmd.format(abs_path(input_yml), input_ntp, cpp_template))
         workflow_compile_cpp('baby.cpp', executor=executor)
