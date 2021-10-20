@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Oct 20, 2021 at 11:12 PM +0200
+# Last Change: Thu Oct 21, 2021 at 12:53 AM +0200
 
 import sys
 import os
@@ -58,6 +58,26 @@ def rdx_mc_fltr(decay_mode):
         return rdx_default_fltr
     return aggregate_fltr(keep=[r'^({}).*\.root'.format(
         '|'.join(db[decay_mode]))])
+
+
+def rdx_mc_blocked_trees(decay_mode):
+    known_trees = ['D0', 'Dst']
+    tree_dict = {
+        'D0': 'TupleBminus/DecayTree',
+        'Dst': 'TupleB0/DecayTree'
+    }
+
+    db = load_yaml_db()
+    # Unfortunately we need to use 'Filename' as the key so we need to re-build
+    # the dict on the fly
+    db = {v['Filename']: v['Keep'] for v in db.values() if 'Keep' in v}
+
+    if decay_mode not in db:
+        return None
+
+    blocked_trees = [tree_dict[t] for t in known_trees
+                     if t not in db[decay_mode]]
+    return ' '.join(blocked_trees)
 
 
 ######################
@@ -128,9 +148,7 @@ def workflow_data_mc(job_name, inputs,
 def workflow_data(job_name, inputs, input_yml,
                   use_ubdt=True,
                   output_ntp_name_gen=generate_step2_name,
-                  output_fltr={
-                      'ntuple': rdx_default_fltr,
-                  },
+                  output_fltr={'ntuple': rdx_default_fltr},
                   cli_vars=None,
                   **kwargs):
     subworkdirs, workdir, executor = workflow_data_mc(
@@ -170,7 +188,7 @@ def workflow_mc(job_name, inputs, input_yml,
                 output_ntp_name_gen=generate_step2_name,
                 pid_histo_folder='../run2-rdx/reweight/pid/root-run2-rdx_oldcut',
                 config='../run2-rdx/reweight/pid/run2-rdx_oldcut.yml',
-                output_fltr=None,
+                output_fltr={'ntuple': rdx_default_fltr},
                 **kwargs):
     subworkdirs, workdir, executor = workflow_data_mc(
         job_name, inputs, **kwargs)
@@ -184,8 +202,7 @@ def workflow_mc(job_name, inputs, input_yml,
 
         output_suffix = output_ntp_name_gen(input_ntp)
         decay_mode = output_suffix.split('--')[2]
-        if not output_fltr:
-            output_fltr = {'ntuple': rdx_mc_fltr(decay_mode)}
+        blocked_trees = rdx_mc_blocked_trees(decay_mode)
 
         # Generate a HAMMER ntuple
         workflow_hammer(input_ntp, executor=executor)
@@ -193,8 +210,12 @@ def workflow_mc(job_name, inputs, input_yml,
         # Generate PID weights
         workflow_pid(input_ntp, pid_histo_folder, config, executor=executor)
 
-        executor('babymaker -i {} -o baby.cpp -n {} -t {} -f hammer.root pid.root'.format(
-            abs_path(input_yml), input_ntp, cpp_template))
+        bm_cmd = 'babymaker -i {} -o baby.cpp -n {} -t {} -f hammer.root pid.root'
+
+        if blocked_trees:
+            bm_cmd += ' -B '+blocked_trees
+
+        executor(bm_cmd.format(abs_path(input_yml), input_ntp, cpp_template))
         workflow_compile_cpp('baby.cpp', executor=executor)
 
         executor('./baby.exe --{}'.format(output_suffix))
