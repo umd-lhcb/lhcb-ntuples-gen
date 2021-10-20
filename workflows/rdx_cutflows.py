@@ -110,8 +110,9 @@ JOBS = {
 args = parse_input()
 if args.job_name in JOBS:
     JOBS[args.job_name](args.job_name)
-else:
-    print('Unknown cutflow mode: {}. Trying to produce all known modes'.format(
-        args.job_name))
+elif args.job_name == 'all':
+    print('Producing all known cutflow modes')
     for name, func in JOBS.items():
         func(name)
+else:
+    print('Unknown cutflow mode: {}.'.format(args.job_name))
