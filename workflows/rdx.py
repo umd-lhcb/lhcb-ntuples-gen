@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Oct 20, 2021 at 12:56 PM +0200
+# Last Change: Wed Oct 20, 2021 at 01:45 PM +0200
 
 import sys
 import os
@@ -19,7 +19,7 @@ sys.path.insert(0, op.dirname(op.abspath(__file__)))
 from utils import (
     run_cmd_wrapper,
     append_path, abs_path, ensure_dir, find_all_input,
-    aggregate_fltr, aggregate_output,
+    aggregate_fltr, aggregate_output, load_yaml_db,
     find_year, find_polarity,
     generate_step2_name, parse_step2_name,
     workflow_compile_cpp, workflow_cached_ntuple
@@ -45,7 +45,19 @@ def parse_input():
 # Helpers #
 ###########
 
-rdx_default_fltr = aggregate_fltr(keep=[r'^[Dst|D0].*\.root'])
+rdx_default_fltr = aggregate_fltr(keep=[r'^(Dst|D0).*\.root'])
+
+
+def rdx_mc_fltr(decay_mode):
+    db = load_yaml_db()
+    # Unfortunately we need to use 'Filename' as the key so we need to re-build
+    # the dict on the fly
+    db = {v['Filename']: v['Keep'] for v in db.values() if 'Keep' in v}
+
+    if decay_mode not in db:
+        return rdx_default_fltr
+    return aggregate_fltr(keep=[r'^({}).*\.root'.format(
+        '|'.join(db[decay_mode]))])
 
 
 ######################
@@ -158,13 +170,15 @@ def workflow_mc(job_name, inputs, input_yml,
     chdir(workdir)
     cpp_template = abs_path('../postprocess/cpp_templates/rdx.cpp')
 
-    if not output_fltr:
-        output_fltr = {'ntuple': rdx_default_fltr}
-
     for subdir, input_ntp in subworkdirs.items():
         print('{}Working on {}...{}'.format(TC.GREEN, input_ntp, TC.END))
         ensure_dir(subdir, make_absolute=False)
         chdir(subdir)  # Switch to the workdir of the subjob
+
+        output_suffix = output_ntp_name_gen(input_ntp)
+        decay_mode = output_suffix.split('--')[2]
+        if not output_fltr:
+            output_fltr = {'ntuple': rdx_mc_fltr(decay_mode)}
 
         # Generate a HAMMER ntuple
         workflow_hammer(input_ntp, executor=executor)
@@ -176,7 +190,6 @@ def workflow_mc(job_name, inputs, input_yml,
             abs_path(input_yml), input_ntp, cpp_template))
         workflow_compile_cpp('baby.cpp', executor=executor)
 
-        output_suffix = output_ntp_name_gen(input_ntp)
         executor('./baby.exe --{}'.format(output_suffix))
 
         aggregate_output('..', subdir, output_fltr)
