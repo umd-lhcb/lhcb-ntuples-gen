@@ -1049,7 +1049,7 @@
                   </a>
                 
                 
-                <h1 id="truth-matching">Truth matching</h1>
+                <h1 id="truth-matching">Truth-Matching</h1>
 <p>In LHCb, the general procedure works as follows:</p>
 <ol>
 <li>In the MC generation, after <code>Gauss</code> and <code>Boole</code>, <code>Brunel</code> is used to
@@ -1101,6 +1101,78 @@ for an overview on these strategies.</p>
 <p>This is done with <a href="https://gitlab.cern.ch/lhcb/Analysis/-/blob/master/Phys/DaVinciMCTools/src/P2MCPFromProtoP.cpp"><code>P2MCPFromProtoP</code></a>.</p>
 <p>It finds the <code>ProtoParticle</code> of the reconstructed <code>Particle</code>. Then use the standard
 truth-matching table to find the linked <code>MCParticle</code>.</p>
+<h1 id="truth-matching-for-rd-run-2">Truth-Matching for RD(*) Run 2</h1>
+<p>For the run 2 R(D(*)) analysis, when postprocessing our MC ntuples, we perform truth-matching copied from Phoebe's code for
+the run 1 analysis. Her code for truth-matching can be found in <code>redoHistos_D0.C</code>+<code>AddD0B_tmp.C</code> (for <code>D0</code> sample) and
+<code>redoHistos_Dst.C</code>+<code>AddB.C</code> (for <code>D*</code> sample) in this
+<a href="https://gitlab.cern.ch/bhamilto/rdvsrdst-histfactory/-/tree/master/proc">proc folder</a> from her run 1 analysis (preservation)
+code repo. We implement the truth-matching differently from her in order to work (more understandably) with our workflow; rather than
+using flags and filling all histograms (templates) all at the same time based on those flags, we truth-match each decay mode (ie. the <code>MC ID</code>s
+listed <a href="https://umd-lhcb.github.io/lhcb-ntuples-gen/data/data_sources/#run-2-muonic-rd-monte-carlo">here</a>) separately and store
+the result as a coded integer <code>truthmatch</code> in our postprocessed ntuples.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>There is one minor difference of note that results from our differing truth-matching schemes. In Phoebe's implementation, an
+event can be used to fill any, and even multiple, templates, not just templates corresponding to the decay mode (eg. an event for
+<code>B0-&gt;D*munu</code> MC could pass the truth-matching requirements and thus be filled in for the template corresponding to <code>B0-&gt;D*Xc(-&gt;munuX')X</code>),
+and indeed this is seen to occur for a fraction of a percent of all events. On the other hand, our truth-matching takes in the decay mode
+that the user wants to truth-match against as an input and will only set <code>truthmatch</code> to a corresponding value for that decay mode.
+Additionally, our implementation will never fill in multiple templates with the same event.</p>
+</div>
+<p>To apply our truth-matching when postprocessing ntuples, using the script found
+<a href="https://github.com/umd-lhcb/lhcb-ntuples-gen/blob/a9e19c89da3dfbd7ee0aa34781cd75f6ea7cdd32/include/functor/rdx/truth_match.h">here</a>, in the
+configuration <code>YAML</code> file (recall instructions <a href="https://umd-lhcb.github.io/lhcb-ntuples-gen/ntupling/step2_babymaker/">here</a> for postprocessing),
+add a <code>calculation</code> integer variable (nominally called <code>truthmatch</code>) that is calculated using either <code>MC_TRUTH_MATCH_DST(...)</code> (for <code>D* sample</code>)
+or <code>MC_TRUTH_MATCH_D0(...)</code> (for <code>D0</code> sample). The input parameters for these functions can be found at the bottom of the truth-matching script
+linked above. As already mentioned, one required input is the decay mode ID.</p>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>The truth-matching code has some optional debugging flags that can be set if one wants to not separate <code>D**(s)</code> cocktails, does want to
+separate <code>D**H</code> cocktails, or doesn't want to separate <code>DD</code> cocktails. For now, the <code>DD</code> debug flag is set to true until the code is
+developed to actually separate those cocktails (and, in fact, Phoebe does not separate the cocktails for her templates). In the encoding
+scheme below, this means that temporarily <code>truthmatch</code> will have <code>b1b2=0</code>. Without setting these flags, the coded <code>truthmatch</code> int is
+nominally set to encode all information that should be relevant for building the run 2 R(D(*)) templates.</p>
+</div>
+<p>Once this is done, the postprocessed ntuples will contain a <code>truthmatch</code> branch that encodes what type of decay the event was successfully
+truth-matched to, or <code>truthmatch=0</code> if the event failed to pass the truth-matching requirements. The encoding scheme for <code>truthmatch</code> works as
+follows: <code>truthmatch=a1b1b2c1c2d1</code> where</p>
+<ol>
+<li><code>d1</code>=<ol>
+<li>0 if normalization(-like) (ie. without tau)</li>
+<li>1 if signal(-like)</li>
+</ol>
+</li>
+<li><code>c1c2</code> are two digits referring to the "primary" <code>D</code> meson. For non-DD decays, this is just the <code>D</code> that the <code>B</code> decays to; for now, for DD
+decays,  <code>c1c2=00</code>. Otherwise, <code>c1c2=</code><ol>
+<li><code>01</code> for <code>D0</code>, <code>02</code> for <code>D+</code>, <code>03</code> for <code>D*0</code>, <code>04</code> for <code>D*+</code></li>
+<li><code>10</code> for all (light) <code>D**^0</code> (ie. cocktail not separated, but it's required that the specific event <code>D**</code> is possible for the
+considered decay), <code>11</code> for <code>D0*^0</code>, <code>12</code> for <code>D1^0</code>, <code>13</code> for <code>D1'^0</code>, <code>14</code> for <code>D2*^0</code></li>
+<li><code>20</code> for all (light) <code>D**^+</code>, <code>21</code> for <code>D0*^+</code>, <code>22</code> for <code>D1^+</code>, <code>23</code> for <code>D1'^+</code>, <code>24</code> for <code>D2*^+</code></li>
+<li><code>30</code> for all heavy <code>D**H^0</code> (again, it's internally required that the <code>D**H</code> is possible), and (for debugging) <code>31</code> for <code>D*(2S)^+</code>, <code>32</code>
+for <code>D(2S)^+</code>, <code>33</code> for <code>D(2750)^+</code>, <code>34</code> for <code>D(3000)^+</code></li>
+<li><code>40</code> for all heavy <code>D**H^+</code>, and <code>41</code> for <code>D*(2S)^+</code>, <code>42</code> for <code>D(2S)^+</code>, <code>43</code> for <code>D(2750)^+</code>, <code>44</code> for <code>D(3000)^+</code></li>
+<li><code>50</code> for all strange <code>D**s</code> (again, internally require specific <code>D**s</code> to be possible), and <code>53</code> for <code>D1'_s</code>, <code>54</code> for <code>D2*_s</code> (to keep
+consistent with <code>D**</code> scheme; there aren't any "<code>D0*_s, D1_s</code>")</li>
+</ol>
+</li>
+<li><code>b1b2</code> are used to separate <code>DD</code> cocktails, and will nominally be set to nonzero values for every <code>DD</code> decay. For now, this feature is not
+implemented, so it will always be that <code>b1b2=00</code></li>
+<li><code>a1</code>=<ol>
+<li><code>0</code> if not a <code>D**H</code> or DD decay, and <code>D**-&gt;D(*)pipi</code> decays are cut out if a (light) <code>D**</code> decay</li>
+<li><code>1</code> if a <code>DD</code> decay from a <code>B0</code></li>
+<li><code>2</code> if a <code>DD</code> decay from a <code>B+</code>  </li>
+<li><code>3</code> if a <code>D**H</code> decay where <code>D**H-&gt;D*-&gt;D</code> (useful because Phoebe separates this topology from <code>D**H-&gt;D0</code> directly in her templates for
+the <code>D0</code> sample)</li>
+<li><code>4</code> if a <code>D**H</code> decay where <code>D**H-&gt;D</code></li>
+<li><code>5</code> if a (light) <code>D**</code> decay explicitly with two pion decays (<code>D**-&gt;D(*)pipi</code>) kept</li>
+</ol>
+</li>
+</ol>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>For examples: successful truth-matching to <code>B0-&gt;D*munu</code> will be encoded as <code>000041</code>, <code>B--&gt;D*0munu</code> as <code>000031</code>, <code>B0-&gt;D0taunu</code> as <code>000011</code>,
+<code>B0-&gt;D1'taunu</code> (no 2pi) as <code>000231</code>, <code>B+-&gt;D2*(-&gt;D*pipi)munu</code> as <code>500140</code>, <code>B0-&gt;D**H(-&gt;Dpipi)munu</code> as <code>400400</code>, and <code>B+-&gt;D0X(-&gt;munuX)X</code> as <code>200000</code></p>
+</div>
                 
               
               
