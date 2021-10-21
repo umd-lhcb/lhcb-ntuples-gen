@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Oct 21, 2021 at 01:35 AM +0200
+# Last Change: Thu Oct 21, 2021 at 02:06 AM +0200
 
 import sys
 import os
@@ -273,7 +273,7 @@ JOBS = {
     # Run 1
     'rdx-ntuple-run1-data': lambda name: workflow_data(
         name,
-        '../ntuples/0.9.2-2011_production/Dst_D0-std',
+        '../ntuples/0.9.5-bugfix/Dst_D0-std',
         '../postprocess/rdx-run1/rdx-run1.yml',
         use_ubdt=False,
         executor=executor
