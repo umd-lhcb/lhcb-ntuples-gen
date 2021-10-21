@@ -3,6 +3,7 @@ headers:
         - functor/rdx/cut.h
         - functor/rdx/skims.h
         - functor/rdx/kinematic.h
+        - functor/rdx/flag.h
         - functor/basic.h
 
 keep:
@@ -144,9 +145,11 @@ calculation:
     d0_ip: double; D0IP; 100.0
     d0_ip_chi2: double; D0IPCHI2; 10.0
     # K
+    k_is_mu: bool; muVeto
     k_gh_prob: double; 0.0
     k_ip_chi2: double; 100.0
     # Pi
+    pi_is_mu: bool; muVeto
     pi_gh_prob: double; 0.0
     pi_ip_chi2: double; 100.0
     # Slow Pi
@@ -162,20 +165,20 @@ calculation:
     ###################
     # Misc.
     is_data: bool; isData
-    is_std: "bool; is_data && DstIDprod > 0 && IDprod > 0; is_data"
+    is_std: bool; is_data && DstIDprod > 0 && IDprod > 0; is_data
     is_2011: bool; flag2011
 
     # Trigger
-    l0: "bool; mu_l0_global_tis && (b0_l0_global_tis || d0_l0_hadron_tos)"
-    hlt1: "bool; k_hlt1_trackalll0_tos || pi_hlt1_trackalll0_tos"
-    hlt2: "bool; d0_hlt2_tos"
+    l0: bool; mu_l0_global_tis && (b0_l0_global_tis || d0_l0_hadron_tos)
+    hlt1: bool; k_hlt1_trackalll0_tos || pi_hlt1_trackalll0_tos
+    hlt2: bool; d0_hlt2_tos
 
     # D0 selection
     d0_pid_ok: bool; FLAG_SEL_D0_PID_OK_RUN1(k_pid_k, pi_pid_k, muVeto, muVeto)
     d0_ok: >-
         bool; FLAG_SEL_D0_RUN1(
         d0_pid_ok,
-        K_PT, pi_PT, K_P, pi_P,
+        K_PT, pi_PT,
         k_hlt1_trackalll0_tos, pi_hlt1_trackalll0_tos,
         k_ip_chi2, pi_ip_chi2,
         k_gh_prob, pi_gh_prob,
@@ -189,7 +192,7 @@ calculation:
         )
 
     # Mu selection
-    trks_ok: "^bool; true"
+    trks_ok: bool; true
     mu_pid_ok: bool; FLAG_SEL_MU_PID_OK_RUN1(mu_is_mu, mu_pid_mu, mu_pid_e)
     mu_ubdt_ok: bool; FLAG_SEL_MU_UBDT_OK_RUN1(mu_ubdt)
     mu_ok: >-
@@ -206,23 +209,27 @@ calculation:
         spi_gh_prob,
         dst_endvtx_chi2, dst_endvtx_ndof,
         dst_ref_deltam,
+        b0_discard_mu_chi2,
         b0_endvtx_chi2, b0_endvtx_ndof,
         b0_fd_trans,
         b0_dira, Y_M
         )
 
+    # Phoebe's global selection flag
+    is_selected: bool; IS_SELECTED(selcounter)
+
     # Skims
-    is_iso: bool; FLAG_ISO(mu_ubdt_ok, iso_bdt1)
+    is_iso: bool; FLAG_ISO(mu_ubdt_ok && ISOnum == 0, iso_bdt1)
     is_dd: >-
         bool; FLAG_DD(
-        mu_ubdt_ok,
+        mu_ubdt_ok && AntiISOnum == 0,
         iso_bdt1, iso_bdt2, iso_bdt2, iso_type1, iso_type2, iso_type3,
         iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
         iso_nnk1, iso_nnk2, iso_nnk3
         )
     is_2os: >-
         bool; FLAG_2OS(
-        mu_ubdt_ok,
+        mu_ubdt_ok && AntiISOnum == 0,
         iso_bdt1, iso_bdt2, iso_bdt3, iso_type1, iso_type2,
         iso_p1, iso_p2, iso_pt1, iso_pt2,
         iso_chrg1, iso_chrg2,
@@ -230,7 +237,7 @@ calculation:
         )
     is_1os: >-
         bool; FLAG_1OS(
-        mu_ubdt_ok,
+        mu_ubdt_ok && AntiISOnum == 0,
         iso_bdt1, iso_bdt2, iso_type1,
         iso_p1, iso_pt1,
         iso_chrg1,
@@ -244,19 +251,20 @@ global_selection:
     - hlt1
     - hlt2
     # Cuts on fit variables
-    - "-2.0 <= mm2 && mm2 <= 10.0"
-    - "0.1 <= el && el <= 2.5"
-    - "-0.4 <= q2 && q2 <= 12.6"
+    - -2.0 <= mm2 && mm2 <= 10.9
+    - 0.0 <= el && el <= 2.65
+    - -0.4 <= q2 && q2 <= 12.6
     # Remove VELO slow Pi
-    - "spi_trk_type == 3"
+    - spi_trk_type == 3
 
 one_cand_only:
-    enable: true
+    enable: false
     branch: calculation_prs_in
 
 output:
     Dst_data:
         input: ntp1
         selection:
+            #- is_selected
             - is_std  # Signature for 'std' reconstruction mode
             - dstmu_ok

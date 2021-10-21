@@ -1,6 +1,6 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Wed Oct 20, 2021 at 11:07 PM +0200
+// Last Change: Thu Oct 21, 2021 at 06:01 PM +0200
 // NOTE: All kinematic variables are in MeV
 
 #ifndef _LNG_FUNCTOR_RDX_CUT_H_
@@ -125,7 +125,6 @@ Bool_t FLAG_SEL_D0_PID_OK_RUN1(Double_t k_pid_k, Double_t pi_pid_k,
 // clang-format off
 Bool_t FLAG_SEL_D0_RUN1(Bool_t flag_d0_pid_ok,
                         Double_t k_pt, Double_t pi_pt,
-                        Double_t k_p, Double_t pi_p,
                         Bool_t k_hlt1_tos, Bool_t pi_hlt1_tos,
                         Double_t k_ip_chi2, Double_t pi_ip_chi2,
                         Double_t k_gh_prob, Double_t pi_gh_prob,
@@ -142,10 +141,8 @@ Bool_t FLAG_SEL_D0_RUN1(Bool_t flag_d0_pid_ok,
   // clang-format off
   if (flag_d0_pid_ok &&
       /* K, pi */
-      ((k_hlt1_tos && k_pt > 1700.0) || (pi_hlt1_tos && pi_pt > 1700.0)) &&
-      k_pt > 800.0 && pi_pt > 800.0 && k_pt+pi_pt > 1400.0 &&  /* AddB.C, LN2554 */
-      ////
-      k_p > 2000.0 && pi_p > 2000.0 &&
+      (k_hlt1_tos || pi_hlt1_tos) &&
+      k_pt > 500.0 && pi_pt > 500.0 && k_pt+pi_pt > 1400.0 &&  /* AddB.C, LN2554 */
       k_ip_chi2 > 45.0 && pi_ip_chi2 > 45.0 &&
       k_gh_prob < 0.5 && pi_gh_prob < 0.5 &&
       /* D0 */
@@ -192,7 +189,7 @@ Bool_t FLAG_SEL_MU_RUN1(Bool_t flag_good_trks, Bool_t flag_mu_pid_ok,
       /* Mu PID related */
       flag_mu_pid_ok &&
       /* Momentum */
-      mu_p > 3000.0 && mu_p < 100000.0 &&
+      mu_p > 3.0e3 && mu_p < 100.0e3 &&
       /* Acceptance */
       mu_eta > 1.7 && mu_eta < 5.0 &&
       /* Track quality */
@@ -274,7 +271,7 @@ Bool_t FLAG_SEL_B0DST_RUN1(Bool_t flag_sel_d0, Bool_t flag_sel_mu,
                            Double_t spi_gh_prob,
                            Double_t dst_endvtx_chi2, Double_t dst_endvtx_ndof,
                            Double_t dst_ref_deltam,
-                           // Double_t b0_discard_mu_chi2,
+                           Double_t b0_discard_mu_chi2,
                            Double_t b0_endvtx_chi2, Double_t b0_endvtx_ndof,
                            Double_t b0_fd_trans,
                            Double_t b0_dira,
@@ -287,7 +284,7 @@ Bool_t FLAG_SEL_B0DST_RUN1(Bool_t flag_sel_d0, Bool_t flag_sel_mu,
       dst_ref_deltam < 2.0 &&
       /* D0 Mu combo, already applied in DaVinci */
       /* D* Mu combo */
-      // b0_discard_mu_chi2 <= 6 &&  // AddB.C, LN2567, but not in ANA!
+      b0_discard_mu_chi2 <= 6.0 &&  // AddB.C, LN2567, but not in ANA!
       b0_endvtx_chi2 < 24.0 &&  /* FIXME: AddB.C, LN2569, different from ANA! */
       b0_endvtx_chi2/b0_endvtx_ndof < 6.0 &&
       b0_fd_trans < 7.0 &&
