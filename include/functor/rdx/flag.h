@@ -1,6 +1,6 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Sun Jun 27, 2021 at 01:13 AM +0200
+// Last Change: Thu Oct 21, 2021 at 05:56 PM +0200
 
 #ifndef _LNG_FUNCTOR_RDX_FLAG_H_
 #define _LNG_FUNCTOR_RDX_FLAG_H_
@@ -12,6 +12,10 @@
 #include "functor/basic.h"
 
 // Flags ///////////////////////////////////////////////////////////////////////
+
+Bool_t IS_SELECTED(UInt_t selcounter) {
+  return (selcounter & (4096 * 64 - 1)) == (4096 * 64 - 1);
+}
 
 // Original name: oneone, onetwo, ... (See LN2711-2712)
 // Current name: mc_flags or v_mc_flags (all flags put in a vector)
