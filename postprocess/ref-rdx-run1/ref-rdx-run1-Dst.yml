@@ -1,0 +1,262 @@
+headers:
+    user:
+        - functor/rdx/cut.h
+        - functor/rdx/skims.h
+        - functor/rdx/kinematic.h
+        - functor/basic.h
+
+keep:
+    # For event matching
+    - runNumber
+    - eventNumber
+
+rename:
+    # General
+    Polarity: polarity
+    runNumber: run
+    eventNumber: event
+    # L0
+    YTIS: b0_l0_global_tis
+    YTOS: d0_l0_hadron_tos
+    L0: mu_l0_global_tis
+    # HLT1
+    Hlt1K: k_hlt1_tos
+    Hlt1TAL0K: k_hlt1_trackalll0_tos
+    Hlt1pi: pi_hlt1_tos
+    Hlt1TAL0pi: pi_hlt1_trackalll0_tos
+    # HLT2
+    Hlt2: d0_hlt2_tos  # The full Hlt2 trigger name is 'Hlt2CharmHadD02HH_D02KPiDecision'
+
+# NOTE: We don't have these branches in Phoebe's step 2:
+#       k_ip_chi2, pi_ip_chi2 (*_IPCHI2_OWNPV):
+#           All events in the step 2 pass ip_chi2 selection
+#       k_gh_prob, pi_gh_prob (*_TRACK_GhostProb):
+#           All events in the step 2 pass gh_prob selection
+#       d0_endvtx_chi2, d0_endvtx_ndof (*_ENDVERTEX_{CHI2/NDOF}):
+#           Not sure if we have it, assuming always true
+#       d0_fd_chi2 (D0_FDCHI2_OWNPV):
+#           Not sure, but assume true
+#       dst_endvtx_ndof (D0_ENDVERTEX_NDOF):
+#           Not sure, and can't see anything in AddB.C
+#       Missing all momentum components!
+#       b_endvtx_ndof (Y_ENDVERTEX_NDOF):
+#           All events in the step 2 pass CHI2/NDOF selection
+
+calculation:
+    # For pseudo-random sequence generation
+    prs_in: double; Y_PT
+
+    #######################
+    # Isolation variables #
+    #######################
+    # Isolation BDTs
+    iso_bdt1: double; iso_BDT
+    iso_bdt2: double; iso_BDT2
+    iso_bdt3: double; iso_BDT3
+    # PID
+    iso_nnk1: float; iso_NNk
+    iso_nnk2: float; iso_NNk2
+    iso_nnk3: float; iso_NNk3
+    # Charge
+    iso_chrg1: int; TO_TYPE(iso_CHARGE, 1)
+    iso_chrg2: int; TO_TYPE(iso_CHARGE2, 1)
+    # Kinematic
+    iso_p1: float; iso_P
+    iso_p2: float; iso_P2
+    iso_p3: float; iso_P3
+    iso_pt1: float; iso_PT
+    iso_pt2: float; iso_PT2
+    iso_pt3: float; iso_PT3
+    # Track types
+    iso_type1: int; TO_TYPE(iso_Type, 1)
+    iso_type2: int; TO_TYPE(iso_Type2, 1)
+    iso_type3: int; TO_TYPE(iso_Type3, 1)
+
+    #################
+    # Fit variables #
+    #################
+    el: double; GEV(El)
+    mm2: double; m_nu1  # in GeV
+    q2: double; GEV2(q2)
+
+    #######################
+    # Kinematic variables #
+    #######################
+    # B0
+    b0_m: double; GEV(Y_M)
+    b0_p: double; GEV(Y_P)
+    b0_pt: double; GEV(Y_PT)
+    # D*
+    dst_m: double; GEV(Dst_M)
+    dst_p: double; GEV(Dst_P)
+    dst_pt: double; GEV(Dst_PT)
+    dst_iso_invm: double; 0.0  # Not implemented by Phoebe; Greg only
+    dst_iso_deltam: double; GEV(iso_DeltaM)
+    dst_ref_deltam: double; ABS(Dst_M-D0_M-145.454)  # MeV!
+    # D0
+    d0_m: double; GEV(D0_M)
+    d0_p: double; GEV(D0_P)
+    d0_pt: double; GEV(D0_PT)
+    # K
+    k_p: double; GEV(K_P)
+    k_pt: double; GEV(K_PT)
+    # Pi
+    pi_p: double; GEV(pi_P)
+    pi_pt: double; GEV(pi_PT)
+    # Mu
+    mu_p: double; GEV(mu_P)
+    mu_pt: double; GEV(mu_PT)
+
+    #################
+    # PID variables #
+    #################
+    # Dst
+    dst_id: int; Dst_ID
+    # D0
+    d0_id: int; D0_ID; SIGN(dst_id)*421  # Faked from D* ID
+    # K
+    k_pid_k: double; KPID
+    # Pi
+    pi_pid_k: double; piPID
+    # Mu
+    mu_is_mu: bool; mu_is
+    mu_pid_mu: double; DLLmu
+    mu_pid_e: double; DLLe
+    mu_ubdt: float; BDTmu  # Greg's Mu UBDT PID
+
+    ######################
+    # Tracking variables #
+    ######################
+    # B0
+    b0_endvtx_chi2: double; Y_ENDVERTEX_CHI2
+    b0_endvtx_ndof: double; 1000.0
+    b0_dira: double; Y_DIRA_OWNPV
+    b0_fd_trans: double; dxy
+    b0_discard_mu_chi2: double; Y_DISCARDMu_CHI2
+    # D*
+    dst_endvtx_chi2: double; Dst_ENDVERTEX_CHI2
+    dst_endvtx_ndof: double; 1000.0
+    # D0
+    d0_endvtx_chi2: double; 0.0
+    d0_endvtx_ndof: double; 1.0
+    d0_dira: double; D0_DIRA_OWNPV
+    d0_fd_chi2: double; 500.0
+    d0_ip: double; D0IP; 100.0
+    d0_ip_chi2: double; D0IPCHI2; 10.0
+    # K
+    k_gh_prob: double; 0.0
+    k_ip_chi2: double; 100.0
+    # Pi
+    pi_gh_prob: double; 0.0
+    pi_ip_chi2: double; 100.0
+    # Slow Pi
+    spi_gh_prob: double; pislow_GhostProb
+    spi_trk_type: int; piminus_TRACK_Type
+    # Mu
+    mu_gh_prob: double; GhostProb
+    mu_ip_chi2: double; muIPCHI2
+    mu_eta: double; mu_ETA
+
+    ###################
+    # Selection flags #
+    ###################
+    # Misc.
+    is_data: bool; isData
+    is_std: "bool; is_data && DstIDprod > 0 && IDprod > 0; is_data"
+    is_2011: bool; flag2011
+
+    # Trigger
+    l0: "bool; mu_l0_global_tis && (b0_l0_global_tis || d0_l0_hadron_tos)"
+    hlt1: "bool; k_hlt1_trackalll0_tos || pi_hlt1_trackalll0_tos"
+    hlt2: "bool; d0_hlt2_tos"
+
+    # D0 selection
+    d0_pid_ok: bool; FLAG_SEL_D0_PID_OK_RUN1(k_pid_k, pi_pid_k, muVeto, muVeto)
+    d0_ok: >-
+        bool; FLAG_SEL_D0_RUN1(
+        d0_pid_ok,
+        K_PT, pi_PT, K_P, pi_P,
+        k_hlt1_trackalll0_tos, pi_hlt1_trackalll0_tos,
+        k_ip_chi2, pi_ip_chi2,
+        k_gh_prob, pi_gh_prob,
+        D0_PT,
+        d0_hlt2_tos,
+        d0_endvtx_chi2, d0_endvtx_ndof,
+        d0_ip, d0_ip_chi2,
+        d0_dira,
+        d0_fd_chi2,
+        D0_M
+        )
+
+    # Mu selection
+    trks_ok: "^bool; true"
+    mu_pid_ok: bool; FLAG_SEL_MU_PID_OK_RUN1(mu_is_mu, mu_pid_mu, mu_pid_e)
+    mu_ubdt_ok: bool; FLAG_SEL_MU_UBDT_OK_RUN1(mu_ubdt)
+    mu_ok: >-
+        bool; FLAG_SEL_MU_RUN1(
+        trks_ok, mu_pid_ok,
+        mu_P, mu_eta,
+        mu_ip_chi2, mu_gh_prob
+        )
+
+    # D*Mu combo selection
+    dstmu_ok: >-
+        bool; FLAG_SEL_B0DST_RUN1(
+        d0_ok, mu_ok,
+        spi_gh_prob,
+        dst_endvtx_chi2, dst_endvtx_ndof,
+        dst_ref_deltam,
+        b0_endvtx_chi2, b0_endvtx_ndof,
+        b0_fd_trans,
+        b0_dira, Y_M
+        )
+
+    # Skims
+    is_iso: bool; FLAG_ISO(mu_ubdt_ok, iso_bdt1)
+    is_dd: >-
+        bool; FLAG_DD(
+        mu_ubdt_ok,
+        iso_bdt1, iso_bdt2, iso_bdt2, iso_type1, iso_type2, iso_type3,
+        iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+        iso_nnk1, iso_nnk2, iso_nnk3
+        )
+    is_2os: >-
+        bool; FLAG_2OS(
+        mu_ubdt_ok,
+        iso_bdt1, iso_bdt2, iso_bdt3, iso_type1, iso_type2,
+        iso_p1, iso_p2, iso_pt1, iso_pt2,
+        iso_chrg1, iso_chrg2,
+        iso_nnk1, iso_nnk2
+        )
+    is_1os: >-
+        bool; FLAG_1OS(
+        mu_ubdt_ok,
+        iso_bdt1, iso_bdt2, iso_type1,
+        iso_p1, iso_pt1,
+        iso_chrg1,
+        iso_nnk1,
+        dst_id, dst_iso_deltam
+        )
+
+global_selection:
+    # Trigger
+    - l0
+    - hlt1
+    - hlt2
+    # Cuts on fit variables
+    - "-2.0 <= mm2 && mm2 <= 10.0"
+    - "0.1 <= el && el <= 2.5"
+    - "-0.4 <= q2 && q2 <= 12.6"
+    # Remove VELO slow Pi
+    - "spi_trk_type == 3"
+
+one_cand_only:
+    enable: true
+    branch: calculation_prs_in
+
+output:
+    Dst_data:
+        input: ntp1
+        selection:
+            - is_std  # Signature for 'std' reconstruction mode
+            - dstmu_ok
