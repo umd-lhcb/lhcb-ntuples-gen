@@ -1,6 +1,6 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Thu Oct 21, 2021 at 05:56 PM +0200
+// Last Change: Fri Oct 22, 2021 at 12:15 AM +0200
 
 #ifndef _LNG_FUNCTOR_RDX_FLAG_H_
 #define _LNG_FUNCTOR_RDX_FLAG_H_
@@ -13,8 +13,21 @@
 
 // Flags ///////////////////////////////////////////////////////////////////////
 
-Bool_t IS_SELECTED(UInt_t selcounter) {
-  return (selcounter & (4096 * 64 - 1)) == (4096 * 64 - 1);
+// clang-format off
+Bool_t IS_SELECTED(UInt_t selcounter,
+                   Bool_t mu_veto,
+                   Double_t b0_fd_trans,
+                   Double_t k_pt, Double_t pi_pt,
+                   Bool_t k_hlt1_tos, Bool_t pi_hlt1_tos,
+                   Bool_t mu_pid_ok_phoebe,
+                   Double_t mu_pid_e, Double_t mu_ubdt) {
+  // From:
+  //  https://gitlab.cern.ch/bhamilto/rdvsrdst-histfactory/-/blob/master/proc/redoHistos_Dst.C#L1535-1570
+  // clang-format on
+  return (selcounter & (4096 * 64 - 1)) == (4096 * 64 - 1) && !mu_veto &&
+         (b0_fd_trans < 7.0) &&
+         ((k_hlt1_tos && k_pt > 1700.0) || (pi_hlt1_tos && pi_pt > 1700.0)) &&
+         (mu_pid_ok_phoebe && mu_pid_e < 1.0 && mu_ubdt > 0.25);
 }
 
 // Original name: oneone, onetwo, ... (See LN2711-2712)

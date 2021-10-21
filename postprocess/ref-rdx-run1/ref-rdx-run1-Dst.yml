@@ -123,6 +123,8 @@ calculation:
     mu_pid_mu: double; DLLmu
     mu_pid_e: double; DLLe
     mu_ubdt: float; BDTmu  # Greg's Mu UBDT PID
+    mu_veto: bool; muVeto
+    mu_pid_ok_phoebe: bool; TO_TYPE(muPID, true)
 
     ######################
     # Tracking variables #
@@ -215,7 +217,16 @@ calculation:
         )
 
     # Phoebe's global selection flag
-    is_selected: bool; IS_SELECTED(selcounter)
+    is_selected: >-
+        bool; IS_SELECTED(
+        selcounter,
+        mu_veto,
+        b0_fd_trans,
+        K_PT, pi_PT,
+        k_hlt1_tal0_tos, pi_hlt1_tal0_tos,
+        mu_pid_ok_phoebe,
+        mu_pid_e, mu_ubdt
+        )
 
     # Skims
     is_iso: bool; FLAG_ISO(mu_ubdt_ok && ISOnum == 0, iso_bdt1)
@@ -269,6 +280,6 @@ output:
     Dst_data:
         input: ntp1
         selection:
-            #- is_selected
             - is_std  # Signature for 'std' reconstruction mode
-            - dstmu_ok
+            #- dstmu_ok
+            - is_selected
