@@ -1,6 +1,6 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Thu Oct 21, 2021 at 11:12 PM +0200
+// Last Change: Thu Oct 21, 2021 at 11:49 PM +0200
 // NOTE: All kinematic variables are in MeV
 
 #ifndef _LNG_FUNCTOR_RDX_CUT_H_
@@ -285,7 +285,7 @@ Bool_t FLAG_SEL_B0DST_RUN1(Bool_t flag_sel_d0, Bool_t flag_sel_mu,
       /* D0 Mu combo, already applied in DaVinci */
       /* D* Mu combo */
       b0_discard_mu_chi2 <= 6.0 &&  // AddB.C, LN2567, but not in ANA!
-      b0_endvtx_chi2 < 24.0 &&  /* FIXME: AddB.C, LN2569, different from ANA! */
+      b0_endvtx_chi2 < 24.0 &&
       b0_endvtx_chi2/b0_endvtx_ndof < 6.0 &&
       b0_fd_trans < 7.0 &&
       b0_dira > 0.9995 &&
