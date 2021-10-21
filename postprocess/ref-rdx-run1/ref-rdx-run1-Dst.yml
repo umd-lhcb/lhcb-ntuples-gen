@@ -21,9 +21,7 @@ rename:
     YTOS: d0_l0_hadron_tos
     L0: mu_l0_global_tis
     # HLT1
-    Hlt1K: k_hlt1_tos
     Hlt1TAL0K: k_hlt1_trackalll0_tos
-    Hlt1pi: pi_hlt1_tos
     Hlt1TAL0pi: pi_hlt1_trackalll0_tos
     # HLT2
     Hlt2: d0_hlt2_tos  # The full Hlt2 trigger name is 'Hlt2CharmHadD02HH_D02KPiDecision'
@@ -77,7 +75,7 @@ calculation:
     # Fit variables #
     #################
     el: double; GEV(El)
-    mm2: double; m_nu1  # in GeV
+    mm2: double; m_nu1  # in GeV already
     q2: double; GEV2(q2)
 
     #######################
@@ -165,7 +163,7 @@ calculation:
     ###################
     # Misc.
     is_data: bool; isData
-    is_std: bool; is_data && DstIDprod > 0 && IDprod > 0; is_data
+    is_std: bool; is_data && DstIDprod > 0 && IDprod > 0
     is_2011: bool; flag2011
 
     # Trigger
@@ -223,22 +221,27 @@ calculation:
     is_dd: >-
         bool; FLAG_DD(
         mu_ubdt_ok && AntiISOnum == 0,
-        iso_bdt1, iso_bdt2, iso_bdt2, iso_type1, iso_type2, iso_type3,
-        iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+        iso_bdt1, iso_bdt2, iso_bdt3,
+        iso_type1, iso_type2, iso_type3,
+        iso_p1, iso_p2, iso_p3,
+        iso_pt1, iso_pt2, iso_pt3,
         iso_nnk1, iso_nnk2, iso_nnk3
         )
     is_2os: >-
         bool; FLAG_2OS(
         mu_ubdt_ok && AntiISOnum == 0,
-        iso_bdt1, iso_bdt2, iso_bdt3, iso_type1, iso_type2,
-        iso_p1, iso_p2, iso_pt1, iso_pt2,
+        iso_bdt1, iso_bdt2, iso_bdt3,
+        iso_type1, iso_type2,
+        iso_p1, iso_p2,
+        iso_pt1, iso_pt2,
         iso_chrg1, iso_chrg2,
         iso_nnk1, iso_nnk2
         )
     is_1os: >-
         bool; FLAG_1OS(
         mu_ubdt_ok && AntiISOnum == 0,
-        iso_bdt1, iso_bdt2, iso_type1,
+        iso_bdt1, iso_bdt2,
+        iso_type1,
         iso_p1, iso_pt1,
         iso_chrg1,
         iso_nnk1,
