@@ -1,6 +1,6 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Thu Oct 21, 2021 at 06:01 PM +0200
+// Last Change: Thu Oct 21, 2021 at 11:12 PM +0200
 // NOTE: All kinematic variables are in MeV
 
 #ifndef _LNG_FUNCTOR_RDX_CUT_H_
@@ -141,8 +141,8 @@ Bool_t FLAG_SEL_D0_RUN1(Bool_t flag_d0_pid_ok,
   // clang-format off
   if (flag_d0_pid_ok &&
       /* K, pi */
-      (k_hlt1_tos || pi_hlt1_tos) &&
-      k_pt > 500.0 && pi_pt > 500.0 && k_pt+pi_pt > 1400.0 &&  /* AddB.C, LN2554 */
+      ((k_hlt1_tos && k_pt > 1700.0) || (pi_hlt1_tos && pi_pt > 1700.0)) &&
+      k_pt > 500.0 && pi_pt > 500.0 && k_pt+pi_pt > 1400.0 &&
       k_ip_chi2 > 45.0 && pi_ip_chi2 > 45.0 &&
       k_gh_prob < 0.5 && pi_gh_prob < 0.5 &&
       /* D0 */
