@@ -123,8 +123,6 @@ calculation:
     mu_pid_mu: double; DLLmu
     mu_pid_e: double; DLLe
     mu_ubdt: float; BDTmu  # Greg's Mu UBDT PID
-    mu_veto: bool; muVeto
-    mu_pid_ok_phoebe: bool; TO_TYPE(muPID, true)
 
     ######################
     # Tracking variables #
@@ -219,11 +217,11 @@ calculation:
     # Phoebe's global selection flag
     is_phoebe_ok: >-
         bool; FLAG_OFFLINE_SEL_RUN1(
-        mu_veto,
+        muVeto,
         b0_fd_trans,
         K_PT, pi_PT,
         k_hlt1_tal0_tos, pi_hlt1_tal0_tos,
-        mu_pid_ok_phoebe,
+        TO_TYPE(muPID, true),
         mu_pid_e, mu_ubdt
         )
 

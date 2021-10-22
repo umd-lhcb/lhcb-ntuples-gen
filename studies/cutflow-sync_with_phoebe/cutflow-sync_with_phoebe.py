@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri Oct 22, 2021 at 04:30 AM +0200
+# Last Change: Fri Oct 22, 2021 at 02:04 PM +0200
 # Note: Here we use Phoebe's latest ntuple
 
 import pathlib
@@ -38,7 +38,8 @@ DST_CUTS = [
     'dxy < 7.0 && Y_DISCARDMu_CHI2 < 6.0 && Y_ENDVERTEX_CHI2 < 24.0 && '
     'Y_DIRA_OWNPV > 0.9995 && pislow_GhostProb < 0.25',  # D*
     'Y_M < 5280.0',  # D*
-    'ABS(Dst_M-D0_M-145.454) < 2.0',  # D*
+    # 'ABS(Dst_M-D0_M-145.454) < 2.0',  # D*, this cut is too narrow
+    'MIN(ABS(Dst_M-D0_M-145.454-9), ABS(Dst_M-D0_M-145.454)) < 2.0 ',  # D*, keeping side-band
     'K_PT > 500.0 && pi_PT > 500.0 && K_PT+pi_PT > 1400.0 && D0_PT > 2000.0',  # D0
 ]
 
