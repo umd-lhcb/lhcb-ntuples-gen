@@ -262,9 +262,9 @@ global_selection:
     - hlt1
     - hlt2
     # Cuts on fit variables
-    - -2.0 <= mm2 && mm2 <= 10.9
-    - 0.0 <= el && el <= 2.65
-    - -0.4 <= q2 && q2 <= 12.6
+    - IN_RANGE(mm2, -2.0, 10.9)
+    - IN_RANGE(el, 0.1, 2.65)
+    - IN_RANGE(q2, -0.4, 12.6)
     # Remove VELO slow Pi
     - spi_trk_type == 3
 
