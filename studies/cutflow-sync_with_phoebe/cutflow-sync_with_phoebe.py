@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri Oct 22, 2021 at 11:16 PM +0200
+# Last Change: Fri Oct 22, 2021 at 11:57 PM +0200
 # Note: Here we use Phoebe's latest ntuple
 
 import pathlib
@@ -26,10 +26,10 @@ ROOT.gInterpreter.Declare('#include "functor/rdx/skims.h"')
 #################
 
 DST_CUTS = [
-    # '(selcounter & (4096 * 64 - 1)) == (4096 * 64 - 1)',  # This doesn't remove any event
+    # '(selcounter & (4096 * 64 - 1)) == (4096 * 64 - 1)',  # No event removed
     'isData && DstIDprod > 0 && IDprod > 0 && '
     'IN_RANGE(m_nu1, -2.0, 10.9, true) && '
-    'IN_RANGE(GEV(El), 0.0, 2.65, true) && '
+    'IN_RANGE(GEV(El), 0.1, 2.65, true) && '
     'IN_RANGE(GEV2(q2), -0.4, 12.6, true)',  # Generic global cuts on fit variables
     # 'piminus_TRACK_Type == 3',  # No event removed
     'L0 && (YTIS || YTOS) && Hlt1 && Hlt2',  # trigger
@@ -46,8 +46,8 @@ DST_CUTS = [
     'IN_RANGE(D0_M, 1845.0, 1890.0)',  # FIXME: Missing in our cuts.
     # 'KIPCHI2 > 45.0 && piIPCHI2 > 45.0',  # D0, no event removed
     # 'D0_DIRA_OWNPV > 0.9998 && D0IPCHI2 > 9.0',  # D0, no event removed
-    # 'ABS(D0_M-1865.49) < 23.4',  # D0, no event removed
-    # 'K_P > 2000.0 && pi_P > 2000.0',  # D0, no event removed
+    # 'ABS(D0_M-1865.49) < 23.4 && '
+    # 'K_P > 2000.0 && pi_P > 2000.0 && '
     # 'K_PT > 500.0 && pi_PT > 500.0 && K_PT+pi_PT > 1400.0 && D0_PT > 2000.0',  # D0, doesn't remove any event
 ]
 

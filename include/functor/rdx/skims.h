@@ -1,6 +1,6 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Wed Oct 20, 2021 at 02:23 AM +0200
+// Last Change: Fri Oct 22, 2021 at 11:50 PM +0200
 // NOTE: All kinematic variables are in MeV
 
 #ifndef _LNG_FUNCTOR_RDX_SKIMS_H_
@@ -84,7 +84,7 @@ Bool_t FLAG_2OS(Bool_t add_flags,
   return add_flags && (iso_bdt1 > 0.15) && (iso_bdt2 > 0.15) &&
          (iso_bdt3 < 0.15) && (iso_type1 == 3) && (iso_type2 == 3) &&
          (MAX(iso_p1 * (iso_pt1 > 0.15), iso_p2 * (iso_pt2 > 0.15)) > 5.0) &&
-         (iso_chrg1 != 0) && (iso_chrg1 + iso_chrg2 == 0) &&
+         (iso_chrg1 != iso_chrg2) && (iso_chrg1 * iso_chrg2 != 0) &&
          (iso_chrg1 < 100) && (iso_nnk1 < 0.2) && (iso_nnk2 < 0.2);
 }
 
@@ -157,8 +157,8 @@ Bool_t FLAG_1OS(Bool_t add_flags,
   return add_flags && (iso_bdt1 > 0.15) && (iso_bdt2 < 0.15) &&
          (iso_type1 == 3) && (iso_p1 > 5.0) && (iso_pt1 > 0.15) &&
          (iso_chrg1 * dst_id < 0) && (iso_nnk1 < 0.2) &&
-         (0.36 < dst_iso_deltam) && (dst_iso_deltam < 0.6);  // Phoebe's cut
-  // (2.4 < dst_iso_invm && dst_iso_invm < 2.52)  // Greg's cut
+         IN_RANGE(dst_iso_deltam, 0.36, 0.6);  // Phoebe's cut
+  // IN_RANGE(dst_iso_invm, 2.4, 2.52)  // Greg's cut
 }
 
 // clang-format off
