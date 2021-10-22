@@ -142,15 +142,15 @@ calculation:
     d0_dira: double; D0_DIRA_OWNPV
     d0_fd_chi2: double; 500.0
     d0_ip: double; D0IP
-    d0_ip_chi2: double; D0IPCHI2; 10.0
+    d0_ip_chi2: double; D0IPCHI2
     # K
     k_is_mu: bool; muVeto
     k_gh_prob: double; 0.0
-    k_ip_chi2: double; 100.0
+    k_ip_chi2: double; KIPCHI2
     # Pi
     pi_is_mu: bool; muVeto
     pi_gh_prob: double; 0.0
-    pi_ip_chi2: double; 100.0
+    pi_ip_chi2: double; piIPCHI2
     # Slow Pi
     spi_gh_prob: double; pislow_GhostProb
     spi_trk_type: int; piminus_TRACK_Type

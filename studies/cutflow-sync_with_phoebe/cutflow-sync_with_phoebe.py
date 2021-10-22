@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri Oct 22, 2021 at 03:54 PM +0200
+# Last Change: Fri Oct 22, 2021 at 04:17 PM +0200
 # Note: Here we use Phoebe's latest ntuple
 
 import pathlib
@@ -31,6 +31,7 @@ DST_CUTS = [
     'IN_RANGE(m_nu1, -2.0, 10.9, true) && '
     'IN_RANGE(GEV(El), 0.0, 2.65, true) && '
     'IN_RANGE(GEV2(q2), -0.4, 12.6, true)',  # Generic global cuts on fit variables
+    # 'piminus_TRACK_Type == 3',  # No event removed
     'L0 && (YTIS || YTOS) && Hlt1 && Hlt2',  # trigger
     '(Hlt1TAL0K && K_PT > 1700.0) || (Hlt1TAL0pi && pi_PT > 1700.0)',  # trigger
     '!muVeto && muPID > 0 && DLLe < 1.0 && BDTmu > 0.25 && '
@@ -40,7 +41,8 @@ DST_CUTS = [
     'Y_DIRA_OWNPV > 0.9995 && pislow_GhostProb < 0.25',  # D*Mu combo
     'Y_M < 5280.0',  # D*Mu combo
     # 'ABS(Dst_M-D0_M-145.454) < 2.0',  # D*, this cut is too narrow
-    'MIN(ABS(Dst_M-D0_M-145.454-9), ABS(Dst_M-D0_M-145.454)) < 2.0',  # D*Mu combo, keeping side-band
+    'ABS(Dst_M-D0_M-145.454-9) < 2.0 || ABS(Dst_M-D0_M-145.454) < 2.0',  # D*Mu combo, keeping side-band
+    # 'KIPCHI2 > 45.0 && piIPCHI2 > 45.0',  # D0, no event removed
     # 'D0_DIRA_OWNPV > 0.9998 && D0IPCHI2 > 9.0',  # D0, no event removed
     # 'ABS(D0_M-1865.49) < 23.4',  # D0, no event removed
     # 'K_P > 2000.0 && pi_P > 2000.0',  # D0, no event removed
