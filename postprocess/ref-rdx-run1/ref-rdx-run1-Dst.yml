@@ -213,17 +213,6 @@ calculation:
         b0_dira, Y_M
         )
 
-    # Phoebe's global selection flag
-    is_phoebe_ok: >-
-        bool; FLAG_OFFLINE_SEL_RUN1(
-        muVeto,
-        b0_fd_trans,
-        K_PT, pi_PT,
-        k_hlt1_tal0_tos, pi_hlt1_tal0_tos,
-        TO_TYPE(muPID, true),
-        mu_pid_e, mu_ubdt
-        )
-
     # Skims
     is_iso: bool; FLAG_ISO(mu_ubdt_ok && ISOnum == 0, iso_bdt1)
     is_dd: >-
