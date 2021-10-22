@@ -1,6 +1,6 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Wed Oct 13, 2021 at 04:41 AM +0200
+// Last Change: Fri Oct 22, 2021 at 02:23 PM +0200
 
 #ifndef _LNG_FUNCTOR_BASIC_H_
 #define _LNG_FUNCTOR_BASIC_H_
@@ -90,6 +90,12 @@ T IF(bool condition, T true_val, U false_val) {
 template <typename T, typename U>
 U IF_VAR_EXISTS(T var, U out) {
   return out;
+}
+
+template <typename T>
+Bool_t IN_RANGE(T val, T lower, T upper, Bool_t closed = false) {
+  if (closed) return val >= lower && val <= upper;
+  return val > lower && val < upper;
 }
 
 // Units ///////////////////////////////////////////////////////////////////////
