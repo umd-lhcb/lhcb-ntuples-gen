@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri Oct 22, 2021 at 03:19 PM +0200
+# Last Change: Fri Oct 22, 2021 at 03:54 PM +0200
 # Note: Here we use Phoebe's latest ntuple
 
 import pathlib
@@ -35,7 +35,7 @@ DST_CUTS = [
     '(Hlt1TAL0K && K_PT > 1700.0) || (Hlt1TAL0pi && pi_PT > 1700.0)',  # trigger
     '!muVeto && muPID > 0 && DLLe < 1.0 && BDTmu > 0.25 && '
     'mu_P > 3.0e3 && mu_P < 100.0e3 && mu_ETA > 1.7 && mu_ETA < 5.0 && '
-    'GhostProb < 0.5',  # Mu
+    'GhostProb < 0.5 && muIPCHI2 > 45.0',  # Mu
     'dxy < 7.0 && Y_DISCARDMu_CHI2 < 6.0 && Y_ENDVERTEX_CHI2 < 24.0 && '
     'Y_DIRA_OWNPV > 0.9995 && pislow_GhostProb < 0.25',  # D*Mu combo
     'Y_M < 5280.0',  # D*Mu combo
