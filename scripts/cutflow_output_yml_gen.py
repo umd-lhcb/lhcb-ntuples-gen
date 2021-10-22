@@ -2,11 +2,10 @@
 #
 # Author: Yipeng Sun, Manual Franco Sevilla
 # License: BSD 2-clause
-# Last Change: Tue Oct 05, 2021 at 04:50 PM +0200
+# Last Change: Fri Oct 22, 2021 at 03:16 AM +0200
 
 import pathlib
 import os
-import sys
 
 # Make ROOT aware of our custom header path
 pwd = pathlib.Path(__file__).parent.absolute()
@@ -73,7 +72,7 @@ CUTFLOW = {
              key=r'Trig. + Strip.'),
         # Step 2 cuts (currently same as in run 1)
         Rule('''flag_sel_d0_run1(k_PIDK, pi_PIDK, k_isMuon, pi_isMuon,
-                                 k_PT, pi_PT, k_P, pi_P,
+                                 k_PT, pi_PT,
                                  k_Hlt1TrackAllL0Decision_TOS,
                                  pi_Hlt1TrackAllL0Decision_TOS,
                                  k_IPCHI2_OWNPV, pi_IPCHI2_OWNPV,
@@ -93,6 +92,7 @@ CUTFLOW = {
         Rule('''flag_sel_b0dst_run1(spi_TRACK_GhostProb,
                                     dst_ENDVERTEX_CHI2, dst_ENDVERTEX_NDOF,
                                     dst_M, d0_M,
+                                    b0_DISCARDMu_CHI2,
                                     b0_ENDVERTEX_CHI2, b0_ENDVERTEX_NDOF,
                                     b0_ENDVERTEX_X, b0_ENDVERTEX_Y,
                                     b0_OWNPV_X, b0_OWNPV_Y,
@@ -124,7 +124,7 @@ CUTFLOW = {
              key=r'Trig. + Strip.'),
         # Step 2 cuts (currently same as in run 1)
         Rule('''flag_sel_d0_run1(k_PIDK, pi_PIDK, k_isMuon, pi_isMuon,
-                                 k_PT, pi_PT, k_P, pi_P,
+                                 k_PT, pi_PT,
                                  k_Hlt1TrackMVADecision_TOS,
                                  pi_Hlt1TrackMVADecision_TOS,
                                  k_IPCHI2_OWNPV, pi_IPCHI2_OWNPV,
@@ -144,6 +144,7 @@ CUTFLOW = {
         Rule('''flag_sel_b0dst_run1(spi_TRACK_GhostProb,
                                     dst_ENDVERTEX_CHI2, dst_ENDVERTEX_NDOF,
                                     dst_M, d0_M,
+                                    b0_DISCARDMu_CHI2,
                                     b0_ENDVERTEX_CHI2, b0_ENDVERTEX_NDOF,
                                     b0_ENDVERTEX_X, b0_ENDVERTEX_Y,
                                     b0_OWNPV_X, b0_OWNPV_Y,
@@ -158,7 +159,6 @@ CUTFLOW = {
              key=r'Offline $D^* \mu$ combo cuts'),
         Rule('b0_ISOLATION_BDT < 0.15', key=r'$BDT_{iso} < 0.15$'),
     ],
-
     'run1-Dst-bare': [
         # Trigger
         Rule('mu_L0Global_TIS & (b0_L0Global_TIS | d0_L0HadronDecision_TOS)',
@@ -187,7 +187,7 @@ CUTFLOW = {
              key=r'DaVinci $D^* \mu$ cuts'),
         # Step 2 cuts
         Rule('''flag_sel_d0_run1(k_PIDK, pi_PIDK, k_isMuon, pi_isMuon,
-                                 k_PT, pi_PT, k_P, pi_P,
+                                 k_PT, pi_PT,
                                  k_Hlt1TrackAllL0Decision_TOS,
                                  pi_Hlt1TrackAllL0Decision_TOS,
                                  k_IPCHI2_OWNPV, pi_IPCHI2_OWNPV,
@@ -207,6 +207,7 @@ CUTFLOW = {
         Rule('''flag_sel_b0dst_run1(spi_TRACK_GhostProb,
                                     dst_ENDVERTEX_CHI2, dst_ENDVERTEX_NDOF,
                                     dst_M, d0_M,
+                                    b0_DISCARDMu_CHI2,
                                     b0_ENDVERTEX_CHI2, b0_ENDVERTEX_NDOF,
                                     b0_ENDVERTEX_X, b0_ENDVERTEX_Y,
                                     b0_OWNPV_X, b0_OWNPV_Y,
@@ -241,7 +242,7 @@ CUTFLOW = {
              key=r'DaVinci $D^* \mu$ cuts'),
         # Step 2 cuts (currently same as in run 1)
         Rule('''flag_sel_d0_run1(k_PIDK, pi_PIDK, k_isMuon, pi_isMuon,
-                                 k_PT, pi_PT, k_P, pi_P,
+                                 k_PT, pi_PT,
                                  k_Hlt1TrackMVADecision_TOS,
                                  pi_Hlt1TrackMVADecision_TOS,
                                  k_IPCHI2_OWNPV, pi_IPCHI2_OWNPV,
@@ -261,6 +262,7 @@ CUTFLOW = {
         Rule('''flag_sel_b0dst_run1(spi_TRACK_GhostProb,
                                     dst_ENDVERTEX_CHI2, dst_ENDVERTEX_NDOF,
                                     dst_M, d0_M,
+                                    b0_DISCARDMu_CHI2,
                                     b0_ENDVERTEX_CHI2, b0_ENDVERTEX_NDOF,
                                     b0_ENDVERTEX_X, b0_ENDVERTEX_Y,
                                     b0_OWNPV_X, b0_OWNPV_Y,
@@ -381,7 +383,6 @@ flag_sel_b0dst_run1_raw = vectorize(ROOT.FLAG_SEL_B0DST_RUN1)
 
 def flag_sel_d0_run1(k_pid_k, pi_pid_k, k_is_mu, pi_is_mu,
                      k_pt, pi_pt,
-                     k_p, pi_p,
                      k_hlt1_tos, pi_hlt1_tos,
                      k_ip_chi2, pi_ip_chi2,
                      k_gh_prob, pi_gh_prob,
@@ -391,8 +392,8 @@ def flag_sel_d0_run1(k_pid_k, pi_pid_k, k_is_mu, pi_is_mu,
                      d0_ip, d0_ip_chi2,
                      d0_dira, d0_fd_chi2, d0_m):
     d0_pid_ok = flag_sel_d0_pid_ok_run1(k_pid_k, pi_pid_k, k_is_mu,
-                                             pi_is_mu)
-    return flag_sel_d0_run1_raw(d0_pid_ok, k_pt, pi_pt, k_p, pi_p,
+                                        pi_is_mu)
+    return flag_sel_d0_run1_raw(d0_pid_ok, k_pt, pi_pt,
                                 k_hlt1_tos, pi_hlt1_tos,
                                 k_ip_chi2, pi_ip_chi2, k_gh_prob, pi_gh_prob,
                                 d0_pt, d0_hlt2,
@@ -441,6 +442,7 @@ def vec_trans(x, y):
 def flag_sel_b0dst_run1(spi_gh_prob,
                         dst_endvtx_chi2, dst_endvtx_ndof,
                         dst_m, d0_m,
+                        b0_discard_mu_chi2,
                         b0_endvtx_chi2, b0_endvtx_ndof,
                         b0_endvtx_x, b0_endvtx_y,
                         b0_pv_x, b0_pv_y,
@@ -448,12 +450,13 @@ def flag_sel_b0dst_run1(spi_gh_prob,
     fake_sel_d0 = np.full(spi_gh_prob.size, True)
     fake_sel_mu = fake_sel_d0
     b0_fd_trans = vec_trans(b0_endvtx_x - b0_pv_x, b0_endvtx_y - b0_pv_y)
-    dst_veto_deltam = np.abs(dst_m - d0_m - 145.454)
+    dst_ref_deltam = np.abs(dst_m - d0_m - 145.454)
 
     return flag_sel_b0dst_run1_raw(fake_sel_d0, fake_sel_mu,
                                    spi_gh_prob,
                                    dst_endvtx_chi2, dst_endvtx_ndof,
-                                   dst_veto_deltam,
+                                   dst_ref_deltam,
+                                   b0_discard_mu_chi2,
                                    b0_endvtx_chi2, b0_endvtx_ndof,
                                    b0_fd_trans, b0_dira, b0_m)
 
