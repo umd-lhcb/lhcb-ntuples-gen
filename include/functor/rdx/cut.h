@@ -1,6 +1,6 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Sat Oct 23, 2021 at 12:09 AM +0200
+// Last Change: Sat Oct 23, 2021 at 12:35 AM +0200
 // NOTE: All kinematic variables are in MeV
 
 #ifndef _LNG_FUNCTOR_RDX_CUT_H_
@@ -135,10 +135,6 @@ Bool_t FLAG_SEL_D0_RUN1(Bool_t flag_d0_pid_ok,
                         Double_t d0_dira,
                         Double_t d0_fd_chi2,
                         Double_t d0_m) {
-  // clang-format on
-  auto d0_m_ref = 1865.49;
-
-  // clang-format off
   if (flag_d0_pid_ok &&
       /* K, pi */
       ((k_hlt1_tos && k_pt > 1700.0) || (pi_hlt1_tos && pi_pt > 1700.0)) &&
@@ -153,8 +149,7 @@ Bool_t FLAG_SEL_D0_RUN1(Bool_t flag_d0_pid_ok,
       TMath::Log(d0_ip) > -3.5 &&
       d0_ip_chi2 > 9.0 &&
       d0_dira > 0.9998 &&  /* should be loosed for run 2 */
-      d0_fd_chi2 > 250.0 &&
-      TMath::Abs(d0_m - d0_m_ref) < 23.4  /* This is in MeV!!! */
+      d0_fd_chi2 > 250.0
       )
     // clang-format on
     return true;
@@ -176,8 +171,6 @@ Bool_t FLAG_SEL_MU_PID_OK_RUN1(Bool_t mu_is_mu, Double_t mu_pid_mu,
                                Double_t mu_pid_e) {
   return mu_is_mu && mu_pid_mu > 2.0 && mu_pid_e < 1.0;
 }
-
-Bool_t FLAG_SEL_MU_UBDT_OK_RUN1(Double_t mu_bdt_mu) { return mu_bdt_mu > 0.25; }
 
 // clang-format off
 Bool_t FLAG_SEL_MU_RUN1(Bool_t flag_good_trks, Bool_t flag_mu_pid_ok,
@@ -277,9 +270,11 @@ Bool_t FLAG_SEL_B0DST_RUN1(Bool_t flag_sel_d0, Bool_t flag_sel_mu,
                            Double_t b0_fd_trans,
                            Double_t b0_dira,
                            Double_t b0_m) {
-  auto dst_ref_deltam = ABS(dst_m-d0_m-145.454 );
-  auto dst_ref_deltam_sb = ABS(dst_m-d0_m-145.454-9);
+  // clang-format on
+  auto dst_ref_deltam    = ABS(dst_m - d0_m - 145.454);
+  auto dst_ref_deltam_sb = ABS(dst_m - d0_m - 145.454 - 9);
 
+  // clang-format off
   if (flag_sel_d0 && flag_sel_mu &&
       /* slow Pi */
       spi_gh_prob < 0.25 &&
@@ -288,7 +283,7 @@ Bool_t FLAG_SEL_B0DST_RUN1(Bool_t flag_sel_d0, Bool_t flag_sel_mu,
       (dst_ref_deltam < 2.0 || dst_ref_deltam_sb < 2.0) &&  // Keep sideband
       /* D0 Mu combo, already applied in DaVinci */
       /* D* Mu combo */
-      b0_discard_mu_chi2 < 6.0 &&  // AddB.C, LN2567, but not in ANA!
+      b0_discard_mu_chi2 < 6.0 &&  // Not in ANA!
       b0_endvtx_chi2 < 24.0 &&
       b0_endvtx_chi2/b0_endvtx_ndof < 6.0 &&
       b0_fd_trans < 7.0 &&

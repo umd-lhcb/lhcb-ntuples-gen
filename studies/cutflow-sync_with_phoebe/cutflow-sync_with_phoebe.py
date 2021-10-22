@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri Oct 22, 2021 at 11:57 PM +0200
+# Last Change: Sat Oct 23, 2021 at 12:34 AM +0200
 # Note: Here we use Phoebe's latest ntuple
 
 import pathlib
@@ -41,8 +41,8 @@ DST_CUTS = [
     'Y_DIRA_OWNPV > 0.9995 && pislow_GhostProb < 0.25',  # D*Mu combo
     'Y_M < 5280.0',  # D*Mu combo
     # 'ABS(Dst_M-D0_M-145.454) < 2.0',  # D*Mu combo, this cut is too narrow
-    'ABS(Dst_M-D0_M-145.454-9) < 2.0 || ABS(Dst_M-D0_M-145.454) < 2.0',  # D*Mu combo, keeping side-band
     # 'IN_RANGE(Dst_M-D0_M, 143.0, 147.0)',  # D*Mu combo, again too tight
+    'ABS(Dst_M-D0_M-145.454-9) < 2.0 || ABS(Dst_M-D0_M-145.454) < 2.0',  # D*Mu combo, keeping side-band
     'IN_RANGE(D0_M, 1845.0, 1890.0)',  # FIXME: Missing in our cuts.
     # 'KIPCHI2 > 45.0 && piIPCHI2 > 45.0',  # D0, no event removed
     # 'D0_DIRA_OWNPV > 0.9998 && D0IPCHI2 > 9.0',  # D0, no event removed
