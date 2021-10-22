@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri Oct 22, 2021 at 04:09 AM +0200
+# Last Change: Fri Oct 22, 2021 at 04:25 AM +0200
 # Note: Here we use Phoebe's latest ntuple
 
 import pathlib
@@ -29,12 +29,16 @@ DST_CUTS = [
     # '(selcounter & (4096 * 64 - 1)) == (4096 * 64 - 1)',  # This doesn't remove any event
     'isData && DstIDprod > 0 && IDprod > 0 && '
     '-2.0 <= m_nu1 && m_nu1 <= 10.9 && 0.0 <= GEV(El) && GEV(El) <= 2.65 && '
-    '-0.4 <= GEV2(q2) && GEV2(q2) <= 12.6',
-    '!muVeto && muPID > 0 && DLLe < 1.0 && BDTmu > 0.25',
-    '(Hlt1TAL0K && K_PT > 1700.0) || (Hlt1TAL0pi && pi_PT > 1700.0)',
+    '-0.4 <= GEV2(q2) && GEV2(q2) <= 12.6',  # Generic global
+    'L0 && (YTIS || YTOS) && Hlt1 && Hlt2',  # trigger
+    '(Hlt1TAL0K && K_PT > 1700.0) || (Hlt1TAL0pi && pi_PT > 1700.0)',  # trigger
+    '!muVeto && muPID > 0 && DLLe < 1.0 && BDTmu > 0.25 && '
+    'mu_P > 3.0e3 && mu_P < 100.0e3 && mu_ETA > 1.7 && mu_ETA < 5.0 && '
+    'GhostProb < 0.5',  # Mu
     'dxy < 7.0 && Y_DISCARDMu_CHI2 < 6.0 && Y_ENDVERTEX_CHI2 < 24.0 && '
-    'Y_DIRA_OWNPV > 0.9995',
-    'Y_M < 5280.0 && ABS(Dst_M-D0_M-145.454) < 2.0',
+    'Y_DIRA_OWNPV > 0.9995 && pislow_GhostProb < 0.25',  # D*
+    'Y_M < 5280.0 && ABS(Dst_M-D0_M-145.454) < 2.0',  # D*
+    'K_PT > 500.0 && pi_PT > 500.0 && K_PT+pi_PT > 1400.0 && D0_PT > 2000.0',  # D0
 ]
 
 DST_SKIM_CUTS = {
