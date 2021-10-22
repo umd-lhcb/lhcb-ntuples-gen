@@ -61,12 +61,12 @@ calculation:
     iso_chrg1: int; TO_TYPE(iso_CHARGE, 1)
     iso_chrg2: int; TO_TYPE(iso_CHARGE2, 1)
     # Kinematic
-    iso_p1: float; iso_P
-    iso_p2: float; iso_P2
-    iso_p3: float; iso_P3
-    iso_pt1: float; iso_PT
-    iso_pt2: float; iso_PT2
-    iso_pt3: float; iso_PT3
+    iso_p1: float; GEV(iso_P)
+    iso_p2: float; GEV(iso_P2)
+    iso_p3: float; GEV(iso_P3)
+    iso_pt1: float; GEV(iso_PT)
+    iso_pt2: float; GEV(iso_PT2)
+    iso_pt3: float; GEV(iso_PT3)
     # Track types
     iso_type1: int; TO_TYPE(iso_Type, 1)
     iso_type2: int; TO_TYPE(iso_Type2, 1)
@@ -217,9 +217,8 @@ calculation:
         )
 
     # Phoebe's global selection flag
-    is_selected: >-
-        bool; IS_SELECTED(
-        selcounter,
+    is_phoebe_ok: >-
+        bool; FLAG_OFFLINE_SEL_RUN1(
         mu_veto,
         b0_fd_trans,
         K_PT, pi_PT,
@@ -281,5 +280,4 @@ output:
         input: ntp1
         selection:
             - is_std  # Signature for 'std' reconstruction mode
-            #- dstmu_ok
-            - is_selected
+            - dstmu_ok
