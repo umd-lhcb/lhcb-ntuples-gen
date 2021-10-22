@@ -141,7 +141,7 @@ calculation:
     d0_endvtx_ndof: double; 1.0
     d0_dira: double; D0_DIRA_OWNPV
     d0_fd_chi2: double; 500.0
-    d0_ip: double; D0IP; 100.0
+    d0_ip: double; D0IP
     d0_ip_chi2: double; D0IPCHI2; 10.0
     # K
     k_is_mu: bool; muVeto
