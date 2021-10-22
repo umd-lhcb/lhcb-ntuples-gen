@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri Oct 22, 2021 at 04:27 PM +0200
+# Last Change: Fri Oct 22, 2021 at 11:16 PM +0200
 # Note: Here we use Phoebe's latest ntuple
 
 import pathlib
@@ -42,7 +42,8 @@ DST_CUTS = [
     'Y_M < 5280.0',  # D*Mu combo
     # 'ABS(Dst_M-D0_M-145.454) < 2.0',  # D*Mu combo, this cut is too narrow
     'ABS(Dst_M-D0_M-145.454-9) < 2.0 || ABS(Dst_M-D0_M-145.454) < 2.0',  # D*Mu combo, keeping side-band
-    'IN_RANGE(D0_M, 1845.0, 1890.0)',  # D0 FIXME: Missing
+    # 'IN_RANGE(Dst_M-D0_M, 143.0, 147.0)',  # D*Mu combo, again too tight
+    'IN_RANGE(D0_M, 1845.0, 1890.0)',  # FIXME: Missing in our cuts.
     # 'KIPCHI2 > 45.0 && piIPCHI2 > 45.0',  # D0, no event removed
     # 'D0_DIRA_OWNPV > 0.9998 && D0IPCHI2 > 9.0',  # D0, no event removed
     # 'ABS(D0_M-1865.49) < 23.4',  # D0, no event removed
@@ -52,6 +53,28 @@ DST_CUTS = [
 
 DST_SKIM_CUTS = {
     'ISO': 'FLAG_ISO(ISOnum == 0, iso_BDT)',
+    '1OS': '''
+           FLAG_1OS(
+           AntiISOnum == 0,
+           iso_BDT, iso_BDT2,
+           TO_TYPE(iso_Type, 1),
+           GEV(iso_P), GEV(iso_PT),
+           TO_TYPE(iso_CHARGE, 1),
+           iso_NNk,
+           Dst_ID, GEV(iso_DeltaM)
+           )
+           ''',
+    '2OS': '''
+           FLAG_2OS(
+           AntiISOnum == 0,
+           iso_BDT, iso_BDT2, iso_BDT3,
+           TO_TYPE(iso_Type, 1), TO_TYPE(iso_Type2, 1),
+           GEV(iso_P), GEV(iso_P2),
+           GEV(iso_PT), GEV(iso_PT2),
+           TO_TYPE(iso_CHARGE, 1), TO_TYPE(iso_CHARGE2, 1),
+           iso_NNk, iso_NNk2
+           )
+           ''',
     'DD': '''
           FLAG_DD(
           AntiISOnum == 0,
