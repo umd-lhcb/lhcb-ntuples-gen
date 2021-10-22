@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sat Oct 23, 2021 at 01:01 AM +0200
+# Last Change: Sat Oct 23, 2021 at 01:07 AM +0200
 # Note: Here we use Phoebe's latest ntuple
 
 import pathlib
@@ -43,7 +43,7 @@ DST_CUTS = [
     # 'ABS(Dst_M-D0_M-145.454) < 2.0',  # D*Mu combo, this cut is too narrow
     # 'IN_RANGE(Dst_M-D0_M, 143.0, 147.0)',  # D*Mu combo, again too tight
     'ABS(Dst_M-D0_M-145.454-9) < 2.0 || ABS(Dst_M-D0_M-145.454) < 2.0',  # D*Mu combo, keeping side-band
-    'ABS(D0_M-1865.49) < 23.4',  # FIXME: Different from above!
+    'ABS(D0_M-1865.49) < 23.4',  # FIXME: Different from below!
     'IN_RANGE(D0_M, 1845.0, 1890.0)',  # FIXME: Missing in our cuts.
     # 'KIPCHI2 > 45.0 && piIPCHI2 > 45.0',  # D0, no event removed
     # 'D0_DIRA_OWNPV > 0.9998 && D0IPCHI2 > 9.0',  # D0, no event removed
