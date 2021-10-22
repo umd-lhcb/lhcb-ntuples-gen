@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri Oct 22, 2021 at 03:48 AM +0200
+# Last Change: Fri Oct 22, 2021 at 03:58 AM +0200
 # Note: Here we use Phoebe's latest ntuple
 
 import pathlib
@@ -31,11 +31,21 @@ DST_CUTS = [
     '!muVeto',
     'dxy < 7.0',
     '(Hlt1TAL0K && K_PT > 1700.0) || (Hlt1TAL0pi && pi_PT > 1700.0)',
-    'muPID && DLLe < 1.0 && BDTmu > 0.25'
+    'muPID > 0 && DLLe < 1.0 && BDTmu > 0.25'
 ]
 
 DST_SKIM_CUTS = {
-    'ISO': 'FLAG_ISO(ISOnum == 0, iso_BDT)'
+    'ISO': 'FLAG_ISO(ISOnum == 0, iso_BDT)',
+    'DD': '''
+          FLAG_DD(
+          AntiISOnum == 0,
+          iso_BDT, iso_BDT2, iso_BDT3,
+          TO_TYPE(iso_Type, 1), TO_TYPE(iso_Type2, 1), TO_TYPE(iso_Type3, 1),
+          GEV(iso_P), GEV(iso_P2), GEV(iso_P3),
+          GEV(iso_PT), GEV(iso_PT2), GEV(iso_PT3),
+          iso_NNk, iso_NNk2, iso_NNk3
+          )
+          ''',
 }
 
 
