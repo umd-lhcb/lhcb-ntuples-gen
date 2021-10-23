@@ -245,6 +245,11 @@ calculation:
         dst_id, dst_iso_deltam
         )
 
+    ####################
+    # Additional flags #
+    ####################
+    is_dst_sb: bool; ABS(Dst_M-D0_M-145.454-9) < 2.0
+
 global_selection:
     # Trigger
     - l0

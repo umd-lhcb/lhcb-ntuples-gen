@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sat Oct 23, 2021 at 03:36 AM +0200
+# Last Change: Sat Oct 23, 2021 at 03:56 AM +0200
 # Note: Here we use Phoebe's latest ntuple
 
 import pathlib
@@ -26,28 +26,22 @@ ROOT.gInterpreter.Declare('#include "functor/rdx/skims.h"')
 #################
 
 DST_CUTS = [
-    # '(selcounter & (4096 * 64 - 1)) == (4096 * 64 - 1)',  # Global cuts, ineffective
-    'isData && DstIDprod > 0 && IDprod > 0 && '
+    'isData > 0 && DstIDprod > 0 && IDprod > 0 && muPID > 0 && '  # redoHistos_Dst.C, LN 3651
     'IN_RANGE(m_nu1, -2.0, 10.9, true) && '
     'IN_RANGE(GEV(El), 0.1, 2.65, true) && '
     'IN_RANGE(GEV2(q2), -0.4, 12.6, true)',  # Generic global cuts on fit variables
-    # 'piminus_TRACK_Type == 3',  # No event removed
     'L0 && (YTIS || YTOS) && Hlt1 && Hlt2 && '
     '((Hlt1TAL0K && K_PT > 1700.0) || (Hlt1TAL0pi && pi_PT > 1700.0))',  # trigger
-    '!muVeto && muPID > 0 && DLLe < 1.0 && BDTmu > 0.25 && '
+    '!muVeto && DLLe < 1.0 && BDTmu > 0.25 && '
     'IN_RANGE(mu_P, 3.0e3, 100.0e3) && IN_RANGE(mu_ETA, 1.7, 5.0)',  # Mu
-    # 'GhostProb < 0.5',  # FIXME: Mu, but doesn't appear in AddB.C
-    # NOTE: ^^This is ProbNNghost! It's not TRACK_GhostProb
-    # 'muIPCHI2 > 45.0',  # Mu, ineffective
     'dxy < 7.0 && Y_M < 5280.0',  # D*Mu combo
-    # 'ABS(Dst_M-D0_M-145.454) < 2.0',  # D*Mu combo, this cut is too narrow
-    # 'IN_RANGE(Dst_M-D0_M, 143.0, 147.0)',  # D*Mu combo, again too tight
-    # 'ABS(D0_M-1865.49) < 23.4',  # FIXME: Different from below! Ineffective
-    # 'IN_RANGE(D0_M, 1845.0, 1890.0)',  # FIXME: Missing in our cuts
-    'ABS(Dst_M-D0_M-145.454-9) < 2.0 || ABS(Dst_M-D0_M-145.454) < 2.0',  # D*Mu combo, keeping side-band
+    'ABS(Dst_M-D0_M-145.454) < 2.0',  # D*
+    # 'piminus_TRACK_Type == 3',  # Ineffective
+    # 'muIPCHI2 > 45.0',  # Mu, ineffective
+    # 'ABS(Dst_M-D0_M-145.454-9) < 2.0 || ABS(Dst_M-D0_M-145.454) < 2.0',  # D*Mu combo, keeping side-band
     # 'Y_DISCARDMu_CHI2 < 6.0 && Y_ENDVERTEX_CHI2 < 24.0 && '
     # 'Y_DIRA_OWNPV > 0.9995 && pislow_GhostProb < 0.25',  # D*Mu combo, ineffective
-    # 'DMUDIRA > 0.9995',  # NOTE: Don't know what this is. Ineffective
+    # 'ABS(D0_M-1865.49) < 23.4',  # D0, ineffective
     # 'KIPCHI2 > 45.0 && piIPCHI2 > 45.0',  # D0, ineffective
     # 'D0_DIRA_OWNPV > 0.9998 && D0IPCHI2 > 9.0',  # D0, ineffective
     # 'K_P > 2000.0 && pi_P > 2000.0 && '
