@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sat Oct 23, 2021 at 03:56 AM +0200
+# Last Change: Sat Oct 23, 2021 at 04:14 AM +0200
 # Note: Here we use Phoebe's latest ntuple
 
 import pathlib
@@ -93,7 +93,7 @@ def apply_skim_cuts(frame, cuts=DST_SKIM_CUTS):
     for name, cut in cuts.items():
         cut_frame = frame.Filter(cut)
         num = cut_frame.Count().GetValue()
-        print('    After applying {}{:3>}{} skim cut: {}{:,}{}'.format(
+        print('    After applying {}{:>3}{} skim cut: {}{:,}{}'.format(
             TC.BOLD+TC.GREEN, name, TC.END, TC.UNDERLINE, num, TC.END))
 
 
