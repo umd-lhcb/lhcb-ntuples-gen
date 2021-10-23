@@ -27,7 +27,7 @@ rename:
     # HLT2
     Hlt2: d0_hlt2_tos  # Hlt2CharmHadD02HH_D02KPiDecision
 
-# NOTE: We don't have these branches in Phoebe's step 2:
+# NOTE: We don't have these branches in Phoebe's step-1.5:
 #       k_ip_chi2, pi_ip_chi2 (*_IPCHI2_OWNPV):
 #           All events in the step 2 pass ip_chi2 selection
 #       k_gh_prob, pi_gh_prob (*_TRACK_GhostProb):
