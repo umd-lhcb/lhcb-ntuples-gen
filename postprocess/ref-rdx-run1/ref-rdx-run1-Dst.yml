@@ -1,3 +1,20 @@
+note: |
+    This YAML is for Phoebe's step-1 and step-1.5 D* ntuples.
+    After postprocessing, the ntuple should be mostly identical to our step-2.
+
+    NOTE: We don't have the following branches in Phoebe's step-1.5.
+
+    - k_ip_chi2, pi_ip_chi2 (_IPCHI2_OWNPV)
+    - k_gh_prob, pi_gh_prob (_TRACK_GhostProb)
+    - d0_endvtx_chi2, d0_endvtx_ndof (_ENDVERTEX_{CHI2/NDOF})
+    - d0_fd_chi2 (D0_FDCHI2_OWNPV)
+    - dst_endvtx_ndof (D0_ENDVERTEX_NDOF)
+    - Most of the momentum components
+    - b_endvtx_ndof (Y_ENDVERTEX_NDOF)
+
+    In postprocessed step-2 ntuples these are filled with default values that
+    satisfy cut requirements.
+
 headers:
     user:
         - functor/rdx/cut.h
@@ -27,20 +44,6 @@ rename:
     # HLT2
     Hlt2: d0_hlt2_tos  # Hlt2CharmHadD02HH_D02KPiDecision
 
-# NOTE: We don't have these branches in Phoebe's step-1.5:
-#       k_ip_chi2, pi_ip_chi2 (*_IPCHI2_OWNPV):
-#           All events in the step 2 pass ip_chi2 selection
-#       k_gh_prob, pi_gh_prob (*_TRACK_GhostProb):
-#           All events in the step 2 pass gh_prob selection
-#       d0_endvtx_chi2, d0_endvtx_ndof (*_ENDVERTEX_{CHI2/NDOF}):
-#           Not sure if we have it, assuming always true
-#       d0_fd_chi2 (D0_FDCHI2_OWNPV):
-#           Not sure, but assume true
-#       dst_endvtx_ndof (D0_ENDVERTEX_NDOF):
-#           Not sure, and can't see anything in AddB.C
-#       Missing all momentum components!
-#       b_endvtx_ndof (Y_ENDVERTEX_NDOF):
-#           All events in the step 2 pass CHI2/NDOF selection
 
 calculation:
     # For pseudo-random sequence generation
