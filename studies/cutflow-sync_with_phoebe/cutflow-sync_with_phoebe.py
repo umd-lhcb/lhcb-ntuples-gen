@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sat Oct 23, 2021 at 04:14 AM +0200
+# Last Change: Sun Oct 24, 2021 at 04:14 PM +0200
 # Note: Here we use Phoebe's latest ntuple
 
 import pathlib
@@ -84,17 +84,47 @@ DST_SKIM_CUTS = {
           ''',
 }
 
+DST_REF_NUMS = {
+    'ISO': 420646,
+    '1OS': 19666,
+    '2OS': 8389,
+    'DD': 30918,
+}
+
 
 ###########
 # Helpers #
 ###########
 
-def apply_skim_cuts(frame, cuts=DST_SKIM_CUTS):
-    for name, cut in cuts.items():
+def apply_skim_cuts(frame, skim_cuts, ref):
+    for name, cut in skim_cuts.items():
         cut_frame = frame.Filter(cut)
         num = cut_frame.Count().GetValue()
-        print('    After applying {}{:>3}{} skim cut: {}{:,}{}'.format(
-            TC.BOLD+TC.GREEN, name, TC.END, TC.UNDERLINE, num, TC.END))
+        num_diff = num - ref[name]
+        print('    After applying {}{:>3}{} skim cut: {}{:,} ({:+,}, {:+.1%}){}'.format(
+            TC.BOLD+TC.GREEN, name, TC.END, TC.UNDERLINE, num,
+            num_diff, num_diff/num, TC.END))
+
+
+def apply_cuts(frame, cuts, skim_cuts, ref):
+    print('The reference templates have the following entries:')
+    for name, num in ref.items():
+        print('    {:>3}: {:,}'.format(name, num))
+
+    frames = [frame]
+    if len(frames) == 1:
+        print('{}Before applying any cut: {}{:,}{}'.format(
+            TC.BOLD, TC.UNDERLINE, frames[-1].Count().GetValue(), TC.END))
+
+    for c in cuts:
+        frm = frames[-1]
+        new_frm = frm.Filter(c)
+        num = new_frm.Count().GetValue()
+        print('{}After applying {}{}{}: {}{:,}{}'.format(
+            TC.BOLD, TC.YELLOW, c, TC.END+TC.BOLD, TC.UNDERLINE, num, TC.END))
+        frames.append(new_frm)
+
+        apply_skim_cuts(new_frm, skim_cuts, ref)
 
 
 ########
@@ -104,19 +134,6 @@ def apply_skim_cuts(frame, cuts=DST_SKIM_CUTS):
 if __name__ == '__main__':
     # D*
     ntp_dst = '../../ntuples/ref-rdx-run1/Dst-mix/Dst--21_10_21--mix--all--2011-2012--md-mu--phoebe.root'
-    frames_dst = [RDataFrame('ntp1', ntp_dst)]
+    frame_dst = RDataFrame('ntp1', ntp_dst)
 
-    for c in DST_CUTS:
-        if len(frames_dst) == 1:
-            print('{}Before applying any cut: {}{:,}{}'.format(
-                TC.BOLD, TC.UNDERLINE, frames_dst[-1].Count().GetValue(),
-                TC.END))
-
-        frm = frames_dst[-1]
-        new_frm = frm.Filter(c)
-        num = new_frm.Count().GetValue()
-        print('{}After applying {}{}{}: {}{:,}{}'.format(
-            TC.BOLD, TC.YELLOW, c, TC.END+TC.BOLD, TC.UNDERLINE, num, TC.END))
-        frames_dst.append(new_frm)
-
-        apply_skim_cuts(new_frm)
+    apply_cuts(frame_dst, DST_CUTS, DST_SKIM_CUTS, DST_REF_NUMS)
