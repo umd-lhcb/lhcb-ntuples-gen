@@ -1,6 +1,6 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Sat Oct 23, 2021 at 12:51 AM +0200
+// Last Change: Sun Oct 24, 2021 at 03:32 PM +0200
 // NOTE: All kinematic variables are in MeV
 
 #ifndef _LNG_FUNCTOR_RDX_CUT_H_
@@ -142,8 +142,7 @@ Bool_t FLAG_SEL_D0_RUN1(Bool_t flag_d0_pid_ok,
       k_ip_chi2 > 45.0 && pi_ip_chi2 > 45.0 &&
       k_gh_prob < 0.5 && pi_gh_prob < 0.5 &&
       /* D0 */
-      IN_RANGE(d0_m, 1845.0, 1890.0) &&
-      /* ABS(d0_m - 1865.49) < 23.4 && */  // This cut is different from above
+      ABS(d0_m - 1865.49) < 23.4 &&
       d0_pt > 2000.0 &&
       d0_hlt2 &&
       d0_endvtx_chi2/d0_endvtx_ndof < 4.0 &&
