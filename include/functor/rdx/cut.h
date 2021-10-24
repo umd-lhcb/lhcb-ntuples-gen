@@ -1,6 +1,6 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Sun Oct 24, 2021 at 03:32 PM +0200
+// Last Change: Sun Oct 24, 2021 at 03:45 PM +0200
 // NOTE: All kinematic variables are in MeV
 
 #ifndef _LNG_FUNCTOR_RDX_CUT_H_
@@ -272,7 +272,7 @@ Bool_t FLAG_SEL_B0DST_RUN1(Bool_t flag_sel_d0, Bool_t flag_sel_mu,
                            Double_t b0_m) {
   // clang-format on
   auto dst_ref_deltam    = ABS(dst_m - d0_m - 145.454);
-  auto dst_ref_deltam_sb = ABS(dst_m - d0_m - 145.454 - 9);
+  auto dst_ref_deltam_sb = ABS(dst_m - d0_m - 145.454 - 9);  // Sideband
 
   // clang-format off
   if (flag_sel_d0 && flag_sel_mu &&
@@ -280,7 +280,7 @@ Bool_t FLAG_SEL_B0DST_RUN1(Bool_t flag_sel_d0, Bool_t flag_sel_mu,
       spi_gh_prob < 0.25 &&
       /* D* */
       dst_endvtx_chi2/dst_endvtx_ndof < 10.0 &&
-      (dst_ref_deltam < 2.0 || dst_ref_deltam_sb < 2.0) &&  // Keep sideband
+      dst_ref_deltam < 2.0 &&
       /* D0 Mu combo, already applied in DaVinci */
       /* D* Mu combo */
       b0_discard_mu_chi2 < 6.0 &&  // Not in ANA!
