@@ -3,6 +3,7 @@ headers:
         - functor/rdx/cut.h
         - functor/rdx/skims.h
         - functor/rdx/kinematic.h
+        - functor/rdx/truth_match.h
         - functor/basic.h
 
 keep:
@@ -174,6 +175,29 @@ calculation:
     ###################
     # Selection flags #
     ###################
+    # Truth-matching
+    truthmatch: >-
+        int; MC_TRUTH_MATCH_DST(
+        mc_id,
+        mu_TRUEID, mu_MC_MOTHER_ID, mu_MC_GD_MOTHER_ID, mu_MC_GD_GD_MOTHER_ID,
+        mu_MC_MOTHER_KEY, mu_MC_GD_MOTHER_KEY, mu_MC_GD_GD_MOTHER_KEY,
+        dst_MC_MOTHER_ID, dst_MC_GD_MOTHER_ID, dst_MC_GD_GD_MOTHER_ID,
+        dst_MC_MOTHER_KEY, dst_MC_GD_MOTHER_KEY, dst_MC_GD_GD_MOTHER_KEY,
+        dst_MC_MOTHER_TRUEPE, dst_MC_MOTHER_TRUEPX, dst_MC_MOTHER_TRUEPY, dst_MC_MOTHER_TRUEPZ,
+        dst_TRUEP_E, dst_TRUEP_X, dst_TRUEP_Y, dst_TRUEP_Z,
+        dst_BKGCAT, d0_BKGCAT, b0_BKGCAT
+        ); MC_TRUTH_MATCH_D0(
+        mc_id, b_TRUEID,
+        mu_TRUEID, mu_MC_MOTHER_ID, mu_MC_GD_MOTHER_ID, mu_MC_GD_GD_MOTHER_ID, mu_MC_GD_GD_GD_MOTHER_ID,
+        mu_MC_MOTHER_KEY, mu_MC_GD_MOTHER_KEY, mu_MC_GD_GD_MOTHER_KEY, mu_MC_GD_GD_GD_MOTHER_KEY,
+        d0_MC_MOTHER_ID, d0_MC_GD_MOTHER_ID, d0_MC_GD_GD_MOTHER_ID, d0_MC_GD_GD_GD_MOTHER_ID,
+        d0_MC_MOTHER_KEY, d0_MC_GD_MOTHER_KEY, d0_MC_GD_GD_MOTHER_KEY, d0_MC_GD_GD_GD_MOTHER_KEY,
+        d0_TRUEP_E, d0_TRUEP_X, d0_TRUEP_Y, d0_TRUEP_Z,
+        d0_MC_MOTHER_TRUEPE, d0_MC_MOTHER_TRUEPX, d0_MC_MOTHER_TRUEPY, d0_MC_MOTHER_TRUEPZ,
+        d0_MC_GD_MOTHER_TRUEPE, d0_MC_GD_MOTHER_TRUEPX, d0_MC_GD_MOTHER_TRUEPY, d0_MC_GD_MOTHER_TRUEPZ,
+        b_BKGCAT, d0_M
+        )
+
     # Trigger
     l0: "bool; b0_L0Global_TIS || d0_L0HadronDecision_TOS; b_L0Global_TIS || d0_L0HadronDecision_TOS"
     hlt1: "bool; k_Hlt1TrackMVADecision_TOS || pi_Hlt1TrackMVADecision_TOS || d0_Hlt1TwoTrackMVADecision_TOS"
