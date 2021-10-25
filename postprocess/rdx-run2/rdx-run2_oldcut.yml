@@ -30,7 +30,6 @@ rename:
 calculation:
     # For pseudo-random sequence generation
     prs_in: double; b0_PT; b_PT
-    mc_id: int; cli_mc_id
 
     #######################
     # Isolation variables #
@@ -176,6 +175,7 @@ calculation:
     # Selection flags #
     ###################
     # Truth-matching
+    mc_id: int; cli_mc_id
     truthmatch: >-
         int; MC_TRUTH_MATCH_DST(
         mc_id,
@@ -197,9 +197,10 @@ calculation:
         d0_MC_GD_MOTHER_TRUEPE, d0_MC_GD_MOTHER_TRUEPX, d0_MC_GD_MOTHER_TRUEPY, d0_MC_GD_MOTHER_TRUEPZ,
         b_BKGCAT
         )
+    is_ddx: bool; IS_DDX(mc_id)
 
     # FF reweighting
-    ham_ok: bool; ham_ok
+    ham_ok: bool; IF(is_ddx, true, ham_ok)  # Need to have a valid HAMMER weight unless is a DDX MC
 
     # Trigger
     l0: "bool; b0_L0Global_TIS || d0_L0HadronDecision_TOS; b_L0Global_TIS || d0_L0HadronDecision_TOS"

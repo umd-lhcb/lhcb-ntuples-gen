@@ -23,6 +23,15 @@ using namespace std;
 
 int HUNDREDS_DIGIT(int a) { return floor((a % 1000) / 100); }
 
+bool IS_DDX(int decay_id) {
+  auto ddx_ids = vector<int>{11894600, 12893600, 11894200, 12893610,
+                             11894610, 12895400, 11894210, 12895000};
+
+  if (find(ddx_ids.begin(), ddx_ids.end(), decay_id) == ddx_ids.end())
+    return false;
+  return true;
+}
+
 //////////////////////////////////
 // General Truth-Matching Class //
 //////////////////////////////////
