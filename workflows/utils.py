@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Oct 20, 2021 at 03:02 AM +0200
+# Last Change: Mon Oct 25, 2021 at 03:51 PM +0200
 
 import re
 import yaml
@@ -246,7 +246,8 @@ def workflow_compile_cpp(
 def workflow_cached_ntuple(
         cmd, input_ntp,
         output_ntp='./ubdt.root', cache_suffix='__aux_mu_bdt',
-        executor=run_cmd_wrapper()):
+        executor=run_cmd_wrapper(),
+        alias_cached=True):
     cached_ntp = with_suffix(input_ntp, '') + cache_suffix + '.root'
 
     if op.isfile(cached_ntp):
@@ -257,3 +258,11 @@ def workflow_cached_ntuple(
         cmd = [cmd] if not isinstance(cmd, list) else cmd
         for c in cmd:
             executor(c)
+
+        if alias_cached:
+            print('Creating an alias for generated ntuple...')
+            cached_ntp_base = op.basename(cached_ntp)
+            try:
+                symlink(output_ntp, './'+cached_ntp_base)
+            except FileNotFoundError:
+                pass

@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Oct 25, 2021 at 02:05 PM +0200
+# Last Change: Mon Oct 25, 2021 at 03:56 PM +0200
 
 import sys
 import os
@@ -45,7 +45,13 @@ def parse_input():
 # Helpers #
 ###########
 
-rdx_default_fltr = aggregate_fltr(keep=[r'^(Dst|D0).*\.root'])
+rdx_default_fltr = aggregate_fltr(
+    keep=[r'^(Dst|D0).*\.root'], blocked=['__aux'])
+
+rdx_default_output_fltrs = {
+    'ntuple': rdx_default_fltr,
+    'ntuple_aux': aggregate_fltr(keep=['__aux']),
+}
 
 
 def rdx_mc_fltr(decay_mode):
@@ -155,7 +161,7 @@ def workflow_data_mc(job_name, inputs,
 def workflow_data(job_name, inputs, input_yml,
                   use_ubdt=True,
                   output_ntp_name_gen=generate_step2_name,
-                  output_fltr={'ntuple': rdx_default_fltr},
+                  output_fltr=rdx_default_output_fltrs,
                   cli_vars=None,
                   blocked_input_trees=None,
                   blocked_output_trees=None,
@@ -203,7 +209,7 @@ def workflow_mc(job_name, inputs, input_yml,
                 output_ntp_name_gen=generate_step2_name,
                 pid_histo_folder='../run2-rdx/reweight/pid/root-run2-rdx_oldcut',
                 config='../run2-rdx/reweight/pid/run2-rdx_oldcut.yml',
-                output_fltr={'ntuple': rdx_default_fltr},
+                output_fltr=rdx_default_output_fltrs,
                 **kwargs):
     subworkdirs, workdir, executor = workflow_data_mc(
         job_name, inputs, **kwargs)
