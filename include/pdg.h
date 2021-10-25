@@ -10,9 +10,9 @@
 
 #include "unit.h"
 
-#define PDG_M_B0  5279.64*MeV
-#define PDG_M_Dst 2010.26*MeV
-#define PDG_M_D0  1864.83*MeV
+#define PDG_M_B0 5279.64 * MeV
+#define PDG_M_Dst 2010.26 * MeV
+#define PDG_M_D0 1864.83 * MeV
 
 #define PDG_ID_B0 511
 #define PDG_ID_Bu 521
@@ -45,6 +45,5 @@
 #define FAKE_ID_D2750_0 PDG_ID_D2st_0
 #define FAKE_ID_D3000 PDG_ID_D1
 #define FAKE_ID_D3000_0 PDG_ID_D1_0
-
 
 #endif
