@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Oct 21, 2021 at 02:56 AM +0200
+# Last Change: Mon Oct 25, 2021 at 02:05 PM +0200
 
 import sys
 import os
@@ -60,22 +60,31 @@ def rdx_mc_fltr(decay_mode):
         '|'.join(db[decay_mode]))])
 
 
-def rdx_mc_blocked_input_trees(decay_mode):
+def rdx_mc_add_info(decay_mode):
     known_trees = ['D0', 'Dst']
     tree_dict = {
         'D0': 'TupleBminus/DecayTree',
         'Dst': 'TupleB0/DecayTree'
     }
 
-    db = load_yaml_db()
+    raw_db = load_yaml_db()
     # Unfortunately we need to use 'Filename' as the key so we need to re-build
     # the dict on the fly
-    db = {v['Filename']: v['Keep'] for v in db.values() if 'Keep' in v}
+    db_keep = {v['Filename']: v['Keep']
+               for v in raw_db.values() if 'Keep' in v}
+    db_id = {v['Filename']: k for k, v in raw_db.items()}
 
-    if decay_mode not in db:
-        return None
+    try:
+        decay_id = db_id[decay_mode]
+    except KeyError:
+        decay_id = '0'
 
-    return [tree_dict[t] for t in known_trees if t not in db[decay_mode]]
+    if decay_mode not in db_keep:
+        return None, decay_id
+
+    # NOTE: Here we are returning trees to BLOCK!!
+    return [tree_dict[t] for t in known_trees
+            if t not in db_keep[decay_mode]], decay_id
 
 
 ######################
@@ -208,7 +217,7 @@ def workflow_mc(job_name, inputs, input_yml,
 
         output_suffix = output_ntp_name_gen(input_ntp)
         decay_mode = output_suffix.split('--')[2]
-        blocked_input_trees = rdx_mc_blocked_input_trees(decay_mode)
+        blocked_input_trees, decay_id = rdx_mc_add_info(decay_mode)
 
         # Generate a HAMMER ntuple
         workflow_hammer(input_ntp, executor=executor)
@@ -220,6 +229,8 @@ def workflow_mc(job_name, inputs, input_yml,
 
         if blocked_input_trees:
             bm_cmd += ' -B '+' '.join(blocked_input_trees)
+
+        bm_cmd += ' -V '+'cli_mc_id:'+decay_id
 
         executor(bm_cmd.format(abs_path(input_yml), input_ntp, cpp_template))
         workflow_compile_cpp('baby.cpp', executor=executor)
