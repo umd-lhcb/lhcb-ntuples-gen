@@ -195,8 +195,11 @@ calculation:
         d0_TRUEP_E, d0_TRUEP_X, d0_TRUEP_Y, d0_TRUEP_Z,
         d0_MC_MOTHER_TRUEPE, d0_MC_MOTHER_TRUEPX, d0_MC_MOTHER_TRUEPY, d0_MC_MOTHER_TRUEPZ,
         d0_MC_GD_MOTHER_TRUEPE, d0_MC_GD_MOTHER_TRUEPX, d0_MC_GD_MOTHER_TRUEPY, d0_MC_GD_MOTHER_TRUEPZ,
-        b_BKGCAT, d0_M
+        b_BKGCAT
         )
+
+    # FF reweighting
+    ham_ok: bool; ham_ok
 
     # Trigger
     l0: "bool; b0_L0Global_TIS || d0_L0HadronDecision_TOS; b_L0Global_TIS || d0_L0HadronDecision_TOS"
@@ -345,6 +348,8 @@ calculation:
 global_selection:
     - trg_ok
     - global_cut_ok
+    - truthmatch > 0
+    - ham_ok
 
 one_cand_only:
     enable: true

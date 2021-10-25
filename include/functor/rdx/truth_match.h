@@ -469,9 +469,7 @@ class D0TruthMatch : public TruthMatch {
  public:
   ///////// Helpers
 
-  bool COMMON_SELEC() {
-    return (TMath::Abs(d_m - PDG_M_D0) < 23.4 && mu_id == PDG_ID_mu);
-  }
+  bool COMMON_SELEC() { return mu_id == PDG_ID_mu; }
 
   // TODO Phoebe redefines Y_BKGCAT in her AddD0B_temp.C too much; for now, I'm
   // just implementing something similar Need nu_mu momentum info in order to
@@ -705,7 +703,7 @@ class D0TruthMatch : public TruthMatch {
                double d_mom_truePy_, double d_mom_truePz_,
                double d_gdmom_trueE_, double d_gdmom_truePx_,
                double d_gdmom_truePy_, double d_gdmom_truePz_, int b_bkgcat_,
-               double d_m_, bool debug_dstst_all_cocktail_,
+               bool debug_dstst_all_cocktail_,
                bool debug_dstst_higher_separate_cocktail_,
                bool debug_dstst_s_all_cocktail_, bool debug_dd_all_cocktail_) {
     // set simple fields; ensure all IDs (except maybe cocktail_id) are
@@ -735,7 +733,6 @@ class D0TruthMatch : public TruthMatch {
     d_gdmom_truep4.SetPxPyPzE(d_gdmom_truePx_, d_gdmom_truePy_, d_gdmom_truePz_,
                               d_gdmom_trueE_);
     b_bkgcat                 = b_bkgcat_;
-    d_m                      = d_m_;
     debug_dstst_all_cocktail = debug_dstst_all_cocktail_;
     debug_dstst_higher_separate_cocktail =
         debug_dstst_higher_separate_cocktail_;
@@ -913,19 +910,21 @@ int MC_TRUTH_MATCH_DST(int decay_id, int mu_id, int mu_mom_id, int mu_gdmom_id,
 
 //////// Truth-Matching Selection Function (for users) for Decays Reconstructed
 /// as B- -> D0 [-> K- pi+] mu- (nu)
-int MC_TRUTH_MATCH_D0(
-    int decay_id, int b_id, int mu_id, int mu_mom_id, int mu_gdmom_id,
-    int mu_gdgdmom_id, int mu_gdgdgdmom_id, int mu_mom_key, int mu_gdmom_key,
-    int mu_gdgdmom_key, int mu_gdgdgdmom_key, int d_mom_id, int d_gdmom_id,
-    int d_gdgdmom_id, int d_gdgdgdmom_id, int d_mom_key, int d_gdmom_key,
-    int d_gdgdmom_key, int d_gdgdgdmom_key, double d_trueE, double d_truePx,
-    double d_truePy, double d_truePz, double d_mom_trueE, double d_mom_truePx,
-    double d_mom_truePy, double d_mom_truePz, double d_gdmom_trueE,
-    double d_gdmom_truePx, double d_gdmom_truePy, double d_gdmom_truePz,
-    int b_bkgcat, double d_m, bool debug_dstst_all_cocktail = false,
-    bool debug_dstst_higher_separate_cocktail = false,
-    bool debug_dstst_s_all_cocktail           = false,
-    bool debug_dd_all_cocktail                = true) {
+int MC_TRUTH_MATCH_D0(int decay_id, int b_id, int mu_id, int mu_mom_id,
+                      int mu_gdmom_id, int mu_gdgdmom_id, int mu_gdgdgdmom_id,
+                      int mu_mom_key, int mu_gdmom_key, int mu_gdgdmom_key,
+                      int mu_gdgdgdmom_key, int d_mom_id, int d_gdmom_id,
+                      int d_gdgdmom_id, int d_gdgdgdmom_id, int d_mom_key,
+                      int d_gdmom_key, int d_gdgdmom_key, int d_gdgdgdmom_key,
+                      double d_trueE, double d_truePx, double d_truePy,
+                      double d_truePz, double d_mom_trueE, double d_mom_truePx,
+                      double d_mom_truePy, double d_mom_truePz,
+                      double d_gdmom_trueE, double d_gdmom_truePx,
+                      double d_gdmom_truePy, double d_gdmom_truePz,
+                      int b_bkgcat, bool debug_dstst_all_cocktail = false,
+                      bool debug_dstst_higher_separate_cocktail = false,
+                      bool debug_dstst_s_all_cocktail           = false,
+                      bool debug_dd_all_cocktail                = true) {
   D0TruthMatch event(
       decay_id, b_id, mu_id, mu_mom_id, mu_gdmom_id, mu_gdgdmom_id,
       mu_gdgdgdmom_id, mu_mom_key, mu_gdmom_key, mu_gdgdmom_key,
@@ -933,7 +932,7 @@ int MC_TRUTH_MATCH_D0(
       d_mom_key, d_gdmom_key, d_gdgdmom_key, d_gdgdgdmom_key, d_trueE, d_truePx,
       d_truePy, d_truePz, d_mom_trueE, d_mom_truePx, d_mom_truePy, d_mom_truePz,
       d_gdmom_trueE, d_gdmom_truePx, d_gdmom_truePy, d_gdmom_truePz, b_bkgcat,
-      d_m, debug_dstst_all_cocktail, debug_dstst_higher_separate_cocktail,
+      debug_dstst_all_cocktail, debug_dstst_higher_separate_cocktail,
       debug_dstst_s_all_cocktail, debug_dd_all_cocktail);
   return event.truthmatch;
 }
