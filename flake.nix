@@ -47,6 +47,7 @@
 
             # Python requirements (enough to get a virtualenv going).
             virtualenvwrapper
+            numpy  # FIXME: numpy 1.21.3 from PyPI breaks down because it can't find libz.so.1 (from zlib)
           ];
 
           FONTCONFIG_FILE = pkgs.makeFontsConf {
