@@ -78,7 +78,6 @@ calculation:
     dst_pt: double; GEV(dst_PT)
     dst_iso_invm: double; GEV(MINV(b0_ISOLATION_PX, b0_ISOLATION_PY, b0_ISOLATION_PZ, b0_ISOLATION_PE, dst_PX, dst_PY, dst_PZ, dst_PE))
     dst_iso_deltam: double; GEV(ISO_DELTAM(b0_ISOLATION_PX, b0_ISOLATION_PY, b0_ISOLATION_PZ, b0_ISOLATION_PE, dst_PX, dst_PY, dst_PZ, dst_PE, dst_M))
-    dst_ref_deltam: double; ABS(dst_M-d0_M-145.454)  # MeV!
     # D0
     d0_m: double; GEV(d0_M)
     d0_p: double; GEV(d0_P)
@@ -133,10 +132,12 @@ calculation:
     # B0
     b0_endvtx_chi2ndof: double; b0_ENDVERTEX_CHI2 / b0_ENDVERTEX_NDOF
     b0_fd_trans: double; FD_TRANS(b0_ENDVERTEX_X, b0_OWNPV_X, b0_ENDVERTEX_Y, b0_OWNPV_Y)
+    b0_discard_mu_chi2: double; b0_DISCARDMu_CHI2
     # B
     b_endvtx_chi2ndof: double; b_ENDVERTEX_CHI2 / b_ENDVERTEX_NDOF
     b_fd_trans: double; FD_TRANS(b_ENDVERTEX_X, b_OWNPV_X, b_ENDVERTEX_Y, b_OWNPV_Y)
-    b_dira: double; b_DIRA_OWNPV
+    b_discard_mu_chi2: double; b_DISCARDMu_CHI2
+    #b_dira: double; b_DIRA_OWNPV
     # D*
     dst_endvtx_chi2ndof: double; dst_ENDVERTEX_CHI2 / dst_ENDVERTEX_NDOF
     # D0
@@ -172,7 +173,7 @@ calculation:
     d0_ok: >-
         bool; FLAG_SEL_D0_RUN1(
         d0_pid_ok,
-        k_PT, pi_PT, k_P, pi_P,
+        k_PT, pi_PT,
         k_Hlt1TrackAllL0Decision_TOS, pi_Hlt1TrackAllL0Decision_TOS,
         k_IPCHI2_OWNPV, pi_IPCHI2_OWNPV,
         k_TRACK_GhostProb, pi_TRACK_GhostProb,
@@ -194,7 +195,7 @@ calculation:
     # Actual flags
     trks_ok: bool; FLAG_SEL_GOOD_TRACKS(trk_mu, trks_other)
     mu_pid_ok: bool; FLAG_SEL_MU_PID_OK_RUN1(mu_isMuon, mu_PIDmu, mu_PIDe)
-    mu_ubdt_ok: bool; FLAG_SEL_MU_UBDT_OK_RUN1(mu_ubdt)
+    mu_ubdt_ok: bool; mu_ubdt > 0.25
     mu_ok: >-
         bool; FLAG_SEL_MU_RUN1(
         trks_ok, mu_pid_ok,
@@ -222,7 +223,8 @@ calculation:
         d0_ok, mu_ok,
         spi_TRACK_GhostProb,
         dst_ENDVERTEX_CHI2, dst_ENDVERTEX_NDOF,
-        dst_ref_deltam,
+        dst_M, d0_M,
+        b0_discard_mu_chi2,
         b0_ENDVERTEX_CHI2, b0_ENDVERTEX_NDOF,
         b0_fd_trans,
         b0_DIRA_OWNPV, b0_M
