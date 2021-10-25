@@ -265,7 +265,7 @@ global_selection:
     - spi_trk_type == 3
 
 one_cand_only:
-    enable: false
+    enable: true
     branch: calculation_prs_in
 
 output:

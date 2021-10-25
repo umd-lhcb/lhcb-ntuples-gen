@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Oct 25, 2021 at 03:56 PM +0200
+# Last Change: Mon Oct 25, 2021 at 09:41 PM +0200
 
 import sys
 import os
@@ -165,6 +165,7 @@ def workflow_data(job_name, inputs, input_yml,
                   cli_vars=None,
                   blocked_input_trees=None,
                   blocked_output_trees=None,
+                  directive_override=None,
                   **kwargs):
     subworkdirs, workdir, executor = workflow_data_mc(
         job_name, inputs, **kwargs)
@@ -194,6 +195,10 @@ def workflow_data(job_name, inputs, input_yml,
 
         if blocked_output_trees:
             bm_cmd += ' -X '+' '.join(blocked_output_trees)
+
+        if directive_override:
+            bm_cmd += ' -D '+' '.join([k+':'+v
+                                       for k, v in directive_override.items()])
 
         executor(bm_cmd.format(abs_path(input_yml), input_ntp, cpp_template))
         workflow_compile_cpp('baby.cpp', executor=executor)
@@ -302,7 +307,8 @@ JOBS = {
         '../postprocess/ref-rdx-run1/ref-rdx-run1-Dst.yml',
         use_ubdt=False,
         output_ntp_name_gen=parse_step2_name,
-        executor=executor
+        executor=executor,
+        directive_override={'one_cand_only/enable': 'false'}
     ),
     'ref-rdx-ntuple-run1-data-D0': lambda name: workflow_data(
         name,
@@ -311,7 +317,7 @@ JOBS = {
         use_ubdt=False,
         output_ntp_name_gen=parse_step2_name,
         executor=executor,
-        blocked_output_trees=['Dst_data']
+        directive_override={'one_cand_only/enable': 'false'}
     ),
 }
 
