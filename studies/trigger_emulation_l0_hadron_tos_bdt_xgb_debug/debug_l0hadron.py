@@ -50,7 +50,7 @@ def rename(ntpOut, ntpIn):
     if isfile(ntpOut):
         return ntpOut
 
-    runCmd('mv {} {}'.format(ntpIn, ntpOut))
+    runCmd('cp {} {}'.format(ntpIn, ntpOut))
     return ntpOut
 
 
@@ -83,7 +83,7 @@ ntpNtmTrain, ntpNtmValid, _ = splitTrainValid(ntpNtm)
 ntpTrainXgb = merge('run2-rdx-train_xgb.root', [ntpTmTrain, ntpNtmTrain])
 
 ## Merge the validation samples
-ntpValid = merge('run2-rdx-train_xgb.root', [ntpTmValid, ntpNtmValid])
+ntpValid = merge('run2-rdx-valid.root', [ntpTmValid, ntpNtmValid])
 
 ## Only use trigger-matched training sample for BDG
 ntpTrainBdt = rename('run2-rdx-train_bdt.root', ntpTmTrain)
@@ -97,12 +97,16 @@ ntpTrainBdt = rename('run2-rdx-train_bdt.root', ntpTmTrain)
 ####################
 
 def train(tag, ntpIn, ntpOut, dumped):
+    if isfile(dumped):
+        print('Already trained.')
+        return ntpOut, dumped
+
     exe = '../../lib/python/TrackerOnlyEmu/scripts/run2-rdx-l0_hadron_trainload_'+tag+'.py'
     runCmd(exe+' '+ntpIn+' '+ntpOut+' --dump-bdt '+dumped)
     return ntpOut, dumped
 
 
-# _, bdt4 = train('bdt', ntpTrainBdt, 'tmp.root', 'bdt4.pickle')
+_, bdt4 = train('bdt', ntpTrainBdt, 'tmp.root', 'bdt4.pickle')
 
 
 ###############
