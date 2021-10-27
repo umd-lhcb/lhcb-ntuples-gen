@@ -1,12 +1,14 @@
 TupleB0/DecayTree:
     selection:
-        - "min(k_L0Calo_HCAL_TriggerET, pi_L0Calo_HCAL_TriggerET) > 0"
+        - "max(k_L0Calo_HCAL_TriggerET, pi_L0Calo_HCAL_TriggerET) <= 0"
     deactivate:
         - '*'
     activate:
         # Global
         - runNumber
         - eventNumber
+        - NumSPDHits
+        - nTracks
         # K
         - k_P
         - k_PT

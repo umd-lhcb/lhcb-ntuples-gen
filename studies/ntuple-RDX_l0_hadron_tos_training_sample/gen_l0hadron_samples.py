@@ -25,13 +25,19 @@ def slim(tag, ntpIn):
     return ntpOut
 
 
-## Slimming the ntuple for XGB
-ntpNtm = slim('xgb', ntpIn)
+## Slimming the trigger-matched ntuple
+ntpNtm = slim('tm', ntpIn)
 runCmd('root -l \'../../scripts/split_train_vali_test.C("'+ntpNtm+'", "50:50")\'')
 
-## Further slimming for BDT
-slim('bdt', './l0hadron_emu_xgb_train.root')
+## Slimming the non-trigger-matched ntuple
+ntpNtm = slim('ntm', ntpIn)
+runCmd('root -l \'../../scripts/split_train_vali_test.C("'+ntpNtm+'", "50:50")\'')
 
-runCmd('mv ./l0hadron_emu_xgb_train.root ./run2-rdx-train_xgb.root')
-runCmd('mv ./l0hadron_emu_bdt.root ./run2-rdx-train_bdt.root')
+## Merge the training samples for XGB
+runCmd('hadd -fk run2-rdx-train_xgb.root l0hadron_emu_tm_train.root l0hadron_emu_ntm_train.root')
+
+## Only use trigger-matched training sample for BDG
+runCmd('mv ./l0hadron_emu_tm_train.root ./run2-rdx-train_bdt.root')
+
+## Remove unused ntuples
 runCmd('rm l0hadron_emu*.root')
