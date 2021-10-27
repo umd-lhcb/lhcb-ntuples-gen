@@ -109,6 +109,53 @@ def train(tag, ntpIn, ntpOut, dumped):
 _, bdt4 = train('bdt', ntpTrainBdt, 'tmp.root', 'bdt4.pickle')
 
 
+##########################
+# Generate debug ntuples #
+##########################
+
+def apply(tag, ntpIn, ntpOut, dumped):
+    if isfile(ntpOut):
+        print('Trigger emulation already applied.')
+        return ntpOut
+
+    exe = '../../lib/python/TrackerOnlyEmu/scripts/run2-rdx-l0_hadron_trainload_'+tag+'.py'
+    runCmd(exe+' '+ntpIn+' '+ntpOut+' --load-bdt '+dumped+' --debug')
+    return ntpOut
+
+
+ntpBdt4 = apply('bdt', ntpValid, 'run2-rdx-bdt4.root', bdt4)
+ntpBdt4Tm = apply('bdt', ntpTmValid, 'run2-rdx-bdt4-tm.root', bdt4)
+
+
 ###############
 # Debug plots #
 ###############
+
+def plot_l0_hadron(ntpIn, triggers,
+                   output_prefix='b0',
+                   tree='TupleB0/DecayTree',
+                   title='L0Hadron TOS',
+                   legends=[
+                       'Real response in FullSim',
+                       'Emulated (no BDT)',
+                       'Emulated (BDT)'
+                   ]):
+    exe = '../../scripts/plot_trigger_efficiencies.py'
+
+    cmd = exe+''' \\
+        -n {ntp}/{tree} -b {trg} -o {out_pref} --title "{title}" \\
+        --ratio-plot \\
+        -k d0_pt -D 0 40 \\
+        -l {legends} \\
+        --xlabel "\\$D^0$ \\$p_T$ [GeV]"
+    '''.format(ntp=ntpIn, tree=tree, trg=' '.join(triggers),
+               out_pref=output_prefix, title=title,
+               legends=' '.join(['"{}"'.format(leg) for leg in legends])
+               )
+    runCmd(cmd)
+
+
+plot_l0_hadron(ntpBdt4, ['d0_l0_hadron_tos', 'd0_l0_hadron_tos_emu_no_bdt',
+                         'd0_l0_hadron_tos_emu_bdt'], 'bdt4-b0')
+plot_l0_hadron(ntpBdt4Tm, ['d0_l0_hadron_tos', 'd0_l0_hadron_tos_emu_no_bdt',
+                           'd0_l0_hadron_tos_emu_bdt'], 'bdt4-tm-b0')
