@@ -14,6 +14,7 @@ TupleB0/DecayTree:
         - k_L0Calo_HCAL_TriggerET
         - k_L0Calo_HCAL_xProjection
         - k_L0Calo_HCAL_yProjection
+        - k_L0Calo_HCAL_region
         # pi
         - pi_P
         - pi_PT
@@ -21,6 +22,10 @@ TupleB0/DecayTree:
         - pi_L0Calo_HCAL_TriggerET
         - pi_L0Calo_HCAL_xProjection
         - pi_L0Calo_HCAL_yProjection
+        - pi_L0Calo_HCAL_region
+        # D0
+        - d0_PT
+        - d0_P
 
 TupleBminus/DecayTree:
     keep: false
