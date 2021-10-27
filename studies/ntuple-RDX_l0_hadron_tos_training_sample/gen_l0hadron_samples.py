@@ -32,3 +32,6 @@ runCmd('root -l \'../../scripts/split_train_vali_test.C("'+ntpNtm+'", "60:40")\'
 ## Slimming the truthmatched ntuple and merging it with the trigger emulation, dividing it into samples
 ntpTm = mergeSlim('tm', ntpIn)
 runCmd('root -l \'../../scripts/split_train_vali_test.C("'+ntpTm+'", "60:40")\'')
+
+runCmd('hadd -fk run2_rdx-train.root l0hadron_emu_ntm_train.root l0hadron_emu_tm_train.root')
+runCmd('hadd -fk run2_rdx-valid.root l0hadron_emu_ntm_valid.root l0hadron_emu_tm_valid.root')
