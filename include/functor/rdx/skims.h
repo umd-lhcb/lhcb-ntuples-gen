@@ -1,6 +1,6 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Fri Oct 22, 2021 at 11:50 PM +0200
+// Last Change: Wed Oct 27, 2021 at 03:44 PM +0200
 // NOTE: All kinematic variables are in MeV
 
 #ifndef _LNG_FUNCTOR_RDX_SKIMS_H_
@@ -30,9 +30,9 @@ Bool_t FLAG_DD(Bool_t add_flags,
                Float_t iso_nnk1, Float_t iso_nnk2, Float_t iso_nnk3) {
   // clang-format on
   auto pid_ok =
-      MAX(IF(iso_bdt1 <= -1.1, 0.0f, iso_nnk1) * (iso_type1 == 3),
-          IF(iso_bdt2 <= -1.1, 0.0f, iso_nnk2) * (iso_type2 == 3),
-          IF(iso_bdt3 <= -1.1, 0.0f, iso_nnk3) * (iso_type3 == 3)) > 0.2;
+      MAX(IF(iso_bdt1 > -1.1, iso_nnk1, 0.0f) * (iso_type1 == 3),
+          IF(iso_bdt2 > -1.1, iso_nnk2, 0.0f) * (iso_type2 == 3),
+          IF(iso_bdt3 > -1.1, iso_nnk3, 0.0f) * (iso_type3 == 3)) > 0.2;
 
   auto kinematic_ok = MAX(iso_p1 * (iso_pt1 > 0.15),
                           iso_p2 * (iso_pt2 > 0.15) * (iso_bdt2 > -1.1),
