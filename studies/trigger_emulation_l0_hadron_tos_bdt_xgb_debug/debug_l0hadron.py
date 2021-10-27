@@ -125,6 +125,7 @@ def apply(tag, ntpIn, ntpOut, dumped):
 
 ntpBdt4 = apply('bdt', ntpValid, 'run2-rdx-bdt4.root', bdt4)
 ntpBdt4Tm = apply('bdt', ntpTmValid, 'run2-rdx-bdt4-tm.root', bdt4)
+ntpBdt4Ntm = apply('bdt', ntpNtmValid, 'run2-rdx-bdt4-ntm.root', bdt4)
 
 
 ###############
@@ -159,3 +160,5 @@ plot_l0_hadron(ntpBdt4, ['d0_l0_hadron_tos', 'd0_l0_hadron_tos_emu_no_bdt',
                          'd0_l0_hadron_tos_emu_bdt'], 'bdt4-b0')
 plot_l0_hadron(ntpBdt4Tm, ['d0_l0_hadron_tos', 'd0_l0_hadron_tos_emu_no_bdt',
                            'd0_l0_hadron_tos_emu_bdt'], 'bdt4-tm-b0')
+plot_l0_hadron(ntpBdt4Ntm, ['d0_l0_hadron_tos', 'd0_l0_hadron_tos_emu_no_bdt',
+                            'd0_l0_hadron_tos_emu_bdt'], 'bdt4-ntm-b0')
