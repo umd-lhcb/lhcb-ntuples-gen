@@ -132,33 +132,33 @@ ntpBdt4Ntm = apply('bdt', ntpNtmValid, 'run2-rdx-bdt4-ntm.root', bdt4)
 # Debug plots #
 ###############
 
-def plot_l0_hadron(ntpIn, triggers,
-                   output_prefix='b0',
-                   tree='TupleB0/DecayTree',
-                   title='L0Hadron TOS',
-                   legends=[
-                       'Real response in FullSim',
-                       'Emulated (no BDT)',
-                       'Emulated (BDT)'
-                   ]):
+def plotL0Hadron(ntpIn, triggers,
+                 outPref='b0',
+                 tree='TupleB0/DecayTree',
+                 title='L0Hadron TOS',
+                 legends=[
+                     'Real response in FullSim',
+                     'Emulated (no BDT)',
+                     'Emulated (BDT)'
+                 ]):
     exe = '../../scripts/plot_trigger_efficiencies.py'
 
     cmd = exe+''' \\
-        -n {ntp}/{tree} -b {trg} -o {out_pref} --title "{title}" \\
+        -n {ntp}/{tree} -b {trg} -o {outPref} --title "{title}" \\
         --ratio-plot \\
         -k d0_pt -D 0 40 \\
         -l {legends} \\
         --xlabel "\\$D^0$ \\$p_T$ [GeV]"
     '''.format(ntp=ntpIn, tree=tree, trg=' '.join(triggers),
-               out_pref=output_prefix, title=title,
+               outPref=outPref, title=title,
                legends=' '.join(['"{}"'.format(leg) for leg in legends])
                )
     runCmd(cmd)
 
 
-plot_l0_hadron(ntpBdt4, ['d0_l0_hadron_tos', 'd0_l0_hadron_tos_emu_no_bdt',
-                         'd0_l0_hadron_tos_emu_bdt'], 'bdt4-b0')
-plot_l0_hadron(ntpBdt4Tm, ['d0_l0_hadron_tos', 'd0_l0_hadron_tos_emu_no_bdt',
-                           'd0_l0_hadron_tos_emu_bdt'], 'bdt4-tm-b0')
-plot_l0_hadron(ntpBdt4Ntm, ['d0_l0_hadron_tos', 'd0_l0_hadron_tos_emu_no_bdt',
-                            'd0_l0_hadron_tos_emu_bdt'], 'bdt4-ntm-b0')
+plotL0Hadron(ntpBdt4, ['d0_l0_hadron_tos', 'd0_l0_hadron_tos_emu_no_bdt',
+                       'd0_l0_hadron_tos_emu_bdt'], 'bdt4-b0')
+plotL0Hadron(ntpBdt4Tm, ['d0_l0_hadron_tos', 'd0_l0_hadron_tos_emu_no_bdt',
+                         'd0_l0_hadron_tos_emu_bdt'], 'bdt4-tm-b0')
+plotL0Hadron(ntpBdt4Ntm, ['d0_l0_hadron_tos', 'd0_l0_hadron_tos_emu_no_bdt',
+                          'd0_l0_hadron_tos_emu_bdt'], 'bdt4-ntm-b0')
