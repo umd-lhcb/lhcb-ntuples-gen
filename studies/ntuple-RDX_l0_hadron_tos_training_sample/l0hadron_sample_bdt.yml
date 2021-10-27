@@ -1,22 +1,12 @@
 TupleB0/DecayTree:
     selection:
-        - "max(k_L0Calo_HCAL_TriggerET, pi_L0Calo_HCAL_TriggerET) > 0"
+        - "min(k_L0Calo_HCAL_TriggerET, pi_L0Calo_HCAL_TriggerET) > 0"
     deactivate:
         - '*'
     activate:
         # Global
         - runNumber
         - eventNumber
-        - NumSPDHits
-        - nTracks
-        - FitVar_El
-        - FitVar_q2
-        - FitVar_Mmiss2
-        - b0_ISOLATION_BDT
-        # Trigger
-        - k_L0HadronDecision_TOS
-        - pi_L0HadronDecision_TOS
-        - d0_L0HadronDecision_TOS
         # K
         - k_P
         - k_PT
@@ -24,7 +14,6 @@ TupleB0/DecayTree:
         - k_L0Calo_HCAL_TriggerET
         - k_L0Calo_HCAL_xProjection
         - k_L0Calo_HCAL_yProjection
-        - k_L0Calo_HCAL_region
         # pi
         - pi_P
         - pi_PT
@@ -32,18 +21,6 @@ TupleB0/DecayTree:
         - pi_L0Calo_HCAL_TriggerET
         - pi_L0Calo_HCAL_xProjection
         - pi_L0Calo_HCAL_yProjection
-        - pi_L0Calo_HCAL_region
-        # spi
-        - spi_P
-        - spi_PT
-        - spi_L0Calo_HCAL_realET
-        - spi_L0Calo_HCAL_TriggerET
-        - spi_L0Calo_HCAL_xProjection
-        - spi_L0Calo_HCAL_yProjection
-        - spi_L0Calo_HCAL_region
-        # D0
-        - d0_PT
-        - d0_P
 
 TupleBminus/DecayTree:
     keep: false

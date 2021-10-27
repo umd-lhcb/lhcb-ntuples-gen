@@ -14,24 +14,24 @@ if not pathlib.Path(ntpIn).is_file():
 
 
 def runCmd(cmd):
-    print('\n \033[92m'+cmd+'\033[0m')
+    print('  \033[92m'+cmd+'\033[0m')
     os.system(cmd)
 
 
-def mergeSlim(tag, ntpIn):
+def slim(tag, ntpIn):
     yml = 'l0hadron_sample_'+tag+'.yml'
     ntpOut = 'l0hadron_emu_'+tag+'.root'
     runCmd('../../scripts/haddcut.py '+ntpOut+' '+ntpIn+' -s -c '+yml)
     return ntpOut
 
 
-## Slimming the non-truthmatched ntuple and merging it with the trigger emulation
-ntpNtm = mergeSlim('ntm', ntpIn)
+## Slimming the ntuple for XGB
+ntpNtm = slim('xgb', ntpIn)
 runCmd('root -l \'../../scripts/split_train_vali_test.C("'+ntpNtm+'", "60:40")\'')
 
-## Slimming the truthmatched ntuple and merging it with the trigger emulation, dividing it into samples
-ntpTm = mergeSlim('tm', ntpIn)
-runCmd('root -l \'../../scripts/split_train_vali_test.C("'+ntpTm+'", "60:40")\'')
+## Further slimming for BDT
+slim('bdt', './l0hadron_emu_xgb_train.root')
 
-runCmd('hadd -fk run2_rdx-train.root l0hadron_emu_ntm_train.root l0hadron_emu_tm_train.root')
-runCmd('hadd -fk run2_rdx-valid.root l0hadron_emu_ntm_valid.root l0hadron_emu_tm_valid.root')
+runCmd('mv ./l0hadron_emu_xgb_train.root ./run2-rdx-train_xgb.root')
+runCmd('mv ./l0hadron_emu_bdt.root ./run2-rdx-train_bdt.root')
+runCmd('rm l0hadron_emu*.root')
