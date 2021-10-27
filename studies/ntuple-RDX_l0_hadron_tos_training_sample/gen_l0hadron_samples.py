@@ -27,7 +27,7 @@ def slim(tag, ntpIn):
 
 ## Slimming the ntuple for XGB
 ntpNtm = slim('xgb', ntpIn)
-runCmd('root -l \'../../scripts/split_train_vali_test.C("'+ntpNtm+'", "60:40")\'')
+runCmd('root -l \'../../scripts/split_train_vali_test.C("'+ntpNtm+'", "50:50")\'')
 
 ## Further slimming for BDT
 slim('bdt', './l0hadron_emu_xgb_train.root')
