@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sun Oct 24, 2021 at 04:14 PM +0200
+# Last Change: Wed Oct 27, 2021 at 09:10 PM +0200
 # Note: Here we use Phoebe's latest ntuple
 
 import pathlib
@@ -27,21 +27,22 @@ ROOT.gInterpreter.Declare('#include "functor/rdx/skims.h"')
 
 DST_CUTS = [
     'isData > 0 && DstIDprod > 0 && IDprod > 0 && muPID > 0 && '  # redoHistos_Dst.C, LN 3651
-    'IN_RANGE(m_nu1, -2.0, 10.9, true) && '
-    'IN_RANGE(GEV(El), 0.1, 2.65, true) && '
-    'IN_RANGE(GEV2(q2), -0.4, 12.6, true)',  # Generic global cuts on fit variables
+    'm_nu1 >= -2.0 && m_nu1 <= 10.9 && '
+    'El >= 0.1e3 && El <= 2.65e3 && '
+    'q2 >= -0.4e6 && q2 <= 12.6e6',  # Generic global cuts on fit variables
     'L0 && (YTIS || YTOS) && Hlt1 && Hlt2 && '
     '((Hlt1TAL0K && K_PT > 1700.0) || (Hlt1TAL0pi && pi_PT > 1700.0))',  # trigger
     '!muVeto && DLLe < 1.0 && BDTmu > 0.25 && '
-    'IN_RANGE(mu_P, 3.0e3, 100.0e3) && IN_RANGE(mu_ETA, 1.7, 5.0)',  # Mu
+    'mu_P > 3.0e3 && mu_P < 100.0e3 && mu_ETA > 1.7 && mu_ETA < 5.0',  # Mu
     'dxy < 7.0 && Y_M < 5280.0',  # D*Mu combo
-    'ABS(Dst_M-D0_M-145.454) < 2.0',  # D*
+    'abs(Dst_M-D0_M-145.454) < 2.0',  # D*
+    '!(reweighting_69_gen3_pt2 < 0.01 || reweighting_89_gen3_pt2 < 0.01)',  # Derived from some MC weight
     # 'piminus_TRACK_Type == 3',  # Ineffective
     # 'muIPCHI2 > 45.0',  # Mu, ineffective
-    # 'ABS(Dst_M-D0_M-145.454-9) < 2.0 || ABS(Dst_M-D0_M-145.454) < 2.0',  # D*Mu combo, keeping side-band
+    # 'abs(Dst_M-D0_M-145.454-9) < 2.0 || abs(Dst_M-D0_M-145.454) < 2.0',  # D*Mu combo, keeping side-band
     # 'Y_DISCARDMu_CHI2 < 6.0 && Y_ENDVERTEX_CHI2 < 24.0 && '
     # 'Y_DIRA_OWNPV > 0.9995 && pislow_GhostProb < 0.25',  # D*Mu combo, ineffective
-    # 'ABS(D0_M-1865.49) < 23.4',  # D0, ineffective
+    # 'abs(D0_M-1865.49) < 23.4',  # D0, ineffective
     # 'KIPCHI2 > 45.0 && piIPCHI2 > 45.0',  # D0, ineffective
     # 'D0_DIRA_OWNPV > 0.9998 && D0IPCHI2 > 9.0',  # D0, ineffective
     # 'K_P > 2000.0 && pi_P > 2000.0 && '
@@ -107,6 +108,9 @@ def apply_skim_cuts(frame, skim_cuts, ref):
 
 
 def apply_cuts(frame, cuts, skim_cuts, ref):
+    print('Cuts we are about to apply:')
+    print('    '+' && '.join(cuts))
+
     print('The reference templates have the following entries:')
     for name, num in ref.items():
         print('    {:>3}: {:,}'.format(name, num))
