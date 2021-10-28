@@ -12,7 +12,7 @@ def runCmd(cmd):
 
 def mergeSlim(tag, ntpIn, ntpTrig):
     yml = 'l0hadron_sample_'+tag+'.yml'
-    print('\n===== Running L0Hadron emulation and merging ntuples with '+yml)   
+    print('\n===== Running L0Hadron emulation and merging ntuples with '+yml)
     tmpFile1 = 'l0had_emu_'+tag+'_full_tmp.root'
     tmpFile2 = 'l0had_emu_'+tag+'_tmp.root'
     runCmd('../../scripts/haddcut.py '+tmpFile1+' '+ntpIn+' -s -c '+yml)
@@ -37,7 +37,7 @@ ntpTm = mergeSlim('tm', ntpIn, ntpTrig)
 runCmd('root -l \'../../scripts/split_train_vali_test.C("'+ntpTm+'", "50:50")\'')
 
 ## Slimming the full ntuple and merging it with the trigger emulation, dividing it into samples
-ntpAll = mergeSlim('all', ntpIn, ntpTrig)
-runCmd('root -l \'../../scripts/split_train_vali_test.C("'+ntpAll+'", "35:35")\'')
+# ntpAll = mergeSlim('all', ntpIn, ntpTrig)
+# runCmd('root -l \'../../scripts/split_train_vali_test.C("'+ntpAll+'", "35:35")\'')
 
 runCmd('rm *_tmp.root')
