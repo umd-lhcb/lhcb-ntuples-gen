@@ -154,7 +154,7 @@ def plotL0Hadron(ntpIn, triggers,
     cmd = exe+''' \\
         -n {ntp}/{tree} -b {trg} -o {outPref} --title "{title}" \\
         --ratio-plot \\
-        -k d0_pt -D 0 40 \\
+        -k d0_pt -D 0 20 \\
         -l {legends} \\
         --xlabel "\\$D^0$ \\$p_T$ [GeV]"
     '''.format(ntp=ntpIn, tree=tree, trg=' '.join(triggers),
