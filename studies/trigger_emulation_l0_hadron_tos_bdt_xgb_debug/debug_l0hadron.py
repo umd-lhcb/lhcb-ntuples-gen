@@ -92,26 +92,26 @@ ntpValid = merge('run2-rdx-valid.root', [ntpTmValid, ntpNtmValid])
 ## Only use trigger-matched training sample for BDT
 ntpTrainBdt = rename('run2-rdx-train_bdt.root', ntpTmTrain)
 
-## Remove unused ntuples
-# runCmd('rm l0hadron_emu*.root')
-
 
 ####################
 # Train on ntuples #
 ####################
 
-def train(tag, ntpIn, dumped, ntpOut='tmp.root'):
+def train(tag, ntpIn, dumped, ntpOut='tmp.root', depth=4):
     if isfile(dumped):
         print('Already trained.')
         return dumped, ntpOut
 
     exe = '../../lib/python/TrackerOnlyEmu/scripts/run2-rdx-l0_hadron_trainload_'+tag+'.py'
-    runCmd(exe+' '+ntpIn+' '+ntpOut+' --dump '+dumped)
+    runCmd(f'{exe} {ntpIn} {ntpOut} --dump {dumped} --max-depth {depth}')
     return dumped, ntpOut
 
 
 bdt4, _ = train('bdt', ntpTrainBdt, 'bdt4.pickle')
 xgb4, _ = train('xgb', ntpTrainXgb, 'xgb4.pickle')
+
+# Over-train
+bdt40, _ = train('bdt', ntpTrainBdt, 'bdt40.pickle', depth=40)
 
 
 ##########################
@@ -124,7 +124,7 @@ def apply(tag, ntpIn, ntpOut, dumped):
         return ntpOut
 
     exe = '../../lib/python/TrackerOnlyEmu/scripts/run2-rdx-l0_hadron_trainload_'+tag+'.py'
-    runCmd(exe+' '+ntpIn+' '+ntpOut+' --load '+dumped+' --debug')
+    runCmd(f'{exe} {ntpIn} {ntpOut} --load {dumped} --debug')
     return ntpOut
 
 
@@ -133,7 +133,12 @@ ntpBdt4Tm = apply('bdt', ntpTmValid, 'run2-rdx-bdt4-tm.root', bdt4)
 ntpBdt4Ntm = apply('bdt', ntpNtmValid, 'run2-rdx-bdt4-ntm.root', bdt4)
 
 ntpXgb4 = apply('xgb', ntpValid, 'run2-rdx-xgb4.root', xgb4)
-#ntpBdt4Xgb4 = merge('run2-rdx-bdt4_xgb4.root', [ntpBdt4, ntpXgb4])
+# ntpBdt4Xgb4 = merge('run2-rdx-bdt4_xgb4.root', [ntpBdt4, ntpXgb4])
+
+# Over-train
+ntpBdt40 = apply('bdt', ntpValid, 'run2-rdx-bdt40.root', bdt40)
+ntpBdt40Tm = apply('bdt', ntpTmValid, 'run2-rdx-bdt40-tm.root', bdt40)
+ntpBdt40Ntm = apply('bdt', ntpNtmValid, 'run2-rdx-bdt40-ntm.root', bdt40)
 
 
 ###############
@@ -165,11 +170,24 @@ def plotL0Hadron(ntpIn, triggers,
 
 
 plotL0Hadron(ntpBdt4, ['d0_l0_hadron_tos', 'd0_l0_hadron_tos_emu_no_bdt',
-                       'd0_l0_hadron_tos_emu_bdt'], 'bdt4-b0')
+                       'd0_l0_hadron_tos_emu_bdt'], 'b0-bdt4')
 plotL0Hadron(ntpBdt4Tm, ['d0_l0_hadron_tos', 'd0_l0_hadron_tos_emu_no_bdt',
-                         'd0_l0_hadron_tos_emu_bdt'], 'bdt4-tm-b0')
+                         'd0_l0_hadron_tos_emu_bdt'], 'b0-bdt4',
+             title='L0Hadron TOS TM')
 plotL0Hadron(ntpBdt4Ntm, ['d0_l0_hadron_tos', 'd0_l0_hadron_tos_emu_no_bdt',
-                          'd0_l0_hadron_tos_emu_bdt'], 'bdt4-ntm-b0')
+                          'd0_l0_hadron_tos_emu_bdt'], 'b0-bdt4',
+             title='L0Hadron TOS NTM')
+
 plotL0Hadron(ntpXgb4, ['d0_l0_hadron_tos', 'd0_l0_hadron_tos_emu_xgb'],
-             'xgb4-b0',
+             'b0-xgb4',
              legends=['Real response in FullSim', 'Emulated (XGB)'])
+
+# Over-train
+plotL0Hadron(ntpBdt40, ['d0_l0_hadron_tos', 'd0_l0_hadron_tos_emu_no_bdt',
+                        'd0_l0_hadron_tos_emu_bdt'], 'b0-bdt40')
+plotL0Hadron(ntpBdt40Tm, ['d0_l0_hadron_tos', 'd0_l0_hadron_tos_emu_no_bdt',
+                          'd0_l0_hadron_tos_emu_bdt'], 'b0-bdt40',
+             title='L0Hadron TOS TM')
+plotL0Hadron(ntpBdt40Ntm, ['d0_l0_hadron_tos', 'd0_l0_hadron_tos_emu_no_bdt',
+                           'd0_l0_hadron_tos_emu_bdt'], 'b0-bdt40',
+             title='L0Hadron TOS NTM')
