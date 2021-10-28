@@ -1,0 +1,79 @@
+TupleB0/DecayTree:
+    deactivate:
+        - '*'
+    activate:
+        # Global
+        - runNumber
+        - eventNumber
+        - NumSPDHits
+        - nTracks
+        - FitVar_El
+        - FitVar_q2
+        - FitVar_Mmiss2
+        - b0_ISOLATION_BDT
+        # Trigger
+        - k_L0HadronDecision_TOS
+        - pi_L0HadronDecision_TOS
+        - d0_L0HadronDecision_TOS
+        # K
+        - k_TRUEPT
+        - k_P
+        - k_PT
+        - k_X
+        - k_Y
+        - k_L0Calo_HCAL_realET
+        - k_L0Calo_HCAL_TriggerET
+        - k_L0Calo_HCAL_xProjection
+        - k_L0Calo_HCAL_yProjection
+        - k_L0Calo_HCAL_region
+        # pi
+        - pi_TRUEPT
+        - pi_P
+        - pi_PT
+        - pi_X
+        - pi_Y
+        - pi_L0Calo_HCAL_realET
+        - pi_L0Calo_HCAL_TriggerET
+        - pi_L0Calo_HCAL_xProjection
+        - pi_L0Calo_HCAL_yProjection
+        - pi_L0Calo_HCAL_region
+        # spi
+        - spi_TRUEPT
+        - spi_P
+        - spi_PT
+        - spi_X
+        - spi_Y
+        - spi_L0Calo_HCAL_realET
+        - spi_L0Calo_HCAL_TriggerET
+        - spi_L0Calo_HCAL_xProjection
+        - spi_L0Calo_HCAL_yProjection
+        - spi_L0Calo_HCAL_region
+        # D0
+        - d0_PT
+        - d0_P
+        # Calculated during trigger emulation
+        - rdiff_k_pi
+        - k_et_smeared
+        - pi_et_smeared
+        - shared_k_pi
+        - miss_k_pi
+        - d0_et_emu_no_bdt
+        - d0_l0_hadron_tos_emu_no_bdt
+
+TupleBminus/DecayTree:
+    keep: false
+
+MCTupleB0Mu/MCDecayTree:
+    keep: false
+
+MCTupleB0Tau/MCDecayTree:
+    keep: false
+
+MCTupleBminusMu/MCDecayTree:
+    keep: false
+
+MCTupleBminusTau/MCDecayTree:
+    keep: false
+
+DecayTree:
+    keep: false

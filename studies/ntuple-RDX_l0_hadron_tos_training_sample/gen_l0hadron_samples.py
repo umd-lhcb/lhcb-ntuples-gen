@@ -37,7 +37,7 @@ ntpTm = mergeSlim('tm', ntpIn, ntpTrig)
 runCmd('root -l \'../../scripts/split_train_vali_test.C("'+ntpTm+'", "50:50")\'')
 
 ## Slimming the full ntuple and merging it with the trigger emulation, dividing it into samples
-# ntpAll = mergeSlim('all', ntpIn, ntpTrig)
-# runCmd('root -l \'../../scripts/split_train_vali_test.C("'+ntpAll+'", "35:35")\'')
+ntpAll = mergeSlim('all', ntpIn, ntpTrig)
+runCmd('root -l \'../../scripts/split_train_vali_test.C("'+ntpAll+'", "35:35")\'')
 
 runCmd('rm *_tmp.root')
