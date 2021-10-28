@@ -20,6 +20,7 @@ TupleB0/DecayTree:
         # K
         - k_P
         - k_PT
+        - k_TRUEPT
         - k_L0Calo_HCAL_realET
         - k_L0Calo_HCAL_TriggerET
         - k_L0Calo_HCAL_xProjection
@@ -28,23 +29,25 @@ TupleB0/DecayTree:
         # pi
         - pi_P
         - pi_PT
+        - pi_TRUEPT
         - pi_L0Calo_HCAL_realET
         - pi_L0Calo_HCAL_TriggerET
         - pi_L0Calo_HCAL_xProjection
         - pi_L0Calo_HCAL_yProjection
         - pi_L0Calo_HCAL_region
         # spi
-        #- spi_TRUEPT
-        #- spi_P
-        #- spi_PT
-        #- spi_L0Calo_HCAL_realET
-        #- spi_L0Calo_HCAL_TriggerET
-        #- spi_L0Calo_HCAL_xProjection
-        #- spi_L0Calo_HCAL_yProjection
-        #- spi_L0Calo_HCAL_region
+        - spi_TRUEPT
+        - spi_P
+        - spi_PT
+        - spi_L0Calo_HCAL_realET
+        - spi_L0Calo_HCAL_TriggerET
+        - spi_L0Calo_HCAL_xProjection
+        - spi_L0Calo_HCAL_yProjection
+        - spi_L0Calo_HCAL_region
         # D0
-        - d0_PT
         - d0_P
+        - d0_PT
+        - d0_TRUEPT
 
 TupleBminus/DecayTree:
     keep: false

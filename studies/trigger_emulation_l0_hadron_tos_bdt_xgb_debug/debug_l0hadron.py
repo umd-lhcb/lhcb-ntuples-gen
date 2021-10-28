@@ -46,6 +46,10 @@ def merge(ntpOut, ntpsIn):
     return ntpOut
 
 
+def mergeFriend(ntpOut, ntpsIn):
+    pass
+
+
 def rename(ntpOut, ntpIn):
     if isfile(ntpOut):
         return ntpOut
@@ -85,7 +89,7 @@ ntpTrainXgb = merge('run2-rdx-train_xgb.root', [ntpTmTrain, ntpNtmTrain])
 ## Merge the validation samples
 ntpValid = merge('run2-rdx-valid.root', [ntpTmValid, ntpNtmValid])
 
-## Only use trigger-matched training sample for BDG
+## Only use trigger-matched training sample for BDT
 ntpTrainBdt = rename('run2-rdx-train_bdt.root', ntpTmTrain)
 
 ## Remove unused ntuples
@@ -96,17 +100,18 @@ ntpTrainBdt = rename('run2-rdx-train_bdt.root', ntpTmTrain)
 # Train on ntuples #
 ####################
 
-def train(tag, ntpIn, ntpOut, dumped):
+def train(tag, ntpIn, dumped, ntpOut='tmp.root'):
     if isfile(dumped):
         print('Already trained.')
-        return ntpOut, dumped
+        return dumped, ntpOut
 
     exe = '../../lib/python/TrackerOnlyEmu/scripts/run2-rdx-l0_hadron_trainload_'+tag+'.py'
-    runCmd(exe+' '+ntpIn+' '+ntpOut+' --dump-bdt '+dumped)
-    return ntpOut, dumped
+    runCmd(exe+' '+ntpIn+' '+ntpOut+' --dump '+dumped)
+    return dumped, ntpOut
 
 
-_, bdt4 = train('bdt', ntpTrainBdt, 'tmp.root', 'bdt4.pickle')
+bdt4, _ = train('bdt', ntpTrainBdt, 'bdt4.pickle')
+xgb4, _ = train('xgb', ntpTrainXgb, 'xgb4.pickle')
 
 
 ##########################
@@ -119,13 +124,16 @@ def apply(tag, ntpIn, ntpOut, dumped):
         return ntpOut
 
     exe = '../../lib/python/TrackerOnlyEmu/scripts/run2-rdx-l0_hadron_trainload_'+tag+'.py'
-    runCmd(exe+' '+ntpIn+' '+ntpOut+' --load-bdt '+dumped+' --debug')
+    runCmd(exe+' '+ntpIn+' '+ntpOut+' --load '+dumped+' --debug')
     return ntpOut
 
 
 ntpBdt4 = apply('bdt', ntpValid, 'run2-rdx-bdt4.root', bdt4)
 ntpBdt4Tm = apply('bdt', ntpTmValid, 'run2-rdx-bdt4-tm.root', bdt4)
 ntpBdt4Ntm = apply('bdt', ntpNtmValid, 'run2-rdx-bdt4-ntm.root', bdt4)
+
+ntpXgb4 = apply('xgb', ntpValid, 'run2-rdx-xgb4.root', xgb4)
+#ntpBdt4Xgb4 = merge('run2-rdx-bdt4_xgb4.root', [ntpBdt4, ntpXgb4])
 
 
 ###############
@@ -162,3 +170,6 @@ plotL0Hadron(ntpBdt4Tm, ['d0_l0_hadron_tos', 'd0_l0_hadron_tos_emu_no_bdt',
                          'd0_l0_hadron_tos_emu_bdt'], 'bdt4-tm-b0')
 plotL0Hadron(ntpBdt4Ntm, ['d0_l0_hadron_tos', 'd0_l0_hadron_tos_emu_no_bdt',
                           'd0_l0_hadron_tos_emu_bdt'], 'bdt4-ntm-b0')
+plotL0Hadron(ntpXgb4, ['d0_l0_hadron_tos', 'd0_l0_hadron_tos_emu_xgb'],
+             'xgb4-b0',
+             legends=['Real response in FullSim', 'Emulated (XGB)'])
