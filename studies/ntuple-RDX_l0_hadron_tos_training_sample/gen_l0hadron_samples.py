@@ -34,11 +34,6 @@ def merge(ntpOut, ntpsIn):
     return ntpOut
 
 
-def rename(ntpOut, ntpIn):
-    runCmd('cp {} {}'.format(ntpIn, ntpOut))
-    return ntpOut
-
-
 def splitTrainValid(ntpIn):
     base = splitext(ntpIn)[0]
     ntpsOut = [base+'_'+mode+'.root' for mode in ['train', 'valid', 'test']]
@@ -66,8 +61,8 @@ ntpTrainXgb = merge('run2-rdx-train_xgb.root', [ntpTmTrain, ntpNtmTrain])
 ## Merge the validation samples
 ntpValid = merge('run2-rdx-valid.root', [ntpTmValid, ntpNtmValid])
 
-## Only use trigger-matched training sample for BDG
-ntpTrainBdt = rename('run2-rdx-train_bdt.root', ntpTmTrain)
+## Only use trigger-matched training sample for BDT
+ntpTrainBdt = merge('run2-rdx-train_bdt.root', [ntpTmTrain])
 
 ## Remove unused ntuples
 runCmd('rm l0hadron_emu*.root')
