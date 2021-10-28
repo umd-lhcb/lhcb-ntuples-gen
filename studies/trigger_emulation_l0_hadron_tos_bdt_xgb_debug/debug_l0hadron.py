@@ -108,8 +108,8 @@ def train(tag, ntpIn, dumped, ntpOut='tmp.root', depth=4, ntrees=300):
     return dumped, ntpOut
 
 
-# bdt4, _ = train('bdt', ntpTrainBdt, 'bdt4.pickle')
-# xgb4, _ = train('xgb', ntpTrainXgb, 'xgb4.pickle')
+bdt4, _ = train('bdt', ntpTrainBdt, 'bdt4.pickle')
+xgb4, _ = train('xgb', ntpTrainXgb, 'xgb4.pickle')
 
 ## Over-train
 bdt40, _ = train('bdt', ntpTrainBdt, 'bdt40.pickle', depth=100)
@@ -129,12 +129,12 @@ def apply(tag, ntpIn, ntpOut, dumped):
     return ntpOut
 
 
-# ntpBdt4 = apply('bdt', ntpValid, 'run2-rdx-bdt4.root', bdt4)
-# ntpBdt4Tm = apply('bdt', ntpTmValid, 'run2-rdx-bdt4-tm.root', bdt4)
-# ntpBdt4Ntm = apply('bdt', ntpNtmValid, 'run2-rdx-bdt4-ntm.root', bdt4)
+ntpBdt4 = apply('bdt', ntpValid, 'run2-rdx-bdt4.root', bdt4)
+ntpBdt4Tm = apply('bdt', ntpTmValid, 'run2-rdx-bdt4-tm.root', bdt4)
+ntpBdt4Ntm = apply('bdt', ntpNtmValid, 'run2-rdx-bdt4-ntm.root', bdt4)
 
-# ntpXgb4 = apply('xgb', ntpValid, 'run2-rdx-xgb4.root', xgb4)
-# ntpBdt4Xgb4 = merge('run2-rdx-bdt4_xgb4.root', [ntpBdt4, ntpXgb4])
+ntpXgb4 = apply('xgb', ntpValid, 'run2-rdx-xgb4.root', xgb4)
+ntpBdt4Xgb4 = merge('run2-rdx-bdt4_xgb4.root', [ntpBdt4, ntpXgb4])
 
 ## Over-train, apply on the same ntuple
 ntpBdt40 = apply('bdt', ntpTrainBdt, 'run2-rdx-bdt40-tm-train.root', bdt40)
@@ -180,15 +180,15 @@ xgbTrgsToPlot = [
 ]
 
 
-# plotL0Hadron(ntpBdt4, bdtTrgsToPlot, 'b0-bdt4', title='L0Hadron TOS valid')
-# plotL0Hadron(ntpBdt4Tm, bdtTrgsToPlot, 'b0-bdt4',
-#              title='L0Hadron TOS tm valid')
-# plotL0Hadron(ntpBdt4Ntm, bdtTrgsToPlot, 'b0-bdt4',
-#              title='L0Hadron TOS ntm valid')
-#
-# plotL0Hadron(ntpXgb4, xgbTrgsToPlot, 'b0-xgb4',
-#              legends=['Real response in FullSim', 'Emulated (XGB)'])
-#
-# ## Over-train, apply on the same ntuple
+plotL0Hadron(ntpBdt4, bdtTrgsToPlot, 'b0-bdt4', title='L0Hadron TOS valid')
+plotL0Hadron(ntpBdt4Tm, bdtTrgsToPlot, 'b0-bdt4',
+             title='L0Hadron TOS tm valid')
+plotL0Hadron(ntpBdt4Ntm, bdtTrgsToPlot, 'b0-bdt4',
+             title='L0Hadron TOS ntm valid')
+
+plotL0Hadron(ntpXgb4, xgbTrgsToPlot, 'b0-xgb4',
+             legends=['Real response in FullSim', 'Emulated (XGB)'])
+
+## Over-train, apply on the same ntuple
 plotL0Hadron(ntpBdt40, bdtTrgsToPlot, 'b0-bdt40',
              title='L0Hadron TOS tm trained')
