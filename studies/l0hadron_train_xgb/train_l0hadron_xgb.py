@@ -11,14 +11,14 @@ def runCmd(cmd):
     print('\n \033[92m'+cmd+'\033[0m')
     os.system(cmd)
 
-def checkFile(srcFile,srcFolder = '../../../lhcb-ntuples-gen/studies/ntuple-RDX_l0_hadron_tos_training_sample/'):
+def checkFile(srcFile,srcFolder = '../ntuple-RDX_l0_hadron_tos_training_sample/'):
     file = srcFolder+srcFile
     if not pathlib.Path(file).is_file():
-        sys.exit(file+' does not exist. Make sure lhcb-ntuples-gen and TrackerOnlyEmu are on the same folder')
+        sys.exit(file+' does not exist.')
     else: return file
 
 def trainLoad(ntpIn, ntpOuts, particle='d0', depth=4, ntrees=300):
-    xgbEx = '../../scripts/l0hadron_trainload_xgb.py '
+    xgbEx = '../../lib/python/TrackerOnlyEmu/scripts/l0hadron_trainload_xgb.py '
     tagPick = 'xgb_'+str(depth)+'_'+str(ntrees)+'_'+particle
     tagTrain = tagPick+'--'+ntpIn[ntpIn.find('emu_')+4:].replace('.root','')
     xgbFile = tagPick+'.pickle'

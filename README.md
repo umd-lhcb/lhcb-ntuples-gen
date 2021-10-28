@@ -7,3 +7,5 @@ To fully run the study, follow these steps (copy as-is):
 2. `nix develop`
 3. `make install-dep`
 4. `(cd ./studies/ntuple-RDX_l0_hadron_tos_training_sample && ./gen_l0hadron_samples.py)`
+5. `(cd ./studies/l0hadron_train_bdt && ./train_l0hadron_bdt.py)`
+6. `(cd ./studies/l0hadron_train_xgb && ./train_l0hadron_xgb.py)`
