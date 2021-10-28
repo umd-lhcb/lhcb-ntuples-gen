@@ -7,9 +7,10 @@
     flake-utils.follows = "root-curated/flake-utils";
 
     MuonBDTPid.url = "github:umd-lhcb/MuonBDTPid";
+    hammer-reweight.url = "github:umd-lhcb/hammer-reweight";
   };
 
-  outputs = { self, nixpkgs, flake-utils, root-curated, MuonBDTPid }:
+  outputs = { self, nixpkgs, flake-utils, root-curated, MuonBDTPid, hammer-reweight }:
     flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = import nixpkgs {
@@ -18,6 +19,7 @@
           overlays = [
             root-curated.overlay
             MuonBDTPid.overlay
+            hammer-reweight.overlay
           ];
         };
         python = pkgs.python3;
@@ -33,6 +35,9 @@
             # UBDT adder
             pkgs.addUBDTBranchWrapped
 
+            # HAMMER reweighter
+            pkgs.hammer-reweight
+
             # Auto completion
             jedi
 
@@ -42,6 +47,7 @@
 
             # Python requirements (enough to get a virtualenv going).
             virtualenvwrapper
+            numpy  # FIXME: numpy 1.21.3 from PyPI breaks down because it can't find libz.so.1 (from zlib)
           ];
 
           FONTCONFIG_FILE = pkgs.makeFontsConf {
