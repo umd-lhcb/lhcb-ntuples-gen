@@ -1,6 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Aug 10, 2021 at 08:45 PM +0200
+# Last Change: Tue Oct 26, 2021 at 02:08 AM +0200
 
 VPATH := postprocess:test:scripts:ntuples
 VPATH := run1-rdx/cutflow:run2-rdx/cutflow:$(VPATH)
@@ -26,7 +26,7 @@ tagdate:
 
 install-dep:
 	@echo "Installing third-party Python libraries..."
-	@pip install -r ./requirements.txt -U
+	@pip install -r ./requirements.txt
 	@echo "Installing in-house Python libraries..."
 	@for p in $(LIB_PY); do \
 			cd $(PWD)/$$p; \
@@ -61,61 +61,51 @@ test-naming-conv:
 	test/test_filename_convention.py
 
 
-#########################
-# RDX ntuple generation #
-#########################
+###############################
+# RDX run 2 ntuple generation #
+###############################
 
-.PHONY: rdx-ntuple-run2-oldcut
+rdx-ntuple-run2-all: rdx-ntuple-run2-data-oldcut rdx-ntuple-run2-mc-demo
 
-rdx-ntuple-run2-oldcut: \
-	0.9.4-trigger_emulation/Dst_D0-std \
-	rdx-run2/rdx-run2_with_run1_cuts.yml
-	workflows/rdx.py $@ $< --debug \
-		--mode data -A input_yml:$(abspath $(word 2, $^))
+rdx-ntuple-run2-data-oldcut:
+	workflows/rdx.py $@
 
-rdx-ntuple-run2-oldcut-no-ubdt: \
-	0.9.4-trigger_emulation/Dst_D0-std \
-	rdx-run2/rdx-run2_with_run1_cuts.yml
-	workflows/rdx.py $@ $< --debug \
-		--mode data_no_mu_bdt -A input_yml:$(abspath $(word 2, $^))
+rdx-ntuple-run2-data-oldcut-no-Dst-veto:
+	workflows/rdx.py $@
 
-rdx-ntuple-run1: \
-	0.9.2-2011_production/Dst_D0-std \
-	rdx-run1/rdx-run1.yml
-	workflows/rdx.py $@ $< --debug \
-		--mode data_no_mu_bdt -A input_yml:$(abspath $(word 2, $^))
-
-ref-rdx-ntuple-run1: \
-	ref-rdx-run1/Dst-mix \
-	ref-rdx-run1/rdst-2011-mix.yml
-	workflows/rdx.py $@ $< --debug \
-		--mode data_ref -A input_yml:$(abspath $(word 2, $^))
+rdx-ntuple-run2-mc-demo:
+	workflows/rdx.py $@
 
 
-#########################
-# RDX Trigger emulation #
-#########################
+###############################
+# RDX run 1 ntuple generation #
+###############################
 
-.PHONY: rdx-trigger-emu-nor rdx-trigger-emu-nor-fs-vs-to
+rdx-ntuple-run1-all: rdx-ntuple-run1-data
 
-rdx-trigger-emu-nor: \
-	0.9.4-trigger_emulation/Dst_D0-mc/Dst_D0--21_04_21--mc--MC_2016_Beam6500GeV-2016-MagDown-Nu1.6-25ns-Pythia8_Sim09j_Trig0x6139160F_Reco16_Turbo03a_Filtered_11574021_D0TAUNU.SAFESTRIPTRIG.DST.root
-	workflows/rdx.py $@ $< --mode trigger_emulation
+rdx-ntuple-run1-data:
+	workflows/rdx.py $@
 
-rdx-trigger-emu-nor-fs-vs-to: \
-	0.9.4-trigger_emulation/Dst_D0-mc/Dst_D0--21_04_21--mc--MC_2016_Beam6500GeV-2016-MagDown-Nu1.6-25ns-Pythia8_Sim09j_Trig0x6139160F_Reco16_Turbo03a_Filtered_11574021_D0TAUNU.SAFESTRIPTRIG.DST.root \
-	0.9.4-trigger_emulation/Dst_D0-mc/Dst_D0--21_04_21--mc--tracker_only--MC_2016_Beam6500GeV-2016-MagDown-TrackerOnly-Nu1.6-25ns-Pythia8_Sim09j_Reco16_Filtered_11574021_D0TAUNU.SAFESTRIPTRIG.DST.root
-	workflows/rdx.py $@ $^ --mode trigger_emulation_fs_vs_to
+
+#########################################
+# Reference RDX run 1 ntuple generation #
+#########################################
+
+ref-rdx-ntuple-run1-all: ref-rdx-ntuple-run1-data-Dst ref-rdx-ntuple-run1-data-D0
+
+ref-rdx-ntuple-run1-data-Dst:
+	workflows/rdx.py $@
+
+ref-rdx-ntuple-run1-data-D0:
+	workflows/rdx.py $@
 
 
 ###############
 # RDX cutflow #
 ###############
 
-.PHONY: rdx-cutflows
-
 rdx-cutflows:
-	workflows/rdx-cutflows.py
+	workflows/rdx_cutflows.py all
 
 
 ####################
