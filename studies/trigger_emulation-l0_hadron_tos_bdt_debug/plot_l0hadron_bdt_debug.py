@@ -20,7 +20,7 @@ def mergePlot(tag):
     if not pathlib.Path(ntpEmu).is_file():
         print(ntpEmu+' does not exist. You need to generate it first')
     ## Folder with the BDT
-    bdtFolder = '../../../TrackerOnlyEmu/studies/l0hadron_train_bdt/'
+    bdtFolder = '../l0hadron_train_bdt/'
     ntpBdt = bdtFolder+'l0hadron_'+tag+'.root'
     if not pathlib.Path(ntpBdt).is_file():
         sys.exit(ntpBdt+' does not exist. Make sure lhcb-ntuples-gen and TrackerOnlyEmu are on the same folder')
@@ -38,7 +38,7 @@ def mergePlot(tag):
     ntp = 'l0hadron_full_'+tag+'.root'
     if not pathlib.Path(ntp).is_file():
         run_cmd(haddEx+ntp+' '+ntpBdt+' '+ntpEmu+' -s -m friend')
-    
+
     ## Plotting turn-on curves
     run_cmd(plotEx+' -n '+ntp+treeName + titleWide + cOptions)
     run_cmd(plotEx+' -n '+ntp+treeName + titleWide + cOptions + spdCut)

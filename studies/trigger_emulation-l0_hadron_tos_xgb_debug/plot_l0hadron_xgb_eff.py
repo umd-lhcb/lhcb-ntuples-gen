@@ -21,17 +21,17 @@ def mergePlot(tag, var, trigs, basecut, minx, maxx, nbins):
         print(ntpEmu+' does not exist. You need to generate it first')
 
     ## Folder with the XGB file
-    xgbFolder = '../../../TrackerOnlyEmu/studies/l0hadron_train_xgb/'
+    xgbFolder = '../l0hadron_train_xgb/'
     ntpXgb = xgbFolder+'l0hadron-'+tag+'.root'
     if not pathlib.Path(ntpXgb).is_file():
-        sys.exit(ntpXgb+' does not exist. Make sure lhcb-ntuples-gen and TrackerOnlyEmu are on the same folder')
+        sys.exit(ntpXgb+' does not exist.')
 
     ## Merging emu ntuples with XGB output
     haddEx = '../../scripts/haddcut.py '
     ntp = 'l0hadron_full_'+tag+'.root'
     if not pathlib.Path(ntp).is_file():
         runCmd(haddEx+ntp+' '+ntpEmu+' '+ntpXgb+' -s -m friend')
-    
+
     ## Plot options
     plotEx = 'root -l \'../../scripts/plot_trigger_wefficiencies.C'
     binning = str(minx)+', '+str(maxx)+', '+str(nbins)
@@ -66,5 +66,3 @@ mergePlot('xgb_4_300_d0--all_train--all_valid', "d0_PT/1000", d0Trigs[0:3], cutN
 mergePlot('xgb_4_300_k--all_train--all_valid', "k_PT/1000", kTrigs[0:2], "1", 0, 20, 40)
 mergePlot('xgb_4_300_k--all_train--all_valid', "k_PT/1000", kTrigs[0:2], cutTmK, 0, 20, 40)
 mergePlot('xgb_4_300_k--all_train--all_valid', "k_PT/1000", kTrigs[0:2], cutNtmK, 0, 20, 40)
-
-
