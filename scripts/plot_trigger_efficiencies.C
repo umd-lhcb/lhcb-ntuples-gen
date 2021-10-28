@@ -1,4 +1,6 @@
 // Plot trigger efficiencies with weights
+// Take a look at here on how to use this macro:
+//   https://github.com/umd-lhcb/lhcb-ntuples-gen/blob/f0aef2913520fb9ff49a949493b8ac69fd72d3bd/studies/trigger_emulation-l0_hadron_tos_xgb_debug/plot_l0hadron_xgb_eff.py
 
 #include <iostream>
 #include <vector>
