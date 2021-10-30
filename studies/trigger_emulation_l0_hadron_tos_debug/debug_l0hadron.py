@@ -101,8 +101,8 @@ def train(tag, ntpIn, dumped, ntpOut='tmp.root', depth=4, ntrees=300):
 # xgb4, _ = train('xgb', ntpTrainXgb, 'xgb4.pickle')
 
 ## Over-train
-# bdt40, ntpBdt40 = train('bdt', ntpTmTrain, 'bdt40.pickle',
-                        # 'run2-rdx-bdt40-tm-train.root', depth=40)
+bdt40, ntpBdt40 = train('bdt', ntpTmTrain, 'bdt40.pickle',
+                        'run2-rdx-bdt40-tm-train.root', depth=40)
 
 
 ##########################
@@ -126,8 +126,6 @@ def apply(tag, ntpIn, ntpOut, dumped):
 # ntpXgb4 = apply('xgb', ntpValid, 'run2-rdx-xgb4.root', xgb4)
 # ntpBdt4Xgb4 = merge('run2-rdx-bdt4_xgb4.root', [ntpBdt4, ntpXgb4])
 
-ntpBdt40 = apply('bdt', ntpTmTrain, 'run2-rdx-bdt40.root', 'bdt40.pickle')
-
 
 ###############
 # Debug plots #
@@ -144,10 +142,10 @@ def plotL0Hadron(ntpIn, triggers,
                      'Emulated (XGB)',
                  ],
                  cuts=[
-                     'nspdhits < 5',
-                     'nspdhits < 45',
-                     'nspdhits < 45',
-                     'nspdhits < 45',
+                     'nspdhits < 450',
+                     'nspdhits < 450',
+                     'nspdhits < 450',
+                     'nspdhits < 450',
                  ]):
     exe = '../../scripts/plot_trigger_efficiencies.py'
 
