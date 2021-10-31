@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sun Oct 31, 2021 at 05:07 AM +0100
+# Last Change: Sun Oct 31, 2021 at 06:19 AM +0100
 
 import sys
 import os
@@ -74,6 +74,14 @@ def rdx_mc_add_info(decay_mode):
     }
 
     raw_db = load_yaml_db()
+
+    try:
+        # Actually, the MC ID is feed in
+        int(decay_mode)
+        decay_mode = raw_db[decay_mode]['Filename']
+    except ValueError:
+        pass
+
     # Unfortunately we need to use 'Filename' as the key so we need to re-build
     # the dict on the fly
     db_keep = {v['Filename']: v['Keep']

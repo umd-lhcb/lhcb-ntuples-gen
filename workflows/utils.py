@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Oct 25, 2021 at 03:51 PM +0200
+# Last Change: Sun Oct 31, 2021 at 06:20 AM +0100
 
 import re
 import yaml
@@ -183,7 +183,7 @@ def find_polarity(filename):
     return 'md-mu'
 
 
-def generate_step2_name(ntp_name):
+def generate_step2_name(ntp_name, convert_mc_id=False):
     try:
         _, _, reco_mode, add_flag, lfn = ntp_name.split('--')
     except ValueError:
@@ -203,7 +203,7 @@ def generate_step2_name(ntp_name):
         year = re.search(r'_(\d\d\d\d)_', lfn).group(1)
         decay_mode = re.search(r'_(\d\d\d\d\d\d\d\d)_', lfn).group(1)
 
-        if db.get(decay_mode):
+        if convert_mc_id and db.get(decay_mode):
             decay_mode = db[decay_mode]['Filename']
             # NOTE: Remember to remove useless strings in the 'Filename' key and
             # replace ',' with '__'
