@@ -11,6 +11,8 @@ keep:
     - eventNumber
     - GpsTime
     - "^wpid*"
+    - ".*_tos_emu$"
+    - ".*_tis_emu$"
 
 rename:
     runNumber: run
@@ -203,12 +205,23 @@ calculation:
     ham_ok: bool; IF(is_ddx, true, ham_ok)  # Need to have a valid HAMMER weight unless is a DDX MC
 
     # Trigger
-    l0: "bool; b0_L0Global_TIS || d0_L0HadronDecision_TOS; b_L0Global_TIS || d0_L0HadronDecision_TOS"
-    hlt1: "bool; k_Hlt1TrackMVADecision_TOS || pi_Hlt1TrackMVADecision_TOS || d0_Hlt1TwoTrackMVADecision_TOS"
-    hlt2: "bool; b0_Hlt2XcMuXForTauB2XcMuDecision_TOS; b_Hlt2XcMuXForTauB2XcMuDecision_TOS"
+    l0: >-
+        bool; IF_VAR_EXISTS(mc_id, true);
+        b0_L0Global_TIS || d0_L0HadronDecision_TOS;
+        b_L0Global_TIS || d0_L0HadronDecision_TOS
+    hlt1: >-
+        bool; k_hlt1_trackmva_tos_emu || pi_hlt1_trackmva_tos_emu || d0_hlt1_twotrackmva_tos_emu;
+        k_Hlt1TrackMVADecision_TOS || pi_Hlt1TrackMVADecision_TOS || d0_Hlt1TwoTrackMVADecision_TOS
+    hlt2: >-
+        bool; IF_VAR_EXISTS(mc_id, true);
+        b0_Hlt2XcMuXForTauB2XcMuDecision_TOS;
+        b_Hlt2XcMuXForTauB2XcMuDecision_TOS
+    # NOTE: For MC, L0 are applied as weight, and HLT2 is already applied at DV level
 
     # D0 selection
-    d0_pid_ok: bool; FLAG_SEL_D0_PID_OK_RUN1(k_PIDK, pi_PIDK, k_isMuon, pi_isMuon)
+    d0_pid_ok: >-
+        bool; IF_VAR_EXISTS(mc_id, true);
+        FLAG_SEL_D0_PID_OK_RUN1(k_PIDK, pi_PIDK, k_isMuon, pi_isMuon)
     d0_ok: >-
         bool; FLAG_SEL_D0_RUN1(
         d0_pid_ok,
@@ -234,7 +247,9 @@ calculation:
     trks_other: ^vector<XYZVector>; BUILD_VEC(trk_k, trk_pi, trk_spi); BUILD_VEC(trk_k, trk_pi)
     # Actual flags
     trks_ok: bool; FLAG_SEL_GOOD_TRACKS(trk_mu, trks_other)
-    mu_pid_ok: bool; FLAG_SEL_MU_PID_OK_RUN1(mu_isMuon, mu_PIDmu, mu_PIDe)
+    mu_pid_ok: >-
+        bool; IF_VAR_EXISTS(mc_id, true);
+        FLAG_SEL_MU_PID_OK_RUN1(mu_isMuon, mu_PIDmu, mu_PIDe)
     mu_ubdt_ok: bool; mu_ubdt > 0.25
     mu_ok: >-
         bool; FLAG_SEL_MU_RUN1(
@@ -303,6 +318,24 @@ calculation:
         iso_nnk1,
         d0_id
         )
+
+    ###########
+    # Weights #
+    ###########
+    wpid_ubdt: double; 1.0  # UBDT weight not implemented yet
+    wpid: double; wpid_k*wpid_pi*wpid_mu
+    wtrg_l0_tis: ^double; b0_l0_global_tis_emu; b_l0_global_tis_emu
+    wtrg: >-
+        float;
+        d0_l0_hadron_tos_emu+wtrg_l0_tis - d0_l0_hadron_tos_emu*wtrg_l0_tis
+
+    # Weight representing the global cut (BEFORE applying the skim cuts)
+    w: double; wpid*wtrg*wff
+    # Skim weights, including the 'w'
+    wiso: double; w*wskim_iso
+    wdd: double; w*wskim_dd
+    w1os: double; w*wskim_1os
+    w2os: double; w*wskim_2os
 
     # Skims, but in weights, for MC
     wskim_iso: double; WT_ISO(true, iso_bdt1)
