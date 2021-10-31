@@ -384,6 +384,7 @@ global_selection:
     - global_cut_ok
     - truthmatch > 0
     - ham_ok
+    - w <= 5.0  # Sanity check: The global weight should not be much larger then 1
 
 one_cand_only:
     enable: true
