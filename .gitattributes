@@ -7,6 +7,6 @@
 *.png annex.largefiles=nothing
 *.log annex.largefiles=nothing
 
-*.root annex.largefiles=(largerthan=20mb)
+*.root annex.largefiles=anything
 
 *.png binary
