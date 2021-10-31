@@ -82,26 +82,31 @@ ntpTrainXgb = merge('run2-rdx-train_xgb.root', [ntpTmTrain, ntpNtmTrain])
 ## Merge the validation samples
 ntpValid = merge('run2-rdx-valid.root', [ntpTmValid, ntpNtmValid])
 
+## Use an old ntuple for training the BDT
+## There's subtle convergence issues due to how the training sample is generated
+## We are not using the BDT anyway, it's meant to reproduce the result only!
+ntpTrainBdt = ('./sample_ntuples/sample_bdt_training_input.root')
+
 
 ####################
 # Train on ntuples #
 ####################
 
-def train(tag, ntpIn, dumped, ntpOut='tmp.root', depth=4, ntrees=300):
+def train(mode, ntpIn, dumped, ntpOut='tmp.root', depth=4, ntrees=300):
     if isfile(dumped) and isfile(ntpOut):
         print('Already trained.')
         return dumped, ntpOut
 
-    exe = '../../lib/python/TrackerOnlyEmu/scripts/run2-rdx-l0_hadron_trainload_'+tag+'.py'
-    runCmd(f'{exe} {ntpIn} {ntpOut} --dump {dumped} --max-depth {depth} --ntrees {ntrees} --debug')
+    exe = '../../lib/python/TrackerOnlyEmu/scripts/run2-rdx-l0_hadron_trainload_bdt.py'
+    runCmd(f'{exe} {ntpIn} {ntpOut} --dump {dumped} --max-depth {depth} --ntrees {ntrees} --debug --mode {mode}')
     return dumped, ntpOut
 
 
-# bdt4, _ = train('bdt', ntpTmTrain, 'bdt4.pickle')
+# bdt4, _ = train('bdt', ntpTrainBdt, 'bdt4.pickle')
 # xgb4, _ = train('xgb', ntpTrainXgb, 'xgb4.pickle')
 
 ## Over-train
-bdt40, ntpBdt40 = train('bdt', ntpTmTrain, 'bdt40.pickle',
+bdt40, ntpBdt40 = train('bdt_old', ntpTrainBdt, 'bdt40.pickle',
                         'run2-rdx-bdt40-tm-train.root', depth=40)
 
 
