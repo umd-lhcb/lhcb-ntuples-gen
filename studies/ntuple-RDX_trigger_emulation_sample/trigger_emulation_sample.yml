@@ -5,6 +5,7 @@ TupleB0/DecayTree:
         # Global
         - 'runNumber'
         - 'eventNumber'
+        - 'nTracks'
         - '*SPD*'
         # L0Calo
         - '*_L0Calo_HCAL_realET'
