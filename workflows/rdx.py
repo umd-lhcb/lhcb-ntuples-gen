@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sun Oct 31, 2021 at 06:19 AM +0100
+# Last Change: Sun Oct 31, 2021 at 01:34 PM +0100
 
 import sys
 import os
@@ -292,6 +292,12 @@ JOBS = {
     'rdx-ntuple-run2-mc-demo': lambda name: workflow_mc(
         name,
         '../ntuples/0.9.5-bugfix/Dst_D0-mc/Dst_D0--21_10_08--mc--MC_2016_Beam6500GeV-2016-MagDown-Nu1.6-25ns-Pythia8_Sim09j_Trig0x6139160F_Reco16_Turbo03a_Filtered_11574011_D0TAUNU.SAFESTRIPTRIG.DST.root',
+        '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
+        executor=executor
+    ),
+    'rdx-ntuple-run2-mc-fs': lambda name: workflow_mc(
+        name,
+        '../ntuples/0.9.5-bugfix/Dst_D0-mc',
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
         executor=executor
     ),
