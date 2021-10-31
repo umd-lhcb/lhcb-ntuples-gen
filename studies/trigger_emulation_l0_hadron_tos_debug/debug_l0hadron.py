@@ -42,7 +42,7 @@ def merge(ntpOut, ntpsIn):
         print('Already merged.')
         return ntpOut
 
-    runCmd('hadd -fk {} {}'.format(ntpOut, ' '.join(ntpsIn)))
+    runCmd(f'hadd -fk {ntpOut} {" ".join(ntpsIn)}')
     return ntpOut
 
 
@@ -102,7 +102,7 @@ def train(mode, ntpIn, dumped, ntpOut='tmp.root', depth=4, ntrees=300):
     return dumped, ntpOut
 
 
-# bdt4, _ = train('bdt', ntpTrainBdt, 'bdt4.pickle')
+bdt4, _ = train('bdt_old', ntpTrainBdt, 'bdt4.pickle')
 # xgb4, _ = train('xgb', ntpTrainXgb, 'xgb4.pickle')
 
 ## Over-train
@@ -114,19 +114,19 @@ bdt40, ntpBdt40 = train('bdt_old', ntpTrainBdt, 'bdt40.pickle',
 # Generate debug ntuples #
 ##########################
 
-def apply(tag, ntpIn, ntpOut, dumped):
+def apply(mode, ntpIn, ntpOut, dumped):
     if isfile(ntpOut):
         print('Trigger emulation already applied.')
         return ntpOut
 
-    exe = '../../lib/python/TrackerOnlyEmu/scripts/run2-rdx-l0_hadron_trainload_'+tag+'.py'
-    runCmd(f'{exe} {ntpIn} {ntpOut} --load {dumped} --debug')
+    exe = '../../lib/python/TrackerOnlyEmu/scripts/run2-rdx-l0_hadron_trainload_bdt.py'
+    runCmd(f'{exe} {ntpIn} {ntpOut} --load {dumped} --debug --mode {mode}')
     return ntpOut
 
 
-# ntpBdt4 = apply('bdt', ntpValid, 'run2-rdx-bdt4.root', bdt4)
-# ntpBdt4Tm = apply('bdt', ntpTmValid, 'run2-rdx-bdt4-tm.root', bdt4)
-# ntpBdt4Ntm = apply('bdt', ntpNtmValid, 'run2-rdx-bdt4-ntm.root', bdt4)
+ntpBdt4 = apply('bdt', ntpValid, 'run2-rdx-bdt4.root', bdt4)
+ntpBdt4Tm = apply('bdt', ntpTmValid, 'run2-rdx-bdt4-tm.root', bdt4)
+ntpBdt4Ntm = apply('bdt', ntpNtmValid, 'run2-rdx-bdt4-ntm.root', bdt4)
 
 # ntpXgb4 = apply('xgb', ntpValid, 'run2-rdx-xgb4.root', xgb4)
 # ntpBdt4Xgb4 = merge('run2-rdx-bdt4_xgb4.root', [ntpBdt4, ntpXgb4])
@@ -181,9 +181,9 @@ xgbTrgsToPlot = [
 ]
 
 
-# plotL0Hadron(ntpBdt4, bdtTrgsToPlot, title='L0Hadron TOS bdt4 valid')
-# plotL0Hadron(ntpBdt4Tm, bdtTrgsToPlot, title='L0Hadron TOS bdt4 tm valid')
-# plotL0Hadron(ntpBdt4Ntm, bdtTrgsToPlot, title='L0Hadron TOS bdt4 ntm valid')
+plotL0Hadron(ntpBdt4, bdtTrgsToPlot, title='L0Hadron TOS bdt4 valid')
+plotL0Hadron(ntpBdt4Tm, bdtTrgsToPlot, title='L0Hadron TOS bdt4 tm valid')
+plotL0Hadron(ntpBdt4Ntm, bdtTrgsToPlot, title='L0Hadron TOS bdt4 ntm valid')
 
 # plotL0Hadron(ntpXgb4, xgbTrgsToPlot, title='L0Hadron TOS xgb4 valid',
 #              legends=['Real response in FullSim', 'Emulated (XGB)'])
