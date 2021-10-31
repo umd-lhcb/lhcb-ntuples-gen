@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Oct 25, 2021 at 09:41 PM +0200
+# Last Change: Sun Oct 31, 2021 at 05:07 AM +0100
 
 import sys
 import os
@@ -114,9 +114,20 @@ def workflow_hammer(input_ntp,
                     trees=['TupleB0/DecayTree', 'TupleBminus/DecayTree'],
                     **kwargs):
     run = 'run1' if '2011' in input_ntp or '2012' in input_ntp else 'run2'
-    cmd = ['ReweightRDX '+input_ntp+' hammer.root '+t+' '+run for t in trees]
+    cmd = [f'ReweightRDX {input_ntp} hammer.root {t} {run}' for t in trees]
     workflow_cached_ntuple(
         cmd, input_ntp, output_ntp='hammer.root', cache_suffix='__aux_hammer',
+        **kwargs)
+
+
+def workflow_trigger_emu(input_ntp,
+                         trees=['TupleB0/DecayTree', 'TupleBminus/DecayTree'],
+                         **kwargs):
+    Bmeson = lambda tree: 'b0' if 'B0' in tree else 'b'
+    cmd = [f'run2-rdx-trg_emu.py {input_ntp} trg_emu.root -t {t} -B {Bmeson(t)}'
+           for t in trees]
+    workflow_cached_ntuple(
+        cmd, input_ntp, output_ntp='trg_emu.root', cache_suffix='__aux_trg_emu',
         **kwargs)
 
 
@@ -236,7 +247,10 @@ def workflow_mc(job_name, inputs, input_yml,
         # Generate PID weights
         workflow_pid(input_ntp, pid_histo_folder, config, executor=executor)
 
-        bm_cmd = 'babymaker -i {} -o baby.cpp -n {} -t {} -f hammer.root pid.root'
+        # Generate emulated triggers
+        workflow_trigger_emu(input_ntp, executor=executor)
+
+        bm_cmd = 'babymaker -i {} -o baby.cpp -n {} -t {} -f hammer.root pid.root trg_emu.root'
 
         if blocked_input_trees:
             bm_cmd += ' -B '+' '.join(blocked_input_trees)
