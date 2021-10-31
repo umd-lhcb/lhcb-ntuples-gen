@@ -47,7 +47,12 @@ def merge(ntpOut, ntpsIn):
 
 
 def mergeFriend(ntpOut, ntpsIn):
-    pass
+    if isfile(ntpOut):
+        print('Already merged (friend).')
+        return ntpOut
+
+    runCmd(f'../../scripts/haddcut.py -m friend {ntpOut} {" ".join(ntpsIn)}')
+    return ntpOut
 
 
 def splitTrainValid(ntpIn):
@@ -64,6 +69,8 @@ def splitTrainValid(ntpIn):
 
 ntpIn = '../../ntuples/0.9.4-trigger_emulation/Dst_D0-mc/Dst_D0--21_04_21--mc--MC_2016_Beam6500GeV-2016-MagDown-Nu1.6-25ns-Pythia8_Sim09j_Trig0x6139160F_Reco16_Turbo03a_Filtered_11574021_D0TAUNU.SAFESTRIPTRIG.DST.root'
 # ntpIn = '../../ntuples/0.9.5-bugfix/Dst_D0-mc/Dst_D0--21_10_08--mc--MC_2016_Beam6500GeV-2016-MagDown-Nu1.6-25ns-Pythia8_Sim09j_Trig0x6139160F_Reco16_Turbo03a_Filtered_11574021_D0TAUNU.SAFESTRIPTRIG.DST.root'
+# NOTE: We can't use the 0.9.5 MC ntuple because our BDT ntuple is trained on
+# 0.9.4 samples.
 
 if not isfile(ntpIn):
     sys.exit(ntpIn+' does not exist, you need to download it')
@@ -97,13 +104,13 @@ def train(mode, ntpIn, dumped, ntpOut='tmp.root', depth=4, ntrees=300):
         print('Already trained.')
         return dumped, ntpOut
 
-    exe = '../../lib/python/TrackerOnlyEmu/scripts/run2-rdx-l0_hadron_trainload_bdt.py'
+    exe = '../../lib/python/TrackerOnlyEmu/scripts/run2-rdx-l0_hadron_tos.py'
     runCmd(f'{exe} {ntpIn} {ntpOut} --dump {dumped} --max-depth {depth} --ntrees {ntrees} --debug --mode {mode}')
     return dumped, ntpOut
 
 
 bdt4, _ = train('bdt_old', ntpTrainBdt, 'bdt4.pickle')
-# xgb4, _ = train('xgb', ntpTrainXgb, 'xgb4.pickle')
+xgb4, _ = train('xgb', ntpTrainXgb, 'xgb4.pickle')
 
 ## Over-train
 bdt40, ntpBdt40 = train('bdt_old', ntpTrainBdt, 'bdt40.pickle',
@@ -119,7 +126,7 @@ def apply(mode, ntpIn, ntpOut, dumped):
         print('Trigger emulation already applied.')
         return ntpOut
 
-    exe = '../../lib/python/TrackerOnlyEmu/scripts/run2-rdx-l0_hadron_trainload_bdt.py'
+    exe = '../../lib/python/TrackerOnlyEmu/scripts/run2-rdx-l0_hadron_tos.py'
     runCmd(f'{exe} {ntpIn} {ntpOut} --load {dumped} --debug --mode {mode}')
     return ntpOut
 
@@ -128,8 +135,8 @@ ntpBdt4 = apply('bdt', ntpValid, 'run2-rdx-bdt4.root', bdt4)
 ntpBdt4Tm = apply('bdt', ntpTmValid, 'run2-rdx-bdt4-tm.root', bdt4)
 ntpBdt4Ntm = apply('bdt', ntpNtmValid, 'run2-rdx-bdt4-ntm.root', bdt4)
 
-# ntpXgb4 = apply('xgb', ntpValid, 'run2-rdx-xgb4.root', xgb4)
-# ntpBdt4Xgb4 = merge('run2-rdx-bdt4_xgb4.root', [ntpBdt4, ntpXgb4])
+ntpXgb4 = apply('xgb', ntpValid, 'run2-rdx-xgb4.root', xgb4)
+ntpBdt4Xgb4 = mergeFriend('run2-rdx-bdt4_xgb4.root', [ntpBdt4, ntpXgb4])
 
 
 ###############
@@ -185,8 +192,20 @@ plotL0Hadron(ntpBdt4, bdtTrgsToPlot, title='L0Hadron TOS bdt4 valid')
 plotL0Hadron(ntpBdt4Tm, bdtTrgsToPlot, title='L0Hadron TOS bdt4 tm valid')
 plotL0Hadron(ntpBdt4Ntm, bdtTrgsToPlot, title='L0Hadron TOS bdt4 ntm valid')
 
-# plotL0Hadron(ntpXgb4, xgbTrgsToPlot, title='L0Hadron TOS xgb4 valid',
-#              legends=['Real response in FullSim', 'Emulated (XGB)'])
+plotL0Hadron(ntpXgb4, xgbTrgsToPlot, title='L0Hadron TOS xgb4 valid',
+             legends=['Real response in FullSim', 'Emulated (XGB)'])
+
+## BDT vs XGB
+plotL0Hadron(
+    ntpBdt4Xgb4,
+    [
+        'd0_l0_hadron_tos',
+        'd0_l0_hadron_tos_emu_no_bdt',
+        'd0_l0_hadron_tos_emu_bdt',
+        'd0_l0_hadron_tos_emu_xgb'
+    ],
+    title='L0Hadron TOS bdt4 xgb4 valid'
+)
 
 ## Over-train, apply on the same ntuple
 plotL0Hadron(ntpBdt40, bdtTrgsToPlot, title='L0Hadron TOS bdt40 tm trained')
