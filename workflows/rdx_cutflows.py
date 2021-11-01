@@ -92,18 +92,18 @@ JOBS = {
         name, r1_bare, r2_bare,
         (522494+502736) / (520046+515913), 'std-dss'
     ),
-    ## B -> D*+ mu nu MC ntuples
-    'rdx-cutflow-dstmu': lambda name: workflow_cutflow(
+    ## B -> D*+ tau nu MC ntuples
+    'rdx-cutflow-dsttau': lambda name: workflow_cutflow(
         name,
-        '../ntuples/0.9.3-production_for_validation/Dst_D0-mc/Dst_D0--21_01_30--mc--MC_2012_Beam4000GeV-2012-MagDown-Nu2.5-Pythia8_Sim08e_Digi13_Trig0x409f0045_Reco14a_Stripping20Filtered_11574020_DSTTAUNU.SAFESTRIPTRIG.DST.root',
-        '../ntuples/0.9.4-trigger_emulation/Dst_D0-mc/Dst_D0--21_04_21--mc--MC_2016_Beam6500GeV-2016-MagDown-Nu1.6-25ns-Pythia8_Sim09j_Trig0x6139160F_Reco16_Turbo03a_Filtered_11574021_D0TAUNU.SAFESTRIPTRIG.DST.root',
+        '../ntuples/0.9.5-bugfix/Dst_D0-mc/Dst_D0--21_10_15--mc--MC_2012_Beam4000GeV-2012-MagDown-Nu2.5-Pythia8_Sim08a_Digi13_Trig0x409f0045_Reco14a_Stripping20Filtered_11574010_DSTTAUNU.SAFESTRIPTRIG.DST.root',
+        '../ntuples/0.9.5-bugfix/Dst_D0-mc/Dst_D0--21_10_08--mc--MC_2016_Beam6500GeV-2016-MagDown-Nu1.6-25ns-Pythia8_Sim09j_Trig0x6139160F_Reco16_Turbo03a_Filtered_11574011_D0TAUNU.SAFESTRIPTRIG.DST.root',
         614577*0.247*0.080 / (1500395*0.105*0.059)
     ),
     ## Data ntuples
     'rdx-cutflow-data': lambda name: workflow_cutflow(
         name,
-        '../ntuples/0.9.2-2011_production/Dst_D0-std/Dst_D0--20_10_12--std--LHCb_Collision11_Beam3500GeV-VeloClosed-MagDown_Real_Data_Reco14_Stripping21r1_90000000_SEMILEPTONIC.DST.root',
-        '../ntuples/0.9.4-trigger_emulation/Dst_D0-std/Dst_D0--21_04_27--std--LHCb_Collision16_Beam6500GeV-VeloClosed-MagDown_Real_Data_Reco16_Stripping28r1_90000000_SEMILEPTONIC.DST.root',
+        '../ntuples/0.9.5-bugfix/Dst_D0-std/Dst_D0--21_10_07--std--LHCb_Collision11_Beam3500GeV-VeloClosed-MagDown_Real_Data_Reco14_Stripping21r1_90000000_SEMILEPTONIC.DST.root',
+        '../ntuples/0.9.5-bugfix/Dst_D0-cutflow_data/Dst_D0--21_09_23--cutflow_data--LHCb_Collision16_Beam6500GeV-VeloClosed-MagDown_Real_Data_Reco16_Stripping28r2_90000000_SEMILEPTONIC.DST.root',
         1/1.41/2
     ),
 }
