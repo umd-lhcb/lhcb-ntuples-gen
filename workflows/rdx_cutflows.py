@@ -106,6 +106,14 @@ JOBS = {
         '../ntuples/0.9.5-bugfix/Dst_D0-cutflow_data/Dst_D0--21_09_23--cutflow_data--LHCb_Collision16_Beam6500GeV-VeloClosed-MagDown_Real_Data_Reco16_Stripping28r2_90000000_SEMILEPTONIC.DST.root',
         1/1.41/2
     ),
+    ## Data ntuples, PID applied last
+    'rdx-cutflow-data-pid-last': lambda name: workflow_cutflow(
+        name,
+        '../ntuples/0.9.5-bugfix/Dst_D0-std/Dst_D0--21_10_07--std--LHCb_Collision11_Beam3500GeV-VeloClosed-MagDown_Real_Data_Reco14_Stripping21r1_90000000_SEMILEPTONIC.DST.root',
+        '../ntuples/0.9.5-bugfix/Dst_D0-cutflow_data/Dst_D0--21_09_23--cutflow_data--LHCb_Collision16_Beam6500GeV-VeloClosed-MagDown_Real_Data_Reco16_Stripping28r2_90000000_SEMILEPTONIC.DST.root',
+        1/1.41/2,
+        mode='pid-last'
+    )
 }
 
 args = parse_input()

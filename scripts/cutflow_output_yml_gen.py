@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun, Manual Franco Sevilla
 # License: BSD 2-clause
-# Last Change: Mon Nov 01, 2021 at 02:45 PM +0100
+# Last Change: Mon Nov 01, 2021 at 03:46 PM +0100
 
 import pathlib
 import os
@@ -55,6 +55,89 @@ for mode in ['run2-Dst-bare',
 ################
 
 CUTFLOW = {
+    'run1-pid-last': [
+        Rule('''flag_sel_d0_run1(10.0, 0.0, false, false,
+                                 k_PT, pi_PT,
+                                 k_Hlt1TrackAllL0Decision_TOS,
+                                 pi_Hlt1TrackAllL0Decision_TOS,
+                                 k_IPCHI2_OWNPV, pi_IPCHI2_OWNPV,
+                                 k_TRACK_GhostProb, pi_TRACK_GhostProb,
+                                 d0_PT, d0_Hlt2CharmHadD02HH_D02KPiDecision_TOS,
+                                 d0_ENDVERTEX_NDOF, d0_ENDVERTEX_CHI2,
+                                 d0_IP_OWNPV, d0_IPCHI2_OWNPV,
+                                 d0_DIRA_OWNPV, d0_FDCHI2_OWNPV, d0_M)''',
+             key=r'Offline $D^0$ cuts'),
+        Rule('''flag_sel_mu_run1(mu_PX, mu_PY, mu_PZ,
+                                 k_PX, k_PY, k_PZ,
+                                 pi_PX, pi_PY, pi_PZ,
+                                 spi_PX, spi_PY, spi_PZ,
+                                 true, 10.0, 0.0,
+                                 mu_P, mu_IPCHI2_OWNPV, mu_TRACK_GhostProb)''',
+             key=r'Offline $\mu$ cuts'),
+        Rule('''flag_sel_b0dst_run1(spi_TRACK_GhostProb,
+                                    dst_ENDVERTEX_CHI2, dst_ENDVERTEX_NDOF,
+                                    dst_M, d0_M,
+                                    b0_DISCARDMu_CHI2,
+                                    b0_ENDVERTEX_CHI2, b0_ENDVERTEX_NDOF,
+                                    b0_ENDVERTEX_X, b0_ENDVERTEX_Y,
+                                    b0_OWNPV_X, b0_OWNPV_Y,
+                                    b0_DIRA_OWNPV, b0_M) &
+        flag_sel_run1_dv(spi_IPCHI2_OWNPV, spi_TRACK_GhostProb,
+                                 spi_TRACK_CHI2NDOF,
+                                 d0_M,
+                                 dst_MM, dst_M, dst_ENDVERTEX_CHI2,
+                                 dst_ENDVERTEX_NDOF,
+                                 b0_MM, b0_ENDVERTEX_CHI2, b0_ENDVERTEX_NDOF,
+                                 b0_DIRA_OWNPV)''',
+             key=r'Offline $D^* \mu$ combo cuts'),
+        Rule('flag_sel_d0_pid_ok_run1(k_PIDK, pi_PIDK, k_isMuon, pi_isMuon)',
+             key=r'$K \pi$ PID'),
+        Rule('flag_sel_mu_pid_ok_run1(mu_isMuon, mu_PIDmu, mu_PIDe)',
+             key=r'$\mu$ PID'),
+        Rule('b0_ISOLATION_BDT < 0.15', key=r'$BDT_{iso} < 0.15$'),
+    ],
+    'run2-pid-last': [
+        # Step 2 cuts (currently same as in run 1)
+        Rule('''flag_sel_d0_run1(10.0, 0.0, false, false,
+                                 k_PT, pi_PT,
+                                 k_Hlt1TrackMVADecision_TOS,
+                                 pi_Hlt1TrackMVADecision_TOS,
+                                 k_IPCHI2_OWNPV, pi_IPCHI2_OWNPV,
+                                 k_TRACK_GhostProb, pi_TRACK_GhostProb,
+                                 d0_PT, true,
+                                 d0_ENDVERTEX_NDOF, d0_ENDVERTEX_CHI2,
+                                 d0_IP_OWNPV, d0_IPCHI2_OWNPV,
+                                 d0_DIRA_OWNPV, d0_FDCHI2_OWNPV, d0_M)''',
+             key=r'Offline $D^0$ cuts'),
+        Rule('''flag_sel_mu_run1(mu_PX, mu_PY, mu_PZ,
+                                 k_PX, k_PY, k_PZ,
+                                 pi_PX, pi_PY, pi_PZ,
+                                 spi_PX, spi_PY, spi_PZ,
+                                 true, 10.0, 0.0,
+                                 mu_P, mu_IPCHI2_OWNPV, mu_TRACK_GhostProb)''',
+             key=r'Offline $\mu$ cuts'),
+        Rule('''flag_sel_b0dst_run1(spi_TRACK_GhostProb,
+                                    dst_ENDVERTEX_CHI2, dst_ENDVERTEX_NDOF,
+                                    dst_M, d0_M,
+                                    b0_DISCARDMu_CHI2,
+                                    b0_ENDVERTEX_CHI2, b0_ENDVERTEX_NDOF,
+                                    b0_ENDVERTEX_X, b0_ENDVERTEX_Y,
+                                    b0_OWNPV_X, b0_OWNPV_Y,
+                                    b0_DIRA_OWNPV, b0_M) &
+        flag_sel_run2_dv(spi_IPCHI2_OWNPV, spi_TRACK_GhostProb,
+                                 spi_TRACK_CHI2NDOF,
+                                 d0_M,
+                                 dst_MM, dst_M, dst_ENDVERTEX_CHI2,
+                                 dst_ENDVERTEX_NDOF,
+                                 b0_MM, b0_ENDVERTEX_CHI2, b0_ENDVERTEX_NDOF,
+                                 b0_DIRA_OWNPV)''',
+             key=r'Offline $D^* \mu$ combo cuts'),
+        Rule('flag_sel_d0_pid_ok_run1(k_PIDK, pi_PIDK, k_isMuon, pi_isMuon)',
+             key=r'$K \pi$ PID'),
+        Rule('flag_sel_mu_pid_ok_run1(mu_isMuon, mu_PIDmu, mu_PIDe)',
+             key=r'$\mu$ PID'),
+        Rule('b0_ISOLATION_BDT < 0.15', key=r'$BDT_{iso} < 0.15$'),
+    ],
     'run1-std': [
         # Trigger + stripping (already applied in data) + DaVinci
         Rule('''(mu_L0Global_TIS & (b0_L0Global_TIS | d0_L0HadronDecision_TOS)) &
@@ -468,6 +551,9 @@ KNOWN_FUNC['flag_sel_b0dst_run1'] = flag_sel_b0dst_run1
 
 KNOWN_FUNC['flag_sel_run2_strip'] = vectorize(ROOT.FLAG_SEL_RUN2_STRIP)
 KNOWN_FUNC['flag_sel_run2_dv'] = vectorize(ROOT.FLAG_SEL_RUN2_DV)
+
+KNOWN_FUNC['flag_sel_d0_pid_ok_run1'] = flag_sel_d0_pid_ok_run1
+KNOWN_FUNC['flag_sel_mu_pid_ok_run1'] = flag_sel_mu_pid_ok_run1
 
 
 ########
