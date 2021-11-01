@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Nov 01, 2021 at 04:06 AM +0100
+# Last Change: Mon Nov 01, 2021 at 04:11 AM +0100
 # NOTE: This is for checking on the
 
 import sys
@@ -19,10 +19,11 @@ def get_mc_id(ntp_name):
 
 def get_ff_stat(ntp, tree):
     ham_ok, wff = read_branches(ntp, tree, ['ham_ok', 'wff'])
-    print(f'    HAMMER reweight success rate: {ham_ok.sum()/ham_ok.size:.2f}')
+    print(f'    Reweight success rate: {ham_ok.sum()/ham_ok.size:.2f}')
     wff_ok = wff[ham_ok]
-    print(f'    FF avg wt: {wff_ok.mean():.3f}, max wt: {wff_ok.max():.3f}')
-    print(f'    FF wt > 1 ratio: {wff_ok[wff_ok > 1].size / wff_ok.size:.2f}')
+    details = f'    FF avg wt: {wff_ok.mean():.3f}, max wt: {wff_ok.max():.3f}'
+    details += f', wt > 1 ratio: {wff_ok[wff_ok > 1].size / wff_ok.size:.2f}'
+    print(details)
 
 
 if __name__ == '__main__':
