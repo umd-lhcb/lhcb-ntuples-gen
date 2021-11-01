@@ -52,7 +52,6 @@ The ntuples[^1] generation is separated into:
 ├── run2-rdx     # ^^^^ for RDX run 2
 ├── scripts      # plotting, cutflow, and utility scripts
 ├── studies      # One-off studies
-├── test
 └── workflows    # workflows for ntuple production, cutflow, etc.
     └── rdx
 ```
