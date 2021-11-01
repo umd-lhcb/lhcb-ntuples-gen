@@ -32,6 +32,15 @@ bool IS_DDX(int decay_id) {
   return true;
 }
 
+bool IS_STRANGE(int decay_id) {
+  auto strange_ids = vector<int>{13874020, 13674000};
+
+  if (find(strange_ids.begin(), strange_ids.end(), decay_id) ==
+      strange_ids.end())
+    return false;
+  return true;
+}
+
 //////////////////////////////////
 // General Truth-Matching Class //
 //////////////////////////////////

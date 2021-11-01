@@ -200,9 +200,11 @@ calculation:
         b_BKGCAT
         )
     is_ddx: bool; IS_DDX(mc_id)
+    is_strange: bool; IS_STRANGE(mc_id)
 
     # FF reweighting
-    ham_ok: bool; IF(is_ddx, true, ham_ok)  # Need to have a valid HAMMER weight unless is a DDX MC
+    # NOTE: Need to have a valid HAMMER weight unless is a DDX or D**s
+    ham_ok: bool; IF(is_ddx || is_strange, true, ham_ok)
 
     # Trigger
     l0: >-
