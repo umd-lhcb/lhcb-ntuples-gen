@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sun Oct 31, 2021 at 01:34 PM +0100
+# Last Change: Mon Nov 01, 2021 at 04:33 AM +0100
 
 import sys
 import os
@@ -299,7 +299,8 @@ JOBS = {
         name,
         '../ntuples/0.9.5-bugfix/Dst_D0-mc',
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
-        executor=executor
+        executor=executor,
+        blocked_patterns=['__aux', 'MC_2012']
     ),
     # Run 2 debug
     'rdx-ntuple-run2-data-oldcut-no-Dst-veto': lambda name: workflow_data(
