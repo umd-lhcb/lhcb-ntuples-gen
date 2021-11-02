@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Nov 01, 2021 at 04:33 AM +0100
+# Last Change: Tue Nov 02, 2021 at 04:55 PM +0100
 
 import sys
 import os
@@ -289,12 +289,6 @@ JOBS = {
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
         executor=executor
     ),
-    'rdx-ntuple-run2-mc-demo': lambda name: workflow_mc(
-        name,
-        '../ntuples/0.9.5-bugfix/Dst_D0-mc/Dst_D0--21_10_08--mc--MC_2016_Beam6500GeV-2016-MagDown-Nu1.6-25ns-Pythia8_Sim09j_Trig0x6139160F_Reco16_Turbo03a_Filtered_11574011_D0TAUNU.SAFESTRIPTRIG.DST.root',
-        '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
-        executor=executor
-    ),
     'rdx-ntuple-run2-mc-fs': lambda name: workflow_mc(
         name,
         '../ntuples/0.9.5-bugfix/Dst_D0-mc',
@@ -303,6 +297,14 @@ JOBS = {
         blocked_patterns=['__aux', 'MC_2012']
     ),
     # Run 2 debug
+    'rdx-ntuple-run2-data-oldcut-debug': lambda name: workflow_data(
+        name,
+        '../ntuples/0.9.5-bugfix/Dst_D0-cutflow_data',
+        '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
+        executor=executor,
+        cli_vars={'cli_cutflow': 'true'},
+        directive_override={'one_cand_only/enable': 'false'}
+    ),
     'rdx-ntuple-run2-data-oldcut-no-Dst-veto': lambda name: workflow_data(
         name,
         [
@@ -313,13 +315,11 @@ JOBS = {
         executor=executor,
         cli_vars={'cli_no_dst_veto': '100.0'}
     ),
-    # Run 2 cutflow
-    'rdx-ntuple-run2-data-oldcut-cutflow': lambda name: workflow_data(
+    'rdx-ntuple-run2-mc-demo': lambda name: workflow_mc(
         name,
-        '../ntuples/0.9.5-bugfix/Dst_D0-cutflow_data',
+        '../ntuples/0.9.5-bugfix/Dst_D0-mc/Dst_D0--21_10_08--mc--MC_2016_Beam6500GeV-2016-MagDown-Nu1.6-25ns-Pythia8_Sim09j_Trig0x6139160F_Reco16_Turbo03a_Filtered_11574011_D0TAUNU.SAFESTRIPTRIG.DST.root',
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
-        executor=executor,
-        cli_vars={'cli_cutflow': 'true'}
+        executor=executor
     ),
     # Run 1
     'rdx-ntuple-run1-data': lambda name: workflow_data(
