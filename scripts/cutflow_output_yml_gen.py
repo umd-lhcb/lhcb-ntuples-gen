@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun, Manual Franco Sevilla
 # License: BSD 2-clause
-# Last Change: Tue Nov 02, 2021 at 02:03 PM +0100
+# Last Change: Tue Nov 02, 2021 at 03:32 PM +0100
 
 import pathlib
 import os
@@ -86,14 +86,7 @@ CUTFLOW = {
                                     b0_ENDVERTEX_CHI2, b0_ENDVERTEX_NDOF,
                                     b0_ENDVERTEX_X, b0_ENDVERTEX_Y,
                                     b0_OWNPV_X, b0_OWNPV_Y,
-                                    b0_DIRA_OWNPV, b0_M) &
-        flag_sel_run1_dv(spi_IPCHI2_OWNPV, spi_TRACK_GhostProb,
-                                 spi_TRACK_CHI2NDOF,
-                                 d0_M,
-                                 dst_MM, dst_M, dst_ENDVERTEX_CHI2,
-                                 dst_ENDVERTEX_NDOF,
-                                 b0_MM, b0_ENDVERTEX_CHI2, b0_ENDVERTEX_NDOF,
-                                 b0_DIRA_OWNPV)''',
+                                    b0_DIRA_OWNPV, b0_M)''',
              key=r'Offline $D^* \mu$ combo cuts'),
         Rule('flag_sel_d0_pid_ok_run1(k_PIDK, pi_PIDK, k_isMuon, pi_isMuon)',
              key=r'$K \pi$ PID'),
@@ -133,14 +126,7 @@ CUTFLOW = {
                                     b0_ENDVERTEX_CHI2, b0_ENDVERTEX_NDOF,
                                     b0_ENDVERTEX_X, b0_ENDVERTEX_Y,
                                     b0_OWNPV_X, b0_OWNPV_Y,
-                                    b0_DIRA_OWNPV, b0_M) &
-        flag_sel_run2_dv(spi_IPCHI2_OWNPV, spi_TRACK_GhostProb,
-                                 spi_TRACK_CHI2NDOF,
-                                 d0_M,
-                                 dst_MM, dst_M, dst_ENDVERTEX_CHI2,
-                                 dst_ENDVERTEX_NDOF,
-                                 b0_MM, b0_ENDVERTEX_CHI2, b0_ENDVERTEX_NDOF,
-                                 b0_DIRA_OWNPV)''',
+                                    b0_DIRA_OWNPV, b0_M)''',
              key=r'Offline $D^* \mu$ combo cuts'),
         Rule('flag_sel_d0_pid_ok_run1(k_PIDK, pi_PIDK, k_isMuon, pi_isMuon)',
              key=r'$K \pi$ PID'),
@@ -189,14 +175,7 @@ CUTFLOW = {
                                     b0_ENDVERTEX_CHI2, b0_ENDVERTEX_NDOF,
                                     b0_ENDVERTEX_X, b0_ENDVERTEX_Y,
                                     b0_OWNPV_X, b0_OWNPV_Y,
-                                    b0_DIRA_OWNPV, b0_M) &
-        flag_sel_run1_dv(spi_IPCHI2_OWNPV, spi_TRACK_GhostProb,
-                                 spi_TRACK_CHI2NDOF,
-                                 d0_M,
-                                 dst_MM, dst_M, dst_ENDVERTEX_CHI2,
-                                 dst_ENDVERTEX_NDOF,
-                                 b0_MM, b0_ENDVERTEX_CHI2, b0_ENDVERTEX_NDOF,
-                                 b0_DIRA_OWNPV)''',
+                                    b0_DIRA_OWNPV, b0_M)''',
              key=r'Offline $D^* \mu$ combo cuts'),
         Rule('b0_ISOLATION_BDT < 0.15', key=r'$BDT_{iso} < 0.15$'),
     ],
@@ -241,14 +220,7 @@ CUTFLOW = {
                                     b0_ENDVERTEX_CHI2, b0_ENDVERTEX_NDOF,
                                     b0_ENDVERTEX_X, b0_ENDVERTEX_Y,
                                     b0_OWNPV_X, b0_OWNPV_Y,
-                                    b0_DIRA_OWNPV, b0_M) &
-        flag_sel_run2_dv(spi_IPCHI2_OWNPV, spi_TRACK_GhostProb,
-                                 spi_TRACK_CHI2NDOF,
-                                 d0_M,
-                                 dst_MM, dst_M, dst_ENDVERTEX_CHI2,
-                                 dst_ENDVERTEX_NDOF,
-                                 b0_MM, b0_ENDVERTEX_CHI2, b0_ENDVERTEX_NDOF,
-                                 b0_DIRA_OWNPV)''',
+                                    b0_DIRA_OWNPV, b0_M)''',
              key=r'Offline $D^* \mu$ combo cuts'),
         Rule('b0_ISOLATION_BDT < 0.15', key=r'$BDT_{iso} < 0.15$'),
     ],
@@ -544,7 +516,7 @@ def flag_sel_b0dst_run1(spi_gh_prob,
     fake_sel_mu = fake_sel_d0
     b0_fd_trans = vec_trans(b0_endvtx_x - b0_pv_x, b0_endvtx_y - b0_pv_y)
 
-    return flag_sel_b0dst_run1_raw(fake_sel_d0, fake_sel_mu,
+    return flag_sel_b0dst_run1_raw(True, True,
                                    spi_gh_prob,
                                    dst_endvtx_chi2, dst_endvtx_ndof,
                                    dst_m, d0_m,
