@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun, Manual Franco Sevilla
 # License: BSD 2-clause
-# Last Change: Mon Nov 01, 2021 at 03:46 PM +0100
+# Last Change: Tue Nov 02, 2021 at 02:03 PM +0100
 
 import pathlib
 import os
@@ -56,6 +56,11 @@ for mode in ['run2-Dst-bare',
 
 CUTFLOW = {
     'run1-pid-last': [
+        # Trigger
+        Rule('''(mu_L0Global_TIS & (b0_L0Global_TIS | d0_L0HadronDecision_TOS)) &
+        (k_Hlt1TrackAllL0Decision_TOS | pi_Hlt1TrackAllL0Decision_TOS) &
+        d0_Hlt2CharmHadD02HH_D02KPiDecision_TOS
+        ''', key=r'Trigger'),
         Rule('''flag_sel_d0_run1(10.0, 0.0, false, false,
                                  k_PT, pi_PT,
                                  k_Hlt1TrackAllL0Decision_TOS,
@@ -97,6 +102,11 @@ CUTFLOW = {
         Rule('b0_ISOLATION_BDT < 0.15', key=r'$BDT_{iso} < 0.15$'),
     ],
     'run2-pid-last': [
+        # Trigger
+        Rule('''(b0_L0Global_TIS | d0_L0HadronDecision_TOS) &
+        (k_Hlt1TrackMVADecision_TOS | pi_Hlt1TrackMVADecision_TOS |
+        d0_Hlt1TwoTrackMVADecision_TOS) & b0_Hlt2XcMuXForTauB2XcMuDecision_TOS
+        ''', key=r'Trigger'),
         # Step 2 cuts (currently same as in run 1)
         Rule('''flag_sel_d0_run1(10.0, 0.0, false, false,
                                  k_PT, pi_PT,
