@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun, Manual Franco Sevilla
 # License: BSD 2-clause
-# Last Change: Tue Nov 02, 2021 at 03:32 PM +0100
+# Last Change: Tue Nov 02, 2021 at 03:43 PM +0100
 
 import pathlib
 import os
@@ -512,8 +512,6 @@ def flag_sel_b0dst_run1(spi_gh_prob,
                         b0_endvtx_x, b0_endvtx_y,
                         b0_pv_x, b0_pv_y,
                         b0_dira, b0_m):
-    fake_sel_d0 = np.full(spi_gh_prob.size, True)
-    fake_sel_mu = fake_sel_d0
     b0_fd_trans = vec_trans(b0_endvtx_x - b0_pv_x, b0_endvtx_y - b0_pv_y)
 
     return flag_sel_b0dst_run1_raw(True, True,
