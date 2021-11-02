@@ -28,6 +28,9 @@ rename:
     # HLT2
     b0_Hlt2XcMuXForTauB2XcMuDecision_TOS: b0_hlt2_tos
     b_Hlt2XcMuXForTauB2XcMuDecision_TOS: b_hlt2_tos
+    # Event variables
+    nTracks: ntracks
+    NumSPDHits: nspdhits
 
 calculation:
     # For pseudo-random sequence generation
@@ -92,9 +95,11 @@ calculation:
     # K
     k_p: double; GEV(k_P)
     k_pt: double; GEV(k_PT)
+    k_eta: double; ETA(k_P, k_PZ)
     # Pi
     pi_p: double; GEV(pi_P)
     pi_pt: double; GEV(pi_PT)
+    pi_eta: double; ETA(pi_P, pi_PZ)
     # slow Pi
     spi_p: double; GEV(spi_P)
     spi_pt: double; GEV(spi_PT)
