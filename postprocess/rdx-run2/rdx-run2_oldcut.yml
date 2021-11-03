@@ -229,9 +229,10 @@ calculation:
     d0_pid_ok: >-
         bool; IF_VAR_EXISTS(mc_id, true);
         FLAG_SEL_D0_PID_OK_RUN1(k_PIDK, pi_PIDK, k_isMuon, pi_isMuon)
+    d0_pid_ok_stub: ^bool; cli_cutflow; d0_pid_ok
     d0_ok: >-
         bool; FLAG_SEL_D0_RUN1(
-        d0_pid_ok,
+        d0_pid_ok_stub,
         k_PT, pi_PT,
         k_Hlt1TrackMVADecision_TOS, pi_Hlt1TrackMVADecision_TOS,
         k_IPCHI2_OWNPV, pi_IPCHI2_OWNPV,
@@ -257,10 +258,11 @@ calculation:
     mu_pid_ok: >-
         bool; IF_VAR_EXISTS(mc_id, true);
         FLAG_SEL_MU_PID_OK_RUN1(mu_isMuon, mu_PIDmu, mu_PIDe)
+    mu_pid_ok_stub: ^bool; cli_cutflow; mu_pid_ok
     mu_ubdt_ok: bool; mu_ubdt > 0.25
     mu_ok: >-
         bool; FLAG_SEL_MU_RUN1(
-        trks_ok, mu_pid_ok,
+        trks_ok, mu_pid_ok_stub,
         mu_P, mu_eta,
         mu_IPCHI2_OWNPV, mu_TRACK_GhostProb
         )
