@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun, Manual Franco Sevilla
 # License: BSD 2-clause
-# Last Change: Tue Nov 02, 2021 at 03:43 PM +0100
+# Last Change: Wed Nov 03, 2021 at 11:20 PM +0100
 
 import pathlib
 import os
@@ -68,7 +68,7 @@ CUTFLOW = {
                                  k_IPCHI2_OWNPV, pi_IPCHI2_OWNPV,
                                  k_TRACK_GhostProb, pi_TRACK_GhostProb,
                                  d0_PT, d0_Hlt2CharmHadD02HH_D02KPiDecision_TOS,
-                                 d0_ENDVERTEX_NDOF, d0_ENDVERTEX_CHI2,
+                                 d0_ENDVERTEX_CHI2, d0_ENDVERTEX_NDOF,
                                  d0_IP_OWNPV, d0_IPCHI2_OWNPV,
                                  d0_DIRA_OWNPV, d0_FDCHI2_OWNPV, d0_M)''',
              key=r'Offline $D^0$ cuts'),
@@ -108,7 +108,7 @@ CUTFLOW = {
                                  k_IPCHI2_OWNPV, pi_IPCHI2_OWNPV,
                                  k_TRACK_GhostProb, pi_TRACK_GhostProb,
                                  d0_PT, true,
-                                 d0_ENDVERTEX_NDOF, d0_ENDVERTEX_CHI2,
+                                 d0_ENDVERTEX_CHI2, d0_ENDVERTEX_NDOF,
                                  d0_IP_OWNPV, d0_IPCHI2_OWNPV,
                                  d0_DIRA_OWNPV, d0_FDCHI2_OWNPV, d0_M)''',
              key=r'Offline $D^0$ cuts'),
@@ -157,7 +157,7 @@ CUTFLOW = {
                                  k_IPCHI2_OWNPV, pi_IPCHI2_OWNPV,
                                  k_TRACK_GhostProb, pi_TRACK_GhostProb,
                                  d0_PT, d0_Hlt2CharmHadD02HH_D02KPiDecision_TOS,
-                                 d0_ENDVERTEX_NDOF, d0_ENDVERTEX_CHI2,
+                                 d0_ENDVERTEX_CHI2, d0_ENDVERTEX_NDOF,
                                  d0_IP_OWNPV, d0_IPCHI2_OWNPV,
                                  d0_DIRA_OWNPV, d0_FDCHI2_OWNPV, d0_M)''',
              key=r'Offline $D^0$ cuts'),
@@ -202,7 +202,7 @@ CUTFLOW = {
                                  k_IPCHI2_OWNPV, pi_IPCHI2_OWNPV,
                                  k_TRACK_GhostProb, pi_TRACK_GhostProb,
                                  d0_PT, true,
-                                 d0_ENDVERTEX_NDOF, d0_ENDVERTEX_CHI2,
+                                 d0_ENDVERTEX_CHI2, d0_ENDVERTEX_NDOF,
                                  d0_IP_OWNPV, d0_IPCHI2_OWNPV,
                                  d0_DIRA_OWNPV, d0_FDCHI2_OWNPV, d0_M)''',
              key=r'Offline $D^0$ cuts'),
@@ -258,7 +258,7 @@ CUTFLOW = {
                                  k_IPCHI2_OWNPV, pi_IPCHI2_OWNPV,
                                  k_TRACK_GhostProb, pi_TRACK_GhostProb,
                                  d0_PT, d0_Hlt2CharmHadD02HH_D02KPiDecision_TOS,
-                                 d0_ENDVERTEX_NDOF, d0_ENDVERTEX_CHI2,
+                                 d0_ENDVERTEX_CHI2, d0_ENDVERTEX_NDOF,
                                  d0_IP_OWNPV, d0_IPCHI2_OWNPV,
                                  d0_DIRA_OWNPV, d0_FDCHI2_OWNPV, d0_M)''',
              key=r'Offline $D^0$ cuts'),
@@ -313,7 +313,7 @@ CUTFLOW = {
                                  k_IPCHI2_OWNPV, pi_IPCHI2_OWNPV,
                                  k_TRACK_GhostProb, pi_TRACK_GhostProb,
                                  d0_PT, true,
-                                 d0_ENDVERTEX_NDOF, d0_ENDVERTEX_CHI2,
+                                 d0_ENDVERTEX_CHI2, d0_ENDVERTEX_NDOF,
                                  d0_IP_OWNPV, d0_IPCHI2_OWNPV,
                                  d0_DIRA_OWNPV, d0_FDCHI2_OWNPV, d0_M)''',
              key=r'Offline $D^0$ cuts'),
