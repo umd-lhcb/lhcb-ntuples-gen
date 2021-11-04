@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun, Manual Franco Sevilla
 # License: BSD 2-clause
-# Last Change: Thu Nov 04, 2021 at 01:52 PM +0100
+# Last Change: Thu Nov 04, 2021 at 03:24 PM +0100
 
 import pathlib
 import os
@@ -482,26 +482,26 @@ def flag_sel_d0_run1(k_pid_k, pi_pid_k, k_is_mu, pi_is_mu,
 #         other_trks.push_back(spi_trk)
 #
 #     return ROOT.FLAG_SEL_GOOD_TRACKS(ref_trk, other_trks)
-#
-#
-# flag_sel_good_tracks = vectorize(flag_sel_good_tracks_raw)
 
 
 # NOTE: FLAG_SEL_GOOD_TRACKS re-implemented in Python
-def flag_sel_good_tracks(mu_px, mu_py, mu_pz, k_px, k_py, k_pz, pi_px, pi_py,
-                         pi_pz, spi_px, spi_py, spi_pz):
+def flag_sel_good_tracks_raw(mu_px, mu_py, mu_pz, k_px, k_py, k_pz,
+                             pi_px, pi_py, pi_pz, spi_px, spi_py, spi_pz):
     other_px = (k_px, pi_px, spi_px)
     other_py = (k_py, pi_py, spi_py)
     other_pz = (k_pz, pi_pz, spi_pz)
-    flag = []
 
     for px, py, pz in zip(other_px, other_py, other_pz):
         inner_prod = mu_px*px + mu_py*py + mu_pz*pz
         magnitude = sqrt(mu_px*mu_px + mu_py*mu_py + mu_pz*mu_pz) * \
             sqrt(px*px + py*py + pz*pz)
-        flag.append(log10(1 - inner_prod / magnitude) > -6.5)
+        if log10(1.0 - inner_prod / magnitude) <= -6.5:
+            return False
 
-    return AND(*flag)
+    return True
+
+
+flag_sel_good_tracks = vectorize(flag_sel_good_tracks_raw)
 
 
 def flag_sel_mu_run1(mu_px, mu_py, mu_pz,
@@ -510,13 +510,12 @@ def flag_sel_mu_run1(mu_px, mu_py, mu_pz,
                      spi_px, spi_py, spi_pz,
                      mu_is_mu, mu_pid_mu, mu_pid_e,
                      mu_p, mu_ip_chi2, mu_gh_prob):
-    good_tracks = flag_sel_good_tracks(mu_px, mu_py, mu_px, k_px, k_py, k_pz,
-                                       pi_px, pi_py, pi_pz,
-                                       spi_px, spi_py, spi_pz)
+    trks_ok = flag_sel_good_tracks(mu_px, mu_py, mu_pz, k_px, k_py, k_pz,
+                                   pi_px, pi_py, pi_pz,
+                                   spi_px, spi_py, spi_pz)
     mu_pid_ok = flag_sel_mu_pid_ok_run1(mu_is_mu, mu_pid_mu, mu_pid_e)
-
     mu_eta = kinematic_eta(mu_p, mu_pz)
-    return flag_sel_mu_run1_raw(good_tracks, mu_pid_ok, mu_p, mu_eta,
+    return flag_sel_mu_run1_raw(mu_pid_ok, trks_ok, mu_p, mu_eta,
                                 mu_ip_chi2, mu_gh_prob)
 
 
@@ -554,6 +553,7 @@ KNOWN_FUNC['flag_sel_run2_dv'] = vectorize(ROOT.FLAG_SEL_RUN2_DV)
 
 KNOWN_FUNC['flag_sel_d0_pid_ok_run1'] = flag_sel_d0_pid_ok_run1
 KNOWN_FUNC['flag_sel_mu_pid_ok_run1'] = flag_sel_mu_pid_ok_run1
+KNOWN_FUNC['flag_sel_good_tracks'] = flag_sel_good_tracks
 
 
 ########
