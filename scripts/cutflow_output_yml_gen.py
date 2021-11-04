@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun, Manual Franco Sevilla
 # License: BSD 2-clause
-# Last Change: Thu Nov 04, 2021 at 01:15 AM +0100
+# Last Change: Thu Nov 04, 2021 at 01:52 PM +0100
 
 import pathlib
 import os
@@ -468,23 +468,40 @@ def flag_sel_d0_run1(k_pid_k, pi_pid_k, k_is_mu, pi_is_mu,
 
 # NOTE: This is how wrap a C++ function that takes vector arguments.
 #       Unfortunately this is too slow. We'll have to re-implement it in numpy
-def flag_sel_good_tracks_raw(mu_px, mu_py, mu_pz, k_px, k_py, k_pz, pi_px, pi_py,
-                             pi_pz, spi_px, spi_py, spi_pz):
-    ref_trk = ROOT.Math.XYZVector(mu_px, mu_py, mu_pz)
+# def flag_sel_good_tracks_raw(mu_px, mu_py, mu_pz, k_px, k_py, k_pz, pi_px, pi_py,
+#                              pi_pz, spi_px, spi_py, spi_pz):
+#     ref_trk = ROOT.Math.XYZVector(mu_px, mu_py, mu_pz)
+#
+#     other_trks = ROOT.std.vector('ROOT::Math::XYZVector')()
+#     other_trks.push_back(ROOT.Math.XYZVector(k_px, k_py, k_pz))
+#     other_trks.push_back(ROOT.Math.XYZVector(pi_px, pi_py, pi_pz))
+#
+#     # We do this so that for D0, we can just set slow Pi momentum to 0
+#     spi_trk = ROOT.Math.XYZVector(spi_px, spi_py, spi_pz)
+#     if not np.isclose(spi_trk.Mag2(), 0):
+#         other_trks.push_back(spi_trk)
+#
+#     return ROOT.FLAG_SEL_GOOD_TRACKS(ref_trk, other_trks)
+#
+#
+# flag_sel_good_tracks = vectorize(flag_sel_good_tracks_raw)
 
-    other_trks = ROOT.std.vector('ROOT::Math::XYZVector')()
-    other_trks.push_back(ROOT.Math.XYZVector(k_px, k_py, k_pz))
-    other_trks.push_back(ROOT.Math.XYZVector(pi_px, pi_py, pi_pz))
 
-    # We do this so that for D0, we can just set slow Pi momentum to 0
-    spi_trk = ROOT.Math.XYZVector(spi_px, spi_py, spi_pz)
-    if not np.isclose(spi_trk.Mag2(), 0):
-        other_trks.push_back(spi_trk)
+# NOTE: FLAG_SEL_GOOD_TRACKS re-implemented in Python
+def flag_sel_good_tracks(mu_px, mu_py, mu_pz, k_px, k_py, k_pz, pi_px, pi_py,
+                         pi_pz, spi_px, spi_py, spi_pz):
+    other_px = (k_px, pi_px, spi_px)
+    other_py = (k_py, pi_py, spi_py)
+    other_pz = (k_pz, pi_pz, spi_pz)
+    flag = []
 
-    return ROOT.FLAG_SEL_GOOD_TRACKS(ref_trk, other_trks)
+    for px, py, pz in zip(other_px, other_py, other_pz):
+        inner_prod = mu_px*px + mu_py*py + mu_pz*pz
+        magnitude = sqrt(mu_px*mu_px + mu_py*mu_py + mu_pz*mu_pz) * \
+            sqrt(px*px + py*py + pz*pz)
+        flag.append(log10(1 - inner_prod / magnitude) > -6.5)
 
-
-flag_sel_good_tracks = vectorize(flag_sel_good_tracks_raw)
+    return AND(*flag)
 
 
 def flag_sel_mu_run1(mu_px, mu_py, mu_pz,
