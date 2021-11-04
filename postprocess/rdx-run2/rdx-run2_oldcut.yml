@@ -262,7 +262,7 @@ calculation:
     mu_ubdt_ok: bool; mu_ubdt > 0.25
     mu_ok: >-
         bool; FLAG_SEL_MU_RUN1(
-        trks_ok, mu_pid_ok_stub,
+        mu_pid_ok_stub, trks_ok,
         mu_P, mu_eta,
         mu_IPCHI2_OWNPV, mu_TRACK_GhostProb
         )
@@ -334,9 +334,7 @@ calculation:
     wpid_ubdt: double; 1.0  # UBDT weight not implemented yet
     wpid: double; wpid_k*wpid_pi*wpid_mu
     wtrg_l0_tis: ^double; b0_l0_global_tis_emu; b_l0_global_tis_emu
-    wtrg: >-
-        float;
-        d0_l0_hadron_tos_emu+wtrg_l0_tis - d0_l0_hadron_tos_emu*wtrg_l0_tis
+    wtrg: float; d0_l0_hadron_tos_emu+wtrg_l0_tis - d0_l0_hadron_tos_emu*wtrg_l0_tis
 
     # Weight representing the global cut (BEFORE applying the skim cuts)
     w: double; wpid*wtrg*wff
