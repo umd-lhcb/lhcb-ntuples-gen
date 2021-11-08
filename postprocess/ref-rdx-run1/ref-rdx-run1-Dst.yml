@@ -252,17 +252,21 @@ calculation:
     ####################
     is_dst_sb: bool; ABS(Dst_M-D0_M-145.454-9) < 2.0
 
+    ###############
+    # Global cuts #
+    ###############
+    # These are defined so that we can turn them on/off with external variables
+    # supplied in babymaker cli arguments
+    trg_ok: bool; cli_cutflow; l0 && hlt1 && hlt2
+    global_cut_ok: bool; cli_cutflow; dstmu_ok
+
 global_selection:
-    # Trigger
-    - l0
-    - hlt1
-    - hlt2
+    - trg_ok
+    - global_cut_ok
     # Cuts on fit variables
     - IN_RANGE(mm2, -2.0, 10.9)
     - IN_RANGE(el, 0.1, 2.65)
     - IN_RANGE(q2, -0.4, 12.6)
-    # Global cuts
-    - dstmu_ok
     # Remove VELO slow Pi
     - spi_trk_type == 3
     # Some weight cut
