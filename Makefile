@@ -1,6 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Nov 08, 2021 at 05:50 PM +0100
+# Last Change: Mon Nov 08, 2021 at 06:03 PM +0100
 
 VPATH := postprocess:test:scripts:ntuples
 VPATH := run1-rdx/cutflow:run2-rdx/cutflow:$(VPATH)
@@ -121,6 +121,9 @@ rdx-cutflow-data:
 	workflows/rdx_cutflows.py $@
 
 rdx-cutflow-bare:
+	workflows/rdx_cutflows.py $@
+
+rdx-cutflow-dsttau:
 	workflows/rdx_cutflows.py $@
 
 rdx-cutflow-bare-comp:
