@@ -80,6 +80,10 @@ r2_bare = [
 
 ## rfactors are calculated from the sample yields in Dirac (for MC) and lumi x xsec (for data)
 JOBS = {
+    'rdx-cutflow-bare': lambda name: workflow_cutflow(
+        name, r1_bare, r2_bare,
+        (522494+502736) / (520046+515913), 'std'
+    ),
     'rdx-cutflow-bare-sig': lambda name: workflow_cutflow(
         name, r1_bare, r2_bare,
         (522494+502736) / (520046+515913), 'std-sig'
