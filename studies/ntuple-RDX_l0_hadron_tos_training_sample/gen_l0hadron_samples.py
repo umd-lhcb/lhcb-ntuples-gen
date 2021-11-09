@@ -6,7 +6,7 @@ import os
 import pathlib
 import sys
 
-from os.path import splitext
+from os.path import splitext, isfile
 
 
 ###########
@@ -46,12 +46,32 @@ def mergeSlim(tag, ntpIn, ntpTrig):
     return ntpOut
 
 
-def splitTrainValid(ntpIn, ratio='50:50'):
+def splitTrainValid(ntpIn, ratio='50:50', modes=['train', 'valid', 'test']):
     base = splitext(ntpIn)[0]
-    ntpsOut = [base+'_'+mode+'.root' for mode in ['train', 'valid', 'test']]
+    modes_orig = ['train', 'valid', 'test']
+    ntpsOutOrig = [base+'_'+mode+'.root' for mode in modes_orig]  # ROOT macro generates fixed output names
+    ntpsOut = [base+'_'+mode+'.root' for mode in modes]
 
     runCmd(f'root -l \'../../scripts/split_train_vali_test.C("{ntpIn}", "{ratio}")\'')
+
+    for ntpOrig, ntp in zip(ntpsOutOrig, ntpsOut):
+        if not isfile(ntp):
+            runCmd(f'mv {ntpOrig} {ntp}')
+
     return ntpsOut
+
+
+def slim(tag, ntpIn):
+    yml = 'l0hadron_sample_'+tag+'.yml'
+    ntpOut = 'l0hadron_emu_'+tag+'_tmp.root'
+
+    runCmd(f'../../scripts/haddcut.py {ntpOut} {ntpIn} -s -c {yml}')
+    return ntpOut
+
+
+def mergeFriend(ntpOut, ntpsIn):
+    runCmd(f'../../scripts/haddcut.py -m friend {ntpOut} {" ".join(ntpsIn)}')
+    return ntpOut
 
 
 #############
@@ -77,6 +97,31 @@ def workflowEmulateThenSplit(ntpIn):
     runCmd('rm *_tmp.root')
 
 
+def workflowSplitThenEmulate(ntpIn):
+    ntpTm = slim('tm', ntpIn)
+    ntpTmTrain, ntpTmValid, _, = splitTrainValid(ntpTm)
+    ntpTmEmu = emulate(ntpTm, 'l0hadron_emu_tm.root')
+    mergeSlim('tm', ntpTm, ntpTmEmu)
+
+    ntpNtm = slim('ntm', ntpIn)
+    ntpNtmTrain, ntpNtmValid, _, = splitTrainValid(ntpNtm)
+    ntpNtmEmu = emulate(ntpNtm, 'l0hadron_emu_ntm.root')
+    mergeSlim('ntm', ntpNtm, ntpNtmEmu)
+
+    ntpAll = slim('all', ntpIn)
+    ntpAllTrain, ntpAllValid, _ = splitTrainValid(ntpAll, '35:35')
+    ntpAllEmu = emulate(ntpAll, 'l0hadron_emu_all.root')
+    mergeSlim('all', ntpAll, ntpAllEmu)
+
+    for idx, ntp in enumerate([ntpTmTrain, ntpTmValid,
+                               ntpNtmTrain, ntpNtmValid,
+                               ntpAllTrain, ntpAllValid]):
+        ntpEmu = emulate(ntp, f'l0hadron_emu_{idx}_tmp.root')
+        mergeFriend(ntp.replace('_tmp', ''), [ntpEmu, ntp])
+
+    runCmd('rm *_tmp.root')
+
+
 ########
 # Main #
 ########
@@ -88,4 +133,8 @@ if __name__ == '__main__':
         sys.exit(ntpIn+' does not exist, you need to download it')
 
     if len(sys.argv) == 1 or sys.argv[1] == 'EmuThenSplit':
+        print('Emulate then split')
         workflowEmulateThenSplit(ntpIn)
+    else:
+        print('Split then emulate')
+        workflowSplitThenEmulate(ntpIn)
