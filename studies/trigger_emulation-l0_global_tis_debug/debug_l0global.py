@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 #
-# Description: Debugging for L0Hadron TOS emulation, including:
-#              - Generation of training and validation ntuples
-#              - Training of BDT and XGB
+# Description: Debugging for L0Global TIS emulation, including:
+#              - Emulating the trigger on the normalization
+#              - Merging several histograms
 #              - Plotting
 
 import os
@@ -10,6 +10,10 @@ import sys
 
 from os.path import isfile
 from os.path import splitext
+
+import ROOT
+
+from TrackerOnlyEmu.loader import load_file
 
 
 ###########
@@ -38,6 +42,31 @@ def apply(ntpIn, ntpOut):
 ntpNorm = '../../ntuples/0.9.5-bugfix/Dst_D0-mc/Dst_D0--21_10_08--mc--MC_2016_Beam6500GeV-2016-MagDown-Nu1.6-25ns-Pythia8_Sim09j_Trig0x6139160F_Reco16_Turbo03a_Filtered_11574011_D0TAUNU.SAFESTRIPTRIG.DST.root'
 
 ntpEmuNorm = apply(ntpNorm, 'rdx-run2-emu-norm.root')
+
+
+#######################
+# Generate histograms #
+#######################
+
+def findBinning(histo, binLbl):
+    axis = getattr(histo, f'Get{binLbl.upper()}axis')()
+    return axis.GetXbins()
+
+
+def renameHisto(ntpIn, ntpOut, oldName, newName):
+    ntpIn = ROOT.TFile.Open(ntpIn, 'READ')
+    ntpOut = ROOT.TFile.Open(ntpOut, 'RECREATE')
+
+    histo = ntpIn.Get(oldName)
+    histo.SetName(newName)
+
+    ntpOut.cd()
+    histo.Write()
+
+
+# Let's write the trigger efficiency from real data first
+renameHisto(load_file('<triggers/l0/l0_tis_efficiency.root>'), 'out.root',
+            'Jpsi_data_eff1', 'data_2016')
 
 
 ###############
