@@ -11,8 +11,7 @@ import sys
 from os.path import isfile
 from os.path import splitext
 
-import ROOT
-
+from ROOT import TFile, TH2D, TMath, std
 from TrackerOnlyEmu.loader import load_file
 
 
@@ -48,14 +47,9 @@ ntpEmuNorm = apply(ntpNorm, 'rdx-run2-emu-norm.root')
 # Generate histograms #
 #######################
 
-def findBinning(histo, binLbl):
-    axis = getattr(histo, f'Get{binLbl.upper()}axis')()
-    return axis.GetXbins()
-
-
-def renameHisto(ntpIn, ntpOut, oldName, newName):
-    ntpIn = ROOT.TFile.Open(ntpIn, 'READ')
-    ntpOut = ROOT.TFile.Open(ntpOut, 'RECREATE')
+def renameHisto(ntpInName, ntpOutName, oldName, newName):
+    ntpIn = TFile.Open(ntpInName, 'READ')
+    ntpOut = TFile.Open(ntpOutName, 'RECREATE')
 
     histo = ntpIn.Get(oldName)
     histo.SetName(newName)
@@ -63,10 +57,60 @@ def renameHisto(ntpIn, ntpOut, oldName, newName):
     ntpOut.cd()
     histo.Write()
 
+    return ntpOutName
 
-# Let's write the trigger efficiency from real data first
-renameHisto(load_file('<triggers/l0/l0_tis_efficiency.root>'), 'out.root',
-            'Jpsi_data_eff1', 'data_2016')
+
+def findBinning(ntpInName, histoName, binLbls):
+    ntpIn = TFile.Open(ntpInName, 'READ')
+    histo = ntpIn.Get(histoName)
+
+    result = []
+    for lbl in binLbls:
+        axis = getattr(histo, f'Get{lbl.upper()}axis')()
+        result.append((axis.GetNbins(), list(axis.GetXbins())))
+    return result
+
+
+def listToCppArray(l, dataType='Double_t'):
+    vec = std.vector(dataType)(l)
+    return vec.data()
+
+
+def buildHisto(ntpInName, ntpOutName, bin_spec, name, x='b0_PZ', y='b0_PT',
+               val='b0_L0Global_TIS', treeName='TupleB0/DecayTree'):
+    nbinsx, xbins = bin_spec[0]
+    nbinsy, ybins = bin_spec[1]
+
+    print(xbins)
+
+    histo = TH2D(name, name,
+                 nbinsx, listToCppArray(xbins), nbinsy, listToCppArray(ybins))
+
+    # ntpIn = TFile.Open(ntpInName, 'READ')
+    # tree = ntpIn.Get(treeName)
+
+    # print('here')
+    # idx = 0
+    # for event in tree:
+        # br_x = getattr(event, x)
+        # br_y = getattr(event, y)
+        # br_val = getattr(event, val)
+
+        # # bin_idx = histo.FindFixBin(ROOT.TMath.Log(br_x), ROOT.TMath.Log(br_y))
+
+        # print(br_x, br_y, br_val)
+        # idx += 1
+        # if idx > 5:
+            # break
+
+
+# Rename the trigger efficiency from real data & write in a new file
+ntpData = load_file('<triggers/l0/l0_tis_efficiency.root>')
+ntpOut = renameHisto(ntpData, 'out.root', 'Jpsi_data_eff1', 'data_2016')
+
+histoBinSpec = findBinning(ntpData, 'Jpsi_data_eff1', ['x', 'y'])
+
+buildHisto(ntpNorm, 'test.root', histoBinSpec, 'test')
 
 
 ###############
