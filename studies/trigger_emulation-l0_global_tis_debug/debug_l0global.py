@@ -97,6 +97,8 @@ def buildHisto(ntpInName, ntpOutName, bin_spec, name, x='b0_PZ', y='b0_PT',
     histoTistos = TH2D(f'{name}_tistos', f'{name}_tistos',
                        len(xbins)-1, v_xbins.data(),
                        len(ybins)-1, v_ybins.data())
+    histoEff = TH2D(f'{name}_eff', f'{name}_eff',
+                    len(xbins)-1, v_xbins.data(), len(ybins)-1, v_ybins.data())
 
     ntpIn = TFile.Open(ntpInName, 'READ')
     tree = ntpIn.Get(treeName)
@@ -116,11 +118,15 @@ def buildHisto(ntpInName, ntpOutName, bin_spec, name, x='b0_PZ', y='b0_PT',
         if brTis and brTos:
             histoTistos.Fill(brX, brY)
 
+    # Find the TISTOS efficiency of TIS
+    histoEff.Divide(histoTistos, histoTos)
+
     ntpOut = TFile.Open(ntpOutName, NTP_WRT_MODE)
     ntpOut.cd()
     histoTot.Write()
     histoTos.Write()
     histoTistos.Write()
+    histoEff.Write()
 
 
 # Rename the trigger efficiency from real data & write in a new file
