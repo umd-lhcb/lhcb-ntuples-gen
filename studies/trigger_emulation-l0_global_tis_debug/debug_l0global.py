@@ -53,9 +53,10 @@ ntpEmuNorm = apply(ntpNorm, 'rdx-run2-emu-norm.root')
 NTP_WRT_MODE = 'UPDATE'
 
 
-def renameHisto(ntpInName, ntpOutName, oldName, newName):
+def renameHisto(ntpInName, ntpOutName, oldName, newName,
+                writeMode=NTP_WRT_MODE):
     ntpIn = TFile.Open(ntpInName, 'READ')
-    ntpOut = TFile.Open(ntpOutName, NTP_WRT_MODE)
+    ntpOut = TFile.Open(ntpOutName, writeMode)
 
     histo = ntpIn.Get(oldName)
     histo.SetName(newName)
@@ -91,7 +92,7 @@ def buildHisto(ntpInName, ntpOutName, bin_spec, name, x='b0_PZ', y='b0_PT',
     histoTot = TH2D(f'{name}_tot', f'{name}_tot',
                     len(xbins)-1, v_xbins.data(), len(ybins)-1, v_ybins.data())
     # For TISTOS method
-    histoTos = TH2D(f'{name}_tis', f'{name}_tis',
+    histoTos = TH2D(f'{name}_tos', f'{name}_tos',
                     len(xbins)-1, v_xbins.data(), len(ybins)-1, v_ybins.data())
     histoTistos = TH2D(f'{name}_tistos', f'{name}_tistos',
                        len(xbins)-1, v_xbins.data(),
@@ -124,7 +125,8 @@ def buildHisto(ntpInName, ntpOutName, bin_spec, name, x='b0_PZ', y='b0_PT',
 
 # Rename the trigger efficiency from real data & write in a new file
 ntpData = load_file('<triggers/l0/l0_tis_efficiency.root>')
-ntpOut = renameHisto(ntpData, 'out.root', 'Jpsi_data_eff1', 'data_2016')
+ntpOut = renameHisto(ntpData, 'out.root', 'Jpsi_data_eff1', 'data_2016',
+                     writeMode='RECREATE')
 
 # Find the binning scheme for the sample
 histoBinSpec = findBinning(ntpData, 'Jpsi_data_eff1', ['x', 'y'])
