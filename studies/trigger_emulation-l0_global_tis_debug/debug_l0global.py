@@ -131,13 +131,13 @@ def buildHisto(ntpInName, ntpOutName, bin_spec, name, x='b0_PZ', y='b0_PT',
 
 # Rename the trigger efficiency from real data & write in a new file
 ntpData = load_file('<triggers/l0/l0_tis_efficiency.root>')
-ntpOut = renameHisto(ntpData, 'out.root', 'Jpsi_data_eff1', 'data_2016',
-                     writeMode='RECREATE')
+ntpOut = renameHisto(ntpData, 'debug_l0_tis.root',
+                     'Jpsi_data_eff1', 'data_2016', writeMode='RECREATE')
 
 # Find the binning scheme for the sample
 histoBinSpec = findBinning(ntpData, 'Jpsi_data_eff1', ['x', 'y'])
 
-buildHisto(ntpNorm, 'out.root', histoBinSpec, 'norm')
+buildHisto(ntpNorm, ntpOut, histoBinSpec, 'norm')
 
 
 ###############
