@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
 # Author: Yipeng Sun
-# Last Change: Mon Nov 22, 2021 at 05:03 PM +0100
+# Last Change: Mon Nov 22, 2021 at 06:43 PM +0100
 
 import sys
 import uproot
@@ -14,8 +14,8 @@ ROOT.PyConfig.IgnoreCommandLineOptions = True  # Don't hijack argparse!
 
 from argparse import ArgumentParser
 from pyTuplingUtils.plot import (
-    plot_step, plot_fill, plot_top,
-    ax_add_args_step, ax_add_args_fill
+    plot_hlines, plot_fill, plot_top,
+    ax_add_args_hlines, ax_add_args_fill
 )
 
 
@@ -66,6 +66,10 @@ def parse_input(descr='plot TEfficiencies.'):
                             r'$B \rightarrow D* \tau \nu$'
                         ],
                         help='specify legend labels.')
+
+    parser.add_argument('--legend-loc',
+                        default='best',
+                        help='specify legend location.')
 
     parser.add_argument('--colors',
                         nargs='+',
@@ -131,10 +135,10 @@ if __name__ == '__main__':
     for bins, val, intv, clr, lbl in zip(
             h_bin, h_val, h_intv, args.colors, args.legends):
         # Horizontal lines
-        step_args = ax_add_args_step(lbl, clr)
+        hline_args = ax_add_args_hlines(lbl, clr)
         top_plotters.append(
-            lambda fig, ax, b=bins, h=val, add=step_args:
-            plot_step(b, h, add, figure=fig, axis=ax, show_legend=False))
+            lambda fig, ax, b=bins, h=val, add=hline_args:
+            plot_hlines(b, h, add, figure=fig, axis=ax, show_legend=False))
 
         # Error bar
         fill_args = ax_add_args_fill(clr, alpha=0.4)
@@ -147,7 +151,7 @@ if __name__ == '__main__':
         top_plotters,
         title=args.title,
         xlabel=args.xlabel, ylabel=args.ylabel,
-        yscale=args.yscale)
+        yscale=args.yscale, legend_add_args={'loc': args.legend_loc})
 
     for ext in args.ext:
         fig.savefig(args.output + '.' + ext)
