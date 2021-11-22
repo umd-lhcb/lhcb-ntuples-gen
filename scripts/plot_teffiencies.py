@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
 # Author: Yipeng Sun
-# Last Change: Mon Nov 22, 2021 at 04:36 PM +0100
+# Last Change: Mon Nov 22, 2021 at 05:03 PM +0100
 
 import sys
 import uproot
@@ -45,6 +45,11 @@ def parse_input(descr='plot TEfficiencies.'):
                         default='Efficiency',
                         help='specify y-axis label for the top plot.')
 
+    parser.add_argument('--yscale',
+                        default='linear',
+                        choices=['linear', 'log'],
+                        help='specify y-axis scale for the top plot.')
+
     parser.add_argument('--title',
                         default=None,
                         help='specify title of the plot.')
@@ -57,8 +62,8 @@ def parse_input(descr='plot TEfficiencies.'):
     parser.add_argument('-l', '--legends',
                         nargs='+',
                         default=[
-                            r'$B \rightarrow D* \tau \nu$',
-                            r'$B \rightarrow D* \mu \nu$'
+                            r'$B \rightarrow D* \mu \nu$',
+                            r'$B \rightarrow D* \tau \nu$'
                         ],
                         help='specify legend labels.')
 
@@ -93,11 +98,14 @@ def tefficiency_to_np_histo(histo):  # 1D TEfficiency only
     binning = np.array(find_binning(ref_histo)[0])
 
     for idx in range(1, binning.size):
-        freq.append(histo.GetEfficiency(idx))
-        intv.append(np.array(
-            histo.GetEfficiencyErrorLow(idx), histo.GetEfficiencyErrorUp(idx)))
+        val = histo.GetEfficiency(idx)
+        freq.append(val)
+        intv.append([
+            val-histo.GetEfficiencyErrorLow(idx),
+            val+histo.GetEfficiencyErrorUp(idx)
+        ])
 
-    return binning, np.array(freq), np.array(intv)
+    return binning, np.array(freq), np.array(list(zip(*intv)))
 
 
 ########
@@ -122,7 +130,7 @@ if __name__ == '__main__':
 
     for bins, val, intv, clr, lbl in zip(
             h_bin, h_val, h_intv, args.colors, args.legends):
-        # Horizontal line
+        # Horizontal lines
         step_args = ax_add_args_step(lbl, clr)
         top_plotters.append(
             lambda fig, ax, b=bins, h=val, add=step_args:
@@ -139,7 +147,7 @@ if __name__ == '__main__':
         top_plotters,
         title=args.title,
         xlabel=args.xlabel, ylabel=args.ylabel,
-        yscale=args.ax1_yscale)
+        yscale=args.yscale)
 
     for ext in args.ext:
         fig.savefig(args.output + '.' + ext)
