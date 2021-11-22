@@ -170,35 +170,17 @@ buildHisto(ntpNorm, ntpOut, histoBinSpec, 'norm')
 # Debug plots #
 ###############
 
-def plotL0Global(ntpIn, triggers,
-                 outPref='b0',
-                 tree='TupleB0/DecayTree',
-                 title='L0Global TOS',
-                 legends=[
-                     'Real response in FullSim',
-                     'Emulated',
-                 ],
-                 cuts=[
-                     'nspdhits < 450',
-                     'nspdhits < 450',
-                     'nspdhits < 450',
-                     'nspdhits < 450',
-                 ]):
-    exe = '../../scripts/plot_trigger_efficiencies.py'
+def plotL0Global(ntpIn, histos, out,
+                 title='L0Global TIS efficiency (TISTOS method)',
+                 legend_loc='lower right'):
+    exe = '../../scripts/plot_teffiencies.py'
 
-    cmd = exe+''' \\
-        -n {ntp}/{tree} -b {trg} -o {outPref} --title "{title}" \\
-        --ratio-plot \\
-        -k d0_pt -D 0 20 \\
-        -l {legends} \\
-        -c {cuts} \\
-        --xlabel "\\$D^0$ \\$p_T$ [GeV]"
-    '''.format(ntp=ntpIn, tree=tree, trg=' '.join([f'"{i}"' for i in triggers]),
-               outPref=outPref, title=title,
-               legends=' '.join(['"{}"'.format(i) for i in legends]),
-               cuts=' '.join(['"{}"'.format(i) for i in cuts])
-               )
+    cmd = f'''{exe} \\
+        {ntpIn} -H {' '.join(histos)} -o {out} --title "{title}" \\
+        --legend-loc "{legend_loc}" \\
+    '''
     runCmd(cmd)
 
 
-# plotL0Global(ntpEmuNorm, , title='L0Hadron TOS bdt4 valid')
+plotL0Global(ntpOut, ['norm_eff_proj_x'], 'l0_global_tis_eff_log_pz',
+             title='L0Hadron TOS bdt4 valid')
