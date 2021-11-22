@@ -42,6 +42,7 @@ def apply(ntpIn, ntpOut):
 
 
 ntpNorm = '../../ntuples/0.9.5-bugfix/Dst_D0-mc/Dst_D0--21_10_08--mc--MC_2016_Beam6500GeV-2016-MagDown-Nu1.6-25ns-Pythia8_Sim09j_Trig0x6139160F_Reco16_Turbo03a_Filtered_11574011_D0TAUNU.SAFESTRIPTRIG.DST.root'
+ntpSig = '../../ntuples/0.9.5-bugfix/Dst_D0-mc/Dst_D0--21_10_08--mc--MC_2016_Beam6500GeV-2016-MagDown-Nu1.6-25ns-Pythia8_Sim09j_Trig0x6139160F_Reco16_Turbo03a_Filtered_11574021_D0TAUNU.SAFESTRIPTRIG.DST.root'
 
 # ntpEmuNorm = apply(ntpNorm, 'rdx-run2-emu-norm.root')
 
@@ -157,13 +158,14 @@ def buildHisto(ntpInName, ntpOutName, bin_spec, name, x='b0_PZ', y='b0_PT',
 # Rename the trigger efficiency from real data & write in a new file
 ntpData = load_file('<triggers/l0/l0_tis_efficiency.root>')
 ntpOut = buildHistoFromHisto(
-    ntpData, 'debug_l0_tis.root', 'Jpsi_data_eff1', 'data_2016',
+    ntpData, 'l0global.root', 'Jpsi_data_eff1', 'data_2016',
     writeMode='RECREATE')
 
 # Find the binning scheme for the sample
 histoBinSpec = findBinning(ntpData, 'Jpsi_data_eff1', ['x', 'y'])
 
 buildHisto(ntpNorm, ntpOut, histoBinSpec, 'norm')
+buildHisto(ntpSig, ntpOut, histoBinSpec, 'sig')
 
 
 ###############
@@ -172,15 +174,23 @@ buildHisto(ntpNorm, ntpOut, histoBinSpec, 'norm')
 
 def plotL0Global(ntpIn, histos, out,
                  title='L0Global TIS efficiency (TISTOS method)',
+                 xlabel=r'$\log(p_z)$',
                  legend_loc='lower right'):
     exe = '../../scripts/plot_teffiencies.py'
 
     cmd = f'''{exe} \\
         {ntpIn} -H {' '.join(histos)} -o {out} --title "{title}" \\
         --legend-loc "{legend_loc}" \\
+        --xlabel "{xlabel}"
     '''
     runCmd(cmd)
 
 
-plotL0Global(ntpOut, ['norm_eff_proj_x'], 'l0_global_tis_eff_log_pz',
-             title='L0Hadron TOS bdt4 valid')
+plotL0Global(ntpOut, ['norm_eff_proj_x', 'sig_eff_proj_x'],
+             'l0_global_tis_eff_log_pz',
+             title='L0Global TIS efficiencies (TISTOS method)')
+plotL0Global(ntpOut, ['norm_eff_proj_y', 'sig_eff_proj_y'],
+             'l0_global_tis_eff_log_pt',
+             legend_loc='upper left',
+             xlabel=r'$\log(p_T)$',
+             title='L0Global TIS efficiencies (TISTOS method)')
