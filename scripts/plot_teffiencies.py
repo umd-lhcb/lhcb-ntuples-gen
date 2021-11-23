@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
 # Author: Yipeng Sun
-# Last Change: Mon Nov 22, 2021 at 06:43 PM +0100
+# Last Change: Tue Nov 23, 2021 at 03:30 AM +0100
 
 import sys
 import uproot
@@ -90,7 +90,16 @@ def find_binning(histo, binLbls=['x']):
 
     for lbl in binLbls:
         axis = getattr(histo, f'Get{lbl.upper()}axis')()
-        result.append(list(axis.GetXbins()))
+        nbins = axis.GetNbins()
+        bin_bdy = []
+
+        for idx in range(1, nbins+1):
+            bin_ctr = axis.GetBinCenter(idx)
+            bin_width = axis.GetBinWidth(idx)
+            bin_bdy.append(bin_ctr-bin_width/2)
+
+        bin_bdy.append(bin_ctr+bin_width/2)
+        result.append(bin_bdy)
 
     return result
 
