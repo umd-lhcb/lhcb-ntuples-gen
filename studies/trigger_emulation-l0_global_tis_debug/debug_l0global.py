@@ -13,6 +13,7 @@ from os.path import splitext
 
 from ROOT import TFile, TH2D, TH1D, TMath, std, TEfficiency
 from TrackerOnlyEmu.loader import load_file
+from itertools import product
 
 
 ###########
@@ -80,6 +81,21 @@ def findBinning(ntpInName, histoName, binLbls):
     return result
 
 
+def buildHistoBinnedProjection(histo, name):
+    nbinsX = histo.GetNbinsX()
+    nbinsY = histo.GetNbinsY()
+    histoBinProj = TH1D(f'{name}_proj_bin', f'{name}_proj_bin',
+                        nbinsX*nbinsY, 0, nbinsX*nbinsY)
+
+    idx = 0
+    for xIdx, yIdx in product(range(1, nbinsX+1), range(1, nbinsY+1)):
+        idx += 1
+        binIdx = histo.GetBin(xIdx, yIdx)
+        histoBinProj.SetBinContent(idx, histo.GetBinContent(binIdx))
+
+    return histoBinProj
+
+
 def buildHistoFromHisto(ntpInName, ntpOutName, histoName, name,
                         writeMode=NTP_WRT_MODE):
     ntpIn = TFile.Open(ntpInName, 'READ')
@@ -136,23 +152,32 @@ def buildHisto(ntpInName, ntpOutName, bin_spec, name, x='b0_PZ', y='b0_PT',
     histoTosX = histoTos.ProjectionX(f'{name}_tos_proj_x')
     histoTosY = histoTos.ProjectionY(f'{name}_tos_proj_y')
     histoTistosX = histoTistos.ProjectionX(f'{name}_tistos_proj_x')
-    histoTtisosY = histoTistos.ProjectionY(f'{name}_tistos_proj_y')
+    histoTistosY = histoTistos.ProjectionY(f'{name}_tistos_proj_y')
+
+    histoTosBin = buildHistoBinnedProjection(histoTos, f'{name}_tos')
+    histoTistosBin = buildHistoBinnedProjection(histoTistos, f'{name}_tistos')
 
     # Generate efficiency histograms
     histoEffProjX = TEfficiency(histoTistosX, histoTosX)
     histoEffProjX.SetName(f'{name}_eff_proj_x')
 
-    histoEffProjY = TEfficiency(histoTtisosY, histoTosY)
+    histoEffProjY = TEfficiency(histoTistosY, histoTosY)
     histoEffProjY.SetName(f'{name}_eff_proj_y')
+
+    histoEffProjBin = TEfficiency(histoTistosBin, histoTosBin)
+    histoEffProjBin.SetName(f'{name}_eff_proj_bin')
 
     ntpOut = TFile.Open(ntpOutName, NTP_WRT_MODE)
     ntpOut.cd()
     histoTot.Write()
     histoTos.Write()
     histoTistos.Write()
+    histoTosBin.Write()
+    histoTistosBin.Write()
 
     histoEffProjX.Write()
     histoEffProjY.Write()
+    histoEffProjBin.Write()
 
 
 # Rename the trigger efficiency from real data & write in a new file
@@ -193,4 +218,9 @@ plotL0Global(ntpOut, ['norm_eff_proj_y', 'sig_eff_proj_y'],
              'l0_global_tis_eff_log_pt',
              legend_loc='upper left',
              xlabel=r'$\log(p_T)$',
+             title='L0Global TIS efficiencies (TISTOS method)')
+plotL0Global(ntpOut, ['norm_eff_proj_bin', 'sig_eff_proj_bin'],
+             'l0_global_tis_eff_bin_idx',
+             legend_loc='upper left',
+             xlabel=r'Bin index',
              title='L0Global TIS efficiencies (TISTOS method)')
