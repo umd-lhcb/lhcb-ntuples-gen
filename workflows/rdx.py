@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Nov 02, 2021 at 04:55 PM +0100
+# Last Change: Tue Nov 23, 2021 at 02:18 PM +0100
 
 import sys
 import os
@@ -297,6 +297,16 @@ JOBS = {
         blocked_patterns=['__aux', 'MC_2012']
     ),
     # Run 2 debug
+    'rdx-ntuple-run2-mc-dss': lambda name: workflow_mc(
+        name,
+        [
+            '../ntuples/0.9.5-bugfix/Dst_D0-mc/Dst_D0--21_10_15--mc--MC_2016_Beam6500GeV-2016-MagDown-Nu1.6-25ns-Pythia8_Sim09j_Trig0x6139160F_Reco16_Turbo03a_Filtered_11874430_D0TAUNU.SAFESTRIPTRIG.DST.root',
+            '../ntuples/0.9.5-bugfix/Dst_D0-mc/Dst_D0--21_10_15--mc--MC_2016_Beam6500GeV-2016-MagDown-Nu1.6-25ns-Pythia8_Sim09j_Trig0x6139160F_Reco16_Turbo03a_Filtered_11874440_D0TAUNU.SAFESTRIPTRIG.DST.root',
+        ],
+        '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
+        executor=executor,
+        blocked_patterns=['__aux', 'MC_2012']
+    ),
     'rdx-ntuple-run2-data-oldcut-debug': lambda name: workflow_data(
         name,
         '../ntuples/0.9.5-bugfix/Dst_D0-cutflow_data',
