@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
 # Author: Yipeng Sun
-# Last Change: Tue Nov 23, 2021 at 03:30 AM +0100
+# Last Change: Tue Nov 23, 2021 at 03:50 AM +0100
 
 import sys
 import uproot
@@ -14,8 +14,8 @@ ROOT.PyConfig.IgnoreCommandLineOptions = True  # Don't hijack argparse!
 
 from argparse import ArgumentParser
 from pyTuplingUtils.plot import (
-    plot_hlines, plot_fill, plot_top,
-    ax_add_args_hlines, ax_add_args_fill
+    plot_hlines, plot_vlines, plot_top,
+    ax_add_args_hlines, ax_add_args_vlines
 )
 
 
@@ -150,10 +150,10 @@ if __name__ == '__main__':
             plot_hlines(b, h, add, figure=fig, axis=ax, show_legend=False))
 
         # Error bar
-        fill_args = ax_add_args_fill(clr, alpha=0.4)
+        vline_args = ax_add_args_vlines(None, clr)
         top_plotters.append(
-            lambda fig, ax, b=bins, y=intv, add=fill_args:
-            plot_fill(b, y, add, figure=fig, axis=ax, show_legend=False))
+            lambda fig, ax, b=bins, y=intv, add=vline_args:
+            plot_vlines(b, y, add, figure=fig, axis=ax, show_legend=False))
 
     # Now do the actual plot
     fig, *_ = plot_top(
