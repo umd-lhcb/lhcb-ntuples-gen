@@ -1,17 +1,18 @@
 #!/usr/bin/env python
 #
-# Description: Debugging for L0Hadron TOS emulation, including:
-#              - Generation of training and validation ntuples
-#              - Training of BDT and XGB
-#              - Plotting
+# Description: Plot the following form-factor related figures
+#              - q2, normalized
+#              - FF weights
+#              - line shapes of various D**, normalized
 
 import os
 import sys
+import uproot
+import numpy as np
 
-from os.path import isdir
-from os.path import splitext
-
+from os.path import isdir, basename
 from glob import glob
+from pyTuplingUtils.io import read_branch
 
 
 ###########
@@ -33,13 +34,19 @@ if not isdir(ntpInFolder):
 ntpsIn = glob(f'{ntpInFolder}/ntuple/*.root')
 
 
+def findMcInfo(name):
+    particle, _, _, decayMode, _, polarity = \
+        basename(name).replace('.root', '').split('--')
+    return particle, decayMode, polarity
+
+
 def findLep(truthmatch):
     if truthmatch % 10 == 1:
         return r'\tau \nu'
     return r'\mu \nu'
 
 
-def findDst(truthmatch):
+def findDss(truthmatch):
     mapDst = {
         11: r'D^{*0}_0',
         12: r'D^{0}_1',
@@ -57,73 +64,38 @@ def findDst(truthmatch):
     return mapDst[truthmatch // 10]
 
 
+def findDssInNtp(ntp):
+    truthMatch = read_branch(ntp, 'tree', 'truthmatch')
+    particlesDss = np.unique(truthMatch)
+    return particlesDss[particlesDss < 50000]
+
+
 #########
 # Plots #
 #########
 
-# def plotL0Hadron(ntpIn, triggers,
-                 # outPref='b0',
-                 # tree='TupleB0/DecayTree',
-                 # title='L0Hadron TOS',
-                 # legends=[
-                     # 'Real response in FullSim',
-                     # 'Emulated (no BDT)',
-                     # 'Emulated (BDT)',
-                     # 'Emulated (XGB)',
-                 # ],
-                 # cuts=[
-                     # 'nspdhits < 450',
-                     # 'nspdhits < 450',
-                     # 'nspdhits < 450',
-                     # 'nspdhits < 450',
-                 # ]):
-    # exe = '../../scripts/plot_trigger_efficiencies.py'
-
-    # cmd = exe+''' \\
-        # -n {ntp}/{tree} -b {trg} -o {outPref} --title "{title}" \\
-        # --ratio-plot \\
-        # -k d0_pt -D 0 20 \\
-        # -l {legends} \\
-        # -c {cuts} \\
-        # --xlabel "\\$D^0$ \\$p_T$ [GeV]"
-    # '''.format(ntp=ntpIn, tree=tree, trg=' '.join([f'"{i}"' for i in triggers]),
-               # outPref=outPref, title=title,
-               # legends=' '.join(['"{}"'.format(i) for i in legends]),
-               # cuts=' '.join(['"{}"'.format(i) for i in cuts])
-               # )
-    # runCmd(cmd)
+def plotBaseName(ntpName):
+    return '_'.join(findMcInfo(ntpName))
 
 
-# bdtTrgsToPlot = [
-    # 'd0_l0_hadron_tos',
-    # 'd0_l0_hadron_tos_emu_no_bdt',
-    # 'd0_l0_hadron_tos_emu_bdt',
-# ]
+def plotNoComp(ntpIn, br, output, label, xlabel, cut, normalize=True):
+    exe = 'plotbr'
+    cmd = f'{exe} -n {ntpIn}/tree -b {br} -o {output} --labels "{label}" -XL "{xlabel}" --cuts "{cut}"'
 
-# xgbTrgsToPlot = [
-    # 'd0_l0_hadron_tos',
-    # 'd0_l0_hadron_tos_emu_xgb'
-# ]
+    if normalize:
+        cmd += ' --normalize -YL "Normalized"'
+
+    runCmd(cmd)
 
 
-# plotL0Hadron(ntpBdt4, bdtTrgsToPlot, title='L0Hadron TOS bdt4 valid')
-# plotL0Hadron(ntpBdt4Tm, bdtTrgsToPlot, title='L0Hadron TOS bdt4 tm valid')
-# plotL0Hadron(ntpBdt4Ntm, bdtTrgsToPlot, title='L0Hadron TOS bdt4 ntm valid')
+for ntpName in ntpsIn:
+    plotCommonName = plotBaseName(ntpName)
 
-# plotL0Hadron(ntpXgb4, xgbTrgsToPlot, title='L0Hadron TOS xgb4 valid',
-             # legends=['Real response in FullSim', 'Emulated (XGB)'])
+    ntp = uproot.open(ntpName)
+    particles = findDssInNtp(ntp)
 
-# ## BDT vs XGB
-# plotL0Hadron(
-    # ntpBdt4Xgb4,
-    # [
-        # 'd0_l0_hadron_tos',
-        # 'd0_l0_hadron_tos_emu_no_bdt',
-        # 'd0_l0_hadron_tos_emu_bdt',
-        # 'd0_l0_hadron_tos_emu_xgb'
-    # ],
-    # title='L0Hadron TOS bdt4 xgb4 valid'
-# )
-
-# ## Over-train, apply on the same ntuple
-# plotL0Hadron(ntpBdt40, bdtTrgsToPlot, title='L0Hadron TOS bdt40 tm trained')
+    for p in particles:
+        subplotCommonName = plotCommonName + f'_{p}'
+        plotNoComp(ntpName, 'q2', subplotCommonName+'_q2.png',
+                   fr'\${findDss(p)}$', r'\$q^2$ [GeV\$^2$]',
+                   f'truthmatch == {p}')
