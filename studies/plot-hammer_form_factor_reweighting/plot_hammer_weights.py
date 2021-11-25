@@ -88,7 +88,7 @@ def plotNoComp(ntpIn, br, output, label, xlabel, cut, normalize=False):
 
 
 def plotComp(ntpIn, br, output, title, xlabel, cut,
-             normalize=True, wtBr='wff'):
+             normalize=True, wtBr='wff', xRange=None):
     labels = ['w/o FF weights', 'w/ weights']
     labels = ' '.join([f'"{i}"' for i in labels])
     weights = ' '.join(['None', wtBr])
@@ -99,6 +99,10 @@ def plotComp(ntpIn, br, output, title, xlabel, cut,
 
     if normalize:
         cmd += ' --normalize -YL "Normalized"'
+
+    if xRange:
+        xRange = ' '.join([str(i) for i in xRange])
+        cmd += f' -XD {xRange}'
 
     runCmd(cmd)
 
@@ -117,4 +121,5 @@ for ntpName in ntpsIn:
         plotComp(ntpName, 'q2', subplotCommonName+'_q2.png', label,
                  r'\$q^2$ [GeV\$^2$]', f'truthmatch == {p}')
         plotComp(ntpName, 'ff_d_mass', subplotCommonName+'_ff_d_mass.png', label,
-                 fr'\${findDss(p)}$ true mass [MeV\$^2$]', f'truthmatch == {p}')
+                 fr'\${findDss(p)}$ true mass [MeV\$^2$]',
+                 f'truthmatch == {p}', xRange=[1800, 2600])
