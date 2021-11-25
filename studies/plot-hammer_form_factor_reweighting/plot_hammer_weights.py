@@ -112,8 +112,9 @@ for ntpName in ntpsIn:
     for p in particles:
         subplotCommonName = plotCommonName + f'_{p}'
         label = fr'\$B \\rightarrow {findDss(p)} {findLep(p)}$'
-        # plotNoComp(ntpName, 'q2', subplotCommonName+'_q2.png',
-                   # label, r'\$q^2$ [GeV\$^2$]',
-                   # f'truthmatch == {p}')
+        plotNoComp(ntpName, 'wff', subplotCommonName+'_wff.png',
+                   label, 'FF weight', f'truthmatch == {p}')
         plotComp(ntpName, 'q2', subplotCommonName+'_q2.png', label,
                  r'\$q^2$ [GeV\$^2$]', f'truthmatch == {p}')
+        plotComp(ntpName, 'ff_d_mass', subplotCommonName+'_ff_d_mass.png', label,
+                 fr'\${findDss(p)}$ true mass [MeV\$^2$]', f'truthmatch == {p}')
