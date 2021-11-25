@@ -179,6 +179,15 @@ calculation:
     dst_true_id: int; dst_TRUEID
     # D0
     d0_true_id: int; d0_TRUEID
+    # FF reweighting
+    ff_d_mass: >-
+        double;
+        SQRT(M2(
+        b0_TrueHadron_D0_GD0_PX, b0_TrueHadron_D0_GD0_PY, b0_TrueHadron_D0_GD0_PZ,
+        b0_TrueHadron_D0_GD0_PE));
+        SQRT(M2(
+        b_TrueHadron_D0_GD0_PX, b_TrueHadron_D0_GD0_PY, b_TrueHadron_D0_GD0_PZ,
+        b_TrueHadron_D0_GD0_PE))
 
     ###################
     # Selection flags #

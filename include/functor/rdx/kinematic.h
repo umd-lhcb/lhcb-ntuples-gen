@@ -1,6 +1,6 @@
 // Author: Yipeng Sun, Svede Braun
 // License: BSD 2-clause
-// Last Change: Mon Aug 09, 2021 at 05:57 PM +0200
+// Last Change: Thu Nov 25, 2021 at 11:59 PM +0100
 
 #ifndef _LNG_FUNCTOR_RDX_KINEMATIC_H_
 #define _LNG_FUNCTOR_RDX_KINEMATIC_H_
@@ -27,6 +27,11 @@ TLorentzVector FOUR_VEC(Double_t X, Double_t Y, Double_t Z, Double_t T) {
 }
 
 Double_t M2(TLorentzVector v) { return v.M2(); }
+
+Double_t M2(Double_t PX, Double_t PY, Double_t PZ, Double_t PE) {
+  auto v = ROOT::Math::PxPyPzEVector(PX, PY, PZ, PE);
+  return v.M2();
+}
 
 Double_t MINV(Double_t pi_px, Double_t pi_py, Double_t pi_pz, Double_t pi_pe,
               Double_t dst_px, Double_t dst_py, Double_t dst_pz,

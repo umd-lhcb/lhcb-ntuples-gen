@@ -1,6 +1,6 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Fri Oct 22, 2021 at 02:23 PM +0200
+// Last Change: Thu Nov 25, 2021 at 11:59 PM +0100
 
 #ifndef _LNG_FUNCTOR_BASIC_H_
 #define _LNG_FUNCTOR_BASIC_H_
@@ -45,6 +45,11 @@ T MIN(T arg0, ARGS... args) {
 template <typename T>
 Int_t SIGN(T num) {
   return static_cast<Int_t>(ABS(num) / num);
+}
+
+template <typename T>
+T SQRT(T num) {
+  return TMath::Sqrt(num);
 }
 
 // Boolean /////////////////////////////////////////////////////////////////////
