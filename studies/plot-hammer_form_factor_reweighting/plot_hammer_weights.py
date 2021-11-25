@@ -64,10 +64,10 @@ def findDss(truthmatch):
     return mapDst[truthmatch // 10]
 
 
-def findDssInNtp(ntp):
+def findDssInNtp(ntp, thresh=50000):
     truthMatch = read_branch(ntp, 'tree', 'truthmatch')
     particlesDss = np.unique(truthMatch)
-    return particlesDss[particlesDss < 50000]
+    return particlesDss[particlesDss < thresh]
 
 
 #########
@@ -78,9 +78,24 @@ def plotBaseName(ntpName):
     return '_'.join(findMcInfo(ntpName))
 
 
-def plotNoComp(ntpIn, br, output, label, xlabel, cut, normalize=True):
-    exe = 'plotbr'
-    cmd = f'{exe} -n {ntpIn}/tree -b {br} -o {output} --labels "{label}" -XL "{xlabel}" --cuts "{cut}"'
+def plotNoComp(ntpIn, br, output, label, xlabel, cut, normalize=False):
+    cmd = f'plotbr -n {ntpIn}/tree -b {br} -o {output} --labels "{label}" -XL "{xlabel}" --cuts "{cut}"'
+
+    if normalize:
+        cmd += ' --normalize -YL "Normalized"'
+
+    runCmd(cmd)
+
+
+def plotComp(ntpIn, br, output, title, xlabel, cut,
+             normalize=True, wtBr='wff'):
+    labels = ['w/o FF weights', 'w/ weights']
+    labels = ' '.join([f'"{i}"' for i in labels])
+    weights = ' '.join(['None', wtBr])
+    cmd = fr'''
+        plotbr -n {ntpIn}/tree -b {br} {br} -o {output} --labels {labels} -XL "{xlabel}" \
+        --cuts "{cut}" "{cut}" --weights {weights} \
+        --title "{title}"'''
 
     if normalize:
         cmd += ' --normalize -YL "Normalized"'
@@ -96,6 +111,9 @@ for ntpName in ntpsIn:
 
     for p in particles:
         subplotCommonName = plotCommonName + f'_{p}'
-        plotNoComp(ntpName, 'q2', subplotCommonName+'_q2.png',
-                   fr'\${findDss(p)}$', r'\$q^2$ [GeV\$^2$]',
-                   f'truthmatch == {p}')
+        label = fr'\$B \\rightarrow {findDss(p)} {findLep(p)}$'
+        # plotNoComp(ntpName, 'q2', subplotCommonName+'_q2.png',
+                   # label, r'\$q^2$ [GeV\$^2$]',
+                   # f'truthmatch == {p}')
+        plotComp(ntpName, 'q2', subplotCommonName+'_q2.png', label,
+                 r'\$q^2$ [GeV\$^2$]', f'truthmatch == {p}')
