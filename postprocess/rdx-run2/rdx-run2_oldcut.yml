@@ -188,6 +188,7 @@ calculation:
         SQRT(M2(
         b_TrueHadron_D0_PX, b_TrueHadron_D0_PY, b_TrueHadron_D0_PZ,
         b_TrueHadron_D0_PE))
+    q2_true: double; q2_true
 
     ###################
     # Selection flags #

@@ -139,6 +139,8 @@ for ntpName in ntpsIn:
                    )
         plotComp(ntpName, 'q2', subplotCommonName+'_q2.png', label,
                  r'\$q^2$ [GeV\$^2$]', f'truthmatch == {p}', labels=labels)
-        plotComp(ntpName, 'ff_d_mass', subplotCommonName+'_ff_d_mass.png', label,
-                 fr'\${findDss(p)}$ true mass [MeV\$^2$]',
+        plotComp(ntpName, 'q2_true', subplotCommonName+'_q2_true.png', label,
+                 r'True \$q^2$ [GeV\$^2$]', f'truthmatch == {p}', labels=labels)
+        plotComp(ntpName, 'ff_d_mass', subplotCommonName+'_ff_d_mass.png',
+                 label, fr'\${findDss(p)}$ true mass [MeV\$^2$]',
                  f'truthmatch == {p}', labels=labels, xRange=[xMin, xMax])
