@@ -88,8 +88,8 @@ def plotNoComp(ntpIn, br, output, label, xlabel, cut, normalize=False):
 
 
 def plotComp(ntpIn, br, output, title, xlabel, cut,
-             normalize=True, wtBr='wff', xRange=None):
-    labels = ['w/o FF weights', 'w/ weights']
+             normalize=True, wtBr='wff', xRange=None,
+             labels=['w/o FF weights', 'w/ weights']):
     labels = ' '.join([f'"{i}"' for i in labels])
     weights = ' '.join(['None', wtBr])
     cmd = fr'''
@@ -112,14 +112,27 @@ for ntpName in ntpsIn:
 
     ntp = uproot.open(ntpName)
     particles = findDssInNtp(ntp)
+    weight = read_branch(ntp, 'tree', 'wff')
+    mass = read_branch(ntp, 'tree', 'ff_d_mass')
+    tm = read_branch(ntp, 'tree', 'truthmatch')
 
     for p in particles:
         subplotCommonName = plotCommonName + f'_{p}'
+
+        pNum = weight[tm == p].size
+        pWeight = weight[tm == p].sum()
+        pMass = mass[tm == p]
+        xMin, xMax = pMass.min(), pMass.max()
+        labels = [
+            f'w/o FF wt ({pNum})',
+            f'w/ wt ({pWeight:.1f})'
+        ]
+
         label = fr'\$B \\rightarrow {findDss(p)} {findLep(p)}$'
         plotNoComp(ntpName, 'wff', subplotCommonName+'_wff.png',
                    label, 'FF weight', f'truthmatch == {p}')
         plotComp(ntpName, 'q2', subplotCommonName+'_q2.png', label,
-                 r'\$q^2$ [GeV\$^2$]', f'truthmatch == {p}')
+                 r'\$q^2$ [GeV\$^2$]', f'truthmatch == {p}', labels=labels)
         plotComp(ntpName, 'ff_d_mass', subplotCommonName+'_ff_d_mass.png', label,
                  fr'\${findDss(p)}$ true mass [MeV\$^2$]',
-                 f'truthmatch == {p}', xRange=[1800, 2600])
+                 f'truthmatch == {p}', labels=labels, xRange=[xMin, xMax])
