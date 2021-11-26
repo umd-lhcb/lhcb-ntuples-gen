@@ -78,11 +78,15 @@ def plotBaseName(ntpName):
     return '_'.join(findMcInfo(ntpName))
 
 
-def plotNoComp(ntpIn, br, output, label, xlabel, cut, normalize=False):
+def plotNoComp(ntpIn, br, output, label, xlabel, cut,
+               normalize=False, title=None):
     cmd = f'plotbr -n {ntpIn}/tree -b {br} -o {output} --labels "{label}" -XL "{xlabel}" --cuts "{cut}"'
 
     if normalize:
         cmd += ' --normalize -YL "Normalized"'
+
+    if title:
+        cmd += f' --title "{title}"'
 
     runCmd(cmd)
 
@@ -130,7 +134,9 @@ for ntpName in ntpsIn:
 
         label = fr'\$B \\rightarrow {findDss(p)} {findLep(p)}$'
         plotNoComp(ntpName, 'wff', subplotCommonName+'_wff.png',
-                   label, 'FF weight', f'truthmatch == {p}')
+                   label, 'FF weight', f'truthmatch == {p}',
+                   title=f'no wt/wt = {pNum}/{pWeight:.1f} = {pNum/pWeight:.2f}'
+                   )
         plotComp(ntpName, 'q2', subplotCommonName+'_q2.png', label,
                  r'\$q^2$ [GeV\$^2$]', f'truthmatch == {p}', labels=labels)
         plotComp(ntpName, 'ff_d_mass', subplotCommonName+'_ff_d_mass.png', label,
