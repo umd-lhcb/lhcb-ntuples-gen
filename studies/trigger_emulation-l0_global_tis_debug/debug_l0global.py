@@ -69,9 +69,7 @@ def renameHisto(ntpInName, ntpOutName, oldName, newName,
     return ntpOutName
 
 
-def findBinning(ntpInName, histoName, binLbls):
-    ntpIn = TFile.Open(ntpInName, 'READ')
-    histo = ntpIn.Get(histoName)
+def findBinningLite(histo, binLbls):
     result = []
 
     for lbl in binLbls:
@@ -79,6 +77,12 @@ def findBinning(ntpInName, histoName, binLbls):
         result.append(list(axis.GetXbins()))
 
     return result
+
+
+def findBinning(ntpInName, histoName, binLbls):
+    ntpIn = TFile.Open(ntpInName, 'READ')
+    histo = ntpIn.Get(histoName)
+    return findBinningLite(histo, binLbls)
 
 
 def buildHistoBinnedProjection(histo, name):
@@ -127,6 +131,8 @@ def buildHisto(ntpInName, ntpOutName, bin_spec, name, x='b0_PZ', y='b0_PT',
     # For TISTOS method
     histoTos = TH2D(f'{name}_tos', f'{name}_tos',
                     len(xbins)-1, v_xbins.data(), len(ybins)-1, v_ybins.data())
+    histoTis = TH2D(f'{name}_tis', f'{name}_tis',
+                    len(xbins)-1, v_xbins.data(), len(ybins)-1, v_ybins.data())
     histoTistos = TH2D(f'{name}_tistos', f'{name}_tistos',
                        len(xbins)-1, v_xbins.data(),
                        len(ybins)-1, v_ybins.data())
@@ -144,6 +150,8 @@ def buildHisto(ntpInName, ntpOutName, bin_spec, name, x='b0_PZ', y='b0_PT',
 
         histoTot.Fill(brX, brY)
 
+        if brTis:
+            histoTis.Fill(brX, brY)
         if brTos:
             histoTos.Fill(brX, brY)
         if brTis and brTos:
@@ -151,10 +159,16 @@ def buildHisto(ntpInName, ntpOutName, bin_spec, name, x='b0_PZ', y='b0_PT',
 
     histoTosX = histoTos.ProjectionX(f'{name}_tos_proj_x')
     histoTosY = histoTos.ProjectionY(f'{name}_tos_proj_y')
+    histoTisX = histoTis.ProjectionX(f'{name}_tis_proj_x')
+    histoTisY = histoTis.ProjectionY(f'{name}_tis_proj_y')
+    histoTotX = histoTot.ProjectionX(f'{name}_tot_proj_x')
+    histoTotY = histoTot.ProjectionY(f'{name}_tot_proj_y')
     histoTistosX = histoTistos.ProjectionX(f'{name}_tistos_proj_x')
     histoTistosY = histoTistos.ProjectionY(f'{name}_tistos_proj_y')
 
     histoTosBin = buildHistoBinnedProjection(histoTos, f'{name}_tos')
+    histoTisBin = buildHistoBinnedProjection(histoTis, f'{name}_tis')
+    histoTotBin = buildHistoBinnedProjection(histoTot, f'{name}_tot')
     histoTistosBin = buildHistoBinnedProjection(histoTistos, f'{name}_tistos')
 
     # Generate efficiency histograms
@@ -167,6 +181,15 @@ def buildHisto(ntpInName, ntpOutName, bin_spec, name, x='b0_PZ', y='b0_PT',
     histoEffProjBin = TEfficiency(histoTistosBin, histoTosBin)
     histoEffProjBin.SetName(f'{name}_eff_proj_bin')
 
+    histoEffProjXDir = TEfficiency(histoTisX, histoTotX)
+    histoEffProjXDir.SetName(f'{name}_eff_proj_x_dir')
+
+    histoEffProjYDir = TEfficiency(histoTisY, histoTotY)
+    histoEffProjYDir.SetName(f'{name}_eff_proj_y_dir')
+
+    histoEffProjBinDir = TEfficiency(histoTisBin, histoTotBin)
+    histoEffProjBinDir.SetName(f'{name}_eff_proj_bin_dir')
+
     ntpOut = TFile.Open(ntpOutName, NTP_WRT_MODE)
     ntpOut.cd()
     histoTot.Write()
@@ -178,6 +201,9 @@ def buildHisto(ntpInName, ntpOutName, bin_spec, name, x='b0_PZ', y='b0_PT',
     histoEffProjX.Write()
     histoEffProjY.Write()
     histoEffProjBin.Write()
+    histoEffProjXDir.Write()
+    histoEffProjYDir.Write()
+    histoEffProjBinDir.Write()
 
 
 # Rename the trigger efficiency from real data & write in a new file
@@ -224,3 +250,17 @@ plotL0Global(ntpOut, ['norm_eff_proj_bin', 'sig_eff_proj_bin'],
              legend_loc='upper left',
              xlabel=r'Bin index',
              title='L0Global TIS efficiencies (TISTOS method)')
+
+plotL0Global(ntpOut, ['norm_eff_proj_x_dir', 'sig_eff_proj_x_dir'],
+             'l0_global_tis_eff_log_pz_dir',
+             title='L0Global TIS efficiencies (direct method)')
+plotL0Global(ntpOut, ['norm_eff_proj_y_dir', 'sig_eff_proj_y_dir'],
+             'l0_global_tis_eff_log_pt_dir',
+             legend_loc='upper left',
+             xlabel=r'$\log(p_T)$',
+             title='L0Global TIS efficiencies (direct method)')
+plotL0Global(ntpOut, ['norm_eff_proj_bin_dir', 'sig_eff_proj_bin_dir'],
+             'l0_global_tis_eff_bin_idx_dir',
+             legend_loc='upper left',
+             xlabel=r'Bin index',
+             title='L0Global TIS efficiencies (direct method)')
