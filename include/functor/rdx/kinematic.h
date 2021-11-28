@@ -1,6 +1,6 @@
 // Author: Yipeng Sun, Svede Braun
 // License: BSD 2-clause
-// Last Change: Sun Nov 28, 2021 at 09:27 PM +0100
+// Last Change: Mon Nov 29, 2021 at 12:06 AM +0100
 
 #ifndef _LNG_FUNCTOR_RDX_KINEMATIC_H_
 #define _LNG_FUNCTOR_RDX_KINEMATIC_H_
@@ -80,11 +80,7 @@ PxPyPzEVector B_P_EST(Double_t b_pz, Double_t b_m,
 template <typename T>
 Double_t MMISS(LorentzVector<T> v4_mom_p, LorentzVector<T> v4_p) {
   auto v4_diff = v4_mom_p - v4_p;
-  auto mm_mom  = M2(v4_diff);
-  if (mm_mom > 0)
-    return TMath::Sqrt(mm_mom);
-  else
-    return 0.0;
+  return M2(v4_diff);
 }
 
 #endif

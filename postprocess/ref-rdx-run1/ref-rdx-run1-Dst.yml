@@ -208,7 +208,7 @@ calculation:
     d0_ok: >-
         bool; FLAG_SEL_D0_RUN1(
         d0_pid_ok,
-        k_pt*1000, pi_pt*100,
+        k_pt*1000, pi_pt*1000,
         k_hlt1_tal0_tos, pi_hlt1_tal0_tos,
         k_ip_chi2, pi_ip_chi2,
         k_gh_prob, pi_gh_prob,
@@ -251,8 +251,10 @@ calculation:
         )
 
     # Skims
-    iso_pre_ok: ^bool; mu_ubdt_ok && ISOnum == 0; mu_ubdt_ok
-    anti_iso_pre_ok: ^bool; mu_ubdt_ok && AntiISOnum == 0; mu_ubdt_ok
+    #iso_pre_ok: ^bool; mu_ubdt_ok && ISOnum == 0; mu_ubdt_ok
+    #anti_iso_pre_ok: ^bool; mu_ubdt_ok && AntiISOnum == 0; mu_ubdt_ok
+    iso_pre_ok: ^bool; mu_ubdt_ok
+    anti_iso_pre_ok: ^bool; mu_ubdt_ok
     is_iso: bool; FLAG_ISO(iso_pre_ok, iso_bdt1)
     is_dd: >-
         bool; FLAG_DD(
