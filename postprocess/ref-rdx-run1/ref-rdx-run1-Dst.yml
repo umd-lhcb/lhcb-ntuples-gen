@@ -99,9 +99,9 @@ calculation:
     v4_mu: ^PxPyPzEVector; PxPyPzEVector(muplus_PX, muplus_PY, muplus_PZ, muplus_PE)
     v4_reco: ^PxPyPzEVector; v4_dst + v4_mu
     # Keep all fit variables in GeV
-    el: double; GEV(El)
+    el: double; GEV(El); GEV(EL(v4_mu, v4_b0_p_est))
     mm2: double; m_nu1; GEV2(MMISS(v4_b0_p_est, v4_reco))  # in GeV already
-    q2: double; GEV2(q2)
+    q2: double; GEV2(q2); GEV2(Q2(v4_b0_p_est, v4_dst))
 
     #######################
     # Kinematic variables #

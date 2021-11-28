@@ -1,12 +1,13 @@
 // Author: Yipeng Sun, Svede Braun
 // License: BSD 2-clause
-// Last Change: Mon Nov 29, 2021 at 12:06 AM +0100
+// Last Change: Mon Nov 29, 2021 at 12:22 AM +0100
 
 #ifndef _LNG_FUNCTOR_RDX_KINEMATIC_H_
 #define _LNG_FUNCTOR_RDX_KINEMATIC_H_
 
 #include <Math/Vector3D.h>
 #include <Math/Vector4D.h>
+#include <Math/VectorUtil.h>
 #include <TMath.h>
 #include <TROOT.h>
 
@@ -78,8 +79,21 @@ PxPyPzEVector B_P_EST(Double_t b_pz, Double_t b_m,
 }
 
 template <typename T>
-Double_t MMISS(LorentzVector<T> v4_mom_p, LorentzVector<T> v4_p) {
-  auto v4_diff = v4_mom_p - v4_p;
+Double_t MMISS(LorentzVector<T> v4_b, LorentzVector<T> v4_dmu) {
+  auto v4_diff = v4_b - v4_dmu;
+  return M2(v4_diff);
+}
+
+template <typename T>
+Double_t EL(LorentzVector<T> v4_mu, LorentzVector<T> v4_b) {
+  auto v3_boost     = v4_b.BoostToCM();
+  auto v4_mu_b_rest = ROOT::Math::VectorUtil::boost(v4_mu, v3_boost);
+  return v4_mu_b_rest.E();
+}
+
+template <typename T>
+Double_t Q2(LorentzVector<T> v4_b, LorentzVector<T> v4_d) {
+  auto v4_diff = v4_b - v4_d;
   return M2(v4_diff);
 }
 
