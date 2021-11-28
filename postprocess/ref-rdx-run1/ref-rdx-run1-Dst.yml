@@ -85,9 +85,21 @@ calculation:
     #################
     # Fit variables #
     #################
+    v3_b0_fd: >-
+        ^XYZVector; XYZVector(
+        Y_ENDVERTEX_X - Y_OWNPV_X,
+        Y_ENDVERTEX_Y - Y_OWNPV_Y,
+        Y_ENDVERTEX_Z - Y_OWNPV_Z
+        )
+    v4_b0_p_est: ^PxPyPzEVector; B_P_EST(Y_PZ, Y_M, v3_b0_fd)
+    v4_dst: >-
+        ^PxPyPzEVector;
+        PxPyPzEVector(Dst_2010_minus_PX, Dst_2010_minus_PY, Dst_2010_minus_PZ, Dst_2010_minus_PE)
+    v4_mu: ^PxPyPzEVector; PxPyPzEVector(muplus_PX, muplus_PY, muplus_PZ, muplus_PE)
+    v4_reco: ^PxPyPzEVector; v4_dst + v4_mu
     # Keep all fit variables in GeV
     el: double; GEV(El)
-    mm2: double; m_nu1  # in GeV already
+    mm2: double; m_nu1; GEV2(MMISS(v4_b0_p_est, v4_reco))  # in GeV already
     q2: double; GEV2(q2)
 
     #######################
@@ -149,7 +161,7 @@ calculation:
     b0_endvtx_chi2: double; Y_ENDVERTEX_CHI2
     b0_endvtx_ndof: double; Y_ENDVERTEX_NDOF; 1000.0
     b0_dira: double; Y_DIRA_OWNPV
-    b0_fd_trans: double; dxy
+    b0_fd_trans: double; dxy; FD_TRANS(Y_ENDVERTEX_X, Y_OWNPV_X, Y_ENDVERTEX_Y, Y_OWNPV_Y)
     b0_discard_mu_chi2: double; Y_DISCARDMu_CHI2
     # D*
     dst_endvtx_chi2: double; Dst_ENDVERTEX_CHI2; Dst_2010_minus_ENDVERTEX_CHI2

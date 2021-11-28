@@ -1,36 +1,31 @@
 // Author: Yipeng Sun, Svede Braun
 // License: BSD 2-clause
-// Last Change: Thu Nov 25, 2021 at 11:59 PM +0100
+// Last Change: Sun Nov 28, 2021 at 09:27 PM +0100
 
 #ifndef _LNG_FUNCTOR_RDX_KINEMATIC_H_
 #define _LNG_FUNCTOR_RDX_KINEMATIC_H_
 
+#include <Math/Vector3D.h>
 #include <Math/Vector4D.h>
-#include <TLorentzVector.h>
 #include <TMath.h>
 #include <TROOT.h>
-#include <TVector3.h>
+
+using ROOT::Math::LorentzVector;
+using ROOT::Math::PtEtaPhiMVector;
+using ROOT::Math::PxPyPzEVector;
+
+using ROOT::Math::DisplacementVector3D;
+using ROOT::Math::XYZVector;
 
 // Helpers /////////////////////////////////////////////////////////////////////
 
-TVector3 VEC_DELTA(Double_t Xf, Double_t Yf, Double_t Zf, Double_t Xi,
-                   Double_t Yi, Double_t Zi) {
-  TVector3 v;
-  v.SetXYZ(Xf - Xi, Yf - Yi, Zf - Zi);
-  return v;
+template <typename T>
+Double_t M2(LorentzVector<T>& v4) {
+  return v4.M2();
 }
-
-TLorentzVector FOUR_VEC(Double_t X, Double_t Y, Double_t Z, Double_t T) {
-  TLorentzVector v;
-  v.SetXYZT(X, Y, Z, T);
-  return v;
-}
-
-Double_t M2(TLorentzVector v) { return v.M2(); }
 
 Double_t M2(Double_t PX, Double_t PY, Double_t PZ, Double_t PE) {
-  auto v = ROOT::Math::PxPyPzEVector(PX, PY, PZ, PE);
-  return v.M2();
+  return PxPyPzEVector(PX, PY, PZ, PE).M2();
 }
 
 Double_t MINV(Double_t pi_px, Double_t pi_py, Double_t pi_pz, Double_t pi_pe,
@@ -55,18 +50,6 @@ Double_t ISO_DELTAM(Double_t pi_px, Double_t pi_py, Double_t pi_pz,
 
 // Kinematics //////////////////////////////////////////////////////////////////
 
-// Original name: mm_mom
-// Current name: mm_dst_mom
-// Meaning: Missing mass between D* and its mother.
-// Defined in: AddB.C, L3138, L3085-3095
-Double_t MM_DST_MOM(TLorentzVector& v_dst_mom_p, TLorentzVector& v_dst_p) {
-  Double_t mm_dst_mom = M2(v_dst_mom_p - v_dst_p);
-  if (mm_dst_mom > 0)
-    return sqrt(mm_dst_mom);
-  else
-    return 0.0;
-}
-
 Double_t ETA(Double_t p, Double_t pz) {
   return 0.5 * TMath::Log((p + pz) / (p - pz));
 }
@@ -80,22 +63,28 @@ Double_t FD_TRANS(Double_t endvtx_x, Double_t ownpv_x, Double_t endvtx_y,
 
 // Rest frame approximation ////////////////////////////////////////////////////
 
-TLorentzVector B_P_EST(Double_t b_pz, Double_t b_m, TVector3 v3_b_flight) {
+template <typename T>
+PxPyPzEVector B_P_EST(Double_t b_pz, Double_t b_m,
+                      DisplacementVector3D<T>& v3_b_flight) {
   const Double_t b_m_ref = 5279.61;
 
-  Double_t tan_theta = v3_b_flight.Unit().Perp() / v3_b_flight.Unit().Z();
-  Double_t b_pt      = (b_m_ref / b_m) * tan_theta * b_pz;
+  auto cos_x = v3_b_flight.Unit().X();
+  auto cos_y = v3_b_flight.Unit().Y();
+  auto cos_z = v3_b_flight.Unit().Z();
 
-  TLorentzVector v4_b_p_est;
-  v4_b_p_est.SetPtEtaPhiM(b_pt, v3_b_flight.Unit().Eta(),
-                          v3_b_flight.Unit().Phi(), b_m_ref);
-
-  return v4_b_p_est;
+  Double_t b_p_mag = (b_m_ref / b_m) * b_pz / cos_z;
+  return PxPyPzEVector(b_p_mag * cos_x, b_p_mag * cos_y, b_p_mag * cos_z,
+                       TMath::Sqrt(b_p_mag * b_p_mag + b_m_ref * b_m_ref));
 }
 
-TLorentzVector BOOST(TLorentzVector v, TVector3 v_b) {
-  v.Boost(v_b);
-  return v;
+template <typename T>
+Double_t MMISS(LorentzVector<T> v4_mom_p, LorentzVector<T> v4_p) {
+  auto v4_diff = v4_mom_p - v4_p;
+  auto mm_mom  = M2(v4_diff);
+  if (mm_mom > 0)
+    return TMath::Sqrt(mm_mom);
+  else
+    return 0.0;
 }
 
 #endif
