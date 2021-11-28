@@ -70,7 +70,7 @@ calculation:
     iso_nnk3: float; iso_NNk3; Y_ISOLATION_NNk3
     # Charge
     iso_chrg1: int; TO_TYPE(iso_CHARGE, 1); TO_TYPE(Y_ISOLATION_CHARGE, 1)
-    iso_chrg2: int; TO_TYPE(iso_CHARGE2, 1); TO_TYPE(Y_ISOLATION_CHARGE, 1)
+    iso_chrg2: int; TO_TYPE(iso_CHARGE2, 1); TO_TYPE(Y_ISOLATION_CHARGE2, 1)
     # Kinematic
     iso_p1: float; GEV(iso_P); GEV(MAG(Y_ISOLATION_PX, Y_ISOLATION_PY, Y_ISOLATION_PZ))
     iso_p2: float; GEV(iso_P2); GEV(MAG(Y_ISOLATION_PX2, Y_ISOLATION_PY2, Y_ISOLATION_PZ2))
@@ -229,7 +229,7 @@ calculation:
     trks_other: ^vector<XYZVector>; BUILD_VEC(trk_k, trk_pi, trk_spi)
     trks_ok: bool; FLAG_SEL_GOOD_TRACKS(trk_mu, trks_other); true
     mu_pid_ok: bool; FLAG_SEL_MU_PID_OK_RUN1(mu_is_mu, mu_pid_mu, mu_pid_e)
-    mu_ubdt_ok: bool; IF_VAR_EXISTS(cli_no_ubdt, true); mu_ubdt > 0.25
+    mu_ubdt_ok: bool; IF_VAR_EXISTS(cli_fewer_cuts, true); mu_ubdt > 0.25
     mu_ok: >-
         bool; FLAG_SEL_MU_RUN1(
         mu_pid_ok, trks_ok,
@@ -298,6 +298,9 @@ calculation:
     # supplied in babymaker cli arguments
     trg_ok: bool; cli_cutflow; l0 && hlt1 && hlt2
     global_cut_ok: bool; cli_cutflow; dstmu_ok
+    weight_ok: >-
+        ^bool; IF_VAR_EXISTS(cli_fewer_cuts, true);
+        reweighting_69_gen3_pt2 >= 0.01 && reweighting_89_gen3_pt2 >= 0.01
 
 global_selection:
     - trg_ok
@@ -308,8 +311,7 @@ global_selection:
     - IN_RANGE(q2, -0.4, 12.6)
     # Remove VELO slow Pi
     - spi_trk_type == 3
-    # Some weight cut
-    - reweighting_69_gen3_pt2 >= 0.01 && reweighting_89_gen3_pt2 >= 0.01
+    - weight_ok
 
 one_cand_only:
     enable: false

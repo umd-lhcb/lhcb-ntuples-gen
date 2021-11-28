@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sun Nov 28, 2021 at 10:17 PM +0100
+# Last Change: Mon Nov 29, 2021 at 12:35 AM +0100
 
 import sys
 import os
@@ -349,14 +349,17 @@ JOBS = {
         executor=executor
         # directive_override={'one_cand_only/enable': 'false'}
     ),
-    'ref-rdx-ntuple-run1-data-Dst-step1': lambda name: workflow_data(
+    'ref-rdx-ntuple-run1-data-Dst-comp': lambda name: workflow_data(
         name,
-        '../ntuples/ref-rdx-run1/Dst-std/Dst--20_09_16--std--data--2011--md--phoebe.root',
+        [
+            '../ntuples/ref-rdx-run1/Dst-std/Dst--20_09_16--std--data--2011--md--phoebe.root',
+            '../ntuples/ref-rdx-run1/Dst-mix/Dst--21_10_21--mix--all--2011-2012--md-mu--phoebe.root',
+        ],
         '../postprocess/ref-rdx-run1/ref-rdx-run1-Dst.yml',
         use_ubdt=False,
         output_ntp_name_gen=parse_step2_name,
         executor=executor,
-        cli_vars={'cli_no_ubdt': 'true'}
+        cli_vars={'cli_fewer_cuts': 'true'}
     ),
     'ref-rdx-ntuple-run1-data-D0': lambda name: workflow_data(
         name,
