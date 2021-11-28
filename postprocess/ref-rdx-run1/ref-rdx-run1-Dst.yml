@@ -32,17 +32,25 @@ rename:
     Polarity: polarity
     runNumber: run
     eventNumber: event
-    # L0
+    # L0, step-1.5
     YTIS: b0_l0_global_tis
     YTOS: d0_l0_hadron_tos
     L0: mu_l0_global_tis
-    # HLT1
+    # L0, step-1
+    Y_L0Global_TIS: b0_l0_global_tis
+    D0_L0HadronDecision_TOS: d0_l0_hadron_tos
+    muplus_L0Global_TIS: mu_l0_global_tis
+    # HLT1, step-1.5
     Hlt1TAL0K: k_hlt1_tal0_tos  # TrackAllL0Decision
     Hlt1TAL0pi: pi_hlt1_tal0_tos
     Hlt1: dst_hlt1_phys_tos
-    # HLT2
+    # HLT1, step-1
+    Kplus_Hlt1TrackAllL0Decision_TOS: k_hlt1_tal0_tos
+    piminus0_Hlt1TrackAllL0Decision_TOS: pi_hlt1_tal0_tos
+    # HLT2, step-1.5
     Hlt2: d0_hlt2_tos  # Hlt2CharmHadD02HH_D02KPiDecision
-
+    # HLT2, step-1
+    D0_Hlt2CharmHadD02HH_D02KPiDecision_TOS: d0_hlt2_tos
 
 calculation:
     # For pseudo-random sequence generation
@@ -273,7 +281,7 @@ global_selection:
     - reweighting_69_gen3_pt2 >= 0.01 && reweighting_89_gen3_pt2 >= 0.01
 
 one_cand_only:
-    enable: true
+    enable: false
     branch: calculation_prs_in
 
 output:
@@ -281,3 +289,13 @@ output:
         input: ntp1
         selection:
             - is_std  # Signature for 'std' reconstruction mode
+
+    Dst_data_2011_md:
+        input: ntp1
+        selection:
+            - is_std
+            - is_2011
+            - polarity < 0
+
+    Dst:
+        input: YCands/DecayTree
