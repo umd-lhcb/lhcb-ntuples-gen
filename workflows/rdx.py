@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sun Nov 28, 2021 at 01:44 AM +0100
+# Last Change: Sun Nov 28, 2021 at 10:17 PM +0100
 
 import sys
 import os
@@ -355,7 +355,8 @@ JOBS = {
         '../postprocess/ref-rdx-run1/ref-rdx-run1-Dst.yml',
         use_ubdt=False,
         output_ntp_name_gen=parse_step2_name,
-        executor=executor
+        executor=executor,
+        cli_vars={'cli_no_ubdt': 'true'}
     ),
     'ref-rdx-ntuple-run1-data-D0': lambda name: workflow_data(
         name,

@@ -47,6 +47,7 @@ rename:
     # HLT1, step-1
     Kplus_Hlt1TrackAllL0Decision_TOS: k_hlt1_tal0_tos
     piminus0_Hlt1TrackAllL0Decision_TOS: pi_hlt1_tal0_tos
+    Dst_2010_minus_Hlt1TrackAllL0Decision_TOS: dst_hlt1_phys_tos
     # HLT2, step-1.5
     Hlt2: d0_hlt2_tos  # Hlt2CharmHadD02HH_D02KPiDecision
     # HLT2, step-1
@@ -149,10 +150,10 @@ calculation:
     # Pi
     pi_pid_k: double; piPID; piminus0_PIDK
     # Mu
-    mu_is_mu: bool; mu_is
-    mu_pid_mu: double; DLLmu
-    mu_pid_e: double; DLLe
-    mu_ubdt: float; BDTmu; 0.1  # Greg's Mu UBDT PID
+    mu_is_mu: bool; mu_is; muplus_isMuon
+    mu_pid_mu: double; DLLmu; muplus_PIDmu
+    mu_pid_e: double; DLLe; muplus_PIDe
+    mu_ubdt: float; BDTmu; 0.0  # Greg's Mu UBDT PID
 
     ######################
     # Tracking variables #
@@ -203,31 +204,36 @@ calculation:
     hlt2: bool; d0_hlt2_tos
 
     # D0 selection
-    d0_pid_ok: bool; FLAG_SEL_D0_PID_OK_RUN1(k_pid_k, pi_pid_k, muVeto, muVeto)
+    d0_pid_ok: bool; FLAG_SEL_D0_PID_OK_RUN1(k_pid_k, pi_pid_k, k_is_mu, pi_is_mu)
     d0_ok: >-
         bool; FLAG_SEL_D0_RUN1(
         d0_pid_ok,
-        K_PT, pi_PT,
+        k_pt*1000, pi_pt*100,
         k_hlt1_tal0_tos, pi_hlt1_tal0_tos,
         k_ip_chi2, pi_ip_chi2,
         k_gh_prob, pi_gh_prob,
-        D0_PT,
+        d0_pt*1000,
         d0_hlt2_tos,
         d0_endvtx_chi2, d0_endvtx_ndof,
         d0_ip, d0_ip_chi2,
         d0_dira,
         d0_fd_chi2,
-        D0_M
+        d0_m
         )
 
     # Mu selection
-    trks_ok: bool; true
+    trk_mu:  ^XYZVector; XYZVector(muplus_PX, muplus_PY, muplus_PZ)
+    trk_k:   ^XYZVector; XYZVector(Kplus_PX, Kplus_PY, Kplus_PZ)
+    trk_pi:  ^XYZVector; XYZVector(piminus0_PX, piminus0_PY, piminus0_PZ)
+    trk_spi: ^XYZVector; XYZVector(piminus_PX, piminus_PY, piminus_PZ)
+    trks_other: ^vector<XYZVector>; BUILD_VEC(trk_k, trk_pi, trk_spi)
+    trks_ok: bool; FLAG_SEL_GOOD_TRACKS(trk_mu, trks_other); true
     mu_pid_ok: bool; FLAG_SEL_MU_PID_OK_RUN1(mu_is_mu, mu_pid_mu, mu_pid_e)
-    mu_ubdt_ok: bool; mu_ubdt > 0.25
+    mu_ubdt_ok: bool; IF_VAR_EXISTS(cli_no_ubdt, true); mu_ubdt > 0.25
     mu_ok: >-
         bool; FLAG_SEL_MU_RUN1(
         mu_pid_ok, trks_ok,
-        mu_P, mu_eta,
+        mu_p*1000, mu_eta,
         mu_ip_chi2, mu_gh_prob
         )
 
@@ -237,18 +243,20 @@ calculation:
         d0_ok, mu_ok,
         spi_gh_prob,
         dst_endvtx_chi2, dst_endvtx_ndof,
-        Dst_M, D0_M,
+        dst_m, d0_m,
         b0_discard_mu_chi2,
         b0_endvtx_chi2, b0_endvtx_ndof,
         b0_fd_trans,
-        b0_dira, Y_M
+        b0_dira, b0_m
         )
 
     # Skims
-    is_iso: bool; FLAG_ISO(mu_ubdt_ok && ISOnum == 0, iso_bdt1)
+    iso_pre_ok: ^bool; mu_ubdt_ok && ISOnum == 0; mu_ubdt_ok
+    anti_iso_pre_ok: ^bool; mu_ubdt_ok && AntiISOnum == 0; mu_ubdt_ok
+    is_iso: bool; FLAG_ISO(iso_pre_ok, iso_bdt1)
     is_dd: >-
         bool; FLAG_DD(
-        mu_ubdt_ok && AntiISOnum == 0,
+        anti_iso_pre_ok,
         iso_bdt1, iso_bdt2, iso_bdt3,
         iso_type1, iso_type2, iso_type3,
         iso_p1, iso_p2, iso_p3,
@@ -257,7 +265,7 @@ calculation:
         )
     is_2os: >-
         bool; FLAG_2OS(
-        mu_ubdt_ok && AntiISOnum == 0,
+        anti_iso_pre_ok,
         iso_bdt1, iso_bdt2, iso_bdt3,
         iso_type1, iso_type2,
         iso_p1, iso_p2,
@@ -267,7 +275,7 @@ calculation:
         )
     is_1os: >-
         bool; FLAG_1OS(
-        mu_ubdt_ok && AntiISOnum == 0,
+        anti_iso_pre_ok,
         iso_bdt1, iso_bdt2,
         iso_type1,
         iso_p1, iso_pt1,
@@ -279,7 +287,7 @@ calculation:
     ####################
     # Additional flags #
     ####################
-    is_dst_sb: bool; ABS(Dst_M-D0_M-145.454-9) < 2.0
+    is_dst_sb: bool; ABS(dst_m-d0_m-145.454-9) < 2.0
 
     ###############
     # Global cuts #
