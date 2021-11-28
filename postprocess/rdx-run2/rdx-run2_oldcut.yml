@@ -68,6 +68,7 @@ calculation:
     #################
     # Fit variables #
     #################
+    # Make all fit variables in GeV
     el: double; GEV(FitVar_El)
     mm2: double; GEV2(FitVar_Mmiss2)
     q2: double; GEV2(FitVar_q2)
@@ -75,22 +76,23 @@ calculation:
     #######################
     # Kinematic variables #
     #######################
+    # Keep masses in MeV, everything else in GeV
     # B0
-    b0_m: double; GEV(b0_M)
+    b0_m: double; b0_M
     b0_p: double; GEV(b0_P)
     b0_pt: double; GEV(b0_PT)
     # B
-    b_m: double; GEV(b_M)
+    b_m: double; b_M
     b_p: double; GEV(b_P)
     b_pt: double; GEV(b_PT)
     # D*
-    dst_m: double; GEV(dst_M)
+    dst_m: double; dst_M
     dst_p: double; GEV(dst_P)
     dst_pt: double; GEV(dst_PT)
     dst_iso_invm: double; GEV(MINV(b0_ISOLATION_PX, b0_ISOLATION_PY, b0_ISOLATION_PZ, b0_ISOLATION_PE, dst_PX, dst_PY, dst_PZ, dst_PE))
     dst_iso_deltam: double; GEV(ISO_DELTAM(b0_ISOLATION_PX, b0_ISOLATION_PY, b0_ISOLATION_PZ, b0_ISOLATION_PE, dst_PX, dst_PY, dst_PZ, dst_PE, dst_M))
     # D0
-    d0_m: double; GEV(d0_M)
+    d0_m: double; d0_M
     d0_p: double; GEV(d0_P)
     d0_pt: double; GEV(d0_PT)
     d0_dst_veto_deltam: double; MIN(ABS(b_ISOLATION_DstWindowDELTAM-145.454), ABS(b_ISOLATION_DstWindowDELTAM2-145.454))  # MeV!
