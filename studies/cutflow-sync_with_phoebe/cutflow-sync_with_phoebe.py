@@ -2,9 +2,10 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Nov 29, 2021 at 08:04 PM +0100
+# Last Change: Mon Nov 29, 2021 at 08:08 PM +0100
 # Note: Here we use Phoebe's latest ntuple
 
+import sys
 import pathlib
 import os
 
@@ -233,8 +234,17 @@ def apply_cuts(frame, cuts, skim_cuts, ref):
 ########
 
 if __name__ == '__main__':
-    # D*
     ntp_dst = '../../ntuples/ref-rdx-run1/Dst-mix/Dst--21_10_21--mix--all--2011-2012--md-mu--phoebe.root'
-    frame_dst = RDataFrame('ntp1', ntp_dst)
+    ntp_d0 = '../../ntuples/ref-rdx-run1/D0-mix/D0--21_10_21--mix--all--2011-2012--md-mu--phoebe.root'
 
-    apply_cuts(frame_dst, DST_CUTS, DST_SKIM_CUTS, DST_REF_NUMS)
+    if len(sys.argv) == 1 or sys.argv[1].lower() == 'dst':
+        print('Working on Dst...')
+        frame_dst = RDataFrame('ntp1', ntp_dst)
+        apply_cuts(frame_dst, DST_CUTS, DST_SKIM_CUTS, DST_REF_NUMS)
+    elif sys.argv[1].lower() == 'd0':
+        print('Working on D0...')
+        frame_d0 = RDataFrame('ntp1', ntp_d0)
+        apply_cuts(frame_d0, D0_CUTS, D0_SKIM_CUTS, D0_REF_NUMS)
+    else:
+        print(f'Unknown mode: {sys.argv[1]}')
+        sys.exit(255)
