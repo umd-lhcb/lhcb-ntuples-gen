@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Nov 29, 2021 at 08:00 PM +0100
+# Last Change: Mon Nov 29, 2021 at 08:04 PM +0100
 # Note: Here we use Phoebe's latest ntuple
 
 import pathlib
@@ -180,6 +180,13 @@ DST_REF_NUMS = {
     '1OS': 19666,
     '2OS': 8389,
     'DD': 30918,
+}
+
+D0_REF_NUMS = {
+    'ISO': 1731149,
+    '1OS': 168767,
+    '2OS': 42508,
+    'DD': 188384,
 }
 
 
