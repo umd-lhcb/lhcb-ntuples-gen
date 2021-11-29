@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Nov 29, 2021 at 12:30 AM +0100
+# Last Change: Mon Nov 29, 2021 at 08:00 PM +0100
 # Note: Here we use Phoebe's latest ntuple
 
 import pathlib
@@ -47,6 +47,21 @@ DST_CUTS = [
     # 'D0_DIRA_OWNPV > 0.9998 && D0IPCHI2 > 9.0',  # D0, ineffective
     # 'K_P > 2000.0 && pi_P > 2000.0 && '
     # 'K_PT > 500.0 && pi_PT > 500.0 && K_PT+pi_PT > 1400.0 && D0_PT > 2000.0',  # D0, ineffective
+]
+
+D0_CUTS = [
+    'isData > 0 && muPID > 0 && '  # redoHistos_D0.C, LN 2059
+    'm_nu1 >= -2.0e6 && m_nu1 <= 10.9e6 && '
+    'El >= 0.1e3 && El <= 2.65e3 && '
+    'q2 >= -0.4e6 && q2 <= 12.6e6',  # Generic global cuts on fit variables, m_nu1 in MeV^2
+    '(YTIS || YTOS) && '
+    '((Hlt1TAL0K && K_PT > 1700.0) || (Hlt1TAL0pi && pi_PT > 1700.0))',  # trigger
+    '!muVeto && DLLe < 1.0 && BDTmu > 0.25 && '
+    'mu_P > 3.0e3 && mu_P < 100.0e3 && mu_ETA > 1.7 && mu_ETA < 5.0',  # Mu
+    'dxy < 7.0 && Y_M < 5200.0',  # D0Mu combo
+    'Mmu2pi - D0_M - 145.454 > 4.0 && '
+    'Mmu2pi - D0_M > 165.0',  # D0 mass hypothesis test
+    '!(reweighting_69_gen3_pt2 < 0.01 || reweighting_89_gen3_pt2 < 0.01)',  # Derived from some MC weight
 ]
 
 # NOTE: We decided to not apply single candidate selection cuts
@@ -99,6 +114,42 @@ DST_SKIM_CUTS = {
            TO_TYPE(iso_CHARGE, 1),
            iso_NNk,
            Dst_ID, GEV(iso_DeltaM)
+           )
+           ''',
+    '2OS': '''
+           FLAG_2OS(
+           true,
+           iso_BDT, iso_BDT2, iso_BDT3,
+           TO_TYPE(iso_Type, 1), TO_TYPE(iso_Type2, 1),
+           GEV(iso_P), GEV(iso_P2),
+           GEV(iso_PT), GEV(iso_PT2),
+           TO_TYPE(iso_CHARGE, 1), TO_TYPE(iso_CHARGE2, 1),
+           iso_NNk, iso_NNk2
+           )
+           ''',
+    'DD': '''
+          FLAG_DD(
+          true,
+          iso_BDT, iso_BDT2, iso_BDT3,
+          TO_TYPE(iso_Type, 1), TO_TYPE(iso_Type2, 1), TO_TYPE(iso_Type3, 1),
+          GEV(iso_P), GEV(iso_P2), GEV(iso_P3),
+          GEV(iso_PT), GEV(iso_PT2), GEV(iso_PT3),
+          iso_NNk, iso_NNk2, iso_NNk3
+          )
+          ''',
+}
+
+D0_SKIM_CUTS = {
+    'ISO': 'FLAG_ISO(true, iso_BDT)',
+    '1OS': '''
+           FLAG_1OS(
+           true,
+           iso_BDT, iso_BDT2,
+           TO_TYPE(iso_Type, 1),
+           GEV(iso_P), GEV(iso_PT),
+           TO_TYPE(iso_CHARGE, 1),
+           iso_NNk,
+           D0_ID
            )
            ''',
     '2OS': '''
