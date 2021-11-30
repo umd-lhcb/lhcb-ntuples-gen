@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Nov 30, 2021 at 01:18 AM +0100
+# Last Change: Tue Nov 30, 2021 at 01:19 AM +0100
 # Note: Here we use Phoebe's latest ntuple
 
 import sys
@@ -141,10 +141,10 @@ DST_SKIM_CUTS = {
 }
 
 D0_SKIM_CUTS = {
-    'ISO': 'FLAG_ISO(true, iso_BDT)',
+    'ISO': 'FLAG_ISO(ISOnum == 0, iso_BDT)',
     '1OS': '''
            FLAG_1OS(
-           true,
+           AntiISOnum == 0,
            iso_BDT, iso_BDT2,
            TO_TYPE(iso_Type, 1),
            GEV(iso_P), GEV(iso_PT),
@@ -155,7 +155,7 @@ D0_SKIM_CUTS = {
            ''',
     '2OS': '''
            FLAG_2OS(
-           true,
+           AntiISOnum == 0,
            iso_BDT, iso_BDT2, iso_BDT3,
            TO_TYPE(iso_Type, 1), TO_TYPE(iso_Type2, 1),
            GEV(iso_P), GEV(iso_P2),
@@ -166,7 +166,7 @@ D0_SKIM_CUTS = {
            ''',
     'DD': '''
           FLAG_DD(
-          true,
+          AntiISOnum == 0,
           iso_BDT, iso_BDT2, iso_BDT3,
           TO_TYPE(iso_Type, 1), TO_TYPE(iso_Type2, 1), TO_TYPE(iso_Type3, 1),
           GEV(iso_P), GEV(iso_P2), GEV(iso_P3),
