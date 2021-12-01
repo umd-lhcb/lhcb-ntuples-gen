@@ -111,6 +111,9 @@ def plotComp(ntpIn, br, output, title, xlabel, cut,
     runCmd(cmd)
 
 
+q2Min = range(0, 8)
+q2Max = range(1, 9)
+
 for ntpName in ntpsIn:
     plotCommonName = plotBaseName(ntpName)
 
@@ -144,3 +147,11 @@ for ntpName in ntpsIn:
         plotComp(ntpName, 'ff_d_mass', subplotCommonName+'_ff_d_mass.png',
                  label, fr'\${findDss(p)}$ true mass [MeV\$^2$]',
                  f'truthmatch == {p}', labels=labels, xRange=[xMin, xMax])
+
+        for q1, q2 in zip(q2Min, q2Max):
+            labelTmp = label + fr' \${q1} < q^2 < {q2}$'
+            plotComp(ntpName, 'ff_d_mass',
+                     subplotCommonName+f'_ff_d_mass_{q1}_{q2}.png',
+                     labelTmp, fr'\${findDss(p)}$ true mass [MeV\$^2$]',
+                     f'truthmatch == {p} & q2_true > {q1} & q2_true < {q2}',
+                     labels=labels, xRange=[xMin, xMax])
