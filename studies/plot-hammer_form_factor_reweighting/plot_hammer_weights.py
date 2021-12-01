@@ -12,6 +12,7 @@ import numpy as np
 
 from os.path import isdir, basename
 from glob import glob
+from numpy import logical_and as AND
 from pyTuplingUtils.io import read_branch
 
 
@@ -122,6 +123,7 @@ for ntpName in ntpsIn:
     weight = read_branch(ntp, 'tree', 'wff')
     mass = read_branch(ntp, 'tree', 'ff_d_mass')
     tm = read_branch(ntp, 'tree', 'truthmatch')
+    q2_true = read_branch(ntp, 'tree', 'q2_true')
 
     for p in particles:
         subplotCommonName = plotCommonName + f'_{p}'
@@ -148,10 +150,19 @@ for ntpName in ntpsIn:
                  label, fr'\${findDss(p)}$ true mass [MeV\$^2$]',
                  f'truthmatch == {p}', labels=labels, xRange=[xMin, xMax])
 
-        for q1, q2 in zip(q2Min, q2Max):
-            labelTmp = label + fr' \${q1} < q^2 < {q2}$'
+        for qLow, qHigh in zip(q2Min, q2Max):
+            labelTmp = label + fr', \${qLow} < q^2 < {qHigh}$ GeV\$^2$'
+
+            sel = AND(tm == p, q2_true > qLow, q2_true < qHigh)
+            pNum = weight[sel].size
+            pWeight = weight[sel].sum()
+            labels = [
+                f'ISGW2 ({pNum})',
+                f'BLR ({pWeight:.1f})'
+            ]
+
             plotComp(ntpName, 'ff_d_mass',
-                     subplotCommonName+f'_ff_d_mass_{q1}_{q2}.png',
+                     subplotCommonName+f'_ff_d_mass_{qLow}_{qHigh}.png',
                      labelTmp, fr'\${findDss(p)}$ true mass [MeV\$^2$]',
-                     f'truthmatch == {p} & q2_true > {q1} & q2_true < {q2}',
+                     f'truthmatch == {p} & q2_true > {qLow} & q2_true < {qHigh}',
                      labels=labels, xRange=[xMin, xMax])
