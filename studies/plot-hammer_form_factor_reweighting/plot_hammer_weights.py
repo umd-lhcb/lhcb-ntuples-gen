@@ -113,8 +113,8 @@ def plotComp(ntpIn, br, output, title, xlabel, cut,
     runCmd(cmd)
 
 
-q2Min = arange(0, 8, 0.5)
-q2Max = q2Min + 0.5
+q2Min = arange(0, 8, 0.1)
+q2Max = q2Min + 0.1
 
 for ntpName in ntpsIn:
     plotCommonName = plotBaseName(ntpName)
@@ -152,9 +152,9 @@ for ntpName in ntpsIn:
                  f'truthmatch == {p}', labels=labels, xRange=[xMin, xMax])
 
         for qLow, qHigh in zip(q2Min, q2Max):
-            labelTmp = label + fr', \${qLow} < q^2_{{true}} < {qHigh}$ GeV\$^2$'
+            labelTmp = label + fr', \${qLow:.1f} < q^2_{{true}} < {qHigh:.1f}$ GeV\$^2$'
 
-            sel = AND(tm == p, q2_true > qLow, q2_true < qHigh)
+            sel = AND(AND(tm == p, q2_true > qLow), q2_true < qHigh)
             pNum = weight[sel].size
             pWeight = weight[sel].sum()
             labels = [
@@ -162,8 +162,11 @@ for ntpName in ntpsIn:
                 f'BLR ({pWeight:.1f})'
             ]
 
+            if pNum == 0:
+                continue
+
             plotComp(ntpName, 'ff_d_mass',
-                     subplotCommonName+f'_ff_d_mass_{qLow}_{qHigh}.png',
+                     subplotCommonName+f'_ff_d_mass_{qLow:.1f}_{qHigh:.1f}.png',
                      labelTmp, fr'\${findDss(p)}$ true mass [MeV\$^2$]',
                      f'truthmatch == {p} & q2_true > {qLow} & q2_true < {qHigh}',
                      labels=labels, xRange=[xMin, xMax])
