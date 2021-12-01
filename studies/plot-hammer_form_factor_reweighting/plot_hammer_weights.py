@@ -93,7 +93,7 @@ def plotNoComp(ntpIn, br, output, label, xlabel, cut,
 
 def plotComp(ntpIn, br, output, title, xlabel, cut,
              normalize=True, wtBr='wff', xRange=None,
-             labels=['w/o FF weights', 'w/ weights']):
+             labels=['ISGW2', 'BLR']):
     labels = ' '.join([f'"{i}"' for i in labels])
     weights = ' '.join(['None', wtBr])
     cmd = fr'''
@@ -128,14 +128,14 @@ for ntpName in ntpsIn:
         pMass = mass[tm == p]
         xMin, xMax = pMass.min(), pMass.max()
         labels = [
-            f'w/o FF wt ({pNum})',
-            f'w/ wt ({pWeight:.1f})'
+            f'ISGW2 ({pNum})',
+            f'BLR ({pWeight:.1f})'
         ]
 
         label = fr'\$B \\rightarrow {findDss(p)} {findLep(p)}$'
         plotNoComp(ntpName, 'wff', subplotCommonName+'_wff.png',
                    label, 'FF weight', f'truthmatch == {p}',
-                   title=f'no wt/wt = {pNum}/{pWeight:.1f} = {pNum/pWeight:.2f}'
+                   title=f'ISGW2/BLR = {pNum}/{pWeight:.1f} = {pNum/pWeight:.2f}'
                    )
         plotComp(ntpName, 'q2', subplotCommonName+'_q2.png', label,
                  r'\$q^2$ [GeV\$^2$]', f'truthmatch == {p}', labels=labels)
