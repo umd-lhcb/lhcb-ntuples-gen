@@ -13,6 +13,7 @@ import numpy as np
 from os.path import isdir, basename
 from glob import glob
 from numpy import logical_and as AND
+from numpy import arange
 from pyTuplingUtils.io import read_branch
 
 
@@ -112,8 +113,8 @@ def plotComp(ntpIn, br, output, title, xlabel, cut,
     runCmd(cmd)
 
 
-q2Min = range(0, 8)
-q2Max = range(1, 9)
+q2Min = arange(0, 8, 0.5)
+q2Max = q2Min + 0.5
 
 for ntpName in ntpsIn:
     plotCommonName = plotBaseName(ntpName)
@@ -151,7 +152,7 @@ for ntpName in ntpsIn:
                  f'truthmatch == {p}', labels=labels, xRange=[xMin, xMax])
 
         for qLow, qHigh in zip(q2Min, q2Max):
-            labelTmp = label + fr', \${qLow} < q^2 < {qHigh}$ GeV\$^2$'
+            labelTmp = label + fr', \${qLow} < q^2_{{true}} < {qHigh}$ GeV\$^2$'
 
             sel = AND(tm == p, q2_true > qLow, q2_true < qHigh)
             pNum = weight[sel].size
