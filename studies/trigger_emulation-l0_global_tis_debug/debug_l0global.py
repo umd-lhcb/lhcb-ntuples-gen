@@ -136,6 +136,12 @@ def buildHisto(ntpInName, ntpOutName, bin_spec, name, x='b0_PZ', y='b0_PT',
     histoTistos = TH2D(f'{name}_tistos', f'{name}_tistos',
                        len(xbins)-1, v_xbins.data(),
                        len(ybins)-1, v_ybins.data())
+    histoNotTos = TH2D(f'{name}_not_tos', f'{name}_not_tos',
+                       len(xbins)-1, v_xbins.data(),
+                       len(ybins)-1, v_ybins.data())
+    histoTisNotTos = TH2D(f'{name}_tis_not_tos', f'{name}_tis_not_tos',
+                          len(xbins)-1, v_xbins.data(),
+                          len(ybins)-1, v_ybins.data())
 
     ntpIn = TFile.Open(ntpInName, 'READ')
     tree = ntpIn.Get(treeName)
@@ -157,6 +163,11 @@ def buildHisto(ntpInName, ntpOutName, bin_spec, name, x='b0_PZ', y='b0_PT',
         if brTis and brTos:
             histoTistos.Fill(brX, brY)
 
+        if not brTos:
+            histoNotTos.Fill(brX, brY)
+        if brTis and not brTos:
+            histoTisNotTos.Fill(brX, brY)
+
     histoTosX = histoTos.ProjectionX(f'{name}_tos_proj_x')
     histoTosY = histoTos.ProjectionY(f'{name}_tos_proj_y')
     histoTisX = histoTis.ProjectionX(f'{name}_tis_proj_x')
@@ -165,38 +176,52 @@ def buildHisto(ntpInName, ntpOutName, bin_spec, name, x='b0_PZ', y='b0_PT',
     histoTotY = histoTot.ProjectionY(f'{name}_tot_proj_y')
     histoTistosX = histoTistos.ProjectionX(f'{name}_tistos_proj_x')
     histoTistosY = histoTistos.ProjectionY(f'{name}_tistos_proj_y')
+    histoNotTosX = histoNotTos.ProjectionX(f'{name}_not_tos_proj_x')
+    histoNotTosY = histoNotTos.ProjectionY(f'{name}_not_tos_proj_y')
+    histoTisNotTosX = histoTisNotTos.ProjectionX(f'{name}_tis_not_tos_proj_x')
+    histoTisNotTosY = histoTisNotTos.ProjectionY(f'{name}_tis_not_tos_proj_y')
 
     histoTosBin = buildHistoBinnedProjection(histoTos, f'{name}_tos')
     histoTisBin = buildHistoBinnedProjection(histoTis, f'{name}_tis')
     histoTotBin = buildHistoBinnedProjection(histoTot, f'{name}_tot')
     histoTistosBin = buildHistoBinnedProjection(histoTistos, f'{name}_tistos')
+    histoNotTosBin = buildHistoBinnedProjection(histoNotTos, f'{name}_not_tos')
+    histoTisNotTosBin = buildHistoBinnedProjection(
+        histoTisNotTos, f'{name}_tis_not_tos')
 
     # Generate efficiency histograms
     histoEffProjX = TEfficiency(histoTistosX, histoTosX)
     histoEffProjX.SetName(f'{name}_eff_proj_x')
-
     histoEffProjY = TEfficiency(histoTistosY, histoTosY)
     histoEffProjY.SetName(f'{name}_eff_proj_y')
-
     histoEffProjBin = TEfficiency(histoTistosBin, histoTosBin)
     histoEffProjBin.SetName(f'{name}_eff_proj_bin')
 
     histoEffProjXDir = TEfficiency(histoTisX, histoTotX)
     histoEffProjXDir.SetName(f'{name}_eff_proj_x_dir')
-
     histoEffProjYDir = TEfficiency(histoTisY, histoTotY)
     histoEffProjYDir.SetName(f'{name}_eff_proj_y_dir')
-
     histoEffProjBinDir = TEfficiency(histoTisBin, histoTotBin)
     histoEffProjBinDir.SetName(f'{name}_eff_proj_bin_dir')
+
+    histoEffProjXNotTos = TEfficiency(histoTisNotTosX, histoNotTosX)
+    histoEffProjXNotTos.SetName(f'{name}_eff_proj_x_not_tos')
+    histoEffProjYNotTos = TEfficiency(histoTisNotTosY, histoNotTosY)
+    histoEffProjYNotTos.SetName(f'{name}_eff_proj_y_not_tos')
+    histoEffProjBinNotTos = TEfficiency(histoTisNotTosBin, histoNotTosBin)
+    histoEffProjBinNotTos.SetName(f'{name}_eff_proj_bin_not_tos')
 
     ntpOut = TFile.Open(ntpOutName, NTP_WRT_MODE)
     ntpOut.cd()
     histoTot.Write()
     histoTos.Write()
     histoTistos.Write()
+    histoNotTos.Write()
+    histoTisNotTos.Write()
+
     histoTosBin.Write()
     histoTistosBin.Write()
+    histoTisNotTosBin.Write()
 
     histoEffProjX.Write()
     histoEffProjY.Write()
@@ -204,6 +229,9 @@ def buildHisto(ntpInName, ntpOutName, bin_spec, name, x='b0_PZ', y='b0_PT',
     histoEffProjXDir.Write()
     histoEffProjYDir.Write()
     histoEffProjBinDir.Write()
+    histoEffProjXNotTos.Write()
+    histoEffProjYNotTos.Write()
+    histoEffProjBinNotTos.Write()
 
 
 # Rename the trigger efficiency from real data & write in a new file
