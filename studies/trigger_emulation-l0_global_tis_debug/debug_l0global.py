@@ -117,7 +117,7 @@ def buildHistoFromHisto(ntpInName, ntpOutName, histoName, name,
 
 
 def buildHisto(ntpInName, ntpOutName, bin_spec, name, x='b0_PZ', y='b0_PT',
-               particle='b0', treeName='TupleB0/DecayTree'):
+               particle='b0', treeName='TupleB0/DecayTree', spdCut=True):
     xbins, ybins = bin_spec
 
     # Need to convert bin boundaries to C++ arrays
@@ -153,6 +153,11 @@ def buildHisto(ntpInName, ntpOutName, bin_spec, name, x='b0_PZ', y='b0_PT',
         brY = Log(getattr(event, y))
         brTis = getattr(event, tis)
         brTos = getattr(event, tos)
+        brSpd = getattr(event, 'NumSPDHits')
+
+        # Apply a global nSPDhits cut
+        if spdCut and brSpd >= 450:
+            continue
 
         histoTot.Fill(brX, brY)
 
