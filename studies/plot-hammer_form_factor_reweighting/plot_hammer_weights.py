@@ -95,13 +95,13 @@ def plotNoComp(ntpIn, br, output, label, xlabel, cut,
 
 def plotComp(ntpIn, br, output, title, xlabel, cut,
              normalize=True, wtBr='wff', xRange=None,
-             labels=['ISGW2', 'BLR']):
+             labels=['ISGW2', 'BLR'], yscale='linear'):
     labels = ' '.join([f'"{i}"' for i in labels])
     weights = ' '.join(['None', wtBr])
     cmd = fr'''
         plotbr -n {ntpIn}/tree -b {br} {br} -o {output} --labels {labels} -XL "{xlabel}" \
         --cuts "{cut}" "{cut}" --weights {weights} \
-        --title "{title}"'''
+        --title "{title}" --yscale {yscale}'''
 
     if normalize:
         cmd += ' --normalize -YL "Normalized"'
@@ -115,6 +115,15 @@ def plotComp(ntpIn, br, output, title, xlabel, cut,
 
 q2Min = arange(0, 8, 0.1)
 q2Max = q2Min + 0.1
+
+plotRange = {
+    230: (2150, 3150)
+}
+
+
+debugMode = len(sys.argv) == 1
+print(f'Running in debug mode or not: {debugMode}')
+
 
 for ntpName in ntpsIn:
     plotCommonName = plotBaseName(ntpName)
@@ -154,6 +163,9 @@ for ntpName in ntpsIn:
         for qLow, qHigh in zip(q2Min, q2Max):
             labelTmp = label + fr', \${qLow:.1f} < q^2_{{true}} < {qHigh:.1f}$ GeV\$^2$'
 
+            if p in plotRange:
+                xMin, xMax = plotRange[p]
+
             sel = AND(AND(tm == p, q2_true > qLow), q2_true < qHigh)
             pNum = weight[sel].size
             pWeight = weight[sel].sum()
@@ -169,4 +181,7 @@ for ntpName in ntpsIn:
                      subplotCommonName+f'_ff_d_mass_{qLow:.1f}_{qHigh:.1f}.png',
                      labelTmp, fr'\${findDss(p)}$ true mass [MeV\$^2$]',
                      f'truthmatch == {p} & q2_true > {qLow} & q2_true < {qHigh}',
-                     labels=labels, xRange=[xMin, xMax])
+                     labels=labels, xRange=[xMin, xMax], yscale='log')
+
+            if debugMode:
+                sys.exit(1)
