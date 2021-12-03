@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Nov 29, 2021 at 12:35 AM +0100
+# Last Change: Fri Dec 03, 2021 at 11:57 PM +0100
 
 import sys
 import os
@@ -367,8 +367,7 @@ JOBS = {
         '../postprocess/ref-rdx-run1/ref-rdx-run1-D0.yml',
         use_ubdt=False,
         output_ntp_name_gen=parse_step2_name,
-        executor=executor,
-        directive_override={'one_cand_only/enable': 'false'}
+        executor=executor
     ),
 }
 

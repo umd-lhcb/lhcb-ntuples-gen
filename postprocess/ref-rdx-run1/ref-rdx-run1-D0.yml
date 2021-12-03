@@ -1,32 +1,6 @@
-headers:
-    user:
-        - functor/rdx/cut.h
-        - functor/rdx/skims.h
-        - functor/rdx/kinematic.h
-        - functor/basic.h
-
-keep:
-    # For event matching
-    - runNumber
-    - eventNumber
-
-rename:
-    # General
-    Polarity: polarity
-    runNumber: run
-    eventNumber: event
-    # L0
-    YTIS: b_l0_global_tis
-    YTOS: d0_l0_hadron_tos
-    L0: mu_l0_global_tis
-    # HLT1
-    Hlt1K: k_hlt1_tos
-    Hlt1TAL0K: k_hlt1_trackalll0_tos
-    Hlt1pi: pi_hlt1_tos
-    Hlt1TAL0pi: pi_hlt1_trackalll0_tos
-    # HLT2
-    Hlt2: d0_hlt2_tos  # The full Hlt2 trigger name is 'Hlt2CharmHadD02HH_D02KPiDecision'
-
+# This YAML is for Phoebe's step-1 and step-1.5 D* ntuples.
+# After postprocessing, the ntuple should be mostly identical to our step-2.
+#
 # NOTE: We don't have these branches in Phoebe's step 2:
 #       k_ip_chi2, pi_ip_chi2 (*_IPCHI2_OWNPV):
 #           All events in the step 2 pass ip_chi2 selection
@@ -41,6 +15,34 @@ rename:
 #       Missing all momentum components!
 #       b_endvtx_ndof (Y_ENDVERTEX_NDOF):
 #           All events in the step 2 pass CHI2/NDOF selection
+
+headers:
+    user:
+        - functor/rdx/cut.h
+        - functor/rdx/skims.h
+        - functor/rdx/kinematic.h
+        - functor/rdx/flag.h
+        - functor/basic.h
+
+keep:
+    # For event matching
+    - runNumber
+    - eventNumber
+
+rename:
+    # General
+    Polarity: polarity
+    runNumber: run
+    eventNumber: event
+    # L0, step-1.5
+    YTIS: b_l0_global_tis
+    YTOS: d0_l0_hadron_tos
+    L0: mu_l0_global_tis
+    # HLT1, step-1.5
+    Hlt1TAL0K: k_hlt1_tal0_tos
+    Hlt1TAL0pi: pi_hlt1_tal0_tos
+    # HLT2, step-1.5
+    Hlt2: d0_hlt2_tos  # The full Hlt2 trigger name is 'Hlt2CharmHadD02HH_D02KPiDecision'
 
 calculation:
     # For pseudo-random sequence generation
@@ -61,12 +63,12 @@ calculation:
     iso_chrg1: int; TO_TYPE(iso_CHARGE, 1)
     iso_chrg2: int; TO_TYPE(iso_CHARGE2, 1)
     # Kinematic
-    iso_p1: float; iso_P
-    iso_p2: float; iso_P2
-    iso_p3: float; iso_P3
-    iso_pt1: float; iso_PT
-    iso_pt2: float; iso_PT2
-    iso_pt3: float; iso_PT3
+    iso_p1: float; GEV(iso_P); GEV(MAG(Y_ISOLATION_PX, Y_ISOLATION_PY, Y_ISOLATION_PZ))
+    iso_p2: float; GEV(iso_P2); GEV(MAG(Y_ISOLATION_PX2, Y_ISOLATION_PY2, Y_ISOLATION_PZ2))
+    iso_p3: float; GEV(iso_P3); GEV(MAG(Y_ISOLATION_PX3, Y_ISOLATION_PY3, Y_ISOLATION_PZ3))
+    iso_pt1: float; GEV(iso_PT); GEV(MAG(Y_ISOLATION_PX, Y_ISOLATION_PY))
+    iso_pt2: float; GEV(iso_PT2); GEV(MAG(Y_ISOLATION_PX2, Y_ISOLATION_PY2))
+    iso_pt3: float; GEV(iso_PT3); GEV(MAG(Y_ISOLATION_PX3, Y_ISOLATION_PY3))
     # Track types
     iso_type1: int; TO_TYPE(iso_Type, 1)
     iso_type2: int; TO_TYPE(iso_Type2, 1)
@@ -83,11 +85,11 @@ calculation:
     # Kinematic variables #
     #######################
     # B
-    b_m: double; GEV(Y_M)
+    b_m: double; Y_M
     b_p: double; GEV(Y_P)
     b_pt: double; GEV(Y_PT)
     # D0
-    d0_m: double; GEV(D0_M)
+    d0_m: double; D0_M
     d0_p: double; GEV(D0_P)
     d0_pt: double; GEV(D0_PT)
     d0_dst_veto_deltam: double; MIN(ABS(DeltaM-145.454), ABS(DeltaM2-145.454))  # MeV!
@@ -105,16 +107,18 @@ calculation:
     # PID variables #
     #################
     # D0
-    d0_id: int; D0_ID; SIGN(dst_id)*421  # Faked from D* ID
+    d0_id: int; D0_ID;
     # K
+    k_is_mu: bool; muVeto
     k_pid_k: double; KPID
     # Pi
+    pi_is_mu: bool; muVeto
     pi_pid_k: double; piPID
     # Mu
     mu_is_mu: bool; mu_is
     mu_pid_mu: double; DLLmu
     mu_pid_e: double; DLLe
-    mu_ubdt: float; BDTmu  # Greg's Mu UBDT PID
+    mu_ubdt: float; BDTmu; 0.0  # Greg's Mu UBDT PID
 
     ######################
     # Tracking variables #
@@ -138,7 +142,7 @@ calculation:
     pi_gh_prob: ^double; 0.0
     pi_ip_chi2: ^double; 100.0
     # Mu
-    mu_gh_prob: double; GhostProb
+    mu_gh_prob: double; 0.0
     mu_ip_chi2: double; muIPCHI2
     mu_eta: double; mu_ETA
 
@@ -147,40 +151,40 @@ calculation:
     ###################
     # Misc.
     is_data: bool; isData
-    is_std: "bool; is_data && DstIDprod > 0 && IDprod > 0; is_data"
+    is_std: bool; is_data
     is_2011: bool; flag2011
 
     # Trigger
-    l0: "bool; mu_l0_global_tis && (b_l0_global_tis || d0_l0_hadron_tos)"
-    hlt1: "bool; k_hlt1_trackalll0_tos || pi_hlt1_trackalll0_tos"
-    hlt2: "bool; d0_hlt2_tos"
+    l0: bool; mu_l0_global_tis && (b_l0_global_tis || d0_l0_hadron_tos)
+    hlt1: bool; k_hlt1_tal0_tos || pi_hlt1_tal0_tos
+    hlt2: bool; d0_hlt2_tos
 
     # D0 selection
-    d0_pid_ok: bool; FLAG_SEL_D0_PID_OK_RUN1(k_pid_k, pi_pid_k, muVeto, muVeto)
+    d0_pid_ok: bool; FLAG_SEL_D0_PID_OK_RUN1(k_pid_k, pi_pid_k, k_is_mu, pi_is_mu)
     d0_ok: >-
         bool; FLAG_SEL_D0_RUN1(
         d0_pid_ok,
-        K_PT, pi_PT, K_P, pi_P,
-        k_hlt1_trackalll0_tos, pi_hlt1_trackalll0_tos,
+        k_pt*1000, pi_pt*1000,
+        k_hlt1_tal0_tos, pi_hlt1_tal0_tos,
         k_ip_chi2, pi_ip_chi2,
         k_gh_prob, pi_gh_prob,
-        D0_PT,
+        d0_pt*1000,
         d0_hlt2_tos,
         d0_endvtx_chi2, d0_endvtx_ndof,
         d0_ip, d0_ip_chi2,
         d0_dira,
         d0_fd_chi2,
-        D0_M
+        d0_m
         )
 
     # Mu selection
-    trks_ok: "^bool; true"
+    trks_ok: ^bool; true
     mu_pid_ok: bool; FLAG_SEL_MU_PID_OK_RUN1(mu_is_mu, mu_pid_mu, mu_pid_e)
-    mu_ubdt_ok: bool; FLAG_SEL_MU_UBDT_OK_RUN1(mu_ubdt)
+    mu_ubdt_ok: bool; IF_VAR_EXISTS(cli_fewer_cuts, true); mu_ubdt > 0.25
     mu_ok: >-
         bool; FLAG_SEL_MU_RUN1(
         trks_ok, mu_pid_ok,
-        mu_P, mu_eta,
+        mu_p*1000, mu_eta,
         mu_ip_chi2, mu_gh_prob
         )
 
@@ -191,23 +195,25 @@ calculation:
         b_endvtx_chi2, b_endvtx_ndof,
         b_fd_trans,
         b_dira,
-        Y_M,
-        Mmu2pi, D0_M,
+        b_m,
+        Mmu2pi, d0_m,
         d0_dst_veto_deltam
         )
 
     # Skims
-    is_iso: bool; FLAG_ISO(mu_ubdt_ok, iso_bdt1)
+    iso_pre_ok: ^bool; mu_ubdt_ok && ISOnum == 0;
+    anti_iso_pre_ok: ^bool; mu_ubdt_ok && AntiISOnum == 0
+    is_iso: bool; FLAG_ISO(iso_pre_ok, iso_bdt1)
     is_dd: >-
         bool; FLAG_DD(
-        mu_ubdt_ok,
+        anti_iso_pre_ok,
         iso_bdt1, iso_bdt2, iso_bdt2, iso_type1, iso_type2, iso_type3,
         iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
         iso_nnk1, iso_nnk2, iso_nnk3
         )
     is_2os: >-
         bool; FLAG_2OS(
-        mu_ubdt_ok,
+        anti_iso_pre_ok,
         iso_bdt1, iso_bdt2, iso_bdt3, iso_type1, iso_type2,
         iso_p1, iso_p2, iso_pt1, iso_pt2,
         iso_chrg1, iso_chrg2,
@@ -215,7 +221,7 @@ calculation:
         )
     is_1os: >-
         bool; FLAG_1OS(
-        mu_ubdt_ok,
+        anti_iso_pre_ok,
         iso_bdt1, iso_bdt2, iso_type1,
         iso_p1, iso_pt1,
         iso_chrg1,
@@ -223,29 +229,39 @@ calculation:
         d0_id
         )
 
+    ###############
+    # Global cuts #
+    ###############
+    # These are defined so that we can turn them on/off with external variables
+    # supplied in babymaker cli arguments
+    trg_ok: bool; cli_cutflow; l0 && hlt1 && hlt2
+    global_cut_ok: bool; cli_cutflow; d0mu_ok
+    weight_ok: >-
+        ^bool; IF_VAR_EXISTS(cli_fewer_cuts, true);
+        reweighting_69_gen3_pt2 >= 0.01 && reweighting_89_gen3_pt2 >= 0.01
+
 global_selection:
-    # Trigger
-    - l0
-    - hlt1
-    - hlt2
+    - trg_ok
+    - global_cut_ok
     # Cuts on fit variables
-    - "-2.0 <= mm2 && mm2 <= 10.0"
-    - "0.1 <= el && el <= 2.5"
-    - "-0.4 <= q2 && q2 <= 12.6"
+    - IN_RANGE(mm2, -2.0, 10.9)
+    - IN_RANGE(el, 0.1, 2.65)
+    - IN_RANGE(q2, -0.4, 12.6)
+    - weight_ok
 
 one_cand_only:
-    enable: true
+    enable: false
     branch: calculation_prs_in
 
 output:
-    Dst_data:
-        input: ntp1
-        selection:
-            - is_std  # Signature for 'std' reconstruction mode
-            - dstmu_ok
-
     D0_data:
         input: ntp1
         selection:
+            - is_std  # Signature for 'std' reconstruction mode
+
+    D0_data_2011_md:
+        input: ntp1
+        selection:
             - is_std
-            - d0mu_ok
+            - is_2011
+            - polarity < 0
