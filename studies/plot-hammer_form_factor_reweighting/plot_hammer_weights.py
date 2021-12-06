@@ -9,6 +9,7 @@ import os
 import sys
 import uproot
 import numpy as np
+import mplhep as hep
 
 from os.path import isdir, basename
 from glob import glob
@@ -182,6 +183,8 @@ print(f'Running in debug mode or not: {debugMode}')
 
 
 for ntpName in ntpsIn:
+    hep.style.use('LHCb2')
+
     plotCommonName = plotBaseName(ntpName)
 
     ntp = uproot.open(ntpName)
@@ -217,7 +220,7 @@ for ntpName in ntpsIn:
                  f'truthmatch == {p}', labels=labels, xRange=[xMin, xMax])
 
         for qLow, qHigh in zip(q2Min, q2Max):
-            labelTmp = label + fr', \${qLow:.1f} < q^2_{{true}} < {qHigh:.1f}$ GeV\$^2$'
+            labelTmp = fr'$B \rightarrow {findDss(p)} {findLep(p)}$, ${qLow:.1f} < q^2_{{true}} < {qHigh:.1f}$ GeV$^2$'
 
             if p in plotRange:
                 xMin, xMax = plotRange[p]
@@ -237,7 +240,7 @@ for ntpName in ntpsIn:
                 subplotCommonName+f'_ff_d_mass_{qLow:.1f}_{qHigh:.1f}.png'
             print(f'Generating {filename}...')
             plotRaw(mass[sel], weight[sel], filename,
-                    labelTmp, fr'\${findDss(p)}$ true mass [MeV\$^2$]',
+                    labelTmp, fr'${findDss(p)}$ true mass [MeV$^2$]',
                     xRange=[xMin, xMax], labels=labels)
 
             if debugMode:
