@@ -39,6 +39,7 @@ rename:
     YTOS: d0_l0_hadron_tos
     L0: mu_l0_global_tis
     # HLT1, step-1.5
+    Hlt1: d0_hlt1_phys_tos
     Hlt1TAL0K: k_hlt1_tal0_tos
     Hlt1TAL0pi: pi_hlt1_tal0_tos
     # HLT2, step-1.5
@@ -151,12 +152,12 @@ calculation:
     ###################
     # Misc.
     is_data: bool; isData
-    is_std: bool; is_data
+    is_std: bool; is_data && IDprod > 0
     is_2011: bool; flag2011
 
     # Trigger
     l0: bool; mu_l0_global_tis && (b_l0_global_tis || d0_l0_hadron_tos)
-    hlt1: bool; k_hlt1_tal0_tos || pi_hlt1_tal0_tos
+    hlt1: bool; (k_hlt1_tal0_tos || pi_hlt1_tal0_tos) && d0_hlt1_phys_tos
     hlt2: bool; d0_hlt2_tos
 
     # D0 selection
@@ -242,7 +243,13 @@ calculation:
 
 global_selection:
     - trg_ok
-    - global_cut_ok
+    #- global_cut_ok
+    - d0_ok
+    - '!muVeto && DLLe < 1.0 && BDTmu > 0.25'
+    - 'mu_P > 3.0e3 && mu_P < 100.0e3 && muPID > 0 && DstVeto'  # Mu, there's a muAccVeto that kills 3% of evt but get commented out
+    - 'dxy < 7.0 && Y_M < 5200.0 && TMath::Abs(D0_M - 1864.6) < 23.4'
+    - 'Mmu2pi - D0_M - 145.454 > 4.0'
+    - 'Mmu2pi - D0_M > 165.0'  # D0 mass hypothesis test and D0Mu combo cuts
     # Cuts on fit variables
     - IN_RANGE(mm2, -2.0, 10.9)
     - IN_RANGE(el, 0.1, 2.65)

@@ -14,7 +14,13 @@ from os.path import isdir, basename
 from glob import glob
 from numpy import logical_and as AND
 from numpy import arange
+
 from pyTuplingUtils.io import read_branch
+from pyTuplingUtils.utils import gen_histo
+from pyTuplingUtils.plot import (
+    plot_step, plot_fill, plot_top,
+    ax_add_args_step, ax_add_args_fill
+)
 
 
 ###########
@@ -113,6 +119,56 @@ def plotComp(ntpIn, br, output, title, xlabel, cut,
     runCmd(cmd)
 
 
+def plotRaw(br, wt, output, title, xlabel,
+            normalize=True, xRange=None,
+            labels=['ISGW2', 'BLR'], yscale='log',
+            colors=['black', 'crimson']):
+    # Generated the unweighted histo
+    histoOrig, bins = gen_histo(br, bins=25, data_range=xRange)
+    errOrig = np.sqrt(histoOrig)
+    intvOrig = (histoOrig - errOrig, histoOrig + errOrig)
+
+    # Compute the weighted Poisson variance
+    binIdx = np.digitize(wt, bins)
+    histoWt, _ = gen_histo(br, bins=25, data_range=xRange, weights=wt)
+    errWt = []
+    for i in range(1, len(bins)):
+        binErr = np.sqrt(np.sum(np.power(wt[binIdx == i], 2)))
+        errWt.append(binErr)
+    errWt = np.array(errWt)
+    intvWt = (histoWt - errWt, histoWt + errWt)
+
+    # Prepare for plot
+    top_plotters = []
+
+    stepArgsOrig = ax_add_args_step(labels[0], colors[0])
+    top_plotters.append(
+        lambda fig, ax, b=bins, h=histoOrig, add=stepArgsOrig:
+        plot_step(b, h, add, figure=fig, axis=ax, show_legend=False))
+
+    errArgsOrig = ax_add_args_fill(colors[0], alpha=0.4)
+    top_plotters.append(
+        lambda fig, ax, b=bins, y=intvOrig, add=errArgsOrig:
+        plot_fill(b, y, add, figure=fig, axis=ax, show_legend=False))
+
+    stepArgsWt = ax_add_args_step(labels[1], colors[1])
+    top_plotters.append(
+        lambda fig, ax, b=bins, h=histoWt, add=stepArgsWt:
+        plot_step(b, h, add, figure=fig, axis=ax, show_legend=False))
+
+    errArgsWt = ax_add_args_fill(colors[1], alpha=0.4)
+    top_plotters.append(
+        lambda fig, ax, b=bins, y=intvWt, add=errArgsWt:
+        plot_fill(b, y, add, figure=fig, axis=ax, show_legend=False))
+
+    # Plot
+    ylabel = 'Normalized' if normalize else 'Number of events'
+
+    fig, *_ = plot_top(top_plotters, title=title, xlabel=xlabel, ylabel=ylabel,
+                       yscale=yscale)
+    fig.savefig(output)
+
+
 q2Min = arange(0, 8, 0.1)
 q2Max = q2Min + 0.1
 
@@ -177,11 +233,12 @@ for ntpName in ntpsIn:
             if pNum == 0:
                 continue
 
-            plotComp(ntpName, 'ff_d_mass',
-                     subplotCommonName+f'_ff_d_mass_{qLow:.1f}_{qHigh:.1f}.png',
-                     labelTmp, fr'\${findDss(p)}$ true mass [MeV\$^2$]',
-                     f'truthmatch == {p} & q2_true > {qLow} & q2_true < {qHigh}',
-                     labels=labels, xRange=[xMin, xMax], yscale='log')
+            filename = \
+                subplotCommonName+f'_ff_d_mass_{qLow:.1f}_{qHigh:.1f}.png'
+            print(f'Generating {filename}...')
+            plotRaw(mass[sel], weight[sel], filename,
+                    labelTmp, fr'\${findDss(p)}$ true mass [MeV\$^2$]',
+                    xRange=[xMin, xMax], labels=labels)
 
             if debugMode:
                 sys.exit(1)
