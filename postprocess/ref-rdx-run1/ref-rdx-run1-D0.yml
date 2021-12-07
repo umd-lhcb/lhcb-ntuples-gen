@@ -93,7 +93,7 @@ calculation:
     d0_m: double; D0_M
     d0_p: double; GEV(D0_P)
     d0_pt: double; GEV(D0_PT)
-    d0_dst_veto_deltam: double; MIN(ABS(DeltaM-145.454), ABS(DeltaM2-145.454))  # MeV!
+    d0_dst_veto_deltam: double; MIN(ABS(DeltaM-145.45), ABS(DeltaM2-145.45))  # MeV!
     # K
     k_p: double; GEV(K_P)
     k_pt: double; GEV(K_PT)
@@ -243,13 +243,7 @@ calculation:
 
 global_selection:
     - trg_ok
-    #- global_cut_ok
-    - d0_ok
-    - '!muVeto && DLLe < 1.0 && BDTmu > 0.25'
-    - 'mu_P > 3.0e3 && mu_P < 100.0e3 && muPID > 0 && DstVeto'  # Mu, there's a muAccVeto that kills 3% of evt but get commented out
-    - 'dxy < 7.0 && Y_M < 5200.0 && TMath::Abs(D0_M - 1864.6) < 23.4'
-    - 'Mmu2pi - D0_M - 145.454 > 4.0'
-    - 'Mmu2pi - D0_M > 165.0'  # D0 mass hypothesis test and D0Mu combo cuts
+    - global_cut_ok
     # Cuts on fit variables
     - IN_RANGE(mm2, -2.0, 10.9)
     - IN_RANGE(el, 0.1, 2.65)
