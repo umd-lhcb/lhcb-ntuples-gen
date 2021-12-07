@@ -121,21 +121,37 @@ def plotComp(ntpIn, br, output, title, xlabel, cut,
     runCmd(cmd)
 
 
+def findNormFac(br, wt=None, bins=25, xRange=None):
+    wt = np.ones(br.size) if wt is None else wt
+    histo, _ = gen_histo(br, bins=bins, data_range=xRange, weights=wt)
+    histoNorm, _ = gen_histo(br, bins=bins, data_range=xRange, weights=wt,
+                             density=True)
+    return np.sum(histo) / np.sum(histoNorm)
+
+
 def plotRaw(br, wt, output, title, xlabel,
             normalize=True, xRange=None,
             labels=['ISGW2', 'BLR'], yscale='log',
             colors=['black', 'crimson']):
     # Generated the unweighted histo
-    histoOrig, bins = gen_histo(br, bins=25, data_range=xRange)
-    errOrig = np.sqrt(histoOrig)
+    histoOrig, bins = gen_histo(br, bins=25, data_range=xRange,
+                                density=normalize)
+    binIdx = np.digitize(br, bins)
+    errOrig = []
+    normFacOrig = findNormFac(br, xRange=xRange) if normalize else 1
+    for i in range(1, len(bins)):
+        binErr = np.sqrt(br[binIdx == i].size) / normFacOrig
+        errOrig.append(binErr)
+    errOrig = np.array(errOrig)
     intvOrig = (histoOrig - errOrig, histoOrig + errOrig)
 
     # Compute the weighted Poisson variance
-    binIdx = np.digitize(br, bins)
-    histoWt, _ = gen_histo(br, bins=25, data_range=xRange, weights=wt)
+    histoWt, _ = gen_histo(br, bins=25, data_range=xRange, weights=wt,
+                           density=normalize)
     errWt = []
+    normFacWt = findNormFac(br, wt, xRange=xRange) if normalize else 1
     for i in range(1, len(bins)):
-        binErr = np.sqrt(np.sum(np.power(wt[binIdx == i], 2)))
+        binErr = np.sqrt(np.sum(np.power(wt[binIdx == i], 2))) / normFacWt
         errWt.append(binErr)
     errWt = np.array(errWt)
     intvWt = (histoWt - errWt, histoWt + errWt)
