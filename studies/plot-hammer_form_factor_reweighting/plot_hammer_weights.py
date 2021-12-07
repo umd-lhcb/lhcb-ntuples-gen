@@ -131,7 +131,7 @@ def plotRaw(br, wt, output, title, xlabel,
     intvOrig = (histoOrig - errOrig, histoOrig + errOrig)
 
     # Compute the weighted Poisson variance
-    binIdx = np.digitize(wt, bins)
+    binIdx = np.digitize(br, bins)
     histoWt, _ = gen_histo(br, bins=25, data_range=xRange, weights=wt)
     errWt = []
     for i in range(1, len(bins)):
