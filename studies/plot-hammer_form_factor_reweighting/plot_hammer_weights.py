@@ -129,31 +129,31 @@ def findNormFac(br, wt=None, bins=25, xRange=None):
     return np.sum(histo) / np.sum(histoNorm)
 
 
+def findErr(br, binBdy, wt=None, xRange=None, normalize=True):
+    binIdx = np.digitize(br, binBdy)
+    wt = np.ones(br.size) if wt is None else wt
+
+    normFac = findNormFac(br, wt, len(binBdy)-1, xRange) if normalize else 1
+    err = []
+    for i in range(1, len(binBdy)):
+        binErr = np.sqrt(np.sum(np.power(wt[binIdx == i], 2))) / normFac
+        err.append(binErr)
+    return np.array(err)
+
+
 def plotRaw(br, wt, output, title, xlabel,
-            normalize=True, xRange=None,
-            labels=['ISGW2', 'BLR'], yscale='log',
+            normalize=True, xRange=None, labels=['ISGW2', 'BLR'], yscale='log',
             colors=['black', 'crimson']):
     # Generated the unweighted histo
     histoOrig, bins = gen_histo(br, bins=25, data_range=xRange,
                                 density=normalize)
-    binIdx = np.digitize(br, bins)
-    errOrig = []
-    normFacOrig = findNormFac(br, xRange=xRange) if normalize else 1
-    for i in range(1, len(bins)):
-        binErr = np.sqrt(br[binIdx == i].size) / normFacOrig
-        errOrig.append(binErr)
-    errOrig = np.array(errOrig)
+    errOrig = findErr(br, bins, None, xRange, normalize)
     intvOrig = (histoOrig - errOrig, histoOrig + errOrig)
 
     # Compute the weighted Poisson variance
     histoWt, _ = gen_histo(br, bins=25, data_range=xRange, weights=wt,
                            density=normalize)
-    errWt = []
-    normFacWt = findNormFac(br, wt, xRange=xRange) if normalize else 1
-    for i in range(1, len(bins)):
-        binErr = np.sqrt(np.sum(np.power(wt[binIdx == i], 2))) / normFacWt
-        errWt.append(binErr)
-    errWt = np.array(errWt)
+    errWt = findErr(br, bins, wt, xRange, normalize)
     intvWt = (histoWt - errWt, histoWt + errWt)
 
     # Prepare for plot
