@@ -196,7 +196,7 @@ calculation:
     # Misc.
     is_data: bool; isData; true
     is_std: bool; is_data && DstIDprod > 0 && IDprod > 0; true
-    is_2011: bool; flag2011; true
+    is_2011: bool; flag2011
 
     # Trigger
     l0: bool; mu_l0_global_tis && (b0_l0_global_tis || d0_l0_hadron_tos)

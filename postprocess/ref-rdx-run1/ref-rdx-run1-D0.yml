@@ -173,13 +173,12 @@ calculation:
     mu_ip_chi2: double; muIPCHI2; muplus_IPCHI2_OWNPV
     mu_eta: double; mu_ETA; ETA(muplus_P, muplus_PZ)
 
-
     ###################
     # Selection flags #
     ###################
     # Misc.
-    is_data: bool; isData
-    is_std: bool; is_data && IDprod > 0
+    is_data: bool; isData; true
+    is_std: bool; is_data && IDprod > 0; true
     is_2011: bool; flag2011
 
     # Trigger
@@ -206,7 +205,11 @@ calculation:
         )
 
     # Mu selection
-    trks_ok: ^bool; true
+    trk_mu:  ^XYZVector; XYZVector(muplus_PX, muplus_PY, muplus_PZ)
+    trk_k:   ^XYZVector; XYZVector(Kplus_PX, Kplus_PY, Kplus_PZ)
+    trk_pi:  ^XYZVector; XYZVector(piminus0_PX, piminus0_PY, piminus0_PZ)
+    trks_other: ^vector<XYZVector>; BUILD_VEC(trk_k, trk_pi)
+    trks_ok: bool; FLAG_SEL_GOOD_TRACKS(trk_mu, trks_other); true
     mu_pid_ok: bool; FLAG_SEL_MU_PID_OK_RUN1(mu_is_mu, mu_pid_mu, mu_pid_e)
     mu_ubdt_ok: bool; IF_VAR_EXISTS(cli_fewer_cuts, true); mu_ubdt > 0.25
     mu_ok: >-
@@ -218,7 +221,8 @@ calculation:
 
     # D0Mu combo selection
     d0mu_ok: >-
-        bool; FLAG_SEL_BMINUSD0_RUN1(
+        bool;
+        FLAG_SEL_BMINUSD0_RUN1(
         d0_ok, mu_ok,
         b_endvtx_chi2, b_endvtx_ndof,
         b_fd_trans,
@@ -226,11 +230,21 @@ calculation:
         b_m,
         Mmu2pi, d0_m,
         d0_dst_veto_deltam
+        );
+        FLAG_SEL_BMINUSD0_RUN1(
+        d0_ok, mu_ok,
+        b_endvtx_chi2, b_endvtx_ndof,
+        b_fd_trans,
+        b_dira,
+        b_m,
+        muplus_PX, muplus_PY, muplus_PZ,
+        D0_PX, D0_PY, D0_PZ, d0_m,
+        d0_dst_veto_deltam
         )
 
     # Skims
-    iso_pre_ok: ^bool; mu_ubdt_ok && ISOnum == 0;
-    anti_iso_pre_ok: ^bool; mu_ubdt_ok && AntiISOnum == 0
+    iso_pre_ok: ^bool; mu_ubdt_ok && ISOnum == 0; mu_ubdt_ok
+    anti_iso_pre_ok: ^bool; mu_ubdt_ok && AntiISOnum == 0; mu_ubdt_ok
     is_iso: bool; FLAG_ISO(iso_pre_ok, iso_bdt1)
     is_dd: >-
         bool; FLAG_DD(
@@ -293,3 +307,6 @@ output:
             - is_std
             - '!is_2011'
             - polarity < 0
+
+    D0:
+        input: YCands/DecayTree
