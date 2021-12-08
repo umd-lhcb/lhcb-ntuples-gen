@@ -146,8 +146,10 @@ calculation:
     # D0
     d0_id: int; D0_ID; SIGN(dst_id)*421  # Faked from D* ID
     # K
+    k_is_mu: bool; muVeto; Kplus_isMuon
     k_pid_k: double; KPID; Kplus_PIDK
     # Pi
+    pi_is_mu: bool; muVeto; piminus0_isMuon
     pi_pid_k: double; piPID; piminus0_PIDK
     # Mu
     mu_is_mu: bool; mu_is; muplus_isMuon
@@ -175,11 +177,9 @@ calculation:
     d0_ip: double; D0IP; D0_IP_OWNPV
     d0_ip_chi2: double; D0IPCHI2; D0_IPCHI2_OWNPV
     # K
-    k_is_mu: bool; muVeto; Kplus_isMuon
     k_gh_prob: double; Kplus_TRACK_GhostProb; 0.0
     k_ip_chi2: double; KIPCHI2; Kplus_IPCHI2_OWNPV
     # Pi
-    pi_is_mu: bool; muVeto; piminus0_isMuon
     pi_gh_prob: double; piminus0_TRACK_GhostProb; 0.0
     pi_ip_chi2: double; piIPCHI2; piminus0_IPCHI2_OWNPV
     # Slow Pi
