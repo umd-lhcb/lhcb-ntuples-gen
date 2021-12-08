@@ -116,7 +116,8 @@ def buildHistoFromHisto(ntpInName, ntpOutName, histoName, name,
     return ntpOutName
 
 
-def buildHisto(ntpInName, ntpOutName, bin_spec, name, x='b0_PZ', y='b0_PT',
+def buildHisto(ntpInName, ntpOutName, bin_spec, name,
+               x='b0_TRUEP_Z', y='b0_TRUEPT',
                particle='b0', treeName='TupleB0/DecayTree', spdCut=True,
                tosTrg='L0MuonDecision_TOS'):
     xbins, ybins = bin_spec
