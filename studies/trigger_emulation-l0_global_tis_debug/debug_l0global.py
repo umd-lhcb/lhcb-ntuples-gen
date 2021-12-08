@@ -117,7 +117,8 @@ def buildHistoFromHisto(ntpInName, ntpOutName, histoName, name,
 
 
 def buildHisto(ntpInName, ntpOutName, bin_spec, name, x='b0_PZ', y='b0_PT',
-               particle='b0', treeName='TupleB0/DecayTree', spdCut=True):
+               particle='b0', treeName='TupleB0/DecayTree', spdCut=True,
+               tosTrg='L0MuonDecision_TOS'):
     xbins, ybins = bin_spec
 
     # Need to convert bin boundaries to C++ arrays
@@ -146,7 +147,7 @@ def buildHisto(ntpInName, ntpOutName, bin_spec, name, x='b0_PZ', y='b0_PT',
     ntpIn = TFile.Open(ntpInName, 'READ')
     tree = ntpIn.Get(treeName)
     tis, tos = [f'{particle}_{i}'
-                for i in ['L0Global_TIS', 'L0MuonDecision_TOS']]
+                for i in ['L0Global_TIS', tosTrg]]
 
     for event in tree:
         brX = Log(getattr(event, x))
