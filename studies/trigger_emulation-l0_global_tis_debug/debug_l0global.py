@@ -146,7 +146,7 @@ def buildHisto(ntpInName, ntpOutName, bin_spec, name, x='b0_PZ', y='b0_PT',
     ntpIn = TFile.Open(ntpInName, 'READ')
     tree = ntpIn.Get(treeName)
     tis, tos = [f'{particle}_{i}'
-                for i in ['L0Global_TIS', 'L0HadronDecision_TOS']]
+                for i in ['L0Global_TIS', 'L0MuonDecision_TOS']]
 
     for event in tree:
         brX = Log(getattr(event, x))
