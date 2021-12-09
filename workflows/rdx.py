@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Dec 08, 2021 at 02:40 AM +0100
+# Last Change: Thu Dec 09, 2021 at 03:02 AM +0100
 
 import sys
 import os
@@ -349,6 +349,14 @@ JOBS = {
         executor=executor
         # directive_override={'one_cand_only/enable': 'false'}
     ),
+    'rdx-ntuple-run1-data-D0-comp': lambda name: workflow_data(
+        name,
+        '../ntuples/0.9.5-bugfix/Dst_D0-std/Dst_D0--21_10_07--std--LHCb_Collision11_Beam3500GeV-VeloClosed-MagDown_Real_Data_Reco14_Stripping21r1_90000000_SEMILEPTONIC.DST.root',
+        '../postprocess/ref-rdx-run1/ref-rdx-run1-D0.yml',
+        use_ubdt=False,
+        executor=executor,
+        cli_vars={'cli_fewer_cuts': 'true'}
+    ),
     'ref-rdx-ntuple-run1-data-Dst-comp': lambda name: workflow_data(
         name,
         [
@@ -372,8 +380,8 @@ JOBS = {
     'ref-rdx-ntuple-run1-data-D0-comp': lambda name: workflow_data(
         name,
         [
-            #'../ntuples/ref-rdx-run1/D0-mix/D0--21_10_21--mix--all--2011-2012--md-mu--phoebe.root',
-            '../ntuples/ref-rdx-run1/D0-std/D0--19_09_05--std--data--2012--md--phoebe.root',
+            '../ntuples/ref-rdx-run1/D0-mix/D0--21_10_21--mix--all--2011-2012--md-mu--phoebe.root',
+            # '../ntuples/ref-rdx-run1/D0-std/D0--19_09_05--std--data--2012--md--phoebe.root',
         ],
         '../postprocess/ref-rdx-run1/ref-rdx-run1-D0.yml',
         use_ubdt=False,
