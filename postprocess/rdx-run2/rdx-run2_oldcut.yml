@@ -190,6 +190,10 @@ calculation:
         SQRT(M2(
         b_TrueHadron_D0_PX, b_TrueHadron_D0_PY, b_TrueHadron_D0_PZ,
         b_TrueHadron_D0_PE))
+    ff_b_mass: >-
+        double;
+        SQRT(M2(b0_TRUEP_X, b0_TRUEP_Y, b0_TRUEP_Z, b0_TRUEP_E));
+        SQRT(M2(b_TRUEP_X, b_TRUEP_Y, b_TRUEP_Z, b_TRUEP_E))
     q2_true: double; q2_true
 
     ###################
