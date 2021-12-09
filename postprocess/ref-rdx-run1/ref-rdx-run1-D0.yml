@@ -343,6 +343,13 @@ output:
         selection:
             - is_std  # Signature for 'std' reconstruction mode
 
+    D0_data_2011_md:
+        input: ntp1
+        selection:
+            - is_std
+            - is_2011
+            - polarity < 0
+
     D0_data_2012_md:
         input: ntp1
         selection:
