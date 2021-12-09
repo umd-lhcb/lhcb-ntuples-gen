@@ -117,9 +117,9 @@ def buildHistoFromHisto(ntpInName, ntpOutName, histoName, name,
 
 
 def buildHisto(ntpInName, ntpOutName, bin_spec, name,
-               x='b0_PZ', y='b0_PT',
+               x='b0_TRUEP_Z', y='b0_TRUEPT',
                particle='b0', treeName='TupleB0/DecayTree', spdCut=True,
-               tosTrg='L0HadronDecision_TOS'):
+               tosTrg='L0MuonDecision_TOS'):
     xbins, ybins = bin_spec
 
     # Need to convert bin boundaries to C++ arrays
