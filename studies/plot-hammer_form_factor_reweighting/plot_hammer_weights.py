@@ -206,10 +206,14 @@ for ntpName in ntpsIn:
 
     ntp = uproot.open(ntpName)
     particles = findDssInNtp(ntp)
+
     weight = read_branch(ntp, 'tree', 'wff')
-    mass = read_branch(ntp, 'tree', 'ff_d_mass')
     tm = read_branch(ntp, 'tree', 'truthmatch')
-    q2_true = read_branch(ntp, 'tree', 'q2_true')
+    q2True = read_branch(ntp, 'tree', 'q2_true')
+
+    mass = read_branch(ntp, 'tree', 'ff_d_mass')
+    massB = read_branch(ntp, 'tree', 'ff_b_mass')
+    rFac = mass / massB
 
     for p in particles:
         subplotCommonName = plotCommonName + f'_{p}'
@@ -242,7 +246,7 @@ for ntpName in ntpsIn:
             if p in plotRange:
                 xMin, xMax = plotRange[p]
 
-            sel = AND(AND(tm == p, q2_true > qLow), q2_true < qHigh)
+            sel = AND(AND(tm == p, q2True > qLow), q2True < qHigh)
             pNum = weight[sel].size
             pWeight = weight[sel].sum()
             labels = [
@@ -258,6 +262,16 @@ for ntpName in ntpsIn:
             print(f'Generating {filename}...')
             plotRaw(mass[sel], weight[sel], filename,
                     labelTmp, fr'${findDss(p)}$ true mass [MeV$^2$]',
+                    xRange=[xMin, xMax], labels=labels)
+
+            # Add an additional R factor as suggested by Phoebe
+            filenameR = \
+                subplotCommonName+f'_ff_d_mass_{qLow:.1f}_{qHigh:.1f}_rfac.png'
+            print(f'Generating {filenameR}...')
+            rWt = weight[sel] * rFac[sel]
+            plotRaw(mass[sel], rWt, filenameR,
+                    labelTmp+' add. $R$ factor',
+                    fr'${findDss(p)}$ true mass [MeV$^2$]',
                     xRange=[xMin, xMax], labels=labels)
 
             if debugMode:
