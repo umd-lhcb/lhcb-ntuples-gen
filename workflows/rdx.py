@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Dec 09, 2021 at 03:02 AM +0100
+# Last Change: Tue Dec 14, 2021 at 01:43 AM +0100
 
 import sys
 import os
@@ -139,19 +139,30 @@ def workflow_trigger_emu(input_ntp,
         **kwargs)
 
 
-def workflow_pid(input_ntp, pid_histo_folder, config, **kwargs):
-    pid_histo_folder = abs_path(pid_histo_folder)
+def workflow_apply_weight(input_ntp, histo_folder, config,
+                          output_ntp, cache_suffix,
+                          **kwargs):
+    histo_folder = abs_path(histo_folder)
     config = abs_path(config)
 
     year = find_year(input_ntp)
     polarity = find_polarity(input_ntp)
 
     # This is in 'scripts' folder!
-    cmd = 'apply_histo_weight.py {} {} pid.root -c {} --year {} --polarity {}'.format(
-        input_ntp, pid_histo_folder, config, year, polarity)
+    cmd = f'apply_histo_weight.py {input_ntp} {histo_folder} {output_ntp} -c {config} --year {year} --polarity {polarity}'
     workflow_cached_ntuple(
-        cmd, input_ntp, output_ntp='pid.root', cache_suffix='__aux_pid',
+        cmd, input_ntp, output_ntp=output_ntp, cache_suffix=cache_suffix,
         **kwargs)
+
+
+def workflow_pid(input_ntp, pid_histo_folder, pid_config, **kwargs):
+    return workflow_apply_weight(input_ntp, pid_histo_folder, pid_config,
+                                 'pid.root', '__aux_pid', **kwargs)
+
+
+def workflow_trk(input_ntp, trk_histo_folder, trk_config, **kwargs):
+    return workflow_apply_weight(input_ntp, trk_histo_folder, trk_config,
+                                 'trk.root', '__aux_trk', **kwargs)
 
 
 def workflow_data_mc(job_name, inputs,
@@ -232,7 +243,9 @@ def workflow_data(job_name, inputs, input_yml,
 def workflow_mc(job_name, inputs, input_yml,
                 output_ntp_name_gen=generate_step2_name,
                 pid_histo_folder='../run2-rdx/reweight/pid/root-run2-rdx_oldcut',
-                config='../run2-rdx/reweight/pid/run2-rdx_oldcut.yml',
+                pid_config='../run2-rdx/reweight/pid/run2-rdx_oldcut.yml',
+                trk_histo_folder='../run2-rdx/reweight/tracking/root-run2-general',
+                trk_config='../run2-rdx/reweight/tracking/run2-general.yml',
                 output_fltr=rdx_default_output_fltrs,
                 **kwargs):
     subworkdirs, workdir, executor = workflow_data_mc(
@@ -253,7 +266,10 @@ def workflow_mc(job_name, inputs, input_yml,
         workflow_hammer(input_ntp, executor=executor)
 
         # Generate PID weights
-        workflow_pid(input_ntp, pid_histo_folder, config, executor=executor)
+        workflow_pid(input_ntp, pid_histo_folder, pid_config, executor=executor)
+
+        # Generate tracking weights
+        workflow_trk(input_ntp, trk_histo_folder, trk_config, executor=executor)
 
         # Generate emulated triggers
         workflow_trigger_emu(input_ntp, executor=executor)
