@@ -1,0 +1,30 @@
+trees:  # This is optional
+    - TupleB0/DecayTree
+    - TupleBminus/DecayTree
+
+config:
+    wtrk_mu:
+        histo_name: Ratio
+        particle: Any
+        vars:
+            - mu_P
+            - ETA(mu_P, mu_PZ)
+    wtrk_k:
+        histo_name: Ratio
+        particle: Any
+        vars:
+            - k_P
+            - ETA(k_P, k_PZ)
+    wtrk_pi:
+        histo_name: Ratio
+        particle: Any
+        vars:
+            - pi_P
+            - ETA(pi_P, pi_PZ)
+              #wtrk_spi:
+              #    histo_name: Ratio
+              #    particle: Any
+              #    vars:
+              #        - spi_P
+              #        - ETA(spi_P, spi_PZ)
+              #    skip_tree: [TupleBminus/DecayTree]
