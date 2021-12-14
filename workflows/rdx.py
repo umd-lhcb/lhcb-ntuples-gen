@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Dec 14, 2021 at 01:43 AM +0100
+# Last Change: Tue Dec 14, 2021 at 03:04 AM +0100
 
 import sys
 import os
@@ -274,7 +274,7 @@ def workflow_mc(job_name, inputs, input_yml,
         # Generate emulated triggers
         workflow_trigger_emu(input_ntp, executor=executor)
 
-        bm_cmd = 'babymaker -i {} -o baby.cpp -n {} -t {} -f hammer.root pid.root trg_emu.root'
+        bm_cmd = 'babymaker -i {} -o baby.cpp -n {} -t {} -f hammer.root pid.root trk.root trg_emu.root'
 
         if blocked_input_trees:
             bm_cmd += ' -B '+' '.join(blocked_input_trees)
