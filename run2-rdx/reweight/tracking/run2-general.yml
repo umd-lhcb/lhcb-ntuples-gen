@@ -21,10 +21,10 @@ config:
         vars:
             - pi_P
             - ETA(pi_P, pi_PZ)
-              #wtrk_spi:
-              #    histo_name: Ratio
-              #    particle: Any
-              #    vars:
-              #        - spi_P
-              #        - ETA(spi_P, spi_PZ)
-              #    skip_tree: [TupleBminus/DecayTree]
+    wtrk_spi:
+        histo_name: Ratio
+        skip_tree: [TupleBminus/DecayTree]
+        particle: Any
+        vars:
+            - spi_P
+            - ETA(spi_P, spi_PZ)

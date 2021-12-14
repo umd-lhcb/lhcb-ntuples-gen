@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Oct 19, 2021 at 04:57 PM +0200
+# Last Change: Tue Dec 14, 2021 at 02:58 AM +0100
 # Description: Apply weights from histos.
 
 import ROOT
@@ -30,7 +30,8 @@ DEFAULT_WT_CONFIG = {
         'mu_PT',
         'ETA(mu_P, mu_PZ)',
         'nTracks'
-    ]
+    ],
+    'skip_tree': [],
 }
 
 
@@ -219,6 +220,9 @@ if __name__ == '__main__':
         output_brs = vector('string')(['runNumber', 'eventNumber'])
 
         for br, directive in config['config'].items():
+            if tree in directive['skip_tree']:
+                continue
+
             print('  Processing {}...'.format(br))
             params = ', '.join(resolve_params(directive['vars'], idx))
 
