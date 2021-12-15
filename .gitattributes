@@ -1,12 +1,2 @@
 * text=auto
-* annex.largefiles=(largerthan=100mb)
-
-*.py annex.largefiles=nothing
-*.cpp annex.largefiles=nothing
-*.h annex.largefiles=nothing
-*.png annex.largefiles=nothing
-*.log annex.largefiles=nothing
-
-*.root annex.largefiles=(largerthan=10mb)
-
 *.png binary
