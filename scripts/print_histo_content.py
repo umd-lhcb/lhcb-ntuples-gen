@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sat Oct 16, 2021 at 02:23 AM +0200
+# Last Change: Thu Dec 16, 2021 at 12:44 AM +0100
 
 import sys
 import ROOT
@@ -61,8 +61,10 @@ def bin_info(histo, bin_idx, bin_lbl, multiline=True):
         lbl = '(O)'
     # elif bin_idx == bin_idx_max:
     #     lbl = '({:.1f}, {:.1f})'.format(bins[bin_idx-1], bins[bin_idx])
+    elif bin_idx == 1:
+        lbl = ('({:.1f},{:.1f})'.format(bins[bin_idx-1], bins[bin_idx]))
     else:
-        lbl = '({:.1f})'.format(bins[bin_idx-1])
+        lbl = '({:.1f})'.format(bins[bin_idx])
 
     fmt = '{} \n {}' if multiline else '{} {}'
 
