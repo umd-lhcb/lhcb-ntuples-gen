@@ -41,7 +41,7 @@ if not isdir(ntpInFolder):
     print('Run "make rdx-ntuple-run2-mc-dss" in project root to generate the ntuples first!')
     sys.exit(1)
 
-ntpsIn = glob(f'{ntpInFolder}/ntuple/*.root')
+ntpsIn = glob(f'{ntpInFolder}/ntuple/D0*.root')
 
 
 def findMcInfo(name):
@@ -84,6 +84,9 @@ def findDssInNtp(ntp, thresh=50000):
 # Plots #
 #########
 
+defaultBinning = 25
+
+
 def plotBaseName(ntpName):
     return '_'.join(findMcInfo(ntpName))
 
@@ -121,7 +124,7 @@ def plotComp(ntpIn, br, output, title, xlabel, cut,
     runCmd(cmd)
 
 
-def findNormFac(br, wt=None, bins=25, xRange=None):
+def findNormFac(br, wt=None, bins=defaultBinning, xRange=None):
     wt = np.ones(br.size) if wt is None else wt
     histo, _ = gen_histo(br, bins=bins, data_range=xRange, weights=wt)
     histoNorm, _ = gen_histo(br, bins=bins, data_range=xRange, weights=wt,
@@ -142,16 +145,17 @@ def findErr(br, binBdy, wt=None, xRange=None, normalize=True):
 
 
 def plotRaw(br, wt, output, title, xlabel,
-            normalize=True, xRange=None, labels=['ISGW2', 'BLR'], yscale='log',
-            colors=['black', 'crimson']):
+            normalize=True, xRange=None, xLim=None, yLim=None,
+            labels=['ISGW2', 'BLR'], yscale='log',
+            colors=['black', 'crimson'], binning=defaultBinning):
     # Generated the unweighted histo
-    histoOrig, bins = gen_histo(br, bins=25, data_range=xRange,
+    histoOrig, bins = gen_histo(br, bins=binning, data_range=xRange,
                                 density=normalize)
     errOrig = findErr(br, bins, None, xRange, normalize)
     intvOrig = (histoOrig - errOrig, histoOrig + errOrig)
 
     # Compute the weighted Poisson variance
-    histoWt, _ = gen_histo(br, bins=25, data_range=xRange, weights=wt,
+    histoWt, _ = gen_histo(br, bins=binning, data_range=xRange, weights=wt,
                            density=normalize)
     errWt = findErr(br, bins, wt, xRange, normalize)
     intvWt = (histoWt - errWt, histoWt + errWt)
@@ -183,16 +187,33 @@ def plotRaw(br, wt, output, title, xlabel,
     ylabel = 'Normalized' if normalize else 'Number of events'
 
     fig, *_ = plot_top(top_plotters, title=title, xlabel=xlabel, ylabel=ylabel,
-                       yscale=yscale)
+                       yscale=yscale, xlim=xLim, ylim=yLim)
     fig.savefig(output)
 
 
+# q2Min = arange(0.05, 8, 0.1)
 q2Min = arange(0, 8, 0.1)
 q2Max = q2Min + 0.1
+plotBinning = 75
 
-plotRange = {
-    230: (2150, 3150)
+dataRange = {
+    # 230: (2150, 3150),
+    230: (2150, 5150),
+    # 230: (2150, 3450),
 }
+# plotXRange = None
+# plotYRange = None
+# plotXRange = (2050, 3500)
+# plotYRange = (5e-6, 5e-3)
+plotXRange = (2000, 5400)
+plotYRange = (1e-6, 5e-3)
+
+particles = [
+    # 210,
+    # 220,
+    230,
+    # 240,
+]
 
 
 debugMode = len(sys.argv) == 1
@@ -205,15 +226,15 @@ for ntpName in ntpsIn:
     plotCommonName = plotBaseName(ntpName)
 
     ntp = uproot.open(ntpName)
-    particles = findDssInNtp(ntp)
+    # particles = findDssInNtp(ntp)
 
     weight = read_branch(ntp, 'tree', 'wff')
     tm = read_branch(ntp, 'tree', 'truthmatch')
     q2True = read_branch(ntp, 'tree', 'q2_true')
 
     mass = read_branch(ntp, 'tree', 'ff_d_mass')
-    massB = read_branch(ntp, 'tree', 'ff_b_mass')
-    rFac = mass / massB
+    # massB = read_branch(ntp, 'tree', 'ff_b_mass')
+    # rFac = mass / massB
 
     for p in particles:
         subplotCommonName = plotCommonName + f'_{p}'
@@ -241,10 +262,10 @@ for ntpName in ntpsIn:
                  f'truthmatch == {p}', labels=labels, xRange=[xMin, xMax])
 
         for qLow, qHigh in zip(q2Min, q2Max):
-            labelTmp = fr'$B \rightarrow {findDss(p)} {findLep(p)}$, ${qLow:.1f} < q^2_{{true}} < {qHigh:.1f}$ GeV$^2$'
+            labelTmp = fr'$B \rightarrow {findDss(p)} {findLep(p)}$, ${qLow:.2f} < q^2_{{true}} < {qHigh:.2f}$ GeV$^2$'
 
-            if p in plotRange:
-                xMin, xMax = plotRange[p]
+            if p in dataRange:
+                xMin, xMax = dataRange[p]
 
             sel = AND(AND(tm == p, q2True > qLow), q2True < qHigh)
             pNum = weight[sel].size
@@ -258,21 +279,22 @@ for ntpName in ntpsIn:
                 continue
 
             filename = \
-                subplotCommonName+f'_ff_d_mass_{qLow:.1f}_{qHigh:.1f}.png'
+                subplotCommonName+f'_ff_d_mass_{qLow:.2f}_{qHigh:.2f}.png'
             print(f'Generating {filename}...')
             plotRaw(mass[sel], weight[sel], filename,
                     labelTmp, fr'${findDss(p)}$ true mass [MeV$^2$]',
-                    xRange=[xMin, xMax], labels=labels)
+                    xRange=[xMin, xMax], xLim=plotXRange, yLim=plotYRange,
+                    labels=labels, binning=plotBinning)
 
             # Add an additional R factor as suggested by Phoebe
-            filenameR = \
-                subplotCommonName+f'_ff_d_mass_{qLow:.1f}_{qHigh:.1f}_rfac.png'
-            print(f'Generating {filenameR}...')
-            rWt = weight[sel] * rFac[sel]
-            plotRaw(mass[sel], rWt, filenameR,
-                    labelTmp+' add. $R$ factor',
-                    fr'${findDss(p)}$ true mass [MeV$^2$]',
-                    xRange=[xMin, xMax], labels=labels)
+            # filenameR = \
+            #     subplotCommonName+f'_ff_d_mass_{qLow:.1f}_{qHigh:.1f}_rfac.png'
+            # print(f'Generating {filenameR}...')
+            # rWt = weight[sel] * rFac[sel]
+            # plotRaw(mass[sel], rWt, filenameR,
+            #         labelTmp+' add. $R$ factor',
+            #         fr'${findDss(p)}$ true mass [MeV$^2$]',
+            #         xRange=[xMin, xMax], labels=labels)
 
             if debugMode:
                 sys.exit(1)
