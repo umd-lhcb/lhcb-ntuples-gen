@@ -43,26 +43,34 @@ ntpsIn = glob(f'{ntpInFolder}/ntuple/*.root')
 # Plots #
 #########
 
+def genHist2D(x, y, bins):
+    counts, *_ = np.histogram2d(x, y, bins=bins)
+    return counts
+
+
 def plotPEta(brP, brEta, output, title, binning=None,
              xlabel=r'$p$ [GeV]', ylabel=r'$\eta$',
-             rectAnchor=(5, 1.9), rectWidth=195, rectHeight=3.6):
+             rectAnchor=(5, 1.9), rectWidth=195, rectHeight=3):
     top_plotters = []
 
     # The main histo plot
-    histoArgs = ax_add_args_hist2d(binning)
+    histo = genHist2D(brP, brEta, binning)
     top_plotters.append(
-        lambda fig, ax, x=brP, y=brEta, add=histoArgs:
-        plot_hist2d(x, y, add, figure=fig, axis=ax, show_legend=False))
+        lambda fig, ax: ax.pcolormesh(
+            binning[0], binning[1], histo.T, cmap='YlOrRd')
+    )
 
     # Draw a rectangle indicating the region the efficiency covers
     top_plotters.append(
         lambda fig, ax: ax.add_patch(
             Rectangle(rectAnchor, rectWidth, rectHeight,
-                      fc='none', color='black', linewidth=2, linestyle='dashed')
-        ))
+                      fc='none', color='black', linewidth=4, linestyle='dashed')
+        )
+    )
 
     # Plot
-    fig, *_ = plot_top(top_plotters, title=title, xlabel=xlabel, ylabel=ylabel)
+    fig, ax = plot_top(top_plotters, title=title, xlabel=xlabel, ylabel=ylabel)
+    ax.set_xscale('log')
     fig.savefig(output)
 
 
