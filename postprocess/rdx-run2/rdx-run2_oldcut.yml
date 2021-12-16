@@ -11,6 +11,7 @@ keep:
     - eventNumber
     - GpsTime
     - "^wpid*"
+    - "^wtrk*"
     - "^wff"
     - ".*_tos_emu$"
     - ".*_tis_emu$"
