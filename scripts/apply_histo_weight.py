@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Dec 14, 2021 at 02:58 AM +0100
+# Last Change: Thu Dec 16, 2021 at 11:52 PM +0100
 # Description: Apply weights from histos.
 
 import ROOT
@@ -136,6 +136,12 @@ Double_t ETA(Double_t p, Double_t pz) {
 Double_t ETA(Double_t px, Double_t py, Double_t pz) {
   auto p = P(px, py, pz);
   return ETA(p, pz);
+}
+
+Double_t GUARD(Double_t val, Double_t low, Double_t high, Double_t offset=0.01) {
+  if (val <= low) return low + offset;
+  if (val >= high) return high - offset;
+  return val;
 }
 
 Int_t GET_BIN(Double_t x, TH1D* histo) {

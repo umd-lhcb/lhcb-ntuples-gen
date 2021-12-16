@@ -7,24 +7,24 @@ config:
         histo_name: Ratio
         particle: Any
         vars:
-            - mu_P
-            - ETA(mu_P, mu_PZ)
+            - GUARD(mu_P, 5000.0, 200000.0)
+            - GUARD(ETA(mu_P, mu_PZ), 1.9, 4.9)
     wtrk_k:
         histo_name: Ratio
         particle: Any
         vars:
-            - k_P
-            - ETA(k_P, k_PZ)
+            - GUARD(k_P, 5000.0, 200000.0)
+            - GUARD(ETA(k_P, k_PZ), 1.9, 4.9)
     wtrk_pi:
         histo_name: Ratio
         particle: Any
         vars:
-            - pi_P
-            - ETA(pi_P, pi_PZ)
+            - GUARD(pi_P, 5000.0, 200000.0)
+            - GUARD(ETA(pi_P, pi_PZ), 1.9, 4.9)
     wtrk_spi:
         histo_name: Ratio
         skip_tree: [TupleBminus/DecayTree]
         particle: Any
         vars:
-            - spi_P
-            - ETA(spi_P, spi_PZ)
+            - GUARD(spi_P, 5000.0, 200000.0)
+            - GUARD(ETA(spi_P, spi_PZ), 1.9, 4.9)
