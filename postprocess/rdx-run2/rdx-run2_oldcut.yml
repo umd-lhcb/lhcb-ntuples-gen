@@ -109,9 +109,11 @@ calculation:
     # slow Pi
     spi_p: double; GEV(spi_P)
     spi_pt: double; GEV(spi_PT)
+    spi_eta: double; ETA(spi_P, spi_PZ)
     # Mu
     mu_p: double; GEV(mu_P)
     mu_pt: double; GEV(mu_PT)
+    mu_eta: double; ETA(mu_P, mu_PZ)
 
     #################
     # PID variables #
