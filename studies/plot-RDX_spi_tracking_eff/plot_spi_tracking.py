@@ -2,13 +2,11 @@
 #
 # Description: Plot the P-ETA histograms for tracks that have tracking weights
 
-import os
 import sys
 import uproot
 import numpy as np
 import mplhep as hep
 
-from os.path import isdir
 from glob import glob
 from matplotlib.patches import Rectangle
 
@@ -19,11 +17,6 @@ from pyTuplingUtils.plot import plot_top
 ###########
 # Helpers #
 ###########
-
-def runCmd(cmd):
-    print('  \033[92m'+cmd+'\033[0m')
-    os.system(cmd)
-
 
 ntpInFolder = '../../gen/rdx-ntuple-run2-mc-demo'
 
