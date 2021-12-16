@@ -44,16 +44,21 @@ def genHist2D(x, y, bins):
     return counts
 
 
+def plotColorMesh(fig, ax, x, y, bins, colorbarLabel='Number of events'):
+    histo = genHist2D(x, y, bins)
+    mesh = ax.pcolormesh(bins[0], bins[1], histo.T, cmap='YlOrRd')
+    cb = fig.colorbar(mesh, ax=ax)
+    cb.set_label(colorbarLabel)
+
+
 def plotPEta(brP, brEta, output, title, binning=None,
              xlabel=r'$p$ [GeV]', ylabel=r'$\eta$',
              rectAnchor=(5, 1.9), rectWidth=195, rectHeight=3):
     top_plotters = []
 
     # The main histo plot
-    histo = genHist2D(brP, brEta, binning)
     top_plotters.append(
-        lambda fig, ax: ax.pcolormesh(
-            binning[0], binning[1], histo.T, cmap='YlOrRd')
+        lambda fig, ax: plotColorMesh(fig, ax, brP, brEta, binning)
     )
 
     # Draw a rectangle indicating the region the efficiency covers
