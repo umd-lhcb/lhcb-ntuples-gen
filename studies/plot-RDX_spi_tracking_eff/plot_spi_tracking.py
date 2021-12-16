@@ -72,7 +72,7 @@ def plotPEta(brP, brEta, output, title, binning=None,
 
 plotRange = [
     [0, 5, 10, 20, 40, 100, 200],  # P, GeV
-    [0, 1.9, 3.2, 4.9, 5.5],  # ETA
+    [1.5, 1.9, 3.2, 4.9, 5.5],  # ETA
 ]
 
 plotScheme = {
@@ -89,6 +89,11 @@ plotScheme = {
     },
 }
 
+plotTitleAddOn = {
+    'Dst': r'$D^{*}$ tree',
+    'D0': r'$D^{0}$ tree',
+}
+
 
 for ntpName in ntpsIn:
     hep.style.use('LHCb2')
@@ -100,7 +105,7 @@ for ntpName in ntpsIn:
                 brP, brEta, brWt = read_branches(
                     ntp, 'tree', [f'{part}_p', f'{part}_eta', f'wtrk_{part}'])
 
-                effRatio = f', tracking eff: {brWt.sum() / brWt.size:.2f}'
+                effRatio = f', {plotTitleAddOn[treeId]}, tracking eff: {brWt.sum() / brWt.size:.2f}'
 
                 plotPEta(brP, brEta, f'{treeId}_{part}_p_eta.png',
                          binning=plotRange,
