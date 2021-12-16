@@ -43,7 +43,7 @@ ntpsIn = glob(f'{ntpInFolder}/ntuple/*.root')
 #########
 
 def plotPEta(brP, brEta, output, title, binning=None,
-             xlabel=r'$p$', ylabel=r'$\eta$'):
+             xlabel=r'$p$ [GeV]', ylabel=r'$\eta$'):
     top_plotters = []
 
     # The main histo plot
@@ -59,14 +59,14 @@ def plotPEta(brP, brEta, output, title, binning=None,
 
 
 plotRange = [
-    [0, 5e3, 10e3, 20e3, 40e3, 100e3, 200e3],  # P
+    [0, 5, 10, 20, 40, 100, 200],  # P, GeV
     [0, 1.9, 3.2, 4.9, 5.5],  # ETA
 ]
 
 plotScheme = {
     'Dst': {
         'spi': {
-            'title': r'slow $\pi$ - $p$ vs. $\eta$'
+            'title': r'slow $\pi$'
         }
     },
 }
