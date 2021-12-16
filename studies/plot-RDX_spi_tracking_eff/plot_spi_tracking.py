@@ -10,6 +10,7 @@ import mplhep as hep
 
 from os.path import isdir
 from glob import glob
+from matplotlib.patches import Rectangle
 
 from pyTuplingUtils.io import read_branches
 
@@ -43,15 +44,22 @@ ntpsIn = glob(f'{ntpInFolder}/ntuple/*.root')
 #########
 
 def plotPEta(brP, brEta, output, title, binning=None,
-             xlabel=r'$p$ [GeV]', ylabel=r'$\eta$'):
+             xlabel=r'$p$ [GeV]', ylabel=r'$\eta$',
+             rectAnchor=(5, 1.9), rectWidth=195, rectHeight=3.6):
     top_plotters = []
 
     # The main histo plot
     histoArgs = ax_add_args_hist2d(binning)
     top_plotters.append(
         lambda fig, ax, x=brP, y=brEta, add=histoArgs:
-        plot_hist2d(x, y, add, figure=fig, axis=ax, show_legend=False)
-    )
+        plot_hist2d(x, y, add, figure=fig, axis=ax, show_legend=False))
+
+    # Draw a rectangle indicating the region the efficiency covers
+    top_plotters.append(
+        lambda fig, ax: ax.add_patch(
+            Rectangle(rectAnchor, rectWidth, rectHeight,
+                      fc='none', color='black', linewidth=2, linestyle='dashed')
+        ))
 
     # Plot
     fig, *_ = plot_top(top_plotters, title=title, xlabel=xlabel, ylabel=ylabel)
