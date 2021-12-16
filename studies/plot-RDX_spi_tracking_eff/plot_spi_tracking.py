@@ -7,6 +7,7 @@ import uproot
 import numpy as np
 import mplhep as hep
 
+from os.path import isdir
 from glob import glob
 from matplotlib.patches import Rectangle
 
@@ -46,7 +47,8 @@ def plotColorMesh(fig, ax, x, y, bins, colorbarLabel='Number of events'):
 
 def plotPEta(brP, brEta, output, title, binning=None,
              xlabel=r'$p$ [GeV]', ylabel=r'$\eta$',
-             rectAnchor=(5, 1.9), rectWidth=195, rectHeight=3):
+             rectAnchor=(5, 1.9), rectWidth=195, rectHeight=3,
+             xlim=(2.5, 400), ylim=(1.2, 5.5)):
     top_plotters = []
 
     # The main histo plot
@@ -63,14 +65,15 @@ def plotPEta(brP, brEta, output, title, binning=None,
     )
 
     # Plot
-    fig, ax = plot_top(top_plotters, title=title, xlabel=xlabel, ylabel=ylabel)
+    fig, ax = plot_top(top_plotters, title=title, xlabel=xlabel, ylabel=ylabel,
+                       xlim=xlim, ylim=ylim)
     ax.set_xscale('log')
     fig.savefig(output)
 
 
 plotRange = [
-    [0, 5, 10, 20, 40, 100, 200],  # P, GeV
-    [1.5, 1.9, 3.2, 4.9, 5.5],  # ETA
+    [0, 5, 10, 20, 40, 100, 200, 3000],  # P, GeV
+    [1.0, 1.9, 3.2, 4.9, 6.0],  # ETA
 ]
 
 plotScheme = {
