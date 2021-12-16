@@ -13,11 +13,7 @@ from glob import glob
 from matplotlib.patches import Rectangle
 
 from pyTuplingUtils.io import read_branches
-
-from pyTuplingUtils.plot import (
-    plot_top, plot_hist2d,
-    ax_add_args_hist2d
-)
+from pyTuplingUtils.plot import plot_top
 
 
 ###########
@@ -81,9 +77,15 @@ plotRange = [
 
 plotScheme = {
     'Dst': {
-        'spi': {
-            'title': r'slow $\pi$'
-        }
+        'k': {'title': r'$K$'},
+        'pi': {'title': r'$\pi$'},
+        'mu': {'title': r'$\mu$'},
+        'spi': {'title': r'slow $\pi$'},
+    },
+    'D0': {
+        'k': {'title': r'$K$'},
+        'pi': {'title': r'$\pi$'},
+        'mu': {'title': r'$\mu$'},
     },
 }
 
@@ -95,9 +97,12 @@ for ntpName in ntpsIn:
     for treeId, scheme in plotScheme.items():
         if treeId in ntpName:
             for part in scheme:
-                brP, brEta = read_branches(
-                    ntp, 'tree', [f'{part}_p', f'{part}_eta'])
+                brP, brEta, brWt = read_branches(
+                    ntp, 'tree', [f'{part}_p', f'{part}_eta', f'wtrk_{part}'])
+
+                effRatio = f', tracking eff: {brWt.sum() / brWt.size:.2f}'
 
                 plotPEta(brP, brEta, f'{treeId}_{part}_p_eta.png',
-                         binning=plotRange, **scheme[part])
+                         binning=plotRange,
+                         title=scheme[part]['title']+effRatio)
             break
