@@ -2,12 +2,13 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Oct 21, 2021 at 03:07 AM +0200
+# Last Change: Sat Dec 18, 2021 at 03:29 AM +0100
 
 import uproot
+import numpy as np
 
 from argparse import ArgumentParser
-from pyTuplingUtils.io import read_branches
+from pyTuplingUtils.io import read_branches, read_branch
 
 
 def parse_input():
@@ -24,8 +25,14 @@ if __name__ == '__main__':
     ntp = uproot.open(args.ntp)
     print('From ntuple: {}'.format(args.ntp))
 
+    # By default apply the following cuts if they exist
+    global_cuts = []
+    if 'd_mass_window_ok' in ntp['tree']:
+        global_cuts.append(read_branch(ntp, 'tree', 'd_mass_window_ok'))
+
     skims = ['ISO', '1OS', '2OS', 'DD']
     skim_branches = read_branches(ntp, 'tree', ['is_'+i.lower() for i in skims])
 
     for name, arr in zip(skims, skim_branches):
-        print('{:>6}: {:>12,}'.format(name, arr[arr].size))
+        cut = np.logical_and.reduce(global_cuts+[arr])
+        print('{:>6}: {:>12,}'.format(name, arr[cut].size))
