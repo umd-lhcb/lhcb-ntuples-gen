@@ -248,7 +248,7 @@ calculation:
         mu_PX, mu_PY, mu_PZ,
         d0_PX, d0_PY, d0_PZ, d0_m
         )
-    d0_mass_window_ok: bool; d0_mass_ok && d0_mass_hypo_ok
+    d_mass_window_ok: bool; d0_mass_ok && d0_mass_hypo_ok
 
     # Mu selection
     trk_mu:  ^XYZVector; XYZVector(muplus_PX, muplus_PY, muplus_PZ)
@@ -316,7 +316,7 @@ calculation:
         bool;
         cli_cutflow;
         IF_VAR_EXISTS(no_mass_window_cut, d0mu_ok);
-        d0mu_ok && d0_mass_window_ok
+        d0mu_ok && d_mass_window_ok
     weight_ok: >-
         ^bool; IF_VAR_EXISTS(cli_fewer_cuts, true);
         reweighting_69_gen3_pt2 >= 0.01 && reweighting_89_gen3_pt2 >= 0.01
