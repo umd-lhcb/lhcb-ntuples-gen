@@ -1,6 +1,6 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Sat Dec 18, 2021 at 01:41 AM +0100
+// Last Change: Sat Dec 18, 2021 at 02:33 AM +0100
 // NOTE: All kinematic variables are in MeV
 
 #ifndef _LNG_FUNCTOR_RDX_CUT_H_
@@ -225,23 +225,17 @@ Bool_t FLAG_SEL_BMINUSD0_RUN1(Bool_t flag_sel_d0, Bool_t flag_sel_mu,
 Bool_t FLAG_SEL_B0DST_RUN1(Bool_t flag_sel_d0, Bool_t flag_sel_mu,
                            Double_t spi_gh_prob,
                            Double_t dst_endvtx_chi2, Double_t dst_endvtx_ndof,
-                           Double_t dst_m, Double_t d0_m,
                            Double_t b0_discard_mu_chi2,
                            Double_t b0_endvtx_chi2, Double_t b0_endvtx_ndof,
                            Double_t b0_fd_trans,
                            Double_t b0_dira,
                            Double_t b0_m) {
-  // clang-format on
-  auto dst_ref_deltam    = ABS(dst_m - d0_m - 145.454);
-  auto dst_ref_deltam_sb = ABS(dst_m - d0_m - 145.454 - 9);  // Sideband
-
   // clang-format off
   if (flag_sel_d0 && flag_sel_mu &&
       /* slow Pi */
       spi_gh_prob < 0.25 &&
       /* D* */
       dst_endvtx_chi2/dst_endvtx_ndof < 10.0 &&
-      dst_ref_deltam < 2.0 &&
       /* D0 Mu combo, already applied in DaVinci */
       /* D* Mu combo */
       b0_discard_mu_chi2 < 6.0 &&  // Not in ANA!
@@ -280,6 +274,11 @@ Bool_t FLAG_SEL_D0_MASS_HYPO(Double_t mu_px, Double_t mu_py, Double_t mu_pz,
   auto d0_m_pi_m  = v4_d0_pi_m.M();
 
   return FLAG_SEL_D0_MASS_HYPO(d0_m, d0_m_pi_m);
+}
+
+Bool_t FLAG_SEL_DST_MASS(Double_t dst_m, Double_t d0_m) {
+  auto dst_ref_deltam = ABS(dst_m - d0_m - 145.454);
+  return dst_ref_deltam < 2.0;
 }
 
 #endif

@@ -214,9 +214,9 @@ calculation:
     is_2011: bool; flag2011
 
     # Trigger
-    l0: bool; mu_l0_global_tis && (b_l0_global_tis || d0_l0_hadron_tos)
-    hlt1: bool; (k_hlt1_tal0_tos || pi_hlt1_tal0_tos) && d0_hlt1_phys_tos
-    hlt2: bool; d0_hlt2_tos
+    l0: ^bool; mu_l0_global_tis && (b_l0_global_tis || d0_l0_hadron_tos)
+    hlt1: ^bool; (k_hlt1_tal0_tos || pi_hlt1_tal0_tos) && d0_hlt1_phys_tos
+    hlt2: ^bool; d0_hlt2_tos
 
     # D0 selection
     d0_pid_ok: bool; FLAG_SEL_D0_PID_OK_RUN1(k_pid_k, pi_pid_k, k_is_mu, pi_is_mu)
@@ -234,9 +234,9 @@ calculation:
         d0_dira,
         d0_fd_chi2
         )
-    d0_mass_ok: bool; FLAG_SEL_D0_MASS(d0_m, 1864.6)
+    d0_mass_ok: ^bool; FLAG_SEL_D0_MASS(d0_m, 1864.6)
     d0_mass_hypo_ok: >-
-        bool;
+        ^bool;
         FLAG_SEL_D0_MASS_HYPO(
         d0_m, Mmu2pi
         );

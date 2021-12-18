@@ -199,9 +199,9 @@ calculation:
     is_2011: bool; flag2011
 
     # Trigger
-    l0: bool; mu_l0_global_tis && (b0_l0_global_tis || d0_l0_hadron_tos)
-    hlt1: bool; (k_hlt1_tal0_tos || pi_hlt1_tal0_tos) && dst_hlt1_phys_tos
-    hlt2: bool; d0_hlt2_tos
+    l0: ^bool; mu_l0_global_tis && (b0_l0_global_tis || d0_l0_hadron_tos)
+    hlt1: ^bool; (k_hlt1_tal0_tos || pi_hlt1_tal0_tos) && dst_hlt1_phys_tos
+    hlt2: ^bool; d0_hlt2_tos
 
     # D0 selection
     d0_pid_ok: bool; FLAG_SEL_D0_PID_OK_RUN1(k_pid_k, pi_pid_k, k_is_mu, pi_is_mu)
@@ -217,9 +217,9 @@ calculation:
         d0_endvtx_chi2, d0_endvtx_ndof,
         d0_ip, d0_ip_chi2,
         d0_dira,
-        d0_fd_chi2,
-        d0_m, 1865.49
+        d0_fd_chi2
         )
+    d0_mass_ok: ^bool; FLAG_SEL_D0_MASS(d0_m, 1865.49)
 
     # Mu selection
     trk_mu:  ^XYZVector; XYZVector(muplus_PX, muplus_PY, muplus_PZ)
@@ -243,12 +243,13 @@ calculation:
         d0_ok, mu_ok,
         spi_gh_prob,
         dst_endvtx_chi2, dst_endvtx_ndof,
-        dst_m, d0_m,
         b0_discard_mu_chi2,
         b0_endvtx_chi2, b0_endvtx_ndof,
         b0_fd_trans,
         b0_dira, b0_m
         )
+    dst_mass_ok: ^bool; FLAG_SEL_DST_MASS(dst_m, d0_m)
+    d_mass_window_ok: bool; d0_mass_ok && dst_mass_ok
 
     # Skims
     #iso_pre_ok: ^bool; mu_ubdt_ok && ISOnum == 0; mu_ubdt_ok
@@ -289,7 +290,7 @@ calculation:
     ####################
     # Additional flags #
     ####################
-    is_dst_sb: bool; ABS(dst_m-d0_m-145.454-9) < 2.0
+    #is_dst_sb: bool; ABS(dst_m-d0_m-145.454-9) < 2.0  # Not used so far
 
     ###############
     # Global cuts #
@@ -297,7 +298,11 @@ calculation:
     # These are defined so that we can turn them on/off with external variables
     # supplied in babymaker cli arguments
     trg_ok: bool; cli_cutflow; l0 && hlt1 && hlt2
-    global_cut_ok: bool; cli_cutflow; dstmu_ok
+    global_cut_ok: >-
+        bool;
+        cli_cutflow;
+        IF_VAR_EXISTS(no_mass_window_cut, d0mu_ok);
+        dstmu_ok && d_mass_window_ok
     weight_ok: >-
         ^bool; IF_VAR_EXISTS(cli_fewer_cuts, true);
         reweighting_69_gen3_pt2 >= 0.01 && reweighting_89_gen3_pt2 >= 0.01
