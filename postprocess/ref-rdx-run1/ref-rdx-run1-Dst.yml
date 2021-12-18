@@ -301,7 +301,7 @@ calculation:
     global_cut_ok: >-
         bool;
         cli_cutflow;
-        IF_VAR_EXISTS(no_mass_window_cut, d0mu_ok);
+        IF_VAR_EXISTS(no_mass_window_cut, dstmu_ok);
         dstmu_ok && d_mass_window_ok
     weight_ok: >-
         ^bool; IF_VAR_EXISTS(cli_fewer_cuts, true);

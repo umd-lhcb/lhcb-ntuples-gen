@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Dec 14, 2021 at 03:04 AM +0100
+# Last Change: Sat Dec 18, 2021 at 03:43 AM +0100
 
 import sys
 import os
@@ -355,6 +355,18 @@ JOBS = {
         use_ubdt=False,
         executor=executor
     ),
+    # Run 1 debug
+    'rdx-ntuple-run1-data-D0-comp': lambda name: workflow_data(
+        name,
+        '../ntuples/0.9.5-bugfix/Dst_D0-std/Dst_D0--21_10_07--std--LHCb_Collision11_Beam3500GeV-VeloClosed-MagDown_Real_Data_Reco14_Stripping21r1_90000000_SEMILEPTONIC.DST.root',
+        '../postprocess/ref-rdx-run1/ref-rdx-run1-D0.yml',
+        use_ubdt=False,
+        executor=executor,
+        cli_vars={
+            'cli_fewer_cuts': 'true',
+            'no_mass_window_cut': 'true',
+        }
+    ),
     # Reference Run 1
     'ref-rdx-ntuple-run1-data-Dst': lambda name: workflow_data(
         name,
@@ -364,14 +376,6 @@ JOBS = {
         output_ntp_name_gen=parse_step2_name,
         executor=executor
         # directive_override={'one_cand_only/enable': 'false'}
-    ),
-    'rdx-ntuple-run1-data-D0-comp': lambda name: workflow_data(
-        name,
-        '../ntuples/0.9.5-bugfix/Dst_D0-std/Dst_D0--21_10_07--std--LHCb_Collision11_Beam3500GeV-VeloClosed-MagDown_Real_Data_Reco14_Stripping21r1_90000000_SEMILEPTONIC.DST.root',
-        '../postprocess/ref-rdx-run1/ref-rdx-run1-D0.yml',
-        use_ubdt=False,
-        executor=executor,
-        cli_vars={'cli_fewer_cuts': 'true'}
     ),
     'ref-rdx-ntuple-run1-data-Dst-comp': lambda name: workflow_data(
         name,
@@ -383,7 +387,10 @@ JOBS = {
         use_ubdt=False,
         output_ntp_name_gen=parse_step2_name,
         executor=executor,
-        cli_vars={'cli_fewer_cuts': 'true'}
+        cli_vars={
+            'cli_fewer_cuts': 'true',
+            'no_mass_window_cut': 'true',
+        }
     ),
     'ref-rdx-ntuple-run1-data-D0': lambda name: workflow_data(
         name,
@@ -403,7 +410,10 @@ JOBS = {
         use_ubdt=False,
         output_ntp_name_gen=parse_step2_name,
         executor=executor,
-        cli_vars={'cli_fewer_cuts': 'true'}
+        cli_vars={
+            'cli_fewer_cuts': 'true',
+            'no_mass_window_cut': 'true',
+        }
     ),
 }
 
