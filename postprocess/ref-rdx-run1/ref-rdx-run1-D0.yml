@@ -232,9 +232,23 @@ calculation:
         d0_endvtx_chi2, d0_endvtx_ndof,
         d0_ip, d0_ip_chi2,
         d0_dira,
-        d0_fd_chi2,
-        d0_m, 1864.6
+        d0_fd_chi2
         )
+    d0_mass_ok: bool; FLAG_SEL_D0_MASS(d0_m, 1864.6)
+    d0_mass_hypo_ok: >-
+        bool;
+        FLAG_SEL_D0_MASS_HYPO(
+        d0_m, Mmu2pi
+        );
+        FLAG_SEL_D0_MASS_HYPO(
+        muplus_PX, muplus_PY, muplus_PZ,
+        D0_PX, D0_PY, D0_PZ, d0_m
+        );
+        FLAG_SEL_D0_MASS_HYPO(
+        mu_PX, mu_PY, mu_PZ,
+        d0_PX, d0_PY, d0_PZ, d0_m
+        )
+    d0_mass_window_ok: bool; d0_mass_ok && d0_mass_hypo_ok
 
     # Mu selection
     trk_mu:  ^XYZVector; XYZVector(muplus_PX, muplus_PY, muplus_PZ)
@@ -260,29 +274,8 @@ calculation:
         b_fd_trans,
         b_dira,
         b_m,
-        Mmu2pi, d0_m,
         d0_dst_veto_deltam
-        );
-        FLAG_SEL_BMINUSD0_RUN1(
-        d0_ok, mu_ok,
-        b_endvtx_chi2, b_endvtx_ndof,
-        b_fd_trans,
-        b_dira,
-        b_m,
-        muplus_PX, muplus_PY, muplus_PZ,
-        D0_PX, D0_PY, D0_PZ, d0_m,
-        d0_dst_veto_deltam
-        );
-        FLAG_SEL_BMINUSD0_RUN1(
-        d0_ok, mu_ok,
-        b_endvtx_chi2, b_endvtx_ndof,
-        b_fd_trans,
-        b_dira,
-        b_m,
-        mu_PX, mu_PY, mu_PZ,
-        d0_PX, d0_PY, d0_PZ, d0_m,
-        d0_dst_veto_deltam
-        );
+        )
 
     # Skims
     iso_pre_ok: ^bool; mu_ubdt_ok && ISOnum == 0; mu_ubdt_ok
@@ -319,7 +312,11 @@ calculation:
     # These are defined so that we can turn them on/off with external variables
     # supplied in babymaker cli arguments
     trg_ok: bool; cli_cutflow; l0 && hlt1 && hlt2
-    global_cut_ok: bool; cli_cutflow; d0mu_ok
+    global_cut_ok: >-
+        bool;
+        cli_cutflow;
+        IF_VAR_EXISTS(no_mass_window_cut, d0mu_ok);
+        d0mu_ok && d0_mass_window_ok
     weight_ok: >-
         ^bool; IF_VAR_EXISTS(cli_fewer_cuts, true);
         reweighting_69_gen3_pt2 >= 0.01 && reweighting_89_gen3_pt2 >= 0.01

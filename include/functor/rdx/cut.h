@@ -1,6 +1,6 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Tue Dec 07, 2021 at 10:27 PM +0100
+// Last Change: Sat Dec 18, 2021 at 01:41 AM +0100
 // NOTE: All kinematic variables are in MeV
 
 #ifndef _LNG_FUNCTOR_RDX_CUT_H_
@@ -133,8 +133,7 @@ Bool_t FLAG_SEL_D0_RUN1(Bool_t flag_d0_pid_ok,
                         Double_t d0_endvtx_chi2, Double_t d0_endvtx_ndof,
                         Double_t d0_ip, Double_t d0_ip_chi2,
                         Double_t d0_dira,
-                        Double_t d0_fd_chi2,
-                        Double_t d0_m, Double_t d0_m_ref=1864.83) {
+                        Double_t d0_fd_chi2) {
   if (flag_d0_pid_ok &&
       /* K, pi */
       ((k_hlt1_tos && k_pt > 1700.0) || (pi_hlt1_tos && pi_pt > 1700.0)) &&
@@ -142,7 +141,6 @@ Bool_t FLAG_SEL_D0_RUN1(Bool_t flag_d0_pid_ok,
       k_ip_chi2 > 45.0 && pi_ip_chi2 > 45.0 &&
       k_gh_prob < 0.5 && pi_gh_prob < 0.5 &&
       /* D0 */
-      ABS(d0_m - d0_m_ref) < 23.4 &&
       d0_pt > 2000.0 &&
       d0_hlt2 &&
       d0_endvtx_chi2/d0_endvtx_ndof < 4.0 &&
@@ -200,7 +198,6 @@ Bool_t FLAG_SEL_BMINUSD0_RUN1(Bool_t flag_sel_d0, Bool_t flag_sel_mu,
                               Double_t b_fd_trans,
                               Double_t b_dira,
                               Double_t b_m,
-                              Double_t d0_m_pi_m, Double_t d0_m,
                               Double_t d0_dst_veto_deltam) {
   // clang-format off
   if (/* Daughter particles */
@@ -211,46 +208,12 @@ Bool_t FLAG_SEL_BMINUSD0_RUN1(Bool_t flag_sel_d0, Bool_t flag_sel_mu,
       b_endvtx_chi2 / b_endvtx_ndof < 6.0 && b_dira > 0.9995 &&
       /* Mass */
       b_m < 5200.0 &&
-      /* Replace Muon mass hypothesis */
-      d0_m_pi_m - d0_m > 165.0 &&
-      d0_m_pi_m - d0_m - 145.454 > 4.0 &&
       /* Veto D* in D0 sample */
       d0_dst_veto_deltam > 4.0  // MeV!
       )
     // clang-format on
     return true;
   return false;
-}
-
-// clang-format off
-Bool_t FLAG_SEL_BMINUSD0_RUN1(Bool_t flag_sel_d0, Bool_t flag_sel_mu,
-                              Double_t b_endvtx_chi2, Double_t b_endvtx_ndof,
-                              Double_t b_fd_trans,
-                              Double_t b_dira,
-                              Double_t b_m,
-                              Double_t mu_px, Double_t mu_py, Double_t mu_pz,
-                              Double_t d0_px, Double_t d0_py, Double_t d0_pz,
-                              Double_t d0_m, Double_t d0_dst_veto_deltam) {
-  // clang-format on
-  const Double_t pi_m = 139.57;
-
-  // Alternative mass hypothesis, where we now assume Muon is a Pion
-  auto v4_mu_pi_m = ROOT::Math::PxPyPzMVector(mu_px, mu_py, mu_pz, pi_m);
-  auto v4_d0      = ROOT::Math::PxPyPzMVector(d0_px, d0_py, d0_pz, d0_m);
-  auto v4_d0_pi_m = v4_mu_pi_m + v4_d0;
-  auto d0_m_pi_m  = v4_d0_pi_m.M();
-
-  // clang-format off
-  return FLAG_SEL_BMINUSD0_RUN1(
-      flag_sel_d0, flag_sel_mu,
-      b_endvtx_chi2, b_endvtx_ndof,
-      b_fd_trans,
-      b_dira,
-      b_m,
-      d0_m_pi_m, d0_m,
-      d0_dst_veto_deltam
-  );
-  // clang-format on
 }
 
 // Selections are based on Run 1 R(D(*)) ANA, v2020.07.31, p.11, Table 8.
@@ -291,6 +254,32 @@ Bool_t FLAG_SEL_B0DST_RUN1(Bool_t flag_sel_d0, Bool_t flag_sel_mu,
     // clang-format on
     return true;
   return false;
+}
+
+// D0 mass-window cuts /////////////////////////////////////////////////////////
+
+Bool_t FLAG_SEL_D0_MASS(Double_t d0_m, Double_t d0_m_ref = 1864.83) {
+  return ABS(d0_m - d0_m_ref) < 23.4;
+}
+
+Bool_t FLAG_SEL_D0_MASS_HYPO(Double_t d0_m, Double_t d0_m_pi_m) {
+  /* Replace Muon mass hypothesis */
+  if (d0_m_pi_m - d0_m > 165.0 && d0_m_pi_m - d0_m - 145.454 > 4.0) return true;
+  return false;
+}
+
+Bool_t FLAG_SEL_D0_MASS_HYPO(Double_t mu_px, Double_t mu_py, Double_t mu_pz,
+                             Double_t d0_px, Double_t d0_py, Double_t d0_pz,
+                             Double_t d0_m) {
+  const Double_t pi_m = 139.57;
+
+  // Alternative mass hypothesis, where we now assume Muon is a Pion
+  auto v4_mu_pi_m = ROOT::Math::PxPyPzMVector(mu_px, mu_py, mu_pz, pi_m);
+  auto v4_d0      = ROOT::Math::PxPyPzMVector(d0_px, d0_py, d0_pz, d0_m);
+  auto v4_d0_pi_m = v4_mu_pi_m + v4_d0;
+  auto d0_m_pi_m  = v4_d0_pi_m.M();
+
+  return FLAG_SEL_D0_MASS_HYPO(d0_m, d0_m_pi_m);
 }
 
 #endif
