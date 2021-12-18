@@ -246,10 +246,12 @@ calculation:
         b0_discard_mu_chi2,
         b0_endvtx_chi2, b0_endvtx_ndof,
         b0_fd_trans,
-        b0_dira, b0_m
+        b0_dira
         )
     dst_mass_ok: ^bool; FLAG_SEL_DST_MASS(dst_m, d0_m)
     d_mass_window_ok: bool; d0_mass_ok && dst_mass_ok
+    is_normal: bool; FLAG_SEL_B0_MASS(b0_m)
+    is_sb: bool; FLAG_SEL_B0_MASS_SB(b0_m)
 
     # Skims
     #iso_pre_ok: ^bool; mu_ubdt_ok && ISOnum == 0; mu_ubdt_ok
@@ -301,8 +303,8 @@ calculation:
     global_cut_ok: >-
         bool;
         cli_cutflow;
-        IF_VAR_EXISTS(no_mass_window_cut, dstmu_ok);
-        dstmu_ok && d_mass_window_ok
+        IF_VAR_EXISTS(no_mass_window_cut, dstmu_ok && (is_normal || is_sb));
+        dstmu_ok && d_mass_window_ok && (is_normal || is_sb)
     weight_ok: >-
         ^bool; IF_VAR_EXISTS(cli_fewer_cuts, true);
         reweighting_69_gen3_pt2 >= 0.01 && reweighting_89_gen3_pt2 >= 0.01

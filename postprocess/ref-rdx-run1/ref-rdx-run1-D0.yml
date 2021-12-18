@@ -273,9 +273,10 @@ calculation:
         b_endvtx_chi2, b_endvtx_ndof,
         b_fd_trans,
         b_dira,
-        b_m,
         d0_dst_veto_deltam
         )
+    is_normal: bool; FLAG_SEL_BMINUS_MASS(b_m)
+    is_sb: bool; FLAG_SEL_BMINUS_MASS_SB(b_m)
 
     # Skims
     iso_pre_ok: ^bool; mu_ubdt_ok && ISOnum == 0; mu_ubdt_ok
@@ -315,8 +316,8 @@ calculation:
     global_cut_ok: >-
         bool;
         cli_cutflow;
-        IF_VAR_EXISTS(no_mass_window_cut, d0mu_ok);
-        d0mu_ok && d_mass_window_ok
+        IF_VAR_EXISTS(no_mass_window_cut, d0mu_ok && (is_normal || is_sb));
+        d0mu_ok && d_mass_window_ok && (is_normal || is_sb)
     weight_ok: >-
         ^bool; IF_VAR_EXISTS(cli_fewer_cuts, true);
         reweighting_69_gen3_pt2 >= 0.01 && reweighting_89_gen3_pt2 >= 0.01

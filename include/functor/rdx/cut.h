@@ -1,6 +1,6 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Sat Dec 18, 2021 at 02:33 AM +0100
+// Last Change: Sat Dec 18, 2021 at 07:01 PM +0100
 // NOTE: All kinematic variables are in MeV
 
 #ifndef _LNG_FUNCTOR_RDX_CUT_H_
@@ -197,7 +197,6 @@ Bool_t FLAG_SEL_BMINUSD0_RUN1(Bool_t flag_sel_d0, Bool_t flag_sel_mu,
                               Double_t b_endvtx_chi2, Double_t b_endvtx_ndof,
                               Double_t b_fd_trans,
                               Double_t b_dira,
-                              Double_t b_m,
                               Double_t d0_dst_veto_deltam) {
   // clang-format off
   if (/* Daughter particles */
@@ -206,8 +205,6 @@ Bool_t FLAG_SEL_BMINUSD0_RUN1(Bool_t flag_sel_d0, Bool_t flag_sel_mu,
       b_fd_trans < 7.0 &&
       /* Vertex quality */
       b_endvtx_chi2 / b_endvtx_ndof < 6.0 && b_dira > 0.9995 &&
-      /* Mass */
-      b_m < 5200.0 &&
       /* Veto D* in D0 sample */
       d0_dst_veto_deltam > 4.0  // MeV!
       )
@@ -228,29 +225,26 @@ Bool_t FLAG_SEL_B0DST_RUN1(Bool_t flag_sel_d0, Bool_t flag_sel_mu,
                            Double_t b0_discard_mu_chi2,
                            Double_t b0_endvtx_chi2, Double_t b0_endvtx_ndof,
                            Double_t b0_fd_trans,
-                           Double_t b0_dira,
-                           Double_t b0_m) {
+                           Double_t b0_dira) {
   // clang-format off
   if (flag_sel_d0 && flag_sel_mu &&
       /* slow Pi */
       spi_gh_prob < 0.25 &&
       /* D* */
       dst_endvtx_chi2/dst_endvtx_ndof < 10.0 &&
-      /* D0 Mu combo, already applied in DaVinci */
       /* D* Mu combo */
       b0_discard_mu_chi2 < 6.0 &&  // Not in ANA!
       b0_endvtx_chi2 < 24.0 &&
       b0_endvtx_chi2/b0_endvtx_ndof < 6.0 &&
       b0_fd_trans < 7.0 &&
-      b0_dira > 0.9995 &&
-      b0_m < 5280.0 /* MeV! */
+      b0_dira > 0.9995
       )
     // clang-format on
     return true;
   return false;
 }
 
-// D0 mass-window cuts /////////////////////////////////////////////////////////
+// D mass-window cuts //////////////////////////////////////////////////////////
 
 Bool_t FLAG_SEL_D0_MASS(Double_t d0_m, Double_t d0_m_ref = 1864.83) {
   return ABS(d0_m - d0_m_ref) < 23.4;
@@ -280,5 +274,15 @@ Bool_t FLAG_SEL_DST_MASS(Double_t dst_m, Double_t d0_m) {
   auto dst_ref_deltam = ABS(dst_m - d0_m - 145.454);
   return dst_ref_deltam < 2.0;
 }
+
+// B mass cuts /////////////////////////////////////////////////////////////////
+
+Bool_t FLAG_SEL_BMINUS_MASS(Double_t b_m) { return b_m < 5200.0; }
+
+Bool_t FLAG_SEL_BMINUS_MASS_SB(Double_t b_m) { return b_m > 5400.0; }
+
+Bool_t FLAG_SEL_B0_MASS(Double_t b0_m) { return b0_m < 5280.0; }
+
+Bool_t FLAG_SEL_B0_MASS_SB(Double_t b0_m) { return b0_m > 5400.0; }
 
 #endif
