@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sat Dec 18, 2021 at 03:29 AM +0100
+# Last Change: Sun Dec 19, 2021 at 03:36 AM +0100
 
 import uproot
 import numpy as np
@@ -29,6 +29,8 @@ if __name__ == '__main__':
     global_cuts = []
     if 'd_mass_window_ok' in ntp['tree']:
         global_cuts.append(read_branch(ntp, 'tree', 'd_mass_window_ok'))
+    if 'is_normal' in ntp['tree']:
+        global_cuts.append(read_branch(ntp, 'tree', 'is_normal'))
 
     skims = ['ISO', '1OS', '2OS', 'DD']
     skim_branches = read_branches(ntp, 'tree', ['is_'+i.lower() for i in skims])

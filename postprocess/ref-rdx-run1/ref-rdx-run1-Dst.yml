@@ -1,7 +1,7 @@
 # This YAML is for Phoebe's step-1 and step-1.5 D* ntuples.
 # After postprocessing, the ntuple should be mostly identical to our step-2.
 #
-# NOTE: We don't have the following branches in Phoebe's step-1.5.
+# NOTE: We don't have the following branches in Phoebe's step-1.5:
 #
 # - k_ip_chi2, pi_ip_chi2 (_IPCHI2_OWNPV)
 # - k_gh_prob, pi_gh_prob (_TRACK_GhostProb)
@@ -9,7 +9,7 @@
 # - d0_fd_chi2 (D0_FDCHI2_OWNPV)
 # - dst_endvtx_ndof (D0_ENDVERTEX_NDOF)
 # - Most of the momentum components
-# - b_endvtx_ndof (Y_ENDVERTEX_NDOF)
+# - b0_endvtx_ndof (Y_ENDVERTEX_NDOF)
 #
 # In postprocessed step-2 ntuples these are filled with default values that
 # satisfy cut requirements.
@@ -232,7 +232,7 @@ calculation:
     mu_ubdt_ok: bool; IF_VAR_EXISTS(cli_fewer_cuts, true); mu_ubdt > 0.25
     mu_ok: >-
         bool; FLAG_SEL_MU_RUN1(
-        mu_pid_ok, trks_ok,
+        trks_ok, mu_pid_ok,
         mu_p*1000, mu_eta,
         mu_ip_chi2, mu_gh_prob
         )
@@ -249,14 +249,19 @@ calculation:
         b0_dira
         )
     dst_mass_ok: ^bool; FLAG_SEL_DST_MASS(dst_m, d0_m)
+
+    ####################
+    # Additional flags #
+    ####################
     d_mass_window_ok: bool; d0_mass_ok && dst_mass_ok
-    is_normal: bool; FLAG_SEL_B0_MASS(b0_m)
+    is_in_fit_range: bool; IN_RANGE(mm2, -2.0, 10.9) && IN_RANGE(el, 0.1, 2.65) && IN_RANGE(q2, -0.4, 12.6)
+    is_normal: bool; FLAG_SEL_B0_MASS(b0_m) && is_in_fit_range
     is_sb: bool; FLAG_SEL_B0_MASS_SB(b0_m)
 
-    # Skims
-    #iso_pre_ok: ^bool; mu_ubdt_ok && ISOnum == 0; mu_ubdt_ok
-    #anti_iso_pre_ok: ^bool; mu_ubdt_ok && AntiISOnum == 0; mu_ubdt_ok
-    iso_pre_ok: ^bool; mu_ubdt_ok
+    #########
+    # Skims #
+    #########
+    iso_pre_ok: ^bool; mu_ubdt_ok  # The single-candidate veto was not working in Phoebe's D* sample
     anti_iso_pre_ok: ^bool; mu_ubdt_ok
     is_iso: bool; FLAG_ISO(iso_pre_ok, iso_bdt1)
     is_dd: >-
@@ -289,11 +294,6 @@ calculation:
         dst_id, dst_iso_deltam
         )
 
-    ####################
-    # Additional flags #
-    ####################
-    #is_dst_sb: bool; ABS(dst_m-d0_m-145.454-9) < 2.0  # Not used so far
-
     ###############
     # Global cuts #
     ###############
@@ -312,13 +312,9 @@ calculation:
 global_selection:
     - trg_ok
     - global_cut_ok
-    # Cuts on fit variables
-    - IN_RANGE(mm2, -2.0, 10.9)
-    - IN_RANGE(el, 0.1, 2.65)
-    - IN_RANGE(q2, -0.4, 12.6)
+    - weight_ok
     # Remove VELO slow Pi
     - spi_trk_type == 3
-    - weight_ok
 
 one_cand_only:
     enable: false

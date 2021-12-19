@@ -1,20 +1,17 @@
 # This YAML is for Phoebe's step-1 and step-1.5 D* ntuples.
 # After postprocessing, the ntuple should be mostly identical to our step-2.
 #
-# NOTE: We don't have these branches in Phoebe's step 2:
-#       k_ip_chi2, pi_ip_chi2 (*_IPCHI2_OWNPV):
-#           All events in the step 2 pass ip_chi2 selection
-#       k_gh_prob, pi_gh_prob (*_TRACK_GhostProb):
-#           All events in the step 2 pass gh_prob selection
-#       d0_endvtx_chi2, d0_endvtx_ndof (*_ENDVERTEX_{CHI2/NDOF}):
-#           Not sure if we have it, assuming always true
-#       d0_fd_chi2 (D0_FDCHI2_OWNPV):
-#           Not sure, but assume true
-#       dst_endvtx_ndof (D0_ENDVERTEX_NDOF):
-#           Not sure, and can't see anything in AddB.C
-#       Missing all momentum components!
-#       b_endvtx_ndof (Y_ENDVERTEX_NDOF):
-#           All events in the step 2 pass CHI2/NDOF selection
+# NOTE: We don't have the following branches in Phoebe's step-1.5:
+#
+# - k_ip_chi2, pi_ip_chi2 (_IPCHI2_OWNPV)
+# - k_gh_prob, pi_gh_prob (_TRACK_GhostProb)
+# - d0_endvtx_chi2, d0_endvtx_ndof (_ENDVERTEX_{CHI2/NDOF})
+# - d0_fd_chi2 (D0_FDCHI2_OWNPV)
+# - Most of the momentum components
+# - b_endvtx_ndof (Y_ENDVERTEX_NDOF)
+#
+# In postprocessed step-2 ntuples these are filled with default values that
+# satisfy cut requirements.
 
 headers:
     user:
@@ -248,7 +245,6 @@ calculation:
         mu_PX, mu_PY, mu_PZ,
         d0_PX, d0_PY, d0_PZ, d0_m
         )
-    d_mass_window_ok: bool; d0_mass_ok && d0_mass_hypo_ok
 
     # Mu selection
     trk_mu:  ^XYZVector; XYZVector(muplus_PX, muplus_PY, muplus_PZ)
@@ -267,18 +263,25 @@ calculation:
 
     # D0Mu combo selection
     d0mu_ok: >-
-        bool;
-        FLAG_SEL_BMINUSD0_RUN1(
+        bool; FLAG_SEL_BMINUSD0_RUN1(
         d0_ok, mu_ok,
         b_endvtx_chi2, b_endvtx_ndof,
         b_fd_trans,
         b_dira,
         d0_dst_veto_deltam
         )
+
+    ####################
+    # Additional flags #
+    ####################
+    d_mass_window_ok: bool; d0_mass_ok && d0_mass_hypo_ok
+    is_in_fit_range: bool; IN_RANGE(mm2, -2.0, 10.9) && IN_RANGE(el, 0.1, 2.65) && IN_RANGE(q2, -0.4, 12.6)
     is_normal: bool; FLAG_SEL_BMINUS_MASS(b_m)
     is_sb: bool; FLAG_SEL_BMINUS_MASS_SB(b_m)
 
-    # Skims
+    #########
+    # Skims #
+    #########
     iso_pre_ok: ^bool; mu_ubdt_ok && ISOnum == 0; mu_ubdt_ok
     anti_iso_pre_ok: ^bool; mu_ubdt_ok && AntiISOnum == 0; mu_ubdt_ok
     is_iso: bool; FLAG_ISO(iso_pre_ok, iso_bdt1)
@@ -325,10 +328,6 @@ calculation:
 global_selection:
     - trg_ok
     - global_cut_ok
-    # Cuts on fit variables
-    - IN_RANGE(mm2, -2.0, 10.9)
-    - IN_RANGE(el, 0.1, 2.65)
-    - IN_RANGE(q2, -0.4, 12.6)
     - weight_ok
 
 one_cand_only:
