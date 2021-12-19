@@ -202,14 +202,9 @@ calculation:
     mu_ip_chi2: double; muIPCHI2; muplus_IPCHI2_OWNPV; mu_IPCHI2_OWNPV
     mu_eta: double; mu_ETA; ETA(muplus_P, muplus_PZ); ETA(mu_P, mu_PZ)
 
-    ###################
-    # Selection flags #
-    ###################
-    # Misc.
-    is_data: bool; isData; true
-    is_std: bool; is_data && IDprod > 0; true
-    is_2011: bool; flag2011
-
+    ##########################
+    # Selection flags, basic #
+    ##########################
     # Trigger
     l0: ^bool; mu_l0_global_tis && (b_l0_global_tis || d0_l0_hadron_tos)
     hlt1: ^bool; (k_hlt1_tal0_tos || pi_hlt1_tal0_tos) && d0_hlt1_phys_tos
@@ -271,13 +266,17 @@ calculation:
         d0_dst_veto_deltam
         )
 
-    ####################
-    # Additional flags #
-    ####################
+    ###############################
+    # Selection flags, additional #
+    ###############################
     d_mass_window_ok: bool; d0_mass_ok && d0_mass_hypo_ok
     is_in_fit_range: bool; IN_RANGE(mm2, -2.0, 10.9) && IN_RANGE(el, 0.1, 2.65) && IN_RANGE(q2, -0.4, 12.6)
     is_normal: bool; FLAG_SEL_BMINUS_MASS(b_m) && is_in_fit_range
     is_sb: bool; FLAG_SEL_BMINUS_MASS_SB(b_m)
+    # Misc.
+    is_data: bool; isData; true
+    is_std: bool; is_data && IDprod > 0; true
+    is_2011: bool; flag2011
 
     #########
     # Skims #
