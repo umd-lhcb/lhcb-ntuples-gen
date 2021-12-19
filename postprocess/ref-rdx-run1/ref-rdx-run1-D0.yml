@@ -276,7 +276,7 @@ calculation:
     ####################
     d_mass_window_ok: bool; d0_mass_ok && d0_mass_hypo_ok
     is_in_fit_range: bool; IN_RANGE(mm2, -2.0, 10.9) && IN_RANGE(el, 0.1, 2.65) && IN_RANGE(q2, -0.4, 12.6)
-    is_normal: bool; FLAG_SEL_BMINUS_MASS(b_m)
+    is_normal: bool; FLAG_SEL_BMINUS_MASS(b_m) && is_in_fit_range
     is_sb: bool; FLAG_SEL_BMINUS_MASS_SB(b_m)
 
     #########
@@ -288,22 +288,27 @@ calculation:
     is_dd: >-
         bool; FLAG_DD(
         anti_iso_pre_ok,
-        iso_bdt1, iso_bdt2, iso_bdt2, iso_type1, iso_type2, iso_type3,
-        iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+        iso_bdt1, iso_bdt2, iso_bdt3,
+        iso_type1, iso_type2, iso_type3,
+        iso_p1, iso_p2, iso_p3,
+        iso_pt1, iso_pt2, iso_pt3,
         iso_nnk1, iso_nnk2, iso_nnk3
         )
     is_2os: >-
         bool; FLAG_2OS(
         anti_iso_pre_ok,
-        iso_bdt1, iso_bdt2, iso_bdt3, iso_type1, iso_type2,
-        iso_p1, iso_p2, iso_pt1, iso_pt2,
+        iso_bdt1, iso_bdt2, iso_bdt3,
+        iso_type1, iso_type2,
+        iso_p1, iso_p2,
+        iso_pt1, iso_pt2,
         iso_chrg1, iso_chrg2,
         iso_nnk1, iso_nnk2
         )
     is_1os: >-
         bool; FLAG_1OS(
         anti_iso_pre_ok,
-        iso_bdt1, iso_bdt2, iso_type1,
+        iso_bdt1, iso_bdt2,
+        iso_type1,
         iso_p1, iso_pt1,
         iso_chrg1,
         iso_nnk1,
