@@ -53,7 +53,8 @@ def plotBMass(ntpData, ntpComb, output, br='b_m',
     -l "right-sign, normal" \
     -n {ntpComb}/tree -b "{br}" "{br}" "{br}" \
     --cuts "d_mass_window_ok" "is_normal & d_mass_window_ok" "is_sb & d_mass_window_ok" \
-    -l "wrong-sign, all" "wrong-sign, normal" "wrong-sign, SB"
+    -l "wrong-sign, all" "wrong-sign, normal" "wrong-sign, SB" \
+    --bins 60
 '''
     runCmd(cmd)
 
@@ -63,6 +64,6 @@ plotBMass(ntpD0InData, ntpD0InComb, 'D0_B_mass_data_vs_comb_log.png',
           yscale='log')
 
 plotBMass(ntpDstInData, ntpDstInComb, 'Dst_B_mass_data_vs_comb.png',
-          'b0_m', r'\$D^*$ tree', r'\$m_{B^0} [MeV]$')
+          'b0_m', r'\$D^*$ tree', r'\$m_{B^0}$ [MeV]')
 plotBMass(ntpDstInData, ntpDstInComb, 'Dst_B_mass_data_vs_comb_log.png',
-          'b0_m', r'\$D^*$ tree', r'\$m_{B^0} [MeV]$', yscale='log')
+          'b0_m', r'\$D^*$ tree', r'\$m_{B^0}$ [MeV]', yscale='log')
