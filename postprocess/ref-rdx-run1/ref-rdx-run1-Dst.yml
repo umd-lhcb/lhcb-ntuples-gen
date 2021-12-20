@@ -115,7 +115,7 @@ calculation:
     dst_m: double; Dst_M; Dst_2010_minus_M
     dst_p: double; GEV(Dst_P); GEV(Dst_2010_minus_P)
     dst_pt: double; GEV(Dst_PT); GEV(Dst_2010_minus_PT)
-    dst_iso_invm: double; 0.0  # Not implemented by Phoebe; Greg only
+    #dst_iso_invm: double; 0.0  # Not implemented by Phoebe; Greg only
     dst_iso_deltam: >-
         double;
         GEV(iso_DeltaM);
