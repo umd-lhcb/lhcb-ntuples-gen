@@ -47,16 +47,17 @@ def plotDMass(ntpIn, output, br='d0_m',
               cuts=['is_normal', 'is_normal & d_mass_window_ok'],
               labels=['w/o', 'w/ mass window cut'],
               xlabel=r'\$m_{K \\pi}$ [MeV]',
-              xRange='1780 1940'):
+              xRange='1780 1940', yRange='0 1000000'):
     cuts = ' '.join(f'"{i}"' for i in cuts)
     labels = ' '.join(f'"{i}"' for i in labels)
 
-    cmd = f'plotbr -n {ntpIn}/tree -b "{br}" "{br}" -o {output} --labels {labels} -XL "{xlabel}" --cuts {cuts} -XD {xRange}'
+    cmd = f'plotbr -n {ntpIn}/tree -b "{br}" "{br}" -o {output} --labels {labels} -XL "{xlabel}" --cuts {cuts} -XD {xRange} -YD {yRange}'
     runCmd(cmd)
 
 
 plotDMass(ntpD0In, 'D0_KPi_mass_no_mass_window_cut.png')
-plotDMass(ntpDstIn, 'Dst_KPi_mass_no_mass_window_cut.png', 'd0_m')
+plotDMass(ntpDstIn, 'Dst_KPi_mass_no_mass_window_cut.png', 'd0_m',
+          yRange='0 280000')
 plotDMass(ntpDstIn, 'Dst_KPiPislow_mass_no_mass_window_cut.png', 'dst_m - d0_m',
           xlabel=r'\$m_{K \\pi \\pi_{slow}} -m_{K \\pi}$ [MeV]',
-          xRange='140 190')
+          xRange='140 190', yRange='0 540000')
