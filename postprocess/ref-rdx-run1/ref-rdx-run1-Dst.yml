@@ -255,6 +255,7 @@ calculation:
     # Misc.
     is_data: bool; isData; true
     is_std: bool; is_data && DstIDprod > 0 && IDprod > 0; true
+    is_comb: bool; is_data && DstIDprod > 0 && IDprod < 0; true
     is_2011: bool; flag2011
 
     #########
@@ -300,10 +301,7 @@ calculation:
     # supplied in babymaker cli arguments
     trg_ok: bool; cli_cutflow; l0 && hlt1 && hlt2
     global_cut_ok: >-
-        bool;
-        cli_cutflow;
-        IF_VAR_EXISTS(no_mass_window_cut, dstmu_ok && (is_normal || is_sb));
-        dstmu_ok && d_mass_window_ok && (is_normal || is_sb)
+        bool; cli_cutflow; dstmu_ok
     weight_ok: >-
         ^bool; IF_VAR_EXISTS(cli_fewer_cuts, true);
         reweighting_69_gen3_pt2 >= 0.01 && reweighting_89_gen3_pt2 >= 0.01
@@ -331,6 +329,11 @@ output:
             - is_std
             - is_2011
             - polarity < 0
+
+    Dst_comb:
+        input: ntp1
+        selection:
+            - is_comb
 
     Dst:
         input: YCands/DecayTree
