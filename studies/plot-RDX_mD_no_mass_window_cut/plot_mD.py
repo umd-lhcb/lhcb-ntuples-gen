@@ -25,7 +25,7 @@ def runCmd(cmd):
 def testIfFolderExists(folder, makeRule):
     if not isdir(folder):
         print(f'The ntuple folder {folder} does not exist!')
-        print(f'Run "{makeRule}" in project root to generate the ntuples first!')
+        print(f'Run "make {makeRule}" in project root to generate the ntuples first!')
         sys.exit(1)
 
 
