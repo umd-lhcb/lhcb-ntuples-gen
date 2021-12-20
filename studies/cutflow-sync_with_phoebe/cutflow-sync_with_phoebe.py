@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Nov 30, 2021 at 01:19 AM +0100
+# Last Change: Mon Dec 20, 2021 at 06:29 PM +0100
 # Note: Here we use Phoebe's latest ntuple
 
 import sys
@@ -62,6 +62,20 @@ D0_CUTS = [
     'dxy < 7.0 && Y_M < 5200.0 && TMath::Abs(D0_M - 1864.6) < 23.4 && '
     'Mmu2pi - D0_M - 145.454 > 4.0 && '
     'Mmu2pi - D0_M > 165.0',  # D0 mass hypothesis test and D0Mu combo cuts
+    '!(reweighting_69_gen3_pt2 < 0.01 || reweighting_89_gen3_pt2 < 0.01)',  # Derived from some MC weight
+]
+
+DST_COMB_CUTS = [
+    'isData > 0 && DstIDprod > 0 && IDprod < 0 && muPID > 0 && '  # redoHistos_Dst.C, LN 3651
+    'm_nu1 >= -2.0 && m_nu1 <= 10.9 && '
+    'El >= 0.1e3 && El <= 2.65e3 && '
+    'q2 >= -0.4e6 && q2 <= 12.6e6',  # Generic global cuts on fit variables
+    'L0 && (YTIS || YTOS) && Hlt1 && Hlt2 && '
+    '((Hlt1TAL0K && K_PT > 1700.0) || (Hlt1TAL0pi && pi_PT > 1700.0))',  # trigger
+    '!muVeto && DLLe < 1.0 && BDTmu > 0.25 && '
+    'mu_P > 3.0e3 && mu_P < 100.0e3 && mu_ETA > 1.7 && mu_ETA < 5.0',  # Mu
+    'dxy < 7.0 && Y_M < 5280.0',  # D*Mu combo
+    'abs(Dst_M-D0_M-145.454) < 2.0',  # D*
     '!(reweighting_69_gen3_pt2 < 0.01 || reweighting_89_gen3_pt2 < 0.01)',  # Derived from some MC weight
 ]
 
@@ -190,6 +204,13 @@ D0_REF_NUMS = {
     'DD': 188384,
 }
 
+DST_COMB_REF_NUMS = {
+    'ISO': 11219,
+    '1OS': 9733,
+    '2OS': 9674,
+    'DD': 10602,
+}
+
 
 ###########
 # Helpers #
@@ -245,6 +266,10 @@ if __name__ == '__main__':
         print('Working on D0...')
         frame_d0 = RDataFrame('ntp1', ntp_d0)
         apply_cuts(frame_d0, D0_CUTS, D0_SKIM_CUTS, D0_REF_NUMS)
+    elif sys.argv[1].lower() == 'dstcomb':
+        print('Working on Dst comb. bkg. ...')
+        frame_dst = RDataFrame('ntp1', ntp_dst)
+        apply_cuts(frame_dst, DST_COMB_CUTS, DST_SKIM_CUTS, DST_COMB_REF_NUMS)
     else:
         print(f'Unknown mode: {sys.argv[1]}')
         sys.exit(255)
