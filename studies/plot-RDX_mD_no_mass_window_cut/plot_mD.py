@@ -22,18 +22,17 @@ def runCmd(cmd):
     os.system(cmd)
 
 
-def testIfFolderExists(folder, makeRule):
+def testIfFolderExists(makeRule):
+    folder = f'../../gen/{makeRule}'
     if not isdir(folder):
         print(f'The ntuple folder {folder} does not exist!')
         print(f'Run "make {makeRule}" in project root to generate the ntuples first!')
         sys.exit(1)
+    return folder
 
 
-ntpD0InFolder = '../../gen/ref-rdx-ntuple-run1-data-D0-comp'
-ntpDstInFolder = '../../gen/ref-rdx-ntuple-run1-data-Dst-comp'
-
-testIfFolderExists(ntpD0InFolder, 'ref-rdx-ntuple-run1-data-D0-comp')
-testIfFolderExists(ntpDstInFolder, 'ref-rdx-ntuple-run1-data-Dst-comp')
+ntpD0InFolder = testIfFolderExists('ref-rdx-ntuple-run1-data-D0')
+ntpDstInFolder = testIfFolderExists('ref-rdx-ntuple-run1-data-Dst')
 
 ntpD0In = glob(f'{ntpD0InFolder}/ntuple/D0_data--*.root')[0]
 ntpDstIn = glob(f'{ntpDstInFolder}/ntuple/Dst_data--*.root')[0]
