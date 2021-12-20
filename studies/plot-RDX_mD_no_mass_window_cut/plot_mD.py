@@ -45,18 +45,18 @@ ntpDstIn = glob(f'{ntpDstInFolder}/ntuple/Dst_data--*.root')[0]
 
 def plotDMass(ntpIn, output, br='d0_m',
               cuts=['is_normal', 'is_normal & d_mass_window_ok'],
-              labels=['w/o mass window cut', 'with'],
-              xlabel=r'\$K \\pi$ mass [MeV\$^2$]',
+              labels=['w/o', 'w/ mass window cut'],
+              xlabel=r'\$m_{K \\pi}$ [MeV]',
               xRange='1780 1940'):
     cuts = ' '.join(f'"{i}"' for i in cuts)
     labels = ' '.join(f'"{i}"' for i in labels)
 
-    cmd = f'plotbr -n {ntpIn}/tree -b {br} {br} -o {output} --labels {labels} -XL "{xlabel}" --cuts {cuts} -XD {xRange}'
+    cmd = f'plotbr -n {ntpIn}/tree -b "{br}" "{br}" -o {output} --labels {labels} -XL "{xlabel}" --cuts {cuts} -XD {xRange}'
     runCmd(cmd)
 
 
 plotDMass(ntpD0In, 'D0_KPi_mass_no_mass_window_cut.png')
 plotDMass(ntpDstIn, 'Dst_KPi_mass_no_mass_window_cut.png', 'd0_m')
-plotDMass(ntpDstIn, 'Dst_KPiPislow_mass_no_mass_window_cut.png', 'dst_m',
-          xlabel=r'\$K \\pi \\pi_{slow}$ mass [MeV\$^2$]',
+plotDMass(ntpDstIn, 'Dst_KPiPislow_mass_no_mass_window_cut.png', 'dst_m - d0_m',
+          xlabel=r'\$m_{K \\pi \\pi_{slow}} -m_{K \\pi}$ [MeV]',
           xRange='140 190')
