@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sat Dec 18, 2021 at 03:43 AM +0100
+# Last Change: Mon Dec 20, 2021 at 09:01 PM +0100
 
 import sys
 import os
@@ -387,10 +387,7 @@ JOBS = {
         use_ubdt=False,
         output_ntp_name_gen=parse_step2_name,
         executor=executor,
-        cli_vars={
-            'cli_fewer_cuts': 'true',
-            'no_mass_window_cut': 'true',
-        }
+        cli_vars={'cli_fewer_cuts': 'true'}
     ),
     'ref-rdx-ntuple-run1-data-D0': lambda name: workflow_data(
         name,
@@ -410,10 +407,7 @@ JOBS = {
         use_ubdt=False,
         output_ntp_name_gen=parse_step2_name,
         executor=executor,
-        cli_vars={
-            'cli_fewer_cuts': 'true',
-            'no_mass_window_cut': 'true',
-        }
+        cli_vars={'cli_fewer_cuts': 'true'}
     ),
 }
 
