@@ -2,8 +2,8 @@
 #
 # Description: Plot D meson mass w/o mass window cuts
 
+import os
 import sys
-import uproot
 
 from os.path import isdir
 from glob import glob
@@ -17,8 +17,9 @@ from pyTuplingUtils.plot import plot_top
 # Helpers #
 ###########
 
-ntpD0InFolder = '../../gen/ref-rdx-ntuple-run1-data-D0-comp'
-ntpDstInFolder = '../../gen/ref-rdx-ntuple-run1-data-Dst-comp'
+def runCmd(cmd):
+    print('  \033[92m'+cmd+'\033[0m')
+    os.system(cmd)
 
 
 def testIfFolderExists(folder, makeRule):
@@ -28,9 +29,34 @@ def testIfFolderExists(folder, makeRule):
         sys.exit(1)
 
 
+ntpD0InFolder = '../../gen/ref-rdx-ntuple-run1-data-D0-comp'
+ntpDstInFolder = '../../gen/ref-rdx-ntuple-run1-data-Dst-comp'
+
 testIfFolderExists(ntpD0InFolder, 'ref-rdx-ntuple-run1-data-D0-comp')
 testIfFolderExists(ntpDstInFolder, 'ref-rdx-ntuple-run1-data-Dst-comp')
 
-
 ntpD0In = glob(f'{ntpD0InFolder}/ntuple/D0_data--*.root')[0]
 ntpDstIn = glob(f'{ntpDstInFolder}/ntuple/Dst_data--*.root')[0]
+
+
+#########
+# Plots #
+#########
+
+def plotDMass(ntpIn, output, br='d0_m',
+              cuts=['is_normal', 'is_normal & d_mass_window_ok'],
+              labels=['w/o mass window cut', 'with'],
+              xlabel=r'\$K \\pi$ mass [MeV\$^2$]',
+              xRange='1780 1940'):
+    cuts = ' '.join(f'"{i}"' for i in cuts)
+    labels = ' '.join(f'"{i}"' for i in labels)
+
+    cmd = f'plotbr -n {ntpIn}/tree -b {br} {br} -o {output} --labels {labels} -XL "{xlabel}" --cuts {cuts} -XD {xRange}'
+    runCmd(cmd)
+
+
+plotDMass(ntpD0In, 'D0_KPi_mass_no_mass_window_cut.png')
+plotDMass(ntpDstIn, 'Dst_KPi_mass_no_mass_window_cut.png', 'd0_m')
+plotDMass(ntpDstIn, 'Dst_KPiPislow_mass_no_mass_window_cut.png', 'dst_m',
+          xlabel=r'\$K \\pi \\pi_{slow}$ mass [MeV\$^2$]',
+          xRange='140 190')
