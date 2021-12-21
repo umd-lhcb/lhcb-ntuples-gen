@@ -46,7 +46,7 @@ ntpDstInComb = glob(f'{ntpDstInFolder}/ntuple/Dst_comb--*.root')[0]
 #########
 
 def plotBMass(ntpData, ntpComb, output, br='b_m',
-              title=r'\$D^0$ tree', xlabel=r'\$m_{B}$ [MeV]',
+              title=r'\$D^0$ tree', xlabel=r'\$m_{K \\pi \\mu}$ [MeV]',
               xRange='2000 10000', yscale='linear'):
     cmd = fr'''plotbr -o {output} --title "{title}" -XL "{xlabel}" -XD {xRange} --yscale {yscale} \
     -n {ntpData}/tree -b "{br}" --cuts "mu_ubdt_ok & d_mass_window_ok & is_iso" \
@@ -64,6 +64,7 @@ plotBMass(ntpD0InData, ntpD0InComb, 'D0_B_mass_data_vs_comb_log.png',
           yscale='log')
 
 plotBMass(ntpDstInData, ntpDstInComb, 'Dst_B_mass_data_vs_comb.png',
-          'b0_m', r'\$D^*$ tree', r'\$m_{B^0}$ [MeV]')
+          'b0_m', r'\$D^*$ tree', r'\$m_{K \\pi \\pi_{slow} \\mu}$ [MeV]')
 plotBMass(ntpDstInData, ntpDstInComb, 'Dst_B_mass_data_vs_comb_log.png',
-          'b0_m', r'\$D^*$ tree', r'\$m_{B^0}$ [MeV]', yscale='log')
+          'b0_m', r'\$D^*$ tree', r'\$m_{K \\pi \\pi_{slow} \\mu}$ [MeV]',
+          yscale='log')
