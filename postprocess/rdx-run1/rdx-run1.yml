@@ -11,6 +11,8 @@ keep:
     - GpsTime
 
 rename:
+    # General
+    Polarity: polarity
     runNumber: run
     eventNumber: event
     # L0
@@ -23,6 +25,9 @@ rename:
     pi_Hlt1TrackAllL0Decision_TOS: pi_htl1_trackalll0_tos
     # HLT2
     d0_Hlt2CharmHadD02HH_D02KPiDecision_TOS: d0_hlt2_tos
+    # Event variables
+    nTracks: ntracks
+    NumSPDHits: nspdhits
 
 calculation:
     # For pseudo-random sequence generation
@@ -57,6 +62,7 @@ calculation:
     #################
     # Fit variables #
     #################
+    # Make all fit variables in GeV
     el: double; GEV(FitVar_El)
     mm2: double; GEV2(FitVar_Mmiss2)
     q2: double; GEV2(FitVar_q2)
@@ -64,38 +70,43 @@ calculation:
     #######################
     # Kinematic variables #
     #######################
+    # Keep masses in MeV, everything else in GeV
     # B0
-    b0_m: double; GEV(b0_M)
+    b0_m: double; b0_M
     b0_p: double; GEV(b0_P)
     b0_pt: double; GEV(b0_PT)
     # B
-    b_m: double; GEV(b_M)
+    b_m: double; b_M
     b_p: double; GEV(b_P)
     b_pt: double; GEV(b_PT)
     # D*
-    dst_m: double; GEV(dst_M)
+    dst_m: double; dst_M
     dst_p: double; GEV(dst_P)
     dst_pt: double; GEV(dst_PT)
-    dst_iso_invm: double; GEV(MINV(b0_ISOLATION_PX, b0_ISOLATION_PY, b0_ISOLATION_PZ, b0_ISOLATION_PE, dst_PX, dst_PY, dst_PZ, dst_PE))
+    #dst_iso_invm: double; GEV(MINV(b0_ISOLATION_PX, b0_ISOLATION_PY, b0_ISOLATION_PZ, b0_ISOLATION_PE, dst_PX, dst_PY, dst_PZ, dst_PE))
     dst_iso_deltam: double; GEV(ISO_DELTAM(b0_ISOLATION_PX, b0_ISOLATION_PY, b0_ISOLATION_PZ, b0_ISOLATION_PE, dst_PX, dst_PY, dst_PZ, dst_PE, dst_M))
     # D0
-    d0_m: double; GEV(d0_M)
+    d0_m: double; d0_M
     d0_p: double; GEV(d0_P)
     d0_pt: double; GEV(d0_PT)
     d0_dst_veto_deltam: double; MIN(ABS(b_ISOLATION_DstWindowDELTAM-145.454), ABS(b_ISOLATION_DstWindowDELTAM2-145.454))  # MeV!
-    d0_dst_veto_deltam_stub: "^double; cli_no_dst_veto; d0_dst_veto_deltam; 100.0"
+    d0_dst_veto_deltam_stub: ^double; cli_no_dst_veto; d0_dst_veto_deltam; 100.0
     # K
     k_p: double; GEV(k_P)
     k_pt: double; GEV(k_PT)
+    k_eta: double; ETA(k_P, k_PZ)
     # Pi
     pi_p: double; GEV(pi_P)
     pi_pt: double; GEV(pi_PT)
+    pi_eta: double; ETA(pi_P, pi_PZ)
     # slow Pi
     spi_p: double; GEV(spi_P)
     spi_pt: double; GEV(spi_PT)
+    spi_eta: double; ETA(spi_P, spi_PZ)
     # Mu
     mu_p: double; GEV(mu_P)
     mu_pt: double; GEV(mu_PT)
+    mu_eta: double; ETA(mu_P, mu_PZ)
 
     #################
     # PID variables #
@@ -160,13 +171,15 @@ calculation:
     mu_ip_chi2: double; mu_IPCHI2_OWNPV
     mu_eta: double; ETA(mu_P, mu_PZ)
 
-    ###################
-    # Selection flags #
-    ###################
+    ##########################
+    # Selection flags, basic #
+    ##########################
     # Trigger
-    l0: "bool; mu_L0Global_TIS && (b0_L0Global_TIS || d0_L0HadronDecision_TOS); mu_L0Global_TIS && (b_L0Global_TIS || d0_L0HadronDecision_TOS)"
-    hlt1: "bool; k_Hlt1TrackAllL0Decision_TOS || pi_Hlt1TrackAllL0Decision_TOS"
-    hlt2: "bool; d0_Hlt2CharmHadD02HH_D02KPiDecision_TOS"
+    l0: >-
+        bool; mu_L0Global_TIS && (b0_L0Global_TIS || d0_L0HadronDecision_TOS);
+        mu_L0Global_TIS && (b_L0Global_TIS || d0_L0HadronDecision_TOS)
+    hlt1: bool; k_Hlt1TrackAllL0Decision_TOS || pi_Hlt1TrackAllL0Decision_TOS
+    hlt2: bool; d0_Hlt2CharmHadD02HH_D02KPiDecision_TOS
 
     # D0 selection
     d0_pid_ok: bool; FLAG_SEL_D0_PID_OK_RUN1(k_PIDK, pi_PIDK, k_isMuon, pi_isMuon)
@@ -177,13 +190,15 @@ calculation:
         k_Hlt1TrackAllL0Decision_TOS, pi_Hlt1TrackAllL0Decision_TOS,
         k_IPCHI2_OWNPV, pi_IPCHI2_OWNPV,
         k_TRACK_GhostProb, pi_TRACK_GhostProb,
-        d0_PT, d0_Hlt2CharmHadD02HH_D02KPiDecision_TOS,
+        d0_PT,
+        d0_Hlt2CharmHadD02HH_D02KPiDecision_TOS,
         d0_ENDVERTEX_CHI2, d0_ENDVERTEX_NDOF,
         d0_IP_OWNPV, d0_IPCHI2_OWNPV,
         d0_DIRA_OWNPV,
-        d0_FDCHI2_OWNPV,
-        d0_M
+        d0_FDCHI2_OWNPV
         )
+    d0_mass_ok: ^bool; FLAG_SEL_D0_MASS(d0_M)
+    d0_mass_hypo_ok: ^bool; FLAG_SEL_D0_MASS_HYPO(mu_PX, mu_PY, mu_PZ, d0_PX, d0_PY, d0_PZ, d0_M)
 
     # Mu selection
     # Variables needed for Mu selection
@@ -198,7 +213,7 @@ calculation:
     mu_ubdt_ok: bool; mu_ubdt > 0.25
     mu_ok: >-
         bool; FLAG_SEL_MU_RUN1(
-        trks_ok, mu_pid_ok,
+        mu_pid_ok, trks_ok,
         mu_P, mu_eta,
         mu_IPCHI2_OWNPV, mu_TRACK_GhostProb
         )
@@ -211,9 +226,6 @@ calculation:
         b_ENDVERTEX_CHI2, b_ENDVERTEX_NDOF,
         b_fd_trans,
         b_DIRA_OWNPV,
-        b_M,
-        mu_PX, mu_PY, mu_PZ,
-        d0_PX, d0_PY, d0_PZ, d0_M,
         d0_dst_veto_deltam_stub
         )
 
@@ -223,40 +235,53 @@ calculation:
         d0_ok, mu_ok,
         spi_TRACK_GhostProb,
         dst_ENDVERTEX_CHI2, dst_ENDVERTEX_NDOF,
-        dst_M, d0_M,
         b0_discard_mu_chi2,
         b0_ENDVERTEX_CHI2, b0_ENDVERTEX_NDOF,
         b0_fd_trans,
-        b0_DIRA_OWNPV, b0_M
+        b0_DIRA_OWNPV
         )
+    dst_mass_ok: ^bool; FLAG_SEL_DST_MASS(dst_m, d0_m)
 
-    # Skims
-    is_iso: bool; FLAG_ISO(mu_ubdt_ok, iso_bdt1)
+    ###############################
+    # Selection flags, additional #
+    ###############################
+    d_mass_window_ok: bool; d0_mass_ok && dst_mass_ok; d0_mass_ok && d0_mass_hypo_ok
+    is_in_fit_range: bool; IN_RANGE(mm2, -2.0, 10.9) && IN_RANGE(el, 0.1, 2.65) && IN_RANGE(q2, -0.4, 12.6)
+    is_normal: bool; FLAG_SEL_B0_MASS(b0_m) && is_in_fit_range; FLAG_SEL_BMINUS_MASS(b_m) && is_in_fit_range
+    is_sb: bool; FLAG_SEL_B0_MASS_SB(b0_m); FLAG_SEL_BMINUS_MASS_SB(b_m)
+
+    #########
+    # Skims #
+    #########
+    skim_global_ok: ^bool; mu_ubdt_ok && d_mass_window_ok
+    is_iso: bool; FLAG_ISO(skim_global_ok, iso_bdt1)
     is_dd: >-
         bool; FLAG_DD(
-        mu_ubdt_ok,
+        skim_global_ok,
         iso_bdt1, iso_bdt2, iso_bdt2, iso_type1, iso_type2, iso_type3,
         iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
         iso_nnk1, iso_nnk2, iso_nnk3
         )
     is_2os: >-
         bool; FLAG_2OS(
-        mu_ubdt_ok,
+        skim_global_ok,
         iso_bdt1, iso_bdt2, iso_bdt3, iso_type1, iso_type2,
         iso_p1, iso_p2, iso_pt1, iso_pt2,
         iso_chrg1, iso_chrg2,
         iso_nnk1, iso_nnk2
         )
     is_1os: >-
-        bool; FLAG_1OS(
-        mu_ubdt_ok,
+        bool;
+        FLAG_1OS(
+        skim_global_ok,
         iso_bdt1, iso_bdt2, iso_type1,
         iso_p1, iso_pt1,
         iso_chrg1,
         iso_nnk1,
         dst_id, dst_iso_deltam
-        ); FLAG_1OS(
-        mu_ubdt_ok,
+        );
+        FLAG_1OS(
+        skim_global_ok,
         iso_bdt1, iso_bdt2, iso_type1,
         iso_p1, iso_pt1,
         iso_chrg1,
@@ -269,8 +294,8 @@ calculation:
     ###############
     # These are defined so that we can turn them on/off with external variables
     # supplied in babymaker cli arguments
-    trg_ok: "bool; cli_cutflow; l0 && hlt1 && hlt2"
-    global_cut_ok: "bool; cli_cutflow; dstmu_ok; d0mu_ok"
+    trg_ok: bool; cli_cutflow; l0 && hlt1 && hlt2
+    global_cut_ok: bool; cli_cutflow; dstmu_ok; d0mu_ok
 
 global_selection:
     - trg_ok

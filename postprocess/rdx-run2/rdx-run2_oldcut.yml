@@ -140,6 +140,7 @@ calculation:
     # Mu
     mu_is_mu: bool; mu_isMuon
     mu_pid_mu: double; mu_PIDmu
+    mu_pid_k: double; mu_PIDK
     mu_pid_e: double; mu_PIDe
     mu_ubdt: float; mu_bdt_mu; 1.0  # Greg's Mu UBDT PID
 
@@ -429,7 +430,6 @@ calculation:
     # supplied in babymaker cli arguments
     trg_ok: bool; cli_cutflow; l0 && hlt1 && hlt2
     global_cut_ok: bool; cli_cutflow; dstmu_ok; d0mu_ok
-
 
 global_selection:
     - trg_ok
