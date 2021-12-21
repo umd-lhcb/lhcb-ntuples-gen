@@ -300,8 +300,7 @@ calculation:
     # These are defined so that we can turn them on/off with external variables
     # supplied in babymaker cli arguments
     trg_ok: bool; cli_cutflow; l0 && hlt1 && hlt2
-    global_cut_ok: >-
-        bool; cli_cutflow; dstmu_ok
+    global_cut_ok: bool; cli_cutflow; dstmu_ok
     weight_ok: >-
         ^bool; IF_VAR_EXISTS(cli_fewer_cuts, true);
         reweighting_69_gen3_pt2 >= 0.01 && reweighting_89_gen3_pt2 >= 0.01
