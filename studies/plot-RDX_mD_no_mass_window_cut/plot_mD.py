@@ -44,7 +44,7 @@ ntpDstIn = glob(f'{ntpDstInFolder}/ntuple/Dst_data--*.root')[0]
 
 def plotDMass(ntpIn, output, br='d0_m',
               cuts=['is_normal & mu_ubdt_ok',
-                    'is_normal & d_mass_window_ok &mu_ubdt_ok'],
+                    'is_normal & d_mass_window_ok & mu_ubdt_ok'],
               labels=['w/o', 'w/ mass window cut'],
               xlabel=r'\$m_{K \\pi}$ [MeV]',
               xRange='1780 1940', yRange='0 1000000'):
