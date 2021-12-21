@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun, Manual Franco Sevilla
 # License: BSD 2-clause
-# Last Change: Thu Nov 04, 2021 at 03:24 PM +0100
+# Last Change: Tue Dec 21, 2021 at 03:52 AM +0100
 
 import pathlib
 import os
@@ -438,12 +438,15 @@ load_cpp(header_path + '/functor/rdx/kinematic.h')
 
 flag_sel_d0_pid_ok_run1 = vectorize(ROOT.FLAG_SEL_D0_PID_OK_RUN1)
 flag_sel_d0_run1_raw = vectorize(ROOT.FLAG_SEL_D0_RUN1)
+flag_sel_d0_mass = vectorize(ROOT.FLAG_SEL_D0_MASS)
 
 flag_sel_mu_pid_ok_run1 = vectorize(ROOT.FLAG_SEL_MU_PID_OK_RUN1)
 flag_sel_mu_run1_raw = vectorize(ROOT.FLAG_SEL_MU_RUN1)
 kinematic_eta = vectorize(ROOT.ETA)
 
 flag_sel_b0dst_run1_raw = vectorize(ROOT.FLAG_SEL_B0DST_RUN1)
+flag_sel_dst_mass = vectorize(ROOT.FLAG_SEL_DST_MASS)
+flag_sel_b0_mass = vectorize(ROOT.FLAG_SEL_B0_MASS)
 
 
 def flag_sel_d0_run1(k_pid_k, pi_pid_k, k_is_mu, pi_is_mu,
@@ -458,12 +461,14 @@ def flag_sel_d0_run1(k_pid_k, pi_pid_k, k_is_mu, pi_is_mu,
                      d0_dira, d0_fd_chi2, d0_m):
     d0_pid_ok = flag_sel_d0_pid_ok_run1(k_pid_k, pi_pid_k, k_is_mu,
                                         pi_is_mu)
-    return flag_sel_d0_run1_raw(d0_pid_ok, k_pt, pi_pt,
-                                k_hlt1_tos, pi_hlt1_tos,
-                                k_ip_chi2, pi_ip_chi2, k_gh_prob, pi_gh_prob,
-                                d0_pt, d0_hlt2,
-                                d0_endvtx_chi2, d0_endvtx_ndof,
-                                d0_ip, d0_ip_chi2, d0_dira, d0_fd_chi2, d0_m)
+    d0_ok =  flag_sel_d0_run1_raw(d0_pid_ok, k_pt, pi_pt,
+                                  k_hlt1_tos, pi_hlt1_tos,
+                                  k_ip_chi2, pi_ip_chi2, k_gh_prob, pi_gh_prob,
+                                  d0_pt, d0_hlt2,
+                                  d0_endvtx_chi2, d0_endvtx_ndof,
+                                  d0_ip, d0_ip_chi2, d0_dira, d0_fd_chi2)
+    d0_mass_ok = flag_sel_d0_mass(d0_m)
+    return np.logical_and.reduce((d0_pid_ok, d0_ok, d0_mass_ok))
 
 
 # NOTE: This is how wrap a C++ function that takes vector arguments.
@@ -533,13 +538,16 @@ def flag_sel_b0dst_run1(spi_gh_prob,
                         b0_dira, b0_m):
     b0_fd_trans = vec_trans(b0_endvtx_x - b0_pv_x, b0_endvtx_y - b0_pv_y)
 
-    return flag_sel_b0dst_run1_raw(True, True,
-                                   spi_gh_prob,
-                                   dst_endvtx_chi2, dst_endvtx_ndof,
-                                   dst_m, d0_m,
-                                   b0_discard_mu_chi2,
-                                   b0_endvtx_chi2, b0_endvtx_ndof,
-                                   b0_fd_trans, b0_dira, b0_m)
+    dstmu_ok = flag_sel_b0dst_run1_raw(True, True,
+                                       spi_gh_prob,
+                                       dst_endvtx_chi2, dst_endvtx_ndof,
+                                       b0_discard_mu_chi2,
+                                       b0_endvtx_chi2, b0_endvtx_ndof,
+                                       b0_fd_trans, b0_dira)
+    dst_mass_ok = flag_sel_dst_mass(dst_m, d0_m)
+    b0_mass_ok = flag_sel_b0_mass(b0_m)
+
+    return np.logical_and.reduce((dstmu_ok, dst_mass_ok, b0_mass_ok))
 
 
 KNOWN_FUNC['flag_sel_run1_strip'] = vectorize(ROOT.FLAG_SEL_RUN1_STRIP)
