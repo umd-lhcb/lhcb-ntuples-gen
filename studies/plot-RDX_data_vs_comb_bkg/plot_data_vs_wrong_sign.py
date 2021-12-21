@@ -49,10 +49,10 @@ def plotBMass(ntpData, ntpComb, output, br='b_m',
               title=r'\$D^0$ tree', xlabel=r'\$m_{B}$ [MeV]',
               xRange='2000 10000', yscale='linear'):
     cmd = fr'''plotbr -o {output} --title "{title}" -XL "{xlabel}" -XD {xRange} --yscale {yscale} \
-    -n {ntpData}/tree -b "{br}" --cuts "d_mass_window_ok & is_iso" \
+    -n {ntpData}/tree -b "{br}" --cuts "mu_ubdt_ok & d_mass_window_ok & is_iso" \
     -l "right-sign, all" \
     -n {ntpComb}/tree -b "{br}" "{br}" "{br}" \
-    --cuts "d_mass_window_ok & is_iso" "is_normal & d_mass_window_ok & is_iso" "is_sb & d_mass_window_ok & is_iso" \
+    --cuts "mu_ubdt_ok & d_mass_window_ok & is_iso" "mu_ubdt_ok & is_normal & d_mass_window_ok & is_iso" "mu_ubdt_ok & is_sb & d_mass_window_ok & is_iso" \
     -l "wrong-sign, all" "wrong-sign, normal" "wrong-sign, SB" \
     --bins 60
 '''
