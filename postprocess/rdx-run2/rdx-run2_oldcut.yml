@@ -90,14 +90,14 @@ calculation:
     dst_m: double; dst_M
     dst_p: double; GEV(dst_P)
     dst_pt: double; GEV(dst_PT)
-    dst_iso_invm: double; GEV(MINV(b0_ISOLATION_PX, b0_ISOLATION_PY, b0_ISOLATION_PZ, b0_ISOLATION_PE, dst_PX, dst_PY, dst_PZ, dst_PE))
+    #dst_iso_invm: double; GEV(MINV(b0_ISOLATION_PX, b0_ISOLATION_PY, b0_ISOLATION_PZ, b0_ISOLATION_PE, dst_PX, dst_PY, dst_PZ, dst_PE))
     dst_iso_deltam: double; GEV(ISO_DELTAM(b0_ISOLATION_PX, b0_ISOLATION_PY, b0_ISOLATION_PZ, b0_ISOLATION_PE, dst_PX, dst_PY, dst_PZ, dst_PE, dst_M))
     # D0
     d0_m: double; d0_M
     d0_p: double; GEV(d0_P)
     d0_pt: double; GEV(d0_PT)
     d0_dst_veto_deltam: double; MIN(ABS(b_ISOLATION_DstWindowDELTAM-145.454), ABS(b_ISOLATION_DstWindowDELTAM2-145.454))  # MeV!
-    d0_dst_veto_deltam_stub: "^double; cli_no_dst_veto; d0_dst_veto_deltam; 100.0"
+    d0_dst_veto_deltam_stub: ^double; cli_no_dst_veto; d0_dst_veto_deltam; 100.0
     # K
     k_p: double; GEV(k_P)
     k_pt: double; GEV(k_PT)
@@ -189,23 +189,26 @@ calculation:
         double;
         SQRT(M2(
         b0_TrueHadron_D0_PX, b0_TrueHadron_D0_PY, b0_TrueHadron_D0_PZ,
-        b0_TrueHadron_D0_PE));
+        b0_TrueHadron_D0_PE)
+        );
         SQRT(M2(
         b_TrueHadron_D0_PX, b_TrueHadron_D0_PY, b_TrueHadron_D0_PZ,
-        b_TrueHadron_D0_PE))
+        b_TrueHadron_D0_PE)
+        )
     ff_b_mass: >-
         double;
         SQRT(M2(b0_TRUEP_X, b0_TRUEP_Y, b0_TRUEP_Z, b0_TRUEP_E));
         SQRT(M2(b_TRUEP_X, b_TRUEP_Y, b_TRUEP_Z, b_TRUEP_E))
     q2_true: double; q2_true
 
-    ###################
-    # Selection flags #
-    ###################
+    ################################
+    # Selection flags, MC-specific #
+    ################################
     # Truth-matching
     mc_id: int; cli_mc_id
     truthmatch: >-
-        int; MC_TRUTH_MATCH_DST(
+        int;
+        MC_TRUTH_MATCH_DST(
         mc_id,
         mu_TRUEID, mu_MC_MOTHER_ID, mu_MC_GD_MOTHER_ID, mu_MC_GD_GD_MOTHER_ID,
         mu_MC_MOTHER_KEY, mu_MC_GD_MOTHER_KEY, mu_MC_GD_GD_MOTHER_KEY,
@@ -214,7 +217,8 @@ calculation:
         dst_MC_MOTHER_TRUEPE, dst_MC_MOTHER_TRUEPX, dst_MC_MOTHER_TRUEPY, dst_MC_MOTHER_TRUEPZ,
         dst_TRUEP_E, dst_TRUEP_X, dst_TRUEP_Y, dst_TRUEP_Z,
         dst_BKGCAT, d0_BKGCAT, b0_BKGCAT
-        ); MC_TRUTH_MATCH_D0(
+        );
+        MC_TRUTH_MATCH_D0(
         mc_id, b_TRUEID,
         mu_TRUEID, mu_MC_MOTHER_ID, mu_MC_GD_MOTHER_ID, mu_MC_GD_GD_MOTHER_ID, mu_MC_GD_GD_GD_MOTHER_ID,
         mu_MC_MOTHER_KEY, mu_MC_GD_MOTHER_KEY, mu_MC_GD_GD_MOTHER_KEY, mu_MC_GD_GD_GD_MOTHER_KEY,
@@ -232,6 +236,9 @@ calculation:
     # NOTE: Need to have a valid HAMMER weight unless is a DDX or D**s
     ham_ok: bool; IF(is_ddx || is_strange, true, ham_ok)
 
+    ##########################
+    # Selection flags, basic #
+    ##########################
     # Trigger
     l0: >-
         bool; IF_VAR_EXISTS(mc_id, true);
@@ -263,9 +270,10 @@ calculation:
         d0_ENDVERTEX_CHI2, d0_ENDVERTEX_NDOF,
         d0_IP_OWNPV, d0_IPCHI2_OWNPV,
         d0_DIRA_OWNPV,
-        d0_FDCHI2_OWNPV,
-        d0_M
+        d0_FDCHI2_OWNPV
         )
+    d0_mass_ok: ^bool; FLAG_SEL_D0_MASS(d0_M)
+    d0_mass_hypo_ok: ^bool; FLAG_SEL_D0_MASS_HYPO(mu_PX, mu_PY, mu_PZ, d0_PX, d0_PY, d0_PZ, d0_M)
 
     # Mu selection
     # Variables needed for Mu selection
@@ -296,9 +304,6 @@ calculation:
         b_ENDVERTEX_CHI2, b_ENDVERTEX_NDOF,
         b_fd_trans,
         b_DIRA_OWNPV,
-        b_M,
-        mu_PX, mu_PY, mu_PZ,
-        d0_PX, d0_PY, d0_PZ, d0_M,
         d0_dst_veto_deltam_stub
         )
 
@@ -308,54 +313,59 @@ calculation:
         d0_ok, mu_ok,
         spi_TRACK_GhostProb,
         dst_ENDVERTEX_CHI2, dst_ENDVERTEX_NDOF,
-        dst_M, d0_M,
         b0_discard_mu_chi2,
         b0_ENDVERTEX_CHI2, b0_ENDVERTEX_NDOF,
         b0_fd_trans,
-        b0_DIRA_OWNPV, b0_M
+        b0_DIRA_OWNPV
         )
+    dst_mass_ok: ^bool; FLAG_SEL_DST_MASS(dst_m, d0_m)
 
-    # Skims
-    is_iso: bool; FLAG_ISO(mu_ubdt_ok, iso_bdt1)
+    ###############################
+    # Selection flags, additional #
+    ###############################
+    d_mass_window_ok: bool; d0_mass_ok && dst_mass_ok; d0_mass_ok && d0_mass_hypo_ok
+    is_in_fit_range: bool; IN_RANGE(mm2, -2.0, 10.9) && IN_RANGE(el, 0.1, 2.65) && IN_RANGE(q2, -0.4, 12.6)
+    is_normal: bool; FLAG_SEL_B0_MASS(b0_m) && is_in_fit_range; FLAG_SEL_BMINUS_MASS(b_m) && is_in_fit_range
+    is_sb: bool; FLAG_SEL_B0_MASS_SB(b0_m); FLAG_SEL_BMINUS_MASS_SB(b_m)
+
+    #########
+    # Skims #
+    #########
+    skim_global_ok: ^bool; mu_ubdt_ok && d_mass_window_ok
+    is_iso: bool; FLAG_ISO(skim_global_ok, iso_bdt1)
     is_dd: >-
         bool; FLAG_DD(
-        mu_ubdt_ok,
+        skim_global_ok,
         iso_bdt1, iso_bdt2, iso_bdt2, iso_type1, iso_type2, iso_type3,
         iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
         iso_nnk1, iso_nnk2, iso_nnk3
         )
     is_2os: >-
         bool; FLAG_2OS(
-        mu_ubdt_ok,
+        skim_global_ok,
         iso_bdt1, iso_bdt2, iso_bdt3, iso_type1, iso_type2,
         iso_p1, iso_p2, iso_pt1, iso_pt2,
         iso_chrg1, iso_chrg2,
         iso_nnk1, iso_nnk2
         )
     is_1os: >-
-        bool; FLAG_1OS(
-        mu_ubdt_ok,
+        bool;
+        FLAG_1OS(
+        skim_global_ok,
         iso_bdt1, iso_bdt2, iso_type1,
         iso_p1, iso_pt1,
         iso_chrg1,
         iso_nnk1,
         dst_id, dst_iso_deltam
-        ); FLAG_1OS(
-        mu_ubdt_ok,
+        );
+        FLAG_1OS(
+        skim_global_ok,
         iso_bdt1, iso_bdt2, iso_type1,
         iso_p1, iso_pt1,
         iso_chrg1,
         iso_nnk1,
         d0_id
         )
-
-    ###############
-    # Global cuts #
-    ###############
-    # These are defined so that we can turn them on/off with external variables
-    # supplied in babymaker cli arguments
-    trg_ok: "bool; cli_cutflow; l0 && hlt1 && hlt2"
-    global_cut_ok: "bool; cli_cutflow; dstmu_ok; d0mu_ok"
 
     ###########
     # Weights #
@@ -375,48 +385,57 @@ calculation:
     w2os: double; w*wskim_2os
 
     # Skims, but in weights, for MC
-    wskim_iso: double; WT_ISO(true, iso_bdt1)
+    wskim_iso: double; WT_ISO(d_mass_window_ok, iso_bdt1)
     wskim_dd: >-
         double; WT_DD(
-        true,
+        d_mass_window_ok,
         iso_bdt1, iso_bdt2, iso_bdt2, iso_type1, iso_type2, iso_type3,
         iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
         wpid_iso_nnk1_high_prob, wpid_iso_nnk1_high_prob, wpid_iso_nnk3_high_prob
         )
     wskim_2os: >-
         double; WT_2OS(
-        true,
+        d_mass_window_ok,
         iso_bdt1, iso_bdt2, iso_bdt3, iso_type1, iso_type2,
         iso_p1, iso_p2, iso_pt1, iso_pt2,
         iso_chrg1, iso_chrg2,
         wpid_iso_nnk1_low_prob, wpid_iso_nnk2_low_prob
         )
     wskim_1os: >-
-        bool; WT_1OS(
-        true,
-        iso_bdt1, iso_bdt2, iso_type1,
+        bool;
+        WT_1OS(
+        d_mass_window_ok,
+        iso_bdt1, iso_bdt2,
+        iso_type1,
         iso_p1, iso_pt1,
         iso_chrg1,
         wpid_iso_nnk1_low_prob,
         dst_id, dst_iso_deltam
-        ); FLAG_1OS(
-        true,
-        iso_bdt1, iso_bdt2, iso_type1,
+        );
+        WT_1OS(
+        d_mass_window_ok,
+        iso_bdt1, iso_bdt2,
+        iso_type1,
         iso_p1, iso_pt1,
         iso_chrg1,
         wpid_iso_nnk1_low_prob,
         d0_id
         )
 
+    ###############
+    # Global cuts #
+    ###############
+    # These are defined so that we can turn them on/off with external variables
+    # supplied in babymaker cli arguments
+    trg_ok: bool; cli_cutflow; l0 && hlt1 && hlt2
+    global_cut_ok: bool; cli_cutflow; dstmu_ok; d0mu_ok
+
+
 global_selection:
     - trg_ok
     - global_cut_ok
     - truthmatch > 0
     - ham_ok
-    # Cuts on fit variables
-    - IN_RANGE(mm2, -2.0, 10.9)
-    - IN_RANGE(el, 0.1, 2.65)
-    - IN_RANGE(q2, -0.4, 12.6)
 
 one_cand_only:
     enable: true
@@ -430,8 +449,14 @@ output:
             - "d0_dst_veto_deltam"
             - "d0_dst_veto_ok"
             - "d0mu_ok"
-            - ".*_true_id"
-            - "wskim_.*"
+            - ".*_true.*"
+            - "w.*"
+            - "mc_.*"
+            - "ff_.*"
+            - truthmatch
+            - is_ddx
+            - is_strange
+            - ham_ok
 
     D0:
         input: TupleBminus/DecayTree
@@ -441,5 +466,11 @@ output:
             - "^dst_.*"
             - "trk_spi"
             - "dstmu_ok"
-            - ".*_true_id"
-            - "wskim_.*"
+            - ".*_true.*"
+            - "w.*"
+            - "mc_.*"
+            - "ff_.*"
+            - truthmatch
+            - is_ddx
+            - is_strange
+            - ham_ok
