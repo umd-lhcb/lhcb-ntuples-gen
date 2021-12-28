@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Dec 28, 2021 at 05:05 PM +0100
+# Last Change: Tue Dec 28, 2021 at 05:49 PM +0100
 
 import os
 
@@ -49,23 +49,27 @@ def is_num(val):
         return False
 
 
+def pad_idx(idxs):
+    return max(len(i) for i in idxs)
+
+
 def find_ntp_name(folders):
     return basename(glob(f'{folders[0]}/*.root')[0])
 
 
 def fltr_subjob_ntps(job_folder):
-    raw = glob(f'{job_folder}/*')
-    folders = [i+'/output' for i in raw if is_num(basename(i))]
+    raw = [i for i in glob(f'{job_folder}/*') if is_num(basename(i))]
+    folders = [i+'/output' for i in raw]
     ntp_name = find_ntp_name(folders)
     return [i+f'/{ntp_name}' for i in folders], [basename(i) for i in raw]
 
 
-def output_idx_gen(input_ntp_folder):
-    return input_ntp_folder
+def output_idx_gen(input_ntp_folder, padding):
+    return '0'*(padding - len(input_ntp_folder)) + input_ntp_folder
 
 
-def output_ntp_name_gen(output_folder, input_ntp_folder):
-    suffix = OUTPUT_NTP_SUFFIX.format(output_idx_gen(input_ntp_folder))
+def output_ntp_name_gen(output_folder, input_ntp_folder, padding):
+    suffix = OUTPUT_NTP_SUFFIX.format(output_idx_gen(input_ntp_folder, padding))
     return f'{output_folder}--{suffix}.root'
 
 
@@ -95,6 +99,7 @@ if __name__ == '__main__':
     exe = run_skim(args.debug)
 
     input_ntps, folder_idx = fltr_subjob_ntps(args.input_folder)
+    padding = pad_idx(folder_idx)
     for ntp, idx in zip(input_ntps, folder_idx):
-        output_ntp = f'{args.output_folder}/{output_ntp_name_gen(args.output_folder, idx)}'
+        output_ntp = f'{args.output_folder}/{output_ntp_name_gen(args.output_folder, idx, padding)}'
         exe(ntp, output_ntp, args.skim_config)
