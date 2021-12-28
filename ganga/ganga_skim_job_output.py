@@ -2,13 +2,14 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Dec 28, 2021 at 07:10 PM +0100
+# Last Change: Tue Dec 28, 2021 at 07:22 PM +0100
 
 import os
 
 from argparse import ArgumentParser
 from glob import glob
-from os.path import basename, abspath
+from os.path import basename, abspath, isdir
+from os import makedirs
 
 
 #################
@@ -26,9 +27,9 @@ OUTPUT_NTP_SUFFIX = '{}-dv'
 def parse_input():
     parser = ArgumentParser(description='skim ganga output ntuples.')
 
-    parser.add_argument('input_folder', help='specify ganga job folder.')
     parser.add_argument('output_folder',
                         help='specify output folder for skimmed ntuples.')
+    parser.add_argument('input_folder', help='specify ganga job folder.')
     parser.add_argument('skim_config', help='specify skim config')
 
     parser.add_argument('-d', '--debug', action='store_true',
@@ -70,14 +71,14 @@ def output_idx_gen(input_ntp_folder, padding):
 
 def output_ntp_name_gen(output_folder, input_ntp_folder, padding):
     suffix = OUTPUT_NTP_SUFFIX.format(output_idx_gen(input_ntp_folder, padding))
-    return f'{output_folder}--{suffix}.root'
+    return f'{basename(output_folder)}--{suffix}.root'
 
 
 def run_skim(debug=False):
     exe = f'{PROJECT_ROOT}/scripts/haddcut.py'
 
     def executor(input_ntp, output_ntp, config):
-        print('Skimming {input_ntp} as {output_ntp}...')
+        print(f'  Skimming {input_ntp} as {output_ntp}...')
         cmd = f'{exe} {output_ntp} {input_ntp} -c {config}'
         if debug:
             print(cmd)
@@ -85,6 +86,11 @@ def run_skim(debug=False):
             os.system(cmd)
 
     return executor
+
+
+def ensure_dir(folder):
+    if not isdir(folder):
+        makedirs(folder)
 
 
 ########
@@ -96,11 +102,14 @@ if __name__ == '__main__':
 
     if args.debug:
         print(f'lhcb-ntuples-gen project root path is: {PROJECT_ROOT}')
+        print(f'Input dir: {args.input_folder}')
 
+    output_folder = args.output_folder.replace('.root', '')
+    ensure_dir(output_folder)
     exe = run_skim(args.debug)
 
     input_ntps, folder_idx = fltr_subjob_ntps(args.input_folder)
     padding = pad_idx(folder_idx)
     for ntp, idx in zip(input_ntps, folder_idx):
-        output_ntp = f'{args.output_folder}/{output_ntp_name_gen(args.output_folder, idx, padding)}'
+        output_ntp = f'{output_folder}/{output_ntp_name_gen(output_folder, idx, padding)}'
         exe(ntp, output_ntp, args.skim_config)
