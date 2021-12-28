@@ -26,7 +26,66 @@ def get_ntuple_filename(j):
             return name
 
 
-def gen_hadd_script(instructions, output_script, input_dir, output_dir='$1',
+def gen_hadd_script(instructions, output_script, output_dir='$1',
+                    min_ntuple_size=500):
+    from os.path import expanduser
+
+    header = '''#!/usr/bin/env bash
+INPUT_DIR=/dev/null  # NOTE: Configure this before proceed!!!
+SKIM_CONFIG=./postprocess/skims/rdx_mc.yml  # NOTE: Make sure you pick the right one!!!
+OUTPUT_DIR={}
+MIN_NTUPLE_SIZE={}  # in KiB
+
+'''.format(output_dir, min_ntuple_size)
+
+    functions = '''
+function check_job () {
+  local error=0
+  local job_dir=${INPUT_DIR}/$1
+
+  echo "Verifying output for Job $1..."
+
+  for sj in $(ls $job_dir | grep -E "^[0-9].*$"); do
+    local file=$(find $job_dir/$sj/output -name '*.root')
+
+    if [[ -z $file ]]; then
+      let "error++"
+      echo "subjob $sj: ntuple missing!"
+    else
+      local size=$(du -b $file | awk '{print int($1 / 1024)}')  # in KiB
+      if [ $size -lt ${MIN_NTUPLE_SIZE} ]; then
+        let "error++"
+        echo "subjob $sj: ntuple has a size of $size KiB, which is too small!"
+      fi
+    fi
+  done
+
+  if [ $error -gt 0 ]; then
+    echo "Job $1 output verification failed with $error error(s)."
+  fi
+
+  return $error
+}
+
+function concat_job () {
+  check_job $1
+
+  if [ $? -eq 0 ]; then
+    ./ganga/ganga_skim_job_output.py ${OUTPUT_DIR}/$2 ${INPUT_DIR}/$1 ${SKIM_CONFIG}
+  fi
+}
+
+'''
+
+    with open(expanduser(output_script), 'w') as f:
+        f.write(header)
+        f.write(functions)
+
+        for idx, orig_filename in instructions:
+            f.write(f'concat_job {idx} {orig_filename}\n')
+
+
+def gen_hadd_script_old(instructions, output_script, input_dir, output_dir='$1',
                     min_ntuple_size=500):
     from os.path import expanduser
 
@@ -127,24 +186,18 @@ def print_job_hadd_filename(init_idx=0):
 
 def hadd_completed_job_output(
         init_idx=0,
-        output_script='~/batch_hadd.sh',
+        output_script='~/batch_skim.sh',
         completed_only=False
 ):
-    input_dir = None
-
     instructions = []
     for j in jobs:
         if j.id >= init_idx:
-            if not input_dir:
-                input_dir = '/'.join(j.inputdir.split('/')[:-3])
-
             if j.status != 'completed':
                 print('Warning: job {} has a name {} and status {}'.format(j.id, j.name, j.status))
                 if completed_only:
                     print('Skipping...')
                     continue
 
-            instructions.append((j.id, get_ntuple_filename(j),
-                                 normalize_hadd_filename(j)))
+            instructions.append((j.id, normalize_hadd_filename(j)))
 
-    gen_hadd_script(instructions, output_script, input_dir)
+    gen_hadd_script(instructions, output_script)
