@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Dec 28, 2021 at 05:49 PM +0100
+# Last Change: Tue Dec 28, 2021 at 07:10 PM +0100
 
 import os
 
@@ -77,6 +77,7 @@ def run_skim(debug=False):
     exe = f'{PROJECT_ROOT}/scripts/haddcut.py'
 
     def executor(input_ntp, output_ntp, config):
+        print('Skimming {input_ntp} as {output_ntp}...')
         cmd = f'{exe} {output_ntp} {input_ntp} -c {config}'
         if debug:
             print(cmd)
