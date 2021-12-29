@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Dec 29, 2021 at 04:44 AM +0100
+# Last Change: Wed Dec 29, 2021 at 05:29 AM +0100
 
 import re
 import yaml
@@ -123,6 +123,7 @@ def aggregate_output(workdir, output_dir, keep):
 
 DATE_FMT = '%y_%m_%d'
 
+
 def gen_date(fmt=DATE_FMT):
     return datetime.now().strftime(fmt)
 
@@ -186,41 +187,40 @@ def check_rules(fields, rules):
     required_rules = [i for i in rules if not i[1]]
     optional_rules = [i for i in rules if i[1]]
 
-    stash = []
     result = dict()
     errors = dict()
 
     # First pass, only check required fields
     for name, _, checker in required_rules:
         rule_ok = False
+        field = None
 
-        while len(fields) > 0:
-            field = fields.pop(0)
+        for idx, field in enumerate(fields):
             rule_ok = checker(field)
             if rule_ok:
                 result[name] = field
+                fields.pop(idx)
                 break
-            stash.append(field)
 
         if not rule_ok:
             errors[name] = field
 
     for name, _, checker in optional_rules:
         # If there's no additional field to consume, skip all optional rules
-        rule_ok = len(stash) == 0
+        rule_ok = len(fields) == 0
 
-        while len(stash) > 0:
-            field = stash.pop(0)
+        for idx, field in enumerate(fields):
             rule_ok = checker(field)
             if rule_ok:
                 result[name] = field
+                fields.pop(idx)
                 break
 
         if not rule_ok:
             errors[name] = field
 
-    if len(stash) > 0:
-        result['unconsumed_field'] = '; '.join(stash)
+    if len(fields) > 0:
+        errors['unconsumed_field'] = '; '.join(fields)
 
     # Let's reorder the result s.t. the ordering is consistent w/ rule ordering
     final_result = dict()
