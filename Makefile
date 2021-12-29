@@ -1,6 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Dec 29, 2021 at 02:40 AM +0100
+# Last Change: Wed Dec 29, 2021 at 04:46 AM +0100
 
 VPATH := postprocess:test:scripts:ntuples
 VPATH := run1-rdx/cutflow:run2-rdx/cutflow:$(VPATH)
@@ -58,7 +58,7 @@ docker-dv:
 
 # Test if specific files follow naming conventions.
 test-naming-conv:
-	workflows/test_filename_convention.py
+	workflows/validate_filename.py
 
 
 ###############################
