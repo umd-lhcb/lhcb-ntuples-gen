@@ -16,7 +16,6 @@ jobs:
           python-version: '3.8.x'
 
     - run: pip install -r ./docs/requirements.txt
-    - run: pip install pyBabyMaker  # Needed by filename checker
     - run: make test-naming-conv
     - run: mkdocs build --strict
 

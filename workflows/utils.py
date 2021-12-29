@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Dec 29, 2021 at 05:32 AM +0100
+# Last Change: Wed Dec 29, 2021 at 05:34 AM +0100
 
 import re
 import yaml
@@ -14,6 +14,26 @@ from datetime import datetime
 from subprocess import check_output
 from shutil import rmtree
 from glob import glob
+
+
+######
+# UI #
+######
+
+class TermColor:
+    """
+    Color sequences for UNIX terminal.
+    """
+    PURPLE = '\033[95m'
+    CYAN = '\033[96m'
+    DARKCYAN = '\033[36m'
+    BLUE = '\033[94m'
+    GREEN = '\033[92m'
+    YELLOW = '\033[93m'
+    RED = '\033[91m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+    END = '\033[0m'
 
 
 ################

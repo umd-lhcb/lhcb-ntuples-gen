@@ -2,16 +2,16 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Dec 29, 2021 at 04:45 AM +0100
+# Last Change: Wed Dec 29, 2021 at 05:34 AM +0100
 
 import sys
 import os.path as op
 
 from glob import glob
-from pyBabyMaker.base import TermColor as TC
 
 sys.path.insert(0, op.dirname(op.abspath(__file__)))
 
+from utils import TermColor as TC
 from utils import (
     abs_path,
     check_ntp_name
