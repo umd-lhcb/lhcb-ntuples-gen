@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sun Oct 31, 2021 at 06:20 AM +0100
+# Last Change: Wed Dec 29, 2021 at 04:33 AM +0100
 
 import re
 import yaml
@@ -121,7 +121,9 @@ def aggregate_output(workdir, output_dir, keep):
 # MISC helpers #
 ################
 
-def gen_date(fmt='%y_%m_%d'):
+DATE_FMT = '%y_%m_%d'
+
+def gen_date(fmt=DATE_FMT):
     return datetime.now().strftime(fmt)
 
 
@@ -154,6 +156,109 @@ def run_cmd_wrapper(only_print=False):
 def run_cmd_with_output(cmd):
     cmd_splitted = shlex.split(cmd)
     return check_output(cmd_splitted).decode('utf-8').strip()
+
+
+######################
+# Naming conventions #
+######################
+# Helpers ######################################################################
+
+def validate_date(date, fmt=DATE_FMT):
+    try:
+        datetime.strptime(date, fmt)
+        return True
+    except ValueError:
+        return False
+
+
+def validate_year(years):
+    tot_err = 0
+    valid_years = ['20'+str(i) for i in range(11, 70)]
+
+    for y in years.split('-'):
+        if y not in valid_years:
+            tot_err += 1
+
+    return not tot_err > 0
+
+
+def check_rules(fields, rules):
+    required_rules = [i for i in rules if not i[1]]
+    optional_rules = [i for i in rules if i[1]]
+
+    stash = []
+    result = dict()
+    errors = dict()
+
+    # First pass, only check required fields
+    for name, _, checker in required_rules:
+        rule_ok = False
+
+        while len(fields) > 0:
+            field = fields.pop(0)
+            rule_ok = checker(field)
+            if rule_ok:
+                result[name] = field
+                break
+            stash.append(field)
+
+        if not rule_ok:
+            errors[name] = field
+
+    for name, _, checker in optional_rules:
+        rule_ok = False
+
+        while len(stash) > 0:
+            field = stash.pop(0)
+            rule_ok = checker(field)
+            if rule_ok:
+                result[name] = field
+                break
+
+        if not rule_ok:
+            errors[name] = field
+
+    if len(stash) > 0:
+        result['unconsumed_field'] = '; '.join(stash)
+
+    # Let's reorder the result s.t. the ordering is consistent w/ rule ordering
+    final_result = dict()
+    for name, _, _ in rules:
+        if name in result:
+            final_result[name] = result[name]
+
+    return final_result, errors
+
+
+# ntuple #######################################################################
+# We also check if a ntuple name is legal here
+
+NTP_STEP1_FIELDS = [
+    ('particles', False, lambda x: True),  # The boolean indicates if the field is optional
+    ('date', False, validate_date),
+    ('reco_mode', False, lambda x: True),
+    ('additional_flags', True, lambda x: True),
+    ('dirac_path', False, lambda x: '.DST' in x),
+    ('index', True, lambda x: '-dv' in x),
+]
+
+NTP_STEP2_FIELDS = [
+    ('particles', False, lambda x: True),
+    ('date', False, validate_date),
+    ('reco_mode', False, lambda x: True),
+    ('year', False, validate_year),
+    ('polarity', False, lambda x: x in ['md', 'mu', 'md-mu']),
+    ('additional_flags', True, lambda x: True),
+]
+
+
+def check_ntp_name(filename):
+    is_step1 = '.DST' in filename
+    rules = NTP_STEP1_FIELDS if is_step1 else NTP_STEP2_FIELDS
+    fields = filename.split('--')
+
+    result, errors = check_rules(fields, rules)
+    return result, is_step1, errors
 
 
 ################################
