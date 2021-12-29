@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Dec 29, 2021 at 09:16 PM +0100
+# Last Change: Wed Dec 29, 2021 at 11:16 PM +0100
 
 import re
 import yaml
@@ -42,11 +42,6 @@ class TermColor:
 
 def abs_path(path, base_path=op.abspath(op.dirname(__file__))):
     return op.abspath(op.join(base_path, path))
-
-
-def append_path(paths):
-    for p in paths:
-        environ['PATH'] = pathsep.join([abs_path(p), environ['PATH']])
 
 
 def with_suffix(path, ext):
@@ -182,7 +177,6 @@ def run_cmd_with_output(cmd):
 ######################
 # Naming conventions #
 ######################
-# Helpers ######################################################################
 
 def validate_date(date, fmt=DATE_FMT):
     try:
@@ -248,16 +242,11 @@ def check_rules(fields, rules):
         errors['unconsumed_field'] = '; '.join(fields)
 
     # Let's reorder the result s.t. the ordering is consistent w/ rule ordering
-    final_result = dict()
-    for name, _, _ in rules:
-        if name in result:
-            final_result[name] = result[name]
-
+    final_result = {n: result[n] for n, _, _ in rules if n in result}
     return final_result, errors
 
 
-# ntuple #######################################################################
-# We also check if a ntuple name is legal here
+# We check if a ntuple name is legal here
 
 NTP_STEP1_FIELDS = [
     ('particles', False, lambda x: True),  # The boolean indicates if the field is optional

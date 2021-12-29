@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Dec 20, 2021 at 09:01 PM +0100
+# Last Change: Wed Dec 29, 2021 at 11:13 PM +0100
 
 import sys
 import os
@@ -18,7 +18,7 @@ sys.path.insert(0, op.dirname(op.abspath(__file__)))
 
 from utils import (
     run_cmd_wrapper,
-    append_path, abs_path, ensure_dir, find_all_input,
+    abs_path, ensure_dir, find_all_input,
     aggregate_fltr, aggregate_output, load_yaml_db,
     find_year, find_polarity,
     generate_step2_name, parse_step2_name,
