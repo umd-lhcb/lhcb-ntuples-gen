@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Dec 29, 2021 at 04:36 AM +0100
+# Last Change: Wed Dec 29, 2021 at 04:45 AM +0100
 
 import sys
 import os.path as op
@@ -23,12 +23,14 @@ from utils import (
 ###########
 
 def validate_ntp(paths):
+    tot_counter = 0
     error_counter = 0
+    print('Validating ntuple filenames...')
 
     for p in paths:
         ntuples = glob(f'{abs_path(p)}/**/*.root', recursive=True)
         for ntp in ntuples:
-            print(f'  Validating ntuple {ntp}...')
+            tot_counter += 1
             _, _, errors = check_ntp_name(op.basename(ntp))
             if len(errors):
                 print(f'{TC.BOLD+TC.RED}  ntuple {ntp} has an illegal name!{TC.END}')
@@ -37,6 +39,7 @@ def validate_ntp(paths):
 
             error_counter += len(errors)
 
+    print(f'Validated {tot_counter} ntuples. Found {error_counter} error(s).')
     return error_counter
 
 

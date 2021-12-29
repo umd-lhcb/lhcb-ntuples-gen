@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Dec 29, 2021 at 04:33 AM +0100
+# Last Change: Wed Dec 29, 2021 at 04:44 AM +0100
 
 import re
 import yaml
@@ -206,7 +206,8 @@ def check_rules(fields, rules):
             errors[name] = field
 
     for name, _, checker in optional_rules:
-        rule_ok = False
+        # If there's no additional field to consume, skip all optional rules
+        rule_ok = len(stash) == 0
 
         while len(stash) > 0:
             field = stash.pop(0)
@@ -255,7 +256,7 @@ NTP_STEP2_FIELDS = [
 def check_ntp_name(filename):
     is_step1 = '.DST' in filename
     rules = NTP_STEP1_FIELDS if is_step1 else NTP_STEP2_FIELDS
-    fields = filename.split('--')
+    fields = with_suffix(filename, '').split('--')
 
     result, errors = check_rules(fields, rules)
     return result, is_step1, errors
