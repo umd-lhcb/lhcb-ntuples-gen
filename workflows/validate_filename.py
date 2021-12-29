@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Dec 29, 2021 at 08:17 PM +0100
+# Last Change: Wed Dec 29, 2021 at 09:16 PM +0100
 
 import sys
 import os.path as op
@@ -15,7 +15,7 @@ sys.path.insert(0, op.dirname(op.abspath(__file__)))
 from utils import TermColor as TC
 from utils import (
     abs_path, with_suffix,
-    validate_year, validate_date,
+    validate_year, validate_date, validate_reco_mode,
     check_ntp_name, check_rules
 )
 
@@ -24,17 +24,15 @@ from utils import (
 # Validation procedures #
 #########################
 
-RECO_MODES = ['std', 'mc', 'cutflow_data', 'cutflow_mc', 'mix', 'mu_misid']
-
 NTP_FOLDER_FIELDS = [
     ('particles', False, lambda x: True),
-    ('reco_mode', False, lambda x: x in RECO_MODES),
+    ('reco_mode', False, validate_reco_mode),
     ('additional_flags', True, lambda x: True)
 ]
 
 COND_FILE_FIELDS = [
     ('prefix', False, lambda x: x == 'cond'),
-    ('reco_mode', False, lambda x: x in RECO_MODES),
+    ('reco_mode', False, validate_reco_mode),
     ('year', False, lambda x: validate_year),
     ('polarity', True, lambda x: x in ['md', 'mu']),
     ('simcond', True, lambda x: x.startswith('sim')),
@@ -44,7 +42,8 @@ COND_FILE_FIELDS = [
 LOG_FILE_FIELDS = [
     ('particles', False, lambda x: True),
     ('date', False, validate_date),
-    ('reco_mode', False, lambda x: x in RECO_MODES or x in ['validation']),
+    ('reco_mode', False,
+     lambda x: validate_reco_mode(x) or x in ['validation']),
     ('additional_flags', True, lambda x: True),
 ]
 

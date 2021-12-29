@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Dec 29, 2021 at 07:06 PM +0100
+# Last Change: Wed Dec 29, 2021 at 09:16 PM +0100
 
 import re
 import yaml
@@ -203,6 +203,11 @@ def validate_year(years):
     return not tot_err > 0
 
 
+def validate_reco_mode(mode):
+    return mode in ['std', 'mc', 'cutflow_data', 'cutflow_mc',
+                    'mix', 'mu_misid']
+
+
 def check_rules(fields, rules):
     required_rules = [i for i in rules if not i[1]]
     optional_rules = [i for i in rules if i[1]]
@@ -257,7 +262,7 @@ def check_rules(fields, rules):
 NTP_STEP1_FIELDS = [
     ('particles', False, lambda x: True),  # The boolean indicates if the field is optional
     ('date', False, validate_date),
-    ('reco_mode', False, lambda x: True),
+    ('reco_mode', False, validate_reco_mode),
     ('additional_flags', True, lambda x: True),
     ('dirac_path', False, lambda x: '.DST' in x),
     ('index', True, lambda x: '-dv' in x),
@@ -266,7 +271,7 @@ NTP_STEP1_FIELDS = [
 NTP_STEP2_FIELDS = [
     ('particles', False, lambda x: True),
     ('date', False, validate_date),
-    ('reco_mode', False, lambda x: True),
+    ('reco_mode', False, validate_reco_mode),
     ('input_data', False, lambda x: True),
     ('year', False, validate_year),
     ('polarity', False, lambda x: x in ['md', 'mu', 'md-mu']),
