@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Dec 29, 2021 at 07:39 PM +0100
+# Last Change: Wed Dec 29, 2021 at 08:01 PM +0100
 
 import sys
 import os.path as op
@@ -14,7 +14,8 @@ sys.path.insert(0, op.dirname(op.abspath(__file__)))
 
 from utils import TermColor as TC
 from utils import (
-    abs_path,
+    abs_path, with_suffix,
+    validate_year,
     check_ntp_name, check_rules
 )
 
@@ -31,9 +32,22 @@ NTP_FOLDER_FIELDS = [
     ('additional_flags', True, lambda x: True)
 ]
 
+COND_FILE_FIELDS = [
+    ('prefix', False, lambda x: x == 'cond'),
+    ('reco_mode', False, lambda x: x in RECO_MODES),
+    ('year', False, lambda x: validate_year),
+    ('polarity', True, lambda x: x in ['md', 'mu']),
+    ('simcond', True, lambda x: x.startswith('sim')),
+    ('additional_flags', True, lambda x: True),
+]
+
 
 def check_ntp_folder_name(foldername):
     return check_rules(foldername.split('-'), NTP_FOLDER_FIELDS)
+
+
+def check_cond_filename(filename):
+    return check_rules(with_suffix(filename, '').split('-'), COND_FILE_FIELDS)
 
 
 ############
@@ -99,6 +113,22 @@ def validate_ntp_folder(paths):
     return err_counter
 
 
+def validate_cond(paths):
+    tot_counter = 0
+    err_counter = 0
+    print('Validating cond filenames...')
+
+    for p in paths:
+        for cond in glob(f'{abs_path(p)}/**/cond*.py', recursive=True):
+            tot_counter += 1
+            _, errors = check_cond_filename(op.basename(cond))
+            print_err(errors, 'cond', cond)
+            err_counter += len(errors)
+
+    print(f'Validated {tot_counter} cond files. Found {err_counter} error(s).')
+    return err_counter
+
+
 #####################
 # Validation config #
 #####################
@@ -110,6 +140,10 @@ JOBS = {
         '../run2-rdx/samples',
     ]),
     'ntuple_folder': lambda: validate_ntp_folder(['../ntuples']),
+    'cond': lambda: validate_cond([
+        '../run1-rdx/conds',
+        '../run2-rdx/conds',
+    ]),
 }
 
 tot_err = 0
