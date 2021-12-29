@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Dec 29, 2021 at 08:01 PM +0100
+# Last Change: Wed Dec 29, 2021 at 08:17 PM +0100
 
 import sys
 import os.path as op
@@ -15,7 +15,7 @@ sys.path.insert(0, op.dirname(op.abspath(__file__)))
 from utils import TermColor as TC
 from utils import (
     abs_path, with_suffix,
-    validate_year,
+    validate_year, validate_date,
     check_ntp_name, check_rules
 )
 
@@ -41,6 +41,13 @@ COND_FILE_FIELDS = [
     ('additional_flags', True, lambda x: True),
 ]
 
+LOG_FILE_FIELDS = [
+    ('particles', False, lambda x: True),
+    ('date', False, validate_date),
+    ('reco_mode', False, lambda x: x in RECO_MODES or x in ['validation']),
+    ('additional_flags', True, lambda x: True),
+]
+
 
 def check_ntp_folder_name(foldername):
     return check_rules(foldername.split('-'), NTP_FOLDER_FIELDS)
@@ -48,6 +55,10 @@ def check_ntp_folder_name(foldername):
 
 def check_cond_filename(filename):
     return check_rules(with_suffix(filename, '').split('-'), COND_FILE_FIELDS)
+
+
+def check_log_filename(filename):
+    return check_rules(with_suffix(filename, '').split('-'), LOG_FILE_FIELDS)
 
 
 ############
@@ -129,6 +140,22 @@ def validate_cond(paths):
     return err_counter
 
 
+def validate_log(paths):
+    tot_counter = 0
+    err_counter = 0
+    print('Validating log filenames...')
+
+    for p in paths:
+        for log in glob(f'{abs_path(p)}/**/*.log', recursive=True):
+            tot_counter += 1
+            _, errors = check_log_filename(op.basename(log))
+            print_err(errors, 'log', log)
+            err_counter += len(errors)
+
+    print(f'Validated {tot_counter} log files. Found {err_counter} error(s).')
+    return err_counter
+
+
 #####################
 # Validation config #
 #####################
@@ -143,6 +170,10 @@ JOBS = {
     'cond': lambda: validate_cond([
         '../run1-rdx/conds',
         '../run2-rdx/conds',
+    ]),
+    'log': lambda: validate_log([
+        '../run1-rdx/logs',
+        '../run2-rdx/logs',
     ]),
 }
 
