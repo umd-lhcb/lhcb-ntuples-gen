@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Dec 29, 2021 at 05:29 AM +0100
+# Last Change: Wed Dec 29, 2021 at 05:32 AM +0100
 
 import re
 import yaml
@@ -247,6 +247,7 @@ NTP_STEP2_FIELDS = [
     ('particles', False, lambda x: True),
     ('date', False, validate_date),
     ('reco_mode', False, lambda x: True),
+    ('input_data', False, lambda x: True),
     ('year', False, validate_year),
     ('polarity', False, lambda x: x in ['md', 'mu', 'md-mu']),
     ('additional_flags', True, lambda x: True),
