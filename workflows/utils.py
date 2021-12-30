@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Dec 30, 2021 at 05:20 AM +0100
+# Last Change: Thu Dec 30, 2021 at 05:23 AM +0100
 
 import re
 import yaml
@@ -323,7 +323,7 @@ def check_ntp_name(filename):
     fields = with_suffix(filename, '').split('--')
 
     result, errors = check_rules(fields, rules)
-    return result, is_step1, errors
+    return result, errors, is_step1
 
 
 ################################

@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Dec 30, 2021 at 01:02 AM +0100
+# Last Change: Thu Dec 30, 2021 at 05:23 AM +0100
 
 import sys
 import os.path as op
@@ -92,9 +92,8 @@ def validate_generic(glob_pattern, checker, checker_name,
 
 
 validate_ntp = validate_generic(
-    '*.root', check_ntp_name, 'ntuple',
-    'Validating ntuple filenames...',
-    'Validated {} ntuples. Found {} error(s).', err_idx=2
+    '*.root', check_ntp_name, 'ntuple', 'Validating ntuple filenames...',
+    'Validated {} ntuples. Found {} error(s).'
 )
 
 validate_cond = validate_generic(
@@ -131,8 +130,7 @@ def validate_ntp_folder(paths):
             _, gp_errors = check_ntp_folder_name(f.parent.name)
             print_err(gp_errors, 'ntuple folder', f.parent)
             err_counter += len(gp_errors)
-
-            _, _, errors = check_ntp_name(parent_folder+'.root')  # Treat parent folder as a ntuple name
+            _, errors, _ = check_ntp_name(parent_folder+'.root')  # Treat parent folder as a ntuple name
 
         else:
             _, errors = check_ntp_folder_name(parent_folder)
