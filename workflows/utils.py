@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Dec 30, 2021 at 09:00 PM +0100
+# Last Change: Thu Dec 30, 2021 at 09:38 PM +0100
 
 import re
 import yaml
@@ -199,7 +199,7 @@ def smart_kwarg(*args):
         return inner
 
     if len(args) == 1 and callable(args[0]):
-        add_kws = ['executor']
+        add_kws = ['debug']
         return _smart_kwarg(args[0])
 
     add_kws = args[0]
@@ -210,18 +210,16 @@ def smart_kwarg(*args):
 # Execution helpers #
 #####################
 
-def run_cmd_wrapper(only_print=False):
-    def inner(cmd):
-        print('  {}'.format(cmd))
+@smart_kwarg
+def run_cmd(cmd, debug=False, with_output=False):
+    if debug:
+        print(f'  {cmd}')
 
-        if not only_print:
-            system(cmd)
-    return inner
+    if with_output:
+        return check_output(shlex.split(cmd)).decode('utf-8').strip()
 
-
-def run_cmd_with_output(cmd):
-    cmd_splitted = shlex.split(cmd)
-    return check_output(cmd_splitted).decode('utf-8').strip()
+    if not debug:
+        system(cmd)
 
 
 ######################
@@ -396,20 +394,21 @@ def generate_step2_name(ntp_name, convert_mc_id=False):
 # Generic workflows #
 #####################
 
+@smart_kwarg
 def workflow_compile_cpp(
         input_cpp, add_flags='-I{}'.format(abs_path('../include')),
-        executor=run_cmd_wrapper()):
-    compiler = run_cmd_with_output('root-config --cxx')
-    base_flags = run_cmd_with_output('root-config --cflags')
-    link_flags = run_cmd_with_output('root-config --libs')
+        **kwargs):
+    compiler = run_cmd('root-config --cxx', with_output=True, **kwargs)
+    base_flags = run_cmd('root-config --cflags', with_output=True, **kwargs)
+    link_flags = run_cmd('root-config --libs', with_output=True, **kwargs)
 
     output_exe = with_suffix(input_cpp, '.exe')
-    executor(f'{compiler} {base_flags} {add_flags} -o {output_exe} {input_cpp} {link_flags}')
+    run_cmd(f'{compiler} {base_flags} {add_flags} -o {output_exe} {input_cpp} {link_flags}', **kwargs)
 
 
-def workflow_cached_ntuple(
-        cmd, input_ntp, output_ntp, cache_suffix,
-        executor=run_cmd_wrapper()):
+@smart_kwarg
+def workflow_cached_ntuple(cmd, input_ntp, output_ntp, cache_suffix,
+                           **kwargs):
     cached_ntp = with_suffix(input_ntp, '') + cache_suffix + '.root'
 
     if op.isfile(cached_ntp):
@@ -419,7 +418,7 @@ def workflow_cached_ntuple(
         print('No aux ntuple cached, generating anew...')
         cmd = [cmd] if not isinstance(cmd, list) else cmd
         for c in cmd:
-            executor(c)
+            run_cmd(c, **kwargs)
 
         print('Creating an alias for generated ntuple...')
         cached_ntp_base = op.basename(cached_ntp)

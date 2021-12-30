@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Dec 30, 2021 at 09:00 PM +0100
+# Last Change: Thu Dec 30, 2021 at 09:52 PM +0100
 
 import sys
 import os
@@ -11,13 +11,14 @@ import os.path as op
 from argparse import ArgumentParser, Action
 from os import chdir
 from shutil import rmtree
+from functools import partial
 
 from pyBabyMaker.base import TermColor as TC
 
 sys.path.insert(0, op.dirname(op.abspath(__file__)))
 
 from utils import (
-    run_cmd_wrapper,
+    run_cmd,
     abs_path, ensure_dir, ensure_file, find_all_input,
     aggregate_fltr, aggregate_output,
     load_yaml_db, smart_kwarg,
@@ -183,7 +184,6 @@ def workflow_bm_cli(bm_cmd, cli_vars=None, blocked_input_trees=None,
 @smart_kwarg
 def workflow_single_ntuple(input_ntp, input_yml, output_suffix, aux_workflows,
                            cpp_template='../postprocess/cpp_templates/rdx.cpp',
-                           executor=run_cmd_wrapper(),
                            **kwargs):
     input_ntp = ensure_file(input_ntp)
     print('{}Working on {}...{}'.format(TC.GREEN, input_ntp, TC.END))
@@ -191,17 +191,16 @@ def workflow_single_ntuple(input_ntp, input_yml, output_suffix, aux_workflows,
 
     bm_cmd = 'babymaker -i {} -o baby.cpp -n {} -t {}'
 
-    aux_ntuples = [w(input_ntp, executor=executor, **kwargs)
-                   for w in aux_workflows]
+    aux_ntuples = [w(input_ntp, **kwargs) for w in aux_workflows]
     if aux_ntuples:
         bm_cmd += ' -f ' + ' '.join(aux_ntuples)
 
-    bm_cmd = workflow_bm_cli(bm_cmd, **kwargs)
+    bm_cmd = workflow_bm_cli(bm_cmd, **kwargs).format(
+        abs_path(input_yml), input_ntp, cpp_template)
 
-    executor(bm_cmd.format(abs_path(input_yml), input_ntp, cpp_template))
-    workflow_compile_cpp('baby.cpp', executor=executor)
-
-    executor('./baby.exe --{}'.format(output_suffix))
+    run_cmd(bm_cmd, **kwargs)
+    workflow_compile_cpp('baby.cpp', **kwargs)
+    run_cmd('./baby.exe --{}'.format(output_suffix), **kwargs)
 
 
 @smart_kwarg([])
@@ -223,12 +222,12 @@ def workflow_data_mc(job_name, inputs,
     return subworkdirs, workdir
 
 
-#############
-# Workflows #
-#############
+###################
+# Workflows: main #
+###################
 
-def workflow_data(job_name, inputs, input_yml,
-                  use_ubdt=True,
+def workflow_data(inputs, input_yml,
+                  job_name='data', use_ubdt=True,
                   output_ntp_name_gen=generate_step2_name,
                   output_fltr=rdx_default_output_fltrs,
                   **kwargs):
@@ -248,8 +247,8 @@ def workflow_data(job_name, inputs, input_yml,
         chdir('..')  # Switch back to parent workdir
 
 
-def workflow_mc(job_name, inputs, input_yml,
-                output_ntp_name_gen=generate_step2_name,
+def workflow_mc(inputs, input_yml,
+                job_name='mc', output_ntp_name_gen=generate_step2_name,
                 output_fltr=rdx_default_output_fltrs,
                 **kwargs):
     subworkdirs, workdir = workflow_data_mc(job_name, inputs, **kwargs)
@@ -280,118 +279,104 @@ def workflow_mc(job_name, inputs, input_yml,
 # Production config #
 #####################
 
-args = parse_input()
-executor = run_cmd_wrapper(args.debug)
-
 JOBS = {
     # Run 2
-    'rdx-ntuple-run2-data-oldcut': lambda name: workflow_data(
-        name,
+    'rdx-ntuple-run2-data-oldcut': partial(
+        workflow_data,
         '../ntuples/0.9.5-bugfix/Dst_D0-cutflow_data',
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
-        executor=executor
     ),
-    'rdx-ntuple-run2-mc-fs': lambda name: workflow_mc(
-        name,
+    'rdx-ntuple-run2-mc': partial(
+        workflow_mc,
         '../ntuples/0.9.5-bugfix/Dst_D0-mc',
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
-        executor=executor,
         blocked_patterns=['--aux', 'MC_2012']
     ),
     # Run 2 debug
-    'rdx-ntuple-run2-mc-dss': lambda name: workflow_mc(
-        name,
+    'rdx-ntuple-run2-mc-dss': partial(
+        workflow_mc,
         [
             '../ntuples/0.9.5-bugfix/Dst_D0-mc/Dst_D0--21_10_15--mc--MC_2016_Beam6500GeV-2016-MagDown-Nu1.6-25ns-Pythia8_Sim09j_Trig0x6139160F_Reco16_Turbo03a_Filtered_11874430_D0TAUNU.SAFESTRIPTRIG.DST.root',
             # '../ntuples/0.9.5-bugfix/Dst_D0-mc/Dst_D0--21_10_15--mc--MC_2016_Beam6500GeV-2016-MagDown-Nu1.6-25ns-Pythia8_Sim09j_Trig0x6139160F_Reco16_Turbo03a_Filtered_11874440_D0TAUNU.SAFESTRIPTRIG.DST.root',
         ],
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
-        executor=executor
     ),
-    'rdx-ntuple-run2-data-oldcut-debug': lambda name: workflow_data(
-        name,
+    'rdx-ntuple-run2-data-oldcut-debug': partial(
+        workflow_data,
         '../ntuples/0.9.5-bugfix/Dst_D0-cutflow_data',
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
-        executor=executor,
         cli_vars={'cli_cutflow': 'true'},
         directive_override={'one_cand_only/enable': 'false'}
     ),
-    'rdx-ntuple-run2-data-oldcut-no-Dst-veto': lambda name: workflow_data(
-        name,
+    'rdx-ntuple-run2-data-oldcut-no-Dst-veto': partial(
+        workflow_data,
         [
             '../ntuples/0.9.4-trigger_emulation/Dst_D0-std',
             '../ntuples/0.9.5-bugfix/Dst_D0-cutflow_data',
         ],
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
-        executor=executor,
         cli_vars={'cli_no_dst_veto': '100.0'}
     ),
-    'rdx-ntuple-run2-mc-demo': lambda name: workflow_mc(
-        name,
+    'rdx-ntuple-run2-mc-demo': partial(
+        workflow_mc,
         '../ntuples/0.9.5-bugfix/Dst_D0-mc/Dst_D0--21_10_08--mc--MC_2016_Beam6500GeV-2016-MagDown-Nu1.6-25ns-Pythia8_Sim09j_Trig0x6139160F_Reco16_Turbo03a_Filtered_11574011_D0TAUNU.SAFESTRIPTRIG.DST.root',
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
-        executor=executor
     ),
     # Run 1
-    'rdx-ntuple-run1-data': lambda name: workflow_data(
-        name,
+    'rdx-ntuple-run1-data': partial(
+        workflow_data,
         '../ntuples/0.9.5-bugfix/Dst_D0-std',
         '../postprocess/rdx-run1/rdx-run1.yml',
-        use_ubdt=False,
-        executor=executor
+        use_ubdt=False
     ),
     # Run 1 debug
-    'rdx-ntuple-run1-data-D0-comp': lambda name: workflow_data(
-        name,
+    'rdx-ntuple-run1-data-D0-comp': partial(
+        workflow_data,
         '../ntuples/0.9.5-bugfix/Dst_D0-std/Dst_D0--21_10_07--std--LHCb_Collision11_Beam3500GeV-VeloClosed-MagDown_Real_Data_Reco14_Stripping21r1_90000000_SEMILEPTONIC.DST.root',
         '../postprocess/ref-rdx-run1/ref-rdx-run1-D0.yml',
         use_ubdt=False,
-        executor=executor,
         cli_vars={
             'cli_fewer_cuts': 'true',
             'no_mass_window_cut': 'true',
         }
     ),
     # Reference Run 1
-    'ref-rdx-ntuple-run1-data-Dst': lambda name: workflow_data(
-        name,
+    'ref-rdx-ntuple-run1-data-Dst': partial(
+        workflow_data,
         '../ntuples/ref-rdx-run1/Dst-mix/Dst--21_10_21--mix--all--2011-2012--md-mu--phoebe.root',
         '../postprocess/ref-rdx-run1/ref-rdx-run1-Dst.yml',
-        use_ubdt=False,
-        executor=executor
+        use_ubdt=False
     ),
-    'ref-rdx-ntuple-run1-data-Dst-comp': lambda name: workflow_data(
-        name,
+    'ref-rdx-ntuple-run1-data-Dst-comp': partial(
+        workflow_data,
         [
             '../ntuples/ref-rdx-run1/Dst-std/Dst--20_09_16--std--data--2011--md--phoebe.root',
             '../ntuples/ref-rdx-run1/Dst-mix/Dst--21_10_21--mix--all--2011-2012--md-mu--phoebe.root',
         ],
         '../postprocess/ref-rdx-run1/ref-rdx-run1-Dst.yml',
         use_ubdt=False,
-        executor=executor,
         cli_vars={'cli_fewer_cuts': 'true'}
     ),
-    'ref-rdx-ntuple-run1-data-D0': lambda name: workflow_data(
-        name,
+    'ref-rdx-ntuple-run1-data-D0': partial(
+        workflow_data,
         '../ntuples/ref-rdx-run1/D0-mix/D0--21_10_21--mix--all--2011-2012--md-mu--phoebe.root',
         '../postprocess/ref-rdx-run1/ref-rdx-run1-D0.yml',
-        use_ubdt=False,
-        executor=executor
+        use_ubdt=False
     ),
-    'ref-rdx-ntuple-run1-data-D0-comp': lambda name: workflow_data(
-        name,
+    'ref-rdx-ntuple-run1-data-D0-comp': partial(
+        workflow_data,
         [
             '../ntuples/ref-rdx-run1/D0-mix/D0--21_10_21--mix--all--2011-2012--md-mu--phoebe.root',
             # '../ntuples/ref-rdx-run1/D0-std/D0--19_09_05--std--data--2012--md--phoebe.root',
         ],
         '../postprocess/ref-rdx-run1/ref-rdx-run1-D0.yml',
         use_ubdt=False,
-        executor=executor,
         cli_vars={'cli_fewer_cuts': 'true'}
     ),
 }
 
+args = parse_input()
 if args.job_name in JOBS:
-    JOBS[args.job_name](args.job_name)
+    JOBS[args.job_name](job_name=args.job_name, debug=args.debug)
 else:
     print('Unknown job name: {}'.format(args.job_name))
