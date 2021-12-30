@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Dec 30, 2021 at 05:02 AM +0100
+# Last Change: Thu Dec 30, 2021 at 05:08 AM +0100
 
 import re
 import yaml
@@ -285,9 +285,6 @@ def check_rules(fields, rules):
                 fields.pop(idx)
                 break
 
-        if not rule_ok:
-            errors[name] = field
-
     if len(fields) > 0:
         errors['unconsumed_field'] = '; '.join(fields)
 
@@ -302,7 +299,7 @@ NTP_STEP1_FIELDS = [
     ('particles', False, lambda x: True),  # The boolean indicates if the field is optional
     ('date', False, validate_date),
     ('reco_mode', False, validate_reco_mode),
-    ('additional_flags', True, lambda x: True),
+    ('additional_flags', True, lambda x: not x.startswith('aux')),
     ('dirac_path', False, lambda x: '.DST' in x),
     ('index', True, lambda x: '-dv' in x),
     ('aux', True, lambda x: x.startswith('aux')),
