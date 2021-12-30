@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Dec 29, 2021 at 11:13 PM +0100
+# Last Change: Thu Dec 30, 2021 at 02:24 AM +0100
 
 import sys
 import os
@@ -20,9 +20,8 @@ from utils import (
     run_cmd_wrapper,
     abs_path, ensure_dir, find_all_input,
     aggregate_fltr, aggregate_output, load_yaml_db,
-    find_year, find_polarity,
     generate_step2_name, parse_step2_name,
-    workflow_compile_cpp, workflow_cached_ntuple
+    workflow_compile_cpp, workflow_cached_ntuple, workflow_apply_weight
 )
 
 
@@ -105,64 +104,46 @@ def rdx_mc_add_info(decay_mode):
 # Workflows: helpers #
 ######################
 
-def workflow_ubdt(input_ntp,
+def workflow_ubdt(input_ntp, output_ntp='ubdt.root',
                   trees=['TupleB0/DecayTree', 'TupleBminus/DecayTree'],
                   **kwargs):
     weight_file = abs_path('../run2-rdx/weights_run2_no_cut_ubdt.xml')
-    cmd = 'addUBDTBranch {} mu_isMuonTight {} ubdt.root {}'.format(
-        input_ntp, weight_file, ' '.join(trees))
-    workflow_cached_ntuple(cmd, input_ntp, **kwargs)
-    try:
-        rmtree('./weights')
-    except FileNotFoundError:
-        pass
+    cmd = 'addUBDTBranch {} mu_isMuonTight {} {} {}'.format(
+        input_ntp, weight_file, output_ntp, ' '.join(trees))
+    workflow_cached_ntuple(
+        cmd, input_ntp, output_ntp, '--aux_ubdt', **kwargs)
+    return output_ntp
 
 
-def workflow_hammer(input_ntp,
+def workflow_hammer(input_ntp, output_ntp='hammer.root',
                     trees=['TupleB0/DecayTree', 'TupleBminus/DecayTree'],
                     **kwargs):
     run = 'run1' if '2011' in input_ntp or '2012' in input_ntp else 'run2'
-    cmd = [f'ReweightRDX {input_ntp} hammer.root {t} {run}' for t in trees]
+    cmd = [f'ReweightRDX {input_ntp} {output_ntp} {t} {run}' for t in trees]
     workflow_cached_ntuple(
-        cmd, input_ntp, output_ntp='hammer.root', cache_suffix='__aux_hammer',
-        **kwargs)
+        cmd, input_ntp, output_ntp, '--aux_hammer', **kwargs)
+    return output_ntp
 
 
-def workflow_trigger_emu(input_ntp,
+def workflow_trigger_emu(input_ntp, output_ntp='trg_emu.root',
                          trees=['TupleB0/DecayTree', 'TupleBminus/DecayTree'],
                          **kwargs):
     Bmeson = lambda tree: 'b0' if 'B0' in tree else 'b'
-    cmd = [f'run2-rdx-trg_emu.py {input_ntp} trg_emu.root -t {t} -B {Bmeson(t)}'
+    cmd = [f'run2-rdx-trg_emu.py {input_ntp} {output_ntp} -t {t} -B {Bmeson(t)}'
            for t in trees]
     workflow_cached_ntuple(
-        cmd, input_ntp, output_ntp='trg_emu.root', cache_suffix='__aux_trg_emu',
-        **kwargs)
-
-
-def workflow_apply_weight(input_ntp, histo_folder, config,
-                          output_ntp, cache_suffix,
-                          **kwargs):
-    histo_folder = abs_path(histo_folder)
-    config = abs_path(config)
-
-    year = find_year(input_ntp)
-    polarity = find_polarity(input_ntp)
-
-    # This is in 'scripts' folder!
-    cmd = f'apply_histo_weight.py {input_ntp} {histo_folder} {output_ntp} -c {config} --year {year} --polarity {polarity}'
-    workflow_cached_ntuple(
-        cmd, input_ntp, output_ntp=output_ntp, cache_suffix=cache_suffix,
-        **kwargs)
+        cmd, input_ntp, output_ntp, '--aux_trg_emu', **kwargs)
+    return output_ntp
 
 
 def workflow_pid(input_ntp, pid_histo_folder, pid_config, **kwargs):
     return workflow_apply_weight(input_ntp, pid_histo_folder, pid_config,
-                                 'pid.root', '__aux_pid', **kwargs)
+                                 'pid.root', '--aux_pid', **kwargs)
 
 
 def workflow_trk(input_ntp, trk_histo_folder, trk_config, **kwargs):
     return workflow_apply_weight(input_ntp, trk_histo_folder, trk_config,
-                                 'trk.root', '__aux_trk', **kwargs)
+                                 'trk.root', '--aux_trk', **kwargs)
 
 
 def workflow_data_mc(job_name, inputs,

@@ -2,14 +2,14 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Dec 29, 2021 at 11:16 PM +0100
+# Last Change: Thu Dec 30, 2021 at 02:29 AM +0100
 
 import re
 import yaml
 import shlex
 import os.path as op  # Note: Can't use pathlib because that doesn't handle symbolic link well
 
-from os import makedirs, chdir, symlink, system, pathsep, environ
+from os import makedirs, chdir, symlink, system, pathsep
 from datetime import datetime
 from subprocess import check_output
 from shutil import rmtree
@@ -282,18 +282,14 @@ def check_ntp_name(filename):
 ################################
 
 def find_year(filename):
-    search = re.search(r'_Collision(\d\d)_', filename)
+    patterns = [r'_Collision(\d\d)_', r'--20(\d\d[-\d]*)--', r'MC_20(\d\d)_']
 
-    if not search:
-        search = re.search(r'--20(\d\d[-\d]*)--', filename)
+    for p in patterns:
+        search = re.search(p, filename)
+        if search:
+            return '20' + search.group(1)
 
-    if not search:
-        search = re.search(r'MC_20(\d\d)_', filename)
-
-    if not search:
-        raise ValueError("Can't find year from {}!".format(filename))
-
-    return '20' + search.group(1)
+    raise ValueError("Can't find year from {}!".format(filename))
 
 
 def find_polarity(filename):
@@ -365,10 +361,8 @@ def workflow_compile_cpp(
 
 
 def workflow_cached_ntuple(
-        cmd, input_ntp,
-        output_ntp='./ubdt.root', cache_suffix='__aux_mu_bdt',
-        executor=run_cmd_wrapper(),
-        alias_cached=True):
+        cmd, input_ntp, output_ntp, cache_suffix,
+        executor=run_cmd_wrapper()):
     cached_ntp = with_suffix(input_ntp, '') + cache_suffix + '.root'
 
     if op.isfile(cached_ntp):
@@ -380,10 +374,25 @@ def workflow_cached_ntuple(
         for c in cmd:
             executor(c)
 
-        if alias_cached:
-            print('Creating an alias for generated ntuple...')
-            cached_ntp_base = op.basename(cached_ntp)
-            try:
-                symlink(output_ntp, './'+cached_ntp_base)
-            except FileNotFoundError:
-                pass
+        print('Creating an alias for generated ntuple...')
+        cached_ntp_base = op.basename(cached_ntp)
+        try:
+            symlink(output_ntp, './'+cached_ntp_base)
+        except FileNotFoundError:
+            pass
+
+
+def workflow_apply_weight(input_ntp, histo_folder, config,
+                          output_ntp, cache_suffix,
+                          **kwargs):
+    histo_folder = abs_path(histo_folder)
+    config = abs_path(config)
+
+    year = find_year(input_ntp)
+    polarity = find_polarity(input_ntp)
+
+    # The executable is in 'scripts' folder!
+    cmd = f'apply_histo_weight.py {input_ntp} {histo_folder} {output_ntp} -c {config} --year {year} --polarity {polarity}'
+    workflow_cached_ntuple(
+        cmd, input_ntp, output_ntp, cache_suffix, **kwargs)
+    return output_ntp
