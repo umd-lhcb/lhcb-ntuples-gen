@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Dec 30, 2021 at 05:33 AM +0100
+# Last Change: Thu Dec 30, 2021 at 05:39 AM +0100
 
 import re
 import yaml
@@ -301,7 +301,7 @@ NTP_STEP1_FIELDS = [
     ('reco_mode', False, validate_reco_mode),
     ('additional_flags', True,
      lambda x: not x.startswith('aux') and not x[0].isdigit()),
-    ('dirac_path', False, lambda x: '.DST' in x),
+    ('dirac_path', False, lambda x: '.DST' in x and '__aux' not in x),
     ('index', True, lambda x: '-dv' in x and x[0].isdigit()),
     ('aux', True, lambda x: x.startswith('aux')),
 ]
