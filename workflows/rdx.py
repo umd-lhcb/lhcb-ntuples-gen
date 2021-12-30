@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Dec 30, 2021 at 04:52 AM +0100
+# Last Change: Thu Dec 30, 2021 at 05:02 AM +0100
 
 import sys
 import os
@@ -46,11 +46,11 @@ def parse_input():
 ###########
 
 rdx_default_fltr = aggregate_fltr(
-    keep=[r'^(Dst|D0).*\.root'], blocked=['__aux'])
+    keep=[r'^(Dst|D0).*\.root'], blocked=['--aux'])
 
 rdx_default_output_fltrs = {
     'ntuple': rdx_default_fltr,
-    'ntuple_aux': aggregate_fltr(keep=['__aux']),
+    'ntuple_aux': aggregate_fltr(keep=['--aux']),
 }
 
 
@@ -187,7 +187,7 @@ def workflow_bm_cli(bm_cmd, cli_vars=None, blocked_input_trees=None,
 def workflow_data_mc(job_name, inputs,
                      output_dir=abs_path('../gen'),
                      patterns=['*.root'],
-                     blocked_patterns=['__aux'],
+                     blocked_patterns=['--aux'],
                      ):
     print('{}==== Job: {} ===={}'.format(TC.BOLD+TC.GREEN, job_name, TC.END))
 
@@ -299,7 +299,7 @@ JOBS = {
         '../ntuples/0.9.5-bugfix/Dst_D0-mc',
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
         executor=executor,
-        blocked_patterns=['__aux', 'MC_2012']
+        blocked_patterns=['--aux', 'MC_2012']
     ),
     # Run 2 debug
     'rdx-ntuple-run2-mc-dss': lambda name: workflow_mc(
@@ -310,7 +310,7 @@ JOBS = {
         ],
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
         executor=executor,
-        blocked_patterns=['__aux', 'MC_2012']
+        blocked_patterns=['--aux', 'MC_2012']
     ),
     'rdx-ntuple-run2-data-oldcut-debug': lambda name: workflow_data(
         name,

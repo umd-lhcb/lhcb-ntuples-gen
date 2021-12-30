@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Dec 30, 2021 at 04:52 AM +0100
+# Last Change: Thu Dec 30, 2021 at 05:02 AM +0100
 
 import re
 import yaml
@@ -78,7 +78,7 @@ def ensure_file(path, dir_replacement={'ntuples': 'ntuples_ext'}):
 
 
 def find_all_input(inputs,
-                   patterns=['*.root'], blocked_patterns=['__aux'],
+                   patterns=['*.root'], blocked_patterns=['--aux'],
                    make_absolute=True):
     result = []
     if not isinstance(inputs, list):
@@ -305,6 +305,7 @@ NTP_STEP1_FIELDS = [
     ('additional_flags', True, lambda x: True),
     ('dirac_path', False, lambda x: '.DST' in x),
     ('index', True, lambda x: '-dv' in x),
+    ('aux', True, lambda x: x.startswith('aux')),
 ]
 
 NTP_STEP2_FIELDS = [
