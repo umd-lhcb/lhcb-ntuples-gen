@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Dec 30, 2021 at 02:24 AM +0100
+# Last Change: Thu Dec 30, 2021 at 03:58 AM +0100
 
 import sys
 import os
@@ -18,8 +18,9 @@ sys.path.insert(0, op.dirname(op.abspath(__file__)))
 
 from utils import (
     run_cmd_wrapper,
-    abs_path, ensure_dir, find_all_input,
-    aggregate_fltr, aggregate_output, load_yaml_db,
+    abs_path, ensure_dir, ensure_file, find_all_input,
+    aggregate_fltr, aggregate_output,
+    load_yaml_db, smart_kwarg,
     generate_step2_name, parse_step2_name,
     workflow_compile_cpp, workflow_cached_ntuple, workflow_apply_weight
 )
@@ -100,50 +101,86 @@ def rdx_mc_add_info(decay_mode):
             if t not in db_keep[decay_mode]], decay_id
 
 
-######################
-# Workflows: helpers #
-######################
+####################################
+# Workflows: aux ntuple generation #
+####################################
 
+@smart_kwarg
 def workflow_ubdt(input_ntp, output_ntp='ubdt.root',
                   trees=['TupleB0/DecayTree', 'TupleBminus/DecayTree'],
                   **kwargs):
     weight_file = abs_path('../run2-rdx/weights_run2_no_cut_ubdt.xml')
     cmd = 'addUBDTBranch {} mu_isMuonTight {} {} {}'.format(
         input_ntp, weight_file, output_ntp, ' '.join(trees))
-    workflow_cached_ntuple(
+    return workflow_cached_ntuple(
         cmd, input_ntp, output_ntp, '--aux_ubdt', **kwargs)
-    return output_ntp
 
 
+@smart_kwarg
 def workflow_hammer(input_ntp, output_ntp='hammer.root',
                     trees=['TupleB0/DecayTree', 'TupleBminus/DecayTree'],
                     **kwargs):
     run = 'run1' if '2011' in input_ntp or '2012' in input_ntp else 'run2'
     cmd = [f'ReweightRDX {input_ntp} {output_ntp} {t} {run}' for t in trees]
-    workflow_cached_ntuple(
+    return workflow_cached_ntuple(
         cmd, input_ntp, output_ntp, '--aux_hammer', **kwargs)
-    return output_ntp
 
 
+@smart_kwarg
 def workflow_trigger_emu(input_ntp, output_ntp='trg_emu.root',
                          trees=['TupleB0/DecayTree', 'TupleBminus/DecayTree'],
                          **kwargs):
     Bmeson = lambda tree: 'b0' if 'B0' in tree else 'b'
     cmd = [f'run2-rdx-trg_emu.py {input_ntp} {output_ntp} -t {t} -B {Bmeson(t)}'
            for t in trees]
-    workflow_cached_ntuple(
+    return workflow_cached_ntuple(
         cmd, input_ntp, output_ntp, '--aux_trg_emu', **kwargs)
-    return output_ntp
 
 
-def workflow_pid(input_ntp, pid_histo_folder, pid_config, **kwargs):
+@smart_kwarg
+def workflow_pid(
+        input_ntp, output_ntp='pid.root',
+        pid_histo_folder='../run2-rdx/reweight/pid/root-run2-rdx_oldcut',
+        pid_config='../run2-rdx/reweight/pid/run2-rdx_oldcut.yml',
+        **kwargs):
     return workflow_apply_weight(input_ntp, pid_histo_folder, pid_config,
-                                 'pid.root', '--aux_pid', **kwargs)
+                                 output_ntp, '--aux_pid', **kwargs)
 
 
-def workflow_trk(input_ntp, trk_histo_folder, trk_config, **kwargs):
+@smart_kwarg
+def workflow_trk(
+        input_ntp, output_ntp='trk.root',
+        trk_histo_folder='../run2-rdx/reweight/tracking/root-run2-general',
+        trk_config='../run2-rdx/reweight/tracking/run2-general.yml',
+        **kwargs):
     return workflow_apply_weight(input_ntp, trk_histo_folder, trk_config,
-                                 'trk.root', '--aux_trk', **kwargs)
+                                 output_ntp, '--aux_trk', **kwargs)
+
+
+#######################
+# Workflows: wrappers #
+#######################
+
+@smart_kwarg([])
+def workflow_bm_cli(bm_cmd, cli_vars=None, blocked_input_trees=None,
+                    blocked_output_trees=None, directive_override=None):
+    if cli_vars:
+        if isinstance(cli_vars, dict):
+            cli_vars = ' '.join([str(k)+':'+str(v)
+                                 for k, v in cli_vars.items()])
+        bm_cmd += ' -V '+cli_vars
+
+    if blocked_input_trees:
+        bm_cmd += ' -B '+' '.join(blocked_input_trees)
+
+    if blocked_output_trees:
+        bm_cmd += ' -X '+' '.join(blocked_output_trees)
+
+    if directive_override:
+        bm_cmd += ' -D '+' '.join([k+':'+v
+                                   for k, v in directive_override.items()])
+
+    return bm_cmd
 
 
 def workflow_data_mc(job_name, inputs,
@@ -173,23 +210,16 @@ def workflow_data(job_name, inputs, input_yml,
                   use_ubdt=True,
                   output_ntp_name_gen=generate_step2_name,
                   output_fltr=rdx_default_output_fltrs,
-                  cli_vars=None,
-                  blocked_input_trees=None,
-                  blocked_output_trees=None,
-                  directive_override=None,
                   **kwargs):
     subworkdirs, workdir, executor = workflow_data_mc(
         job_name, inputs, **kwargs)
     chdir(workdir)
     cpp_template = abs_path('../postprocess/cpp_templates/rdx.cpp')
 
-    if cli_vars:
-        cli_vars = ' '.join([k+':'+v for k, v in cli_vars.items()])
-
     for subdir, input_ntp in subworkdirs.items():
-        print('{}Working on {}...{}'.format(TC.GREEN, input_ntp, TC.END))
         ensure_dir(subdir, make_absolute=False)
         chdir(subdir)  # Switch to the workdir of the subjob
+        print('{}Working on {}...{}'.format(TC.GREEN, input_ntp, TC.END))
 
         if use_ubdt:
             # Generate a ubdt ntuple
@@ -198,18 +228,7 @@ def workflow_data(job_name, inputs, input_yml,
         else:
             bm_cmd = 'babymaker -i {} -o baby.cpp -n {} -t {}'
 
-        if cli_vars:
-            bm_cmd += ' -V '+cli_vars
-
-        if blocked_input_trees:
-            bm_cmd += ' -B '+' '.join(blocked_input_trees)
-
-        if blocked_output_trees:
-            bm_cmd += ' -X '+' '.join(blocked_output_trees)
-
-        if directive_override:
-            bm_cmd += ' -D '+' '.join([k+':'+v
-                                       for k, v in directive_override.items()])
+        bm_cmd = workflow_bm_cli(bm_cmd, **kwargs)
 
         executor(bm_cmd.format(abs_path(input_yml), input_ntp, cpp_template))
         workflow_compile_cpp('baby.cpp', executor=executor)
@@ -233,6 +252,7 @@ def workflow_mc(job_name, inputs, input_yml,
         job_name, inputs, **kwargs)
     chdir(workdir)
     cpp_template = abs_path('../postprocess/cpp_templates/rdx.cpp')
+    aux_workflows = None
 
     for subdir, input_ntp in subworkdirs.items():
         print('{}Working on {}...{}'.format(TC.GREEN, input_ntp, TC.END))

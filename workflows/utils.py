@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Dec 30, 2021 at 02:29 AM +0100
+# Last Change: Thu Dec 30, 2021 at 03:52 AM +0100
 
 import re
 import yaml
@@ -14,6 +14,8 @@ from datetime import datetime
 from subprocess import check_output
 from shutil import rmtree
 from glob import glob
+from inspect import getfullargspec
+from pathlib import Path
 
 
 ######
@@ -60,6 +62,19 @@ def ensure_dir(path, delete_if_exist=True, make_absolute=True, **kwargs):
         pass
 
     return path
+
+
+def ensure_file(path, dir_replacement={'ntuples': 'ntuples_ext'}):
+    if Path(path).exists():
+        return path
+
+    if dir_replacement:
+        for src, tgt in dir_replacement.items():
+            path = path.replace(src, tgt)
+
+        ensure_file(path, None)
+
+    raise ValueError(f'File not exist: {path}.')
 
 
 def find_all_input(inputs,
@@ -154,6 +169,26 @@ def load_yaml_db(yaml_db=[
             result.update(yaml.safe_load(f))
 
     return result
+
+
+def filter_kwargs_func(kwargs, func):
+    kw_func = getfullargspec(func).args
+    return {k: kwargs[k] for k in kw_func if k in kwargs}
+
+
+def smart_kwarg(*args):
+    def _smart_kwargs(func):
+        def inner(*args, **kwargs):
+            known_kws = filter_kwargs_func(kwargs, func)
+            for k in add_kws:
+                if k in kwargs:
+                    known_kws[k] = kwargs[k]
+
+            return func(*args, **known_kws)
+        return inner
+
+    add_kws = ['executor'] if len(args) == 1 and callable(args[0]) else args[0]
+    return _smart_kwargs
 
 
 #####################
@@ -380,6 +415,8 @@ def workflow_cached_ntuple(
             symlink(output_ntp, './'+cached_ntp_base)
         except FileNotFoundError:
             pass
+
+    return output_ntp
 
 
 def workflow_apply_weight(input_ntp, histo_folder, config,
