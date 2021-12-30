@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Dec 29, 2021 at 09:16 PM +0100
+# Last Change: Thu Dec 30, 2021 at 01:02 AM +0100
 
 import sys
 import os.path as op
@@ -71,20 +71,41 @@ def print_err(errors, msg_type, msg_obj):
             print(f'    Field "{name}" has an illegal value "{value}"')
 
 
-def validate_ntp(paths):
-    tot_counter = 0
-    err_counter = 0
-    print('Validating ntuple filenames...')
+def validate_generic(glob_pattern, checker, checker_name,
+                     start_msg, end_msg, err_idx=1):
+    def inner(paths):
+        tot_counter = 0
+        err_counter = 0
+        print(start_msg)
 
-    for p in paths:
-        for ntp in glob(f'{abs_path(p)}/**/*.root', recursive=True):
-            tot_counter += 1
-            _, _, errors = check_ntp_name(op.basename(ntp))
-            print_err(errors, 'ntuple', ntp)
-            err_counter += len(errors)
+        for p in paths:
+            for i in glob(f'{abs_path(p)}/**/'+glob_pattern, recursive=True):
+                tot_counter += 1
+                errors = checker(op.basename(i))[err_idx]
+                print_err(errors, checker_name, i)
+                err_counter += len(errors)
 
-    print(f'Validated {tot_counter} ntuples. Found {err_counter} error(s).')
-    return err_counter
+        print(end_msg.format(tot_counter, err_counter))
+        return err_counter
+
+    return inner
+
+
+validate_ntp = validate_generic(
+    '*.root', check_ntp_name, 'ntuple',
+    'Validating ntuple filenames...',
+    'Validated {} ntuples. Found {} error(s).', err_idx=2
+)
+
+validate_cond = validate_generic(
+    'cond*.py', check_cond_filename, 'cond', 'Validating cond filenames...',
+    'Validated {} cond files. Found {} error(s).'
+)
+
+validate_log = validate_generic(
+    '*.log', check_log_filename, 'log', 'Validating log filenames...',
+    'Validated {} log files. Found {} error(s).'
+)
 
 
 def validate_ntp_folder(paths):
@@ -120,38 +141,6 @@ def validate_ntp_folder(paths):
         err_counter += len(errors)
 
     print(f'Validated {tot_counter} ntuple folders. Found {err_counter} error(s).')
-    return err_counter
-
-
-def validate_cond(paths):
-    tot_counter = 0
-    err_counter = 0
-    print('Validating cond filenames...')
-
-    for p in paths:
-        for cond in glob(f'{abs_path(p)}/**/cond*.py', recursive=True):
-            tot_counter += 1
-            _, errors = check_cond_filename(op.basename(cond))
-            print_err(errors, 'cond', cond)
-            err_counter += len(errors)
-
-    print(f'Validated {tot_counter} cond files. Found {err_counter} error(s).')
-    return err_counter
-
-
-def validate_log(paths):
-    tot_counter = 0
-    err_counter = 0
-    print('Validating log filenames...')
-
-    for p in paths:
-        for log in glob(f'{abs_path(p)}/**/*.log', recursive=True):
-            tot_counter += 1
-            _, errors = check_log_filename(op.basename(log))
-            print_err(errors, 'log', log)
-            err_counter += len(errors)
-
-    print(f'Validated {tot_counter} log files. Found {err_counter} error(s).')
     return err_counter
 
 
