@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Dec 30, 2021 at 05:34 AM +0100
+# Last Change: Thu Dec 30, 2021 at 05:36 AM +0100
 
 import sys
 import os
@@ -110,8 +110,7 @@ def workflow_ubdt(input_ntp, output_ntp='ubdt.root',
                   trees=['TupleB0/DecayTree', 'TupleBminus/DecayTree'],
                   **kwargs):
     weight_file = abs_path('../run2-rdx/weights_run2_no_cut_ubdt.xml')
-    cmd = 'addUBDTBranch {} mu_isMuonTight {} {} {}'.format(
-        input_ntp, weight_file, output_ntp, ' '.join(trees))
+    cmd = f'addUBDTBranch {input_ntp} mu_isMuonTight {weight_file} {output_ntp} {" ".join(trees)}'
     return workflow_cached_ntuple(
         cmd, input_ntp, output_ntp, '--aux_ubdt', **kwargs)
 
