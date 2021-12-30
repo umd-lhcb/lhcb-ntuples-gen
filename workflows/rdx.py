@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Dec 30, 2021 at 03:58 AM +0100
+# Last Change: Thu Dec 30, 2021 at 04:52 AM +0100
 
 import sys
 import os
@@ -183,11 +183,11 @@ def workflow_bm_cli(bm_cmd, cli_vars=None, blocked_input_trees=None,
     return bm_cmd
 
 
+@smart_kwarg([])
 def workflow_data_mc(job_name, inputs,
                      output_dir=abs_path('../gen'),
                      patterns=['*.root'],
                      blocked_patterns=['__aux'],
-                     executor=run_cmd_wrapper()
                      ):
     print('{}==== Job: {} ===={}'.format(TC.BOLD+TC.GREEN, job_name, TC.END))
 
@@ -199,7 +199,29 @@ def workflow_data_mc(job_name, inputs,
     # Now ensure the working dir
     workdir = ensure_dir(op.join(output_dir, job_name))
 
-    return subworkdirs, workdir, executor
+    return subworkdirs, workdir
+
+
+@smart_kwarg
+def workflow_single_ntuple(input_ntp, input_yml, output_suffix, aux_workflows,
+                           cpp_template='../postprocess/cpp_templates/rdx.cpp',
+                           executor=run_cmd_wrapper(),
+                           **kwargs):
+    ensure_file(input_ntp)
+    cpp_template = abs_path(cpp_template)
+
+    bm_cmd = 'babymaker -i {} -o baby.cpp -n {} -t {}'
+
+    aux_ntuples = [w(input_ntp, **kwargs) for w in aux_workflows]
+    if aux_ntuples:
+        bm_cmd += ' -f ' + ' '.join(aux_ntuples)
+
+    bm_cmd = workflow_bm_cli(bm_cmd, **kwargs)
+
+    executor(bm_cmd.format(abs_path(input_yml), input_ntp, cpp_template))
+    workflow_compile_cpp('baby.cpp', executor=executor)
+
+    executor('./baby.exe --{}'.format(output_suffix))
 
 
 #############
@@ -211,30 +233,18 @@ def workflow_data(job_name, inputs, input_yml,
                   output_ntp_name_gen=generate_step2_name,
                   output_fltr=rdx_default_output_fltrs,
                   **kwargs):
-    subworkdirs, workdir, executor = workflow_data_mc(
-        job_name, inputs, **kwargs)
+    subworkdirs, workdir = workflow_data_mc(job_name, inputs, **kwargs)
     chdir(workdir)
-    cpp_template = abs_path('../postprocess/cpp_templates/rdx.cpp')
+    aux_workflows = [workflow_ubdt] if use_ubdt else []
 
     for subdir, input_ntp in subworkdirs.items():
         ensure_dir(subdir, make_absolute=False)
         chdir(subdir)  # Switch to the workdir of the subjob
         print('{}Working on {}...{}'.format(TC.GREEN, input_ntp, TC.END))
 
-        if use_ubdt:
-            # Generate a ubdt ntuple
-            workflow_ubdt(input_ntp, executor=executor)
-            bm_cmd = 'babymaker -i {} -o baby.cpp -n {} -t {} -f ubdt.root'
-        else:
-            bm_cmd = 'babymaker -i {} -o baby.cpp -n {} -t {}'
-
-        bm_cmd = workflow_bm_cli(bm_cmd, **kwargs)
-
-        executor(bm_cmd.format(abs_path(input_yml), input_ntp, cpp_template))
-        workflow_compile_cpp('baby.cpp', executor=executor)
-
         output_suffix = output_ntp_name_gen(input_ntp)
-        executor('./baby.exe --{}'.format(output_suffix))
+        workflow_single_ntuple(
+            input_ntp, input_yml, output_suffix, aux_workflows, **kwargs)
 
         aggregate_output('..', subdir, output_fltr)
         chdir('..')  # Switch back to parent workdir
@@ -242,17 +252,13 @@ def workflow_data(job_name, inputs, input_yml,
 
 def workflow_mc(job_name, inputs, input_yml,
                 output_ntp_name_gen=generate_step2_name,
-                pid_histo_folder='../run2-rdx/reweight/pid/root-run2-rdx_oldcut',
-                pid_config='../run2-rdx/reweight/pid/run2-rdx_oldcut.yml',
-                trk_histo_folder='../run2-rdx/reweight/tracking/root-run2-general',
-                trk_config='../run2-rdx/reweight/tracking/run2-general.yml',
                 output_fltr=rdx_default_output_fltrs,
                 **kwargs):
-    subworkdirs, workdir, executor = workflow_data_mc(
-        job_name, inputs, **kwargs)
+    subworkdirs, workdir = workflow_data_mc(job_name, inputs, **kwargs)
     chdir(workdir)
-    cpp_template = abs_path('../postprocess/cpp_templates/rdx.cpp')
-    aux_workflows = None
+    aux_workflows = [
+        workflow_hammer, workflow_trigger_emu, workflow_pid, workflow_trk
+    ]
 
     for subdir, input_ntp in subworkdirs.items():
         print('{}Working on {}...{}'.format(TC.GREEN, input_ntp, TC.END))
@@ -263,29 +269,11 @@ def workflow_mc(job_name, inputs, input_yml,
         decay_mode = output_suffix.split('--')[2]
         blocked_input_trees, decay_id = rdx_mc_add_info(decay_mode)
 
-        # Generate a HAMMER ntuple
-        workflow_hammer(input_ntp, executor=executor)
-
-        # Generate PID weights
-        workflow_pid(input_ntp, pid_histo_folder, pid_config, executor=executor)
-
-        # Generate tracking weights
-        workflow_trk(input_ntp, trk_histo_folder, trk_config, executor=executor)
-
-        # Generate emulated triggers
-        workflow_trigger_emu(input_ntp, executor=executor)
-
-        bm_cmd = 'babymaker -i {} -o baby.cpp -n {} -t {} -f hammer.root pid.root trk.root trg_emu.root'
-
-        if blocked_input_trees:
-            bm_cmd += ' -B '+' '.join(blocked_input_trees)
-
-        bm_cmd += ' -V '+'cli_mc_id:'+decay_id
-
-        executor(bm_cmd.format(abs_path(input_yml), input_ntp, cpp_template))
-        workflow_compile_cpp('baby.cpp', executor=executor)
-
-        executor('./baby.exe --{}'.format(output_suffix))
+        output_suffix = output_ntp_name_gen(input_ntp)
+        workflow_single_ntuple(
+            input_ntp, input_yml, output_suffix, aux_workflows,
+            cli_vars={'cli_mc_id': decay_id},
+            blocked_input_trees=blocked_input_trees, **kwargs)
 
         aggregate_output('..', subdir, output_fltr)
         chdir('..')  # Switch back to parent workdir

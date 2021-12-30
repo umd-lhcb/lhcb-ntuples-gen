@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Dec 30, 2021 at 03:52 AM +0100
+# Last Change: Thu Dec 30, 2021 at 04:52 AM +0100
 
 import re
 import yaml
@@ -176,8 +176,19 @@ def filter_kwargs_func(kwargs, func):
     return {k: kwargs[k] for k in kw_func if k in kwargs}
 
 
+# NOTE: This is used to make wrapped functions taking all kwargs and only use
+#       the ones needed by the wrapped function.
+#
+#       The implementation is admittedly a bit convoluted and if you don't
+#       understand, try play with this decorator in an interactive Python shell
+#       with:
+#           python -i ./utils.py
+#       The define:
+#           @smart_kwarg
+#           def f(a=1, b=2):
+#               print(a-b)
 def smart_kwarg(*args):
-    def _smart_kwargs(func):
+    def _smart_kwarg(func):
         def inner(*args, **kwargs):
             known_kws = filter_kwargs_func(kwargs, func)
             for k in add_kws:
@@ -187,8 +198,12 @@ def smart_kwarg(*args):
             return func(*args, **known_kws)
         return inner
 
-    add_kws = ['executor'] if len(args) == 1 and callable(args[0]) else args[0]
-    return _smart_kwargs
+    if len(args) == 1 and callable(args[0]):
+        add_kws = ['executor']
+        return _smart_kwarg(args[0])
+
+    add_kws = args[0]
+    return _smart_kwarg
 
 
 #####################
