@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Dec 30, 2021 at 05:39 AM +0100
+# Last Change: Thu Dec 30, 2021 at 04:02 PM +0100
 
 import re
 import yaml
@@ -404,9 +404,7 @@ def workflow_compile_cpp(
     link_flags = run_cmd_with_output('root-config --libs')
 
     output_exe = with_suffix(input_cpp, '.exe')
-
-    executor('{} {} {} -o {} {} {}'.format(
-        compiler, base_flags, add_flags, output_exe, input_cpp, link_flags))
+    executor(f'{compiler} {base_flags} {add_flags} -o {output_exe} {input_cpp} {link_flags}')
 
 
 def workflow_cached_ntuple(

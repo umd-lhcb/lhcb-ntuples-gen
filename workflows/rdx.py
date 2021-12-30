@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Dec 30, 2021 at 05:36 AM +0100
+# Last Change: Thu Dec 30, 2021 at 04:01 PM +0100
 
 import sys
 import os
@@ -163,23 +163,45 @@ def workflow_trk(
 @smart_kwarg([])
 def workflow_bm_cli(bm_cmd, cli_vars=None, blocked_input_trees=None,
                     blocked_output_trees=None, directive_override=None):
-    if cli_vars:
-        if isinstance(cli_vars, dict):
-            cli_vars = ' '.join([str(k)+':'+str(v)
-                                 for k, v in cli_vars.items()])
-        bm_cmd += ' -V '+cli_vars
-
     if blocked_input_trees:
         bm_cmd += ' -B '+' '.join(blocked_input_trees)
 
     if blocked_output_trees:
         bm_cmd += ' -X '+' '.join(blocked_output_trees)
 
+    if cli_vars:
+        bm_cmd += ' -V '+' '.join([str(k)+':'+str(v)
+                                   for k, v in cli_vars.items()])
+
     if directive_override:
-        bm_cmd += ' -D '+' '.join([k+':'+v
+        bm_cmd += ' -D '+' '.join([str(k)+':'+str(v)
                                    for k, v in directive_override.items()])
 
     return bm_cmd
+
+
+@smart_kwarg
+def workflow_single_ntuple(input_ntp, input_yml, output_suffix, aux_workflows,
+                           cpp_template='../postprocess/cpp_templates/rdx.cpp',
+                           executor=run_cmd_wrapper(),
+                           **kwargs):
+    input_ntp = ensure_file(input_ntp)
+    print('{}Working on {}...{}'.format(TC.GREEN, input_ntp, TC.END))
+    cpp_template = abs_path(cpp_template)
+
+    bm_cmd = 'babymaker -i {} -o baby.cpp -n {} -t {}'
+
+    aux_ntuples = [w(input_ntp, executor=executor, **kwargs)
+                   for w in aux_workflows]
+    if aux_ntuples:
+        bm_cmd += ' -f ' + ' '.join(aux_ntuples)
+
+    bm_cmd = workflow_bm_cli(bm_cmd, **kwargs)
+
+    executor(bm_cmd.format(abs_path(input_yml), input_ntp, cpp_template))
+    workflow_compile_cpp('baby.cpp', executor=executor)
+
+    executor('./baby.exe --{}'.format(output_suffix))
 
 
 @smart_kwarg([])
@@ -199,29 +221,6 @@ def workflow_data_mc(job_name, inputs,
     workdir = ensure_dir(op.join(output_dir, job_name))
 
     return subworkdirs, workdir
-
-
-@smart_kwarg
-def workflow_single_ntuple(input_ntp, input_yml, output_suffix, aux_workflows,
-                           cpp_template='../postprocess/cpp_templates/rdx.cpp',
-                           executor=run_cmd_wrapper(),
-                           **kwargs):
-    input_ntp = ensure_file(input_ntp)
-    print('{}Working on {}...{}'.format(TC.GREEN, input_ntp, TC.END))
-    cpp_template = abs_path(cpp_template)
-
-    bm_cmd = 'babymaker -i {} -o baby.cpp -n {} -t {}'
-
-    aux_ntuples = [w(input_ntp, **kwargs) for w in aux_workflows]
-    if aux_ntuples:
-        bm_cmd += ' -f ' + ' '.join(aux_ntuples)
-
-    bm_cmd = workflow_bm_cli(bm_cmd, **kwargs)
-
-    executor(bm_cmd.format(abs_path(input_yml), input_ntp, cpp_template))
-    workflow_compile_cpp('baby.cpp', executor=executor)
-
-    executor('./baby.exe --{}'.format(output_suffix))
 
 
 #############
@@ -307,8 +306,7 @@ JOBS = {
             # '../ntuples/0.9.5-bugfix/Dst_D0-mc/Dst_D0--21_10_15--mc--MC_2016_Beam6500GeV-2016-MagDown-Nu1.6-25ns-Pythia8_Sim09j_Trig0x6139160F_Reco16_Turbo03a_Filtered_11874440_D0TAUNU.SAFESTRIPTRIG.DST.root',
         ],
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
-        executor=executor,
-        blocked_patterns=['--aux', 'MC_2012']
+        executor=executor
     ),
     'rdx-ntuple-run2-data-oldcut-debug': lambda name: workflow_data(
         name,
@@ -362,7 +360,6 @@ JOBS = {
         use_ubdt=False,
         output_ntp_name_gen=parse_step2_name,
         executor=executor
-        # directive_override={'one_cand_only/enable': 'false'}
     ),
     'ref-rdx-ntuple-run1-data-Dst-comp': lambda name: workflow_data(
         name,
