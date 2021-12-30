@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Dec 30, 2021 at 05:25 AM +0100
+# Last Change: Thu Dec 30, 2021 at 05:33 AM +0100
 
 import re
 import yaml
@@ -72,7 +72,7 @@ def ensure_file(path, dir_replacement={'ntuples': 'ntuples_ext'}):
         for src, tgt in dir_replacement.items():
             path = path.replace(src, tgt)
 
-        ensure_file(path, None)
+        return ensure_file(path, None)
 
     raise ValueError(f'File not exist: {path}.')
 

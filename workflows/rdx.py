@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Dec 30, 2021 at 05:02 AM +0100
+# Last Change: Thu Dec 30, 2021 at 05:34 AM +0100
 
 import sys
 import os
@@ -207,7 +207,8 @@ def workflow_single_ntuple(input_ntp, input_yml, output_suffix, aux_workflows,
                            cpp_template='../postprocess/cpp_templates/rdx.cpp',
                            executor=run_cmd_wrapper(),
                            **kwargs):
-    ensure_file(input_ntp)
+    input_ntp = ensure_file(input_ntp)
+    print('{}Working on {}...{}'.format(TC.GREEN, input_ntp, TC.END))
     cpp_template = abs_path(cpp_template)
 
     bm_cmd = 'babymaker -i {} -o baby.cpp -n {} -t {}'
@@ -240,7 +241,6 @@ def workflow_data(job_name, inputs, input_yml,
     for subdir, input_ntp in subworkdirs.items():
         ensure_dir(subdir, make_absolute=False)
         chdir(subdir)  # Switch to the workdir of the subjob
-        print('{}Working on {}...{}'.format(TC.GREEN, input_ntp, TC.END))
 
         output_suffix = output_ntp_name_gen(input_ntp)
         workflow_single_ntuple(
@@ -261,7 +261,6 @@ def workflow_mc(job_name, inputs, input_yml,
     ]
 
     for subdir, input_ntp in subworkdirs.items():
-        print('{}Working on {}...{}'.format(TC.GREEN, input_ntp, TC.END))
         ensure_dir(subdir, make_absolute=False)
         chdir(subdir)  # Switch to the workdir of the subjob
 
