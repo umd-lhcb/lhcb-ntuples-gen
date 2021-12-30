@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Dec 30, 2021 at 05:23 AM +0100
+# Last Change: Thu Dec 30, 2021 at 05:25 AM +0100
 
 import re
 import yaml
@@ -338,7 +338,7 @@ def find_year(filename):
         if search:
             return '20' + search.group(1)
 
-    raise ValueError("Can't find year from {}!".format(filename))
+    raise ValueError(f"Can't find year from {filename}!")
 
 
 def find_polarity(filename):
@@ -444,6 +444,5 @@ def workflow_apply_weight(input_ntp, histo_folder, config,
 
     # The executable is in 'scripts' folder!
     cmd = f'apply_histo_weight.py {input_ntp} {histo_folder} {output_ntp} -c {config} --year {year} --polarity {polarity}'
-    workflow_cached_ntuple(
+    return workflow_cached_ntuple(
         cmd, input_ntp, output_ntp, cache_suffix, **kwargs)
-    return output_ntp
