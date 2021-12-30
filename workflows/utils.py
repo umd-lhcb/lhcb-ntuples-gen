@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Dec 30, 2021 at 04:02 PM +0100
+# Last Change: Thu Dec 30, 2021 at 09:00 PM +0100
 
 import re
 import yaml
@@ -301,7 +301,7 @@ NTP_STEP1_FIELDS = [
     ('reco_mode', False, validate_reco_mode),
     ('additional_flags', True,
      lambda x: not x.startswith('aux') and not x[0].isdigit()),
-    ('dirac_path', False, lambda x: '.DST' in x and '__aux' not in x),
+    ('lfn', False, lambda x: '.DST' in x and '__aux' not in x),
     ('index', True, lambda x: '-dv' in x and x[0].isdigit()),
     ('aux', True, lambda x: x.startswith('aux')),
 ]
@@ -310,7 +310,7 @@ NTP_STEP2_FIELDS = [
     ('particles', False, lambda x: True),
     ('date', False, validate_date),
     ('reco_mode', False, validate_reco_mode),
-    ('input_data', False, lambda x: True),
+    ('decay_mode', False, lambda x: True),
     ('year', False, validate_year),
     ('polarity', False, lambda x: x in ['md', 'mu', 'md-mu']),
     ('additional_flags', True, lambda x: True),
@@ -349,47 +349,47 @@ def find_polarity(filename):
     return 'md-mu'
 
 
-def generate_step2_name(ntp_name, convert_mc_id=False):
-    try:
-        _, _, reco_mode, add_flag, lfn = ntp_name.split('--')
-    except ValueError:
-        _, _, reco_mode, lfn = ntp_name.split('--')
-        add_flag = None
-
-    date = gen_date()
-    db = load_yaml_db()
-
-    polarity_trans = {'Up': 'u', 'Down': 'd'}
-    polarity = 'm'+polarity_trans[re.search(r'Mag(Up|Down)', lfn).group(1)]
-
+def find_decay_mode(lfn, convert_mc_id=False):
     if 'Real_Data' in lfn:
-        year = '20' + re.search(r'_Collision(\d\d)_', lfn).group(1)
-        decay_mode = 'data'
-    else:
-        year = re.search(r'_(\d\d\d\d)_', lfn).group(1)
-        decay_mode = re.search(r'_(\d\d\d\d\d\d\d\d)_', lfn).group(1)
+        return 'data'
 
-        if convert_mc_id and db.get(decay_mode):
-            decay_mode = db[decay_mode]['Filename']
-            # NOTE: Remember to remove useless strings in the 'Filename' key and
-            # replace ',' with '__'
+    decay_mode = re.search(r'_(\d\d\d\d\d\d\d\d)_', lfn).group(1)
 
-    fields = [date, reco_mode, decay_mode, year, polarity]
-    if add_flag is not None:
-        fields.append(add_flag)
-    return '--'.join(fields)
+    if convert_mc_id:
+        # NOTE: Here we convert 8-digit MC ID to a human-readable decay mode
+        #
+        # NOTE: Remember to remove useless strings in the 'Filename' key and
+        #       replace ',' with '__' in the YAML files.
+        db = load_yaml_db()
+        return db[decay_mode]['Filename']
+
+    return decay_mode
 
 
-def parse_step2_name(ntp_name):
-    ntp_name = ntp_name.strip('.root')
-    _, _, reco_mode, decay_mode, year, polarity, *add_flag = \
-        ntp_name.split('--')
+def generate_step2_name(ntp_name, convert_mc_id=False):
+    fields, errors, is_step1 = check_ntp_name(ntp_name)
+    if len(errors) > 0:
+        raise ValueError(f'ntuple name {ntp_name} is NOT a legal name!')
 
     date = gen_date()
-    fields = [date, reco_mode, decay_mode, year, polarity]
-    if add_flag:
-        fields.append(add_flag[0])
-    return '--'.join(fields)
+    reco_mode = fields['reco_mode']
+
+    if is_step1:
+        polarity = find_polarity(ntp_name)
+        year = find_year(ntp_name)
+        decay_mode = find_decay_mode(fields['lfn'], convert_mc_id)
+    else:
+        polarity, year = fields['polarity'], fields['year']
+        _decay_mode = fields['decay_mode']
+        if _decay_mode == 'data' or not _decay_mode[0].isdigit():
+            decay_mode = _decay_mode
+        else:
+            decay_mode = find_decay_mode(f'_{_decay_mode}_')
+
+    output = [date, reco_mode, decay_mode, year, polarity]
+    if 'additional_flags' in fields:
+        output.append(fields['additional_flags'])
+    return '--'.join(output)
 
 
 #####################

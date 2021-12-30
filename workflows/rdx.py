@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Dec 30, 2021 at 04:01 PM +0100
+# Last Change: Thu Dec 30, 2021 at 09:00 PM +0100
 
 import sys
 import os
@@ -21,7 +21,7 @@ from utils import (
     abs_path, ensure_dir, ensure_file, find_all_input,
     aggregate_fltr, aggregate_output,
     load_yaml_db, smart_kwarg,
-    generate_step2_name, parse_step2_name,
+    generate_step2_name,
     workflow_compile_cpp, workflow_cached_ntuple, workflow_apply_weight
 )
 
@@ -358,7 +358,6 @@ JOBS = {
         '../ntuples/ref-rdx-run1/Dst-mix/Dst--21_10_21--mix--all--2011-2012--md-mu--phoebe.root',
         '../postprocess/ref-rdx-run1/ref-rdx-run1-Dst.yml',
         use_ubdt=False,
-        output_ntp_name_gen=parse_step2_name,
         executor=executor
     ),
     'ref-rdx-ntuple-run1-data-Dst-comp': lambda name: workflow_data(
@@ -369,7 +368,6 @@ JOBS = {
         ],
         '../postprocess/ref-rdx-run1/ref-rdx-run1-Dst.yml',
         use_ubdt=False,
-        output_ntp_name_gen=parse_step2_name,
         executor=executor,
         cli_vars={'cli_fewer_cuts': 'true'}
     ),
@@ -378,7 +376,6 @@ JOBS = {
         '../ntuples/ref-rdx-run1/D0-mix/D0--21_10_21--mix--all--2011-2012--md-mu--phoebe.root',
         '../postprocess/ref-rdx-run1/ref-rdx-run1-D0.yml',
         use_ubdt=False,
-        output_ntp_name_gen=parse_step2_name,
         executor=executor
     ),
     'ref-rdx-ntuple-run1-data-D0-comp': lambda name: workflow_data(
@@ -389,7 +386,6 @@ JOBS = {
         ],
         '../postprocess/ref-rdx-run1/ref-rdx-run1-D0.yml',
         use_ubdt=False,
-        output_ntp_name_gen=parse_step2_name,
         executor=executor,
         cli_vars={'cli_fewer_cuts': 'true'}
     ),
