@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri Dec 31, 2021 at 04:16 AM +0100
+# Last Change: Fri Dec 31, 2021 at 05:54 AM +0100
 
 import sys
 import os
@@ -181,8 +181,8 @@ def workflow_prep_dir(job_name, inputs,
 
     # Need to figure out the absolute path
     input_files = find_all_input(inputs, patterns, blocked_patterns)
-    subworkdirs = {op.splitext(op.basename(i))[0]: i
-                   for i in input_files}
+    subworkdirs = {op.splitext(op.basename(i))[0]
+                   if op.isfile(i) else op.basename(i): i for i in input_files}
 
     # Now ensure the working dir
     workdir = ensure_dir(op.join(output_dir, job_name))
@@ -194,42 +194,37 @@ def workflow_prep_dir(job_name, inputs,
 # Workflows: main #
 ###################
 
-def workflow_data(inputs, input_yml,
-                  job_name='data', use_ubdt=True,
-                  output_ntp_name_gen=generate_step2_name,
-                  output_fltr=rdx_default_output_fltrs,
+def workflow_data(inputs, input_yml, job_name='data', use_ubdt=True,
                   **kwargs):
+    aux_workflows = [workflow_ubdt] if use_ubdt else []
     subworkdirs, workdir = workflow_prep_dir(job_name, inputs, **kwargs)
     chdir(workdir)
-    aux_workflows = [workflow_ubdt] if use_ubdt else []
 
     for subdir, input_ntp in subworkdirs.items():
         ensure_dir(subdir, make_absolute=False)
         chdir(subdir)  # Switch to the workdir of the subjob
 
-        output_suffix = output_ntp_name_gen(input_ntp)
+        output_suffix = generate_step2_name(input_ntp)
         workflow_single_ntuple(
             input_ntp, input_yml, output_suffix, aux_workflows, **kwargs)
 
-        aggregate_output('..', subdir, output_fltr)
+        aggregate_output('..', subdir, rdx_default_output_fltrs)
         chdir('..')  # Switch back to parent workdir
 
 
-def workflow_mc(inputs, input_yml,
-                job_name='mc', output_ntp_name_gen=generate_step2_name,
-                output_fltr=rdx_default_output_fltrs,
+def workflow_mc(inputs, input_yml, job_name='mc',
                 **kwargs):
-    subworkdirs, workdir = workflow_prep_dir(job_name, inputs, **kwargs)
-    chdir(workdir)
     aux_workflows = [
         workflow_hammer, workflow_trigger_emu, workflow_pid, workflow_trk
     ]
+    subworkdirs, workdir = workflow_prep_dir(job_name, inputs, **kwargs)
+    chdir(workdir)
 
     for subdir, input_ntp in subworkdirs.items():
         ensure_dir(subdir, make_absolute=False)
         chdir(subdir)  # Switch to the workdir of the subjob
 
-        output_suffix = output_ntp_name_gen(input_ntp)
+        output_suffix = generate_step2_name(input_ntp)
         fields = check_ntp_name(input_ntp)[0]
         if 'decay_mode' in fields:
             decay_mode = fields['decay_mode']
@@ -237,14 +232,26 @@ def workflow_mc(inputs, input_yml,
             decay_mode = find_decay_mode(fields['lfn'])
         blocked_input_trees = rdx_mc_blocked_trees(decay_mode)
 
-        output_suffix = output_ntp_name_gen(input_ntp)
+        output_suffix = generate_step2_name(input_ntp)
         workflow_single_ntuple(
             input_ntp, input_yml, output_suffix, aux_workflows,
             cli_vars={'cli_mc_id': decay_mode},
             blocked_input_trees=blocked_input_trees, **kwargs)
 
-        aggregate_output('..', subdir, output_fltr)
+        aggregate_output('..', subdir, rdx_default_output_fltrs)
         chdir('..')  # Switch back to parent workdir
+
+
+def workflow_split(inputs, input_yml, job_name='split',
+                   **kwargs):
+    subworkdirs, workdir = workflow_prep_dir(
+        job_name, inputs, patterns=['*.DST'], **kwargs)
+
+    for subjob, input_dir in subworkdirs.items():
+        subflow = workflow_mc if 'MC_' in subjob or 'mc' in subjob \
+            else workflow_data
+        subflow(
+            input_dir, input_yml, job_name=subjob, output_dir=workdir, **kwargs)
 
 
 #####################
@@ -293,6 +300,12 @@ JOBS = {
         workflow_mc,
         '../ntuples/0.9.5-bugfix/Dst_D0-mc/Dst_D0--21_10_08--mc--MC_2016_Beam6500GeV-2016-MagDown-Nu1.6-25ns-Pythia8_Sim09j_Trig0x6139160F_Reco16_Turbo03a_Filtered_11574011_D0TAUNU.SAFESTRIPTRIG.DST.root',
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
+    ),
+    'rdx-ntuple-run2-mc-to-demo': partial(
+        workflow_split,
+        '../ntuples/0.9.6-2016_production/Dst_D0-mc-tracker_only/Dst_D0--21_10_16--mc--tracker_only--MC_2016_Beam6500GeV-2016-MagDown-TrackerOnly-Nu1.6-25ns-Pythia8_Sim09k_Reco16_Filtered_11574021_D0TAUNU.SAFESTRIPTRIG.DST',
+        '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
+        blocked_patterns=['--aux', r'--([1-9][0-9][0-9]|0[1-9][0-9])-dv']
     ),
     # Run 1
     'rdx-ntuple-run1-data': partial(

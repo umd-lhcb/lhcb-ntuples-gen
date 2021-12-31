@@ -2,12 +2,13 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri Dec 31, 2021 at 04:33 AM +0100
+# Last Change: Fri Dec 31, 2021 at 05:41 AM +0100
 
 import re
 import yaml
 import shlex
 import os.path as op  # NOTE: Can't use pathlib because that doesn't handle symbolic link well
+import fnmatch
 
 from os import makedirs, chdir, system
 from datetime import datetime
@@ -95,6 +96,8 @@ def find_all_input(inputs,
         elif op.isdir(f):
             for p in patterns:
                 result += [op.abspath(g) for g in glob(op.join(f, p))]
+                if re.search(fnmatch.translate(p), f):  # Allow dirs to be matched
+                    result.append(f)
 
     # Remove files that contains blocked patterns
     return [f for f in result if True not in
@@ -314,6 +317,7 @@ def find_decay_mode(lfn, convert_mc_id=False):
 
 
 def generate_step2_name(ntp_name, convert_mc_id=False):
+    ntp_name = op.basename(ntp_name)
     fields, errors, is_step1 = check_ntp_name(ntp_name)
     if len(errors) > 0:
         raise ValueError(f'ntuple name {ntp_name} is NOT a legal name!')
