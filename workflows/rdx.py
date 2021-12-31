@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri Dec 31, 2021 at 02:50 AM +0100
+# Last Change: Fri Dec 31, 2021 at 04:16 AM +0100
 
 import sys
 import os
@@ -172,11 +172,11 @@ def workflow_single_ntuple(input_ntp, input_yml, output_suffix, aux_workflows,
 
 
 @smart_kwarg([])
-def workflow_data_mc(job_name, inputs,
-                     output_dir=abs_path('../gen'),
-                     patterns=['*.root'],
-                     blocked_patterns=['--aux'],
-                     ):
+def workflow_prep_dir(job_name, inputs,
+                      output_dir=abs_path('../gen'),
+                      patterns=['*.root'],
+                      blocked_patterns=['--aux'],
+                      ):
     print('{}==== Job: {} ===={}'.format(TC.BOLD+TC.GREEN, job_name, TC.END))
 
     # Need to figure out the absolute path
@@ -199,7 +199,7 @@ def workflow_data(inputs, input_yml,
                   output_ntp_name_gen=generate_step2_name,
                   output_fltr=rdx_default_output_fltrs,
                   **kwargs):
-    subworkdirs, workdir = workflow_data_mc(job_name, inputs, **kwargs)
+    subworkdirs, workdir = workflow_prep_dir(job_name, inputs, **kwargs)
     chdir(workdir)
     aux_workflows = [workflow_ubdt] if use_ubdt else []
 
@@ -219,7 +219,7 @@ def workflow_mc(inputs, input_yml,
                 job_name='mc', output_ntp_name_gen=generate_step2_name,
                 output_fltr=rdx_default_output_fltrs,
                 **kwargs):
-    subworkdirs, workdir = workflow_data_mc(job_name, inputs, **kwargs)
+    subworkdirs, workdir = workflow_prep_dir(job_name, inputs, **kwargs)
     chdir(workdir)
     aux_workflows = [
         workflow_hammer, workflow_trigger_emu, workflow_pid, workflow_trk

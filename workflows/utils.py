@@ -2,14 +2,14 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri Dec 31, 2021 at 02:19 AM +0100
+# Last Change: Fri Dec 31, 2021 at 04:16 AM +0100
 
 import re
 import yaml
 import shlex
 import os.path as op  # Note: Can't use pathlib because that doesn't handle symbolic link well
 
-from os import makedirs, chdir, symlink, system, pathsep
+from os import makedirs, chdir, system
 from datetime import datetime
 from subprocess import check_output
 from shutil import rmtree
@@ -353,7 +353,7 @@ def aggregate_fltr(blocked=[], keep=[r'\.root'], debug=False):
         for p in blocked:
             if bool(re.search(p, filename)):
                 if debug:
-                    print('Matched to pattern: {}'.format(p))
+                    print('Matched to blocked pattern: {}'.format(p))
                 return False
 
         for p in keep:
@@ -370,7 +370,7 @@ def aggregate_fltr(blocked=[], keep=[r'\.root'], debug=False):
     return inner
 
 
-def aggregate_output(workdir, output_dir, keep):
+def aggregate_output(workdir, output_dir, keep, debug=False):
     # Symbolic link generated files that match 'keep' patterns in separate
     # folders so that it's easier to find them.
 
@@ -388,10 +388,7 @@ def aggregate_output(workdir, output_dir, keep):
 
         for obj in glob(op.join(relpath, '*')):
             if fltr(obj):
-                try:
-                    symlink(obj, op.join('.', op.basename(obj)))
-                except FileExistsError:
-                    pass
+                run_cmd(f'ln -s {op.abspath(obj)} {op.basename(obj)}', debug)
 
 
 @smart_kwarg
@@ -413,7 +410,7 @@ def workflow_cached_ntuple(cmd, input_ntp, output_ntp, cache_suffix,
 
     if op.isfile(cached_ntp):
         print('Aux ntuple already cached!')
-        symlink(cached_ntp, output_ntp)
+        run_cmd(f'ln -s {cached_ntp} {output_ntp}', **kwargs)
     else:
         print('No aux ntuple cached, generating anew...')
         cmd = [cmd] if not isinstance(cmd, list) else cmd
@@ -421,11 +418,7 @@ def workflow_cached_ntuple(cmd, input_ntp, output_ntp, cache_suffix,
             run_cmd(c, **kwargs)
 
         print('Creating an alias for generated ntuple...')
-        cached_ntp_base = op.basename(cached_ntp)
-        try:
-            symlink(output_ntp, './'+cached_ntp_base)
-        except FileNotFoundError:
-            pass
+        run_cmd(f'ln -s {output_ntp} ./{op.basename(cached_ntp)}', **kwargs)
 
     return output_ntp
 
