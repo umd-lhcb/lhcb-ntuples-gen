@@ -2,12 +2,12 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri Dec 31, 2021 at 04:16 AM +0100
+# Last Change: Fri Dec 31, 2021 at 04:33 AM +0100
 
 import re
 import yaml
 import shlex
-import os.path as op  # Note: Can't use pathlib because that doesn't handle symbolic link well
+import os.path as op  # NOTE: Can't use pathlib because that doesn't handle symbolic link well
 
 from os import makedirs, chdir, system
 from datetime import datetime
@@ -68,6 +68,9 @@ def ensure_file(path, dir_replacement={'ntuples': 'ntuples_ext'}):
     if Path(path).exists():
         return path
 
+    # NOTE: Here we anticipate that on our server we'll link a globally checked-
+    #       out lhcb-ntuples-gen/ntuples to a user-specific project as
+    #       'ntuples_ext'
     if dir_replacement:
         for src, tgt in dir_replacement.items():
             path = path.replace(src, tgt)
@@ -94,7 +97,8 @@ def find_all_input(inputs,
                 result += [op.abspath(g) for g in glob(op.join(f, p))]
 
     # Remove files that contains blocked patterns
-    return [f for f in result if True not in [p in f for p in blocked_patterns]]
+    return [f for f in result if True not in
+            [bool(re.search(p, f)) for p in blocked_patterns]]
 
 
 ################
@@ -223,8 +227,7 @@ def check_rules(fields, rules):
             errors[name] = field
 
     for name, _, checker in optional_rules:
-        # If there's no additional field to consume, skip all optional rules
-        rule_ok = len(fields) == 0
+        rule_ok = len(fields) == 0  # If there's no field to consume, skip all optional rules
 
         for idx, field in enumerate(fields):
             rule_ok = checker(field)
@@ -237,11 +240,8 @@ def check_rules(fields, rules):
         errors['unconsumed_field'] = '; '.join(fields)
 
     # Let's reorder the result s.t. the ordering is consistent w/ rule ordering
-    final_result = {n: result[n] for n, _, _ in rules if n in result}
-    return final_result, errors
+    return {n: result[n] for n, _, _ in rules if n in result}, errors
 
-
-# We check if a ntuple name is legal here
 
 NTP_STEP1_FIELDS = [
     ('particles', False, lambda x: True),  # The boolean indicates if the field is optional
@@ -305,7 +305,6 @@ def find_decay_mode(lfn, convert_mc_id=False):
 
     if convert_mc_id:
         # NOTE: Here we convert 8-digit MC ID to a human-readable decay mode
-        #
         # NOTE: Remember to remove useless strings in the 'Filename' key and
         #       replace ',' with '__' in the YAML files.
         db = load_yaml_db()
@@ -432,7 +431,7 @@ def workflow_apply_weight(input_ntp, histo_folder, config,
     year = find_year(input_ntp)
     polarity = find_polarity(input_ntp)
 
-    # The executable is in 'scripts' folder!
+    # NOTE: The 'apply_histo_weight.py' is in 'scripts' folder!
     cmd = f'apply_histo_weight.py {input_ntp} {histo_folder} {output_ntp} -c {config} --year {year} --polarity {polarity}'
     return workflow_cached_ntuple(
         cmd, input_ntp, output_ntp, cache_suffix, **kwargs)
