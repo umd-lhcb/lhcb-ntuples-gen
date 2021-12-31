@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri Dec 31, 2021 at 05:41 AM +0100
+# Last Change: Fri Dec 31, 2021 at 03:07 PM +0100
 
 import re
 import yaml
@@ -265,6 +265,7 @@ NTP_STEP2_FIELDS = [
     ('year', False, validate_year),
     ('polarity', False, lambda x: x in ['md', 'mu', 'md-mu']),
     ('additional_flags', True, lambda x: True),
+    ('index', True, lambda x: x.isdecimal()),
 ]
 
 
@@ -340,6 +341,9 @@ def generate_step2_name(ntp_name, convert_mc_id=False):
     output = [date, reco_mode, decay_mode, year, polarity]
     if 'additional_flags' in fields:
         output.append(fields['additional_flags'])
+    if 'index' in fields:
+        step2_idx = re.search(r'(\d+)', fields['index']).group(1)
+        output.append(step2_idx)
     return '--'.join(output)
 
 
