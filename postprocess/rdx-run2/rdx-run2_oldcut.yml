@@ -259,8 +259,23 @@ calculation:
         bool; IF_VAR_EXISTS(mc_id, true);
         FLAG_SEL_D0_PID_OK_RUN1(k_PIDK, pi_PIDK, k_isMuon, pi_isMuon)
     d0_pid_ok_stub: ^bool; cli_cutflow; d0_pid_ok
+    # Note that the EMULATED trigger lines take precedence.
     d0_ok: >-
-        bool; FLAG_SEL_D0_RUN1(
+        bool;
+        FLAG_SEL_D0_RUN1(
+        d0_pid_ok_stub,
+        k_PT, pi_PT,
+        k_hlt1_trackmva_tos_emu, pi_hlt1_trackmva_tos_emu,
+        k_IPCHI2_OWNPV, pi_IPCHI2_OWNPV,
+        k_TRACK_GhostProb, pi_TRACK_GhostProb,
+        d0_PT,
+        true,
+        d0_ENDVERTEX_CHI2, d0_ENDVERTEX_NDOF,
+        d0_IP_OWNPV, d0_IPCHI2_OWNPV,
+        d0_DIRA_OWNPV,
+        d0_FDCHI2_OWNPV
+        );
+        FLAG_SEL_D0_RUN1(
         d0_pid_ok_stub,
         k_PT, pi_PT,
         k_Hlt1TrackMVADecision_TOS, pi_Hlt1TrackMVADecision_TOS,
