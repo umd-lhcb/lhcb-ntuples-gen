@@ -2,14 +2,14 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri Dec 31, 2021 at 05:54 AM +0100
+# Last Change: Fri Dec 31, 2021 at 03:41 PM +0100
 
 import sys
 import os
 import os.path as op
 
 from argparse import ArgumentParser, Action
-from os import chdir
+from os import chdir, makedirs
 from shutil import rmtree
 from functools import partial
 
@@ -252,6 +252,14 @@ def workflow_split(inputs, input_yml, job_name='split',
             else workflow_data
         subflow(
             input_dir, input_yml, job_name=subjob, output_dir=workdir, **kwargs)
+
+    # Let's manually aggregate output
+    chdir(workdir)
+    makedirs('ntuple')
+    makedirs('ntuple_aux')
+    for subjob in subworkdirs:
+        run_cmd(f'mv {subjob}/ntuple ntuple/{generate_step2_name(subjob+".root")}', **kwargs)
+        run_cmd(f'mv {subjob}/ntuple_aux ntuple_aux/{subjob}', **kwargs)
 
 
 #####################
