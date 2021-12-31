@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun, Manual Franco Sevilla
 # License: BSD 2-clause
-# Last Change: Tue Dec 21, 2021 at 03:52 AM +0100
+# Last Change: Fri Dec 31, 2021 at 01:19 AM +0100
 
 import pathlib
 import os
@@ -429,6 +429,11 @@ def yaml_gen(data, indent='', indent_increment=' '*4):
     return result
 
 
+def pad_arrays(*args):
+    max_len = max([i.size for i in args])
+    return [i if i.size == max_len else np.array([i]*max_len) for i in args]
+
+
 ###################
 # Known functions #
 ###################
@@ -468,7 +473,7 @@ def flag_sel_d0_run1(k_pid_k, pi_pid_k, k_is_mu, pi_is_mu,
                                   d0_endvtx_chi2, d0_endvtx_ndof,
                                   d0_ip, d0_ip_chi2, d0_dira, d0_fd_chi2)
     d0_mass_ok = flag_sel_d0_mass(d0_m)
-    return np.logical_and.reduce((d0_pid_ok, d0_ok, d0_mass_ok))
+    return np.logical_and.reduce(pad_arrays(d0_pid_ok, d0_ok, d0_mass_ok))
 
 
 # NOTE: This is how wrap a C++ function that takes vector arguments.
@@ -547,7 +552,7 @@ def flag_sel_b0dst_run1(spi_gh_prob,
     dst_mass_ok = flag_sel_dst_mass(dst_m, d0_m)
     b0_mass_ok = flag_sel_b0_mass(b0_m)
 
-    return np.logical_and.reduce((dstmu_ok, dst_mass_ok, b0_mass_ok))
+    return np.logical_and.reduce(pad_arrays(dstmu_ok, dst_mass_ok, b0_mass_ok))
 
 
 KNOWN_FUNC['flag_sel_run1_strip'] = vectorize(ROOT.FLAG_SEL_RUN1_STRIP)

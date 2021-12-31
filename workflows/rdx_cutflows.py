@@ -4,7 +4,7 @@
 
 from argparse import ArgumentParser
 from pyBabyMaker.base import TermColor as TC
-from utils import run_cmd_wrapper, abs_path, ensure_dir, with_suffix
+from utils import run_cmd, abs_path, ensure_dir, with_suffix
 
 
 #################################
@@ -23,8 +23,6 @@ def parse_input():
 ###########
 # Helpers #
 ###########
-
-run_cmd = run_cmd_wrapper(only_print=False)
 
 
 def gen_cutflow_yml(ntp1, ntp2, outyml1, outyml2, mode):

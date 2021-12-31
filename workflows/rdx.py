@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Dec 30, 2021 at 09:52 PM +0100
+# Last Change: Thu Dec 30, 2021 at 10:03 PM +0100
 
 import sys
 import os
@@ -376,6 +376,7 @@ JOBS = {
 }
 
 args = parse_input()
+
 if args.job_name in JOBS:
     JOBS[args.job_name](job_name=args.job_name, debug=args.debug)
 else:
