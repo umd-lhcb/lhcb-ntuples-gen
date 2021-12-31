@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Dec 30, 2021 at 10:03 PM +0100
+# Last Change: Fri Dec 31, 2021 at 02:50 AM +0100
 
 import sys
 import os
@@ -20,7 +20,7 @@ sys.path.insert(0, op.dirname(op.abspath(__file__)))
 from utils import (
     run_cmd,
     abs_path, ensure_dir, ensure_file, find_all_input,
-    aggregate_fltr, aggregate_output,
+    aggregate_fltr, aggregate_output, check_ntp_name, find_decay_mode,
     load_yaml_db, smart_kwarg,
     generate_step2_name,
     workflow_compile_cpp, workflow_cached_ntuple, workflow_apply_weight
@@ -55,51 +55,20 @@ rdx_default_output_fltrs = {
 }
 
 
-def rdx_mc_fltr(decay_mode):
-    db = load_yaml_db()
-    # Unfortunately we need to use 'Filename' as the key so we need to re-build
-    # the dict on the fly
-    db = {v['Filename']: v['Keep'] for v in db.values() if 'Keep' in v}
-
-    if decay_mode not in db:
-        return rdx_default_fltr
-    return aggregate_fltr(keep=[r'^({}).*\.root'.format(
-        '|'.join(db[decay_mode]))])
-
-
-def rdx_mc_add_info(decay_mode):
+def rdx_mc_blocked_trees(decay_mode):
     known_trees = ['D0', 'Dst']
     tree_dict = {
         'D0': 'TupleBminus/DecayTree',
         'Dst': 'TupleB0/DecayTree'
     }
-
     raw_db = load_yaml_db()
 
-    try:
-        # Actually, the MC ID is feed in
-        int(decay_mode)
-        decay_mode = raw_db[decay_mode]['Filename']
-    except ValueError:
-        pass
-
-    # Unfortunately we need to use 'Filename' as the key so we need to re-build
-    # the dict on the fly
-    db_keep = {v['Filename']: v['Keep']
-               for v in raw_db.values() if 'Keep' in v}
-    db_id = {v['Filename']: k for k, v in raw_db.items()}
-
-    try:
-        decay_id = db_id[decay_mode]
-    except KeyError:
-        decay_id = '0'
-
-    if decay_mode not in db_keep:
-        return None, decay_id
+    if decay_mode not in raw_db or 'Keep' not in raw_db[decay_mode]:
+        return None
 
     # NOTE: Here we are returning trees to BLOCK!!
     return [tree_dict[t] for t in known_trees
-            if t not in db_keep[decay_mode]], decay_id
+            if t not in raw_db[decay_mode]['Keep']]
 
 
 ####################################
@@ -181,7 +150,6 @@ def workflow_bm_cli(bm_cmd, cli_vars=None, blocked_input_trees=None,
     return bm_cmd
 
 
-@smart_kwarg
 def workflow_single_ntuple(input_ntp, input_yml, output_suffix, aux_workflows,
                            cpp_template='../postprocess/cpp_templates/rdx.cpp',
                            **kwargs):
@@ -262,13 +230,17 @@ def workflow_mc(inputs, input_yml,
         chdir(subdir)  # Switch to the workdir of the subjob
 
         output_suffix = output_ntp_name_gen(input_ntp)
-        decay_mode = output_suffix.split('--')[2]
-        blocked_input_trees, decay_id = rdx_mc_add_info(decay_mode)
+        fields = check_ntp_name(input_ntp)[0]
+        if 'decay_mode' in fields:
+            decay_mode = fields['decay_mode']
+        else:
+            decay_mode = find_decay_mode(fields['lfn'])
+        blocked_input_trees = rdx_mc_blocked_trees(decay_mode)
 
         output_suffix = output_ntp_name_gen(input_ntp)
         workflow_single_ntuple(
             input_ntp, input_yml, output_suffix, aux_workflows,
-            cli_vars={'cli_mc_id': decay_id},
+            cli_vars={'cli_mc_id': decay_mode},
             blocked_input_trees=blocked_input_trees, **kwargs)
 
         aggregate_output('..', subdir, output_fltr)

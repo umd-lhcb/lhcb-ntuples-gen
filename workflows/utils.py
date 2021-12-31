@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Dec 30, 2021 at 09:38 PM +0100
+# Last Change: Fri Dec 31, 2021 at 02:19 AM +0100
 
 import re
 import yaml
@@ -95,56 +95,6 @@ def find_all_input(inputs,
 
     # Remove files that contains blocked patterns
     return [f for f in result if True not in [p in f for p in blocked_patterns]]
-
-
-def aggregate_fltr(blocked=[], keep=[r'\.root'], debug=False):
-    def inner(filename):
-        filename = op.basename(filename)
-        if debug:
-            print(filename)
-
-        for p in blocked:
-            if bool(re.search(p, filename)):
-                if debug:
-                    print('Matched to pattern: {}'.format(p))
-                return False
-
-        for p in keep:
-            if bool(re.search(p, filename)):
-                if debug:
-                    print('Matched to pattern: {}'.format(p))
-                return True
-
-        if debug:
-            print('The file is neither blocked or kept. Ignoring it...')
-
-        return False
-
-    return inner
-
-
-def aggregate_output(workdir, output_dir, keep):
-    # Symbolic link generated files that match 'keep' patterns in separate
-    # folders so that it's easier to find them.
-
-    # NOTE: 'workdir' is usually the main workdir of the fulljob,
-    #       'output_dir' the workdir of a subjob
-    workdir = op.abspath(workdir)
-    chdir(workdir)
-    output_dir = op.abspath(output_dir)
-
-    for d, fltr in keep.items():
-        chdir(workdir)
-        ensure_dir(d, False, False)
-        chdir(d)
-        relpath = op.relpath(output_dir, op.abspath('.'))
-
-        for obj in glob(op.join(relpath, '*')):
-            if fltr(obj):
-                try:
-                    symlink(obj, op.join('.', op.basename(obj)))
-                except FileExistsError:
-                    pass
 
 
 ################
@@ -393,6 +343,56 @@ def generate_step2_name(ntp_name, convert_mc_id=False):
 #####################
 # Generic workflows #
 #####################
+
+def aggregate_fltr(blocked=[], keep=[r'\.root'], debug=False):
+    def inner(filename):
+        filename = op.basename(filename)
+        if debug:
+            print(filename)
+
+        for p in blocked:
+            if bool(re.search(p, filename)):
+                if debug:
+                    print('Matched to pattern: {}'.format(p))
+                return False
+
+        for p in keep:
+            if bool(re.search(p, filename)):
+                if debug:
+                    print('Matched to pattern: {}'.format(p))
+                return True
+
+        if debug:
+            print('The file is neither blocked or kept. Ignoring it...')
+
+        return False
+
+    return inner
+
+
+def aggregate_output(workdir, output_dir, keep):
+    # Symbolic link generated files that match 'keep' patterns in separate
+    # folders so that it's easier to find them.
+
+    # NOTE: 'workdir' is usually the main workdir of the fulljob,
+    #       'output_dir' the workdir of a subjob
+    workdir = op.abspath(workdir)
+    chdir(workdir)
+    output_dir = op.abspath(output_dir)
+
+    for d, fltr in keep.items():
+        chdir(workdir)
+        ensure_dir(d, False, False)
+        chdir(d)
+        relpath = op.relpath(output_dir, op.abspath('.'))
+
+        for obj in glob(op.join(relpath, '*')):
+            if fltr(obj):
+                try:
+                    symlink(obj, op.join('.', op.basename(obj)))
+                except FileExistsError:
+                    pass
+
 
 @smart_kwarg
 def workflow_compile_cpp(
