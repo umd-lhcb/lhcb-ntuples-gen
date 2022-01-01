@@ -84,7 +84,7 @@ tuple1.ToolList+=["TupleToolGeometry/TupleToolGeometry"]
 from Configurables import TupleToolApplyIsolation
 tuple1.Bplus.addTool(TupleToolApplyIsolation, name="TupleToolApplyIsolation")
 tuple1.Bplus.TupleToolApplyIsolation.OutputSuffix=""
-tuple1.Bplus.TupleToolApplyIsolation.WeightsFile="weightsSoft.xml"
+tuple1.Bplus.TupleToolApplyIsolation.WeightsFile="./weights_soft.xml"
 tuple1.Bplus.ToolList+=["TupleToolApplyIsolation/TupleToolApplyIsolation"]
 
 
