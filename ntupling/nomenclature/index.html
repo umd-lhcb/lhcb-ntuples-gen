@@ -1148,28 +1148,35 @@
 <h2 id="filenames">Filenames</h2>
 <h3 id="step-1-ntuples">Step 1 ntuples</h3>
 <p>Step 1 ntuple filenames, DaVinci logs, and ganga jobs should follow this form:
-<div class="highlight"><pre><span></span><code>&lt;reco_sample&gt;--&lt;date&gt;--&lt;type&gt;--&lt;additional_flags&gt;--&lt;dirac_path&gt;.root
+<div class="highlight"><pre><span></span><code>&lt;particles&gt;--&lt;date&gt;--&lt;reco_mode&gt;--[additional_flags]--&lt;lfn&gt;--[index]--[aux].root
 </code></pre></div></p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Below are the definitions of each field.</p>
+<p>Below are the definitions of each field. Optional fields are marked with
+<code>[]</code> instead of <code>&lt;&gt;</code>.</p>
 <ul>
-<li><code>reco_sample</code>: For instance <code>Dst</code>, <code>D0</code>, <code>Dst_D0</code>, etc. They may all be merged into a single tree</li>
-<li><code>date</code>: Generation date. Formatted: <code>YY_MM_DD</code></li>
-<li><code>type</code>: Descriptor, for instance <code>cutflow_mc</code></li>
-<li><code>additional_flags</code>: Optional. Additional descriptions, such as <code>bare</code>.</li>
-<li><code>dirac_path</code>: The full Dirac path for the sample, replacing <code>\</code> and whitespace with <code>_</code></li>
+<li><code>particles</code>: For instance <code>Dst</code>, <code>D0</code>, <code>Dst_D0</code>, etc.</li>
+<li><code>date</code>: Generation date. Formatted: <code>YY_MM_DD</code>.</li>
+<li><code>reco_mode</code>: Reconstruction mode, for instance <code>cutflow_mc</code> or <code>std</code>.</li>
+<li><code>additional_flags</code>: Optional. Additional descriptions, such as <code>tracker_only</code>.</li>
+<li><code>lfn</code>: The full DIRAC LFN of the sample, replacing <code>\</code> and whitespace with <code>_</code>.</li>
+<li><code>index</code>: Optional. Index of the split sample. Ideally padding so ntuples.
+    in the same folder have the same length.</li>
+<li><code>aux</code>: Optional. Reserved for auxiliary ntuples. Start with <code>aux</code>. e.g. <code>aux_ubdt</code>.</li>
 </ul>
 </div>
 <div class="admonition example">
 <p class="admonition-title">Example</p>
-<p>An ntuple name looks like this:
+<p>A ntuple name looks like this:
 <div class="highlight"><pre><span></span><code>Dst--20_05_08--cutflow_mc--bare--MC_2011_11874091_Beam3500GeV-2011-MagDown-Nu2-Pythia8_Sim08h_Digi13_Trig0x40760037_Reco14c_Stripping20r1NoPrescalingFlagged.root
+</code></pre></div></p>
+<p>For split (unmerged) ntuples:
+<div class="highlight"><pre><span></span><code>Dst_D0--21_10_16--mc--tracker_only--MC_2016_Beam6500GeV-2016-MagDown-TrackerOnly-Nu1.6-25ns-Pythia8_Sim09k_Reco16_Filtered_11574021_D0TAUNU.SAFESTRIPTRIG.DST--406-dv.root
 </code></pre></div></p>
 </div>
 <h3 id="step-2-ntuples">Step 2 ntuples</h3>
 <p>Step 2 ntuple filenames should follow this form:
-<div class="highlight"><pre><span></span><code>&lt;reco_sample&gt;--&lt;date&gt;--&lt;type&gt;--&lt;sample&gt;--&lt;year&gt;--&lt;polarity&gt;--&lt;additional_flags&gt;.root
+<div class="highlight"><pre><span></span><code>&lt;particles&gt;--&lt;date&gt;--&lt;reco_mode&gt;--&lt;decay_mode&gt;--&lt;year&gt;--&lt;polarity&gt;--[additional_flags]--[index].root
 </code></pre></div></p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -1178,24 +1185,13 @@ line folder is considered <em>step 2</em>!</p>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Below are the definitions of each field.</p>
+<p>Below are the definitions of the fields not defined above.</p>
 <ul>
-<li><code>reco_sample</code>: For instance <code>Dst</code>, <code>D0</code>, <code>Dst_D0</code>, etc. They may all be merged into a single tree</li>
-<li><code>date</code>: Generation date. Formatted: <code>YY_MM_DD</code></li>
-<li><code>type</code>: Descriptor, for instance <code>cutflow_mc</code></li>
-<li><code>sample</code>: Sample or samples in ntuple, eg <code>data</code>, <code>cocktail</code>, <code>DstplusTauNu</code> or <code>all</code> if all samples merged</li>
+<li><code>decay_mode</code>: Brief description of the reco'ed sample. e.g. <code>data</code>,
+    <code>cocktail</code>, <code>DstplusTauNu</code>, <code>11574021</code>, or <code>all</code> if all samples merged</li>
 <li><code>year</code>: Year the data/MC is recorded/generated. Format: <code>YYYY</code>. If
     multiple years needed, separate them with <code>-</code>.</li>
 <li><code>polarity</code>: <code>md</code> (magnet down), <code>mu</code> (magnet up), or <code>md-mu</code>.</li>
-<li><code>additional_flags</code>: Optional. Ordered in the following way. Legal ones are:<ul>
-<li><code>DaVinci</code> version (e.g. <code>dv36</code>)</li>
-<li><code>Pythia</code> version (e.g. <code>py6</code>)</li>
-<li>Simulation condition (e.g. <code>sim08a</code>)</li>
-<li>Other short descriptions (e.g. <code>no_refit_no_rescale</code>)</li>
-<li>Literal <code>subset</code> for indicating only a subset of raw data used</li>
-<li>Literal <code>step2</code> for indicating step-2 ntuples</li>
-</ul>
-</li>
 </ul>
 </div>
 <div class="admonition example">
@@ -1203,10 +1199,13 @@ line folder is considered <em>step 2</em>!</p>
 <p>An ntuple name looks like this:
 <div class="highlight"><pre><span></span><code>Dst--20_02_02--mc--DstplusMuNu--2012--md--dv36-py6-sim08a.root
 </code></pre></div></p>
+<p>For split (unmerged) ntuples:
+<div class="highlight"><pre><span></span><code>D0--21_12_31--mc--11574021--2016--md--tracker_only--003.root
+</code></pre></div></p>
 </div>
 <h3 id="condition-files">Condition files</h3>
 <p>Condition files should follow this filename:</p>
-<div class="highlight"><pre><span></span><code>cond-&lt;type&gt;-&lt;year&gt;-&lt;polarity&gt;-&lt;additional_flags&gt;.py
+<div class="highlight"><pre><span></span><code>cond-&lt;type&gt;-&lt;year&gt;-[polarity]-[additional_flags].py
 </code></pre></div>
 <p>All fields obey the same definitions as listed in previous sections.</p>
 <div class="admonition note">
@@ -1219,7 +1218,7 @@ line folder is considered <em>step 2</em>!</p>
 </div>
 <h3 id="log-files">Log files</h3>
 <p>Log files should follow this naming convention:
-<div class="highlight"><pre><span></span><code>&lt;reco_sample&gt;-&lt;date&gt;-&lt;type&gt;-&lt;additional_flags&gt;.log
+<div class="highlight"><pre><span></span><code>&lt;particles&gt;-&lt;date&gt;-&lt;reco_mode&gt;-[additional_flags].log
 </code></pre></div></p>
 <p>All fields obey the same definitions as listed in previous sections.</p>
 <div class="admonition note">
@@ -1229,23 +1228,22 @@ line folder is considered <em>step 2</em>!</p>
 <h2 id="folder-structure-for-storage">Folder structure for storage</h2>
 <h3 id="production-ntuples">Production ntuples</h3>
 <p>Each ntuple production (defined by the same code) is to be placed in one folder
-named <code>&lt;code_tag&gt;-&lt;Descriptor&gt;</code>, with subfolders containing divisions in terms
+named <code>&lt;code_tag&gt;-&lt;description&gt;</code>, with subfolders containing divisions in terms
 of <code>reco_sample</code> and <code>mc/data</code>. For example, the folder structure could look
-like</p>
+like:</p>
 <div class="highlight"><pre><span></span><code>0.9.0-cutflow/Dst-cutflow_mc
-0.9.0-cutflow/Dst-cutflow_data
 
-0.9.1-first_full/Dst-mc
-0.9.1-first_full/Dst-data
-0.9.1-first_full/D0-mc
-0.9.1-first_full/D0-data
-0.9.1-first_full/Dst-cutflow_mc
+0.9.1-partial_refit/Dst-mc
+0.9.1-partial_refit/Dst-data
+0.9.1-partial_refit/D0-mc
+0.9.1-partial_refit/D0-data
+0.9.1-partial_refit/Dst-cutflow_mc
 
-0.9.2-trigger_fix/Dst-mc
+...
 </code></pre></div>
 <h3 id="dst-folders">DST folders</h3>
 <p>DST folders should follow this naming convention:
-<div class="highlight"><pre><span></span><code>&lt;sample&gt;-&lt;year&gt;-&lt;polarity&gt;-&lt;additional_flags&gt;
+<div class="highlight"><pre><span></span><code>&lt;reco_sample&gt;-&lt;year&gt;-&lt;polarity&gt;-[additional_flags]
 </code></pre></div></p>
 <p>All fields obey the same definitions as listed in previous sections. This time,
 the first three fields are mandatory.</p>
