@@ -13,7 +13,7 @@ from Configurables import DecayTreeTuple, LoKi__Hybrid__TupleTool, TupleToolTrig
 
 
 from Configurables import ChargedProtoParticleMaker
- 
+
 veloprotos = ChargedProtoParticleMaker("ProtoPMaker")
 veloprotos.Inputs = ["Rec/Track/Best"]
 veloprotos.Output = "Rec/ProtoP/myProtoPMaker/ProtoParticles"
@@ -24,10 +24,10 @@ from Gaudi.Configuration import *
 from Configurables       import ProtoParticleCALOFilter, CombinedParticleMaker,NoPIDsParticleMaker
 
 from CommonParticles.Utils import *
- 
+
 algorithm = NoPIDsParticleMaker('StdNoPIDsVeloPions',  Particle = 'pion',  )
 algorithm.Input = "Rec/ProtoP/myProtoPMaker/ProtoParticles"
-selector = trackSelector ( algorithm , trackTypes = ['Velo'] ) 
+selector = trackSelector ( algorithm , trackTypes = ['Velo'] )
 
 locations = updateDoD ( algorithm )
 DaVinci().appendToMainSequence( [ algorithm ])
@@ -35,15 +35,7 @@ DaVinci().appendToMainSequence( [ algorithm ])
 
 name = "dsttaufake"
 DaVinci().PrintFreq = 10000
-DaVinci().TupleFile = name+".root"
-DaVinci().Simulation   = False
 DaVinci().Lumi   = True
-
-#not sure this is actuallya good idea
-from Configurables import CondDB
-CondDB.LatestGlobalTagsByDataType = "2012"
-
-DaVinci().DataType = "2012"
 
 
 from Configurables import TupleToolTrigger, TupleToolTISTOS
@@ -68,7 +60,7 @@ tuple1.ToolList +=  ToolList
 
 
 tuple1.addBranches({
-      "Bplus" :   "[B+]cc : [B+ -> (J/psi(1S) -> mu+ mu-) K+]cc",          
+      "Bplus" :   "[B+]cc : [B+ -> (J/psi(1S) -> mu+ mu-) K+]cc",
       "Jpsi" :   "[B+ -> (^J/psi(1S) -> mu+ mu-) K+ ]cc",
       "K" :   "[B+ -> (J/psi(1S) -> mu+ mu-) ^K+]cc",
       "muplus" :   "[B+ -> (J/psi(1S) -> ^mu+ mu-) K+]cc",
@@ -105,7 +97,7 @@ TriggerList =[
 'Hlt1TrackAllL0Decision',
 'Hlt1TrackMuonDecision',
 
-	
+
 #'Hlt2CharmHadD02HH_D02KPiDecision',
 'Hlt2Topo2BodyBBDTDecision',
 'Hlt2Topo3BodyBBDTDecision',
@@ -131,4 +123,4 @@ tuple1.Decay = "[B+ -> (^J/psi(1S) -> ^mu+ ^mu-) ^K+]cc"
 
 
 tuple1.Inputs = ["/Event/Dimuon/Phys/BetaSBu2JpsiKDetachedLine/Particles/"]
-DaVinci().appendToMainSequence( [tuple1] ) 
+DaVinci().appendToMainSequence( [tuple1] )
