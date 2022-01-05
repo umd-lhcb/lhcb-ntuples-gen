@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Oct 06, 2021 at 02:37 PM +0200
+# Last Change: Wed Jan 05, 2022 at 07:37 PM +0100
 #
 # Description: Definitions of selection and reconstruction procedures for run 1
 #              R(D(*)), with thorough comments.
@@ -38,7 +38,7 @@ from Configurables import MessageSvc
 
 DaVinci().InputType = 'DST'
 DaVinci().SkipEvents = 0
-DaVinci().PrintFreq = 100
+DaVinci().PrintFreq = 10000
 
 # Only ask for luminosity information when not using simulated data
 DaVinci().Lumi = not DaVinci().Simulation
