@@ -9,9 +9,8 @@ DaVinci().TupleFile = 'std.root'
 
 from GaudiConf import IOHelper
 
-# Stripping v28r2p1
+# Stripping v28r2
 IOHelper().inputFiles([
-    './data/data-2016-md/00151979_00000281_1.dimuon.dst',
-    './data/data-2016-md/00151979_00000290_1.dimuon.dst',
-    './data/data-2016-md/00151979_00000312_1.dimuon.dst',
+    './data/data-2016-md/00102837_00000471_1.dimuon.dst',
+    './data/data-2016-md/00102837_00000479_1.dimuon.dst',
 ], clear=True)
