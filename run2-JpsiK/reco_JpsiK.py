@@ -1,126 +1,155 @@
-from Gaudi.Configuration import *
-from Configurables import DaVinci, FilterDesktop, CombineParticles, OfflineVertexFitter
-from PhysSelPython.Wrappers import AutomaticData, Selection, SelectionSequence, DataOnDemand
-from Configurables import FilterDesktop
-from Configurables import LoKiSvc
+# Author: Greg Ciezarek, Yipeng Sun
+# License: BSD 2-clause
+# Last Change: Wed Jan 05, 2022 at 08:26 PM +0100
+#
+# Description: Definitions of selection and reconstruction procedures for run 2
+#              J/psi K calibration sample.
 
-from Configurables import DecayTreeTuple, LoKi__Hybrid__TupleTool, TupleToolTrigger, TupleToolDecay, TupleToolTISTOS, MCDecayTreeTuple
+#####################
+# Configure DaVinci #
+#####################
+
+from Configurables import DaVinci
+from Configurables import MessageSvc
+
+DaVinci().InputType = 'DST'
+DaVinci().SkipEvents = 0
+DaVinci().PrintFreq = 10000
+
+DaVinci().Lumi = not DaVinci().Simulation
+
+# Debug options
+DaVinci().EvtMax = -1
 
 
-#rootInTes = "/Event/Dimuon"
-#from PhysConf.MicroDST import uDstConf
-#uDstConf ( rootInTes )
-
+###################################
+# Customize DaVinci main sequence #
+###################################
 
 from Configurables import ChargedProtoParticleMaker
+from Configurables import NoPIDsParticleMaker
+from Configurables import TrackScaleState
+from Configurables import TrackSmearState
+from CommonParticles.Utils import trackSelector, updateDoD
 
-veloprotos = ChargedProtoParticleMaker("ProtoPMaker")
-veloprotos.Inputs = ["Rec/Track/Best"]
-veloprotos.Output = "Rec/ProtoP/myProtoPMaker/ProtoParticles"
+# Provide required information for VELO pions.
+ms_all_protos = ChargedProtoParticleMaker(name='MyProtoPMaker')
+ms_all_protos.Inputs = ['Rec/Track/Best']
+ms_all_protos.Output = 'Rec/ProtoP/MyProtoPMaker/ProtoParticles'
 
-DaVinci().appendToMainSequence( [ veloprotos ])
+# NOTE: The name 'StdNoPIDsVeloPions' is hard-coded in the tuple tool, so the
+#       name should not be changed.
+ms_velo_pions = NoPIDsParticleMaker('StdNoPIDsVeloPions', Particle='pion')
+ms_velo_pions.Input = ms_all_protos.Output
 
-from Gaudi.Configuration import *
-from Configurables       import ProtoParticleCALOFilter, CombinedParticleMaker,NoPIDsParticleMaker
+trackSelector(ms_velo_pions, trackTypes=['Velo'])
+updateDoD(ms_velo_pions)
 
-from CommonParticles.Utils import *
-
-algorithm = NoPIDsParticleMaker('StdNoPIDsVeloPions',  Particle = 'pion',  )
-algorithm.Input = "Rec/ProtoP/myProtoPMaker/ProtoParticles"
-selector = trackSelector ( algorithm , trackTypes = ['Velo'] )
-
-locations = updateDoD ( algorithm )
-DaVinci().appendToMainSequence( [ algorithm ])
-
-
-name = "dsttaufake"
-DaVinci().PrintFreq = 10000
-DaVinci().Lumi   = True
+ms_scale = TrackScaleState('StateScale')
+ms_smear = TrackSmearState('StateSmear')
 
 
-from Configurables import TupleToolTrigger, TupleToolTISTOS
+DaVinci().appendToMainSequence([ms_all_protos, ms_velo_pions])
+
+
+#######################
+# Particle references #
+#######################
+
+from PhysSelPython.Wrappers import AutomaticData
+
+line_strip = 'BetaSBu2JpsiKDetachedLine'
+
+pr_stripped = AutomaticData(
+    Location='/Event/Dimuon/Phys/{}/Particles'.format(line_strip))
+
+
+##################
+# Define ntuples #
+##################
+
+from Configurables import DecayTreeTuple
 from DecayTreeTuple.Configuration import *
 
 
-tuple1 = DecayTreeTuple()
-#tuple1.TupleName="NotDecayTree"
-tuple1.NTupleDir=""
-
-tuple1.UseLoKiDecayFinders = False
-ToolList=[
-     "TupleToolKinematic"
-    , "TupleToolPrimaries"
-    , "TupleToolEventInfo"
-    , "TupleToolTrackInfo"
-    , "TupleToolPid"
-    , "TupleToolRecoStats"
-]
-
-tuple1.ToolList +=  ToolList
+def really_add_tool(tp, tool_name):
+    try:
+        tp.ToolList.remove(tool_name)
+    except (ValueError, AttributeError):
+        pass
+    finally:
+        tool = tp.addTupleTool(tool_name)
+    return tool
 
 
-tuple1.addBranches({
-      "Bplus" :   "[B+]cc : [B+ -> (J/psi(1S) -> mu+ mu-) K+]cc",
-      "Jpsi" :   "[B+ -> (^J/psi(1S) -> mu+ mu-) K+ ]cc",
-      "K" :   "[B+ -> (J/psi(1S) -> mu+ mu-) ^K+]cc",
-      "muplus" :   "[B+ -> (J/psi(1S) -> ^mu+ mu-) K+]cc",
-      "muminus" :   "[B+ -> (J/psi(1S) -> mu+ ^mu-) K+]cc"
-})
+def tuple_spec_data(name, sel_seq, template,
+                    B_meson='b', weights='./weights_soft.xml',
+                    tools=[
+                        "TupleToolKinematic",
+                        "TupleToolPrimaries",
+                        "TupleToolEventInfo",
+                        "TupleToolTrackInfo",
+                        "TupleToolRecoStats"
+                    ],
+                    trigger_list_global=[
+                        # L0
+                        'L0HadronDecision',
+                        'L0MuonDecision',
+                        'L0DiMuonDecision',
+                        # HLT 1
+                        'Hlt1TrackAllL0Decision',
+                        'Hlt1TrackMuonDecision',
+                        # HLT 2
+                        'Hlt2Topo2BodyBBDTDecision',
+                        'Hlt2Topo3BodyBBDTDecision',
+                        'Hlt2Topo4BodyBBDTDecision',
+                        'Hlt2TopoMu2BodyBBDTDecision',
+                        'Hlt2TopoMu3BodyBBDTDecision',
+                        'Hlt2TopoMu4BodyBBDTDecision',
+                        'Hlt2DiMuonDecision',
+                        'Hlt2DiMuonJPsiDecision',
+                        'Hlt2DiMuonDetachedDecision',
+                        'Hlt2DiMuonDetachedJPsiDecision'
+                    ]
+                    ):
+    tp = DecayTreeTuple(name)
+    tp.Inputs = [sel_seq.outputLocation()]
+    tp.setDescriptorTemplate(template)
+    # tp.NTupleDir=''  # From Greg, might be interesting
+    # tp.TupleName="NotDecayTree"
 
-from Configurables import TupleToolGeometry
+    tp.ToolList += tools
 
-tuple1.addTool(TupleToolGeometry, name="TupleToolGeometry")
-tuple1.TupleToolGeometry.Verbose = True
-tuple1.ToolList+=["TupleToolGeometry/TupleToolGeometry"]
+    tt_geo = really_add_tool(tp, 'TupleToolGeometry')
+    tt_geo.Verbose = True
 
-#from Configurables import TupleToolL0Calo
+    tt_tistos = really_add_tool(tp, 'TupleToolTISTOS')
+    tt_tistos.Verbose = True
+    tt_tistos.TriggerList = trigger_list_global
 
-#tuple1.K.addTool(TupleToolL0Calo, name="TupleToolL0Calo")
-#tuple1.K.ToolList+=["TupleToolL0Calo/TupleToolL0Calo"]
+    tt_app_iso = getattr(tp, B_meson).addTupleTool('TupleToolApplyIsolation')
+    tt_app_iso.WeightsFile = weights
+    # tt_app_iso.OutputSuffix = ''
 
-
-
-
-from Configurables import TupleToolApplyIsolation
-tuple1.Bplus.addTool(TupleToolApplyIsolation, name="TupleToolApplyIsolation")
-tuple1.Bplus.TupleToolApplyIsolation.OutputSuffix=""
-tuple1.Bplus.TupleToolApplyIsolation.WeightsFile="./weights_soft.xml"
-tuple1.Bplus.ToolList+=["TupleToolApplyIsolation/TupleToolApplyIsolation"]
-
-
-
-TriggerList =[
-'L0HadronDecision',
-'L0MuonDecision',
-'L0DiMuonDecision',
-
-'Hlt1TrackAllL0Decision',
-'Hlt1TrackMuonDecision',
-
-
-#'Hlt2CharmHadD02HH_D02KPiDecision',
-'Hlt2Topo2BodyBBDTDecision',
-'Hlt2Topo3BodyBBDTDecision',
-'Hlt2Topo4BodyBBDTDecision',
-'Hlt2TopoMu2BodyBBDTDecision',
-'Hlt2TopoMu3BodyBBDTDecision',
-'Hlt2TopoMu4BodyBBDTDecision',
-'Hlt2DiMuonDecision',
-'Hlt2DiMuonJPsiDecision',
-'Hlt2DiMuonDetachedDecision',
-'Hlt2DiMuonDetachedJPsiDecision',
-#'Hlt2XcMuXForTauB2D0KPiMuDecision',
-]
-
-tuple1.addTupleTool(TupleToolTISTOS,name="TupleToolTISTOS")
-tuple1.ToolList+=["TupleToolTISTOS"]
-tuple1.TupleToolTISTOS.VerboseL0 = True
-tuple1.TupleToolTISTOS.VerboseHlt1 = True
-tuple1.TupleToolTISTOS.VerboseHlt2 = True
-tuple1.TupleToolTISTOS.TriggerList = TriggerList
-
-tuple1.Decay = "[B+ -> (^J/psi(1S) -> ^mu+ ^mu-) ^K+]cc"
+    return tp
 
 
-tuple1.Inputs = ["/Event/Dimuon/Phys/BetaSBu2JpsiKDetachedLine/Particles/"]
-DaVinci().appendToMainSequence( [tuple1] )
+if not DaVinci().Simulation:
+    tuple_spec = tuple_spec_data
+else:
+    tuple_spec = tuple_spec_data
+
+
+# B- ###########################################################################
+tp_Bminus = tuple_spec(
+    'TupleBminus',
+    pr_stripped,
+    '${b}[B+ -> ${j}(J/psi(1S) -> ${amu}mu+ ${mu}mu-) ${k}K+]CC'
+)
+
+
+################################################
+# Add selection & tupling sequences to DaVinci #
+################################################
+
+DaVinci().UserAlgorithms += [tp_Bminus]
