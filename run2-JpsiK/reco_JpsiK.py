@@ -1,6 +1,6 @@
 # Author: Greg Ciezarek, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Jan 05, 2022 at 08:26 PM +0100
+# Last Change: Wed Jan 05, 2022 at 08:36 PM +0100
 #
 # Description: Definitions of selection and reconstruction procedures for run 2
 #              J/psi K calibration sample.
@@ -60,8 +60,8 @@ from PhysSelPython.Wrappers import AutomaticData
 
 line_strip = 'BetaSBu2JpsiKDetachedLine'
 
-pr_stripped = AutomaticData(
-    Location='/Event/Dimuon/Phys/{}/Particles'.format(line_strip))
+tes_stripped = '/Event/Dimuon/Phys/{}/Particles'.format(line_strip)
+pr_stripped = AutomaticData(Location=tes_stripped)
 
 
 ##################
@@ -113,7 +113,10 @@ def tuple_spec_data(name, sel_seq, template,
                     ]
                     ):
     tp = DecayTreeTuple(name)
-    tp.Inputs = [sel_seq.outputLocation()]
+
+    tp_input = sel_seq if isinstance(sel_seq, str) else sel_seq.outputLocation()
+    tp.Inputs = [tp_input]
+
     tp.setDescriptorTemplate(template)
     # tp.NTupleDir=''  # From Greg, might be interesting
     # tp.TupleName="NotDecayTree"
@@ -143,7 +146,7 @@ else:
 # B- ###########################################################################
 tp_Bminus = tuple_spec(
     'TupleBminus',
-    pr_stripped,
+    tes_stripped,
     '${b}[B+ -> ${j}(J/psi(1S) -> ${amu}mu+ ${mu}mu-) ${k}K+]CC'
 )
 
