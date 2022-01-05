@@ -1,6 +1,6 @@
 # Author: Greg Ciezarek, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Jan 05, 2022 at 08:36 PM +0100
+# Last Change: Wed Jan 05, 2022 at 10:01 PM +0100
 #
 # Description: Definitions of selection and reconstruction procedures for run 2
 #              J/psi K calibration sample.
@@ -10,7 +10,6 @@
 #####################
 
 from Configurables import DaVinci
-from Configurables import MessageSvc
 
 DaVinci().InputType = 'DST'
 DaVinci().SkipEvents = 0
@@ -28,8 +27,6 @@ DaVinci().EvtMax = -1
 
 from Configurables import ChargedProtoParticleMaker
 from Configurables import NoPIDsParticleMaker
-from Configurables import TrackScaleState
-from Configurables import TrackSmearState
 from CommonParticles.Utils import trackSelector, updateDoD
 
 # Provide required information for VELO pions.
@@ -45,10 +42,6 @@ ms_velo_pions.Input = ms_all_protos.Output
 trackSelector(ms_velo_pions, trackTypes=['Velo'])
 updateDoD(ms_velo_pions)
 
-ms_scale = TrackScaleState('StateScale')
-ms_smear = TrackSmearState('StateSmear')
-
-
 DaVinci().appendToMainSequence([ms_all_protos, ms_velo_pions])
 
 
@@ -56,12 +49,8 @@ DaVinci().appendToMainSequence([ms_all_protos, ms_velo_pions])
 # Particle references #
 #######################
 
-from PhysSelPython.Wrappers import AutomaticData
-
 line_strip = 'BetaSBu2JpsiKDetachedLine'
-
-tes_stripped = '/Event/Dimuon/Phys/{}/Particles'.format(line_strip)
-pr_stripped = AutomaticData(Location=tes_stripped)
+tes_stripped = '/Event/Dimuon/Phys/{}/Particles/'.format(line_strip)
 
 
 ##################
@@ -91,7 +80,7 @@ def tuple_spec_data(name, sel_seq, template,
                         "TupleToolTrackInfo",
                         "TupleToolRecoStats"
                     ],
-                    trigger_list_global=[
+                    trigger_list=[
                         # L0
                         'L0HadronDecision',
                         'L0MuonDecision',
@@ -119,16 +108,19 @@ def tuple_spec_data(name, sel_seq, template,
 
     tp.setDescriptorTemplate(template)
     # tp.NTupleDir=''  # From Greg, might be interesting
-    # tp.TupleName="NotDecayTree"
+    # tp.TupleName='NotDecayTree'
 
     tp.ToolList += tools
+
+    tt_pid = really_add_tool(tp, 'TupleToolPid')
+    tt_pid.Verbose = True
 
     tt_geo = really_add_tool(tp, 'TupleToolGeometry')
     tt_geo.Verbose = True
 
     tt_tistos = really_add_tool(tp, 'TupleToolTISTOS')
     tt_tistos.Verbose = True
-    tt_tistos.TriggerList = trigger_list_global
+    tt_tistos.TriggerList = trigger_list
 
     tt_app_iso = getattr(tp, B_meson).addTupleTool('TupleToolApplyIsolation')
     tt_app_iso.WeightsFile = weights
