@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Jan 10, 2022 at 06:43 PM +0100
+# Last Change: Mon Jan 10, 2022 at 07:33 PM +0100
 # Note: Here we use Phoebe's latest ntuple
 
 import sys
@@ -225,12 +225,12 @@ DST_COMB_REF_NUMS = {
     'DD': 10602,
 }
 
-# h_doug, GetEntries
+# h_doug, Integral()
 DST_WS_PI_REF_NUMS = {
-    'ISO': 17997,
-    '1OS': 9972,
-    '2OS': 9994,
-    'DD': 11843,
+    'ISO': 10197.4,
+    '1OS': 481,
+    '2OS': 589,
+    'DD': 2064,
 }
 
 
