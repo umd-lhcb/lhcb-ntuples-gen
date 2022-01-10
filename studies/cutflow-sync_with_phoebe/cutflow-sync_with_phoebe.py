@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Jan 10, 2022 at 07:33 PM +0100
+# Last Change: Mon Jan 10, 2022 at 07:43 PM +0100
 # Note: Here we use Phoebe's latest ntuple
 
 import sys
@@ -65,7 +65,7 @@ D0_CUTS = [
     '!(reweighting_69_gen3_pt2 < 0.01 || reweighting_89_gen3_pt2 < 0.01)',  # Derived from some MC weight
 ]
 
-DST_COMB_CUTS = [
+DST_WS_MU_CUTS = [
     'isData > 0 && DstIDprod > 0 && IDprod < 0 && muPID > 0 && '  # redoHistos_Dst.C, LN 3651
     'm_nu1 >= -2.0 && m_nu1 <= 10.9 && '
     'El >= 0.1e3 && El <= 2.65e3 && '
@@ -218,11 +218,12 @@ D0_REF_NUMS = {
     'DD': 188384,
 }
 
-DST_COMB_REF_NUMS = {
-    'ISO': 11219,
-    '1OS': 9733,
-    '2OS': 9674,
-    'DD': 10602,
+# h_comb, Integral()
+DST_WS_MU_REF_NUMS = {
+    'ISO': 3783.8578,
+    '1OS': 472.144,
+    '2OS': 355.61965,
+    'DD': 2325.2639,
 }
 
 # h_doug, Integral()
@@ -288,10 +289,10 @@ if __name__ == '__main__':
         print('Working on D0...')
         frame_d0 = RDataFrame('ntp1', ntp_d0)
         apply_cuts(frame_d0, D0_CUTS, D0_SKIM_CUTS, D0_REF_NUMS)
-    elif sys.argv[1].lower() == 'dstcomb':
-        print('Working on Dst comb. bkg. ...')
+    elif sys.argv[1].lower() == 'dstwsmu':
+        print('Working on Dst wrong-sign Mu...')
         frame_dst = RDataFrame('ntp1', ntp_dst)
-        apply_cuts(frame_dst, DST_COMB_CUTS, DST_SKIM_CUTS, DST_COMB_REF_NUMS)
+        apply_cuts(frame_dst, DST_WS_MU_CUTS, DST_SKIM_CUTS, DST_WS_MU_REF_NUMS)
     elif sys.argv[1].lower() == 'dstwspi':
         print('Working on Dst wrong-sign slow Pi...')
         frame_dst = RDataFrame('ntp1', ntp_dst)
