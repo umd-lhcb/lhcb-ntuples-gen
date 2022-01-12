@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Jan 10, 2022 at 07:43 PM +0100
+# Last Change: Wed Jan 12, 2022 at 04:34 PM +0100
 # Note: Here we use Phoebe's latest ntuple
 
 import sys
@@ -76,7 +76,6 @@ DST_WS_MU_CUTS = [
     'mu_P > 3.0e3 && mu_P < 100.0e3 && mu_ETA > 1.7 && mu_ETA < 5.0',  # Mu
     'dxy < 7.0 && Y_M < 5280.0',  # D*Mu combo
     'abs(Dst_M-D0_M-145.454) < 2.0',  # D*
-    '!(reweighting_69_gen3_pt2 < 0.01 || reweighting_89_gen3_pt2 < 0.01)',  # Derived from some MC weight
 ]
 
 DST_WS_PI_CUTS = [
@@ -90,7 +89,6 @@ DST_WS_PI_CUTS = [
     'mu_P > 3.0e3 && mu_P < 100.0e3 && mu_ETA > 1.7 && mu_ETA < 5.0',  # Mu
     'dxy < 7.0 && Y_M < 5280.0',  # D*Mu combo
     'abs(Dst_M-D0_M-145.454) < 2.0',  # D*
-    '!(reweighting_69_gen3_pt2 < 0.01 || reweighting_89_gen3_pt2 < 0.01)',  # Derived from some MC weight
 ]
 
 # NOTE: We decided to not apply single candidate selection cuts
