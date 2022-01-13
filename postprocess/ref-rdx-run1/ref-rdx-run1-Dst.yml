@@ -364,16 +364,27 @@ output:
             - is_2011
             - polarity < 0
 
-    Dst_data_2011_ws_Mu:
+    Dst_data_ws_Mu:
+        input: ntp1
+        selection:
+            - is_ws_mu
+    Dst_data_ws_Pi:
+        input: ntp1
+        selection:
+            - is_ws_pi
+
+    Dst_data_2011_md_ws_Mu:
         input: ntp1
         selection:
             - is_ws_mu
             - is_2011
-    Dst_data_2011_ws_Pi:
+            - polarity < 0
+    Dst_data_2011_md_ws_Pi:
         input: ntp1
         selection:
             - is_ws_pi
             - is_2011
+            - polarity < 0
 
     Dst:
         input: YCands/DecayTree
