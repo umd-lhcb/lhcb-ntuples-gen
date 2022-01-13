@@ -472,9 +472,55 @@ output:
             - is_ddx
             - is_strange
             - ham_ok
-
     D0:
         input: TupleBminus/DecayTree
+        mute:
+            - "^b0_.*"
+            - "^spi_.*"
+            - "^dst_.*"
+            - "trk_spi"
+            - "dstmu_ok"
+            - ".*_true.*"
+            - "w.*"
+            - "mc_.*"
+            - "ff_.*"
+            - truthmatch
+            - is_ddx
+            - is_strange
+            - ham_ok
+
+    Dst_ws_Mu:
+        input: TupleB0WSMu/DecayTree
+        mute:
+            - "^b_.*"
+            - "d0_dst_veto_deltam"
+            - "d0_dst_veto_ok"
+            - "d0mu_ok"
+            - ".*_true.*"
+            - "w.*"
+            - "mc_.*"
+            - "ff_.*"
+            - truthmatch
+            - is_ddx
+            - is_strange
+            - ham_ok
+    Dst_ws_Pi:
+        input: TupleB0WSPi/DecayTree
+        mute:
+            - "^b_.*"
+            - "d0_dst_veto_deltam"
+            - "d0_dst_veto_ok"
+            - "d0mu_ok"
+            - ".*_true.*"
+            - "w.*"
+            - "mc_.*"
+            - "ff_.*"
+            - truthmatch
+            - is_ddx
+            - is_strange
+            - ham_ok
+    D0_ws_Mu:
+        input: TupleBminusWS/DecayTree
         mute:
             - "^b0_.*"
             - "^spi_.*"
