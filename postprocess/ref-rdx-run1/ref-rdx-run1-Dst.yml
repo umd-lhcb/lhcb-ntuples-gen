@@ -255,7 +255,8 @@ calculation:
     # Misc.
     is_data: bool; isData; true
     is_std: bool; is_data && DstIDprod > 0 && IDprod > 0; true
-    is_comb: bool; is_data && DstIDprod > 0 && IDprod < 0; true
+    is_ws_mu: bool; is_data && DstIDprod > 0 && IDprod < 0; true
+    is_ws_pi: bool; is_data && DstIDprod < 0 && IDprod > 0; true
     is_2011: bool; flag2011
 
     #########
@@ -321,7 +322,6 @@ output:
         input: ntp1
         selection:
             - is_std  # Signature for 'std' reconstruction mode
-
     Dst_data_2011_md:
         input: ntp1
         selection:
@@ -329,10 +329,14 @@ output:
             - is_2011
             - polarity < 0
 
-    Dst_comb:
+    Dst_ws_Mu:
         input: ntp1
         selection:
-            - is_comb
+            - is_ws_mu
+    Dst_ws_Pi:
+        input: ntp1
+        selection:
+            - is_ws_pi
 
     Dst:
         input: YCands/DecayTree

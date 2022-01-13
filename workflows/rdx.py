@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri Dec 31, 2021 at 03:41 PM +0100
+# Last Change: Thu Jan 13, 2022 at 04:17 PM +0100
 
 import sys
 import os
@@ -358,10 +358,7 @@ JOBS = {
     ),
     'ref-rdx-ntuple-run1-data-D0-comp': partial(
         workflow_data,
-        [
-            '../ntuples/ref-rdx-run1/D0-mix/D0--21_10_21--mix--all--2011-2012--md-mu--phoebe.root',
-            # '../ntuples/ref-rdx-run1/D0-std/D0--19_09_05--std--data--2012--md--phoebe.root',
-        ],
+        '../ntuples/ref-rdx-run1/D0-mix/D0--21_10_21--mix--all--2011-2012--md-mu--phoebe.root',
         '../postprocess/ref-rdx-run1/ref-rdx-run1-D0.yml',
         use_ubdt=False,
         cli_vars={'cli_fewer_cuts': 'true'}
