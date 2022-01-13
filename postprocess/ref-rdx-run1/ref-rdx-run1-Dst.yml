@@ -40,6 +40,10 @@ rename:
     Y_L0Global_TIS: b0_l0_global_tis
     D0_L0HadronDecision_TOS: d0_l0_hadron_tos
     muplus_L0Global_TIS: mu_l0_global_tis
+    # L0, step-1, us
+    b0_L0Global_TIS: b0_l0_global_tis
+    d0_L0HadronDecision_TOS: d0_l0_hadron_tos
+    mu_L0Global_TIS: mu_l0_global_tis
     # HLT1, step-1.5
     Hlt1TAL0K: k_hlt1_tal0_tos  # TrackAllL0Decision
     Hlt1TAL0pi: pi_hlt1_tal0_tos
@@ -48,40 +52,64 @@ rename:
     Kplus_Hlt1TrackAllL0Decision_TOS: k_hlt1_tal0_tos
     piminus0_Hlt1TrackAllL0Decision_TOS: pi_hlt1_tal0_tos
     Dst_2010_minus_Hlt1Phys_TOS: dst_hlt1_phys_tos
+    # HLT1, step-1, us
+    k_Hlt1TrackAllL0Decision_TOS: k_hlt1_tal0_tos
+    pi_Hlt1TrackAllL0Decision_TOS: pi_hlt1_tal0_tos
+    dst_Hlt1Phys_TOS: dst_hlt1_phys_tos
     # HLT2, step-1.5
     Hlt2: d0_hlt2_tos  # Hlt2CharmHadD02HH_D02KPiDecision
     # HLT2, step-1
     D0_Hlt2CharmHadD02HH_D02KPiDecision_TOS: d0_hlt2_tos
+    # HLT2, step-1, us
+    d0_Hlt2CharmHadD02HH_D02KPiDecision_TOS: d0_hlt2_tos
 
 calculation:
     # For pseudo-random sequence generation
-    prs_in: double; Y_PT
+    prs_in: double; Y_PT; b0_PT
 
     #######################
     # Isolation variables #
     #######################
     # Isolation BDTs
-    iso_bdt1: double; iso_BDT; Y_ISOLATION_BDT
-    iso_bdt2: double; iso_BDT2; Y_ISOLATION_BDT2
-    iso_bdt3: double; iso_BDT3; Y_ISOLATION_BDT3
+    iso_bdt1: double; iso_BDT; Y_ISOLATION_BDT; b0_ISOLATION_BDT
+    iso_bdt2: double; iso_BDT2; Y_ISOLATION_BDT2; b0_ISOLATION_BDT2
+    iso_bdt3: double; iso_BDT3; Y_ISOLATION_BDT3; b0_ISOLATION_BDT3
     # PID
-    iso_nnk1: float; iso_NNk; Y_ISOLATION_NNk
-    iso_nnk2: float; iso_NNk2; Y_ISOLATION_NNk2
-    iso_nnk3: float; iso_NNk3; Y_ISOLATION_NNk3
+    iso_nnk1: float; iso_NNk; Y_ISOLATION_NNk; b0_ISOLATION_NNk
+    iso_nnk2: float; iso_NNk2; Y_ISOLATION_NNk2; b0_ISOLATION_NNk2
+    iso_nnk3: float; iso_NNk3; Y_ISOLATION_NNk3; b0_ISOLATION_NNk3
     # Charge
-    iso_chrg1: int; TO_TYPE(iso_CHARGE, 1); TO_TYPE(Y_ISOLATION_CHARGE, 1)
-    iso_chrg2: int; TO_TYPE(iso_CHARGE2, 1); TO_TYPE(Y_ISOLATION_CHARGE2, 1)
+    iso_chrg1: int; TO_TYPE(iso_CHARGE, 1); TO_TYPE(Y_ISOLATION_CHARGE, 1); TO_TYPE(b0_ISOLATION_CHARGE, 1)
+    iso_chrg2: int; TO_TYPE(iso_CHARGE2, 1); TO_TYPE(Y_ISOLATION_CHARGE2, 1); TO_TYPE(b0_ISOLATION_CHARGE2, 1)
     # Kinematic
-    iso_p1: float; GEV(iso_P); GEV(MAG(Y_ISOLATION_PX, Y_ISOLATION_PY, Y_ISOLATION_PZ))
-    iso_p2: float; GEV(iso_P2); GEV(MAG(Y_ISOLATION_PX2, Y_ISOLATION_PY2, Y_ISOLATION_PZ2))
-    iso_p3: float; GEV(iso_P3); GEV(MAG(Y_ISOLATION_PX3, Y_ISOLATION_PY3, Y_ISOLATION_PZ3))
-    iso_pt1: float; GEV(iso_PT); GEV(MAG(Y_ISOLATION_PX, Y_ISOLATION_PY))
-    iso_pt2: float; GEV(iso_PT2); GEV(MAG(Y_ISOLATION_PX2, Y_ISOLATION_PY2))
-    iso_pt3: float; GEV(iso_PT3); GEV(MAG(Y_ISOLATION_PX3, Y_ISOLATION_PY3))
+    iso_p1: >-
+        float; GEV(iso_P);
+        GEV(MAG(Y_ISOLATION_PX, Y_ISOLATION_PY, Y_ISOLATION_PZ));
+        GEV(MAG(b0_ISOLATION_PX, b0_ISOLATION_PY, b0_ISOLATION_PZ))
+    iso_p2: >-
+        float; GEV(iso_P2);
+        GEV(MAG(Y_ISOLATION_PX2, Y_ISOLATION_PY2, Y_ISOLATION_PZ2));
+        GEV(MAG(b0_ISOLATION_PX2, b0_ISOLATION_PY2, b0_ISOLATION_PZ2))
+    iso_p3: >-
+        float; GEV(iso_P3);
+        GEV(MAG(Y_ISOLATION_PX3, Y_ISOLATION_PY3, Y_ISOLATION_PZ3));
+        GEV(MAG(b0_ISOLATION_PX3, b0_ISOLATION_PY3, b0_ISOLATION_PZ3))
+    iso_pt1: >-
+        float; GEV(iso_PT);
+        GEV(MAG(Y_ISOLATION_PX, Y_ISOLATION_PY));
+        GEV(MAG(b0_ISOLATION_PX, b0_ISOLATION_PY))
+    iso_pt2: >-
+        float; GEV(iso_PT2);
+        GEV(MAG(Y_ISOLATION_PX2, Y_ISOLATION_PY2));
+        GEV(MAG(b0_ISOLATION_PX2, b0_ISOLATION_PY2))
+    iso_pt3: >-
+        float; GEV(iso_PT3);
+        GEV(MAG(Y_ISOLATION_PX3, Y_ISOLATION_PY3));
+        GEV(MAG(b0_ISOLATION_PX3, b0_ISOLATION_PY3))
     # Track types
-    iso_type1: int; TO_TYPE(iso_Type, 1); TO_TYPE(Y_ISOLATION_Type, 1)
-    iso_type2: int; TO_TYPE(iso_Type2, 1); TO_TYPE(Y_ISOLATION_Type2, 1)
-    iso_type3: int; TO_TYPE(iso_Type3, 1); TO_TYPE(Y_ISOLATION_Type3, 1)
+    iso_type1: int; TO_TYPE(iso_Type, 1); TO_TYPE(Y_ISOLATION_Type, 1); TO_TYPE(b0_ISOLATION_Type, 1)
+    iso_type2: int; TO_TYPE(iso_Type2, 1); TO_TYPE(Y_ISOLATION_Type2, 1); TO_TYPE(b0_ISOLATION_Type2, 1)
+    iso_type3: int; TO_TYPE(iso_Type3, 1); TO_TYPE(Y_ISOLATION_Type3, 1); TO_TYPE(b0_ISOLATION_Type3, 1)
 
     #################
     # Fit variables #
@@ -99,22 +127,22 @@ calculation:
     v4_mu: ^PxPyPzEVector; PxPyPzEVector(muplus_PX, muplus_PY, muplus_PZ, muplus_PE)
     v4_reco: ^PxPyPzEVector; v4_dst + v4_mu
     # Keep all fit variables in GeV
-    el: double; GEV(El); GEV(EL(v4_mu, v4_b0_p_est))
-    mm2: double; m_nu1; GEV2(MMISS(v4_b0_p_est, v4_reco))  # in GeV already
-    q2: double; GEV2(q2); GEV2(Q2(v4_b0_p_est, v4_dst))
+    el: double; GEV(El); GEV(EL(v4_mu, v4_b0_p_est)); GEV(FitVar_El)
+    mm2: double; m_nu1; GEV2(MMISS(v4_b0_p_est, v4_reco)); GEV2(FitVar_Mmiss2)  # in GeV already
+    q2: double; GEV2(q2); GEV2(Q2(v4_b0_p_est, v4_dst)); GEV2(FitVar_q2)
 
     #######################
     # Kinematic variables #
     #######################
     # We keep mass in MeV, everything else in GeV
     # B0
-    b0_m: double; Y_M
-    b0_p: double; GEV(Y_P)
-    b0_pt: double; GEV(Y_PT)
+    b0_m: double; Y_M; b0_M
+    b0_p: double; GEV(Y_P); GEV(b0_P)
+    b0_pt: double; GEV(Y_PT); GEV(b0_PT)
     # D*
-    dst_m: double; Dst_M; Dst_2010_minus_M
-    dst_p: double; GEV(Dst_P); GEV(Dst_2010_minus_P)
-    dst_pt: double; GEV(Dst_PT); GEV(Dst_2010_minus_PT)
+    dst_m: double; Dst_M; Dst_2010_minus_M; dst_M
+    dst_p: double; GEV(Dst_P); GEV(Dst_2010_minus_P); GEV(dst_P)
+    dst_pt: double; GEV(Dst_PT); GEV(Dst_2010_minus_PT); GEV(dst_PT)
     #dst_iso_invm: double; 0.0  # Not implemented by Phoebe; Greg only
     dst_iso_deltam: >-
         double;
@@ -123,72 +151,79 @@ calculation:
         Y_ISOLATION_PX, Y_ISOLATION_PY, Y_ISOLATION_PZ, Y_ISOLATION_PE,
         Dst_2010_minus_PX, Dst_2010_minus_PY, Dst_2010_minus_PZ, Dst_2010_minus_PE,
         Dst_2010_minus_M
-        ))
+        ));
+        GEV(ISO_DELTAM(
+        b0_ISOLATION_PX, b0_ISOLATION_PY, b0_ISOLATION_PZ, b0_ISOLATION_PE,
+        dst_PX, dst_PY, dst_PZ, dst_PE, dst_M
+        ));
     # D0
-    d0_m: double; D0_M
-    d0_p: double; GEV(D0_P)
-    d0_pt: double; GEV(D0_PT)
+    d0_m: double; D0_M; d0_M
+    d0_p: double; GEV(D0_P); GEV(d0_P)
+    d0_pt: double; GEV(D0_PT); GEV(d0_PT)
     # K
-    k_p: double; GEV(K_P); GEV(Kplus_P)
-    k_pt: double; GEV(K_PT); GEV(Kplus_PT)
+    k_p: double; GEV(K_P); GEV(Kplus_P); GEV(k_P)
+    k_pt: double; GEV(K_PT); GEV(Kplus_PT); GEV(k_PT)
     # Pi
-    pi_p: double; GEV(pi_P); GEV(piminus0_P)
-    pi_pt: double; GEV(pi_PT); GEV(piminus0_PT)
+    pi_p: double; GEV(pi_P); GEV(piminus0_P); GEV(pi_P)
+    pi_pt: double; GEV(pi_PT); GEV(piminus0_PT); GEV(pi_PT)
     # Mu
-    mu_p: double; GEV(mu_P); GEV(muplus_P)
-    mu_pt: double; GEV(mu_PT); GEV(muplus_PT)
+    mu_p: double; GEV(mu_P); GEV(muplus_P); GEV(mu_P)
+    mu_pt: double; GEV(mu_PT); GEV(muplus_PT); GEV(mu_PT)
 
     #################
     # PID variables #
     #################
     # Dst
-    dst_id: int; Dst_ID; Dst_2010_minus_ID
+    dst_id: int; Dst_ID; Dst_2010_minus_ID; dst_ID
     # D0
-    d0_id: int; D0_ID; SIGN(dst_id)*421  # Faked from D* ID
+    d0_id: int; D0_ID; d0_ID; SIGN(dst_id)*421  # Faked from D* ID
     # K
-    k_is_mu: bool; muVeto; Kplus_isMuon
-    k_pid_k: double; KPID; Kplus_PIDK
+    k_is_mu: bool; muVeto; Kplus_isMuon; k_isMuon
+    k_pid_k: double; KPID; Kplus_PIDK; k_PIDK
     # Pi
-    pi_is_mu: bool; muVeto; piminus0_isMuon
-    pi_pid_k: double; piPID; piminus0_PIDK
+    pi_is_mu: bool; muVeto; piminus0_isMuon; pi_isMuon
+    pi_pid_k: double; piPID; piminus0_PIDK; pi_PIDK
     # Mu
-    mu_is_mu: bool; mu_is; muplus_isMuon
-    mu_pid_mu: double; DLLmu; muplus_PIDmu
-    mu_pid_e: double; DLLe; muplus_PIDe
+    mu_is_mu: bool; mu_is; muplus_isMuon; mu_isMuon
+    mu_pid_mu: double; DLLmu; muplus_PIDmu; mu_PIDmu
+    mu_pid_e: double; DLLe; muplus_PIDe; mu_PIDe
     mu_ubdt: float; BDTmu; 0.0  # Greg's Mu UBDT PID
 
     ######################
     # Tracking variables #
     ######################
     # B0
-    b0_endvtx_chi2: double; Y_ENDVERTEX_CHI2
-    b0_endvtx_ndof: double; Y_ENDVERTEX_NDOF; 1000.0
-    b0_dira: double; Y_DIRA_OWNPV
-    b0_fd_trans: double; dxy; FD_TRANS(Y_ENDVERTEX_X, Y_OWNPV_X, Y_ENDVERTEX_Y, Y_OWNPV_Y)
-    b0_discard_mu_chi2: double; Y_DISCARDMu_CHI2
+    b0_endvtx_chi2: double; Y_ENDVERTEX_CHI2; b0_ENDVERTEX_CHI2
+    b0_endvtx_ndof: double; Y_ENDVERTEX_NDOF; b0_ENDVERTEX_NDOF; 1000.0
+    b0_dira: double; Y_DIRA_OWNPV; b0_DIRA_OWNPV
+    b0_fd_trans: >-
+        double; dxy;
+        FD_TRANS(Y_ENDVERTEX_X, Y_OWNPV_X, Y_ENDVERTEX_Y, Y_OWNPV_Y);
+        FD_TRANS(b0_ENDVERTEX_X, b0_OWNPV_X, b0_ENDVERTEX_Y, b0_OWNPV_Y)
+    b0_discard_mu_chi2: double; Y_DISCARDMu_CHI2; b0_DISCARDMu_CHI2
     # D*
-    dst_endvtx_chi2: double; Dst_ENDVERTEX_CHI2; Dst_2010_minus_ENDVERTEX_CHI2
-    dst_endvtx_ndof: double; Dst_2010_minus_ENDVERTEX_NDOF; 1000.0
+    dst_endvtx_chi2: double; Dst_ENDVERTEX_CHI2; Dst_2010_minus_ENDVERTEX_CHI2; dst_ENDVERTEX_CHI2
+    dst_endvtx_ndof: double; Dst_2010_minus_ENDVERTEX_NDOF; dst_ENDVERTEX_NDOF; 1000.0
     # D0
-    d0_endvtx_chi2: double; D0_ENDVERTEX_CHI2; 0.0
-    d0_endvtx_ndof: double; D0_ENDVERTEX_NDOF; 1.0
-    d0_dira: double; D0_DIRA_OWNPV
-    d0_fd_chi2: double; D0_FDCHI2_OWNPV; 500.0
-    d0_ip: double; D0IP; D0_IP_OWNPV
-    d0_ip_chi2: double; D0IPCHI2; D0_IPCHI2_OWNPV
+    d0_endvtx_chi2: double; D0_ENDVERTEX_CHI2; d0_ENDVERTEX_CHI2; 0.0
+    d0_endvtx_ndof: double; D0_ENDVERTEX_NDOF; d0_ENDVERTEX_NDOF; 1.0
+    d0_dira: double; D0_DIRA_OWNPV; d0_DIRA_OWNPV
+    d0_fd_chi2: double; D0_FDCHI2_OWNPV; d0_FDCHI2_OWNPV; 500.0
+    d0_ip: double; D0IP; D0_IP_OWNPV; d0_IP_OWNPV
+    d0_ip_chi2: double; D0IPCHI2; D0_IPCHI2_OWNPV; d0_IPCHI2_OWNPV
     # K
-    k_gh_prob: double; Kplus_TRACK_GhostProb; 0.0
-    k_ip_chi2: double; KIPCHI2; Kplus_IPCHI2_OWNPV
+    k_gh_prob: double; Kplus_TRACK_GhostProb; k_TRACK_GhostProb; 0.0
+    k_ip_chi2: double; KIPCHI2; Kplus_IPCHI2_OWNPV; k_IPCHI2_OWNPV
     # Pi
-    pi_gh_prob: double; piminus0_TRACK_GhostProb; 0.0
-    pi_ip_chi2: double; piIPCHI2; piminus0_IPCHI2_OWNPV
+    pi_gh_prob: double; piminus0_TRACK_GhostProb; pi_TRACK_GhostProb; 0.0
+    pi_ip_chi2: double; piIPCHI2; piminus0_IPCHI2_OWNPV; pi_IPCHI2_OWNPV
     # Slow Pi
-    spi_gh_prob: double; pislow_GhostProb; piminus_TRACK_GhostProb
-    spi_trk_type: int; piminus_TRACK_Type
+    spi_gh_prob: double; pislow_GhostProb; piminus_TRACK_GhostProb; spi_TRACK_GhostProb
+    spi_trk_type: int; piminus_TRACK_Type; spi_TRACK_Type
     # Mu
-    mu_gh_prob: double; muplus_TRACK_GhostProb; 0.0  # GhostProb <- mu_ProbNNghost, which is not TRACK_GhostProb
-    mu_ip_chi2: double; muIPCHI2; muplus_IPCHI2_OWNPV
-    mu_eta: double; mu_ETA; ETA(muplus_P, muplus_PZ)
+    mu_gh_prob: double; muplus_TRACK_GhostProb; mu_TRACK_GhostProb; 0.0  # GhostProb <- mu_ProbNNghost, which is not TRACK_GhostProb
+    mu_ip_chi2: double; muIPCHI2; muplus_IPCHI2_OWNPV; mu_IPCHI2_OWNPV
+    mu_eta: double; mu_ETA; ETA(muplus_P, muplus_PZ); ETA(mu_P, mu_PZ)
 
     ##########################
     # Selection flags, basic #
@@ -217,10 +252,10 @@ calculation:
     d0_mass_ok: ^bool; FLAG_SEL_D0_MASS(d0_m, 1865.49)
 
     # Mu selection
-    trk_mu:  ^XYZVector; XYZVector(muplus_PX, muplus_PY, muplus_PZ)
-    trk_k:   ^XYZVector; XYZVector(Kplus_PX, Kplus_PY, Kplus_PZ)
-    trk_pi:  ^XYZVector; XYZVector(piminus0_PX, piminus0_PY, piminus0_PZ)
-    trk_spi: ^XYZVector; XYZVector(piminus_PX, piminus_PY, piminus_PZ)
+    trk_mu:  ^XYZVector; XYZVector(muplus_PX, muplus_PY, muplus_PZ); XYZVector(mu_PX, mu_PY, mu_PZ)
+    trk_k:   ^XYZVector; XYZVector(Kplus_PX, Kplus_PY, Kplus_PZ); XYZVector(k_PX, k_PY, k_PZ)
+    trk_pi:  ^XYZVector; XYZVector(piminus0_PX, piminus0_PY, piminus0_PZ); XYZVector(pi_PX, pi_PY, pi_PZ)
+    trk_spi: ^XYZVector; XYZVector(piminus_PX, piminus_PY, piminus_PZ); XYZVector(spi_PX, spi_PY, spi_PZ)
     trks_other: ^vector<XYZVector>; BUILD_VEC(trk_k, trk_pi, trk_spi)
     trks_ok: bool; FLAG_SEL_GOOD_TRACKS(trk_mu, trks_other); true
     mu_pid_ok: bool; FLAG_SEL_MU_PID_OK_RUN1(mu_is_mu, mu_pid_mu, mu_pid_e)
@@ -329,14 +364,21 @@ output:
             - is_2011
             - polarity < 0
 
-    Dst_ws_Mu:
+    Dst_data_2011_ws_Mu:
         input: ntp1
         selection:
             - is_ws_mu
-    Dst_ws_Pi:
+            - is_2011
+    Dst_data_2011_ws_Pi:
         input: ntp1
         selection:
             - is_ws_pi
+            - is_2011
 
     Dst:
         input: YCands/DecayTree
+
+    Dst_ws_Mu:
+        input: TupleB0WSMu/DecayTree
+    Dst_ws_Pi:
+        input: TupleB0WSPi/DecayTree

@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Jan 13, 2022 at 04:17 PM +0100
+# Last Change: Thu Jan 13, 2022 at 04:59 PM +0100
 
 import sys
 import os
@@ -332,6 +332,13 @@ JOBS = {
             'cli_fewer_cuts': 'true',
             'no_mass_window_cut': 'true',
         }
+    ),
+    'rdx-ntuple-run1-data-Dst-comp': partial(
+        workflow_data,
+        '../ntuples/0.9.5-bugfix/Dst_D0-std/Dst_D0--21_10_07--std--LHCb_Collision11_Beam3500GeV-VeloClosed-MagDown_Real_Data_Reco14_Stripping21r1_90000000_SEMILEPTONIC.DST.root',
+        '../postprocess/ref-rdx-run1/ref-rdx-run1-Dst.yml',
+        use_ubdt=False,
+        cli_vars={'cli_fewer_cuts': 'true'}
     ),
     # Reference Run 1
     'ref-rdx-ntuple-run1-data-Dst': partial(
