@@ -259,7 +259,7 @@ calculation:
     trks_other: ^vector<XYZVector>; BUILD_VEC(trk_k, trk_pi, trk_spi)
     trks_ok: bool; FLAG_SEL_GOOD_TRACKS(trk_mu, trks_other); true
     mu_pid_ok: bool; FLAG_SEL_MU_PID_OK_RUN1(mu_is_mu, mu_pid_mu, mu_pid_e)
-    #mu_pid_ok: bool; mu_pid_mu > 2.0;  # For wrong-sign ntuple consistency check
+    #mu_pid_ok: bool; mu_pid_mu > 2.0  # For global cut validation
     mu_ubdt_ok: bool; IF_VAR_EXISTS(cli_fewer_cuts, true); mu_ubdt > 0.25
     mu_ok: >-
         bool; FLAG_SEL_MU_RUN1(
@@ -390,7 +390,9 @@ output:
     Dst:
         input: YCands/DecayTree
 
-    Dst_ws_Mu:
+    Dst_us:
+        input: TupleB0/DecayTree
+    Dst_ws_Mu_us:
         input: TupleB0WSMu/DecayTree
-    Dst_ws_Pi:
+    Dst_ws_Pi_us:
         input: TupleB0WSPi/DecayTree
