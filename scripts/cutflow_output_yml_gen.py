@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun, Manual Franco Sevilla
 # License: BSD 2-clause
-# Last Change: Tue Jan 25, 2022 at 01:34 PM -0500
+# Last Change: Tue Jan 25, 2022 at 01:48 PM -0500
 
 import pathlib
 import os
@@ -354,10 +354,10 @@ CUTFLOW = {
                                      0.0, 100,
                                      D0IP, D0IPCHI2,
                                      D0_DIRA_OWNPV, 500.0)''',
-             key=r'Offline $D^0$ cuts, no PID no mass window'),
+             key=r'Offline $D^0$ cuts (no PID no mass window)'),
         Rule('''flag_sel_mu_run1_raw(true, true,
                                      mu_P, mu_ETA, muIPCHI2, 0.0)''',
-             key=r'Offline $\mu$ cuts, no PID'),
+             key=r'Offline $\mu$ cuts (no PID)'),
         Rule('''flag_sel_b0dst_run1_raw(true, true,
                                         pislow_GhostProb,
                                         Dst_ENDVERTEX_CHI2, 1000.0,
@@ -365,7 +365,7 @@ CUTFLOW = {
                                         Y_ENDVERTEX_CHI2, 1000.0,
                                         dxy,
                                         Y_DIRA_OWNPV)''',
-             key=r'Offline $D^* \mu$ combo cuts, no mass window'),
+             key=r'Offline $D^* \mu$ combo cuts (no mass window)'),
         # Specialized cuts
         Rule('''m_nu1 >= -2.0 & m_nu1 <= 10.9 &
                 El >= 0.1e3 & El <= 2.65e3 & q2 >= -0.4e6 & q2 <= 12.6e6''',
@@ -399,13 +399,13 @@ CUTFLOW = {
                                      d0_ENDVERTEX_CHI2, d0_ENDVERTEX_NDOF,
                                      d0_IP_OWNPV, d0_IPCHI2_OWNPV,
                                      d0_DIRA_OWNPV, d0_FDCHI2_OWNPV)''',
-             key=r'Offline $D^0$ cuts, no PID no mass window'),
+             key=r'Offline $D^0$ cuts (no PID no mass window)'),
         Rule('''flag_sel_mu_run1_few(mu_PX, mu_PY, mu_PZ,
                                      k_PX, k_PY, k_PZ,
                                      pi_PX, pi_PY, pi_PZ,
                                      spi_PX, spi_PY, spi_PZ,
                                      mu_P, mu_IPCHI2_OWNPV, mu_TRACK_GhostProb)''',
-             key=r'Offline $\mu$ cuts, no PID'),
+             key=r'Offline $\mu$ cuts (no PID)'),
         Rule('''flag_sel_b0dst_run1_few(spi_TRACK_GhostProb,
                                         dst_ENDVERTEX_CHI2, dst_ENDVERTEX_NDOF,
                                         b0_DISCARDMu_CHI2,
@@ -413,7 +413,7 @@ CUTFLOW = {
                                         b0_ENDVERTEX_X, b0_ENDVERTEX_Y,
                                         b0_OWNPV_X, b0_OWNPV_Y,
                                         b0_DIRA_OWNPV)''',
-             key=r'Offline $D^* \mu$ combo cuts, no mass window'),
+             key=r'Offline $D^* \mu$ combo cuts (no mass window)'),
         # Specialized cuts
         Rule('''FitVar_Mmiss2 >= -2.0e6 & FitVar_Mmiss2 <= 10.9e6 &
                 FitVar_El >= 0.1e3 & FitVar_El <= 2.65e3 &

@@ -62,6 +62,27 @@ def workflow_cutflow(outfolder, ntp1, ntp2, rfactor=1, mode='std'):
     run_cmd('cat {}'.format(mdfile))
 
 
+def workflow_cutflow_detailed(outfolder,
+                              ntp1, ntp2, tree1, tree2, mode1, mode2, rfactor=1):
+    print('{}==== Running cutflow and saving output to {} ===={}'.format(
+        TC.BOLD+TC.GREEN, outfolder, TC.END))
+    outfolder = ensure_dir('../gen/{}'.format(outfolder))
+
+    outyml1 = outfolder + "/ref_yields.yml"
+    outyml2 = outfolder + "/comp_yields.yml"
+
+    run_cmd(f'cutflow_output_yml_gen.py {abs_path(ntp1)} -s -o {outyml1} -m {mode1} -t {tree1}')
+    run_cmd(f'cutflow_output_yml_gen.py {abs_path(ntp2)} -s -o {outyml2} -m {mode2} -t {tree2}')
+
+    csvfile = outfolder + "/cutflow.csv"
+    texfile = with_suffix(csvfile, '.tex')
+    mdfile = with_suffix(csvfile, '.md')
+    gen_cutflow(outyml1, outyml2, csvfile, texfile, mdfile, rfactor)
+
+    print()
+    run_cmd('cat {}'.format(mdfile))
+
+
 #####################
 # Production config #
 #####################
@@ -115,7 +136,15 @@ JOBS = {
         '../ntuples/0.9.5-bugfix/Dst_D0-cutflow_data/Dst_D0--21_09_23--cutflow_data--LHCb_Collision16_Beam6500GeV-VeloClosed-MagDown_Real_Data_Reco16_Stripping28r2_90000000_SEMILEPTONIC.DST.root',
         1/1.41/2,
         mode='pid-last'
-    )
+    ),
+    ## Cut validation
+    'rdx-cutflow-vali-dst-2011-md-rs': lambda name: workflow_cutflow_detailed(
+        name,
+        '../ntuples/ref-rdx-run1/Dst-mix/Dst--21_10_21--mix--all--2011-2012--md-mu--phoebe.root',
+        '../ntuples/0.9.5-bugfix/Dst_D0-std/Dst_D0--21_10_07--std--LHCb_Collision11_Beam3500GeV-VeloClosed-MagDown_Real_Data_Reco14_Stripping21r1_90000000_SEMILEPTONIC.DST.root',
+        'ntp1', 'TupleB0/DecayTree',
+        'debug-ref-run1-Dst-data', 'debug-run1-Dst-data'
+    ),
 }
 
 args = parse_input()
