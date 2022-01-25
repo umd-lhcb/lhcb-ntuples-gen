@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun, Manual Franco Sevilla
 # License: BSD 2-clause
-# Last Change: Tue Jan 25, 2022 at 09:17 AM -0500
+# Last Change: Tue Jan 25, 2022 at 01:34 PM -0500
 
 import pathlib
 import os
@@ -380,6 +380,54 @@ CUTFLOW = {
         Rule('''!(reweighting_69_gen3_pt2 < 0.01 | reweighting_89_gen3_pt2 < 0.01) &
              BDTmu > 0.25''', key='ISO final'),
     ],
+    'debug-run1-Dst-data': [
+        # Select 2011 MagDown
+        Rule('make_true(mu_L0Global_TIS)', key='Select 2011 MD data'),
+        # Trigger
+        Rule('mu_L0Global_TIS & (b0_L0Global_TIS | d0_L0HadronDecision_TOS)',
+             key='L0'),
+        Rule('(k_Hlt1TrackAllL0Decision_TOS | pi_Hlt1TrackAllL0Decision_TOS) & dst_Hlt1Phys_TOS',
+             key='Hlt1'),
+        Rule('d0_Hlt2CharmHadD02HH_D02KPiDecision_TOS', key='Hlt2'),
+        # Step 2 cuts
+        Rule('''flag_sel_d0_run1_raw(true, k_PT, pi_PT,
+                                     k_Hlt1TrackAllL0Decision_TOS,
+                                     pi_Hlt1TrackAllL0Decision_TOS,
+                                     k_IPCHI2_OWNPV, pi_IPCHI2_OWNPV,
+                                     k_TRACK_GhostProb, pi_TRACK_GhostProb,
+                                     d0_PT, d0_Hlt2CharmHadD02HH_D02KPiDecision_TOS,
+                                     d0_ENDVERTEX_CHI2, d0_ENDVERTEX_NDOF,
+                                     d0_IP_OWNPV, d0_IPCHI2_OWNPV,
+                                     d0_DIRA_OWNPV, d0_FDCHI2_OWNPV)''',
+             key=r'Offline $D^0$ cuts, no PID no mass window'),
+        Rule('''flag_sel_mu_run1_few(mu_PX, mu_PY, mu_PZ,
+                                     k_PX, k_PY, k_PZ,
+                                     pi_PX, pi_PY, pi_PZ,
+                                     spi_PX, spi_PY, spi_PZ,
+                                     mu_P, mu_IPCHI2_OWNPV, mu_TRACK_GhostProb)''',
+             key=r'Offline $\mu$ cuts, no PID'),
+        Rule('''flag_sel_b0dst_run1_few(spi_TRACK_GhostProb,
+                                        dst_ENDVERTEX_CHI2, dst_ENDVERTEX_NDOF,
+                                        b0_DISCARDMu_CHI2,
+                                        b0_ENDVERTEX_CHI2, b0_ENDVERTEX_NDOF,
+                                        b0_ENDVERTEX_X, b0_ENDVERTEX_Y,
+                                        b0_OWNPV_X, b0_OWNPV_Y,
+                                        b0_DIRA_OWNPV)''',
+             key=r'Offline $D^* \mu$ combo cuts, no mass window'),
+        # Specialized cuts
+        Rule('''FitVar_Mmiss2 >= -2.0e6 & FitVar_Mmiss2 <= 10.9e6 &
+                FitVar_El >= 0.1e3 & FitVar_El <= 2.65e3 &
+                FitVar_q2 >= -0.4e6 & FitVar_q2 <= 12.6e6''',
+             key='Fit variable range cuts'),
+        Rule('mu_PIDmu > 2.0', key=r'$\mu$ PID$\mu$ cut'),
+        Rule('mu_isMuon & mu_PIDe < 1.0', key=r'$\mu$ other PID cuts'),
+        Rule('flag_sel_dst_mass(dst_M, d0_M) & flag_sel_d0_mass(d0_M, 1865.49)',
+             key=r'$D^*$ mass window'),
+        Rule('flag_sel_b0_mass(b0_M)', key=r'$B^0$ mass window'),
+        # Skim cuts
+        Rule('b0_ISOLATION_BDT < 0.15', key=r'$BDT_{iso} < 0.15$'),
+        Rule('make_true(mu_L0Global_TIS)', key='ISO final'),
+    ],
 }
 
 TRUTH_MATCHING = {
@@ -617,6 +665,27 @@ def flag_sel_b0dst_run1(spi_gh_prob,
     return np.logical_and.reduce(pad_arrays(dstmu_ok, dst_mass_ok, b0_mass_ok))
 
 
+def flag_sel_b0dst_run1_few(spi_gh_prob,
+                            dst_endvtx_chi2, dst_endvtx_ndof,
+                            b0_discard_mu_chi2,
+                            b0_endvtx_chi2, b0_endvtx_ndof,
+                            b0_endvtx_x, b0_endvtx_y,
+                            b0_pv_x, b0_pv_y,
+                            b0_dira):
+    b0_fd_trans = vec_trans(b0_endvtx_x - b0_pv_x, b0_endvtx_y - b0_pv_y)
+
+    return flag_sel_b0dst_run1_raw(True, True,
+                                   spi_gh_prob,
+                                   dst_endvtx_chi2, dst_endvtx_ndof,
+                                   b0_discard_mu_chi2,
+                                   b0_endvtx_chi2, b0_endvtx_ndof,
+                                   b0_fd_trans, b0_dira)
+
+
+def make_true(br):
+    return np.ones(br.size, dtype=bool)
+
+
 KNOWN_FUNC['flag_sel_run1_strip'] = vectorize(ROOT.FLAG_SEL_RUN1_STRIP)
 KNOWN_FUNC['flag_sel_run1_dv'] = vectorize(ROOT.FLAG_SEL_RUN1_DV)
 KNOWN_FUNC['flag_sel_d0_run1'] = flag_sel_d0_run1
@@ -634,10 +703,13 @@ KNOWN_FUNC['flag_sel_d0_run1_raw'] = flag_sel_d0_run1_raw  # not a typo
 KNOWN_FUNC['flag_sel_mu_run1_few'] = flag_sel_mu_run1_few
 KNOWN_FUNC['flag_sel_mu_run1_raw'] = flag_sel_mu_run1_raw
 KNOWN_FUNC['flag_sel_b0dst_run1_raw'] = flag_sel_b0dst_run1_raw
+KNOWN_FUNC['flag_sel_b0dst_run1_few'] = flag_sel_b0dst_run1_few
 
 KNOWN_FUNC['flag_sel_d0_mass'] = flag_sel_d0_mass
 KNOWN_FUNC['flag_sel_dst_mass'] = flag_sel_dst_mass
 KNOWN_FUNC['flag_sel_b0_mass'] = flag_sel_b0_mass
+
+KNOWN_FUNC['make_true'] = make_true
 
 
 ########
