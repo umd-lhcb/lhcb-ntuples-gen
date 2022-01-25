@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun, Manual Franco Sevilla
 # License: BSD 2-clause
-# Last Change: Tue Jan 25, 2022 at 01:54 PM -0500
+# Last Change: Tue Jan 25, 2022 at 03:08 PM -0500
 
 import pathlib
 import os
@@ -345,6 +345,8 @@ CUTFLOW = {
         Rule('Hlt1', key='Hlt1'),
         Rule('Hlt2', key='Hlt2'),
         # Step 2 cuts
+        Rule('flag_sel_d0_pid_ok_run1(KPID, piPID, muVeto, muVeto)',
+             key=r'$D^0$ PID'),
         Rule('''flag_sel_d0_run1_raw(true, K_PT, pi_PT,
                                      Hlt1TAL0K,
                                      Hlt1TAL0pi,
@@ -355,6 +357,7 @@ CUTFLOW = {
                                      D0IP, D0IPCHI2,
                                      D0_DIRA_OWNPV, 500.0)''',
              key=r'Offline $D^0$ cuts (no PID no mass window)'),
+        Rule('DLLmu > 2.0', key=r'$\mu$ PID$\mu$ cut'),
         Rule('''flag_sel_mu_run1_raw(true, true,
                                      mu_P, mu_ETA, muIPCHI2, 0.0)''',
              key=r'Offline $\mu$ cuts (no PID)'),
@@ -370,8 +373,7 @@ CUTFLOW = {
         Rule('''m_nu1 >= -2.0 & m_nu1 <= 10.9 &
                 El >= 0.1e3 & El <= 2.65e3 & q2 >= -0.4e6 & q2 <= 12.6e6''',
              key='Fit variable range cuts'),
-        Rule('muPID > 0', key=r'$\mu$ PID$\mu$ cut'),
-        Rule('!muVeto & DLLe < 1.0', key=r'$\mu$ other PID cuts'),
+        Rule('DLLe < 1.0 & muPID > 0', key=r'$\mu$ other PID cuts'),
         Rule('flag_sel_dst_mass(Dst_M, D0_M) & flag_sel_d0_mass(D0_M, 1865.49)',
              key=r'$D^*$ mass window'),
         Rule('flag_sel_b0_mass(Y_M)', key=r'$B^0$ mass window'),
@@ -390,6 +392,8 @@ CUTFLOW = {
              key='Hlt1'),
         Rule('d0_Hlt2CharmHadD02HH_D02KPiDecision_TOS', key='Hlt2'),
         # Step 2 cuts
+        Rule('flag_sel_d0_pid_ok_run1(k_PIDK, pi_PIDK, k_isMuon, pi_isMuon)',
+             key=r'$D^0$ PID'),
         Rule('''flag_sel_d0_run1_raw(true, k_PT, pi_PT,
                                      k_Hlt1TrackAllL0Decision_TOS,
                                      pi_Hlt1TrackAllL0Decision_TOS,
@@ -400,6 +404,7 @@ CUTFLOW = {
                                      d0_IP_OWNPV, d0_IPCHI2_OWNPV,
                                      d0_DIRA_OWNPV, d0_FDCHI2_OWNPV)''',
              key=r'Offline $D^0$ cuts (no PID no mass window)'),
+        Rule('mu_PIDmu > 2.0', key=r'$\mu$ PID$\mu$ cut'),
         Rule('''flag_sel_mu_run1_few(mu_PX, mu_PY, mu_PZ,
                                      k_PX, k_PY, k_PZ,
                                      pi_PX, pi_PY, pi_PZ,
@@ -419,7 +424,6 @@ CUTFLOW = {
                 FitVar_El >= 0.1e3 & FitVar_El <= 2.65e3 &
                 FitVar_q2 >= -0.4e6 & FitVar_q2 <= 12.6e6''',
              key='Fit variable range cuts'),
-        Rule('mu_PIDmu > 2.0', key=r'$\mu$ PID$\mu$ cut'),
         Rule('mu_isMuon & mu_PIDe < 1.0', key=r'$\mu$ other PID cuts'),
         Rule('flag_sel_dst_mass(dst_M, d0_M) & flag_sel_d0_mass(d0_M, 1865.49)',
              key=r'$D^*$ mass window'),
