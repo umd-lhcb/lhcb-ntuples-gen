@@ -164,11 +164,11 @@ calculation:
     k_p: double; GEV(K_P); GEV(Kplus_P); GEV(k_P)
     k_pt: double; GEV(K_PT); GEV(Kplus_PT); GEV(k_PT)
     # Pi
-    pi_p: double; GEV(pi_P); GEV(piminus0_P); GEV(pi_P)
-    pi_pt: double; GEV(pi_PT); GEV(piminus0_PT); GEV(pi_PT)
+    pi_p: double; GEV(pi_P); GEV(piminus0_P)
+    pi_pt: double; GEV(pi_PT); GEV(piminus0_PT)
     # Mu
-    mu_p: double; GEV(mu_P); GEV(muplus_P); GEV(mu_P)
-    mu_pt: double; GEV(mu_PT); GEV(muplus_PT); GEV(mu_PT)
+    mu_p: double; GEV(mu_P); GEV(muplus_P)
+    mu_pt: double; GEV(mu_PT); GEV(muplus_PT)
 
     #################
     # PID variables #
