@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun, Manual Franco Sevilla
 # License: BSD 2-clause
-# Last Change: Tue Jan 25, 2022 at 03:08 PM -0500
+# Last Change: Tue Jan 25, 2022 at 04:28 PM -0500
 
 import pathlib
 import os
@@ -381,6 +381,82 @@ CUTFLOW = {
         Rule('iso_BDT < 0.15', key=r'$BDT_{iso} < 0.15$'),
         Rule('''!(reweighting_69_gen3_pt2 < 0.01 | reweighting_89_gen3_pt2 < 0.01) &
              BDTmu > 0.25''', key='ISO final'),
+    ],
+    'debug-ref-run1-Dst-data-reduced': [
+        # Select 2011 MagDown
+        Rule('piminus_TRACK_Type == 3', key='Select 2011 MD data'),
+        # Trigger
+        Rule('muplus_L0Global_TIS & (Y_L0Global_TIS | D0_L0HadronDecision_TOS)',
+             key='L0'),
+        Rule('(Kplus_Hlt1TrackAllL0Decision_TOS | piminus0_Hlt1TrackAllL0Decision_TOS) & Dst_2010_minus_Hlt1Phys_TOS',
+             key='Hlt1'),
+        Rule('D0_Hlt2CharmHadD02HH_D02KPiDecision_TOS', key='Hlt2'),
+        # Step 2 cuts
+        Rule('flag_sel_d0_pid_ok_run1(Kplus_PIDK, piminus0_PIDK, Kplus_isMuon, piminus0_isMuon)',
+             key=r'$D^0$ PID'),
+        Rule('''flag_sel_d0_run1_raw(true, Kplus_PT, piminus0_PT,
+                                     Kplus_Hlt1TrackAllL0Decision_TOS,
+                                     piminus0_Hlt1TrackAllL0Decision_TOS,
+                                     Kplus_IPCHI2_OWNPV, piminus0_IPCHI2_OWNPV,
+                                     Kplus_TRACK_GhostProb, piminus0_TRACK_GhostProb,
+                                     D0_PT, D0_Hlt2CharmHadD02HH_D02KPiDecision_TOS,
+                                     D0_ENDVERTEX_CHI2, D0_ENDVERTEX_NDOF,
+                                     D0_IP_OWNPV, D0_IPCHI2_OWNPV,
+                                     D0_DIRA_OWNPV, D0_FDCHI2_OWNPV)''',
+             key=r'Offline $D^0$ cuts (no PID no mass window)'),
+        Rule('muplus_PIDmu > 2.0', key=r'$\mu$ PID$\mu$ cut'),
+        Rule('''flag_sel_mu_run1_few(muplus_PX, muplus_PY, muplus_PZ,
+                                     Kplus_PX, Kplus_PY, Kplus_PZ,
+                                     piminus0_PX, piminus0_PY, piminus0_PZ,
+                                     piminus_PX, piminus_PY, piminus_PZ,
+                                     muplus_P, muplus_IPCHI2_OWNPV, muplus_TRACK_GhostProb)''',
+             key=r'Offline $\mu$ cuts (no PID)'),
+        Rule('''flag_sel_b0dst_run1_few(piminus_TRACK_GhostProb,
+                                        Dst_2010_minus_ENDVERTEX_CHI2, Dst_2010_minus_ENDVERTEX_NDOF,
+                                        Y_DISCARDMu_CHI2,
+                                        Y_ENDVERTEX_CHI2, Y_ENDVERTEX_NDOF,
+                                        Y_ENDVERTEX_X, Y_ENDVERTEX_Y,
+                                        Y_OWNPV_X, Y_OWNPV_Y,
+                                        Y_DIRA_OWNPV)''',
+             key=r'Offline $D^* \mu$ combo cuts (no mass window)'),
+    ],
+    'debug-run1-Dst-data-reduced': [
+        # Select 2011 MagDown
+        Rule('make_true(mu_L0Global_TIS)', key='Select 2011 MD data'),
+        # Trigger
+        Rule('mu_L0Global_TIS & (b0_L0Global_TIS | d0_L0HadronDecision_TOS)',
+             key='L0'),
+        Rule('(k_Hlt1TrackAllL0Decision_TOS | pi_Hlt1TrackAllL0Decision_TOS) & dst_Hlt1Phys_TOS',
+             key='Hlt1'),
+        Rule('d0_Hlt2CharmHadD02HH_D02KPiDecision_TOS', key='Hlt2'),
+        # Step 2 cuts
+        Rule('flag_sel_d0_pid_ok_run1(k_PIDK, pi_PIDK, k_isMuon, pi_isMuon)',
+             key=r'$D^0$ PID'),
+        Rule('''flag_sel_d0_run1_raw(true, k_PT, pi_PT,
+                                     k_Hlt1TrackAllL0Decision_TOS,
+                                     pi_Hlt1TrackAllL0Decision_TOS,
+                                     k_IPCHI2_OWNPV, pi_IPCHI2_OWNPV,
+                                     k_TRACK_GhostProb, pi_TRACK_GhostProb,
+                                     d0_PT, d0_Hlt2CharmHadD02HH_D02KPiDecision_TOS,
+                                     d0_ENDVERTEX_CHI2, d0_ENDVERTEX_NDOF,
+                                     d0_IP_OWNPV, d0_IPCHI2_OWNPV,
+                                     d0_DIRA_OWNPV, d0_FDCHI2_OWNPV)''',
+             key=r'Offline $D^0$ cuts (no PID no mass window)'),
+        Rule('mu_PIDmu > 2.0', key=r'$\mu$ PID$\mu$ cut'),
+        Rule('''flag_sel_mu_run1_few(mu_PX, mu_PY, mu_PZ,
+                                     k_PX, k_PY, k_PZ,
+                                     pi_PX, pi_PY, pi_PZ,
+                                     spi_PX, spi_PY, spi_PZ,
+                                     mu_P, mu_IPCHI2_OWNPV, mu_TRACK_GhostProb)''',
+             key=r'Offline $\mu$ cuts (no PID)'),
+        Rule('''flag_sel_b0dst_run1_few(spi_TRACK_GhostProb,
+                                        dst_ENDVERTEX_CHI2, dst_ENDVERTEX_NDOF,
+                                        b0_DISCARDMu_CHI2,
+                                        b0_ENDVERTEX_CHI2, b0_ENDVERTEX_NDOF,
+                                        b0_ENDVERTEX_X, b0_ENDVERTEX_Y,
+                                        b0_OWNPV_X, b0_OWNPV_Y,
+                                        b0_DIRA_OWNPV)''',
+             key=r'Offline $D^* \mu$ combo cuts (no mass window)'),
     ],
     'debug-run1-Dst-data': [
         # Select 2011 MagDown

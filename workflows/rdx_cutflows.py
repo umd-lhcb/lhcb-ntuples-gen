@@ -159,6 +159,27 @@ JOBS = {
         'ntp1', 'TupleB0WSPi/DecayTree',
         'debug-ref-run1-Dst-ws-Pi', 'debug-run1-Dst-data'
     ),
+    'rdx-cutflow-vali-dst-2011-md-rs-reduced': lambda name: workflow_cutflow_detailed(
+        name,
+        '../ntuples/ref-rdx-run1/Dst-std/Dst--20_09_16--std--data--2011--md--phoebe.root',
+        '../ntuples/0.9.5-bugfix/Dst_D0-std/Dst_D0--21_10_07--std--LHCb_Collision11_Beam3500GeV-VeloClosed-MagDown_Real_Data_Reco14_Stripping21r1_90000000_SEMILEPTONIC.DST.root',
+        'YCands/DecayTree', 'TupleB0/DecayTree',
+        'debug-ref-run1-Dst-data-reduced', 'debug-run1-Dst-data-reduced'
+    ),
+    'rdx-cutflow-vali-dst-2011-md-ws-mu-reduced': lambda name: workflow_cutflow_detailed(
+        name,
+        '../ntuples/ref-rdx-run1/Dst-std/Dst--20_09_16--std--data--2011--md--phoebe.root',
+        '../ntuples/0.9.5-bugfix/Dst_D0-std/Dst_D0--21_10_07--std--LHCb_Collision11_Beam3500GeV-VeloClosed-MagDown_Real_Data_Reco14_Stripping21r1_90000000_SEMILEPTONIC.DST.root',
+        'YCandsWS/DecayTree', 'TupleB0WSMu/DecayTree',
+        'debug-ref-run1-Dst-data-reduced', 'debug-run1-Dst-data-reduced'
+    ),
+    'rdx-cutflow-vali-dst-2011-md-ws-pi-reduced': lambda name: workflow_cutflow_detailed(
+        name,
+        '../ntuples/ref-rdx-run1/Dst-std/Dst--20_09_16--std--data--2011--md--phoebe.root',
+        '../ntuples/0.9.5-bugfix/Dst_D0-std/Dst_D0--21_10_07--std--LHCb_Collision11_Beam3500GeV-VeloClosed-MagDown_Real_Data_Reco14_Stripping21r1_90000000_SEMILEPTONIC.DST.root',
+        'YCandsWS2/DecayTree', 'TupleB0WSPi/DecayTree',
+        'debug-ref-run1-Dst-data-reduced', 'debug-run1-Dst-data-reduced'
+    ),
 }
 
 args = parse_input()

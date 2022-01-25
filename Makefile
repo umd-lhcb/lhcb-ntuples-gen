@@ -1,6 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Jan 25, 2022 at 01:55 PM -0500
+# Last Change: Tue Jan 25, 2022 at 04:35 PM -0500
 
 VPATH := postprocess:test:scripts:ntuples
 VPATH := run1-rdx/cutflow:run2-rdx/cutflow:$(VPATH)
@@ -157,6 +157,10 @@ rdx-cutflow-vali-Dst:
 	workflows/rdx_cutflows.py rdx-cutflow-vali-dst-2011-md-ws-mu
 	workflows/rdx_cutflows.py rdx-cutflow-vali-dst-2011-md-ws-pi
 
+rdx-cutflow-vali-Dst-reduced:
+	workflows/rdx_cutflows.py rdx-cutflow-vali-dst-2011-md-rs-reduced
+	workflows/rdx_cutflows.py rdx-cutflow-vali-dst-2011-md-ws-mu-reduced
+	workflows/rdx_cutflows.py rdx-cutflow-vali-dst-2011-md-ws-pi-reduced
 
 ####################
 # Generic patterns #
