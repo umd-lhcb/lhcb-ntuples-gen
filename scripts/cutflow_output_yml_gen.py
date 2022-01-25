@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun, Manual Franco Sevilla
 # License: BSD 2-clause
-# Last Change: Tue Jan 25, 2022 at 01:48 PM -0500
+# Last Change: Tue Jan 25, 2022 at 01:54 PM -0500
 
 import pathlib
 import os
@@ -429,6 +429,15 @@ CUTFLOW = {
         Rule('make_true(mu_L0Global_TIS)', key='ISO final'),
     ],
 }
+
+CUTFLOW['debug-ref-run1-Dst-ws-Mu'] = [
+    Rule('isData & DstIDprod > 0 & IDprod < 0 & Polarity < 0 & flag2011',
+         key='Select 2011 MD data'),
+] + CUTFLOW['debug-ref-run1-Dst-data'][1:]
+CUTFLOW['debug-ref-run1-Dst-ws-Pi'] = [
+    Rule('isData & DstIDprod < 0 & IDprod > 0 & Polarity < 0 & flag2011',
+         key='Select 2011 MD data'),
+] + CUTFLOW['debug-ref-run1-Dst-data'][1:]
 
 TRUTH_MATCHING = {
     'sig': Rule('''abs(mu_MC_MOTHER_ID) == 15 &
