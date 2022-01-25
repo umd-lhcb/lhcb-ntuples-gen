@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun, Manual Franco Sevilla
 # License: BSD 2-clause
-# Last Change: Fri Dec 31, 2021 at 01:19 AM +0100
+# Last Change: Tue Jan 25, 2022 at 09:17 AM -0500
 
 import pathlib
 import os
@@ -334,7 +334,52 @@ CUTFLOW = {
                                     b0_DIRA_OWNPV, b0_M)''',
              key=r'Offline $D^* \mu$ combo cuts'),
         Rule('b0_ISOLATION_BDT < 0.15', key=r'$BDT_{iso} < 0.15$'),
-    ]
+    ],
+    # More debugging
+    'debug-ref-run1-Dst-data': [
+        # Select 2011 MagDown
+        Rule('isData & DstIDprod > 0 & IDprod > 0 & Polarity < 0 & flag2011',
+             key='Select 2011 MD data'),
+        # Trigger
+        Rule('L0 & (YTIS | YTOS)', key='L0'),
+        Rule('Hlt1', key='Hlt1'),
+        Rule('Hlt2', key='Hlt2'),
+        # Step 2 cuts
+        Rule('''flag_sel_d0_run1_raw(true, K_PT, pi_PT,
+                                     Hlt1TAL0K,
+                                     Hlt1TAL0pi,
+                                     KIPCHI2, piIPCHI2,
+                                     0.0, 0.0,
+                                     D0_PT, Hlt2,
+                                     0.0, 100,
+                                     D0IP, D0IPCHI2,
+                                     D0_DIRA_OWNPV, 500.0)''',
+             key=r'Offline $D^0$ cuts, no PID no mass window'),
+        Rule('''flag_sel_mu_run1_raw(true, true,
+                                     mu_P, mu_ETA, muIPCHI2, 0.0)''',
+             key=r'Offline $\mu$ cuts, no PID'),
+        Rule('''flag_sel_b0dst_run1_raw(true, true,
+                                        pislow_GhostProb,
+                                        Dst_ENDVERTEX_CHI2, 1000.0,
+                                        Y_DISCARDMu_CHI2,
+                                        Y_ENDVERTEX_CHI2, 1000.0,
+                                        dxy,
+                                        Y_DIRA_OWNPV)''',
+             key=r'Offline $D^* \mu$ combo cuts, no mass window'),
+        # Specialized cuts
+        Rule('''m_nu1 >= -2.0 & m_nu1 <= 10.9 &
+                El >= 0.1e3 & El <= 2.65e3 & q2 >= -0.4e6 & q2 <= 12.6e6''',
+             key='Fit variable range cuts'),
+        Rule('muPID > 0', key=r'$\mu$ PID$\mu$ cut'),
+        Rule('!muVeto & DLLe < 1.0', key=r'$\mu$ other PID cuts'),
+        Rule('flag_sel_dst_mass(Dst_M, D0_M) & flag_sel_d0_mass(D0_M, 1865.49)',
+             key=r'$D^*$ mass window'),
+        Rule('flag_sel_b0_mass(Y_M)', key=r'$B^0$ mass window'),
+        # Skim cuts
+        Rule('iso_BDT < 0.15', key=r'$BDT_{iso} < 0.15$'),
+        Rule('''!(reweighting_69_gen3_pt2 < 0.01 | reweighting_89_gen3_pt2 < 0.01) &
+             BDTmu > 0.25''', key='ISO final'),
+    ],
 }
 
 TRUTH_MATCHING = {
@@ -453,6 +498,10 @@ flag_sel_b0dst_run1_raw = vectorize(ROOT.FLAG_SEL_B0DST_RUN1)
 flag_sel_dst_mass = vectorize(ROOT.FLAG_SEL_DST_MASS)
 flag_sel_b0_mass = vectorize(ROOT.FLAG_SEL_B0_MASS)
 
+flag_sel_d0_mass = vectorize(ROOT.FLAG_SEL_D0_MASS)
+flag_sel_dst_mass = vectorize(ROOT.FLAG_SEL_DST_MASS)
+flag_sel_b0_mass = vectorize(ROOT.FLAG_SEL_B0_MASS)
+
 
 def flag_sel_d0_run1(k_pid_k, pi_pid_k, k_is_mu, pi_is_mu,
                      k_pt, pi_pt,
@@ -514,6 +563,19 @@ def flag_sel_good_tracks_raw(mu_px, mu_py, mu_pz, k_px, k_py, k_pz,
 flag_sel_good_tracks = vectorize(flag_sel_good_tracks_raw)
 
 
+def flag_sel_mu_run1_few(mu_px, mu_py, mu_pz,
+                         k_px, k_py, k_pz,
+                         pi_px, pi_py, pi_pz,
+                         spi_px, spi_py, spi_pz,
+                         mu_p, mu_ip_chi2, mu_gh_prob):
+    trks_ok = flag_sel_good_tracks(mu_px, mu_py, mu_pz, k_px, k_py, k_pz,
+                                   pi_px, pi_py, pi_pz,
+                                   spi_px, spi_py, spi_pz)
+    mu_eta = kinematic_eta(mu_p, mu_pz)
+    return flag_sel_mu_run1_raw(True, trks_ok, mu_p, mu_eta,
+                                mu_ip_chi2, mu_gh_prob)
+
+
 def flag_sel_mu_run1(mu_px, mu_py, mu_pz,
                      k_px, k_py, k_pz,
                      pi_px, pi_py, pi_pz,
@@ -567,6 +629,15 @@ KNOWN_FUNC['flag_sel_run2_dv'] = vectorize(ROOT.FLAG_SEL_RUN2_DV)
 KNOWN_FUNC['flag_sel_d0_pid_ok_run1'] = flag_sel_d0_pid_ok_run1
 KNOWN_FUNC['flag_sel_mu_pid_ok_run1'] = flag_sel_mu_pid_ok_run1
 KNOWN_FUNC['flag_sel_good_tracks'] = flag_sel_good_tracks
+
+KNOWN_FUNC['flag_sel_d0_run1_raw'] = flag_sel_d0_run1_raw  # not a typo
+KNOWN_FUNC['flag_sel_mu_run1_few'] = flag_sel_mu_run1_few
+KNOWN_FUNC['flag_sel_mu_run1_raw'] = flag_sel_mu_run1_raw
+KNOWN_FUNC['flag_sel_b0dst_run1_raw'] = flag_sel_b0dst_run1_raw
+
+KNOWN_FUNC['flag_sel_d0_mass'] = flag_sel_d0_mass
+KNOWN_FUNC['flag_sel_dst_mass'] = flag_sel_dst_mass
+KNOWN_FUNC['flag_sel_b0_mass'] = flag_sel_b0_mass
 
 
 ########
