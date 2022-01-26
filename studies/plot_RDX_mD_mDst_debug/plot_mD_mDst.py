@@ -51,7 +51,7 @@ runCmd(fr'''
     plotbr -n {ntpPhoebe}/tree -b dst_m -n {ntpUs}/tree -b dst_m \
         -l Phoebe -l Us -o dst_m.png \
         --bins 80 -XD 1920 2080 \
-        --title "\$m_{{D^*}} -m_{{D^0}} - 145.454 < 2$, ~ [1985, 2037]" \
+        --title "\$m_{{D^*}} -m_{{D^0}} - 145.454 < 2$: ~ [1985, 2037]" \
         -XL "\$D^*$ mass [MeV]" \
         --vlines "1985,0,40000,crimson" "2037,0,40000,crimson"
     ''')
@@ -60,7 +60,7 @@ runCmd(fr'''
     plotbr -n {ntpPhoebe}/tree -b="dst_m-d0_m" -n {ntpUs}/tree -b "dst_m-d0_m" \
         -l Phoebe -l Us -o dst_d0_delta_m.png \
         --bins 60 -XD 139 161 \
-        --title "\$m_{{D^*}} -m_{{D^0}} - 145.454 < 2$: ~ [-143.454, 147.454]" \
+        --title "\$m_{{D^*}} -m_{{D^0}} - 145.454 < 2$: [-143.454, 147.454]" \
         -XL "\$m_{{D^*}} -m_{{D^0}}$ [MeV]" \
         --vlines "143.454,0,40000,crimson" "147.454,0,40000,crimson"
     ''')
