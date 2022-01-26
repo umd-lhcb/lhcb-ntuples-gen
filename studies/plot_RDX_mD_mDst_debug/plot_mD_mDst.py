@@ -61,6 +61,6 @@ runCmd(fr'''
         -l Phoebe -l Us -o dst_d0_delta_m.png \
         --bins 60 -XD 139 161 \
         --title "\$m_{{D^*}} -m_{{D^0}} - 145.454 < 2$: ~ [-143.454, 147.454]" \
-        -XL "\$m_{{D^*}} -m_{{D^0}}$ mass [MeV]" \
+        -XL "\$m_{{D^*}} -m_{{D^0}}$ [MeV]" \
         --vlines "143.454,0,40000,crimson" "147.454,0,40000,crimson"
     ''')
