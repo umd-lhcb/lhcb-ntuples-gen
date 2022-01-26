@@ -16,6 +16,15 @@
         - For Phoebe's ntuple, we remove the VELO only slow $\pi$
         - For us, this is already removed at DaVinci level
 
+!!! info
+    - It is known that PID and isolation BDT values have changed between
+      DaVinci versions
+    - Also, the vertexing has changed. This is manifested in the
+      _Offline $D^* \mu$ combo_ cuts.
+        - The cuts are defined in [here](https://github.com/umd-lhcb/lhcb-ntuples-gen/blob/45069ec62bae102c2e397d1f42594de30e6ce7df/include/functor/rdx/cut.h#L222-L245).
+        - Notably, we have _vertex $\chi^2/dof$_ cuts, like
+          `b0_endvtx_chi2/b0_endvtx_ndof < 6.0`.
+
 | Cut                                           | Phoebe  | us      | Phoebe $\epsilon$  | us $\epsilon$      | $\epsilon$ ratio   |
 |-----------------------------------------------|---------|---------|--------------------|--------------------|--------------------|
 | Total events                                  | 208846  | 216987  | -                  | -                  | -                  |
