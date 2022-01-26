@@ -46,7 +46,7 @@
 | ISO final                                     | [**74301**](https://github.com/umd-lhcb/rdx-run2-analysis/blob/master/docs/cuts/cut_validation.md#skim-cuts)  | 72628   | 94.2               | 100.0              | 1.06               |
 
 
-## $D^*$, wrong-sign $\mu$
+## $D^*$, wrong-sign $\mu$, Phoebe step-1+1.5 vs us
 
 | Cut                                           | Phoebe  | us      | Phoebe $\epsilon$  | us $\epsilon$      | $\epsilon$ ratio   |
 |-----------------------------------------------|---------|---------|--------------------|--------------------|--------------------|
@@ -68,7 +68,7 @@
 | $BDT_{iso} < 0.15$                            | 1419    | 1248    | 25.9               | 22.3               | 0.86               |
 
 
-## $D^*$, wrong-sign slow $\pi$
+## $D^*$, wrong-sign slow $\pi$, Phoebe step-1+1.5 vs us
 
 | Cut                                           | Phoebe  | us      | Phoebe $\epsilon$  | us $\epsilon$      | $\epsilon$ ratio   |
 |-----------------------------------------------|---------|---------|--------------------|--------------------|--------------------|
