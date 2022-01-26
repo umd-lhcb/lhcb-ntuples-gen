@@ -1070,6 +1070,20 @@ to its left.</p>
 </li>
 </ul>
 </div>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<ul>
+<li>It is known that PID and isolation BDT values have changed between
+  DaVinci versions</li>
+<li>Also, the vertexing has changed. This is manifested in the
+  <em>Offline <span class="arithmatex">\(D^* \mu\)</span> combo</em> cuts.<ul>
+<li>The cuts are defined in <a href="https://github.com/umd-lhcb/lhcb-ntuples-gen/blob/45069ec62bae102c2e397d1f42594de30e6ce7df/include/functor/rdx/cut.h#L222-L245">here</a>.</li>
+<li>Notably, we have <em>vertex <span class="arithmatex">\(\chi^2/dof\)</span></em> cuts, like
+  <code>b0_endvtx_chi2/b0_endvtx_ndof &lt; 6.0</code>.</li>
+</ul>
+</li>
+</ul>
+</div>
 <table>
 <thead>
 <tr>
