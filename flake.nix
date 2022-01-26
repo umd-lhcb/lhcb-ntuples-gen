@@ -38,11 +38,7 @@
             # HAMMER reweighter
             pkgs.hammer-reweight
 
-            # Auto completion
-            jedi
-
             # Linters
-            flake8
             pylint
 
             # Python requirements (enough to get a virtualenv going).
