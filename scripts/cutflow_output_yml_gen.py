@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun, Manual Franco Sevilla
 # License: BSD 2-clause
-# Last Change: Tue Jan 25, 2022 at 04:28 PM -0500
+# Last Change: Wed Jan 26, 2022 at 08:22 PM -0500
 
 import pathlib
 import os
@@ -369,13 +369,13 @@ CUTFLOW = {
                                         dxy,
                                         Y_DIRA_OWNPV)''',
              key=r'Offline $D^* \mu$ combo cuts (no mass window)'),
+        Rule('flag_sel_d0_mass(D0_M, 1865.49)', key=r'$D^0$ mass window'),
         # Specialized cuts
         Rule('''m_nu1 >= -2.0 & m_nu1 <= 10.9 &
                 El >= 0.1e3 & El <= 2.65e3 & q2 >= -0.4e6 & q2 <= 12.6e6''',
              key='Fit variable range cuts'),
         Rule('DLLe < 1.0 & muPID > 0', key=r'$\mu$ other PID cuts'),
-        Rule('flag_sel_dst_mass(Dst_M, D0_M) & flag_sel_d0_mass(D0_M, 1865.49)',
-             key=r'$D^*$ mass window'),
+        Rule('flag_sel_dst_mass(Dst_M, D0_M)', key=r'$D^*$ mass window'),
         Rule('flag_sel_b0_mass(Y_M)', key=r'$B^0$ mass window'),
         # Skim cuts
         Rule('iso_BDT < 0.15', key=r'$BDT_{iso} < 0.15$'),
@@ -419,6 +419,7 @@ CUTFLOW = {
                                         Y_OWNPV_X, Y_OWNPV_Y,
                                         Y_DIRA_OWNPV)''',
              key=r'Offline $D^* \mu$ combo cuts (no mass window)'),
+        Rule('flag_sel_d0_mass(D0_M, 1865.49)', key=r'$D^0$ mass window'),
     ],
     'debug-run1-Dst-data-reduced': [
         # Select 2011 MagDown
@@ -457,6 +458,7 @@ CUTFLOW = {
                                         b0_OWNPV_X, b0_OWNPV_Y,
                                         b0_DIRA_OWNPV)''',
              key=r'Offline $D^* \mu$ combo cuts (no mass window)'),
+        Rule('flag_sel_d0_mass(d0_M, 1865.49)', key=r'$D^0$ mass window'),
     ],
     'debug-run1-Dst-data': [
         # Select 2011 MagDown
@@ -495,14 +497,14 @@ CUTFLOW = {
                                         b0_OWNPV_X, b0_OWNPV_Y,
                                         b0_DIRA_OWNPV)''',
              key=r'Offline $D^* \mu$ combo cuts (no mass window)'),
+        Rule('flag_sel_d0_mass(d0_M, 1865.49)', key=r'$D^0$ mass window'),
         # Specialized cuts
         Rule('''FitVar_Mmiss2 >= -2.0e6 & FitVar_Mmiss2 <= 10.9e6 &
                 FitVar_El >= 0.1e3 & FitVar_El <= 2.65e3 &
                 FitVar_q2 >= -0.4e6 & FitVar_q2 <= 12.6e6''',
              key='Fit variable range cuts'),
         Rule('mu_isMuon & mu_PIDe < 1.0', key=r'$\mu$ other PID cuts'),
-        Rule('flag_sel_dst_mass(dst_M, d0_M) & flag_sel_d0_mass(d0_M, 1865.49)',
-             key=r'$D^*$ mass window'),
+        Rule('flag_sel_dst_mass(dst_M, d0_M)', key=r'$D^*$ mass window'),
         Rule('flag_sel_b0_mass(b0_M)', key=r'$B^0$ mass window'),
         # Skim cuts
         Rule('b0_ISOLATION_BDT < 0.15', key=r'$BDT_{iso} < 0.15$'),
