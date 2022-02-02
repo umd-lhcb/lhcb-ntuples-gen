@@ -6,6 +6,7 @@ import sys
 import os
 
 from os.path import isdir
+from glob import glob
 
 
 ###########
@@ -25,8 +26,11 @@ checkFolderExist('../../gen/rdx-ntuple-run1-data-Dst-comp',
                  'ref-rdx-ntuple-run1-data-Dst-comp')
 
 
-ntpPhoebe = '../../gen/ref-rdx-ntuple-run1-data-Dst-comp/ntuple/Dst_data_2011_md--22_01_25--mix--all--2011-2012--md-mu--phoebe.root'
-ntpUs = '../../gen/rdx-ntuple-run1-data-Dst-comp/ntuple/Dst_us--22_01_25--std--data--2011--md.root'
+ntpPhoebe = glob('../../gen/ref-rdx-ntuple-run1-data-Dst-comp/ntuple/Dst_data_2011_md--*.root')[0]
+ntpUs = glob('../../gen/rdx-ntuple-run1-data-Dst-comp/ntuple/Dst_us--*.root')[0]
+
+ntpPhoebeStep1 = '../../ntuples/ref-rdx-run1/Dst-std/Dst--20_09_16--std--data--2011--md--phoebe.root'
+ntpUsStep1 = '../../ntuples/0.9.5-bugfix/Dst_D0-std/Dst_D0--21_10_07--std--LHCb_Collision11_Beam3500GeV-VeloClosed-MagDown_Real_Data_Reco14_Stripping21r1_90000000_SEMILEPTONIC.DST.root'
 
 
 #########
@@ -63,4 +67,21 @@ runCmd(fr'''
         --title "\$m_{{D^*}} -m_{{D^0}} - 145.454 < 2$: [-143.454, 147.454]" \
         -XL "\$m_{{D^*}} -m_{{D^0}}$ [MeV]" \
         --vlines "143.454,0,40000,crimson" "147.454,0,40000,crimson"
+    ''')
+
+runCmd(fr'''
+    plotbr -n {ntpPhoebeStep1}/YCandsWS/DecayTree -b="muplus_PIDmu" \
+        -n {ntpUsStep1}/TupleB0WSMu/DecayTree -b "mu_PIDmu" \
+        -l Phoebe -l Us -o mu_pidmu_ws.png \
+        --bins 60 \
+        --title "\$\\mu$ PID\$\\mu$, WS \$\\mu$"
+    ''')
+
+runCmd(fr'''
+    plotbr -n {ntpPhoebeStep1}/YCandsWS/DecayTree -b="Dst_2010_minus_ENDVERTEX_CHI2/Dst_2010_minus_ENDVERTEX_NDOF" \
+        -n {ntpUsStep1}/TupleB0WSMu/DecayTree -b "dst_ENDVERTEX_CHI2/dst_ENDVERTEX_NDOF" \
+        -l Phoebe -l Us -o dst_chi2ndof_ws.png \
+        --bins 60 \
+        --title "\$D^*$ \$\\chi^2/dof$, WS \$\\mu$" \
+        --vlines "6,0,40000,crimson"
     ''')
