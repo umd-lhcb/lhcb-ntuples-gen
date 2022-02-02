@@ -15,7 +15,7 @@ from glob import glob
 
 def checkFolderExist(folder, cmd):
     if not isdir(folder):
-        print(f'The ntuple folder {ntpInFolder} does not exist!')
+        print(f'The ntuple folder {folder} does not exist!')
         print(f'Run "{cmd}" in project root to generate the ntuples first!')
         sys.exit(1)
 
@@ -72,16 +72,18 @@ runCmd(fr'''
 runCmd(fr'''
     plotbr -n {ntpPhoebeStep1}/YCandsWS/DecayTree -b="muplus_PIDmu" \
         -n {ntpUsStep1}/TupleB0WSMu/DecayTree -b "mu_PIDmu" \
-        -l Phoebe -l Us -o mu_pidmu_ws.png \
-        --bins 60 \
+        -l Phoebe -l Us -o mu_pidmu_ws_mu.png \
+        --bins 60 --yscale log --normalize \
+        -YL "Normalized" \
         --title "\$\\mu$ PID\$\\mu$, WS \$\\mu$"
     ''')
 
 runCmd(fr'''
-    plotbr -n {ntpPhoebeStep1}/YCandsWS/DecayTree -b="Dst_2010_minus_ENDVERTEX_CHI2/Dst_2010_minus_ENDVERTEX_NDOF" \
-        -n {ntpUsStep1}/TupleB0WSMu/DecayTree -b "dst_ENDVERTEX_CHI2/dst_ENDVERTEX_NDOF" \
-        -l Phoebe -l Us -o dst_chi2ndof_ws.png \
-        --bins 60 \
-        --title "\$D^*$ \$\\chi^2/dof$, WS \$\\mu$" \
-        --vlines "6,0,40000,crimson"
+    plotbr -n {ntpPhoebeStep1}/YCandsWS2/DecayTree -b="Dst_2010_minus_ENDVERTEX_CHI2/Dst_2010_minus_ENDVERTEX_NDOF" \
+        -n {ntpUsStep1}/TupleB0WSPi/DecayTree -b "dst_ENDVERTEX_CHI2/dst_ENDVERTEX_NDOF" \
+        -l Phoebe -l Us -o dst_chi2ndof_ws_pi.png \
+        --bins 60 --yscale log --normalize \
+        -YL "Normalized" \
+        --title "\$D^*$ \$\\chi^2/dof$, WS \$\\pi$" \
+        --vlines "6,0,4,crimson"
     ''')
