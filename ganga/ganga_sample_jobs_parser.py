@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Feb 03, 2022 at 11:17 AM -0500
+# Last Change: Thu Feb 03, 2022 at 02:14 PM -0500
 #
 # Description: A demonstration on ganga option file with parser.
 #              This demo runs stand-alone, provided that Python is installed:
@@ -16,6 +16,7 @@ from datetime import datetime
 from pathlib import Path
 from collections import OrderedDict as odict
 from re import search
+from os.path import abspath
 
 
 ##########################
@@ -93,7 +94,7 @@ def parse_cond_file_name(cond_file):
 
 
 def gen_lfn_key(cond_file, reco_type, fields):
-    analysis = Path(cond_file).parent.parent.stem
+    analysis = Path(abspath(cond_file)).parent.parent.stem
     key = f'{analysis}-{reco_type}-{fields["year"]}'
 
     if 'simcond' in fields:
