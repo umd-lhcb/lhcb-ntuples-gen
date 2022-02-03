@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed May 12, 2021 at 02:25 AM +0200
+# Last Change: Thu Feb 03, 2022 at 11:17 AM -0500
 #
 # Description: A demonstration on ganga option file with parser.
 #              This demo runs stand-alone, provided that Python is installed:
@@ -12,7 +12,6 @@
 #                  ganga ./ganga_job_parser.py [options]
 
 from argparse import ArgumentParser
-from itertools import product
 from datetime import datetime
 from pathlib import Path
 from collections import OrderedDict as odict
@@ -26,25 +25,25 @@ from re import search
 # Example for a fully constructed MC file path:
 # '/MC/2012/Beam4000GeV-2012-MagDown-Nu2.5-Pythia6/Sim08a/Digi13/Trig0x409f0045/Reco14a/Stripping20Filtered/11873010/DSTTAUNU.SAFESTRIPTRIG'
 LFN_PATH = {
-    # run 1 data
-    'std-2011': '/LHCb/Collision11/Beam3500GeV-VeloClosed-Mag{polarity}/Real Data/Reco14/Stripping21r1/90000000/SEMILEPTONIC.DST',
-    'std-2012': '/LHCb/Collision12/Beam4000GeV-VeloClosed-Mag{polarity}/Real Data/Reco14/Stripping21/90000000/SEMILEPTONIC.DST',
-    # run 1 MC
-    'mc-2012-sim08': '/MC/2012/Beam4000GeV-2012-Mag{polarity}-Nu2.5-{pythia}/{simcond}/Digi13/Trig0x409f0045/Reco14a/Stripping20Filtered/{decay}/DSTTAUNU.SAFESTRIPTRIG.DST',
-    'mc-2012-sim09': '/MC/2012/Beam4000GeV-2012-Mag{polarity}-NoRICHesSim-Nu2.5-{pythia}/{simcond}/Trig0x409f0045-NoRichPIDLines/Reco14c/Stripping21Filtered/{decay}/DSTTAUNU.SAFESTRIPTRIG.DST',
-    # run 1 cocktail
-    'cutflow_mc-2011-sim08': '/MC/2011/Beam3500GeV-2011-Mag{polarity}-Nu2-Pythia8/{simcond}/Digi13/Trig0x40760037/Reco14c/Stripping20r1NoPrescalingFlagged/11874091/ALLSTREAMS.DST',
-    # run 2 data
-    'std-2015': '/LHCb/Collision15/Beam6500GeV-VeloClosed-Mag{polarity}/Real Data/Reco15a/Stripping24r2/90000000/SEMILEPTONIC.DST',
-    'std-2016': '/LHCb/Collision16/Beam6500GeV-VeloClosed-Mag{polarity}/Real Data/Reco16/Stripping28r2/90000000/SEMILEPTONIC.DST',
-    # run 2 MC
-    'mc-2016-sim09': '/MC/2016/Beam6500GeV-2016-Mag{polarity}-Nu1.6-25ns-Pythia8/{simcond}/Trig0x6139160F/Reco16/Turbo03a/Filtered/{decay}/D0TAUNU.SAFESTRIPTRIG.DST',
-    'mc-2016-sim09-tracker_only': '/MC/2016/Beam6500GeV-2016-Mag{polarity}-TrackerOnly-Nu1.6-25ns-Pythia8/{simcond}/Reco16/Filtered/{decay}/D0TAUNU.SAFESTRIPTRIG.DST',
-    # run 2 cocktail
-    'cutflow_mc-2016-sim09': '/MC/2016/Beam6500GeV-2016-Mag{polarity}-Nu1.6-25ns-Pythia8/{simcond}/Trig0x6138160F/Reco16/Turbo03/Stripping26NoPrescalingFlagged/11874091/ALLSTREAMS.DST',
+    # run 1 RDX data
+    'run1-rdx-std-2011': '/LHCb/Collision11/Beam3500GeV-VeloClosed-Mag{polarity}/Real Data/Reco14/Stripping21r1/90000000/SEMILEPTONIC.DST',
+    'run1-rdx-std-2012': '/LHCb/Collision12/Beam4000GeV-VeloClosed-Mag{polarity}/Real Data/Reco14/Stripping21/90000000/SEMILEPTONIC.DST',
+    # run 1 RDX MC
+    'run1-rdx-mc-2012-sim08': '/MC/2012/Beam4000GeV-2012-Mag{polarity}-Nu2.5-{pythia}/{simcond}/Digi13/Trig0x409f0045/Reco14a/Stripping20Filtered/{decay}/DSTTAUNU.SAFESTRIPTRIG.DST',
+    'run1-rdx-mc-2012-sim09': '/MC/2012/Beam4000GeV-2012-Mag{polarity}-NoRICHesSim-Nu2.5-{pythia}/{simcond}/Trig0x409f0045-NoRichPIDLines/Reco14c/Stripping21Filtered/{decay}/DSTTAUNU.SAFESTRIPTRIG.DST',
+    # run 1 RDX cocktail
+    'run2-rdx-cutflow_mc-2011-sim08': '/MC/2011/Beam3500GeV-2011-Mag{polarity}-Nu2-Pythia8/{simcond}/Digi13/Trig0x40760037/Reco14c/Stripping20r1NoPrescalingFlagged/11874091/ALLSTREAMS.DST',
+    # run 2 RDX data
+    'run2-rdx-std-2015': '/LHCb/Collision15/Beam6500GeV-VeloClosed-Mag{polarity}/Real Data/Reco15a/Stripping24r2/90000000/SEMILEPTONIC.DST',
+    'run2-rdx-std-2016': '/LHCb/Collision16/Beam6500GeV-VeloClosed-Mag{polarity}/Real Data/Reco16/Stripping28r2/90000000/SEMILEPTONIC.DST',
+    # run 2 RDX MC
+    'run2-rdx-mc-2016-sim09': '/MC/2016/Beam6500GeV-2016-Mag{polarity}-Nu1.6-25ns-Pythia8/{simcond}/Trig0x6139160F/Reco16/Turbo03a/Filtered/{decay}/D0TAUNU.SAFESTRIPTRIG.DST',
+    'run2-rdx-mc-2016-sim09-tracker_only': '/MC/2016/Beam6500GeV-2016-Mag{polarity}-TrackerOnly-Nu1.6-25ns-Pythia8/{simcond}/Reco16/Filtered/{decay}/D0TAUNU.SAFESTRIPTRIG.DST',
+    # run 2 RDX cocktail
+    'run2-rdx-cutflow_mc-2016-sim09': '/MC/2016/Beam6500GeV-2016-Mag{polarity}-Nu1.6-25ns-Pythia8/{simcond}/Trig0x6138160F/Reco16/Turbo03/Stripping26NoPrescalingFlagged/11874091/ALLSTREAMS.DST',
 }
-LFN_PATH['cutflow_data-2012'] = LFN_PATH['std-2012']
-LFN_PATH['cutflow_data-2016'] = LFN_PATH['std-2016']
+LFN_PATH['run1-rdx-cutflow_data-2012'] = LFN_PATH['run1-rdx-std-2012']
+LFN_PATH['run2-rdx-cutflow_data-2016'] = LFN_PATH['run2-rdx-std-2016']
 
 MC_PYTHIA = ['Pythia6', 'Pythia8']
 MC_POLARITY = {'mu': 'Up', 'md': 'Down'}
@@ -93,8 +92,10 @@ def parse_cond_file_name(cond_file):
     return result, reco_type, additional_flags
 
 
-def gen_lfn_key(reco_type, fields):
-    key = reco_type + '-' + fields['year']
+def gen_lfn_key(cond_file, reco_type, fields):
+    analysis = Path(cond_file).parent.parent.stem
+    key = f'{analysis}-{reco_type}-{fields["year"]}'
+
     if 'simcond' in fields:
         key += '-' + fields['simcond'][:-1]
     if 'additional_flags' in fields and \
@@ -120,12 +121,12 @@ def gen_lfn_path(lfn, fields, additional_fields,
         lfn = lfn.format(**fields)
         lfn_jobname = lfn.replace(' ', '_').replace('/', '_')[1:]  # Remove the prefix '_'
         return lfn, lfn_jobname
-    except KeyError:
+    except KeyError as e:
         if bool(additional_fields):
             key, value = additional_fields.popitem(last=False)
             fields[key] = value
             return gen_lfn_path(lfn, fields, additional_fields)
-        raise KeyError
+        raise KeyError from e
 
 
 #################################
@@ -183,7 +184,7 @@ reco_sample = parse_reco_script_name(args.reco_script)
 #print('Fields from cond file: {}'.format(fields))
 
 # Try to add missing fields required to reconstruct LFNs
-lfn_key = gen_lfn_key(reco_type, fields)
+lfn_key = gen_lfn_key(args.cond_file, reco_type, fields)
 lfn, lfn_jobname = gen_lfn_path(
     LFN_PATH[lfn_key], fields,
     odict({'polarity': args.polarity,
