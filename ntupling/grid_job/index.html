@@ -400,6 +400,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#annex-ntuples" class="md-nav__link">
+    Annex ntuples
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#appendix" class="md-nav__link">
     Appendix
   </a>
@@ -1168,6 +1175,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#annex-ntuples" class="md-nav__link">
+    Annex ntuples
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#appendix" class="md-nav__link">
     Appendix
   </a>
@@ -1381,6 +1395,7 @@ about your jobs and download output of completed (sub)jobs.</p>
 <div class="admonition warning">
 <p class="admonition-title">Before you proceed</p>
 <p>Clone <code>lhcb-ntuples-gen</code> on <code>glacier</code> and setup <code>git-annex</code> normally.</p>
+<p>Also don't forget to do <code>make install-dep</code> in the nix shell!</p>
 </div>
 <p>We prefer to not merge <code>.root</code> files at all. Still, we need to give output files sane
 names and skim them to remove unneeded branches.</p>
@@ -1404,8 +1419,8 @@ jobs with a index that is greater or equal to the specified index.</p>
 </li>
 <li>
 <p>Edit the following variables in <code>batch_skim.sh</code>:</p>
-<div class="highlight"><pre><span></span><code>INPUT_DIR=/dev/null  # NOTE: Configure this before proceed!!!
-SKIM_CONFIG=./postprocess/skims/rdx_mc.yml  # NOTE: Make sure you pick the right one!!!
+<div class="highlight"><pre><span></span><code><span class="nv">INPUT_DIR</span><span class="o">=</span>/dev/null  <span class="c1"># NOTE: Configure this before proceed!!!</span>
+<span class="nv">SKIM_CONFIG</span><span class="o">=</span>./postprocess/skims/rdx_mc.yml  <span class="c1"># NOTE: Make sure you pick the right one!!!</span>
 </code></pre></div>
 </li>
 <li>
@@ -1417,9 +1432,24 @@ want to proceed job index <code>63</code>, then copy the folder <code>63</code> 
 </div>
 </li>
 <li>
-<p>Go into a nix shell in your <code>lhcb-ntuples-gen</code> with <code>nix develope</code></p>
+<p>Go into a nix shell in your <code>lhcb-ntuples-gen</code> with <code>nix develop</code>, then in
+    the project root, run:</p>
+<div class="highlight"><pre><span></span><code>./batch_skim.sh ntuples/&lt;folder_to_ntuple_output&gt;
+</code></pre></div>
+<p>For example, <code>&lt;folder_to_ntuple_output&gt;</code> can be:</p>
+<div class="highlight"><pre><span></span><code>0.9.6-2016-production/Dst_D0-mc-tracker-only
+</code></pre></div>
 </li>
 </ol>
+<h2 id="annex-ntuples">Annex ntuples</h2>
+<p>Use <code>git anenx copy</code> normally, then inform <strong>Manuel or Yipeng</strong>. They'll pull the ntuples
+to the public <code>lhcb-ntuples-gen</code> on <code>glacier</code>. Then you wan use <code>git annex drop</code>
+to remove your local copy (More on this later).</p>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>For more info on <code>git-annex</code> usage, review the
+<a href="../../software_manuals/git_annex/"><code>git-annex</code> entry</a>.</p>
+</div>
 <h2 id="appendix">Appendix</h2>
 <h3 id="sample-batch_skimsh">Sample <code>batch_skim.sh</code></h3>
 <div class="highlight"><pre><span></span><code><span class="ch">#!/usr/bin/env bash</span>
