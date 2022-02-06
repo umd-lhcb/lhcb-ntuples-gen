@@ -1068,7 +1068,8 @@ permission to <code>julian</code>, the <code>git-annex</code> server where our n
 We have a private server, <code>julian</code>, that hosts <code>git-annex</code> files.</p>
 <div class="highlight"><pre><span></span><code>git clone git@github.com:umd-lhcb/lhcb-ntuples-gen
 <span class="nb">cd</span> lhcb-ntuples-gen
-git remote add julian git@129.2.92.92:lhcb-ntuples-gen
+<span class="c1">#git remote add julian git@129.2.92.92:lhcb-ntuples-gen  # not needed unless you want to copy to julian</span>
+git remote add glacier git@129.2.92.85:lhcb-ntuples-gen
 git annex init --version<span class="o">=</span><span class="m">7</span>
 git submodule update --init  <span class="c1"># Do this before git annex sync to avoid potential mess-up of submodule pointers!</span>
 git annex sync
