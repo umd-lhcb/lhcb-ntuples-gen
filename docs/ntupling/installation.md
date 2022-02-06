@@ -9,7 +9,8 @@ We have a private server, `julian`, that hosts `git-annex` files.
 ```shell
 git clone git@github.com:umd-lhcb/lhcb-ntuples-gen
 cd lhcb-ntuples-gen
-git remote add julian git@129.2.92.92:lhcb-ntuples-gen
+#git remote add julian git@129.2.92.92:lhcb-ntuples-gen  # not needed unless you want to copy to julian
+git remote add glacier git@129.2.92.85:lhcb-ntuples-gen
 git annex init --version=7
 git submodule update --init  # Do this before git annex sync to avoid potential mess-up of submodule pointers!
 git annex sync
