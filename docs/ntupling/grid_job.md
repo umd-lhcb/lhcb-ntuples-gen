@@ -200,19 +200,24 @@ remake_uncompleted_job(63)
     Unfortunately the `backend` option is read-only for existing jobs, so we
     have to remake a new job.
 
+!!! info "Manage `ganga` job output"
+    You need to keep `ganga` running in a `lxplus` session to get up-to-date info
+    about your jobs and download output of completed (sub)jobs.
+
 
 ## Skimming and annexing of GRID ntuples
 
-!!! error "STOP"
-    This is a work in progress. DO NOT read further until this is removed.
+### Offline skimming
 
-### Manage `ganga` job output
+!!! warning "Before you proceed"
 
-You need to keep `ganga` running in a `lxplus` session to get up-to-date info
-about your jobs and download output of completed (sub)jobs.
+    Clone `lhcb-ntuples-gen` on `glacier` and setup `git-annex` normally.
 
-We prefer to merge all output `.root` files from subjobs. There's a helper
-`ganga` function written by Yipeng for that [^1]. To use it:
+We prefer to not merge `.root` files at all. Still, we need to give output files sane
+names and skim them to remove unneeded branches.
+
+Yipeng has prepared a `ganga` function that generates a `bash` script to aid the process.
+To use it:
 
 1. In `ganga` shell, type in `hadd_completed_job_output(63)`, where `63` is some job index.
 
@@ -221,93 +226,76 @@ We prefer to merge all output `.root` files from subjobs. There's a helper
         contains commands to merge output `.root` files for **all** completed
         jobs with a index that is greater or equal to the specified index.
 
-2. Change the `INPUT_DIR` variable of the script to your ganga output workspace
+    A script naed `batch_skim.sh` will be generated in `$HOME` on `lxplus`.
 
-3. `chmod+x batch_hadd.sh`, then run it with `./batch_hadd.sh <output_dir_for_merged_ntuple>`
+    A sample `batch_skim.sh` is displayed [here](#sample-batch_skimsh).
 
-    !!! note
-        The `batch_hadd.sh` script will check the outputs of the jobs so that:
+2. Copy `batch_skim.sh` to your `lhcb-ntuples-gen` root folder on `glacier`,
+    then give it execution permission with `chmod +x batch_skim.sh`.
 
-        1. Every single subjob contains a `*.root` file.
-        2. The `*.root` file has a size of at least 500 KiB.
+3. Edit the following variables in `batch_skim.sh`:
 
-    !!! info
-        A generated `batch_hadd.sh` looks like this:
+    ```
+    INPUT_DIR=/dev/null  # NOTE: Configure this before proceed!!!
+    SKIM_CONFIG=./postprocess/skims/rdx_mc.yml  # NOTE: Make sure you pick the right one!!!
+    ```
 
-        ```bash
-        #!/usr/bin/env bash
-        INPUT_DIR=/afs/cern.ch/user/s/suny/work/gangadir/workspace/suny/LocalXML
-        OUTPUT_DIR=$1
-        MIN_NTUPLE_SIZE=500  # in KiB
+4. Use `scp` to copy finished jobs to some folder under in your `$HOME` on `glacier`
 
-        # User-specific settings, change them according to your environment!
-        LNG_PATH=$HOME/eos/src/lhcb-ntuples-gen
-        YAML_PATH=$LNG_PATH/postprocess/skims/rdx_mc.yml
-        BIN_PATH=$LNG_PATH/scripts
+    !!! example
+        Say your `gangadir` is at `~/eos/gangadir-workspace/suny/LocalXML`, and you
+        want to proceed job index `63`, then copy the folder `63` to `glacier`.
+
+5. Go into a nix shell in your `lhcb-ntuples-gen` with `nix develope`
 
 
-        function check_job () {
-          local error=0
-          local job_dir=${INPUT_DIR}/$1
+## Appendix
 
-          echo "Verifying output for Job $1..."
+### Sample `batch_skim.sh`
 
-          for sj in $(ls $job_dir | grep -E "^[0-9]$"); do
-            local file=$(find $job_dir/$sj/output -name '*.root')
-
-            if [[ -z $file ]]; then
-              let "error++"
-              echo "subjob $sj: ntuple missing!"
-            else
-              local size=$(du -b $file | awk '{print int($1 / 1024)}')  # in KiB
-              if [ $size -lt ${MIN_NTUPLE_SIZE} ]; then
-                let "error++"
-                echo "subjob $sj: ntuple has a size of $size KiB, which is too small!"
-              fi
-            fi
-          done
-
-          if [ $error -gt 0 ]; then
-            echo "Job $1 output verification failed with $error error(s)."
-          fi
-
-          return $error
-        }
-
-        function concat_job () {
-          check_job $1
-
-          if [ $? -eq 0 ]; then
-            python2 $BIN_PATH/haddcut.py ${OUTPUT_DIR}/$3 ${INPUT_DIR}/$1/*/output/$2 \
-                -c $YAML_PATH
-          fi
-        }
-
-        concat_job 110 mc.root Dst_D0--21_04_21--mc--MC_2016_Beam6500GeV-2016-MagDown-Nu1.6-25ns-Pythia8_Sim09j_Trig0x6139160F_Reco16_Turbo03a_Filtered_11574021_D0TAUNU.SAFESTRIPTRIG.DST.root
-        concat_job 111 mc.root Dst_D0--21_04_21--mc--tracker_only--MC_2016_Beam6500GeV-2016-MagDown-TrackerOnly-Nu1.6-25ns-Pythia8_Sim09j_Reco16_Filtered_11574021_D0TAUNU.SAFESTRIPTRIG.DST.root
-        ```
-
-    !!! warning
-        In the script above, the `INPUT_DIR`, `LNG_PATH` and `YAML_PATH` should
-        be configured by user.
-
-4. For `ganga` jobs submitted with the latest submitter, the actual ntuple
-    filename is stored as `comment` attribute of a job. With the latest
-    `hadd_completed_job_output`, correct ntuple filenames are used directly.
-
-    !!! info
-        The reason to use the super long filename that is derived directly from
-        LFN is:
-        The trimmed name lacks important info, such as simulation condition. If
-        we don't include them in the filename, eventually they'll be forgotten.
-
-    !!! info
-        To rename or relocate already annexed files, treat them as regular
-        files added in `git`.
-
-        For more details, refer to [this section](../software_manuals/git_annex.md#change-the-name-of-annexed-files)
-        of the `git-annex` manual.
+```bash
+#!/usr/bin/env bash
+INPUT_DIR=/dev/null  # NOTE: Configure this before proceed!!!
+SKIM_CONFIG=./postprocess/skims/rdx_mc.yml  # NOTE: Make sure you pick the right one!!!
+OUTPUT_DIR=$1
+MIN_NTUPLE_SIZE=500  # in KiB
 
 
-[^1]: There's an official way to merge `.root` files with `ganga`, but the
-      method described in the main text offers checks to job output ntuples.
+function check_job () {
+  local error=0
+  local job_dir=${INPUT_DIR}/$1
+
+  echo "Verifying output for Job $1..."
+
+  for sj in $(ls $job_dir | grep -E "^[0-9].*$"); do
+    local file=$(find $job_dir/$sj/output -name '*.root')
+
+    if [[ -z $file ]]; then
+      let "error++"
+      echo "subjob $sj: ntuple missing!"
+    else
+      local size=$(du -b $file | awk '{print int($1 / 1024)}')  # in KiB
+      if [ $size -lt ${MIN_NTUPLE_SIZE} ]; then
+        let "error++"
+        echo "subjob $sj: ntuple has a size of $size KiB, which is too small!"
+      fi
+    fi
+  done
+
+  if [ $error -gt 0 ]; then
+    echo "Job $1 output verification failed with $error error(s)."
+  fi
+
+  return $error
+}
+
+function concat_job () {
+  check_job $1
+
+  if [ $? -eq 0 ]; then
+    ./ganga/ganga_skim_job_output.py ${OUTPUT_DIR}/$2 ${INPUT_DIR}/$1 ${SKIM_CONFIG}
+  fi
+}
+
+concat_job 177 Dst_D0--22_02_03--mc--tracker_only--MC_2016_Beam6500GeV-2016-MagUp-TrackerOnly-Nu1.6-25ns-Pythia8_Sim09k_Reco16_Filtered_13674000_D0TAUNU.SAFESTRIPTRIG.DST.root
+```
