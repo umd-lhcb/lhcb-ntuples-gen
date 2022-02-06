@@ -388,8 +388,28 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#manage-ganga-job-output" class="md-nav__link">
-    Manage ganga job output
+  <a href="#offline-skimming" class="md-nav__link">
+    Offline skimming
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#appendix" class="md-nav__link">
+    Appendix
+  </a>
+  
+    <nav class="md-nav" aria-label="Appendix">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sample-batch_skimsh" class="md-nav__link">
+    Sample batch_skim.sh
   </a>
   
 </li>
@@ -1136,8 +1156,28 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#manage-ganga-job-output" class="md-nav__link">
-    Manage ganga job output
+  <a href="#offline-skimming" class="md-nav__link">
+    Offline skimming
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#appendix" class="md-nav__link">
+    Appendix
+  </a>
+  
+    <nav class="md-nav" aria-label="Appendix">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sample-batch_skimsh" class="md-nav__link">
+    Sample batch_skim.sh
   </a>
   
 </li>
@@ -1331,16 +1371,21 @@ simple <code>job[63].resubmit()</code> won't resubmit these killed jobs. To resu
 <p>Unfortunately the <code>backend</code> option is read-only for existing jobs, so we
 have to remake a new job.</p>
 </div>
-<h2 id="skimming-and-annexing-of-grid-ntuples">Skimming and annexing of GRID ntuples</h2>
-<div class="admonition error">
-<p class="admonition-title">STOP</p>
-<p>This is a work in progress. DO NOT read further until this is removed.</p>
-</div>
-<h3 id="manage-ganga-job-output">Manage <code>ganga</code> job output</h3>
+<div class="admonition info">
+<p class="admonition-title">Manage <code>ganga</code> job output</p>
 <p>You need to keep <code>ganga</code> running in a <code>lxplus</code> session to get up-to-date info
 about your jobs and download output of completed (sub)jobs.</p>
-<p>We prefer to merge all output <code>.root</code> files from subjobs. There's a helper
-<code>ganga</code> function written by Yipeng for that <sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup>. To use it:</p>
+</div>
+<h2 id="skimming-and-annexing-of-grid-ntuples">Skimming and annexing of GRID ntuples</h2>
+<h3 id="offline-skimming">Offline skimming</h3>
+<div class="admonition warning">
+<p class="admonition-title">Before you proceed</p>
+<p>Clone <code>lhcb-ntuples-gen</code> on <code>glacier</code> and setup <code>git-annex</code> normally.</p>
+</div>
+<p>We prefer to not merge <code>.root</code> files at all. Still, we need to give output files sane
+names and skim them to remove unneeded branches.</p>
+<p>Yipeng has prepared a <code>ganga</code> function that generates a <code>bash</code> script to aid the process.
+To use it:</p>
 <ol>
 <li>
 <p>In <code>ganga</code> shell, type in <code>hadd_completed_job_output(63)</code>, where <code>63</code> is some job index.</p>
@@ -1350,32 +1395,38 @@ about your jobs and download output of completed (sub)jobs.</p>
 contains commands to merge output <code>.root</code> files for <strong>all</strong> completed
 jobs with a index that is greater or equal to the specified index.</p>
 </div>
+<p>A script naed <code>batch_skim.sh</code> will be generated in <code>$HOME</code> on <code>lxplus</code>.</p>
+<p>A sample <code>batch_skim.sh</code> is displayed <a href="#sample-batch_skimsh">here</a>.</p>
 </li>
 <li>
-<p>Change the <code>INPUT_DIR</code> variable of the script to your ganga output workspace</p>
+<p>Copy <code>batch_skim.sh</code> to your <code>lhcb-ntuples-gen</code> root folder on <code>glacier</code>,
+    then give it execution permission with <code>chmod +x batch_skim.sh</code>.</p>
 </li>
 <li>
-<p><code>chmod+x batch_hadd.sh</code>, then run it with <code>./batch_hadd.sh &lt;output_dir_for_merged_ntuple&gt;</code></p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>The <code>batch_hadd.sh</code> script will check the outputs of the jobs so that:</p>
-<ol>
-<li>Every single subjob contains a <code>*.root</code> file.</li>
-<li>The <code>*.root</code> file has a size of at least 500 KiB.</li>
-</ol>
+<p>Edit the following variables in <code>batch_skim.sh</code>:</p>
+<div class="highlight"><pre><span></span><code>INPUT_DIR=/dev/null  # NOTE: Configure this before proceed!!!
+SKIM_CONFIG=./postprocess/skims/rdx_mc.yml  # NOTE: Make sure you pick the right one!!!
+</code></pre></div>
+</li>
+<li>
+<p>Use <code>scp</code> to copy finished jobs to some folder under in your <code>$HOME</code> on <code>glacier</code></p>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<p>Say your <code>gangadir</code> is at <code>~/eos/gangadir-workspace/suny/LocalXML</code>, and you
+want to proceed job index <code>63</code>, then copy the folder <code>63</code> to <code>glacier</code>.</p>
 </div>
-<div class="admonition info">
-<p class="admonition-title">Info</p>
-<p>A generated <code>batch_hadd.sh</code> looks like this:</p>
+</li>
+<li>
+<p>Go into a nix shell in your <code>lhcb-ntuples-gen</code> with <code>nix develope</code></p>
+</li>
+</ol>
+<h2 id="appendix">Appendix</h2>
+<h3 id="sample-batch_skimsh">Sample <code>batch_skim.sh</code></h3>
 <div class="highlight"><pre><span></span><code><span class="ch">#!/usr/bin/env bash</span>
-<span class="nv">INPUT_DIR</span><span class="o">=</span>/afs/cern.ch/user/s/suny/work/gangadir/workspace/suny/LocalXML
+<span class="nv">INPUT_DIR</span><span class="o">=</span>/dev/null  <span class="c1"># NOTE: Configure this before proceed!!!</span>
+<span class="nv">SKIM_CONFIG</span><span class="o">=</span>./postprocess/skims/rdx_mc.yml  <span class="c1"># NOTE: Make sure you pick the right one!!!</span>
 <span class="nv">OUTPUT_DIR</span><span class="o">=</span><span class="nv">$1</span>
 <span class="nv">MIN_NTUPLE_SIZE</span><span class="o">=</span><span class="m">500</span>  <span class="c1"># in KiB</span>
-
-<span class="c1"># User-specific settings, change them according to your environment!</span>
-<span class="nv">LNG_PATH</span><span class="o">=</span><span class="nv">$HOME</span>/eos/src/lhcb-ntuples-gen
-<span class="nv">YAML_PATH</span><span class="o">=</span><span class="nv">$LNG_PATH</span>/postprocess/skims/rdx_mc.yml
-<span class="nv">BIN_PATH</span><span class="o">=</span><span class="nv">$LNG_PATH</span>/scripts
 
 
 <span class="k">function</span> check_job <span class="o">()</span> <span class="o">{</span>
@@ -1384,7 +1435,7 @@ jobs with a index that is greater or equal to the specified index.</p>
 
   <span class="nb">echo</span> <span class="s2">&quot;Verifying output for Job </span><span class="nv">$1</span><span class="s2">...&quot;</span>
 
-  <span class="k">for</span> sj <span class="k">in</span> <span class="k">$(</span>ls <span class="nv">$job_dir</span> <span class="p">|</span> grep -E <span class="s2">&quot;^[0-9]</span>$<span class="s2">&quot;</span><span class="k">)</span><span class="p">;</span> <span class="k">do</span>
+  <span class="k">for</span> sj <span class="k">in</span> <span class="k">$(</span>ls <span class="nv">$job_dir</span> <span class="p">|</span> grep -E <span class="s2">&quot;^[0-9].*</span>$<span class="s2">&quot;</span><span class="k">)</span><span class="p">;</span> <span class="k">do</span>
     <span class="nb">local</span> <span class="nv">file</span><span class="o">=</span><span class="k">$(</span>find <span class="nv">$job_dir</span>/<span class="nv">$sj</span>/output -name <span class="s1">&#39;*.root&#39;</span><span class="k">)</span>
 
     <span class="k">if</span> <span class="o">[[</span> -z <span class="nv">$file</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then</span>
@@ -1410,50 +1461,12 @@ jobs with a index that is greater or equal to the specified index.</p>
   check_job <span class="nv">$1</span>
 
   <span class="k">if</span> <span class="o">[</span> <span class="nv">$?</span> -eq <span class="m">0</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
-    python2 <span class="nv">$BIN_PATH</span>/haddcut.py <span class="si">${</span><span class="nv">OUTPUT_DIR</span><span class="si">}</span>/<span class="nv">$3</span> <span class="si">${</span><span class="nv">INPUT_DIR</span><span class="si">}</span>/<span class="nv">$1</span>/*/output/<span class="nv">$2</span> <span class="se">\</span>
-        -c <span class="nv">$YAML_PATH</span>
+    ./ganga/ganga_skim_job_output.py <span class="si">${</span><span class="nv">OUTPUT_DIR</span><span class="si">}</span>/<span class="nv">$2</span> <span class="si">${</span><span class="nv">INPUT_DIR</span><span class="si">}</span>/<span class="nv">$1</span> <span class="si">${</span><span class="nv">SKIM_CONFIG</span><span class="si">}</span>
   <span class="k">fi</span>
 <span class="o">}</span>
 
-concat_job <span class="m">110</span> mc.root Dst_D0--21_04_21--mc--MC_2016_Beam6500GeV-2016-MagDown-Nu1.6-25ns-Pythia8_Sim09j_Trig0x6139160F_Reco16_Turbo03a_Filtered_11574021_D0TAUNU.SAFESTRIPTRIG.DST.root
-concat_job <span class="m">111</span> mc.root Dst_D0--21_04_21--mc--tracker_only--MC_2016_Beam6500GeV-2016-MagDown-TrackerOnly-Nu1.6-25ns-Pythia8_Sim09j_Reco16_Filtered_11574021_D0TAUNU.SAFESTRIPTRIG.DST.root
+concat_job <span class="m">177</span> Dst_D0--22_02_03--mc--tracker_only--MC_2016_Beam6500GeV-2016-MagUp-TrackerOnly-Nu1.6-25ns-Pythia8_Sim09k_Reco16_Filtered_13674000_D0TAUNU.SAFESTRIPTRIG.DST.root
 </code></pre></div>
-</div>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>In the script above, the <code>INPUT_DIR</code>, <code>LNG_PATH</code> and <code>YAML_PATH</code> should
-be configured by user.</p>
-</div>
-</li>
-<li>
-<p>For <code>ganga</code> jobs submitted with the latest submitter, the actual ntuple
-    filename is stored as <code>comment</code> attribute of a job. With the latest
-    <code>hadd_completed_job_output</code>, correct ntuple filenames are used directly.</p>
-<div class="admonition info">
-<p class="admonition-title">Info</p>
-<p>The reason to use the super long filename that is derived directly from
-LFN is:
-The trimmed name lacks important info, such as simulation condition. If
-we don't include them in the filename, eventually they'll be forgotten.</p>
-</div>
-<div class="admonition info">
-<p class="admonition-title">Info</p>
-<p>To rename or relocate already annexed files, treat them as regular
-files added in <code>git</code>.</p>
-<p>For more details, refer to <a href="../../software_manuals/git_annex/#change-the-name-of-annexed-files">this section</a>
-of the <code>git-annex</code> manual.</p>
-</div>
-</li>
-</ol>
-<div class="footnote">
-<hr />
-<ol>
-<li id="fn:1">
-<p>There's an official way to merge <code>.root</code> files with <code>ganga</code>, but the
-  method described in the main text offers checks to job output ntuples.&#160;<a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 1 in the text">&#8617;</a></p>
-</li>
-</ol>
-</div>
 
               
             </article>
