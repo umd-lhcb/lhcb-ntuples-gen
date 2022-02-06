@@ -213,6 +213,8 @@ remake_uncompleted_job(63)
 
     Clone `lhcb-ntuples-gen` on `glacier` and setup `git-annex` normally.
 
+    Also don't forget to do `make install-dep` in the nix shell!
+
 We prefer to not merge `.root` files at all. Still, we need to give output files sane
 names and skim them to remove unneeded branches.
 
@@ -235,7 +237,7 @@ To use it:
 
 3. Edit the following variables in `batch_skim.sh`:
 
-    ```
+    ```bash
     INPUT_DIR=/dev/null  # NOTE: Configure this before proceed!!!
     SKIM_CONFIG=./postprocess/skims/rdx_mc.yml  # NOTE: Make sure you pick the right one!!!
     ```
@@ -246,7 +248,29 @@ To use it:
         Say your `gangadir` is at `~/eos/gangadir-workspace/suny/LocalXML`, and you
         want to proceed job index `63`, then copy the folder `63` to `glacier`.
 
-5. Go into a nix shell in your `lhcb-ntuples-gen` with `nix develope`
+5. Go into a nix shell in your `lhcb-ntuples-gen` with `nix develop`, then in
+    the project root, run:
+
+    ```
+    ./batch_skim.sh ntuples/<folder_to_ntuple_output>
+    ```
+
+    For example, `<folder_to_ntuple_output>` can be:
+
+    ```
+    0.9.6-2016-production/Dst_D0-mc-tracker-only
+    ```
+
+
+## Annex ntuples
+
+Use `git anenx copy` normally, then inform **{{ admin }}**. They'll pull the ntuples
+to the public `lhcb-ntuples-gen` on `glacier`. Then you wan use `git annex drop`
+to remove your local copy (More on this later).
+
+!!! info
+    For more info on `git-annex` usage, review the
+    [`git-annex` entry](../software_manuals/git_annex.md).
 
 
 ## Appendix
