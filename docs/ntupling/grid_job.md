@@ -268,6 +268,18 @@ Use `git anenx copy` normally, then inform **{{ admin }}**. They'll pull the ntu
 to the public `lhcb-ntuples-gen` on `glacier`. Then you wan use `git annex drop`
 to remove your local copy (More on this later).
 
+!!! example
+    Say you are working on `ntuples/0.9.6-2016-production/Dst_D0-mc-tracker-only`, the simplest
+    way to annex your latest additional ntuples is this:
+
+    ```
+    cd ntuples/0.9.6-2016-production/Dst_D0-mc-tracker-only
+    git annex add .
+    ```
+
+    It is safe to do so, because `git-annex` is smart enough to skim already
+    annexed files.
+
 !!! info
     For more info on `git-annex` usage, review the
     [`git-annex` entry](../software_manuals/git_annex.md).
