@@ -5,7 +5,7 @@ export PATH=$DIR/../../ganga:$PATH
 #EXE=ganga_sample_jobs_parser.py
 EXE=ganga_jobs.py
 
-for i in 11894600 11894200 12896300 12896310; do
+for i in 11894600 11894200 12893600 12893610; do
     for p in md mu; do
         $EXE \
             ../reco_Dst_D0.py \
