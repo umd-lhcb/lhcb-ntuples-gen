@@ -1,6 +1,6 @@
 # Author: Greg Ciezarek, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Jan 05, 2022 at 10:01 PM +0100
+# Last Change: Mon Feb 07, 2022 at 05:44 PM -0500
 #
 # Description: Definitions of selection and reconstruction procedures for run 2
 #              J/psi K calibration sample.
@@ -84,21 +84,11 @@ def tuple_spec_data(name, sel_seq, template,
                         # L0
                         'L0HadronDecision',
                         'L0MuonDecision',
-                        'L0DiMuonDecision',
                         # HLT 1
-                        'Hlt1TrackAllL0Decision',
-                        'Hlt1TrackMuonDecision',
+                        'Hlt1TrackMVADecision',
+                        'Hlt1TwoTrackMVADecision',
                         # HLT 2
-                        'Hlt2Topo2BodyBBDTDecision',
-                        'Hlt2Topo3BodyBBDTDecision',
-                        'Hlt2Topo4BodyBBDTDecision',
-                        'Hlt2TopoMu2BodyBBDTDecision',
-                        'Hlt2TopoMu3BodyBBDTDecision',
-                        'Hlt2TopoMu4BodyBBDTDecision',
-                        'Hlt2DiMuonDecision',
-                        'Hlt2DiMuonJPsiDecision',
-                        'Hlt2DiMuonDetachedDecision',
-                        'Hlt2DiMuonDetachedJPsiDecision'
+                        'Hlt2XcMuXForTauB2XcMuDecision'
                     ]
                     ):
     tp = DecayTreeTuple(name)
@@ -124,7 +114,6 @@ def tuple_spec_data(name, sel_seq, template,
 
     tt_app_iso = getattr(tp, B_meson).addTupleTool('TupleToolApplyIsolation')
     tt_app_iso.WeightsFile = weights
-    # tt_app_iso.OutputSuffix = ''
 
     return tp
 
