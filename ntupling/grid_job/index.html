@@ -1445,6 +1445,16 @@ want to proceed job index <code>63</code>, then copy the folder <code>63</code> 
 <p>Use <code>git anenx copy</code> normally, then inform <strong>Manuel or Yipeng</strong>. They'll pull the ntuples
 to the public <code>lhcb-ntuples-gen</code> on <code>glacier</code>. Then you wan use <code>git annex drop</code>
 to remove your local copy (More on this later).</p>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<p>Say you are working on <code>ntuples/0.9.6-2016-production/Dst_D0-mc-tracker-only</code>, the simplest
+way to annex your latest additional ntuples is this:</p>
+<div class="highlight"><pre><span></span><code>cd ntuples/0.9.6-2016-production/Dst_D0-mc-tracker-only
+git annex add .
+</code></pre></div>
+<p>It is safe to do so, because <code>git-annex</code> is smart enough to skim already
+annexed files.</p>
+</div>
 <div class="admonition info">
 <p class="admonition-title">Info</p>
 <p>For more info on <code>git-annex</code> usage, review the
