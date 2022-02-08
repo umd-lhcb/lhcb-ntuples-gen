@@ -1,6 +1,6 @@
 # Author: Greg Ciezarek, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Feb 07, 2022 at 05:44 PM -0500
+# Last Change: Mon Feb 07, 2022 at 10:18 PM -0500
 #
 # Description: Definitions of selection and reconstruction procedures for run 2
 #              J/psi K calibration sample.
@@ -92,13 +92,13 @@ def tuple_spec_data(name, sel_seq, template,
                     ]
                     ):
     tp = DecayTreeTuple(name)
+    tp.NTupleDir = ''  # From Greg, might be interesting
+    tp.TupleName = name
 
     tp_input = sel_seq if isinstance(sel_seq, str) else sel_seq.outputLocation()
     tp.Inputs = [tp_input]
 
     tp.setDescriptorTemplate(template)
-    # tp.NTupleDir=''  # From Greg, might be interesting
-    # tp.TupleName='NotDecayTree'
 
     tp.ToolList += tools
 
@@ -126,7 +126,7 @@ else:
 
 # B- ###########################################################################
 tp_Bminus = tuple_spec(
-    'TupleBminus',
+    'tree',  # our beloved 'tree'
     tes_stripped,
     '${b}[B+ -> ${j}(J/psi(1S) -> ${amu}mu+ ${mu}mu-) ${k}K+]CC'
 )
