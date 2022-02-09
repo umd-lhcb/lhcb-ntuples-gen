@@ -79,12 +79,12 @@ job output directory. On `lxplus`:
     gangadir = /afs/cern.ch/user/s/suny/work/gangadir
     ```
 
-3. Go into your `gangadir`, create a s`workspace` symblink pointing to somewhere in your EOS.
+3. Go into your `gangadir`, create a `workspace` symblink pointing to somewhere in your EOS.
    For example:
 
-   ```
-   workspace -> /eos/home-s/suny/gangadir-workspace
-   ```
+    ```
+    workspace -> /eos/home-s/suny/gangadir-workspace
+    ```
 
 4. Copy [`ganga/ganga.sample.py`](https://github.com/umd-lhcb/lhcb-ntuples-gen/blob/master/ganga/ganga.sample.py)
    to **`$HOME/.ganga.py` on `lxplus`**.
