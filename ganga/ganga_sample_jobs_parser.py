@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Feb 03, 2022 at 02:14 PM -0500
+# Last Change: Wed Feb 09, 2022 at 12:53 PM -0500
 #
 # Description: A demonstration on ganga option file with parser.
 #              This demo runs stand-alone, provided that Python is installed:
@@ -45,6 +45,9 @@ LFN_PATH = {
 }
 LFN_PATH['run1-rdx-cutflow_data-2012'] = LFN_PATH['run1-rdx-std-2012']
 LFN_PATH['run2-rdx-cutflow_data-2016'] = LFN_PATH['run2-rdx-std-2016']
+
+LFN_PATH['run2-rdx-mu_misid-2015'] = LFN_PATH['run2-rdx-std-2015']
+LFN_PATH['run2-rdx-mu_misid-2016'] = LFN_PATH['run2-rdx-std-2016']
 
 MC_PYTHIA = ['Pythia6', 'Pythia8']
 MC_POLARITY = {'mu': 'Up', 'md': 'Down'}
