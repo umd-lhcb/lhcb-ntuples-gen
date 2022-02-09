@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Jan 05, 2022 at 07:37 PM +0100
+# Last Change: Wed Feb 09, 2022 at 10:23 AM -0500
 #
 # Description: Definitions of selection and reconstruction procedures for run 2
 #              R(D(*)). For more thorough comments, take a look at:
@@ -885,7 +885,7 @@ tuple_postprocess(tp_B0_ws_Pi)
 # Add selection & tupling sequences to DaVinci #
 ################################################
 
-if has_flag('CUTFLOW', 'MU_MISID', 'BARE'):
+if has_flag('CUTFLOW', 'BARE'):
     DaVinci().UserAlgorithms += [seq_Bminus.sequence(), seq_B0.sequence(),
                                  # ntuples
                                  tp_Bminus, tp_B0]
