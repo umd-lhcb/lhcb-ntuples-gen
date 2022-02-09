@@ -73,9 +73,20 @@ The `DaVinci` will be available at `$HOME/build/DaVinciDev_{{ davinci_ver }}`.
 job output directory. On `lxplus`:
 
 1. Run `ganga` once. This should create a `.gangarc` in `$HOME`.
-2. Locate `gangadir` option, point it to some directory that is large enough.
-   **The user's EOS directory should do**.
-3. Copy [`ganga/ganga.sample.py`](https://github.com/umd-lhcb/lhcb-ntuples-gen/blob/master/ganga/ganga.sample.py)
+2. Locate `gangadir` option, point it to **your larger AFS storage**, for example:
+
+    ```
+    gangadir = /afs/cern.ch/user/s/suny/work/gangadir
+    ```
+
+3. Go into your `gangadir`, create a s`workspace` symblink pointing to somewhere in your EOS.
+   For example:
+
+   ```
+   workspace -> /eos/home-s/suny/gangadir-workspace
+   ```
+
+4. Copy [`ganga/ganga.sample.py`](https://github.com/umd-lhcb/lhcb-ntuples-gen/blob/master/ganga/ganga.sample.py)
    to **`$HOME/.ganga.py` on `lxplus`**.
 
 
