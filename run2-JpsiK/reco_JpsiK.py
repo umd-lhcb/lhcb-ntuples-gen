@@ -1,6 +1,6 @@
 # Author: Greg Ciezarek, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Feb 08, 2022 at 12:12 AM -0500
+# Last Change: Wed Feb 09, 2022 at 02:30 PM -0500
 #
 # Description: Definitions of selection and reconstruction procedures for run 2
 #              J/psi K calibration sample.
@@ -85,22 +85,13 @@ def tuple_spec_data(name, sel_seq, template,
                         'L0HadronDecision',
                         'L0MuonDecision',
                         'L0DiMuonDecision',
+                        'L0ElectronDecision',
                         # HLT 1
-                        'Hlt1TrackAllL0Decision',
-                        'Hlt1TrackMuonDecision',
                         'Hlt1TrackMVADecision',
                         'Hlt1TwoTrackMVADecision',
+                        'Hlt1TrackMuonDecision',
                         # HLT 2
-                        'Hlt2Topo2BodyBBDTDecision',
-                        'Hlt2Topo3BodyBBDTDecision',
-                        'Hlt2Topo4BodyBBDTDecision',
-                        'Hlt2TopoMu2BodyBBDTDecision',
-                        'Hlt2TopoMu3BodyBBDTDecision',
-                        'Hlt2TopoMu4BodyBBDTDecision',
-                        'Hlt2DiMuonDecision',
-                        'Hlt2DiMuonJPsiDecision',
-                        'Hlt2DiMuonDetachedDecision',
-                        'Hlt2DiMuonDetachedJPsiDecision',
+                        'Hlt2DiMuonDetachedHeavyDecision',
                     ]
                     ):
     tp = DecayTreeTuple(name)
@@ -123,6 +114,10 @@ def tuple_spec_data(name, sel_seq, template,
     tt_tistos = really_add_tool(tp, 'TupleToolTISTOS')
     tt_tistos.Verbose = True
     tt_tistos.TriggerList = trigger_list
+
+    tt_l0_calo = really_add_tool(tp, 'TupleToolL0Calo')
+    tt_l0_calo.WhichCalo = "HCAL"
+    tt_l0_calo.TriggerClusterLocation = "/Event/Trig/L0/Calo"
 
     tt_app_iso = getattr(tp, B_meson).addTupleTool('TupleToolApplyIsolation')
     tt_app_iso.WeightsFile = weights
