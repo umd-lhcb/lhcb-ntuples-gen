@@ -1305,16 +1305,29 @@ job output directory. On <code>lxplus</code>:</p>
 </ol>
 <h3 id="submitting-a-job-with-ganga">Submitting a job with <code>ganga</code></h3>
 <p>Submitting jobs is very simple, you will simply copy a previous script that has similar features
-(eg. data, MC tracker-only), modify it appropriately, and run it. The detailed steps are
-1. Log on to <code>lxplus</code> and get a proxy with <code>lhcb-proxy-init</code>
-2. Clone <code>lhcb-ntuples-gen</code> and go to the appropriate <code>jobs</code>, for instance <code>lhcb-ntuples-gen/run2-rdx/jobs/</code>
-3. Copy a script with similar characteristics and rename it with the current date and some description, <a href="https://github.com/umd-lhcb/lhcb-ntuples-gen/blob/4b27c7dc4dd97aa1ef0efa233fe4aed836c1083a/run2-rdx/jobs/22_02_07-tracker_only_ddx_18to21.sh">for instance</a>
-<code>cp 22_02_03-tracker_only_Bs.sh 22_02_03-tracker_only_ddx_22to25.sh</code>
-4. Modify the new script appropriately, for instance adding the MC IDs that you want to run. The script automatically sends the MagDown and MagUp for each sample.
-5. Run the script, eg. <code>./22_02_03-tracker_only_ddx_22to25.sh</code>
-6. If there are no errors in the submission, commit the script to <code>git</code>
-    1. Note that an error such as <code>GangaDiracError: All the files are only available on archive SEs. It is likely the data set has been archived. Contact data management to request that it be staged (consider --debug option for more information)</code> simply means that the files that you are trying to run on do not exist, perhaps because you have a typo.
-7. Monitor the status of your jobs by entering interactive <code>ganga</code> (simply type <code>ganga</code> in <code>lxplus</code> after getting a proxy) and typing <code>jobs</code></p>
+(eg. data, MC tracker-only), modify it appropriately, and run it. The detailed steps are</p>
+<ol>
+<li>Log on to <code>lxplus</code> and get a proxy with <code>lhcb-proxy-init</code></li>
+<li>Clone <code>lhcb-ntuples-gen</code> and go to the appropriate <code>jobs</code> folder, for instance <code>lhcb-ntuples-gen/run2-rdx/jobs/</code></li>
+<li>
+<p>Copy a script with similar characteristics and rename it with the current date and some description, <a href="https://github.com/umd-lhcb/lhcb-ntuples-gen/blob/4b27c7dc4dd97aa1ef0efa233fe4aed836c1083a/run2-rdx/jobs/22_02_07-tracker_only_ddx_18to21.sh">for instance</a></p>
+<p><code>cp 22_02_03-tracker_only_Bs.sh 22_02_03-tracker_only_ddx_22to25.sh</code></p>
+</li>
+<li>
+<p>Modify the new script appropriately, for instance adding the MC IDs that you want to run. The script automatically sends the MagDown and MagUp for each sample.</p>
+</li>
+<li>
+<p>Run the script, eg.</p>
+<p><code>./22_02_03-tracker_only_ddx_22to25.sh</code></p>
+</li>
+<li>
+<p>If there are no errors in the submission, commit the script to <code>git</code></p>
+<ol>
+<li>Note that an error such as <code>GangaDiracError: All the files are only available on archive SEs. It is likely the data set has been archived. Contact data management to request that it be staged (consider --debug option for more information)</code> simply means that the files that you are trying to run on do not exist, perhaps because you have a typo.</li>
+</ol>
+</li>
+<li>Monitor the status of your jobs by entering interactive <code>ganga</code> (simply type <code>ganga</code> in <code>lxplus</code> after getting a proxy) and typing <code>jobs</code></li>
+</ol>
 <p>For this repo, there is a <strong>central</strong> <code>ganga</code> job submitter that should handle
 <strong>all</strong> job submissions for <strong>all</strong> analyses with <strong>all</strong> reconstruction
 scripts in <strong>all</strong> folders.
