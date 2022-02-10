@@ -92,23 +92,23 @@ job output directory. On `lxplus`:
 
 ### Submitting a job with `ganga`
 
+Submitting jobs is very simple, you will simply copy a previous script that has similar features
+(eg. data, MC tracker-only), modify it appropriately, and run it. The detailed steps are
+1. Log on to `lxplus` and get a proxy with `lhcb-proxy-init`
+2. Clone `lhcb-ntuples-gen` and go to the appropriate `jobs`, for instance `lhcb-ntuples-gen/run2-rdx/jobs/`
+3. Copy a script with similar characteristics and rename it with the current date and some description, [for instance](https://github.com/umd-lhcb/lhcb-ntuples-gen/blob/4b27c7dc4dd97aa1ef0efa233fe4aed836c1083a/run2-rdx/jobs/22_02_07-tracker_only_ddx_18to21.sh)
+```cp 22_02_03-tracker_only_Bs.sh 22_02_03-tracker_only_ddx_22to25.sh```
+4. Modify the new script appropriately, for instance adding the MC IDs that you want to run. The script automatically sends the MagDown and MagUp for each sample.
+5. Run the script, eg. `./22_02_03-tracker_only_ddx_22to25.sh`
+6. If there are no errors in the submission, commit the script to `git`
+    1. Note that an error such as `GangaDiracError: All the files are only available on archive SEs. It is likely the data set has been archived. Contact data management to request that it be staged (consider --debug option for more information)` simply means that the files that you are trying to run on do not exist, perhaps because you have a typo.
+7. Monitor the status of your jobs by entering interactive `ganga` (simply type `ganga` in `lxplus` after getting a proxy) and typing `jobs`
+
 For this repo, there is a **central** `ganga` job submitter that should handle
 **all** job submissions for **all** analyses with **all** reconstruction
 scripts in **all** folders.
 The script is located at: [`ganga/ganga_jobs.py`](https://github.com/umd-lhcb/lhcb-ntuples-gen/blob/master/ganga/ganga_jobs.py).
 
-!!! warning
-    - The submitter script can only run on `lxplus` nodes!
-    - It is needed to clone `lhcb-ntuples-gen` on your `lxplus`!
-
-!!! error "Before you proceed"
-    When you login to `lxplus`, you need to create a certificate proxy to access GRID.
-
-    Always do the following before doing anything `ganga`-related:
-    ```
-    lhcb-proxy-init
-    ```
-    then following instructions on screen.
 
 The general syntax is:
 ```
@@ -132,11 +132,6 @@ ganga_jobs.py run1-rdx/reco_Dst_D0.py run1-rdx/cond/cond-mc-2012-md-sim08a.py -p
     ```
 
     Most of submissions are wrapped in shell scripts. Some of them can be found [here](https://github.com/umd-lhcb/lhcb-ntuples-gen/tree/master/run2-rdx/jobs).
-
-After a successfully submission, the progress of the job can be checked with ganga:
-
-1. Launch `ganga` from a `lxplus` session
-2. In the `ganga` shell, type in `jobs`
 
 
 ### Update subjob status and force status to be "failed" when necessary
