@@ -99,45 +99,36 @@ Submitting jobs is very simple, you will simply copy a previous script that has 
 2. Clone `lhcb-ntuples-gen` and go to the appropriate `jobs` folder, for instance `lhcb-ntuples-gen/run2-rdx/jobs/`
 3. Copy a script with similar characteristics and rename it with the current date and some description, [for instance](https://github.com/umd-lhcb/lhcb-ntuples-gen/blob/4b27c7dc4dd97aa1ef0efa233fe4aed836c1083a/run2-rdx/jobs/22_02_07-tracker_only_ddx_18to21.sh)
 
-    ```cp 22_02_03-tracker_only_Bs.sh 22_02_03-tracker_only_ddx_22to25.sh```
+    ```
+    cp 22_02_03-tracker_only_Bs.sh 22_02_03-tracker_only_ddx_22to25.sh
+    ```
 
 4. Modify the new script appropriately, for instance adding the MC IDs that you want to run. The script automatically sends the MagDown and MagUp for each sample.
 5. Run the script, eg.
 
-    ```./22_02_03-tracker_only_ddx_22to25.sh```
-    
+    ```
+    ./22_02_03-tracker_only_ddx_22to25.sh
+    ```
+
 6. If there are no errors in the submission, commit the script to `git`
-    1. Note that an error such as `GangaDiracError: All the files are only available on archive SEs. It is likely the data set has been archived. Contact data management to request that it be staged (consider --debug option for more information)` simply means that the files that you are trying to run on do not exist, perhaps because you have a typo.
+
+    !!! note
+        An error such as
+
+        ```
+        GangaDiracError: All the files are only available on
+        archive SEs. It is likely the data set has been archived. Contact data
+        management to request that it be staged (consider --debug option for
+        more information)
+        ```
+
+        simply means that the files that you are trying to
+        run on do not exist, perhaps because you have a typo.
+
 7. Monitor the status of your jobs by entering interactive `ganga` (simply type `ganga` in `lxplus` after getting a proxy) and typing `jobs`
 
-For this repo, there is a **central** `ganga` job submitter that should handle
-**all** job submissions for **all** analyses with **all** reconstruction
-scripts in **all** folders.
-The script is located at: [`ganga/ganga_jobs.py`](https://github.com/umd-lhcb/lhcb-ntuples-gen/blob/master/ganga/ganga_jobs.py).
-
-
-The general syntax is:
-```
-ganga_jobs.py <reco_script> <cond_files>
-```
-
-For instance, for run 1 $R(D^{*})$ signal Monte Carlo:
-```
-ganga_jobs.py run1-rdx/reco_Dst_D0.py run1-rdx/cond/cond-mc-2012-md-sim08a.py -p mu -P Pythia6 -d 11574020
-```
-
-!!! note
-    - The `-p` and `-P` are optional. They have default values.
-    - The `-d` flag has a dummy default of `00000000`. For actual values, consult [data sources](../data/data_sources.md).
-
-!!! info
-    The usage of `ganga_jobs.py` is described by:
-
-    ```
-    ganga_jobs.py --help
-    ```
-
-    Most of submissions are wrapped in shell scripts. Some of them can be found [here](https://github.com/umd-lhcb/lhcb-ntuples-gen/tree/master/run2-rdx/jobs).
+!!! info "Usage of `ganga_jobs.py`"
+    See [this appendix](#general-usage-of-ganga_jobspy).
 
 
 ### Update subjob status and force status to be "failed" when necessary
@@ -347,3 +338,34 @@ function concat_job () {
 
 concat_job 177 Dst_D0--22_02_03--mc--tracker_only--MC_2016_Beam6500GeV-2016-MagUp-TrackerOnly-Nu1.6-25ns-Pythia8_Sim09k_Reco16_Filtered_13674000_D0TAUNU.SAFESTRIPTRIG.DST.root
 ```
+
+
+### General usage of `ganga_jobs.py`
+
+For this repo, there is a **central** `ganga` job submitter that should handle
+**all** job submissions for **all** analyses with **all** reconstruction
+scripts in **all** folders.
+The script is located at: [`ganga/ganga_jobs.py`](https://github.com/umd-lhcb/lhcb-ntuples-gen/blob/master/ganga/ganga_jobs.py). For it
+
+The general syntax is:
+```
+ganga_jobs.py <reco_script> <cond_files>
+```
+
+For instance, for run 1 $R(D^{*})$ signal Monte Carlo:
+```
+ganga_jobs.py run1-rdx/reco_Dst_D0.py run1-rdx/cond/cond-mc-2012-md-sim08a.py -p mu -P Pythia6 -d 11574020
+```
+
+!!! note
+    - The `-p` and `-P` are optional. They have default values.
+    - The `-d` flag has a dummy default of `00000000`. For actual values, consult [data sources](../data/data_sources.md).
+
+!!! info
+    The usage of `ganga_jobs.py` is described by:
+
+    ```
+    ganga_jobs.py --help
+    ```
+
+    Most of submissions are wrapped in shell scripts. Some of them can be found [here](https://github.com/umd-lhcb/lhcb-ntuples-gen/tree/master/run2-rdx/jobs).
