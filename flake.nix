@@ -70,6 +70,9 @@
 
             # Update PATH
             export PATH=$(pwd)/test:$(pwd)/workflows:$(pwd)/ganga:$(pwd)/scripts:$PATH
+
+            # Filter out tensorflow warning
+            export TF_CPP_MIN_LOG_LEVEL=2
           '';
         };
       });
