@@ -2,9 +2,8 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sun Jun 13, 2021 at 05:48 PM +0200
+# Last Change: Sat Feb 12, 2022 at 04:16 AM -0500
 
-import sys
 import json
 
 from os import walk, popen
@@ -32,17 +31,17 @@ list annexed ntuple sizes in all subdirectories.''')
                         help='''
 specify directory.''')
 
-    parser.add_argument('-s', '--include-self',
+    parser.add_argument('-s', '--exclude-self',
                         action='store_true',
                         help='''
-whether or not to include current directory.''')
+not include current directory.''')
 
     return parser.parse_args()
 
 
-def find_all_subdirs(cur_dir, include_self=False):
+def find_all_subdirs(cur_dir, exclude_self=False):
     dirs = [x[0] for x in walk(cur_dir)]
-    return dirs if include_self else dirs[1:]
+    return dirs if not exclude_self else dirs[1:]
 
 
 def find_annex_info(dirs):
@@ -54,6 +53,7 @@ def find_annex_info(dirs):
 def file_size_prettifier(size):
     size = int(size)
     units = ['KiB', 'MiB', 'GiB']
+    unit = ''
 
     for unit in units:
         size = size / 1024
@@ -78,6 +78,6 @@ def print_output(annex_info):
 
 if __name__ == '__main__':
     args = parse_input()
-    dirs = find_all_subdirs(args.cur_dir, args.include_self)
+    dirs = find_all_subdirs(args.cur_dir, args.exclude_self)
     dirs_annex_info = find_annex_info(dirs)
     print_output(dirs_annex_info)
