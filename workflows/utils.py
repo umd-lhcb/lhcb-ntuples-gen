@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri Dec 31, 2021 at 03:07 PM +0100
+# Last Change: Sat Feb 12, 2022 at 04:08 AM -0500
 
 import re
 import yaml
@@ -65,9 +65,11 @@ def ensure_dir(path, delete_if_exist=True, make_absolute=True, **kwargs):
     return path
 
 
-def ensure_file(path, dir_replacement={'ntuples': 'ntuples_ext'}):
+def ensure_file(path, dir_replacement={'ntuples/': 'ntuples_ext/'}):
     if Path(path).exists():
         return path
+    if dir_replacement:
+        print(f"{path} doesn't exist, try substitutions...")
 
     # NOTE: Here we anticipate that on our server we'll link a globally checked-
     #       out lhcb-ntuples-gen/ntuples to a user-specific project as

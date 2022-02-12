@@ -2,15 +2,13 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sat Feb 12, 2022 at 03:12 AM -0500
+# Last Change: Sat Feb 12, 2022 at 03:58 AM -0500
 
 import sys
-import os
 import os.path as op
 
-from argparse import ArgumentParser, Action
+from argparse import ArgumentParser
 from os import chdir, makedirs
-from shutil import rmtree
 from functools import partial
 
 from pyBabyMaker.base import TermColor as TC
