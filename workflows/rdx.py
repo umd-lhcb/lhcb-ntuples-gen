@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Jan 13, 2022 at 04:59 PM +0100
+# Last Change: Sat Feb 12, 2022 at 03:12 AM -0500
 
 import sys
 import os
@@ -224,7 +224,6 @@ def workflow_mc(inputs, input_yml, job_name='mc',
         ensure_dir(subdir, make_absolute=False)
         chdir(subdir)  # Switch to the workdir of the subjob
 
-        output_suffix = generate_step2_name(input_ntp)
         fields = check_ntp_name(input_ntp)[0]
         if 'decay_mode' in fields:
             decay_mode = fields['decay_mode']

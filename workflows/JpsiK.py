@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sat Feb 12, 2022 at 02:54 AM -0500
+# Last Change: Sat Feb 12, 2022 at 03:20 AM -0500
 
 import sys
 import os
@@ -105,18 +105,20 @@ def workflow_bm_cli(bm_cmd, cli_vars=None, blocked_input_trees=None,
 
 
 def workflow_single_ntuple(input_ntp, input_yml, output_suffix, aux_workflows,
+                           cpp_template='../postprocess/cpp_templates/JpsiK.cpp',
                            **kwargs):
     input_ntp = ensure_file(input_ntp)
     print('{}Working on {}...{}'.format(TC.GREEN, input_ntp, TC.END))
+    cpp_template = abs_path(cpp_template)
 
-    bm_cmd = 'babymaker -i {} -o baby.cpp -n {}'
+    bm_cmd = 'babymaker -i {} -o baby.cpp -n {} -t {}'
 
     aux_ntuples = [w(input_ntp, **kwargs) for w in aux_workflows]
     if aux_ntuples:
         bm_cmd += ' -f ' + ' '.join(aux_ntuples)
 
     bm_cmd = workflow_bm_cli(bm_cmd, **kwargs).format(
-        abs_path(input_yml), input_ntp)
+        abs_path(input_yml), input_ntp, cpp_template)
 
     run_cmd(bm_cmd, **kwargs)
     workflow_compile_cpp('baby.cpp', **kwargs)
@@ -173,7 +175,6 @@ def workflow_mc(inputs, input_yml, job_name='mc',
         ensure_dir(subdir, make_absolute=False)
         chdir(subdir)  # Switch to the workdir of the subjob
 
-        output_suffix = generate_step2_name(input_ntp)
         fields = check_ntp_name(input_ntp)[0]
         if 'decay_mode' in fields:
             decay_mode = fields['decay_mode']

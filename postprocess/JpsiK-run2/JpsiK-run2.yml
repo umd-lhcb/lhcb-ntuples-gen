@@ -1,5 +1,6 @@
 headers:
     user:
+        - functor/rdx/kinematic.h
         - functor/basic.h
 
 keep:
@@ -113,6 +114,9 @@ global_selection:
     - pt_ok && b_mass_ok && j_mass_ok
     - pid_ok
     - vtx_ok
+
+one_cand_only:
+    enable: false
 
 output:
     JpsiK:
