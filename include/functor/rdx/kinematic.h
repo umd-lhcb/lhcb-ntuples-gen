@@ -1,6 +1,6 @@
 // Author: Yipeng Sun, Svede Braun
 // License: BSD 2-clause
-// Last Change: Sat Feb 12, 2022 at 04:27 PM -0500
+// Last Change: Sat Feb 12, 2022 at 04:32 PM -0500
 
 #pragma once
 
@@ -10,6 +10,8 @@
 #include <TMath.h>
 #include <TROOT.h>
 
+#include "functor/basic_kinematic.h"
+
 using ROOT::Math::LorentzVector;
 using ROOT::Math::PtEtaPhiMVector;
 using ROOT::Math::PxPyPzEVector;
@@ -18,15 +20,6 @@ using ROOT::Math::DisplacementVector3D;
 using ROOT::Math::XYZVector;
 
 // Helpers /////////////////////////////////////////////////////////////////////
-
-template <typename T>
-Double_t M2(LorentzVector<T>& v4) {
-  return v4.M2();
-}
-
-Double_t M2(Double_t PX, Double_t PY, Double_t PZ, Double_t PE) {
-  return PxPyPzEVector(PX, PY, PZ, PE).M2();
-}
 
 Double_t MINV(Double_t pi_px, Double_t pi_py, Double_t pi_pz, Double_t pi_pe,
               Double_t dst_px, Double_t dst_py, Double_t dst_pz,
@@ -49,10 +42,6 @@ Double_t ISO_DELTAM(Double_t pi_px, Double_t pi_py, Double_t pi_pz,
 }
 
 // Kinematics //////////////////////////////////////////////////////////////////
-
-Double_t ETA(Double_t p, Double_t pz) {
-  return 0.5 * TMath::Log((p + pz) / (p - pz));
-}
 
 Double_t FD_TRANS(Double_t endvtx_x, Double_t ownpv_x, Double_t endvtx_y,
                   Double_t ownpv_y) {

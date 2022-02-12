@@ -1,7 +1,7 @@
 headers:
     user:
-        - functor/rdx/kinematic.h
         - functor/basic.h
+        - functor/basic_kinematic.h
 
 keep:
     - runNumber
