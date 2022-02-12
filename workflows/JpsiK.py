@@ -2,15 +2,13 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sat Feb 12, 2022 at 03:20 AM -0500
+# Last Change: Sat Feb 12, 2022 at 04:41 PM -0500
 
 import sys
-import os
 import os.path as op
 
-from argparse import ArgumentParser, Action
+from argparse import ArgumentParser
 from os import chdir, makedirs
-from shutil import rmtree
 from functools import partial
 
 from pyBabyMaker.base import TermColor as TC
@@ -19,12 +17,14 @@ sys.path.insert(0, op.dirname(op.abspath(__file__)))
 
 from utils import (
     run_cmd,
-    abs_path, ensure_dir, ensure_file, find_all_input,
+    abs_path, ensure_dir, find_all_input,
     aggregate_fltr, aggregate_output, check_ntp_name, find_decay_mode,
     smart_kwarg,
     generate_step2_name,
-    workflow_compile_cpp, workflow_apply_weight
+    workflow_apply_weight
 )
+
+from rdx import workflow_single_ntuple as workflow_single_ntuple_rdx
 
 
 #################################
@@ -46,11 +46,11 @@ def parse_input():
 # Helpers #
 ###########
 
-rdx_default_fltr = aggregate_fltr(
+JpsiK_default_fltr = aggregate_fltr(
     keep=[r'^(JpsiK).*\.root'], blocked=['--aux'])
 
-rdx_default_output_fltrs = {
-    'ntuple': rdx_default_fltr,
+JpsiK_default_output_fltrs = {
+    'ntuple': JpsiK_default_fltr,
     'ntuple_aux': aggregate_fltr(keep=['--aux']),
 }
 
@@ -58,7 +58,6 @@ rdx_default_output_fltrs = {
 ####################################
 # Workflows: aux ntuple generation #
 ####################################
-
 
 @smart_kwarg
 def workflow_pid(
@@ -84,45 +83,12 @@ def workflow_trk(
 # Workflows: wrappers #
 #######################
 
-@smart_kwarg([])
-def workflow_bm_cli(bm_cmd, cli_vars=None, blocked_input_trees=None,
-                    blocked_output_trees=None, directive_override=None):
-    if blocked_input_trees:
-        bm_cmd += ' -B '+' '.join(blocked_input_trees)
-
-    if blocked_output_trees:
-        bm_cmd += ' -X '+' '.join(blocked_output_trees)
-
-    if cli_vars:
-        bm_cmd += ' -V '+' '.join([str(k)+':'+str(v)
-                                   for k, v in cli_vars.items()])
-
-    if directive_override:
-        bm_cmd += ' -D '+' '.join([str(k)+':'+str(v)
-                                   for k, v in directive_override.items()])
-
-    return bm_cmd
-
-
 def workflow_single_ntuple(input_ntp, input_yml, output_suffix, aux_workflows,
                            cpp_template='../postprocess/cpp_templates/JpsiK.cpp',
                            **kwargs):
-    input_ntp = ensure_file(input_ntp)
-    print('{}Working on {}...{}'.format(TC.GREEN, input_ntp, TC.END))
-    cpp_template = abs_path(cpp_template)
-
-    bm_cmd = 'babymaker -i {} -o baby.cpp -n {} -t {}'
-
-    aux_ntuples = [w(input_ntp, **kwargs) for w in aux_workflows]
-    if aux_ntuples:
-        bm_cmd += ' -f ' + ' '.join(aux_ntuples)
-
-    bm_cmd = workflow_bm_cli(bm_cmd, **kwargs).format(
-        abs_path(input_yml), input_ntp, cpp_template)
-
-    run_cmd(bm_cmd, **kwargs)
-    workflow_compile_cpp('baby.cpp', **kwargs)
-    run_cmd('./baby.exe --{}'.format(output_suffix), **kwargs)
+    workflow_single_ntuple_rdx(
+        input_ntp, input_yml, output_suffix, aux_workflows,
+        cpp_template=cpp_template, **kwargs)
 
 
 @smart_kwarg([])
@@ -161,7 +127,7 @@ def workflow_data(inputs, input_yml, job_name='data', **kwargs):
         workflow_single_ntuple(
             input_ntp, input_yml, output_suffix, aux_workflows, **kwargs)
 
-        aggregate_output('..', subdir, rdx_default_output_fltrs)
+        aggregate_output('..', subdir, JpsiK_default_output_fltrs)
         chdir('..')  # Switch back to parent workdir
 
 
@@ -187,7 +153,7 @@ def workflow_mc(inputs, input_yml, job_name='mc',
             cli_vars={'cli_mc_id': decay_mode},
             **kwargs)
 
-        aggregate_output('..', subdir, rdx_default_output_fltrs)
+        aggregate_output('..', subdir, JpsiK_default_output_fltrs)
         chdir('..')  # Switch back to parent workdir
 
 
