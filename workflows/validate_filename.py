@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Dec 30, 2021 at 05:23 AM +0100
+# Last Change: Sat Feb 12, 2022 at 02:54 AM -0500
 
 import sys
 import os.path as op
@@ -151,6 +151,7 @@ JOBS = {
         '../ntuples',
         '../run1-rdx/samples',
         '../run2-rdx/samples',
+        '../run2-JpsiK/samples',
     ]),
     'ntuple_folder': lambda: validate_ntp_folder(['../ntuples']),
     'cond': lambda: validate_cond([
@@ -160,6 +161,7 @@ JOBS = {
     'log': lambda: validate_log([
         '../run1-rdx/logs',
         '../run2-rdx/logs',
+        '../run2-JpsiK/logs',
     ]),
 }
 

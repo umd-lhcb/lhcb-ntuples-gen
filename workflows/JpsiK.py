@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sat Feb 12, 2022 at 02:28 AM -0500
+# Last Change: Sat Feb 12, 2022 at 02:54 AM -0500
 
 import sys
 import os
@@ -219,7 +219,7 @@ JOBS = {
     # Run 2 debug
     'JpsiK-ntuple-run2-data-demo': partial(
         workflow_data,
-        '../run2-JpsiK/samples/JpsiK-22_02_09--std--data--2016--md--dv45-subset.root',
+        '../run2-JpsiK/samples/JpsiK--22_02_09--std--data--2016--md--dv45-subset.root',
         '../postprocess/JpsiK-run2/JpsiK-run2.yml',
     ),
 }
