@@ -1,0 +1,232 @@
+#!/usr/bin/env python3
+#
+# Author: Yipeng Sun
+# License: BSD 2-clause
+# Last Change: Sat Feb 12, 2022 at 02:28 AM -0500
+
+import sys
+import os
+import os.path as op
+
+from argparse import ArgumentParser, Action
+from os import chdir, makedirs
+from shutil import rmtree
+from functools import partial
+
+from pyBabyMaker.base import TermColor as TC
+
+sys.path.insert(0, op.dirname(op.abspath(__file__)))
+
+from utils import (
+    run_cmd,
+    abs_path, ensure_dir, ensure_file, find_all_input,
+    aggregate_fltr, aggregate_output, check_ntp_name, find_decay_mode,
+    smart_kwarg,
+    generate_step2_name,
+    workflow_compile_cpp, workflow_apply_weight
+)
+
+
+#################################
+# Command line arguments parser #
+#################################
+
+def parse_input():
+    parser = ArgumentParser(description='workflow for J/psi K reweighting.')
+
+    parser.add_argument('job_name', help='specify job name.')
+
+    parser.add_argument('-d', '--debug', action='store_true',
+                        help='enable debug mode.')
+
+    return parser.parse_args()
+
+
+###########
+# Helpers #
+###########
+
+rdx_default_fltr = aggregate_fltr(
+    keep=[r'^(JpsiK).*\.root'], blocked=['--aux'])
+
+rdx_default_output_fltrs = {
+    'ntuple': rdx_default_fltr,
+    'ntuple_aux': aggregate_fltr(keep=['--aux']),
+}
+
+
+####################################
+# Workflows: aux ntuple generation #
+####################################
+
+
+@smart_kwarg
+def workflow_pid(
+        input_ntp, output_ntp='pid.root',
+        pid_histo_folder='../run2-rdx/reweight/pid/root-run2-rdx_oldcut',
+        pid_config='../run2-rdx/reweight/pid/run2-rdx_oldcut.yml',
+        **kwargs):
+    return workflow_apply_weight(input_ntp, pid_histo_folder, pid_config,
+                                 output_ntp, '--aux_pid', **kwargs)
+
+
+@smart_kwarg
+def workflow_trk(
+        input_ntp, output_ntp='trk.root',
+        trk_histo_folder='../run2-rdx/reweight/tracking/root-run2-general',
+        trk_config='../run2-rdx/reweight/tracking/run2-general.yml',
+        **kwargs):
+    return workflow_apply_weight(input_ntp, trk_histo_folder, trk_config,
+                                 output_ntp, '--aux_trk', **kwargs)
+
+
+#######################
+# Workflows: wrappers #
+#######################
+
+@smart_kwarg([])
+def workflow_bm_cli(bm_cmd, cli_vars=None, blocked_input_trees=None,
+                    blocked_output_trees=None, directive_override=None):
+    if blocked_input_trees:
+        bm_cmd += ' -B '+' '.join(blocked_input_trees)
+
+    if blocked_output_trees:
+        bm_cmd += ' -X '+' '.join(blocked_output_trees)
+
+    if cli_vars:
+        bm_cmd += ' -V '+' '.join([str(k)+':'+str(v)
+                                   for k, v in cli_vars.items()])
+
+    if directive_override:
+        bm_cmd += ' -D '+' '.join([str(k)+':'+str(v)
+                                   for k, v in directive_override.items()])
+
+    return bm_cmd
+
+
+def workflow_single_ntuple(input_ntp, input_yml, output_suffix, aux_workflows,
+                           **kwargs):
+    input_ntp = ensure_file(input_ntp)
+    print('{}Working on {}...{}'.format(TC.GREEN, input_ntp, TC.END))
+
+    bm_cmd = 'babymaker -i {} -o baby.cpp -n {}'
+
+    aux_ntuples = [w(input_ntp, **kwargs) for w in aux_workflows]
+    if aux_ntuples:
+        bm_cmd += ' -f ' + ' '.join(aux_ntuples)
+
+    bm_cmd = workflow_bm_cli(bm_cmd, **kwargs).format(
+        abs_path(input_yml), input_ntp)
+
+    run_cmd(bm_cmd, **kwargs)
+    workflow_compile_cpp('baby.cpp', **kwargs)
+    run_cmd('./baby.exe --{}'.format(output_suffix), **kwargs)
+
+
+@smart_kwarg([])
+def workflow_prep_dir(job_name, inputs,
+                      output_dir=abs_path('../gen'),
+                      patterns=['*.root'],
+                      blocked_patterns=['--aux'],
+                      ):
+    print('{}==== Job: {} ===={}'.format(TC.BOLD+TC.GREEN, job_name, TC.END))
+
+    # Need to figure out the absolute path
+    input_files = find_all_input(inputs, patterns, blocked_patterns)
+    subworkdirs = {op.splitext(op.basename(i))[0]
+                   if op.isfile(i) else op.basename(i): i for i in input_files}
+
+    # Now ensure the working dir
+    workdir = ensure_dir(op.join(output_dir, job_name))
+
+    return subworkdirs, workdir
+
+
+###################
+# Workflows: main #
+###################
+
+def workflow_data(inputs, input_yml, job_name='data', **kwargs):
+    aux_workflows = []
+    subworkdirs, workdir = workflow_prep_dir(job_name, inputs, **kwargs)
+    chdir(workdir)
+
+    for subdir, input_ntp in subworkdirs.items():
+        ensure_dir(subdir, make_absolute=False)
+        chdir(subdir)  # Switch to the workdir of the subjob
+
+        output_suffix = generate_step2_name(input_ntp)
+        workflow_single_ntuple(
+            input_ntp, input_yml, output_suffix, aux_workflows, **kwargs)
+
+        aggregate_output('..', subdir, rdx_default_output_fltrs)
+        chdir('..')  # Switch back to parent workdir
+
+
+def workflow_mc(inputs, input_yml, job_name='mc',
+                **kwargs):
+    aux_workflows = [workflow_pid, workflow_trk]
+    subworkdirs, workdir = workflow_prep_dir(job_name, inputs, **kwargs)
+    chdir(workdir)
+
+    for subdir, input_ntp in subworkdirs.items():
+        ensure_dir(subdir, make_absolute=False)
+        chdir(subdir)  # Switch to the workdir of the subjob
+
+        output_suffix = generate_step2_name(input_ntp)
+        fields = check_ntp_name(input_ntp)[0]
+        if 'decay_mode' in fields:
+            decay_mode = fields['decay_mode']
+        else:
+            decay_mode = find_decay_mode(fields['lfn'])
+
+        output_suffix = generate_step2_name(input_ntp)
+        workflow_single_ntuple(
+            input_ntp, input_yml, output_suffix, aux_workflows,
+            cli_vars={'cli_mc_id': decay_mode},
+            **kwargs)
+
+        aggregate_output('..', subdir, rdx_default_output_fltrs)
+        chdir('..')  # Switch back to parent workdir
+
+
+def workflow_split(inputs, input_yml, job_name='split',
+                   **kwargs):
+    subworkdirs, workdir = workflow_prep_dir(
+        job_name, inputs, patterns=['*.DST'], **kwargs)
+
+    for subjob, input_dir in subworkdirs.items():
+        subflow = workflow_mc if 'MC_' in subjob or 'mc' in subjob \
+            else workflow_data
+        subflow(
+            input_dir, input_yml, job_name=subjob, output_dir=workdir, **kwargs)
+
+    # Let's manually aggregate output
+    chdir(workdir)
+    makedirs('ntuple')
+    makedirs('ntuple_aux')
+    for subjob in subworkdirs:
+        run_cmd(f'mv {subjob}/ntuple ntuple/{generate_step2_name(subjob+".root")}', **kwargs)
+        run_cmd(f'mv {subjob}/ntuple_aux ntuple_aux/{subjob}', **kwargs)
+
+
+#####################
+# Production config #
+#####################
+
+JOBS = {
+    # Run 2
+    # Run 2 debug
+    'JpsiK-ntuple-run2-data-demo': partial(
+        workflow_data,
+        '../run2-JpsiK/samples/JpsiK-22_02_09--std--data--2016--md--dv45-subset.root',
+        '../postprocess/JpsiK-run2/JpsiK-run2.yml',
+    ),
+}
+
+args = parse_input()
+
+if args.job_name in JOBS:
+    JOBS[args.job_name](job_name=args.job_name, debug=args.debug)
+else:
+    print('Unknown job name: {}'.format(args.job_name))
