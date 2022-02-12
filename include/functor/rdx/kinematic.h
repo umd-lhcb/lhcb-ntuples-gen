@@ -1,9 +1,8 @@
 // Author: Yipeng Sun, Svede Braun
 // License: BSD 2-clause
-// Last Change: Mon Nov 29, 2021 at 12:22 AM +0100
+// Last Change: Sat Feb 12, 2022 at 04:27 PM -0500
 
-#ifndef _LNG_FUNCTOR_RDX_KINEMATIC_H_
-#define _LNG_FUNCTOR_RDX_KINEMATIC_H_
+#pragma once
 
 #include <Math/Vector3D.h>
 #include <Math/Vector4D.h>
@@ -96,5 +95,3 @@ Double_t Q2(LorentzVector<T> v4_b, LorentzVector<T> v4_d) {
   auto v4_diff = v4_b - v4_d;
   return M2(v4_diff);
 }
-
-#endif

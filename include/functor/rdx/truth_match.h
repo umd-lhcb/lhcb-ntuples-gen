@@ -1,8 +1,7 @@
 // Author: Alex Fernez, Yipeng Sun
 // License: BSD 2-clause
 
-#ifndef _LNG_FUNCTOR_RDX_TRUTH_MATCH_H_
-#define _LNG_FUNCTOR_RDX_TRUTH_MATCH_H_
+#pragma once
 
 #include <TLorentzVector.h>
 #include <TMath.h>
@@ -954,5 +953,3 @@ int MC_TRUTH_MATCH_D0(int decay_id, int b_id, int mu_id, int mu_mom_id,
       debug_dstst_s_all_cocktail, debug_dd_all_cocktail);
   return event.truthmatch;
 }
-
-#endif

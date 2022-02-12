@@ -1,10 +1,9 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Wed Oct 27, 2021 at 03:44 PM +0200
+// Last Change: Sat Feb 12, 2022 at 04:27 PM -0500
 // NOTE: All kinematic variables are in MeV
 
-#ifndef _LNG_FUNCTOR_RDX_SKIMS_H_
-#define _LNG_FUNCTOR_RDX_SKIMS_H_
+#pragma once
 
 #include <TDataType.h>
 
@@ -183,5 +182,3 @@ Double_t WT_1OS(Bool_t add_flags,
 
   return prefac * iso_nnk1_wt;
 }
-
-#endif

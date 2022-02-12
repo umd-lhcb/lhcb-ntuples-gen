@@ -1,11 +1,8 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Wed May 27, 2020 at 04:07 AM +0800
+// Last Change: Sat Feb 12, 2022 at 04:26 PM -0500
 
-#ifndef _LNG_UNIT_H_
-#define _LNG_UNIT_H_
+#pragma once
 
 #define MeV 1
 #define GeV 1000
-
-#endif

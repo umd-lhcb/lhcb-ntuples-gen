@@ -1,9 +1,8 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Mon Jul 05, 2021 at 02:07 AM +0200
+// Last Change: Sat Feb 12, 2022 at 04:27 PM -0500
 
-#ifndef _LNG_FUNCTOR_RDX_PID_H_
-#define _LNG_FUNCTOR_RDX_PID_H_
+#pragma once
 
 #include <TMath.h>
 
@@ -25,5 +24,3 @@ Bool_t MU_VETO(Bool_t pi_is_mu, Bool_t k_is_mu) {
   if (pi_is_mu || k_is_mu) return true;
   return false;
 }
-
-#endif

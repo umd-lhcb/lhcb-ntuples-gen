@@ -1,10 +1,9 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Sat Dec 18, 2021 at 07:01 PM +0100
+// Last Change: Sat Feb 12, 2022 at 04:27 PM -0500
 // NOTE: All kinematic variables are in MeV
 
-#ifndef _LNG_FUNCTOR_RDX_CUT_H_
-#define _LNG_FUNCTOR_RDX_CUT_H_
+#pragma once
 
 #include <Math/Vector3D.h>
 #include <Math/Vector4D.h>
@@ -284,5 +283,3 @@ Bool_t FLAG_SEL_BMINUS_MASS_SB(Double_t b_m) { return b_m > 5400.0; }
 Bool_t FLAG_SEL_B0_MASS(Double_t b0_m) { return b0_m < 5280.0; }
 
 Bool_t FLAG_SEL_B0_MASS_SB(Double_t b0_m) { return b0_m > 5400.0; }
-
-#endif

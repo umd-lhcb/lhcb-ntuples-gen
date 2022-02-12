@@ -1,9 +1,8 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Sat Oct 23, 2021 at 12:38 AM +0200
+// Last Change: Sat Feb 12, 2022 at 04:27 PM -0500
 
-#ifndef _LNG_FUNCTOR_RDX_FLAG_H_
-#define _LNG_FUNCTOR_RDX_FLAG_H_
+#pragma once
 
 #include <TMath.h>
 
@@ -292,5 +291,3 @@ Int_t DSS_TYPE(Bool_t flag_d0_mu, Int_t dst_mom_id, Int_t dst_gd_mom_id,
 
   return dss_type;
 }
-
-#endif

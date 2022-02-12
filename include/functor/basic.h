@@ -1,9 +1,8 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Thu Nov 25, 2021 at 11:59 PM +0100
+// Last Change: Sat Feb 12, 2022 at 04:26 PM -0500
 
-#ifndef _LNG_FUNCTOR_BASIC_H_
-#define _LNG_FUNCTOR_BASIC_H_
+#pragma once
 
 #include <TMath.h>
 
@@ -147,5 +146,3 @@ template <typename T, typename U>
 T TO_TYPE(U src, T tgt) {
   return static_cast<T>(src);
 }
-
-#endif

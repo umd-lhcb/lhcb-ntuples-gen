@@ -1,12 +1,11 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Sun Jun 07, 2020 at 02:12 PM +0800
+// Last Change: Sat Feb 12, 2022 at 04:26 PM -0500
 //
 // NOTE: The particle masses and IDs are obtained from here:
 //   https://gitlab.cern.ch/lhcb-conddb/DDDB/-/blob/master/param/ParticleTable.txt
 
-#ifndef _LNG_PDG_H_
-#define _LNG_PDG_H_
+#pragma once
 
 #include "unit.h"
 
@@ -45,5 +44,3 @@
 #define FAKE_ID_D2750_0 PDG_ID_D2st_0
 #define FAKE_ID_D3000 PDG_ID_D1
 #define FAKE_ID_D3000_0 PDG_ID_D1_0
-
-#endif
