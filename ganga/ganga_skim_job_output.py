@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Dec 28, 2021 at 07:22 PM +0100
+# Last Change: Sun Feb 13, 2022 at 01:37 PM -0500
 
 import os
 
@@ -34,6 +34,9 @@ def parse_input():
 
     parser.add_argument('-d', '--debug', action='store_true',
                         help='enable debug mode.')
+
+    parser.add_argument('-c', '--copy', action='store_true',
+                        help='just copy and rename ntuples, do no skimming.')
 
     return parser.parse_args()
 
@@ -88,6 +91,18 @@ def run_skim(debug=False):
     return executor
 
 
+def run_cp(debug=False):
+    def executor(input_ntp, output_ntp, config):
+        print(f'  Copying {input_ntp} as {output_ntp}...')
+        cmd = f'cp {input_ntp} {output_ntp}'
+        if debug:
+            print(cmd)
+        else:
+            os.system(cmd)
+
+    return executor
+
+
 def ensure_dir(folder):
     if not isdir(folder):
         makedirs(folder)
@@ -106,7 +121,7 @@ if __name__ == '__main__':
 
     output_folder = args.output_folder.replace('.root', '')
     ensure_dir(output_folder)
-    exe = run_skim(args.debug)
+    exe = run_skim(args.debug) if not args.copy else run_cp(args.debug)
 
     input_ntps, folder_idx = fltr_subjob_ntps(args.input_folder)
     padding = pad_idx(folder_idx)
