@@ -71,8 +71,9 @@
             # Update PATH
             export PATH=$(pwd)/test:$(pwd)/workflows:$(pwd)/ganga:$(pwd)/scripts:$PATH
 
-            # Filter out tensorflow warning
+            # Filter out tensorflow and zfit warnings
             export TF_CPP_MIN_LOG_LEVEL=2
+            export ZFIT_DISABLE_TF_WARNINGS=1
           '';
         };
       });
