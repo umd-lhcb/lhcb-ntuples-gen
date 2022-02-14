@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sat Feb 12, 2022 at 04:41 PM -0500
+# Last Change: Mon Feb 14, 2022 at 05:14 PM -0500
 
 import sys
 import os.path as op
@@ -157,7 +157,7 @@ def workflow_mc(inputs, input_yml, job_name='mc',
         chdir('..')  # Switch back to parent workdir
 
 
-def workflow_split(inputs, input_yml, job_name='split',
+def workflow_split(inputs, input_yml, job_name='split', prefix='JpsiK',
                    **kwargs):
     subworkdirs, workdir = workflow_prep_dir(
         job_name, inputs, patterns=['*.DST'], **kwargs)
@@ -173,7 +173,7 @@ def workflow_split(inputs, input_yml, job_name='split',
     makedirs('ntuple')
     makedirs('ntuple_aux')
     for subjob in subworkdirs:
-        run_cmd(f'mv {subjob}/ntuple ntuple/{generate_step2_name(subjob+".root")}', **kwargs)
+        run_cmd(f'mv {subjob}/ntuple ntuple/{prefix}--{generate_step2_name(subjob+".root")}', **kwargs)
         run_cmd(f'mv {subjob}/ntuple_aux ntuple_aux/{subjob}', **kwargs)
 
 
@@ -183,17 +183,23 @@ def workflow_split(inputs, input_yml, job_name='split',
 
 JOBS = {
     # Run 2
+    'JpsiK-ntuple-run2-data': partial(
+        workflow_split,
+        '../ntuples/0.9.6-2016_production/JpsiK-std',
+        '../postprocess/JpsiK-run2/JpsiK-run2.yml'
+    ),
     # Run 2 debug
     'JpsiK-ntuple-run2-data-demo': partial(
         workflow_data,
         '../run2-JpsiK/samples/JpsiK--22_02_09--std--data--2016--md--dv45-subset.root',
-        '../postprocess/JpsiK-run2/JpsiK-run2.yml',
+        '../postprocess/JpsiK-run2/JpsiK-run2.yml'
     ),
 }
 
-args = parse_input()
+if __name__ == '__main__':
+    args = parse_input()
 
-if args.job_name in JOBS:
-    JOBS[args.job_name](job_name=args.job_name, debug=args.debug)
-else:
-    print('Unknown job name: {}'.format(args.job_name))
+    if args.job_name in JOBS:
+        JOBS[args.job_name](job_name=args.job_name, debug=args.debug)
+    else:
+        print('Unknown job name: {}'.format(args.job_name))
