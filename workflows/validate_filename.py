@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sat Feb 12, 2022 at 02:54 AM -0500
+# Last Change: Mon Feb 14, 2022 at 06:08 PM -0500
 
 import sys
 import os.path as op
@@ -33,7 +33,7 @@ NTP_FOLDER_FIELDS = [
 COND_FILE_FIELDS = [
     ('prefix', False, lambda x: x == 'cond'),
     ('reco_mode', False, validate_reco_mode),
-    ('year', False, lambda x: validate_year),
+    ('year', False, validate_year),
     ('polarity', True, lambda x: x in ['md', 'mu']),
     ('simcond', True, lambda x: x.startswith('sim')),
     ('additional_flags', True, lambda x: True),
@@ -124,13 +124,16 @@ def validate_ntp_folder(paths):
         tot_counter += 1
         parent_folder = f.name
 
-        if '.DST' in parent_folder:
+        # First treat folder as a ntuple name, always
+        _, errors, _ = check_ntp_name(parent_folder+'.root')
+
+        if not errors:
+            # We made the right decision
             # Also need to check grandparent
             tot_counter += 1  # 2 folders to check
             _, gp_errors = check_ntp_folder_name(f.parent.name)
             print_err(gp_errors, 'ntuple folder', f.parent)
             err_counter += len(gp_errors)
-            _, errors, _ = check_ntp_name(parent_folder+'.root')  # Treat parent folder as a ntuple name
 
         else:
             _, errors = check_ntp_folder_name(parent_folder)
