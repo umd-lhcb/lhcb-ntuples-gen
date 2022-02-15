@@ -2,14 +2,15 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Feb 15, 2022 at 05:30 AM -0500
+# Last Change: Tue Feb 15, 2022 at 12:21 PM -0500
 # NOTE: This is inspired by Greg Ciezarek's run 1 J/psi K fit
 
 import zfit
 import yaml
+import time
 
 from argparse import ArgumentParser
-from uproot import concatenate
+from uproot import concatenate, recreate
 from os import makedirs
 
 
@@ -29,6 +30,9 @@ def parse_input():
     parser.add_argument('-b', '--branch', default='b_m',
                         help='specify the branch as the fit variable.')
 
+    parser.add_argument('--noFit', action='store_true',
+                        help='just plot the model before fit.')
+
     return parser.parse_args()
 
 
@@ -43,6 +47,15 @@ def filter_dict(dct):
         'err_lower': dct['minuit_minos']['lower'],
         'err_upper': dct['minuit_minos']['upper'],
     }
+
+
+def gen_ylds(num_of_evt, names=['sig', 'bkg', 'tail'],
+             ratios=[0.95, 0.14, 0.07], nominal_fac=0.75):
+    ylds = []
+    for n, r in zip(names, ratios):
+        ylds.append(zfit.Parameter(
+            f'yld_{n}', num_of_evt*r*nominal_fac, 0, num_of_evt*r))
+    return ylds
 
 
 #######
@@ -91,47 +104,60 @@ def fit_model_tail(obs, yld):
     return pdf
 
 
-def fit(fit_var):
-    obs = zfit.Space('x', limits=(5150, 5350))
+def fit_model_overall(obs, fit_var):
 
     # Load models
     fit_components = [fit_model_sig, fit_model_bkg, fit_model_tail]
-    fit_yields = [
-        zfit.Parameter('yld_sig', 1.5e6/2, 0, 1.5e6),
-        zfit.Parameter('yld_bkg', 2e5/2, 0, 2e5),
-        zfit.Parameter('yld_tail', 10e3/2, 0, 10e3)
-    ]
-    fit_model = zfit.pdf.SumPDF(
+    fit_yields = gen_ylds(fit_var.size)
+    return zfit.pdf.SumPDF(
         pdfs=[m(obs, yld) for m, yld in zip(fit_components, fit_yields)],
         name='sumpdf_overall')
 
+
+def fit(obs, fit_var, fit_model):
     # Load data
     data = zfit.data.Data.from_numpy(obs=obs, array=fit_var)
 
     # Fit
     print('Start to fit...')
+    time_start = time.time()
+
     nll = zfit.loss.ExtendedUnbinnedNLL(model=fit_model, data=data)
     minimizer = zfit.minimize.Minuit()
-    minima = minimizer.minimize(loss=nll)
-    print('Compute errors...')
-    minima.errors(method='minuit_minos')
+    result = minimizer.minimize(loss=nll)
 
-    return minima
+    print('Compute errors...')
+    result.errors(method='minuit_minos')
+
+    print(f'Fit took a total of {time.time() - time_start} sec.')
+    return result
 
 
 if __name__ == '__main__':
     args = parse_input()
 
-    fit_var = concatenate(args.input, [args.branch], library='np')[args.branch]
+    ntp_brs = concatenate(
+        args.input, [args.branch, 'runNumber', 'eventNumber'], library='np')
+    fit_var = ntp_brs[args.branch]
     print(f'Total events in data: {fit_var.size}')
 
-    fit_result = fit(fit_var)
-    print('Fit result:\n', fit_result, sep='')
+    print('Initialize fit model...')
+    model_bdy = (5100, 5400)
+    obs = zfit.Space('x', limits=model_bdy)
+    fit_model = fit_model_overall(obs, fit_var)
 
-    # Dump result
-    makedirs(args.output, exist_ok=True)
+    if not args.noFit:
+        fit_result = fit(obs, fit_var, fit_model)
+        print('Fit result:\n', fit_result, sep='')
 
-    with open(f'{args.output}/params.yml', 'w') as f:
-        params_formatted = {k.name: filter_dict(v)
-                            for k, v in fit_result.params.items()}
-        yaml.dump(params_formatted, f)
+        # Dump result
+        makedirs(args.output, exist_ok=True)
+
+        ntp = recreate(f'{args.output}/in_out.root')
+        out_brs = ntp_brs
+        ntp['tree'] = out_brs
+
+        with open(f'{args.output}/params.yml', 'w') as f:
+            params_formatted = {k.name: filter_dict(v)
+                                for k, v in fit_result.params.items()}
+            yaml.dump(params_formatted, f)
