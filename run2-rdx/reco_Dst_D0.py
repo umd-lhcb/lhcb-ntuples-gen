@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Feb 09, 2022 at 10:23 AM -0500
+# Last Change: Tue Feb 15, 2022 at 01:04 AM -0500
 #
 # Description: Definitions of selection and reconstruction procedures for run 2
 #              R(D(*)). For more thorough comments, take a look at:
@@ -712,7 +712,8 @@ def tuple_postprocess_data(tp, B_meson='b0', Mu='mu',
                                'Hlt1TrackMVADecision',
                                'Hlt1TwoTrackMVADecision',
                                # HLT 2
-                               'Hlt2XcMuXForTauB2XcMuDecision'
+                               'Hlt2XcMuXForTauB2XcMuDecision',
+                               'Hlt2XcMuXForTauB2XcFakeMuDecision'
                            ]
                            ):
     tt_trigger = tp.addTupleTool('TupleToolTrigger')
