@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Feb 15, 2022 at 04:09 AM -0500
+# Last Change: Tue Feb 15, 2022 at 04:23 AM -0500
 # NOTE: This is inspired by Greg Ciezarek's run 1 J/psi K fit
 
 import zfit
@@ -63,6 +63,7 @@ def fit_model_sig(obs, yld):
 
 def fit_model_bkg(obs, yld):
     expc = zfit.Parameter('expc', -0.025, -0.05, 0)
+
     pdf = zfit.pdf.Exponential(obs=obs, lam=expc)
     pdf.set_yield(yld)
     return pdf
@@ -71,8 +72,10 @@ def fit_model_bkg(obs, yld):
 def fit_model_tail(obs, yld):
     peak_tail = zfit.Parameter('peak_tail', 5145, 5120, 5170)
     width_g_tail = zfit.Parameter('width_g_tail', 35, 20, 50)
+
     pdf = zfit.pdf.Gauss(obs=obs, mu=peak_tail, sigma=width_g_tail)
     pdf.set_yield(yld)
+    return pdf
 
 
 def fit(fit_var):
@@ -105,7 +108,7 @@ def fit(fit_var):
 if __name__ == '__main__':
     args = parse_input()
 
-    fit_var = concatenate(args.inputs, [args.branch])
+    fit_var = concatenate(args.input, [args.branch], library='np')[args.branch]
     print(f'Total events in data: {fit_var.size}')
 
     fit_result = fit(fit_var)
