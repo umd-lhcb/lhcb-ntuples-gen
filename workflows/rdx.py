@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Feb 14, 2022 at 05:14 PM -0500
+# Last Change: Tue Feb 15, 2022 at 12:51 AM -0500
 
 import sys
 import os.path as op
@@ -265,9 +265,14 @@ def workflow_split(inputs, input_yml, job_name='split', prefix='Dst_D0',
 
 JOBS = {
     # Run 2
-    'rdx-ntuple-run2-data-oldcut': partial(
+    'rdx-ntuple-run2-data': partial(
         workflow_data,
-        '../ntuples/0.9.5-bugfix/Dst_D0-cutflow_data',
+        '../ntuples/0.9.6-2016_production/Dst_D0-std',
+        '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
+    ),
+    'rdx-ntuple-run2-mu_misid': partial(
+        workflow_data,
+        '../ntuples/0.9.6-2016_production/Dst_D0-mu_misid',
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
     ),
     'rdx-ntuple-run2-mc': partial(
@@ -285,14 +290,14 @@ JOBS = {
         ],
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
     ),
-    'rdx-ntuple-run2-data-oldcut-debug': partial(
+    'rdx-ntuple-run2-data-debug': partial(
         workflow_data,
         '../ntuples/0.9.5-bugfix/Dst_D0-cutflow_data',
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
         cli_vars={'cli_cutflow': 'true'},
         directive_override={'one_cand_only/enable': 'false'}
     ),
-    'rdx-ntuple-run2-data-oldcut-no-Dst-veto': partial(
+    'rdx-ntuple-run2-data-no-Dst-veto': partial(
         workflow_data,
         [
             '../ntuples/0.9.4-trigger_emulation/Dst_D0-std',
