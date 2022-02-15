@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Feb 15, 2022 at 12:55 AM -0500
+# Last Change: Tue Feb 15, 2022 at 01:36 AM -0500
 
 import sys
 import os.path as op
@@ -268,12 +268,26 @@ JOBS = {
     'rdx-ntuple-run2-data': partial(
         workflow_split,
         '../ntuples/0.9.6-2016_production/Dst_D0-std',
-        '../postprocess/rdx-run2/rdx-run2_oldcut.yml'
+        '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
+        trees=[
+            'TupleB0/DecayTree',
+            'TupleB0WSMu/DecayTree',
+            'TupleB0WSPi/DecayTree',
+            'TupleBminus/DecayTree',
+            'TupleBminusWS/DecayTree'
+        ]
     ),
     'rdx-ntuple-run2-mu_misid': partial(
         workflow_split,
         '../ntuples/0.9.6-2016_production/Dst_D0-mu_misid',
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
+        trees=[
+            'TupleB0/DecayTree',
+            'TupleB0WSMu/DecayTree',
+            'TupleB0WSPi/DecayTree',
+            'TupleBminus/DecayTree',
+            'TupleBminusWS/DecayTree'
+        ],
         cli_vars={'cli_is_mu_misid': 'true'}
     ),
     'rdx-ntuple-run2-mc': partial(
