@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Feb 15, 2022 at 04:23 AM -0500
+# Last Change: Tue Feb 15, 2022 at 05:30 AM -0500
 # NOTE: This is inspired by Greg Ciezarek's run 1 J/psi K fit
 
 import zfit
@@ -30,6 +30,19 @@ def parse_input():
                         help='specify the branch as the fit variable.')
 
     return parser.parse_args()
+
+
+###########
+# Helpers #
+###########
+
+# This controls output of a single parameter
+def filter_dict(dct):
+    return {
+        'value': dct['value'],
+        'err_lower': dct['minuit_minos']['lower'],
+        'err_upper': dct['minuit_minos']['upper'],
+    }
 
 
 #######
@@ -96,13 +109,14 @@ def fit(fit_var):
     data = zfit.data.Data.from_numpy(obs=obs, array=fit_var)
 
     # Fit
-    nll = zfit.loss.UnbinnedNLL(model=fit_model, data=data)
+    print('Start to fit...')
+    nll = zfit.loss.ExtendedUnbinnedNLL(model=fit_model, data=data)
     minimizer = zfit.minimize.Minuit()
     minima = minimizer.minimize(loss=nll)
-    print('Fit result: ')
-    print(minima)
+    print('Compute errors...')
+    minima.errors(method='minuit_minos')
 
-    return minima.params
+    return minima
 
 
 if __name__ == '__main__':
@@ -112,9 +126,12 @@ if __name__ == '__main__':
     print(f'Total events in data: {fit_var.size}')
 
     fit_result = fit(fit_var)
+    print('Fit result:\n', fit_result, sep='')
 
     # Dump result
     makedirs(args.output, exist_ok=True)
 
     with open(f'{args.output}/params.yml', 'w') as f:
-        yaml.dump(fit_result, f)
+        params_formatted = {k.name: filter_dict(v)
+                            for k, v in fit_result.params.items()}
+        yaml.dump(params_formatted, f)
