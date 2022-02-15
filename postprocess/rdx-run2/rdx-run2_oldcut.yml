@@ -30,8 +30,8 @@ rename:
     k_Hlt1TrackMVADecision_TOS: k_hlt1_trackmva_tos
     pi_Hlt1TrackMVADecision_TOS: pi_hlt1_trackmva_tos
     # HLT2
-    b0_Hlt2XcMuXForTauB2XcMuDecision_TOS: b0_hlt2_tos
-    b_Hlt2XcMuXForTauB2XcMuDecision_TOS: b_hlt2_tos
+    #b0_Hlt2XcMuXForTauB2XcMuDecision_TOS: b0_hlt2_tos
+    #b_Hlt2XcMuXForTauB2XcMuDecision_TOS: b_hlt2_tos
     # Event variables
     nTracks: ntracks
     NumSPDHits: nspdhits
@@ -39,6 +39,17 @@ rename:
 calculation:
     # For pseudo-random sequence generation
     prs_in: double; b0_PT; b_PT
+
+    ###########
+    # Trigger #
+    ###########
+    # HLT2 trigger that depends on if it's a misID sample
+    # FIXME: Current GRID ntuple filters trigger correctly but the Fake lines
+    #        are not saved.
+    #        If we need to reprod Mu misID samples the 'IF_VAR_EXISTS' part can be replaced
+    #        with the actual trigger name, say 'b0_Hlt2XcMuXForTauB2XcFakeMuDecision'
+    b0_hlt2_tos: bool; IF_VAR_EXISTS(cli_is_mu_misid, true); b0_Hlt2XcMuXForTauB2XcMuDecision_TOS
+    b_hlt2_tos: bool; IF_VAR_EXISTS(cli_is_mu_misid, true); b_Hlt2XcMuXForTauB2XcMuDecision_TOS
 
     #######################
     # Isolation variables #
