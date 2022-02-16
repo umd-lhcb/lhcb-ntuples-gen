@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Feb 16, 2022 at 04:11 AM -0500
+# Last Change: Wed Feb 16, 2022 at 09:36 AM -0500
 # NOTE: This is inspired by Greg Ciezarek's run 1 J/psi K fit
 
 import zfit
@@ -39,6 +39,9 @@ def parse_input():
 
     parser.add_argument('-i', '--input', nargs='+', required=True,
                         help='specify input ntuples and trees of uproot spec.')
+
+    parser.add_argument('-p', '--params', required=True,
+                        help='specify fit initial parameters.')
 
     parser.add_argument('-o', '--output', default='fit_results',
                         help='specify output folder.')
@@ -84,6 +87,19 @@ def gen_ylds(num_of_evt, names=['bkg', 'tail', 'sig'],
         ylds.append(zfit.Parameter(
             f'yld_{n}', num_of_evt*r*nominal_fac, 0, num_of_evt*r))
     return ylds
+
+
+def load_params(yml):
+    with open(yml, 'r') as f:
+        params_to_load = yaml.safe_load(f)
+
+    params = dict()
+    for var, spec in params_to_load.items():
+        lower, upper = spec['lower'], spec['upper']
+        value = (upper+lower) / 2 if 'value' not in spec else spec['value']
+        params[var] = zfit.Parameter(var, value, lower, upper)
+
+    return params
 
 
 ############
@@ -150,53 +166,54 @@ def plot(fit_var, fit_models, bins=30, data_lbl='Data', title='Fit',
 # Fit #
 #######
 
-def fit_model_sig(obs, yld):
+def fit_model_sig(obs, yld, fit_params):
     # It's a composition between a Gaussian and a CB
-    peak = zfit.Parameter('peak', 5280, 5270, 5290)
+    peak = fit_params['peak']
 
     # Unlike RooFit, an initial value has to be provided
     # NOTE: By default RooFit use the center of the range
     #       My definition should be equivalent to Greg's
-    width_cb = zfit.Parameter('width_cb', 22.5, 15, 30)
-    alpha = zfit.Parameter('alpha', 1.25, 0.5, 2)
-    n_cb = zfit.Parameter('n_cb', 76.5, 3, 150)
+    width_cb = fit_params['width_cb']
+    alpha = fit_params['alpha']
+    n_cb = fit_params['n_cb']
 
-    width_g_sig = zfit.Parameter('width_g_sig', 7.5, 0, 15)
+    width_g_sig = fit_params['width_g_sig']
 
     pdf_sig_cb = zfit.pdf.CrystalBall(
         obs=obs, mu=peak, sigma=width_cb, alpha=alpha, n=n_cb)
     pdf_sig_g = zfit.pdf.Gauss(obs=obs, mu=peak, sigma=width_g_sig)
 
     # Composite the 2 distributions
-    frac_sig_cb_g = zfit.Parameter('frac_sig_cb_g', 0.6, 0, 1)
+    frac_sig_cb_g = fit_params['frac_sig_cb_g']
     pdf = zfit.pdf.SumPDF(
         pdfs=[pdf_sig_cb, pdf_sig_g], fracs=frac_sig_cb_g, name='sumpdf_sig')
     pdf.set_yield(yld)
     return pdf
 
 
-def fit_model_bkg(obs, yld):
-    expc = zfit.Parameter('expc', -0.025, -0.05, 0)
+def fit_model_bkg(obs, yld, fit_params):
+    expc = fit_params['expc']
 
     pdf = zfit.pdf.Exponential(obs=obs, lam=expc)
     pdf.set_yield(yld)
     return pdf
 
 
-def fit_model_tail(obs, yld):
-    peak_tail = zfit.Parameter('peak_tail', 5145, 5120, 5170)
-    width_g_tail = zfit.Parameter('width_g_tail', 35, 20, 50)
+def fit_model_tail(obs, yld, fit_params):
+    peak_tail = fit_params['peak_tail']
+    width_g_tail = fit_params['width_g_tail']
 
     pdf = zfit.pdf.Gauss(obs=obs, mu=peak_tail, sigma=width_g_tail)
     pdf.set_yield(yld)
     return pdf
 
 
-def fit_model_overall(obs, fit_var):
+def fit_model_overall(obs, fit_var, fit_params):
     fit_component_builders = [fit_model_bkg, fit_model_tail, fit_model_sig]
     fit_yields = gen_ylds(fit_var.size)
     fit_components = [
-        m(obs, yld) for m, yld in zip(fit_component_builders, fit_yields)]
+        m(obs, yld, fit_params)
+        for m, yld in zip(fit_component_builders, fit_yields)]
 
     return zfit.pdf.SumPDF(pdfs=fit_components, name='sumpdf_overall'), \
         fit_components, fit_yields
@@ -224,6 +241,7 @@ def fit(obs, fit_var, fit_model):
 if __name__ == '__main__':
     mplhep.style.use('LHCb2')
     args = parse_input()
+    fit_params = load_params(args.params)
 
     ntp_brs = concatenate(
         args.input, [args.branch, 'runNumber', 'eventNumber'], library='np')
@@ -232,7 +250,7 @@ if __name__ == '__main__':
 
     print('Initialize fit model...')
     obs = zfit.Space('x', limits=MODEL_BDY)
-    fit_model, fit_components, _ = fit_model_overall(obs, fit_var)
+    fit_model, fit_components, _ = fit_model_overall(obs, fit_var, fit_params)
 
     output_plot_init = args.output + '/fit_init.pdf' \
         if not args.outputPlotInit else args.outputPlotInit

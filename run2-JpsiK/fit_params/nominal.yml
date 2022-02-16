@@ -1,0 +1,36 @@
+# sig: Crystal Ball
+peak:
+    lower: 5270
+    upper: 5290
+width_cb:
+    lower: 15
+    upper: 30
+alpha:
+    lower: 0.5
+    upper: 2
+n_cb:
+    lower: 3
+    upper: 150
+
+# sig: Gaussian
+width_g_sig:
+    lower: 0
+    upper: 15
+
+frac_sig_cb_g:
+    value: 0.6
+    lower: 0
+    upper: 1
+
+# bkg
+expc:
+    lower: -0.05
+    upper: 0
+
+# tail
+peak_tail:
+    lower: 5120
+    upper: 5170
+width_g_tail:
+    lower: 20
+    upper: 50
