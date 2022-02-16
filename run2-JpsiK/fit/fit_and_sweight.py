@@ -2,16 +2,25 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Feb 15, 2022 at 12:21 PM -0500
+# Last Change: Wed Feb 16, 2022 at 02:30 AM -0500
 # NOTE: This is inspired by Greg Ciezarek's run 1 J/psi K fit
 
 import zfit
 import yaml
 import time
+import mplhep
+import numpy as np
+import matplotlib.pyplot as plt
 
 from argparse import ArgumentParser
 from uproot import concatenate, recreate
 from os import makedirs
+
+from pyTuplingUtils.utils import gen_histo
+from pyTuplingUtils.plot import (
+    plot_top, plot_errorbar,
+    ax_add_args_errorbar
+)
 
 
 #######################
@@ -21,10 +30,10 @@ from os import makedirs
 def parse_input():
     parser = ArgumentParser(description='Simple fit and sWeight to J/psi K.')
 
-    parser.add_argument('-i', '--input', nargs='+',
+    parser.add_argument('-i', '--input', nargs='+', required=True,
                         help='specify input ntuples and trees of uproot spec.')
 
-    parser.add_argument('-o', '--output',
+    parser.add_argument('-o', '--output', default='fit_results',
                         help='specify output folder.')
 
     parser.add_argument('-b', '--branch', default='b_m',
@@ -32,6 +41,18 @@ def parse_input():
 
     parser.add_argument('--noFit', action='store_true',
                         help='just plot the model before fit.')
+
+    parser.add_argument('-I', '--outputPlotInit', default=None,
+                        help='specify path to initial plot.')
+
+    parser.add_argument('--dataLabel', default='2016 Data',
+                        help='specify data label in the plots.')
+
+    parser.add_argument('--xLabel', default=r'$m_B$ [MeV]',
+                        help='specify xlabel.')
+
+    parser.add_argument('--yLabel', default=r'Number of events',
+                        help='specify ylabel.')
 
     return parser.parse_args()
 
@@ -56,6 +77,30 @@ def gen_ylds(num_of_evt, names=['sig', 'bkg', 'tail'],
         ylds.append(zfit.Parameter(
             f'yld_{n}', num_of_evt*r*nominal_fac, 0, num_of_evt*r))
     return ylds
+
+
+############
+# Plotting #
+############
+
+def plot(fit_var, bins=30, data_lbl='Data', title='Fit',
+         data_range=None, output=None,
+         **kwargs):
+    plotters = []
+
+    h_data, h_bins = gen_histo(fit_var, bins=bins, data_range=data_range)
+    h_data_args = ax_add_args_errorbar(
+        data_lbl, 'black', yerr=np.sqrt(h_data), marker='.')
+    plotters.append(
+        lambda fig, ax, b=h_bins, h=h_data, add=h_data_args: plot_errorbar(
+            b, h, add, figure=fig, axis=ax, show_legend=False))
+
+    fig, ax = plot_top(plotters, output=None, title=title, **kwargs)
+    ax.ticklabel_format(style='sci', scilimits=[-4, 3], axis='y')
+    plt.tight_layout(pad=0)
+    fig.savefig(output)
+    fig.clf()
+    plt.close(fig)
 
 
 #######
@@ -105,8 +150,6 @@ def fit_model_tail(obs, yld):
 
 
 def fit_model_overall(obs, fit_var):
-
-    # Load models
     fit_components = [fit_model_sig, fit_model_bkg, fit_model_tail]
     fit_yields = gen_ylds(fit_var.size)
     return zfit.pdf.SumPDF(
@@ -134,6 +177,7 @@ def fit(obs, fit_var, fit_model):
 
 
 if __name__ == '__main__':
+    mplhep.style.use('LHCb2')
     args = parse_input()
 
     ntp_brs = concatenate(
@@ -142,9 +186,17 @@ if __name__ == '__main__':
     print(f'Total events in data: {fit_var.size}')
 
     print('Initialize fit model...')
-    model_bdy = (5100, 5400)
+    model_bdy = (5200, 5360)
     obs = zfit.Space('x', limits=model_bdy)
     fit_model = fit_model_overall(obs, fit_var)
+
+    output_plot_init = args.output + '/fit_init.png' \
+        if not args.outputPlotInit else args.outputPlotInit
+    plot(
+        fit_var, output=output_plot_init, data_range=model_bdy,
+        xlabel=args.xLabel, ylabel=args.yLabel, data_lbl=args.dataLabel,
+        title='Before fit'
+    )
 
     if not args.noFit:
         fit_result = fit(obs, fit_var, fit_model)
