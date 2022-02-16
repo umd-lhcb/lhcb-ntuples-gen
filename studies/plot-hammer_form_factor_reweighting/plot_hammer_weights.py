@@ -7,7 +7,6 @@
 
 import os
 import sys
-import uproot
 import numpy as np
 import mplhep as hep
 import matplotlib.pyplot as plt
