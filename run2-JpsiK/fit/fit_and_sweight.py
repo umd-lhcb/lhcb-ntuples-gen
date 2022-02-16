@@ -2,19 +2,21 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Feb 16, 2022 at 10:10 AM -0500
+# Last Change: Wed Feb 16, 2022 at 12:50 PM -0500
 # NOTE: This is inspired by Greg Ciezarek's run 1 J/psi K fit
 
 import zfit
 import yaml
 import time
+import sys
 import mplhep
 import numpy as np
 import matplotlib.pyplot as plt
 
 from argparse import ArgumentParser
-from uproot import concatenate, recreate
 from os import makedirs
+from pathlib import Path
+from uproot import concatenate, recreate
 
 from pyTuplingUtils.utils import gen_histo
 from pyTuplingUtils.plot import (
@@ -105,6 +107,13 @@ def load_params(yml):
     return params
 
 
+def ensure_dir(path, is_file=True):
+    if is_file:
+        makedirs(Path(path).parent, exist_ok=True)
+    else:
+        makedirs(Path(path), exist_ok=True)
+
+
 ############
 # Plotting #
 ############
@@ -142,11 +151,11 @@ def plot(fit_var, fit_models, bins=30, data_lbl='Data', title='Fit',
     h_models = [gen_histo_from_pdf(pdf, h_bins) for pdf in fit_models]
     y_baselines = gen_histo_stacked_baseline(h_models)
 
-    for hist, baseline, lbl, clr in zip(
+    for hist, bot, lbl, clr in zip(
             h_models, y_baselines, fit_model_lbls, fit_model_colors):
-        h_models_args = ax_add_args_histo(lbl, clr, bottom=baseline)
+        h_models_args = ax_add_args_histo(lbl, clr, baseline=bot)
         plotters.append(
-            lambda fig, ax, b=h_bins, h=hist, add=h_models_args: plot_histo(
+            lambda fig, ax, b=h_bins, h=hist+bot, add=h_models_args: plot_histo(
                 b, h, add, figure=fig, axis=ax, show_legend=False))
 
     # Do the actual plot
@@ -158,7 +167,10 @@ def plot(fit_var, fit_models, bins=30, data_lbl='Data', title='Fit',
         }, **kwargs)
 
     # Tweaks on legend
-    ax.ticklabel_format(style='sci', scilimits=[-4, 3], axis='y')
+    try:
+        ax.ticklabel_format(style='sci', scilimits=[-4, 3], axis='y')
+    except:
+        pass
 
     plt.tight_layout(pad=0)
     fig.savefig(output)
@@ -257,24 +269,42 @@ if __name__ == '__main__':
 
     output_plot_init = args.output + '/fit_init.pdf' \
         if not args.outputPlotInit else args.outputPlotInit
+    ensure_dir(output_plot_init)
     plot(
         fit_var, fit_components, output=output_plot_init, data_range=MODEL_BDY,
         xlabel=args.xLabel, ylabel=args.yLabel, data_lbl=args.dataLabel,
         title='Before fit'
     )
 
-    if not args.noFit:
-        fit_result = fit(obs, fit_var, fit_model)
-        print('Fit result:\n', fit_result, sep='')
+    if args.noFit:
+        sys.exit(0)
 
-        # Dump result
-        makedirs(args.output, exist_ok=True)
+    # Now do the fit
+    fit_result = fit(obs, fit_var, fit_model)
+    print('Fit result:\n', fit_result, sep='')
 
-        ntp = recreate(f'{args.output}/in_out.root')
-        out_brs = ntp_brs
-        ntp['tree'] = out_brs
+    # Dump result
+    ensure_dir(args.output, is_file=False)
 
-        with open(f'{args.output}/params.yml', 'w') as f:
-            params_formatted = {k.name: filter_dict(v)
-                                for k, v in fit_result.params.items()}
-            yaml.dump(params_formatted, f)
+    ntp = recreate(f'{args.output}/in_out.root')
+    out_brs = ntp_brs
+    ntp['tree'] = out_brs
+
+    with open(f'{args.output}/params.yml', 'w') as f:
+        params_formatted = {k.name: filter_dict(v)
+                            for k, v in fit_result.params.items()}
+        yaml.dump(params_formatted, f)
+
+    plot(
+        fit_var, fit_components, output=args.output+'/fit_final.pdf',
+        data_range=MODEL_BDY,
+        xlabel=args.xLabel, ylabel=args.yLabel, data_lbl=args.dataLabel,
+        title=r'$J\psi K$ aux. fit',
+    )
+    plot(
+        fit_var, fit_components, output=args.output+'/fit_final_log_scale.pdf',
+        data_range=MODEL_BDY,
+        xlabel=args.xLabel, ylabel=args.yLabel, data_lbl=args.dataLabel,
+        title=r'$J/\psi K$ aux. fit',
+        yscale='log'
+    )
