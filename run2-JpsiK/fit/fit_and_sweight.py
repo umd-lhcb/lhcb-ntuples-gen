@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Feb 16, 2022 at 02:52 PM -0500
+# Last Change: Wed Feb 16, 2022 at 04:17 PM -0500
 # NOTE: This is inspired by Greg Ciezarek's run 1 J/psi K fit
 
 import zfit
@@ -175,7 +175,7 @@ def plot(fit_var, fit_models, bins=30, data_lbl='Data', title='Fit',
     except:
         pass
 
-    plt.tight_layout(pad=0)
+    fig.set_tight_layout({'pad': 0.0})
     fig.savefig(output)
     plt.close(fig)
 
