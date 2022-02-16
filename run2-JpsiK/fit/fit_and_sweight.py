@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Feb 16, 2022 at 03:56 AM -0500
+# Last Change: Wed Feb 16, 2022 at 04:11 AM -0500
 # NOTE: This is inspired by Greg Ciezarek's run 1 J/psi K fit
 
 import zfit
@@ -27,7 +27,7 @@ from pyTuplingUtils.plot import (
 # Config #
 ##########
 
-MODEL_BDY = (5200, 5360)
+MODEL_BDY = (5160, 5350)
 
 
 #######################
@@ -77,8 +77,8 @@ def filter_dict(dct):
     }
 
 
-def gen_ylds(num_of_evt, names=['sig', 'bkg', 'tail'],
-             ratios=[0.95, 0.14, 0.07], nominal_fac=0.75):
+def gen_ylds(num_of_evt, names=['bkg', 'tail', 'sig'],
+             ratios=[0.14, 0.07, 0.95], nominal_fac=0.75):
     ylds = []
     for n, r in zip(names, ratios):
         ylds.append(zfit.Parameter(
@@ -106,11 +106,12 @@ def gen_histo_stacked_baseline(histos):
 
 def plot(fit_var, fit_models, bins=30, data_lbl='Data', title='Fit',
          data_range=None, output=None,
-         fit_model_lbls=['sig.', 'bkg.', 'tail'],
-         fit_model_colors=['cornflowerblue', 'crimson', 'darkgoldenrod'],
+         fit_model_lbls=['bkg.', 'tail', 'sig.'],
+         fit_model_colors=['crimson', 'darkgoldenrod', 'cornflowerblue'],
          **kwargs):
     plotters = []
 
+    # Data plot
     h_data, h_bins = gen_histo(fit_var, bins=bins, data_range=data_range)
     h_data_args = ax_add_args_errorbar(
         data_lbl, 'black', yerr=np.sqrt(h_data), marker='.')
@@ -118,6 +119,7 @@ def plot(fit_var, fit_models, bins=30, data_lbl='Data', title='Fit',
         lambda fig, ax, b=h_bins, h=h_data, add=h_data_args: plot_errorbar(
             b, h, add, figure=fig, axis=ax, show_legend=False))
 
+    # Fit pdf plot (manually binned)
     h_models = [gen_histo_from_pdf(pdf, h_bins) for pdf in fit_models]
     y_baselines = gen_histo_stacked_baseline(h_models)
 
@@ -128,13 +130,17 @@ def plot(fit_var, fit_models, bins=30, data_lbl='Data', title='Fit',
             lambda fig, ax, b=h_bins, h=hist, add=h_models_args: plot_histo(
                 b, h, add, figure=fig, axis=ax, show_legend=False))
 
+    # Do the actual plot
     fig, ax = plot_top(
         plotters, output=None, title=title,
         legend_add_args={
             'numpoints': 1, 'loc': 'best', 'fontsize': 'medium',
             'frameon': 'true'
         }, **kwargs)
+
+    # Tweaks on legend
     ax.ticklabel_format(style='sci', scilimits=[-4, 3], axis='y')
+
     plt.tight_layout(pad=0)
     fig.savefig(output)
     plt.close(fig)
@@ -187,7 +193,7 @@ def fit_model_tail(obs, yld):
 
 
 def fit_model_overall(obs, fit_var):
-    fit_component_builders = [fit_model_sig, fit_model_bkg, fit_model_tail]
+    fit_component_builders = [fit_model_bkg, fit_model_tail, fit_model_sig]
     fit_yields = gen_ylds(fit_var.size)
     fit_components = [
         m(obs, yld) for m, yld in zip(fit_component_builders, fit_yields)]
