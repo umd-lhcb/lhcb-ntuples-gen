@@ -28,12 +28,12 @@ expc:
     upper: 0
 
 # tail
-peak_tail:
-    lower: 5120
-    upper: 5170
-width_g_tail:
-    lower: 20
-    upper: 50
+#peak_tail:
+#    lower: 5120
+#    upper: 5170
+#width_g_tail:
+#    lower: 20
+#    upper: 50
 
 # yield ratios
 yld_sig_ratio:
@@ -44,7 +44,7 @@ yld_bkg_ratio:
     value: 0.16
     lower: 0
     upper: 0.24
-yld_tail_ratio:
-    value: 0.01
-    lower: 0
-    upper: 0.05
+#yld_tail_ratio:
+#    value: 0.01
+#    lower: 0
+#    upper: 0.05

@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Feb 16, 2022 at 12:50 PM -0500
+# Last Change: Wed Feb 16, 2022 at 02:52 PM -0500
 # NOTE: This is inspired by Greg Ciezarek's run 1 J/psi K fit
 
 import zfit
@@ -66,6 +66,9 @@ def parse_input():
     parser.add_argument('--yLabel', default=r'Number of events',
                         help='specify ylabel.')
 
+    parser.add_argument('--bins', default=40,
+                        help='specify the binning in the plot.')
+
     return parser.parse_args()
 
 
@@ -83,7 +86,7 @@ def filter_dict(dct):
     }
 
 
-def gen_ylds(num_of_evt, fit_params, names=['bkg', 'tail', 'sig']):
+def gen_ylds(num_of_evt, fit_params, names=['bkg', 'sig']):
     ylds = []
     for n in names:
         ylds.append(zfit.ComposedParameter(
@@ -134,8 +137,8 @@ def gen_histo_stacked_baseline(histos):
 
 def plot(fit_var, fit_models, bins=30, data_lbl='Data', title='Fit',
          data_range=None, output=None,
-         fit_model_lbls=['bkg.', 'tail', 'sig.'],
-         fit_model_colors=['crimson', 'darkgoldenrod', 'cornflowerblue'],
+         fit_model_lbls=['bkg.', 'sig.'],
+         fit_model_colors=['crimson', 'cornflowerblue', 'darkgoldenrod'],
          **kwargs):
     plotters = []
 
@@ -224,8 +227,8 @@ def fit_model_tail(obs, yld, fit_params):
 
 
 def fit_model_overall(obs, fit_var, fit_params):
-    fit_component_builders = [fit_model_bkg, fit_model_tail, fit_model_sig]
-    fit_yields = gen_ylds(fit_var.size, fit_params)
+    fit_component_builders = [fit_model_bkg, fit_model_sig]
+    fit_yields = gen_ylds(fit_var.size, fit_params, names=['bkg', 'sig'])
     fit_components = [
         m(obs, yld, fit_params)
         for m, yld in zip(fit_component_builders, fit_yields)]
@@ -273,7 +276,7 @@ if __name__ == '__main__':
     plot(
         fit_var, fit_components, output=output_plot_init, data_range=MODEL_BDY,
         xlabel=args.xLabel, ylabel=args.yLabel, data_lbl=args.dataLabel,
-        title='Before fit'
+        title='Before fit', bins=args.bins
     )
 
     if args.noFit:
@@ -299,12 +302,11 @@ if __name__ == '__main__':
         fit_var, fit_components, output=args.output+'/fit_final.pdf',
         data_range=MODEL_BDY,
         xlabel=args.xLabel, ylabel=args.yLabel, data_lbl=args.dataLabel,
-        title=r'$J\psi K$ aux. fit',
+        title=r'$J\psi K$ aux. fit', bins=args.bins
     )
     plot(
         fit_var, fit_components, output=args.output+'/fit_final_log_scale.pdf',
         data_range=MODEL_BDY,
         xlabel=args.xLabel, ylabel=args.yLabel, data_lbl=args.dataLabel,
-        title=r'$J/\psi K$ aux. fit',
-        yscale='log'
+        title=r'$J/\psi K$ aux. fit', yscale='log', bins=args.bins
     )
