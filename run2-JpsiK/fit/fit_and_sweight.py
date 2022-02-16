@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Feb 16, 2022 at 09:37 AM -0500
+# Last Change: Wed Feb 16, 2022 at 10:10 AM -0500
 # NOTE: This is inspired by Greg Ciezarek's run 1 J/psi K fit
 
 import zfit
@@ -27,7 +27,7 @@ from pyTuplingUtils.plot import (
 # Config #
 ##########
 
-MODEL_BDY = (5160, 5350)
+MODEL_BDY = (5150, 5350)
 
 
 #######################
@@ -81,12 +81,14 @@ def filter_dict(dct):
     }
 
 
-def gen_ylds(num_of_evt, names=['bkg', 'tail', 'sig'],
-             ratios=[0.14, 0.07, 0.95], nominal_fac=0.75):
+def gen_ylds(num_of_evt, fit_params, names=['bkg', 'tail', 'sig']):
     ylds = []
-    for n, r in zip(names, ratios):
-        ylds.append(zfit.Parameter(
-            f'yld_{n}', num_of_evt*r*nominal_fac, 0, num_of_evt*r))
+    for n in names:
+        ylds.append(zfit.ComposedParameter(
+            f'yld_{n}',
+            lambda raw: num_of_evt*raw,
+            {'raw': fit_params[f'yld_{n}_ratio']}
+        ))
     return ylds
 
 
@@ -211,7 +213,7 @@ def fit_model_tail(obs, yld, fit_params):
 
 def fit_model_overall(obs, fit_var, fit_params):
     fit_component_builders = [fit_model_bkg, fit_model_tail, fit_model_sig]
-    fit_yields = gen_ylds(fit_var.size)
+    fit_yields = gen_ylds(fit_var.size, fit_params)
     fit_components = [
         m(obs, yld, fit_params)
         for m, yld in zip(fit_component_builders, fit_yields)]
