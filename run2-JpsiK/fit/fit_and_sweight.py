@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Feb 16, 2022 at 02:30 AM -0500
+# Last Change: Wed Feb 16, 2022 at 03:56 AM -0500
 # NOTE: This is inspired by Greg Ciezarek's run 1 J/psi K fit
 
 import zfit
@@ -18,9 +18,16 @@ from os import makedirs
 
 from pyTuplingUtils.utils import gen_histo
 from pyTuplingUtils.plot import (
-    plot_top, plot_errorbar,
-    ax_add_args_errorbar
+    plot_top, plot_errorbar, plot_histo,
+    ax_add_args_errorbar, ax_add_args_histo
 )
+
+
+##########
+# Config #
+##########
+
+MODEL_BDY = (5200, 5360)
 
 
 #######################
@@ -45,7 +52,7 @@ def parse_input():
     parser.add_argument('-I', '--outputPlotInit', default=None,
                         help='specify path to initial plot.')
 
-    parser.add_argument('--dataLabel', default='2016 Data',
+    parser.add_argument('--dataLabel', default='2016 data',
                         help='specify data label in the plots.')
 
     parser.add_argument('--xLabel', default=r'$m_B$ [MeV]',
@@ -83,8 +90,24 @@ def gen_ylds(num_of_evt, names=['sig', 'bkg', 'tail'],
 # Plotting #
 ############
 
-def plot(fit_var, bins=30, data_lbl='Data', title='Fit',
+def gen_histo_from_pdf(pdf, bin_bdy):
+    histo = []
+    for left_bdy, right_bdy in zip(bin_bdy[:-1], bin_bdy[1:]):
+        histo.append(pdf.ext_integrate([left_bdy, right_bdy])[0])
+    return np.array(histo)
+
+
+def gen_histo_stacked_baseline(histos):
+    result = [np.zeros(histos[0].size)]
+    for idx in range(0, len(histos)-1):
+        result.append(result[idx]+histos[idx])
+    return result
+
+
+def plot(fit_var, fit_models, bins=30, data_lbl='Data', title='Fit',
          data_range=None, output=None,
+         fit_model_lbls=['sig.', 'bkg.', 'tail'],
+         fit_model_colors=['cornflowerblue', 'crimson', 'darkgoldenrod'],
          **kwargs):
     plotters = []
 
@@ -95,11 +118,25 @@ def plot(fit_var, bins=30, data_lbl='Data', title='Fit',
         lambda fig, ax, b=h_bins, h=h_data, add=h_data_args: plot_errorbar(
             b, h, add, figure=fig, axis=ax, show_legend=False))
 
-    fig, ax = plot_top(plotters, output=None, title=title, **kwargs)
+    h_models = [gen_histo_from_pdf(pdf, h_bins) for pdf in fit_models]
+    y_baselines = gen_histo_stacked_baseline(h_models)
+
+    for hist, baseline, lbl, clr in zip(
+            h_models, y_baselines, fit_model_lbls, fit_model_colors):
+        h_models_args = ax_add_args_histo(lbl, clr, bottom=baseline)
+        plotters.append(
+            lambda fig, ax, b=h_bins, h=hist, add=h_models_args: plot_histo(
+                b, h, add, figure=fig, axis=ax, show_legend=False))
+
+    fig, ax = plot_top(
+        plotters, output=None, title=title,
+        legend_add_args={
+            'numpoints': 1, 'loc': 'best', 'fontsize': 'medium',
+            'frameon': 'true'
+        }, **kwargs)
     ax.ticklabel_format(style='sci', scilimits=[-4, 3], axis='y')
     plt.tight_layout(pad=0)
     fig.savefig(output)
-    fig.clf()
     plt.close(fig)
 
 
@@ -150,11 +187,13 @@ def fit_model_tail(obs, yld):
 
 
 def fit_model_overall(obs, fit_var):
-    fit_components = [fit_model_sig, fit_model_bkg, fit_model_tail]
+    fit_component_builders = [fit_model_sig, fit_model_bkg, fit_model_tail]
     fit_yields = gen_ylds(fit_var.size)
-    return zfit.pdf.SumPDF(
-        pdfs=[m(obs, yld) for m, yld in zip(fit_components, fit_yields)],
-        name='sumpdf_overall')
+    fit_components = [
+        m(obs, yld) for m, yld in zip(fit_component_builders, fit_yields)]
+
+    return zfit.pdf.SumPDF(pdfs=fit_components, name='sumpdf_overall'), \
+        fit_components, fit_yields
 
 
 def fit(obs, fit_var, fit_model):
@@ -186,14 +225,13 @@ if __name__ == '__main__':
     print(f'Total events in data: {fit_var.size}')
 
     print('Initialize fit model...')
-    model_bdy = (5200, 5360)
-    obs = zfit.Space('x', limits=model_bdy)
-    fit_model = fit_model_overall(obs, fit_var)
+    obs = zfit.Space('x', limits=MODEL_BDY)
+    fit_model, fit_components, _ = fit_model_overall(obs, fit_var)
 
-    output_plot_init = args.output + '/fit_init.png' \
+    output_plot_init = args.output + '/fit_init.pdf' \
         if not args.outputPlotInit else args.outputPlotInit
     plot(
-        fit_var, output=output_plot_init, data_range=model_bdy,
+        fit_var, fit_components, output=output_plot_init, data_range=MODEL_BDY,
         xlabel=args.xLabel, ylabel=args.yLabel, data_lbl=args.dataLabel,
         title='Before fit'
     )
