@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Feb 16, 2022 at 09:36 AM -0500
+# Last Change: Wed Feb 16, 2022 at 09:37 AM -0500
 # NOTE: This is inspired by Greg Ciezarek's run 1 J/psi K fit
 
 import zfit
@@ -73,10 +73,11 @@ def parse_input():
 
 # This controls output of a single parameter
 def filter_dict(dct):
+    value = dct['value']
     return {
-        'value': dct['value'],
-        'err_lower': dct['minuit_minos']['lower'],
-        'err_upper': dct['minuit_minos']['upper'],
+        'value': value,
+        'lower': value + dct['minuit_minos']['lower'],
+        'upper': value + dct['minuit_minos']['upper'],
     }
 
 
