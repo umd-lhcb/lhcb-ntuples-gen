@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Feb 14, 2022 at 05:14 PM -0500
+# Last Change: Wed Feb 16, 2022 at 02:08 PM -0500
 
 import sys
 import os.path as op
@@ -11,17 +11,14 @@ from argparse import ArgumentParser
 from os import chdir, makedirs
 from functools import partial
 
-from pyBabyMaker.base import TermColor as TC
-
 sys.path.insert(0, op.dirname(op.abspath(__file__)))
 
 from utils import (
-    run_cmd,
-    abs_path, ensure_dir, find_all_input,
+    run_cmd, ensure_dir,
     aggregate_fltr, aggregate_output, check_ntp_name, find_decay_mode,
     smart_kwarg,
     generate_step2_name,
-    workflow_apply_weight
+    workflow_apply_weight, workflow_prep_dir
 )
 
 from rdx import workflow_single_ntuple as workflow_single_ntuple_rdx
@@ -89,25 +86,6 @@ def workflow_single_ntuple(input_ntp, input_yml, output_suffix, aux_workflows,
     workflow_single_ntuple_rdx(
         input_ntp, input_yml, output_suffix, aux_workflows,
         cpp_template=cpp_template, **kwargs)
-
-
-@smart_kwarg([])
-def workflow_prep_dir(job_name, inputs,
-                      output_dir=abs_path('../gen'),
-                      patterns=['*.root'],
-                      blocked_patterns=['--aux'],
-                      ):
-    print('{}==== Job: {} ===={}'.format(TC.BOLD+TC.GREEN, job_name, TC.END))
-
-    # Need to figure out the absolute path
-    input_files = find_all_input(inputs, patterns, blocked_patterns)
-    subworkdirs = {op.splitext(op.basename(i))[0]
-                   if op.isfile(i) else op.basename(i): i for i in input_files}
-
-    # Now ensure the working dir
-    workdir = ensure_dir(op.join(output_dir, job_name))
-
-    return subworkdirs, workdir
 
 
 ###################

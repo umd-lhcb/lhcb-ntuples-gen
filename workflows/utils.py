@@ -2,13 +2,14 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sat Feb 12, 2022 at 04:08 AM -0500
+# Last Change: Wed Feb 16, 2022 at 02:08 PM -0500
 
 import re
 import yaml
 import shlex
-import os.path as op  # NOTE: Can't use pathlib because that doesn't handle symbolic link well
+import sys
 import fnmatch
+import os.path as op  # NOTE: Can't use pathlib because that doesn't handle symbolic link well
 
 from os import makedirs, chdir, system
 from datetime import datetime
@@ -445,3 +446,28 @@ def workflow_apply_weight(input_ntp, histo_folder, config,
     cmd = f'apply_histo_weight.py {input_ntp} {histo_folder} {output_ntp} -c {config} --year {year} --polarity {polarity}'
     return workflow_cached_ntuple(
         cmd, input_ntp, output_ntp, cache_suffix, **kwargs)
+
+
+@smart_kwarg([])
+def workflow_prep_dir(job_name, inputs,
+                      output_dir=abs_path('../gen'),
+                      patterns=['*.root'],
+                      blocked_patterns=['--aux'],
+                      ):
+    TC = TermColor
+    print('{}==== Job: {} ===={}'.format(TC.BOLD+TC.GREEN, job_name, TC.END))
+
+    # Need to figure out the absolute path
+    input_files = find_all_input(inputs, patterns, blocked_patterns)
+    if not input_files:
+        print("{}Can't find any file with the pattern '{}'{}".format(
+            TC.BOLD+TC.RED, inputs, TC.END))
+        sys.exit(1)
+
+    subworkdirs = {op.splitext(op.basename(i))[0]
+                   if op.isfile(i) else op.basename(i): i for i in input_files}
+
+    # Now ensure the working dir
+    workdir = ensure_dir(op.join(output_dir, job_name))
+
+    return subworkdirs, workdir
