@@ -2,11 +2,10 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Nov 01, 2021 at 04:16 AM +0100
+# Last Change: Wed Feb 16, 2022 at 04:20 PM -0500
 # NOTE: This is for checking on the
 
 import sys
-import uproot
 import re
 
 from glob import glob
@@ -51,7 +50,6 @@ if __name__ == '__main__':
             print('  This is a DDX MC, skipping...')
             continue
 
-        ntp = uproot.open(n)
         for t in ['TupleB0/DecayTree', 'TupleBminus/DecayTree']:
             print(f'  Tree: {t}')
-            get_ff_stat(ntp, t)
+            get_ff_stat(n, t)

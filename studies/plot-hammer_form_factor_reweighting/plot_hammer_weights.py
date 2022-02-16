@@ -17,7 +17,7 @@ from glob import glob
 from numpy import logical_and as AND
 from numpy import arange
 
-from pyTuplingUtils.io import read_branch
+from pyTuplingUtils.io import read_branches, read_branch
 from pyTuplingUtils.utils import gen_histo
 from pyTuplingUtils.plot import (
     plot_step, plot_fill, plot_top,
@@ -220,19 +220,15 @@ debugMode = len(sys.argv) == 1
 print(f'Running in debug mode or not: {debugMode}')
 
 
-for ntpName in ntpsIn:
+for ntp in ntpsIn:
     hep.style.use('LHCb2')
 
-    plotCommonName = plotBaseName(ntpName)
+    plotCommonName = plotBaseName(ntp)
 
-    ntp = uproot.open(ntpName)
     # particles = findDssInNtp(ntp)
 
-    weight = read_branch(ntp, 'tree', 'wff')
-    tm = read_branch(ntp, 'tree', 'truthmatch')
-    q2True = read_branch(ntp, 'tree', 'q2_true')
-
-    mass = read_branch(ntp, 'tree', 'ff_d_mass')
+    weight, tm, q2True, mass = read_branches(
+        ntp, 'tree', ['wff', 'truthmatch', 'q2_true', 'ff_d_mass'])
     # massB = read_branch(ntp, 'tree', 'ff_b_mass')
     # rFac = mass / massB
 
@@ -249,15 +245,15 @@ for ntpName in ntpsIn:
         ]
 
         label = fr'\$B \\rightarrow {findDss(p)} {findLep(p)}$'
-        plotNoComp(ntpName, 'wff', subplotCommonName+'_wff.png',
+        plotNoComp(ntp, 'wff', subplotCommonName+'_wff.png',
                    label, 'FF weight', f'truthmatch == {p}',
                    title=f'ISGW2/BLR = {pNum}/{pWeight:.1f} = {pNum/pWeight:.2f}'
                    )
-        plotComp(ntpName, 'q2', subplotCommonName+'_q2.png', label,
+        plotComp(ntp, 'q2', subplotCommonName+'_q2.png', label,
                  r'\$q^2$ [GeV\$^2$]', f'truthmatch == {p}', labels=labels)
-        plotComp(ntpName, 'q2_true', subplotCommonName+'_q2_true.png', label,
+        plotComp(ntp, 'q2_true', subplotCommonName+'_q2_true.png', label,
                  r'True \$q^2$ [GeV\$^2$]', f'truthmatch == {p}', labels=labels)
-        plotComp(ntpName, 'ff_d_mass', subplotCommonName+'_ff_d_mass.png',
+        plotComp(ntp, 'ff_d_mass', subplotCommonName+'_ff_d_mass.png',
                  label, fr'\${findDss(p)}$ true mass [MeV\$^2$]',
                  f'truthmatch == {p}', labels=labels, xRange=[xMin, xMax])
 

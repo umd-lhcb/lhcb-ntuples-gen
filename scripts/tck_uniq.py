@@ -2,10 +2,9 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sun Jun 13, 2021 at 05:48 PM +0200
+# Last Change: Wed Feb 16, 2022 at 04:20 PM -0500
 # NOTE: For tracker-only, the TCK branches are identically 0!
 
-import uproot
 import numpy as np
 
 from argparse import ArgumentParser
@@ -42,9 +41,8 @@ def parse_input():
 
 if __name__ == '__main__':
     args = parse_input()
-    ntp = uproot.open(args.ntp)
 
-    tck_raw = read_branches(ntp, args.tree, (args.l0, args.hlt1, args.hlt2),
+    tck_raw = read_branches(args.ntp, args.tree, (args.l0, args.hlt1, args.hlt2),
                             transpose=True)
     tck = list(map(lambda x: '-'.join([hex(i) for i in x]), tck_raw))
     tck_uniq = np.unique(tck)

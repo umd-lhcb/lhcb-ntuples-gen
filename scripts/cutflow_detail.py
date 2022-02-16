@@ -2,9 +2,8 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Jul 29, 2021 at 03:51 PM +0200
+# Last Change: Wed Feb 16, 2022 at 04:34 PM -0500
 
-import uproot
 import sys
 import os
 
@@ -169,7 +168,7 @@ def parse_input(descr='Generate cutflow (detail) output files based on input ntu
 
 if __name__ == '__main__':
     args = parse_input()
-    _, _, size, _, _, _ = extract_uid(uproot.open(args.ntp), args.tree)
+    _, _, size, _, _, _ = extract_uid(args.ntp, args.tree)
 
     result_marginal = {'DV': {'input': size, 'output': size, 'name': 'After DaVinci'}}
     result_individual = {'DV': {'input': size, 'output': size, 'name': 'After DaVinci'}}

@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun, Manual Franco Sevilla
 # License: BSD 2-clause
-# Last Change: Wed Jan 26, 2022 at 08:22 PM -0500
+# Last Change: Wed Feb 16, 2022 at 04:34 PM -0500
 
 import pathlib
 import os
@@ -12,7 +12,6 @@ pwd = pathlib.Path(__file__).parent.absolute()
 header_path = str((pwd / '../include').resolve())
 os.environ['ROOT_INCLUDE_PATH'] = header_path
 
-import uproot
 import ROOT
 ROOT.PyConfig.IgnoreCommandLineOptions = True
 
@@ -825,8 +824,7 @@ if __name__ == '__main__':
             if cut in aliases:
                 result[aliases[cut]] = val
 
-    for ntp_path in args.ntps:
-        ntp = uproot.open(ntp_path)
+    for ntp in args.ntps:
         _, _, _, uniq_size, _, _ = extract_uid(ntp, args.tree)
 
         # Update the total number after the DaVinci step
@@ -844,7 +842,7 @@ if __name__ == '__main__':
             result[cut_to_update]['output'] += uniq_size
 
         cutflow_output_regulator = cutflow_uniq_events_outer(ntp, args.tree)
-        cutflow_generator = CutflowGen(ntp_path, args.tree, cuts, uniq_size)
+        cutflow_generator = CutflowGen(ntp, args.tree, cuts, uniq_size)
 
         result_addon = cutflow_generator.do(
             output_regulator=cutflow_output_regulator)

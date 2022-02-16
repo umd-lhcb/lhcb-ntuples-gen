@@ -1,15 +1,13 @@
 #!/usr/bin/env python3
 #
 # Author: Yipeng Sun
-# Last Change: Wed Jun 16, 2021 at 02:43 PM +0200
+# Last Change: Wed Feb 16, 2022 at 04:30 PM -0500
 
 import sys
-import uproot
 import numpy as np
 import matplotlib.pyplot as plt
 import mplhep as hep
 
-from numpy import logical_and as AND
 from numpy import nan_to_num
 from statsmodels.stats.proportion import proportion_confint
 
@@ -249,7 +247,7 @@ if __name__ == '__main__':
     for ntp_tree, trigger_branches, colors, legends, cuts in zip(
             args.ref, args.ref_branch, args.colors, args.legends, args.cuts):
         ntp_name, tree = split_ntp_tree(ntp_tree)
-        cutter = BooleanEvaluator(uproot.open(ntp_name), tree)
+        cutter = BooleanEvaluator(ntp_name, tree)
 
         for k_br_name, d_range in zip(args.kinematic_vars, args.data_range):
 
