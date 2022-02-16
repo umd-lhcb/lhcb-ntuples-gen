@@ -1,10 +1,10 @@
 # sig: Crystal Ball
-peak:
+peak: # also used by sig Gaussian
     lower: 5270
     upper: 5290
 width_cb:
-    lower: 15
-    upper: 30
+    lower: 0
+    upper: 22
 alpha:
     lower: 0.5
     upper: 2
@@ -18,13 +18,13 @@ width_g_sig:
     upper: 15
 
 frac_sig_cb_g:
-    value: 0.6
+    value: 0.79
     lower: 0
     upper: 1
 
 # bkg
 expc:
-    lower: -0.05
+    lower: -0.01
     upper: 0
 
 # tail
@@ -34,3 +34,17 @@ peak_tail:
 width_g_tail:
     lower: 20
     upper: 50
+
+# yield ratios
+yld_sig_ratio:
+    value: 0.84
+    lower: 0
+    upper: 1.5
+yld_bkg_ratio:
+    value: 0.16
+    lower: 0
+    upper: 0.24
+yld_tail_ratio:
+    value: 0.01
+    lower: 0
+    upper: 0.05
