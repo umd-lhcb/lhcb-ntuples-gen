@@ -172,7 +172,7 @@ Registry Slice: jobs (30 objects)
 
 Jobs 63 and 66 are marked as `failed` because all of their subjobs are either completed or failed.
 
-To resubmit failed subjobs for, say, `job[66]`:
+To resubmit failed subjobs for, say, `jobs[63]`:
 
 ```python
 jobs[63].resubmit()
