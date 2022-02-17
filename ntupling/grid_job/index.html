@@ -1388,7 +1388,7 @@ Registry Slice: jobs (30 objects)
       73 | completed |Dst_D0--20 |     772 |      GaudiExec |          Dirac |                                         None |                               |      0/0/0/772
 </code></pre></div>
 <p>Jobs 63 and 66 are marked as <code>failed</code> because all of their subjobs are either completed or failed.</p>
-<p>To resubmit failed subjobs for, say, <code>job[66]</code>:</p>
+<p>To resubmit failed subjobs for, say, <code>jobs[63]</code>:</p>
 <div class="highlight"><pre><span></span><code><span class="n">jobs</span><span class="p">[</span><span class="mi">63</span><span class="p">]</span><span class="o">.</span><span class="n">resubmit</span><span class="p">()</span>
 </code></pre></div>
 <p>However, above won't work unless all sub-jobs are either completed or failed.
