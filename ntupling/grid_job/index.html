@@ -1359,6 +1359,11 @@ run on do not exist, perhaps because you have a typo.</p>
 <p class="admonition-title">Usage of <code>ganga_jobs.py</code></p>
 <p>See <a href="#general-usage-of-ganga_jobspy">this appendix</a>.</p>
 </div>
+<div class="admonition info">
+<p class="admonition-title">Manage <code>ganga</code> job output</p>
+<p>You need to keep <code>ganga</code> running in a <code>lxplus</code> session to get up-to-date info
+about your jobs and download output of completed (sub)jobs.</p>
+</div>
 <h3 id="update-subjob-status-and-force-status-to-be-failed-when-necessary">Update subjob status and force status to be "failed" when necessary</h3>
 <p>Sometimes ganga would stuck at updating job status. To reset the status for
 "completing" and "failed" subjobs, do:</p>
@@ -1400,16 +1405,20 @@ simple <code>job[63].resubmit()</code> won't resubmit these killed jobs. To resu
 </code></pre></div>
 <p>If for some jobs keep failing, consider the backend bad and ban it in:</p>
 <ul>
-<li><code>ganga/ganga_jobs.py</code> in this repo: In <code>BannedSites</code></li>
-<li><code>$HOME/.ganga.py</code> on <code>lxplus</code>: In <code>remake_uncompleted_job</code> function parameter</li>
 <li>
 <p><code>ban_site_for_job</code> helper function with interactive <code>ganga</code>:</p>
 <div class="highlight"><pre><span></span><code><span class="n">ban_site_for_job</span><span class="p">(</span><span class="mi">63</span><span class="p">,</span> <span class="s1">&#39;LCG.site.a&#39;</span><span class="p">)</span>
 <span class="n">ban_site_for_job</span><span class="p">(</span><span class="mi">63</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;LCG.site.a&#39;</span><span class="p">,</span> <span class="s1">&#39;LCG.site.b&#39;</span><span class="p">])</span>  <span class="c1"># you can ban multiple sites at once</span>
 </code></pre></div>
+<p>Then <code>resubmit</code> the job using methods described above</p>
 </li>
+<li>
+<p><code>ganga/ganga_jobs.py</code> in this repo: In <code>BannedSites</code></p>
+</li>
+<li><code>$HOME/.ganga.py</code> on <code>lxplus</code>: In <code>remake_uncompleted_job</code> function parameter</li>
 </ul>
-<p>And remake the job (this may take a while before any output is printed out):</p>
+<p>Sometimes it's needed to remake new jobs (say we want to change number of files
+per subjob). To do so:</p>
 <div class="highlight"><pre><span></span><code><span class="n">remake_uncompleted_job</span><span class="p">(</span><span class="mi">63</span><span class="p">)</span>
 </code></pre></div>
 <div class="admonition info">
@@ -1418,11 +1427,6 @@ simple <code>job[63].resubmit()</code> won't resubmit these killed jobs. To resu
 and add the subjob index to the <code>comment</code> property of the new job.</p>
 <p>After the remade job has finished successfuly, merge all of its output <code>.root</code>
 files and place it <em>in the correct</em> directory of the failing job.</p>
-</div>
-<div class="admonition info">
-<p class="admonition-title">Manage <code>ganga</code> job output</p>
-<p>You need to keep <code>ganga</code> running in a <code>lxplus</code> session to get up-to-date info
-about your jobs and download output of completed (sub)jobs.</p>
 </div>
 <h2 id="skimming-and-annexing-of-grid-ntuples">Skimming and annexing of GRID ntuples</h2>
 <h3 id="offline-skimming">Offline skimming</h3>
