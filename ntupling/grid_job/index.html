@@ -11,7 +11,7 @@
         <link rel="canonical" href="https://umd-lhcb.github.io/lhcb-ntuples-gen/ntupling/grid_job/">
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-8.1.11">
+      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-8.2.1">
     
     
       
@@ -19,7 +19,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.50e68009.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.e8d9bf0c.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.e6a45f82.min.css">
@@ -1232,6 +1232,7 @@
 </a>
 
 
+
   <h1>Submitting DaVinci jobs to GRID</h1>
 
 <h2 id="rationale">Rationale</h2>
@@ -1393,18 +1394,30 @@ To resubmit the failed sub-jobs ASAP:</p>
 simple <code>job[63].resubmit()</code> won't resubmit these killed jobs. To resubmit them:</p>
 <div class="highlight"><pre><span></span><code><span class="n">jobs</span><span class="p">[</span><span class="mi">63</span><span class="p">]</span><span class="o">.</span><span class="n">subjobs</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">status</span><span class="o">=</span><span class="s2">&quot;killed&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">resubmit</span><span class="p">()</span>
 </code></pre></div>
+<p>There's a helper function to print failed subjobs:</p>
+<div class="highlight"><pre><span></span><code><span class="n">show_subjobs</span><span class="p">(</span><span class="mi">63</span><span class="p">)</span>
+<span class="n">show_subjobs</span><span class="p">(</span><span class="mi">63</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="s1">&#39;running&#39;</span><span class="p">)</span>  <span class="c1"># show subjobs of &#39;running&#39; status</span>
+</code></pre></div>
 <p>If for some jobs keep failing, consider the backend bad and ban it in:</p>
 <ul>
-<li><code>ganga_jobs.py</code>: In <code>BannedSites</code></li>
-<li><code>.ganga.py</code>: In <code>remake_uncompleted_job</code> function parameter</li>
+<li><code>ganga/ganga_jobs.py</code> in this repo: In <code>BannedSites</code></li>
+<li><code>$HOME/.ganga.py</code> on <code>lxplus</code>: In <code>remake_uncompleted_job</code> function parameter</li>
+<li>
+<p><code>ban_site_for_job</code> helper function with interactive <code>ganga</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="n">ban_site_for_job</span><span class="p">(</span><span class="mi">63</span><span class="p">,</span> <span class="s1">&#39;LCG.site.a&#39;</span><span class="p">)</span>
+<span class="n">ban_site_for_job</span><span class="p">(</span><span class="mi">63</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;LCG.site.a&#39;</span><span class="p">,</span> <span class="s1">&#39;LCG.site.b&#39;</span><span class="p">])</span>  <span class="c1"># you can ban multiple sites at once</span>
+</code></pre></div>
+</li>
 </ul>
 <p>And remake the job (this may take a while before any output is printed out):</p>
 <div class="highlight"><pre><span></span><code><span class="n">remake_uncompleted_job</span><span class="p">(</span><span class="mi">63</span><span class="p">)</span>
 </code></pre></div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Unfortunately the <code>backend</code> option is read-only for existing jobs, so we
-have to remake a new job.</p>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>The <code>remake_uncompleted_job</code> creates a new job for each <strong>failed subjob</strong>,
+and add the subjob index to the <code>comment</code> property of the new job.</p>
+<p>After the remade job has finished successfuly, merge all of its output <code>.root</code>
+files and place it <em>in the correct</em> directory of the failing job.</p>
 </div>
 <div class="admonition info">
 <p class="admonition-title">Manage <code>ganga</code> job output</p>
@@ -1618,10 +1631,10 @@ The script is located at: <a href="https://github.com/umd-lhcb/lhcb-ntuples-gen/
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": "../..", "features": [], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../../assets/javascripts/workers/search.092fa1f6.min.js"}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../../assets/javascripts/workers/search.bd0b6b67.min.js"}</script>
     
     
-      <script src="../../assets/javascripts/bundle.5a9542cf.min.js"></script>
+      <script src="../../assets/javascripts/bundle.8aa65030.min.js"></script>
       
         <script src="../../javascripts/config.js"></script>
       
