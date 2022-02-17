@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Feb 16, 2022 at 04:17 PM -0500
+# Last Change: Thu Feb 17, 2022 at 12:53 AM -0500
 # NOTE: This is inspired by Greg Ciezarek's run 1 J/psi K fit
 
 import zfit
@@ -164,10 +164,8 @@ def plot(fit_var, fit_models, bins=30, data_lbl='Data', title='Fit',
     # Do the actual plot
     fig, ax = plot_top(
         plotters, output=None, title=title,
-        legend_add_args={
-            'numpoints': 1, 'loc': 'best', 'fontsize': 'medium',
-            'frameon': 'true'
-        }, **kwargs)
+        legend_add_args={'numpoints': 1, 'loc': 'best', 'frameon': 'true'},
+        **kwargs)
 
     # Tweaks on legend
     try:
@@ -289,7 +287,7 @@ if __name__ == '__main__':
     # Dump result
     ensure_dir(args.output, is_file=False)
 
-    ntp = recreate(f'{args.output}/in_out.root')
+    ntp = recreate(f'{args.output}/fit.root')
     out_brs = ntp_brs
     ntp['tree'] = out_brs
 
