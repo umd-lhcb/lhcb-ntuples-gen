@@ -149,6 +149,18 @@ function concat_job () {
 # Job operations #
 ##################
 
+def show_subjobs(idx, status='failed'):
+    print(jobs(idx).subjobs.select(status=status))
+
+
+def ban_site_for_job(idx, sites):
+    if not isinstance(sites, list):
+        sites = [sites]
+
+    for sj in jobs(idx).subjobs.select(status='failed'):
+        sj.backend.settings['BannedSites'] += sites
+
+
 def kill_uncompleted_subjobs(idx):
     for sj in jobs(idx).subjobs:
         if sj.status != 'completed':
@@ -167,13 +179,17 @@ def remake_uncompleted_job(idx, banned_sites=[
         'LCG.NCBJ.pl',
         'LCG.NIPNE-07.ro',
         'LCG.Beijing.cn'
-]):
-    ds = collect_input_from_uncompleted_job(idx)
+], files_per_job=2):
+    for failed_sj in jobs[idx].subjobs.select(status='failed'):
+        print(f'Remaking failed subjob {failed_sj.fqid}')
 
-    j = jobs(idx).copy()
-    j.inputdata = ds
-    j.backend.settings['BannedSites'] = banned_sites
-    j.submit()
+        j = failed_sj.copy()
+        j.comment = failed_sj.comment + f'--{failed_sj.fqid}'
+
+        j.splitter = SplitByFiles(filesPerJob=files_per_job)
+        j.inputdata = failed_sj.inputdata
+        j.backend.settings['BannedSites'] = banned_sites
+        j.submit()
 
 
 def print_job_hadd_filename(init_idx=0):

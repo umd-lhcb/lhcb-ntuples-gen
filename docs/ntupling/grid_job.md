@@ -188,10 +188,23 @@ simple `job[63].resubmit()` won't resubmit these killed jobs. To resubmit them:
 jobs[63].subjobs.select(status="killed").resubmit()
 ```
 
+There's a helper function to print failed subjobs:
+
+```python
+show_subjobs(63)
+show_subjobs(63, status='running')  # show subjobs of 'running' status
+```
+
 If for some jobs keep failing, consider the backend bad and ban it in:
 
-- `ganga_jobs.py`: In `BannedSites`
-- `.ganga.py`: In `remake_uncompleted_job` function parameter
+- `ganga/ganga_jobs.py` in this repo: In `BannedSites`
+- `$HOME/.ganga.py` on `lxplus`: In `remake_uncompleted_job` function parameter
+- `ban_site_for_job` helper function with interactive `ganga`:
+
+    ```python
+    ban_site_for_job(63, 'LCG.site.a')
+    ban_site_for_job(63, ['LCG.site.a', 'LCG.site.b'])  # you can ban multiple sites at once
+    ```
 
 And remake the job (this may take a while before any output is printed out):
 
@@ -199,9 +212,12 @@ And remake the job (this may take a while before any output is printed out):
 remake_uncompleted_job(63)
 ```
 
-!!! note
-    Unfortunately the `backend` option is read-only for existing jobs, so we
-    have to remake a new job.
+!!! info
+    The `remake_uncompleted_job` creates a new job for each **failed subjob**,
+    and add the subjob index to the `comment` property of the new job.
+
+    After the remade job has finished successfuly, merge all of its output `.root`
+    files and place it _in the correct_ directory of the failing job.
 
 !!! info "Manage `ganga` job output"
     You need to keep `ganga` running in a `lxplus` session to get up-to-date info
