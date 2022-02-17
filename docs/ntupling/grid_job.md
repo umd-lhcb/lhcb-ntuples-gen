@@ -130,6 +130,10 @@ Submitting jobs is very simple, you will simply copy a previous script that has 
 !!! info "Usage of `ganga_jobs.py`"
     See [this appendix](#general-usage-of-ganga_jobspy).
 
+!!! info "Manage `ganga` job output"
+    You need to keep `ganga` running in a `lxplus` session to get up-to-date info
+    about your jobs and download output of completed (sub)jobs.
+
 
 ### Update subjob status and force status to be "failed" when necessary
 
@@ -197,8 +201,6 @@ show_subjobs(63, status='running')  # show subjobs of 'running' status
 
 If for some jobs keep failing, consider the backend bad and ban it in:
 
-- `ganga/ganga_jobs.py` in this repo: In `BannedSites`
-- `$HOME/.ganga.py` on `lxplus`: In `remake_uncompleted_job` function parameter
 - `ban_site_for_job` helper function with interactive `ganga`:
 
     ```python
@@ -206,7 +208,13 @@ If for some jobs keep failing, consider the backend bad and ban it in:
     ban_site_for_job(63, ['LCG.site.a', 'LCG.site.b'])  # you can ban multiple sites at once
     ```
 
-And remake the job (this may take a while before any output is printed out):
+    Then `resubmit` the job using methods described above
+
+- `ganga/ganga_jobs.py` in this repo: In `BannedSites`
+- `$HOME/.ganga.py` on `lxplus`: In `remake_uncompleted_job` function parameter
+
+Sometimes it's needed to remake new jobs (say we want to change number of files
+per subjob). To do so:
 
 ```python
 remake_uncompleted_job(63)
@@ -218,10 +226,6 @@ remake_uncompleted_job(63)
 
     After the remade job has finished successfuly, merge all of its output `.root`
     files and place it _in the correct_ directory of the failing job.
-
-!!! info "Manage `ganga` job output"
-    You need to keep `ganga` running in a `lxplus` session to get up-to-date info
-    about your jobs and download output of completed (sub)jobs.
 
 
 ## Skimming and annexing of GRID ntuples
