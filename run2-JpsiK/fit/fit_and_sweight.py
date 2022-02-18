@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Feb 17, 2022 at 12:53 AM -0500
+# Last Change: Fri Feb 18, 2022 at 12:02 AM -0500
 # NOTE: This is inspired by Greg Ciezarek's run 1 J/psi K fit
 
 import zfit
@@ -11,12 +11,12 @@ import time
 import sys
 import mplhep
 import numpy as np
-import matplotlib.pyplot as plt
 
 from argparse import ArgumentParser
 from os import makedirs
 from pathlib import Path
 from uproot import concatenate, recreate
+from hepstats.splot import compute_sweights
 
 from pyTuplingUtils.utils import gen_histo
 from pyTuplingUtils.plot import (
@@ -87,14 +87,14 @@ def filter_dict(dct):
 
 
 def gen_ylds(num_of_evt, fit_params, names=['bkg', 'sig']):
-    ylds = []
     for n in names:
-        ylds.append(zfit.ComposedParameter(
+        yld_param = zfit.ComposedParameter(
             f'yld_{n}',
             lambda raw: num_of_evt*raw,
             {'raw': fit_params[f'yld_{n}_ratio']}
-        ))
-    return ylds
+        )
+        fit_params[f'yld_{n}'] = yld_param
+    return [fit_params[f'yld_{i}'] for i in names]
 
 
 def load_params(yml):
@@ -173,9 +173,7 @@ def plot(fit_var, fit_models, bins=30, data_lbl='Data', title='Fit',
     except:
         pass
 
-    fig.set_tight_layout({'pad': 0.0})
     fig.savefig(output)
-    plt.close(fig)
 
 
 #######
@@ -203,16 +201,14 @@ def fit_model_sig(obs, yld, fit_params):
     frac_sig_cb_g = fit_params['frac_sig_cb_g']
     pdf = zfit.pdf.SumPDF(
         pdfs=[pdf_sig_cb, pdf_sig_g], fracs=frac_sig_cb_g, name='sumpdf_sig')
-    pdf.set_yield(yld)
-    return pdf
+    return pdf.create_extended(yld)
 
 
 def fit_model_bkg(obs, yld, fit_params):
     expc = fit_params['expc']
 
     pdf = zfit.pdf.Exponential(obs=obs, lam=expc)
-    pdf.set_yield(yld)
-    return pdf
+    return pdf.create_extended(yld)
 
 
 def fit_model_tail(obs, yld, fit_params):
@@ -220,8 +216,7 @@ def fit_model_tail(obs, yld, fit_params):
     width_g_tail = fit_params['width_g_tail']
 
     pdf = zfit.pdf.Gauss(obs=obs, mu=peak_tail, sigma=width_g_tail)
-    pdf.set_yield(yld)
-    return pdf
+    return pdf.create_extended(yld)
 
 
 def fit_model_overall(obs, fit_var, fit_params):
@@ -250,8 +245,8 @@ def fit(obs, fit_var, fit_model):
     print('Compute errors...')
     result.errors(method='minuit_minos')
 
-    print(f'Fit took a total of {time.time() - time_start} sec.')
-    return result
+    print(f'Fit & error computation took a total of {time.time() - time_start:.2f} sec.')
+    return result, nll
 
 
 if __name__ == '__main__':
@@ -271,6 +266,7 @@ if __name__ == '__main__':
     output_plot_init = args.output + '/fit_init.pdf' \
         if not args.outputPlotInit else args.outputPlotInit
     ensure_dir(output_plot_init)
+    # Always plot the initial condition
     plot(
         fit_var, fit_components, output=output_plot_init, data_range=MODEL_BDY,
         xlabel=args.xLabel, ylabel=args.yLabel, data_lbl=args.dataLabel,
@@ -281,21 +277,29 @@ if __name__ == '__main__':
         sys.exit(0)
 
     # Now do the fit
-    fit_result = fit(obs, fit_var, fit_model)
+    fit_result, fit_nll = fit(obs, fit_var, fit_model)
     print('Fit result:\n', fit_result, sep='')
+    zfit.param.set_values(fit_nll.get_params(), fit_result)
+
+    # Compute sWeights
+    print('Compute sWeights...')
+    sweights = compute_sweights(fit_model, fit_var)
 
     # Dump result
+    print('Dump result...')
     ensure_dir(args.output, is_file=False)
 
     ntp = recreate(f'{args.output}/fit.root')
-    out_brs = ntp_brs
-    ntp['tree'] = out_brs
+    ntp_brs['sw_sig'] = sweights[fit_params['yld_sig']]
+    ntp_brs['sw_bkg'] = sweights[fit_params['yld_bkg']]
+    ntp['tree'] = ntp_brs
 
     with open(f'{args.output}/params.yml', 'w') as f:
         params_formatted = {k.name: filter_dict(v)
                             for k, v in fit_result.params.items()}
         yaml.dump(params_formatted, f)
 
+    # Fit plots
     plot(
         fit_var, fit_components, output=args.output+'/fit_final.pdf',
         data_range=MODEL_BDY,
@@ -308,3 +312,5 @@ if __name__ == '__main__':
         xlabel=args.xLabel, ylabel=args.yLabel, data_lbl=args.dataLabel,
         title=r'$J/\psi K$ aux. fit', yscale='log', bins=args.bins
     )
+
+    # sPlot validation
