@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri Feb 18, 2022 at 02:35 AM -0500
+# Last Change: Fri Feb 18, 2022 at 06:29 PM -0500
 # NOTE: This is inspired by Greg Ciezarek's run 1 J/psi K fit
 
 import zfit
@@ -20,8 +20,9 @@ from hepstats.splot import compute_sweights
 
 from pyTuplingUtils.utils import gen_histo
 from pyTuplingUtils.plot import (
-    plot_top, plot_errorbar, plot_histo,
-    ax_add_args_errorbar, ax_add_args_histo
+    plot_top_bot, plot_top,
+    plot_errorbar, plot_histo, plot_hlines,
+    ax_add_args_errorbar, ax_add_args_histo, ax_add_args_hlines
 )
 
 
@@ -147,18 +148,20 @@ def gen_histo_stacked_baseline(histos):
     return result
 
 
-def plot(fit_var, fit_models, bins=30, data_lbl='Data', title='Fit',
-         data_range=None, output=None,
+def plot(fit_var, fit_models,
+         bins=30, data_range=None, output=None,
+         data_lbl='Data', title='Fit',
          fit_model_lbls=['bkg.', 'sig.'],
          fit_model_colors=['crimson', 'cornflowerblue', 'darkgoldenrod'],
          **kwargs):
-    plotters = []
+    top_plotters = []
+    bot_plotters = []
 
     # Data plot
     h_data, h_bins = gen_histo(fit_var, bins=bins, data_range=data_range)
     h_data_args = ax_add_args_errorbar(
         data_lbl, 'black', yerr=np.sqrt(h_data), marker='.')
-    plotters.append(
+    top_plotters.append(
         lambda fig, ax, b=h_bins, h=h_data, add=h_data_args: plot_errorbar(
             b, h, add, figure=fig, axis=ax, show_legend=False))
 
@@ -169,15 +172,67 @@ def plot(fit_var, fit_models, bins=30, data_lbl='Data', title='Fit',
     for hist, bot, lbl, clr in zip(
             h_models, y_baselines, fit_model_lbls, fit_model_colors):
         h_models_args = ax_add_args_histo(lbl, clr, baseline=bot)
-        plotters.append(
+        top_plotters.append(
             lambda fig, ax, b=h_bins, h=hist+bot, add=h_models_args: plot_histo(
                 b, h, add, figure=fig, axis=ax, show_legend=False))
 
+    # Plot horizontal line at y=0 for pull plot as a reference
+    hline_ref_args = ax_add_args_hlines('ref', 'gray', linestyles='dotted')
+    bot_plotters.append(
+        lambda fig, ax, b=[h_bins[0], h_bins[-1]], h=[0.0], add=hline_ref_args:
+        plot_hlines(b, h, add, figure=fig, axis=ax, show_legend=False))
+
+    # Pull plot
+    h_model_tot_yld = np.add.reduce(h_models)
+    h_resid = h_data - h_model_tot_yld
+    h_err = np.sqrt(h_data)
+    h_pull = h_resid / h_err
+
+    h_pull_args = ax_add_args_hlines('pull', 'black', linewidth=3)
+    bot_plotters.append(
+        lambda fig, ax, b=h_bins, h=h_pull, add=h_pull_args: plot_hlines(
+            b, h, add, figure=fig, axis=ax, show_legend=False))
+
     # Do the actual plot
-    fig, ax = plot_top(
-        plotters, output=None, title=title,
+    fig, ax1, _ = plot_top_bot(
+        top_plotters, bot_plotters, title=title, ax2_ylabel='Pulls',
         legend_add_args={'numpoints': 1, 'loc': 'best', 'frameon': 'true'},
         **kwargs)
+
+    # Tweaks on legend
+    try:
+        ax1.ticklabel_format(style='sci', scilimits=[-4, 3], axis='y')
+    except:
+        pass
+
+    fig.savefig(output)
+
+
+def plot_splot(fit_var, fit_model, fit_sweight,
+               bins=30, data_range=None, output=None,
+               data_lbl='Data', model_lbl='Model',
+               model_color='cornflowerblue',
+               **kwargs):
+    plotters = []
+
+    # Data plot
+    h_data, h_bins = gen_histo(
+        fit_var, bins=bins, data_range=data_range, weights=fit_sweight)
+    h_data_args = ax_add_args_errorbar(
+        data_lbl, 'black', yerr=np.sqrt(h_data), marker='.')
+    plotters.append(
+        lambda fig, ax, b=h_bins, h=h_data, add=h_data_args: plot_errorbar(
+            b, h, add, figure=fig, axis=ax, show_legend=False))
+
+    # Model plot
+    h_model = gen_histo_from_pdf(fit_model, h_bins)
+    h_model_args = ax_add_args_histo(model_lbl, model_color)
+    plotters.append(
+        lambda fig, ax, b=h_bins, h=h_model, add=h_model_args: plot_histo(
+            b, h, add, figure=fig, axis=ax, show_legend=False))
+
+    # Do the actual plot
+    fig, ax = plot_top(plotters, **kwargs)
 
     # Tweaks on legend
     try:
@@ -281,7 +336,7 @@ if __name__ == '__main__':
     # Always plot the initial condition
     plot(
         fit_var, fit_components, output=output_plot_init, data_range=MODEL_BDY,
-        xlabel=args.xLabel, ylabel=args.yLabel, data_lbl=args.dataLabel,
+        xlabel=args.xLabel, ax1_ylabel=args.yLabel, data_lbl=args.dataLabel,
         title='Before fit', bins=args.bins
     )
 
@@ -314,17 +369,28 @@ if __name__ == '__main__':
         yaml.dump(params_formatted, f)
 
     # Fit plots
+    print('Plot fitting results...')
     plot(
         fit_var, fit_components, output=args.output+'/fit_final.pdf',
         data_range=MODEL_BDY,
-        xlabel=args.xLabel, ylabel=args.yLabel, data_lbl=args.dataLabel,
+        xlabel=args.xLabel, ax1_ylabel=args.yLabel, data_lbl=args.dataLabel,
         title=r'$J\psi K$ aux. fit', bins=args.bins
     )
     plot(
         fit_var, fit_components, output=args.output+'/fit_final_log_scale.pdf',
         data_range=MODEL_BDY,
-        xlabel=args.xLabel, ylabel=args.yLabel, data_lbl=args.dataLabel,
-        title=r'$J/\psi K$ aux. fit', yscale='log', bins=args.bins
+        xlabel=args.xLabel, ax1_ylabel=args.yLabel, data_lbl=args.dataLabel,
+        title=r'$J/\psi K$ aux. fit', ax1_yscale='log', bins=args.bins
     )
 
-    # sPlot validation
+    # sPlots
+    print('Plot sPlots...')
+    fit_model_validate_sig = fit_model_sig(
+        obs, fit_params['yld_sig'], fit_params)
+    plot_splot(
+        fit_var, fit_model_validate_sig, ntp_brs['sw_sig'],
+        output=f'{args.output}/sweight_sig.pdf', data_range=MODEL_BDY,
+        xlabel=args.xLabel, ylabel=args.yLabel,
+        data_lbl=args.dataLabel, model_lbl='Signal',
+        bins=args.bins
+    )
