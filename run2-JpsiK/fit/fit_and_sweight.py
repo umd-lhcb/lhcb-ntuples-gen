@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri Feb 18, 2022 at 12:02 AM -0500
+# Last Change: Fri Feb 18, 2022 at 12:23 AM -0500
 # NOTE: This is inspired by Greg Ciezarek's run 1 J/psi K fit
 
 import zfit
@@ -68,6 +68,15 @@ def parse_input():
 
     parser.add_argument('--bins', default=40,
                         help='specify the binning in the plot.')
+
+    parser.add_argument('-e', '--extraBranches',
+                        default=[
+                            'runNumber',
+                            'eventNumber',
+                            'ntracks',
+                            'b_p'
+                        ],
+                        help='specify extra branches to save in output ntuple.')
 
     return parser.parse_args()
 
@@ -255,7 +264,7 @@ if __name__ == '__main__':
     fit_params = load_params(args.params)
 
     ntp_brs = concatenate(
-        args.input, [args.branch, 'runNumber', 'eventNumber'], library='np')
+        args.input, [args.branch]+args.extraBranches, library='np')
     fit_var = ntp_brs[args.branch]
     print(f'Total events in data: {fit_var.size}')
 
