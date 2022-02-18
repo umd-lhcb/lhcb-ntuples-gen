@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri Feb 18, 2022 at 12:23 AM -0500
+# Last Change: Fri Feb 18, 2022 at 02:35 AM -0500
 # NOTE: This is inspired by Greg Ciezarek's run 1 J/psi K fit
 
 import zfit
@@ -47,6 +47,9 @@ def parse_input():
 
     parser.add_argument('-o', '--output', default='fit_results',
                         help='specify output folder.')
+
+    parser.add_argument('-O', '--outputNtp', default=None,
+                        help='specify path to output ntuple.')
 
     parser.add_argument('-b', '--branch', default='b_m',
                         help='specify the branch as the fit variable.')
@@ -298,7 +301,9 @@ if __name__ == '__main__':
     print('Dump result...')
     ensure_dir(args.output, is_file=False)
 
-    ntp = recreate(f'{args.output}/fit.root')
+    ntp_path = f'{args.output}/fit.root' if not args.outputNtp \
+        else args.outputNtp
+    ntp = recreate(ntp_path)
     ntp_brs['sw_sig'] = sweights[fit_params['yld_sig']]
     ntp_brs['sw_bkg'] = sweights[fit_params['yld_bkg']]
     ntp['tree'] = ntp_brs
