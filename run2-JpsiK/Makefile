@@ -1,4 +1,4 @@
-# Last Change: Fri Feb 18, 2022 at 04:22 PM -0500
+# Last Change: Fri Feb 18, 2022 at 11:22 PM -0500
 
 .PHONY: fit
 
@@ -10,8 +10,11 @@ fit:
 		"../ntuples/0.9.6-2016_production/JpsiK-std/JpsiK--22_02_14--std--data--2016--md/*.root:tree" \
 		"../ntuples/0.9.6-2016_production/JpsiK-std/JpsiK--22_02_14--std--data--2016--mu/*.root:tree" \
 		-p ./fit/fit_params/init.yml \
-        -O $(OUT_DIR)/JpsiK-$(TIME_STAMP)-fit_sweights.root \
 		-o $(OUT_DIR) | tee $(OUT_DIR)/fit.log
+	./fit/splot.py -i $(OUT_DIR)/fit.root -p $(OUT_DIR)/params.yml \
+		-o $(OUT_DIR)/splot_sig.pdf -m sig --modelLabel "sig."
+	./fit/splot.py -i $(OUT_DIR)/fit.root -p $(OUT_DIR)/params.yml \
+		-o $(OUT_DIR)/splot_bkg.pdf -m bkg --modelLabel "bkg."
 
 plot-init:
 	./fit/fit_and_sweight.py -i \
