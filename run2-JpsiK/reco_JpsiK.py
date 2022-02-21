@@ -1,6 +1,6 @@
 # Author: Greg Ciezarek, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Feb 09, 2022 at 02:30 PM -0500
+# Last Change: Mon Feb 21, 2022 at 06:20 PM -0500
 #
 # Description: Definitions of selection and reconstruction procedures for run 2
 #              J/psi K calibration sample.
@@ -49,8 +49,14 @@ DaVinci().appendToMainSequence([ms_all_protos, ms_velo_pions])
 # Particle references #
 #######################
 
+if not DaVinci().Simulation:
+    stream = 'Dimuon'
+else:
+    stream = 'AllStreams'
+
+
 line_strip = 'BetaSBu2JpsiKDetachedLine'
-tes_stripped = '/Event/Dimuon/Phys/{}/Particles/'.format(line_strip)
+tes_stripped = '/Event/{}/Phys/{}/Particles/'.format(stream, line_strip)
 
 
 ##################
@@ -125,10 +131,20 @@ def tuple_spec_data(name, sel_seq, template,
     return tp
 
 
+def tuple_spec_mc(*args, **kwargs):
+    tp = tuple_spec_data(*args, **kwargs)
+
+    # Add truth-info
+    tt_mc_truth = really_add_tool(tp, 'TupleToolMCTruth')
+    tt_mc_truth.ToolList += ['MCTupleToolHierarchy', 'MCTupleToolKinematic']
+
+    return tp
+
+
 if not DaVinci().Simulation:
     tuple_spec = tuple_spec_data
 else:
-    tuple_spec = tuple_spec_data
+    tuple_spec = tuple_spec_mc
 
 
 # B- ###########################################################################
