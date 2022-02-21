@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri Feb 18, 2022 at 07:10 PM -0500
+# Last Change: Sun Feb 20, 2022 at 09:29 PM -0500
 # NOTE: This is inspired by Greg Ciezarek's run 1 J/psi K fit
 
 import zfit
@@ -76,8 +76,10 @@ def parse_input():
                         default=[
                             'runNumber',
                             'eventNumber',
+                            'b_ownpv_ndof',
                             'ntracks',
-                            'b_p'
+                            'b_p',
+                            'b_eta',
                         ],
                         help='specify extra branches to save in output ntuple.')
 
@@ -310,7 +312,6 @@ if __name__ == '__main__':
     # Now do the fit
     fit_result, fit_nll = fit(obs, fit_var, fit_model)
     print('Fit result:\n', fit_result, sep='')
-    zfit.param.set_values(fit_nll.get_params(), fit_result)
 
     # Compute sWeights
     print('Compute sWeights...')

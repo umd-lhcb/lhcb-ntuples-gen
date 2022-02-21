@@ -11,10 +11,9 @@ keep:
 rename:
     # General
     Polarity: polarity
-    runNumber: run
-    eventNumber: event
     # L0
     b_L0Global_TIS: b_l0_global_tis
+    b_L0MuonDecision_TOS: b_l0_muon_tos
     b_L0DiMuonDecision_TOS: b_l0_dimuon_tos
     # HLT1
     b_Hlt1TwoTrackMVADecision_TOS: b_hlt1_twotrackmva_tos
@@ -35,6 +34,7 @@ calculation:
     b_m: double; b_M
     b_p: double; GEV(b_P)
     b_pt: double; GEV(b_PT)
+    b_eta: double; ETA(b_P, b_PZ)
     # J/psi
     # For M vs MM, see https://github.com/lhcb/first-analysis-steps/pull/148
     j_m: double; j_M
@@ -69,6 +69,7 @@ calculation:
     b_endvtx_chi2: double; b_ENDVERTEX_CHI2
     b_min_ip_ch2: double; b_MINIPCHI2
     b_dira: double; b_DIRA_OWNPV
+    b_ownpv_ndof: double; b_OWNPV_NDOF
     # J/psi
     j_fd_chi2: double; j_FDCHI2_OWNPV
     # Mu
@@ -90,7 +91,7 @@ calculation:
 
     # Kinematic
     pt_ok: bool; mu_pt > 0.5 && amu_pt > 0.5 && k_pt > 0.5
-    b_mass_ok: bool; b_m > 5130.0 && b_m < 5350.0
+    b_mass_ok: bool; b_m > 5150.0 && b_m < 5350.0  # fit range
     j_mass_ok: bool; j_mm > 3060.0 && j_mm < 3140.0
 
     # PID
