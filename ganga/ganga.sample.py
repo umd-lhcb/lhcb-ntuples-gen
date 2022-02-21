@@ -183,11 +183,10 @@ def remake_uncompleted_job(idx, banned_sites=[
     for failed_sj in jobs[idx].subjobs.select(status='failed'):
         print(f'Remaking failed subjob {failed_sj.fqid}')
 
-        j = failed_sj.copy()
-        j.comment = failed_sj.comment + f'--{failed_sj.fqid}'
+        j = failed_sj.copy(unprepare=True)
+        j.comment += f'--{failed_sj.fqid}'
 
         j.splitter = SplitByFiles(filesPerJob=files_per_job)
-        j.inputdata = failed_sj.inputdata
         j.backend.settings['BannedSites'] = banned_sites
         j.submit()
 
