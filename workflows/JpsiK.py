@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Feb 16, 2022 at 02:08 PM -0500
+# Last Change: Mon Feb 21, 2022 at 10:08 PM -0500
 
 import sys
 import os.path as op
@@ -109,9 +109,9 @@ def workflow_data(inputs, input_yml, job_name='data', **kwargs):
         chdir('..')  # Switch back to parent workdir
 
 
-def workflow_mc(inputs, input_yml, job_name='mc',
-                **kwargs):
-    aux_workflows = [workflow_pid, workflow_trk]
+def workflow_mc(inputs, input_yml, job_name='mc', **kwargs):
+    #  aux_workflows = [workflow_pid, workflow_trk]
+    aux_workflows = []
     subworkdirs, workdir = workflow_prep_dir(job_name, inputs, **kwargs)
     chdir(workdir)
 
@@ -119,11 +119,8 @@ def workflow_mc(inputs, input_yml, job_name='mc',
         ensure_dir(subdir, make_absolute=False)
         chdir(subdir)  # Switch to the workdir of the subjob
 
-        fields = check_ntp_name(input_ntp)[0]
-        if 'decay_mode' in fields:
-            decay_mode = fields['decay_mode']
-        else:
-            decay_mode = find_decay_mode(fields['lfn'])
+        # Hard-code the MC decay mode for now
+        decay_mode = '12143001'
 
         output_suffix = generate_step2_name(input_ntp)
         workflow_single_ntuple(
@@ -170,6 +167,11 @@ JOBS = {
     'JpsiK-ntuple-run2-data-demo': partial(
         workflow_data,
         '../run2-JpsiK/samples/JpsiK--22_02_09--std--data--2016--md--dv45-subset.root',
+        '../postprocess/JpsiK-run2/JpsiK-run2.yml'
+    ),
+    'JpsiK-ntuple-run2-mc-demo': partial(
+        workflow_mc,
+        '../run2-JpsiK/samples/JpsiK--22_02_09--mc--Bu2JpsiK--2016--md--py8-sim09k-dv45-subset.root',
         '../postprocess/JpsiK-run2/JpsiK-run2.yml'
     ),
 }
