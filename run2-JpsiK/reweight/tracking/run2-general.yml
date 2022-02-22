@@ -1,0 +1,22 @@
+trees:
+    - tree
+
+config:
+    wtrk_mu:
+        histo_name: Ratio
+        particle: Any
+        vars:
+            - GUARD(mu_P, 5000.0, 200000.0)
+            - GUARD(ETA(mu_P, mu_PZ), 1.9, 4.9)
+    wtrk_amu:
+        histo_name: Ratio
+        particle: Any
+        vars:
+            - GUARD(amu_P, 5000.0, 200000.0)
+            - GUARD(ETA(amu_P, amu_PZ), 1.9, 4.9)
+    wtrk_k:
+        histo_name: Ratio
+        particle: Any
+        vars:
+            - GUARD(k_P, 5000.0, 200000.0)
+            - GUARD(ETA(k_P, k_PZ), 1.9, 4.9)

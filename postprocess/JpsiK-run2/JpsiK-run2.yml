@@ -110,12 +110,14 @@ calculation:
     # Weights #
     ###########
     wpid: double; wpid_k*wpid_mu*wpid_amu
+    wtrk: double; wtrk_k*wtrk_mu*wtrk_amu
+    w: double; wpid*wtrk
 
 global_selection:
     - hlt1 && hlt2
     - pt_ok && b_mass_ok && j_mass_ok
-    - pid_ok
     - vtx_ok
+    - pid_ok  # This is set to be always true for MC
 
 one_cand_only:
     enable: false
