@@ -1432,7 +1432,7 @@ files and place it <em>in the correct</em> directory of the failing job.</p>
 <h3 id="offline-skimming">Offline skimming</h3>
 <div class="admonition warning">
 <p class="admonition-title">Before you proceed</p>
-<p>Clone <code>lhcb-ntuples-gen</code> on <code>glacier</code> and <a href="./ntupling/installation/">setup <code>git-annex</code> normally</a>.</p>
+<p>Clone <code>lhcb-ntuples-gen</code> on <code>glacier</code> and <a href="../installation/">setup <code>git-annex</code> normally</a>.</p>
 <p>Also don't forget to do <code>make install-dep</code> in the nix shell!</p>
 </div>
 <p>We prefer to not merge <code>.root</code> files at all. Still, we need to give output files sane
@@ -1442,6 +1442,10 @@ To use it:</p>
 <ol>
 <li>
 <p>Use <code>scp</code> to copy finished jobs to a folder <code>&lt;glacierntuples&gt;</code> under in your <code>$HOME</code> on <code>glacier</code></p>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>This takes a long time, and it's recommeded to do it inside a <code>tmux</code> session.</p>
+</div>
 <div class="admonition example">
 <p class="admonition-title">Example</p>
 <p>Say your <code>gangadir</code> is at <code>~/eos/gangadir-workspace/suny/LocalXML</code>, and you
@@ -1468,6 +1472,16 @@ jobs with a index that is greater or equal to the specified index.</p>
 <div class="highlight"><pre><span></span><code><span class="nv">INPUT_DIR</span><span class="o">=</span>&lt;glacierntuples&gt;
 <span class="nv">SKIM_CONFIG</span><span class="o">=</span>./postprocess/skims/rdx_mc.yml  <span class="c1"># NOTE: Make sure you pick the right one!!!</span>
 </code></pre></div>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>If you don't want to remove any branches, then replace:</p>
+<div class="highlight"><pre><span></span><code>./ganga/ganga_skim_job_output.py <span class="si">${</span><span class="nv">OUTPUT_DIR</span><span class="si">}</span>/<span class="nv">$2</span> <span class="si">${</span><span class="nv">INPUT_DIR</span><span class="si">}</span>/<span class="nv">$1</span> <span class="si">${</span><span class="nv">SKIM_CONFIG</span><span class="si">}</span>
+</code></pre></div>
+<p>with</p>
+<div class="highlight"><pre><span></span><code>./ganga/ganga_skim_job_output.py <span class="si">${</span><span class="nv">OUTPUT_DIR</span><span class="si">}</span>/<span class="nv">$2</span> <span class="si">${</span><span class="nv">INPUT_DIR</span><span class="si">}</span>/<span class="nv">$1</span> <span class="si">${</span><span class="nv">SKIM_CONFIG</span><span class="si">}</span> --copy
+</code></pre></div>
+<p>Noting the use of <code>--copy</code> flag.</p>
+</div>
 </li>
 <li>
 <p>Go into a nix shell in your <code>lhcb-ntuples-gen</code> with <code>nix develop</code>, then in
