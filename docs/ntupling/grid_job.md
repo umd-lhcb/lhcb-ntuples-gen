@@ -234,7 +234,7 @@ remake_uncompleted_job(63)
 
 !!! warning "Before you proceed"
 
-    Clone `lhcb-ntuples-gen` on `glacier` and [setup `git-annex` normally](./ntupling/installation/).
+    Clone `lhcb-ntuples-gen` on `glacier` and [setup `git-annex` normally](./installation.md).
 
     Also don't forget to do `make install-dep` in the nix shell!
 
@@ -245,6 +245,9 @@ Yipeng has prepared a `ganga` function that generates a `bash` script to aid the
 To use it:
 
 1. Use `scp` to copy finished jobs to a folder `<glacierntuples>` under in your `$HOME` on `glacier`
+
+    !!! info
+        This takes a long time, and it's recommeded to do it inside a `tmux` session.
 
     !!! example
         Say your `gangadir` is at `~/eos/gangadir-workspace/suny/LocalXML`, and you
@@ -270,6 +273,21 @@ To use it:
     INPUT_DIR=<glacierntuples>
     SKIM_CONFIG=./postprocess/skims/rdx_mc.yml  # NOTE: Make sure you pick the right one!!!
     ```
+
+    !!! info
+        If you don't want to remove any branches, then replace:
+
+        ```shell
+        ./ganga/ganga_skim_job_output.py ${OUTPUT_DIR}/$2 ${INPUT_DIR}/$1 ${SKIM_CONFIG}
+        ```
+
+        with
+
+        ```shell
+        ./ganga/ganga_skim_job_output.py ${OUTPUT_DIR}/$2 ${INPUT_DIR}/$1 ${SKIM_CONFIG} --copy
+        ```
+
+        Noting the use of `--copy` flag.
 
 5. Go into a nix shell in your `lhcb-ntuples-gen` with `nix develop`, then in
     the project root, run:
