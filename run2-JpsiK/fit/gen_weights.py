@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Feb 22, 2022 at 11:52 AM -0500
+# Last Change: Tue Feb 22, 2022 at 11:54 AM -0500
 
 import numpy as np
 
@@ -64,7 +64,7 @@ if __name__ == '__main__':
             concatenate(args.mcNtp, r.vars, library='np').values())
 
         scales = [1.0]*len(brs_data) if not r.scale else r.scale
-        for i in range(0, len(scales)):
+        for i, _ in enumerate(scales):
             brs_data[i] = scales[i]*brs_data[i]
             brs_mc[i] = scales[i]*brs_mc[i]
 
