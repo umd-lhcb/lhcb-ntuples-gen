@@ -234,7 +234,7 @@ remake_uncompleted_job(63)
 
 !!! warning "Before you proceed"
 
-    Clone `lhcb-ntuples-gen` on `glacier` and setup `git-annex` normally.
+    Clone `lhcb-ntuples-gen` on `glacier` and [setup `git-annex` normally](./ntupling/installation/).
 
     Also don't forget to do `make install-dep` in the nix shell!
 
@@ -244,32 +244,32 @@ names and skim them to remove unneeded branches.
 Yipeng has prepared a `ganga` function that generates a `bash` script to aid the process.
 To use it:
 
-1. In `ganga` shell, type in `hadd_completed_job_output(63)`, where `63` is some job index.
+1. Use `scp` to copy finished jobs to a folder `<glacierntuples>` under in your `$HOME` on `glacier`
+
+    !!! example
+        Say your `gangadir` is at `~/eos/gangadir-workspace/suny/LocalXML`, and you
+        want to proceed job index `63`, then copy the folder `63` to `glacier`.
+
+2. In `ganga` shell, type in `hadd_completed_job_output(63)`, where `63` is some job index.
 
     !!! info
         This will generated a `batch_hadd.sh` in `$HOME`. The generated script
         contains commands to merge output `.root` files for **all** completed
         jobs with a index that is greater or equal to the specified index.
 
-    A script naed `batch_skim.sh` will be generated in `$HOME` on `lxplus`.
+    A script named `batch_skim.sh` will be generated in `$HOME` on `lxplus`.
 
     A sample `batch_skim.sh` is displayed [here](#sample-batch_skimsh).
 
-2. Copy `batch_skim.sh` to your `lhcb-ntuples-gen` root folder on `glacier`,
+3. Copy `batch_skim.sh` to your `lhcb-ntuples-gen` root folder on `glacier`,
     then give it execution permission with `chmod +x batch_skim.sh`.
 
-3. Edit the following variables in `batch_skim.sh`:
+4. Set the input folder and postprocessing rules as needed in `batch_skim.sh`:
 
     ```bash
-    INPUT_DIR=/dev/null  # NOTE: Configure this before proceed!!!
+    INPUT_DIR=<glacierntuples>
     SKIM_CONFIG=./postprocess/skims/rdx_mc.yml  # NOTE: Make sure you pick the right one!!!
     ```
-
-4. Use `scp` to copy finished jobs to some folder under in your `$HOME` on `glacier`
-
-    !!! example
-        Say your `gangadir` is at `~/eos/gangadir-workspace/suny/LocalXML`, and you
-        want to proceed job index `63`, then copy the folder `63` to `glacier`.
 
 5. Go into a nix shell in your `lhcb-ntuples-gen` with `nix develop`, then in
     the project root, run:
