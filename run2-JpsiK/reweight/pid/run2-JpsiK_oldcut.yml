@@ -1,0 +1,19 @@
+config:
+    wpid_mu:
+        particle: Mu_nopt
+        vars:
+            - mu_P
+            - ETA(mu_P, mu_PZ)
+            - nTracks
+    wpid_amu:
+        particle: Mu_nopt
+        vars:
+            - amu_P
+            - ETA(amu_P, amu_PZ)
+            - nTracks
+    wpid_k:
+        particle: K
+        vars:
+            - k_P
+            - ETA(k_P, k_PZ)
+            - nTracks
