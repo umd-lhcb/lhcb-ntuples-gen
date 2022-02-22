@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Feb 21, 2022 at 10:24 PM -0500
+# Last Change: Tue Feb 22, 2022 at 01:25 AM -0500
 
 import sys
 import os.path as op
@@ -59,7 +59,7 @@ JpsiK_default_output_fltrs = {
 @smart_kwarg
 def workflow_pid(
         input_ntp, output_ntp='pid.root',
-        pid_histo_folder='../run2-JpsiK/reweight/pid/run2-JpsiK_oldcut',
+        pid_histo_folder='../run2-JpsiK/reweight/pid/root-run2-JpsiK_oldcut',
         pid_config='../run2-JpsiK/reweight/pid/run2-JpsiK_oldcut.yml',
         **kwargs):
     return workflow_apply_weight(input_ntp, pid_histo_folder, pid_config,
@@ -110,8 +110,7 @@ def workflow_data(inputs, input_yml, job_name='data', **kwargs):
 
 
 def workflow_mc(inputs, input_yml, job_name='mc', **kwargs):
-    #  aux_workflows = [workflow_pid, workflow_trk]
-    aux_workflows = [workflow_trk]
+    aux_workflows = [workflow_pid, workflow_trk]
     subworkdirs, workdir = workflow_prep_dir(job_name, inputs, **kwargs)
     chdir(workdir)
 
