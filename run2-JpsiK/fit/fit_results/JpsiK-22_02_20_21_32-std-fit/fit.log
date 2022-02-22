@@ -1,0 +1,32 @@
+Total events in data: 1360374
+Initialize fit model...
+Start to fit...
+Compute errors...
+Fit & error computation took a total of 224.59 sec.
+Fit result:
+FitResult of
+<ExtendedUnbinnedNLL model=[<zfit.<class 'zfit.models.functor.SumPDF'>  params=[Composed_autoparam_3, Composed_autoparam_4]] data=[<zfit.core.data.Data object at 0x7f71d420b100>] constraints=[]> 
+with
+<Minuit Minuit tol=0.001>
+
+╒═════════╤═════════════╤══════════════════╤═════════╤═════════════╕
+│ valid   │ converged   │ param at limit   │ edm     │ min value   │
+╞═════════╪═════════════╪══════════════════╪═════════╪═════════════╡
+│ True    │ True        │ False            │ 7.1e-05 │ -1.818e+04  │
+╘═════════╧═════════════╧══════════════════╧═════════╧═════════════╛
+
+Parameters
+name               value         minuit_minos    at limit
+-------------  ---------  -------------------  ----------
+yld_bkg_ratio     0.2164  -0.00073   +0.00073       False
+yld_sig_ratio     0.7836  -0.00097   +0.00097       False
+expc           -0.001099  -  4e-05   +4.1e-05       False
+frac_sig_cb_g     0.3275  -  0.012   +  0.013       False
+alpha              1.733  -  0.043   +  0.041       False
+peak                5280  -   0.01   +   0.01       False
+n_cb               6.252  -    1.2   +    1.8       False
+width_cb           13.52  -   0.18   +   0.18       False
+width_g_sig        7.727  -  0.046   +  0.045       False
+Compute sWeights...
+Dump result...
+Plot fitting results...
