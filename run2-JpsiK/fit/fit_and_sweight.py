@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Feb 22, 2022 at 11:07 AM -0500
+# Last Change: Tue Feb 22, 2022 at 06:56 PM -0500
 # NOTE: This is inspired by Greg Ciezarek's run 1 J/psi K fit
 
 import zfit
@@ -21,7 +21,8 @@ from hepstats.splot import compute_sweights
 from pyTuplingUtils.utils import gen_histo
 from pyTuplingUtils.plot import (
     plot_top_bot, plot_errorbar, plot_histo, plot_hlines,
-    ax_add_args_errorbar, ax_add_args_histo, ax_add_args_hlines
+    ax_add_args_errorbar, ax_add_args_histo, ax_add_args_hlines,
+    ensure_no_majortick_on_topmost
 )
 
 
@@ -183,6 +184,12 @@ def plot(fit_var, fit_models,
     bot_plotters.append(
         lambda fig, ax, b=[h_bins[0], h_bins[-1]], h=[0.0], add=hline_ref_args:
         plot_hlines(b, h, add, figure=fig, axis=ax, show_legend=False))
+    bot_plotters.append(
+        lambda fig, ax, b=[h_bins[0], h_bins[-1]], h=[2.0], add=hline_ref_args:
+        plot_hlines(b, h, add, figure=fig, axis=ax, show_legend=False))
+    bot_plotters.append(
+        lambda fig, ax, b=[h_bins[0], h_bins[-1]], h=[-2.0], add=hline_ref_args:
+        plot_hlines(b, h, add, figure=fig, axis=ax, show_legend=False))
 
     # Pull plot
     h_model_tot_yld = np.add.reduce(h_models)
@@ -196,7 +203,7 @@ def plot(fit_var, fit_models,
             b, h, add, figure=fig, axis=ax, show_legend=False))
 
     # Do the actual plot
-    fig, ax1, _ = plot_top_bot(
+    fig, ax1, ax2 = plot_top_bot(
         top_plotters, bot_plotters, title=title, ax2_ylabel='Pulls',
         legend_add_args={'numpoints': 1, 'loc': 'best', 'frameon': 'true'},
         **kwargs)
@@ -206,6 +213,8 @@ def plot(fit_var, fit_models,
         ax1.ticklabel_format(style='sci', scilimits=[-4, 3], axis='y')
     except:
         pass
+    ensure_no_majortick_on_topmost(ax2, 'linear', thresh=0.75, ratio=0.5,
+                                   verbose=True)
 
     fig.savefig(output)
 
