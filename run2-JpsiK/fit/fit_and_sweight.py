@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sun Feb 20, 2022 at 09:29 PM -0500
+# Last Change: Tue Feb 22, 2022 at 11:07 AM -0500
 # NOTE: This is inspired by Greg Ciezarek's run 1 J/psi K fit
 
 import zfit
@@ -79,6 +79,7 @@ def parse_input():
                             'b_ownpv_ndof',
                             'ntracks',
                             'b_p',
+                            'b_pt',
                             'b_eta',
                         ],
                         help='specify extra branches to save in output ntuple.')
