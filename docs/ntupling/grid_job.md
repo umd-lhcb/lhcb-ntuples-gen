@@ -316,6 +316,10 @@ to remove your local copy (More on this later).
     ```
     cd ntuples/0.9.6-2016-production/Dst_D0-mc-tracker-only
     git annex add .
+    git commit -m <comment>
+    git annex sync
+    git annex copy . --to glacier
+    git annex sync
     ```
 
     It is safe to do so, because `git-annex` is smart enough to skim already
