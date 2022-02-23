@@ -3,12 +3,10 @@
     "MuonBDTPid": {
       "inputs": {
         "flake-utils": [
-          "MuonBDTPid",
           "root-curated",
           "flake-utils"
         ],
         "nixpkgs": [
-          "MuonBDTPid",
           "root-curated",
           "nixpkgs"
         ],
@@ -76,12 +74,10 @@
     "hammer-reweight": {
       "inputs": {
         "flake-utils": [
-          "hammer-reweight",
           "root-curated",
           "flake-utils"
         ],
         "nixpkgs": [
-          "hammer-reweight",
           "root-curated",
           "nixpkgs"
         ],
