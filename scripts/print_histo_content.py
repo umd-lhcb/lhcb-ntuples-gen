@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Dec 16, 2021 at 12:44 AM +0100
+# Last Change: Wed Feb 23, 2022 at 12:58 AM -0500
 
 import sys
 import ROOT
@@ -53,7 +53,6 @@ def parse_input():
 def bin_info(histo, bin_idx, bin_lbl, multiline=True):
     bin_idx_max = getattr(histo, 'GetNbins{}'.format(bin_lbl))()
     axis = getattr(histo, 'Get{}axis'.format(bin_lbl))()
-    bins = list(axis.GetXbins())
 
     if bin_idx == 0:
         lbl = '(U)'
@@ -62,9 +61,10 @@ def bin_info(histo, bin_idx, bin_lbl, multiline=True):
     # elif bin_idx == bin_idx_max:
     #     lbl = '({:.1f}, {:.1f})'.format(bins[bin_idx-1], bins[bin_idx])
     elif bin_idx == 1:
-        lbl = ('({:.1f},{:.1f})'.format(bins[bin_idx-1], bins[bin_idx]))
+        lbl = ('({:.1f},{:.1f})'.format(
+            axis.GetBinLowEdge(bin_idx), axis.GetBinLowEdge(bin_idx+1)))
     else:
-        lbl = '({:.1f})'.format(bins[bin_idx])
+        lbl = '({:.1f})'.format(axis.GetBinLowEdge(bin_idx+1))
 
     fmt = '{} \n {}' if multiline else '{} {}'
 
