@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Feb 22, 2022 at 06:56 PM -0500
+# Last Change: Wed Feb 23, 2022 at 04:43 PM -0500
 # NOTE: This is inspired by Greg Ciezarek's run 1 J/psi K fit
 
 import zfit
@@ -70,7 +70,7 @@ def parse_input():
     parser.add_argument('--yLabel', default=r'Number of events',
                         help='specify ylabel.')
 
-    parser.add_argument('--bins', default=40,
+    parser.add_argument('--bins', default=65, type=int,
                         help='specify the binning in the plot.')
 
     parser.add_argument('-e', '--extraBranches',
@@ -163,7 +163,7 @@ def plot(fit_var, fit_models,
     # Data plot
     h_data, h_bins = gen_histo(fit_var, bins=bins, data_range=data_range)
     h_data_args = ax_add_args_errorbar(
-        data_lbl, 'black', yerr=np.sqrt(h_data), marker='.')
+        data_lbl, 'black', yerr=np.sqrt(h_data), marker='.', markersize=10)
     top_plotters.append(
         lambda fig, ax, b=h_bins, h=h_data, add=h_data_args: plot_errorbar(
             b, h, add, figure=fig, axis=ax, show_legend=False))
@@ -233,17 +233,25 @@ def fit_model_sig(obs, yld, fit_params):
     width_cb = fit_params['width_cb']
     alpha = fit_params['alpha']
     n_cb = fit_params['n_cb']
-
-    width_g_sig = fit_params['width_g_sig']
-
     pdf_sig_cb = zfit.pdf.CrystalBall(
         obs=obs, mu=peak, sigma=width_cb, alpha=alpha, n=n_cb)
+
+    width_g_sig = fit_params['width_g_sig']
     pdf_sig_g = zfit.pdf.Gauss(obs=obs, mu=peak, sigma=width_g_sig)
 
-    # Composite the 2 distributions
-    frac_sig_cb_g = fit_params['frac_sig_cb_g']
+    width_g2_sig = fit_params['width_g2_sig']
+    pdf_sig_g2 = zfit.pdf.Gauss(obs=obs, mu=peak, sigma=width_g2_sig)
+
+    # Composite the 3 distributions
     pdf = zfit.pdf.SumPDF(
-        pdfs=[pdf_sig_cb, pdf_sig_g], fracs=frac_sig_cb_g, name='sumpdf_sig')
+        pdfs=[
+            pdf_sig_cb, pdf_sig_g, pdf_sig_g2
+        ],
+        fracs=[
+            fit_params['frac_sig_cb'],
+            fit_params['frac_sig_g'],
+        ],
+        name='sumpdf_sig')
     return pdf.create_extended(yld)
 
 

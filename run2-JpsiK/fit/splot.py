@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri Feb 18, 2022 at 11:18 PM -0500
+# Last Change: Wed Feb 23, 2022 at 04:44 PM -0500
 
 import sys
 import zfit
@@ -91,7 +91,8 @@ def plot_splot(fit_var, fit_model, fit_sweight,
     # Data plot
     h_data, h_bins = gen_histo(
         fit_var, bins=bins, data_range=data_range, weights=fit_sweight)
-    h_data_args = ax_add_args_errorbar(data_lbl, 'black', marker='.')
+    h_data_args = ax_add_args_errorbar(
+        data_lbl, 'black', marker='.', markersize=10)
     plotters.append(
         lambda fig, ax, b=h_bins, h=h_data, add=h_data_args: plot_errorbar(
             b, h, add, figure=fig, axis=ax, show_legend=False))

@@ -17,8 +17,17 @@ width_g_sig:
     lower: 0
     upper: 15
 
-frac_sig_cb_g:
-    value: 0.79
+# sig: Gaussian2
+width_g2_sig:
+    lower: 0
+    upper: 60
+
+frac_sig_cb:
+    value: 0.35
+    lower: 0
+    upper: 1
+frac_sig_g:
+    value: 0.5
     lower: 0
     upper: 1
 
