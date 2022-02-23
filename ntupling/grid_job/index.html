@@ -1503,6 +1503,10 @@ to remove your local copy (More on this later).</p>
 way to annex your latest additional ntuples is this:</p>
 <div class="highlight"><pre><span></span><code>cd ntuples/0.9.6-2016-production/Dst_D0-mc-tracker-only
 git annex add .
+git commit -m &lt;comment&gt;
+git annex sync
+git annex copy . --to glacier
+git annex sync
 </code></pre></div>
 <p>It is safe to do so, because <code>git-annex</code> is smart enough to skim already
 annexed files.</p>
