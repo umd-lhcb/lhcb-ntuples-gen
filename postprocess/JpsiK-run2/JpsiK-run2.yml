@@ -86,7 +86,8 @@ calculation:
     # Selection flags, basic #
     ##########################
     # Trigger
-    hlt1: bool; b_hlt1_trackmva_tos || b_hlt1_twotrackmva_tos
+    l0: bool; b_l0_muon_tos
+    hlt1: bool; b_hlt1_trackmu_tos
     hlt2: bool; b_hlt2_dimuon_heavy_tos
 
     # Kinematic

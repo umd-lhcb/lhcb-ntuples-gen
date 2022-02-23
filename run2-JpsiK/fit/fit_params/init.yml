@@ -37,13 +37,13 @@ expc:
 
 # yield ratios
 yld_sig_ratio:
-    value: 0.84
+    value: 0.8
     lower: 0
-    upper: 1.5
+    upper: 1.0
 yld_bkg_ratio:
-    value: 0.16
+    value: 0.2
     lower: 0
-    upper: 0.24
+    upper: 0.35
 #yld_tail_ratio:
 #    value: 0.01
 #    lower: 0
