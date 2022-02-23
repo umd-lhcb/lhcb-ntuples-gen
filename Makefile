@@ -1,6 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Feb 21, 2022 at 10:11 PM -0500
+# Last Change: Wed Feb 23, 2022 at 03:23 PM -0500
 
 VPATH := postprocess:test:scripts:ntuples
 VPATH := run1-rdx/cutflow:run2-rdx/cutflow:$(VPATH)
@@ -136,6 +136,9 @@ ref-rdx-ntuple-run1-data-D0-comp: rdx-ntuple-run1-data-D0-comp
 ###################################
 
 JpsiK-ntuple-run2-data:
+	workflows/JpsiK.py $@
+
+JpsiK-ntuple-run2-mc:
 	workflows/JpsiK.py $@
 
 # debug

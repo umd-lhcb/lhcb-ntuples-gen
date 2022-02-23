@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Feb 22, 2022 at 01:25 AM -0500
+# Last Change: Wed Feb 23, 2022 at 03:23 PM -0500
 
 import sys
 import os.path as op
@@ -160,6 +160,11 @@ JOBS = {
     'JpsiK-ntuple-run2-data': partial(
         workflow_split,
         '../ntuples/0.9.6-2016_production/JpsiK-std',
+        '../postprocess/JpsiK-run2/JpsiK-run2.yml'
+    ),
+    'JpsiK-ntuple-run2-mc': partial(
+        workflow_split,
+        '../ntuples/0.9.6-2016_production/JpsiK-mc',
         '../postprocess/JpsiK-run2/JpsiK-run2.yml'
     ),
     # Run 2 debug
