@@ -305,7 +305,7 @@ To use it:
 
 ## Annex ntuples
 
-Use `git anenx copy` normally, then inform **{{ admin }}**. They'll pull the ntuples
+Use `git annex add` normally, then inform **{{ admin }}**. They'll pull the ntuples
 to the public `lhcb-ntuples-gen` on `glacier`. Then you wan use `git annex drop`
 to remove your local copy (More on this later).
 
