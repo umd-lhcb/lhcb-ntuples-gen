@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Feb 24, 2022 at 12:47 AM -0500
+# Last Change: Thu Feb 24, 2022 at 02:03 AM -0500
 
 import numpy as np
 
@@ -50,6 +50,9 @@ def parse_input():
     parser.add_argument('-t', '--tree', default='tree',
                         help='specify the tree name in the input ntuple.')
 
+    parser.add_argument('-s', '--sweight', default='sw_sig',
+                        help='specify the name of the sweight branch.')
+
     return parser.parse_args()
 
 
@@ -78,6 +81,10 @@ if __name__ == '__main__':
     histos = dict()
     brs_mc_stash = dict()
 
+    br_sw = list(concatenate(
+        f'{args.dataNtp}:{args.tree}', [args.sweight], library='np'
+    ).values())[0]
+
     for idx, (name, r) in enumerate(REWEIGHT_PROCEDURE.items()):
         brs_data = list(
             concatenate(f'{args.dataNtp}:{args.tree}', r.vars, library='np').values())
@@ -92,7 +99,7 @@ if __name__ == '__main__':
             brs_data[i] = scales[i]*brs_data[i]
             brs_mc[i] = scales[i]*brs_mc[i]
 
-        h_data_raw = np.histogram2d(*brs_data, r.bins, r.range)
+        h_data_raw = np.histogram2d(*brs_data, r.bins, r.range, weights=br_sw)
 
         if idx == 0:
             h_mc_raw = np.histogram2d(*brs_mc, r.bins, r.range)
