@@ -1,4 +1,4 @@
-# Last Change: Tue Feb 22, 2022 at 06:44 PM -0500
+# Last Change: Thu Feb 24, 2022 at 12:51 AM -0500
 
 .PHONY: fit
 
@@ -22,3 +22,11 @@ plot-init:
 		"../ntuples/0.9.6-2016_production/JpsiK-std-step2/JpsiK--22_02_22--std--data--2016--mu/*.root:tree" \
 		-p ./fit/fit_params/init.yml \
 		-I gen/JpsiK-$(shell date +"%y_%m_%d_%H_%M")-std-fit_init.png --noFit
+
+gen-weights:
+	./fit/gen_weights.py \
+		-d ./fit/fit_results/JpsiK-22_02_23_21_42-std-fit/fit.root \
+		-m \
+			"../ntuples/0.9.6-2016_production/JpsiK-mc-step2/JpsiK--22_02_23--mc--12143001--2016--md/*.root" \
+			"../ntuples/0.9.6-2016_production/JpsiK-mc-step2/JpsiK--22_02_23--mc--12143001--2016--mu/*.root" \
+		-o ./gen/run2-JpsiK-2016-md-Any-ndof_ntracks__pt_eta.root
