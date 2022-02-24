@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Feb 23, 2022 at 05:07 PM -0500
+# Last Change: Wed Feb 23, 2022 at 09:39 PM -0500
 # NOTE: This is inspired by Greg Ciezarek's run 1 J/psi K fit
 
 import zfit
@@ -180,17 +180,20 @@ def plot(fit_var, fit_models,
                 b, h, add, figure=fig, axis=ax, show_legend=False))
 
     # Plot horizontal line at y=0 for pull plot as a reference
+    bin_padding = 10
+    plot_range = [h_bins[0]-bin_padding, h_bins[-1]+bin_padding]
+
     hline_ref_args = ax_add_args_hlines('ref', 'gray')
     bot_plotters.append(
-        lambda fig, ax, b=[h_bins[0], h_bins[-1]], h=[0.0], add=hline_ref_args:
+        lambda fig, ax, b=plot_range, h=[0.0], add=hline_ref_args:
         plot_hlines(b, h, add, figure=fig, axis=ax, show_legend=False))
 
     hrect_ref_args = ax_add_args_histo('ref', 'gray', alpha=0.4)
     bot_plotters.append(
-        lambda fig, ax, b=[h_bins[0], h_bins[-1]], h=[2.0], add=hrect_ref_args:
+        lambda fig, ax, b=plot_range, h=[2.0], add=hrect_ref_args:
         plot_histo(b, h, add, figure=fig, axis=ax, show_legend=False))
     bot_plotters.append(
-        lambda fig, ax, b=[h_bins[0], h_bins[-1]], h=[-2.0], add=hrect_ref_args:
+        lambda fig, ax, b=plot_range, h=[-2.0], add=hrect_ref_args:
         plot_histo(b, h, add, figure=fig, axis=ax, show_legend=False))
 
     # Pull plot
@@ -217,6 +220,10 @@ def plot(fit_var, fit_models,
         pass
     ensure_no_majortick_on_topmost(ax2, 'linear', thresh=0.75, ratio=0.5,
                                    verbose=True)
+
+    # Manually fix plot range
+    ax1.set_xlim(plot_range)
+    ax2.set_xlim(plot_range)
 
     fig.savefig(output)
 
