@@ -244,10 +244,10 @@ names and skim them to remove unneeded branches.
 Yipeng has prepared a `ganga` function that generates a `bash` script to aid the process.
 To use it:
 
-1. Use `scp` to copy finished jobs to a folder `<glacierntuples>` under in your `$HOME` on `glacier`
+!!! warning "Before you proceed"
+    The whole procedure a long time. It's recommeded to do it inside a `tmux` session.
 
-    !!! info
-        This takes a long time, and it's recommeded to do it inside a `tmux` session.
+1. Use `scp` to copy finished jobs to a folder `<glacierntuples>` under in your `$HOME` on `glacier`
 
     !!! example
         Say your `gangadir` is at `~/eos/gangadir-workspace/suny/LocalXML`, and you
@@ -313,10 +313,19 @@ to remove your local copy (More on this later).
     Say you are working on `ntuples/0.9.6-2016-production/Dst_D0-mc-tracker-only`, the simplest
     way to annex your latest additional ntuples is this:
 
-    ```
+    ```shell
     cd ntuples/0.9.6-2016-production/Dst_D0-mc-tracker-only
+
+    # first do a regular pull
+    git pull origin master
+
     git annex add .
     git commit -m <comment>
+
+    # Now make sure you can push to github normally
+    git push origin master
+
+    # If everything looks fine, synchronize changes
     git annex sync
     git annex copy . --to glacier
     git annex sync
@@ -324,6 +333,12 @@ to remove your local copy (More on this later).
 
     It is safe to do so, because `git-annex` is smart enough to skim already
     annexed files.
+
+!!! info
+    If the `git push origin master` failed, check your `git` history and make
+    sure you **didn't** added ntuples (large files) directly with `git add`.
+
+    Github will refuse files larger than 100 MB.
 
 !!! info
     For more info on `git-annex` usage, review the
