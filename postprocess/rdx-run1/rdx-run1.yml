@@ -183,7 +183,8 @@ calculation:
     # D0 selection
     d0_pid_ok: bool; FLAG_SEL_D0_PID_OK_RUN1(k_PIDK, pi_PIDK, k_isMuon, pi_isMuon)
     d0_ok: >-
-        bool; FLAG_SEL_D0_RUN1(
+        bool;
+        FLAG_SEL_D0_RUN1(
         d0_pid_ok,
         k_PT, pi_PT,
         k_Hlt1TrackAllL0Decision_TOS, pi_Hlt1TrackAllL0Decision_TOS,
@@ -196,8 +197,8 @@ calculation:
         d0_DIRA_OWNPV,
         d0_FDCHI2_OWNPV
         )
-    d0_mass_ok: ^bool; FLAG_SEL_D0_MASS(d0_M)
-    d0_mass_hypo_ok: ^bool; FLAG_SEL_D0_MASS_HYPO(mu_PX, mu_PY, mu_PZ, d0_PX, d0_PY, d0_PZ, d0_M)
+    d0_m_ok: bool; FLAG_SEL_D0_MASS(d0_M)
+    d0_m_hypo_ok: bool; FLAG_SEL_D0_MASS_HYPO(mu_PX, mu_PY, mu_PZ, d0_PX, d0_PY, d0_PZ, d0_M)
 
     # Mu selection
     # Variables needed for Mu selection
@@ -239,40 +240,45 @@ calculation:
         b0_fd_trans,
         b0_DIRA_OWNPV
         )
-    dst_mass_ok: ^bool; FLAG_SEL_DST_MASS(dst_m, d0_m)
+    dst_m_ok: bool; FLAG_SEL_DST_MASS(dst_m, d0_m)
 
     ###############################
     # Selection flags, additional #
     ###############################
-    d_mass_window_ok: bool; d0_mass_ok && dst_mass_ok; d0_mass_ok && d0_mass_hypo_ok
-    is_in_fit_range: bool; IN_RANGE(mm2, -2.0, 10.9) && IN_RANGE(el, 0.1, 2.65) && IN_RANGE(q2, -0.4, 12.6)
-    is_normal: bool; FLAG_SEL_B0_MASS(b0_m) && is_in_fit_range; FLAG_SEL_BMINUS_MASS(b_m) && is_in_fit_range
-    is_sb: bool; FLAG_SEL_B0_MASS_SB(b0_m); FLAG_SEL_BMINUS_MASS_SB(b_m)
+    dx_m_ok: bool; d0_m_ok && dst_m_ok; d0_m_ok && d0_m_hypo_ok && d0_dst_veto_ok
+    in_fit_range: bool; IN_RANGE(mm2, -2.0, 10.9) && IN_RANGE(el, 0.1, 2.65) && IN_RANGE(q2, -0.4, 12.6)
+    b_m_ok: bool; FLAG_SEL_B0_MASS(b0_m); FLAG_SEL_BMINUS_MASS(b_m)
+    b_m_sb: bool; FLAG_SEL_B0_MASS_SB(b0_m); FLAG_SEL_BMINUS_MASS_SB(b_m)
 
     #########
     # Skims #
     #########
-    skim_global_ok: ^bool; mu_ubdt_ok && d_mass_window_ok
-    is_iso: bool; FLAG_ISO(skim_global_ok, iso_bdt1)
-    is_dd: >-
+    skim_global_ok: bool; dx_m_ok && b_m_ok && in_fit_range
+    is_iso: bool; skim_global_ok && is_iso_loose
+    is_dd: bool; skim_global_ok && is_dd_loose
+    is_2os: bool; skim_global_ok && is_2os_loose
+    is_1os: bool; skim_global_ok && is_1os_loose
+
+    is_iso_loose: bool; FLAG_ISO(true, iso_bdt1)
+    is_dd_loose: >-
         bool; FLAG_DD(
-        skim_global_ok,
+        true,
         iso_bdt1, iso_bdt2, iso_bdt2, iso_type1, iso_type2, iso_type3,
         iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
         iso_nnk1, iso_nnk2, iso_nnk3
         )
-    is_2os: >-
+    is_2os_loose: >-
         bool; FLAG_2OS(
-        skim_global_ok,
+        true,
         iso_bdt1, iso_bdt2, iso_bdt3, iso_type1, iso_type2,
         iso_p1, iso_p2, iso_pt1, iso_pt2,
         iso_chrg1, iso_chrg2,
         iso_nnk1, iso_nnk2
         )
-    is_1os: >-
+    is_1os_loose: >-
         bool;
         FLAG_1OS(
-        skim_global_ok,
+        true,
         iso_bdt1, iso_bdt2, iso_type1,
         iso_p1, iso_pt1,
         iso_chrg1,
@@ -280,7 +286,7 @@ calculation:
         dst_id, dst_iso_deltam
         );
         FLAG_1OS(
-        skim_global_ok,
+        true,
         iso_bdt1, iso_bdt2, iso_type1,
         iso_p1, iso_pt1,
         iso_chrg1,
