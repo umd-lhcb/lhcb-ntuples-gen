@@ -1439,13 +1439,13 @@ files and place it <em>in the correct</em> directory of the failing job.</p>
 names and skim them to remove unneeded branches.</p>
 <p>Yipeng has prepared a <code>ganga</code> function that generates a <code>bash</code> script to aid the process.
 To use it:</p>
+<div class="admonition warning">
+<p class="admonition-title">Before you proceed</p>
+<p>The whole procedure a long time. It's recommeded to do it inside a <code>tmux</code> session.</p>
+</div>
 <ol>
 <li>
 <p>Use <code>scp</code> to copy finished jobs to a folder <code>&lt;glacierntuples&gt;</code> under in your <code>$HOME</code> on <code>glacier</code></p>
-<div class="admonition info">
-<p class="admonition-title">Info</p>
-<p>This takes a long time, and it's recommeded to do it inside a <code>tmux</code> session.</p>
-</div>
 <div class="admonition example">
 <p class="admonition-title">Example</p>
 <p>Say your <code>gangadir</code> is at <code>~/eos/gangadir-workspace/suny/LocalXML</code>, and you
@@ -1501,15 +1501,30 @@ to remove your local copy (More on this later).</p>
 <p class="admonition-title">Example</p>
 <p>Say you are working on <code>ntuples/0.9.6-2016-production/Dst_D0-mc-tracker-only</code>, the simplest
 way to annex your latest additional ntuples is this:</p>
-<div class="highlight"><pre><span></span><code>cd ntuples/0.9.6-2016-production/Dst_D0-mc-tracker-only
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span> ntuples/0.9.6-2016-production/Dst_D0-mc-tracker-only
+
+<span class="c1"># first do a regular pull</span>
+git pull origin master
+
 git annex add .
 git commit -m &lt;comment&gt;
+
+<span class="c1"># Now make sure you can push to github normally</span>
+git push origin master
+
+<span class="c1"># If everything looks fine, synchronize changes</span>
 git annex sync
 git annex copy . --to glacier
 git annex sync
 </code></pre></div>
 <p>It is safe to do so, because <code>git-annex</code> is smart enough to skim already
 annexed files.</p>
+</div>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>If the <code>git push origin master</code> failed, check your <code>git</code> history and make
+sure you <strong>didn't</strong> added ntuples (large files) directly with <code>git add</code>.</p>
+<p>Github will refuse files larger than 100 MB.</p>
 </div>
 <div class="admonition info">
 <p class="admonition-title">Info</p>
