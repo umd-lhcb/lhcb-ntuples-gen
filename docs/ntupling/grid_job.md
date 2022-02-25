@@ -303,7 +303,7 @@ To use it:
     ```
 
 
-## Annex ntuples
+### Annex ntuples
 
 !!! info
     We decide to use a pull-request-based workflow for ntuple annexation to
