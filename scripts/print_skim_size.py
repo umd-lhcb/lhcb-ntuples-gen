@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Feb 16, 2022 at 04:23 PM -0500
+# Last Change: Thu Feb 24, 2022 at 10:56 PM -0500
 
 import numpy as np
 
@@ -24,6 +24,7 @@ if __name__ == '__main__':
     print('From ntuple: {}'.format(args.ntp))
 
     skims = ['ISO', '1OS', '2OS', 'DD']
+    # skim_branches = read_branches(args.ntp, 'tree', ['is_normal & d_mass_window_ok & ' + 'is_'+i.lower() for i in skims])
     skim_branches = read_branches(args.ntp, 'tree', ['is_'+i.lower() for i in skims])
 
     for name, arr in zip(skims, skim_branches):
