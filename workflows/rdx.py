@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Feb 16, 2022 at 02:09 PM -0500
+# Last Change: Thu Feb 24, 2022 at 10:31 PM -0500
 
 import sys
 import os.path as op
@@ -277,12 +277,9 @@ JOBS = {
         blocked_patterns=['--aux', 'MC_2012']
     ),
     # Run 2 debug
-    'rdx-ntuple-run2-mc-dss': partial(
-        workflow_mc,
-        [
-            '../ntuples/0.9.5-bugfix/Dst_D0-mc/Dst_D0--21_10_15--mc--MC_2016_Beam6500GeV-2016-MagDown-Nu1.6-25ns-Pythia8_Sim09j_Trig0x6139160F_Reco16_Turbo03a_Filtered_11874430_D0TAUNU.SAFESTRIPTRIG.DST.root',
-            # '../ntuples/0.9.5-bugfix/Dst_D0-mc/Dst_D0--21_10_15--mc--MC_2016_Beam6500GeV-2016-MagDown-Nu1.6-25ns-Pythia8_Sim09j_Trig0x6139160F_Reco16_Turbo03a_Filtered_11874440_D0TAUNU.SAFESTRIPTRIG.DST.root',
-        ],
+    'rdx-ntuple-run2-data-demo': partial(
+        workflow_data,
+        '../ntuples/0.9.6-2016_production/Dst_D0-std/Dst_D0--22_02_07--std--LHCb_Collision16_Beam6500GeV-VeloClosed-MagDown_Real_Data_Reco16_Stripping28r2_90000000_SEMILEPTONIC.DST/Dst_D0--22_02_07--std--LHCb_Collision16_Beam6500GeV-VeloClosed-MagDown_Real_Data_Reco16_Stripping28r2_90000000_SEMILEPTONIC.DST--000-dv.root',
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
     ),
     'rdx-ntuple-run2-data-debug': partial(
@@ -311,6 +308,11 @@ JOBS = {
         '../ntuples/0.9.6-2016_production/Dst_D0-mc-tracker_only/Dst_D0--21_10_16--mc--tracker_only--MC_2016_Beam6500GeV-2016-MagDown-TrackerOnly-Nu1.6-25ns-Pythia8_Sim09k_Reco16_Filtered_11574021_D0TAUNU.SAFESTRIPTRIG.DST',
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
         blocked_patterns=['--aux', r'--([1-9][0-9][0-9]|0[1-9][0-9])-dv']
+    ),
+    'rdx-ntuple-run2-mc-dss': partial(
+        workflow_mc,
+        '../ntuples/0.9.5-bugfix/Dst_D0-mc/Dst_D0--21_10_15--mc--MC_2016_Beam6500GeV-2016-MagDown-Nu1.6-25ns-Pythia8_Sim09j_Trig0x6139160F_Reco16_Turbo03a_Filtered_11874430_D0TAUNU.SAFESTRIPTRIG.DST.root',
+        '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
     ),
     # Run 1
     'rdx-ntuple-run1-data': partial(
