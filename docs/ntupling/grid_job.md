@@ -326,13 +326,12 @@ to remove your local copy (More on this later).
     git push origin master
 
     # If everything looks fine, synchronize changes
+    # It's safe to do these, because git-annex is smart enough
+    # to skip already annexed files
     git annex sync
     git annex copy . --to glacier
     git annex sync
     ```
-
-    It is safe to do so, because `git-annex` is smart enough to skim already
-    annexed files.
 
 !!! info
     If the `git push origin master` failed, check your `git` history and make
