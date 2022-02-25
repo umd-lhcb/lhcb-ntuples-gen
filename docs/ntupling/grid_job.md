@@ -24,7 +24,7 @@ a GRID. The advantages are:
 The rest of this doc is divided in two parts:
 
 1. GRID job preparation and submission on `lxplus`
-2. Offline skimming and annexing of the produced ntuples on a local machine,
+2. Offline slimming and annexing of the produced ntuples on a local machine,
    most possibly on `glacier`.
 
 
@@ -228,9 +228,9 @@ remake_uncompleted_job(63)
     files and place it _in the correct_ directory of the failing job.
 
 
-## Skimming and annexing of GRID ntuples
+## Slimming and annexing of GRID ntuples
 
-### Offline skimming
+### Offline slimming
 
 !!! warning "Before you proceed"
 
@@ -239,13 +239,13 @@ remake_uncompleted_job(63)
     Also don't forget to do `make install-dep` in the nix shell!
 
 We prefer to not merge `.root` files at all. Still, we need to give output files sane
-names and skim them to remove unneeded branches.
+names and slim them to remove unneeded branches.
 
 Yipeng has prepared a `ganga` function that generates a `bash` script to aid the process.
 To use it:
 
 !!! warning "Before you proceed"
-    The whole procedure a long time. It's recommeded to do it inside a `tmux` session.
+    The whole procedure takes a long time. It's recommeded to do it inside a `tmux` session.
 
 1. Use `scp` to copy finished jobs to a folder `<glacierntuples>` under in your `$HOME` on `glacier`
 
@@ -305,39 +305,58 @@ To use it:
 
 ## Annex ntuples
 
-Use `git annex add` normally, then inform **{{ admin }}**. They'll pull the ntuples
-to the public `lhcb-ntuples-gen` on `glacier`. Then you wan use `git annex drop`
-to remove your local copy (More on this later).
+!!! info
+    We decide to use a pull-request-based workflow for ntuple annexation to
+    minimize errors.
 
-!!! example
-    Say you are working on `ntuples/0.9.6-2016-production/Dst_D0-mc-tracker-only`, the simplest
-    way to annex your latest additional ntuples is this:
+1. Create a new branch on your `lhcb-ntuples-gen` project on `glacier`, then checkout that branch:
 
-    ```shell
-    cd ntuples/0.9.6-2016-production/Dst_D0-mc-tracker-only
-
-    # first do a regular pull
-    git pull origin master
-
-    git annex add .
-    git commit -m <comment>
-
-    # Now make sure you can push to github normally
-    git push origin master
-
-    # If everything looks fine, synchronize changes
-    # It's safe to do these, because git-annex is smart enough
-    # to skip already annexed files
-    git annex sync
-    git annex copy . --to glacier
-    git annex sync
+    ```
+    git branch <branch_name>
+    git checkout <branch_name>
     ```
 
-!!! info
-    If the `git push origin master` failed, check your `git` history and make
-    sure you **didn't** added ntuples (large files) directly with `git add`.
+    !!! example
 
-    Github will refuse files larger than 100 MB.
+        ```
+        git branch yipeng-ddx_part1
+        git checkout yipeng-ddx_part1
+        ```
+
+2. Go to the folder that contains your newly slimmed ntuples, then do `git annex add .`
+    and commit changes with `git commit . -m <comment>`.
+
+    !!! example
+
+        ```
+        cd ntuples/0.9.6-2016-production/Dst_D0-mc-tracker-only
+        git annex add .
+        git commit . -m "Part 1 of DDX MC"
+        ```
+
+3. Push this branch to Github, then create a pull-request.
+
+    !!! info
+        If the `git push origin <branch_name>` failed, check your `git` history
+        and make sure you **didn't** added ntuples (large files) directly with
+        `git add`.
+
+        Github will refuse files larger than 100 MB.
+
+    Once everything checks out, one of the **{{ admin }}** will merge the request.
+
+4. Once the request is merged, checkout your local `master` with `git checkout master`,
+    verify that your annexed ntuples are there, then do the following in the
+    `lhcb-ntuples-gen` project root:
+
+    ```shell
+    git annex sync
+    git annex copy . --to glacier
+    git annex sync  # YES, you need to do it twice, once before copying, and once after!
+    ```
+
+5. Once you finish all these, inform **{{ admin }}**.
+
 
 !!! info
     For more info on `git-annex` usage, review the
@@ -350,49 +369,61 @@ to remove your local copy (More on this later).
 
 ```bash
 #!/usr/bin/env bash
-INPUT_DIR=/dev/null  # NOTE: Configure this before proceed!!!
+INPUT_DIR=~/ntuples  # NOTE: Configure this before proceed!!!
 SKIM_CONFIG=./postprocess/skims/rdx_mc.yml  # NOTE: Make sure you pick the right one!!!
 OUTPUT_DIR=$1
 MIN_NTUPLE_SIZE=500  # in KiB
+
+RED='[0;31m'
+NC='[0m' # No Color
 
 
 function check_job () {
   local error=0
   local job_dir=${INPUT_DIR}/$1
+  local num_of_subjobs=$2
 
-  echo "Verifying output for Job $1..."
+  echo "Verifying output for Job $1, which has $2 subjobs..."
+  # might require GNU find
+  local folders=$(find $job_dir -mindepth 1 -maxdepth 1 -type d -regex ".*/[0-9]*" | wc -l)
+
+  if [[ $folders -ne $num_of_subjobs ]]; then
+      echo -e "${RED}Found $folders subjobs, which =/= $num_of_subjobs. Terminate now.${NC}"
+      exit 1
+  fi
 
   for sj in $(ls $job_dir | grep -E "^[0-9].*$"); do
     local file=$(find $job_dir/$sj/output -name '*.root')
 
     if [[ -z $file ]]; then
       let "error++"
-      echo "subjob $sj: ntuple missing!"
+      echo -e "${RED}subjob $sj: ntuple missing!${NC}"
     else
       local size=$(du -b $file | awk '{print int($1 / 1024)}')  # in KiB
       if [ $size -lt ${MIN_NTUPLE_SIZE} ]; then
         let "error++"
-        echo "subjob $sj: ntuple has a size of $size KiB, which is too small!"
+        echo -e "${RED}subjob $sj: ntuple has a size of $size KiB, which is too small!${NC}"
       fi
     fi
   done
 
   if [ $error -gt 0 ]; then
-    echo "Job $1 output verification failed with $error error(s)."
+    echo -e "${RED}Job $1 output verification failed with $error error(s).${NC}"
+    exit $error  # exit early to make errors easy to see
   fi
 
   return $error
 }
 
 function concat_job () {
-  check_job $1
+  check_job $1 $2
 
   if [ $? -eq 0 ]; then
-    ./ganga/ganga_skim_job_output.py ${OUTPUT_DIR}/$2 ${INPUT_DIR}/$1 ${SKIM_CONFIG}
+    ./ganga/ganga_skim_job_output.py ${OUTPUT_DIR}/$3 ${INPUT_DIR}/$1 ${SKIM_CONFIG}
   fi
 }
 
-concat_job 177 Dst_D0--22_02_03--mc--tracker_only--MC_2016_Beam6500GeV-2016-MagUp-TrackerOnly-Nu1.6-25ns-Pythia8_Sim09k_Reco16_Filtered_13674000_D0TAUNU.SAFESTRIPTRIG.DST.root
+concat_job 180 111 Dst_D0--22_02_07--mc--tracker_only--MC_2016_Beam6500GeV-2016-MagDown-TrackerOnly-Nu1.6-25ns-Pythia8_Sim09k_Reco16_Filtered_11894600_D0TAUNU.SAFESTRIPTRIG.DST.root
 ```
 
 
