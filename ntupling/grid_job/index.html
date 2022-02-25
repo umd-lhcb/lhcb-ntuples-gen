@@ -1513,12 +1513,12 @@ git commit -m &lt;comment&gt;
 git push origin master
 
 <span class="c1"># If everything looks fine, synchronize changes</span>
+<span class="c1"># It&#39;s safe to do these, because git-annex is smart enough</span>
+<span class="c1"># to skip already annexed files</span>
 git annex sync
 git annex copy . --to glacier
 git annex sync
 </code></pre></div>
-<p>It is safe to do so, because <code>git-annex</code> is smart enough to skim already
-annexed files.</p>
 </div>
 <div class="admonition info">
 <p class="admonition-title">Info</p>
