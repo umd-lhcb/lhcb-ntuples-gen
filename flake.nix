@@ -8,9 +8,14 @@
 
     MuonBDTPid.url = "github:umd-lhcb/MuonBDTPid";
     hammer-reweight.url = "github:umd-lhcb/hammer-reweight";
+
+    flake-compat = {
+      url = github:edolstra/flake-compat;
+      flake = false;
+    };
   };
 
-  outputs = { self, nixpkgs, flake-utils, root-curated, MuonBDTPid, hammer-reweight }:
+  outputs = { self, nixpkgs, flake-utils, root-curated, MuonBDTPid, hammer-reweight, ... }:
     flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = import nixpkgs {
