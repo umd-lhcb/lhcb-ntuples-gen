@@ -380,16 +380,16 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#skimming-and-annexing-of-grid-ntuples" class="md-nav__link">
-    Skimming and annexing of GRID ntuples
+  <a href="#slimming-and-annexing-of-grid-ntuples" class="md-nav__link">
+    Slimming and annexing of GRID ntuples
   </a>
   
-    <nav class="md-nav" aria-label="Skimming and annexing of GRID ntuples">
+    <nav class="md-nav" aria-label="Slimming and annexing of GRID ntuples">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#offline-skimming" class="md-nav__link">
-    Offline skimming
+  <a href="#offline-slimming" class="md-nav__link">
+    Offline slimming
   </a>
   
 </li>
@@ -1162,16 +1162,16 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#skimming-and-annexing-of-grid-ntuples" class="md-nav__link">
-    Skimming and annexing of GRID ntuples
+  <a href="#slimming-and-annexing-of-grid-ntuples" class="md-nav__link">
+    Slimming and annexing of GRID ntuples
   </a>
   
-    <nav class="md-nav" aria-label="Skimming and annexing of GRID ntuples">
+    <nav class="md-nav" aria-label="Slimming and annexing of GRID ntuples">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#offline-skimming" class="md-nav__link">
-    Offline skimming
+  <a href="#offline-slimming" class="md-nav__link">
+    Offline slimming
   </a>
   
 </li>
@@ -1268,7 +1268,7 @@ a GRID. The advantages are:</p>
 <p>The rest of this doc is divided in two parts:</p>
 <ol>
 <li>GRID job preparation and submission on <code>lxplus</code></li>
-<li>Offline skimming and annexing of the produced ntuples on a local machine,
+<li>Offline slimming and annexing of the produced ntuples on a local machine,
    most possibly on <code>glacier</code>.</li>
 </ol>
 <h2 id="grid-job-preparation-and-submission-on-lxplus">GRID job preparation and submission on <code>lxplus</code></h2>
@@ -1428,20 +1428,20 @@ and add the subjob index to the <code>comment</code> property of the new job.</p
 <p>After the remade job has finished successfuly, merge all of its output <code>.root</code>
 files and place it <em>in the correct</em> directory of the failing job.</p>
 </div>
-<h2 id="skimming-and-annexing-of-grid-ntuples">Skimming and annexing of GRID ntuples</h2>
-<h3 id="offline-skimming">Offline skimming</h3>
+<h2 id="slimming-and-annexing-of-grid-ntuples">Slimming and annexing of GRID ntuples</h2>
+<h3 id="offline-slimming">Offline slimming</h3>
 <div class="admonition warning">
 <p class="admonition-title">Before you proceed</p>
 <p>Clone <code>lhcb-ntuples-gen</code> on <code>glacier</code> and <a href="../installation/">setup <code>git-annex</code> normally</a>.</p>
 <p>Also don't forget to do <code>make install-dep</code> in the nix shell!</p>
 </div>
 <p>We prefer to not merge <code>.root</code> files at all. Still, we need to give output files sane
-names and skim them to remove unneeded branches.</p>
+names and slim them to remove unneeded branches.</p>
 <p>Yipeng has prepared a <code>ganga</code> function that generates a <code>bash</code> script to aid the process.
 To use it:</p>
 <div class="admonition warning">
 <p class="admonition-title">Before you proceed</p>
-<p>The whole procedure a long time. It's recommeded to do it inside a <code>tmux</code> session.</p>
+<p>The whole procedure takes a long time. It's recommeded to do it inside a <code>tmux</code> session.</p>
 </div>
 <ol>
 <li>
@@ -1494,38 +1494,59 @@ jobs with a index that is greater or equal to the specified index.</p>
 </li>
 </ol>
 <h2 id="annex-ntuples">Annex ntuples</h2>
-<p>Use <code>git annex add</code> normally, then inform <strong>Manuel or Yipeng</strong>. They'll pull the ntuples
-to the public <code>lhcb-ntuples-gen</code> on <code>glacier</code>. Then you wan use <code>git annex drop</code>
-to remove your local copy (More on this later).</p>
-<div class="admonition example">
-<p class="admonition-title">Example</p>
-<p>Say you are working on <code>ntuples/0.9.6-2016-production/Dst_D0-mc-tracker-only</code>, the simplest
-way to annex your latest additional ntuples is this:</p>
-<div class="highlight"><pre><span></span><code><span class="nb">cd</span> ntuples/0.9.6-2016-production/Dst_D0-mc-tracker-only
-
-<span class="c1"># first do a regular pull</span>
-git pull origin master
-
-git annex add .
-git commit -m &lt;comment&gt;
-
-<span class="c1"># Now make sure you can push to github normally</span>
-git push origin master
-
-<span class="c1"># If everything looks fine, synchronize changes</span>
-<span class="c1"># It&#39;s safe to do these, because git-annex is smart enough</span>
-<span class="c1"># to skip already annexed files</span>
-git annex sync
-git annex copy . --to glacier
-git annex sync
-</code></pre></div>
-</div>
 <div class="admonition info">
 <p class="admonition-title">Info</p>
-<p>If the <code>git push origin master</code> failed, check your <code>git</code> history and make
-sure you <strong>didn't</strong> added ntuples (large files) directly with <code>git add</code>.</p>
+<p>We decide to use a pull-request-based workflow for ntuple annexation to
+minimize errors.</p>
+</div>
+<ol>
+<li>
+<p>Create a new branch on your <code>lhcb-ntuples-gen</code> project on <code>glacier</code>, then checkout that branch:</p>
+<div class="highlight"><pre><span></span><code>git branch &lt;branch_name&gt;
+git checkout &lt;branch_name&gt;
+</code></pre></div>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<div class="highlight"><pre><span></span><code>git branch yipeng-ddx_part1
+git checkout yipeng-ddx_part1
+</code></pre></div>
+</div>
+</li>
+<li>
+<p>Go to the folder that contains your newly slimmed ntuples, then do <code>git annex add .</code>
+    and commit changes with <code>git commit . -m &lt;comment&gt;</code>.</p>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
+<div class="highlight"><pre><span></span><code>cd ntuples/0.9.6-2016-production/Dst_D0-mc-tracker-only
+git annex add .
+git commit . -m &quot;Part 1 of DDX MC&quot;
+</code></pre></div>
+</div>
+</li>
+<li>
+<p>Push this branch to Github, then create a pull-request.</p>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>If the <code>git push origin &lt;branch_name&gt;</code> failed, check your <code>git</code> history
+and make sure you <strong>didn't</strong> added ntuples (large files) directly with
+<code>git add</code>.</p>
 <p>Github will refuse files larger than 100 MB.</p>
 </div>
+<p>Once everything checks out, one of the <strong>Manuel or Yipeng</strong> will merge the request.</p>
+</li>
+<li>
+<p>Once the request is merged, checkout your local <code>master</code> with <code>git checkout master</code>,
+    verify that your annexed ntuples are there, then do the following in the
+    <code>lhcb-ntuples-gen</code> project root:</p>
+<div class="highlight"><pre><span></span><code>git annex sync
+git annex copy . --to glacier
+git annex sync  <span class="c1"># YES, you need to do it twice, once before copying, and once after!</span>
+</code></pre></div>
+</li>
+<li>
+<p>Once you finish all these, inform <strong>Manuel or Yipeng</strong>.</p>
+</li>
+</ol>
 <div class="admonition info">
 <p class="admonition-title">Info</p>
 <p>For more info on <code>git-annex</code> usage, review the
@@ -1534,49 +1555,61 @@ sure you <strong>didn't</strong> added ntuples (large files) directly with <code
 <h2 id="appendix">Appendix</h2>
 <h3 id="sample-batch_skimsh">Sample <code>batch_skim.sh</code></h3>
 <div class="highlight"><pre><span></span><code><span class="ch">#!/usr/bin/env bash</span>
-<span class="nv">INPUT_DIR</span><span class="o">=</span>/dev/null  <span class="c1"># NOTE: Configure this before proceed!!!</span>
+<span class="nv">INPUT_DIR</span><span class="o">=</span>~/ntuples  <span class="c1"># NOTE: Configure this before proceed!!!</span>
 <span class="nv">SKIM_CONFIG</span><span class="o">=</span>./postprocess/skims/rdx_mc.yml  <span class="c1"># NOTE: Make sure you pick the right one!!!</span>
 <span class="nv">OUTPUT_DIR</span><span class="o">=</span><span class="nv">$1</span>
 <span class="nv">MIN_NTUPLE_SIZE</span><span class="o">=</span><span class="m">500</span>  <span class="c1"># in KiB</span>
+
+<span class="nv">RED</span><span class="o">=</span><span class="s1">&#39;[0;31m&#39;</span>
+<span class="nv">NC</span><span class="o">=</span><span class="s1">&#39;[0m&#39;</span> <span class="c1"># No Color</span>
 
 
 <span class="k">function</span> check_job <span class="o">()</span> <span class="o">{</span>
   <span class="nb">local</span> <span class="nv">error</span><span class="o">=</span><span class="m">0</span>
   <span class="nb">local</span> <span class="nv">job_dir</span><span class="o">=</span><span class="si">${</span><span class="nv">INPUT_DIR</span><span class="si">}</span>/<span class="nv">$1</span>
+  <span class="nb">local</span> <span class="nv">num_of_subjobs</span><span class="o">=</span><span class="nv">$2</span>
 
-  <span class="nb">echo</span> <span class="s2">&quot;Verifying output for Job </span><span class="nv">$1</span><span class="s2">...&quot;</span>
+  <span class="nb">echo</span> <span class="s2">&quot;Verifying output for Job </span><span class="nv">$1</span><span class="s2">, which has </span><span class="nv">$2</span><span class="s2"> subjobs...&quot;</span>
+  <span class="c1"># might require GNU find</span>
+  <span class="nb">local</span> <span class="nv">folders</span><span class="o">=</span><span class="k">$(</span>find <span class="nv">$job_dir</span> -mindepth <span class="m">1</span> -maxdepth <span class="m">1</span> -type d -regex <span class="s2">&quot;.*/[0-9]*&quot;</span> <span class="p">|</span> wc -l<span class="k">)</span>
+
+  <span class="k">if</span> <span class="o">[[</span> <span class="nv">$folders</span> -ne <span class="nv">$num_of_subjobs</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then</span>
+      <span class="nb">echo</span> -e <span class="s2">&quot;</span><span class="si">${</span><span class="nv">RED</span><span class="si">}</span><span class="s2">Found </span><span class="nv">$folders</span><span class="s2"> subjobs, which =/= </span><span class="nv">$num_of_subjobs</span><span class="s2">. Terminate now.</span><span class="si">${</span><span class="nv">NC</span><span class="si">}</span><span class="s2">&quot;</span>
+      <span class="nb">exit</span> <span class="m">1</span>
+  <span class="k">fi</span>
 
   <span class="k">for</span> sj <span class="k">in</span> <span class="k">$(</span>ls <span class="nv">$job_dir</span> <span class="p">|</span> grep -E <span class="s2">&quot;^[0-9].*</span>$<span class="s2">&quot;</span><span class="k">)</span><span class="p">;</span> <span class="k">do</span>
     <span class="nb">local</span> <span class="nv">file</span><span class="o">=</span><span class="k">$(</span>find <span class="nv">$job_dir</span>/<span class="nv">$sj</span>/output -name <span class="s1">&#39;*.root&#39;</span><span class="k">)</span>
 
     <span class="k">if</span> <span class="o">[[</span> -z <span class="nv">$file</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then</span>
       <span class="nb">let</span> <span class="s2">&quot;error++&quot;</span>
-      <span class="nb">echo</span> <span class="s2">&quot;subjob </span><span class="nv">$sj</span><span class="s2">: ntuple missing!&quot;</span>
+      <span class="nb">echo</span> -e <span class="s2">&quot;</span><span class="si">${</span><span class="nv">RED</span><span class="si">}</span><span class="s2">subjob </span><span class="nv">$sj</span><span class="s2">: ntuple missing!</span><span class="si">${</span><span class="nv">NC</span><span class="si">}</span><span class="s2">&quot;</span>
     <span class="k">else</span>
       <span class="nb">local</span> <span class="nv">size</span><span class="o">=</span><span class="k">$(</span>du -b <span class="nv">$file</span> <span class="p">|</span> awk <span class="s1">&#39;{print int($1 / 1024)}&#39;</span><span class="k">)</span>  <span class="c1"># in KiB</span>
       <span class="k">if</span> <span class="o">[</span> <span class="nv">$size</span> -lt <span class="si">${</span><span class="nv">MIN_NTUPLE_SIZE</span><span class="si">}</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
         <span class="nb">let</span> <span class="s2">&quot;error++&quot;</span>
-        <span class="nb">echo</span> <span class="s2">&quot;subjob </span><span class="nv">$sj</span><span class="s2">: ntuple has a size of </span><span class="nv">$size</span><span class="s2"> KiB, which is too small!&quot;</span>
+        <span class="nb">echo</span> -e <span class="s2">&quot;</span><span class="si">${</span><span class="nv">RED</span><span class="si">}</span><span class="s2">subjob </span><span class="nv">$sj</span><span class="s2">: ntuple has a size of </span><span class="nv">$size</span><span class="s2"> KiB, which is too small!</span><span class="si">${</span><span class="nv">NC</span><span class="si">}</span><span class="s2">&quot;</span>
       <span class="k">fi</span>
     <span class="k">fi</span>
   <span class="k">done</span>
 
   <span class="k">if</span> <span class="o">[</span> <span class="nv">$error</span> -gt <span class="m">0</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
-    <span class="nb">echo</span> <span class="s2">&quot;Job </span><span class="nv">$1</span><span class="s2"> output verification failed with </span><span class="nv">$error</span><span class="s2"> error(s).&quot;</span>
+    <span class="nb">echo</span> -e <span class="s2">&quot;</span><span class="si">${</span><span class="nv">RED</span><span class="si">}</span><span class="s2">Job </span><span class="nv">$1</span><span class="s2"> output verification failed with </span><span class="nv">$error</span><span class="s2"> error(s).</span><span class="si">${</span><span class="nv">NC</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="nb">exit</span> <span class="nv">$error</span>  <span class="c1"># exit early to make errors easy to see</span>
   <span class="k">fi</span>
 
   <span class="k">return</span> <span class="nv">$error</span>
 <span class="o">}</span>
 
 <span class="k">function</span> concat_job <span class="o">()</span> <span class="o">{</span>
-  check_job <span class="nv">$1</span>
+  check_job <span class="nv">$1</span> <span class="nv">$2</span>
 
   <span class="k">if</span> <span class="o">[</span> <span class="nv">$?</span> -eq <span class="m">0</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
-    ./ganga/ganga_skim_job_output.py <span class="si">${</span><span class="nv">OUTPUT_DIR</span><span class="si">}</span>/<span class="nv">$2</span> <span class="si">${</span><span class="nv">INPUT_DIR</span><span class="si">}</span>/<span class="nv">$1</span> <span class="si">${</span><span class="nv">SKIM_CONFIG</span><span class="si">}</span>
+    ./ganga/ganga_skim_job_output.py <span class="si">${</span><span class="nv">OUTPUT_DIR</span><span class="si">}</span>/<span class="nv">$3</span> <span class="si">${</span><span class="nv">INPUT_DIR</span><span class="si">}</span>/<span class="nv">$1</span> <span class="si">${</span><span class="nv">SKIM_CONFIG</span><span class="si">}</span>
   <span class="k">fi</span>
 <span class="o">}</span>
 
-concat_job <span class="m">177</span> Dst_D0--22_02_03--mc--tracker_only--MC_2016_Beam6500GeV-2016-MagUp-TrackerOnly-Nu1.6-25ns-Pythia8_Sim09k_Reco16_Filtered_13674000_D0TAUNU.SAFESTRIPTRIG.DST.root
+concat_job <span class="m">180</span> <span class="m">111</span> Dst_D0--22_02_07--mc--tracker_only--MC_2016_Beam6500GeV-2016-MagDown-TrackerOnly-Nu1.6-25ns-Pythia8_Sim09k_Reco16_Filtered_11894600_D0TAUNU.SAFESTRIPTRIG.DST.root
 </code></pre></div>
 <h3 id="general-usage-of-ganga_jobspy">General usage of <code>ganga_jobs.py</code></h3>
 <p>For this repo, there is a <strong>central</strong> <code>ganga</code> job submitter that should handle
