@@ -227,6 +227,12 @@ remake_uncompleted_job(63)
     After the remade job has finished successfuly, merge all of its output `.root`
     files and place it _in the correct_ directory of the failing job.
 
+    Ntuples can be merged with:
+
+    ```
+    hadd -fk <name>.root */output/*.root
+    ```
+
 
 ## Slimming and annexing of GRID ntuples
 
