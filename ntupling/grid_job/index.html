@@ -1524,7 +1524,8 @@ git commit . -m &quot;Part 1 of DDX MC&quot;
 </div>
 </li>
 <li>
-<p>Push this branch to Github, then create a pull-request.</p>
+<p>Push this branch to Github with <code>git push origin &lt;branch_name&gt;</code>,
+    then create a pull-request.</p>
 <div class="admonition info">
 <p class="admonition-title">Info</p>
 <p>If the <code>git push origin &lt;branch_name&gt;</code> failed, check your <code>git</code> history
@@ -1532,12 +1533,15 @@ and make sure you <strong>didn't</strong> added ntuples (large files) directly w
 <code>git add</code>.</p>
 <p>Github will refuse files larger than 100 MB.</p>
 </div>
-<p>Once everything checks out, one of the <strong>Manuel or Yipeng</strong> will merge the request.</p>
+<p>Once everything checks out, one of <strong>Manuel or Yipeng</strong> will merge the request.</p>
 </li>
 <li>
-<p>Once the request is merged, checkout your local <code>master</code> with <code>git checkout master</code>,
-    verify that your annexed ntuples are there, then do the following in the
-    <code>lhcb-ntuples-gen</code> project root:</p>
+<p>Once the request is merged, do the following:</p>
+<div class="highlight"><pre><span></span><code>git checkout master
+git pull origin master
+</code></pre></div>
+<p>verify that your annexed ntuples are there, then do the following in the
+<code>lhcb-ntuples-gen</code> project root:</p>
 <div class="highlight"><pre><span></span><code>git annex sync
 git annex copy . --to glacier
 git annex sync  <span class="c1"># YES, you need to do it twice, once before copying, and once after!</span>
