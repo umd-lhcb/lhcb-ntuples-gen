@@ -334,7 +334,8 @@ To use it:
         git commit . -m "Part 1 of DDX MC"
         ```
 
-3. Push this branch to Github, then create a pull-request.
+3. Push this branch to Github with `git push origin <branch_name>`,
+    then create a pull-request.
 
     !!! info
         If the `git push origin <branch_name>` failed, check your `git` history
@@ -343,9 +344,15 @@ To use it:
 
         Github will refuse files larger than 100 MB.
 
-    Once everything checks out, one of the **{{ admin }}** will merge the request.
+    Once everything checks out, one of **{{ admin }}** will merge the request.
 
-4. Once the request is merged, checkout your local `master` with `git checkout master`,
+4. Once the request is merged, do the following:
+
+    ```
+    git checkout master
+    git pull origin master
+    ```
+
     verify that your annexed ntuples are there, then do the following in the
     `lhcb-ntuples-gen` project root:
 
