@@ -112,7 +112,8 @@ calculation:
     ###########
     wpid: double; wpid_k*wpid_mu*wpid_amu
     wtrk: double; wtrk_k*wtrk_mu*wtrk_amu
-    w: double; wpid*wtrk
+    wjk: double; wjk_occ*wjk_kin
+    w: double; wpid*wtrk*wjk
 
 global_selection:
     - hlt1 && hlt2
