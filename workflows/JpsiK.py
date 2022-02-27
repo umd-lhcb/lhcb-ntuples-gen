@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Feb 23, 2022 at 03:23 PM -0500
+# Last Change: Sat Feb 26, 2022 at 06:55 PM -0500
 
 import sys
 import os.path as op
@@ -76,6 +76,16 @@ def workflow_trk(
                                  output_ntp, '--aux_trk', **kwargs)
 
 
+@smart_kwarg
+def workflow_jk(
+        input_ntp, output_ntp='jk.root',
+        trk_histo_folder='../run2-JpsiK/reweight/JpsiK/root-run2-JpsiK_oldcut',
+        trk_config='../run2-JpsiK/reweight/JpsiK/run2-JpsiK_oldcut.yml',
+        **kwargs):
+    return workflow_apply_weight(input_ntp, trk_histo_folder, trk_config,
+                                 output_ntp, '--aux_jk', **kwargs)
+
+
 #######################
 # Workflows: wrappers #
 #######################
@@ -110,7 +120,7 @@ def workflow_data(inputs, input_yml, job_name='data', **kwargs):
 
 
 def workflow_mc(inputs, input_yml, job_name='mc', **kwargs):
-    aux_workflows = [workflow_pid, workflow_trk]
+    aux_workflows = [workflow_pid, workflow_trk, workflow_jk]
     subworkdirs, workdir = workflow_prep_dir(job_name, inputs, **kwargs)
     chdir(workdir)
 
@@ -175,7 +185,7 @@ JOBS = {
     ),
     'JpsiK-ntuple-run2-mc-demo': partial(
         workflow_mc,
-        '../run2-JpsiK/samples/JpsiK--22_02_09--mc--Bu2JpsiK--2016--md--py8-sim09k-dv45-subset.root',
+        '../run2-JpsiK/samples/JpsiK--22_02_22--mc--Bu2JpsiK--2016--md--py8-sim09k-dv45-subset.root',
         '../postprocess/JpsiK-run2/JpsiK-run2.yml'
     ),
 }
