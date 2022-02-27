@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Feb 23, 2022 at 09:39 PM -0500
+# Last Change: Sat Feb 26, 2022 at 11:49 PM -0500
 # NOTE: This is inspired by Greg Ciezarek's run 1 J/psi K fit
 
 import zfit
@@ -67,10 +67,10 @@ def parse_input():
     parser.add_argument('--xLabel', default=r'$m_B$ [MeV]',
                         help='specify xlabel.')
 
-    parser.add_argument('--yLabel', default=r'Number of events',
+    parser.add_argument('--yLabel', default=r'# events',
                         help='specify ylabel.')
 
-    parser.add_argument('--bins', default=65, type=int,
+    parser.add_argument('--bins', default=80, type=int,
                         help='specify the binning in the plot.')
 
     parser.add_argument('-e', '--extraBranches',
@@ -156,6 +156,7 @@ def plot(fit_var, fit_models,
          data_lbl='Data', title='Fit',
          fit_model_lbls=['bkg.', 'sig.'],
          fit_model_colors=['crimson', 'cornflowerblue', 'darkgoldenrod'],
+         ax1_ylabel='',
          **kwargs):
     top_plotters = []
     bot_plotters = []
@@ -208,10 +209,11 @@ def plot(fit_var, fit_models,
             b, h, add, figure=fig, axis=ax, show_legend=False))
 
     # Do the actual plot
+    ax1_ylabel = ax1_ylabel + f' / {(MODEL_BDY[1]-MODEL_BDY[0])/args.bins:.1f} MeV'
     fig, ax1, ax2 = plot_top_bot(
         top_plotters, bot_plotters, title=title, ax2_ylabel='Pulls',
         legend_add_args={'numpoints': 1, 'loc': 'best', 'frameon': 'true'},
-        **kwargs)
+        ax1_ylabel=ax1_ylabel, **kwargs)
 
     # Tweaks on legend
     try:
