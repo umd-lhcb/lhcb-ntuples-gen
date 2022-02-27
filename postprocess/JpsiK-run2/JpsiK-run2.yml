@@ -29,25 +29,25 @@ calculation:
     #######################
     # Kinematic variables #
     #######################
-    # Keep masses in MeV, everything else in GeV
+    # Keep everything in MeV!
     # B
     b_m: double; b_M
-    b_p: double; GEV(b_P)
-    b_pt: double; GEV(b_PT)
+    b_p: double; b_P
+    b_pt: double; b_PT
     b_eta: double; ETA(b_P, b_PZ)
     # J/psi
     # For M vs MM, see https://github.com/lhcb/first-analysis-steps/pull/148
     j_m: double; j_M
     j_mm: double; j_MM  # the sum of the four-vectors of the children as the 'parent'
     # K
-    k_pt: double; GEV(k_PT)
+    k_pt: double; k_PT
     # Mu
-    mu_p: double; GEV(mu_P)
-    mu_pt: double; GEV(mu_PT)
+    mu_p: double; mu_P
+    mu_pt: double; mu_PT
     mu_eta: double; ETA(mu_P, mu_PZ)
     # anti-Mu
-    amu_p: double; GEV(amu_P)
-    amu_pt: double; GEV(amu_PT)
+    amu_p: double; amu_P
+    amu_pt: double; amu_PT
     amu_eta: double; ETA(amu_P, amu_PZ)
     # Misc.
     pt_prod_sqrt: double; SQRT(mu_pt*amu_pt)
