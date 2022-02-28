@@ -2,15 +2,15 @@ trees:
     - tree
 
 config:
-    wjk_occ:
-        histo_name: h_occupancy
-        particle: Any
-        vars:
-            - b_OWNPV_NDOF
-            - nTracks
     wjk_kin:
         histo_name: h_kinematic
-        particle: Any
+        particle: B
         vars:
             - b_PT
             - ETA(b_P, b_PZ)
+    wjk_occ:
+        histo_name: h_occupancy
+        particle: B
+        vars:
+            - b_OWNPV_NDOF
+            - nTracks
