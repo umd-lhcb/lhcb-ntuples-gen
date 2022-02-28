@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sun Feb 27, 2022 at 11:19 PM -0500
+# Last Change: Mon Feb 28, 2022 at 03:33 AM -0500
 
 import numpy as np
 
@@ -25,7 +25,7 @@ class RwtRule:
     range: Union[ArrayLike, List[List[float]]]
 
 REWEIGHT_PROCEDURE = {
-    'h_occupancy': RwtRule(['b_ownpv_ndof', 'ntracks'], [20, 20], [[1, 200], [0, 450]]),
+    'h_occupancy': RwtRule(['b_ownpv_ndof', 'ntracks'], [20, 30], [[1, 200], [0, 900]]),
     'h_kinematic': RwtRule(['b_pt', 'b_eta'], [20, 9], [[0, 25e3], [2, 5]]),
 }
 
