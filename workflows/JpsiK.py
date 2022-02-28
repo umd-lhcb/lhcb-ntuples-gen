@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sat Feb 26, 2022 at 06:55 PM -0500
+# Last Change: Sun Feb 27, 2022 at 11:13 PM -0500
 
 import sys
 import os.path as op
@@ -79,10 +79,10 @@ def workflow_trk(
 @smart_kwarg
 def workflow_jk(
         input_ntp, output_ntp='jk.root',
-        trk_histo_folder='../run2-JpsiK/reweight/JpsiK/root-run2-JpsiK_oldcut',
-        trk_config='../run2-JpsiK/reweight/JpsiK/run2-JpsiK_oldcut.yml',
+        jk_histo_folder='../run2-JpsiK/reweight/JpsiK/root-run2-JpsiK_oldcut',
+        jk_config='../run2-JpsiK/reweight/JpsiK/run2-JpsiK_oldcut.yml',
         **kwargs):
-    return workflow_apply_weight(input_ntp, trk_histo_folder, trk_config,
+    return workflow_apply_weight(input_ntp, jk_histo_folder, jk_config,
                                  output_ntp, '--aux_jk', **kwargs)
 
 
