@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Feb 24, 2022 at 02:03 AM -0500
+# Last Change: Sun Feb 27, 2022 at 11:06 PM -0500
 
 import numpy as np
 
@@ -23,11 +23,10 @@ class RwtRule:
     vars: List[str]
     bins: Union[ArrayLike, List[int], int]
     range: Union[ArrayLike, List[List[float]]]
-    scale: Union[None, List[float]] = None
 
 REWEIGHT_PROCEDURE = {
     'h_occupancy': RwtRule(['b_ownpv_ndof', 'ntracks'], [20, 20], [[1, 200], [0, 450]]),
-    'h_kinematic': RwtRule(['b_pt', 'b_eta'], [20, 9], [[0, 25e3], [2, 5]], [1e3, 1.]),
+    'h_kinematic': RwtRule(['b_pt', 'b_eta'], [20, 9], [[0, 25e3], [2, 5]]),
 }
 
 
@@ -85,6 +84,11 @@ if __name__ == '__main__':
         f'{args.dataNtp}:{args.tree}', [args.sweight], library='np'
     ).values())[0]
 
+    brs_w_mc_tmp = list(concatenate(
+        [f'{i}:{args.tree}' for i in args.mcNtp], ['wpid', 'wtrk'], library='np'
+    ).values())
+    br_w_mc = brs_w_mc_tmp[0] * brs_w_mc_tmp[1]  # PID & tracking weights for MC
+
     for idx, (name, r) in enumerate(REWEIGHT_PROCEDURE.items()):
         brs_data = list(
             concatenate(f'{args.dataNtp}:{args.tree}', r.vars, library='np').values())
@@ -94,20 +98,17 @@ if __name__ == '__main__':
         ).values())
         brs_mc_stash[idx] = brs_mc
 
-        scales = [1.0]*len(brs_data) if not r.scale else r.scale
-        for i, _ in enumerate(scales):
-            brs_data[i] = scales[i]*brs_data[i]
-            brs_mc[i] = scales[i]*brs_mc[i]
-
         h_data_raw = np.histogram2d(*brs_data, r.bins, r.range, weights=br_sw)
 
         if idx == 0:
-            h_mc_raw = np.histogram2d(*brs_mc, r.bins, r.range)
+            h_mc_raw = np.histogram2d(
+                *brs_mc, r.bins, r.range, weights=br_w_mc)
         else:
-            brs_mc_prev = brs_mc_stash[idx]
+            brs_mc_prev = brs_mc_stash[idx-1]
             mc_wt = get_weights(
                 histos[idx-1][0], brs_mc_prev, histos[idx-1][1:])
-            h_mc_raw = np.histogram2d(*brs_mc, r.bins, r.range)
+            h_mc_raw = np.histogram2d(
+                *brs_mc, r.bins, r.range, weights=br_w_mc*mc_wt)
 
         h_ratio_histo = h_data_raw[0] / h_mc_raw[0]
         h_ratio_histo = h_ratio_histo * (brs_mc[0].size / brs_data[0].size)
