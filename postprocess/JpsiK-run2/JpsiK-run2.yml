@@ -7,6 +7,9 @@ keep:
     - runNumber
     - eventNumber
     - GpsTime
+    - "^wpid*"
+    - "^wtrk*"
+    - "^wjk*"
 
 rename:
     # General
