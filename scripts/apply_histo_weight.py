@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Dec 16, 2021 at 11:52 PM +0100
+# Last Change: Sun Feb 27, 2022 at 11:36 PM -0500
 # Description: Apply weights from histos.
 
 import ROOT
@@ -184,7 +184,7 @@ Double_t GET_WEIGHT(Double_t x, Double_t y, Double_t z, TH3D* histo) {
 
 def load_histo(year, polarity, particle, histo_name, histo_dim,
                histos, loaded_histos):
-    histo_lbl = '_'.join([year, polarity, particle])
+    histo_lbl = '_'.join([year, polarity, particle])+'_'+histo_name
 
     if histo_lbl in loaded_histos:
         return loaded_histos[histo_lbl]
