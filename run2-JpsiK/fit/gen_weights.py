@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sun Feb 27, 2022 at 11:06 PM -0500
+# Last Change: Sun Feb 27, 2022 at 11:19 PM -0500
 
 import numpy as np
 
@@ -120,4 +120,3 @@ if __name__ == '__main__':
         ntp[f'{name}_mc_raw'] = h_mc_raw
         ntp[name] = h_ratio
         histos[idx] = h_ratio
-        old_key = name
