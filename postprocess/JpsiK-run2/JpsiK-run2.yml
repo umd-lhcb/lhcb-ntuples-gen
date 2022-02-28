@@ -81,6 +81,17 @@ calculation:
     # Selection flags, MC-specific #
     ################################
     mc_id: int; cli_mc_id
+    truthmatch: >-
+        bool;
+        amu_MC_MOTHER_KEY == mu_MC_MOTHER_KEY &&
+        j_MC_MOTHER_KEY == mu_MC_GD_MOTHER_KEY &&
+        j_MC_MOTHER_KEY == k_MC_MOTHER_KEY &&
+        j_MC_GD_MOTHER_KEY == b_MC_MOTHER_KEY &&
+        ABS(amu_TRUEID) == 13 &&
+        ABS(mu_TRUEID) == 13 &&
+        ABS(j_TRUEID) == 443 &&
+        ABS(k_TRUEID) == 321 &&
+        ABS(b_TRUEID) == 521
 
     ##########################
     # Selection flags, basic #
@@ -120,6 +131,7 @@ global_selection:
     - pt_ok && b_mass_ok && j_mass_ok
     - vtx_ok
     - pid_ok  # This is set to be always true for MC
+    - truthmatch
 
 one_cand_only:
     enable: false
