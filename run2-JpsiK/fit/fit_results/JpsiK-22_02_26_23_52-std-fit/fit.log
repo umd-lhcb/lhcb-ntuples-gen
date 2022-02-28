@@ -1,0 +1,45 @@
+Total events in data: 1311403
+Initialize fit model...
+y range is: -30.088530738190148, 20.811855006875756
+y major ticks are: -0.3911850366230279,0.09997037672122969,0.5911257900654873,1.0822812034097447
+Max y tick is at: 0.5911257900654873
+Start to fit...
+Compute errors...
+Fit & error computation took a total of 685.48 sec.
+Fit result:
+FitResult of
+<ExtendedUnbinnedNLL model=[<zfit.<class 'zfit.models.functor.SumPDF'>  params=[Composed_autoparam_3, Composed_autoparam_4]] data=[<zfit.core.data.Data object at 0x7f42b86a0820>] constraints=[]> 
+with
+<Minuit Minuit tol=0.001>
+
+╒═════════╤═════════════╤══════════════════╤═════════╤═════════════╕
+│ valid   │ converged   │ param at limit   │ edm     │ min value   │
+╞═════════╪═════════════╪══════════════════╪═════════╪═════════════╡
+│ True    │ True        │ False            │ 0.00011 │ -3454       │
+╘═════════╧═════════════╧══════════════════╧═════════╧═════════════╛
+
+Parameters
+name               value         minuit_minos    at limit
+-------------  ---------  -------------------  ----------
+yld_bkg_ratio     0.2322  - 0.0021   +  0.002       False
+yld_sig_ratio     0.7678  - 0.0021   + 0.0022       False
+expc           -0.001743  -8.3e-05   +  8e-05       False
+frac_sig_cb       0.4252  -  0.028   +  0.031       False
+frac_sig_g          0.53  -  0.033   +   0.03       False
+alpha              1.857  -  0.045   +  0.049       False
+peak                5280  -  0.011   +  0.011       False
+n_cb                 150  -1.1e+02   +  0.023       False
+width_cb           11.66  -   0.28   +   0.28       False
+width_g_sig        7.351  -    0.1   +  0.093       False
+width_g2_sig       34.03  -    2.4   +    2.5       False
+Compute sWeights...
+Dump result...
+Plot fitting results...
+y range is: -3.709869074440923, 3.3627279422421097
+y major ticks are: -0.18241261625904617,0.17106433062523585,0.5245412775095178,0.8780182243938,1.2314951712780822
+Max y tick is at: 0.8780182243938
+Added y pad. Now y max is: 4.61272794224211
+y range is: -3.709869074440923, 3.3627279422421097
+y major ticks are: -0.18241261625904617,0.17106433062523585,0.5245412775095178,0.8780182243938,1.2314951712780822
+Max y tick is at: 0.8780182243938
+Added y pad. Now y max is: 4.61272794224211
