@@ -410,10 +410,10 @@ calculation:
     # Weight representing the global cut (BEFORE applying the skim cuts)
     w: double; wpid*wtrg*wff*wtrk
     # Skim weights, including the 'w'
-    wiso: double; w*wskim_iso*skim_global_ok
-    wdd: double; w*wskim_dd*skim_global_ok
-    w1os: double; w*wskim_1os*skim_global_ok
-    w2os: double; w*wskim_2os*skim_global_ok
+    wiso: double; w*wskim_iso*skim_global_ok; TO_TYPE(is_iso, 1.0)
+    wdd: double; w*wskim_dd*skim_global_ok; TO_TYPE(is_dd, 1.0)
+    w2os: double; w*wskim_2os*skim_global_ok; TO_TYPE(is_2os, 1.0)
+    w1os: double; w*wskim_1os*skim_global_ok; TO_TYPE(is_1os, 1.0)
 
     # Skims, but in weights, for MC
     wskim_iso: double; WT_ISO(true, iso_bdt1)
