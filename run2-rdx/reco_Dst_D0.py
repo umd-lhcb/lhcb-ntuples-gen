@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Feb 15, 2022 at 01:04 AM -0500
+# Last Change: Tue Mar 01, 2022 at 01:54 AM -0500
 #
 # Description: Definitions of selection and reconstruction procedures for run 2
 #              R(D(*)). For more thorough comments, take a look at:
@@ -116,7 +116,7 @@ fltr_hlt = HDRFilter(
     Code="HLT_PASS('{0}')".format(hlt2_trigger))
 
 
-if not DaVinci().Simulation and not has_flag('BARE'):
+if has_flag('MU_MISID') or (not DaVinci().Simulation and not has_flag('BARE')):
     DaVinci().EventPreFilters = [fltr_strip]
 
 
