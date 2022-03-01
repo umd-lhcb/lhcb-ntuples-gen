@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Feb 28, 2022 at 03:33 AM -0500
+# Last Change: Mon Feb 28, 2022 at 10:52 PM -0500
 
 import numpy as np
 
@@ -25,7 +25,7 @@ class RwtRule:
     range: Union[ArrayLike, List[List[float]]]
 
 REWEIGHT_PROCEDURE = {
-    'h_occupancy': RwtRule(['b_ownpv_ndof', 'ntracks'], [20, 30], [[1, 200], [0, 900]]),
+    'h_occupancy': RwtRule(['b_ownpv_ndof', 'ntracks'], [20, 20], [[1, 200], [0, 450]]),
     'h_kinematic': RwtRule(['b_pt', 'b_eta'], [20, 9], [[0, 25e3], [2, 5]]),
 }
 
@@ -80,9 +80,16 @@ if __name__ == '__main__':
     histos = dict()
     brs_mc_stash = dict()
 
+    # Additional global cuts
+    ntracks = list(concatenate(
+        f'{args.dataNtp}:{args.tree}', ['ntracks'], library='np'
+    ).values())[0]
+    global_cut = ntracks <= 450  # additional global cut
+    #  global_cut = np.full(ntracks.size, True, dtype=bool)
+
     br_sw = list(concatenate(
         f'{args.dataNtp}:{args.tree}', [args.sweight], library='np'
-    ).values())[0]
+    ).values())[0][global_cut]
 
     brs_w_mc_tmp = list(concatenate(
         [f'{i}:{args.tree}' for i in args.mcNtp], ['wpid', 'wtrk'], library='np'
@@ -90,8 +97,10 @@ if __name__ == '__main__':
     br_w_mc = brs_w_mc_tmp[0] * brs_w_mc_tmp[1]  # PID & tracking weights for MC
 
     for idx, (name, r) in enumerate(REWEIGHT_PROCEDURE.items()):
-        brs_data = list(
-            concatenate(f'{args.dataNtp}:{args.tree}', r.vars, library='np').values())
+        brs_data = list(concatenate(
+            f'{args.dataNtp}:{args.tree}', r.vars, library='np').values())
+        brs_data = [d[global_cut] for d in brs_data]  # apply data global cut
+
         brs_mc = list(concatenate(
             [f'{i}:{args.tree}' for i in args.mcNtp],
             r.vars, library='np'

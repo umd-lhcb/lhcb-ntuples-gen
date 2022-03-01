@@ -1,9 +1,6 @@
 #!/usr/bin/env python
 #
-# Description: Plot the following form-factor related figures
-#              - q2, normalized
-#              - FF weights
-#              - line shapes of various D**, normalized
+# Description: Plot J/psi K variables before/after reweighting
 
 import numpy as np
 import mplhep as hep
@@ -34,15 +31,17 @@ dataNtps = '../../run2-JpsiK/fit/fit_results/JpsiK-22_02_26_23_52-std-fit/fit.ro
 defaultBinning = 60
 
 varsToComp = ['b_ownpv_ndof', 'ntracks', 'b_pt', 'b_eta']
-weightBrs = ['wpid', 'wtrk', 'w']
+weightBrs = ['wpid', 'wtrk', 'w', 'wjk_kin']
 sweightBrs = ['sw_sig']
 
 varsLabels = [r'$B$ PV NDOF', r'nTracks', r'$B$ $p_T$ [MeV]', r'$B$ $\eta$']
-dataRanges = [[1, 200], [0, 900], [0, 25e3], [2, 5]]
+dataRanges = [[1, 200], [0, 450], [0, 25e3], [2, 5]]
 binnings = [20, 20, 20, 9]
 
 dataBrs = uproot.concatenate(dataNtps, varsToComp + sweightBrs, library='np')
 mcBrs = uproot.concatenate(mcNtps, varsToComp + weightBrs, library='np')
+
+global_cut = dataBrs['ntracks'] <= 450
 
 
 def plot(output, br, xLabel, dataRange, defaultBinning):
@@ -50,8 +49,8 @@ def plot(output, br, xLabel, dataRange, defaultBinning):
     yLabel = f'Normalized / {(dataRange[1]-dataRange[0])/defaultBinning:.1f}{suf}'
 
     h_data, h_bins = gen_histo(
-        dataBrs[br], defaultBinning, data_range=dataRange,
-        weights=dataBrs['sw_sig'], density=True)
+        dataBrs[br][global_cut], defaultBinning, data_range=dataRange,
+        weights=dataBrs['sw_sig'][global_cut], density=True)
     data_style = ax_add_args_histo('data (sweighted)', 'cornflowerblue')
     fig, ax = plot_histo(
         h_bins, h_data, data_style, title=r'$J/\psi K$ samples',
@@ -66,8 +65,10 @@ def plot(output, br, xLabel, dataRange, defaultBinning):
         h_bins, h_mc_before, mc_before_style, show_legend=False,
         figure=fig, axis=ax)
 
+    # w_mc_after = mcBrs['w']
+    w_mc_after = mcBrs['wpid']*mcBrs['wtrk']*mcBrs['wjk_kin']
     h_mc_after, _ = gen_histo(
-        mcBrs[br], defaultBinning, data_range=dataRange, weights=mcBrs['w'],
+        mcBrs[br], defaultBinning, data_range=dataRange, weights=w_mc_after,
         density=True)
     mc_after_style = ax_add_args_step('MC (after)', 'crimson')
     plot_step(
@@ -83,7 +84,7 @@ def plot(output, br, xLabel, dataRange, defaultBinning):
 if __name__ == '__main__':
     hep.style.use('LHCb2')
 
-    for br, lbl, dr, bin in zip(varsToComp, varsLabels, dataRanges, binnings):
+    for br, lbl, dr, bins in zip(varsToComp, varsLabels, dataRanges, binnings):
         print(f'Plotting {br}...')
-        plot(br+'.pdf', br, lbl, dr, bin)
-        plot(br+'.png', br, lbl, dr, bin)
+        plot(br+'.pdf', br, lbl, dr, bins)
+        plot(br+'.png', br, lbl, dr, bins)
