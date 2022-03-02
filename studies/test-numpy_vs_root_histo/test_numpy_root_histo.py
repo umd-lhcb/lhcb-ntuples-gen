@@ -25,7 +25,6 @@ histoBrs = ['b_ownpv_ndof', 'ntracks']
 ###################
 
 def getWeights(histo, branches, binSpecs):
-    binIdx = []
     histoPadded = np.pad(histo, tuple((1, 1) for _ in range(histo.ndim)))
     binIdx = tuple(np.digitize(br, spec)
                    for br, spec in zip(branches, binSpecs))
