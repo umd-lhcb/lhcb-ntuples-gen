@@ -2,7 +2,6 @@
 #
 # Description: Plot J/psi K variables before/after reweighting
 
-import numpy as np
 import mplhep as hep
 import uproot
 
