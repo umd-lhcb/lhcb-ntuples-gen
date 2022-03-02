@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Feb 28, 2022 at 10:52 PM -0500
+# Last Change: Wed Mar 02, 2022 at 02:38 AM -0500
 
 import numpy as np
 
@@ -60,17 +60,10 @@ def parse_input():
 ###########
 
 def get_weights(histo, branches, bin_specs):
-    bin_idx = []
-
-    for br, spec in zip(branches, bin_specs):
-        tmp_idx = np.digitize(br, spec) - 1
-        # handle over/underflow
-        tmp_idx = np.where(tmp_idx == -1, 0, tmp_idx)
-        tmp_idx = np.where(tmp_idx >= spec.size-1, spec.size-2, tmp_idx)
-        bin_idx.append(tmp_idx)
-
-    return histo[tuple(bin_idx)]
-
+    histo_padded = np.pad(histo, tuple((1, 1) for _ in range(histo.ndim)))
+    bin_idx = tuple(np.digitize(br, spec)
+                   for br, spec in zip(branches, bin_specs))
+    return histo_padded[bin_idx]
 
 
 if __name__ == '__main__':

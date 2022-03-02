@@ -29,7 +29,7 @@ def getWeights(histo, branches, binSpecs):
     binIdx = tuple(np.digitize(br, spec)
                    for br, spec in zip(branches, binSpecs))
 
-    return histoPadded[tuple(binIdx)]
+    return histoPadded[binIdx]
 
 
 histoUproot = uproot.open(inputHistoNtp)[histoName].to_numpy()
