@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Mar 02, 2022 at 02:38 AM -0500
+# Last Change: Wed Mar 02, 2022 at 02:12 PM -0500
 
 import numpy as np
 
@@ -59,7 +59,8 @@ def parse_input():
 # Helpers #
 ###########
 
-def get_weights(histo, branches, bin_specs):
+def get_weights(branches, histo_raw):
+    histo, *bin_specs = histo_raw
     histo_padded = np.pad(histo, tuple((1, 1) for _ in range(histo.ndim)))
     bin_idx = tuple(np.digitize(br, spec)
                    for br, spec in zip(branches, bin_specs))
@@ -107,8 +108,7 @@ if __name__ == '__main__':
                 *brs_mc, r.bins, r.range, weights=br_w_mc)
         else:
             brs_mc_prev = brs_mc_stash[idx-1]
-            mc_wt = get_weights(
-                histos[idx-1][0], brs_mc_prev, histos[idx-1][1:])
+            mc_wt = get_weights(brs_mc_prev, histos[idx-1])
             h_mc_raw = np.histogram2d(
                 *brs_mc, r.bins, r.range, weights=br_w_mc*mc_wt)
 

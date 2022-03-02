@@ -24,7 +24,8 @@ histoBrs = ['b_ownpv_ndof', 'ntracks']
 # Numpy histogram #
 ###################
 
-def getWeights(histo, branches, binSpecs):
+def getWeights(branches, histoRaw):
+    histo, *binSpecs = histoRaw
     histoPadded = np.pad(histo, tuple((1, 1) for _ in range(histo.ndim)))
     binIdx = tuple(np.digitize(br, spec)
                    for br, spec in zip(branches, binSpecs))
@@ -35,7 +36,7 @@ def getWeights(histo, branches, binSpecs):
 histoUproot = uproot.open(inputHistoNtp)[histoName].to_numpy()
 brUproot = list(uproot.concatenate(
     f'{inputBrNtp}:{inputTree}', histoBrs, library='np').values())
-wtUproot = getWeights(histoUproot[0], brUproot, histoUproot[1:])
+wtUproot = getWeights(brUproot, histoUproot)
 
 
 ##################
