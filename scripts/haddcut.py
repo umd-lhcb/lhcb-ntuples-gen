@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Jun 22, 2021 at 05:47 PM +0200
+# Last Change: Wed Mar 02, 2022 at 09:42 PM -0500
 # Description: Merge and apply cuts on input .root files, each with multiple
 #              trees, to a single output .root file.
 #
@@ -137,12 +137,20 @@ class ROOTFile:
     def __init__(self, path, mode):
         self.path = path
         self.mode = mode
+        self.file = TFile(path, mode)
+        # do some basic corruption checks
+        if self.file.IsZombie():
+            print(f'\nFailed to open {path} in {mode} mode\n')
+            raise ValueError
+        if mode.lower() in ["read", "update"]: # if file exists, check nonempty
+            if not check_ROOTFile_nonempty(path):
+                print(f'\n{path} has no events in any trees!\n')
+                raise ValueError
 
     def __enter__(self):
-        self.file = TFile(self.path, self.mode)
-        if self.file.IsZombie() or not self.file.IsOpen():
-            raise ValueError('Cannot open {} in mode {}'.format(
-                self.path, self.mode))
+        if not self.file.IsOpen():
+            print(f'\n{path} file closed unexpectedly\n')
+            raise ValueError
         return self.file
 
     def __exit__(self, obj_type, value, traceback):
@@ -182,6 +190,22 @@ def traverse_ntp(ntp, pwd=''):
                 obj.GetName(), type(obj)))
 
     return trees
+
+
+def check_ROOTFile_nonempty(path):
+    file = TFile(path)
+    tree_paths = traverse_ntp(file)
+    is_nonempty = False
+    for tree_path in tree_paths:
+        tree = file.Get(tree_path)
+        try:
+            if tree.GetEntries() > 0: is_nonempty = True
+        except:
+            file.Close()
+            print(f'Failed to get # entries for {path}:{tree_path}')
+            raise ValueError
+    file.Close()
+    return is_nonempty
 
 
 def get_branch_names(tree):
