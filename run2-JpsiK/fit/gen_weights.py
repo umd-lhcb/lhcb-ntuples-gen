@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Mar 02, 2022 at 11:08 PM -0500
+# Last Change: Thu Mar 03, 2022 at 02:15 AM -0500
 
 import numpy as np
 
@@ -102,6 +102,8 @@ if __name__ == '__main__':
         brs_mc_stash[idx] = brs_mc
 
         h_data_raw = np.histogram2d(*brs_data, r.bins, r.range, weights=br_sw)
+        h_data_raw_histo = h_data_raw[0]
+        h_data_raw_histo[h_data_raw_histo < 0] = 0  # after sWeight, some bins may be negative
 
         if idx == 0:
             mc_wt_final = br_w_mc
@@ -114,7 +116,7 @@ if __name__ == '__main__':
 
         # Normalize the histograms because we only care about shapes
         h_tmp = (h_data_raw[0] / h_mc_raw[0]) * (
-            np.sum(h_mc_raw[0]) / np.sum(h_data_raw[0]))
+            np.sum(mc_wt_final) / np.sum(br_sw))
         h_ratio_histo = np.nan_to_num(h_tmp, nan=0.0, posinf=0.0, neginf=0.0)
         h_ratio = (h_ratio_histo, h_data_raw[1], h_data_raw[2])
 
