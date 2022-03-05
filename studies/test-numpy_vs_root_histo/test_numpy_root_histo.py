@@ -9,7 +9,7 @@ from ROOT import RDataFrame, gInterpreter
 # Configuration #
 #################
 
-inputHistoNtp = '../../run2-JpsiK/gen/run2-JpsiK-2016-md-B-ndof_ntracks__pt_eta.root'
+inputHistoNtp = '../../run2-JpsiK/reweight/JpsiK/root-run2-JpsiK_oldcut/run2-JpsiK-2016-md-B-ndof_ntracks__pt_eta.root'
 inputBrNtp = '../../run2-JpsiK/fit/fit_results/JpsiK-22_02_26_23_52-std-fit/fit.root'
 inputTree = 'tree'
 
