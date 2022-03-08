@@ -191,7 +191,7 @@ int main(int, char** argv) {
   //   {% for idx, state in enum: directive.tree_relations[tree] %}
   //     {% if state then %}
   //       {% format: "tmp_tree = static_cast<TTree*>(friend_ntuples[{}]->Get(\"{}\"));", idx, tree %}
-           tmp_tree->BuildIndex("runNumber", "eventNumber");
+  //       tmp_tree->BuildIndex("runNumber", "eventNumber");
   //       {% format: "tree_{}->AddFriend(tmp_tree, \"{}\", true);", (guard: tree), idx %}
            friends_/* {% guard: tree %} */.push_back(tmp_tree);
            cout << "Handling input tree: " << /* {% quote: tree %} */ << endl;
