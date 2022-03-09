@@ -42,7 +42,7 @@ gInterpreter.Declare(f'auto histo = dynamic_cast<TH2D*>(histoNtp->Get("{histoN}"
 
 dfInit = RDataFrame(mcTreeN, mcNtpN)
 df = dfInit.Define('wjk_alt', 'getWeight(b_ownpv_ndof, ntracks, histo)').Define('wt', 'wpid*wtrk*wjk_alt')
-histoWtRoot = df.AsNumpy(columns=['wjk_alt'])['wjk_alt']
+wtJkOccRoot = df.AsNumpy(columns=['wjk_alt'])['wjk_alt']
 
 histoRootMdl = TH2DModel(
     'histoRoot', 'histoRoot',
@@ -68,12 +68,12 @@ def getWeights(branches, histoRaw):
     return histoPadded[binIdx]
 
 histoWtNp = uproot.open(histoNtpN)[histoN].to_numpy()
-wtJkOcc = getWeights(
+wtJkOccNp = getWeights(
     (mcNumpyBrs['b_ownpv_ndof'], mcNumpyBrs['ntracks']), histoWtNp)
 histoNumpy, *_ = np.histogram2d(
     mcNumpyBrs['b_ownpv_ndof'], mcNumpyBrs['ntracks'],
     (20, 20), ((1, 200), (0, 450)),
-    weights=mcNumpyBrs['wpid']*mcNumpyBrs['wtrk']*wtJkOcc
+    weights=mcNumpyBrs['wpid']*mcNumpyBrs['wtrk']*wtJkOccNp
 )
 
 tabData = []
@@ -83,9 +83,11 @@ tabData = []
 # Comparison #
 ##############
 # Test the weights are the same
-wtEquiv = np.logical_and.reduce(histoWtRoot == histoWtNp)
-assert wtEquiv
-print(f'The weights are equal: {wtEquiv}')
+for i in range(wtJkOccNp.size):
+    if not wtJkOccNp[i] == wtJkOccRoot[i]:
+        print(f'Weight not equal at {i}, ROOT: {wtJkOccRoot[i]}, Np: {wtJkOccNp[i]}')
+
+assert(np.logical_and.reduce(wtJkOccNp == wtJkOccRoot))
 
 # Test the histograms are the same
 for i in range(20):
