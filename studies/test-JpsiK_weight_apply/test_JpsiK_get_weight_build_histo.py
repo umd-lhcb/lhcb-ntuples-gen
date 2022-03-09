@@ -42,7 +42,11 @@ gInterpreter.Declare(f'auto histo = dynamic_cast<TH2D*>(histoNtp->Get("{histoN}"
 
 dfInit = RDataFrame(mcTreeN, mcNtpN)
 df = dfInit.Define('wjk_alt', 'getWeight(b_ownpv_ndof, ntracks, histo)').Define('wt', 'wpid*wtrk*wjk_alt')
-wtJkOccRoot = df.AsNumpy(columns=['wjk_alt'])['wjk_alt']
+
+# NOTE: This comes from the existing ntuple
+mcRootBrs = df.AsNumpy(columns=['wjk_occ', 'wjk_alt'])
+wtJkOccRoot = mcRootBrs['wjk_occ']
+wtJkOccAltRoot = mcRootBrs['wjk_alt']
 
 histoRootMdl = TH2DModel(
     'histoRoot', 'histoRoot',
@@ -68,6 +72,7 @@ def getWeights(branches, histoRaw):
     return histoPadded[binIdx]
 
 histoWtNp = uproot.open(histoNtpN)[histoN].to_numpy()
+
 wtJkOccNp = getWeights(
     (mcNumpyBrs['b_ownpv_ndof'], mcNumpyBrs['ntracks']), histoWtNp)
 histoNumpy, *_ = np.histogram2d(
@@ -83,11 +88,14 @@ tabData = []
 # Comparison #
 ##############
 # Test the weights are the same
+assert np.logical_and.reduce(wtJkOccAltRoot == wtJkOccNp)
+
 for i in range(wtJkOccNp.size):
     if not wtJkOccNp[i] == wtJkOccRoot[i]:
         print(f'Weight not equal at {i}, ROOT: {wtJkOccRoot[i]}, Np: {wtJkOccNp[i]}')
 
-assert(np.logical_and.reduce(wtJkOccNp == wtJkOccRoot))
+print(f'Total size: {wtJkOccRoot.size}')
+assert np.logical_and.reduce(wtJkOccNp == wtJkOccRoot)
 
 # Test the histograms are the same
 for i in range(20):
