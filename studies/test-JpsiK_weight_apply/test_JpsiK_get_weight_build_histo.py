@@ -1,4 +1,6 @@
 #!/usr/bin/env python
+# Description: Test that weight application and histogram building are
+#              consistent between ROOT and numpy
 
 import numpy as np
 import uproot
@@ -12,7 +14,8 @@ from tabulate import tabulate
 # Configuration #
 #################
 
-mcNtpN = '../../ntuples/0.9.6-2016_production/JpsiK-mc-step2/JpsiK--22_03_04--mc--12143001--2016--md/JpsiK--22_03_04--mc--12143001--2016--md--000.root'
+#  mcNtpN = '../../ntuples/0.9.6-2016_production/JpsiK-mc-step2/JpsiK--22_03_04--mc--12143001--2016--md/JpsiK--22_03_04--mc--12143001--2016--md--000.root'
+mcNtpN = '../../gen/JpsiK-ntuple-run2-mc/ntuple/JpsiK--22_03_08--mc--12143001--2016--md/JpsiK--22_03_08--mc--12143001--2016--md--000.root'
 mcTreeN = 'tree'
 
 histoNtpN = '../../run2-JpsiK/reweight/JpsiK/root-run2-JpsiK_oldcut/run2-JpsiK-2016-md-B-ndof_ntracks__pt_eta.root'
@@ -39,6 +42,7 @@ gInterpreter.Declare(f'auto histo = dynamic_cast<TH2D*>(histoNtp->Get("{histoN}"
 
 dfInit = RDataFrame(mcTreeN, mcNtpN)
 df = dfInit.Define('wjk_alt', 'getWeight(b_ownpv_ndof, ntracks, histo)').Define('wt', 'wpid*wtrk*wjk_alt')
+histoWtRoot = df.AsNumpy(columns=['wjk_alt'])['wjk_alt']
 
 histoRootMdl = TH2DModel(
     'histoRoot', 'histoRoot',
@@ -74,6 +78,16 @@ histoNumpy, *_ = np.histogram2d(
 
 tabData = []
 
+
+##############
+# Comparison #
+##############
+# Test the weights are the same
+wtEquiv = np.logical_and.reduce(histoWtRoot == histoWtNp)
+assert wtEquiv
+print(f'The weights are equal: {wtEquiv}')
+
+# Test the histograms are the same
 for i in range(20):
     for j in range(20):
         assert histoRoot.GetBinContent(i+1, j+1) == histoNumpy[i][j]
