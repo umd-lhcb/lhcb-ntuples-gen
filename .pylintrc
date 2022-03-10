@@ -153,7 +153,9 @@ disable=print-statement,
         wrong-import-order,
         redefined-outer-name,
         too-many-lines,
-        too-many-locals
+        too-many-locals,
+        bare-except,
+        raise-missing-from
 
 # Enable the message, report, category or checker with the given id(s). You can
 # either give multiple identifier separated by comma (,) or put this option

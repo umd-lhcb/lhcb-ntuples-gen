@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Mar 02, 2022 at 09:42 PM -0500
+# Last Change: Thu Mar 10, 2022 at 02:52 PM -0500
 # Description: Merge and apply cuts on input .root files, each with multiple
 #              trees, to a single output .root file.
 #
@@ -149,7 +149,7 @@ class ROOTFile:
 
     def __enter__(self):
         if not self.file.IsOpen():
-            print(f'\n{path} file closed unexpectedly\n')
+            print(f'\n{self.path} file closed unexpectedly\n')
             raise ValueError
         return self.file
 
@@ -199,7 +199,8 @@ def check_ROOTFile_nonempty(path):
     for tree_path in tree_paths:
         tree = file.Get(tree_path)
         try:
-            if tree.GetEntries() > 0: is_nonempty = True
+            if tree.GetEntries() > 0:
+                is_nonempty = True
         except:
             file.Close()
             print(f'Failed to get # entries for {path}:{tree_path}')
@@ -225,7 +226,8 @@ def skim_chains(output_ntp_name, chains, config):
     with ROOTFile(output_ntp_name, 'recreate') as ntp:
         for full_path, chain in chains.items():
             if config[full_path]['keep']:
-                if not args.silent: print('Processing tree: {}'.format(full_path))
+                if not args.silent:
+                    print('Processing tree: {}'.format(full_path))
                 path, _ = path_basename(full_path)
 
                 if not ntp.GetDirectory(path):
@@ -301,14 +303,17 @@ if __name__ == '__main__':
 
     if args.mode == 'chain':
         chains = dict()
-        if not args.silent: print('Output file: {}'.format(args.output_ntp))
+        if not args.silent:
+            print('Output file: {}'.format(args.output_ntp))
 
         for ntp_path in glob_ntuples(args.input_ntp):
-            if not args.silent: print('Adding {}...'.format(ntp_path))
+            if not args.silent:
+                print('Adding {}...'.format(ntp_path))
             with ROOTFile(ntp_path, 'read') as ntp:
                 update_chains(ntp_path, chains, traverse_ntp(ntp))
 
-        if not args.silent: print('Slimming ntuple into '+args.output_ntp)
+        if not args.silent:
+            print('Slimming ntuple into '+args.output_ntp)
         skim_chains(args.output_ntp, chains, config)
 
     elif args.mode == 'friend':
@@ -317,13 +322,15 @@ if __name__ == '__main__':
         tree_branch_dict = dict()
 
         for ntp_path in glob_ntuples(args.input_ntp):
-            if not args.silent: print('Adding {}...'.format(ntp_path))
+            if not args.silent:
+                print('Adding {}...'.format(ntp_path))
             ntp = TFile(ntp_path, 'read')
             ntps.append(ntp)
 
             update_friend(ntp, friends, tree_branch_dict, traverse_ntp(ntp))
 
-        if not args.silent: print('Merging all friend trees into '+args.output_ntp)
+        if not args.silent:
+            print('Merging all friend trees into '+args.output_ntp)
         merge_friend(args.output_ntp, friends, tree_branch_dict, config)
 
         for n in ntps:
