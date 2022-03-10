@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Feb 16, 2022 at 02:08 PM -0500
+# Last Change: Wed Mar 09, 2022 at 09:37 PM -0500
 
 import re
 import yaml
@@ -320,7 +320,7 @@ def find_decay_mode(lfn, convert_mc_id=False):
     return decay_mode
 
 
-def generate_step2_name(ntp_name, convert_mc_id=False):
+def generate_step2_name(ntp_name, convert_mc_id=False, keep_index=True):
     ntp_name = op.basename(ntp_name)
     fields, errors, is_step1 = check_ntp_name(ntp_name)
     if len(errors) > 0:
@@ -344,7 +344,7 @@ def generate_step2_name(ntp_name, convert_mc_id=False):
     output = [date, reco_mode, decay_mode, year, polarity]
     if 'additional_flags' in fields:
         output.append(fields['additional_flags'])
-    if 'index' in fields:
+    if keep_index and 'index' in fields:
         step2_idx = re.search(r'(\d+)', fields['index']).group(1)
         output.append(step2_idx)
     return '--'.join(output)

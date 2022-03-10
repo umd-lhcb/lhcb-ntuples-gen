@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sun Feb 27, 2022 at 11:13 PM -0500
+# Last Change: Wed Mar 09, 2022 at 09:39 PM -0500
 
 import sys
 import os.path as op
@@ -10,6 +10,7 @@ import os.path as op
 from argparse import ArgumentParser
 from os import chdir, makedirs
 from functools import partial
+from glob import glob
 
 sys.path.insert(0, op.dirname(op.abspath(__file__)))
 
@@ -142,6 +143,7 @@ def workflow_mc(inputs, input_yml, job_name='mc', **kwargs):
 
 
 def workflow_split(inputs, input_yml, job_name='split', prefix='JpsiK',
+                   merge_prefix=['JpsiK'],
                    **kwargs):
     subworkdirs, workdir = workflow_prep_dir(
         job_name, inputs, patterns=['*.DST'], **kwargs)
@@ -159,6 +161,17 @@ def workflow_split(inputs, input_yml, job_name='split', prefix='JpsiK',
     for subjob in subworkdirs:
         run_cmd(f'mv {subjob}/ntuple ntuple/{prefix}--{generate_step2_name(subjob+".root")}', **kwargs)
         run_cmd(f'mv {subjob}/ntuple_aux ntuple_aux/{subjob}', **kwargs)
+
+    # Also merge ntuples
+    makedirs('ntuple_merged')
+    uniq_names = set(generate_step2_name(sj+'.root', keep_index=False)
+                     for sj in subworkdirs)
+
+    for name in uniq_names:
+        for p in merge_prefix:
+            if glob(f'ntuple/*/{p}--{name}--*.root'):
+                print(f'Merging prefix {p} of {name}...')
+                run_cmd(f'hadd -fk ntuple_merged/{p}--{name}.root ntuple/*/{p}--{name}--*.root', **kwargs)
 
 
 #####################
@@ -187,6 +200,17 @@ JOBS = {
         workflow_mc,
         '../run2-JpsiK/samples/JpsiK--22_02_22--mc--Bu2JpsiK--2016--md--py8-sim09k-dv45-subset.root',
         '../postprocess/JpsiK-run2/JpsiK-run2.yml'
+    ),
+    'JpsiK-ntuple-run2-mc-sub': partial(
+        workflow_split,
+        [
+            '../ntuples/0.9.6-2016_production/JpsiK-mc/JpsiK--22_02_22--mc--MC_2016_Beam6500GeV-2016-MagDown-Nu1.6-25ns-Pythia8_Sim09k_Trig0x6139160F_Reco16_Turbo03a_Stripping28r2NoPrescalingFlagged_12143001_ALLSTREAMS.DST/JpsiK--22_02_22--mc--MC_2016_Beam6500GeV-2016-MagDown-Nu1.6-25ns-Pythia8_Sim09k_Trig0x6139160F_Reco16_Turbo03a_Stripping28r2NoPrescalingFlagged_12143001_ALLSTREAMS.DST--000-dv.root',
+            '../ntuples/0.9.6-2016_production/JpsiK-mc/JpsiK--22_02_22--mc--MC_2016_Beam6500GeV-2016-MagDown-Nu1.6-25ns-Pythia8_Sim09k_Trig0x6139160F_Reco16_Turbo03a_Stripping28r2NoPrescalingFlagged_12143001_ALLSTREAMS.DST/JpsiK--22_02_22--mc--MC_2016_Beam6500GeV-2016-MagDown-Nu1.6-25ns-Pythia8_Sim09k_Trig0x6139160F_Reco16_Turbo03a_Stripping28r2NoPrescalingFlagged_12143001_ALLSTREAMS.DST--001-dv.root',
+            '../ntuples/0.9.6-2016_production/JpsiK-mc/JpsiK--22_02_22--mc--MC_2016_Beam6500GeV-2016-MagDown-Nu1.6-25ns-Pythia8_Sim09k_Trig0x6139160F_Reco16_Turbo03a_Stripping28r2NoPrescalingFlagged_12143001_ALLSTREAMS.DST/JpsiK--22_02_22--mc--MC_2016_Beam6500GeV-2016-MagDown-Nu1.6-25ns-Pythia8_Sim09k_Trig0x6139160F_Reco16_Turbo03a_Stripping28r2NoPrescalingFlagged_12143001_ALLSTREAMS.DST--002-dv.root',
+            '../ntuples/0.9.6-2016_production/JpsiK-mc/JpsiK--22_02_22--mc--MC_2016_Beam6500GeV-2016-MagDown-Nu1.6-25ns-Pythia8_Sim09k_Trig0x6139160F_Reco16_Turbo03a_Stripping28r2NoPrescalingFlagged_12143001_ALLSTREAMS.DST/JpsiK--22_02_22--mc--MC_2016_Beam6500GeV-2016-MagDown-Nu1.6-25ns-Pythia8_Sim09k_Trig0x6139160F_Reco16_Turbo03a_Stripping28r2NoPrescalingFlagged_12143001_ALLSTREAMS.DST--003-dv.root',
+            '../ntuples/0.9.6-2016_production/JpsiK-mc/JpsiK--22_02_22--mc--MC_2016_Beam6500GeV-2016-MagDown-Nu1.6-25ns-Pythia8_Sim09k_Trig0x6139160F_Reco16_Turbo03a_Stripping28r2NoPrescalingFlagged_12143001_ALLSTREAMS.DST/JpsiK--22_02_22--mc--MC_2016_Beam6500GeV-2016-MagDown-Nu1.6-25ns-Pythia8_Sim09k_Trig0x6139160F_Reco16_Turbo03a_Stripping28r2NoPrescalingFlagged_12143001_ALLSTREAMS.DST--004-dv.root',
+        ],
+        '../postprocess/JpsiK-run2/JpsiK-run2.yml',
     ),
 }
 
