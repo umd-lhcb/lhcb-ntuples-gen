@@ -18,8 +18,8 @@ from pyTuplingUtils.plot import (
 #################
 
 mcNtps = [
-    '../../ntuples/0.9.6-2016_production/JpsiK-mc-step2/JpsiK--22_03_03--mc--12143001--2016--md/*.root:tree',
-    '../../ntuples/0.9.6-2016_production/JpsiK-mc-step2/JpsiK--22_03_03--mc--12143001--2016--mu/*.root:tree',
+    '../../ntuples/0.9.6-2016_production/JpsiK-mc-step2/JpsiK--22_03_04--mc--12143001--2016--md/*.root:tree',
+    '../../ntuples/0.9.6-2016_production/JpsiK-mc-step2/JpsiK--22_03_04--mc--12143001--2016--mu/*.root:tree',
 ]
 
 dataNtps = '../../run2-JpsiK/fit/fit_results/JpsiK-22_02_26_23_52-std-fit/fit.root:tree'
