@@ -14,7 +14,7 @@ from tabulate import tabulate
 # Configuration #
 #################
 
-mcNtpN = '../../ntuples/0.9.6-2016_production/JpsiK-mc-step2/JpsiK--22_03_09--mc--12143001--2016--md.root'
+mcNtpN = '../../ntuples/0.9.6-2016_production/JpsiK-mc-step2/JpsiK--22_03_10--mc--12143001--2016--md.root'
 mcTreeN = 'tree'
 
 histoNtpN = '../../run2-JpsiK/reweight/JpsiK/root-run2-JpsiK_oldcut/run2-JpsiK-2016-md-B-ndof_ntracks__pt_eta.root'

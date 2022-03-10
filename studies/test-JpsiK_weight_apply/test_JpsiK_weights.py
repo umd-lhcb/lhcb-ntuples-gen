@@ -14,8 +14,8 @@ from uproot import concatenate
 histoNtpN = '../../run2-JpsiK/reweight/JpsiK/root-run2-JpsiK_oldcut/run2-JpsiK-2016-md-B-ndof_ntracks__pt_eta.root'
 
 mcNtpsN = [
-   '../../ntuples/0.9.6-2016_production/JpsiK-mc-step2/JpsiK--22_03_09--mc--12143001--2016--md.root:tree',
-   '../../ntuples/0.9.6-2016_production/JpsiK-mc-step2/JpsiK--22_03_09--mc--12143001--2016--mu.root:tree',
+   '../../ntuples/0.9.6-2016_production/JpsiK-mc-step2/JpsiK--22_03_10--mc--12143001--2016--md.root:tree',
+   '../../ntuples/0.9.6-2016_production/JpsiK-mc-step2/JpsiK--22_03_10--mc--12143001--2016--mu.root:tree',
 ]
 
 histoMcRawN = 'h_occupancy_mc_raw'
@@ -30,16 +30,16 @@ mcBrsN = ['b_ownpv_ndof', 'ntracks', 'wjk_occ', 'wpid', 'wtrk']
 #########################################
 
 mcBrsRaw = concatenate(mcNtpsN, mcBrsN, library='np')
-
-# Apply a global cut
-globalCut = mcBrsRaw['ntracks'] < 450
+globalCut = (mcBrsRaw['ntracks'] < 450) & (mcBrsRaw['b_ownpv_ndof'] < 200)  # Apply a global cut
 mcBrs = {k: v[globalCut] for k, v in mcBrsRaw.items()}
 
+wtResult = np.prod([mcBrs[i] for i in ['wpid', 'wtrk', 'wjk_occ']], axis=0)
 hResult, *hResultBins = np.histogram2d(
     mcBrs['b_ownpv_ndof'], mcBrs['ntracks'], (20, 20), ((1, 200), (0, 450)),
-    weights=mcBrs['wjk_occ'])
+    weights=wtResult)
 hMc, *hMcBins = np.histogram2d(
-    mcBrs['b_ownpv_ndof'], mcBrs['ntracks'], (20, 20), ((1, 200), (0, 450)))
+    mcBrs['b_ownpv_ndof'], mcBrs['ntracks'], (20, 20), ((1, 200), (0, 450)),
+    weights=mcBrs['wpid']*mcBrs['wtrk'])
 
 
 ############################
@@ -49,6 +49,7 @@ hMc, *hMcBins = np.histogram2d(
 histoNtp= uproot.open(histoNtpN)
 
 hData, *hDataBins = histoNtp[histoDataRawN].to_numpy()
+hMcRef, *hMcRefBins = histoNtp[histoMcRawN].to_numpy()
 hRatio, *hRatioBins = histoNtp[histoRatioN].to_numpy()
 
 
@@ -66,6 +67,7 @@ def relDiff(i, j):
 TAB_GEN = {
     'index': lambda i, j: f'({i}, {j})',
     'data yld': lambda i, j: hData[i, j],
+    'MC ref yld': lambda i, j: hMcRef[i, j],
     'MC yld': lambda i, j: hMc[i, j],
     'data/MC wt': lambda i, j: hRatio[i, j],
     '<MC yld rwt>': lambda i, j: hMc[i, j] * hRatio[i, j],
