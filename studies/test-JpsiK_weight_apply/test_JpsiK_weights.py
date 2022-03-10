@@ -12,14 +12,10 @@ from uproot import concatenate
 #################
 
 histoNtpN = '../../run2-JpsiK/reweight/JpsiK/root-run2-JpsiK_oldcut/run2-JpsiK-2016-md-B-ndof_ntracks__pt_eta.root'
-#  histoNtpN = '../../run2-JpsiK/reweight/JpsiK/root-run2-JpsiK_oldcut/run2-JpsiK-2016-md-B-ndof_ntracks__pt_eta-old.root'
 
-#  mcNtpsN = [
-#     '../../ntuples/0.9.6-2016_production/JpsiK-mc-step2/JpsiK--22_03_04--mc--12143001--2016--md/*.root:tree',
-#     '../../ntuples/0.9.6-2016_production/JpsiK-mc-step2/JpsiK--22_03_04--mc--12143001--2016--mu/*.root:tree',
-#  ]
 mcNtpsN = [
-    '../../ntuples/0.9.6-2016_production/JpsiK-mc-step2/JpsiK--22_03_04--mc--12143001--2016--md/JpsiK--22_03_04--mc--12143001--2016--md--000.root:tree',
+   '../../ntuples/0.9.6-2016_production/JpsiK-mc-step2/JpsiK--22_03_09--mc--12143001--2016--md.root:tree',
+   '../../ntuples/0.9.6-2016_production/JpsiK-mc-step2/JpsiK--22_03_09--mc--12143001--2016--mu.root:tree',
 ]
 
 histoMcRawN = 'h_occupancy_mc_raw'
@@ -33,14 +29,17 @@ mcBrsN = ['b_ownpv_ndof', 'ntracks', 'wjk_occ', 'wpid', 'wtrk']
 # Rebuild histogram from step-2 ntuples #
 #########################################
 
-mcBrs = concatenate(mcNtpsN, mcBrsN, library='np')
+mcBrsRaw = concatenate(mcNtpsN, mcBrsN, library='np')
+
+# Apply a global cut
+globalCut = mcBrsRaw['ntracks'] < 450
+mcBrs = {k: v[globalCut] for k, v in mcBrsRaw.items()}
 
 hResult, *hResultBins = np.histogram2d(
     mcBrs['b_ownpv_ndof'], mcBrs['ntracks'], (20, 20), ((1, 200), (0, 450)),
-    weights=mcBrs['wjk_occ']*mcBrs['wpid']*mcBrs['wtrk'])
+    weights=mcBrs['wjk_occ'])
 hMc, *hMcBins = np.histogram2d(
-    mcBrs['b_ownpv_ndof'], mcBrs['ntracks'], (20, 20), ((1, 200), (0, 450)),
-    weights=mcBrs['wpid']*mcBrs['wtrk'])
+    mcBrs['b_ownpv_ndof'], mcBrs['ntracks'], (20, 20), ((1, 200), (0, 450)))
 
 
 ############################
@@ -50,7 +49,6 @@ hMc, *hMcBins = np.histogram2d(
 histoNtp= uproot.open(histoNtpN)
 
 hData, *hDataBins = histoNtp[histoDataRawN].to_numpy()
-#  hMc, *hMcBins = histoNtp[histoMcRawN].to_numpy()
 hRatio, *hRatioBins = histoNtp[histoRatioN].to_numpy()
 
 
