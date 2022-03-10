@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Mar 10, 2022 at 02:59 AM -0500
+# Last Change: Thu Mar 10, 2022 at 03:29 AM -0500
 
 import numpy as np
 
@@ -69,11 +69,10 @@ def load_brs(ntp, tree, add_brs=None):
     return concatenate([f'{i}:{tree}' for i in ntp], br_names, library='np')
 
 
-def global_cut(brs):
+def apply_cut(brs, rule):
     cuts = []
-    for r in REWEIGHT_PROCEDURE.values():
-        for idx, _ in enumerate(r.vars):
-            cuts.append(brs[r.vars[idx]] < r.range[idx][1])  # Cut out the maxium for ROOT compatibility
+    for idx, _ in enumerate(rule.vars):
+        cuts.append(brs[rule.vars[idx]] < rule.range[idx][1])  # Cut out the maxium for ROOT compatibility
 
     cut_applied = np.logical_and.reduce(cuts)
     return {k: v[cut_applied] for k, v in brs.items()}
@@ -90,36 +89,36 @@ def get_weights(branches, histo_raw):
 if __name__ == '__main__':
     args = parse_input()
     ntp = recreate(args.output)
-
+    rules = dict()
     histos = dict()
-    brs_mc_stash = dict()
 
     # Load branches
     brs_data_raw = load_brs(args.dataNtp, args.tree, add_brs=DATA_WTS)
     brs_mc_raw = load_brs(args.mcNtp, args.tree, add_brs=MC_WTS)
 
-    # Apply global cuts to ensure histograms are compatible w/ ROOT
-    brs_data = global_cut(brs_data_raw)
-    brs_mc = global_cut(brs_mc_raw)
-
-    br_sw = brs_data[DATA_WTS[0]]
-    br_w_mc = np.prod([brs_mc[i] for i in MC_WTS], axis=0)
-
     for idx, (name, r) in enumerate(REWEIGHT_PROCEDURE.items()):
+        rules[idx] = r
+
+        # Remove rightmost edges in histogram to be compatible w/ ROOT
+        brs_data = apply_cut(brs_data_raw, r)
+        brs_mc = apply_cut(brs_mc_raw, r)
         rwt_brs_data = [brs_data[i] for i in r.vars]
         rwt_brs_mc = [brs_mc[i] for i in r.vars]
-        brs_mc_stash[idx] = rwt_brs_mc
 
+        # Build data histogram, wWeighted
+        br_sw = brs_data[DATA_WTS[0]]
         h_data_raw = np.histogram2d(
             *rwt_brs_data, r.bins, r.range, weights=br_sw)
         h_data_raw_histo = h_data_raw[0]
         h_data_raw_histo[h_data_raw_histo < 0] = 0  # after sWeight, some bins may be negative
 
+        # Build MC histogram, with global weights and weights from previous step
+        br_w_mc = np.prod([brs_mc[i] for i in MC_WTS], axis=0)
         if idx == 0:
             mc_wt_final = br_w_mc
         else:
-            brs_mc_prev = brs_mc_stash[idx-1]
-            mc_wt_prev = get_weights(brs_mc_prev, histos[idx-1])
+            rwt_brs_mc_prev = [brs_mc[i] for i in rules[idx-1].vars]
+            mc_wt_prev = get_weights(rwt_brs_mc_prev, histos[idx-1])
             mc_wt_final = br_w_mc * mc_wt_prev
 
         h_mc_raw = np.histogram2d(
@@ -132,6 +131,7 @@ if __name__ == '__main__':
         h_ratio = (h_ratio_histo, *h_data_raw[1:])
         histos[idx] = h_ratio
 
+        # Save histograms
         ntp[f'{name}_data_raw'] = h_data_raw
         ntp[f'{name}_mc_raw'] = h_mc_raw
         ntp[name] = h_ratio
