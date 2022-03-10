@@ -2,10 +2,11 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Mar 09, 2022 at 09:39 PM -0500
+# Last Change: Wed Mar 09, 2022 at 11:41 PM -0500
 
 import sys
 import os.path as op
+import yaml
 
 from argparse import ArgumentParser
 from os import chdir, makedirs
@@ -15,8 +16,8 @@ from glob import glob
 sys.path.insert(0, op.dirname(op.abspath(__file__)))
 
 from utils import (
-    run_cmd, ensure_dir,
-    aggregate_fltr, aggregate_output, check_ntp_name, find_decay_mode,
+    run_cmd, ensure_dir, abs_path,
+    aggregate_fltr, aggregate_output,
     smart_kwarg,
     generate_step2_name,
     workflow_apply_weight, workflow_prep_dir
@@ -143,7 +144,6 @@ def workflow_mc(inputs, input_yml, job_name='mc', **kwargs):
 
 
 def workflow_split(inputs, input_yml, job_name='split', prefix='JpsiK',
-                   merge_prefix=['JpsiK'],
                    **kwargs):
     subworkdirs, workdir = workflow_prep_dir(
         job_name, inputs, patterns=['*.DST'], **kwargs)
@@ -166,6 +166,9 @@ def workflow_split(inputs, input_yml, job_name='split', prefix='JpsiK',
     makedirs('ntuple_merged')
     uniq_names = set(generate_step2_name(sj+'.root', keep_index=False)
                      for sj in subworkdirs)
+    with open(abs_path(input_yml), 'r') as f:
+        yml_config = yaml.safe_load(f)
+    merge_prefix = list(yml_config['output'].keys())
 
     for name in uniq_names:
         for p in merge_prefix:
