@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Feb 24, 2022 at 10:31 PM -0500
+# Last Change: Thu Mar 10, 2022 at 06:32 PM -0500
 
 import sys
 import os.path as op
@@ -210,9 +210,13 @@ def workflow_mc(inputs, input_yml, job_name='mc',
         blocked_input_trees = rdx_mc_blocked_trees(decay_mode)
 
         output_suffix = generate_step2_name(input_ntp)
+        # FIXME: Very dirty hack
+        if 'cli_vars' not in kwargs:
+            kwargs['cli_vars'] = dict()
+        kwargs['cli_vars']['cli_mc_id'] = decay_mode
+
         workflow_single_ntuple(
             input_ntp, input_yml, output_suffix, aux_workflows,
-            cli_vars={'cli_mc_id': decay_mode},
             blocked_input_trees=blocked_input_trees, **kwargs)
 
         aggregate_output('..', subdir, rdx_default_output_fltrs)
@@ -274,6 +278,13 @@ JOBS = {
         workflow_mc,
         '../ntuples/0.9.5-bugfix/Dst_D0-mc',
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
+        blocked_patterns=['--aux', 'MC_2012']
+    ),
+    'rdx-ntuple-run2-mc-cut_opt': partial(
+        workflow_mc,
+        '../ntuples/0.9.5-bugfix/Dst_D0-mc',
+        '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
+        cli_vars={'cli_cutflow': 'true'},
         blocked_patterns=['--aux', 'MC_2012']
     ),
     # Run 2 debug
