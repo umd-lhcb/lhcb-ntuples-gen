@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Mar 10, 2022 at 03:29 AM -0500
+# Last Change: Thu Mar 10, 2022 at 03:49 AM -0500
 
 import numpy as np
 
@@ -69,21 +69,28 @@ def load_brs(ntp, tree, add_brs=None):
     return concatenate([f'{i}:{tree}' for i in ntp], br_names, library='np')
 
 
-def apply_cut(brs, rule):
+def gen_cut(brs, rule):
     cuts = []
     for idx, _ in enumerate(rule.vars):
         cuts.append(brs[rule.vars[idx]] < rule.range[idx][1])  # Cut out the maxium for ROOT compatibility
-
-    cut_applied = np.logical_and.reduce(cuts)
-    return {k: v[cut_applied] for k, v in brs.items()}
+    return np.logical_and.reduce(cuts)
 
 
-def get_weights(branches, histo_raw):
+def apply_cut(brs, rule):
+    cut = gen_cut(brs, rule)
+    return {k: v[cut] for k, v in brs.items()}
+
+
+def get_weights(brs_dict, histo_raw, rule_prev):
     histo, *bin_specs = histo_raw
+    brs = [brs_dict[i] for i in rule_prev.vars]
     histo_padded = np.pad(histo, tuple((1, 1) for _ in range(histo.ndim)))
     bin_idx = tuple(np.digitize(br, spec)
-                   for br, spec in zip(branches, bin_specs))
-    return histo_padded[bin_idx]
+                   for br, spec in zip(brs, bin_specs))
+
+    # NOTE: Need to remove right edges in the prev histogram
+    cut_prev = gen_cut(brs_dict, rule_prev)
+    return histo_padded[bin_idx] * cut_prev
 
 
 if __name__ == '__main__':
@@ -117,8 +124,7 @@ if __name__ == '__main__':
         if idx == 0:
             mc_wt_final = br_w_mc
         else:
-            rwt_brs_mc_prev = [brs_mc[i] for i in rules[idx-1].vars]
-            mc_wt_prev = get_weights(rwt_brs_mc_prev, histos[idx-1])
+            mc_wt_prev = get_weights(brs_mc, histos[idx-1], rules[idx-1])
             mc_wt_final = br_w_mc * mc_wt_prev
 
         h_mc_raw = np.histogram2d(
