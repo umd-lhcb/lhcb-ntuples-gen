@@ -10,7 +10,7 @@
     hammer-reweight.url = "github:umd-lhcb/hammer-reweight";
 
     flake-compat = {
-      url = github:edolstra/flake-compat;
+      url = "github:edolstra/flake-compat";
       flake = false;
     };
   };
