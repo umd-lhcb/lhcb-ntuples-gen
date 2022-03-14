@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Feb 09, 2022 at 10:23 AM -0500
+# Last Change: Sun Mar 13, 2022 at 03:26 PM -0400
 #
 # Description: Definitions of selection and reconstruction procedures for run 1
 #              R(D(*)), with thorough comments.
@@ -308,7 +308,7 @@ if has_flag('BARE'):
 
 
 # PID for real data only
-if not DaVinci().Simulation and not has_flag('BARE'):
+if not DaVinci().Simulation and not has_flag('BARE') or has_flag('GHOST'):
     algo_D0.DaughtersCuts['K+'] = \
         '(PIDK > 4.0) &' + algo_D0.DaughtersCuts['K+']
 
@@ -858,7 +858,7 @@ if has_flag('CUTFLOW', 'BARE'):
                                  # ntuples
                                  tp_Bminus, tp_B0]
 
-elif DaVinci().Simulation:
+elif DaVinci().Simulation and not has_flag('GHOST'):
     DaVinci().UserAlgorithms += [seq_Bminus.sequence(), seq_B0.sequence(),
                                  # ntuples
                                  tp_Bminus, tp_B0]
