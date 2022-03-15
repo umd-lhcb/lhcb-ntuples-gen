@@ -2,14 +2,16 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Mar 10, 2022 at 06:32 PM -0500
+# Last Change: Tue Mar 15, 2022 at 12:26 PM -0400
 
 import sys
 import os.path as op
+import yaml
 
 from argparse import ArgumentParser
 from os import chdir, makedirs
 from functools import partial
+from glob import glob
 
 sys.path.insert(0, op.dirname(op.abspath(__file__)))
 
@@ -242,6 +244,20 @@ def workflow_split(inputs, input_yml, job_name='split', prefix='Dst_D0',
         run_cmd(f'mv {subjob}/ntuple ntuple/{prefix}--{generate_step2_name(subjob+".root")}', **kwargs)
         run_cmd(f'mv {subjob}/ntuple_aux ntuple_aux/{subjob}', **kwargs)
 
+    # Also merge ntuples
+    makedirs('ntuple_merged')
+    uniq_names = set(generate_step2_name(sj+'.root', keep_index=False)
+                     for sj in subworkdirs)
+    with open(abs_path(input_yml), 'r') as f:
+        yml_config = yaml.safe_load(f)
+    merge_prefix = list(yml_config['output'].keys())
+
+    for name in uniq_names:
+        for p in merge_prefix:
+            if glob(f'ntuple/*/{p}--{name}--*.root'):
+                print(f'Merging prefix {p} of {name}...')
+                run_cmd(f'hadd -fk ntuple_merged/{p}--{name}.root ntuple/*/{p}--{name}--*.root', **kwargs)
+
 
 #####################
 # Production config #
@@ -323,6 +339,11 @@ JOBS = {
     'rdx-ntuple-run2-mc-dss': partial(
         workflow_mc,
         '../ntuples/0.9.5-bugfix/Dst_D0-mc/Dst_D0--21_10_15--mc--MC_2016_Beam6500GeV-2016-MagDown-Nu1.6-25ns-Pythia8_Sim09j_Trig0x6139160F_Reco16_Turbo03a_Filtered_11874430_D0TAUNU.SAFESTRIPTRIG.DST.root',
+        '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
+    ),
+    'rdx-ntuple-run2-mc-sub': partial(
+        workflow_split,
+        '../ntuples/0.9.6-2016_production/Dst_D0-mc-tracker_only/Dst_D0--22_02_24--mc--tracker_only--MC_2016_Beam6500GeV-2016-MagDown-TrackerOnly-Nu1.6-25ns-Pythia8_Sim09k_Reco16_Filtered_12773410_D0TAUNU.SAFESTRIPTRIG.DST',
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
     ),
     # Run 1
