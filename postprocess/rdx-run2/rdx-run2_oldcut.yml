@@ -188,6 +188,22 @@ calculation:
     mu_gh_prob: double; mu_TRACK_GhostProb
     mu_ip_chi2: double; mu_IPCHI2_OWNPV
 
+    ############################
+    # Mu misID study variables #
+    ############################
+    # These are kept in step-1 names
+    # For more consistency for the external misID unfolding program
+    # which typically runs on step-1 ntuples (with friends) directly
+    #
+    mu_ProbNNpi: double; IF_VAR_EXISTS(misid_study, mu_ProbNNpi)
+    mu_ProbNNghost: double; IF_VAR_EXISTS(misid_study, mu_ProbNNghost)
+    mu_PIDK: double; IF_VAR_EXISTS(misid_study, mu_PIDK)
+    mu_PIDp: double; IF_VAR_EXISTS(misid_study, mu_PIDp)
+    mu_PIDe: double; IF_VAR_EXISTS(misid_study, mu_PIDe)
+    # Below are probably not needed, kept for now
+    mu_PIDmu: double; IF_VAR_EXISTS(misid_study, mu_PIDmu)
+    mu_isMuon: bool; IF_VAR_EXISTS(misid_study, mu_isMuon)
+
     #####################
     # MC true variables #
     #####################
