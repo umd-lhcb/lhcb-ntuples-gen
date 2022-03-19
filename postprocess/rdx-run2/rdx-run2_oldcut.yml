@@ -314,7 +314,10 @@ calculation:
     # Actual flags
     trks_ok: bool; FLAG_SEL_GOOD_TRACKS(trk_mu, trks_other)
     mu_pid_ok: >-
-        bool; IF_VAR_EXISTS(mc_id, true);
+        bool;
+        IF_VAR_EXISTS(mc_id, true);
+        IF_VAR_EXISTS(cli_misid, true);
+        IF_VAR_EXISTS(cli_misid_study, true);
         FLAG_SEL_MU_PID_OK_RUN1(mu_isMuon, mu_PIDmu, mu_PIDe)
     mu_pid_ok_stub: ^bool; cli_cutflow; mu_pid_ok
     mu_ubdt_ok: bool; mu_ubdt > 0.25
