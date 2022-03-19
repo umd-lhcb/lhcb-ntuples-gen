@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Mar 15, 2022 at 12:26 PM -0400
+# Last Change: Sat Mar 19, 2022 at 04:38 AM -0400
 
 import sys
 import os.path as op
@@ -186,7 +186,14 @@ def workflow_data(inputs, input_yml, job_name='data', use_ubdt=True,
 
         output_suffix = generate_step2_name(input_ntp)
         workflow_single_ntuple(
-            input_ntp, input_yml, output_suffix, aux_workflows, **kwargs)
+            input_ntp, input_yml, output_suffix, aux_workflows,
+            trees=[
+                'TupleB0/DecayTree',
+                'TupleB0WSMu/DecayTree',
+                'TupleB0WSPi/DecayTree',
+                'TupleBminus/DecayTree',
+                'TupleBminusWS/DecayTree'
+            ], **kwargs)
 
         aggregate_output('..', subdir, rdx_default_output_fltrs)
         chdir('..')  # Switch back to parent workdir
@@ -269,26 +276,12 @@ JOBS = {
         workflow_split,
         '../ntuples/0.9.6-2016_production/Dst_D0-std',
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
-        trees=[
-            'TupleB0/DecayTree',
-            'TupleB0WSMu/DecayTree',
-            'TupleB0WSPi/DecayTree',
-            'TupleBminus/DecayTree',
-            'TupleBminusWS/DecayTree'
-        ]
     ),
     'rdx-ntuple-run2-mu_misid': partial(
         workflow_split,
         '../ntuples/0.9.6-2016_production/Dst_D0-mu_misid',
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
-        trees=[
-            'TupleB0/DecayTree',
-            'TupleB0WSMu/DecayTree',
-            'TupleB0WSPi/DecayTree',
-            'TupleBminus/DecayTree',
-            'TupleBminusWS/DecayTree'
-        ],
-        cli_vars={'cli_is_mu_misid': 'true'}
+        cli_vars={'cli_misid': 'true'}
     ),
     'rdx-ntuple-run2-mc': partial(
         workflow_mc,
@@ -304,6 +297,12 @@ JOBS = {
         blocked_patterns=['--aux', 'MC_2012']
     ),
     # Run 2 debug
+    'rdx-ntuple-run2-misid_study-demo': partial(
+        workflow_data,
+        '../ntuples/0.9.6-2016_production/Dst_D0-mu_misid/Dst_D0--22_03_01--mu_misid--LHCb_Collision16_Beam6500GeV-VeloClosed-MagDown_Real_Data_Reco16_Stripping28r2_90000000_SEMILEPTONIC.DST/Dst_D0--22_03_01--mu_misid--LHCb_Collision16_Beam6500GeV-VeloClosed-MagDown_Real_Data_Reco16_Stripping28r2_90000000_SEMILEPTONIC.DST--000-dv.root',
+        '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
+        cli_vars={'cli_misid_study': 'true'}
+    ),
     'rdx-ntuple-run2-data-demo': partial(
         workflow_data,
         '../ntuples/0.9.6-2016_production/Dst_D0-std/Dst_D0--22_02_07--std--LHCb_Collision16_Beam6500GeV-VeloClosed-MagDown_Real_Data_Reco16_Stripping28r2_90000000_SEMILEPTONIC.DST/Dst_D0--22_02_07--std--LHCb_Collision16_Beam6500GeV-VeloClosed-MagDown_Real_Data_Reco16_Stripping28r2_90000000_SEMILEPTONIC.DST--000-dv.root',
