@@ -14,7 +14,6 @@ keep:
     - "^wtrk*"
     - "^wff"
     - ".*_tos_emu$"
-    - ".*_tis_emu$"
 
 rename:
     # General
@@ -22,7 +21,7 @@ rename:
     runNumber: run
     eventNumber: event
     # L0
-    b0_L0Global_TIS: b0_l0_global_tis
+    b0_L0Global_TIS: b_l0_global_tis
     b_L0Global_TIS: b_l0_global_tis
     d0_L0HadronDecision_TOS: d0_l0_hadron_tos
     # HLT1
@@ -30,8 +29,10 @@ rename:
     k_Hlt1TrackMVADecision_TOS: k_hlt1_trackmva_tos
     pi_Hlt1TrackMVADecision_TOS: pi_hlt1_trackmva_tos
     # HLT2
-    #b0_Hlt2XcMuXForTauB2XcMuDecision_TOS: b0_hlt2_tos
-    #b_Hlt2XcMuXForTauB2XcMuDecision_TOS: b_hlt2_tos
+    b0_Hlt2XcMuXForTauB2XcMuDecision_TOS: b_hlt2_tos
+    b0_Hlt2XcMuXForTauB2XcFakeMuDecision_TOS: b_hlt2_fakeline_tos
+    b_Hlt2XcMuXForTauB2XcMuDecision_TOS: b_hlt2_tos
+    b_Hlt2XcMuXForTauB2XcFakeMuDecision_TOS: b_hlt2_fakeline_tos
     # Event variables
     nTracks: ntracks
     NumSPDHits: nspdhits
@@ -39,17 +40,6 @@ rename:
 calculation:
     # For pseudo-random sequence generation
     prs_in: double; b0_PT; b_PT
-
-    ###########
-    # Trigger #
-    ###########
-    # HLT2 trigger that depends on if it's a misID sample
-    # FIXME: Current GRID ntuple filters trigger correctly but the Fake lines
-    #        are not saved.
-    #        If we need to reprod Mu misID samples the 'IF_VAR_EXISTS' part can be replaced
-    #        with the actual trigger name, say 'b0_Hlt2XcMuXForTauB2XcFakeMuDecision'
-    b0_hlt2_tos: bool; IF_VAR_EXISTS(cli_is_mu_misid, true); b0_Hlt2XcMuXForTauB2XcMuDecision_TOS
-    b_hlt2_tos: bool; IF_VAR_EXISTS(cli_is_mu_misid, true); b_Hlt2XcMuXForTauB2XcMuDecision_TOS
 
     #######################
     # Isolation variables #
@@ -89,14 +79,10 @@ calculation:
     # Kinematic variables #
     #######################
     # Keep masses in MeV, everything else in GeV
-    # B0
-    b0_m: double; b0_M
-    b0_p: double; GEV(b0_P)
-    b0_pt: double; GEV(b0_PT)
-    # B
-    b_m: double; b_M
-    b_p: double; GEV(b_P)
-    b_pt: double; GEV(b_PT)
+    # B/B0
+    b_m: double; b_M; b0_M
+    b_p: double; GEV(b_P); GEV(b0_P)
+    b_pt: double; GEV(b_PT); GEV(b0_PT)
     # D*
     dst_m: double; dst_M
     dst_p: double; GEV(dst_P)
@@ -158,15 +144,14 @@ calculation:
     ######################
     # Tracking variables #
     ######################
-    # B0
-    b0_endvtx_chi2ndof: double; b0_ENDVERTEX_CHI2 / b0_ENDVERTEX_NDOF
-    b0_fd_trans: double; FD_TRANS(b0_ENDVERTEX_X, b0_OWNPV_X, b0_ENDVERTEX_Y, b0_OWNPV_Y)
-    b0_discard_mu_chi2: double; b0_DISCARDMu_CHI2
-    # B
-    b_endvtx_chi2ndof: double; b_ENDVERTEX_CHI2 / b_ENDVERTEX_NDOF
-    b_fd_trans: double; FD_TRANS(b_ENDVERTEX_X, b_OWNPV_X, b_ENDVERTEX_Y, b_OWNPV_Y)
-    b_discard_mu_chi2: double; b_DISCARDMu_CHI2
-    #b_dira: double; b_DIRA_OWNPV
+    # B/B0
+    b_endvtx_chi2ndof: double; b_ENDVERTEX_CHI2 / b_ENDVERTEX_NDOF; b0_ENDVERTEX_CHI2 / b0_ENDVERTEX_NDOF
+    b_fd_trans: >-
+        double;
+        FD_TRANS(b_ENDVERTEX_X, b_OWNPV_X, b_ENDVERTEX_Y, b_OWNPV_Y)
+        FD_TRANS(b0_ENDVERTEX_X, b0_OWNPV_X, b0_ENDVERTEX_Y, b0_OWNPV_Y)
+    b_discard_mu_chi2: double; b_DISCARDMu_CHI2; b0_DISCARDMu_CHI2
+    #b_dira: double; b_DIRA_OWNPV; b0_DIRA_OWNPV
     # D*
     dst_endvtx_chi2ndof: double; dst_ENDVERTEX_CHI2 / dst_ENDVERTEX_NDOF
     # D0
@@ -195,14 +180,14 @@ calculation:
     # For more consistency for the external misID unfolding program
     # which typically runs on step-1 ntuples (with friends) directly
     #
-    mu_ProbNNpi: double; IF_VAR_EXISTS(misid_study, mu_ProbNNpi)
-    mu_ProbNNghost: double; IF_VAR_EXISTS(misid_study, mu_ProbNNghost)
-    mu_PIDK: double; IF_VAR_EXISTS(misid_study, mu_PIDK)
-    mu_PIDp: double; IF_VAR_EXISTS(misid_study, mu_PIDp)
-    mu_PIDe: double; IF_VAR_EXISTS(misid_study, mu_PIDe)
+    mu_ProbNNpi: double; IF_VAR_EXISTS(cli_misid_study, mu_ProbNNpi)
+    mu_ProbNNghost: double; IF_VAR_EXISTS(cli_misid_study, mu_ProbNNghost)
+    mu_PIDK: double; IF_VAR_EXISTS(cli_misid_study, mu_PIDK)
+    mu_PIDp: double; IF_VAR_EXISTS(cli_misid_study, mu_PIDp)
+    mu_PIDe: double; IF_VAR_EXISTS(cli_misid_study, mu_PIDe)
     # Below are probably not needed, kept for now
-    mu_PIDmu: double; IF_VAR_EXISTS(misid_study, mu_PIDmu)
-    mu_isMuon: bool; IF_VAR_EXISTS(misid_study, mu_isMuon)
+    mu_PIDmu: double; IF_VAR_EXISTS(cli_misid_study, mu_PIDmu)
+    mu_isMuon: bool; IF_VAR_EXISTS(cli_misid_study, mu_isMuon)
 
     #####################
     # MC true variables #
@@ -267,22 +252,24 @@ calculation:
     # Selection flags, basic #
     ##########################
     # Trigger
-    l0: >-
-        bool; IF_VAR_EXISTS(mc_id, true);
-        b0_L0Global_TIS || d0_L0HadronDecision_TOS;
-        b_L0Global_TIS || d0_L0HadronDecision_TOS
-    hlt1: >-
-        bool; k_hlt1_trackmva_tos_emu || pi_hlt1_trackmva_tos_emu || d0_hlt1_twotrackmva_tos_emu;
-        k_Hlt1TrackMVADecision_TOS || pi_Hlt1TrackMVADecision_TOS || d0_Hlt1TwoTrackMVADecision_TOS
-    hlt2: >-
-        bool; IF_VAR_EXISTS(mc_id, true);
-        b0_Hlt2XcMuXForTauB2XcMuDecision_TOS;
-        b_Hlt2XcMuXForTauB2XcMuDecision_TOS
     # NOTE: For MC, L0 are applied as weight, and HLT2 is already applied at DV level
+    l0: >-
+        bool; IF_VAR_EXISTS(mc_id, true); b_l0_global_tis || d0_l0_hadron_tos
+    hlt1: >-
+        bool;
+        k_hlt1_trackmva_tos_emu || pi_hlt1_trackmva_tos_emu || d0_hlt1_twotrackmva_tos_emu;
+        k_hlt1_trackmva_tos || pi_hlt1_trackmva_tos || d0_hlt1_twotrackmva_tos
+    hlt2: >-
+        bool;
+        IF_VAR_EXISTS(mc_id, true);
+        IF_VAR_EXISTS(cli_misid, b_hlt2_fakeline_tos);
+        IF_VAR_EXISTS(cli_misid_study, b_hlt2_fakeline_tos);
+        b_hlt2_tos
 
     # D0 selection
     d0_pid_ok: >-
-        bool; IF_VAR_EXISTS(mc_id, true);
+        bool;
+        IF_VAR_EXISTS(mc_id, true);
         FLAG_SEL_D0_PID_OK_RUN1(k_PIDK, pi_PIDK, k_isMuon, pi_isMuon)
     d0_pid_ok_stub: ^bool; cli_cutflow; d0_pid_ok
     # Note that the EMULATED trigger lines take precedence.
@@ -350,14 +337,16 @@ calculation:
         )
 
     # D*Mu combo selection
+    # NOTE: The 'b_fd_trans' and 'b_discard_mu_chi2' are step-2 vars defined in this YAML,
+    #       and they have the same names for B/B0 trees
     dstmu_ok: >-
         bool; FLAG_SEL_B0DST_RUN1(
         d0_ok, mu_ok,
         spi_TRACK_GhostProb,
         dst_ENDVERTEX_CHI2, dst_ENDVERTEX_NDOF,
-        b0_discard_mu_chi2,
+        b_discard_mu_chi2,
         b0_ENDVERTEX_CHI2, b0_ENDVERTEX_NDOF,
-        b0_fd_trans,
+        b_fd_trans,
         b0_DIRA_OWNPV
         )
     dst_m_ok: bool; FLAG_SEL_DST_MASS(dst_m, d0_m)
@@ -367,8 +356,8 @@ calculation:
     ###############################
     dx_m_ok: bool; d0_m_ok && dst_m_ok; d0_m_ok && d0_m_hypo_ok && d0_dst_veto_ok
     in_fit_range: bool; IN_RANGE(mm2, -2.0, 10.9) && IN_RANGE(el, 0.1, 2.65) && IN_RANGE(q2, -0.4, 12.6)
-    b_m_ok: bool; FLAG_SEL_B0_MASS(b0_m); FLAG_SEL_BMINUS_MASS(b_m)
-    b_m_sb: bool; FLAG_SEL_B0_MASS_SB(b0_m); FLAG_SEL_BMINUS_MASS_SB(b_m)
+    b_m_ok: bool; FLAG_SEL_B0_MASS(b0_M); FLAG_SEL_BMINUS_MASS(b_M)
+    b_m_sb: bool; FLAG_SEL_B0_MASS_SB(b0_M); FLAG_SEL_BMINUS_MASS_SB(b_M)
 
     #########
     # Skims #
@@ -420,7 +409,7 @@ calculation:
     wpid_ubdt: double; 1.0  # UBDT weight not implemented yet
     wpid: double; wpid_k*wpid_pi*wpid_mu*wpid_ubdt  # UBDT included as a placeholder
     wtrg_l0_tis: ^double; b0_l0_global_tis_emu; b_l0_global_tis_emu
-    wtrg: float; d0_l0_hadron_tos_emu+wtrg_l0_tis - d0_l0_hadron_tos_emu*wtrg_l0_tis
+    wtrg: float; d0_l0_hadron_tos_emu + wtrg_l0_tis - d0_l0_hadron_tos_emu*wtrg_l0_tis
     wtrk: double; wtrk_k*wtrk_pi*wtrk_mu*wtrk_spi; wtrk_k*wtrk_pi*wtrk_mu
 
     # Weight representing the global cut (BEFORE applying the skim cuts)
@@ -491,7 +480,6 @@ output:
     Dst:
         input: TupleB0/DecayTree
         mute:
-            - "^b_.*"
             - "d0_dst_veto_deltam"
             - "d0_dst_veto_ok"
             - "d0mu_ok"
@@ -506,7 +494,6 @@ output:
     D0:
         input: TupleBminus/DecayTree
         mute:
-            - "^b0_.*"
             - "^spi_.*"
             - "^dst_.*"
             - "trk_spi"
@@ -523,7 +510,6 @@ output:
     Dst_ws_Mu:
         input: TupleB0WSMu/DecayTree
         mute:
-            - "^b_.*"
             - "d0_dst_veto_deltam"
             - "d0_dst_veto_ok"
             - "d0mu_ok"
@@ -538,7 +524,6 @@ output:
     Dst_ws_Pi:
         input: TupleB0WSPi/DecayTree
         mute:
-            - "^b_.*"
             - "d0_dst_veto_deltam"
             - "d0_dst_veto_ok"
             - "d0mu_ok"
@@ -553,7 +538,6 @@ output:
     D0_ws_Mu:
         input: TupleBminusWS/DecayTree
         mute:
-            - "^b0_.*"
             - "^spi_.*"
             - "^dst_.*"
             - "trk_spi"
