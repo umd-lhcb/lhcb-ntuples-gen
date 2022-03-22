@@ -188,6 +188,11 @@ calculation:
     # Below are probably not needed, kept for now
     mu_PIDmu: double; IF_VAR_EXISTS(cli_misid_study, mu_PIDmu)
     mu_isMuon: bool; IF_VAR_EXISTS(cli_misid_study, mu_isMuon)
+    # Binning variables
+    mu_P: double; IF_VAR_EXISTS(cli_misid_study, mu_P)
+    mu_PT: double; IF_VAR_EXISTS(cli_misid_study, mu_PT)
+    mu_PZ: double; IF_VAR_EXISTS(cli_misid_study, mu_PZ)
+    nTracks: double; IF_VAR_EXISTS(cli_misid_study, nTracks)
 
     #####################
     # MC true variables #
