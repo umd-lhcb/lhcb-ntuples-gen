@@ -499,6 +499,11 @@ output:
             - is_ddx
             - is_strange
             - ham_ok
+            - "mu_PID*"
+            - "mu_ProbNN*"
+            - "mu_P*"
+            - mu_isMuon
+            - nTracks
     D0:
         input: TupleBminus/DecayTree
         mute:
@@ -514,6 +519,11 @@ output:
             - is_ddx
             - is_strange
             - ham_ok
+            - "mu_PID*"
+            - "mu_ProbNN*"
+            - "mu_P*"
+            - mu_isMuon
+            - nTracks
 
     Dst_ws_Mu:
         input: TupleB0WSMu/DecayTree
@@ -529,6 +539,11 @@ output:
             - is_ddx
             - is_strange
             - ham_ok
+            - "mu_PID*"
+            - "mu_ProbNN*"
+            - "mu_P*"
+            - mu_isMuon
+            - nTracks
     Dst_ws_Pi:
         input: TupleB0WSPi/DecayTree
         mute:
@@ -543,6 +558,11 @@ output:
             - is_ddx
             - is_strange
             - ham_ok
+            - "mu_PID*"
+            - "mu_ProbNN*"
+            - "mu_P*"
+            - mu_isMuon
+            - nTracks
     D0_ws_Mu:
         input: TupleBminusWS/DecayTree
         mute:
@@ -558,3 +578,8 @@ output:
             - is_ddx
             - is_strange
             - ham_ok
+            - "mu_PID*"
+            - "mu_ProbNN*"
+            - "mu_P*"
+            - mu_isMuon
+            - nTracks
