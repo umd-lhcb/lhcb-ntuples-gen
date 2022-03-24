@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sun Mar 13, 2022 at 08:57 PM -0400
+# Last Change: Wed Mar 23, 2022 at 06:54 PM -0400
 
 import re
 import yaml
@@ -143,7 +143,7 @@ def filter_kwargs_func(kwargs, func):
 #       understand, try play with this decorator in an interactive Python shell
 #       with:
 #           python -i ./utils.py
-#       The define:
+#       Then define:
 #           @smart_kwarg
 #           def f(a=1, b=2):
 #               print(a-b)
@@ -320,13 +320,14 @@ def find_decay_mode(lfn, convert_mc_id=False):
     return decay_mode
 
 
-def generate_step2_name(ntp_name, convert_mc_id=False, keep_index=True):
+def generate_step2_name(ntp_name,
+                        convert_mc_id=False, keep_index=True, date=None):
     ntp_name = op.basename(ntp_name)
     fields, errors, is_step1 = check_ntp_name(ntp_name)
     if len(errors) > 0:
         raise ValueError(f'ntuple name {ntp_name} is NOT a legal name!')
 
-    date = gen_date()
+    date = gen_date() if not date else date  # Need to have a consistent date!
     reco_mode = fields['reco_mode']
 
     if is_step1:
@@ -453,6 +454,7 @@ def workflow_prep_dir(job_name, inputs,
                       output_dir=abs_path('../gen'),
                       patterns=['*.root'],
                       blocked_patterns=['--aux'],
+                      delete_if_exist=True,
                       ):
     TC = TermColor
     print('{}==== Job: {} ===={}'.format(TC.BOLD+TC.GREEN, job_name, TC.END))
@@ -468,6 +470,7 @@ def workflow_prep_dir(job_name, inputs,
                    if op.isfile(i) else op.basename(i): i for i in input_files}
 
     # Now ensure the working dir
-    workdir = ensure_dir(op.join(output_dir, job_name))
+    workdir = ensure_dir(
+        op.join(output_dir, job_name), delete_if_exist=delete_if_exist)
 
     return subworkdirs, workdir

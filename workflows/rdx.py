@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sat Mar 19, 2022 at 05:05 AM -0400
+# Last Change: Wed Mar 23, 2022 at 07:02 PM -0400
 
 import sys
 import os.path as op
@@ -19,7 +19,7 @@ from utils import (
     run_cmd, abs_path, ensure_dir, ensure_file,
     aggregate_fltr, aggregate_output, check_ntp_name, find_decay_mode,
     load_yaml_db, smart_kwarg,
-    generate_step2_name,
+    generate_step2_name, gen_date,
     workflow_compile_cpp, workflow_cached_ntuple, workflow_apply_weight,
     workflow_prep_dir
 )
@@ -174,7 +174,7 @@ def workflow_single_ntuple(input_ntp, input_yml, output_suffix, aux_workflows,
 # Workflows: main #
 ###################
 
-def workflow_data(inputs, input_yml, job_name='data', use_ubdt=True,
+def workflow_data(inputs, input_yml, job_name='data', use_ubdt=True, date=None,
                   **kwargs):
     aux_workflows = [workflow_ubdt] if use_ubdt else []
     subworkdirs, workdir = workflow_prep_dir(job_name, inputs, **kwargs)
@@ -184,7 +184,7 @@ def workflow_data(inputs, input_yml, job_name='data', use_ubdt=True,
         ensure_dir(subdir, make_absolute=False)
         chdir(subdir)  # Switch to the workdir of the subjob
 
-        output_suffix = generate_step2_name(input_ntp)
+        output_suffix = generate_step2_name(input_ntp, date=date)
         workflow_single_ntuple(
             input_ntp, input_yml, output_suffix, aux_workflows,
             trees=[
@@ -199,7 +199,7 @@ def workflow_data(inputs, input_yml, job_name='data', use_ubdt=True,
         chdir('..')  # Switch back to parent workdir
 
 
-def workflow_mc(inputs, input_yml, job_name='mc',
+def workflow_mc(inputs, input_yml, job_name='mc', date=None,
                 **kwargs):
     aux_workflows = [
         workflow_hammer, workflow_trigger_emu, workflow_pid, workflow_trk
@@ -218,7 +218,7 @@ def workflow_mc(inputs, input_yml, job_name='mc',
             decay_mode = find_decay_mode(fields['lfn'])
         blocked_input_trees = rdx_mc_blocked_trees(decay_mode)
 
-        output_suffix = generate_step2_name(input_ntp)
+        output_suffix = generate_step2_name(input_ntp, date=date)
         # FIXME: Very dirty hack
         if 'cli_vars' not in kwargs:
             kwargs['cli_vars'] = dict()
@@ -234,6 +234,7 @@ def workflow_mc(inputs, input_yml, job_name='mc',
 
 def workflow_split(inputs, input_yml, job_name='split', prefix='Dst_D0',
                    **kwargs):
+    date = gen_date()  # NOTE: Need a consistent date!
     subworkdirs, workdir = workflow_prep_dir(
         job_name, inputs, patterns=['*.DST'], **kwargs)
 
@@ -241,19 +242,21 @@ def workflow_split(inputs, input_yml, job_name='split', prefix='Dst_D0',
         subflow = workflow_mc if 'MC_' in subjob or 'mc' in subjob \
             else workflow_data
         subflow(
-            input_dir, input_yml, job_name=subjob, output_dir=workdir, **kwargs)
+            input_dir, input_yml, job_name=subjob, output_dir=workdir,
+            date=date, **kwargs)
 
     # Let's manually aggregate output
     chdir(workdir)
     makedirs('ntuple')
     makedirs('ntuple_aux')
-    for subjob in subworkdirs:
-        run_cmd(f'mv {subjob}/ntuple ntuple/{prefix}--{generate_step2_name(subjob+".root")}', **kwargs)
-        run_cmd(f'mv {subjob}/ntuple_aux ntuple_aux/{subjob}', **kwargs)
+    for sj in subworkdirs:
+        run_cmd(f'mv {sj}/ntuple ntuple/{prefix}--{generate_step2_name(sj+".root", date=date)}', **kwargs)
+        run_cmd(f'mv {sj}/ntuple_aux ntuple_aux/{sj}', **kwargs)
 
     # Also merge ntuples
     makedirs('ntuple_merged')
-    uniq_names = set(generate_step2_name(sj+'.root', keep_index=False)
+    uniq_names = set(generate_step2_name(sj+'.root', keep_index=False,
+                                         date=date)
                      for sj in subworkdirs)
     with open(abs_path(input_yml), 'r') as f:
         yml_config = yaml.safe_load(f)
