@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Mar 23, 2022 at 06:54 PM -0400
+# Last Change: Thu Mar 24, 2022 at 02:20 AM -0400
 
 import re
 import yaml
@@ -474,3 +474,41 @@ def workflow_prep_dir(job_name, inputs,
         op.join(output_dir, job_name), delete_if_exist=delete_if_exist)
 
     return subworkdirs, workdir
+
+
+def workflow_split_base(inputs, input_yml, job_name='split', prefix='Dst_D0',
+                        workflow_data=None, workflow_mc=None,
+                        **kwargs):
+    date = gen_date()  # NOTE: Need a consistent date!
+    subworkdirs, workdir = workflow_prep_dir(
+        job_name, inputs, patterns=['*.DST'], **kwargs)
+
+    for subjob, input_dir in subworkdirs.items():
+        subflow = workflow_mc if 'MC_' in subjob or 'mc' in subjob \
+            else workflow_data
+        subflow(
+            input_dir, input_yml, job_name=subjob, output_dir=workdir,
+            date=date, **kwargs)
+
+    # Let's manually aggregate output
+    chdir(workdir)
+    makedirs('ntuple')
+    makedirs('ntuple_aux')
+    for sj in subworkdirs:
+        run_cmd(f'mv {sj}/ntuple ntuple/{prefix}--{generate_step2_name(sj+".root", date=date)}', **kwargs)
+        run_cmd(f'mv {sj}/ntuple_aux ntuple_aux/{sj}', **kwargs)
+
+    # Also merge ntuples
+    makedirs('ntuple_merged')
+    uniq_names = set(generate_step2_name(sj+'.root', keep_index=False,
+                                         date=date)
+                     for sj in subworkdirs)
+    with open(abs_path(input_yml), 'r') as f:
+        yml_config = yaml.safe_load(f)
+    merge_prefix = list(yml_config['output'].keys())
+
+    for name in uniq_names:
+        for p in merge_prefix:
+            if glob(f'ntuple/*/{p}--{name}--*.root'):
+                print(f'Merging prefix {p} of {name}...')
+                run_cmd(f'hadd -fk ntuple_merged/{p}--{name}.root ntuple/*/{p}--{name}--*.root', **kwargs)
