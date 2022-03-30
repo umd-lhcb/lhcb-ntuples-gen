@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sat Feb 26, 2022 at 11:49 PM -0500
+# Last Change: Wed Mar 30, 2022 at 12:47 PM -0400
 # NOTE: This is inspired by Greg Ciezarek's run 1 J/psi K fit
 
 import zfit
@@ -18,7 +18,7 @@ from pathlib import Path
 from uproot import concatenate, recreate
 from hepstats.splot import compute_sweights
 
-from pyTuplingUtils.utils import gen_histo
+from pyTuplingUtils.utils import gen_histo, gen_histo_stacked_baseline
 from pyTuplingUtils.plot import (
     plot_top_bot, plot_errorbar, plot_histo, plot_hlines,
     ax_add_args_errorbar, ax_add_args_histo, ax_add_args_hlines,
@@ -142,13 +142,6 @@ def gen_histo_from_pdf(pdf, bin_bdy):
     for left_bdy, right_bdy in zip(bin_bdy[:-1], bin_bdy[1:]):
         histo.append(pdf.ext_integrate([left_bdy, right_bdy])[0])
     return np.array(histo)
-
-
-def gen_histo_stacked_baseline(histos):
-    result = [np.zeros(histos[0].size)]
-    for idx in range(0, len(histos)-1):
-        result.append(result[idx]+histos[idx])
-    return result
 
 
 def plot(fit_var, fit_models,
