@@ -181,12 +181,16 @@ calculation:
     # which typically runs on step-1 ntuples (with friends) directly
     #
     mu_ProbNNpi: double; IF_VAR_EXISTS(cli_misid_study, mu_ProbNNpi)
+    mu_ProbNNk: double; IF_VAR_EXISTS(cli_misid_study, mu_ProbNNk)
+    mu_ProbNNp: double; IF_VAR_EXISTS(cli_misid_study, mu_ProbNNp)
+    mu_ProbNNe: double; IF_VAR_EXISTS(cli_misid_study, mu_ProbNNe)
     mu_ProbNNghost: double; IF_VAR_EXISTS(cli_misid_study, mu_ProbNNghost)
     mu_PIDK: double; IF_VAR_EXISTS(cli_misid_study, mu_PIDK)
     mu_PIDp: double; IF_VAR_EXISTS(cli_misid_study, mu_PIDp)
     mu_PIDe: double; IF_VAR_EXISTS(cli_misid_study, mu_PIDe)
     # Below are probably not needed, kept for now
     mu_PIDmu: double; IF_VAR_EXISTS(cli_misid_study, mu_PIDmu)
+    mu_ProbNNmu: double; IF_VAR_EXISTS(cli_misid_study, mu_ProbNNmu)
     mu_isMuon: bool; IF_VAR_EXISTS(cli_misid_study, mu_isMuon)
     # Binning variables
     mu_P: double; IF_VAR_EXISTS(cli_misid_study, mu_P)
