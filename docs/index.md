@@ -15,7 +15,7 @@ The ntuples[^1] generation is separated into:
    jobs to the GRID.
 2. **STEP 2**: Use `babymaker` frame work to do slimming, skimming, and additional
    calculation on previous ntuples, generating new ntuples.
-   Follow [these two](ntupling/installation/#install-nix) [section](ntupling/installation/#install-babymaker) for installation.
+   Follow [these two](ntupling/installation/#install-nix) [sections](ntupling/installation/#install-babymaker) for installation.
    A general guide for generating step-2 ntuple can be found [here](ntupling/step2_babymaker.md).
 
 !!! note
