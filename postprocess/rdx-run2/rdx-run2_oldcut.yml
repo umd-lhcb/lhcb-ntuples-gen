@@ -83,6 +83,7 @@ calculation:
     b_m: double; b_M; b0_M
     b_p: double; GEV(b_P); GEV(b0_P)
     b_pt: double; GEV(b_PT); GEV(b0_PT)
+    b_eta: double; ETA(b_P, b_PZ); ETA(b0_P, b0_PZ)
     # D*
     dst_m: double; dst_M
     dst_p: double; GEV(dst_P)
@@ -151,7 +152,7 @@ calculation:
         FD_TRANS(b_ENDVERTEX_X, b_OWNPV_X, b_ENDVERTEX_Y, b_OWNPV_Y);
         FD_TRANS(b0_ENDVERTEX_X, b0_OWNPV_X, b0_ENDVERTEX_Y, b0_OWNPV_Y)
     b_discard_mu_chi2: double; b_DISCARDMu_CHI2; b0_DISCARDMu_CHI2
-    b_pv_ndof: int; b_OWNPV_NDOF; b0_OWNPV_NDOF
+    b_ndof: int; b_OWNPV_NDOF; b0_OWNPV_NDOF
     #b_dira: double; b_DIRA_OWNPV; b0_DIRA_OWNPV
     # D*
     dst_endvtx_chi2ndof: double; dst_ENDVERTEX_CHI2 / dst_ENDVERTEX_NDOF
