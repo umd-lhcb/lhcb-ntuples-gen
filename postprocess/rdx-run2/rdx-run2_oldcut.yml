@@ -505,11 +505,13 @@ output:
             - is_ddx
             - is_strange
             - ham_ok
-            - "mu_PID*"
-            - "mu_ProbNN*"
-            - "mu_P*"
-            - mu_isMuon
+            - P
+            - ETA
             - nTracks
+            - IsMuon
+            - inMuonAcc
+            - "MC15TuneV1_ProbNN*"
+            - "DLL*"
     D0:
         input: TupleBminus/DecayTree
         mute:
@@ -525,11 +527,13 @@ output:
             - is_ddx
             - is_strange
             - ham_ok
-            - "mu_PID*"
-            - "mu_ProbNN*"
-            - "mu_P*"
-            - mu_isMuon
+            - P
+            - ETA
             - nTracks
+            - IsMuon
+            - inMuonAcc
+            - "MC15TuneV1_ProbNN*"
+            - "DLL*"
 
     Dst_ws_Mu:
         input: TupleB0WSMu/DecayTree
@@ -545,11 +549,13 @@ output:
             - is_ddx
             - is_strange
             - ham_ok
-            - "mu_PID*"
-            - "mu_ProbNN*"
-            - "mu_P*"
-            - mu_isMuon
+            - P
+            - ETA
             - nTracks
+            - IsMuon
+            - inMuonAcc
+            - "MC15TuneV1_ProbNN*"
+            - "DLL*"
     Dst_ws_Pi:
         input: TupleB0WSPi/DecayTree
         mute:
@@ -564,11 +570,13 @@ output:
             - is_ddx
             - is_strange
             - ham_ok
-            - "mu_PID*"
-            - "mu_ProbNN*"
-            - "mu_P*"
-            - mu_isMuon
+            - P
+            - ETA
             - nTracks
+            - IsMuon
+            - inMuonAcc
+            - "MC15TuneV1_ProbNN*"
+            - "DLL*"
     D0_ws_Mu:
         input: TupleBminusWS/DecayTree
         mute:
@@ -584,8 +592,10 @@ output:
             - is_ddx
             - is_strange
             - ham_ok
-            - "mu_PID*"
-            - "mu_ProbNN*"
-            - "mu_P*"
-            - mu_isMuon
+            - P
+            - ETA
             - nTracks
+            - IsMuon
+            - inMuonAcc
+            - "MC15TuneV1_ProbNN*"
+            - "DLL*"
