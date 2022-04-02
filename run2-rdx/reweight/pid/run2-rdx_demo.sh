@@ -16,5 +16,7 @@ lb-conda pidcalib pidcalib2.make_eff_hists \
     --output-dir pidcalib_output \
     --sample Turbo16 --magnet down \
     --particle ${PARTICLE} --pid-cut "${CUTS}" \
-    --bin-var Brunel_P --bin-var Brunel_ETA --bin-var nTracks_Brunel
-    #--max-files 3  # debug only
+    --cut "IPCHI2 > 45.0 & Brunel_TRACK_GHOSTPROB < 0.5" \
+    --verbose \
+    --bin-var Brunel_P --bin-var Brunel_ETA --bin-var nTracks_Brunel \
+    --max-files 3  # debug only
