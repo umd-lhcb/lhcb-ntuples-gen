@@ -2,13 +2,12 @@
 #
 # Description: Plot J/psi K variables before/after reweighting
 
-import numpy as np
 import mplhep as hep
 import uproot
 
 from pyTuplingUtils.utils import gen_histo
 from pyTuplingUtils.plot import (
-    plot_step, plot_histo,
+    plot_step, plot_histo, plot_top_bot, ensure_no_majortick_on_topmost,
     ax_add_args_step, ax_add_args_histo
 )
 
@@ -48,24 +47,29 @@ mcCut = globalCut(mcBrs)
 
 def plot(output, br, xLabel, dataRange, bins):
     suf = ' MeV' if br == 'b_pt' else ''
-    yLabel = f'Normalized / {(dataRange[1]-dataRange[0])/bins:.1f}{suf}'
+    yLabel = f'Norm. / {(dataRange[1]-dataRange[0])/bins:.1f}{suf}'
+
+    topPlotters = []
+    botPlotters = []
 
     hData, hBins = gen_histo(
         dataBrs[br][dataCut], bins, data_range=dataRange,
         weights=dataBrs['sw_sig'][dataCut], density=True)
     dataStyle = ax_add_args_histo('data (sweighted)', 'cornflowerblue')
-    fig, ax = plot_histo(
-        hBins, hData, dataStyle, title=r'$J/\psi K$ samples',
-        xlabel=xLabel, ylabel=yLabel, show_legend=False)
+    topPlotters.append(
+        lambda fig, ax, b=hBins, h=hData, add=dataStyle:
+        plot_histo(b, h, add, figure=fig, axis=ax, show_legend=False)
+    )
 
     wMcBefore = mcBrs['wpid']*mcBrs['wtrk']
     hMcBefore, _ = gen_histo(
         mcBrs[br][mcCut], bins, data_range=dataRange,
         weights=wMcBefore[mcCut], density=True)
     mcBeforeStyle = ax_add_args_step('MC (before)', 'black')
-    plot_step(
-        hBins, hMcBefore, mcBeforeStyle, show_legend=False,
-        figure=fig, axis=ax)
+    topPlotters.append(
+        lambda fig, ax, b=hBins, h=hMcBefore, add=mcBeforeStyle:
+        plot_step(b, h, add, figure=fig, axis=ax, show_legend=False)
+    )
 
     # w_mc_after = w_mc_before*mcBrs['wjk_occ']
     wMcAfter = mcBrs['w']
@@ -73,13 +77,25 @@ def plot(output, br, xLabel, dataRange, bins):
         mcBrs[br][mcCut], bins, data_range=dataRange,
         weights=wMcAfter[mcCut], density=True)
     mcAfterStyle = ax_add_args_step('MC (after)', 'crimson')
-    plot_step(
-        hBins, hMcAfter, mcAfterStyle, show_legend=False,
-        figure=fig, axis=ax)
+    topPlotters.append(
+        lambda fig, ax, b=hBins, h=hMcAfter, add=mcAfterStyle:
+        plot_step(b, h, add, figure=fig, axis=ax, show_legend=False)
+    )
 
-    ax.legend(numpoints=1, loc='best', frameon=True)
+    # Compute ratio
+    botPlotters.append(
+        lambda fig, ax, b=hBins, h=hMcBefore / hData, add=mcBeforeStyle:
+        plot_step(b, h, add, figure=fig, axis=ax, show_legend=False)
+    )
 
-    fig.set_tight_layout({'pad': 0.0})
+    fig, _, ax2 = plot_top_bot(
+        topPlotters, botPlotters,
+        title=r'$J/\psi K$ samples',
+        xlabel=xLabel, ax1_ylabel=yLabel, ax2_ylabel='MC / data',
+        legend_add_args={'numpoints': 1, 'loc': 'best', 'frameon': True}
+    )
+
+    ensure_no_majortick_on_topmost(ax2, 'linear', 0.6, 0.58, verbose=True)
     fig.savefig(output, transparent=True)
 
 
