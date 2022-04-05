@@ -96,7 +96,7 @@ def plot(output, br, xLabel, dataRange, bins):
     )
 
     ensure_no_majortick_on_topmost(ax2, 'linear', 0.6, 0.58, verbose=True)
-    fig.savefig(output, transparent=True)
+    fig.savefig(output, transparent=False)
 
 
 if __name__ == '__main__':
