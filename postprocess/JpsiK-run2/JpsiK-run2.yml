@@ -105,7 +105,7 @@ calculation:
     hlt2: bool; b_hlt2_dimuon_heavy_tos
 
     # Kinematic
-    pt_ok: bool; mu_pt > 0.5 && amu_pt > 0.5 && k_pt > 0.5
+    pt_ok: bool; mu_pt > 500.0 && amu_pt > 500.0 && k_pt > 500.0
     b_mass_ok: bool; b_m > 5150.0 && b_m < 5350.0  # fit range
     j_mass_ok: bool; j_mm > 3060.0 && j_mm < 3140.0
 
