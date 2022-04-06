@@ -13,6 +13,7 @@ for year in 15 16 17 18; do
                 --output-dir pidcalib_output \
                 --sample "Turbo${year}" --magnet ${polarity} \
                 --particle ${part} --pid-cut "${SAMPLES[${part}]}" \
+                --binning-file ./binning.json \
                 --bin-var Brunel_P --bin-var Brunel_ETA --bin-var nTracks_Brunel
         done
     done
