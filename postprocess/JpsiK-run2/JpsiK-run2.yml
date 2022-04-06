@@ -43,7 +43,9 @@ calculation:
     j_m: double; j_M
     j_mm: double; j_MM  # the sum of the four-vectors of the children as the 'parent'
     # K
+    k_p: double; k_P
     k_pt: double; k_PT
+    k_eta: double; ETA(k_P, k_PZ)
     # Mu
     mu_p: double; mu_P
     mu_pt: double; mu_PT
