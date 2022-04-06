@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Mar 10, 2022 at 03:49 AM -0500
+# Last Change: Wed Apr 06, 2022 at 12:55 PM -0400
 
 import numpy as np
 
@@ -127,6 +127,7 @@ if __name__ == '__main__':
             mc_wt_prev = get_weights(brs_mc, histos[idx-1], rules[idx-1])
             mc_wt_final = br_w_mc * mc_wt_prev
 
+        h_mc_no_wt = np.histogram2d(*rwt_brs_mc, r.bins, r.range)
         h_mc_raw = np.histogram2d(
             *rwt_brs_mc, r.bins, r.range, weights=mc_wt_final)
 
@@ -140,4 +141,5 @@ if __name__ == '__main__':
         # Save histograms
         ntp[f'{name}_data_raw'] = h_data_raw
         ntp[f'{name}_mc_raw'] = h_mc_raw
+        ntp[f'{name}_mc_no_wt'] = h_mc_no_wt
         ntp[name] = h_ratio
