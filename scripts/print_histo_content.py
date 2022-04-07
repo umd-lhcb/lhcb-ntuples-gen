@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Feb 23, 2022 at 12:58 AM -0500
+# Last Change: Thu Apr 07, 2022 at 02:33 PM -0400
 
 import sys
 import ROOT
@@ -26,7 +26,7 @@ def parse_input():
     parser.add_argument('-O', '--overunder', action='store_true',
                         help='print over and under flow bins.')
 
-    parser.add_argument('-f', '--format', default='pretty',
+    parser.add_argument('-f', '--format', default='github',
                         help='specify table format.')
 
     parser.add_argument('-m', '--multiline', action='store_true',
@@ -114,7 +114,7 @@ def get_th2_content(histo, overunder=True, multiline=False, transpose=False,
             err = get_val(histo, (lbl0, i), (lbl1, j), method='GetBinErrorLow')
 
             if str(val) != 'nan':
-                row.append('{:.2f} ± {:.2f}'.format(val, err))
+                row.append('{:.5f} ± {:.5f}'.format(val, err))
             else:
                 row.append(val)
 
@@ -151,7 +151,7 @@ def get_th3_content(histo, overunder=True, multiline=False, transpose=False,
                               method='GetBinErrorLow')
 
                 if str(val) != 'nan':
-                    row.append('{:.2f} ± {:.2f}'.format(val, err))
+                    row.append('{:.5f} ± {:.5f}'.format(val, err))
                 else:
                     row.append(val)
 
