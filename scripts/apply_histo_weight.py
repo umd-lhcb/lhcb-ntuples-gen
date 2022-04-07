@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sun Feb 27, 2022 at 11:36 PM -0500
+# Last Change: Thu Apr 07, 2022 at 12:43 AM -0400
 # Description: Apply weights from histos.
 
 import ROOT
@@ -160,7 +160,7 @@ Double_t GET_WEIGHT(Double_t x, TH1D* histo) {
   auto bin_idx = GET_BIN(x, histo);
   Double_t wt = histo->GetBinContent(bin_idx);
 
-  if (isnan(wt) || wt < 0) return -999.0;
+  if (isnan(wt) || wt < 0) return 0.0;
   return wt;
 }
 
@@ -168,7 +168,7 @@ Double_t GET_WEIGHT(Double_t x, Double_t y, TH2D* histo) {
   auto bin_idx = GET_BIN(x, y, histo);
   Double_t wt = histo->GetBinContent(bin_idx);
 
-  if (isnan(wt) || wt < 0) return -999.0;
+  if (isnan(wt) || wt < 0) return 0.0;
   return wt;
 }
 
@@ -176,7 +176,7 @@ Double_t GET_WEIGHT(Double_t x, Double_t y, Double_t z, TH3D* histo) {
   auto bin_idx = GET_BIN(x, y, z, histo);
   Double_t wt = histo->GetBinContent(bin_idx);
 
-  if (isnan(wt) || wt < 0) return -999.0;
+  if (isnan(wt) || wt < 0) return 0.0;
   return wt;
 }
 ''')
