@@ -1,4 +1,4 @@
-# Last Change: Thu Mar 10, 2022 at 12:19 PM -0500
+# Last Change: Thu Apr 07, 2022 at 11:47 AM -0400
 
 .PHONY: fit-2016 plot-init-2016 gen-weights-2016
 
@@ -27,6 +27,6 @@ gen-weights-2016:
 	./fit/gen_weights.py \
 		-d ./fit/fit_results/JpsiK-22_02_26_23_52-std-fit-2016/fit.root \
 		-m \
-			"../ntuples/0.9.6-2016_production/JpsiK-mc-step2/JpsiK--22_03_10--mc--12143001--2016--md.root" \
-			"../ntuples/0.9.6-2016_production/JpsiK-mc-step2/JpsiK--22_03_10--mc--12143001--2016--mu.root" \
+			"../ntuples/0.9.6-2016_production/JpsiK-mc-step2/JpsiK--22_04_07--mc--12143001--2016--md.root" \
+			"../ntuples/0.9.6-2016_production/JpsiK-mc-step2/JpsiK--22_04_07--mc--12143001--2016--mu.root" \
 		-o ./gen/run2-JpsiK-2016-md-B-ndof_ntracks__pt_eta.root
