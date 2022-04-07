@@ -126,7 +126,7 @@ calculation:
     ###########
     # Weights #
     ###########
-    wpid: double; wpid_k*wpid_mu*wpid_amu
+    wpid: "double; IF(wpid_k > 1.0, 1.0, wpid_k)*IF(wpid_mu > 1.0, 1.0, wpid_mu)*IF(wpid_amu > 1.0, 1.0, wpid_amu)"
     wtrk: double; wtrk_k*wtrk_mu*wtrk_amu
     wjk: double; wjk_occ*wjk_kin
     w: double; wpid*wtrk*wjk
