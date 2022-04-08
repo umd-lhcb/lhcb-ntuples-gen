@@ -7,11 +7,11 @@ config:
         histo_name: h_kinematic
         particle: B
         vars:
-            - b0_PT; b_PT
-            - ETA(b0_P, b0_PZ); ETA(b_P, b_PZ)
+            - GUARD(b0_PT, 0, 300000); GUARD(b_PT, 0, 300000)
+            - GUARD(ETA(b0_P, b0_PZ), 2, 5); GUARD(ETA(b_P, b_PZ), 2, 5)
     wjk_occ:
         histo_name: h_occupancy
         particle: B
         vars:
-            - b0_OWNPV_NDOF; b_OWNPV_NDOF
-            - nTracks
+            - GUARD(b0_OWNPV_NDOF, 0, 250); GUARD(b_OWNPV_NDOF, 0, 250)
+            - GUARD(nTracks, 0, 450)
