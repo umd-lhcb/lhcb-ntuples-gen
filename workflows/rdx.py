@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Mar 24, 2022 at 02:22 AM -0400
+# Last Change: Fri Apr 08, 2022 at 06:38 PM -0400
 
 import sys
 import os.path as op
@@ -122,6 +122,15 @@ def workflow_trk(
     return workflow_apply_weight(input_ntp, trk_histo_folder, trk_config,
                                  output_ntp, '--aux_trk', **kwargs)
 
+@smart_kwarg
+def workflow_jk(
+        input_ntp, output_ntp='jk.root',
+        trk_histo_folder='../run2-rdx/reweight/JpsiK/root-run2-JpsiK',
+        trk_config='../run2-rdx/reweight/JpsiK/run2-JpsiK.yml',
+        **kwargs):
+    return workflow_apply_weight(input_ntp, trk_histo_folder, trk_config,
+                                 output_ntp, '--aux_jk', **kwargs)
+
 
 #######################
 # Workflows: wrappers #
@@ -200,7 +209,8 @@ def workflow_data(inputs, input_yml, job_name='data', use_ubdt=True, date=None,
 def workflow_mc(inputs, input_yml, job_name='mc', date=None,
                 **kwargs):
     aux_workflows = [
-        workflow_hammer, workflow_trigger_emu, workflow_pid, workflow_trk
+        workflow_hammer, workflow_trigger_emu,
+        workflow_pid, workflow_trk, workflow_jk,
     ]
     subworkdirs, workdir = workflow_prep_dir(job_name, inputs, **kwargs)
     chdir(workdir)
