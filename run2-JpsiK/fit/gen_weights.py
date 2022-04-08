@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Apr 07, 2022 at 02:53 PM -0400
+# Last Change: Thu Apr 07, 2022 at 11:31 PM -0400
 
 import numpy as np
 
@@ -134,6 +134,7 @@ if __name__ == '__main__':
         # Normalize the histograms because we only care about shapes
         h_tmp = (h_data_raw[0] / h_mc_raw[0]) * (
             np.sum(h_mc_raw[0]) / np.sum(h_data_raw[0]))
+        h_tmp_histo = (h_tmp, *h_data_raw[1:])
         h_ratio_histo = np.nan_to_num(h_tmp, nan=0.0, posinf=0.0, neginf=0.0)
         h_ratio = (h_ratio_histo, *h_data_raw[1:])
         histos[idx] = h_ratio
@@ -142,4 +143,5 @@ if __name__ == '__main__':
         ntp[f'{name}_data_raw'] = h_data_raw
         ntp[f'{name}_mc_raw'] = h_mc_raw
         ntp[f'{name}_mc_no_wt'] = h_mc_no_wt
+        ntp[f'{name}_nan_kept'] = h_tmp_histo
         ntp[name] = h_ratio
