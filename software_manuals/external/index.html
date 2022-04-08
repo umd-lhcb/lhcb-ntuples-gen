@@ -588,6 +588,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#notes-on-pidcalib2" class="md-nav__link">
+    Notes on pidcalib2
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1026,6 +1033,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#notes-on-pidcalib2" class="md-nav__link">
+    Notes on pidcalib2
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1078,6 +1092,22 @@ with<sup id="fnref:2"><a class="footnote-ref" href="#fn:2">2</a></sup>:</p>
 <div class="highlight"><pre><span></span><code>lb-run DaVinci/&lt;dv_version&gt; dump_particle_properties | tee ParticleTable.txt
 </code></pre></div>
 <p>Alternatively, the latest mass table is available at <a href="https://gitlab.cern.ch/lhcb-conddb/DDDB/-/blob/master/param/ParticleTable.txt">cern-gitlab</a></p>
+<h2 id="notes-on-pidcalib2">Notes on <code>pidcalib2</code></h2>
+<p>A guide to <code>pidcalib2</code> can be found <a href="https://gitlab.cern.ch/lhcb-rta/pidcalib2">here</a>.</p>
+<div class="admonition example">
+<p class="admonition-title">usage of <code>--cut</code> and <code>--pid-cut</code></p>
+<p>Say <code>pidcalib2</code> is invoked like this:</p>
+<div class="highlight"><pre><span></span><code>lb-conda pidcalib pidcalib2.make_eff_hists \
+    --cut &quot;A&quot; --cut &quot;B&quot; \
+    --pid-cut &quot;PA&quot; --pid-cut &quot;PB&quot;
+</code></pre></div>
+<p>Then 2 histograms will be generated, with the following efficiencies:</p>
+<ol>
+<li><span class="arithmatex">\(\epsilon_1 = \frac{N(\text{A &amp; B &amp; PA})}{N(\text{A &amp; B})}\)</span></li>
+<li><span class="arithmatex">\(\epsilon_2 = \frac{N(\text{A &amp; B &amp; PB})}{N(\text{A &amp; B})}\)</span></li>
+</ol>
+<p>Note that all cuts supplied in all <code>--cut</code> flags are all applied first.</p>
+</div>
 <div class="footnote">
 <hr />
 <ol>
