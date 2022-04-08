@@ -17,11 +17,12 @@ from pyTuplingUtils.plot import (
 #################
 
 mcNtps = [
-    '../../ntuples/0.9.6-2016_production/JpsiK-mc-step2/JpsiK--22_03_10--mc--12143001--2016--md.root:tree',
-    '../../ntuples/0.9.6-2016_production/JpsiK-mc-step2/JpsiK--22_03_10--mc--12143001--2016--mu.root:tree',
+    '../../ntuples/0.9.6-2016_production/JpsiK-mc-step2/JpsiK--22_04_07--mc--12143001--2016--md.root:tree',
+    '../../ntuples/0.9.6-2016_production/JpsiK-mc-step2/JpsiK--22_04_07--mc--12143001--2016--mu.root:tree',
 ]
 
 dataNtps = '../../run2-JpsiK/fit/fit_results/JpsiK-22_02_26_23_52-std-fit-2016/fit.root:tree'
+
 
 #########
 # Plots #
