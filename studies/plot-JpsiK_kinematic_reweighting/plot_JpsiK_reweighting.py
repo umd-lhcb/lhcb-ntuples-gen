@@ -7,7 +7,8 @@ import uproot
 
 from pyTuplingUtils.utils import gen_histo
 from pyTuplingUtils.plot import (
-    plot_step, plot_histo, plot_top_bot, ensure_no_majortick_on_topmost,
+    plot_step, plot_histo, plot_top_bot, plot_top,
+    ensure_no_majortick_on_topmost,
     ax_add_args_step, ax_add_args_histo
 )
 
@@ -46,7 +47,7 @@ dataCut = globalCut(dataBrs)
 mcCut = globalCut(mcBrs)
 
 
-def plot(output, br, xLabel, dataRange, bins):
+def plot(output, br, xLabel, dataRange, bins, ratios=False):
     suf = ' MeV' if br == 'b_pt' else ''
     yLabel = f'Norm. / {(dataRange[1]-dataRange[0])/bins:.1f}{suf}'
 
@@ -89,14 +90,22 @@ def plot(output, br, xLabel, dataRange, bins):
         plot_step(b, h, add, figure=fig, axis=ax, show_legend=False)
     )
 
-    fig, _, ax2 = plot_top_bot(
-        topPlotters, botPlotters,
-        title=r'$J/\psi K$ samples',
-        xlabel=xLabel, ax1_ylabel=yLabel, ax2_ylabel='MC / data',
-        legend_add_args={'numpoints': 1, 'loc': 'best', 'frameon': True}
-    )
+    title = r'$J/\psi K$ samples'
+    if ratios:
+        fig, _, ax2 = plot_top_bot(
+            topPlotters, botPlotters, title=title,
+            xlabel=xLabel, ax1_ylabel=yLabel, ax2_ylabel='MC / data',
+            legend_add_args={'numpoints': 1, 'loc': 'best', 'frameon': True}
+        )
+        ensure_no_majortick_on_topmost(ax2, 'linear', 0.6, 0.58, verbose=True)
 
-    ensure_no_majortick_on_topmost(ax2, 'linear', 0.6, 0.58, verbose=True)
+    else:
+        fig, *_ = plot_top(
+            topPlotters, title=title,
+            xlabel=xLabel, ylabel=yLabel,
+            legend_add_args={'numpoints': 1, 'loc': 'best', 'frameon': True}
+        )
+
     fig.savefig(output, transparent=False)
 
 
