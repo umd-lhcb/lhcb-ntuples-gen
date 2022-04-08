@@ -2,6 +2,7 @@
 
 - LHCb [DeveloperKit](https://lhcb.github.io/DevelopKit/)
 
+
 ## Trigger Configuration Key (TCK)
 
 - This [TWiki](https://twiki.cern.ch/twiki/bin/view/LHCb/TCK#TCKsh) explains
@@ -38,3 +39,24 @@ Alternatively, the latest mass table is available at [cern-gitlab](https://gitla
 
 
 [^2]: Suggested by Phoebe Hamilton.
+
+
+## Notes on `pidcalib2`
+
+A guide to `pidcalib2` can be found [here](https://gitlab.cern.ch/lhcb-rta/pidcalib2).
+
+!!! example "usage of `--cut` and `--pid-cut`"
+    Say `pidcalib2` is invoked like this:
+
+    ```
+    lb-conda pidcalib pidcalib2.make_eff_hists \
+        --cut "A" --cut "B" \
+        --pid-cut "PA" --pid-cut "PB"
+    ```
+
+    Then 2 histograms will be generated, with the following efficiencies:
+
+    1. $\epsilon_1 = \frac{N(\text{A & B & PA})}{N(\text{A & B})}$
+    2. $\epsilon_2 = \frac{N(\text{A & B & PB})}{N(\text{A & B})}$
+
+    Note that all cuts supplied in all `--cut` flags are all applied first.
