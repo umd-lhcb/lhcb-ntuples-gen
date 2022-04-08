@@ -425,9 +425,10 @@ calculation:
     wtrg_l0_tis: ^double; b0_l0_global_tis_emu; b_l0_global_tis_emu
     wtrg: float; d0_l0_hadron_tos_emu + wtrg_l0_tis - d0_l0_hadron_tos_emu*wtrg_l0_tis
     wtrk: double; wtrk_k*wtrk_pi*wtrk_mu*wtrk_spi; wtrk_k*wtrk_pi*wtrk_mu
+    wjk: double; wjk_kin*wjk_occ
 
     # Weight representing the global cut (BEFORE applying the skim cuts)
-    w: double; wpid*wtrg*wff*wtrk
+    w: double; wpid*wtrg*wff*wtrk*wjk
     # Skim weights, including the 'w'
     wiso: double; w*wskim_iso*skim_global_ok; TO_TYPE(is_iso, 1.0)
     wdd: double; w*wskim_dd*skim_global_ok; TO_TYPE(is_dd, 1.0)

@@ -1,0 +1,17 @@
+trees:
+    - TupleB0/DecayTree
+    - TupleBminus/DecayTree
+
+config:
+    wjk_kin:
+        histo_name: h_kinematic
+        particle: B
+        vars:
+            - b0_PT; b_PT
+            - ETA(b0_P, b0_PZ); ETA(b_P, b_PZ)
+    wjk_occ:
+        histo_name: h_occupancy
+        particle: B
+        vars:
+            - b0_OWNPV_NDOF; b_OWNPV_NDOF
+            - nTracks
