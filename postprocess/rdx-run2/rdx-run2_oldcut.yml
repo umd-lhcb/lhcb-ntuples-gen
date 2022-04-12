@@ -98,18 +98,30 @@ calculation:
     d0_dst_veto_deltam_stub: ^double; cli_no_dst_veto; d0_dst_veto_deltam; 100.0
     # K
     k_p: double; GEV(k_P)
+    k_px: double; GEV(k_PX)
+    k_py: double; GEV(k_PY)
+    k_pz: double; GEV(k_PZ)
     k_pt: double; GEV(k_PT)
     k_eta: double; ETA(k_P, k_PZ)
     # Pi
     pi_p: double; GEV(pi_P)
+    pi_px: double; GEV(pi_PX)
+    pi_py: double; GEV(pi_PY)
+    pi_pz: double; GEV(pi_PZ)
     pi_pt: double; GEV(pi_PT)
     pi_eta: double; ETA(pi_P, pi_PZ)
     # slow Pi
     spi_p: double; GEV(spi_P)
+    spi_px: double; GEV(spi_PX)
+    spi_py: double; GEV(spi_PY)
+    spi_pz: double; GEV(spi_PZ)
     spi_pt: double; GEV(spi_PT)
     spi_eta: double; ETA(spi_P, spi_PZ)
     # Mu
     mu_p: double; GEV(mu_P)
+    mu_px: double; GEV(mu_PX)
+    mu_py: double; GEV(mu_PY)
+    mu_pz: double; GEV(mu_PZ)
     mu_pt: double; GEV(mu_PT)
     mu_eta: double; ETA(mu_P, mu_PZ)
 
