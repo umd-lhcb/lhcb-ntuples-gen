@@ -32,11 +32,17 @@ The set up above also installs in the `lib/python/` folder `pyBabyMaker`,
 Each commit of `lhcb-ntuples-gen` points to specific commits of these packages.
 Thus, every time you pull new code in `lhcb-ntuples-gen`, you need to make sure
 you have the appropriate commits of the other packages installed with
+
+!!! note
+    Don't forget to type `nix develop` before typing `make install-dep`,
+    if you have `nix` installed!
+
 ```
 git pull
 git submodule update --init --recursive
 make install-dep
 ```
+
 
 ## Install `docker` to run `DaVinci` locally
 
