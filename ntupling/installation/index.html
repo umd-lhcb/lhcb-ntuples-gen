@@ -1089,11 +1089,16 @@ with symbolic links. You typically will download individual files as you need th
 <code>pyTuplingUtils</code>, and other packages that are needed.
 Each commit of <code>lhcb-ntuples-gen</code> points to specific commits of these packages.
 Thus, every time you pull new code in <code>lhcb-ntuples-gen</code>, you need to make sure
-you have the appropriate commits of the other packages installed with
+you have the appropriate commits of the other packages installed with</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Don't forget to type <code>nix develop</code> before typing <code>make install-dep</code>,
+if you have <code>nix</code> installed!</p>
+</div>
 <div class="highlight"><pre><span></span><code>git pull
 git submodule update --init --recursive
 make install-dep
-</code></pre></div></p>
+</code></pre></div>
 <h2 id="install-docker-to-run-davinci-locally">Install <code>docker</code> to run <code>DaVinci</code> locally</h2>
 <p>We use <code>docker</code> to run a pre-built <code>DaVinci</code> image locally. To install
 <code>docker</code>:</p>
