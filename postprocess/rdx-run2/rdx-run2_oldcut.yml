@@ -394,6 +394,7 @@ calculation:
     is_dd: bool; skim_global_ok && is_dd_loose
     is_2os: bool; skim_global_ok && is_2os_loose
     is_1os: bool; skim_global_ok && is_1os_loose
+    is_prot: bool; skim_global_ok && is_prot_loose
 
     is_iso_loose: bool; FLAG_ISO(true, iso_bdt1)
     is_dd_loose: >-
@@ -429,6 +430,16 @@ calculation:
         iso_nnk1,
         d0_id
         )
+    is_prot_loose: >-
+        bool;
+        FLAG_PROT(
+        true,
+        iso_bdt1, iso_bdt2, iso_type1,
+        iso_p1, iso_pt1,
+        iso_chrg1,
+        iso_nnp1,
+        d0_id
+        )
 
     ###########
     # Weights #
@@ -447,6 +458,7 @@ calculation:
     wdd: double; w*wskim_dd*skim_global_ok; TO_TYPE(is_dd, 1.0)
     w2os: double; w*wskim_2os*skim_global_ok; TO_TYPE(is_2os, 1.0)
     w1os: double; w*wskim_1os*skim_global_ok; TO_TYPE(is_1os, 1.0)
+    wprot: double; TO_TYPE(is_prot, 1.0)
 
     # Skims, but in weights, for MC
     wskim_iso: double; WT_ISO(true, iso_bdt1)

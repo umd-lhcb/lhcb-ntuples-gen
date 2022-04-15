@@ -1,6 +1,6 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Sat Feb 12, 2022 at 04:27 PM -0500
+// Last Change: Fri Apr 15, 2022 at 11:29 AM -0400
 // NOTE: All kinematic variables are in MeV
 
 #pragma once
@@ -143,6 +143,7 @@ Double_t WT_1OS(Bool_t add_flags,
   return prefac * iso_nnk1_wt;
 }
 
+// clang-format off
 Bool_t FLAG_PROT(Bool_t add_flags,
                 Double_t iso_bdt1, Double_t iso_bdt2,
                 Int_t iso_type1,
