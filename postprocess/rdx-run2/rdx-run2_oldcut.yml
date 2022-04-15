@@ -458,7 +458,7 @@ calculation:
     wdd: double; w*wskim_dd*skim_global_ok; TO_TYPE(is_dd, 1.0)
     w2os: double; w*wskim_2os*skim_global_ok; TO_TYPE(is_2os, 1.0)
     w1os: double; w*wskim_1os*skim_global_ok; TO_TYPE(is_1os, 1.0)
-    wprot: double; TO_TYPE(is_prot, 1.0)
+    wprot: double; TO_TYPE(is_prot, 1.0)  # TODO: Add PIDCalib weights for MC
 
     # Skims, but in weights, for MC
     wskim_iso: double; WT_ISO(true, iso_bdt1)
