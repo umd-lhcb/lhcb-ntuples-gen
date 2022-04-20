@@ -233,25 +233,25 @@ calculation:
     mu_PX: double; IF_VAR_EXISTS(cli_misid_study, mu_PX)
     mu_PY: double; IF_VAR_EXISTS(cli_misid_study, mu_PY)
     mu_PZ: double; IF_VAR_EXISTS(cli_misid_study, mu_PZ)
+    FitVar_El: double; IF_VAR_EXISTS(cli_misid_study, FitVar_El)
+    FitVar_q2: double; IF_VAR_EXISTS(cli_misid_study, FitVar_q2)
+    FitVar_Mmiss2: double; IF_VAR_EXISTS(cli_misid_study, FitVar_Mmiss2)
     b_M: double; IF_VAR_EXISTS(cli_misid_study, b_M)
     b_PE: double; IF_VAR_EXISTS(cli_misid_study, b_PE)
     b_PX: double; IF_VAR_EXISTS(cli_misid_study, b_PX)
     b_PY: double; IF_VAR_EXISTS(cli_misid_study, b_PY)
     b_PZ: double; IF_VAR_EXISTS(cli_misid_study, b_PZ)
-    b0_M: double; IF_VAR_EXISTS(cli_misid_study, b0_M)
-    b0_PE: double; IF_VAR_EXISTS(cli_misid_study, b0_PE)
-    b0_PX: double; IF_VAR_EXISTS(cli_misid_study, b0_PX)
-    b0_PY: double; IF_VAR_EXISTS(cli_misid_study, b0_PY)
-    b0_PZ: double; IF_VAR_EXISTS(cli_misid_study, b0_PZ)
-    FitVar_El: double; IF_VAR_EXISTS(cli_misid_study, FitVar_El)
-    FitVar_q2: double; IF_VAR_EXISTS(cli_misid_study, FitVar_q2)
-    FitVar_Mmiss2: double; IF_VAR_EXISTS(cli_misid_study, FitVar_Mmiss2)
     b_ENDVERTEX_X: double; IF_VAR_EXISTS(cli_misid_study, b_ENDVERTEX_X)
     b_ENDVERTEX_Y: double; IF_VAR_EXISTS(cli_misid_study, b_ENDVERTEX_Y)
     b_ENDVERTEX_Z: double; IF_VAR_EXISTS(cli_misid_study, b_ENDVERTEX_Z)
     b_OWNPV_X: double; IF_VAR_EXISTS(cli_misid_study, b_OWNPV_X)
     b_OWNPV_Y: double; IF_VAR_EXISTS(cli_misid_study, b_OWNPV_Y)
     b_OWNPV_Z: double; IF_VAR_EXISTS(cli_misid_study, b_OWNPV_Z)
+    b0_M: double; IF_VAR_EXISTS(cli_misid_study, b0_M)
+    b0_PE: double; IF_VAR_EXISTS(cli_misid_study, b0_PE)
+    b0_PX: double; IF_VAR_EXISTS(cli_misid_study, b0_PX)
+    b0_PY: double; IF_VAR_EXISTS(cli_misid_study, b0_PY)
+    b0_PZ: double; IF_VAR_EXISTS(cli_misid_study, b0_PZ)
     b0_ENDVERTEX_X: double; IF_VAR_EXISTS(cli_misid_study, b0_ENDVERTEX_X)
     b0_ENDVERTEX_Y: double; IF_VAR_EXISTS(cli_misid_study, b0_ENDVERTEX_Y)
     b0_ENDVERTEX_Z: double; IF_VAR_EXISTS(cli_misid_study, b0_ENDVERTEX_Z)
@@ -562,6 +562,29 @@ one_cand_only:
     enable: true
     branch: calculation_prs_in
 
+global_mute:
+    - ".*_true.*"
+    - "w.*"
+    - "mc_.*"
+    - "ff_.*"
+    - truthmatch
+    - is_ddx
+    - is_strange
+    - ham_ok
+    - P
+    - ETA
+    - nTracks
+    - IsMuon
+    - InMuonAcc
+    - "MC15TuneV1_ProbNN.*"
+    - "DLL.*"
+    - "b_M"
+    - "b_P.*"
+    - "b?_OWNPV*"
+    - "b?_ENDVERTEX.*"
+    - "FitVar_.*"
+    - ".*_M"
+
 output:
     Dst:
         input: TupleB0/DecayTree
@@ -569,25 +592,6 @@ output:
             - "d0_dst_veto_deltam"
             - "d0_dst_veto_ok"
             - "d0mu_ok"
-            - ".*_true.*"
-            - "w.*"
-            - "mc_.*"
-            - "ff_.*"
-            - truthmatch
-            - is_ddx
-            - is_strange
-            - ham_ok
-            - P
-            - ETA
-            - nTracks
-            - IsMuon
-            - InMuonAcc
-            - "MC15TuneV1_ProbNN*"
-            - "DLL*"
-            - "b_M"
-            - "b_P*"
-            - "b_OWNPV*"
-            - "b_ENDVERTEX*"
     D0:
         input: TupleBminus/DecayTree
         mute:
@@ -595,25 +599,6 @@ output:
             - "^dst_.*"
             - "trk_spi"
             - "dstmu_ok"
-            - ".*_true.*"
-            - "w.*"
-            - "mc_.*"
-            - "ff_.*"
-            - truthmatch
-            - is_ddx
-            - is_strange
-            - ham_ok
-            - P
-            - ETA
-            - nTracks
-            - IsMuon
-            - InMuonAcc
-            - "MC15TuneV1_ProbNN*"
-            - "DLL*"
-            - "b0_M"
-            - "b0_P*"
-            - "b0_OWNPV*"
-            - "b0_ENDVERTEX*"
 
     Dst_ws_Mu:
         input: TupleB0WSMu/DecayTree
@@ -621,50 +606,12 @@ output:
             - "d0_dst_veto_deltam"
             - "d0_dst_veto_ok"
             - "d0mu_ok"
-            - ".*_true.*"
-            - "w.*"
-            - "mc_.*"
-            - "ff_.*"
-            - truthmatch
-            - is_ddx
-            - is_strange
-            - ham_ok
-            - P
-            - ETA
-            - nTracks
-            - IsMuon
-            - InMuonAcc
-            - "MC15TuneV1_ProbNN*"
-            - "DLL*"
-            - "b_M"
-            - "b_P*"
-            - "b_OWNPV*"
-            - "b_ENDVERTEX*"
     Dst_ws_Pi:
         input: TupleB0WSPi/DecayTree
         mute:
             - "d0_dst_veto_deltam"
             - "d0_dst_veto_ok"
             - "d0mu_ok"
-            - ".*_true.*"
-            - "w.*"
-            - "mc_.*"
-            - "ff_.*"
-            - truthmatch
-            - is_ddx
-            - is_strange
-            - ham_ok
-            - P
-            - ETA
-            - nTracks
-            - IsMuon
-            - InMuonAcc
-            - "MC15TuneV1_ProbNN*"
-            - "DLL*"
-            - "b_M"
-            - "b_P*"
-            - "b_OWNPV*"
-            - "b_ENDVERTEX*"
     D0_ws_Mu:
         input: TupleBminusWS/DecayTree
         mute:
@@ -672,22 +619,3 @@ output:
             - "^dst_.*"
             - "trk_spi"
             - "dstmu_ok"
-            - ".*_true.*"
-            - "w.*"
-            - "mc_.*"
-            - "ff_.*"
-            - truthmatch
-            - is_ddx
-            - is_strange
-            - ham_ok
-            - P
-            - ETA
-            - nTracks
-            - IsMuon
-            - InMuonAcc
-            - "MC15TuneV1_ProbNN*"
-            - "DLL*"
-            - "b0_M"
-            - "b0_P*"
-            - "b0_OWNPV*"
-            - "b0_ENDVERTEX*"
