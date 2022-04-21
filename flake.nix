@@ -38,7 +38,7 @@
             pkgs.root
 
             # UBDT adder
-            pkgs.addUBDTBranchWrapped
+            pkgs.AddUBDTBranchWrapped
 
             # HAMMER reweighter
             pkgs.hammer-reweight

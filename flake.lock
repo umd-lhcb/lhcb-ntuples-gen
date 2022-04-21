@@ -3,21 +3,23 @@
     "MuonBDTPid": {
       "inputs": {
         "flake-utils": [
+          "MuonBDTPid",
           "root-curated",
           "flake-utils"
         ],
         "nixpkgs": [
+          "MuonBDTPid",
           "root-curated",
           "nixpkgs"
         ],
         "root-curated": "root-curated"
       },
       "locked": {
-        "lastModified": 1638325519,
-        "narHash": "sha256-BWi0vESPmY2mB/XuhtjmJXcagOqCB3q7SUtBlaX1Zhw=",
+        "lastModified": 1650516894,
+        "narHash": "sha256-DrD89VGU4Nl4th/Zd0vO4adRW9bh1tHfSQkzMslwrKE=",
         "owner": "umd-lhcb",
         "repo": "MuonBDTPid",
-        "rev": "7492092cea86ce0b675fe77c018cb2e8b6330c7e",
+        "rev": "c04d4428c67b70e922dfdc0c0ab189ae2444880a",
         "type": "github"
       },
       "original": {
@@ -29,11 +31,11 @@
     "flake-compat": {
       "flake": false,
       "locked": {
-        "lastModified": 1641205782,
-        "narHash": "sha256-4jY7RCWUoZ9cKD8co0/4tFARpWB+57+r1bLLvXNJliY=",
+        "lastModified": 1650374568,
+        "narHash": "sha256-Z+s0J8/r907g149rllvwhb4pKi8Wam5ij0st8PwAh+E=",
         "owner": "edolstra",
         "repo": "flake-compat",
-        "rev": "b7547d3eed6f32d06102ead8991ec52ab0a4f1a7",
+        "rev": "b4a34015c698c7793d592d66adbab377907a2be8",
         "type": "github"
       },
       "original": {
@@ -90,10 +92,12 @@
     "hammer-reweight": {
       "inputs": {
         "flake-utils": [
+          "hammer-reweight",
           "root-curated",
           "flake-utils"
         ],
         "nixpkgs": [
+          "hammer-reweight",
           "root-curated",
           "nixpkgs"
         ],
@@ -180,11 +184,11 @@
         "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "lastModified": 1631207108,
-        "narHash": "sha256-SE7c+GlbgL34NDhyYgViK9cxCk9iX7qP38TKNPvASlE=",
+        "lastModified": 1646378496,
+        "narHash": "sha256-lug+y6YGPY7tAtbK2zTQcRLE/fSJqzm2btuTmt/l/Fs=",
         "owner": "umd-lhcb",
         "repo": "root-curated",
-        "rev": "22e6efbec2d76a7be6f19d50f9406a31bb21eaca",
+        "rev": "db13c39962a1c4335f177e308981cbeb0daa9db9",
         "type": "github"
       },
       "original": {
@@ -218,11 +222,11 @@
         "nixpkgs": "nixpkgs_3"
       },
       "locked": {
-        "lastModified": 1644372529,
-        "narHash": "sha256-K4VBg6+8B3MbOYVOAKgjFcCR7/2T90NAEAonBv2mfoo=",
+        "lastModified": 1646378496,
+        "narHash": "sha256-lug+y6YGPY7tAtbK2zTQcRLE/fSJqzm2btuTmt/l/Fs=",
         "owner": "umd-lhcb",
         "repo": "root-curated",
-        "rev": "e9f41d7b75657f7dd4a224a3e66769345d3285c0",
+        "rev": "db13c39962a1c4335f177e308981cbeb0daa9db9",
         "type": "github"
       },
       "original": {
