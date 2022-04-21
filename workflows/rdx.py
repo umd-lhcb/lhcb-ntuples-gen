@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri Apr 15, 2022 at 12:51 AM -0400
+# Last Change: Thu Apr 21, 2022 at 01:09 AM -0400
 
 import sys
 import os.path as op
@@ -76,8 +76,7 @@ def rdx_mc_blocked_trees(decay_mode):
 def workflow_ubdt(input_ntp, output_ntp='ubdt.root',
                   trees=['TupleB0/DecayTree', 'TupleBminus/DecayTree'],
                   **kwargs):
-    weight_file = abs_path('../run2-rdx/weights_run2_no_cut_ubdt.xml')
-    cmd = f'addUBDTBranch {input_ntp} mu_isMuonTight {weight_file} {output_ntp} {" ".join(trees)}'
+    cmd = f'AddUBDTBranch -i {input_ntp} -o {output_ntp} -t {",".join(trees)}'
     return workflow_cached_ntuple(
         cmd, input_ntp, output_ntp, '--aux_ubdt', **kwargs)
 
