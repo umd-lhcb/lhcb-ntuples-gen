@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Mar 01, 2022 at 01:54 AM -0500
+# Last Change: Thu Apr 21, 2022 at 01:48 PM -0400
 #
 # Description: Definitions of selection and reconstruction procedures for run 2
 #              R(D(*)). For more thorough comments, take a look at:
@@ -437,6 +437,7 @@ sel_Mu_ws_combo = Selection(
 algo_Dst = CombineParticles('MyDst')
 algo_Dst.DecayDescriptor = '[D*(2010)+ -> D0 pi+]cc'
 
+# FIXME: Remove the ghost probability cut maybe?
 algo_Dst.DaughtersCuts = {
     'pi+': '(MIPCHI2DV(PRIMARY) > 0.0) & (TRGHOSTPROB < 0.25)'
 }
