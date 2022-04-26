@@ -175,7 +175,7 @@ calculation:
         FD_TRANS(b0_ENDVERTEX_X, b0_OWNPV_X, b0_ENDVERTEX_Y, b0_OWNPV_Y)
     b_discard_mu_chi2: double; b_DISCARDMu_CHI2; b0_DISCARDMu_CHI2
     b_ndof: int; b_OWNPV_NDOF; b0_OWNPV_NDOF
-    #b_dira: double; b_DIRA_OWNPV; b0_DIRA_OWNPV
+    b_dira: double; b_DIRA_OWNPV; b0_DIRA_OWNPV
     # D*
     dst_endvtx_chi2ndof: double; dst_ENDVERTEX_CHI2 / dst_ENDVERTEX_NDOF
     # D0
