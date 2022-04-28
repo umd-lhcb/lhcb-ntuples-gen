@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Apr 21, 2022 at 01:09 AM -0400
+# Last Change: Wed Apr 27, 2022 at 11:46 PM -0400
 
 import sys
 import os.path as op
@@ -17,7 +17,7 @@ from utils import (
     run_cmd, abs_path, ensure_dir, ensure_file,
     aggregate_fltr, aggregate_output, check_ntp_name, find_decay_mode,
     load_yaml_db, smart_kwarg,
-    generate_step2_name,
+    generate_step2_name, find_year,
     workflow_compile_cpp, workflow_cached_ntuple, workflow_apply_weight,
     workflow_prep_dir, workflow_split_base
 )
@@ -130,6 +130,20 @@ def workflow_jk(
     return workflow_apply_weight(input_ntp, trk_histo_folder, trk_config,
                                  output_ntp, '--aux_jk', **kwargs)
 
+@smart_kwarg
+def workflow_misid(
+        input_ntp, output_ntp='misid.root',
+        misid_aux_ntp='../run2-rdx/reweight/misid/histos/dif.root',
+        misid_config='../run2-rdx/reweight/misid/run2-rdx.yml',
+        **kwargs):
+    aux_ntp = abs_path(misid_aux_ntp)
+    config = abs_path(misid_config)
+    year = find_year(input_ntp)
+
+    cmd = f'ApplyMisIDWeight -a -i {input_ntp} -o {output_ntp} -x {aux_ntp} -c {config} -Y {year}'
+    return workflow_cached_ntuple(
+        cmd, input_ntp, output_ntp, '--aux_misid', **kwargs)
+
 
 #######################
 # Workflows: wrappers #
@@ -180,9 +194,13 @@ def workflow_single_ntuple(input_ntp, input_yml, output_suffix, aux_workflows,
 # Workflows: main #
 ###################
 
-def workflow_data(inputs, input_yml, job_name='data', use_ubdt=True, date=None,
+def workflow_data(inputs, input_yml, job_name='data', use_ubdt=True,
+                  use_misid=False, date=None,
                   **kwargs):
     aux_workflows = [workflow_ubdt] if use_ubdt else []
+    if use_misid:
+        aux_workflows.append(workflow_misid)
+
     subworkdirs, workdir = workflow_prep_dir(job_name, inputs, **kwargs)
     chdir(workdir)
 
@@ -267,7 +285,8 @@ JOBS = {
         workflow_split,
         '../ntuples/0.9.6-2016_production/Dst_D0-mu_misid',
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
-        cli_vars={'cli_misid': 'true'}
+        cli_vars={'cli_misid': 'true'},
+        use_misid=True
     ),
     'rdx-ntuple-run2-mc': partial(
         workflow_mc,
@@ -289,6 +308,13 @@ JOBS = {
         cli_vars={'cli_misid_study': 'true'}
     ),
     # Run 2 debug
+    'rdx-ntuple-run2-mu_misid-demo': partial(
+        workflow_data,
+        '../ntuples/0.9.6-2016_production/Dst_D0-mu_misid/Dst_D0--22_03_01--mu_misid--LHCb_Collision16_Beam6500GeV-VeloClosed-MagDown_Real_Data_Reco16_Stripping28r2_90000000_SEMILEPTONIC.DST/Dst_D0--22_03_01--mu_misid--LHCb_Collision16_Beam6500GeV-VeloClosed-MagDown_Real_Data_Reco16_Stripping28r2_90000000_SEMILEPTONIC.DST--000-dv.root',
+        '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
+        cli_vars={'cli_misid': 'true'},
+        use_misid=True
+    ),
     'rdx-ntuple-run2-misid_study-demo': partial(
         workflow_data,
         '../ntuples/0.9.6-2016_production/Dst_D0-mu_misid/Dst_D0--22_03_01--mu_misid--LHCb_Collision16_Beam6500GeV-VeloClosed-MagDown_Real_Data_Reco16_Stripping28r2_90000000_SEMILEPTONIC.DST/Dst_D0--22_03_01--mu_misid--LHCb_Collision16_Beam6500GeV-VeloClosed-MagDown_Real_Data_Reco16_Stripping28r2_90000000_SEMILEPTONIC.DST--000-dv.root',
