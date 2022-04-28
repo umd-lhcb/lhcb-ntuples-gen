@@ -14,6 +14,7 @@ keep:
     - "^wtrk*"
     - "^wff"
     - ".*_tos_emu$"
+    - "^is_misid_*"
 
 rename:
     # General
@@ -72,9 +73,17 @@ calculation:
     # Fit variables #
     #################
     # Make all fit variables in GeV
-    el: double; GEV(FitVar_El)
     mm2: double; GEV2(FitVar_Mmiss2)
     q2: double; GEV2(FitVar_q2)
+    el: double; GEV(FitVar_El)
+    # K,pi-smeared fit variables
+    # we'll always have them to make template building eaiser
+    mm2_smr_pi: double; mm2_smr_pi; -100.0
+    q2_smr_pi: double; q2_smr_pi; -100.0
+    el_smr_pi: double; el_smr_pi; -100.0
+    mm2_smr_k: double; mm2_smr_k; -100.0
+    q2_smr_k: double; q2_smr_k; -100.0
+    el_smr_k: double; el_smr_k; -100.0
 
     #######################
     # Kinematic variables #
@@ -485,6 +494,12 @@ calculation:
     wtrg: float; d0_l0_hadron_tos_emu + wtrg_l0_tis - d0_l0_hadron_tos_emu*wtrg_l0_tis
     wtrk: double; wtrk_k*wtrk_pi*wtrk_mu*wtrk_spi; wtrk_k*wtrk_pi*wtrk_mu
     wjk: double; wjk_kin*wjk_occ
+
+    # misID weights. ALWAYS present for eaiser histogram building
+    wmis: double; wmis_norm*skim_global_ok + wmis_usb*skim_global_usb; 1.0  # this is typically unused
+    wmis_smr_k: double; wmis_norm_smr_k*skim_global_ok + wmis_usb_smr_k*skim_global_usb; 0.0
+    wmis_smr_pi: double; wmis_norm_smr_pi*skim_global_ok + wmis_usb_smr_pi*skim_global_usb; 0.0
+    wmis_no_smr: double; wmis_norm_no_smr*skim_global_ok + wmis_usb_no_smr*skim_global_usb; 1.0
 
     # Weight representing the global cut (BEFORE applying the skim cuts)
     w: double; wpid*wtrg*wff*wtrk*wjk
