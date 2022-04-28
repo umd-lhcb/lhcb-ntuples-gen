@@ -424,6 +424,7 @@ calculation:
     # Skims #
     #########
     skim_global_ok: bool; dx_m_ok && b_m_ok && in_fit_range  # might require 'mu_ubdt_ok' later
+    skim_global_usb: bool; dx_m_ok && b_m_sb
     is_iso: bool; skim_global_ok && is_iso_loose
     is_dd: bool; skim_global_ok && is_dd_loose
     is_2os: bool; skim_global_ok && is_2os_loose

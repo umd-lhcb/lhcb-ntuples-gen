@@ -1,0 +1,76 @@
+# cuts for each tagged species, used by ALL
+tags:
+    pi: >-
+        MC15TuneV1_ProbNNpi > 0.1 &
+        DLLK < 0.0 &
+        DLLp < 0.0 &
+        DLLe < 2.0 &
+        MC15TuneV1_ProbNNghost < 0.25
+    k: >-
+        MC15TuneV1_ProbNNk > 0.1 &
+        DLLK > 0.0 &
+        (DLLp - DLLK) < 0.0 &
+        (DLLe - DLLK) < -2.0 &
+        MC15TuneV1_ProbNNghost < 0.25
+    p: >-
+        MC15TuneV1_ProbNNp > 0.1 &
+        DLLp > 0.0 &
+        (DLLp - DLLK) > 2.0 &
+        (DLLe - DLLp) < -2.0 &
+        MC15TuneV1_ProbNNghost < 0.25
+    e: >-
+        DLLe > 2.0 &
+        (DLLe - DLLK) > -2.0 &
+        (DLLe - DLLp) > -2.0 &
+        MC15TuneV1_ProbNNghost < 0.25
+    g: "!pi & !k & !p & !e"  # ghost/uncategoried
+
+
+# Used by (A)
+weight_brs:
+    2016:
+        # for step-1 ntuple
+        - prefix: D0
+          file: "./histos/unfolded.root"
+          tree: TupleBminus/DecayTree
+          name: wmis_norm
+        - prefix: D0_usb
+          file: "./histos/unfolded.root"
+          tree: TupleBminus/DecayTree
+          name: wmis_usb
+
+        - prefix: D0_ws_Mu
+          file: "./histos/unfolded.root"
+          tree: TupleBminusWS/DecayTree
+          name: wmis_norm
+        - prefix: D0_ws_Mu_usb
+          file: "./histos/unfolded.root"
+          tree: TupleBminusWS/DecayTree
+          name: wmis_usb
+
+        - prefix: Dst
+          file: "./histos/unfolded.root"
+          tree: TupleB0/DecayTree
+          name: wmis_norm
+        - prefix: Dst_usb
+          file: "./histos/unfolded.root"
+          tree: TupleB0/DecayTree
+          name: wmis_usb
+
+        - prefix: Dst_ws_Mu
+          file: "./histos/unfolded.root"
+          tree: TupleB0WSMu/DecayTree
+          name: wmis_norm
+        - prefix: Dst_ws_Mu_usb
+          file: "./histos/unfolded.root"
+          tree: TupleB0WSMu/DecayTree
+          name: wmis_usb
+
+        - prefix: Dst_ws_Pi
+          file: "./histos/unfolded.root"
+          tree: TupleB0WSPi/DecayTree
+          name: wmis_norm
+        - prefix: Dst_ws_Pi_usb
+          file: "./histos/unfolded.root"
+          tree: TupleB0WSPi/DecayTree
+          name: wmis_usb
