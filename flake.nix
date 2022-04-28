@@ -8,6 +8,7 @@
 
     MuonBDTPid.url = "github:umd-lhcb/MuonBDTPid";
     hammer-reweight.url = "github:umd-lhcb/hammer-reweight";
+    misid-unfold.url = "github:umd-lhcb/misid-unfold";
 
     flake-compat = {
       url = "github:edolstra/flake-compat";
@@ -15,7 +16,7 @@
     };
   };
 
-  outputs = { self, nixpkgs, flake-utils, root-curated, MuonBDTPid, hammer-reweight, ... }:
+  outputs = { self, nixpkgs, flake-utils, root-curated, MuonBDTPid, hammer-reweight, misid-unfold, ... }:
     flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = import nixpkgs {
@@ -25,6 +26,7 @@
             root-curated.overlay
             MuonBDTPid.overlay
             hammer-reweight.overlay
+            misid-unfold.overlay
           ];
         };
         python = pkgs.python3;
@@ -42,6 +44,9 @@
 
             # HAMMER reweighter
             pkgs.hammer-reweight
+
+            # misiD weight adder
+            pkgs.misid-unfold
 
             # Linters
             pylint
