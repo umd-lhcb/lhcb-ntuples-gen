@@ -497,9 +497,9 @@ calculation:
 
     # misID weights. ALWAYS present for eaiser histogram building
     wmis: double; wmis_norm*skim_global_ok + wmis_usb*skim_global_usb; 1.0  # this is typically unused
-    wmis_smr_k: double; wmis_norm_smr_k*skim_global_ok + wmis_usb_smr_k*skim_global_usb; 0.0
-    wmis_smr_pi: double; wmis_norm_smr_pi*skim_global_ok + wmis_usb_smr_pi*skim_global_usb; 0.0
-    wmis_no_smr: double; wmis_norm_no_smr*skim_global_ok + wmis_usb_no_smr*skim_global_usb; 1.0
+    wmis_smr_k: double; wmis*(wmis_norm_smr_k*skim_global_ok + wmis_usb_smr_k*skim_global_usb); 0.0
+    wmis_smr_pi: double; wmis*(wmis_norm_smr_pi*skim_global_ok + wmis_usb_smr_pi*skim_global_usb); 0.0
+    wmis_no_smr: double; wmis*(wmis_norm_no_smr*skim_global_ok + wmis_usb_no_smr*skim_global_usb); 1.0
 
     # Weight representing the global cut (BEFORE applying the skim cuts)
     w: double; wpid*wtrg*wff*wtrk*wjk
