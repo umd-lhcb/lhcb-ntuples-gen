@@ -68,7 +68,7 @@ j.backend.settings['BannedSites'] = [
     'LCG.Beijing.cn'
 ]
 
-files_per_job = FILES_PER_JOB_MC if 'mc' in reco_type else FILES_PER_JOB_DATA
+files_per_job = FILES_PER_JOB_MC if 'MC' in lfn else FILES_PER_JOB_DATA
 
 j.splitter = SplitByFiles(filesPerJob=files_per_job)
 j.outputfiles = [LocalFile('*.root')]
