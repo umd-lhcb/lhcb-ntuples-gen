@@ -588,6 +588,10 @@ global_mute:
     - "b?_ENDVERTEX.*"
     - "FitVar_.*"
     - ".*_M"
+    - "iso_nn.*"
+    - ".*_is_.*"
+    - ".*_pid_.*"
+    - "is_(iso|dd|1os|2os|prot)(_loose)?"
 
 output:
     Dst:
