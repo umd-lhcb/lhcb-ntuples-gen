@@ -1,4 +1,4 @@
-// Author: Yipeng Sun, Svede Braun
+// Author: Yipeng Sun, Svende Braun
 // License: BSD 2-clause
 // Last Change: Sat Feb 12, 2022 at 04:32 PM -0500
 

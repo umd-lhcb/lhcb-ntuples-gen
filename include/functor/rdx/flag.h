@@ -35,26 +35,26 @@ std::vector<std::vector<Bool_t> > MC_FLAGS(
   // threetwo      [3][1]
   // threethree    [3][2]
 
-  if (mu_mom_key == d0_mom_key && mu_mom_key > 0) flags[0][0] = true;
-  if (mu_gd_mom_key == d0_mom_key && d0_mom_key > 0) flags[0][1] = true;
+  if (mu_mom_key == d0_mom_key && mu_mom_key > 0) flags[0][0] = true;//onezero
+  if (mu_gd_mom_key == d0_mom_key && d0_mom_key > 0) flags[0][1] = true;//twozero
   if (mu_gd_gd_mom_key == d0_mom_key && mu_gd_gd_mom_key > 0)
-    flags[0][2] = true;
+    flags[0][2] = true;//threezero
 
-  if (mu_mom_key == dst_mom_key && mu_mom_key > 0) flags[1][0] = true;
-  if (mu_mom_key == dst_gd_mom_key && mu_mom_key > 0) flags[1][1] = true;
-  if (mu_mom_key == dst_gd_gd_mom_key && mu_mom_key > 0) flags[1][2] = true;
+  if (mu_mom_key == dst_mom_key && mu_mom_key > 0) flags[1][0] = true;//oneone
+  if (mu_mom_key == dst_gd_mom_key && mu_mom_key > 0) flags[1][1] = true;//onetwo
+  if (mu_mom_key == dst_gd_gd_mom_key && mu_mom_key > 0) flags[1][2] = true;//onethree
 
-  if (mu_gd_mom_key == dst_mom_key && mu_gd_mom_key > 0) flags[2][0] = true;
-  if (mu_gd_mom_key == dst_gd_mom_key && mu_gd_mom_key > 0) flags[2][1] = true;
+  if (mu_gd_mom_key == dst_mom_key && mu_gd_mom_key > 0) flags[2][0] = true;//twoone
+  if (mu_gd_mom_key == dst_gd_mom_key && mu_gd_mom_key > 0) flags[2][1] = true;//twotwo
   if (mu_gd_mom_key == dst_gd_gd_mom_key && mu_gd_mom_key > 0)
-    flags[2][2] = true;
+    flags[2][2] = true;//twothree
 
   if (mu_gd_gd_mom_key == dst_mom_key && mu_gd_gd_mom_key > 0)
-    flags[3][0] = true;
+    flags[3][0] = true;//threeone
   if (mu_gd_gd_mom_key == dst_gd_mom_key && mu_gd_gd_mom_key > 0)
-    flags[3][1] = true;
+    flags[3][1] = true;//threetwo
   if (mu_gd_gd_mom_key == dst_gd_gd_mom_key && mu_gd_gd_mom_key > 0)
-    flags[3][2] = true;
+    flags[3][2] = true;//threethree
 
   return flags;
 }
