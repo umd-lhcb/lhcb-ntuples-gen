@@ -1,6 +1,6 @@
 # Author: Phoebe Hamilton, Manuel Franco Sevilla, Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Apr 21, 2022 at 01:48 PM -0400
+# Last Change: Mon May 16, 2022 at 04:02 PM -0400
 #
 # Description: Definitions of selection and reconstruction procedures for run 2
 #              R(D(*)). For more thorough comments, take a look at:
@@ -308,13 +308,17 @@ if has_flag('BARE'):
     algo_Bminus.MotherCut = '(VFASPF(VCHI2/VDOF) < 12.0) & (BPVDIRA > 0.99)'
 
 
+if has_flag('GHOST'):
+    algo_Bminus.DaughtersCuts['mu-'] = '(ALL)'  # NO cut on Muon
+
+
 # Add PID cuts for real data w/ std reconstruction
 if not DaVinci().Simulation and not has_flag('MU_MISID', 'BARE'):
     algo_Bminus.DaughtersCuts['mu-'] = \
         '(PIDmu > -200.0) &' + algo_Bminus.DaughtersCuts['mu-']
 
 
-if DaVinci().Simulation:
+if DaVinci().Simulation and not has_flag('GHOST'):
     algo_Bminus.Preambulo += algo_mc_match_preambulo
     algo_Bminus.DaughtersCuts['mu-'] = \
         "(mcMatch('[^mu+]CC')) &" + algo_Bminus.DaughtersCuts['mu-']
