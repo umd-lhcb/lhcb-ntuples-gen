@@ -1,6 +1,6 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Sat Feb 12, 2022 at 04:26 PM -0500
+// Last Change: Fri May 20, 2022 at 03:03 AM -0400
 
 #pragma once
 
@@ -133,11 +133,16 @@ std::vector<std::vector<int> > COMBINATION(int tot_size, int comb_size,
   return result;
 }
 
-// Vector construction /////////////////////////////////////////////////////////
+// Vector-related //////////////////////////////////////////////////////////////
 
 template <typename T, typename... ARGS>
 std::vector<T> BUILD_VEC(T const& arg0, ARGS const&... args) {
   return std::vector<T>{{arg0, args...}};
+}
+
+template <typename T>
+T EXTRACT_ELEM(std::vector<T> vec, size_t idx) {
+  return vec[idx];
 }
 
 // Type coercion ///////////////////////////////////////////////////////////////

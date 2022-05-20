@@ -282,11 +282,13 @@ calculation:
     # Inputs to Dalitz-inspired reweighting
     dd_mass: >-
         double;
-        MINV(b0_TrueHadron_D0_PX, b0_TrueHadron_D0_PY, b0_TrueHadron_D0_PZ, b0_TrueHadron_D0_PE,
-             b0_TrueHadron_D1_PX, b0_TrueHadron_D1_PY, b0_TrueHadron_D1_PZ, b0_TrueHadron_D1_PE
+        MINV(
+        b0_TrueHadron_D0_PX, b0_TrueHadron_D0_PY, b0_TrueHadron_D0_PZ, b0_TrueHadron_D0_PE,
+        b0_TrueHadron_D1_PX, b0_TrueHadron_D1_PY, b0_TrueHadron_D1_PZ, b0_TrueHadron_D1_PE
         );
-        MINV(b_TrueHadron_D0_PX, b_TrueHadron_D0_PY, b_TrueHadron_D0_PZ, b_TrueHadron_D0_PE,
-             b_TrueHadron_D1_PX, b_TrueHadron_D1_PY, b_TrueHadron_D1_PZ, b_TrueHadron_D1_PE
+        MINV(
+        b_TrueHadron_D0_PX, b_TrueHadron_D0_PY, b_TrueHadron_D0_PZ, b_TrueHadron_D0_PE,
+        b_TrueHadron_D1_PX, b_TrueHadron_D1_PY, b_TrueHadron_D1_PZ, b_TrueHadron_D1_PE
         )
     mx_mass: >-
         double;
@@ -317,10 +319,8 @@ calculation:
         d0_TRUEP_X, d0_TRUEP_Y, d0_TRUEP_Z, d0_TRUEP_E, d0_MC_MOTHER_ID,
         b_TRUEP_X, b_TRUEP_Y, b_TRUEP_Z, b_TRUEP_E
         )
-#     should be first entry [0] of FLAG_SEL_DD_MASS_D0/DST veector
-    dd_mass_phoebe: double; 0
-#     should be second entry [1] of FLAG_SEL_DD_MASS_D0/DST veector
-    mx_mass_phoebe: double; 1
+    dd_mass_phoebe: double; EXTRACT_ELEM(pair_dd_mass_mx_mass_phoebe, 0)
+    mx_mass_phoebe: double; EXTRACT_ELEM(pair_dd_mass_mx_mass_phoebe, 1)
 
     ################################
     # Selection flags, MC-specific #
