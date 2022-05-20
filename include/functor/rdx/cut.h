@@ -1,6 +1,6 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Fri May 20, 2022 at 01:54 AM -0400
+// Last Change: Fri May 20, 2022 at 02:14 AM -0400
 // NOTE: All kinematic variables are in MeV
 
 #pragma once
@@ -278,7 +278,7 @@ Bool_t FLAG_SEL_DST_MASS(Double_t dst_m, Double_t d0_m) {
 
 // m(DD) selection /////////////////////////////////////////////////////////////
 
-// Dst reconstruction
+// D* reconstruction
 vector<Double_t> FLAG_SEL_DD_MASS_DST(
     Double_t mu_mom_px, Double_t mu_mom_py, Double_t mu_mom_pz,
     Double_t mu_mom_pe, Double_t dst_px, Double_t dst_py, Double_t dst_pz,
