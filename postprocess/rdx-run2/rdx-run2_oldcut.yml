@@ -282,11 +282,11 @@ calculation:
     # Inputs to Dalitz-inspired reweighting
     dd_mass: >-
         double;
-        MINV(
+        MINV2(
         b0_TrueHadron_D0_PX, b0_TrueHadron_D0_PY, b0_TrueHadron_D0_PZ, b0_TrueHadron_D0_PE,
         b0_TrueHadron_D1_PX, b0_TrueHadron_D1_PY, b0_TrueHadron_D1_PZ, b0_TrueHadron_D1_PE
         );
-        MINV(
+        MINV2(
         b_TrueHadron_D0_PX, b_TrueHadron_D0_PY, b_TrueHadron_D0_PZ, b_TrueHadron_D0_PE,
         b_TrueHadron_D1_PX, b_TrueHadron_D1_PY, b_TrueHadron_D1_PZ, b_TrueHadron_D1_PE
         )
@@ -306,7 +306,7 @@ calculation:
         ^vector<double>;
         DD_MX_MASS_DST(
         mu_MC_MOTHER_TRUEPX, mu_MC_MOTHER_TRUEPY, mu_MC_MOTHER_TRUEPZ, mu_MC_MOTHER_TRUEPE,
-        dst_TRUEP_E, dst_TRUEP_X, dst_TRUEP_Y, dst_TRUEP_Z,
+        dst_TRUEP_X, dst_TRUEP_Y, dst_TRUEP_Z, dst_TRUEP_E,
         mu_MC_GD_MOTHER_ID,
         mu_MC_GD_MOTHER_TRUEPX, mu_MC_GD_MOTHER_TRUEPY, mu_MC_GD_MOTHER_TRUEPZ, mu_MC_GD_MOTHER_TRUEPE,
         b0_TRUEP_X, b0_TRUEP_Y, b0_TRUEP_Z, b0_TRUEP_E
@@ -545,10 +545,12 @@ calculation:
     wdal_phoebe_qm: double; EXTRACT_ELEM(tmp_dal_phoebe, 3)
 
     # K/K* variation weights (these weight up/down the K* events)
+    is_kst: bool; IF(mx_mass > 620, true, false)
     wkst_m: double; IF(mx_mass > 620, 0.0, 1.0)
     wkst_p: double; IF(mx_mass > 620, 2.0, 1.0)
-    wkst_phoebe_m: bool; IF(mx_mass_phoebe > 620, 0.0, 1.0)
-    wkst_phoebe_p: bool; IF(mx_mass_phoebe > 620, 2.0, 1.0)
+    is_kst_phoebe: bool; IF(mx_mass_phoebe > 620, true, false)
+    wkst_phoebe_m: double; IF(mx_mass_phoebe > 620, 0.0, 1.0)
+    wkst_phoebe_p: double; IF(mx_mass_phoebe > 620, 2.0, 1.0)
 
     wpid_ubdt: double; 1.0  # UBDT weight not implemented yet
     wpid: double; wpid_k*wpid_pi*wpid_mu*wpid_ubdt  # UBDT included as a placeholder

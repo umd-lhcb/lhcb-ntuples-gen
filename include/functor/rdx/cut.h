@@ -309,7 +309,7 @@ vector<Double_t> WT_DALITZ(Double_t mDD, int b_ID) {
     if (ABS(b_ID) == 511) {
       min = 2010 + 1864.8;
     }  // if B0 use Dst mass
-    if (ABS(b_ID) == 512) {
+    if (ABS(b_ID) == 521) {
       min = 1864.8 + 1864.8;
     }  // if Bu use D0 mass
     Double_t max  = 5280 - 489.;

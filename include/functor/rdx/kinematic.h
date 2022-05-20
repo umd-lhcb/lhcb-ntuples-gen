@@ -36,6 +36,17 @@ Double_t MINV(Double_t pi_px, Double_t pi_py, Double_t pi_pz, Double_t pi_pe,
   return dst_iso_m;
 }
 
+Double_t MINV2(Double_t pi_px, Double_t pi_py, Double_t pi_pz, Double_t pi_pe,
+              Double_t dst_px, Double_t dst_py, Double_t dst_pz,
+              Double_t dst_pe) {
+  auto v4_pi     = ROOT::Math::PxPyPzEVector(pi_px, pi_py, pi_pz, pi_pe);
+  auto v4_dst    = ROOT::Math::PxPyPzEVector(dst_px, dst_py, dst_pz, dst_pe);
+  auto v4_dst_pi = v4_pi + v4_dst;
+  auto dst_iso_m = v4_dst_pi.M2();
+  return dst_iso_m;
+}
+
+
 Double_t ISO_DELTAM(Double_t pi_px, Double_t pi_py, Double_t pi_pz,
                     Double_t pi_pe, Double_t dst_px, Double_t dst_py,
                     Double_t dst_pz, Double_t dst_pe, Double_t dst_m) {
