@@ -302,25 +302,25 @@ calculation:
         b0_TrueHadron_D0_PX, b0_TrueHadron_D0_PY, b0_TrueHadron_D0_PZ,b0_TrueHadron_D0_PE,
         b0_TrueHadron_D1_PX, b0_TrueHadron_D1_PY, b0_TrueHadron_D1_PZ,b0_TrueHadron_D1_PE
         )
-    pair_dd_mass_mx_mass_phoebe: >-
+    pair_dd_mx_mass_phoebe: >-
         ^vector<double>;
-        FLAG_SEL_DD_MASS_DST(
-        mu_MC_MOTHER_TRUEP_X, mu_MC_MOTHER_TRUEP_Y, mu_MC_MOTHER_TRUEP_Z, mu_MC_MOTHER_TRUEP_E,
+        DD_MX_MASS_DST(
+        mu_MC_MOTHER_TRUEPX, mu_MC_MOTHER_TRUEPY, mu_MC_MOTHER_TRUEPZ, mu_MC_MOTHER_TRUEPE,
         dst_TRUEP_E, dst_TRUEP_X, dst_TRUEP_Y, dst_TRUEP_Z,
         mu_MC_GD_MOTHER_ID,
-        mu_MC_GD_MOTHER_TRUEP_X, mu_MC_GD_MOTHER_TRUEP_Y, mu_MC_GD_MOTHER_TRUEP_Z, mu_MC_GD_MOTHER_TRUEP_E,
+        mu_MC_GD_MOTHER_TRUEPX, mu_MC_GD_MOTHER_TRUEPY, mu_MC_GD_MOTHER_TRUEPZ, mu_MC_GD_MOTHER_TRUEPE,
         b0_TRUEP_X, b0_TRUEP_Y, b0_TRUEP_Z, b0_TRUEP_E
         );
-        FLAG_SEL_DD_MASS_D0(
-        mu_MC_MOTHER_TRUEP_X, mu_MC_MOTHER_TRUEP_Y, mu_MC_MOTHER_TRUEP_Z, mu_MC_MOTHER_TRUEP_E,
-        d0_MC_MOTHER_TRUEP_X, d0_MC_MOTHER_TRUEP_Y, d0_MC_MOTHER_TRUEP_Z, d0_MC_MOTHER_TRUEP_E,
+        DD_MX_MASS_D0(
+        mu_MC_MOTHER_TRUEPX, mu_MC_MOTHER_TRUEPY, mu_MC_MOTHER_TRUEPZ, mu_MC_MOTHER_TRUEPE,
+        d0_MC_MOTHER_TRUEPX, d0_MC_MOTHER_TRUEPY, d0_MC_MOTHER_TRUEPZ, d0_MC_MOTHER_TRUEPE,
         mu_MC_GD_MOTHER_ID,
-        mu_MC_GD_MOTHER_TRUEP_X, mu_MC_GD_MOTHER_TRUEP_Y, mu_MC_GD_MOTHER_TRUEP_Z, mu_MC_GD_MOTHER_TRUEP_E,
+        mu_MC_GD_MOTHER_TRUEPX, mu_MC_GD_MOTHER_TRUEPY, mu_MC_GD_MOTHER_TRUEPZ, mu_MC_GD_MOTHER_TRUEPE,
         d0_TRUEP_X, d0_TRUEP_Y, d0_TRUEP_Z, d0_TRUEP_E, d0_MC_MOTHER_ID,
         b_TRUEP_X, b_TRUEP_Y, b_TRUEP_Z, b_TRUEP_E
         )
-    dd_mass_phoebe: double; EXTRACT_ELEM(pair_dd_mass_mx_mass_phoebe, 0)
-    mx_mass_phoebe: double; EXTRACT_ELEM(pair_dd_mass_mx_mass_phoebe, 1)
+    dd_mass_phoebe: double; EXTRACT_ELEM(pair_dd_mx_mass_phoebe, 0)
+    mx_mass_phoebe: double; EXTRACT_ELEM(pair_dd_mx_mass_phoebe, 1)
 
     ################################
     # Selection flags, MC-specific #
@@ -530,14 +530,25 @@ calculation:
     ###########
     # Weights #
     ###########
-    # Various weights for DD MC only
-    wbr_dd: double; IF(is_ddx, WT_DD_BF(mu_MC_MOTHER_ID), 1.0)  # branching fraction weights
-    wdalitz: double; WT_DALITZ(dd_mass, b0_TRUEID); WT_DALITZ(dd_mass, b_TRUEID)
-    wdalitz_phoebe: double; WT_DALITZ(dd_mass_phoebe, b0_TRUEID); WT_DALITZ(dd_mass_phoebe, b_TRUEID)
+    # Branching fraction weights for DD MC
+    wbr_dd: double; IF(is_ddx, WT_DD_BF(mu_MC_MOTHER_ID), 1.0)
+    # Dalitz-inspired variational weights for DD MC
+    tmp_dal: ^vector<double>; WT_DALITZ(dd_mass, b0_TRUEID); WT_DALITZ(dd_mass, b_TRUEID)
+    tmp_dal_phoebe: ^vector<double>; WT_DALITZ(dd_mass_phoebe, b0_TRUEID); WT_DALITZ(dd_mass_phoebe, b_TRUEID)
+    wdal_lp: double; EXTRACT_ELEM(tmp_dal, 0)
+    wdal_lm: double; EXTRACT_ELEM(tmp_dal, 1)
+    wdal_qp: double; EXTRACT_ELEM(tmp_dal, 2)
+    wdal_qm: double; EXTRACT_ELEM(tmp_dal, 3)
+    wdal_phoebe_lp: double; EXTRACT_ELEM(tmp_dal_phoebe, 0)
+    wdal_phoebe_lm: double; EXTRACT_ELEM(tmp_dal_phoebe, 1)
+    wdal_phoebe_qp: double; EXTRACT_ELEM(tmp_dal_phoebe, 2)
+    wdal_phoebe_qm: double; EXTRACT_ELEM(tmp_dal_phoebe, 3)
 
     # K/K* variation weights (these weight up/down the K* events)
-    wKstvsK: bool; IF(mX_mass>620, true, false)
-    wKstvsK_phoebe: bool; IF(mX_mass_phoebe>620, true, false)
+    wkst_m: double; IF(mx_mass > 620, 0.0, 1.0)
+    wkst_p: double; IF(mx_mass > 620, 2.0, 1.0)
+    wkst_phoebe_m: bool; IF(mx_mass_phoebe > 620, 0.0, 1.0)
+    wkst_phoebe_p: bool; IF(mx_mass_phoebe > 620, 2.0, 1.0)
 
     wpid_ubdt: double; 1.0  # UBDT weight not implemented yet
     wpid: double; wpid_k*wpid_pi*wpid_mu*wpid_ubdt  # UBDT included as a placeholder

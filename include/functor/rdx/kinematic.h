@@ -1,6 +1,6 @@
 // Author: Yipeng Sun, Svende Braun
 // License: BSD 2-clause
-// Last Change: Fri May 20, 2022 at 02:40 AM -0400
+// Last Change: Fri May 20, 2022 at 03:09 AM -0400
 
 #pragma once
 
@@ -66,13 +66,15 @@ Double_t MX_MASS(Double_t b_px, Double_t b_py, Double_t b_pz, Double_t b_pe,
   return (TBp - TD0p - TD1p).M();
 }
 
-// D* reconstruction
-vector<Double_t> FLAG_SEL_DD_MASS_DST(
-    Double_t mu_mom_px, Double_t mu_mom_py, Double_t mu_mom_pz,
-    Double_t mu_mom_pe, Double_t dst_px, Double_t dst_py, Double_t dst_pz,
-    Double_t dst_pe, int mu_gdmom_id, Double_t mu_gdmom_px,
-    Double_t mu_gdmom_py, Double_t mu_gdmom_pz, Double_t mu_gdmom_pe,
-    Double_t b_px, Double_t b_py, Double_t b_pz, Double_t b_pe) {
+// Computing mDD and mDX (mDX for K/K* differentiation), D*
+vector<Double_t> DD_MX_MASS_DST(Double_t mu_mom_px, Double_t mu_mom_py,
+                                Double_t mu_mom_pz, Double_t mu_mom_pe,
+                                Double_t dst_px, Double_t dst_py,
+                                Double_t dst_pz, Double_t dst_pe,
+                                int mu_gdmom_id, Double_t mu_gdmom_px,
+                                Double_t mu_gdmom_py, Double_t mu_gdmom_pz,
+                                Double_t mu_gdmom_pe, Double_t b_px,
+                                Double_t b_py, Double_t b_pz, Double_t b_pe) {
   auto Tmumomp =
       ROOT::Math::PxPyPzEVector(mu_mom_px, mu_mom_py, mu_mom_pz, mu_mom_pe);
   auto     TDstp = ROOT::Math::PxPyPzEVector(dst_px, dst_py, dst_pz, dst_pe);
@@ -91,8 +93,8 @@ vector<Double_t> FLAG_SEL_DD_MASS_DST(
   return {mDD, mX_DD};
 }
 
-// D0 reconstruction
-vector<Double_t> FLAG_SEL_DD_MASS_D0(
+// Computing mDD and mDX (mDX for K/K* differentiation), D0
+vector<Double_t> DD_MX_MASS_D0(
     Double_t mu_mom_px, Double_t mu_mom_py, Double_t mu_mom_pz,
     Double_t mu_mom_pe, Double_t d_mom_px, Double_t d_mom_py, Double_t d_mom_pz,
     Double_t d_mom_pe, int mu_gdmom_id, Double_t mu_gdmom_px,
