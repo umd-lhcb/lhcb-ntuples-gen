@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Mar 24, 2022 at 02:20 AM -0400
+# Last Change: Fri May 20, 2022 at 11:59 AM -0400
 
 import re
 import yaml
@@ -11,7 +11,7 @@ import sys
 import fnmatch
 import os.path as op  # NOTE: Can't use pathlib because that doesn't handle symbolic link well
 
-from os import makedirs, chdir, system
+from os import makedirs, chdir, system, readlink
 from datetime import datetime
 from subprocess import check_output
 from shutil import rmtree
@@ -66,22 +66,23 @@ def ensure_dir(path, delete_if_exist=True, make_absolute=True, **kwargs):
     return path
 
 
-def ensure_file(path, dir_replacement={'ntuples/': 'ntuples_ext/'}):
+def download_file(path, fail_on_download_error=True):
+    print(f'{path} not present locally, downloading with git-annex...')
+    ret_val = run_cmd(f'git annex get {path}')
+
+    if ret_val:
+        print(f'Failed to download: {path}')
+
+        if fail_on_download_error:
+            sys.exit(255)
+
+
+def ensure_file(path):
     if Path(path).exists():
         return path
-    if dir_replacement:
-        print(f"{path} doesn't exist, try substitutions...")
-
-    # NOTE: Here we anticipate that on our server we'll link a globally checked-
-    #       out lhcb-ntuples-gen/ntuples to a user-specific project as
-    #       'ntuples_ext'
-    if dir_replacement:
-        for src, tgt in dir_replacement.items():
-            path = path.replace(src, tgt)
-
-        return ensure_file(path, None)
-
-    raise ValueError(f'File not exist: {path}.')
+    if not op.exists(path):
+        download_file(path)
+        return path
 
 
 def find_all_input(inputs,
@@ -94,7 +95,7 @@ def find_all_input(inputs,
         inputs = [abs_path(p) for p in inputs]
 
     for f in inputs:
-        if op.isfile(f):
+        if op.islink(f) or op.isfile(f):  # allow broken symblink to pass
             result.append(op.abspath(f))
         elif op.isdir(f):
             for p in patterns:
@@ -179,7 +180,7 @@ def run_cmd(cmd, debug=False, with_output=False):
         return check_output(shlex.split(cmd)).decode('utf-8').strip()
 
     if not debug:
-        system(cmd)
+        return system(cmd)
 
 
 ######################
@@ -421,6 +422,10 @@ def workflow_cached_ntuple(cmd, input_ntp, output_ntp, cache_suffix,
 
     if op.isfile(cached_ntp):
         print('Aux ntuple already cached!')
+        run_cmd(f'ln -s {cached_ntp} {output_ntp}', **kwargs)
+    elif op.islink(cached_ntp):
+        download_file(cached_ntp)
+        print('Aux ntuple cached and downloaded')
         run_cmd(f'ln -s {cached_ntp} {output_ntp}', **kwargs)
     else:
         print('No aux ntuple cached, generating anew...')
