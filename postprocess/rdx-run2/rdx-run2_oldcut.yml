@@ -288,54 +288,39 @@ calculation:
         MINV(b_TrueHadron_D0_PX, b_TrueHadron_D0_PY, b_TrueHadron_D0_PZ, b_TrueHadron_D0_PE,
              b_TrueHadron_D1_PX, b_TrueHadron_D1_PY, b_TrueHadron_D1_PZ, b_TrueHadron_D1_PE
         )
-    #     should be first entry [0] of FLAG_SEL_DD_MASS_D0/DST veector
-    dd_mass_phoebe: >-
+    mx_mass: >-
         double;
+        MX_MASS(
+        b_TRUEP_X, b_TRUEP_Y, b_TRUEP_Z, b_TRUEP_E,
+        b_TrueHadron_D0_PX, b_TrueHadron_D0_PY, b_TrueHadron_D0_PZ,b_TrueHadron_D0_PE,
+        b_TrueHadron_D1_PX, b_TrueHadron_D1_PY, b_TrueHadron_D1_PZ,b_TrueHadron_D1_PE
+        );
+        MX_MASS(
+        b0_TRUEP_X, b0_TRUEP_Y, b0_TRUEP_Z, b0_TRUEP_E,
+        b0_TrueHadron_D0_PX, b0_TrueHadron_D0_PY, b0_TrueHadron_D0_PZ,b0_TrueHadron_D0_PE,
+        b0_TrueHadron_D1_PX, b0_TrueHadron_D1_PY, b0_TrueHadron_D1_PZ,b0_TrueHadron_D1_PE
+        )
+    pair_dd_mass_mx_mass_phoebe: >-
+        ^vector<double>;
         FLAG_SEL_DD_MASS_DST(
-            mu_MC_MOTHER_TRUEP_X, mu_MC_MOTHER_TRUEP_Y, mu_MC_MOTHER_TRUEP_Z, mu_MC_MOTHER_TRUEP_E,
-            dst_TRUEP_E, dst_TRUEP_X, dst_TRUEP_Y, dst_TRUEP_Z,
-            mu_MC_GD_MOTHER_ID,
-            mu_MC_GD_MOTHER_TRUEP_X, mu_MC_GD_MOTHER_TRUEP_Y, mu_MC_GD_MOTHER_TRUEP_Z, mu_MC_GD_MOTHER_TRUEP_E,
-            b0_TRUEP_X, b0_TRUEP_Y, b0_TRUEP_Z, b0_TRUEP_E
+        mu_MC_MOTHER_TRUEP_X, mu_MC_MOTHER_TRUEP_Y, mu_MC_MOTHER_TRUEP_Z, mu_MC_MOTHER_TRUEP_E,
+        dst_TRUEP_E, dst_TRUEP_X, dst_TRUEP_Y, dst_TRUEP_Z,
+        mu_MC_GD_MOTHER_ID,
+        mu_MC_GD_MOTHER_TRUEP_X, mu_MC_GD_MOTHER_TRUEP_Y, mu_MC_GD_MOTHER_TRUEP_Z, mu_MC_GD_MOTHER_TRUEP_E,
+        b0_TRUEP_X, b0_TRUEP_Y, b0_TRUEP_Z, b0_TRUEP_E
         );
         FLAG_SEL_DD_MASS_D0(
-            mu_MC_MOTHER_TRUEP_X, mu_MC_MOTHER_TRUEP_Y, mu_MC_MOTHER_TRUEP_Z, mu_MC_MOTHER_TRUEP_E,
-            d0_MC_MOTHER_TRUEP_X, d0_MC_MOTHER_TRUEP_Y, d0_MC_MOTHER_TRUEP_Z, d0_MC_MOTHER_TRUEP_E,
-            mu_MC_GD_MOTHER_ID,
-            mu_MC_GD_MOTHER_TRUEP_X, mu_MC_GD_MOTHER_TRUEP_Y, mu_MC_GD_MOTHER_TRUEP_Z, mu_MC_GD_MOTHER_TRUEP_E,
-            d0_TRUEP_X, d0_TRUEP_Y, d0_TRUEP_Z, d0_TRUEP_E, d0_MC_MOTHER_ID,
-            b_TRUEP_X, b_TRUEP_Y, b_TRUEP_Z, b_TRUEP_E
+        mu_MC_MOTHER_TRUEP_X, mu_MC_MOTHER_TRUEP_Y, mu_MC_MOTHER_TRUEP_Z, mu_MC_MOTHER_TRUEP_E,
+        d0_MC_MOTHER_TRUEP_X, d0_MC_MOTHER_TRUEP_Y, d0_MC_MOTHER_TRUEP_Z, d0_MC_MOTHER_TRUEP_E,
+        mu_MC_GD_MOTHER_ID,
+        mu_MC_GD_MOTHER_TRUEP_X, mu_MC_GD_MOTHER_TRUEP_Y, mu_MC_GD_MOTHER_TRUEP_Z, mu_MC_GD_MOTHER_TRUEP_E,
+        d0_TRUEP_X, d0_TRUEP_Y, d0_TRUEP_Z, d0_TRUEP_E, d0_MC_MOTHER_ID,
+        b_TRUEP_X, b_TRUEP_Y, b_TRUEP_Z, b_TRUEP_E
         )
-    tmp_mx_mass: >-
-        ^vector<double>;
-        FLAG_SEL_MX_MASS(
-            b_TRUEP_X, b_TRUEP_Y, b_TRUEP_Z, b_TRUEP_E,
-            b_TrueHadron_D0_PX, b_TrueHadron_D0_PY, b_TrueHadron_D0_PZ,b_TrueHadron_D0_PE,
-            b_TrueHadron_D1_PX, b_TrueHadron_D1_PY, b_TrueHadron_D1_PZ,b_TrueHadron_D1_PE
-        );
-        FLAG_SEL_MX_MASS(
-            b0_TRUEP_X, b0_TRUEP_Y, b0_TRUEP_Z, b0_TRUEP_E,
-            b0_TrueHadron_D0_PX, b0_TrueHadron_D0_PY, b0_TrueHadron_D0_PZ,b0_TrueHadron_D0_PE,
-            b0_TrueHadron_D1_PX, b0_TrueHadron_D1_PY, b0_TrueHadron_D1_PZ,b0_TrueHadron_D1_PE
-        )
+#     should be first entry [0] of FLAG_SEL_DD_MASS_D0/DST veector
+    dd_mass_phoebe: double; 0
 #     should be second entry [1] of FLAG_SEL_DD_MASS_D0/DST veector
-    tmp_mx_mass_phoebe: >-
-        ^vector<double>;
-        FLAG_SEL_DD_MASS_DST(
-            mu_MC_MOTHER_TRUEP_X, mu_MC_MOTHER_TRUEP_Y, mu_MC_MOTHER_TRUEP_Z, mu_MC_MOTHER_TRUEP_E,
-            dst_TRUEP_E, dst_TRUEP_X, dst_TRUEP_Y, dst_TRUEP_Z,
-            mu_MC_GD_MOTHER_ID,
-            mu_MC_GD_MOTHER_TRUEP_X, mu_MC_GD_MOTHER_TRUEP_Y, mu_MC_GD_MOTHER_TRUEP_Z, mu_MC_GD_MOTHER_TRUEP_E,
-            b0_TRUEP_X, b0_TRUEP_Y, b0_TRUEP_Z, b0_TRUEP_E
-        );
-        FLAG_SEL_DD_MASS_D0(
-            mu_MC_MOTHER_TRUEP_X, mu_MC_MOTHER_TRUEP_Y, mu_MC_MOTHER_TRUEP_Z, mu_MC_MOTHER_TRUEP_E,
-            d0_MC_MOTHER_TRUEP_X, d0_MC_MOTHER_TRUEP_Y, d0_MC_MOTHER_TRUEP_Z, d0_MC_MOTHER_TRUEP_E,
-            mu_MC_GD_MOTHER_ID,
-            mu_MC_GD_MOTHER_TRUEP_X, mu_MC_GD_MOTHER_TRUEP_Y, mu_MC_GD_MOTHER_TRUEP_Z, mu_MC_GD_MOTHER_TRUEP_E,
-            d0_TRUEP_X, d0_TRUEP_Y, d0_TRUEP_Z, d0_TRUEP_E, d0_MC_MOTHER_ID,
-            b_TRUEP_X, b_TRUEP_Y, b_TRUEP_Z, b_TRUEP_E
-        )
+    mx_mass_phoebe: double; 1
 
     ################################
     # Selection flags, MC-specific #
@@ -545,10 +530,12 @@ calculation:
     ###########
     # Weights #
     ###########
-    #DD weights
-    wDD: double; IF(is_ddx,FLAG_SEL_DWEIGHT(mu_MC_MOTHER_ID),1)
-    wDalitz: double; FLAG_SEL_DALWEIGHT(dd_mass,521);FLAG_SEL_DALWEIGHT(dd_mass,511)
-    wDalitz_phoebe: double; FLAG_SEL_DALWEIGHT(dd_mass_phoebe,521);FLAG_SEL_DALWEIGHT(dd_mass_phoebe,511)
+    # Various weights for DD MC only
+    wbr_dd: double; IF(is_ddx, WT_DD_BF(mu_MC_MOTHER_ID), 1.0)  # branching fraction weights
+    wdalitz: double; WT_DALITZ(dd_mass, b0_TRUEID); WT_DALITZ(dd_mass, b_TRUEID)
+    wdalitz_phoebe: double; WT_DALITZ(dd_mass_phoebe, b0_TRUEID); WT_DALITZ(dd_mass_phoebe, b_TRUEID)
+
+    # K/K* variation weights (these weight up/down the K* events)
     wKstvsK: bool; IF(mX_mass>620, true, false)
     wKstvsK_phoebe: bool; IF(mX_mass_phoebe>620, true, false)
 
