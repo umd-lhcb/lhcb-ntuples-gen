@@ -1,6 +1,6 @@
-// Author: Yipeng Sun
+// Author: Yipeng Sun, Svende Braun
 // License: BSD 2-clause
-// Last Change: Sat Feb 12, 2022 at 04:27 PM -0500
+// Last Change: Fri May 20, 2022 at 01:58 AM -0400
 
 #pragma once
 
@@ -24,37 +24,34 @@ std::vector<std::vector<Bool_t> > MC_FLAGS(
   for (auto i = 0; i < 4; i++) {
     flags.push_back(std::vector<Bool_t>({false, false, false}));
   }
-  // Conversion table
-  // Phoebe        this
-  // ----------    --------
-  // onezero       [0][0]
-  // twozero       [0][1]
-  // ...
-  // oneone        [1][0]
-  // ...
-  // threetwo      [3][1]
-  // threethree    [3][2]
 
-  if (mu_mom_key == d0_mom_key && mu_mom_key > 0) flags[0][0] = true;//onezero
-  if (mu_gd_mom_key == d0_mom_key && d0_mom_key > 0) flags[0][1] = true;//twozero
+  if (mu_mom_key == d0_mom_key && mu_mom_key > 0)
+    flags[0][0] = true;  // onezero
+  if (mu_gd_mom_key == d0_mom_key && d0_mom_key > 0)
+    flags[0][1] = true;  // twozero
   if (mu_gd_gd_mom_key == d0_mom_key && mu_gd_gd_mom_key > 0)
-    flags[0][2] = true;//threezero
+    flags[0][2] = true;  // threezero
 
-  if (mu_mom_key == dst_mom_key && mu_mom_key > 0) flags[1][0] = true;//oneone
-  if (mu_mom_key == dst_gd_mom_key && mu_mom_key > 0) flags[1][1] = true;//onetwo
-  if (mu_mom_key == dst_gd_gd_mom_key && mu_mom_key > 0) flags[1][2] = true;//onethree
+  if (mu_mom_key == dst_mom_key && mu_mom_key > 0)
+    flags[1][0] = true;  // oneone
+  if (mu_mom_key == dst_gd_mom_key && mu_mom_key > 0)
+    flags[1][1] = true;  // onetwo
+  if (mu_mom_key == dst_gd_gd_mom_key && mu_mom_key > 0)
+    flags[1][2] = true;  // onethree
 
-  if (mu_gd_mom_key == dst_mom_key && mu_gd_mom_key > 0) flags[2][0] = true;//twoone
-  if (mu_gd_mom_key == dst_gd_mom_key && mu_gd_mom_key > 0) flags[2][1] = true;//twotwo
+  if (mu_gd_mom_key == dst_mom_key && mu_gd_mom_key > 0)
+    flags[2][0] = true;  // twoone
+  if (mu_gd_mom_key == dst_gd_mom_key && mu_gd_mom_key > 0)
+    flags[2][1] = true;  // twotwo
   if (mu_gd_mom_key == dst_gd_gd_mom_key && mu_gd_mom_key > 0)
-    flags[2][2] = true;//twothree
+    flags[2][2] = true;  // twothree
 
   if (mu_gd_gd_mom_key == dst_mom_key && mu_gd_gd_mom_key > 0)
-    flags[3][0] = true;//threeone
+    flags[3][0] = true;  // threeone
   if (mu_gd_gd_mom_key == dst_gd_mom_key && mu_gd_gd_mom_key > 0)
-    flags[3][1] = true;//threetwo
+    flags[3][1] = true;  // threetwo
   if (mu_gd_gd_mom_key == dst_gd_gd_mom_key && mu_gd_gd_mom_key > 0)
-    flags[3][2] = true;//threethree
+    flags[3][2] = true;  // threethree
 
   return flags;
 }
