@@ -51,6 +51,12 @@ weight_brs:
             - prefix: Dst_usb
               file: "./histos/unfolded.root"
               name: wmis_usb
+            - prefix: Dst_comb_d
+              file: "./histos/unfolded.root"
+              name: wmis_comb_d
+            - prefix: Dst_comb_dsb
+              file: "./histos/unfolded.root"
+              name: wmis_comb_dsb
         TupleB0WSMu/DecayTree:
             - prefix: Dst_ws_Mu
               file: "./histos/unfolded.root"
@@ -58,6 +64,12 @@ weight_brs:
             - prefix: Dst_ws_Mu_usb
               file: "./histos/unfolded.root"
               name: wmis_usb
+            - prefix: Dst_comb_d
+              file: "./histos/unfolded.root"
+              name: wmis_comb_d
+            - prefix: Dst_comb_dsb
+              file: "./histos/unfolded.root"
+              name: wmis_comb_dsb
         TupleB0WSPi/DecayTree:
             - prefix: Dst_ws_Pi
               file: "./histos/unfolded.root"
@@ -65,3 +77,9 @@ weight_brs:
             - prefix: Dst_ws_Pi_usb
               file: "./histos/unfolded.root"
               name: wmis_usb
+            - prefix: Dst_comb_d
+              file: "./histos/unfolded.root"
+              name: wmis_comb_d
+            - prefix: Dst_comb_dsb
+              file: "./histos/unfolded.root"
+              name: wmis_comb_dsb
