@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri May 20, 2022 at 11:59 AM -0400
+# Last Change: Wed May 25, 2022 at 09:18 PM -0400
 
 import re
 import yaml
@@ -208,7 +208,8 @@ def validate_year(years):
 
 def validate_reco_mode(mode):
     return mode in ['std', 'mc', 'cutflow_data', 'cutflow_mc',
-                    'mix', 'mu_misid', 'ghost', 'ghost1', 'ghost2']
+                    'mix', 'mu_misid',
+                    'ghost', 'ghost1', 'ghost2', 'ghost_norm']
 
 
 def check_rules(fields, rules):
