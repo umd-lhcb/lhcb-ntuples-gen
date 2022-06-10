@@ -1,6 +1,6 @@
 // Author: Yipeng Sun, Svende Braun
 // License: BSD 2-clause
-// Last Change: Fri May 20, 2022 at 02:45 AM -0400
+// Last Change: Fri Jun 10, 2022 at 02:40 PM -0400
 // NOTE: All kinematic variables are in MeV
 
 #pragma once
@@ -232,11 +232,11 @@ Bool_t FLAG_SEL_B0DST_RUN1(Bool_t flag_sel_d0, Bool_t flag_sel_mu,
       /* slow Pi */
       spi_gh_prob < 0.25 &&
       /* D* */
-      dst_endvtx_chi2/dst_endvtx_ndof < 10.0 &&
+      dst_endvtx_chi2 / dst_endvtx_ndof < 10.0 &&
       /* D* Mu combo */
       b0_discard_mu_chi2 < 6.0 &&  // Not in ANA!
       b0_endvtx_chi2 < 24.0 &&
-      b0_endvtx_chi2/b0_endvtx_ndof < 6.0 &&
+      b0_endvtx_chi2 / b0_endvtx_ndof < 6.0 &&
       b0_fd_trans < 7.0 &&
       b0_dira > 0.9995
       )
