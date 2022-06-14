@@ -10,6 +10,12 @@ config:
             - mu_P
             - ETA(mu_P, mu_PZ)
             - nTracks
+    wpid_mu_ubdt:
+        particle: Mu_ubdt
+        vars:
+            - mu_P
+            - ETA(mu_P, mu_PZ)
+            - nTracks
     wpid_k:
         particle: K
         vars:
