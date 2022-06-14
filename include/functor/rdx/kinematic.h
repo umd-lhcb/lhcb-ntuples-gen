@@ -1,6 +1,6 @@
 // Author: Yipeng Sun, Svende Braun
 // License: BSD 2-clause
-// Last Change: Fri May 20, 2022 at 03:09 AM -0400
+// Last Change: Tue Jun 14, 2022 at 01:32 AM -0400
 
 #pragma once
 
@@ -37,15 +37,12 @@ Double_t MINV(Double_t pi_px, Double_t pi_py, Double_t pi_pz, Double_t pi_pe,
 }
 
 Double_t MINV2(Double_t pi_px, Double_t pi_py, Double_t pi_pz, Double_t pi_pe,
-              Double_t dst_px, Double_t dst_py, Double_t dst_pz,
-              Double_t dst_pe) {
-  auto v4_pi     = ROOT::Math::PxPyPzEVector(pi_px, pi_py, pi_pz, pi_pe);
-  auto v4_dst    = ROOT::Math::PxPyPzEVector(dst_px, dst_py, dst_pz, dst_pe);
-  auto v4_dst_pi = v4_pi + v4_dst;
-  auto dst_iso_m = v4_dst_pi.M2();
-  return dst_iso_m;
+               Double_t dst_px, Double_t dst_py, Double_t dst_pz,
+               Double_t dst_pe) {
+  auto dst_iso_m =
+      MINV(pi_px, pi_py, pi_pz, pi_pe, dst_px, dst_py, dst_pz, dst_pe);
+  return dst_iso_m * dst_iso_m;
 }
-
 
 Double_t ISO_DELTAM(Double_t pi_px, Double_t pi_py, Double_t pi_pz,
                     Double_t pi_pe, Double_t dst_px, Double_t dst_py,
