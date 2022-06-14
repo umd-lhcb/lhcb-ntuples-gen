@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed May 25, 2022 at 09:18 PM -0400
+# Last Change: Tue Jun 14, 2022 at 01:54 AM -0400
 
 import re
 import yaml
@@ -11,7 +11,7 @@ import sys
 import fnmatch
 import os.path as op  # NOTE: Can't use pathlib because that doesn't handle symbolic link well
 
-from os import makedirs, chdir, system, readlink
+from os import makedirs, chdir, system
 from datetime import datetime
 from subprocess import check_output
 from shutil import rmtree
@@ -94,7 +94,11 @@ def find_all_input(inputs,
     if make_absolute:
         inputs = [abs_path(p) for p in inputs]
 
-    for f in inputs:
+    matched = []
+    for i in inputs:
+        matched.extend(glob(i))
+
+    for f in matched:
         if op.islink(f) or op.isfile(f):  # allow broken symblink to pass
             result.append(op.abspath(f))
         elif op.isdir(f):
