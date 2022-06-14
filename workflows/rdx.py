@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Jun 14, 2022 at 01:38 AM -0400
+# Last Change: Tue Jun 14, 2022 at 02:02 AM -0400
 
 import sys
 import os.path as op
@@ -310,20 +310,20 @@ JOBS = {
     # Run 2 debug
     'rdx-ntuple-run2-mu_misid-demo': partial(
         workflow_data,
-        '../ntuples/0.9.6-2016_production/Dst_D0-mu_misid/Dst_D0--22_03_01--mu_misid--LHCb_Collision16_Beam6500GeV-VeloClosed-MagDown_Real_Data_Reco16_Stripping28r2_90000000_SEMILEPTONIC.DST/Dst_D0--22_03_01--mu_misid--LHCb_Collision16_Beam6500GeV-VeloClosed-MagDown_Real_Data_Reco16_Stripping28r2_90000000_SEMILEPTONIC.DST--000-dv.root',
+        '../ntuples/0.9.6-2016_production/Dst_D0-mu_misid/*MagDown*.DST/*--000-dv.root',
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
         cli_vars={'cli_misid': 'true'},
         use_misid=True
     ),
     'rdx-ntuple-run2-misid_study-demo': partial(
         workflow_data,
-        '../ntuples/0.9.6-2016_production/Dst_D0-mu_misid/Dst_D0--22_03_01--mu_misid--LHCb_Collision16_Beam6500GeV-VeloClosed-MagDown_Real_Data_Reco16_Stripping28r2_90000000_SEMILEPTONIC.DST/Dst_D0--22_03_01--mu_misid--LHCb_Collision16_Beam6500GeV-VeloClosed-MagDown_Real_Data_Reco16_Stripping28r2_90000000_SEMILEPTONIC.DST--000-dv.root',
+        '../ntuples/0.9.6-2016_production/Dst_D0-mu_misid/*MagDown*.DST/*--000-dv.root',
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
         cli_vars={'cli_misid_study': 'true'}
     ),
     'rdx-ntuple-run2-data-demo': partial(
         workflow_data,
-        '../ntuples/0.9.6-2016_production/Dst_D0-std/Dst_D0--22_02_07--std--LHCb_Collision16_Beam6500GeV-VeloClosed-MagDown_Real_Data_Reco16_Stripping28r2_90000000_SEMILEPTONIC.DST/Dst_D0--22_02_07--std--LHCb_Collision16_Beam6500GeV-VeloClosed-MagDown_Real_Data_Reco16_Stripping28r2_90000000_SEMILEPTONIC.DST--000-dv.root',
+        '../ntuples/0.9.6-2016_production/Dst_D0-std/*MagDown*.DST/*--000-dv.root',
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
     ),
     'rdx-ntuple-run2-data-debug': partial(
@@ -344,35 +344,35 @@ JOBS = {
     ),
     'rdx-ntuple-run2-mc-demo': partial(
         workflow_mc,
-        '../ntuples/0.9.5-bugfix/Dst_D0-mc/Dst_D0--21_10_08--mc--MC_2016_Beam6500GeV-2016-MagDown-Nu1.6-25ns-Pythia8_Sim09j_Trig0x6139160F_Reco16_Turbo03a_Filtered_11574011_D0TAUNU.SAFESTRIPTRIG.DST.root',
+        '../ntuples/0.9.5-bugfix/Dst_D0-mc/*MagDown*11574011*.root',
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
     ),
     'rdx-ntuple-run2-mc-demo-ddx': partial(
         workflow_mc,
-        '../ntuples/0.9.5-bugfix/Dst_D0-mc/Dst_D0--21_10_26--mc--MC_2016_Beam6500GeV-2016-MagDown-Nu1.6-25ns-Pythia8_Sim09j_Trig0x6139160F_Reco16_Turbo03a_Filtered_11894600_D0TAUNU.SAFESTRIPTRIG.DST.root',
+        '../ntuples/0.9.5-bugfix/Dst_D0-mc/*MagDown*11894600*.root',
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
     ),
     'rdx-ntuple-run2-mc-to-demo': partial(
         workflow_split,
-        '../ntuples/0.9.6-2016_production/Dst_D0-mc-tracker_only/Dst_D0--21_10_26--mc--tracker_only--MC_2016_Beam6500GeV-2016-MagDown-TrackerOnly-Nu1.6-25ns-Pythia8_Sim09k_Reco16_Filtered_11894600_D0TAUNU.SAFESTRIPTRIG.DST',
+        '../ntuples/0.9.6-2016_production/Dst_D0-mc-tracker_only/*MagDown*11894600*.DST',
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
         blocked_patterns=['--aux', r'--([1-9][0-9][0-9]|0[1-9][0-9])-dv']
     ),
     'rdx-ntuple-run2-mc-dss': partial(
         workflow_mc,
-        '../ntuples/0.9.5-bugfix/Dst_D0-mc/Dst_D0--21_10_15--mc--MC_2016_Beam6500GeV-2016-MagDown-Nu1.6-25ns-Pythia8_Sim09j_Trig0x6139160F_Reco16_Turbo03a_Filtered_11874430_D0TAUNU.SAFESTRIPTRIG.DST.root',
+        '../ntuples/0.9.5-bugfix/Dst_D0-mc/*MagDown*11874430*.root',
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
     ),
     'rdx-ntuple-run2-mc-sub': partial(
         workflow_split,
-        '../ntuples/0.9.6-2016_production/Dst_D0-mc-tracker_only/Dst_D0--22_02_24--mc--tracker_only--MC_2016_Beam6500GeV-2016-MagDown-TrackerOnly-Nu1.6-25ns-Pythia8_Sim09k_Reco16_Filtered_12773410_D0TAUNU.SAFESTRIPTRIG.DST',
+        '../ntuples/0.9.6-2016_production/Dst_D0-mc-tracker_only/*MagDown*12773410*.DST',
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
     ),
     'rdx-ntuple-run2-mc-to-sig-norm': partial(
         workflow_split,
         [
-            '../ntuples/0.9.6-2016_production/Dst_D0-mc-tracker_only/*12573010*',
-            '../ntuples/0.9.6-2016_production/Dst_D0-mc-tracker_only/*12573000*',
+            '../ntuples/0.9.6-2016_production/Dst_D0-mc-tracker_only/Dst_D0-mc-tracker_only/*12573010*.DST',
+            '../ntuples/0.9.6-2016_production/Dst_D0-mc-tracker_only/Dst_D0-mc-tracker_only/*12573000*.DST',
         ],
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
     ),
@@ -386,7 +386,7 @@ JOBS = {
     # Run 1 debug
     'rdx-ntuple-run1-data-D0-comp': partial(
         workflow_data,
-        '../ntuples/0.9.5-bugfix/Dst_D0-std/Dst_D0--21_10_07--std--LHCb_Collision11_Beam3500GeV-VeloClosed-MagDown_Real_Data_Reco14_Stripping21r1_90000000_SEMILEPTONIC.DST.root',
+        '../ntuples/0.9.5-bugfix/Dst_D0-std/*MagDown*.root',
         '../postprocess/ref-rdx-run1/ref-rdx-run1-D0.yml',
         use_ubdt=False,
         cli_vars={
@@ -396,7 +396,7 @@ JOBS = {
     ),
     'rdx-ntuple-run1-data-Dst-comp': partial(
         workflow_data,
-        '../ntuples/0.9.5-bugfix/Dst_D0-std/Dst_D0--21_10_07--std--LHCb_Collision11_Beam3500GeV-VeloClosed-MagDown_Real_Data_Reco14_Stripping21r1_90000000_SEMILEPTONIC.DST.root',
+        '../ntuples/0.9.5-bugfix/Dst_D0-std/*MagDown*.root',
         '../postprocess/ref-rdx-run1/ref-rdx-run1-Dst.yml',
         use_ubdt=False,
         cli_vars={'cli_fewer_cuts': 'true'}
