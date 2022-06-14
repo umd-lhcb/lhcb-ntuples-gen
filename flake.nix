@@ -75,9 +75,6 @@
             # Allow for the environment to pick up packages installed with virtualenv
             export PYTHONPATH=$VENV/${python.sitePackages}/:$PYTHONPATH
 
-            # Fix libstdc++.so not found error
-            export LD_LIBRARY_PATH=${pkgs.stdenv.cc.cc.lib}/lib:$LD_LIBRARY_PATH
-
             # Update PATH
             export PATH=$(pwd)/test:$(pwd)/workflows:$(pwd)/ganga:$(pwd)/scripts:$PATH
 
