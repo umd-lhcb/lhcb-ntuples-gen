@@ -552,8 +552,9 @@ calculation:
     wkst_phoebe_m: double; IF(mx_mass_phoebe > 620, 0.0, 1.0)
     wkst_phoebe_p: double; IF(mx_mass_phoebe > 620, 2.0, 1.0)
 
-    wpid_ubdt: double; 1.0  # UBDT weight not implemented yet
-    wpid: double; wpid_k*wpid_pi*wpid_mu*wpid_ubdt  # UBDT included as a placeholder
+    wpid_base: ^double; wpid_k*wpid_pi
+    wpid_ubdt: double; wpid_base*wpid_mu_ubdt
+    wpid: double; wpid_base*wpid_mu
     wtrg_l0_tis: ^double; b0_l0_global_tis_emu; b_l0_global_tis_emu
     wtrg: float; d0_l0_hadron_tos_emu + wtrg_l0_tis - d0_l0_hadron_tos_emu*wtrg_l0_tis
     wtrk: double; wtrk_k*wtrk_pi*wtrk_mu*wtrk_spi; wtrk_k*wtrk_pi*wtrk_mu
@@ -573,7 +574,9 @@ calculation:
     wmis_dst_no_smr: double; wmis_dst*(wmis_comb_d_no_smr*in_deltam + wmis_comb_dsb_no_smr*in_deltam_sb)
 
     # Weight representing the global cut (BEFORE applying the skim cuts)
-    w: double; wpid*wtrg*wff*wtrk*wjk
+    w_base: double; wtrg*wtrk*wjk       # no PID cuts for the base weights
+    w_w_ubdt: double; w_base*wpid_ubdt  # default PID cuts incl. UBDT
+    w: double; w_w_ubdt*wff     # form factor weights last (we have a lot of variations)
     # Skim weights, including the 'w'
     wiso: double; w*wskim_iso*skim_global_ok; TO_TYPE(is_iso, 1.0)
     wdd: double; w*wskim_dd*skim_global_ok; TO_TYPE(is_dd, 1.0)
