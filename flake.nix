@@ -46,7 +46,7 @@
             pkgs.hammer-reweight
 
             # misiD weight adder
-            pkgs.misid-unfold
+            pkgs.misid-unfold-applyer
 
             # Linters
             pylint
