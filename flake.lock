@@ -102,6 +102,21 @@
         "type": "github"
       }
     },
+    "flake-utils_5": {
+      "locked": {
+        "lastModified": 1623875721,
+        "narHash": "sha256-A8BU7bjS5GirpAUv4QA+QnJ4CceLHkcXdRp4xITDB0s=",
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "rev": "f7e004a55b120c02ecb6219596820fcd32ca8772",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "type": "github"
+      }
+    },
     "hammer-reweight": {
       "inputs": {
         "flake-utils": [
@@ -138,14 +153,15 @@
           "root-curated",
           "nixpkgs"
         ],
-        "root-curated": "root-curated_3"
+        "pyTuplingUtils": "pyTuplingUtils",
+        "root-curated": "root-curated_4"
       },
       "locked": {
-        "lastModified": 1655183495,
-        "narHash": "sha256-xgzeT3AuyjHOmHS9hrAKwIRnhfBH9b5K0u9Dws4X6EI=",
+        "lastModified": 1655306865,
+        "narHash": "sha256-pwuw5jQosP94YcaU5NToJdtPNY4u1xrknlFQ6wajpuE=",
         "owner": "umd-lhcb",
         "repo": "misid-unfold",
-        "rev": "3d41890136fa3a07151adf4730891053197973f8",
+        "rev": "a9bf36cb204e4ee151a2c17c66970ef5a75c4c53",
         "type": "github"
       },
       "original": {
@@ -214,6 +230,47 @@
         "type": "indirect"
       }
     },
+    "nixpkgs_5": {
+      "locked": {
+        "lastModified": 1625223284,
+        "narHash": "sha256-jjLcDSU1rRiJb+n3uez23XAa7kbnPcGZTa6jIKh1GMQ=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "357d2c8f6087685fe35cb1889a005a4dd4cce7b8",
+        "type": "github"
+      },
+      "original": {
+        "id": "nixpkgs",
+        "ref": "nixpkgs-unstable",
+        "type": "indirect"
+      }
+    },
+    "pyTuplingUtils": {
+      "inputs": {
+        "flake-utils": [
+          "root-curated",
+          "flake-utils"
+        ],
+        "nixpkgs": [
+          "root-curated",
+          "nixpkgs"
+        ],
+        "root-curated": "root-curated_3"
+      },
+      "locked": {
+        "lastModified": 1655306590,
+        "narHash": "sha256-vF0GHgYXChQ+d0+7ExJzq6FaOfNIzeR+vHX/mpdjnMI=",
+        "owner": "umd-lhcb",
+        "repo": "pyTuplingUtils",
+        "rev": "fa3202c6083ce8223414a8191e7e3fd5f36db0cf",
+        "type": "github"
+      },
+      "original": {
+        "owner": "umd-lhcb",
+        "repo": "pyTuplingUtils",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "MuonBDTPid": "MuonBDTPid",
@@ -228,7 +285,7 @@
           "root-curated",
           "nixpkgs"
         ],
-        "root-curated": "root-curated_4"
+        "root-curated": "root-curated_5"
       }
     },
     "root-curated": {
@@ -275,11 +332,11 @@
         "nixpkgs": "nixpkgs_3"
       },
       "locked": {
-        "lastModified": 1654899980,
-        "narHash": "sha256-7k7SfmhPs2YxoOQ/i+JNnsFH/3B0tEKUEjfOY7zld40=",
+        "lastModified": 1655306486,
+        "narHash": "sha256-SX+9imom16R7FgVwX+bwAmfjxyzY0rB2SxWnbtdc+yk=",
         "owner": "umd-lhcb",
         "repo": "root-curated",
-        "rev": "4e2c19bc091578ab7aa69c554a343b2d79d0c1e1",
+        "rev": "a5571fb3e8d8ad185bf443697106b4a142a47945",
         "type": "github"
       },
       "original": {
@@ -294,11 +351,30 @@
         "nixpkgs": "nixpkgs_4"
       },
       "locked": {
-        "lastModified": 1655280705,
-        "narHash": "sha256-tYDORRkXSaFTat4GotyJ3l6HTCkEoh8xx+zQuYgK8RI=",
+        "lastModified": 1655306486,
+        "narHash": "sha256-SX+9imom16R7FgVwX+bwAmfjxyzY0rB2SxWnbtdc+yk=",
         "owner": "umd-lhcb",
         "repo": "root-curated",
-        "rev": "349a831c3150af6d41fb8fa97648d75b902f2a09",
+        "rev": "a5571fb3e8d8ad185bf443697106b4a142a47945",
+        "type": "github"
+      },
+      "original": {
+        "owner": "umd-lhcb",
+        "repo": "root-curated",
+        "type": "github"
+      }
+    },
+    "root-curated_5": {
+      "inputs": {
+        "flake-utils": "flake-utils_5",
+        "nixpkgs": "nixpkgs_5"
+      },
+      "locked": {
+        "lastModified": 1655306486,
+        "narHash": "sha256-SX+9imom16R7FgVwX+bwAmfjxyzY0rB2SxWnbtdc+yk=",
+        "owner": "umd-lhcb",
+        "repo": "root-curated",
+        "rev": "a5571fb3e8d8ad185bf443697106b4a142a47945",
         "type": "github"
       },
       "original": {

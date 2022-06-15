@@ -1,6 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Jun 14, 2022 at 01:39 AM -0400
+# Last Change: Wed Jun 15, 2022 at 11:32 AM -0400
 
 VPATH := postprocess:test:scripts:ntuples
 VPATH := run1-rdx/cutflow:run2-rdx/cutflow:$(VPATH)
@@ -24,9 +24,12 @@ history:
 tagdate:
 	@git log --date-order --tags --simplify-by-decoration --pretty='format:%C(green)%ad %C(red)%h %C(reset)%D' --date=short
 
-install-dep:
+# This is unused. Kept for archival purposes
+install-dep-pip:
 	@echo "Installing third-party Python libraries..."
 	@pip install -r ./requirements.txt
+
+install-dep:
 	@echo "Installing in-house Python libraries..."
 	@for p in $(LIB_PY); do \
 			cd $(PWD)/$$p; \
