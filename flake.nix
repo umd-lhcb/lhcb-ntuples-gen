@@ -51,9 +51,15 @@
             # Linters
             pylint
 
-            # Python requirements (enough to get a virtualenv going).
+            # Python requirements (pin as much as possible)
             virtualenvwrapper
-            numpy  # FIXME: numpy 1.21.3 from PyPI breaks down because it can't find libz.so.1 (from zlib)
+            numpy
+            matplotlib
+            uproot
+            statsmodels
+            uncertainties
+            boost-histogram
+            pyyaml
           ];
 
           FONTCONFIG_FILE = pkgs.makeFontsConf {
