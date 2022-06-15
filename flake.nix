@@ -60,6 +60,8 @@
             uncertainties
             boost-histogram
             pyyaml
+            scikit-learn
+            xgboost
           ];
 
           FONTCONFIG_FILE = pkgs.makeFontsConf {
