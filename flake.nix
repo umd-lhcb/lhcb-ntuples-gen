@@ -77,6 +77,7 @@
 
             # Update PATH
             export PATH=$(pwd)/test:$(pwd)/workflows:$(pwd)/ganga:$(pwd)/scripts:$PATH
+            export LD_LIBRARY_PATH=${pkgs.stdenv.cc.cc.lib}/lib:$LD_LIBRARY_PATH
 
             # Filter out tensorflow and zfit warnings
             export TF_CPP_MIN_LOG_LEVEL=2
