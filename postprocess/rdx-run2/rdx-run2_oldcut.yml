@@ -95,6 +95,7 @@ calculation:
     b_pt: double; GEV(b_PT); GEV(b0_PT)
     b_eta: double; ETA(b_P, b_PZ); ETA(b0_P, b0_PZ)
     # D*
+    dst_d0_deltam: double; dst_M - d0_M
     dst_m: double; dst_M
     dst_p: double; GEV(dst_P)
     dst_pt: double; GEV(dst_PT)
@@ -153,11 +154,13 @@ calculation:
     pi_pid_k: double; pi_PIDK
     pi_pid_e: double; pi_PIDe
     # slow Pi
+    spi_id: int; spi_ID
     spi_is_mu: bool; spi_isMuon
     spi_pid_mu: double; spi_PIDmu
     spi_pid_k: double; spi_PIDK
     spi_pid_e: double; spi_PIDe
     # Mu
+    mu_id: int; mu_ID
     mu_is_mu: bool; mu_isMuon
     mu_pid_mu: double; mu_PIDmu
     mu_pid_k: double; mu_PIDK
