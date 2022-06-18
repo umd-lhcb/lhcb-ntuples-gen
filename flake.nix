@@ -7,7 +7,7 @@
     flake-utils.follows = "root-curated/flake-utils";
 
     MuonBDTPid.url = "github:umd-lhcb/MuonBDTPid";
-    hammer-reweight.url = "github:umd-lhcb/hammer-reweight";
+    hammer-reweight.url = "github:umd-lhcb/hammer-reweight/dev";
     misid-unfold.url = "github:umd-lhcb/misid-unfold";
 
     flake-compat = {

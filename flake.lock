@@ -3,10 +3,12 @@
     "MuonBDTPid": {
       "inputs": {
         "flake-utils": [
+          "MuonBDTPid",
           "root-curated",
           "flake-utils"
         ],
         "nixpkgs": [
+          "MuonBDTPid",
           "root-curated",
           "nixpkgs"
         ],
@@ -117,28 +119,47 @@
         "type": "github"
       }
     },
+    "flake-utils_6": {
+      "locked": {
+        "lastModified": 1623875721,
+        "narHash": "sha256-A8BU7bjS5GirpAUv4QA+QnJ4CceLHkcXdRp4xITDB0s=",
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "rev": "f7e004a55b120c02ecb6219596820fcd32ca8772",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "type": "github"
+      }
+    },
     "hammer-reweight": {
       "inputs": {
         "flake-utils": [
+          "hammer-reweight",
           "root-curated",
           "flake-utils"
         ],
         "nixpkgs": [
+          "hammer-reweight",
           "root-curated",
           "nixpkgs"
         ],
-        "root-curated": "root-curated_2"
+        "pyTuplingUtils": "pyTuplingUtils",
+        "root-curated": "root-curated_3"
       },
       "locked": {
-        "lastModified": 1655183778,
-        "narHash": "sha256-zcmd/rAZ5JuVa03qnGW/RhTKN6BC7GgvyzL3HO3FTz8=",
+        "lastModified": 1655534190,
+        "narHash": "sha256-5LfFvSULpm+BetHGuctdh1xK2dA+P4D4Q1QjPmSMDms=",
         "owner": "umd-lhcb",
         "repo": "hammer-reweight",
-        "rev": "d69c4f812a198888843e2e81b13270f9757f52cf",
+        "rev": "0680c42d2e8c55b987035199ad1c28fd46c71a5e",
         "type": "github"
       },
       "original": {
         "owner": "umd-lhcb",
+        "ref": "dev",
         "repo": "hammer-reweight",
         "type": "github"
       }
@@ -146,15 +167,17 @@
     "misid-unfold": {
       "inputs": {
         "flake-utils": [
+          "misid-unfold",
           "root-curated",
           "flake-utils"
         ],
         "nixpkgs": [
+          "misid-unfold",
           "root-curated",
           "nixpkgs"
         ],
-        "pyTuplingUtils": "pyTuplingUtils",
-        "root-curated": "root-curated_4"
+        "pyTuplingUtils": "pyTuplingUtils_2",
+        "root-curated": "root-curated_5"
       },
       "locked": {
         "lastModified": 1655306865,
@@ -245,17 +268,66 @@
         "type": "indirect"
       }
     },
+    "nixpkgs_6": {
+      "locked": {
+        "lastModified": 1625223284,
+        "narHash": "sha256-jjLcDSU1rRiJb+n3uez23XAa7kbnPcGZTa6jIKh1GMQ=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "357d2c8f6087685fe35cb1889a005a4dd4cce7b8",
+        "type": "github"
+      },
+      "original": {
+        "id": "nixpkgs",
+        "ref": "nixpkgs-unstable",
+        "type": "indirect"
+      }
+    },
     "pyTuplingUtils": {
       "inputs": {
         "flake-utils": [
+          "hammer-reweight",
+          "pyTuplingUtils",
           "root-curated",
           "flake-utils"
         ],
         "nixpkgs": [
+          "hammer-reweight",
+          "pyTuplingUtils",
           "root-curated",
           "nixpkgs"
         ],
-        "root-curated": "root-curated_3"
+        "root-curated": "root-curated_2"
+      },
+      "locked": {
+        "lastModified": 1655306590,
+        "narHash": "sha256-vF0GHgYXChQ+d0+7ExJzq6FaOfNIzeR+vHX/mpdjnMI=",
+        "owner": "umd-lhcb",
+        "repo": "pyTuplingUtils",
+        "rev": "fa3202c6083ce8223414a8191e7e3fd5f36db0cf",
+        "type": "github"
+      },
+      "original": {
+        "owner": "umd-lhcb",
+        "repo": "pyTuplingUtils",
+        "type": "github"
+      }
+    },
+    "pyTuplingUtils_2": {
+      "inputs": {
+        "flake-utils": [
+          "misid-unfold",
+          "pyTuplingUtils",
+          "root-curated",
+          "flake-utils"
+        ],
+        "nixpkgs": [
+          "misid-unfold",
+          "pyTuplingUtils",
+          "root-curated",
+          "nixpkgs"
+        ],
+        "root-curated": "root-curated_4"
       },
       "locked": {
         "lastModified": 1655306590,
@@ -285,7 +357,7 @@
           "root-curated",
           "nixpkgs"
         ],
-        "root-curated": "root-curated_5"
+        "root-curated": "root-curated_6"
       }
     },
     "root-curated": {
@@ -313,11 +385,11 @@
         "nixpkgs": "nixpkgs_2"
       },
       "locked": {
-        "lastModified": 1654899980,
-        "narHash": "sha256-7k7SfmhPs2YxoOQ/i+JNnsFH/3B0tEKUEjfOY7zld40=",
+        "lastModified": 1655306486,
+        "narHash": "sha256-SX+9imom16R7FgVwX+bwAmfjxyzY0rB2SxWnbtdc+yk=",
         "owner": "umd-lhcb",
         "repo": "root-curated",
-        "rev": "4e2c19bc091578ab7aa69c554a343b2d79d0c1e1",
+        "rev": "a5571fb3e8d8ad185bf443697106b4a142a47945",
         "type": "github"
       },
       "original": {
@@ -332,11 +404,11 @@
         "nixpkgs": "nixpkgs_3"
       },
       "locked": {
-        "lastModified": 1655306486,
-        "narHash": "sha256-SX+9imom16R7FgVwX+bwAmfjxyzY0rB2SxWnbtdc+yk=",
+        "lastModified": 1654899980,
+        "narHash": "sha256-7k7SfmhPs2YxoOQ/i+JNnsFH/3B0tEKUEjfOY7zld40=",
         "owner": "umd-lhcb",
         "repo": "root-curated",
-        "rev": "a5571fb3e8d8ad185bf443697106b4a142a47945",
+        "rev": "4e2c19bc091578ab7aa69c554a343b2d79d0c1e1",
         "type": "github"
       },
       "original": {
@@ -368,6 +440,25 @@
       "inputs": {
         "flake-utils": "flake-utils_5",
         "nixpkgs": "nixpkgs_5"
+      },
+      "locked": {
+        "lastModified": 1655306486,
+        "narHash": "sha256-SX+9imom16R7FgVwX+bwAmfjxyzY0rB2SxWnbtdc+yk=",
+        "owner": "umd-lhcb",
+        "repo": "root-curated",
+        "rev": "a5571fb3e8d8ad185bf443697106b4a142a47945",
+        "type": "github"
+      },
+      "original": {
+        "owner": "umd-lhcb",
+        "repo": "root-curated",
+        "type": "github"
+      }
+    },
+    "root-curated_6": {
+      "inputs": {
+        "flake-utils": "flake-utils_6",
+        "nixpkgs": "nixpkgs_6"
       },
       "locked": {
         "lastModified": 1655306486,
