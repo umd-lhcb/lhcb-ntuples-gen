@@ -1,6 +1,6 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Fri Apr 15, 2022 at 11:29 AM -0400
+// Last Change: Thu Jun 23, 2022 at 02:28 PM -0400
 // NOTE: All kinematic variables are in MeV
 
 #pragma once
@@ -59,9 +59,9 @@ Double_t WT_DD(Bool_t add_flags,
   // Think in terms of Venn diagram!
   // Don't know why Phoebe chose '-2' instead of '-1.1' in her code:
   //   https://gitlab.cern.ch/bhamilto/rdvsrdst-histfactory/-/blob/master/proc/redoHistos_Dst.C#L1603
-  iso_nnk1_wt = IF(iso_bdt1 <= -1.1, 0.0, iso_nnk1_wt) * (iso_type1 == 3);
-  iso_nnk2_wt = IF(iso_bdt2 <= -1.1, 0.0, iso_nnk2_wt) * (iso_type2 == 3);
-  iso_nnk3_wt = IF(iso_bdt3 <= -1.1, 0.0, iso_nnk3_wt) * (iso_type3 == 3);
+  iso_nnk1_wt = IF(iso_bdt1 > -1.1, iso_nnk1_wt, 0.0) * (iso_type1 == 3);
+  iso_nnk2_wt = IF(iso_bdt2 > -1.1, iso_nnk2_wt, 0.0) * (iso_type2 == 3);
+  iso_nnk3_wt = IF(iso_bdt3 > -1.1, iso_nnk3_wt, 0.0) * (iso_type3 == 3);
 
   Double_t wt_pid = iso_nnk1_wt + iso_nnk2_wt + iso_nnk3_wt -
                     iso_nnk1_wt * iso_nnk2_wt - iso_nnk1_wt * iso_nnk3_wt -

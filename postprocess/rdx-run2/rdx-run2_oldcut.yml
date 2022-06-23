@@ -489,7 +489,7 @@ calculation:
     is_dd_loose: >-
         bool; FLAG_DD(
         true,
-        iso_bdt1, iso_bdt2, iso_bdt2, iso_type1, iso_type2, iso_type3,
+        iso_bdt1, iso_bdt2, iso_bdt3, iso_type1, iso_type2, iso_type3,
         iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
         iso_nnk1, iso_nnk2, iso_nnk3
         )
@@ -592,9 +592,9 @@ calculation:
     wskim_dd: >-
         double; WT_DD(
         true,
-        iso_bdt1, iso_bdt2, iso_bdt2, iso_type1, iso_type2, iso_type3,
+        iso_bdt1, iso_bdt2, iso_bdt3, iso_type1, iso_type2, iso_type3,
         iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
-        wpid_iso_nnk1_high_prob, wpid_iso_nnk1_high_prob, wpid_iso_nnk3_high_prob
+        wpid_iso_nnk1_high_prob, wpid_iso_nnk2_high_prob, wpid_iso_nnk3_high_prob
         )
     wskim_2os: >-
         double; WT_2OS(
