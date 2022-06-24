@@ -563,7 +563,7 @@ calculation:
     wtrk: double; wtrk_k*wtrk_pi*wtrk_mu*wtrk_spi; wtrk_k*wtrk_pi*wtrk_mu
     wjk: double; wjk_kin*wjk_occ
 
-    # misID weights for comb B
+    # misID weights
     in_deltam_sb: "^bool; d0_m_ok && !dst_m_ok"
     wmis: >-
         double;
