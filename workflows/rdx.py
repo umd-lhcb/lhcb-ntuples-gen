@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Jun 15, 2022 at 07:25 PM -0400
+# Last Change: Thu Jun 23, 2022 at 11:19 PM -0400
 
 import sys
 import os.path as op
@@ -307,6 +307,14 @@ JOBS = {
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
         cli_vars={'cli_misid_study': 'true'}
     ),
+    'rdx-ntuple-run2-mc-to-sig-norm': partial(
+        workflow_split,
+        [
+            '../ntuples/0.9.6-2016_production/Dst_D0-mc-tracker_only/*12573012*.DST',
+            '../ntuples/0.9.6-2016_production/Dst_D0-mc-tracker_only/*12573001*.DST',
+        ],
+        '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
+    ),
     # Run 2 debug
     'rdx-ntuple-run2-mu_misid-demo': partial(
         workflow_data,
@@ -366,11 +374,11 @@ JOBS = {
         '../ntuples/0.9.6-2016_production/Dst_D0-mc-tracker_only/*MagDown*12773410*.DST',
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
     ),
-    'rdx-ntuple-run2-mc-to-sig-norm': partial(
+    'rdx-ntuple-run2-mc-to-sig-norm-demo': partial(
         workflow_split,
         [
-            '../ntuples/0.9.6-2016_production/Dst_D0-mc-tracker_only/*12573012*.DST',
-            '../ntuples/0.9.6-2016_production/Dst_D0-mc-tracker_only/*12573001*.DST',
+            '../ntuples/0.9.6-2016_production/Dst_D0-mc-tracker_only/*12573012*.DST/*--00?-dv.root',
+            '../ntuples/0.9.6-2016_production/Dst_D0-mc-tracker_only/*12573001*.DST/*--00?-dv.root',
         ],
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
     ),
