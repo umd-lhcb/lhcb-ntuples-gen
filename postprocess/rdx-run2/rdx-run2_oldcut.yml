@@ -564,17 +564,34 @@ calculation:
     wjk: double; wjk_kin*wjk_occ
 
     # misID weights for comb B
-    in_deltam: "^bool; d0_m_ok && dst_m_ok"
     in_deltam_sb: "^bool; d0_m_ok && !dst_m_ok"
-    wmis: double; wmis_norm*skim_global_ok + wmis_usb*skim_global_usb
-    wmis_smr_k: double; wmis*(wmis_norm_smr_k*skim_global_ok + wmis_usb_smr_k*skim_global_usb)
-    wmis_smr_pi: double; wmis*(wmis_norm_smr_pi*skim_global_ok + wmis_usb_smr_pi*skim_global_usb)
-    wmis_no_smr: double; wmis*(wmis_norm_no_smr*skim_global_ok + wmis_usb_no_smr*skim_global_usb)
-    # misID weights for comb D*
-    wmis_dst: double; wmis_comb_d*in_deltam + wmis_comb_dsb*in_deltam_sb
-    wmis_dst_smr_k: double; wmis_dst*(wmis_comb_d_smr_k*in_deltam + wmis_comb_dsb_smr_k*in_deltam_sb)
-    wmis_dst_smr_pi: double; wmis_dst*(wmis_comb_d_smr_pi*in_deltam + wmis_comb_dsb_smr_pi*in_deltam_sb)
-    wmis_dst_no_smr: double; wmis_dst*(wmis_comb_d_no_smr*in_deltam + wmis_comb_dsb_no_smr*in_deltam_sb)
+    wmis: >-
+        double;
+        wmis_norm*skim_global_ok + wmis_bsb*(dx_m_ok && b_m_sb) +
+        wmis_dsb*(in_deltam_sb && b_m_ok && in_fit_range) +
+        wmis_dsb_bsb*(in_deltam_sb && b_m_sb);
+        wmis_norm*skim_global_ok + wmis_bsb*(dx_m_ok && b_m_sb)
+    wmis_smr_k: >-
+        double;
+        wmis*(wmis_norm_smr_k*skim_global_ok + wmis_bsb_smr_k*(dx_m_ok && b_m_sb) +
+        wmis_dsb_smr_k*(in_deltam_sb && b_m_ok && in_fit_range) +
+        wmis_dsb_bsb_smr_k*(in_deltam_sb && b_m_sb)
+        );
+        wmis*(wmis_norm_smr_k*skim_global_ok + wmis_bsb_smr_k*(dx_m_ok && b_m_sb))
+    wmis_smr_pi: >-
+        double;
+        wmis*(wmis_norm_smr_pi*skim_global_ok + wmis_bsb_smr_pi*(dx_m_ok && b_m_sb) +
+        wmis_dsb_smr_pi*(in_deltam_sb && b_m_ok && in_fit_range) +
+        wmis_dsb_bsb_smr_pi*(in_deltam_sb && b_m_sb)
+        );
+        wmis*(wmis_norm_smr_pi*skim_global_ok + wmis_bsb_smr_pi*(dx_m_ok && b_m_sb))
+    wmis_no_smr: >-
+        double;
+        wmis*(wmis_norm_no_smr*skim_global_ok + wmis_bsb_no_smr*(dx_m_ok && b_m_sb) +
+        wmis_dsb_no_smr*(in_deltam_sb && b_m_ok && in_fit_range) +
+        wmis_dsb_bsb_no_smr*(in_deltam_sb && b_m_sb)
+        );
+        wmis*(wmis_norm_no_smr*skim_global_ok + wmis_bsb_no_smr*(dx_m_ok && b_m_sb))
 
     # Weight representing the global cut (BEFORE applying the skim cuts)
     w_base: double; wtrg*wtrk*wjk       # no PID cuts for the base weights
