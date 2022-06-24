@@ -32,54 +32,54 @@ weight_brs:
         # for step-1 ntuple
         TupleBminus/DecayTree:
             - prefix: D0
-              file: "./histos/unfolded.root"
+              file: "./histos/unfolded-2016.root"
               name: wmis_norm
-            - prefix: D0_usb
-              file: "./histos/unfolded.root"
-              name: wmis_usb
+            - prefix: D0_bsb
+              file: "./histos/unfolded-2016.root"
+              name: wmis_bsb
         TupleBminusWS/DecayTree:
             - prefix: D0_ws_Mu
-              file: "./histos/unfolded.root"
+              file: "./histos/unfolded-2016.root"
               name: wmis_norm
-            - prefix: D0_ws_Mu_usb
-              file: "./histos/unfolded.root"
-              name: wmis_usb
+            - prefix: D0_ws_Mu_bsb
+              file: "./histos/unfolded-2016.root"
+              name: wmis_bsb
         TupleB0/DecayTree:
             - prefix: Dst
-              file: "./histos/unfolded.root"
+              file: "./histos/unfolded-2016.root"
               name: wmis_norm
-            - prefix: Dst_usb
-              file: "./histos/unfolded.root"
-              name: wmis_usb
-            - prefix: Dst_comb_d
-              file: "./histos/unfolded.root"
-              name: wmis_comb_d
-            - prefix: Dst_comb_dsb
-              file: "./histos/unfolded.root"
-              name: wmis_comb_dsb
+            - prefix: Dst_bsb
+              file: "./histos/unfolded-2016.root"
+              name: wmis_bsb
+            - prefix: Dst_dsb
+              file: "./histos/unfolded-2016.root"
+              name: wmis_dsb
+            - prefix: Dst_dsb_bsb
+              file: "./histos/unfolded-2016.root"
+              name: wmis_dsb_bsb
         TupleB0WSMu/DecayTree:
             - prefix: Dst_ws_Mu
-              file: "./histos/unfolded.root"
+              file: "./histos/unfolded-2016.root"
               name: wmis_norm
-            - prefix: Dst_ws_Mu_usb
-              file: "./histos/unfolded.root"
-              name: wmis_usb
-            - prefix: Dst_comb_d
-              file: "./histos/unfolded.root"
-              name: wmis_comb_d
-            - prefix: Dst_comb_dsb
-              file: "./histos/unfolded.root"
-              name: wmis_comb_dsb
+            - prefix: Dst_ws_Mu_bsb
+              file: "./histos/unfolded-2016.root"
+              name: wmis_bsb
+            - prefix: Dst_ws_Mu_dsb
+              file: "./histos/unfolded-2016.root"
+              name: wmis_dsb
+            - prefix: Dst_ws_Mu_dsb_bsb
+              file: "./histos/unfolded-2016.root"
+              name: wmis_dsb_bsb
         TupleB0WSPi/DecayTree:
             - prefix: Dst_ws_Pi
-              file: "./histos/unfolded.root"
+              file: "./histos/unfolded-2016.root"
               name: wmis_norm
-            - prefix: Dst_ws_Pi_usb
-              file: "./histos/unfolded.root"
-              name: wmis_usb
-            - prefix: Dst_comb_d
-              file: "./histos/unfolded.root"
-              name: wmis_comb_d
-            - prefix: Dst_comb_dsb
-              file: "./histos/unfolded.root"
-              name: wmis_comb_dsb
+            - prefix: Dst_ws_Pi_bsb
+              file: "./histos/unfolded-2016.root"
+              name: wmis_bsb
+            - prefix: Dst_ws_Pi_dsb
+              file: "./histos/unfolded-2016.root"
+              name: wmis_dsb
+            - prefix: Dst_ws_Pi_dsb_bsb
+              file: "./histos/unfolded-2016.root"
+              name: wmis_dsb_bsb
