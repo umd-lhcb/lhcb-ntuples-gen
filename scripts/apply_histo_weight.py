@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Apr 07, 2022 at 12:43 AM -0400
+# Last Change: Thu Jun 23, 2022 at 02:54 PM -0400
 # Description: Apply weights from histos.
 
 import ROOT
@@ -231,6 +231,7 @@ if __name__ == '__main__':
 
             print('  Processing {}...'.format(br))
             params = ', '.join(resolve_params(directive['vars'], idx))
+            print('    Input branches: {}'.format(params))
 
             histo_name = directive['histo_name']
             histo_dim = len(directive['vars'])
