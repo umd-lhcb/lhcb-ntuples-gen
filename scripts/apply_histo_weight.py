@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Jun 23, 2022 at 11:30 PM -0400
+# Last Change: Fri Jun 24, 2022 at 11:55 PM -0400
 # Description: Apply weights from histos.
 
 import ROOT
@@ -173,6 +173,10 @@ Double_t GET_WEIGHT(Double_t x, Double_t y, TH2D* histo) {
 }
 
 Double_t GET_WEIGHT(Double_t x, Double_t y, Double_t z, TH3D* histo) {
+  if (histo == nullptr) {
+    cout << "Histo is a nullptr!";
+    exit(1);
+  }
   auto bin_idx = GET_BIN(x, y, z, histo);
   Double_t wt = histo->GetBinContent(bin_idx);
 
@@ -195,10 +199,12 @@ def load_histo(year, polarity, particle, histo_name, histo_dim,
         raise(ValueError('Histo {} cannot be loaded! Abort!'.format(histo_lbl)))
 
     print('  Loading histo {} from ntuple {}'.format(histo_name, ntp_filename))
-    gInterpreter.Declare('auto ntp_{} = new TFile("{}", "read");'.format(
+    gInterpreter.Declare('auto ntp_{} = TFile("{}", "read");'.format(
         histo_lbl, ntp_filename))
+    # NOTE: Don't use dynamic_cast here, as sometimes the cast will fail and a
+    #       nullptr is returned instead. Use static_cast to force a type
     gInterpreter.Declare('''
-        auto histo_{lbl} = dynamic_cast<TH{dim}D*>(ntp_{lbl}->Get("{name}"));
+        auto histo_{lbl} = static_cast<TH{dim}D*>(ntp_{lbl}.Get("{name}"));
         '''.format(lbl=histo_lbl, dim=histo_dim, name=histo_name)
     )
 
