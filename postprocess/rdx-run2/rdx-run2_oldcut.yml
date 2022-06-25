@@ -54,6 +54,10 @@ calculation:
     iso_nnk2: float; b0_ISOLATION_NNk2; b_ISOLATION_NNk2
     iso_nnk3: float; b0_ISOLATION_NNk3; b_ISOLATION_NNk3
     iso_nnp1: float; b0_ISOLATION_NNp; b_ISOLATION_NNp
+    # ID
+    iso_true_id1: int; b0_ISOLATION_TRUEID; b_ISOLATION_TRUEID
+    iso_true_id2: int; b0_ISOLATION_TRUEID2; b_ISOLATION_TRUEID2
+    iso_true_id3: int; b0_ISOLATION_TRUEID3; b_ISOLATION_TRUEID3
     # Charge
     iso_chrg1: int; b0_ISOLATION_CHARGE;  b_ISOLATION_CHARGE
     iso_chrg2: int; b0_ISOLATION_CHARGE2; b_ISOLATION_CHARGE2
@@ -604,6 +608,29 @@ calculation:
     w1os: double; w*wskim_1os*skim_global_ok; TO_TYPE(is_1os, 1.0)
     wprot: double; TO_TYPE(is_prot, 1.0)  # TODO: Add PIDCalib weights for MC
 
+    # PID for isolation tracks
+    wpid_iso_nnk1_gt: >-
+        double;
+        WT_ISO_NNK(iso_true_id1,
+        wpid_iso_nnk1_gt_pi, wpid_iso_nnk1_gt_k, wpid_iso_nnk1_gt_p,
+        wpid_iso_nnk1_gt_e, wpid_iso_nnk1_gt_mu, wpid_iso_nnk1_gt_g
+        )
+    wpid_iso_nnk2_gt: >-
+        double;
+        WT_ISO_NNK(iso_true_id2,
+        wpid_iso_nnk2_gt_pi, wpid_iso_nnk2_gt_k, wpid_iso_nnk2_gt_p,
+        wpid_iso_nnk2_gt_e, wpid_iso_nnk2_gt_mu, wpid_iso_nnk2_gt_g
+        )
+    wpid_iso_nnk3_gt: >-
+        double;
+        WT_ISO_NNK(iso_true_id3,
+        wpid_iso_nnk3_gt_pi, wpid_iso_nnk3_gt_k, wpid_iso_nnk3_gt_p,
+        wpid_iso_nnk3_gt_e, wpid_iso_nnk3_gt_mu, wpid_iso_nnk3_gt_g
+        )
+    wpid_iso_nnk1_lt: double; 1 - wpid_iso_nnk1_gt
+    wpid_iso_nnk2_lt: double; 1 - wpid_iso_nnk2_gt
+    wpid_iso_nnk3_lt: double; 1 - wpid_iso_nnk3_gt
+
     # Skims, but in weights, for MC
     wskim_iso: double; WT_ISO(true, iso_bdt1)
     wskim_dd: >-
@@ -611,7 +638,7 @@ calculation:
         true,
         iso_bdt1, iso_bdt2, iso_bdt3, iso_type1, iso_type2, iso_type3,
         iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
-        wpid_iso_nnk1_high_prob, wpid_iso_nnk2_high_prob, wpid_iso_nnk3_high_prob
+        wpid_iso_nnk1_gt, wpid_iso_nnk2_gt, wpid_iso_nnk3_gt
         )
     wskim_2os: >-
         double; WT_2OS(
@@ -619,7 +646,7 @@ calculation:
         iso_bdt1, iso_bdt2, iso_bdt3, iso_type1, iso_type2,
         iso_p1, iso_p2, iso_pt1, iso_pt2,
         iso_chrg1, iso_chrg2,
-        wpid_iso_nnk1_low_prob, wpid_iso_nnk2_low_prob
+        wpid_iso_nnk1_lt, wpid_iso_nnk2_lt
         )
     wskim_1os: >-
         bool;
@@ -629,7 +656,7 @@ calculation:
         iso_type1,
         iso_p1, iso_pt1,
         iso_chrg1,
-        wpid_iso_nnk1_low_prob,
+        wpid_iso_nnk1_lt,
         dst_id, dst_iso_deltam
         );
         WT_1OS(
@@ -638,7 +665,7 @@ calculation:
         iso_type1,
         iso_p1, iso_pt1,
         iso_chrg1,
-        wpid_iso_nnk1_low_prob,
+        wpid_iso_nnk1_lt,
         d0_id
         )
 
