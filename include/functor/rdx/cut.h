@@ -1,6 +1,6 @@
 // Author: Yipeng Sun, Svende Braun
 // License: BSD 2-clause
-// Last Change: Fri Jun 24, 2022 at 09:40 PM -0400
+// Last Change: Sat Jun 25, 2022 at 12:43 AM -0400
 // NOTE: All kinematic variables are in MeV
 
 #pragma once
@@ -327,7 +327,7 @@ vector<Double_t> WT_DALITZ(Double_t mDD, int b_ID) {
 }
 
 Double_t WT_ISO_NNK(Int_t true_id, Double_t w_pi, Double_t w_k, Double_t w_p,
-                    Double_t w_e, Double_t, Double_t w_mu, Double_t w_ghost) {
+                    Double_t w_e, Double_t w_mu, Double_t w_ghost) {
   true_id = ABS(true_id);
   if (true_id == 211) return w_pi;
   if (true_id == 321) return w_k;
