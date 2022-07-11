@@ -1,6 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Jun 23, 2022 at 11:20 PM -0400
+# Last Change: Mon Jul 11, 2022 at 05:09 PM -0400
 
 VPATH := postprocess:test:scripts:ntuples
 VPATH := run1-rdx/cutflow:run2-rdx/cutflow:$(VPATH)
@@ -79,6 +79,7 @@ rdx-ntuple-run2-data-cut_opt:
 rdx-ntuple-run2-mu_misid:
 	workflows/rdx.py $@
 
+# this is FullSim
 rdx-ntuple-run2-mc:
 	workflows/rdx.py $@
 
@@ -88,7 +89,11 @@ rdx-ntuple-run2-mc-cut_opt:
 rdx-ntuple-run2-misid_study:
 	workflows/rdx.py $@
 
+# this is tracker-only
 rdx-ntuple-run2-mc-to-sig-norm:
+	workflows/rdx.py $@
+
+rdx-ntuple-run2-mc-to-ddx:
 	workflows/rdx.py $@
 
 # Debug
