@@ -556,11 +556,11 @@ calculation:
     #       This is to be consistent w/ Phoebe's
     #       It's an intentional sign error
     is_kst: bool; IF(mx_mass > 620, true, false)
-    wkst_p: double; IF(is_kst, 0.0, 1.0)
-    wkst_m: double; IF(is_kst, 2.0, 1.0)
+    wkst_m: double; IF(is_kst, 0.0, 1.0)
+    wkst_p: double; IF(is_kst, 2.0, 1.0)
     is_kst_phoebe: bool; IF(mx_mass_phoebe > 620, true, false)
-    wkst_phoebe_p: double; IF(is_kst_phoebe, 0.0, 1.0)
-    wkst_phoebe_m: double; IF(is_kst_phoebe, 2.0, 1.0)
+    wkst_phoebe_m: double; IF(is_kst_phoebe, 0.0, 1.0)
+    wkst_phoebe_p: double; IF(is_kst_phoebe, 2.0, 1.0)
 
     wpid_base: ^double; wpid_k*wpid_pi
     wpid_ubdt: double; wpid_base*wpid_mu_ubdt
