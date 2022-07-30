@@ -358,6 +358,12 @@ calculation:
         b_BKGCAT
         )
     is_ddx: bool; IS_DDX(mc_id)
+    # this is a naive filter:
+    # we require the 2nd daughter of B is also a D meson for DDX MC only
+    ddx_add_truthmatch: >-
+        bool;
+        is_ddx && HUNDREDS_DIGIT(b0_TrueHadron_D1_ID) == 4;
+        is_ddx && HUNDREDS_DIGIT(b_TrueHadron_D1_ID) == 4
     is_strange: bool; IS_STRANGE(mc_id)
 
     # FF reweighting
@@ -684,7 +690,7 @@ global_selection:
     - trg_ok
     - global_cut_ok
     - truthmatch > 0
-    - "!is_ddx || dd_mass_phoebe > 1000*1000"  # kill the leaking false DD events
+    - "!is_ddx || ddx_add_truthmatch && dd_mass_phoebe > 1000*1000"  # kill the leaking false DD events
     - ham_ok
 
 one_cand_only:
