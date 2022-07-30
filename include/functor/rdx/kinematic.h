@@ -1,6 +1,6 @@
 // Author: Yipeng Sun, Svende Braun
 // License: BSD 2-clause
-// Last Change: Tue Jun 14, 2022 at 01:32 AM -0400
+// Last Change: Fri Jul 29, 2022 at 06:09 PM -0400
 
 #pragma once
 
@@ -102,6 +102,7 @@ vector<Double_t> DD_MX_MASS_DST(Double_t mu_mom_px, Double_t mu_mom_py,
 }
 
 // Computing mDD and mDX (mDX for K/K* differentiation), D0
+// NOTE: mDD is the invariant mass SQUARED
 vector<Double_t> DD_MX_MASS_D0(
     Double_t mu_mom_px, Double_t mu_mom_py, Double_t mu_mom_pz,
     Double_t mu_mom_pe, Double_t d_mom_px, Double_t d_mom_py, Double_t d_mom_pz,

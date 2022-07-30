@@ -1,6 +1,6 @@
 // Author: Yipeng Sun, Svende Braun
 // License: BSD 2-clause
-// Last Change: Sat Jun 25, 2022 at 12:43 AM -0400
+// Last Change: Fri Jul 29, 2022 at 08:17 PM -0400
 // NOTE: All kinematic variables are in MeV
 
 #pragma once
@@ -315,11 +315,14 @@ vector<Double_t> WT_DALITZ(Double_t mDD, int b_ID) {
     Double_t max  = 5280 - 489.;
     Double_t min2 = min * min;
     Double_t max2 = max * max;
-    Daltweightp   = (1 + 2 * (sqrt((mDD - min2) / (max2 - min2)) - 0.5));
-    Daltweightm   = (1 - 2 * (sqrt((mDD - min2) / (max2 - min2)) - 0.5));
-    Daltweightqp  = (8 * (sqrt((mDD - min2) / (max2 - min2)) - 0.5) *
+
+    if (mDD <= min2) return {0, 0, 0, 0};  // these are no real DD events
+
+    Daltweightp  = (1 + 2 * (sqrt((mDD - min2) / (max2 - min2)) - 0.5));
+    Daltweightm  = (1 - 2 * (sqrt((mDD - min2) / (max2 - min2)) - 0.5));
+    Daltweightqp = (8 * (sqrt((mDD - min2) / (max2 - min2)) - 0.5) *
                     (sqrt((mDD - min2) / (max2 - min2)) - 0.5));
-    Daltweightqm  = (2 - 8 * (sqrt((mDD - min2) / (max2 - min2)) - 0.5) *
+    Daltweightqm = (2 - 8 * (sqrt((mDD - min2) / (max2 - min2)) - 0.5) *
                             (sqrt((mDD - min2) / (max2 - min2)) - 0.5));
   }
 
