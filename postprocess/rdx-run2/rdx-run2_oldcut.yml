@@ -607,8 +607,8 @@ calculation:
         wmis*(wmis_norm_no_smr*skim_global_ok + wmis_bsb_no_smr*(dx_m_ok && b_m_sb))
 
     # Weight representing the global cut (BEFORE applying the skim cuts)
-    w_base: double; wtrg*wtrk*wjk       # no PID cuts for the base weights
-    w_w_ubdt: double; w_base*wpid_ubdt  # default PID cuts incl. UBDT
+    w_base: double; wtrg*wtrk*wjk*wbr_dd  # no PID cuts for the base weights
+    w_w_ubdt: double; w_base*wpid_ubdt    # default PID cuts incl. UBDT
     w: double; w_w_ubdt*wff     # form factor weights last (we have a lot of variations)
     # Skim weights, including the 'w'
     wiso: double; w*wskim_iso*skim_global_ok; TO_TYPE(is_iso, 1.0)
