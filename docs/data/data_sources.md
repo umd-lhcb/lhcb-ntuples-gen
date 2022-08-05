@@ -53,7 +53,7 @@
 | $D^0/D^{*+}$ | `12873030` | $B^- \rightarrow D^{**0} \tau \nu \rightarrow D^0$ |
 | $D^0/D^{*+}$ | `11873030` | $B^0 \rightarrow D^{**+} \tau \nu \rightarrow D^0$ |
 
-### $D^{**} \rightarrow D^{(*)} \pi \pi$
+### $D^{**}$ heavy
 | sample | MC ID | decay |
 |---|---|---|
 | $D^0$ | `12675010` | $B^- \rightarrow D^{**} (\rightarrow D^0 \pi \pi) \mu \nu$ |
@@ -133,7 +133,7 @@
 | $D^0/D^{*+}$ | `12873450` | $B^- \rightarrow D^{**0} \mu \nu \rightarrow D^0$ |
 | $D^0/D^{*+}$ | `12873460` | $B^- \rightarrow D^{**0} \tau \nu \rightarrow D^0$ |
 
-### $D^{**} \rightarrow D^{(*)} \pi \pi$
+### $D^{**}$ heavy
 | sample | MC ID | decay |
 |---|---|---|
 | $D^0$ | `12675011` | $B^- \rightarrow D^{**} (\rightarrow D^0 \pi \pi) \mu \nu$ |
