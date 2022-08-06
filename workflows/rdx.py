@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Aug 02, 2022 at 10:55 PM -0400
+# Last Change: Sat Aug 06, 2022 at 04:21 AM -0400
 
 import sys
 import os.path as op
@@ -75,8 +75,9 @@ def rdx_mc_blocked_trees(decay_mode):
 @smart_kwarg
 def workflow_ubdt(input_ntp, output_ntp='ubdt.root',
                   trees=['TupleB0/DecayTree', 'TupleBminus/DecayTree'],
+                  particle='mu',
                   **kwargs):
-    cmd = f'AddUBDTBranch -i {input_ntp} -o {output_ntp} -t {",".join(trees)}'
+    cmd = f'AddUBDTBranch -i {input_ntp} -o {output_ntp} -t {",".join(trees)} -p {particle}'
     return workflow_cached_ntuple(
         cmd, input_ntp, output_ntp, '--aux_ubdt', **kwargs)
 
@@ -223,6 +224,24 @@ def workflow_data(inputs, input_yml, job_name='data', use_ubdt=True,
         chdir('..')  # Switch back to parent workdir
 
 
+def workflow_mc_ghost(inputs, input_yml, job_name='data', date=None, **kwargs):
+    aux_workflows = [workflow_ubdt]
+
+    subworkdirs, workdir = workflow_prep_dir(job_name, inputs, **kwargs)
+    chdir(workdir)
+
+    for subdir, input_ntp in subworkdirs.items():
+        ensure_dir(subdir, make_absolute=False)
+        chdir(subdir)  # Switch to the workdir of the subjob
+
+        output_suffix = generate_step2_name(input_ntp, date=date)
+        workflow_single_ntuple(
+            input_ntp, input_yml, output_suffix, aux_workflows, **kwargs)
+
+        aggregate_output('..', subdir, rdx_default_output_fltrs)
+        chdir('..')  # Switch back to parent workdir
+
+
 def workflow_mc(inputs, input_yml, job_name='mc', date=None,
                 **kwargs):
     aux_workflows = [
@@ -264,6 +283,13 @@ def workflow_split(inputs, input_yml, job_name='split', **kwargs):
         **kwargs)
 
 
+def workflow_split_mc_ghost(inputs, input_yml, job_name='split', **kwargs):
+    return workflow_split_base(
+        inputs, input_yml, job_name=job_name, prefix='Dst_D0',
+        workflow_data=workflow_mc_ghost, workflow_mc=workflow_mc_ghost,
+        **kwargs)
+
+
 #####################
 # Production config #
 #####################
@@ -287,6 +313,12 @@ JOBS = {
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
         cli_vars={'cli_misid': 'true'},
         use_misid=True
+    ),
+    'rdx-ntuple-run2-mc_ghost': partial(
+        workflow_split_mc_ghost,
+        '../ntuples/0.9.7-rdx_production/Dst_D0-ghost/Dst_D0--*ghost_norm*',
+        '../postprocess/rdx-run2/rdx-run2_ghost.yml',
+        trees=['TupleBminus/DecayTree']
     ),
     'rdx-ntuple-run2-mc': partial(
         workflow_mc,

@@ -6,7 +6,6 @@ keep:
     - runNumber
     - eventNumber
     - GpsTime
-    - UBDT
 
 calculation:
     #####################
@@ -42,7 +41,7 @@ calculation:
     Brunel_IsMuon: double; IF_VAR_EXISTS(misid_study, TO_TYPE(mu_isMuon, 1.0))
     Brunel_InMuonAcc: double; IF_VAR_EXISTS(misid_study, mu_InMuonAcc)
     Brunel_MuonUnbiased: double; IF_VAR_EXISTS(misid_study, TO_TYPE(mu_unbiased, 1.0))
-    Brunel_UBDT: double; UBDT
+    Brunel_UBDT: double; mu_bdt_mu
     # PIDCalib aliaes
     MC15TuneV1_ProbNNpi: double; Brunel_MC15TuneV1_ProbNNpi
     MC15TuneV1_ProbNNk: double; Brunel_MC15TuneV1_ProbNNk
@@ -58,6 +57,7 @@ calculation:
     IsMuon: double; Brunel_IsMuon
     InMuonAcc: double; Brunel_InMuonAcc
     MuonUnbiased: double; Brunel_MuonUnbiased
+    UBDT: double; Brunel_UBDT
     # Binning variables
     P: double; IF_VAR_EXISTS(misid_study, mu_P)
     ETA: double; IF_VAR_EXISTS(misid_study, mu_eta)
