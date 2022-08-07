@@ -1,6 +1,7 @@
 headers:
     user:
         - functor/basic.h
+        - functor/basic_kinematic.h
 
 keep:
     - runNumber
@@ -20,27 +21,26 @@ calculation:
     # Truth-matching
     mu_unbiased: bool; mu_L0MuonDecision_TIS
     is_ghost: bool; mu_true_id == 0
-    is_electron: bool; ABS(mu_true_id) == 11
+    #is_electron: bool; ABS(mu_true_id) == 11
 
     ############################
     # Mu misID study variables #
     ############################
-    misid_study: ^bool; true
     # PIDCalib stub
-    Brunel_MC15TuneV1_ProbNNpi: double; IF_VAR_EXISTS(misid_study, mu_MC15TuneV1_ProbNNpi)
-    Brunel_MC15TuneV1_ProbNNk: double; IF_VAR_EXISTS(misid_study, mu_MC15TuneV1_ProbNNk)
-    Brunel_MC15TuneV1_ProbNNp: double; IF_VAR_EXISTS(misid_study, mu_MC15TuneV1_ProbNNp)
-    Brunel_MC15TuneV1_ProbNNe: double; IF_VAR_EXISTS(misid_study, mu_MC15TuneV1_ProbNNe)
-    Brunel_MC15TuneV1_ProbNNmu: double; IF_VAR_EXISTS(misid_study, mu_MC15TuneV1_ProbNNmu)
-    Brunel_MC15TuneV1_ProbNNghost: double; IF_VAR_EXISTS(misid_study, mu_MC15TuneV1_ProbNNghost)
-    Brunel_DLLK: double; IF_VAR_EXISTS(misid_study, mu_PIDK)
-    Brunel_DLLp: double; IF_VAR_EXISTS(misid_study, mu_PIDp)
-    Brunel_DLLe: double; IF_VAR_EXISTS(misid_study, mu_PIDe)
-    Brunel_DLLmu: double; IF_VAR_EXISTS(misid_study, mu_PIDmu)
-    Brunel_DLLd: double; IF_VAR_EXISTS(misid_study, mu_PIDd)
-    Brunel_IsMuon: double; IF_VAR_EXISTS(misid_study, TO_TYPE(mu_isMuon, 1.0))
-    Brunel_InMuonAcc: double; IF_VAR_EXISTS(misid_study, mu_InMuonAcc)
-    Brunel_MuonUnbiased: double; IF_VAR_EXISTS(misid_study, TO_TYPE(mu_unbiased, 1.0))
+    Brunel_MC15TuneV1_ProbNNpi: double; mu_MC15TuneV1_ProbNNpi
+    Brunel_MC15TuneV1_ProbNNk: double; mu_MC15TuneV1_ProbNNk
+    Brunel_MC15TuneV1_ProbNNp: double; mu_MC15TuneV1_ProbNNp
+    Brunel_MC15TuneV1_ProbNNe: double; mu_MC15TuneV1_ProbNNe
+    Brunel_MC15TuneV1_ProbNNmu: double; mu_MC15TuneV1_ProbNNmu
+    Brunel_MC15TuneV1_ProbNNghost: double; mu_MC15TuneV1_ProbNNghost
+    Brunel_DLLK: double; mu_PIDK
+    Brunel_DLLp: double; mu_PIDp
+    Brunel_DLLe: double; mu_PIDe
+    Brunel_DLLmu: double; mu_PIDmu
+    Brunel_DLLd: double; mu_PIDd
+    Brunel_IsMuon: double; TO_TYPE(mu_isMuon, 1.0)
+    Brunel_InMuonAcc: double; mu_InMuonAcc
+    Brunel_MuonUnbiased: double; TO_TYPE(mu_unbiased, 1.0)
     Brunel_UBDT: double; mu_bdt_mu
     # PIDCalib aliaes
     MC15TuneV1_ProbNNpi: double; Brunel_MC15TuneV1_ProbNNpi
@@ -59,12 +59,12 @@ calculation:
     MuonUnbiased: double; Brunel_MuonUnbiased
     UBDT: double; Brunel_UBDT
     # Binning variables
-    P: double; IF_VAR_EXISTS(misid_study, mu_P)
-    ETA: double; IF_VAR_EXISTS(misid_study, mu_eta)
-    nTracks: double; IF_VAR_EXISTS(misid_study, nTracks)
-
-global_selection:
-    - misid_study
+    P: double; mu_P
+    ETA: double; ETA(mu_P, mu_PZ)
+    nTracks: double; nTracks
+    Brunel_P: double; P
+    Brunel_ETA: double; ETA
+    nTracks_Brunel: double; nTracks
 
 one_cand_only:
     enable: false
@@ -72,15 +72,5 @@ one_cand_only:
 
 output:
     ghost:
-        input: TupleB0/DecayTree
-        mute:
-            - "d0_dst_veto_deltam"
-            - "d0_dst_veto_ok"
-            - "d0mu_ok"
-    e:
         input: TupleBminus/DecayTree
-        mute:
-            - "^spi_.*"
-            - "^dst_.*"
-            - "trk_spi"
-            - "dstmu_ok"
+        selection: [is_ghost]

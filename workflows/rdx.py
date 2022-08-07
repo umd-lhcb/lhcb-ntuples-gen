@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sat Aug 06, 2022 at 04:21 AM -0400
+# Last Change: Sat Aug 06, 2022 at 04:38 PM -0400
 
 import sys
 import os.path as op
@@ -44,7 +44,7 @@ def parse_input():
 ###########
 
 rdx_default_fltr = aggregate_fltr(
-    keep=[r'^(Dst|D0).*\.root'], blocked=['--aux'])
+    keep=[r'^(Dst|D0|ghost).*\.root'], blocked=['--aux'])
 
 rdx_default_output_fltrs = {
     'ntuple': rdx_default_fltr,
@@ -224,7 +224,7 @@ def workflow_data(inputs, input_yml, job_name='data', use_ubdt=True,
         chdir('..')  # Switch back to parent workdir
 
 
-def workflow_mc_ghost(inputs, input_yml, job_name='data', date=None, **kwargs):
+def workflow_mc_ghost(inputs, input_yml, job_name='mc_ghost', date=None, **kwargs):
     aux_workflows = [workflow_ubdt]
 
     subworkdirs, workdir = workflow_prep_dir(job_name, inputs, **kwargs)
