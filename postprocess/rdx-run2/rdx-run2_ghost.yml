@@ -13,13 +13,13 @@ calculation:
     # MC true variables #
     #####################
     # Mu
-    mu_true_id: int; mu_TRUEID
+    mu_true_id: int; mu_TRUEID; BachMu_TRUEID
 
     ################################
     # Selection flags, MC-specific #
     ################################
     # Truth-matching
-    mu_unbiased: bool; mu_L0MuonDecision_TIS
+    mu_unbiased: bool; mu_L0MuonDecision_TIS; true
     is_ghost: bool; mu_true_id == 0
     #is_electron: bool; ABS(mu_true_id) == 11
 
@@ -27,21 +27,21 @@ calculation:
     # Mu misID study variables #
     ############################
     # PIDCalib stub
-    Brunel_MC15TuneV1_ProbNNpi: double; mu_MC15TuneV1_ProbNNpi
-    Brunel_MC15TuneV1_ProbNNk: double; mu_MC15TuneV1_ProbNNk
-    Brunel_MC15TuneV1_ProbNNp: double; mu_MC15TuneV1_ProbNNp
-    Brunel_MC15TuneV1_ProbNNe: double; mu_MC15TuneV1_ProbNNe
-    Brunel_MC15TuneV1_ProbNNmu: double; mu_MC15TuneV1_ProbNNmu
-    Brunel_MC15TuneV1_ProbNNghost: double; mu_MC15TuneV1_ProbNNghost
-    Brunel_DLLK: double; mu_PIDK
-    Brunel_DLLp: double; mu_PIDp
-    Brunel_DLLe: double; mu_PIDe
-    Brunel_DLLmu: double; mu_PIDmu
-    Brunel_DLLd: double; mu_PIDd
-    Brunel_IsMuon: double; TO_TYPE(mu_isMuon, 1.0)
-    Brunel_InMuonAcc: double; mu_InMuonAcc
+    Brunel_MC15TuneV1_ProbNNpi: double; mu_MC15TuneV1_ProbNNpi; BachMu_ProbNNpi
+    Brunel_MC15TuneV1_ProbNNk: double; mu_MC15TuneV1_ProbNNk; BachMu_ProbNNk
+    Brunel_MC15TuneV1_ProbNNp: double; mu_MC15TuneV1_ProbNNp; BachMu_ProbNNp
+    Brunel_MC15TuneV1_ProbNNe: double; mu_MC15TuneV1_ProbNNe; BachMu_ProbNNe
+    Brunel_MC15TuneV1_ProbNNmu: double; mu_MC15TuneV1_ProbNNmu; BachMu_ProbNNmu
+    Brunel_MC15TuneV1_ProbNNghost: double; mu_MC15TuneV1_ProbNNghost; BachMu_ProbNNghost
+    Brunel_DLLK: double; mu_PIDK; BachMu_PIDK
+    Brunel_DLLp: double; mu_PIDp; BachMu_PIDp
+    Brunel_DLLe: double; mu_PIDe; BachMu_PIDe
+    Brunel_DLLmu: double; mu_PIDmu; BachMu_PIDmu
+    Brunel_DLLd: double; mu_PIDd; BachMu_PIDd
+    Brunel_IsMuon: double; TO_TYPE(mu_isMuon, 1.0); TO_TYPE(BachMu_isMuon, 1.0)
+    Brunel_InMuonAcc: double; mu_InMuonAcc; BachMu_InMuonAcc; 1.0
     Brunel_MuonUnbiased: double; TO_TYPE(mu_unbiased, 1.0)
-    Brunel_UBDT: double; mu_bdt_mu
+    Brunel_UBDT: double; mu_bdt_mu; BachMu_bdt_mu
     # PIDCalib aliaes
     MC15TuneV1_ProbNNpi: double; Brunel_MC15TuneV1_ProbNNpi
     MC15TuneV1_ProbNNk: double; Brunel_MC15TuneV1_ProbNNk
@@ -59,8 +59,8 @@ calculation:
     MuonUnbiased: double; Brunel_MuonUnbiased
     UBDT: double; Brunel_UBDT
     # Binning variables
-    P: double; mu_P
-    ETA: double; ETA(mu_P, mu_PZ)
+    P: double; mu_P; BachMu_P
+    ETA: double; ETA(mu_P, mu_PZ); BachMu_ETA
     nTracks: double; nTracks
     Brunel_P: double; P
     Brunel_ETA: double; ETA
@@ -73,4 +73,7 @@ one_cand_only:
 output:
     ghost:
         input: TupleBminus/DecayTree
+        selection: [is_ghost]
+    ghost_Jpsi:
+        input: JpsiRecTuple/DecayTree
         selection: [is_ghost]
