@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sat Aug 06, 2022 at 04:38 PM -0400
+# Last Change: Sun Aug 07, 2022 at 05:26 AM -0400
 
 import sys
 import os.path as op
@@ -224,8 +224,9 @@ def workflow_data(inputs, input_yml, job_name='data', use_ubdt=True,
         chdir('..')  # Switch back to parent workdir
 
 
-def workflow_mc_ghost(inputs, input_yml, job_name='mc_ghost', date=None, **kwargs):
-    aux_workflows = [workflow_ubdt]
+def workflow_mc_ghost(inputs, input_yml, job_name='mc_ghost', date=None,
+                      use_ubdt=True, **kwargs):
+    aux_workflows = [workflow_ubdt] if use_ubdt else []
 
     subworkdirs, workdir = workflow_prep_dir(job_name, inputs, **kwargs)
     chdir(workdir)
@@ -295,6 +296,14 @@ def workflow_split_mc_ghost(inputs, input_yml, job_name='split', **kwargs):
 #####################
 
 JOBS = {
+    # External Run 2
+    'RJpsi-ntuple-run2-mc_ghost': partial(
+        workflow_mc_ghost,
+        '../ntuples/ref-RJpsi-run2/Jpsi-ghost',
+        '../postprocess/rdx-run2/rdx-run2_ghost.yml',
+        trees=['JpsiRecTuple/DecayTree'],
+        use_ubdt=False
+    ),
     # Run 2
     'rdx-ntuple-run2-data': partial(
         workflow_split,

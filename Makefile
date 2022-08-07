@@ -1,6 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sat Aug 06, 2022 at 04:23 AM -0400
+# Last Change: Sun Aug 07, 2022 at 05:26 AM -0400
 
 VPATH := postprocess:test:scripts:ntuples
 VPATH := run1-rdx/cutflow:run2-rdx/cutflow:$(VPATH)
@@ -62,6 +62,14 @@ docker-dv:
 # Test if specific files follow naming conventions.
 test-naming-conv:
 	workflows/validate_filename.py
+
+
+#################################
+# RJpsi run 2 ntuple generation #
+#################################
+
+RJpsi-ntuple-run2-mc_ghost:
+	workflows/rdx.py $@
 
 
 ###############################
