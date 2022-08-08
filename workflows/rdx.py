@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sun Aug 07, 2022 at 05:26 AM -0400
+# Last Change: Mon Aug 08, 2022 at 06:38 PM -0400
 
 import sys
 import os.path as op
@@ -10,6 +10,7 @@ import os.path as op
 from argparse import ArgumentParser
 from os import chdir
 from functools import partial
+from pathos.multiprocessing import ProcessingPool as Pool
 
 sys.path.insert(0, op.dirname(op.abspath(__file__)))
 
@@ -44,7 +45,7 @@ def parse_input():
 ###########
 
 rdx_default_fltr = aggregate_fltr(
-    keep=[r'^(Dst|D0|ghost).*\.root'], blocked=['--aux'])
+    keep=[r'^(Dst|D0|ghost|e).*\.root'], blocked=['--aux'])
 
 rdx_default_output_fltrs = {
     'ntuple': rdx_default_fltr,
@@ -224,23 +225,38 @@ def workflow_data(inputs, input_yml, job_name='data', use_ubdt=True,
         chdir('..')  # Switch back to parent workdir
 
 
-def workflow_mc_ghost(inputs, input_yml, job_name='mc_ghost', date=None,
-                      use_ubdt=True, **kwargs):
-    aux_workflows = [workflow_ubdt] if use_ubdt else []
+def workflow_mc_ghost_single(subdir, date, input_ntp, input_yml,aux_workflows,
+                             **kwargs):
+    ensure_dir(subdir, make_absolute=False)
+    chdir(subdir)  # Switch to the workdir of the subjob
 
+    output_suffix = generate_step2_name(input_ntp, date=date)
+    workflow_single_ntuple(
+        input_ntp, input_yml, output_suffix, aux_workflows, **kwargs)
+
+    aggregate_output('..', subdir, rdx_default_output_fltrs)
+    chdir('..')  # Switch back to parent workdir
+
+
+def workflow_mc_ghost(inputs, input_yml, job_name='mc_ghost', date=None,
+                      use_ubdt=True, num_of_workers=12, **kwargs):
+    aux_workflows = [workflow_ubdt] if use_ubdt else []
     subworkdirs, workdir = workflow_prep_dir(job_name, inputs, **kwargs)
     chdir(workdir)
 
-    for subdir, input_ntp in subworkdirs.items():
-        ensure_dir(subdir, make_absolute=False)
-        chdir(subdir)  # Switch to the workdir of the subjob
+    job_directives = [
+        {
+            'subdir': subdir,
+            'date': date,
+            'input_ntp': input_ntp,
+            'input_yml': input_yml,
+            'aux_workflows': aux_workflows
+        }
+        for subdir, input_ntp in subworkdirs.items()
+    ]
 
-        output_suffix = generate_step2_name(input_ntp, date=date)
-        workflow_single_ntuple(
-            input_ntp, input_yml, output_suffix, aux_workflows, **kwargs)
-
-        aggregate_output('..', subdir, rdx_default_output_fltrs)
-        chdir('..')  # Switch back to parent workdir
+    with Pool(ncpus=num_of_workers) as pool:
+        pool.map(lambda d: workflow_mc_ghost_single(**d), job_directives)
 
 
 def workflow_mc(inputs, input_yml, job_name='mc', date=None,
