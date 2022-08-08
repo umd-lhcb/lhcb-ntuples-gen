@@ -65,6 +65,7 @@
             tabulate
             mplhep
             lark-parser
+            pathos # multi-process pool
           ];
 
           FONTCONFIG_FILE = pkgs.makeFontsConf {
