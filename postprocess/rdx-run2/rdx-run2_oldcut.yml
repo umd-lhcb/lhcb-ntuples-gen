@@ -609,6 +609,7 @@ calculation:
     # Weight representing the global cut (BEFORE applying the skim cuts)
     w_base: double; wtrg*wtrk*wjk*wbr_dd  # no PID cuts for the base weights
     w_w_ubdt: double; w_base*wpid_ubdt    # default PID cuts incl. UBDT
+    wff: double; wff; 1.0                 # FF weight. default to 1
     w: double; w_w_ubdt*wff     # form factor weights last (we have a lot of variations)
     # Skim weights, including the 'w'
     wiso: double; w*wskim_iso*skim_global_ok; TO_TYPE(is_iso, 1.0)

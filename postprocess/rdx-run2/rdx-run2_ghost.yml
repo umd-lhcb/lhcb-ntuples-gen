@@ -19,7 +19,7 @@ calculation:
     # Selection flags, MC-specific #
     ################################
     # Truth-matching
-    mu_unbiased: bool; b_L0Global_TIS || d0_L0HadronDecision_TOS; true
+    mu_unbiased: bool; b_L0Global_TIS || d0_L0HadronDecision_TOS; Jpsi_L0DiMuonDecision_TOS
     is_ghost: bool; mu_true_id == 0
     is_electron: bool; ABS(mu_true_id) == 11
 
@@ -73,10 +73,13 @@ one_cand_only:
 output:
     ghost:
         input: TupleBminus/DecayTree
-        selection: [is_ghost, mu_unbiased]
+        selection: [is_ghost]
     e:
         input: TupleBminus/DecayTree
-        selection: [is_electron, mu_unbiased]
+        selection: [is_electron]
     ghost_Jpsi:
         input: JpsiRecTuple/DecayTree
         selection: [is_ghost]
+    e_Jpsi:
+        input: JpsiRecTuple/DecayTree
+        selection: [is_electron]
