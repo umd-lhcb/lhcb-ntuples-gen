@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Aug 08, 2022 at 10:57 PM -0400
+# Last Change: Tue Aug 09, 2022 at 01:09 AM -0400
 
 import sys
 import os.path as op
@@ -196,38 +196,9 @@ def workflow_single_ntuple(input_ntp, input_yml, output_suffix, aux_workflows,
 # Workflows: main #
 ###################
 
-def workflow_data(inputs, input_yml, job_name='data', use_ubdt=True,
-                  use_misid=False, date=None,
-                  **kwargs):
-    aux_workflows = [workflow_ubdt] if use_ubdt else []
-    if use_misid:
-        aux_workflows.append(workflow_misid)
-
-    subworkdirs, workdir = workflow_prep_dir(job_name, inputs, **kwargs)
-    chdir(workdir)
-
-    for subdir, input_ntp in subworkdirs.items():
-        ensure_dir(subdir, make_absolute=False)
-        chdir(subdir)  # Switch to the workdir of the subjob
-
-        output_suffix = generate_step2_name(input_ntp, date=date)
-        workflow_single_ntuple(
-            input_ntp, input_yml, output_suffix, aux_workflows,
-            trees=[
-                'TupleB0/DecayTree',
-                'TupleB0WSMu/DecayTree',
-                'TupleB0WSPi/DecayTree',
-                'TupleBminus/DecayTree',
-                'TupleBminusWS/DecayTree'
-            ], **kwargs)
-
-        aggregate_output('..', subdir, rdx_default_output_fltrs)
-        chdir('..')  # Switch back to parent workdir
-
-
-def workflow_mc_ghost_single(maindir, subdir,
-                             date, input_ntp, input_yml, aux_workflows,
-                             **kwargs):
+def workflow_generic_single(maindir, subdir,
+                         date, input_ntp, input_yml, aux_workflows,
+                         **kwargs):
     chdir(maindir)
     ensure_dir(subdir, make_absolute=False)
     chdir(subdir)  # Switch to the workdir of the subjob
@@ -239,9 +210,19 @@ def workflow_mc_ghost_single(maindir, subdir,
     aggregate_output('..', subdir, rdx_default_output_fltrs)
 
 
-def workflow_mc_ghost(inputs, input_yml, job_name='mc_ghost', date=None,
-                      use_ubdt=True, num_of_workers=12, **kwargs):
+def workflow_data(inputs, input_yml, job_name='data', use_ubdt=True,
+                  use_misid=False, date=None, num_of_workers=12,
+                  trees=[
+                      'TupleB0/DecayTree',
+                      'TupleB0WSMu/DecayTree',
+                      'TupleB0WSPi/DecayTree',
+                      'TupleBminus/DecayTree',
+                      'TupleBminusWS/DecayTree'
+                  ],
+                  **kwargs):
     aux_workflows = [workflow_ubdt] if use_ubdt else []
+    if use_misid:
+        aux_workflows.append(workflow_misid)
     subworkdirs, workdir = workflow_prep_dir(job_name, inputs, **kwargs)
 
     job_directives = [
@@ -251,16 +232,22 @@ def workflow_mc_ghost(inputs, input_yml, job_name='mc_ghost', date=None,
             'date': date,
             'input_ntp': input_ntp,
             'input_yml': input_yml,
-            'aux_workflows': aux_workflows
+            'aux_workflows': aux_workflows,
+            'trees': trees
         }
         for subdir, input_ntp in subworkdirs.items()
     ]
 
     with Pool(ncpus=num_of_workers) as pool:
-        pool.map(lambda d: workflow_mc_ghost_single(**d), job_directives)
+        pool.map(lambda d: workflow_generic_single(**d), job_directives)
         pool.close()
         pool.join()
         pool.clear()
+
+
+# Just an alias
+def workflow_mc_ghost(*args, **kwargs):
+    workflow_data(*args, **kwargs)
 
 
 def workflow_mc_single(maindir, subdir,
@@ -276,6 +263,13 @@ def workflow_mc_single(maindir, subdir,
         decay_mode = find_decay_mode(fields['lfn'])
     blocked_input_trees = rdx_mc_blocked_trees(decay_mode)
 
+    trees = ['TupleBminus/DecayTree', 'TupleB0/DecayTree']
+    if blocked_input_trees is not None:
+        if 'D0' in blocked_input_trees:
+            trees = ['TupleB0/DecayTree']
+        elif 'Dst' in blocked_input_trees:
+            trees =  ['TupleBminus/DecayTree']
+
     output_suffix = generate_step2_name(input_ntp, date=date)
     if 'cli_vars' not in kwargs:
         kwargs['cli_vars'] = dict()
@@ -283,7 +277,7 @@ def workflow_mc_single(maindir, subdir,
 
     workflow_single_ntuple(
         input_ntp, input_yml, output_suffix, aux_workflows,
-        blocked_input_trees=blocked_input_trees, **kwargs)
+        blocked_input_trees=blocked_input_trees, trees=trees, **kwargs)
 
     aggregate_output('..', subdir, rdx_default_output_fltrs)
 
@@ -311,7 +305,7 @@ def workflow_mc(inputs, input_yml, job_name='mc', date=None,
     ]
 
     with Pool(ncpus=num_of_workers) as pool:
-        pool.map(lambda d: workflow_mc_ghost_single(**d), job_directives)
+        pool.map(lambda d: workflow_mc_single(**d), job_directives)
         pool.close()
         pool.join()
         pool.clear()
