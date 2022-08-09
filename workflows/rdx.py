@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Aug 08, 2022 at 06:38 PM -0400
+# Last Change: Mon Aug 08, 2022 at 08:54 PM -0400
 
 import sys
 import os.path as op
@@ -225,8 +225,10 @@ def workflow_data(inputs, input_yml, job_name='data', use_ubdt=True,
         chdir('..')  # Switch back to parent workdir
 
 
-def workflow_mc_ghost_single(subdir, date, input_ntp, input_yml,aux_workflows,
+def workflow_mc_ghost_single(maindir, subdir,
+                             date, input_ntp, input_yml, aux_workflows,
                              **kwargs):
+    chdir(maindir)
     ensure_dir(subdir, make_absolute=False)
     chdir(subdir)  # Switch to the workdir of the subjob
 
@@ -235,17 +237,16 @@ def workflow_mc_ghost_single(subdir, date, input_ntp, input_yml,aux_workflows,
         input_ntp, input_yml, output_suffix, aux_workflows, **kwargs)
 
     aggregate_output('..', subdir, rdx_default_output_fltrs)
-    chdir('..')  # Switch back to parent workdir
 
 
 def workflow_mc_ghost(inputs, input_yml, job_name='mc_ghost', date=None,
                       use_ubdt=True, num_of_workers=12, **kwargs):
     aux_workflows = [workflow_ubdt] if use_ubdt else []
     subworkdirs, workdir = workflow_prep_dir(job_name, inputs, **kwargs)
-    chdir(workdir)
 
     job_directives = [
         {
+            'maindir': workdir,
             'subdir': subdir,
             'date': date,
             'input_ntp': input_ntp,
@@ -257,6 +258,9 @@ def workflow_mc_ghost(inputs, input_yml, job_name='mc_ghost', date=None,
 
     with Pool(ncpus=num_of_workers) as pool:
         pool.map(lambda d: workflow_mc_ghost_single(**d), job_directives)
+        pool.close()
+        pool.join()
+        pool.clear()
 
 
 def workflow_mc(inputs, input_yml, job_name='mc', date=None,
@@ -318,6 +322,7 @@ JOBS = {
         '../ntuples/ref-RJpsi-run2/Jpsi-ghost',
         '../postprocess/rdx-run2/rdx-run2_ghost.yml',
         trees=['JpsiRecTuple/DecayTree'],
+        prefix='Jpsi',
         use_ubdt=False
     ),
     # Run 2
