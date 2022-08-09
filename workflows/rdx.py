@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Aug 08, 2022 at 08:54 PM -0400
+# Last Change: Mon Aug 08, 2022 at 10:57 PM -0400
 
 import sys
 import os.path as op
@@ -263,38 +263,58 @@ def workflow_mc_ghost(inputs, input_yml, job_name='mc_ghost', date=None,
         pool.clear()
 
 
+def workflow_mc_single(maindir, subdir,
+                       date, input_ntp, input_yml, aux_workflows, **kwargs):
+    chdir(maindir)
+    ensure_dir(subdir, make_absolute=False)
+    chdir(subdir)  # Switch to the workdir of the subjob
+
+    fields = check_ntp_name(input_ntp)[0]
+    if 'decay_mode' in fields:
+        decay_mode = fields['decay_mode']
+    else:
+        decay_mode = find_decay_mode(fields['lfn'])
+    blocked_input_trees = rdx_mc_blocked_trees(decay_mode)
+
+    output_suffix = generate_step2_name(input_ntp, date=date)
+    if 'cli_vars' not in kwargs:
+        kwargs['cli_vars'] = dict()
+    kwargs['cli_vars']['cli_mc_id'] = decay_mode
+
+    workflow_single_ntuple(
+        input_ntp, input_yml, output_suffix, aux_workflows,
+        blocked_input_trees=blocked_input_trees, **kwargs)
+
+    aggregate_output('..', subdir, rdx_default_output_fltrs)
+
+
 def workflow_mc(inputs, input_yml, job_name='mc', date=None,
+                use_hammer=True, num_of_workers=12,
                 **kwargs):
     aux_workflows = [
-        workflow_hammer, workflow_trigger_emu,
-        workflow_pid, workflow_trk, workflow_jk,
+        workflow_trigger_emu, workflow_pid, workflow_trk, workflow_jk,
     ]
+    if use_hammer:
+        aux_workflows.append(workflow_hammer)
     subworkdirs, workdir = workflow_prep_dir(job_name, inputs, **kwargs)
-    chdir(workdir)
 
-    for subdir, input_ntp in subworkdirs.items():
-        ensure_dir(subdir, make_absolute=False)
-        chdir(subdir)  # Switch to the workdir of the subjob
+    job_directives = [
+        {
+            'maindir': workdir,
+            'subdir': subdir,
+            'date': date,
+            'input_ntp': input_ntp,
+            'input_yml': input_yml,
+            'aux_workflows': aux_workflows
+        }
+        for subdir, input_ntp in subworkdirs.items()
+    ]
 
-        fields = check_ntp_name(input_ntp)[0]
-        if 'decay_mode' in fields:
-            decay_mode = fields['decay_mode']
-        else:
-            decay_mode = find_decay_mode(fields['lfn'])
-        blocked_input_trees = rdx_mc_blocked_trees(decay_mode)
-
-        output_suffix = generate_step2_name(input_ntp, date=date)
-        # FIXME: Very dirty hack
-        if 'cli_vars' not in kwargs:
-            kwargs['cli_vars'] = dict()
-        kwargs['cli_vars']['cli_mc_id'] = decay_mode
-
-        workflow_single_ntuple(
-            input_ntp, input_yml, output_suffix, aux_workflows,
-            blocked_input_trees=blocked_input_trees, **kwargs)
-
-        aggregate_output('..', subdir, rdx_default_output_fltrs)
-        chdir('..')  # Switch back to parent workdir
+    with Pool(ncpus=num_of_workers) as pool:
+        pool.map(lambda d: workflow_mc_ghost_single(**d), job_directives)
+        pool.close()
+        pool.join()
+        pool.clear()
 
 
 def workflow_split(inputs, input_yml, job_name='split', **kwargs):
@@ -378,8 +398,8 @@ JOBS = {
             # D*
             '../ntuples/0.9.6-2016_production/Dst_D0-mc-tracker_only/*11574021*.DST', # norm, D*
             '../ntuples/0.9.6-2016_production/Dst_D0-mc-tracker_only/*12773410*.DST', # norm, D*0
-            '../ntuples/0.9.6-2016_production/Dst_D0-mc-tracker_only/*11574011*.DST', # sig, D*
-            '../ntuples/0.9.6-2016_production/Dst_D0-mc-tracker_only/*12773400*.DST', # sig, D*0
+            # '../ntuples/0.9.6-2016_production/Dst_D0-mc-tracker_only/*11574011*.DST', # sig, D*
+            # '../ntuples/0.9.6-2016_production/Dst_D0-mc-tracker_only/*12773400*.DST', # sig, D*0
         ],
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
     ),
