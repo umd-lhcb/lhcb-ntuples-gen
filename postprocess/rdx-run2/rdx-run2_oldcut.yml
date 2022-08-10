@@ -37,7 +37,7 @@ rename:
     # Event variables
     nTracks: ntracks
     NumSPDHits: nspdhits
-
+Makefile
 calculation:
     # For pseudo-random sequence generation
     prs_in: double; b0_PT; b_PT
@@ -285,7 +285,7 @@ calculation:
         double;
         SQRT(M2(b0_TRUEP_X, b0_TRUEP_Y, b0_TRUEP_Z, b0_TRUEP_E));
         SQRT(M2(b_TRUEP_X, b_TRUEP_Y, b_TRUEP_Z, b_TRUEP_E))
-    q2_true: double; q2_true
+    q2_true: double; b0_TRUE_Q2; b_TRUE_Q2 # in MeV^2!
     # Inputs to Dalitz-inspired reweighting
     dd_mass: >-
         double;
@@ -568,13 +568,9 @@ calculation:
     wkst_phoebe_m: double; IF(is_kst_phoebe, 0.0, 1.0)
     wkst_phoebe_p: double; IF(is_kst_phoebe, 2.0, 1.0)
 
-    wpid_base: ^double; wpid_k*wpid_pi
-    wpid_ubdt: double; wpid_base*wpid_mu_ubdt
-    wpid: double; wpid_base*wpid_mu
-    wtrg_l0_tis: ^double; b0_l0_global_tis_emu; b_l0_global_tis_emu
-    wtrg: float; d0_l0_hadron_tos_emu + wtrg_l0_tis - d0_l0_hadron_tos_emu*wtrg_l0_tis
-    wtrk: double; wtrk_k*wtrk_pi*wtrk_mu*wtrk_spi; wtrk_k*wtrk_pi*wtrk_mu
-    wjk: double; wjk_kin*wjk_occ
+    # Phenomenological correction based on true q2 in D** heavy
+    wq2p: double; 1 + 2*(((q2_true - 105*105)/8e6) - 0.5)
+    wq2m: double; 1 - 2*(((q2_true - 105*105)/8e6) - 0.5)
 
     # misID weights
     in_deltam_sb: "^bool; d0_m_ok && !dst_m_ok"
@@ -607,6 +603,14 @@ calculation:
         wmis*(wmis_norm_no_smr*skim_global_ok + wmis_bsb_no_smr*(dx_m_ok && b_m_sb))
 
     # Weight representing the global cut (BEFORE applying the skim cuts)
+    wpid_base: ^double; wpid_k*wpid_pi
+    wpid_ubdt: double; wpid_base*wpid_mu_ubdt
+    wpid: double; wpid_base*wpid_mu
+    wtrg_l0_tis: ^double; b0_l0_global_tis_emu; b_l0_global_tis_emu
+    wtrg: float; d0_l0_hadron_tos_emu + wtrg_l0_tis - d0_l0_hadron_tos_emu*wtrg_l0_tis
+    wtrk: double; wtrk_k*wtrk_pi*wtrk_mu*wtrk_spi; wtrk_k*wtrk_pi*wtrk_mu
+    wjk: double; wjk_kin*wjk_occ
+
     w_base: double; wtrg*wtrk*wjk*wbr_dd  # no PID cuts for the base weights
     w_w_ubdt: double; w_base*wpid_ubdt    # default PID cuts incl. UBDT
     wff: double; wff; 1.0                 # FF weight. default to 1
