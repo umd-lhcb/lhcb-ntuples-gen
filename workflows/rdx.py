@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Aug 10, 2022 at 06:27 PM -0400
+# Last Change: Wed Aug 10, 2022 at 06:29 PM -0400
 
 import sys
 import os.path as op
@@ -339,7 +339,7 @@ JOBS = {
         prefix='Jpsi',
         use_ubdt=False
     ),
-    # Run 2
+    # Run 2 data
     'rdx-ntuple-run2-data': partial(
         workflow_split,
         '../ntuples/0.9.6-2016_production/Dst_D0-std',
@@ -358,6 +358,7 @@ JOBS = {
         cli_vars={'cli_misid': 'true'},
         use_misid=True
     ),
+    # Run 2 MC
     'rdx-ntuple-run2-mc_ghost': partial(
         workflow_split_mc_ghost,
         '../ntuples/0.9.7-rdx_production/Dst_D0-ghost/Dst_D0--*ghost_norm*',
@@ -383,6 +384,7 @@ JOBS = {
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
         cli_vars={'cli_misid_study': 'true'}
     ),
+    # Run 2 MC tracker only
     'rdx-ntuple-run2-mc-to-sig-norm': partial(
         workflow_split,
         [
