@@ -285,7 +285,7 @@ calculation:
         double;
         SQRT(M2(b0_TRUEP_X, b0_TRUEP_Y, b0_TRUEP_Z, b0_TRUEP_E));
         SQRT(M2(b_TRUEP_X, b_TRUEP_Y, b_TRUEP_Z, b_TRUEP_E))
-    q2_true: double; b0_TRUE_Q2; b_TRUE_Q2 # in MeV^2!
+    q2_true: double; b0_True_Q2; b_True_Q2 # in MeV^2!
     # Inputs to Dalitz-inspired reweighting
     dd_mass: >-
         double;
