@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri Aug 12, 2022 at 11:30 PM -0400
+# Last Change: Sun Aug 14, 2022 at 05:52 PM -0400
 
 import sys
 import os.path as op
@@ -418,6 +418,16 @@ JOBS = {
         [
             f'../ntuples/0.9.6-2016_production/Dst_D0-mc-tracker_only/*{i}*.DST'
             for i in [12675011, 11674401, 12675402, 11676012, 12875440]
+        ],
+        '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
+        use_hammer=False,
+        num_of_workers=20
+    ),
+    'rdx-ntuple-run2-mc-to-ds': partial(
+        workflow_split,
+        [
+            f'../ntuples/0.9.6-2016_production/Dst_D0-mc-tracker_only/*{i}*.DST'
+            for i in [13874020, 13674000]
         ],
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
         use_hammer=False,
