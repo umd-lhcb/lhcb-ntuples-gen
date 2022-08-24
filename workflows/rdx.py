@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Aug 17, 2022 at 05:44 AM -0400
+# Last Change: Mon Aug 22, 2022 at 03:40 AM -0400
 
 import sys
 import os.path as op
@@ -239,7 +239,7 @@ def workflow_data(inputs, input_yml, job_name='data', use_ubdt=True,
     ]
 
     with Pool(ncpus=num_of_workers) as pool:
-        pool.map(lambda d: workflow_generic_single(**d), job_directives)
+        pool.map(lambda d: workflow_generic_single(**d, **kwargs), job_directives)
         pool.close()
         pool.join()
         pool.clear()
@@ -305,7 +305,7 @@ def workflow_mc(inputs, input_yml, job_name='mc', date=None,
     ]
 
     with Pool(ncpus=num_of_workers) as pool:
-        pool.map(lambda d: workflow_mc_single(**d), job_directives)
+        pool.map(lambda d: workflow_mc_single(**d, **kwargs), job_directives)
         pool.close()
         pool.join()
         pool.clear()
@@ -337,7 +337,7 @@ JOBS = {
         '../postprocess/rdx-run2/rdx-run2_ghost.yml',
         trees=['JpsiRecTuple/DecayTree'],
         prefix='Jpsi',
-        use_ubdt=False
+        particle='BachMu'
     ),
     # Run 2 data
     'rdx-ntuple-run2-data': partial(
