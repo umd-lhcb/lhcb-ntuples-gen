@@ -487,7 +487,8 @@ calculation:
     #########
     # Skims #
     #########
-    skim_global_ok: bool; dx_m_ok && b_m_ok && in_fit_range  # might require 'mu_ubdt_ok' later
+    # don't require 'mu_ubdt_ok' as this YAML applies to misID ntuples too
+    skim_global_ok: bool; dx_m_ok && b_m_ok && in_fit_range
     skim_global_usb: bool; dx_m_ok && b_m_sb
     is_iso: bool; skim_global_ok && is_iso_loose
     is_dd: bool; skim_global_ok && is_dd_loose
@@ -574,6 +575,8 @@ calculation:
 
     # misID weights
     in_deltam_sb: "^bool; d0_m_ok && !dst_m_ok"
+    # 'wmis' is the NON-DiF-SMEARED misID weights. The smearing is used for buiding templates
+    # containing fit variables ONLY!
     wmis: >-
         double;
         wmis_norm*skim_global_ok + wmis_bsb*(dx_m_ok && b_m_sb) +
