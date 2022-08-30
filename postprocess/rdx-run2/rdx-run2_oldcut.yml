@@ -699,7 +699,7 @@ global_selection:
     - global_cut_ok
     - truthmatch > 0
     - "!is_ddx || ddx_add_truthmatch && dd_mass_phoebe > 1000*1000"  # kill the leaking false DD events
-    - ham_ok
+    # - ham_ok
 
 one_cand_only:
     enable: true
