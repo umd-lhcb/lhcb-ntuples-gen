@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Aug 22, 2022 at 03:40 AM -0400
+# Last Change: Sat Sep 03, 2022 at 08:37 PM -0400
 
 import sys
 import os.path as op
@@ -356,7 +356,15 @@ JOBS = {
         '../ntuples/0.9.6-2016_production/Dst_D0-mu_misid',
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
         cli_vars={'cli_misid': 'true'},
-        use_misid=True
+        use_misid=True,
+        use_ubdt=False
+    ),
+    'rdx-ntuple-run2-misid_study': partial(
+        workflow_split,
+        '../ntuples/0.9.6-2016_production/Dst_D0-mu_misid',
+        '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
+        cli_vars={'cli_misid_study': 'true'},
+        use_ubdt=False
     ),
     # Run 2 MC
     'rdx-ntuple-run2-mc_ghost': partial(
@@ -377,12 +385,6 @@ JOBS = {
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
         cli_vars={'cli_cutflow': 'true'},
         blocked_patterns=['--aux', 'MC_2012']
-    ),
-    'rdx-ntuple-run2-misid_study': partial(
-        workflow_split,
-        '../ntuples/0.9.6-2016_production/Dst_D0-mu_misid',
-        '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
-        cli_vars={'cli_misid_study': 'true'}
     ),
     # Run 2 MC tracker only
     'rdx-ntuple-run2-mc-to-sig-norm': partial(
