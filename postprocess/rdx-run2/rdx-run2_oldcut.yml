@@ -481,6 +481,9 @@ calculation:
     ###############################
     dx_m_ok: bool; d0_m_ok && dst_m_ok; d0_m_ok && d0_m_hypo_ok && d0_dst_veto_ok
     in_fit_range: bool; IN_RANGE(mm2, -2.0, 10.9) && IN_RANGE(el, 0.1, 2.65) && IN_RANGE(q2, -0.4, 12.6)
+    in_fit_range_smr_k: bool; IN_RANGE(mm2_smr_k, -2.0, 10.9) && IN_RANGE(el_smr_k, 0.1, 2.65) && IN_RANGE(q2_smr_k, -0.4, 12.6)
+    in_fit_range_smr_pi: bool; IN_RANGE(mm2_smr_pi, -2.0, 10.9) && IN_RANGE(el_smr_pi, 0.1, 2.65) && IN_RANGE(q2_smr_pi, -0.4, 12.6)
+    in_fit_range_no_smr: bool; in_fit_range
     b_m_ok: bool; FLAG_SEL_B0_MASS(b0_M); FLAG_SEL_BMINUS_MASS(b_M)
     b_m_sb: bool; FLAG_SEL_B0_MASS_SB(b0_M); FLAG_SEL_BMINUS_MASS_SB(b_M)
 
@@ -489,6 +492,9 @@ calculation:
     #########
     # don't require 'mu_ubdt_ok' as this YAML applies to misID ntuples too
     skim_global_ok: bool; dx_m_ok && b_m_ok && in_fit_range
+    skim_global_ok_smr_k: bool; dx_m_ok && b_m_ok && in_fit_range_smr_k
+    skim_global_ok_smr_pi: bool; dx_m_ok && b_m_ok && in_fit_range_smr_pi
+    skim_global_ok_no_smr: bool; skim_global_ok
     skim_global_usb: bool; dx_m_ok && b_m_sb
     is_iso: bool; skim_global_ok && is_iso_loose
     is_dd: bool; skim_global_ok && is_dd_loose
@@ -586,28 +592,28 @@ calculation:
         wmis_norm*skim_global_ok + wmis_bsb*(dx_m_ok && b_m_sb)
     wmis_smr_k: >-
         double;
-        wmis*(wmis_norm_smr_k*skim_global_ok +
+        wmis*(wmis_norm_smr_k*skim_global_ok_smr_k +
         wmis_bsb_smr_k*(dx_m_ok && b_m_sb) +
-        wmis_dsb_smr_k*(in_deltam_sb && b_m_ok && in_fit_range) +
+        wmis_dsb_smr_k*(in_deltam_sb && b_m_ok && in_fit_range_smr_k) +
         wmis_dsb_bsb_smr_k*(in_deltam_sb && b_m_sb)
         );
-        wmis*(wmis_norm_smr_k*skim_global_ok + wmis_bsb_smr_k*(dx_m_ok && b_m_sb))
+        wmis*(wmis_norm_smr_k*skim_global_ok_smr_k + wmis_bsb_smr_k*(dx_m_ok && b_m_sb))
     wmis_smr_pi: >-
         double;
-        wmis*(wmis_norm_smr_pi*skim_global_ok +
+        wmis*(wmis_norm_smr_pi*skim_global_ok_smr_pi +
         wmis_bsb_smr_pi*(dx_m_ok && b_m_sb) +
-        wmis_dsb_smr_pi*(in_deltam_sb && b_m_ok && in_fit_range) +
+        wmis_dsb_smr_pi*(in_deltam_sb && b_m_ok && in_fit_range_smr_pi) +
         wmis_dsb_bsb_smr_pi*(in_deltam_sb && b_m_sb)
         );
-        wmis*(wmis_norm_smr_pi*skim_global_ok + wmis_bsb_smr_pi*(dx_m_ok && b_m_sb))
+        wmis*(wmis_norm_smr_pi*skim_global_ok_smr_pi + wmis_bsb_smr_pi*(dx_m_ok && b_m_sb))
     wmis_no_smr: >-
         double;
-        wmis*(wmis_norm_no_smr*skim_global_ok +
+        wmis*(wmis_norm_no_smr*skim_global_ok_no_smr +
         wmis_bsb_no_smr*(dx_m_ok && b_m_sb) +
-        wmis_dsb_no_smr*(in_deltam_sb && b_m_ok && in_fit_range) +
+        wmis_dsb_no_smr*(in_deltam_sb && b_m_ok && in_fit_range_no_smr) +
         wmis_dsb_bsb_no_smr*(in_deltam_sb && b_m_sb)
         );
-        wmis*(wmis_norm_no_smr*skim_global_ok + wmis_bsb_no_smr*(dx_m_ok && b_m_sb))
+        wmis*(wmis_norm_no_smr*skim_global_ok_no_smr + wmis_bsb_no_smr*(dx_m_ok && b_m_sb))
 
     # Weight representing the global cut (BEFORE applying the skim cuts)
     wpid_base: ^double; wpid_k*wpid_pi
