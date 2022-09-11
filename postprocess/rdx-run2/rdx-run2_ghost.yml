@@ -43,6 +43,7 @@ calculation:
     Brunel_MuonUnbiased: double; TO_TYPE(mu_unbiased, 1.0)
     Brunel_UBDT: double; mu_bdt_mu; BachMu_bdt_mu
     # PIDCalib aliaes
+    TRACK_GHOSTPROB: double; mu_TRACK_GhostProb; BachMu_TRACK_GhostProb
     MC15TuneV1_ProbNNpi: double; Brunel_MC15TuneV1_ProbNNpi
     MC15TuneV1_ProbNNk: double; Brunel_MC15TuneV1_ProbNNk
     MC15TuneV1_ProbNNp: double; Brunel_MC15TuneV1_ProbNNp
