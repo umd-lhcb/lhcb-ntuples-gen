@@ -484,6 +484,7 @@ calculation:
     in_fit_range_smr_k: bool; IN_RANGE(mm2_smr_k, -2.0, 10.9) && IN_RANGE(el_smr_k, 0.1, 2.65) && IN_RANGE(q2_smr_k, -0.4, 12.6)
     in_fit_range_smr_pi: bool; IN_RANGE(mm2_smr_pi, -2.0, 10.9) && IN_RANGE(el_smr_pi, 0.1, 2.65) && IN_RANGE(q2_smr_pi, -0.4, 12.6)
     in_fit_range_no_smr: bool; in_fit_range
+    # TODO: probably also need to build the '_smr_k', '_smr_pi' variables for these
     b_m_ok: bool; FLAG_SEL_B0_MASS(b0_M); FLAG_SEL_BMINUS_MASS(b_M)
     b_m_sb: bool; FLAG_SEL_B0_MASS_SB(b0_M); FLAG_SEL_BMINUS_MASS_SB(b_M)
 
@@ -581,8 +582,7 @@ calculation:
 
     # misID weights
     in_deltam_sb: "^bool; d0_m_ok && !dst_m_ok"
-    # 'wmis' is the NON-DiF-SMEARED misID weights. The smearing is used for buiding templates
-    # containing fit variables ONLY!
+    # 'wmis' is the NON-DiF-SMEARED misID weights
     wmis: >-
         double;
         wmis_norm*skim_global_ok +
