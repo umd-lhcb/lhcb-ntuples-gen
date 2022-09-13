@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Jun 14, 2022 at 01:54 AM -0400
+# Last Change: Tue Sep 13, 2022 at 01:24 AM -0400
 
 import re
 import yaml
@@ -275,6 +275,7 @@ NTP_STEP2_FIELDS = [
     ('polarity', False, lambda x: x in ['md', 'mu', 'md-mu']),
     ('additional_flags', True, lambda x: True),
     ('index', True, lambda x: x.isdecimal()),
+    ('aux', True, lambda x: x.startswith('aux')),
 ]
 
 
