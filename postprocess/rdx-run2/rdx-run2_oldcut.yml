@@ -368,7 +368,7 @@ calculation:
 
     # FF reweighting
     # NOTE: Need to have a valid HAMMER weight unless is a DDX or D**s
-    ham_ok: bool; IF(is_ddx || is_strange, true, ham_ok); true
+    ham_ok: bool; ham_ok; true
 
     ##########################
     # Selection flags, basic #
