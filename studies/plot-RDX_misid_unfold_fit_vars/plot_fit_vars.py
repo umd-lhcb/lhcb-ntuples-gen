@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Sep 20, 2022 at 11:19 AM -0400
+# Last Change: Tue Sep 20, 2022 at 11:25 AM -0400
 #
 # Description: plot fit variables w/ w/o decay-in-flight smearing
 
@@ -31,7 +31,7 @@ DEFAULT_COLORS = ["#00429d", "#5585b7", "#8bd189", "#d15d5f", "#93003a"]
 DEFAULT_OVERALL_COLORS = ["black", "red"]
 LEGEND_LOC = {"q2": "upper left", "mm2": "upper left", "el": "upper right"}
 
-MISID_WTS = ["wmis_norm"]
+MISID_WTS = ["wmis"]
 MISID_TAGS = {
     "is_misid_pi": r"$\pi$ tag",
     "is_misid_k": r"$K$ tag",
