@@ -1,4 +1,7 @@
-# Last Change: Thu Apr 07, 2022 at 11:47 AM -0400
+# Last Change: Tue Sep 20, 2022 at 12:40 AM -0400
+
+export LD_LIBRARY_PATH	:=	${STUB_LD_LIBRARY_PATH}:${LD_LIBRARY_PATH}
+
 
 .PHONY: fit-2016 plot-init-2016 gen-weights-2016
 
@@ -16,12 +19,14 @@ fit-2016:
 	./fit/splot.py -i $(OUT_DIR)/fit.root -p $(OUT_DIR)/params.yml \
 		-o $(OUT_DIR)/splot_bkg.pdf -m bkg --modelLabel "bkg."
 
+
 plot-init-2016:
 	./fit/fit_and_sweight.py -i \
 		"../ntuples/0.9.6-2016_production/JpsiK-std-step2/JpsiK--22_02_26--std--data--2016--md.root:tree" \
 		"../ntuples/0.9.6-2016_production/JpsiK-std-step2/JpsiK--22_02_26--std--data--2016--mu.root:tree" \
 		-p ./fit/fit_params/init.yml \
 		-I gen/JpsiK-$(shell date +"%y_%m_%d_%H_%M")-std-fit_init-2016.png --noFit
+
 
 gen-weights-2016:
 	./fit/gen_weights.py \
