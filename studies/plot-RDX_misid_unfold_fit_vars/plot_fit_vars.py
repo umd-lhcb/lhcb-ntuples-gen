@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Sep 20, 2022 at 12:51 PM -0400
+# Last Change: Tue Sep 20, 2022 at 01:07 PM -0400
 #
 # Description: plot fit variables w/ w/o decay-in-flight smearing
 
@@ -41,22 +41,22 @@ PLOT_VARS = {
     "q2": r"$q^2$ [GeV$^2$]",
     "el": r"$E_l$ [GeV]",
 }
-PLOT_VARS_SMR_SUF = ['_smr_pi', '_smr_k', '_no_smr']
+PLOT_VARS_SMR_SUF = ["_smr_pi", "_smr_k", "_no_smr"]
 
 PLOT_RANGE = {"q2": [-0.4, 12.6], "mm2": [-2.0, 10.9], "el": [0.1, 2.65]}
 SMR_WTS = [["", "_smr_pi", "_smr_k"], ["_no_smr", "_smr_pi", "_smr_k"]]
 
 MISID_WTS = {
-    'q2': 'wmis*skim_global_ok',
-    'q2_smr_pi': 'wmis_smr_pi*skim_global_ok_smr_pi',
-    'q2_smr_k': 'wmis_smr_k*skim_global_ok_smr_k',
-    'q2_no_smr': 'wmis_no_smr*skim_global_ok_no_smr'
+    "q2": "wmis*skim_global_ok",
+    "q2_smr_pi": "wmis_smr_pi*skim_global_ok_smr_pi",
+    "q2_smr_k": "wmis_smr_k*skim_global_ok_smr_k",
+    "q2_no_smr": "wmis_no_smr*skim_global_ok_no_smr",
 }
 
-for br in ['mm2', 'el']:
-    for s in [''] + PLOT_VARS_SMR_SUF:
-        name = f'{br}{s}' if s != '' else br
-        name_ref = f'q2{s}' if s != '' else 'q2'
+for br in ["mm2", "el"]:
+    for s in [""] + PLOT_VARS_SMR_SUF:
+        name = f"{br}{s}" if s != "" else br
+        name_ref = f"q2{s}" if s != "" else "q2"
         MISID_WTS[name] = MISID_WTS[name_ref]
 
 
@@ -198,6 +198,18 @@ def plot_overall(
 
 
 ########
+# Test #
+########
+
+class DummyReader:
+    def __init__(*args, **kwargs):
+        pass
+
+    def eval(self, expr):
+        return 0
+
+
+########
 # Main #
 ########
 
@@ -205,7 +217,7 @@ if __name__ == "__main__":
     mplhep.style.use("LHCb2")
     args = parse_input()
     reader = BooleanEvaluator(args.input, args.tree)
-
+    #  reader = DummyReader(args.input, args.tree)
 
     for br_name, show_title, show_legend in zip(
         PLOT_VARS, args.show_title, args.show_legend
@@ -213,12 +225,15 @@ if __name__ == "__main__":
         histos_misid = []
         histos_smr = []
         data_range = PLOT_RANGE[br_name]
+        print(f'Working on {br_name}...')
 
         for cut_tag in MISID_TAGS:
             # unsmeared:
-            expr_wt_unsmr = f'{cut_tag}*{MISID_WTS[br_name]}'
+            expr_wt_unsmr = f"{cut_tag}*{MISID_WTS[br_name]}"
             br = reader.eval(br_name)
             wt_unsmr = reader.eval(expr_wt_unsmr)
+            print(f'  Unsmeared br: {br_name}')
+            print(f'  Unsmeared wt: {expr_wt_unsmr}')
 
             histos_misid.append(
                 gen_histo(
@@ -231,11 +246,15 @@ if __name__ == "__main__":
 
             # smeared
             tmp_histos = []
+            print('  Smeared:')
             for br_name_suf in PLOT_VARS_SMR_SUF:
-                br_name_smr = f'{br_name}{br_name_suf}'
-                if 'no_smr' in br_name_smr:
+                br_name_smr = f"{br_name}{br_name_suf}"
+                expr_wt_smr = f"{cut_tag}*{MISID_WTS[br_name_smr]}"
+                # FIXME: have to change name like this...the ordering matters!
+                if "no_smr" in br_name_smr:
                     br_name_smr = br_name
-                expr_wt_smr = f'{cut_tag}*{MISID_WTS[br_name_smr]}'
+                print(f'    name: {br_name_smr}')
+                print(f'    wt: {expr_wt_smr}')
 
                 br_smr = reader.eval(br_name_smr)
                 wt_smr = reader.eval(expr_wt_smr)
