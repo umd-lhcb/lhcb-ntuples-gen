@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Author: Yipeng Sun
-# Last Change: Tue Sep 20, 2022 at 10:56 PM -0400
+# Last Change: Tue Sep 20, 2022 at 11:55 PM -0400
 
 INPUT_NTP=../../ntuples/0.9.4-trigger_emulation/Dst_D0-mc/Dst_D0--21_04_21--mc--MC_2016_Beam6500GeV-2016-MagDown-Nu1.6-25ns-Pythia8_Sim09j_Trig0x6139160F_Reco16_Turbo03a_Filtered_11574021_D0TAUNU.SAFESTRIPTRIG.DST.root
 
@@ -13,7 +13,10 @@ plot_hlt1_twotrackmva() {
 
     plot_trigger_efficiencies.py \
         -n "${NTP}/${TREE}" -b ${TRIGGER} -o "${OUTPUT_PREFIX}" \
-        --title "${TITLE}" --default-cut d0_l0_global_dec --ratio-plot
+        --title "${TITLE}" --default-cut d0_l0_global_dec --ratio-plot \
+        -k q2 mmiss2 el \
+        -D 0 11 -6 11 0 4 \
+        -Y 0.61 0.91 0.6 1 0.6 1
 }
 
 plot_hlt1_trackmva() {
@@ -27,13 +30,8 @@ plot_hlt1_trackmva() {
         -n "${NTP}/${TREE}" -b ${TRIGGER} -o "${OUTPUT_PREFIX}"  \
         --title "${TITLE}" --default-cut d0_l0_global_dec --ratio-plot \
         -k q2 mmiss2 el \
-           k_p k_pt pi_p pi_pt mu_p mu_pt \
-           k_chi2ndof k_ipchi2 k_ghost \
-           pi_chi2ndof pi_ipchi2 pi_ghost \
-           mu_chi2ndof mu_ipchi2 mu_ghost \
-           k_theta pi_theta mu_theta \
-           k_phi pi_phi mu_phi \
-           nspd_hits
+        -D 0 11 -6 11 0 4 \
+        -Y 0.61 0.91 0.6 1 0.6 1
 }
 
 plot_l0_hadron_eff() {
@@ -105,23 +103,23 @@ plot_l0_global_tis_eff() {
                  "Number of SPD hits"
 }
 
-# # Hlt1 emulation: Hlt1TwoTrackMVA & Hlt1TrackMVA
-# run2-rdx-hlt1.py ${INPUT_NTP} emu_hlt1_b0.root \
-#     -t TupleB0/DecayTree -B b0 --debug
-# run2-rdx-hlt1.py ${INPUT_NTP} emu_hlt1_b.root \
-#     -t TupleBminus/DecayTree -B b --debug || exit 1
+# Hlt1 emulation: Hlt1TwoTrackMVA & Hlt1TrackMVA
+run2-rdx-hlt1.py ${INPUT_NTP} emu_hlt1_b0.root \
+    -t TupleB0/DecayTree -B b0 --debug
+run2-rdx-hlt1.py ${INPUT_NTP} emu_hlt1_b.root \
+    -t TupleBminus/DecayTree -B b --debug || exit 1
 
-# # L0 emulation: L0Hadron
-# run2-rdx-l0_hadron_tos.py ${INPUT_NTP} emu_l0_hadron_b0.root \
-#     -t TupleB0/DecayTree --debug
-# run2-rdx-l0_hadron_tos.py ${INPUT_NTP} emu_l0_hadron_b.root \
-#     -t TupleBminus/DecayTree --debug || exit 1
+# L0 emulation: L0Hadron
+run2-rdx-l0_hadron_tos.py ${INPUT_NTP} emu_l0_hadron_b0.root \
+    -t TupleB0/DecayTree --debug
+run2-rdx-l0_hadron_tos.py ${INPUT_NTP} emu_l0_hadron_b.root \
+    -t TupleBminus/DecayTree --debug || exit 1
 
-# # L0 emulation: L0Global TIS
-# run2-rdx-l0_global_tis.py ${INPUT_NTP} emu_l0_global_tis_b0.root \
-#     -t TupleB0/DecayTree -B b0 --debug
-# run2-rdx-l0_global_tis.py ${INPUT_NTP} emu_l0_global_tis_b.root \
-#     -t TupleBminus/DecayTree -B b --debug || exit 1
+# L0 emulation: L0Global TIS
+run2-rdx-l0_global_tis.py ${INPUT_NTP} emu_l0_global_tis_b0.root \
+    -t TupleB0/DecayTree -B b0 --debug
+run2-rdx-l0_global_tis.py ${INPUT_NTP} emu_l0_global_tis_b.root \
+    -t TupleBminus/DecayTree -B b --debug || exit 1
 
 
 # Plot efficiencies: Hlt1TwoTrackMVA
