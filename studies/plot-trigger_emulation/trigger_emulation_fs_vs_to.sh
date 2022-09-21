@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 # Author: Yipeng Sun
-# Last Change: Wed Jun 16, 2021 at 04:02 AM +0200
+# Last Change: Tue Sep 20, 2022 at 10:35 PM -0400
 
-INPUT_NTP1=$1
-INPUT_NTP2=$2
+INPUT_NTP1=../../ntuples/0.9.4-trigger_emulation/Dst_D0-mc/Dst_D0--21_04_21--mc--MC_2016_Beam6500GeV-2016-MagDown-Nu1.6-25ns-Pythia8_Sim09j_Trig0x6139160F_Reco16_Turbo03a_Filtered_11574021_D0TAUNU.SAFESTRIPTRIG.DST.root
+INPUT_NTP2=../../ntuples/0.9.4-trigger_emulation/Dst_D0-mc/Dst_D0--21_04_21--mc--tracker_only--MC_2016_Beam6500GeV-2016-MagDown-TrackerOnly-Nu1.6-25ns-Pythia8_Sim09j_Reco16_Filtered_11574021_D0TAUNU.SAFESTRIPTRIG.DST.root
 
 plot_hlt1_twotrackmva() {
     NTP1=$1
@@ -57,14 +57,9 @@ plot_l0_hadron_eff() {
         -n "${NTP2}/${TREE}" -b ${TRIGGER} -l TO \
         -o "${OUTPUT_PREFIX}" \
         --title "${TITLE}" --ax2-ylabel "TO / FS" --ratio-plot \
-        -k q2 mmiss2 el \
-           d0_pt k_pt pi_pt \
-        -D -10 10 -10 8 0 3 \
-           0 50 0 25 0 25 \
-        --xlabel "\$q^2$ [GeV\$^2$]" \
-                 "\$m_{miss}^2$ [GeV\$^2$]" \
-                 "\$E_l$ [GeV]" \
-                 "\$D^0$ \$p_T$ [GeV]" \
+        -k d0_pt k_pt pi_pt \
+        -D 0 50 0 25 0 25 \
+        --xlabel "\$D^0$ \$p_T$ [GeV]" \
                  "\$K$ \$p_T$ [GeV]" \
                  "\$\\pi$ \$p_T$ [GeV]"
 }
@@ -106,14 +101,14 @@ run2-rdx-hlt1.py ${INPUT_NTP2} emu_hlt1_to_b.root \
     -t TupleBminus/DecayTree -B b --debug || exit 1
 
 # L0 emulation: L0Hadron
-run2-rdx-l0_hadron.py ${INPUT_NTP1} emu_l0_hadron_fs_b0.root \
+run2-rdx-l0_hadron_tos.py ${INPUT_NTP1} emu_l0_hadron_fs_b0.root \
     -t TupleB0/DecayTree --debug
-run2-rdx-l0_hadron.py ${INPUT_NTP2} emu_l0_hadron_to_b0.root \
+run2-rdx-l0_hadron_tos.py ${INPUT_NTP2} emu_l0_hadron_to_b0.root \
     -t TupleB0/DecayTree --debug || exit 1
 
-run2-rdx-l0_hadron.py ${INPUT_NTP1} emu_l0_hadron_fs_b.root \
+run2-rdx-l0_hadron_tos.py ${INPUT_NTP1} emu_l0_hadron_fs_b.root \
     -t TupleBminus/DecayTree --debug
-run2-rdx-l0_hadron.py ${INPUT_NTP2} emu_l0_hadron_to_b.root \
+run2-rdx-l0_hadron_tos.py ${INPUT_NTP2} emu_l0_hadron_to_b.root \
     -t TupleBminus/DecayTree --debug || exit 1
 
 # L0 emulation: L0Global TIS
@@ -158,12 +153,12 @@ plot_hlt1_trackmva emu_hlt1_fs_b.root emu_hlt1_to_b.root \
 #   D*
 plot_l0_hadron_eff emu_l0_hadron_fs_b0.root emu_l0_hadron_to_b0.root \
     "TupleB0/DecayTree" b0 \
-    "d0_l0_hadron_tos_emu" \
+    "d0_l0_hadron_tos_emu_xgb" \
     "L0Hadron TOS"
 #   D0
 plot_l0_hadron_eff emu_l0_hadron_fs_b.root emu_l0_hadron_to_b.root \
     "TupleBminus/DecayTree" b \
-    "d0_l0_hadron_tos_emu" \
+    "d0_l0_hadron_tos_emu_xgb" \
     "L0Hadron TOS"
 
 

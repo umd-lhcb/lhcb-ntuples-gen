@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 # Author: Yipeng Sun
-# Last Change: Mon Jun 14, 2021 at 06:49 PM +0200
+# Last Change: Tue Sep 20, 2022 at 10:56 PM -0400
 
-INPUT_NTP=$1
+INPUT_NTP=../../ntuples/0.9.4-trigger_emulation/Dst_D0-mc/Dst_D0--21_04_21--mc--MC_2016_Beam6500GeV-2016-MagDown-Nu1.6-25ns-Pythia8_Sim09j_Trig0x6139160F_Reco16_Turbo03a_Filtered_11574021_D0TAUNU.SAFESTRIPTRIG.DST.root
 
 plot_hlt1_twotrackmva() {
     NTP=$1
@@ -46,18 +46,13 @@ plot_l0_hadron_eff() {
     plot_trigger_efficiencies.py \
         -n "${NTP}/${TREE}" -b ${TRIGGER} -o "${OUTPUT_PREFIX}" \
         --title "${TITLE}" --ratio-plot \
-        -k q2 mmiss2 el \
-           d0_pt k_pt pi_pt \
-           nspd_hits \
+        -k d0_pt k_pt pi_pt \
+           nspdhits \
            d0_p k_p pi_p \
-        -D -10 10 -8 8 0 3 \
-           0 40 0 20 0 20 \
+        -D 0 50 0 25 0 25 \
            0 500 \
            0 250 0 150 0 150 \
-        --xlabel "\$q^2$ [GeV\$^2$]" \
-                 "\$m_{miss}^2$ [GeV\$^2$]" \
-                 "\$E_l$ [GeV]" \
-                 "\$D^0$ \$p_T$ [GeV]" \
+        --xlabel "\$D^0$ \$p_T$ [GeV]" \
                  "\$K$ \$p_T$ [GeV]" \
                  "\$\\pi$ \$p_T$ [GeV]" \
                  "Number of SPD hits" \
@@ -76,18 +71,13 @@ plot_l0_hadron_eff_all() {
     plot_trigger_efficiencies.py \
         -n "${NTP}/${TREE}" -b ${TRIGGER} -o "${OUTPUT_PREFIX}" \
         --title "${TITLE}" \
-        -k q2 mmiss2 el \
-           d0_pt k_pt pi_pt \
+        -k d0_pt k_pt pi_pt \
            nspd_hits \
            d0_p k_p pi_p \
-        -D -10 10 -8 8 0 3 \
-           0 40 0 20 0 20 \
+        -D 0 40 0 20 0 20 \
            0 500 \
            0 250 0 150 0 150 \
-        --xlabel "\$q^2$ [GeV\$^2$]" \
-                 "\$m_{miss}^2$ [GeV\$^2$]" \
-                 "\$E_l$ [GeV]" \
-                 "\$D^0$ \$p_T$ [GeV]" \
+        --xlabel "\$D^0$ \$p_T$ [GeV]" \
                  "\$K$ \$p_T$ [GeV]" \
                  "\$\\pi$ \$p_T$ [GeV]" \
                  "Number of SPD hits" \
@@ -106,36 +96,32 @@ plot_l0_global_tis_eff() {
     plot_trigger_efficiencies.py \
         -n "${NTP}/${TREE}" -b ${TRIGGER} -o "${OUTPUT_PREFIX}" \
         --title "${TITLE}" --ratio-plot \
-        -k q2 mmiss2 el \
-           "log_${OUTPUT_PREFIX}_pz" "log_${OUTPUT_PREFIX}_pt" \
+        -k "log_${OUTPUT_PREFIX}_pz" "log_${OUTPUT_PREFIX}_pt" \
            nspd_hits \
         -D -10 10 -10 8 0 3 9 14 6 12 0 500 \
         --bins 8 \
-        --xlabel "\$q^2$ [GeV\$^2$]" \
-                 "\$m_{miss}^2$ [GeV\$^2$]" \
-                 "\$E_l$ [GeV]" \
-                 "\$\\log(p_Z)$" \
+        --xlabel "\$\\log(p_Z)$" \
                  "\$\\log(p_T)$" \
                  "Number of SPD hits"
 }
 
-# Hlt1 emulation: Hlt1TwoTrackMVA & Hlt1TrackMVA
-run2-rdx-hlt1.py ${INPUT_NTP} emu_hlt1_b0.root \
-    -t TupleB0/DecayTree -B b0 --debug
-run2-rdx-hlt1.py ${INPUT_NTP} emu_hlt1_b.root \
-    -t TupleBminus/DecayTree -B b --debug || exit 1
+# # Hlt1 emulation: Hlt1TwoTrackMVA & Hlt1TrackMVA
+# run2-rdx-hlt1.py ${INPUT_NTP} emu_hlt1_b0.root \
+#     -t TupleB0/DecayTree -B b0 --debug
+# run2-rdx-hlt1.py ${INPUT_NTP} emu_hlt1_b.root \
+#     -t TupleBminus/DecayTree -B b --debug || exit 1
 
-# L0 emulation: L0Hadron
-run2-rdx-l0_hadron.py ${INPUT_NTP} emu_l0_hadron_b0.root \
-    -t TupleB0/DecayTree --debug
-run2-rdx-l0_hadron.py ${INPUT_NTP} emu_l0_hadron_b.root \
-    -t TupleBminus/DecayTree --debug || exit 1
+# # L0 emulation: L0Hadron
+# run2-rdx-l0_hadron_tos.py ${INPUT_NTP} emu_l0_hadron_b0.root \
+#     -t TupleB0/DecayTree --debug
+# run2-rdx-l0_hadron_tos.py ${INPUT_NTP} emu_l0_hadron_b.root \
+#     -t TupleBminus/DecayTree --debug || exit 1
 
-# L0 emulation: L0Global TIS
-run2-rdx-l0_global_tis.py ${INPUT_NTP} emu_l0_global_tis_b0.root \
-    -t TupleB0/DecayTree -B b0 --debug
-run2-rdx-l0_global_tis.py ${INPUT_NTP} emu_l0_global_tis_b.root \
-    -t TupleBminus/DecayTree -B b --debug || exit 1
+# # L0 emulation: L0Global TIS
+# run2-rdx-l0_global_tis.py ${INPUT_NTP} emu_l0_global_tis_b0.root \
+#     -t TupleB0/DecayTree -B b0 --debug
+# run2-rdx-l0_global_tis.py ${INPUT_NTP} emu_l0_global_tis_b.root \
+#     -t TupleBminus/DecayTree -B b --debug || exit 1
 
 
 # Plot efficiencies: Hlt1TwoTrackMVA
@@ -163,17 +149,11 @@ plot_hlt1_trackmva emu_hlt1_b.root "TupleBminus/DecayTree" b \
 # Plot efficiencies: L0Hadron
 #   D*
 plot_l0_hadron_eff emu_l0_hadron_b0.root "TupleB0/DecayTree" b0 \
-    "d0_l0_hadron_tos d0_l0_hadron_tos_emu" \
-    "L0Hadron TOS"
-plot_l0_hadron_eff_all emu_l0_hadron_b0.root "TupleB0/DecayTree" b0 \
-    "d0_l0_hadron_tos d0_l0_hadron_tos_emu_no_bdt d0_l0_hadron_tos_emu" \
+    "d0_l0_hadron_tos d0_l0_hadron_tos_emu_xgb" \
     "L0Hadron TOS"
 #   D0
 plot_l0_hadron_eff emu_l0_hadron_b.root "TupleBminus/DecayTree" b \
-    "d0_l0_hadron_tos d0_l0_hadron_tos_emu" \
-    "L0Hadron TOS"
-plot_l0_hadron_eff_all emu_l0_hadron_b.root "TupleBminus/DecayTree" b \
-    "d0_l0_hadron_tos d0_l0_hadron_tos_emu_no_bdt d0_l0_hadron_tos_emu" \
+    "d0_l0_hadron_tos d0_l0_hadron_tos_emu_xgb" \
     "L0Hadron TOS"
 
 
