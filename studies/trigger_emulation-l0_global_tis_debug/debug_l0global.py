@@ -305,24 +305,24 @@ plotL0Global(ntpOut, ['norm_eff_proj_bin_dir', 'sig_eff_proj_bin_dir'],
              title='L0Global TIS efficiencies (direct method)')
 
 plotL0Global(ntpOut, ['norm_eff_proj_x', 'sig_eff_proj_x',
-                      'norm_eff_proj_x_not_tos', 'sig_eff_proj_x_not_tos'],
+                      'norm_eff_proj_x_dir', 'sig_eff_proj_x_dir'],
              'l0_global_tis_eff_log_pz_comp',
-             title='L0Global TIS efficiencies (TISTOS vs TIS not TOS)',
+             title='L0Global TIS efficiencies (TISTOS vs real TIS)',
              legends=['norm (TISTOS)', 'sig (TISTOS)',
-                      'norm (TIS not TOS)', 'sig (TIS not TOS)'])
+                      'norm (real TIS)', 'sig (real TIS)'])
 plotL0Global(ntpOut, ['norm_eff_proj_y', 'sig_eff_proj_y',
-                      'norm_eff_proj_y_not_tos', 'sig_eff_proj_y_not_tos'],
+                      'norm_eff_proj_y_dir', 'sig_eff_proj_y_dir'],
              'l0_global_tis_eff_log_pt_comp',
              legend_loc='upper left',
              xlabel=r'$\log(p_T)$',
-             title='L0Global TIS efficiencies (TISTOS vs TIS not TOS)',
+             title='L0Global TIS efficiencies (TISTOS vs real TIS)',
              legends=['norm (TISTOS)', 'sig (TISTOS)',
-                      'norm (TIS not TOS)', 'sig (TIS not TOS)'])
+                      'norm (real TIS)', 'sig (real TIS)'])
 plotL0Global(ntpOut, ['norm_eff_proj_bin', 'sig_eff_proj_bin',
-                      'norm_eff_proj_bin_not_tos', 'sig_eff_proj_bin_not_tos'],
+                      'norm_eff_proj_bin_dir', 'sig_eff_proj_bin_dir'],
              'l0_global_tis_eff_bin_idx_comp',
              legend_loc='upper left',
              xlabel=r'Bin index',
-             title='L0Global TIS efficiencies (TISTOS vs TIS not TOS)',
+             title='L0Global TIS efficiencies (TISTOS vs real TIS)',
              legends=['norm (TISTOS)', 'sig (TISTOS)',
-                      'norm (TIS not TOS)', 'sig (TIS not TOS)'])
+                      'norm (real TIS)', 'sig (real TIS)'])
