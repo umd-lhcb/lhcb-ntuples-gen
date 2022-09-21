@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #
 # Author: Yipeng Sun
-# Last Change: Wed Feb 16, 2022 at 04:30 PM -0500
+# Last Change: Tue Sep 20, 2022 at 11:50 PM -0400
 
 import sys
 import numpy as np
@@ -133,6 +133,13 @@ def parse_input(descr='generate trigger efficiency comparison plots'):
                         action=DataRangeAction,
                         help='specify plotting range for the kinematic variables.')
 
+    parser.add_argument('-Y', '--yrange',
+                        nargs='+',
+                        default=None,
+                        action=DataRangeAction,
+                        help='specify y plotting range.'
+                        )
+
     parser.add_argument('-o', '--output-prefix',
                         required=True,
                         help='specify prefix to all output files.')
@@ -250,7 +257,6 @@ if __name__ == '__main__':
         cutter = BooleanEvaluator(ntp_name, tree)
 
         for k_br_name, d_range in zip(args.kinematic_vars, args.data_range):
-
             for tr_br_name, cut, clr, lbl in zip(
                     trigger_branches, cuts, colors, legends):
                 tr_br = cutter.eval(tr_br_name)[cutter.eval(cut)]
@@ -309,19 +315,23 @@ if __name__ == '__main__':
                               show_legend=False))
 
     # Now do the actual plot
-    for k_br_name, xlabel in zip(top_plotters, args.xlabel):
+    yrange = args.yrange if args.yrange else [None]*len(args.xlabel)
+    for k_br_name, xlabel, ylim in zip(top_plotters, args.xlabel, yrange):
         if args.ratio_plot:
-            fig, *_ = plot_top_bot(
+            fig, ax1, ax2 = plot_top_bot(
                 top_plotters[k_br_name], bot_plotters[k_br_name],
                 title=args.title, xlabel=xlabel,
                 ax1_ylabel=args.ax1_ylabel, ax2_ylabel=args.ax2_ylabel,
                 ax1_yscale=args.ax1_yscale)
         else:
-            fig, *_ = plot_top(
+            fig, ax1, ax2 = plot_top(
                 top_plotters[k_br_name],
                 title=args.title,
                 xlabel=xlabel, ylabel=args.ax1_ylabel,
                 yscale=args.ax1_yscale)
+
+        if ylim:
+            ax1.set_ylim(ylim)
 
         for ext in args.ext:
             filename = '_'.join([
