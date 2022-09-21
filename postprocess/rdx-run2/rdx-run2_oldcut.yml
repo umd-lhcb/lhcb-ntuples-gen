@@ -645,17 +645,20 @@ calculation:
 
     # Weight representing the global cut (BEFORE applying the skim cuts)
     wpid_base: ^double; wpid_k*wpid_pi
-    wpid_ubdt: double; wpid_base*wpid_mu_ubdt
-    wpid: double; wpid_base*wpid_mu
+    wpid: double; wpid_base*wpid_mu                      # PID w/o UBDT, typically unused
+    wpid_ubdt: double; wpid_base*wpid_mu_ubdt            # PID w/ UBDT
+    wpid_ubdt_veto: double; wpid_base*wpid_mu_ubdt_veto  # PID w/ UBDT veto
+    ####
     wtrg_l0_tis: ^double; b0_l0_global_tis_emu; b_l0_global_tis_emu
     wtrg: float; d0_l0_hadron_tos_emu + wtrg_l0_tis - d0_l0_hadron_tos_emu*wtrg_l0_tis
     wtrk: double; wtrk_k*wtrk_pi*wtrk_mu*wtrk_spi; wtrk_k*wtrk_pi*wtrk_mu
     wjk: double; wjk_kin*wjk_occ
 
-    w_base: double; wtrg*wtrk*wjk*wbr_dd  # no PID cuts for the base weights
-    w_w_ubdt: double; w_base*wpid_ubdt    # default PID cuts incl. UBDT
-    wff: double; wff; 1.0                 # FF weight. default to 1
-    w: double; w_w_ubdt*wff     # form factor weights last (we have a lot of variations)
+    w_base: double; wtrg*wtrk*wjk*wbr_dd          # no PID cuts for the base weights
+    w_w_ubdt: double; w_base*wpid_ubdt            # default PID cuts incl. UBDT
+    w_w_ubdt_veto: double; w_base*wpid_ubdt_veto  # misID validation sample maybe
+    wff: double; wff; 1.0                         # FF weight. default to 1
+    w: double; w_w_ubdt*wff                       # form factor weights last
     # Skim weights, including the 'w'
     wiso: double; w*wskim_iso*skim_global_ok; TO_TYPE(is_iso, 1.0)
     wdd: double; w*wskim_dd*skim_global_ok; TO_TYPE(is_dd, 1.0)
