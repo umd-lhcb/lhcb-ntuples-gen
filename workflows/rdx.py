@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sat Sep 03, 2022 at 08:37 PM -0400
+# Last Change: Thu Sep 22, 2022 at 02:26 AM -0400
 
 import sys
 import os.path as op
@@ -107,7 +107,7 @@ def workflow_trigger_emu(input_ntp, output_ntp='trg_emu.root',
 @smart_kwarg
 def workflow_pid(
         input_ntp, output_ntp='pid.root',
-        pid_histo_folder='../run2-rdx/reweight/pid/root-run2-rdx_oldcut',
+        pid_histo_folder='../run2-rdx/reweight/pid/root-run2-rdx_oldcut-shifted',
         pid_config='../run2-rdx/reweight/pid/run2-rdx_oldcut.yml',
         **kwargs):
     return workflow_apply_weight(input_ntp, pid_histo_folder, pid_config,
