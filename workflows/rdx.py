@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sat Sep 03, 2022 at 08:37 PM -0400
+# Last Change: Fri Sep 23, 2022 at 05:17 PM -0400
 
 import sys
 import os.path as op
@@ -137,12 +137,14 @@ def workflow_misid(
         input_ntp, output_ntp='misid.root',
         misid_aux_ntp='../run2-rdx/reweight/misid/histos/dif.root',
         misid_config='../run2-rdx/reweight/misid/run2-rdx.yml',
+        k_smr_name='k_smr',
+        pi_smr_name='pi_smr',
         **kwargs):
     aux_ntp = abs_path(misid_aux_ntp)
     config = abs_path(misid_config)
     year = find_year(input_ntp)
 
-    cmd = f'ApplyMisIDWeight -a -i {input_ntp} -o {output_ntp} -x {aux_ntp} -c {config} -Y {year}'
+    cmd = f'ApplyMisIDWeight -a -i {input_ntp} -o {output_ntp} -x {aux_ntp} -c {config} -Y {year} --kSmrBrName {k_smr_name} --piSmrBrName {pi_smr_name}'
     return workflow_cached_ntuple(
         cmd, input_ntp, output_ntp, '--aux_misid', **kwargs)
 
