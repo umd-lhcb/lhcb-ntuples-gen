@@ -514,10 +514,11 @@ JOBS = {
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
     ),
     'rdx-ntuple-run2-mc-to-dstst-debug': partial(
-        workflow_mc,
-        '../ntuples/0.9.6-2016_production/Dst_D0-mc-tracker_only/Dst_D0--22_02_25--mc--tracker_only--MC_2016_Beam6500GeV-2016-MagDown-TrackerOnly-Nu1.6-25ns-Pythia8_Sim09k_Reco16_Filtered_11874430_D0TAUNU.SAFESTRIPTRIG.DST/Dst_D0--22_02_25--mc--tracker_only--MC_2016_Beam6500GeV-2016-MagDown-TrackerOnly-Nu1.6-25ns-Pythia8_Sim09k_Reco16_Filtered_11874430_D0TAUNU.SAFESTRIPTRIG.DST--001-dv.root',
-        # f'../../misc/ntuples_subset_TO_2016_dstst/*{i}*.DST'
-        # for i in [11874430, 11874440, 12873450, 12873460]
+        workflow_split,
+        [
+            f'../../misc/ntuples_subset_TO_2016_dstst/*{i}*.DST'
+            for i in [11874430, 11874440, 12873450, 12873460]
+        ],
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
     ),
     # Run 1

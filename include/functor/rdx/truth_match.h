@@ -13,9 +13,6 @@
 
 using namespace std;
 
-// TODO check things against code in gitlab (again) instead of preservation
-// repo; also change the links
-
 //////////////////////////////
 // General Helper Functions //
 //////////////////////////////
@@ -48,11 +45,11 @@ bool IS_STRANGE(int decay_id) {
 // order to guard against typos, do the truth-matching via OOP, so that you only
 // have to pass the variables once. This template class should never be used for
 // truth-matching, but it's useful to organize the structure and for common
-// variables/functions
+// variables/functions.
 class TruthMatch {
  protected:
   // List codes used for truthmatching (some subset to be added together based
-  // on matched decay)
+  // on matched decay).
   int mu      = 0;
   int tau     = 1;
   int d0      = 10;
@@ -99,7 +96,7 @@ class TruthMatch {
       {FAKE_ID_D2750, d2750},
       {FAKE_ID_D3000, d3000},
       {PDG_ID_D1p_s, d1p},
-      {PDG_ID_D2st_s, d2st}};  // Ds0*,Ds2* do not exist for us
+      {PDG_ID_D2st_s, d2st}};
 
   // Sets of particles used for some truth-matching
   vector<int> b_mesons{PDG_ID_B0, PDG_ID_Bu, PDG_ID_Bs};
@@ -121,7 +118,7 @@ class TruthMatch {
  public:
   int truthmatch = 0;
   int added = 0;  // variable sums up cocktail/special info while truthmatching
-                  // is occuring, then gets added to truthmatch
+                  // is occuring, then gets added to truthmatch.
 
   // Derived from (and used in place of) decay mode # considered (set on
   // construction)
@@ -135,8 +132,8 @@ class TruthMatch {
   bool debug_dstst_s_all_cocktail;
   bool debug_dd_all_cocktail;
 
-  virtual bool COMMON_SELEC() = 0;         // differs between D0/D* samples
-  bool         DSTST_OKAY(int dstst_id) {  // same between D0/D* samples
+  virtual bool COMMON_SELEC() = 0; // differs between D0/D* samples
+  bool DSTST_OKAY(int dstst_id) {  // same between D0/D* samples
     return ((b_expect_id == PDG_ID_B0 && VEC_OR_EQ(charged_dstst, dstst_id) &&
              !dstst_higher) ||
             (b_expect_id == PDG_ID_Bu && VEC_OR_EQ(neutral_dstst, dstst_id) &&
@@ -148,13 +145,14 @@ class TruthMatch {
             (b_expect_id == PDG_ID_Bu &&
              VEC_OR_EQ(neutral_dstst_higher, dstst_id) && dstst_higher));
   }
-  virtual bool TWO_PI() = 0;  // different between D0/D* samples
+  virtual bool TWO_PI() = 0;  // differs between D0/D* samples (see comments
+                              // for DSTST_TWOPI_ADDED)
   virtual bool B_BKGCAT_OKAY() {
     return false;
   }  // different between D0/D* samples; TODO should implement this func for D*
      // sample too
   void DSTST_COCKTAIL_ADDED(int dstst_id) {  // same between D0/D* samples
-    // nominally add cockatil info for D**, Ds**, not done for D**H unless
+    // nominally add cocktail info for D**, Ds**, not done for D**H unless
     // specified otherwise
     if ((!dstst_higher && b_expect_id != PDG_ID_Bs &&
          !debug_dstst_all_cocktail) ||
@@ -164,7 +162,25 @@ class TruthMatch {
     }
   }
   void DSTST_TWOPI_ADDED() {  // same between D0/D* samples
-    // If (light) D** decay, specify if D**->D(*)pipi
+    // If (light) D** decay, specify if (at least) two pions in decay from D**
+    // to D(*), in particular:
+    // For D* sample: D**->D*pipi
+    //                Note: None of these templates are used in the fit, but
+    //                      since Phoebe implements them in redoHistos, I'll
+    //                      account for them too. Actually, to treat them
+    //                      fully correctly, I'd have to use a variable
+    //                      Dst_MC_MOTHER_ND; I'll leave this as a TODO and
+    //                      ignore it for now because the templates aren't
+    //                      important. Also, I'd have to allow to cascade
+    //                      decays D**->D**[->D*pi(pi)]pi.
+    // For D0 sample: D**->Dpipi, D**->D*[->Dpi]pipi, or D1->D0*[->Dpi]pi
+    //                Note: The only pipi templates used in the fit are the D1
+    //                      templates, which are treated with an additional
+    //                      special case to allow for the D1->D0*->D0 cascade
+    //                      decay; still, I'll implement what Phoebe does for
+    //                      the other D**pipi templates. It's worth noting that
+    //                      Phoebe cuts out D1->D0*->D*->D0 events
+    //                      (via flagBmu/flagtaumu).
     if (b_expect_id != PDG_ID_Bs && !dstst_higher && TWO_PI())
       added += dstst_twopi;
   }
@@ -220,12 +236,12 @@ class DstTruthMatch : public TruthMatch {
 
   // Normalization and Signal
   // Phoebe redoHistos_Dst.C: flagBmu/flagtaumu>0. && JustDst>0. && DstOk>0. &&
-  // muPID==1. && Btype==511 && [for norm only] Y_BKGCAT==0
+  // muPID==1. && Btype==511 && [for norm only] Y_BKGCAT==0.
   // TODO: Phoebe does some redefining of her Y_BKGCAT in her AddB.C, but I've
-  // just used the b_bkgcat from the ntuple as-is
+  // just used the b_bkgcat from the ntuple as-is.
   bool TRUTH_MATCH_NORMSIG() {
     // Make sure ancestry of mu is correct, including making sure B in mu
-    // ancestry and B in D* ancestry are the same
+    // ancestry and B in D* ancestry are the same.
     bool mu_ancestry_ok = false;
     if (!tau_expect) {
       mu_ancestry_ok =
@@ -236,18 +252,18 @@ class DstTruthMatch : public TruthMatch {
     }
 
     // Implement the b_bkgcat selection for normalization, and ensure (really, a
-    // second check) that D* mom is B0
+    // second check) that D* mom is B0.
     return ((b_bkgcat == 0) || tau_expect) && dst_mom_id == PDG_ID_B0 &&
            mu_ancestry_ok;
   }
 
   // D**, D_H**, D_s**
   // Phoebe redoHistos_Dst.C: flagBmu/flagtaumu>0 && JustDst<1  && DstOk>0. &&
-  // Btype==[b_expect_id] && Dststtype==[D** cocktail] && muPID == 1 Note: I
-  // don't implement Phoebe's ishigher, instead just using the variable
-  // dstst_higher to keep track of the considered decay ID Note: compared to the
-  // D0 sample, this selection is simpler because here the decay is required to
-  // go B->D**->D*
+  // Btype==[b_expect_id] && Dststtype==[D** cocktail] && muPID == 1.
+  // Note: I don't implement Phoebe's ishigher, instead just using the variable
+  // dstst_higher to keep track of the considered decay ID.
+  // Note: compared to the D0 sample, this selection is simpler because here the decay is required to
+  // go B->D**->D*.
   bool TRUTH_MATCH_DSTST() {
     // Check if D** (just D* mom here) is okay
     bool dst_mom_id_ok = false;
@@ -261,7 +277,7 @@ class DstTruthMatch : public TruthMatch {
     }
 
     // Make sure ancestry of mu is correct, including making sure B in mu
-    // ancestry and B in D* ancestry are the same
+    // ancestry and B in D* ancestry are the same.
     bool mu_ancestry_ok = false;
     if (!tau_expect) {
       mu_ancestry_ok = mu_mom_id == b_expect_id && mu_mom_key > 0 &&
@@ -271,26 +287,28 @@ class DstTruthMatch : public TruthMatch {
                        mu_mom_key > 0 && mu_gdmom_key == dst_gdmom_key;
     }
 
-    DSTST_TWOPI_ADDED();  // specify if D**->D*pipi decay
+    DSTST_TWOPI_ADDED();  // specify if (light) D**->D*pipi decay
 
     // If D**H, will always go as D**H->D* for D* sample reconstruction (TODO
-    // maybe worth adding an assert statement to be sure of this)
+    // add an assert statement to be sure of this). Not identical to Phoebe for
+    // these D**H decays because don't have access to her CocktailHigher
+    // variable (TODO think about this...)
     if (dstst_higher) added += dstst_higher_to_dst;
 
-    // Finally, ensure the D** mom (and thus D* gdmom) is in fact the correct B
+    // Finally, ensure the D** mom (and thus D* gdmom) is in fact the correct B.
     return dst_mom_id_ok && mu_ancestry_ok && dst_gdmom_id == b_expect_id;
   }
 
   // DD
   // Phoebe's redoHistos_Dst.C: DstOk>0. && muPID==1 && Btype==[b_expect_id] &&
-  // ((flagDoubleD>0 && flagTauonicD<1) OR flagTauonicD>0) Truthfully, though
+  // ((flagDoubleD>0 && flagTauonicD<1) OR flagTauonicD>0). Truthfully, though
   // confusing, her truth-matching seems somewhat minimalistic/loose to me;
   // perhaps for the best? Note: the use of the mu and D* ancestry keys is quite
   // different here wrt other truth-matching; I think the general idea is that
-  // D* and mu should
-  //   have SOME common ancestor, whereas for the other truth-matching we were
-  //   always explicitly ensuring that that common ancestor was the B. In fact,
-  //   for the tauonic DD decays, no key matching is done at all.
+  // D* and mu should have SOME common ancestor, whereas for the other
+  // truth-matching we were always explicitly ensuring that that common ancestor
+  // was the B. In fact, for the tauonic DD decays, no key matching is done at
+  // all.
   // I won't implement a cocktail selection here for now: it isn't possible
   // without more information about daughters (which will come for us via
   // TupleToolSLTruth)
@@ -480,8 +498,9 @@ class D0TruthMatch : public TruthMatch {
   int            b_bkgcat;
   double         d_m;
   // special variables used for D** truth-matching: copied from Phoebe's code
-  int Btype     = 0;
-  int Dststtype = 0;
+  int Btype        = 0;
+  int Dststtype    = 0;
+  bool simpleDstst = false;
 
  public:
   ///////// Helpers
@@ -489,7 +508,7 @@ class D0TruthMatch : public TruthMatch {
   bool COMMON_SELEC() { return mu_id == PDG_ID_mu; }
 
   // TODO Phoebe redefines Y_BKGCAT in her AddD0B_temp.C too much; for now, I'm
-  // just implementing something similar Need nu_mu momentum info in order to
+  // just implementing something similar. Need nu_mu momentum info in order to
   // exactly copy Phoebe's implementation!
   bool B_BKGCAT_OKAY() {
     return (!tau_expect && dst_expect_id == -1 && b_bkgcat == 0) ||
@@ -498,81 +517,118 @@ class D0TruthMatch : public TruthMatch {
            (tau_expect && dst_expect_id != -1 /* && b_bkgcat==15*/);
   }
 
-  // Requires D0 has B either as gdmom or gdgdmom (TODO think about this to
-  // ensure it's right...)
-  bool SIMPLEDSTST_KEYMATCH() {
-    bool b_is_gdmom   = VEC_OR_EQ(b_mesons, d_gdmom_id);
-    bool b_is_gdgdmom = VEC_OR_EQ(b_mesons, d_gdgdmom_id);
-    if (b_is_gdmom)
-      return (mu_mom_key == d_gdmom_key || mu_gdmom_key == d_gdmom_key);
-    else if (b_is_gdgdmom)
-      return (mu_mom_key == d_gdgdmom_key || mu_gdmom_key == d_gdgdmom_key);
-    else
-      return false;
-  }
+  // Requires D0 has B either as gdmom or gdgdmom (false for D**->D**->D*->D0
+  // decays) and checks that mu and D0 share D** ancestor
+  // bool SIMPLEDSTST_KEYMATCH() {
+  //   bool b_is_gdmom   = VEC_OR_EQ(b_mesons, d_gdmom_id);
+  //   bool b_is_gdgdmom = VEC_OR_EQ(b_mesons, d_gdgdmom_id);
+  //   if (b_is_gdmom)
+  //     return (mu_mom_key == d_gdmom_key || mu_gdmom_key == d_gdmom_key);
+  //   else if (b_is_gdgdmom)
+  //     return (mu_mom_key == d_gdgdmom_key || mu_gdmom_key == d_gdgdmom_key);
+  //   else
+  //     return false;
+  // }
 
-  // Note that there is SOME key matching done here (via Phoebe's simpleDstst);
-  // if the key-matching fails, just return without setting Btype and Dststtype
-  // (they are defaulted to 0). Also if B->D0, return without setting the
-  // variables (this function is assumedly only used for D** truth-matching)
-  void SET_BTYPE_DSTSTTYPE() {
-    if (VEC_OR_EQ(b_mesons, d_mom_id))
+  // For D** decay, set B (separately from b_id) and D** IDs, with numerous
+  // special cases to account for different types of allowed decays. Also set
+  // simpleDstst var, which does some key-matching and is also used for
+  // selecting special D1->D0*->D decays.
+  // TODO this function is... a mess. Just like Phoebe's code, it's very
+  // conceptually difficult to follow what is going on. Ideally, one day, sit
+  // down and rewrite this in a more logical way.
+  void SET_BTYPE_DSTSTTYPE_SIMPLEDSTST() {
+    if (VEC_OR_EQ(b_mesons, d_mom_id)) {
+      // not setting Btype/Dststtype cuts out event; here, this is equivalent to
+      // cutting on JustDst < 1 (if B->D0, there is no D**)
       return;
-    else if (VEC_OR_EQ(b_mesons, d_gdmom_id)) {
-      if (!(SIMPLEDSTST_KEYMATCH())) return;
-      Btype     = d_gdmom_id;
-      Dststtype = d_mom_id;
+    } else if (VEC_OR_EQ(b_mesons, d_gdmom_id)) { // B->D**->D0
+      simpleDstst = mu_mom_key == d_gdmom_key || mu_gdmom_key == d_gdmom_key;
+      Btype       = d_gdmom_id;
+      Dststtype   = d_mom_id;
     } else if (VEC_OR_EQ(b_mesons, d_gdgdmom_id) &&
-               VEC_OR_EQ(dst_dst0, d_mom_id)) {
-      if (!(SIMPLEDSTST_KEYMATCH())) return;
-      Btype     = d_gdgdmom_id;
-      Dststtype = d_gdmom_id;
-    } else if (VEC_OR_EQ(b_mesons, d_gdgdmom_id) && b_id == d_gdgdmom_id)
+               VEC_OR_EQ(dst_dst0, d_mom_id)) { // B->D**->D*->D0
+      simpleDstst = mu_mom_key==d_gdgdmom_key || mu_gdmom_key==d_gdgdmom_key;
+      Btype       = d_gdgdmom_id;
+      Dststtype   = d_gdmom_id;
+    } else if (VEC_OR_EQ(b_mesons, d_gdgdmom_id) && b_id == d_gdgdmom_id) {
+      // B->D**->X->D0
+      // setting Btype but not Dststtype here to take the special cases **
+      // below into account; also note that simpleDstst will still be false
+      // after this statement.
       Btype = d_gdgdmom_id;
-    else if (VEC_OR_EQ(b_mesons, d_gdgdgdmom_id) && b_id == d_gdgdgdmom_id)
+    } else if (VEC_OR_EQ(b_mesons, d_gdgdgdmom_id) && b_id == d_gdgdgdmom_id) {
+      // B->D**->X->X->D0
+      // I think including this if statement ends up being pointless (ie. even
+      // if true, the event will be cut out), but to copy Phoebe I'll keep it
+      // here. TODO investigate this claim (and also for the following 3 if
+      // statements...).
       Btype = d_gdgdgdmom_id;
-    else if (VEC_OR_EQ(b_mesons, mu_gdmom_id) && b_id == mu_gdmom_id)
+    } else if (VEC_OR_EQ(b_mesons, mu_gdmom_id) && b_id == mu_gdmom_id) {
       Btype = mu_gdmom_id;
-    else if (VEC_OR_EQ(b_mesons, mu_gdgdmom_id) && b_id == mu_gdgdmom_id)
+    } else if (VEC_OR_EQ(b_mesons, mu_gdgdmom_id) && b_id == mu_gdgdmom_id) {
       Btype = mu_gdgdmom_id;
-    else if (VEC_OR_EQ(b_mesons, mu_gdgdgdmom_id) && b_id == mu_gdgdgdmom_id)
+    } else if (VEC_OR_EQ(b_mesons, mu_gdgdgdmom_id) && b_id == mu_gdgdgdmom_id) {
       Btype = mu_gdgdgdmom_id;
-    else
-      Dststtype = -2;  // done to copy Phoebe's code more precisely, but also to
-                       // ensure works correctly with my code
-
-    // note that b_bkgcat here is used in Phoebe's code before she redefines it
-    if (Dststtype == 0 && b_bkgcat == 50 &&
-        (VEC_OR_EQ(b0_bu, mu_mom_id) ||
-         (mu_mom_id == 15 &&
-          VEC_OR_EQ(b0_bu, mu_gdmom_id)))) {  // Phoebe has a typo in this line
-                                              // (2907) I think
-      Btype = b_id;
-      if (HUNDREDS_DIGIT(d_gdgdmom_id) == 4)
-        Dststtype = d_gdgdmom_id;
-      else if (HUNDREDS_DIGIT(d_gdgdmom_id) == 5 &&
-               HUNDREDS_DIGIT(d_gdmom_id) == 4)
-        Dststtype = d_gdmom_id;
-      else if (HUNDREDS_DIGIT(d_gdmom_id) == 5 && HUNDREDS_DIGIT(d_mom_id) == 4)
-        Dststtype = d_mom_id;
+    } else {
+      Btype = -1;
+      Dststtype = -1;
+      // Note to self: used to only have this else statement be:
+      // else {Dststtype=-2;}  // done to copy Phoebe's code more precisely, but
+                               // also to ensure works correctly with my code
+      // Not sure why I ever did this, but in any case, setting Btype and
+      // Dststtype to -1 is what Phoebe does, and this should work here, too.
+      // Keeping this comment here only in case find bug in future...
     }
 
+    // special cases ** (1/2)
+    // note that b_bkgcat here is used in Phoebe's code before she redefines it.
+    if (Dststtype == 0 && b_bkgcat == 50 && (VEC_OR_EQ(b0_bu, mu_mom_id) ||
+        (mu_mom_id == 15 && VEC_OR_EQ(b0_bu, mu_gdmom_id)))) {
+      Btype = b_id;
+      if (HUNDREDS_DIGIT(d_gdgdmom_id) == 4) {
+        Dststtype = d_gdgdmom_id;
+      } else if (HUNDREDS_DIGIT(d_gdgdmom_id) == 5 &&
+               HUNDREDS_DIGIT(d_gdmom_id) == 4) {
+        Dststtype = d_gdmom_id;
+      } else if (HUNDREDS_DIGIT(d_gdmom_id) == 5 &&
+                 HUNDREDS_DIGIT(d_mom_id) == 4) {
+        Dststtype = d_mom_id;
+      }
+    }
+
+    // special cases ** (2/2)
     // in redoHistos_D0.C, Phoebe does one last thing to fix a truth-matching
-    // bug
-    if (mu_mom_id == PDG_ID_tau && Dststtype == 0 && !SIMPLEDSTST_KEYMATCH() &&
-        VEC_OR_EQ(d1_d10, d_gdmom_id))
+    // bug.
+    if (mu_mom_id == PDG_ID_tau && Dststtype == 0 && !simpleDstst &&
+        VEC_OR_EQ(d1_d10, d_gdmom_id)) {
       Dststtype = d_gdmom_id;
+    }
   }
 
   bool TWO_PI() {
-    // A bit confusing, but for now, just copy Phoebe's implementation (TODO
-    // think about this...)
-    double mm2_mom;
-    if (!(VEC_OR_EQ(dst_dst0, d_mom_id) && VEC_OR_EQ(b_mesons, d_gdgdmom_id)))
+    double mm2_mom; // not used anywhere else
+    if (!(VEC_OR_EQ(dst_dst0, d_mom_id) && VEC_OR_EQ(b_mesons, d_gdgdmom_id))) {
+      // NOT B->D**->D*->D, so (only considering decays that will be included in
+      // templates used in the fit) must be B->D**->D or B->D1->D0*->D (for the
+      // latter, this whole mm2_mom business is irrelevant, because the event
+      // will be put into the d1pipi template via simpleDstst being false).
       mm2_mom = (d_mom_truep4 - d_truep4).M2();  // Mev
-    else
+    } else { // B->D**->D*->D
       mm2_mom = (d_gdmom_truep4 - d_mom_truep4).M2();  // MeV
-    return mm2_mom > 0 && sqrt(mm2_mom) > 220;
+    }
+    // Copying Phoebe, we only care about D1->D0*->D0 for the special case
+    // cascade decays, but I'll call the other D**->D**->D0 decays acceptable
+    // two pi decays too (this should only be additionally D2*->D0*->D0; TODO
+    // check this via an assert statement).
+    // Note: this line here implements the requirement that simpleDstst is true
+    // for the not-twopi templates, since if it's false then I'm designating the
+    // event as twopi.
+    // This is bad coding practice, but--SET_BTYPE_DSTSTTYPE_SIMPLEDSTST should
+    // have already run, but to be sure simpleDstst is set I'm going to be
+    // redundant and run it again here.
+    SET_BTYPE_DSTSTTYPE_SIMPLEDSTST();
+    return (mm2_mom > 0 && sqrt(mm2_mom) > 220) || !simpleDstst;
   }
 
   //////// Specific Decay Truth-Matching
@@ -580,15 +636,16 @@ class D0TruthMatch : public TruthMatch {
   // Normalization and Signal
   // Phoebe redoHistos_D0.C: flagBmu/flagtaumu>0 && muPID==1 &&
   // Y_BKGCAT==0/10/5/15 (Dmu, Dtau, D*mu, D*tau) && Btype==b_expect_id &&
-  // JustDst>0 [for Dmu, Dtau] Note: JustDst is a misnomer- it should really be
-  // "JustD0"
+  // JustDst>0 [for Dmu, Dtau].
+  // Note: JustDst is a misnomer- it should really be "JustD0".
   bool TRUTH_MATCH_NORMSIG() {
     // Make sure ancestry of mu is correct, including making sure B in mu
-    // ancestry and B in D0 ancestry are the same Note that a check that
-    // B(->D*)->D0 proceeds as expected for the decay (should) occur later when
-    // selecting on b_bkgcat, so it's fine here to just look at all of the keys
-    // of the D0 ancestors to check against the B from the mu ancestry
-    bool        mu_ancestry_ok = false;
+    // ancestry and B in D0 ancestry are the same.
+    // Note that a check that B(->D*)->D0 proceeds as expected for the decay
+    // (should) occur later when selecting on b_bkgcat, so it's fine here to
+    // just look at all of the keys of the D0 ancestors to check against the B
+    // from the mu ancestry.
+    bool mu_ancestry_ok = false;
     vector<int> d_lineage_keys{d_mom_key, d_gdmom_key, d_gdgdmom_key};
     if (!tau_expect) {
       mu_ancestry_ok = mu_mom_id == b_expect_id && mu_mom_key > 0 &&
@@ -602,7 +659,7 @@ class D0TruthMatch : public TruthMatch {
     // Implement the b_bkgcat selection (note that this is used for all decay
     // modes here, whereas for the D* sample it was only used for normalization)
     // Also, if decay goes like B->D0, then require that the correct B is indeed
-    // the mother of the D0
+    // the mother of the D0.
     return B_BKGCAT_OKAY() &&
            (dst_expect_id != -1 || d_mom_id == b_expect_id) && mu_ancestry_ok;
   }
@@ -610,21 +667,23 @@ class D0TruthMatch : public TruthMatch {
   // D**, D_H**, D_s**
   // Phoebe redoHistos_D0.C: flagBmu/flagtaumu>0 && JustDst<1 &&
   // Btype==[b_expect_id] && Dststtype==[D** cocktail] (not for D**H) &&
-  // muPID==1 && simpleDstst (not for D**H,s) Note: I don't implement Phoebe's
-  // ishigher, instead just using the variable dstst_higher to keep track of the
-  // considered decay ID Note: Phoebe combines D**H decays into a
-  // B(+,0)->D**H->D*(+,0), a B(+,0)->D**H->D*+, and a B(+,0)->D**H->D0
-  // template; this is implemented (at least partially) in 'added' Note: I think
-  // Phoebe makes a (small) logical mistake in her AddD0B_temp.C and, by not
-  // checking for "onefour/twofour" when setting flagBmu, she cuts out decays
-  // that go like B->D1,D2*->X->X->D0. For now, though, I will just copy her
-  // code. TODO: rethink if this is correct or not Note: simpleDstst seems like
-  // a misnomer to me: it just checks that (if decay goes B->D**->D0 or
-  // B->D**->X->D0) then B key matches between mu/D0
+  // muPID==1 && simpleDstst (simpleDstst not referenced for D**H,s, and allowed
+  // to be false for D**=D1 for the pipi template).
+  // Note: I don't implement Phoebe's ishigher, instead just using the variable
+  // dstst_higher to keep track of the considered decay ID.
+  // Note: Phoebe combines D**H decays into a B(+,0)->D**H->D*(+,0),
+  // a B(+,0)->D**H->D*+, and a B(+,0)->D**H->D0 template; this is implemented
+  // (at least partially) in 'added'.
+  // Note: I think Phoebe makes a (small) logical mistake in her AddD0B_temp.C
+  // and, by not checking for "onefour/twofour" when setting flagBmu, she cuts
+  // out decays that go like B->D1,D2*->X->X->D0. For now, though, I will just
+  // copy her code. TODO: rethink if this is correct or not.
+  // Note: simpleDstst seems like a misnomer to me: it just checks that (if
+  // decay goes B->D**->D0 or B->D**->X->D0) then B key matches between mu/D0.
   bool TRUTH_MATCH_DSTST() {
     // Once the B and D** are found, make sure the D** is one of the possible
     // cocktails for the decay mode, and check that Btype is as expected
-    SET_BTYPE_DSTSTTYPE();
+    SET_BTYPE_DSTSTTYPE_SIMPLEDSTST();
     bool b_and_dstst_id_ok = false;
     if (DSTST_OKAY(Dststtype) && Btype == b_expect_id) {
       b_and_dstst_id_ok = true;
@@ -634,16 +693,16 @@ class D0TruthMatch : public TruthMatch {
     }
 
     // Make sure ancestry of mu is correct, including trying to make sure B in
-    // mu ancestry and B in D0 ancestry are the same Note that
-    // SET_BTYPE_DSTSTTYPE() does some key-matching, though I'm not convinced it
-    // always exactly checks that, wherever the B is in the D0 ancestry, its the
-    // same as the B from the mu ancestry (this is only explicitly done for the
-    // cases B->D**->D0 and B->D**->D*->D0). But, for now, copy Phoebe's code
-    // and (though repetitive), just check here that there is indeed some key
-    // from D0 ancestry that will match B key from mu ancestry. Note: you can
-    // see that decays like B->D**->X->X->D0 are cut out here explicitly; only
-    // up to d_gdgdmom_key is checked. TODO think about this...
-    bool        mu_ancestry_ok = false;
+    // mu ancestry and B in D0 ancestry are the same. Note that simpleDstst does
+    // some key-matching, but doesn't always exactly check that, wherever the B
+    // is in the D0 ancestry, it's the same as the B from the mu ancestry (this
+    // is only explicitly done for the cases B->D**->D0 and B->D**->D*->D0).
+    // But, for now, copy Phoebe's code and (though repetitive), just check here
+    // that there is indeed some key from D0 ancestry that will match B key from
+    // mu ancestry. Note: you can see that decays like B->D**->X->X->D0 are cut
+    // out here explicitly; only up to d_gdgdmom_key is checked.
+    // TODO think about this...
+    bool mu_ancestry_ok = false;
     vector<int> d_lineage_keys{d_mom_key, d_gdmom_key, d_gdgdmom_key};
     if (!tau_expect) {
       mu_ancestry_ok = mu_mom_id == b_expect_id && mu_mom_key > 0 &&
@@ -654,14 +713,15 @@ class D0TruthMatch : public TruthMatch {
                        VEC_OR_EQ(d_lineage_keys, mu_gdmom_key);
     }
 
-    DSTST_TWOPI_ADDED();  // specify if D**->D(*)pipi decay
+    DSTST_TWOPI_ADDED();  // specify if two pion light D** decay
 
     // If D**H, separate D**H->D* from D**H->D
     if (dstst_higher) {
-      if (VEC_OR_EQ(dst_dst0, d_mom_id))
-        added += dstst_higher_to_dst;  // copied from how Phoebe does it
-      else
-        added += dstst_higher_to_d;  // else D**H->D
+      if (VEC_OR_EQ(dst_dst0, d_mom_id)) { // copied from how Phoebe does it
+        added += dstst_higher_to_dst;
+      } else { // else D**H->D
+        added += dstst_higher_to_d;
+      }
     }
 
     return b_and_dstst_id_ok && mu_ancestry_ok;
@@ -669,16 +729,16 @@ class D0TruthMatch : public TruthMatch {
 
   // DD
   // Phoebe's redoHistos_D0.C: muPID==1 && Btype==b_expect_id && ((flagDoubleD>0
-  // && flagTauonicD<1) OR flagTauonicD>0) Truthfully, though confusing, her
+  // && flagTauonicD<1) OR flagTauonicD>0). Truthfully, though confusing, her
   // truth-matching seems somewhat minimalistic/loose to me; perhaps for the
   // best? Note the use of the mu and D0 ancestry keys is quite different here
   // wrt other truth-matching; I think the general idea is that D0 and mu should
-  //   have SOME common ancestor, whereas for the other truth-matching we were
-  //   always explicitly ensuring that that common ancestor was the B. In fact,
-  //   for the tauonic DD decays, no key matching is done at all.
+  // have SOME common ancestor, whereas for the other truth-matching we were
+  // always explicitly ensuring that that common ancestor was the B. In fact,
+  // for the tauonic DD decays, no key matching is done at all.
   // I won't implement a cocktail selection here for now: it isn't possible
   // without more information about daughters (which will come for us via
-  // TupleToolSLTruth)
+  // TupleToolSLTruth).
   bool TRUTH_MATCH_DD() {
     // For a DD decay with no tau, ensure at least that the mu came from a (spin
     // 0) charm meson and that mu and D0 have some ancesteor in common; also
@@ -890,13 +950,10 @@ class D0TruthMatch : public TruthMatch {
 ////////////////////
 // User Functions //
 ////////////////////
-// Notes for user:
-// It is the user's responsibility to set decay_id correctly; there is no way
-// for me to check this internally (unless we add a decay_id branch to ntuples
-// elsewhere)
 
 // TODO: since this is for user, maybe change input paramater names to match
 // what is usually found in ntuples?
+
 //////// Truth-Matching Selection Function (for users) for Decays Reconstructed
 /// as B0 -> D*+ [-> D0 [-> K- pi+] spi+] mu- (nu)
 int MC_TRUTH_MATCH_DST(int decay_id, int mu_id, int mu_mom_id, int mu_gdmom_id,
