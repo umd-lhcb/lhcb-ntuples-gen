@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri Sep 23, 2022 at 05:17 PM -0400
+# Last Change: Sat Sep 03, 2022 at 08:37 PM -0400
 
 import sys
 import os.path as op
@@ -107,7 +107,7 @@ def workflow_trigger_emu(input_ntp, output_ntp='trg_emu.root',
 @smart_kwarg
 def workflow_pid(
         input_ntp, output_ntp='pid.root',
-        pid_histo_folder='../run2-rdx/reweight/pid/root-run2-rdx_oldcut-shifted',
+        pid_histo_folder='../run2-rdx/reweight/pid/root-run2-rdx_oldcut',
         pid_config='../run2-rdx/reweight/pid/run2-rdx_oldcut.yml',
         **kwargs):
     return workflow_apply_weight(input_ntp, pid_histo_folder, pid_config,
@@ -137,14 +137,12 @@ def workflow_misid(
         input_ntp, output_ntp='misid.root',
         misid_aux_ntp='../run2-rdx/reweight/misid/histos/dif.root',
         misid_config='../run2-rdx/reweight/misid/run2-rdx.yml',
-        k_smr_name='k_smr',
-        pi_smr_name='pi_smr',
         **kwargs):
     aux_ntp = abs_path(misid_aux_ntp)
     config = abs_path(misid_config)
     year = find_year(input_ntp)
 
-    cmd = f'ApplyMisIDWeight -a -i {input_ntp} -o {output_ntp} -x {aux_ntp} -c {config} -Y {year} --kSmrBrName {k_smr_name} --piSmrBrName {pi_smr_name}'
+    cmd = f'ApplyMisIDWeight -a -i {input_ntp} -o {output_ntp} -x {aux_ntp} -c {config} -Y {year}'
     return workflow_cached_ntuple(
         cmd, input_ntp, output_ntp, '--aux_misid', **kwargs)
 
@@ -511,6 +509,13 @@ JOBS = {
             '../ntuples/0.9.6-2016_production/Dst_D0-mc-tracker_only/*12573012*.DST/*--00?-dv.root',
             '../ntuples/0.9.6-2016_production/Dst_D0-mc-tracker_only/*12573001*.DST/*--00?-dv.root',
         ],
+        '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
+    ),
+    'rdx-ntuple-run2-mc-to-dstst-debug': partial(
+        workflow_mc,
+        '../ntuples/0.9.6-2016_production/Dst_D0-mc-tracker_only/Dst_D0--22_02_25--mc--tracker_only--MC_2016_Beam6500GeV-2016-MagDown-TrackerOnly-Nu1.6-25ns-Pythia8_Sim09k_Reco16_Filtered_11874430_D0TAUNU.SAFESTRIPTRIG.DST/Dst_D0--22_02_25--mc--tracker_only--MC_2016_Beam6500GeV-2016-MagDown-TrackerOnly-Nu1.6-25ns-Pythia8_Sim09k_Reco16_Filtered_11874430_D0TAUNU.SAFESTRIPTRIG.DST--001-dv.root',
+        # f'../../misc/ntuples_subset_TO_2016_dstst/*{i}*.DST'
+        # for i in [11874430, 11874440, 12873450, 12873460]
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
     ),
     # Run 1
