@@ -171,7 +171,7 @@ calculation:
     mu_pid_mu: double; mu_PIDmu
     mu_pid_k: double; mu_PIDK
     mu_pid_e: double; mu_PIDe
-    mu_ubdt: float; mu_bdt_mu; 1.0  # Greg's Mu UBDT PID, '1.0' for MC so the mu_ubdt_ok will be always true
+    mu_ubdt: float; mu_bdt_mu
 
     ######################
     # Tracking variables #
@@ -458,7 +458,9 @@ calculation:
         IF_VAR_EXISTS(cli_misid_study, true);
         FLAG_SEL_MU_PID_OK_RUN1(mu_isMuon, mu_PIDmu, mu_PIDe)
     mu_pid_ok_stub: ^bool; cli_cutflow; mu_pid_ok
-    mu_ubdt_ok: bool; mu_ubdt > 0.25
+    mu_ubdt_ok: bool; mu_ubdt > 0.25; true
+    mu_ubdt_veto: bool; mu_ubdt < 0.25; true
+
     mu_ok: >-
         bool; FLAG_SEL_MU_RUN1(
         mu_pid_ok_stub, trks_ok,
@@ -742,7 +744,7 @@ global_selection:
     - global_cut_ok
     - truthmatch > 0
     - "!is_ddx || ddx_add_truthmatch && dd_mass_phoebe > 1000*1000"  # kill the leaking false DD events
-    # - ham_ok
+    - ham_ok
 
 one_cand_only:
     enable: true
@@ -778,6 +780,8 @@ global_mute:
     - "is_kst(_phoebe)?"
     - "in_(deltam|deltam_sb)"
     - "tmp_(dal|dal_phoebe)"
+    - ".*_smr_(k|pi)"
+    - ".*_no_smr"
 
 output:
     Dst:
