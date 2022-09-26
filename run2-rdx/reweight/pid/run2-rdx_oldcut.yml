@@ -16,12 +16,6 @@ config:
             - mu_P
             - ETA(mu_P, mu_PZ)
             - nTracks
-    wpid_mu_ubdt_veto:
-        particle: Mu_ubdt_veto
-        vars:
-            - mu_P
-            - ETA(mu_P, mu_PZ)
-            - nTracks
     wpid_k:
         particle: K
         vars:
@@ -85,7 +79,8 @@ config:
               ETA(b0_ISOLATION_PX, b0_ISOLATION_PY, b0_ISOLATION_PZ);
               ETA(b_ISOLATION_PX, b_ISOLATION_PY, b_ISOLATION_PZ)
             - nTracks
-    wpid_iso_nnk1_gt_g:
+    wpid_iso_nnk1_gt_g:  # TODO: replace w/ run 2
+        histo_name: kISOeff
         particle: ghost_nnk_gt
         vars:
             - >-
@@ -146,7 +141,8 @@ config:
               ETA(b0_ISOLATION_PX2, b0_ISOLATION_PY2, b0_ISOLATION_PZ2);
               ETA(b_ISOLATION_PX2, b_ISOLATION_PY2, b_ISOLATION_PZ2)
             - nTracks
-    wpid_iso_nnk2_gt_g:
+    wpid_iso_nnk2_gt_g:  # TODO: replace w/ run 2
+        histo_name: kISOeff
         particle: ghost_nnk_gt
         vars:
             - >-
@@ -207,7 +203,8 @@ config:
               ETA(b0_ISOLATION_PX3, b0_ISOLATION_PY3, b0_ISOLATION_PZ3);
               ETA(b_ISOLATION_PX3, b_ISOLATION_PY3, b_ISOLATION_PZ3)
             - nTracks
-    wpid_iso_nnk3_gt_g:
+    wpid_iso_nnk3_gt_g:  # TODO: replace w/ run 2
+        histo_name: kISOeff
         particle: ghost_nnk_gt
         vars:
             - >-
