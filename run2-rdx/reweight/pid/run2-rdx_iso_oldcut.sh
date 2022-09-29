@@ -36,7 +36,7 @@ for year in 16; do
                     --output-dir ${folder_name} \
                     --sample "${PREFIX[${part}]}${year}" --magnet ${polarity} \
                     --particle ${part} --pid-cut "${CUTS[${name}]}" \
-                    --bin-var Brunel_P --bin-var Brunel_ETA --bin-var "${NTRACKS_ALIAS[${part}]}"
+                    --binning-file ./binning.json
             done
         done
     done
