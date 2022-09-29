@@ -70,6 +70,9 @@ def getHistoBinIdxFlattened(histo):
 def shiftEff(idx, mean, std, badErrThresh=0.2, verbose=False):
     zero = 1e-12
 
+    if np.isnan(mean) or np.isinf(mean):
+        return zero
+
     if std <= zero:
         shifted = mean
     else:
