@@ -1,6 +1,6 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Thu Jun 23, 2022 at 02:28 PM -0400
+// Last Change: Thu Sep 29, 2022 at 01:06 AM -0400
 // NOTE: All kinematic variables are in MeV
 
 #pragma once
@@ -57,7 +57,8 @@ Double_t WT_DD(Bool_t add_flags,
 
   // This is to translate the 'MAX' PID lines.
   // Think in terms of Venn diagram!
-  // Don't know why Phoebe chose '-2' instead of '-1.1' in her code:
+  // No track found: -2. Valid values: [-1, some positive number]
+  // So '> -2' and '> -1.1' is the same thing
   //   https://gitlab.cern.ch/bhamilto/rdvsrdst-histfactory/-/blob/master/proc/redoHistos_Dst.C#L1603
   iso_nnk1_wt = IF(iso_bdt1 > -1.1, iso_nnk1_wt, 0.0) * (iso_type1 == 3);
   iso_nnk2_wt = IF(iso_bdt2 > -1.1, iso_nnk2_wt, 0.0) * (iso_type2 == 3);
