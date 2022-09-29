@@ -711,7 +711,7 @@ calculation:
         wpid_iso_nnk1_lt, wpid_iso_nnk2_lt
         )
     wskim_1os: >-
-        bool;
+        double;
         WT_1OS(
         true,
         iso_bdt1, iso_bdt2,
