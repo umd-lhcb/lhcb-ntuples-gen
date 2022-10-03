@@ -113,6 +113,7 @@ calculation:
     d0_pt: double; GEV(d0_PT)
     d0_dst_veto_deltam: double; MIN(ABS(b_ISOLATION_DstWindowDELTAM-145.454), ABS(b_ISOLATION_DstWindowDELTAM2-145.454))  # MeV!
     d0_dst_veto_deltam_stub: ^double; cli_no_dst_veto; d0_dst_veto_deltam; 100.0
+    d0_eta: double; ETA(d0_P, d0_PZ)
     # K
     k_p: double; GEV(k_P)
     k_px: double; GEV(k_PX)
@@ -205,6 +206,7 @@ calculation:
     # Mu
     mu_gh_prob: double; mu_TRACK_GhostProb
     mu_ip_chi2: double; mu_IPCHI2_OWNPV
+    mu_ip: double; mu_IP_OWNPV
 
     ############################
     # Mu misID study variables #
