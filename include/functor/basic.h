@@ -1,6 +1,6 @@
 // Author: Yipeng Sun
 // License: BSD 2-clause
-// Last Change: Fri May 20, 2022 at 03:03 AM -0400
+// Last Change: Thu Oct 06, 2022 at 01:33 PM -0400
 
 #pragma once
 
@@ -13,6 +13,16 @@
 template <typename T>
 T ABS(T num) {
   return TMath::Abs(num);
+}
+
+template <typename T>
+T LOG(T num) {
+  return TMath::Log(num);
+}
+
+template <typename T>
+T SQRT(T num) {
+  return TMath::Sqrt(num);
 }
 
 template <typename T, typename... ARGS>
@@ -44,11 +54,6 @@ T MIN(T arg0, ARGS... args) {
 template <typename T>
 Int_t SIGN(T num) {
   return static_cast<Int_t>(ABS(num) / num);
-}
-
-template <typename T>
-T SQRT(T num) {
-  return TMath::Sqrt(num);
 }
 
 // Boolean /////////////////////////////////////////////////////////////////////

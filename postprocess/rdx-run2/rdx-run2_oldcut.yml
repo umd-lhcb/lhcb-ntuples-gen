@@ -192,8 +192,11 @@ calculation:
     d0_endvtx_chi2ndof: double; d0_ENDVERTEX_CHI2 / d0_ENDVERTEX_NDOF
     d0_dira: double; d0_DIRA_OWNPV
     d0_fd_chi2: double; d0_FDCHI2_OWNPV
-    d0_ip: double; d0_IP_OWNPV
     d0_ip_chi2: double; d0_IPCHI2_OWNPV
+    d0_ip: double; d0_IP_OWNPV
+    d0_log_ip_chi2: double; LOG(d0_ip_chi2)
+    d0_comp: double; SQRT(d0_ip_chi2) / d0_ip
+    d0_comp2: double; LOG(1 - d0_dira)
     # K
     k_gh_prob: double; k_TRACK_GhostProb
     k_ip_chi2: double; k_IPCHI2_OWNPV
@@ -207,6 +210,8 @@ calculation:
     mu_gh_prob: double; mu_TRACK_GhostProb
     mu_ip_chi2: double; mu_IPCHI2_OWNPV
     mu_ip: double; mu_IP_OWNPV
+    mu_log_ip_chi2: double; LOG(mu_ip_chi2)
+    mu_comp: double; SQRT(mu_ip_chi2) / mu_ip
 
     ############################
     # Mu misID study variables #
