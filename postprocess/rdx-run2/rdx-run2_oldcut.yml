@@ -48,7 +48,8 @@ calculation:
     # Isolation variables #
     #######################
     # Isolation BDTs
-    iso_bdt1: double; b0_ISOLATION_BDT;  b_ISOLATION_BDT
+    iso_bdt1_raw: double; b0_ISOLATION_BDT;  b_ISOLATION_BDT
+    iso_bdt1: double; FAKE_ISO_BDT(truthmatch, iso_bdt1_raw); iso_bdt1_raw
     iso_bdt2: double; b0_ISOLATION_BDT2; b_ISOLATION_BDT2
     iso_bdt3: double; b0_ISOLATION_BDT3; b_ISOLATION_BDT3
     # PID

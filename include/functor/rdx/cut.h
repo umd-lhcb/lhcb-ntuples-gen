@@ -1,6 +1,6 @@
 // Author: Yipeng Sun, Svende Braun
 // License: BSD 2-clause
-// Last Change: Fri Jul 29, 2022 at 08:17 PM -0400
+// Last Change: Sat Oct 08, 2022 at 07:55 PM -0400
 // NOTE: All kinematic variables are in MeV
 
 #pragma once
@@ -8,6 +8,7 @@
 #include <Math/Vector3D.h>
 #include <Math/Vector4D.h>
 #include <TMath.h>
+#include <TRandom.h>
 
 #include <vector>
 
@@ -338,4 +339,13 @@ Double_t WT_ISO_NNK(Int_t true_id, Double_t w_pi, Double_t w_k, Double_t w_p,
   if (true_id == 11) return w_e;
   if (true_id == 13) return w_mu;
   return w_ghost;
+}
+
+// Fake D** heavy Pi0Pi0 component /////////////////////////////////////////////
+
+Double_t FAKE_ISO_BDT(Int_t truthmatch, Double_t raw_bdt) {
+  if (!(truthmatch / 100 == 4)) return raw_bdt;
+  Double_t rand = gRandom->Uniform(0, 100);
+  if (rand <= 33) return 0;
+  return raw_bdt;
 }
