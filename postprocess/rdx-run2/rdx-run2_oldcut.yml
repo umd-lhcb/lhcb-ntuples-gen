@@ -49,7 +49,15 @@ calculation:
     #######################
     # Isolation BDTs
     iso_bdt1_raw: double; b0_ISOLATION_BDT;  b_ISOLATION_BDT
-    iso_bdt1: double; FAKE_ISO_BDT(truthmatch, iso_bdt1_raw); iso_bdt1_raw
+    iso_bdt1: >-
+        double;
+        FAKE_ISO_BDT(
+        truthmatch, iso_bdt1_raw,
+        b_dau1_gd1_true_id,
+        b_dau1_gd2_true_id,
+        b_dau1_gd3_true_id,
+        );
+        iso_bdt1_raw
     iso_bdt2: double; b0_ISOLATION_BDT2; b_ISOLATION_BDT2
     iso_bdt3: double; b0_ISOLATION_BDT3; b_ISOLATION_BDT3
     # PID
@@ -290,6 +298,13 @@ calculation:
     #####################
     # MC true variables #
     #####################
+    # B daughters
+    # b_dau1_true_id: ^int; b0_TrueHadron_D0_ID; b0_TrueHadron_D0_ID;
+    # b_dau2_true_id: ^int; b0_TrueHadron_D1_ID; b0_TrueHadron_D1_ID;
+    # b_dau3_true_id: ^int; b0_TrueHadron_D2_ID; b0_TrueHadron_D2_ID;
+    b_dau1_gd1_true_id: ^int; b0_TrueHadron_D0_GD0_ID; b_TrueHadron_D0_GD0_ID
+    b_dau1_gd2_true_id: ^int; b0_TrueHadron_D0_GD1_ID; b_TrueHadron_D0_GD1_ID
+    b_dau1_gd3_true_id: ^int; b0_TrueHadron_D0_GD2_ID; b_TrueHadron_D0_GD2_ID
     # D*
     dst_true_id: int; dst_TRUEID
     # D0

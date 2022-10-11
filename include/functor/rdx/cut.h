@@ -1,6 +1,6 @@
 // Author: Yipeng Sun, Svende Braun
 // License: BSD 2-clause
-// Last Change: Sat Oct 08, 2022 at 08:36 PM -0400
+// Last Change: Tue Oct 11, 2022 at 06:38 PM -0400
 // NOTE: All kinematic variables are in MeV
 
 #pragma once
@@ -343,10 +343,18 @@ Double_t WT_ISO_NNK(Int_t true_id, Double_t w_pi, Double_t w_k, Double_t w_p,
 
 // Fake D** heavy Pi0Pi0 component /////////////////////////////////////////////
 
-Double_t FAKE_ISO_BDT(Int_t truthmatch, Double_t raw_bdt) {
+Double_t FAKE_ISO_BDT(Int_t truthmatch, Double_t raw_bdt, Int_t true_id1,
+                      Int_t true_id2, Int_t true_id3) {
   int ratio = truthmatch / 100000;
   if (!(ratio == 4 || ratio == 3)) return raw_bdt;
+
+  // Make sure it's not a Pi+Pi0 event
+  true_id1 = TMath::Abs(true_id1);
+  true_id2 = TMath::Abs(true_id2);
+  true_id3 = TMath::Abs(true_id3);
+  if (true_id1 == 111 || true_id2 == 111 || true_id3 == 111) return raw_bdt;
+
   Double_t rand = gRandom->Uniform(0, 100);
-  if (rand <= 33) return 0;
+  if (rand <= 33) return -2;
   return raw_bdt;
 }
