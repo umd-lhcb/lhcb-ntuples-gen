@@ -25,12 +25,13 @@ NTRACKS_ALIAS[P]="nTracks_Brunel"
 NTRACKS_ALIAS[Mu_nopt]="nTracks_Brunel"
 NTRACKS_ALIAS[e_B_Jpsi]="nTracks"
 
-rm -rf pidcalib_output
+rm -rf pidcalib_iso_oldcut
+
 for year in 16; do
     for polarity in "up" "down"; do
         for part in "${SAMPLES[@]}"; do
             for name in "${!CUTS[@]}"; do
-                folder_name="pidcalib_output/run2-rdx-20${year}-${POLARITY[${polarity}]}-${part}_${name}-p_eta_ntracks"
+                folder_name="pidcalib_iso_oldcut/run2-rdx-20${year}-${POLARITY[${polarity}]}-${part}_${name}-p_eta_ntracks"
                 echo "Output folder: ${folder_name}"
                 lb-conda pidcalib pidcalib2.make_eff_hists \
                     --output-dir ${folder_name} \
@@ -47,7 +48,7 @@ done
 rm -rf pkl-run2-rdx_iso_oldcut
 mkdir -p pkl-run2-rdx_iso_oldcut
 
-for pkl in ./pidcalib_output/*/*.pkl; do
+for pkl in ./pidcalib_iso_oldcut/*/*.pkl; do
     new_name="$(basename $(dirname ${pkl})).pkl"
     echo "Renaming $pkl to pkl-run2-rdx_iso_oldcut/${new_name}..."
     cp ${pkl} pkl-run2-rdx_iso_oldcut/${new_name}
