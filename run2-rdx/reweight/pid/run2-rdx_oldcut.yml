@@ -3,13 +3,13 @@ trees:  # This is optional
     - TupleBminus/DecayTree
 
 config:
-    wpid_mu:
-        histo_name: eff  # This is optional. Declared here for demonstration only
-        particle: Mu_nopt
-        vars:
-            - mu_P
-            - ETA(mu_P, mu_PZ)
-            - nTracks
+    # wpid_mu:
+    #     histo_name: eff  # This is optional. Declared here for demonstration only
+    #     particle: Mu_nopt
+    #     vars:
+    #         - mu_P
+    #         - ETA(mu_P, mu_PZ)
+    #         - nTracks
     wpid_mu_ubdt:
         particle: Mu_ubdt
         vars:
