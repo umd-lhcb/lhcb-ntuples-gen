@@ -17,6 +17,8 @@ keep:
     - "^is_misid_*"
     - "b_m_smr_k"
     - "b_m_smr_pi"
+    - "d0_l0_hadron_tos_emu"
+    - "b_l0_global_tis_emu"
 
 rename:
     # General
@@ -27,6 +29,7 @@ rename:
     b0_L0Global_TIS: b_l0_global_tis
     b_L0Global_TIS: b_l0_global_tis
     d0_L0HadronDecision_TOS: d0_l0_hadron_tos
+    b0_l0_global_tis_emu: b0_l0_global_tis_emu
     # HLT1
     d0_Hlt1TwoTrackMVADecision_TOS: d0_hlt1_twotrackmva_tos
     k_Hlt1TrackMVADecision_TOS: k_hlt1_trackmva_tos
@@ -201,25 +204,35 @@ calculation:
     d0_endvtx_chi2ndof: double; d0_ENDVERTEX_CHI2 / d0_ENDVERTEX_NDOF
     d0_dira: double; d0_DIRA_OWNPV
     d0_fd_chi2: double; d0_FDCHI2_OWNPV
+    d0_log_fd_chi2: double; LOG(d0_fd_chi2)
     d0_ip_chi2: double; d0_IPCHI2_OWNPV
-    d0_ip: double; d0_IP_OWNPV
     d0_log_ip_chi2: double; LOG(d0_ip_chi2)
+    d0_ip: double; d0_IP_OWNPV
     d0_comp: double; SQRT(d0_ip_chi2) / d0_ip
     d0_comp2: double; LOG(1 - d0_dira)
     # K
     k_gh_prob: double; k_TRACK_GhostProb
     k_ip_chi2: double; k_IPCHI2_OWNPV
+    k_log_ip_chi2: double; LOG(k_log_ip_chi2)
+    k_ip: double; k_IP_OWNPV
+    k_comp: double; SQRT(k_ip_chi2) / k_ip
     # Pi
     pi_gh_prob: double; pi_TRACK_GhostProb
     pi_ip_chi2: double; pi_IPCHI2_OWNPV
+    pi_log_ip_chi2: double; LOG(pi_log_ip_chi2)
+    pi_ip: double; pi_IP_OWNPV
+    pi_comp: double; SQRT(pi_ip_chi2) / pi_ip
     # slow Pi
     spi_gh_prob: double; spi_TRACK_GhostProb
     spi_ip_chi2: double; spi_IPCHI2_OWNPV
+    spi_log_ip_chi2: double; LOG(spi_log_ip_chi2)
+    spi_ip: double; spi_IP_OWNPV
+    spi_comp: double; SQRT(spi_ip_chi2) / spi_ip
     # Mu
     mu_gh_prob: double; mu_TRACK_GhostProb
     mu_ip_chi2: double; mu_IPCHI2_OWNPV
-    mu_ip: double; mu_IP_OWNPV
     mu_log_ip_chi2: double; LOG(mu_ip_chi2)
+    mu_ip: double; mu_IP_OWNPV
     mu_comp: double; SQRT(mu_ip_chi2) / mu_ip
 
     ############################
@@ -673,8 +686,9 @@ calculation:
     wpid_ubdt: double; wpid_base*wpid_mu_ubdt            # PID w/ UBDT
     wpid_ubdt_veto: double; wpid_base*wpid_mu_ubdt_veto  # PID w/ UBDT veto
     ####
-    wtrg_l0_tis: ^double; b0_l0_global_tis_emu; b_l0_global_tis_emu
-    wtrg: float; d0_l0_hadron_tos_emu + wtrg_l0_tis - d0_l0_hadron_tos_emu*wtrg_l0_tis
+    l0_hadron_tos_emu: ^double; d0_l0_hadron_tos_emu
+    l0_global_tis_emu: ^double; b0_l0_global_tis_emu; b_l0_global_tis_emu
+    wtrg: float; l0_hadron_tos_emu + l0_global_tis_emu - l0_hadron_tos_emu*l0_global_tis_emu
     wtrk: double; wtrk_k*wtrk_pi*wtrk_mu*wtrk_spi; wtrk_k*wtrk_pi*wtrk_mu
     wjk: double; wjk_kin*wjk_occ
 
