@@ -49,19 +49,19 @@ def parseInputs():
 def getHistoBinIdxFlattened(histo):
     if "TH1" in str(type(histo)):
         nbinsX = histo.GetNbinsX()
-        return [(i,) for i in range(1, nbinsX + 1)]
+        return [(i,) for i in range(0, nbinsX + 2)]
 
     if "TH2" in str(type(histo)):
         nbinsX = histo.GetNbinsX()
         nbinsY = histo.GetNbinsY()
-        return list(product(range(1, nbinsX + 1), range(1, nbinsY + 1)))
+        return list(product(range(0, nbinsX + 2), range(0, nbinsY + 2)))
 
     if "TH3" in str(type(histo)):
         nbinsX = histo.GetNbinsX()
         nbinsY = histo.GetNbinsY()
         nbinsZ = histo.GetNbinsZ()
         return list(
-            product(range(1, nbinsX + 1), range(1, nbinsY + 1), range(1, nbinsZ + 1))
+            product(range(0, nbinsX + 2), range(0, nbinsY + 2), range(0, nbinsZ + 2))
         )
 
     return []
@@ -86,6 +86,10 @@ def shiftEff(idx, mean, std, badErrThresh=0.2, verbose=False):
         bad = True
         print(f"    URGENT: Shifted mean ({shifted}) < 0 for {idx}!")
         shifted = zero
+    if shifted >= 1:
+        bad = True
+        print(f"    URGENT: Shifted mean ({shifted}) > 1 for {idx}!")
+        shifted = 1
 
     if abs(std) > badErrThresh:
         bad = True
