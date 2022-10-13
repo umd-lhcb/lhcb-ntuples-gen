@@ -8,6 +8,10 @@ SAMPLES[Pi]="DLLK < 2.0 & IsMuon == 0.0"
 # SAMPLES[Mu]="DLLmu > 2.0 & DLLe < 1.0 & IsMuon == 1.0"
 # SAMPLES[Mu_nopt]="DLLmu > 2.0 & DLLe < 1.0 & IsMuon == 1.0"
 
+declare -A POLARITY
+POLARITY[up]="mu"
+POLARITY[down]="md"
+
 rm -rf pidcalib_oldcut
 
 for year in 16; do
@@ -24,7 +28,6 @@ for year in 16; do
         done
     done
 done
-
 
 # now rename the pkls
 rm -rf pkl-run2-rdx_oldcut
