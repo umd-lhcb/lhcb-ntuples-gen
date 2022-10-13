@@ -213,19 +213,19 @@ calculation:
     # K
     k_gh_prob: double; k_TRACK_GhostProb
     k_ip_chi2: double; k_IPCHI2_OWNPV
-    k_log_ip_chi2: double; LOG(k_log_ip_chi2)
+    k_log_ip_chi2: double; LOG(k_ip_chi2)
     k_ip: double; k_IP_OWNPV
     k_comp: double; SQRT(k_ip_chi2) / k_ip
     # Pi
     pi_gh_prob: double; pi_TRACK_GhostProb
     pi_ip_chi2: double; pi_IPCHI2_OWNPV
-    pi_log_ip_chi2: double; LOG(pi_log_ip_chi2)
+    pi_log_ip_chi2: double; LOG(pi_ip_chi2)
     pi_ip: double; pi_IP_OWNPV
     pi_comp: double; SQRT(pi_ip_chi2) / pi_ip
     # slow Pi
     spi_gh_prob: double; spi_TRACK_GhostProb
     spi_ip_chi2: double; spi_IPCHI2_OWNPV
-    spi_log_ip_chi2: double; LOG(spi_log_ip_chi2)
+    spi_log_ip_chi2: double; LOG(spi_ip_chi2)
     spi_ip: double; spi_IP_OWNPV
     spi_comp: double; SQRT(spi_ip_chi2) / spi_ip
     # Mu
@@ -682,7 +682,7 @@ calculation:
 
     # Weight representing the global cut (BEFORE applying the skim cuts)
     wpid_base: ^double; wpid_k*wpid_pi
-    wpid: double; wpid_base*wpid_mu                      # PID w/o UBDT, typically unused
+    # wpid: double; wpid_base*wpid_mu                      # PID w/o UBDT, typically unused
     wpid_ubdt: double; wpid_base*wpid_mu_ubdt            # PID w/ UBDT
     wpid_ubdt_veto: double; wpid_base*wpid_mu_ubdt_veto  # PID w/ UBDT veto
     ####
