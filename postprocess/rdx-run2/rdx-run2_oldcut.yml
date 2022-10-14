@@ -41,11 +41,11 @@ rename:
     b_Hlt2XcMuXForTauB2XcFakeMuDecision_TOS: b_hlt2_fakeline_tos
     # Event variables
     nTracks: ntracks
-    NumSPDHits: nspdhits
 
 calculation:
     # For pseudo-random sequence generation
     prs_in: double; b0_PT; b_PT
+    nspdhits: float; NumSPDHits; -1.0  # TO MC has no such thing
 
     #######################
     # Isolation variables #
