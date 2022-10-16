@@ -1,6 +1,6 @@
 // Author: Yipeng Sun, Svende Braun
 // License: BSD 2-clause
-// Last Change: Tue Oct 11, 2022 at 06:38 PM -0400
+// Last Change: Sun Oct 16, 2022 at 02:36 AM -0400
 // NOTE: All kinematic variables are in MeV
 
 #pragma once
@@ -254,7 +254,7 @@ Bool_t FLAG_SEL_D0_MASS(Double_t d0_m, Double_t d0_m_ref = 1864.83) {
 
 Bool_t FLAG_SEL_D0_MASS_HYPO(Double_t d0_m, Double_t d0_m_pi_m) {
   /* Replace Muon mass hypothesis */
-  if (d0_m_pi_m - d0_m > 165.0 && d0_m_pi_m - d0_m - 145.454 > 4.0) return true;
+  if (d0_m_pi_m - d0_m > 165.0) return true;
   return false;
 }
 
