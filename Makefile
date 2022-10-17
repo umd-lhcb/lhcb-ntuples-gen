@@ -1,6 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Wed Aug 17, 2022 at 05:44 AM -0400
+# Last Change: Mon Oct 17, 2022 at 10:02 AM -0400
 
 VPATH := postprocess:test:scripts:ntuples
 VPATH := run1-rdx/cutflow:run2-rdx/cutflow:$(VPATH)
@@ -102,6 +102,13 @@ rdx-ntuple-run2-mc_ghost:
 	workflows/rdx.py $@
 
 # this is tracker-only
+rdx-ntuple-run2-mc-to-all: \
+    rdx-ntuple-run2-mc-to-sig-norm \
+    rdx-ntuple-run2-mc-to-ddx \
+    rdx-ntuple-run2-mc-to-dstst \
+    rdx-ntuple-run2-mc-to-dstst-heavy \
+    rdx-ntuple-run2-mc-to-d_s
+
 rdx-ntuple-run2-mc-to-sig-norm:
 	workflows/rdx.py $@
 
