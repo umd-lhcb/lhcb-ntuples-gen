@@ -160,7 +160,7 @@ if __name__ == '__main__':
 
         print('For MC ID {}'.format(Colors.BOLD+i+Colors.ENDC))
         for group, num in grouped.items():
-            print('  {}: {}'.format(group, Colors.BOLD+str(num)+Colors.ENDC))
+            print('  {}: {}'.format(group, Colors.BOLD+f'{int(num):,}'+Colors.ENDC))
 
     # Optionally generate a CSV output
     if args.output:
