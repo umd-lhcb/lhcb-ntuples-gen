@@ -195,6 +195,8 @@ calculation:
         double;
         FD_TRANS(b_ENDVERTEX_X, b_OWNPV_X, b_ENDVERTEX_Y, b_OWNPV_Y);
         FD_TRANS(b0_ENDVERTEX_X, b0_OWNPV_X, b0_ENDVERTEX_Y, b0_OWNPV_Y)
+    b_fd_chi2: double; b_FDCHI2_OWNPV; b0_FDCHI2_OWNPV
+    b_log_fd_chi2: double; LOG(b_fd_chi2)
     b_discard_mu_chi2: double; b_DISCARDMu_CHI2; b0_DISCARDMu_CHI2
     b_ndof: int; b_OWNPV_NDOF; b0_OWNPV_NDOF
     b_dira: double; b_DIRA_OWNPV; b0_DIRA_OWNPV
