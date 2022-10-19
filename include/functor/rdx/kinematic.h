@@ -1,6 +1,6 @@
 // Author: Yipeng Sun, Svende Braun
 // License: BSD 2-clause
-// Last Change: Fri Jul 29, 2022 at 06:09 PM -0400
+// Last Change: Wed Oct 19, 2022 at 04:21 PM -0400
 
 #pragma once
 
@@ -74,6 +74,8 @@ Double_t MX_MASS(Double_t b_px, Double_t b_py, Double_t b_pz, Double_t b_pe,
   return (TBp - TD0p - TD1p).M();
 }
 
+// NOTE: Below the MX_MASS_DST functions use an outdated method of computing
+// mass, and are considered obsolete.
 // Computing mDD and mDX (mDX for K/K* differentiation), D*
 vector<Double_t> DD_MX_MASS_DST(Double_t mu_mom_px, Double_t mu_mom_py,
                                 Double_t mu_mom_pz, Double_t mu_mom_pe,

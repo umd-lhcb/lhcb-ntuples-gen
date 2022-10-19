@@ -17,7 +17,7 @@ using namespace std;
 // General Helper Functions //
 //////////////////////////////
 
-int HUNDREDS_DIGIT(int a) { return floor((a % 1000) / 100); }
+int HUNDREDS_DIGIT(int a) { return (a % 1000) / 100; }
 
 bool IS_DDX(int decay_id) {
   auto ddx_ids = vector<int>{11894600, 12893600, 11894200, 12893610,
@@ -78,25 +78,15 @@ class TruthMatch {
 
   // useful to have a map as a reference for D** cocktails (PDG MC ID -> our
   // code)
-  map<int, int> pdg_to_code{
-      {PDG_ID_D0st_0, d0st},
-      {PDG_ID_D1_0, d1},
-      {PDG_ID_D1p_0, d1p},
-      {PDG_ID_D2st_0, d2st},
-      {PDG_ID_D0st, d0st},
-      {PDG_ID_D1, d1},
-      {PDG_ID_D1p, d1p},
-      {PDG_ID_D2st, d2st},
-      {PDG_ID_Dst2S_0, dst2S},
-      {PDG_ID_D2S_0, d2S},
-      {FAKE_ID_D2750_0, d2750},
-      {FAKE_ID_D3000_0, d3000},
-      {PDG_ID_Dst2S, dst2S},
-      {PDG_ID_D2S, d2S},
-      {FAKE_ID_D2750, d2750},
-      {FAKE_ID_D3000, d3000},
-      {PDG_ID_D1p_s, d1p},
-      {PDG_ID_D2st_s, d2st}};
+  map<int, int> pdg_to_code{{PDG_ID_D0st_0, d0st},    {PDG_ID_D1_0, d1},
+                            {PDG_ID_D1p_0, d1p},      {PDG_ID_D2st_0, d2st},
+                            {PDG_ID_D0st, d0st},      {PDG_ID_D1, d1},
+                            {PDG_ID_D1p, d1p},        {PDG_ID_D2st, d2st},
+                            {PDG_ID_Dst2S_0, dst2S},  {PDG_ID_D2S_0, d2S},
+                            {FAKE_ID_D2750_0, d2750}, {FAKE_ID_D3000_0, d3000},
+                            {PDG_ID_Dst2S, dst2S},    {PDG_ID_D2S, d2S},
+                            {FAKE_ID_D2750, d2750},   {FAKE_ID_D3000, d3000},
+                            {PDG_ID_D1p_s, d1p},      {PDG_ID_D2st_s, d2st}};
 
   // Sets of particles used for some truth-matching
   vector<int> b_mesons{PDG_ID_B0, PDG_ID_Bu, PDG_ID_Bs};
@@ -132,8 +122,8 @@ class TruthMatch {
   bool debug_dstst_s_all_cocktail;
   bool debug_dd_all_cocktail;
 
-  virtual bool COMMON_SELEC() = 0; // differs between D0/D* samples
-  bool DSTST_OKAY(int dstst_id) {  // same between D0/D* samples
+  virtual bool COMMON_SELEC() = 0;         // differs between D0/D* samples
+  bool         DSTST_OKAY(int dstst_id) {  // same between D0/D* samples
     return ((b_expect_id == PDG_ID_B0 && VEC_OR_EQ(charged_dstst, dstst_id) &&
              !dstst_higher) ||
             (b_expect_id == PDG_ID_Bu && VEC_OR_EQ(neutral_dstst, dstst_id) &&
@@ -262,8 +252,8 @@ class DstTruthMatch : public TruthMatch {
   // Btype==[b_expect_id] && Dststtype==[D** cocktail] && muPID == 1.
   // Note: I don't implement Phoebe's ishigher, instead just using the variable
   // dstst_higher to keep track of the considered decay ID.
-  // Note: compared to the D0 sample, this selection is simpler because here the decay is required to
-  // go B->D**->D*.
+  // Note: compared to the D0 sample, this selection is simpler because here the
+  // decay is required to go B->D**->D*.
   bool TRUTH_MATCH_DSTST() {
     // Check if D** (just D* mom here) is okay
     bool dst_mom_id_ok = false;
@@ -498,8 +488,8 @@ class D0TruthMatch : public TruthMatch {
   int            b_bkgcat;
   double         d_m;
   // special variables used for D** truth-matching: copied from Phoebe's code
-  int Btype        = 0;
-  int Dststtype    = 0;
+  int  Btype       = 0;
+  int  Dststtype   = 0;
   bool simpleDstst = false;
 
  public:
@@ -542,15 +532,16 @@ class D0TruthMatch : public TruthMatch {
       // not setting Btype/Dststtype cuts out event; here, this is equivalent to
       // cutting on JustDst < 1 (if B->D0, there is no D**)
       return;
-    } else if (VEC_OR_EQ(b_mesons, d_gdmom_id)) { // B->D**->D0
+    } else if (VEC_OR_EQ(b_mesons, d_gdmom_id)) {  // B->D**->D0
       simpleDstst = mu_mom_key == d_gdmom_key || mu_gdmom_key == d_gdmom_key;
       Btype       = d_gdmom_id;
       Dststtype   = d_mom_id;
     } else if (VEC_OR_EQ(b_mesons, d_gdgdmom_id) &&
-               VEC_OR_EQ(dst_dst0, d_mom_id)) { // B->D**->D*->D0
-      simpleDstst = mu_mom_key==d_gdgdmom_key || mu_gdmom_key==d_gdgdmom_key;
-      Btype       = d_gdgdmom_id;
-      Dststtype   = d_gdmom_id;
+               VEC_OR_EQ(dst_dst0, d_mom_id)) {  // B->D**->D*->D0
+      simpleDstst =
+          mu_mom_key == d_gdgdmom_key || mu_gdmom_key == d_gdgdmom_key;
+      Btype     = d_gdgdmom_id;
+      Dststtype = d_gdmom_id;
     } else if (VEC_OR_EQ(b_mesons, d_gdgdmom_id) && b_id == d_gdgdmom_id) {
       // B->D**->X->D0
       // setting Btype but not Dststtype here to take the special cases **
@@ -568,14 +559,15 @@ class D0TruthMatch : public TruthMatch {
       Btype = mu_gdmom_id;
     } else if (VEC_OR_EQ(b_mesons, mu_gdgdmom_id) && b_id == mu_gdgdmom_id) {
       Btype = mu_gdgdmom_id;
-    } else if (VEC_OR_EQ(b_mesons, mu_gdgdgdmom_id) && b_id == mu_gdgdgdmom_id) {
+    } else if (VEC_OR_EQ(b_mesons, mu_gdgdgdmom_id) &&
+               b_id == mu_gdgdgdmom_id) {
       Btype = mu_gdgdgdmom_id;
     } else {
-      Btype = -1;
+      Btype     = -1;
       Dststtype = -1;
       // Note to self: used to only have this else statement be:
       // else {Dststtype=-2;}  // done to copy Phoebe's code more precisely, but
-                               // also to ensure works correctly with my code
+      // also to ensure works correctly with my code
       // Not sure why I ever did this, but in any case, setting Btype and
       // Dststtype to -1 is what Phoebe does, and this should work here, too.
       // Keeping this comment here only in case find bug in future...
@@ -583,13 +575,14 @@ class D0TruthMatch : public TruthMatch {
 
     // special cases ** (1/2)
     // note that b_bkgcat here is used in Phoebe's code before she redefines it.
-    if (Dststtype == 0 && b_bkgcat == 50 && (VEC_OR_EQ(b0_bu, mu_mom_id) ||
-        (mu_mom_id == 15 && VEC_OR_EQ(b0_bu, mu_gdmom_id)))) {
+    if (Dststtype == 0 && b_bkgcat == 50 &&
+        (VEC_OR_EQ(b0_bu, mu_mom_id) ||
+         (mu_mom_id == 15 && VEC_OR_EQ(b0_bu, mu_gdmom_id)))) {
       Btype = b_id;
       if (HUNDREDS_DIGIT(d_gdgdmom_id) == 4) {
         Dststtype = d_gdgdmom_id;
       } else if (HUNDREDS_DIGIT(d_gdgdmom_id) == 5 &&
-               HUNDREDS_DIGIT(d_gdmom_id) == 4) {
+                 HUNDREDS_DIGIT(d_gdmom_id) == 4) {
         Dststtype = d_gdmom_id;
       } else if (HUNDREDS_DIGIT(d_gdmom_id) == 5 &&
                  HUNDREDS_DIGIT(d_mom_id) == 4) {
@@ -607,14 +600,14 @@ class D0TruthMatch : public TruthMatch {
   }
 
   bool TWO_PI() {
-    double mm2_mom; // not used anywhere else
+    double mm2_mom;  // not used anywhere else
     if (!(VEC_OR_EQ(dst_dst0, d_mom_id) && VEC_OR_EQ(b_mesons, d_gdgdmom_id))) {
       // NOT B->D**->D*->D, so (only considering decays that will be included in
       // templates used in the fit) must be B->D**->D or B->D1->D0*->D (for the
       // latter, this whole mm2_mom business is irrelevant, because the event
       // will be put into the d1pipi template via simpleDstst being false).
-      mm2_mom = (d_mom_truep4 - d_truep4).M2();  // Mev
-    } else { // B->D**->D*->D
+      mm2_mom = (d_mom_truep4 - d_truep4).M2();        // Mev
+    } else {                                           // B->D**->D*->D
       mm2_mom = (d_gdmom_truep4 - d_mom_truep4).M2();  // MeV
     }
     // Copying Phoebe, we only care about D1->D0*->D0 for the special case
@@ -645,7 +638,7 @@ class D0TruthMatch : public TruthMatch {
     // (should) occur later when selecting on b_bkgcat, so it's fine here to
     // just look at all of the keys of the D0 ancestors to check against the B
     // from the mu ancestry.
-    bool mu_ancestry_ok = false;
+    bool        mu_ancestry_ok = false;
     vector<int> d_lineage_keys{d_mom_key, d_gdmom_key, d_gdgdmom_key};
     if (!tau_expect) {
       mu_ancestry_ok = mu_mom_id == b_expect_id && mu_mom_key > 0 &&
@@ -702,7 +695,7 @@ class D0TruthMatch : public TruthMatch {
     // mu ancestry. Note: you can see that decays like B->D**->X->X->D0 are cut
     // out here explicitly; only up to d_gdgdmom_key is checked.
     // TODO think about this...
-    bool mu_ancestry_ok = false;
+    bool        mu_ancestry_ok = false;
     vector<int> d_lineage_keys{d_mom_key, d_gdmom_key, d_gdgdmom_key};
     if (!tau_expect) {
       mu_ancestry_ok = mu_mom_id == b_expect_id && mu_mom_key > 0 &&
@@ -717,9 +710,9 @@ class D0TruthMatch : public TruthMatch {
 
     // If D**H, separate D**H->D* from D**H->D
     if (dstst_higher) {
-      if (VEC_OR_EQ(dst_dst0, d_mom_id)) { // copied from how Phoebe does it
+      if (VEC_OR_EQ(dst_dst0, d_mom_id)) {  // copied from how Phoebe does it
         added += dstst_higher_to_dst;
-      } else { // else D**H->D
+      } else {  // else D**H->D
         added += dstst_higher_to_d;
       }
     }
