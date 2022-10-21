@@ -108,7 +108,7 @@ for ntpName in ntpsIn:
 
                 effRatio = f', {plotTitleAddOn[treeId]}, tracking eff: {brWt.sum() / brWt.size:.2f}'
 
-                plotPEta(brP, brEta, f'{treeId}_{part}_p_eta.png',
+                plotPEta(brP, brEta, f'{treeId}_{part}_p_eta.pdf',
                          binning=plotRange,
                          title=scheme[part]['title']+effRatio)
             break
