@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri Apr 08, 2022 at 12:00 AM -0400
+# Last Change: Sun Oct 23, 2022 at 10:35 PM -0400
 
 import numpy as np
 
@@ -27,8 +27,8 @@ class RwtRule:
 
 
 REWEIGHT_PROCEDURE = {
-    'h_occupancy': RwtRule(['b_ownpv_ndof', 'ntracks'], [20, 20], [[1, 250], [0, 450]]),
-    'h_kinematic': RwtRule(['b_pt', 'b_eta'], [20, 9], [[0, 30e3], [2, 5]]),
+    'h_occupancy': RwtRule(['b_ownpv_ndof', 'ntracks'], [20, 25], [[1, 250], [0, 700]]),
+    'h_kinematic': RwtRule(['b_pt', 'b_eta'], [20, 9], [[0, 30e3], [2, 6.5]]),
 }
 
 DATA_WTS = ['sw_sig']
