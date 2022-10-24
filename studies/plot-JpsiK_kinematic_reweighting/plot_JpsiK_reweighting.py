@@ -18,8 +18,8 @@ from pyTuplingUtils.plot import (
 #################
 
 mcNtps = [
-    '../../ntuples/0.9.6-2016_production/JpsiK-mc-step2/JpsiK--22_04_07--mc--12143001--2016--md.root:tree',
-    '../../ntuples/0.9.6-2016_production/JpsiK-mc-step2/JpsiK--22_04_07--mc--12143001--2016--mu.root:tree',
+    '../../ntuples/0.9.6-2016_production/JpsiK-mc-step2/JpsiK--22_10_23--mc--12143001--2016--md.root:tree',
+    '../../ntuples/0.9.6-2016_production/JpsiK-mc-step2/JpsiK--22_10_23--mc--12143001--2016--mu.root:tree',
 ]
 
 dataNtps = '../../run2-JpsiK/fit/fit_results/JpsiK-22_02_26_23_52-std-fit-2016/fit.root:tree'
@@ -34,17 +34,18 @@ weightBrs = ['wpid', 'wtrk', 'w', 'wjk_kin', 'wjk_occ']
 sweightBrs = ['sw_sig']
 
 varsLabels = [r'$B$ PV NDOF', r'nTracks', r'$B$ $p_T$ [MeV]', r'$B$ $\eta$']
-dataRanges = [[1, 200], [0, 450], [0, 25e3], [2, 5]]
+dataRanges = [[1, 250], [0, 450], [0, 30e3], [2, 6]]
 binnings = [20, 20, 20, 9]
 
 dataBrs = uproot.concatenate(dataNtps, varsToComp + sweightBrs, library='np')
 mcBrs = uproot.concatenate(mcNtps, varsToComp + weightBrs, library='np')
 
 # Make numpy histogram consistent w/ ROOT's
-globalCut = lambda brs: (brs['ntracks'] < 450) & (brs['b_ownpv_ndof'] < 200) & \
-    (brs['b_pt'] < 25e3) & (brs['b_eta'] < 5)
-dataCut = globalCut(dataBrs)
-mcCut = globalCut(mcBrs)
+#  globalCut = lambda brs: (brs['ntracks'] < 550) & (brs['b_ownpv_ndof'] < 200) & \
+#      (brs['b_pt'] < 25e3) & (brs['b_eta'] < 5)
+dataCut = True
+#  mcCut = globalCut(mcBrs)
+mcCut = True
 
 
 def plot(output, br, xLabel, dataRange, bins, ratios=False):

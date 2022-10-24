@@ -14,4 +14,4 @@ config:
         particle: B
         vars:
             - GUARD(b0_OWNPV_NDOF, 1, 250); GUARD(b_OWNPV_NDOF, 1, 250)
-            - GUARD(nTracks, 0, 550)
+            - GUARD(nTracks, 0, 450)
