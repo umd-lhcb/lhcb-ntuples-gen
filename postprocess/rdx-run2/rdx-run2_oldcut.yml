@@ -200,6 +200,10 @@ calculation:
     b_discard_mu_chi2: double; b_DISCARDMu_CHI2; b0_DISCARDMu_CHI2
     b_ndof: int; b_OWNPV_NDOF; b0_OWNPV_NDOF
     b_dira: double; b_DIRA_OWNPV; b0_DIRA_OWNPV
+    vtx_theta: >-
+        double;
+        VTX_THETA(b_ENDVERTEX_X, b_OWNPV_X, b_ENDVERTEX_Y, b_OWNPV_Y, b_ENDVERTEX_Z, b_OWNPV_Z);
+        VTX_THETA(b0_ENDVERTEX_X, b0_OWNPV_X, b0_ENDVERTEX_Y, b0_OWNPV_Y, b0_ENDVERTEX_Z, b0_OWNPV_Z)
     # D*
     dst_endvtx_chi2ndof: double; dst_ENDVERTEX_CHI2 / dst_ENDVERTEX_NDOF
     # D0

@@ -1,6 +1,6 @@
 // Author: Yipeng Sun, Svende Braun
 // License: BSD 2-clause
-// Last Change: Wed Oct 19, 2022 at 04:21 PM -0400
+// Last Change: Sat Nov 19, 2022 at 08:13 AM -0500
 
 #pragma once
 
@@ -176,4 +176,12 @@ template <typename T>
 Double_t Q2(LorentzVector<T> v4_b, LorentzVector<T> v4_d) {
   auto v4_diff = v4_b - v4_d;
   return M2(v4_diff);
+}
+
+// Vertexing ///////////////////////////////////////////////////////////////////
+
+template <typename T>
+Double_t VTX_THETA(T b_vtx_x, T pv_x, T b_vtx_y, T pv_y, T b_vtx_z, T pv_z) {
+  auto flight = XYZVector(b_vtx_x - pv_x, b_vtx_y - pv_y, b_vtx_z - pv_z);
+  return flight.Theta();
 }
