@@ -1,0 +1,18 @@
+TupleB0/DecayTree:
+    deactivate:
+        - '*'
+    activate:
+        # Global
+        - runNumber
+        - eventNumber
+        # Fit variables
+        - "FitVar_*"
+        # B kinematics
+        - "b*_P*"
+        # Potential HAMMER inputs
+        - "b*_ENDVERTEX*"
+        - "b*_OWNPV*"
+
+TupleBminus/DecayTree:
+    deactivate: TupleB0/DecayTree
+    activate: TupleB0/DecayTree
