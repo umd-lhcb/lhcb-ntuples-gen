@@ -9,6 +9,7 @@
     MuonBDTPid.url = "github:umd-lhcb/MuonBDTPid";
     hammer-reweight.url = "github:umd-lhcb/hammer-reweight";
     misid-unfold.url = "github:umd-lhcb/misid-unfold";
+    vertex-resolution.url = "github:umd-lhcb/vertex-resolution";
 
     flake-compat = {
       url = "github:edolstra/flake-compat";
@@ -16,7 +17,7 @@
     };
   };
 
-  outputs = { self, nixpkgs, flake-utils, root-curated, MuonBDTPid, hammer-reweight, misid-unfold, ... }:
+  outputs = { self, nixpkgs, flake-utils, root-curated, MuonBDTPid, hammer-reweight, misid-unfold, vertex-resolution, ... }:
     flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = import nixpkgs {
@@ -27,6 +28,7 @@
             MuonBDTPid.overlay
             hammer-reweight.overlay
             misid-unfold.overlay
+            vertex-resolution.overlay
           ];
         };
         python = pkgs.python3;
@@ -47,6 +49,9 @@
 
             # misiD weight adder
             pkgs.misid-unfold-applyer
+
+            # vertex resolution smearing
+            pkgs.vertex-resolution
 
             # Linters
             pylint
