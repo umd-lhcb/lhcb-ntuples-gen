@@ -13,6 +13,7 @@ keep:
     - "^wpid*"
     - "^wtrk*"
     - "^wff"
+    - "^wvtx"
     - ".*_tos_emu$"
     - "^is_misid_*"
     - "b_m_smr_k"
@@ -91,9 +92,13 @@ calculation:
     # Fit variables #
     #################
     # Make all fit variables in GeV
-    mm2: double; GEV2(FitVar_Mmiss2)
-    q2: double; GEV2(FitVar_q2)
-    el: double; GEV(FitVar_El)
+    mm2_raw: double; GEV2(FitVar_Mmiss2)
+    q2_raw: double; GEV2(FitVar_q2)
+    el_raw: double; GEV(FitVar_El)
+    # Smeared fit vars for MC
+    mm2: double; mm2_vtx_smr; mm2_raw
+    q2: double; q2_vtx_smr; q2_raw
+    el: double; el_vtx_smr; el_raw
     # K,pi-smeared fit variables
     # we'll always have them to make template building eaiser
     mm2_smr_pi: double; mm2_smr_pi; -100.0

@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Fri Sep 23, 2022 at 05:17 PM -0400
+# Last Change: Mon Nov 21, 2022 at 10:17 PM -0500
 
 import sys
 import os.path as op
@@ -149,6 +149,18 @@ def workflow_misid(
         cmd, input_ntp, output_ntp, '--aux_misid', **kwargs)
 
 
+@smart_kwarg
+def workflow_vertex(
+        input_ntp, output_ntp='vertex.root',
+        vertex_aux_ntp='../run2-rdx/reweight/vertex/smearing_vec.root',
+        **kwargs):
+    aux_ntp = abs_path(vertex_aux_ntp)
+
+    cmd = f'ApplyMisIDWeight -i {input_ntp} -o {output_ntp} -x {aux_ntp}'
+    return workflow_cached_ntuple(
+        cmd, input_ntp, output_ntp, '--aux_vertex', **kwargs)
+
+
 #######################
 # Workflows: wrappers #
 #######################
@@ -289,6 +301,7 @@ def workflow_mc(inputs, input_yml, job_name='mc', date=None,
                 **kwargs):
     aux_workflows = [
         workflow_trigger_emu, workflow_pid, workflow_trk, workflow_jk,
+        workflow_vertex,
     ]
     if use_hammer:
         aux_workflows.append(workflow_hammer)
