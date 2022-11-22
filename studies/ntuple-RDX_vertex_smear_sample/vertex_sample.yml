@@ -8,10 +8,30 @@ TupleB0/DecayTree:
         # Fit variables
         - "FitVar_*"
         # B kinematics
-        - "b*_P*"
+        - "b_PX"
+        - "b_PY"
+        - "b_PZ"
+        - "b_PE"
+        - "b0_PX"
+        - "b0_PY"
+        - "b0_PZ"
+        - "b0_PE"
         # Potential HAMMER inputs
         - "b*_ENDVERTEX*"
         - "b*_OWNPV*"
+        # misc
+        - "d0_PX"
+        - "d0_PY"
+        - "d0_PZ"
+        - "d0_PE"
+        - "dst_PX"
+        - "dst_PY"
+        - "dst_PZ"
+        - "dst_PE"
+        - "mu_PX"
+        - "mu_PY"
+        - "mu_PZ"
+        - "mu_PE"
 
 TupleBminus/DecayTree:
     deactivate: TupleB0/DecayTree
