@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Nov 21, 2022 at 10:17 PM -0500
+# Last Change: Mon Nov 21, 2022 at 10:30 PM -0500
 
 import sys
 import os.path as op
@@ -156,7 +156,7 @@ def workflow_vertex(
         **kwargs):
     aux_ntp = abs_path(vertex_aux_ntp)
 
-    cmd = f'ApplyMisIDWeight -i {input_ntp} -o {output_ntp} -x {aux_ntp}'
+    cmd = f'ApplyVertexSmear -i {input_ntp} -o {output_ntp} -x {aux_ntp}'
     return workflow_cached_ntuple(
         cmd, input_ntp, output_ntp, '--aux_vertex', **kwargs)
 
