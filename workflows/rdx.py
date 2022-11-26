@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Nov 22, 2022 at 01:46 AM -0500
+# Last Change: Fri Nov 25, 2022 at 08:04 PM -0500
 
 import sys
 import os.path as op
@@ -301,7 +301,7 @@ def workflow_mc(inputs, input_yml, job_name='mc', date=None,
                 **kwargs):
     aux_workflows = [
         workflow_trigger_emu, workflow_pid, workflow_trk, workflow_jk,
-        workflow_vertex,
+        #  workflow_vertex,
     ]
     if use_hammer:
         aux_workflows.append(workflow_hammer)
