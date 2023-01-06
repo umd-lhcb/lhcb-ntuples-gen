@@ -1,6 +1,6 @@
 // Author: Yipeng Sun, Svende Braun
 // License: BSD 2-clause
-// Last Change: Sun Oct 16, 2022 at 03:33 AM -0400
+// Last Change: Fri Jan 06, 2023 at 06:56 AM -0500
 // NOTE: All kinematic variables are in MeV
 
 #pragma once
@@ -300,6 +300,7 @@ Double_t WT_DD_BF(int mu_mom_id) {
 // DD Dalitz-inspired weights //////////////////////////////////////////////////
 
 vector<Double_t> WT_DALITZ(Double_t mDD, int b_ID) {
+  // NOTE: the 'mDD' is actual the SQUARED DD MASS!!!
   Double_t Daltweightp  = 1;
   Double_t Daltweightm  = 1;
   Double_t Daltweightqp = 1;
