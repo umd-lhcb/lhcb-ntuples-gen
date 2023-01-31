@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Tue Sep 20, 2022 at 01:07 PM -0400
+# Last Change: Tue Jan 31, 2023 at 04:10 PM -0500
 #
 # Description: plot fit variables w/ w/o decay-in-flight smearing
 
@@ -39,7 +39,7 @@ MISID_TAGS = {
 PLOT_VARS = {
     "mm2": r"$m_{miss}^2$ [GeV$^2$]",
     "q2": r"$q^2$ [GeV$^2$]",
-    "el": r"$E_l$ [GeV]",
+    "el": r"$E^*_l$ [GeV]",
 }
 PLOT_VARS_SMR_SUF = ["_smr_pi", "_smr_k", "_no_smr"]
 
