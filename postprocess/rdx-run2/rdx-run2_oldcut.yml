@@ -69,6 +69,14 @@ calculation:
     iso_nnk2: float; b0_ISOLATION_NNk2; b_ISOLATION_NNk2
     iso_nnk3: float; b0_ISOLATION_NNk3; b_ISOLATION_NNk3
     iso_nnp1: float; b0_ISOLATION_NNp; b_ISOLATION_NNp
+    iso_nnp2: float; b0_ISOLATION_NNp2; b_ISOLATION_NNp2
+    iso_nnp3: float; b0_ISOLATION_NNp3; b_ISOLATION_NNp3
+    iso_pidk1: float; b0_ISOLATION_PIDK; b_ISOLATION_PIDK
+    iso_pidk2: float; b0_ISOLATION_PIDK2; b_ISOLATION_PIDK2
+    iso_pidk3: float; b0_ISOLATION_PIDK3; b_ISOLATION_PIDK3
+    iso_pidp1: float; b0_ISOLATION_PIDp; b_ISOLATION_PIDp
+    iso_pidp2: float; b0_ISOLATION_PIDp2; b_ISOLATION_PIDp2
+    iso_pidp3: float; b0_ISOLATION_PIDp3; b_ISOLATION_PIDp3
     # ID
     iso_true_id1: int; b0_ISOLATION_TRUEID; b_ISOLATION_TRUEID
     iso_true_id2: int; b0_ISOLATION_TRUEID2; b_ISOLATION_TRUEID2
