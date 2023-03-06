@@ -28,6 +28,14 @@ bool IS_DDX(int decay_id) {
   return true;
 }
 
+bool IS_DDX_MU(int decay_id) {
+  auto ddx_ids = vector<int>{11894600, 12893600, 11894610, 12895400};
+
+  if (find(ddx_ids.begin(), ddx_ids.end(), decay_id) == ddx_ids.end())
+    return false;
+  return true;
+}
+
 bool IS_STRANGE(int decay_id) {
   auto strange_ids = vector<int>{13874020, 13674000};
 
