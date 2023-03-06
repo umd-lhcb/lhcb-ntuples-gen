@@ -1,6 +1,6 @@
 // Author: Yipeng Sun, Svende Braun
 // License: BSD 2-clause
-// Last Change: Fri Jan 06, 2023 at 06:56 AM -0500
+// Last Change: Mon Mar 06, 2023 at 01:40 PM -0500
 // NOTE: All kinematic variables are in MeV
 
 #pragma once
@@ -299,34 +299,22 @@ Double_t WT_DD_BF(int mu_mom_id) {
 
 // DD Dalitz-inspired weights //////////////////////////////////////////////////
 
-vector<Double_t> WT_DALITZ(Double_t mDD, int b_ID) {
-  // NOTE: the 'mDD' is actual the SQUARED DD MASS!!!
+vector<Double_t> WT_DALITZ(Double_t dd_msq, Double_t dd_m_min,
+                           Double_t dd_m_max) {
   Double_t Daltweightp  = 1;
   Double_t Daltweightm  = 1;
   Double_t Daltweightqp = 1;
   Double_t Daltweightqm = 1;
 
-  if (SQRT(mDD) < 4990) {
-    Double_t min;
-    if (ABS(b_ID) == 511) {
-      min = 2010 + 1864.8;
-    }  // if B0 use Dst mass
-    if (ABS(b_ID) == 521) {
-      min = 1864.8 + 1864.8;
-    }  // if Bu use D0 mass
-    Double_t max  = 5280 - 489.;
-    Double_t min2 = min * min;
-    Double_t max2 = max * max;
+  Double_t min2 = dd_m_min * dd_m_min;
+  Double_t max2 = dd_m_max * dd_m_max;
 
-    if (mDD <= min2) return {0, 0, 0, 0};  // these are no real DD events
-
-    Daltweightp  = (1 + 2 * (sqrt((mDD - min2) / (max2 - min2)) - 0.5));
-    Daltweightm  = (1 - 2 * (sqrt((mDD - min2) / (max2 - min2)) - 0.5));
-    Daltweightqp = (8 * (sqrt((mDD - min2) / (max2 - min2)) - 0.5) *
-                    (sqrt((mDD - min2) / (max2 - min2)) - 0.5));
-    Daltweightqm = (2 - 8 * (sqrt((mDD - min2) / (max2 - min2)) - 0.5) *
-                            (sqrt((mDD - min2) / (max2 - min2)) - 0.5));
-  }
+  Daltweightp  = (1 + 2 * (sqrt((dd_msq - min2) / (max2 - min2)) - 0.5));
+  Daltweightm  = (1 - 2 * (sqrt((dd_msq - min2) / (max2 - min2)) - 0.5));
+  Daltweightqp = (8 * (sqrt((dd_msq - min2) / (max2 - min2)) - 0.5) *
+                  (sqrt((dd_msq - min2) / (max2 - min2)) - 0.5));
+  Daltweightqm = (2 - 8 * (sqrt((dd_msq - min2) / (max2 - min2)) - 0.5) *
+                          (sqrt((dd_msq - min2) / (max2 - min2)) - 0.5));
 
   return {Daltweightp, Daltweightm, Daltweightqp, Daltweightqm};
 }
