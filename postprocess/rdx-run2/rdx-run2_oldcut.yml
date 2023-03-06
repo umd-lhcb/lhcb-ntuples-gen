@@ -419,8 +419,8 @@ calculation:
     # we require the 2nd daughter of B is also a D meson for DDX MC only
     ddx_add_tm_both: >-
         bool;
-        is_ddx && HUNDREDS_DIGIT(ABS(b0_TrueHadron_D1_ID)) == 4;
-        is_ddx && HUNDREDS_DIGIT(ABS(b_TrueHadron_D1_ID)) == 4
+        HUNDREDS_DIGIT(ABS(b0_TrueHadron_D1_ID)) == 4;
+        HUNDREDS_DIGIT(ABS(b_TrueHadron_D1_ID)) == 4
     # for muonic DDX, require the mDD to be inside a mass window
     ddx_add_tm_mu: >-
         bool;
