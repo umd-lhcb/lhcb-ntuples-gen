@@ -358,7 +358,7 @@ calculation:
         SQRT(M2(b_TRUEP_X, b_TRUEP_Y, b_TRUEP_Z, b_TRUEP_E))
     q2_true: double; b0_True_Q2; b_True_Q2 # in MeV^2!
     # Inputs to Dalitz-inspired reweighting
-    dd_mass: >-
+    dd_msq: >-
         double;
         MINV2(
         b0_TrueHadron_D0_PX, b0_TrueHadron_D0_PY, b0_TrueHadron_D0_PZ, b0_TrueHadron_D0_PE,
@@ -368,7 +368,11 @@ calculation:
         b_TrueHadron_D0_PX, b_TrueHadron_D0_PY, b_TrueHadron_D0_PZ, b_TrueHadron_D0_PE,
         b_TrueHadron_D1_PX, b_TrueHadron_D1_PY, b_TrueHadron_D1_PZ, b_TrueHadron_D1_PE
         )
-    mx_mass: >-
+    # Set minimum DD mass based on reco mode.
+    dd_m_min: double; IF_VAR_EXISTS(dst_M, 2010.0 + 1864); 1864.0*2
+    dd_m_max: double; 5280 - 488.8  # at least an extra Kaon
+
+    mx_m: >-
         double;
         MX_MASS(
         b_TRUEP_X, b_TRUEP_Y, b_TRUEP_Z, b_TRUEP_E,
@@ -410,12 +414,18 @@ calculation:
         b_BKGCAT
         )
     is_ddx: bool; IS_DDX(mc_id)
+    is_ddx_mu: bool; IS_DDX_MU(mc_id)
     # this is a naive filter:
     # we require the 2nd daughter of B is also a D meson for DDX MC only
-    ddx_add_truthmatch: >-
+    ddx_add_tm_both: >-
         bool;
         is_ddx && HUNDREDS_DIGIT(ABS(b0_TrueHadron_D1_ID)) == 4;
         is_ddx && HUNDREDS_DIGIT(ABS(b_TrueHadron_D1_ID)) == 4
+    # for muonic DDX, require the mDD to be inside a mass window
+    ddx_add_tm_mu: >-
+        bool;
+        IF(is_ddx_mu, IN_RANGE(SQRT(dd_msq), dd_m_min, dd_m_max), true)
+    ddx_add_tm: bool; ddx_add_tm_mu && ddx_add_tm_both
     is_strange: bool; IS_STRANGE(mc_id)
 
     # FF reweighting
@@ -622,14 +632,14 @@ calculation:
     # Branching fraction weights for DD MC
     wbr_dd: double; IF(is_ddx, WT_DD_BF(mu_MC_MOTHER_ID), 1.0)
     # Dalitz-inspired variational weights for DD MC
-    tmp_dal: ^vector<double>; WT_DALITZ(dd_mass, b0_TRUEID); WT_DALITZ(dd_mass, b_TRUEID)
+    tmp_dal: ^vector<double>; WT_DALITZ(dd_msq, dd_m_min, dd_m_max)
     wdal_lp: double; EXTRACT_ELEM(tmp_dal, 0)
     wdal_lm: double; EXTRACT_ELEM(tmp_dal, 1)
     wdal_qp: double; EXTRACT_ELEM(tmp_dal, 2)
     wdal_qm: double; EXTRACT_ELEM(tmp_dal, 3)
 
     # K/K* variation weights (these weight up/down the K* events)
-    is_kst: bool; IF(mx_mass > 620, true, false)
+    is_kst: bool; IF(mx_m > 620, true, false)
     wkst_m: double; IF(is_kst, 0.0, 1.0)
     wkst_p: double; IF(is_kst, 2.0, 1.0)
 
@@ -769,7 +779,7 @@ global_selection:
     - trg_ok
     - global_cut_ok
     - truthmatch > 0
-    - "!is_ddx || ddx_add_truthmatch"
+    - "!is_ddx || ddx_add_tm"
     - ham_ok
 
 one_cand_only:
