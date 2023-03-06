@@ -417,15 +417,14 @@ calculation:
     is_ddx_mu: bool; IS_DDX_MU(mc_id)
     # this is a naive filter:
     # we require the 2nd daughter of B is also a D meson for DDX MC only
-    ddx_add_tm_both: >-
+    ddx_add_tm: >-
         bool;
         HUNDREDS_DIGIT(ABS(b0_TrueHadron_D1_ID)) == 4;
         HUNDREDS_DIGIT(ABS(b_TrueHadron_D1_ID)) == 4
-    # for muonic DDX, require the mDD to be inside a mass window
-    ddx_add_tm_mu: >-
+    # only muonic DDK are subject to Dalitz-inspired variations
+    is_dal_variable: >-
         bool;
-        IF(is_ddx_mu, IN_RANGE(SQRT(dd_msq), dd_m_min, dd_m_max), true)
-    ddx_add_tm: bool; ddx_add_tm_mu && ddx_add_tm_both
+        IF(is_ddx_mu, IN_RANGE(SQRT(dd_msq), dd_m_min, dd_m_max), false)
     is_strange: bool; IS_STRANGE(mc_id)
 
     # FF reweighting
@@ -632,7 +631,9 @@ calculation:
     # Branching fraction weights for DD MC
     wbr_dd: double; IF(is_ddx, WT_DD_BF(mu_MC_MOTHER_ID), 1.0)
     # Dalitz-inspired variational weights for DD MC
-    tmp_dal: ^vector<double>; WT_DALITZ(dd_msq, dd_m_min, dd_m_max)
+    tmp_dal: >-
+        ^vector<double>;
+        IF(is_dal_variable, WT_DALITZ(dd_msq, dd_m_min, dd_m_max), BUILD_VEC(1.0, 1.0, 1.0, 1.0))
     wdal_lp: double; EXTRACT_ELEM(tmp_dal, 0)
     wdal_lm: double; EXTRACT_ELEM(tmp_dal, 1)
     wdal_qp: double; EXTRACT_ELEM(tmp_dal, 2)
