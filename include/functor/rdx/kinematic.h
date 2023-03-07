@@ -1,6 +1,6 @@
 // Author: Yipeng Sun, Svende Braun
 // License: BSD 2-clause
-// Last Change: Sat Nov 19, 2022 at 08:13 AM -0500
+// Last Change: Tue Mar 07, 2023 at 04:39 PM -0500
 
 #pragma once
 
@@ -72,75 +72,6 @@ Double_t MX_MASS(Double_t b_px, Double_t b_py, Double_t b_pz, Double_t b_pe,
   auto TD0p = PxPyPzEVector(d0_px, d0_py, d0_pz, d0_pe);
   auto TD1p = PxPyPzEVector(d1_px, d1_py, d1_pz, d1_pe);
   return (TBp - TD0p - TD1p).M();
-}
-
-// NOTE: Below the MX_MASS_DST functions use an outdated method of computing
-// mass, and are considered obsolete.
-// Computing mDD and mDX (mDX for K/K* differentiation), D*
-vector<Double_t> DD_MX_MASS_DST(Double_t mu_mom_px, Double_t mu_mom_py,
-                                Double_t mu_mom_pz, Double_t mu_mom_pe,
-                                Double_t dst_px, Double_t dst_py,
-                                Double_t dst_pz, Double_t dst_pe,
-                                int mu_gdmom_id, Double_t mu_gdmom_px,
-                                Double_t mu_gdmom_py, Double_t mu_gdmom_pz,
-                                Double_t mu_gdmom_pe, Double_t b_px,
-                                Double_t b_py, Double_t b_pz, Double_t b_pe) {
-  auto Tmumomp =
-      ROOT::Math::PxPyPzEVector(mu_mom_px, mu_mom_py, mu_mom_pz, mu_mom_pe);
-  auto     TDstp = ROOT::Math::PxPyPzEVector(dst_px, dst_py, dst_pz, dst_pe);
-  auto     Tmugdmomp = ROOT::Math::PxPyPzEVector(mu_gdmom_px, mu_gdmom_py,
-                                             mu_gdmom_pz, mu_gdmom_pe);
-  auto     TBp       = ROOT::Math::PxPyPzEVector(b_px, b_py, b_pz, b_pe);
-  Double_t mDD       = (Tmumomp + TDstp).M2();
-  Double_t mX_DD     = (TBp - TDstp - Tmumomp).M();
-
-  if (ABS(mu_gdmom_id) == 413 || ABS(mu_gdmom_id) == 423 ||
-      ABS(mu_gdmom_id) == 433) {
-    mDD   = (Tmugdmomp + TDstp).M2();
-    mX_DD = (TBp - TDstp - Tmugdmomp).M();
-  }
-
-  return {mDD, mX_DD};
-}
-
-// Computing mDD and mDX (mDX for K/K* differentiation), D0
-// NOTE: mDD is the invariant mass SQUARED
-vector<Double_t> DD_MX_MASS_D0(
-    Double_t mu_mom_px, Double_t mu_mom_py, Double_t mu_mom_pz,
-    Double_t mu_mom_pe, Double_t d_mom_px, Double_t d_mom_py, Double_t d_mom_pz,
-    Double_t d_mom_pe, int mu_gdmom_id, Double_t mu_gdmom_px,
-    Double_t mu_gdmom_py, Double_t mu_gdmom_pz, Double_t mu_gdmom_pe,
-    Double_t d_px, Double_t d_py, Double_t d_pz, Double_t d_pe, int d_mom_id,
-    Double_t b_px, Double_t b_py, Double_t b_pz, Double_t b_pe) {
-  auto Tmumomp =
-      ROOT::Math::PxPyPzEVector(mu_mom_px, mu_mom_py, mu_mom_pz, mu_mom_pe);
-  auto TDmomp =
-      ROOT::Math::PxPyPzEVector(d_mom_px, d_mom_py, d_mom_pz, d_mom_pe);
-  auto Tmugdmomp = ROOT::Math::PxPyPzEVector(mu_gdmom_px, mu_gdmom_py,
-                                             mu_gdmom_pz, mu_gdmom_pe);
-  auto TDp       = ROOT::Math::PxPyPzEVector(d_px, d_py, d_pz, d_pe);
-  auto TBp       = ROOT::Math::PxPyPzEVector(b_px, b_py, b_pz, b_pe);
-
-  Double_t mDD = 0.0, mX_DD = 0.0;
-  if (ABS(d_mom_id) == 413 || ABS(d_mom_id) == 423) {
-    mDD   = (Tmumomp + TDmomp).M2();
-    mX_DD = (TBp - TDmomp - Tmumomp).M();
-
-    if (ABS(mu_gdmom_id) == 413 || ABS(mu_gdmom_id) == 423 ||
-        ABS(mu_gdmom_id) == 433) {
-      mDD   = (Tmugdmomp + TDmomp).M2();
-      mX_DD = (TBp - TDmomp - Tmugdmomp).M();
-    }
-  } else {
-    mDD   = (Tmumomp + TDp).M2();
-    mX_DD = (TBp - TDp - Tmumomp).M();
-    if (ABS(mu_gdmom_id) == 413 || ABS(mu_gdmom_id) == 423 ||
-        ABS(mu_gdmom_id) == 433) {
-      mDD   = (Tmugdmomp + TDp).M2();
-      mX_DD = (TBp - TDp - Tmugdmomp).M();
-    }
-  }
-  return {mDD, mX_DD};
 }
 
 // Rest frame approximation ////////////////////////////////////////////////////
