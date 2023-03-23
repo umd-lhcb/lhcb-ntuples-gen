@@ -629,7 +629,7 @@ calculation:
     # Weights #
     ###########
     # Branching fraction weights for DD MC
-    wbr_dd: double; IF(is_ddx, WT_DD_BF(mu_MC_MOTHER_ID), 1.0)
+    wbr_dd: double; IF(is_ddx_mu, WT_DD_BF(mu_MC_MOTHER_ID), 1.0)
     # Dalitz-inspired variational weights for DD MC
     tmp_dal: >-
         ^vector<double>;
