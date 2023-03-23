@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Thu Mar 23, 2023 at 02:24 AM -0400
+# Last Change: Thu Mar 23, 2023 at 02:23 PM -0400
 
 import sys
 import os.path as op
@@ -100,7 +100,7 @@ def workflow_hammer_alt(input_ntp, output_ntp='hammer_alt.root',
     run = 'run1' if '2011' in input_ntp or '2012' in input_ntp else 'run2'
     cmd = [f'ReweightRDXDefault {input_ntp} {output_ntp} {t} {run}' for t in trees]
     return workflow_cached_ntuple(
-        cmd, input_ntp, output_ntp, '--aux_hammer', **kwargs)
+        cmd, input_ntp, output_ntp, '--aux_hammer_alt', **kwargs)
 
 
 @smart_kwarg
