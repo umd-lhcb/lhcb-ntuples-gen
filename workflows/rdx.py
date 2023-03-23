@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Mar 13, 2023 at 04:35 PM -0400
+# Last Change: Thu Mar 23, 2023 at 02:24 AM -0400
 
 import sys
 import os.path as op
@@ -89,6 +89,16 @@ def workflow_hammer(input_ntp, output_ntp='hammer.root',
                     **kwargs):
     run = 'run1' if '2011' in input_ntp or '2012' in input_ntp else 'run2'
     cmd = [f'ReweightRDX {input_ntp} {output_ntp} {t} {run}' for t in trees]
+    return workflow_cached_ntuple(
+        cmd, input_ntp, output_ntp, '--aux_hammer', **kwargs)
+
+
+@smart_kwarg
+def workflow_hammer_alt(input_ntp, output_ntp='hammer_alt.root',
+                        trees=['TupleB0/DecayTree', 'TupleBminus/DecayTree'],
+                        **kwargs):
+    run = 'run1' if '2011' in input_ntp or '2012' in input_ntp else 'run2'
+    cmd = [f'ReweightRDXDefault {input_ntp} {output_ntp} {t} {run}' for t in trees]
     return workflow_cached_ntuple(
         cmd, input_ntp, output_ntp, '--aux_hammer', **kwargs)
 
@@ -297,7 +307,7 @@ def workflow_mc_single(maindir, subdir,
 
 
 def workflow_mc(inputs, input_yml, job_name='mc', date=None,
-                use_hammer=True, num_of_workers=12,
+                use_hammer=True, use_hammer_alt=False, num_of_workers=12,
                 **kwargs):
     aux_workflows = [
         workflow_trigger_emu, workflow_pid, workflow_trk, workflow_jk,
@@ -305,6 +315,8 @@ def workflow_mc(inputs, input_yml, job_name='mc', date=None,
     ]
     if use_hammer:
         aux_workflows.append(workflow_hammer)
+    if use_hammer_alt:
+        aux_workflows.append(workflow_hammer_alt)
     subworkdirs, workdir = workflow_prep_dir(job_name, inputs, **kwargs)
 
     job_directives = [
@@ -437,6 +449,7 @@ JOBS = {
             for i in [11874430, 11874440, 12873450, 12873460]
         ],
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
+        use_hammer_alt=True,
         num_of_workers=20
     ),
     'rdx-ntuple-run2-mc-to-dstst-heavy': partial(
