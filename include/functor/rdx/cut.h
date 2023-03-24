@@ -1,6 +1,6 @@
 // Author: Yipeng Sun, Svende Braun
 // License: BSD 2-clause
-// Last Change: Mon Mar 06, 2023 at 01:40 PM -0500
+// Last Change: Thu Mar 23, 2023 at 10:15 PM -0400
 // NOTE: All kinematic variables are in MeV
 
 #pragma once
@@ -290,11 +290,11 @@ Bool_t FLAG_SEL_B0_MASS_SB(Double_t b0_m) { return b0_m > 5400.0; }
 // DD branching fraction weight ////////////////////////////////////////////////
 
 Double_t WT_DD_BF(int mu_mom_id) {
-  Double_t weightD;
-  if (ABS(mu_mom_id) == 411) weightD = 0.1607;
-  if (ABS(mu_mom_id) == 421) weightD = 0.0649;
-  if (ABS(mu_mom_id) == 431) weightD = 0.0709;
-  return weightD;
+  Double_t wt = 0.0;
+  if (ABS(mu_mom_id) == 411) wt = 0.1607;
+  if (ABS(mu_mom_id) == 421) wt = 0.0649;
+  if (ABS(mu_mom_id) == 431) wt = 0.0709;
+  return wt;
 }
 
 // DD Dalitz-inspired weights //////////////////////////////////////////////////
