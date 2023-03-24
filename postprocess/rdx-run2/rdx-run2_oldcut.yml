@@ -431,6 +431,10 @@ calculation:
     # NOTE: Need to have a valid HAMMER weight unless is a DDX or D**s
     ham_ok: bool; ham_ok; true
 
+    # Particle true ID
+    mu_mom_true_id: int; mu_MC_MOTHER_ID
+    mu_gd_mom_true_id: int; mu_MC_GD_MOTHER_ID
+
     ##########################
     # Selection flags, basic #
     ##########################
