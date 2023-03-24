@@ -2,7 +2,7 @@
 #
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Mon Oct 24, 2022 at 01:21 AM -0400
+# Last Change: Fri Mar 24, 2023 at 12:12 PM -0400
 
 import numpy as np
 
@@ -112,7 +112,7 @@ if __name__ == '__main__':
         rwt_brs_data = [brs_data[i] for i in r.vars]
         rwt_brs_mc = [brs_mc[i] for i in r.vars]
 
-        # Build data histogram, wWeighted
+        # Build data histogram, sWeighted
         br_sw = brs_data[DATA_WTS[0]]
         h_data_raw = np.histogram2d(
             *rwt_brs_data, r.bins, r.range, weights=br_sw)
@@ -124,6 +124,9 @@ if __name__ == '__main__':
         if idx == 0:
             mc_wt_final = br_w_mc
         else:
+            # NOTE: here I'm being lazy. In principle we need to apply ALL
+            # weights from ALL previous steps. J/psi K reweighting only has 2
+            # steps though.
             mc_wt_prev = get_weights(brs_mc, histos[idx-1], rules[idx-1])
             mc_wt_final = br_w_mc * mc_wt_prev
 
