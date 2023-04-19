@@ -469,7 +469,7 @@ JOBS = {
             for i in [13874020, 13674000]
         ],
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
-        use_hammer=False,
+        use_hammer_alt=True,
         num_of_workers=20
     ),
     # Run 2 debug
