@@ -109,7 +109,7 @@ TString varToHuman(TString var) {
   var.ReplaceAll("d0_", "D^{0} ");
   var.ReplaceAll("PT", "p_{T}");
   var.ReplaceAll("/1000", " [GeV]");
-  var.ReplaceAll("/10000000", " [GeV^{2}]");
+  var.ReplaceAll("/1000000", " [GeV^{2}]");
   var.ReplaceAll("l0_hadron_prob", "XGB prob.");
   var.ReplaceAll("l0_hadron_tos_emu_no_bdt", "E_{trig} emu no BDT");
   var.ReplaceAll("l0_hadron_tos_emu", "XGB bool");
