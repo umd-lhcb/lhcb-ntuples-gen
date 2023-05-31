@@ -102,6 +102,15 @@ def workflow_hammer_alt(input_ntp, output_ntp='hammer_alt.root',
     return workflow_cached_ntuple(
         cmd, input_ntp, output_ntp, '--aux_hammer_alt', **kwargs)
 
+@smart_kwarg
+def workflow_hammer_nonsense(input_ntp, output_ntp='hammer_nonsense.root',
+                             trees=['TupleB0/DecayTree', 'TupleBminus/DecayTree'],
+                             **kwargs):
+    run = 'run1' if '2011' in input_ntp or '2012' in input_ntp else 'run2'
+    cmd = [f'ReweightRDXNonsenseDst {input_ntp} {output_ntp} {t} {run}' for t in trees]
+    return workflow_cached_ntuple(
+        cmd, input_ntp, output_ntp, '--aux_hammer_nonsense', **kwargs)
+
 
 @smart_kwarg
 def workflow_trigger_emu(input_ntp, output_ntp='trg_emu.root',
@@ -307,8 +316,8 @@ def workflow_mc_single(maindir, subdir,
 
 
 def workflow_mc(inputs, input_yml, job_name='mc', date=None,
-                use_hammer=True, use_hammer_alt=False, num_of_workers=12,
-                **kwargs):
+                use_hammer=True, use_hammer_alt=False, use_hammer_nonsense=False,
+                num_of_workers=12, **kwargs):
     aux_workflows = [
         workflow_trigger_emu, workflow_pid, workflow_trk, workflow_jk,
         workflow_vertex,
@@ -317,6 +326,8 @@ def workflow_mc(inputs, input_yml, job_name='mc', date=None,
         aux_workflows.append(workflow_hammer)
     if use_hammer_alt:
         aux_workflows.append(workflow_hammer_alt)
+    if use_hammer_nonsense:
+        aux_workflows.append(workflow_hammer_nonsense)
     subworkdirs, workdir = workflow_prep_dir(job_name, inputs, **kwargs)
 
     job_directives = [
@@ -546,6 +557,18 @@ JOBS = {
             for i in [11874430, 11874440, 12873450, 12873460]
         ],
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
+    ),
+    'rdx-ntuple-run2-mc-to-sig-norm-dst-ff-debug-10sig1p': partial(
+        workflow_split,
+        [
+            '../ntuples/0.9.6-2016_production/Dst_D0-mc-tracker_only/*11574021*.DST', # norm, D*
+            '../ntuples/0.9.6-2016_production/Dst_D0-mc-tracker_only/*12773410*.DST', # norm, D*0
+            '../ntuples/0.9.6-2016_production/Dst_D0-mc-tracker_only/*11574011*.DST', # sig, D*
+            '../ntuples/0.9.6-2016_production/Dst_D0-mc-tracker_only/*12773400*.DST', # sig, D*0
+        ],
+        '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
+        use_hammer_nonsense=True,
+        num_of_workers=20
     ),
     # Run 1
     'rdx-ntuple-run1-data': partial(

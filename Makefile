@@ -161,6 +161,9 @@ rdx-ntuple-run2-mc-to-sig-norm-demo:
 rdx-ntuple-run2-mc-to-dstst-debug:
 	workflows/rdx.py $@
 
+rdx-ntuple-run2-mc-to-sig-norm-dst-ff-debug-10sig1p:
+	workflows/rdx.py $@
+
 
 ###############################
 # RDX run 1 ntuple generation #
