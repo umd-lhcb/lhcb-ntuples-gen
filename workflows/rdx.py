@@ -103,14 +103,49 @@ def workflow_hammer_alt(input_ntp, output_ntp='hammer_alt.root',
         cmd, input_ntp, output_ntp, '--aux_hammer_alt', **kwargs)
 
 @smart_kwarg
-def workflow_hammer_nonsense(input_ntp, output_ntp='hammer_nonsense.root',
+def workflow_hammer_dst10sig(input_ntp, output_ntp='hammer_dst10sig.root',
                              trees=['TupleB0/DecayTree', 'TupleBminus/DecayTree'],
                              **kwargs):
     run = 'run1' if '2011' in input_ntp or '2012' in input_ntp else 'run2'
-    cmd = [f'ReweightRDXNonsenseDst {input_ntp} {output_ntp} {t} {run}' for t in trees]
+    cmd = [f'ReweightRDXDst10Sig {input_ntp} {output_ntp} {t} {run}' for t in trees]
     return workflow_cached_ntuple(
-        cmd, input_ntp, output_ntp, '--aux_hammer_nonsense', **kwargs)
+        cmd, input_ntp, output_ntp, '--aux_hammer_dst10sig', **kwargs)
 
+@smart_kwarg
+def workflow_hammer_dstnocorr(input_ntp, output_ntp='hammer_dstnocorr.root',
+                              trees=['TupleB0/DecayTree', 'TupleBminus/DecayTree'],
+                              **kwargs):
+    run = 'run1' if '2011' in input_ntp or '2012' in input_ntp else 'run2'
+    cmd = [f'ReweightRDXDstNoCorr {input_ntp} {output_ntp} {t} {run}' for t in trees]
+    return workflow_cached_ntuple(
+        cmd, input_ntp, output_ntp, '--aux_hammer_dstnocorr', **kwargs)
+
+@smart_kwarg
+def workflow_hammer_dst10signocorr(input_ntp, output_ntp='hammer_dst10signocorr.root',
+                                   trees=['TupleB0/DecayTree', 'TupleBminus/DecayTree'],
+                                   **kwargs):
+    run = 'run1' if '2011' in input_ntp or '2012' in input_ntp else 'run2'
+    cmd = [f'ReweightRDXDstNoCorr10Sig {input_ntp} {output_ntp} {t} {run}' for t in trees]
+    return workflow_cached_ntuple(
+        cmd, input_ntp, output_ntp, '--aux_hammer_dst10signocorr', **kwargs)
+
+@smart_kwarg
+def workflow_hammer_run1(input_ntp, output_ntp='hammer_dstrun1.root',
+                         trees=['TupleB0/DecayTree', 'TupleBminus/DecayTree'],
+                         **kwargs):
+    run = 'run1' if '2011' in input_ntp or '2012' in input_ntp else 'run2'
+    cmd = [f'ReweightRDXDstRun1 {input_ntp} {output_ntp} {t} {run}' for t in trees]
+    return workflow_cached_ntuple(
+        cmd, input_ntp, output_ntp, '--aux_hammer_dstrun1', **kwargs)
+
+@smart_kwarg
+def workflow_hammer_norescale(input_ntp, output_ntp='hammer_norescale.root',
+                              trees=['TupleB0/DecayTree', 'TupleBminus/DecayTree'],
+                              **kwargs):
+    run = 'run1' if '2011' in input_ntp or '2012' in input_ntp else 'run2'
+    cmd = [f'ReweightRDXRemoveRescale {input_ntp} {output_ntp} {t} {run}' for t in trees]
+    return workflow_cached_ntuple(
+        cmd, input_ntp, output_ntp, '--aux_hammer_norescale', **kwargs)
 
 @smart_kwarg
 def workflow_trigger_emu(input_ntp, output_ntp='trg_emu.root',
@@ -316,7 +351,9 @@ def workflow_mc_single(maindir, subdir,
 
 
 def workflow_mc(inputs, input_yml, job_name='mc', date=None,
-                use_hammer=True, use_hammer_alt=False, use_hammer_nonsense=False,
+                use_hammer=True, use_hammer_alt=False, use_hammer_dst10sig=False,
+                use_hammer_dstnocorr=False, use_hammer_dst10signocorr=False,
+                use_hammer_dstrun1=False, use_hammer_no_rescale=False,
                 num_of_workers=12, **kwargs):
     aux_workflows = [
         workflow_trigger_emu, workflow_pid, workflow_trk, workflow_jk,
@@ -326,8 +363,17 @@ def workflow_mc(inputs, input_yml, job_name='mc', date=None,
         aux_workflows.append(workflow_hammer)
     if use_hammer_alt:
         aux_workflows.append(workflow_hammer_alt)
-    if use_hammer_nonsense:
-        aux_workflows.append(workflow_hammer_nonsense)
+    if use_hammer_dst10sig:
+        aux_workflows.append(workflow_hammer_dst10sig)
+    if use_hammer_dstnocorr:
+        aux_workflows.append(workflow_hammer_dstnocorr)
+    if use_hammer_dst10signocorr:
+        aux_workflows.append(workflow_hammer_dst10signocorr)
+    if use_hammer_dstrun1:
+        aux_workflows.append(workflow_hammer_run1)
+    if use_hammer_no_rescale:
+        aux_workflows.append(workflow_hammer_norescale)
+    
     subworkdirs, workdir = workflow_prep_dir(job_name, inputs, **kwargs)
 
     job_directives = [
@@ -460,7 +506,7 @@ JOBS = {
             for i in [11874430, 11874440, 12873450, 12873460]
         ],
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
-        use_hammer_alt=True,
+        # use_hammer_alt=True,
         num_of_workers=20
     ),
     'rdx-ntuple-run2-mc-to-dstst-heavy': partial(
@@ -480,7 +526,7 @@ JOBS = {
             for i in [13874020, 13674000]
         ],
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
-        use_hammer_alt=True,
+        # use_hammer_alt=True,
         num_of_workers=20
     ),
     # Run 2 debug
@@ -558,16 +604,106 @@ JOBS = {
         ],
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
     ),
-    'rdx-ntuple-run2-mc-to-sig-norm-dst-ff-debug-10sig1p': partial(
+    'rdx-ntuple-run2-mc-to-sig-norm-dst-ff-debug-10sig': partial(
         workflow_split,
         [
+            # D0
+            '../ntuples/0.9.6-2016_production/Dst_D0-mc-tracker_only/*12573012*.DST', # norm
+            '../ntuples/0.9.6-2016_production/Dst_D0-mc-tracker_only/*12573001*.DST', # sig
+            # D*
             '../ntuples/0.9.6-2016_production/Dst_D0-mc-tracker_only/*11574021*.DST', # norm, D*
             '../ntuples/0.9.6-2016_production/Dst_D0-mc-tracker_only/*12773410*.DST', # norm, D*0
             '../ntuples/0.9.6-2016_production/Dst_D0-mc-tracker_only/*11574011*.DST', # sig, D*
             '../ntuples/0.9.6-2016_production/Dst_D0-mc-tracker_only/*12773400*.DST', # sig, D*0
         ],
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
-        use_hammer_nonsense=True,
+        blocked_patterns=['--aux', r'--([1-9][0-9][0-9])-dv', 'MagUp'],
+        use_hammer_dst10sig=True,
+        num_of_workers=20
+    ),
+    'rdx-ntuple-run2-mc-to-sig-norm-dst-ff-debug': partial(
+        workflow_split,
+        [
+            # D0
+            '../ntuples/0.9.6-2016_production/Dst_D0-mc-tracker_only/*12573012*.DST', # norm
+            '../ntuples/0.9.6-2016_production/Dst_D0-mc-tracker_only/*12573001*.DST', # sig
+            # D*
+            '../ntuples/0.9.6-2016_production/Dst_D0-mc-tracker_only/*11574021*.DST', # norm, D*
+            '../ntuples/0.9.6-2016_production/Dst_D0-mc-tracker_only/*12773410*.DST', # norm, D*0
+            '../ntuples/0.9.6-2016_production/Dst_D0-mc-tracker_only/*11574011*.DST', # sig, D*
+            '../ntuples/0.9.6-2016_production/Dst_D0-mc-tracker_only/*12773400*.DST', # sig, D*0
+        ],
+        '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
+        blocked_patterns=['--aux', r'--([1-9][0-9][0-9])-dv', 'MagUp'],
+        use_hammer_alt=True,
+        num_of_workers=20
+    ),
+    'rdx-ntuple-run2-mc-to-sig-norm-dst-ff-debug-10sig-nocorr': partial(
+        workflow_split,
+        [
+            # D0
+            '../ntuples/0.9.6-2016_production/Dst_D0-mc-tracker_only/*12573012*.DST', # norm
+            '../ntuples/0.9.6-2016_production/Dst_D0-mc-tracker_only/*12573001*.DST', # sig
+            # D*
+            '../ntuples/0.9.6-2016_production/Dst_D0-mc-tracker_only/*11574021*.DST', # norm, D*
+            '../ntuples/0.9.6-2016_production/Dst_D0-mc-tracker_only/*12773410*.DST', # norm, D*0
+            '../ntuples/0.9.6-2016_production/Dst_D0-mc-tracker_only/*11574011*.DST', # sig, D*
+            '../ntuples/0.9.6-2016_production/Dst_D0-mc-tracker_only/*12773400*.DST', # sig, D*0
+        ],
+        '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
+        blocked_patterns=['--aux', r'--([1-9][0-9][0-9])-dv', 'MagUp'],
+        use_hammer_dst10signocorr=True,
+        num_of_workers=20
+    ),
+    'rdx-ntuple-run2-mc-to-sig-norm-dst-ff-debug-nocorr': partial(
+        workflow_split,
+        [
+            # D0
+            '../ntuples/0.9.6-2016_production/Dst_D0-mc-tracker_only/*12573012*.DST', # norm
+            '../ntuples/0.9.6-2016_production/Dst_D0-mc-tracker_only/*12573001*.DST', # sig
+            # D*
+            '../ntuples/0.9.6-2016_production/Dst_D0-mc-tracker_only/*11574021*.DST', # norm, D*
+            '../ntuples/0.9.6-2016_production/Dst_D0-mc-tracker_only/*12773410*.DST', # norm, D*0
+            '../ntuples/0.9.6-2016_production/Dst_D0-mc-tracker_only/*11574011*.DST', # sig, D*
+            '../ntuples/0.9.6-2016_production/Dst_D0-mc-tracker_only/*12773400*.DST', # sig, D*0
+        ],
+        '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
+        blocked_patterns=['--aux', r'--([1-9][0-9][0-9])-dv', 'MagUp'],
+        use_hammer_dstnocorr=True,
+        num_of_workers=20
+    ),
+    'rdx-ntuple-run2-mc-to-sig-norm-dst-ff-debug-phoebe': partial(
+        workflow_split,
+        [
+            # D0
+            '../ntuples/0.9.6-2016_production/Dst_D0-mc-tracker_only/*12573012*.DST', # norm
+            '../ntuples/0.9.6-2016_production/Dst_D0-mc-tracker_only/*12573001*.DST', # sig
+            # D*
+            '../ntuples/0.9.6-2016_production/Dst_D0-mc-tracker_only/*11574021*.DST', # norm, D*
+            '../ntuples/0.9.6-2016_production/Dst_D0-mc-tracker_only/*12773410*.DST', # norm, D*0
+            '../ntuples/0.9.6-2016_production/Dst_D0-mc-tracker_only/*11574011*.DST', # sig, D*
+            '../ntuples/0.9.6-2016_production/Dst_D0-mc-tracker_only/*12773400*.DST', # sig, D*0
+        ],
+        '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
+        blocked_patterns=['--aux', r'--([1-9][0-9][0-9])-dv', 'MagUp'],
+        use_hammer_dstrun1=True,
+        num_of_workers=20
+    ),
+    'rdx-ntuple-run2-mc-to-sig-norm-dst-ff-debug-no-rescale': partial(
+        workflow_split,
+        [
+            # D0
+            '../ntuples/0.9.6-2016_production/Dst_D0-mc-tracker_only/*12573012*.DST', # norm
+            '../ntuples/0.9.6-2016_production/Dst_D0-mc-tracker_only/*12573001*.DST', # sig
+            # D*
+            '../ntuples/0.9.6-2016_production/Dst_D0-mc-tracker_only/*11574021*.DST', # norm, D*
+            '../ntuples/0.9.6-2016_production/Dst_D0-mc-tracker_only/*12773410*.DST', # norm, D*0
+            '../ntuples/0.9.6-2016_production/Dst_D0-mc-tracker_only/*11574011*.DST', # sig, D*
+            '../ntuples/0.9.6-2016_production/Dst_D0-mc-tracker_only/*12773400*.DST', # sig, D*0
+        ],
+        '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
+        blocked_patterns=['--aux', r'--([1-9][0-9][0-9])-dv', 'MagUp'],
+        use_hammer_no_rescale=True,
         num_of_workers=20
     ),
     # Run 1

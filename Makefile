@@ -161,7 +161,22 @@ rdx-ntuple-run2-mc-to-sig-norm-demo:
 rdx-ntuple-run2-mc-to-dstst-debug:
 	workflows/rdx.py $@
 
-rdx-ntuple-run2-mc-to-sig-norm-dst-ff-debug-10sig1p:
+rdx-ntuple-run2-mc-to-sig-norm-dst-ff-debug-10sig:
+	workflows/rdx.py $@
+
+rdx-ntuple-run2-mc-to-sig-norm-dst-ff-debug:
+	workflows/rdx.py $@
+
+rdx-ntuple-run2-mc-to-sig-norm-dst-ff-debug-nocorr:
+	workflows/rdx.py $@
+
+rdx-ntuple-run2-mc-to-sig-norm-dst-ff-debug-10sig-nocorr:
+	workflows/rdx.py $@
+
+rdx-ntuple-run2-mc-to-sig-norm-dst-ff-debug-phoebe:
+	workflows/rdx.py $@
+
+rdx-ntuple-run2-mc-to-sig-norm-dst-ff-debug-no-rescale:
 	workflows/rdx.py $@
 
 
