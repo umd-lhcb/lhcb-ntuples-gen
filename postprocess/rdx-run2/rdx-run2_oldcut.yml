@@ -649,6 +649,21 @@ calculation:
     wdal_lm: double; EXTRACT_ELEM(tmp_dal, 1)
     wdal_qp: double; EXTRACT_ELEM(tmp_dal, 2)
     wdal_qm: double; EXTRACT_ELEM(tmp_dal, 3)
+    # Dalitz-inspired variational weights for DD MC, but separated by DD charge
+    tmp_dal_neut: >-
+        ^vector<double>;
+        IF(is_dal_neutral_dd, WT_DALITZ(dd_msq, dd_m_min, dd_m_max), BUILD_VEC(1.0, 1.0, 1.0, 1.0))
+    wdal_neut_lp: double; EXTRACT_ELEM(tmp_dal_neut, 0)
+    wdal_neut_lm: double; EXTRACT_ELEM(tmp_dal_neut, 1)
+    wdal_neut_qp: double; EXTRACT_ELEM(tmp_dal_neut, 2)
+    wdal_neut_qm: double; EXTRACT_ELEM(tmp_dal_neut, 3)
+    tmp_dal_charg: >-
+        ^vector<double>;
+        IF(is_dal_charged_dd, WT_DALITZ(dd_msq, dd_m_min, dd_m_max), BUILD_VEC(1.0, 1.0, 1.0, 1.0))
+    wdal_charg_lp: double; EXTRACT_ELEM(tmp_dal_charg, 0)
+    wdal_charg_lm: double; EXTRACT_ELEM(tmp_dal_charg, 1)
+    wdal_charg_qp: double; EXTRACT_ELEM(tmp_dal_charg, 2)
+    wdal_charg_qm: double; EXTRACT_ELEM(tmp_dal_charg, 3)
 
     # K/K* variation weights (these weight up/down the K* events)
     is_kst: bool; IF(mx_m > 620, true, false)
