@@ -26,12 +26,14 @@ Bool_t FLAG_DD(Bool_t add_flags,
                Int_t iso_type1, Int_t iso_type2, Int_t iso_type3,
                Float_t iso_p1, Float_t iso_p2, Float_t iso_p3,
                Float_t iso_pt1, Float_t iso_pt2, Float_t iso_pt3,
-               Float_t iso_nnk1, Float_t iso_nnk2, Float_t iso_nnk3) {
+               Float_t iso_nnk1, Float_t iso_nnk2, Float_t iso_nnk3, Float_t k_cut,
+               Float_t iso_nnghost1, Float_t iso_nnghost2, Float_t iso_nnghost3,
+               Float_t ghost_cut) {
   // clang-format on
   auto pid_ok =
-      MAX(IF(iso_bdt1 > -1.1, iso_nnk1, 0.0f) * (iso_type1 == 3),
-          IF(iso_bdt2 > -1.1, iso_nnk2, 0.0f) * (iso_type2 == 3),
-          IF(iso_bdt3 > -1.1, iso_nnk3, 0.0f) * (iso_type3 == 3)) > 0.2;
+      MAX(IF(iso_bdt1 > -1.1, iso_nnk1, 0.0f) * (iso_type1 == 3) * (iso_nnghost1 < ghost_cut),
+          IF(iso_bdt2 > -1.1, iso_nnk2, 0.0f) * (iso_type2 == 3) * (iso_nnghost2 < ghost_cut),
+          IF(iso_bdt3 > -1.1, iso_nnk3, 0.0f) * (iso_type3 == 3) * (iso_nnghost3 < ghost_cut)) > k_cut;
 
   auto kinematic_ok = MAX(iso_p1 * (iso_pt1 > 0.15),
                           iso_p2 * (iso_pt2 > 0.15) * (iso_bdt2 > -1.1),
@@ -79,13 +81,15 @@ Bool_t FLAG_2OS(Bool_t add_flags,
                 Float_t iso_p1, Float_t iso_p2,
                 Float_t iso_pt1, Float_t iso_pt2,
                 Int_t iso_chrg1, Int_t iso_chrg2,
-                Float_t iso_nnk1, Float_t iso_nnk2) {
+                Float_t iso_nnk1, Float_t iso_nnk2, Float_t k_cut,
+                Float_t iso_nnghost1, Float_t iso_nnghost2, Float_t ghost_cut) {
   // clang-format on
   return add_flags && (iso_bdt1 > 0.15) && (iso_bdt2 > 0.15) &&
          (iso_bdt3 < 0.15) && (iso_type1 == 3) && (iso_type2 == 3) &&
          (MAX(iso_p1 * (iso_pt1 > 0.15), iso_p2 * (iso_pt2 > 0.15)) > 5.0) &&
          (iso_chrg1 != iso_chrg2) && (iso_chrg1 * iso_chrg2 != 0) &&
-         (iso_chrg1 < 100) && (iso_nnk1 < 0.2) && (iso_nnk2 < 0.2);
+         (iso_chrg1 < 100) && (iso_nnk1 < k_cut) && (iso_nnk2 < k_cut) &&
+         (iso_nnghost1 < ghost_cut) && (iso_nnghost2 < ghost_cut);
 }
 
 // clang-format off
@@ -103,7 +107,8 @@ Double_t WT_2OS(Bool_t add_flags,
                iso_p1, iso_p2,
                iso_pt1, iso_pt2,
                iso_chrg1, iso_chrg2,
-               0.0f, 0.0f));
+               0.0f, 0.0f, 1.0f,
+               0.0f, 0.0f, 1.0f));
   // clang-format on
 
   return prefac * iso_nnk1_wt * iso_nnk2_wt;
@@ -115,12 +120,13 @@ Bool_t FLAG_1OS(Bool_t add_flags,
                 Int_t iso_type1,
                 Float_t iso_p1, Float_t iso_pt1,
                 Int_t iso_chrg1,
-                Float_t iso_nnk1,
+                Float_t iso_nnk1, Float_t k_cut,
+                Float_t iso_nnghost1, Float_t ghost_cut,
                 Int_t d0_id) {
   // clang-format on
   return add_flags && (iso_bdt1 > 0.15) && (iso_bdt2 < 0.15) &&
          (iso_type1 == 3) && (iso_p1 > 5.0) && (iso_pt1 > 0.15) &&
-         (iso_chrg1 * d0_id) > 0 && (iso_nnk1 < 0.2);
+         (iso_chrg1 * d0_id) > 0 && (iso_nnk1 < k_cut) && (iso_nnghost1 < ghost_cut);
 }
 
 // clang-format off
@@ -137,7 +143,8 @@ Double_t WT_1OS(Bool_t add_flags,
                iso_type1,
                iso_p1, iso_pt1,
                iso_chrg1,
-               0.0f,
+               0.0f, 1.0f,
+               0.0f, 1.0f,
                d0_id));
   // clang-format on
 
@@ -165,14 +172,15 @@ Bool_t FLAG_1OS(Bool_t add_flags,
                 Int_t iso_type1,
                 Float_t iso_p1, Float_t iso_pt1,
                 Int_t iso_chrg1,
-                Float_t iso_nnk1,
+                Float_t iso_nnk1, Float_t k_cut,
+                Float_t iso_nnghost1, Float_t ghost_cut,
                 Int_t dst_id, Double_t dst_iso_deltam) {
   // clang-format on
   return add_flags && (iso_bdt1 > 0.15) && (iso_bdt2 < 0.15) &&
          (iso_type1 == 3) && (iso_p1 > 5.0) && (iso_pt1 > 0.15) &&
-         (iso_chrg1 * dst_id < 0) && (iso_nnk1 < 0.2) &&
+         (iso_chrg1 * dst_id < 0) && (iso_nnk1 < k_cut) && (iso_nnghost1 < ghost_cut) &&
          IN_RANGE(dst_iso_deltam, 0.36, 0.6);  // Phoebe's cut
-  // IN_RANGE(dst_iso_invm, 2.4, 2.52)  // Greg's cut
+         // IN_RANGE(dst_iso_invm, 2.4, 2.52)  // Greg's cut
 }
 
 // clang-format off
@@ -190,7 +198,8 @@ Double_t WT_1OS(Bool_t add_flags,
                iso_type1,
                iso_p1, iso_pt1,
                iso_chrg1,
-               0.0f,
+               0.0f, 1.0f,
+               0.0f, 1.0f,
                dst_id, dst_iso_deltam)
       );
   // clang-format on

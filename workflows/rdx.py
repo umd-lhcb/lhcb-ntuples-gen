@@ -484,7 +484,9 @@ JOBS = {
             '../ntuples/0.9.6-2016_production/Dst_D0-mc-tracker_only/*12773400*.DST', # sig, D*0
         ],
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
-        use_hammer_alt=True,
+        use_hammer=False,
+        # use_hammer_alt=True,
+        use_hammer_no_rescale=True,
         num_of_workers=20
     ),
     'rdx-ntuple-run2-mc-to-ddx': partial(

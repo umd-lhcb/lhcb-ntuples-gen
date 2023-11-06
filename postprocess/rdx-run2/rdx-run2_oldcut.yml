@@ -71,6 +71,9 @@ calculation:
     iso_nnp1: float; b0_ISOLATION_NNp; b_ISOLATION_NNp
     iso_nnp2: float; b0_ISOLATION_NNp2; b_ISOLATION_NNp2
     iso_nnp3: float; b0_ISOLATION_NNp3; b_ISOLATION_NNp3
+    iso_nnghost1: float; b0_ISOLATION_NNghost; b_ISOLATION_NNghost
+    iso_nnghost2: float; b0_ISOLATION_NNghost2; b_ISOLATION_NNghost2
+    iso_nnghost3: float; b0_ISOLATION_NNghost3; b_ISOLATION_NNghost3
     iso_pidk1: float; b0_ISOLATION_PIDK; b_ISOLATION_PIDK
     iso_pidk2: float; b0_ISOLATION_PIDK2; b_ISOLATION_PIDK2
     iso_pidk3: float; b0_ISOLATION_PIDK3; b_ISOLATION_PIDK3
@@ -591,13 +594,388 @@ calculation:
     is_1os: bool; skim_global_ok && is_1os_loose
     is_prot: bool; skim_global_ok && is_prot_loose
 
+    ### Try out DD skim with ProbNNghost cuts and different min ProbNNk
+    is_dd_nng10nnk02: >-
+        bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+        iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+        iso_nnk1, iso_nnk2, iso_nnk3, 0.2, iso_nnghost1, iso_nnghost2, iso_nnghost3, 1.0
+        )
+    is_dd_nng09nnk02: >-
+        bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+        iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+        iso_nnk1, iso_nnk2, iso_nnk3, 0.2, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.9
+        )
+    is_dd_nng08nnk02: >-
+        bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+        iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+        iso_nnk1, iso_nnk2, iso_nnk3, 0.2, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.8
+        )
+    is_dd_nng07nnk02: >-
+        bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+        iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+        iso_nnk1, iso_nnk2, iso_nnk3, 0.2, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.7
+        )
+    is_dd_nng06nnk02: >-
+        bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+        iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+        iso_nnk1, iso_nnk2, iso_nnk3, 0.2, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.6
+        )
+    is_dd_nng05nnk02: >-
+        bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+        iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+        iso_nnk1, iso_nnk2, iso_nnk3, 0.2, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.5
+        )
+    is_dd_nng04nnk02: >-
+        bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+        iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+        iso_nnk1, iso_nnk2, iso_nnk3, 0.2, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.4
+        )
+    is_dd_nng03nnk02: >-
+        bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+        iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+        iso_nnk1, iso_nnk2, iso_nnk3, 0.2, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.3
+        )
+    is_dd_nng02nnk02: >-
+        bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+        iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+        iso_nnk1, iso_nnk2, iso_nnk3, 0.2, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.2
+        )
+    is_dd_nng01nnk02: >-
+        bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+        iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+        iso_nnk1, iso_nnk2, iso_nnk3, 0.2, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.1
+        )
+    is_dd_nng10nnk03: >-
+        bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+        iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+        iso_nnk1, iso_nnk2, iso_nnk3, 0.3, iso_nnghost1, iso_nnghost2, iso_nnghost3, 1.0
+        )
+    is_dd_nng09nnk03: >-
+        bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+        iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+        iso_nnk1, iso_nnk2, iso_nnk3, 0.3, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.9
+        )
+    is_dd_nng08nnk03: >-
+        bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+        iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+        iso_nnk1, iso_nnk2, iso_nnk3, 0.3, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.8
+        )
+    is_dd_nng07nnk03: >-
+        bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+        iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+        iso_nnk1, iso_nnk2, iso_nnk3, 0.3, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.7
+        )
+    is_dd_nng06nnk03: >-
+        bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+        iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+        iso_nnk1, iso_nnk2, iso_nnk3, 0.3, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.6
+        )
+    is_dd_nng05nnk03: >-
+        bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+        iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+        iso_nnk1, iso_nnk2, iso_nnk3, 0.3, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.5
+        )
+    is_dd_nng04nnk03: >-
+        bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+        iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+        iso_nnk1, iso_nnk2, iso_nnk3, 0.3, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.4
+        )
+    is_dd_nng03nnk03: >-
+        bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+        iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+        iso_nnk1, iso_nnk2, iso_nnk3, 0.3, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.3
+        )
+    is_dd_nng02nnk03: >-
+        bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+        iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+        iso_nnk1, iso_nnk2, iso_nnk3, 0.3, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.2
+        )
+    is_dd_nng01nnk03: >-
+        bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+        iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+        iso_nnk1, iso_nnk2, iso_nnk3, 0.3, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.1
+        )
+    is_dd_nng10nnk04: >-
+        bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+        iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+        iso_nnk1, iso_nnk2, iso_nnk3, 0.4, iso_nnghost1, iso_nnghost2, iso_nnghost3, 1.0
+        )
+    is_dd_nng09nnk04: >-
+        bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+        iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+        iso_nnk1, iso_nnk2, iso_nnk3, 0.4, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.9
+        )
+    is_dd_nng08nnk04: >-
+        bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+        iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+        iso_nnk1, iso_nnk2, iso_nnk3, 0.4, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.8
+        )
+    is_dd_nng07nnk04: >-
+        bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+        iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+        iso_nnk1, iso_nnk2, iso_nnk3, 0.4, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.7
+        )
+    is_dd_nng06nnk04: >-
+        bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+        iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+        iso_nnk1, iso_nnk2, iso_nnk3, 0.4, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.6
+        )
+    is_dd_nng05nnk04: >-
+        bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+        iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+        iso_nnk1, iso_nnk2, iso_nnk3, 0.4, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.5
+        )
+    is_dd_nng04nnk04: >-
+        bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+        iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+        iso_nnk1, iso_nnk2, iso_nnk3, 0.4, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.4
+        )
+    is_dd_nng03nnk04: >-
+        bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+        iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+        iso_nnk1, iso_nnk2, iso_nnk3, 0.4, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.3
+        )
+    is_dd_nng02nnk04: >-
+        bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+        iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+        iso_nnk1, iso_nnk2, iso_nnk3, 0.4, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.2
+        )
+    is_dd_nng01nnk04: >-
+        bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+        iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+        iso_nnk1, iso_nnk2, iso_nnk3, 0.4, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.1
+        )
+    is_dd_nng10nnk05: >-
+        bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+        iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+        iso_nnk1, iso_nnk2, iso_nnk3, 0.5, iso_nnghost1, iso_nnghost2, iso_nnghost3, 1.0
+        )
+    is_dd_nng09nnk05: >-
+        bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+        iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+        iso_nnk1, iso_nnk2, iso_nnk3, 0.5, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.9
+        )
+    is_dd_nng08nnk05: >-
+        bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+        iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+        iso_nnk1, iso_nnk2, iso_nnk3, 0.5, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.8
+        )
+    is_dd_nng07nnk05: >-
+        bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+        iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+        iso_nnk1, iso_nnk2, iso_nnk3, 0.5, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.7
+        )
+    is_dd_nng06nnk05: >-
+        bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+        iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+        iso_nnk1, iso_nnk2, iso_nnk3, 0.5, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.6
+        )
+    is_dd_nng05nnk05: >-
+        bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+        iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+        iso_nnk1, iso_nnk2, iso_nnk3, 0.5, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.5
+        )
+    is_dd_nng04nnk05: >-
+        bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+        iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+        iso_nnk1, iso_nnk2, iso_nnk3, 0.5, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.4
+        )
+    is_dd_nng03nnk05: >-
+        bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+        iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+        iso_nnk1, iso_nnk2, iso_nnk3, 0.5, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.3
+        )
+    is_dd_nng02nnk05: >-
+        bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+        iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+        iso_nnk1, iso_nnk2, iso_nnk3, 0.5, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.2
+        )
+    is_dd_nng01nnk05: >-
+        bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+        iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+        iso_nnk1, iso_nnk2, iso_nnk3, 0.5, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.1
+        )
+    is_dd_nng10nnk06: >-
+        bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+        iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+        iso_nnk1, iso_nnk2, iso_nnk3, 0.6, iso_nnghost1, iso_nnghost2, iso_nnghost3, 1.0
+        )
+    is_dd_nng09nnk06: >-
+        bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+        iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+        iso_nnk1, iso_nnk2, iso_nnk3, 0.6, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.9
+        )
+    is_dd_nng08nnk06: >-
+        bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+        iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+        iso_nnk1, iso_nnk2, iso_nnk3, 0.6, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.8
+        )
+    is_dd_nng07nnk06: >-
+        bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+        iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+        iso_nnk1, iso_nnk2, iso_nnk3, 0.6, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.7
+        )
+    is_dd_nng06nnk06: >-
+        bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+        iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+        iso_nnk1, iso_nnk2, iso_nnk3, 0.6, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.6
+        )
+    is_dd_nng05nnk06: >-
+        bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+        iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+        iso_nnk1, iso_nnk2, iso_nnk3, 0.6, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.5
+        )
+    is_dd_nng04nnk06: >-
+        bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+        iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+        iso_nnk1, iso_nnk2, iso_nnk3, 0.6, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.4
+        )
+    is_dd_nng03nnk06: >-
+        bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+        iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+        iso_nnk1, iso_nnk2, iso_nnk3, 0.6, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.3
+        )
+    is_dd_nng02nnk06: >-
+        bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+        iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+        iso_nnk1, iso_nnk2, iso_nnk3, 0.6, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.2
+        )
+    is_dd_nng01nnk06: >-
+        bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+        iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+        iso_nnk1, iso_nnk2, iso_nnk3, 0.6, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.1
+        )
+    is_dd_nng10nnk07: >-
+        bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+        iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+        iso_nnk1, iso_nnk2, iso_nnk3, 0.7, iso_nnghost1, iso_nnghost2, iso_nnghost3, 1.0
+        )
+    is_dd_nng09nnk07: >-
+        bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+        iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+        iso_nnk1, iso_nnk2, iso_nnk3, 0.7, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.9
+        )
+    is_dd_nng08nnk07: >-
+        bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+        iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+        iso_nnk1, iso_nnk2, iso_nnk3, 0.7, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.8
+        )
+    is_dd_nng07nnk07: >-
+        bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+        iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+        iso_nnk1, iso_nnk2, iso_nnk3, 0.7, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.7
+        )
+    is_dd_nng06nnk07: >-
+        bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+        iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+        iso_nnk1, iso_nnk2, iso_nnk3, 0.7, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.6
+        )
+    is_dd_nng05nnk07: >-
+        bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+        iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+        iso_nnk1, iso_nnk2, iso_nnk3, 0.7, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.5
+        )
+    is_dd_nng04nnk07: >-
+        bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+        iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+        iso_nnk1, iso_nnk2, iso_nnk3, 0.7, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.4
+        )
+    is_dd_nng03nnk07: >-
+        bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+        iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+        iso_nnk1, iso_nnk2, iso_nnk3, 0.7, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.3
+        )
+    is_dd_nng02nnk07: >-
+        bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+        iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+        iso_nnk1, iso_nnk2, iso_nnk3, 0.7, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.2
+        )
+    is_dd_nng01nnk07: >-
+        bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+        iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+        iso_nnk1, iso_nnk2, iso_nnk3, 0.7, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.1
+        )
+    is_dd_nng10nnk08: >-
+        bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+        iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+        iso_nnk1, iso_nnk2, iso_nnk3, 0.8, iso_nnghost1, iso_nnghost2, iso_nnghost3, 1.0
+        )
+    is_dd_nng09nnk08: >-
+        bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+        iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+        iso_nnk1, iso_nnk2, iso_nnk3, 0.8, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.9
+        )
+    is_dd_nng08nnk08: >-
+        bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+        iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+        iso_nnk1, iso_nnk2, iso_nnk3, 0.8, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.8
+        )
+    is_dd_nng07nnk08: >-
+        bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+        iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+        iso_nnk1, iso_nnk2, iso_nnk3, 0.8, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.7
+        )
+    is_dd_nng06nnk08: >-
+        bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+        iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+        iso_nnk1, iso_nnk2, iso_nnk3, 0.8, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.6
+        )
+    is_dd_nng05nnk08: >-
+        bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+        iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+        iso_nnk1, iso_nnk2, iso_nnk3, 0.8, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.5
+        )
+    is_dd_nng04nnk08: >-
+        bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+        iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+        iso_nnk1, iso_nnk2, iso_nnk3, 0.8, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.4
+        )
+    is_dd_nng03nnk08: >-
+        bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+        iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+        iso_nnk1, iso_nnk2, iso_nnk3, 0.8, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.3
+        )
+    is_dd_nng02nnk08: >-
+        bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+        iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+        iso_nnk1, iso_nnk2, iso_nnk3, 0.8, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.2
+        )
+    is_dd_nng01nnk08: >-
+        bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+        iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+        iso_nnk1, iso_nnk2, iso_nnk3, 0.8, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.1
+        )
+    
+    is_2os_nng03nnk02: >-
+        bool; skim_global_ok && FLAG_2OS(true,
+        iso_bdt1, iso_bdt2, iso_bdt3, iso_type1, iso_type2,
+        iso_p1, iso_p2, iso_pt1, iso_pt2, iso_chrg1, iso_chrg2,
+        iso_nnk1, iso_nnk2, 0.2, iso_nnghost1, iso_nnghost2, 0.3
+        )
+    
+    is_1os_nng03nnk02: >-
+        bool;
+        skim_global_ok && FLAG_1OS(true,
+        iso_bdt1, iso_bdt2, iso_type1,
+        iso_p1, iso_pt1, iso_chrg1,
+        iso_nnk1, 0.2, iso_nnghost1, 0.3,
+        dst_id, dst_iso_deltam
+        );
+        skim_global_ok && FLAG_1OS(true,
+        iso_bdt1, iso_bdt2, iso_type1,
+        iso_p1, iso_pt1, iso_chrg1,
+        iso_nnk1, 0.2, iso_nnghost1, 0.3,
+        d0_id
+        )
+    ###
+
     is_iso_loose: bool; FLAG_ISO(true, iso_bdt1)
     is_dd_loose: >-
         bool; FLAG_DD(
         true,
         iso_bdt1, iso_bdt2, iso_bdt3, iso_type1, iso_type2, iso_type3,
         iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
-        iso_nnk1, iso_nnk2, iso_nnk3
+        iso_nnk1, iso_nnk2, iso_nnk3, 0.2, 0.0, 0.0, 0.0, 1.0
         )
     is_2os_loose: >-
         bool; FLAG_2OS(
@@ -605,7 +983,8 @@ calculation:
         iso_bdt1, iso_bdt2, iso_bdt3, iso_type1, iso_type2,
         iso_p1, iso_p2, iso_pt1, iso_pt2,
         iso_chrg1, iso_chrg2,
-        iso_nnk1, iso_nnk2
+        iso_nnk1, iso_nnk2, 0.2,
+        0.0, 0.0, 1.0
         )
     is_1os_loose: >-
         bool;
@@ -614,7 +993,8 @@ calculation:
         iso_bdt1, iso_bdt2, iso_type1,
         iso_p1, iso_pt1,
         iso_chrg1,
-        iso_nnk1,
+        iso_nnk1, 0.2,
+        0.0, 1.0,
         dst_id, dst_iso_deltam
         );
         FLAG_1OS(
@@ -622,7 +1002,8 @@ calculation:
         iso_bdt1, iso_bdt2, iso_type1,
         iso_p1, iso_pt1,
         iso_chrg1,
-        iso_nnk1,
+        iso_nnk1, 0.2,
+        0.0, 1.0,
         d0_id
         )
     is_prot_loose: >-
@@ -732,6 +1113,9 @@ calculation:
     w2os: double; w*wskim_2os*skim_global_ok; TO_TYPE(is_2os, 1.0)
     w1os: double; w*wskim_1os*skim_global_ok; TO_TYPE(is_1os, 1.0)
     wprot: double; TO_TYPE(is_prot, 1.0)  # TODO: Add PIDCalib weights for MC
+    wdd_new: double; w*wskim_dd_new*skim_global_ok; TO_TYPE(is_dd_nng03nnk02, 1.0)
+    w2os_new: double; w*wskim_2os_new*skim_global_ok; TO_TYPE(is_2os_nng03nnk02, 1.0)
+    w1os_new: double; w*wskim_1os_new*skim_global_ok; TO_TYPE(is_1os_nng03nnk02, 1.0)
 
     # PID for isolation tracks
     wpid_iso_nnk1_gt: >-
@@ -755,6 +1139,43 @@ calculation:
     wpid_iso_nnk1_lt: double; 1 - wpid_iso_nnk1_gt
     wpid_iso_nnk2_lt: double; 1 - wpid_iso_nnk2_gt
     wpid_iso_nnk3_lt: double; 1 - wpid_iso_nnk3_gt
+
+    wpid_iso_nnknng1_gtlt: >-
+        double;
+        WT_ISO_NNK(iso_true_id1,
+        wpid_iso_nnknng1_gtlt_pi, wpid_iso_nnknng1_gtlt_k, wpid_iso_nnknng1_gtlt_p,
+        wpid_iso_nnknng1_gtlt_e, wpid_iso_nnknng1_gtlt_mu, wpid_iso_nnknng1_gtlt_g
+        )
+    wpid_iso_nnknng2_gtlt: >-
+        double;
+        WT_ISO_NNK(iso_true_id2,
+        wpid_iso_nnknng2_gtlt_pi, wpid_iso_nnknng2_gtlt_k, wpid_iso_nnknng2_gtlt_p,
+        wpid_iso_nnknng2_gtlt_e, wpid_iso_nnknng2_gtlt_mu, wpid_iso_nnknng2_gtlt_g
+        )
+    wpid_iso_nnknng3_gtlt: >-
+        double;
+        WT_ISO_NNK(iso_true_id3,
+        wpid_iso_nnknng3_gtlt_pi, wpid_iso_nnknng3_gtlt_k, wpid_iso_nnknng3_gtlt_p,
+        wpid_iso_nnknng3_gtlt_e, wpid_iso_nnknng3_gtlt_mu, wpid_iso_nnknng3_gtlt_g
+        )
+    wpid_iso_nnknng1_ltlt: >-
+        double;
+        WT_ISO_NNK(iso_true_id1,
+        wpid_iso_nnknng1_ltlt_pi, wpid_iso_nnknng1_ltlt_k, wpid_iso_nnknng1_ltlt_p,
+        wpid_iso_nnknng1_ltlt_e, wpid_iso_nnknng1_ltlt_mu, wpid_iso_nnknng1_ltlt_g
+        )
+    wpid_iso_nnknng2_ltlt: >-
+        double;
+        WT_ISO_NNK(iso_true_id2,
+        wpid_iso_nnknng2_ltlt_pi, wpid_iso_nnknng2_ltlt_k, wpid_iso_nnknng2_ltlt_p,
+        wpid_iso_nnknng2_ltlt_e, wpid_iso_nnknng2_ltlt_mu, wpid_iso_nnknng2_ltlt_g
+        )
+    wpid_iso_nnknng3_ltlt: >-
+        double;
+        WT_ISO_NNK(iso_true_id3,
+        wpid_iso_nnknng3_ltlt_pi, wpid_iso_nnknng3_ltlt_k, wpid_iso_nnknng3_ltlt_p,
+        wpid_iso_nnknng3_ltlt_e, wpid_iso_nnknng3_ltlt_mu, wpid_iso_nnknng3_ltlt_g
+        )
 
     # Skims, but in weights, for MC
     wskim_iso: double; WT_ISO(true, iso_bdt1)
@@ -791,6 +1212,42 @@ calculation:
         iso_p1, iso_pt1,
         iso_chrg1,
         wpid_iso_nnk1_lt,
+        d0_id
+        )
+
+    wskim_dd_new: >-
+        double; WT_DD(
+        true,
+        iso_bdt1, iso_bdt2, iso_bdt3, iso_type1, iso_type2, iso_type3,
+        iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+        wpid_iso_nnknng1_gtlt, wpid_iso_nnknng2_gtlt, wpid_iso_nnknng3_gtlt
+        )
+    wskim_2os_new: >-
+        double; WT_2OS(
+        true,
+        iso_bdt1, iso_bdt2, iso_bdt3, iso_type1, iso_type2,
+        iso_p1, iso_p2, iso_pt1, iso_pt2,
+        iso_chrg1, iso_chrg2,
+        wpid_iso_nnknng1_ltlt, wpid_iso_nnknng2_ltlt
+        )
+    wskim_1os_new: >-
+        double;
+        WT_1OS(
+        true,
+        iso_bdt1, iso_bdt2,
+        iso_type1,
+        iso_p1, iso_pt1,
+        iso_chrg1,
+        wpid_iso_nnknng1_ltlt,
+        dst_id, dst_iso_deltam
+        );
+        WT_1OS(
+        true,
+        iso_bdt1, iso_bdt2,
+        iso_type1,
+        iso_p1, iso_pt1,
+        iso_chrg1,
+        wpid_iso_nnknng1_ltlt,
         d0_id
         )
 

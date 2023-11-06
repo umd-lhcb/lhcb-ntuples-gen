@@ -6,6 +6,7 @@
 import numpy as np
 import os.path as op
 import shutil as sh
+import copy
 
 from argparse import ArgumentParser
 from itertools import product
@@ -132,15 +133,25 @@ if __name__ == "__main__":
 
     for n in ntps:
         print(f"Working on {n}...")
-        inputNtp = TFile.Open(n, "read")
+        inputNtp = TFile.Open(n, "update")
         outputPath = f"{args.output}/{op.basename(n)}"
 
         empty = True
         for h in inputNtp.GetListOfKeys():
             name = h.GetName()
             if name != "eff":
-                print(f"  WARNING: Skipping {name}")
-                continue
+                if "eff" in name: # pidcalib2 must have updated and started naming the hists like "eff_<pid cut>"
+                    # it's assumed later in workflow (and here) that there's a hist named eff... so create one
+                    histo = inputNtp.Get(name)
+                    histoNewEffName = copy.deepcopy(histo) # I'm just going to rely on Python rather than ROOT to copy
+                    histoNewEffName.SetName("eff")
+                    inputNtp.cd()
+                    histoNewEffName.Write()
+                    print(f"  WARNING: Had to add histo named eff (copy of {name}) to {n}")
+                    name = "eff"
+                else:
+                    print(f"  WARNING: Skipping {name}")
+                    continue
 
             histo = inputNtp.Get(name)
             binIdxes = getHistoBinIdxFlattened(histo)

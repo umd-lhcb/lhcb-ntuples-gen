@@ -5,7 +5,7 @@
 SAMPLES=("K" "Pi" "P" "Mu_nopt" "e_B_Jpsi")
 
 declare -A CUTS
-CUTS[nnk_gt]="Brunel_MC15TuneV1_ProbNNk > 0.2"
+CUTS[nnk_gt]="Brunel_MC15TuneV1_ProbNNk > 0.2 & Brunel_MC15TuneV1_ProbNNghost < 0.3"
 
 declare -A POLARITY
 POLARITY[up]="mu"
