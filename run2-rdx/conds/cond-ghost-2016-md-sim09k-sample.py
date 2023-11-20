@@ -1,0 +1,123 @@
+from Configurables import DaVinci
+
+DaVinci().DataType = '2016'
+DaVinci().Simulation = True
+
+DaVinci().TupleFile = 'mc.root'
+# DaVinci().HistogramFile = 'mc-histo.root'
+
+from Configurables import LHCbApp
+
+LHCbApp().CondDBtag = "sim-20170721-2-vc-md100"
+LHCbApp().DDDBtag = "dddb-20170721-3"
+
+# Additional global flags
+DaVinci().MoniSequence += ['GHOST']
+
+from GaudiConf import IOHelper
+
+# FullSim
+
+# D* Inclusive
+IOHelper().inputFiles([
+    './samples/23_11_15-11774014-DstIncl-StudySample/Filtered.D0taunu.SafeStripTrig_001.dst',
+    './samples/23_11_15-11774014-DstIncl-StudySample/Filtered.D0taunu.SafeStripTrig_002.dst',
+    './samples/23_11_15-11774014-DstIncl-StudySample/Filtered.D0taunu.SafeStripTrig_003.dst',
+    './samples/23_11_15-11774014-DstIncl-StudySample/Filtered.D0taunu.SafeStripTrig_004.dst',
+    './samples/23_11_15-11774014-DstIncl-StudySample/Filtered.D0taunu.SafeStripTrig_005.dst',
+    './samples/23_11_15-11774014-DstIncl-StudySample/Filtered.D0taunu.SafeStripTrig_006.dst',
+    './samples/23_11_15-11774014-DstIncl-StudySample/Filtered.D0taunu.SafeStripTrig_007.dst',
+    './samples/23_11_15-11774014-DstIncl-StudySample/Filtered.D0taunu.SafeStripTrig_008.dst',
+    './samples/23_11_15-11774014-DstIncl-StudySample/Filtered.D0taunu.SafeStripTrig_009.dst',
+    './samples/23_11_15-11774014-DstIncl-StudySample/Filtered.D0taunu.SafeStripTrig_010.dst',
+    './samples/23_11_15-11774014-DstIncl-StudySample/Filtered.D0taunu.SafeStripTrig_011.dst',
+    './samples/23_11_15-11774014-DstIncl-StudySample/Filtered.D0taunu.SafeStripTrig_012.dst',
+    './samples/23_11_15-11774014-DstIncl-StudySample/Filtered.D0taunu.SafeStripTrig_013.dst',
+    './samples/23_11_15-11774014-DstIncl-StudySample/Filtered.D0taunu.SafeStripTrig_014.dst',
+    './samples/23_11_15-11774014-DstIncl-StudySample/Filtered.D0taunu.SafeStripTrig_015.dst',
+    './samples/23_11_15-11774014-DstIncl-StudySample/Filtered.D0taunu.SafeStripTrig_016.dst',
+    './samples/23_11_15-11774014-DstIncl-StudySample/Filtered.D0taunu.SafeStripTrig_017.dst',
+    './samples/23_11_15-11774014-DstIncl-StudySample/Filtered.D0taunu.SafeStripTrig_018.dst',
+    './samples/23_11_15-11774014-DstIncl-StudySample/Filtered.D0taunu.SafeStripTrig_019.dst',
+    './samples/23_11_15-11774014-DstIncl-StudySample/Filtered.D0taunu.SafeStripTrig_020.dst',
+    './samples/23_11_15-11774014-DstIncl-StudySample/Filtered.D0taunu.SafeStripTrig_021.dst',
+    './samples/23_11_15-11774014-DstIncl-StudySample/Filtered.D0taunu.SafeStripTrig_022.dst',
+    './samples/23_11_15-11774014-DstIncl-StudySample/Filtered.D0taunu.SafeStripTrig_023.dst',
+    './samples/23_11_15-11774014-DstIncl-StudySample/Filtered.D0taunu.SafeStripTrig_024.dst',
+    './samples/23_11_15-11774014-DstIncl-StudySample/Filtered.D0taunu.SafeStripTrig_025.dst',
+    './samples/23_11_15-11774014-DstIncl-StudySample/Filtered.D0taunu.SafeStripTrig_026.dst',
+    './samples/23_11_15-11774014-DstIncl-StudySample/Filtered.D0taunu.SafeStripTrig_027.dst',
+    './samples/23_11_15-11774014-DstIncl-StudySample/Filtered.D0taunu.SafeStripTrig_028.dst',
+    './samples/23_11_15-11774014-DstIncl-StudySample/Filtered.D0taunu.SafeStripTrig_029.dst',
+    './samples/23_11_15-11774014-DstIncl-StudySample/Filtered.D0taunu.SafeStripTrig_030.dst',
+    './samples/23_11_15-11774014-DstIncl-StudySample/Filtered.D0taunu.SafeStripTrig_031.dst',
+    './samples/23_11_15-11774014-DstIncl-StudySample/Filtered.D0taunu.SafeStripTrig_032.dst',
+    './samples/23_11_15-11774014-DstIncl-StudySample/Filtered.D0taunu.SafeStripTrig_033.dst',
+    './samples/23_11_15-11774014-DstIncl-StudySample/Filtered.D0taunu.SafeStripTrig_034.dst',
+    './samples/23_11_15-11774014-DstIncl-StudySample/Filtered.D0taunu.SafeStripTrig_035.dst',
+    './samples/23_11_15-11774014-DstIncl-StudySample/Filtered.D0taunu.SafeStripTrig_036.dst',
+    './samples/23_11_15-11774014-DstIncl-StudySample/Filtered.D0taunu.SafeStripTrig_037.dst',
+    './samples/23_11_15-11774014-DstIncl-StudySample/Filtered.D0taunu.SafeStripTrig_038.dst',
+    './samples/23_11_15-11774014-DstIncl-StudySample/Filtered.D0taunu.SafeStripTrig_039.dst',
+    './samples/23_11_15-11774014-DstIncl-StudySample/Filtered.D0taunu.SafeStripTrig_040.dst',
+    './samples/23_11_15-11774014-DstIncl-StudySample/Filtered.D0taunu.SafeStripTrig_041.dst',
+    './samples/23_11_15-11774014-DstIncl-StudySample/Filtered.D0taunu.SafeStripTrig_042.dst',
+    './samples/23_11_15-11774014-DstIncl-StudySample/Filtered.D0taunu.SafeStripTrig_043.dst',
+    './samples/23_11_15-11774014-DstIncl-StudySample/Filtered.D0taunu.SafeStripTrig_044.dst',
+    './samples/23_11_15-11774014-DstIncl-StudySample/Filtered.D0taunu.SafeStripTrig_045.dst',
+    './samples/23_11_15-11774014-DstIncl-StudySample/Filtered.D0taunu.SafeStripTrig_046.dst',
+    './samples/23_11_15-11774014-DstIncl-StudySample/Filtered.D0taunu.SafeStripTrig_047.dst',
+    './samples/23_11_15-11774014-DstIncl-StudySample/Filtered.D0taunu.SafeStripTrig_048.dst',
+    './samples/23_11_15-11774014-DstIncl-StudySample/Filtered.D0taunu.SafeStripTrig_049.dst',
+    './samples/23_11_15-11774014-DstIncl-StudySample/Filtered.D0taunu.SafeStripTrig_050.dst',
+    './samples/23_11_15-11774014-DstIncl-StudySample/Filtered.D0taunu.SafeStripTrig_051.dst',
+    './samples/23_11_15-11774014-DstIncl-StudySample/Filtered.D0taunu.SafeStripTrig_052.dst',
+    './samples/23_11_15-11774014-DstIncl-StudySample/Filtered.D0taunu.SafeStripTrig_053.dst',
+    './samples/23_11_15-11774014-DstIncl-StudySample/Filtered.D0taunu.SafeStripTrig_054.dst',
+    './samples/23_11_15-11774014-DstIncl-StudySample/Filtered.D0taunu.SafeStripTrig_055.dst',
+    './samples/23_11_15-11774014-DstIncl-StudySample/Filtered.D0taunu.SafeStripTrig_056.dst',
+    './samples/23_11_15-11774014-DstIncl-StudySample/Filtered.D0taunu.SafeStripTrig_057.dst',
+    './samples/23_11_15-11774014-DstIncl-StudySample/Filtered.D0taunu.SafeStripTrig_058.dst',
+    './samples/23_11_15-11774014-DstIncl-StudySample/Filtered.D0taunu.SafeStripTrig_059.dst',
+    './samples/23_11_15-11774014-DstIncl-StudySample/Filtered.D0taunu.SafeStripTrig_060.dst',
+    './samples/23_11_15-11774014-DstIncl-StudySample/Filtered.D0taunu.SafeStripTrig_061.dst',
+    './samples/23_11_15-11774014-DstIncl-StudySample/Filtered.D0taunu.SafeStripTrig_062.dst',
+    './samples/23_11_15-11774014-DstIncl-StudySample/Filtered.D0taunu.SafeStripTrig_063.dst',
+    './samples/23_11_15-11774014-DstIncl-StudySample/Filtered.D0taunu.SafeStripTrig_064.dst',
+    './samples/23_11_15-11774014-DstIncl-StudySample/Filtered.D0taunu.SafeStripTrig_065.dst',
+    './samples/23_11_15-11774014-DstIncl-StudySample/Filtered.D0taunu.SafeStripTrig_066.dst',
+    './samples/23_11_15-11774014-DstIncl-StudySample/Filtered.D0taunu.SafeStripTrig_067.dst',
+    './samples/23_11_15-11774014-DstIncl-StudySample/Filtered.D0taunu.SafeStripTrig_068.dst',
+    './samples/23_11_15-11774014-DstIncl-StudySample/Filtered.D0taunu.SafeStripTrig_069.dst',
+    './samples/23_11_15-11774014-DstIncl-StudySample/Filtered.D0taunu.SafeStripTrig_070.dst',
+    './samples/23_11_15-11774014-DstIncl-StudySample/Filtered.D0taunu.SafeStripTrig_071.dst',
+    './samples/23_11_15-11774014-DstIncl-StudySample/Filtered.D0taunu.SafeStripTrig_072.dst',
+    './samples/23_11_15-11774014-DstIncl-StudySample/Filtered.D0taunu.SafeStripTrig_073.dst',
+    './samples/23_11_15-11774014-DstIncl-StudySample/Filtered.D0taunu.SafeStripTrig_074.dst',
+    './samples/23_11_15-11774014-DstIncl-StudySample/Filtered.D0taunu.SafeStripTrig_075.dst',
+    './samples/23_11_15-11774014-DstIncl-StudySample/Filtered.D0taunu.SafeStripTrig_076.dst',
+    './samples/23_11_15-11774014-DstIncl-StudySample/Filtered.D0taunu.SafeStripTrig_077.dst',
+    './samples/23_11_15-11774014-DstIncl-StudySample/Filtered.D0taunu.SafeStripTrig_078.dst',
+    './samples/23_11_15-11774014-DstIncl-StudySample/Filtered.D0taunu.SafeStripTrig_079.dst',
+    './samples/23_11_15-11774014-DstIncl-StudySample/Filtered.D0taunu.SafeStripTrig_080.dst',
+    './samples/23_11_15-11774014-DstIncl-StudySample/Filtered.D0taunu.SafeStripTrig_081.dst',
+    './samples/23_11_15-11774014-DstIncl-StudySample/Filtered.D0taunu.SafeStripTrig_082.dst',
+    './samples/23_11_15-11774014-DstIncl-StudySample/Filtered.D0taunu.SafeStripTrig_083.dst',
+    './samples/23_11_15-11774014-DstIncl-StudySample/Filtered.D0taunu.SafeStripTrig_084.dst',
+    './samples/23_11_15-11774014-DstIncl-StudySample/Filtered.D0taunu.SafeStripTrig_085.dst',
+    './samples/23_11_15-11774014-DstIncl-StudySample/Filtered.D0taunu.SafeStripTrig_086.dst',
+    './samples/23_11_15-11774014-DstIncl-StudySample/Filtered.D0taunu.SafeStripTrig_087.dst',
+    './samples/23_11_15-11774014-DstIncl-StudySample/Filtered.D0taunu.SafeStripTrig_088.dst',
+    './samples/23_11_15-11774014-DstIncl-StudySample/Filtered.D0taunu.SafeStripTrig_089.dst',
+    './samples/23_11_15-11774014-DstIncl-StudySample/Filtered.D0taunu.SafeStripTrig_090.dst',
+    './samples/23_11_15-11774014-DstIncl-StudySample/Filtered.D0taunu.SafeStripTrig_091.dst',
+    './samples/23_11_15-11774014-DstIncl-StudySample/Filtered.D0taunu.SafeStripTrig_092.dst',
+    './samples/23_11_15-11774014-DstIncl-StudySample/Filtered.D0taunu.SafeStripTrig_093.dst',
+    './samples/23_11_15-11774014-DstIncl-StudySample/Filtered.D0taunu.SafeStripTrig_094.dst',
+    './samples/23_11_15-11774014-DstIncl-StudySample/Filtered.D0taunu.SafeStripTrig_095.dst',
+    './samples/23_11_15-11774014-DstIncl-StudySample/Filtered.D0taunu.SafeStripTrig_096.dst',
+    './samples/23_11_15-11774014-DstIncl-StudySample/Filtered.D0taunu.SafeStripTrig_097.dst',
+    './samples/23_11_15-11774014-DstIncl-StudySample/Filtered.D0taunu.SafeStripTrig_098.dst',
+    './samples/23_11_15-11774014-DstIncl-StudySample/Filtered.D0taunu.SafeStripTrig_099.dst',
+    './samples/23_11_15-11774014-DstIncl-StudySample/Filtered.D0taunu.SafeStripTrig_100.dst'
+], clear=True)
