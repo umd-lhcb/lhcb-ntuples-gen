@@ -18,7 +18,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.8">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.10">
     
     
       
@@ -26,7 +26,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.4b4a2bd9.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.fad675c6.min.css">
       
       
 
@@ -396,7 +396,9 @@
       
         <li class="md-nav__item">
   <a href="#local-development-of-in-house-python-packages" class="md-nav__link">
-    Local development of in-house Python packages
+    <span class="md-ellipsis">
+      Local development of in-house Python packages
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="Local development of in-house Python packages">
@@ -404,14 +406,18 @@
         
           <li class="md-nav__item">
   <a href="#initializing-pybabymaker-and-pytuplingutils-submodules" class="md-nav__link">
-    Initializing pyBabyMaker and pyTuplingUtils submodules
+    <span class="md-ellipsis">
+      Initializing pyBabyMaker and pyTuplingUtils submodules
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#local-development-procedure" class="md-nav__link">
-    Local development procedure
+    <span class="md-ellipsis">
+      Local development procedure
+    </span>
   </a>
   
 </li>
@@ -423,21 +429,27 @@
       
         <li class="md-nav__item">
   <a href="#makefile" class="md-nav__link">
-    Makefile
+    <span class="md-ellipsis">
+      Makefile
+    </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#workflows" class="md-nav__link">
-    Workflows
+    <span class="md-ellipsis">
+      Workflows
+    </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#external-programs-used-by-workflows" class="md-nav__link">
-    External programs used by workflows
+    <span class="md-ellipsis">
+      External programs used by workflows
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="External programs used by workflows">
@@ -445,7 +457,9 @@
         
           <li class="md-nav__item">
   <a href="#gregs-mu-ubdt-adder" class="md-nav__link">
-    Greg's \(\mu\) UBDT adder
+    <span class="md-ellipsis">
+      Greg's \(\mu\) UBDT adder
+    </span>
   </a>
   
 </li>
@@ -1341,7 +1355,9 @@
       
         <li class="md-nav__item">
   <a href="#local-development-of-in-house-python-packages" class="md-nav__link">
-    Local development of in-house Python packages
+    <span class="md-ellipsis">
+      Local development of in-house Python packages
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="Local development of in-house Python packages">
@@ -1349,14 +1365,18 @@
         
           <li class="md-nav__item">
   <a href="#initializing-pybabymaker-and-pytuplingutils-submodules" class="md-nav__link">
-    Initializing pyBabyMaker and pyTuplingUtils submodules
+    <span class="md-ellipsis">
+      Initializing pyBabyMaker and pyTuplingUtils submodules
+    </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
   <a href="#local-development-procedure" class="md-nav__link">
-    Local development procedure
+    <span class="md-ellipsis">
+      Local development procedure
+    </span>
   </a>
   
 </li>
@@ -1368,21 +1388,27 @@
       
         <li class="md-nav__item">
   <a href="#makefile" class="md-nav__link">
-    Makefile
+    <span class="md-ellipsis">
+      Makefile
+    </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#workflows" class="md-nav__link">
-    Workflows
+    <span class="md-ellipsis">
+      Workflows
+    </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
   <a href="#external-programs-used-by-workflows" class="md-nav__link">
-    External programs used by workflows
+    <span class="md-ellipsis">
+      External programs used by workflows
+    </span>
   </a>
   
     <nav class="md-nav" aria-label="External programs used by workflows">
@@ -1390,7 +1416,9 @@
         
           <li class="md-nav__item">
   <a href="#gregs-mu-ubdt-adder" class="md-nav__link">
-    Greg's \(\mu\) UBDT adder
+    <span class="md-ellipsis">
+      Greg's \(\mu\) UBDT adder
+    </span>
   </a>
   
 </li>
@@ -1536,21 +1564,21 @@ would produce a certain target:
 we have:</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># snippet only</span>
 
-<span class="ss">inputs =</span> <span class="p">{</span>
-  <span class="ss">nixpkgs =</span> <span class="o">...</span><span class="p">;</span>  <span class="c1"># software foundation, including compiles, etc.</span>
-  MuonBDTPid<span class="o">.</span><span class="ss">url =</span> <span class="s2">&quot;github:umd-lhcb/MuonBDTPid&quot;</span><span class="p">;</span>
+<span class="ss">inputs</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="ss">nixpkgs</span> <span class="o">=</span> <span class="o">...</span><span class="p">;</span>  <span class="c1"># software foundation, including compiles, etc.</span>
+  MuonBDTPid<span class="o">.</span><span class="ss">url</span> <span class="o">=</span> <span class="s2">&quot;github:umd-lhcb/MuonBDTPid&quot;</span><span class="p">;</span>
 <span class="p">};</span>
 
-<span class="ss">outputs =</span> <span class="p">{</span> nixpkgs<span class="p">,</span> MuonBDTPid<span class="p">,</span> <span class="o">...</span> <span class="p">}:</span>
+<span class="ss">outputs</span> <span class="o">=</span> <span class="p">{</span> nixpkgs<span class="p">,</span> MuonBDTPid<span class="p">,</span> <span class="o">...</span> <span class="p">}:</span>
     <span class="k">let</span>
-      <span class="ss">pkgs =</span> <span class="nb">import</span> nixpkgs <span class="p">{</span>
+      <span class="ss">pkgs</span> <span class="o">=</span> <span class="nb">import</span> nixpkgs <span class="p">{</span>
         <span class="c1"># We make packages defined in MuonBDTPid&#39;s overlay available</span>
-        <span class="ss">overlays =</span> <span class="p">[</span> MuonBDTPid<span class="o">.</span>overlay <span class="p">];</span>
+        <span class="ss">overlays</span> <span class="o">=</span> <span class="p">[</span> MuonBDTPid<span class="o">.</span>overlay <span class="p">];</span>
       <span class="p">};</span>
     <span class="k">in</span>
     <span class="p">{</span>
-      <span class="ss">devShell =</span> pkgs<span class="o">.</span>mkShell <span class="p">{</span>
-        <span class="ss">buildInputs =</span> <span class="p">[</span>
+      <span class="ss">devShell</span> <span class="o">=</span> pkgs<span class="o">.</span>mkShell <span class="p">{</span>
+        <span class="ss">buildInputs</span> <span class="o">=</span> <span class="p">[</span>
           pkgs<span class="o">.</span>addUBDTBranchWrapped  <span class="c1"># Install UBDT adder</span>
         <span class="p">];</span>
       <span class="p">};</span>
@@ -1564,21 +1592,21 @@ we have:</p>
 <div class="highlight"><pre><span></span><code>final<span class="p">:</span> prev<span class="p">:</span>
 
 <span class="p">{</span>
-  <span class="ss">root5-ubdt =</span> prev<span class="o">.</span>callPackage <span class="o">.</span><span class="l">/root5</span> <span class="p">{</span>
+  <span class="ss">root5-ubdt</span> <span class="o">=</span> prev<span class="o">.</span>callPackage <span class="l">./root5</span> <span class="p">{</span>
     <span class="k">inherit</span> <span class="p">(</span>prev<span class="o">.</span>darwin<span class="o">.</span>apple_sdk<span class="o">.</span>frameworks<span class="p">)</span> Cocoa OpenGL<span class="p">;</span>
-    <span class="ss">stdenv =</span> <span class="k">if</span> prev<span class="o">.</span>stdenv<span class="o">.</span>cc<span class="o">.</span>isClang <span class="k">then</span> prev<span class="o">.</span>llvmPackages_5<span class="o">.</span>stdenv <span class="k">else</span> prev<span class="o">.</span>gcc8Stdenv<span class="p">;</span>
+    <span class="ss">stdenv</span> <span class="o">=</span> <span class="k">if</span> prev<span class="o">.</span>stdenv<span class="o">.</span>cc<span class="o">.</span>isClang <span class="k">then</span> prev<span class="o">.</span>llvmPackages_5<span class="o">.</span>stdenv <span class="k">else</span> prev<span class="o">.</span>gcc8Stdenv<span class="p">;</span>
   <span class="p">};</span>
 
-  <span class="ss">addUBDTBranch =</span> prev<span class="o">.</span>callPackage <span class="o">.</span><span class="l">/addUBDTBranch</span> <span class="p">{</span>
-    <span class="ss">root =</span> final<span class="o">.</span>root5-ubdt<span class="p">;</span>
-    <span class="ss">stdenv =</span> <span class="k">if</span> prev<span class="o">.</span>stdenv<span class="o">.</span>cc<span class="o">.</span>isClang <span class="k">then</span> prev<span class="o">.</span>llvmPackages_5<span class="o">.</span>stdenv <span class="k">else</span> prev<span class="o">.</span>gcc8Stdenv<span class="p">;</span>
+  <span class="ss">addUBDTBranch</span> <span class="o">=</span> prev<span class="o">.</span>callPackage <span class="l">./addUBDTBranch</span> <span class="p">{</span>
+    <span class="ss">root</span> <span class="o">=</span> final<span class="o">.</span>root5-ubdt<span class="p">;</span>
+    <span class="ss">stdenv</span> <span class="o">=</span> <span class="k">if</span> prev<span class="o">.</span>stdenv<span class="o">.</span>cc<span class="o">.</span>isClang <span class="k">then</span> prev<span class="o">.</span>llvmPackages_5<span class="o">.</span>stdenv <span class="k">else</span> prev<span class="o">.</span>gcc8Stdenv<span class="p">;</span>
   <span class="p">};</span>
 
-  <span class="ss">addUBDTBranchWrapped =</span> prev<span class="o">.</span>writeScriptBin <span class="s2">&quot;addUBDTBranch&quot;</span> <span class="s1">&#39;&#39;</span>
-<span class="s1">    unset LD_LIBRARY_PATH</span>
-<span class="s1">    unset DYLD_LIBRARY_PATH</span>
-<span class="s1">    exec </span><span class="si">${</span>final<span class="o">.</span>addUBDTBranch<span class="si">}</span><span class="s1">/bin/addUBDTBranchRun2 $@</span>
-<span class="s1">  &#39;&#39;</span><span class="p">;</span>
+  <span class="ss">addUBDTBranchWrapped</span> <span class="o">=</span> prev<span class="o">.</span>writeScriptBin <span class="s2">&quot;addUBDTBranch&quot;</span> <span class="s s-Multiline">&#39;&#39;</span>
+<span class="s s-Multiline">    unset LD_LIBRARY_PATH</span>
+<span class="s s-Multiline">    unset DYLD_LIBRARY_PATH</span>
+<span class="s s-Multiline">    exec </span><span class="si">${</span>final<span class="o">.</span>addUBDTBranch<span class="si">}</span><span class="s s-Multiline">/bin/addUBDTBranchRun2 $@</span>
+<span class="s s-Multiline">  &#39;&#39;</span><span class="p">;</span>
 <span class="p">}</span>
 </code></pre></div>
 <ol>
@@ -1651,7 +1679,7 @@ first.</p>
     <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.81fa17fe.min.js"></script>
+      <script src="../../assets/javascripts/bundle.6c14ae12.min.js"></script>
       
         <script src="../../javascripts/config.js"></script>
       
