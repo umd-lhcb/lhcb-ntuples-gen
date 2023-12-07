@@ -8,8 +8,8 @@ DaVinci().TupleFile = 'mc.root'
 
 from Configurables import LHCbApp
 
-LHCbApp().CondDBtag = "sim-20170721-2-vc-md100"
-LHCbApp().DDDBtag = "dddb-20170721-3"
+LHCbApp().CondDBtag = "sim-20201113-6-vc-mu100-Sim10"
+LHCbApp().DDDBtag = "dddb-20220927-2016"
 
 # Additional global flags
 DaVinci().MoniSequence += ['GHOST']
