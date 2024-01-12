@@ -500,6 +500,13 @@ JOBS = {
         use_hammer=False,
         num_of_workers=20
     ),
+    'rdx-ntuple-run2-mc-to-missing-ddx': partial(
+        workflow_split,
+        ['../ntuples/0.9.6-2016_production/Dst_D0-mc-tracker_only/*11895400*.DST'],
+        '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
+        use_hammer=False,
+        num_of_workers=20
+    ),
     'rdx-ntuple-run2-mc-to-dstst': partial(
         workflow_split,
         [

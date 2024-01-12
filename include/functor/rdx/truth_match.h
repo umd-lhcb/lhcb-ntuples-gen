@@ -24,7 +24,7 @@ int TENS_DIGIT(int a) { return (a % 100) / 10; }
 int HUNDREDS_DIGIT(int a) { return (a % 1000) / 100; }
 
 bool IS_DDX(int decay_id) {
-  auto ddx_ids = vector<int>{11894600, 12893600, 11894200, 12893610,
+  auto ddx_ids = vector<int>{11894600, 11895400, 12893600, 11894200, 12893610,
                              11894610, 12895400, 11894210, 12895000};
 
   if (find(ddx_ids.begin(), ddx_ids.end(), decay_id) == ddx_ids.end())
@@ -33,7 +33,7 @@ bool IS_DDX(int decay_id) {
 }
 
 bool IS_DDX_MU(int decay_id) {
-  auto ddx_ids = vector<int>{11894600, 12893600, 11894610, 12895400};
+  auto ddx_ids = vector<int>{11894600, 11895400, 12893600, 11894610, 12895400};
 
   if (find(ddx_ids.begin(), ddx_ids.end(), decay_id) == ddx_ids.end())
     return false;
@@ -928,6 +928,11 @@ class D0TruthMatch : public TruthMatch {
           if (TRUTH_MATCH_DSTST()) truthmatch = dsstst + mu + added;
           break;
         case 11894600:
+          b_expect_id = PDG_ID_B0;
+          tau_expect  = false;
+          if (TRUTH_MATCH_DD()) truthmatch = dd_bd + mu + added;
+          break;
+        case 11895400: // missing DDX
           b_expect_id = PDG_ID_B0;
           tau_expect  = false;
           if (TRUTH_MATCH_DD()) truthmatch = dd_bd + mu + added;
