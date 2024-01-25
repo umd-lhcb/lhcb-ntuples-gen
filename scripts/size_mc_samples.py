@@ -48,6 +48,7 @@ def decode_dirac_output(output, blocked_kw, debug=False):
     result = dict()
 
     for line in lines:
+        if 'DB tags are not set' in line: continue # command seems to print this out now too; ignore it
         lfn, dddb_tag, sim_cond, num_of_files, num_of_evts, unknown = \
             line.split()
 
