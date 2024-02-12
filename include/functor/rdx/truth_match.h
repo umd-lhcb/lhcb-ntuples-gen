@@ -49,6 +49,11 @@ bool IS_STRANGE(int decay_id) {
   return true;
 }
 
+bool IS_MISS_DDX(int decay_id) {
+  if (decay_id == 11895400) return true;
+  return false;
+}
+
 //////////////////////////////////
 // General Truth-Matching Class //
 //////////////////////////////////

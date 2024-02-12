@@ -342,6 +342,10 @@ def workflow_mc_single(maindir, subdir,
     if 'cli_vars' not in kwargs:
         kwargs['cli_vars'] = dict()
     kwargs['cli_vars']['cli_mc_id'] = decay_mode
+    if 'year' in fields:
+        kwargs['cli_vars']['cli_mc_year'] = fields['year']
+    else:
+        kwargs['cli_vars']['cli_mc_year'] = find_year(fields['lfn'])
 
     workflow_single_ntuple(
         input_ntp, input_yml, output_suffix, aux_workflows,
@@ -485,6 +489,7 @@ JOBS = {
         ],
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
         # use_hammer_alt=True,
+        use_hammer_dstrun1=True,
         num_of_workers=20
     ),
     'rdx-ntuple-run2-mc-to-ddx': partial(
@@ -493,20 +498,21 @@ JOBS = {
             f'../ntuples/0.9.6-2016_production/Dst_D0-mc-tracker_only/*{i}*.DST'
             for i in [
                 11894600, 12893600, 11894200, 12893610,
-                11894610, 12895400, 11894210, 12895000
+                11894610, 12895400, 11894210, 12895000,
+                11895400
             ]
         ],
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
         use_hammer=False,
         num_of_workers=20
     ),
-    'rdx-ntuple-run2-mc-to-missing-ddx': partial(
-        workflow_split,
-        ['../ntuples/0.9.6-2016_production/Dst_D0-mc-tracker_only/*11895400*.DST'],
-        '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
-        use_hammer=False,
-        num_of_workers=20
-    ),
+    # 'rdx-ntuple-run2-mc-to-missing-ddx': partial(
+    #     workflow_split,
+    #     ['../ntuples/0.9.6-2016_production/Dst_D0-mc-tracker_only/*11895400*.DST'],
+    #     '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
+    #     use_hammer=False,
+    #     num_of_workers=20
+    # ),
     'rdx-ntuple-run2-mc-to-dstst': partial(
         workflow_split,
         [
@@ -515,6 +521,7 @@ JOBS = {
         ],
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
         # use_hammer_alt=True,
+        use_hammer_no_rescale=True, # not nominally used for D**
         num_of_workers=20
     ),
     'rdx-ntuple-run2-mc-to-dstst-heavy': partial(
@@ -684,8 +691,8 @@ JOBS = {
         workflow_split,
         [
             # D0
-            '../ntuples/0.9.6-2016_production/Dst_D0-mc-tracker_only/*12573012*.DST', # norm
-            '../ntuples/0.9.6-2016_production/Dst_D0-mc-tracker_only/*12573001*.DST', # sig
+            # '../ntuples/0.9.6-2016_production/Dst_D0-mc-tracker_only/*12573012*.DST', # norm
+            # '../ntuples/0.9.6-2016_production/Dst_D0-mc-tracker_only/*12573001*.DST', # sig
             # D*
             '../ntuples/0.9.6-2016_production/Dst_D0-mc-tracker_only/*11574021*.DST', # norm, D*
             '../ntuples/0.9.6-2016_production/Dst_D0-mc-tracker_only/*12773410*.DST', # norm, D*0
@@ -693,7 +700,7 @@ JOBS = {
             '../ntuples/0.9.6-2016_production/Dst_D0-mc-tracker_only/*12773400*.DST', # sig, D*0
         ],
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
-        blocked_patterns=['--aux', r'--([1-9][0-9][0-9])-dv', 'MagUp'],
+        # blocked_patterns=['--aux', r'--([1-9][0-9][0-9])-dv', 'MagUp'],
         use_hammer_dstrun1=True,
         num_of_workers=20
     ),

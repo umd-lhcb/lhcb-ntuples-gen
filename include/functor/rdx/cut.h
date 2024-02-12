@@ -9,7 +9,7 @@
 #include <Math/Vector4D.h>
 #include <TMath.h>
 #include <TRandom.h>
-
+#include <assert.h>
 #include <vector>
 
 #include "functor/basic.h"
@@ -287,7 +287,7 @@ Bool_t FLAG_SEL_B0_MASS(Double_t b0_m) { return b0_m < 5280.0; }
 
 Bool_t FLAG_SEL_B0_MASS_SB(Double_t b0_m) { return b0_m > 5400.0; }
 
-// DD branching fraction weight ////////////////////////////////////////////////
+// DD branching fraction weights ////////////////////////////////////////////////
 
 Double_t WT_DD_BF(int mu_mom_id) {
   Double_t wt = 0.0;
@@ -295,6 +295,29 @@ Double_t WT_DD_BF(int mu_mom_id) {
   if (ABS(mu_mom_id) == 421) wt = 0.0649;
   if (ABS(mu_mom_id) == 431) wt = 0.0709;
   return wt;
+}
+
+Double_t WT_MISS_DDX(int year) {
+  // Missing DDX needs to be reweighted to reflect rel BFs of related modes in already produced DDX
+  // [what was requested is in square brackets]
+  // Previously simulated 11894600- 2015: 37.68 [26.82], 2016: 208.89 [154.36], 2017: 214.13 [160.93], 2018: 282.22 [205.26] (million)
+  // Simulated 11895400 (missing DDX) [expect 1.5*0.066 x above]- 2015: 0?, 2016: 25.03 [15.26], 2017: 25.32 [15.91], 2018: 25.52 [20.29]
+  double rel_bf_sum = (0.0020+0.0018+0.0033) / 
+                        (0.0118+0.0053+0.0020+0.0079+0.0118+0.0018+0.0018+0.0033+0.0017+0.0033+0.000203+0.000406+0.000547+
+                         0.0006+0.0012+0.0012+0.0024+0.0042+0.0040+0.00107+0.0003+0.0005+0.0011+0.0024+0.0025+0.0025+0.0005+
+                         0.0005+0.0005+0.0010+0.0022+0.0022+0.0037+0.0037+0.0010+0.0062+0.00033+0.0004+0.0043+0.0054);
+  double isospin_fac = 1.5;
+  double n_2015_prev = 18643389 + 19035403;
+  double n_2016_prev = 108049987 + 100838019;
+  double n_2017_prev = 109024813 + 105104194;
+  double n_2018_prev = 140117141 + 142106832;
+  double n_2016 = 12314931 + 12717396;
+  double n_2017 = 12518386 + 12797493;
+  double n_2018 = 12787255 + 12731332;
+  if (year==2016) return (isospin_fac * rel_bf_sum * n_2016_prev)/n_2016;
+  if (year==2017) return (isospin_fac * rel_bf_sum * n_2017_prev)/n_2017;
+  if (year==2018) return (isospin_fac * rel_bf_sum * n_2018_prev)/n_2018;
+  assert(false); // shouldn't be looking at any other year than these
 }
 
 // DD Dalitz-inspired weights //////////////////////////////////////////////////

@@ -436,6 +436,7 @@ calculation:
     is_dal_charged_dd: >-
         bool; is_dal_variable && !is_dal_neutral_dd
     is_strange: bool; IS_STRANGE(mc_id)
+    is_miss_ddx: bool; IS_MISS_DDX(mc_id)
 
     # FF reweighting
     # NOTE: Need to have a valid HAMMER weight unless is a DDX or D**s
@@ -1030,6 +1031,8 @@ calculation:
     ###########
     # Branching fraction weights for DD MC
     wbr_dd: double; IF(is_ddx_mu, WT_DD_BF(mu_MC_MOTHER_ID), 1.0)
+    # Weights to correct production stats for missing DDX to keep relative DD BFs consistent
+    w_missDDX: double; IF(is_miss_ddx, WT_MISS_DDX(cli_mc_year), 1.0) # 1 if mc_id != 11895400
     # Dalitz-inspired variational weights for DD MC
     tmp_dal: >-
         ^vector<double>;
@@ -1110,11 +1113,11 @@ calculation:
     wtrk: double; wtrk_k*wtrk_pi*wtrk_mu*wtrk_spi; wtrk_k*wtrk_pi*wtrk_mu
     wjk: double; wjk_kin*wjk_occ
 
-    w_base: double; wtrg*wtrk*wjk*wbr_dd          # no PID cuts for the base weights
-    w_w_ubdt: double; w_base*wpid_ubdt            # default PID cuts incl. UBDT
-    w_w_ubdt_veto: double; w_base*wpid_ubdt_veto  # misID validation sample maybe
-    wff: double; wff; 1.0                         # FF weight. default to 1
-    w: double; w_w_ubdt*wff                       # form factor weights last
+    w_base: double; wtrg*wtrk*wjk*wbr_dd*w_missDDX # no PID cuts for the base weights
+    w_w_ubdt: double; w_base*wpid_ubdt             # default PID cuts incl. UBDT
+    w_w_ubdt_veto: double; w_base*wpid_ubdt_veto   # misID validation sample maybe
+    wff: double; wff; 1.0                          # FF weight. default to 1
+    w: double; w_w_ubdt*wff                        # form factor weights last
     # Skim weights, including the 'w'
     wiso: double; w*wskim_iso*skim_global_ok; TO_TYPE(is_iso, 1.0)
     wdd: double; w*wskim_dd*skim_global_ok; TO_TYPE(is_dd, 1.0)

@@ -115,8 +115,8 @@ rdx-ntuple-run2-mc-to-sig-norm:
 rdx-ntuple-run2-mc-to-ddx:
 	workflows/rdx.py $@
 
-rdx-ntuple-run2-mc-to-missing-ddx:
-	workflows/rdx.py $@
+# rdx-ntuple-run2-mc-to-missing-ddx:
+# 	workflows/rdx.py $@
 
 rdx-ntuple-run2-mc-to-dstst:
 	workflows/rdx.py $@
