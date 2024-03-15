@@ -1,6 +1,6 @@
 # Author: Yipeng Sun
 # License: BSD 2-clause
-# Last Change: Sat Mar 16, 2024 at 12:13 AM +0800
+# Last Change: Fri Mar 15, 2024 at 12:24 PM -0400
 
 VPATH := postprocess:test:scripts:ntuples
 VPATH := run1-rdx/cutflow:run2-rdx/cutflow:$(VPATH)
@@ -27,7 +27,7 @@ tagdate:
 # This is unused. Kept for archival purposes
 install-dep-pip:
 	@echo "Installing third-party Python libraries..."
-	@pip install -r --no-deps ./run2-JpsiK/requirements.txt
+	@pip install --no-deps -r ./run2-JpsiK/requirements.txt
 
 install-dep:
 	@echo "Installing in-house Python libraries..."
