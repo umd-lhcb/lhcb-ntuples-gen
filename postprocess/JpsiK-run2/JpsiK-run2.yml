@@ -2,6 +2,7 @@ headers:
     user:
         - functor/basic.h
         - functor/basic_kinematic.h
+        - functor/jpsik/flag.h
 
 keep:
     - runNumber
@@ -26,7 +27,7 @@ rename:
     b_Hlt2DiMuonDetachedHeavyDecision_TOS: b_hlt2_dimuon_heavy_tos
     # Event variables
     nTracks: ntracks
-    NumSPDHits: nspdhits
+    nSPDHits: nspdhits
 
 calculation:
     #######################
@@ -103,6 +104,7 @@ calculation:
     ##########################
     # Trigger
     l0: bool; b_l0_muon_tos
+    l0mupt: bool; L0MUPT(mu_pt, mu_L0MuonDecision_TOS, amu_pt, amu_L0MuonDecision_TOS)
     hlt1: bool; b_hlt1_trackmu_tos
     hlt2: bool; b_hlt2_dimuon_heavy_tos
 
@@ -132,6 +134,7 @@ calculation:
     w: double; wpid*wtrk*wjk
 
 global_selection:
+    - l0 && l0mupt
     - hlt1 && hlt2
     - pt_ok && b_mass_ok && j_mass_ok
     - vtx_ok
