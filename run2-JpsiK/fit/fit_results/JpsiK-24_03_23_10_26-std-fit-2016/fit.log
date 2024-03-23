@@ -1,0 +1,62 @@
+/Users/manuelf/code/lhcb-ntuples-gen/.virtualenv/lib/python3.8/site-packages/zfit/util/execution.py:74: UserWarning: Not running on Linux. Determining available cpus for thread can failand be overestimated. Workaround (only if too many cpus are used):`zfit.run.set_n_cpu(your_cpu_number)`
+  warnings.warn("Not running on Linux. Determining available cpus for thread can fail"
+/Users/manuelf/code/lhcb-ntuples-gen/.virtualenv/lib/python3.8/site-packages/tensorflow_addons/utils/ensure_tf_install.py:53: UserWarning: Tensorflow Addons supports using Python ops for all Tensorflow versions above or equal to 2.7.0 and strictly below 2.10.0 (nightly versions are not supported). 
+ The versions of TensorFlow you are currently using is 2.6.5 and is not supported. 
+Some things might work, some things might not.
+If you were to encounter a bug, do not file an issue.
+If you want to make sure you're using a tested and supported configuration, either change the TensorFlow version or the TensorFlow Addons's version. 
+You can find the compatibility matrix in TensorFlow Addon's readme:
+https://github.com/tensorflow/addons
+  warnings.warn(
+Total events in data: 796272
+Initialize fit model...
+y range is: -15.279451528570402, 18.6291924701286
+y major ticks are: -0.13921372000634158,0.1556963330286213,0.4506063860635842,0.745516439098547,1.04042649213351
+Max y tick is at: 0.745516439098547
+Start to fit...
+Compute errors...
+Fit & error computation took a total of 987.52 sec.
+Fit result:
+FitResult of
+<ExtendedUnbinnedNLL model=[<zfit.<class 'zfit.models.functor.SumPDF'>  params=[Composed_autoparam_3, Composed_autoparam_4]] data=[<zfit.core.data.Data object at 0x15d33ba90>] constraints=[]> 
+with
+<Minuit Minuit tol=0.001>
+
+╒═════════╤═════════════╤══════════════════╤═════════╤═════════════╕
+│ valid   │ converged   │ param at limit   │ edm     │ min value   │
+╞═════════╪═════════════╪══════════════════╪═════════╪═════════════╡
+│ True    │ True        │ False            │ 0.00034 │ -192.7      │
+╘═════════╧═════════════╧══════════════════╧═════════╧═════════════╛
+
+Parameters
+name               value         minuit_minos    at limit
+-------------  ---------  -------------------  ----------
+yld_bkg_ratio     0.1851  - 0.0025   + 0.0023       False
+yld_sig_ratio     0.8149  - 0.0024   + 0.0026       False
+expc           -0.001801  -0.00012   +0.00011       False
+frac_sig_cb       0.4571  -  0.032   +  0.035       False
+frac_sig_g        0.5016  -  0.037   +  0.034       False
+alpha              1.818  -  0.043   +  0.047       False
+peak                5280  -  0.013   +  0.013       False
+n_cb               155.6  -    3.3   +    3.3       False
+width_cb           11.46  -   0.28   +   0.29       False
+width_g_sig        7.213  -   0.12   +   0.16       False
+width_g2_sig       35.15  -    2.8   +      3       False
+Compute sWeights...
+Dump result...
+Plot fitting results...
+y range is: -3.1347369908983365, 3.2509312575684843
+y major ticks are: -0.2921014585356055,0.09940024539338303,0.4909019493223715,0.8824036532513599,1.2739053571803485
+Max y tick is at: 0.8824036532513599
+Added y pad. Now y max is: 4.500931257568484
+y range is: -3.1347369908983365, 3.2509312575684843
+y major ticks are: -0.2921014585356055,0.09940024539338303,0.4909019493223715,0.8824036532513599,1.2739053571803485
+Max y tick is at: 0.8824036532513599
+Added y pad. Now y max is: 4.500931257568484
+
+ntuple with s-weights at gen//JpsiK-24_03_23_10_26-std-fit-2016/fit.root
+
+
+ open gen//JpsiK-24_03_23_10_26-std-fit-2016/fit_final.pdf
+ open gen//JpsiK-24_03_23_10_26-std-fit-2016/fit_final_log_scale.pdf
+

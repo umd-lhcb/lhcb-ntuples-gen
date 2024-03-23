@@ -44,7 +44,11 @@ cd run2-JpsiK
 
 The output weightfile should then be placed in the proper folder
 ```shell
-
+cp -f gen//run2-JpsiK-2016-md-B-ndof_ntracks__pt_eta.root reweight/JpsiK/root-run2-JpsiK_oldcut/run2-JpsiK-2016-md-B-ndof_ntracks__pt_eta.root
+cd reweight/JpsiK/root-run2-JpsiK_oldcut/
+rm run2-JpsiK-2016-mu-B-ndof_ntracks__pt_eta.root
+ln -s run2-JpsiK-2016-md-B-ndof_ntracks__pt_eta.root run2-JpsiK-2016-mu-B-ndof_ntracks__pt_eta.root
+cd -
 ```
 With this file in place, the step 2 ntuples can be regenerated with the new `wjk` weights as
 described above.

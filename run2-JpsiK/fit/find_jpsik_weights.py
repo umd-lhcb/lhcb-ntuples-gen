@@ -93,6 +93,9 @@ if __name__ == '__main__':
     muFile = 'run2-JpsiK-2016-mu-B-ndof_ntracks__pt_eta.root'
     
     print('\n'+cTerm(f' cp -f {weightFile} {weightFolder}{mdFile}','green'))
-    print(cTerm(f' ln -s {weightFolder}{mdFile} {weightFolder}{muFile}','green')+'\n')
+    print(cTerm(f' cd {weightFolder}','green'))
+    print(cTerm(f' rm {muFile}','green'))
+    print(cTerm(f' ln -s {mdFile} {muFile}','green'))
+    print(cTerm(f' cd -','green')+'\n')
    
     

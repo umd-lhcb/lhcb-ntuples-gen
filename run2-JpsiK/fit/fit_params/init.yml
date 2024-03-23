@@ -1,6 +1,6 @@
 # sig: Crystal Ball
 peak: # also used by sig Gaussian
-    value: 5280
+    value: 5279
     lower: 5270
     upper: 5290
 width_cb:
@@ -53,11 +53,11 @@ expc:
 
 # yield ratios
 yld_sig_ratio:
-    value: 0.815
+    value: 0.81
     lower: 0
     upper: 1.0
 yld_bkg_ratio:
-    value: 0.185
+    value: 0.18
     lower: 0
     upper: 0.35
 #yld_tail_ratio:

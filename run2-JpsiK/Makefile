@@ -30,7 +30,7 @@ plot-init-2016:
 
 gen-weights-2016:
 	./fit/gen_weights.py \
-		-d ./gen/JpsiK-24_03_15_22_10-std-fit-2016/fit.root \
+		-d fit/fit_results/JpsiK-24_03_23_10_26-std-fit-2016/fit.root \
 		-m \
 			"../ntuples/0.9.8-JpsiK_L0/JpsiK-mc-step2/JpsiK--24_03_22--mc--12143001--2016--md.root" \
 			"../ntuples/0.9.8-JpsiK_L0/JpsiK-mc-step2/JpsiK--24_03_22--mc--12143001--2016--mu.root" \
