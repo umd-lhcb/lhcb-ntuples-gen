@@ -304,6 +304,16 @@ def fit(obs, fit_var, fit_model):
     return result, nll
 
 
+def cTerm(msg, color):
+    num = 30
+    if color == 'red':     num = 91
+    if color == 'green':   num = 92
+    if color == 'yellow':  num = 93
+    if color == 'blue':    num = 94
+    if color == 'magenta': num = 95
+    if color == 'cyan':    num = 96
+    return f'\033[{num};1m{msg}\033[0m'
+
 if __name__ == '__main__':
     mplhep.style.use('LHCb2')
     args = parse_input()
@@ -357,15 +367,22 @@ if __name__ == '__main__':
 
     # Fit plots
     print('Plot fitting results...')
+    plotLin = args.output+'/fit_final.pdf'
+    plotLog = args.output+'/fit_final_log_scale.pdf'
     plot(
-        fit_var, fit_components, output=args.output+'/fit_final.pdf',
+        fit_var, fit_components, output=plotLin,
         data_range=MODEL_BDY,
         xlabel=args.xLabel, ax1_ylabel=args.yLabel, data_lbl=args.dataLabel,
         title=r'$J\psi K$ aux. fit', bins=args.bins
     )
     plot(
-        fit_var, fit_components, output=args.output+'/fit_final_log_scale.pdf',
+        fit_var, fit_components, output=plotLog,
         data_range=MODEL_BDY,
         xlabel=args.xLabel, ax1_ylabel=args.yLabel, data_lbl=args.dataLabel,
         title=r'$J/\psi K$ aux. fit', ax1_yscale='log', bins=args.bins
     )
+
+    print('\n' + cTerm(f'ntuple with s-weights at {ntp_path}','green') + '\n')
+    print('\n' + cTerm(f' open {plotLin}','green'))
+    print(cTerm(f' open {plotLog}','green') + '\n')
+    
