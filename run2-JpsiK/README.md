@@ -51,4 +51,4 @@ ln -s run2-JpsiK-2016-md-B-ndof_ntracks__pt_eta.root run2-JpsiK-2016-mu-B-ndof_n
 cd -
 ```
 With this file in place, the step 2 ntuples can be regenerated with the new `wjk` weights as
-described above.
+described above. This file is also used by the non JpsiK MC ntuples.
