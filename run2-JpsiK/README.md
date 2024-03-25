@@ -1,7 +1,9 @@
 ## Production of `B -> J/Psi K` ntuples
 
 We reweight the production kinematics of `B` mesons with a sample of `B -> J/Psi K` events reconstructed in
-DaVinci with the `run2-JpsiK/reco_JpsiK.py` script. No cuts are applied at this level.
+DaVinci with the `run2-JpsiK/reco_JpsiK.py` script. No cuts are applied at this level. In data we use
+the `StrippingBetaSBu2JpsiKDetached` stripping line, and 
+[`B -> JPsi K` MC (12143001)](https://gitlab.cern.ch/lhcb-datapkg/Gen/DecFiles/-/blob/v30r103/dkfiles/Bu_JpsiK,mm=DecProdCut.dec).
 
 The DaVinci ntuples are processed with the following commands inside `workflows`
 
@@ -39,16 +41,15 @@ The recipes can take 10 minutes and are run with
 
 ```shell
 cd run2-JpsiK
-./fit/find_jpsik_weights.py -d ../ntuples/0.9.8-JpsiK_L0/JpsiK-std-step2/ -m ../ntuples/0.9.8-JpsiK_L0/JpsiK-mc-step2/
+./fit/find_jpsik_weights.py -d ../ntuples/0.9.8-JpsiK_L0/JpsiK-std-step2/ \
+    -m ../ntuples/0.9.8-JpsiK_L0/JpsiK-mc-step2/
 ```
 
 The output weightfile should then be placed in the proper folder
 ```shell
-cp -f gen//run2-JpsiK-2016-md-B-ndof_ntracks__pt_eta.root reweight/JpsiK/root-run2-JpsiK_oldcut/run2-JpsiK-2016-md-B-ndof_ntracks__pt_eta.root
-cd reweight/JpsiK/root-run2-JpsiK_oldcut/
-rm run2-JpsiK-2016-mu-B-ndof_ntracks__pt_eta.root
-ln -s run2-JpsiK-2016-md-B-ndof_ntracks__pt_eta.root run2-JpsiK-2016-mu-B-ndof_ntracks__pt_eta.root
-cd -
+cp -f gen//run2-JpsiK-2016-md-B-ndof_ntracks__pt_eta.root \
+  reweight/JpsiK/root-run2-JpsiK_oldcut/run2-JpsiK-2016-md-B-ndof_ntracks__pt_eta.root
 ```
 With this file in place, the step 2 ntuples can be regenerated with the new `wjk` weights as
 described above. This file is also used by the non JpsiK MC ntuples.
+   
