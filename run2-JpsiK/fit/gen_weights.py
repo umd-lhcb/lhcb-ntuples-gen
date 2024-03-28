@@ -32,8 +32,8 @@ REWEIGHT_PROCEDURE = {
 }
 
 DATA_WTS = ['sw_sig']
-MC_WTS = ['wpid', 'wtrk']
-
+MC_WTS = ['wtrk']
+MC_CUTS = {'k_pid_k': 4, 'mu_pid_mu': 2, 'amu_pid_mu': 2}
 
 #######################
 # Command line parser #
@@ -61,23 +61,28 @@ def parse_input():
 # Helpers #
 ###########
 
-def load_brs(ntp, tree, add_brs=None):
+def load_brs(ntp, tree, add_brs=None, extra_brs=None):
     br_names = [] if not add_brs else deepcopy(add_brs)
     for r in REWEIGHT_PROCEDURE.values():
         br_names += r.vars
-
+    if extra_brs:
+        for var in extra_brs:
+            br_names += [var]
     return concatenate([f'{i}:{tree}' for i in ntp], br_names, library='np')
 
 
-def gen_cut(brs, rule):
+def gen_cut(brs, rule, extraCuts=None):
     cuts = []
     for idx, _ in enumerate(rule.vars):
-        cuts.append(brs[rule.vars[idx]] < rule.range[idx][1])  # Cut out the maxium for ROOT compatibility
+        cuts.append(brs[rule.vars[idx]] < rule.range[idx][1])  # Cut out the maximum for ROOT compatibility
+    if extraCuts:
+        for var, val in extraCuts.items():
+            cuts.append(brs[var] > val)
     return np.logical_and.reduce(cuts)
 
 
-def apply_cut(brs, rule):
-    cut = gen_cut(brs, rule)
+def apply_cut(brs, rule, extraCuts=None):
+    cut = gen_cut(brs, rule, extraCuts)
     return {k: v[cut] for k, v in brs.items()}
 
 
@@ -101,14 +106,14 @@ if __name__ == '__main__':
 
     # Load branches
     brs_data_raw = load_brs(args.dataNtp, args.tree, add_brs=DATA_WTS)
-    brs_mc_raw = load_brs(args.mcNtp, args.tree, add_brs=MC_WTS)
+    brs_mc_raw = load_brs(args.mcNtp, args.tree, add_brs=MC_WTS, extra_brs=MC_CUTS)
 
     for idx, (name, r) in enumerate(REWEIGHT_PROCEDURE.items()):
         rules[idx] = r
 
         # Remove rightmost edges in histogram to be compatible w/ ROOT
         brs_data = apply_cut(brs_data_raw, r)
-        brs_mc = apply_cut(brs_mc_raw, r)
+        brs_mc = apply_cut(brs_mc_raw, r, MC_CUTS)
         rwt_brs_data = [brs_data[i] for i in r.vars]
         rwt_brs_mc = [brs_mc[i] for i in r.vars]
 
