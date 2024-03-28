@@ -1,4 +1,4 @@
-# Author: Greg Ciezarek, Yipeng Sun
+# Author: Greg Ciezarek, Yipeng Sun, Manuel Franco Sevilla
 # License: BSD 2-clause
 # Last Change: Mon Feb 21, 2022 at 06:20 PM -0500
 #
@@ -28,6 +28,8 @@ DaVinci().EvtMax = -1
 from Configurables import ChargedProtoParticleMaker
 from Configurables import NoPIDsParticleMaker
 from CommonParticles.Utils import trackSelector, updateDoD
+from PhysSelPython.Wrappers import AutomaticData, Selection, SelectionSequence, DataOnDemand
+from Configurables import DaVinci, FilterDesktop, CombineParticles, OfflineVertexFitter
 
 # Provide required information for VELO pions.
 ms_all_protos = ChargedProtoParticleMaker(name='MyProtoPMaker')
@@ -141,22 +143,68 @@ def tuple_spec_mc(*args, **kwargs):
     return tp
 
 
+## Creating new sequence because in MC we cannot use the stripping line, which
+## contains PID cuts
 if not DaVinci().Simulation:
-    tuple_spec = tuple_spec_data
+    tp_Bminus = tuple_spec_data(
+        'tree',  # our beloved 'tree'
+        tes_stripped,
+        '${b}[B+ -> ${j}(J/psi(1S) -> ${amu}mu+ ${mu}mu-) ${k}K+]CC'
+    ) 
+    DaVinci().appendToMainSequence ([tp_Bminus])
 else:
-    tuple_spec = tuple_spec_mc
+    jpsikTag = 'jpsik'
+    ## Particle lists
+    _stdKaons = DataOnDemand(Location = "Phys/StdAllNoPIDsKaons/Particles")
+    _stdMuons = DataOnDemand(Location = "Phys/StdAllNoPIDsMuons/Particles")
 
+    ## Particle filters
+    _muonFilter = FilterDesktop('muonFilter', Code = "ALL")
+    MuonFilterSel = Selection(name = 'MuonFilterSel',
+                              Algorithm = _muonFilter,
+                              RequiredSelections = [ _stdMuons ])
+    _kaonFilter = FilterDesktop('kaonFilter', Code = "ALL")
+    KaonFilterSel = Selection(name = 'KaonFilterSel',
+                              Algorithm = _kaonFilter,
+                              RequiredSelections = [ _stdKaons ])
 
-# B- ###########################################################################
-tp_Bminus = tuple_spec(
-    'tree',  # our beloved 'tree'
-    tes_stripped,
-    '${b}[B+ -> ${j}(J/psi(1S) -> ${amu}mu+ ${mu}mu-) ${k}K+]CC'
-)
+    ## J/psi reco
+    _makejpsi = CombineParticles("makejpsi_" + jpsikTag,
+			                     Preambulo=["from LoKiPhysMC.decorators import *","from LoKiPhysMC.functions import mcMatch"],
+                                 DecayDescriptor = "J/psi(1S) -> mu+ mu-",
+                                 CombinationCut = "(ADOCACHI2CUT(20, ''))",
+			                     MotherCut = "(VFASPF(VCHI2) < 16.) & (MFIT)",
+			                     DaughtersCuts = {
+				                     "mu+" : "mcMatch( '[mu+]cc' )"}
+                                 )
+    seljpsi = Selection ("Seljpsi",
+                         Algorithm = _makejpsi,
+                         RequiredSelections = [MuonFilterSel])
 
+    ## B -> J/psi reco
+    _Bu_Kmumu = CombineParticles("BLL_" + jpsikTag,
+			                     Preambulo=["from LoKiPhysMC.decorators import *","from LoKiPhysMC.functions import mcMatch"],
+                                 DecayDescriptor = "[B+ -> J/psi(1S) K+]cc",
+                                 MotherCut = "mcMatch('[B+ => (J/psi(1S) => mu+ mu- )K+]CC')&(BPVLTIME() > 0.2*ps)",
+			                     DaughtersCuts = {
+                                     #				 "mu+" : "mcMatch( '[mu+]cc' )",
+				                     "K+" : "mcMatch( '[K+]cc' )"},
+                                 ReFitPVs = True,
+				                 )
+    Bu_Kmumu = Selection ("Sel"+jpsikTag,
+                          Algorithm = _Bu_Kmumu,
+                          RequiredSelections = [KaonFilterSel, seljpsi])
 
-################################################
-# Add selection & tupling sequences to DaVinci #
-################################################
+    seq = SelectionSequence("Seq"+jpsikTag, TopSelection = Bu_Kmumu)
 
-DaVinci().UserAlgorithms += [tp_Bminus]
+    ## Setting up TupleTree
+    tp_Bminus = tuple_spec_mc(
+        'tree',  # our beloved 'tree'
+        seq.outputLocation(),
+        '${b}[B+ -> ${j}(J/psi(1S) -> ${amu}mu+ ${mu}mu-) ${k}K+]CC'
+    )
+    
+    ## Add selection & tupling sequences to DaVinci
+    DaVinci().appendToMainSequence ([seq, tp_Bminus])
+
+    
