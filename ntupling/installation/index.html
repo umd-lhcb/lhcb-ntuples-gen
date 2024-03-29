@@ -1437,8 +1437,20 @@ make install-dep
 <h2 id="install-docker-to-run-davinci-locally">Install <code>docker</code> to run <code>DaVinci</code> locally</h2>
 <p>We use <code>docker</code> to run a pre-built <code>DaVinci</code> image locally. To install
 <code>docker</code>:</p>
-<p>On Arch Linux run <code>sudo pacman -S docker</code> and follow this <a href="https://wiki.archlinux.org/index.php/Docker">Arch wiki entry</a>
-to finish the setup. In macOS, you can install it using homebrew with <code>brew install docker</code></p>
+<p>On Arch Linux run <code>sudo pacman -S docker</code> and follow this <a href="https://wiki.archlinux.org/index.php/Docker">Arch wiki
+entry</a> to finish the setup.</p>
+<p>In macOS with an Intel processor, you can install Docker by downloading it from their <a href="https://docs.docker.com/desktop/install/mac-install/">official
+site</a>. You will need to log in to a Docker
+account and have it running to be able to pull the image.</p>
+<p>In macOS with an ARM processor <code>docker</code> has problems, but you install
+<a href="https://github.com/abiosoft/colima"><code>colima</code></a> instead</p>
+<div class="highlight"><pre><span></span><code>brew<span class="w"> </span>install<span class="w"> </span>docker<span class="w"> </span>docker-compose<span class="w"> </span>docker-machine<span class="w"> </span>colima
+
+colima<span class="w"> </span>stop
+colima<span class="w"> </span>delete<span class="w"> </span><span class="c1"># delete existing instance</span>
+<span class="c1"># Start with Rosetta 2 emulation</span>
+colima<span class="w"> </span>start<span class="w"> </span>--arch<span class="w"> </span>aarch64<span class="w"> </span>--vm-type<span class="o">=</span>vz<span class="w"> </span>--vz-rosetta<span class="w"> </span>--cpu<span class="w"> </span><span class="m">4</span><span class="w"> </span>--memory<span class="w"> </span><span class="m">8</span><span class="w"> </span>--disk<span class="w"> </span><span class="m">120</span>
+</code></pre></div>
 <p>Now it's time to pull (download) the pre-built <code>DaVinci</code> docker:
 <div class="highlight"><pre><span></span><code>docker pull umdlhcb/lhcb-stack-cc7:DaVinci-v45r6-SL
 </code></pre></div></p>
