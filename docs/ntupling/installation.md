@@ -49,8 +49,24 @@ make install-dep
 We use `docker` to run a pre-built `DaVinci` image locally. To install
 `docker`:
 
-On Arch Linux run `sudo pacman -S docker` and follow this [Arch wiki entry](https://wiki.archlinux.org/index.php/Docker)
-to finish the setup. In macOS, you can install it using homebrew with `brew install docker`
+On Arch Linux run `sudo pacman -S docker` and follow this [Arch wiki
+entry](https://wiki.archlinux.org/index.php/Docker) to finish the setup.
+
+In macOS with an Intel processor, you can install Docker by downloading it from their [official
+site](https://docs.docker.com/desktop/install/mac-install/). You will need to log in to a Docker
+account and have it running to be able to pull the image.
+
+In macOS with an ARM processor `docker` has problems, but you install
+[`colima`](https://github.com/abiosoft/colima) instead
+
+```shell
+brew install docker docker-compose docker-machine colima
+
+colima stop
+colima delete # delete existing instance
+# Start with Rosetta 2 emulation
+colima start --arch aarch64 --vm-type=vz --vz-rosetta --cpu 4 --memory 8 --disk 120
+```
 
 Now it's time to pull (download) the pre-built `DaVinci` docker:
 ```
