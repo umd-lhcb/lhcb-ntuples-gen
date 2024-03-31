@@ -5,11 +5,14 @@
   order of TBs, this method is only used for developing `DaVinci` scripts and
   first-order validation
 
-- On `lxplus`, several official `DaVinci` versions are provided. However, there
+!!! note
+    It looks like our `ganga` jobs now only work on `lxplus7`, so make sure to log on to that.
+    
+- On `lxplus7`, several official `DaVinci` versions are provided. However, there
   are some drawbacks:
 
-    1. `.dst` files still need to be downloaded to some `lxplus` user directory
-    2. While `DaVinci` is running, the connection to `lxplus` must be kept alive
+    1. `.dst` files still need to be downloaded to some `lxplus7` user directory
+    2. While `DaVinci` is running, the connection to `lxplus7` must be kept alive
 
 LHCb collaboration provides a solution: Submitting and running `DaVinci` jobs on
 a GRID. The advantages are:
@@ -28,7 +31,7 @@ The rest of this doc is divided in two parts:
    most possibly on `glacier`.
 
 
-## GRID job preparation and submission on `lxplus`
+## GRID job preparation and submission on `lxplus7`
 
 ### Setup LHCb GRID certificate
 
@@ -43,9 +46,9 @@ Following [this twiki](https://twiki.cern.ch/twiki/bin/view/LHCb/FAQ/Certificate
     But I didn't have to do that.
 
 
-### Compile a local `DaVinci` on `lxplus`
+### Compile a local `DaVinci` on `lxplus7`
 
-We are using some non-official `TupleTool`, so we need to compile `DaVinci` on lxplus.
+We are using some non-official `TupleTool`, so we need to compile `DaVinci` on lxplus7.
 
 First, we need to figure out the runtime dependency for our version of DaVinci: {{ davinci_ver }}.
 
@@ -55,7 +58,7 @@ lb-run -L DaVinci/{{ davinci_ver }}
 
 For {{davinci_ver}}, we pick the following runtime: `{{ davinci_runtime }}`.
 
-We should set that runtime as the default for `lxplus`. Add to your login shell config:
+We should set that runtime as the default for `lxplus7`. Add to your login shell config:
 
 ```bash
 export CMTCONFIG={{ davinci_runtime }}
@@ -63,14 +66,14 @@ export BINARY_TAG=$CMTCONFIG
 ```
 
 Now, run [this script](https://github.com/umd-lhcb/docker-images/blob/master/lhcb-stack-cc7/compile_dv.sh)
-anywhere on `lxplus` to build a `DaVinci` with our customizations.
+anywhere on `lxplus7` to build a `DaVinci` with our customizations.
 The `DaVinci` will be available at `$HOME/build/DaVinciDev_{{ davinci_ver }}`.
 
 
 ### Configure `ganga`
 
 `ganga` is a command-line interface for LHCb GRID. We need to configure `ganga`
-job output directory. On `lxplus`:
+job output directory. On `lxplus7`:
 
 1. Run `ganga` once. This should create a `.gangarc` in `$HOME`.
 2. Locate `gangadir` option, point it to **your larger AFS storage**, for example:
@@ -87,7 +90,7 @@ job output directory. On `lxplus`:
     ```
 
 4. Copy [`ganga/ganga.sample.py`](https://github.com/umd-lhcb/lhcb-ntuples-gen/blob/master/ganga/ganga.sample.py)
-   to **`$HOME/.ganga.py` on `lxplus`**.
+   to **`$HOME/.ganga.py` on `lxplus7`**.
 
 
 ### Submitting a job with `ganga`
@@ -95,7 +98,7 @@ job output directory. On `lxplus`:
 Submitting jobs is very simple, you will simply copy a previous script that has similar features
 (eg. data, MC tracker-only), modify it appropriately, and run it. The detailed steps are
 
-1. Log on to `lxplus` and get a proxy with `lhcb-proxy-init`
+1. Log on to `lxplus7` and get a proxy with `lhcb-proxy-init`
 2. Clone `lhcb-ntuples-gen` and go to the appropriate `jobs` folder, for instance `lhcb-ntuples-gen/run2-rdx/jobs/`
 3. Copy a script with similar characteristics and rename it with the current date and some description, [for instance](https://github.com/umd-lhcb/lhcb-ntuples-gen/blob/4b27c7dc4dd97aa1ef0efa233fe4aed836c1083a/run2-rdx/jobs/22_02_07-tracker_only_ddx_18to21.sh)
 

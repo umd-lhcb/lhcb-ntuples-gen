@@ -68,7 +68,7 @@ cd workflows
 ./rdx.py rdx-ntuple-run2-mc-to-dstst-heavy | tee step2-ntuple_mc-to-dstst-heavy.log
 ## Takes 75 min, 58G
 ./rdx.py rdx-ntuple-run2-mc-to-ddx         | tee step2-ntuple_mc-to-ddx.log
-## Takes ~hours, ~80G
+## Takes 11hours, 81G
 ./rdx.py rdx-ntuple-run2-mc-to-dstst       | tee step2-ntuple_mc-to-dstst.log
 ## Takes 37 hours, 422G
 ./rdx.py rdx-ntuple-run2-mc-to-sig-norm    | tee step2-ntuple_mc-to-sig-norm.log     
