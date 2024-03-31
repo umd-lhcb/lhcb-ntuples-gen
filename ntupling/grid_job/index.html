@@ -18,7 +18,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.15">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.16">
     
     
       
@@ -26,7 +26,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.7e359304.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.bcfcd587.min.css">
       
       
 
@@ -388,13 +388,13 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#grid-job-preparation-and-submission-on-lxplus" class="md-nav__link">
+  <a href="#grid-job-preparation-and-submission-on-lxplus7" class="md-nav__link">
     <span class="md-ellipsis">
-      GRID job preparation and submission on lxplus
+      GRID job preparation and submission on lxplus7
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="GRID job preparation and submission on lxplus">
+    <nav class="md-nav" aria-label="GRID job preparation and submission on lxplus7">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -407,9 +407,9 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#compile-a-local-davinci-on-lxplus" class="md-nav__link">
+  <a href="#compile-a-local-davinci-on-lxplus7" class="md-nav__link">
     <span class="md-ellipsis">
-      Compile a local DaVinci on lxplus
+      Compile a local DaVinci on lxplus7
     </span>
   </a>
   
@@ -1457,13 +1457,13 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#grid-job-preparation-and-submission-on-lxplus" class="md-nav__link">
+  <a href="#grid-job-preparation-and-submission-on-lxplus7" class="md-nav__link">
     <span class="md-ellipsis">
-      GRID job preparation and submission on lxplus
+      GRID job preparation and submission on lxplus7
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="GRID job preparation and submission on lxplus">
+    <nav class="md-nav" aria-label="GRID job preparation and submission on lxplus7">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1476,9 +1476,9 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#compile-a-local-davinci-on-lxplus" class="md-nav__link">
+  <a href="#compile-a-local-davinci-on-lxplus7" class="md-nav__link">
     <span class="md-ellipsis">
-      Compile a local DaVinci on lxplus
+      Compile a local DaVinci on lxplus7
     </span>
   </a>
   
@@ -1613,18 +1613,22 @@
 
 <h2 id="rationale">Rationale</h2>
 <ul>
-<li>
-<p>The main limitation for local <code>DaVinci</code> docker is: Raw data files (<code>.dst</code>)
+<li>The main limitation for local <code>DaVinci</code> docker is: Raw data files (<code>.dst</code>)
   need to be downloaded locally. Given that the size of <code>.dst</code> files is on the
   order of TBs, this method is only used for developing <code>DaVinci</code> scripts and
-  first-order validation</p>
-</li>
+  first-order validation</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>It looks like our <code>ganga</code> jobs now only work on <code>lxplus7</code>, so make sure to log on to that.</p>
+</div>
+<ul>
 <li>
-<p>On <code>lxplus</code>, several official <code>DaVinci</code> versions are provided. However, there
+<p>On <code>lxplus7</code>, several official <code>DaVinci</code> versions are provided. However, there
   are some drawbacks:</p>
 <ol>
-<li><code>.dst</code> files still need to be downloaded to some <code>lxplus</code> user directory</li>
-<li>While <code>DaVinci</code> is running, the connection to <code>lxplus</code> must be kept alive</li>
+<li><code>.dst</code> files still need to be downloaded to some <code>lxplus7</code> user directory</li>
+<li>While <code>DaVinci</code> is running, the connection to <code>lxplus7</code> must be kept alive</li>
 </ol>
 </li>
 </ul>
@@ -1647,7 +1651,7 @@ a GRID. The advantages are:</p>
 <li>Offline slimming and annexing of the produced ntuples on a local machine,
    most possibly on <code>glacier</code>.</li>
 </ol>
-<h2 id="grid-job-preparation-and-submission-on-lxplus">GRID job preparation and submission on <code>lxplus</code></h2>
+<h2 id="grid-job-preparation-and-submission-on-lxplus7">GRID job preparation and submission on <code>lxplus7</code></h2>
 <h3 id="setup-lhcb-grid-certificate">Setup LHCb GRID certificate</h3>
 <p>Following <a href="https://twiki.cern.ch/twiki/bin/view/LHCb/FAQ/Certificate">this twiki</a> to:</p>
 <ol>
@@ -1660,22 +1664,22 @@ a GRID. The advantages are:</p>
 to be able to apply for a new cert via <a href="https://ca.cern.ch/ca">ca.cern.ch</a>.
 But I didn't have to do that.</p>
 </div>
-<h3 id="compile-a-local-davinci-on-lxplus">Compile a local <code>DaVinci</code> on <code>lxplus</code></h3>
-<p>We are using some non-official <code>TupleTool</code>, so we need to compile <code>DaVinci</code> on lxplus.</p>
+<h3 id="compile-a-local-davinci-on-lxplus7">Compile a local <code>DaVinci</code> on <code>lxplus7</code></h3>
+<p>We are using some non-official <code>TupleTool</code>, so we need to compile <code>DaVinci</code> on lxplus7.</p>
 <p>First, we need to figure out the runtime dependency for our version of DaVinci: v45r6.</p>
 <div class="highlight"><pre><span></span><code>lb-run -L DaVinci/v45r6
 </code></pre></div>
 <p>For v45r6, we pick the following runtime: <code>x86_64-centos7-gcc9-opt</code>.</p>
-<p>We should set that runtime as the default for <code>lxplus</code>. Add to your login shell config:</p>
+<p>We should set that runtime as the default for <code>lxplus7</code>. Add to your login shell config:</p>
 <div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">CMTCONFIG</span><span class="o">=</span>x86_64-centos7-gcc9-opt
 <span class="nb">export</span><span class="w"> </span><span class="nv">BINARY_TAG</span><span class="o">=</span><span class="nv">$CMTCONFIG</span>
 </code></pre></div>
 <p>Now, run <a href="https://github.com/umd-lhcb/docker-images/blob/master/lhcb-stack-cc7/compile_dv.sh">this script</a>
-anywhere on <code>lxplus</code> to build a <code>DaVinci</code> with our customizations.
+anywhere on <code>lxplus7</code> to build a <code>DaVinci</code> with our customizations.
 The <code>DaVinci</code> will be available at <code>$HOME/build/DaVinciDev_v45r6</code>.</p>
 <h3 id="configure-ganga">Configure <code>ganga</code></h3>
 <p><code>ganga</code> is a command-line interface for LHCb GRID. We need to configure <code>ganga</code>
-job output directory. On <code>lxplus</code>:</p>
+job output directory. On <code>lxplus7</code>:</p>
 <ol>
 <li>Run <code>ganga</code> once. This should create a <code>.gangarc</code> in <code>$HOME</code>.</li>
 <li>
@@ -1691,14 +1695,14 @@ job output directory. On <code>lxplus</code>:</p>
 </li>
 <li>
 <p>Copy <a href="https://github.com/umd-lhcb/lhcb-ntuples-gen/blob/master/ganga/ganga.sample.py"><code>ganga/ganga.sample.py</code></a>
-   to <strong><code>$HOME/.ganga.py</code> on <code>lxplus</code></strong>.</p>
+   to <strong><code>$HOME/.ganga.py</code> on <code>lxplus7</code></strong>.</p>
 </li>
 </ol>
 <h3 id="submitting-a-job-with-ganga">Submitting a job with <code>ganga</code></h3>
 <p>Submitting jobs is very simple, you will simply copy a previous script that has similar features
 (eg. data, MC tracker-only), modify it appropriately, and run it. The detailed steps are</p>
 <ol>
-<li>Log on to <code>lxplus</code> and get a proxy with <code>lhcb-proxy-init</code></li>
+<li>Log on to <code>lxplus7</code> and get a proxy with <code>lhcb-proxy-init</code></li>
 <li>Clone <code>lhcb-ntuples-gen</code> and go to the appropriate <code>jobs</code> folder, for instance <code>lhcb-ntuples-gen/run2-rdx/jobs/</code></li>
 <li>
 <p>Copy a script with similar characteristics and rename it with the current date and some description, <a href="https://github.com/umd-lhcb/lhcb-ntuples-gen/blob/4b27c7dc4dd97aa1ef0efa233fe4aed836c1083a/run2-rdx/jobs/22_02_07-tracker_only_ddx_18to21.sh">for instance</a></p>
