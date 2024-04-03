@@ -144,12 +144,41 @@ Bool_t FLAG_SEL_D0_RUN1(Bool_t flag_d0_pid_ok,
       k_gh_prob < 0.5 && pi_gh_prob < 0.5 &&
       /* D0 */
       d0_pt > 2000.0 &&
-      d0_hlt2 &&
+      d0_hlt2 && // TODO: Alex--why is this here? I assume relic debugging thing? It's manually set to true
       d0_endvtx_chi2/d0_endvtx_ndof < 4.0 &&
       TMath::Log(d0_ip) > -3.5 &&
       d0_ip_chi2 > 9.0 &&
       d0_dira > 0.9998 &&  /* should be loosed for run 2 */
       d0_fd_chi2 > 250.0
+      )
+    // clang-format on
+    return true;
+  return false;
+}
+
+Bool_t FLAG_SEL_D0_RUN2ANG(Bool_t flag_d0_pid_ok,
+                         //  Double_t k_pt, Double_t pi_pt,
+                         //  Bool_t k_hlt1_tos, Bool_t pi_hlt1_tos,
+                         //  Double_t k_ip_chi2, Double_t pi_ip_chi2,
+                         //  Double_t k_gh_prob, Double_t pi_gh_prob,
+                         //  Double_t d0_pt,
+                         //  Double_t d0_endvtx_chi2, Double_t d0_endvtx_ndof,
+                           Double_t d0_ip, Double_t d0_ip_chi2) {
+                         //  Double_t d0_dira,
+                         //  Double_t d0_fd_chi2) {
+  if (flag_d0_pid_ok &&
+      /* K, pi */
+      // ((k_hlt1_tos && k_pt > 1700.0) || (pi_hlt1_tos && pi_pt > 1700.0)) &&
+      // k_pt > 500.0 && pi_pt > 500.0 && k_pt+pi_pt > 1400.0 &&
+      // k_ip_chi2 > 45.0 && pi_ip_chi2 > 45.0 &&
+      // k_gh_prob < 0.5 && pi_gh_prob < 0.5 &&
+      /* D0 */
+      // d0_pt > 2000.0 &&
+      // d0_endvtx_chi2/d0_endvtx_ndof < 4.0 &&
+      TMath::Log(d0_ip) > -3.5 &&
+      d0_ip_chi2 > 9.0 //&&
+      // d0_dira > 0.999 &&
+      // d0_fd_chi2 > 250.0
       )
     // clang-format on
     return true;
@@ -172,12 +201,16 @@ Bool_t FLAG_SEL_MU_PID_OK_RUN1(Bool_t mu_is_mu, Double_t mu_pid_mu,
   return mu_is_mu && mu_pid_mu > 2.0 && mu_pid_e < 1.0;
 }
 
+Bool_t FLAG_SEL_MU_PID_OK_RUN2ANG(Bool_t mu_is_mu, Double_t mu_pid_mu,
+                                  Double_t mu_pid_e) {
+  return mu_is_mu && mu_pid_mu > 2.0 && mu_pid_e < 1.0;
+}
+
 // clang-format off
-Bool_t FLAG_SEL_MU_RUN1(Bool_t flag_good_trks, Bool_t flag_mu_pid_ok,
+Bool_t FLAG_SEL_MU_RUN1(Bool_t flag_mu_pid_ok, Bool_t flag_good_trks,
                         Double_t mu_p,
                         Double_t mu_eta,
-                        Double_t mu_ip_chi2, Double_t mu_gh_prob
-                        ) {
+                        Double_t mu_ip_chi2, Double_t mu_gh_prob) {
   if (/* If tracks are well-separated angularly */
       flag_good_trks &&
       /* Mu PID related */
@@ -188,6 +221,28 @@ Bool_t FLAG_SEL_MU_RUN1(Bool_t flag_good_trks, Bool_t flag_mu_pid_ok,
       IN_RANGE(mu_eta, 1.7, 5.0) &&
       /* Track quality */
       mu_ip_chi2 > 45.0 && mu_gh_prob < 0.5
+      )
+    // clang-format on
+    return true;
+  return false;
+}
+
+Bool_t FLAG_SEL_MU_RUN2ANG(Bool_t flag_mu_pid_ok_loose, Bool_t flag_good_trks,
+                           Double_t mu_p,
+                           Double_t mu_eta) {
+                        //   Double_t mu_ip_chi2,
+                        //   Double_t mu_gh_prob) {
+  if (/* If tracks are well-separated angularly */
+      flag_good_trks &&
+      /* Mu PID related */
+      flag_mu_pid_ok_loose &&
+      /* Momentum */
+      IN_RANGE(mu_p, 3.0e3, 100.0e3) &&
+      /* Acceptance */
+      IN_RANGE(mu_eta, 1.7, 5.0) //&&
+      /* Track quality */
+      // mu_ip_chi2 > 45.0 && 
+      // mu_gh_prob < 0.5
       )
     // clang-format on
     return true;
@@ -207,6 +262,26 @@ Bool_t FLAG_SEL_BMINUSD0_RUN1(Bool_t flag_sel_d0, Bool_t flag_sel_mu,
       b_fd_trans < 7.0 &&
       /* Vertex quality */
       b_endvtx_chi2 / b_endvtx_ndof < 6.0 && b_dira > 0.9995 &&
+      /* Veto D* in D0 sample */
+      d0_dst_veto_deltam > 4.0  // MeV!
+      )
+    // clang-format on
+    return true;
+  return false;
+}
+
+Bool_t FLAG_SEL_BMINUSD0_RUN2ANG(Bool_t flag_sel_d0_loose, Bool_t flag_sel_mu_loose,
+                                 Double_t b_endvtx_chi2, Double_t b_endvtx_ndof,
+                                 Double_t b_fd_trans,
+                                 Double_t b_dira,
+                                 Double_t d0_dst_veto_deltam) {
+  // clang-format off
+  if (/* Daughter particles */
+      flag_sel_d0_loose && flag_sel_mu_loose &&
+      /* FD */
+      b_fd_trans < 7.0 &&
+      /* Vertex quality */
+      b_endvtx_chi2 / b_endvtx_ndof < 6.0 && b_dira > 0.999 &&
       /* Veto D* in D0 sample */
       d0_dst_veto_deltam > 4.0  // MeV!
       )
@@ -236,10 +311,38 @@ Bool_t FLAG_SEL_B0DST_RUN1(Bool_t flag_sel_d0, Bool_t flag_sel_mu,
       dst_endvtx_chi2 / dst_endvtx_ndof < 10.0 &&
       /* D* Mu combo */
       b0_discard_mu_chi2 < 6.0 &&  // this is actually the D0Mu chi2
+      // Alex: note to self--what about D0mu DIRA > 0.9995? TODO
       b0_endvtx_chi2 < 24.0 &&
       b0_endvtx_chi2 / b0_endvtx_ndof < 6.0 &&
       b0_fd_trans < 7.0 &&
       b0_dira > 0.9995
+      )
+    // clang-format on
+    return true;
+  return false;
+}
+
+// RUN2ANG cuts are the cuts that the run2 angular analysis uses (which, in turn, were
+// the loosest cuts we found could be applied [TODO document presentations])
+Bool_t FLAG_SEL_B0DST_RUN2ANG(Bool_t flag_sel_d0_loose, Bool_t flag_sel_mu_loose,
+                              // Double_t spi_gh_prob,
+                              Double_t dst_endvtx_chi2, Double_t dst_endvtx_ndof,
+                              // Double_t b0_discard_mu_chi2,
+                              Double_t b0_endvtx_chi2, Double_t b0_endvtx_ndof,
+                              Double_t b0_fd_trans,
+                              Double_t b0_dira) {
+
+  if (flag_sel_d0_loose && flag_sel_mu_loose &&
+      /* slow Pi */
+      // spi_gh_prob < 0.25 &&
+      /* D* */
+      dst_endvtx_chi2 / dst_endvtx_ndof < 10.0 &&
+      /* D* Mu combo */
+      // b0_discard_mu_chi2 < 6.0 &&  // this is actually the D0Mu chi2 // TODO not sure if this should be applied?
+      // b0_endvtx_chi2 < 24.0 &&
+      b0_endvtx_chi2 / b0_endvtx_ndof < 6.0 &&
+      b0_fd_trans < 7.0 &&
+      b0_dira > 0.999
       )
     // clang-format on
     return true;

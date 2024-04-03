@@ -1,0 +1,1428 @@
+headers:
+    user:
+        - functor/rdx/cut.h
+        - functor/rdx/skims.h
+        - functor/rdx/kinematic.h
+        - functor/rdx/truth_match.h
+        - functor/basic.h
+
+keep:
+    - runNumber
+    - eventNumber
+    - GpsTime
+    - "^wpid*"
+    - "^wtrk*"
+    - "^wff"
+    - "^wvtx"
+    - ".*_tos_emu$"
+    - "^is_misid_*"
+    - "b_m_smr_k"
+    - "b_m_smr_pi"
+    - "d0_l0_hadron_tos_emu"
+    - "b_l0_global_tis_emu"
+
+rename:
+    # General
+    Polarity: polarity
+    runNumber: run
+    eventNumber: event
+    # L0
+    b0_L0Global_TIS: b_l0_global_tis
+    b_L0Global_TIS: b_l0_global_tis
+    d0_L0HadronDecision_TOS: d0_l0_hadron_tos
+    b0_l0_global_tis_emu: b0_l0_global_tis_emu
+    # HLT1
+    d0_Hlt1TwoTrackMVADecision_TOS: d0_hlt1_twotrackmva_tos
+    k_Hlt1TrackMVADecision_TOS: k_hlt1_trackmva_tos
+    pi_Hlt1TrackMVADecision_TOS: pi_hlt1_trackmva_tos
+    # HLT2
+    b0_Hlt2XcMuXForTauB2XcMuDecision_TOS: b_hlt2_tos
+    b0_Hlt2XcMuXForTauB2XcFakeMuDecision_TOS: b_hlt2_fakeline_tos
+    b_Hlt2XcMuXForTauB2XcMuDecision_TOS: b_hlt2_tos
+    b_Hlt2XcMuXForTauB2XcFakeMuDecision_TOS: b_hlt2_fakeline_tos
+    # Event variables
+    nTracks: ntracks
+
+calculation:
+    # For pseudo-random sequence generation
+    prs_in: double; b0_PT; b_PT
+    nspdhits: float; NumSPDHits; -1.0  # TO MC has no such thing
+
+    #######################
+    # Isolation variables #
+    #######################
+    # Isolation BDTs
+    iso_bdt1_raw: double; b0_ISOLATION_BDT;  b_ISOLATION_BDT
+    iso_bdt1: >-
+        double;
+        FAKE_ISO_BDT(
+        truthmatch, iso_bdt1_raw,
+        b_dau1_gd1_true_id,
+        b_dau1_gd2_true_id,
+        b_dau1_gd3_true_id
+        );
+        iso_bdt1_raw
+    iso_bdt2: double; b0_ISOLATION_BDT2; b_ISOLATION_BDT2
+    iso_bdt3: double; b0_ISOLATION_BDT3; b_ISOLATION_BDT3
+    # PID
+    iso_nnk1: float; b0_ISOLATION_NNk; b_ISOLATION_NNk
+    iso_nnk2: float; b0_ISOLATION_NNk2; b_ISOLATION_NNk2
+    iso_nnk3: float; b0_ISOLATION_NNk3; b_ISOLATION_NNk3
+    iso_nnp1: float; b0_ISOLATION_NNp; b_ISOLATION_NNp
+    iso_nnp2: float; b0_ISOLATION_NNp2; b_ISOLATION_NNp2
+    iso_nnp3: float; b0_ISOLATION_NNp3; b_ISOLATION_NNp3
+    iso_nnghost1: float; b0_ISOLATION_NNghost; b_ISOLATION_NNghost
+    iso_nnghost2: float; b0_ISOLATION_NNghost2; b_ISOLATION_NNghost2
+    iso_nnghost3: float; b0_ISOLATION_NNghost3; b_ISOLATION_NNghost3
+    iso_pidk1: float; b0_ISOLATION_PIDK; b_ISOLATION_PIDK
+    iso_pidk2: float; b0_ISOLATION_PIDK2; b_ISOLATION_PIDK2
+    iso_pidk3: float; b0_ISOLATION_PIDK3; b_ISOLATION_PIDK3
+    iso_pidp1: float; b0_ISOLATION_PIDp; b_ISOLATION_PIDp
+    iso_pidp2: float; b0_ISOLATION_PIDp2; b_ISOLATION_PIDp2
+    iso_pidp3: float; b0_ISOLATION_PIDp3; b_ISOLATION_PIDp3
+    # ID
+    iso_true_id1: int; b0_ISOLATION_TRUEID; b_ISOLATION_TRUEID
+    iso_true_id2: int; b0_ISOLATION_TRUEID2; b_ISOLATION_TRUEID2
+    iso_true_id3: int; b0_ISOLATION_TRUEID3; b_ISOLATION_TRUEID3
+    # Charge
+    iso_chrg1: int; b0_ISOLATION_CHARGE;  b_ISOLATION_CHARGE
+    iso_chrg2: int; b0_ISOLATION_CHARGE2; b_ISOLATION_CHARGE2
+    # Kinematic
+    iso_p1: float; GEV(MAG(b0_ISOLATION_PX, b0_ISOLATION_PY, b0_ISOLATION_PZ)); GEV(MAG(b_ISOLATION_PX, b_ISOLATION_PY, b_ISOLATION_PZ))
+    iso_p2: float; GEV(MAG(b0_ISOLATION_PX2, b0_ISOLATION_PY2, b0_ISOLATION_PZ2)); GEV(MAG(b_ISOLATION_PX2, b_ISOLATION_PY2, b_ISOLATION_PZ2))
+    iso_p3: float; GEV(MAG(b0_ISOLATION_PX3, b0_ISOLATION_PY3, b0_ISOLATION_PZ3)); GEV(MAG(b_ISOLATION_PX3, b_ISOLATION_PY3, b_ISOLATION_PZ3))
+    iso_pt1: float; GEV(MAG(b0_ISOLATION_PX, b0_ISOLATION_PY)); GEV(MAG(b_ISOLATION_PX, b_ISOLATION_PY))
+    iso_pt2: float; GEV(MAG(b0_ISOLATION_PX2, b0_ISOLATION_PY2)); GEV(MAG(b_ISOLATION_PX2, b_ISOLATION_PY2))
+    iso_pt3: float; GEV(MAG(b0_ISOLATION_PX3, b0_ISOLATION_PY3)); GEV(MAG(b_ISOLATION_PX3, b_ISOLATION_PY3))
+    # Track types
+    iso_type1: int; b0_ISOLATION_Type; b_ISOLATION_Type
+    iso_type2: int; b0_ISOLATION_Type2; b_ISOLATION_Type2
+    iso_type3: int; b0_ISOLATION_Type3; b_ISOLATION_Type3
+
+    #################
+    # Fit variables #
+    #################
+    # Make all fit variables in GeV
+    mm2_raw: double; GEV2(FitVar_Mmiss2)
+    q2_raw: double; GEV2(FitVar_q2)
+    el_raw: double; GEV(FitVar_El)
+    # Smeared fit vars for MC
+    mm2: double; mm2_vtx_smr; mm2_raw
+    q2: double; q2_vtx_smr; q2_raw
+    el: double; el_vtx_smr; el_raw
+    # K,pi-smeared fit variables
+    # we'll always have them to make template building eaiser
+    mm2_smr_pi: double; mm2_smr_pi; -100.0
+    q2_smr_pi: double; q2_smr_pi; -100.0
+    el_smr_pi: double; el_smr_pi; -100.0
+    mm2_smr_k: double; mm2_smr_k; -100.0
+    q2_smr_k: double; q2_smr_k; -100.0
+    el_smr_k: double; el_smr_k; -100.0
+
+    #######################
+    # Kinematic variables #
+    #######################
+    # Keep masses in MeV, everything else in GeV
+    # B/B0
+    b_m: double; b_M; b0_M
+    b_p: double; GEV(b_P); GEV(b0_P)
+    b_pt: double; GEV(b_PT); GEV(b0_PT)
+    b_eta: double; ETA(b_P, b_PZ); ETA(b0_P, b0_PZ)
+    # D*
+    dst_d0_deltam: double; dst_M - d0_M
+    dst_m: double; dst_M
+    dst_p: double; GEV(dst_P)
+    dst_pt: double; GEV(dst_PT)
+    #dst_iso_invm: double; GEV(MINV(b0_ISOLATION_PX, b0_ISOLATION_PY, b0_ISOLATION_PZ, b0_ISOLATION_PE, dst_PX, dst_PY, dst_PZ, dst_PE))
+    dst_iso_deltam: double; GEV(ISO_DELTAM(b0_ISOLATION_PX, b0_ISOLATION_PY, b0_ISOLATION_PZ, b0_ISOLATION_PE, dst_PX, dst_PY, dst_PZ, dst_PE, dst_M))
+    # D0
+    d0_m: double; d0_M
+    d0_p: double; GEV(d0_P)
+    d0_pt: double; GEV(d0_PT)
+    d0_dst_veto_deltam: double; MIN(ABS(b_ISOLATION_DstWindowDELTAM-145.454), ABS(b_ISOLATION_DstWindowDELTAM2-145.454))  # MeV!
+    d0_dst_veto_deltam_stub: ^double; cli_no_dst_veto; d0_dst_veto_deltam; 100.0
+    d0_eta: double; ETA(d0_P, d0_PZ)
+    # K
+    k_p: double; GEV(k_P)
+    k_px: double; GEV(k_PX)
+    k_py: double; GEV(k_PY)
+    k_pz: double; GEV(k_PZ)
+    k_pt: double; GEV(k_PT)
+    k_eta: double; ETA(k_P, k_PZ)
+    # Pi
+    pi_p: double; GEV(pi_P)
+    pi_px: double; GEV(pi_PX)
+    pi_py: double; GEV(pi_PY)
+    pi_pz: double; GEV(pi_PZ)
+    pi_pt: double; GEV(pi_PT)
+    pi_eta: double; ETA(pi_P, pi_PZ)
+    # slow Pi
+    spi_p: double; GEV(spi_P)
+    spi_px: double; GEV(spi_PX)
+    spi_py: double; GEV(spi_PY)
+    spi_pz: double; GEV(spi_PZ)
+    spi_pt: double; GEV(spi_PT)
+    spi_eta: double; ETA(spi_P, spi_PZ)
+    # Mu
+    mu_p: double; GEV(mu_P)
+    mu_px: double; GEV(mu_PX)
+    mu_py: double; GEV(mu_PY)
+    mu_pz: double; GEV(mu_PZ)
+    mu_pt: double; GEV(mu_PT)
+    mu_eta: double; ETA(mu_P, mu_PZ)
+
+    #################
+    # PID variables #
+    #################
+    # Dst
+    dst_id: int; dst_ID
+    # D0
+    d0_id: int; d0_ID
+    # K
+    k_is_mu: bool; k_isMuon
+    k_pid_mu: double; k_PIDmu
+    k_pid_k: double; k_PIDK
+    k_pid_e: double; k_PIDe
+    # Pi
+    pi_is_mu: bool; pi_isMuon
+    pi_pid_mu: double; pi_PIDmu
+    pi_pid_k: double; pi_PIDK
+    pi_pid_e: double; pi_PIDe
+    # slow Pi
+    spi_id: int; spi_ID
+    spi_is_mu: bool; spi_isMuon
+    spi_pid_mu: double; spi_PIDmu
+    spi_pid_k: double; spi_PIDK
+    spi_pid_e: double; spi_PIDe
+    # Mu
+    mu_id: int; mu_ID
+    mu_is_mu: bool; mu_isMuon
+    mu_pid_mu: double; mu_PIDmu
+    mu_pid_k: double; mu_PIDK
+    mu_pid_e: double; mu_PIDe
+    mu_ubdt: float; mu_bdt_mu
+
+    ######################
+    # Tracking variables #
+    ######################
+    # B/B0
+    b_endvtx_chi2ndof: double; b_ENDVERTEX_CHI2 / b_ENDVERTEX_NDOF; b0_ENDVERTEX_CHI2 / b0_ENDVERTEX_NDOF
+    b_fd_trans: >-
+        double;
+        FD_TRANS(b_ENDVERTEX_X, b_OWNPV_X, b_ENDVERTEX_Y, b_OWNPV_Y);
+        FD_TRANS(b0_ENDVERTEX_X, b0_OWNPV_X, b0_ENDVERTEX_Y, b0_OWNPV_Y)
+    b_fd_chi2: double; b_FDCHI2_OWNPV; b0_FDCHI2_OWNPV
+    b_log_fd_chi2: double; LOG(b_fd_chi2)
+    b_discard_mu_chi2: double; b_DISCARDMu_CHI2; b0_DISCARDMu_CHI2
+    b_ndof: int; b_OWNPV_NDOF; b0_OWNPV_NDOF
+    b_dira: double; b_DIRA_OWNPV; b0_DIRA_OWNPV
+    vtx_theta: >-
+        double;
+        VTX_THETA(b_ENDVERTEX_X, b_OWNPV_X, b_ENDVERTEX_Y, b_OWNPV_Y, b_ENDVERTEX_Z, b_OWNPV_Z);
+        VTX_THETA(b0_ENDVERTEX_X, b0_OWNPV_X, b0_ENDVERTEX_Y, b0_OWNPV_Y, b0_ENDVERTEX_Z, b0_OWNPV_Z)
+    # D*
+    dst_endvtx_chi2ndof: double; dst_ENDVERTEX_CHI2 / dst_ENDVERTEX_NDOF
+    # D0
+    d0_endvtx_chi2ndof: double; d0_ENDVERTEX_CHI2 / d0_ENDVERTEX_NDOF
+    d0_dira: double; d0_DIRA_OWNPV
+    d0_fd_chi2: double; d0_FDCHI2_OWNPV
+    d0_log_fd_chi2: double; LOG(d0_fd_chi2)
+    d0_ip_chi2: double; d0_IPCHI2_OWNPV
+    d0_log_ip_chi2: double; LOG(d0_ip_chi2)
+    d0_ip: double; d0_IP_OWNPV
+    d0_comp: double; SQRT(d0_ip_chi2) / d0_ip
+    d0_comp2: double; LOG(1 - d0_dira)
+    # K
+    k_gh_prob: double; k_TRACK_GhostProb
+    k_ip_chi2: double; k_IPCHI2_OWNPV
+    k_log_ip_chi2: double; LOG(k_ip_chi2)
+    k_ip: double; k_IP_OWNPV
+    k_comp: double; SQRT(k_ip_chi2) / k_ip
+    # Pi
+    pi_gh_prob: double; pi_TRACK_GhostProb
+    pi_ip_chi2: double; pi_IPCHI2_OWNPV
+    pi_log_ip_chi2: double; LOG(pi_ip_chi2)
+    pi_ip: double; pi_IP_OWNPV
+    pi_comp: double; SQRT(pi_ip_chi2) / pi_ip
+    # slow Pi
+    spi_gh_prob: double; spi_TRACK_GhostProb
+    spi_ip_chi2: double; spi_IPCHI2_OWNPV
+    spi_log_ip_chi2: double; LOG(spi_ip_chi2)
+    spi_ip: double; spi_IP_OWNPV
+    spi_comp: double; SQRT(spi_ip_chi2) / spi_ip
+    # Mu
+    mu_gh_prob: double; mu_TRACK_GhostProb
+    mu_ip_chi2: double; mu_IPCHI2_OWNPV
+    mu_log_ip_chi2: double; LOG(mu_ip_chi2)
+    mu_ip: double; mu_IP_OWNPV
+    mu_comp: double; SQRT(mu_ip_chi2) / mu_ip
+
+    ############################
+    # Mu misID study variables #
+    ############################
+    # These are kept in step-1 names
+    # For more consistency for the external misID unfolding program
+    # which typically runs on step-1 ntuples (with friends) directly
+    #
+    MC15TuneV1_ProbNNpi: double; IF_VAR_EXISTS(cli_misid_study, mu_MC15TuneV1_ProbNNpi)
+    MC15TuneV1_ProbNNk: double; IF_VAR_EXISTS(cli_misid_study, mu_MC15TuneV1_ProbNNk)
+    MC15TuneV1_ProbNNp: double; IF_VAR_EXISTS(cli_misid_study, mu_MC15TuneV1_ProbNNp)
+    MC15TuneV1_ProbNNe: double; IF_VAR_EXISTS(cli_misid_study, mu_MC15TuneV1_ProbNNe)
+    MC15TuneV1_ProbNNmu: double; IF_VAR_EXISTS(cli_misid_study, mu_MC15TuneV1_ProbNNmu)
+    MC15TuneV1_ProbNNghost: double; IF_VAR_EXISTS(cli_misid_study, mu_MC15TuneV1_ProbNNghost)
+    DLLK: double; IF_VAR_EXISTS(cli_misid_study, mu_PIDK)
+    DLLp: double; IF_VAR_EXISTS(cli_misid_study, mu_PIDp)
+    DLLe: double; IF_VAR_EXISTS(cli_misid_study, mu_PIDe)
+    DLLmu: double; IF_VAR_EXISTS(cli_misid_study, mu_PIDmu)
+    DLLd: double; IF_VAR_EXISTS(cli_misid_study, mu_PIDd)
+    IsMuon: double; IF_VAR_EXISTS(cli_misid_study, TO_TYPE(mu_isMuon, 1.0))
+    InMuonAcc: double; IF_VAR_EXISTS(cli_misid_study, mu_InMuonAcc)
+    #
+    Brunel_MC15TuneV1_ProbNNpi: double; IF_VAR_EXISTS(cli_misid_study, mu_MC15TuneV1_ProbNNpi)
+    Brunel_MC15TuneV1_ProbNNk: double; IF_VAR_EXISTS(cli_misid_study, mu_MC15TuneV1_ProbNNk)
+    Brunel_MC15TuneV1_ProbNNp: double; IF_VAR_EXISTS(cli_misid_study, mu_MC15TuneV1_ProbNNp)
+    Brunel_MC15TuneV1_ProbNNe: double; IF_VAR_EXISTS(cli_misid_study, mu_MC15TuneV1_ProbNNe)
+    Brunel_MC15TuneV1_ProbNNmu: double; IF_VAR_EXISTS(cli_misid_study, mu_MC15TuneV1_ProbNNmu)
+    Brunel_MC15TuneV1_ProbNNghost: double; IF_VAR_EXISTS(cli_misid_study, mu_MC15TuneV1_ProbNNghost)
+    Brunel_DLLK: double; IF_VAR_EXISTS(cli_misid_study, mu_PIDK)
+    Brunel_DLLp: double; IF_VAR_EXISTS(cli_misid_study, mu_PIDp)
+    Brunel_DLLe: double; IF_VAR_EXISTS(cli_misid_study, mu_PIDe)
+    Brunel_DLLmu: double; IF_VAR_EXISTS(cli_misid_study, mu_PIDmu)
+    Brunel_DLLd: double; IF_VAR_EXISTS(cli_misid_study, mu_PIDd)
+    Brunel_IsMuon: double; IF_VAR_EXISTS(cli_misid_study, TO_TYPE(mu_isMuon, 1.0))
+    Brunel_InMuonAcc: double; IF_VAR_EXISTS(cli_misid_study, mu_InMuonAcc)
+    # Binning variables
+    P: double; IF_VAR_EXISTS(cli_misid_study, mu_P)
+    ETA: double; IF_VAR_EXISTS(cli_misid_study, mu_eta)
+    nTracks: double; IF_VAR_EXISTS(cli_misid_study, nTracks)
+    # Additional kinematic variables for decay-in-flight smearing
+    d0_PE: double; IF_VAR_EXISTS(cli_misid_study, d0_PE)
+    d0_PX: double; IF_VAR_EXISTS(cli_misid_study, d0_PX)
+    d0_PY: double; IF_VAR_EXISTS(cli_misid_study, d0_PY)
+    d0_PZ: double; IF_VAR_EXISTS(cli_misid_study, d0_PZ)
+    dst_M: double; IF_VAR_EXISTS(cli_misid_study, dst_M)
+    dst_PE: double; IF_VAR_EXISTS(cli_misid_study, dst_PE)
+    dst_PX: double; IF_VAR_EXISTS(cli_misid_study, dst_PX)
+    dst_PY: double; IF_VAR_EXISTS(cli_misid_study, dst_PY)
+    dst_PZ: double; IF_VAR_EXISTS(cli_misid_study, dst_PZ)
+    mu_PE: double; IF_VAR_EXISTS(cli_misid_study, mu_PE)
+    mu_PX: double; IF_VAR_EXISTS(cli_misid_study, mu_PX)
+    mu_PY: double; IF_VAR_EXISTS(cli_misid_study, mu_PY)
+    mu_PZ: double; IF_VAR_EXISTS(cli_misid_study, mu_PZ)
+    b_PE: double; IF_VAR_EXISTS(cli_misid_study, b_PE)
+    b_PX: double; IF_VAR_EXISTS(cli_misid_study, b_PX)
+    b_PY: double; IF_VAR_EXISTS(cli_misid_study, b_PY)
+    b_PZ: double; IF_VAR_EXISTS(cli_misid_study, b_PZ)
+    b_ENDVERTEX_X: double; IF_VAR_EXISTS(cli_misid_study, b_ENDVERTEX_X)
+    b_ENDVERTEX_Y: double; IF_VAR_EXISTS(cli_misid_study, b_ENDVERTEX_Y)
+    b_ENDVERTEX_Z: double; IF_VAR_EXISTS(cli_misid_study, b_ENDVERTEX_Z)
+    b_OWNPV_X: double; IF_VAR_EXISTS(cli_misid_study, b_OWNPV_X)
+    b_OWNPV_Y: double; IF_VAR_EXISTS(cli_misid_study, b_OWNPV_Y)
+    b_OWNPV_Z: double; IF_VAR_EXISTS(cli_misid_study, b_OWNPV_Z)
+    b0_PE: double; IF_VAR_EXISTS(cli_misid_study, b0_PE)
+    b0_PX: double; IF_VAR_EXISTS(cli_misid_study, b0_PX)
+    b0_PY: double; IF_VAR_EXISTS(cli_misid_study, b0_PY)
+    b0_PZ: double; IF_VAR_EXISTS(cli_misid_study, b0_PZ)
+    b0_ENDVERTEX_X: double; IF_VAR_EXISTS(cli_misid_study, b0_ENDVERTEX_X)
+    b0_ENDVERTEX_Y: double; IF_VAR_EXISTS(cli_misid_study, b0_ENDVERTEX_Y)
+    b0_ENDVERTEX_Z: double; IF_VAR_EXISTS(cli_misid_study, b0_ENDVERTEX_Z)
+    b0_OWNPV_X: double; IF_VAR_EXISTS(cli_misid_study, b0_OWNPV_X)
+    b0_OWNPV_Y: double; IF_VAR_EXISTS(cli_misid_study, b0_OWNPV_Y)
+    b0_OWNPV_Z: double; IF_VAR_EXISTS(cli_misid_study, b0_OWNPV_Z)
+
+    #####################
+    # MC true variables #
+    #####################
+    # B daughters
+    # b_dau1_true_id: ^int; b0_TrueHadron_D0_ID; b0_TrueHadron_D0_ID;
+    # b_dau2_true_id: ^int; b0_TrueHadron_D1_ID; b0_TrueHadron_D1_ID;
+    # b_dau3_true_id: ^int; b0_TrueHadron_D2_ID; b0_TrueHadron_D2_ID;
+    b_dau1_gd1_true_id: ^int; b0_TrueHadron_D0_GD0_ID; b_TrueHadron_D0_GD0_ID
+    b_dau1_gd2_true_id: ^int; b0_TrueHadron_D0_GD1_ID; b_TrueHadron_D0_GD1_ID
+    b_dau1_gd3_true_id: ^int; b0_TrueHadron_D0_GD2_ID; b_TrueHadron_D0_GD2_ID
+    # D*
+    dst_true_id: int; dst_TRUEID
+    # D0
+    d0_true_id: int; d0_TRUEID
+    # FF reweighting
+    ff_d_mass: >-
+        double;
+        SQRT(M2(
+        b0_TrueHadron_D0_PX, b0_TrueHadron_D0_PY, b0_TrueHadron_D0_PZ,
+        b0_TrueHadron_D0_PE)
+        );
+        SQRT(M2(
+        b_TrueHadron_D0_PX, b_TrueHadron_D0_PY, b_TrueHadron_D0_PZ,
+        b_TrueHadron_D0_PE)
+        )
+    ff_b_mass: >-
+        double;
+        SQRT(M2(b0_TRUEP_X, b0_TRUEP_Y, b0_TRUEP_Z, b0_TRUEP_E));
+        SQRT(M2(b_TRUEP_X, b_TRUEP_Y, b_TRUEP_Z, b_TRUEP_E))
+    q2_true: double; b0_True_Q2; b_True_Q2 # in MeV^2!
+    # Inputs to Dalitz-inspired reweighting
+    dd_msq: >-
+        double;
+        MINV2(
+        b0_TrueHadron_D0_PX, b0_TrueHadron_D0_PY, b0_TrueHadron_D0_PZ, b0_TrueHadron_D0_PE,
+        b0_TrueHadron_D1_PX, b0_TrueHadron_D1_PY, b0_TrueHadron_D1_PZ, b0_TrueHadron_D1_PE
+        );
+        MINV2(
+        b_TrueHadron_D0_PX, b_TrueHadron_D0_PY, b_TrueHadron_D0_PZ, b_TrueHadron_D0_PE,
+        b_TrueHadron_D1_PX, b_TrueHadron_D1_PY, b_TrueHadron_D1_PZ, b_TrueHadron_D1_PE
+        )
+    # Set minimum DD mass based on reco mode.
+    dd_m_min: double; IF_VAR_EXISTS(dst_M, 2010.0 + 1864); 1864.0*2
+    dd_m_max: double; 5280 - 488.8  # at least an extra Kaon
+
+    mx_m: >-
+        double;
+        MX_MASS(
+        b_TRUEP_X, b_TRUEP_Y, b_TRUEP_Z, b_TRUEP_E,
+        b_TrueHadron_D0_PX, b_TrueHadron_D0_PY, b_TrueHadron_D0_PZ,b_TrueHadron_D0_PE,
+        b_TrueHadron_D1_PX, b_TrueHadron_D1_PY, b_TrueHadron_D1_PZ,b_TrueHadron_D1_PE
+        );
+        MX_MASS(
+        b0_TRUEP_X, b0_TRUEP_Y, b0_TRUEP_Z, b0_TRUEP_E,
+        b0_TrueHadron_D0_PX, b0_TrueHadron_D0_PY, b0_TrueHadron_D0_PZ,b0_TrueHadron_D0_PE,
+        b0_TrueHadron_D1_PX, b0_TrueHadron_D1_PY, b0_TrueHadron_D1_PZ,b0_TrueHadron_D1_PE
+        )
+
+    ################################
+    # Selection flags, MC-specific #
+    ################################
+    # Truth-matching
+    mc_id: int; cli_mc_id
+    truthmatch: >-
+        int;
+        MC_TRUTH_MATCH_DST(
+        mc_id,
+        mu_TRUEID, mu_MC_MOTHER_ID, mu_MC_GD_MOTHER_ID, mu_MC_GD_GD_MOTHER_ID,
+        mu_MC_MOTHER_KEY, mu_MC_GD_MOTHER_KEY, mu_MC_GD_GD_MOTHER_KEY,
+        dst_MC_MOTHER_ID, dst_MC_GD_MOTHER_ID, dst_MC_GD_GD_MOTHER_ID,
+        dst_MC_MOTHER_KEY, dst_MC_GD_MOTHER_KEY, dst_MC_GD_GD_MOTHER_KEY,
+        dst_MC_MOTHER_TRUEPE, dst_MC_MOTHER_TRUEPX, dst_MC_MOTHER_TRUEPY, dst_MC_MOTHER_TRUEPZ,
+        dst_TRUEP_E, dst_TRUEP_X, dst_TRUEP_Y, dst_TRUEP_Z,
+        dst_BKGCAT, d0_BKGCAT, b0_BKGCAT
+        );
+        MC_TRUTH_MATCH_D0(
+        mc_id, b_TRUEID,
+        mu_TRUEID, mu_MC_MOTHER_ID, mu_MC_GD_MOTHER_ID, mu_MC_GD_GD_MOTHER_ID, mu_MC_GD_GD_GD_MOTHER_ID,
+        mu_MC_MOTHER_KEY, mu_MC_GD_MOTHER_KEY, mu_MC_GD_GD_MOTHER_KEY, mu_MC_GD_GD_GD_MOTHER_KEY,
+        d0_MC_MOTHER_ID, d0_MC_GD_MOTHER_ID, d0_MC_GD_GD_MOTHER_ID, d0_MC_GD_GD_GD_MOTHER_ID,
+        d0_MC_MOTHER_KEY, d0_MC_GD_MOTHER_KEY, d0_MC_GD_GD_MOTHER_KEY, d0_MC_GD_GD_GD_MOTHER_KEY,
+        d0_TRUEP_E, d0_TRUEP_X, d0_TRUEP_Y, d0_TRUEP_Z,
+        d0_MC_MOTHER_TRUEPE, d0_MC_MOTHER_TRUEPX, d0_MC_MOTHER_TRUEPY, d0_MC_MOTHER_TRUEPZ,
+        d0_MC_GD_MOTHER_TRUEPE, d0_MC_GD_MOTHER_TRUEPX, d0_MC_GD_MOTHER_TRUEPY, d0_MC_GD_MOTHER_TRUEPZ,
+        b_BKGCAT
+        )
+    is_ddx: bool; IS_DDX(mc_id)
+    is_ddx_mu: bool; IS_DDX_MU(mc_id)
+    # this is a naive filter:
+    # we require the 2nd daughter of B is also a D meson for DDX MC only
+    ddx_add_tm: >-
+        bool;
+        HUNDREDS_DIGIT(ABS(b0_TrueHadron_D1_ID)) == 4;
+        HUNDREDS_DIGIT(ABS(b_TrueHadron_D1_ID)) == 4
+    # only muonic DDK are subject to Dalitz-inspired variations
+    is_dal_variable: >-
+        bool;
+        IF(is_ddx_mu, IN_RANGE(SQRT(dd_msq), dd_m_min, dd_m_max), false)
+    # may want to separate Dalitz-inspired variations based on DD charge
+    is_dal_neutral_dd: >-
+        bool;
+        is_dal_variable && IS_EVEN(TENS_DIGIT(ABS(b0_TrueHadron_D0_ID))+TENS_DIGIT(ABS(b0_TrueHadron_D1_ID)));
+        is_dal_variable && IS_EVEN(TENS_DIGIT(ABS(b_TrueHadron_D0_ID))+TENS_DIGIT(ABS(b_TrueHadron_D1_ID)))
+    is_dal_charged_dd: >-
+        bool; is_dal_variable && !is_dal_neutral_dd
+    is_strange: bool; IS_STRANGE(mc_id)
+    is_miss_ddx: bool; IS_MISS_DDX(mc_id)
+
+    # FF reweighting
+    # NOTE: Need to have a valid HAMMER weight unless is a DDX or D**s
+    ham_ok: bool; ham_ok; true
+
+    # Particle true ID
+    mu_mom_true_id: int; mu_MC_MOTHER_ID
+    mu_gd_mom_true_id: int; mu_MC_GD_MOTHER_ID
+
+    ##########################
+    # Selection flags, basic #
+    ##########################
+    # Trigger
+    # NOTE: For MC, L0 are applied as weight, and HLT2 is already applied at DV level
+    l0: >-
+        bool; IF_VAR_EXISTS(mc_id, true); b_l0_global_tis || d0_l0_hadron_tos
+    hlt1: >-
+        bool;
+        k_hlt1_trackmva_tos_emu || pi_hlt1_trackmva_tos_emu || d0_hlt1_twotrackmva_tos_emu;
+        k_hlt1_trackmva_tos || pi_hlt1_trackmva_tos || d0_hlt1_twotrackmva_tos
+    hlt2: >-
+        bool;
+        IF_VAR_EXISTS(mc_id, true);
+        IF_VAR_EXISTS(cli_misid, b_hlt2_fakeline_tos);
+        IF_VAR_EXISTS(cli_misid_study, b_hlt2_fakeline_tos);
+        b_hlt2_tos
+
+    # D0 selection
+    d0_pid_ok: >-
+        bool;
+        IF_VAR_EXISTS(mc_id, true);
+        FLAG_SEL_D0_PID_OK_RUN1(k_PIDK, pi_PIDK, k_isMuon, pi_isMuon)
+    d0_pid_ok_stub: ^bool; cli_cutflow; d0_pid_ok
+    # Note that the EMULATED trigger lines take precedence.
+    d0_ok: >-
+        bool; FLAG_SEL_D0_RUN2ANG(
+        d0_pid_ok_stub,
+        d0_IP_OWNPV, d0_IPCHI2_OWNPV
+        )
+    d0_m_ok: bool; FLAG_SEL_D0_MASS(d0_M)
+    d0_m_hypo_ok: bool; FLAG_SEL_D0_MASS_HYPO(mu_PX, mu_PY, mu_PZ, d0_PX, d0_PY, d0_PZ, d0_M)
+
+    # Mu selection
+    # Variables needed for Mu selection
+    trk_mu:  ^XYZVector; XYZVector(mu_PX, mu_PY, mu_PZ)
+    trk_k:   ^XYZVector; XYZVector(k_PX, k_PY, k_PZ)
+    trk_pi:  ^XYZVector; XYZVector(pi_PX, pi_PY, pi_PZ)
+    trk_spi: ^XYZVector; XYZVector(spi_PX, spi_PY, spi_PZ)
+    trks_other: ^vector<XYZVector>; BUILD_VEC(trk_k, trk_pi, trk_spi); BUILD_VEC(trk_k, trk_pi)
+    # Actual flags
+    trks_ok: bool; FLAG_SEL_GOOD_TRACKS(trk_mu, trks_other)
+    mu_pid_ok: >-
+        bool;
+        IF_VAR_EXISTS(mc_id, true);
+        IF_VAR_EXISTS(cli_misid, true);
+        IF_VAR_EXISTS(cli_misid_study, true);
+        FLAG_SEL_MU_PID_OK_RUN1(mu_isMuon, mu_PIDmu, mu_PIDe)
+    mu_pid_ok_stub: ^bool; cli_cutflow; mu_pid_ok
+    mu_pid_ok_loose: >-
+        bool;
+        IF_VAR_EXISTS(mc_id, true);
+        IF_VAR_EXISTS(cli_misid, true);
+        IF_VAR_EXISTS(cli_misid_study, true);
+        FLAG_SEL_MU_PID_OK_RUN2ANG(mu_isMuon, mu_PIDmu, mu_PIDe)
+    mu_pid_ok_loose_stub: ^bool; cli_cutflow; mu_pid_ok_loose
+    mu_ubdt_ok: bool; mu_ubdt > 0.25; true
+    mu_ubdt_veto: bool; mu_ubdt < 0.25; true
+
+    mu_ok: >-
+        bool; FLAG_SEL_MU_RUN2ANG(
+        mu_pid_ok_loose_stub, trks_ok,
+        mu_P, mu_eta
+        )
+
+    # D0Mu combo selection
+    d0_dst_veto_ok: bool; d0_dst_veto_deltam > 4.0
+    d0mu_ok: >-
+        bool; FLAG_SEL_BMINUSD0_RUN2ANG(
+        d0_ok, mu_ok,
+        b_ENDVERTEX_CHI2, b_ENDVERTEX_NDOF,
+        b_fd_trans,
+        b_DIRA_OWNPV,
+        d0_dst_veto_deltam_stub
+        )
+
+    # D*Mu combo selection
+    # NOTE: The 'b_fd_trans' and 'b_discard_mu_chi2' are step-2 vars defined in this YAML,
+    #       and they have the same names for B/B0 trees
+    dstmu_ok: >-
+        bool; FLAG_SEL_B0DST_RUN2ANG(
+        d0_ok, mu_ok,
+        dst_ENDVERTEX_CHI2, dst_ENDVERTEX_NDOF,
+        b0_ENDVERTEX_CHI2, b0_ENDVERTEX_NDOF,
+        b_fd_trans,
+        b0_DIRA_OWNPV
+        )
+    dst_m_ok: bool; FLAG_SEL_DST_MASS(dst_m, d0_m)
+
+    ###############################
+    # Selection flags, additional #
+    ###############################
+    dx_m_ok: bool; d0_m_ok && dst_m_ok; d0_m_ok && d0_m_hypo_ok && d0_dst_veto_ok
+    ####
+    in_fit_range: bool; IN_RANGE(mm2, -2.0, 10.9) && IN_RANGE(el, 0.1, 2.65) && IN_RANGE(q2, -0.4, 12.6)
+    in_fit_range_smr_k: bool; IN_RANGE(mm2_smr_k, -2.0, 10.9) && IN_RANGE(el_smr_k, 0.1, 2.65) && IN_RANGE(q2_smr_k, -0.4, 12.6)
+    in_fit_range_smr_pi: bool; IN_RANGE(mm2_smr_pi, -2.0, 10.9) && IN_RANGE(el_smr_pi, 0.1, 2.65) && IN_RANGE(q2_smr_pi, -0.4, 12.6)
+    in_fit_range_no_smr: bool; in_fit_range
+    ####
+    b_m_ok: bool; FLAG_SEL_B0_MASS(b0_M); FLAG_SEL_BMINUS_MASS(b_M)
+    b_m_ok_smr_k: bool; IF_VAR_EXISTS(b0_M, FLAG_SEL_B0_MASS(b_m_smr_k)); FLAG_SEL_BMINUS_MASS(b_m_smr_k)
+    b_m_ok_smr_pi: bool; IF_VAR_EXISTS(b0_M, FLAG_SEL_B0_MASS(b_m_smr_pi)); FLAG_SEL_BMINUS_MASS(b_m_smr_pi)
+    b_m_ok_no_smr: bool; b_m_ok
+    ####
+    b_m_sb: bool; FLAG_SEL_B0_MASS_SB(b0_M); FLAG_SEL_BMINUS_MASS_SB(b_M)
+    b_m_sb_smr_k: bool; IF_VAR_EXISTS(b0_M, FLAG_SEL_B0_MASS_SB(b_m_smr_k)); FLAG_SEL_BMINUS_MASS_SB(b_m_smr_k)
+    b_m_sb_smr_pi: bool; IF_VAR_EXISTS(b0_M, FLAG_SEL_B0_MASS_SB(b_m_smr_pi)); FLAG_SEL_BMINUS_MASS_SB(b_m_smr_pi)
+    b_m_sb_no_smr: bool; b_m_sb
+    ####
+
+    #########
+    # Skims #
+    #########
+    # don't require 'mu_ubdt_ok' as this YAML applies to misID ntuples too
+    skim_global_ok: bool; dx_m_ok && b_m_ok && in_fit_range
+    skim_global_ok_smr_k: bool; dx_m_ok && b_m_ok_smr_k && in_fit_range_smr_k
+    skim_global_ok_smr_pi: bool; dx_m_ok && b_m_ok_smr_pi && in_fit_range_smr_pi
+    skim_global_ok_no_smr: bool; skim_global_ok
+    ####
+    skim_global_usb: bool; dx_m_ok && b_m_sb
+    skim_global_usb_smr_k: bool; dx_m_ok && b_m_sb_smr_k
+    skim_global_usb_smr_pi: bool; dx_m_ok && b_m_sb_smr_pi
+    skim_global_usb_no_smr: bool; skim_global_usb
+    ####
+    is_iso: bool; skim_global_ok && is_iso_loose
+    is_dd: bool; skim_global_ok && is_dd_loose
+    is_2os: bool; skim_global_ok && is_2os_loose
+    is_1os: bool; skim_global_ok && is_1os_loose
+    is_dd_nnk02_nng03: bool; skim_global_ok && is_dd_loose_nnk02_nng03
+    is_2os_nnk02_nng03: bool; skim_global_ok && is_2os_loose_nnk02_nng03
+    is_1os_nnk02_nng03: bool; skim_global_ok && is_1os_loose_nnk02_nng03
+    is_iso_ang: bool; skim_global_ok && is_iso_loose_ang
+    is_dd_ang: bool; skim_global_ok && is_dd_loose_ang
+    is_2os_ang: bool; skim_global_ok && is_2os_loose_ang
+    is_1os_ang: bool; skim_global_ok && is_1os_loose_ang
+    is_prot: bool; skim_global_ok && is_prot_loose
+
+    ### Try out DD skim with ProbNNghost cuts and different min ProbNNk
+    # is_dd_nng10nnk02: >-
+    #     bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+    #     iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+    #     iso_nnk1, iso_nnk2, iso_nnk3, 0.2, iso_nnghost1, iso_nnghost2, iso_nnghost3, 1.0
+    #     )
+    # is_dd_nng09nnk02: >-
+    #     bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+    #     iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+    #     iso_nnk1, iso_nnk2, iso_nnk3, 0.2, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.9
+    #     )
+    # is_dd_nng08nnk02: >-
+    #     bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+    #     iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+    #     iso_nnk1, iso_nnk2, iso_nnk3, 0.2, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.8
+    #     )
+    # is_dd_nng07nnk02: >-
+    #     bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+    #     iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+    #     iso_nnk1, iso_nnk2, iso_nnk3, 0.2, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.7
+    #     )
+    # is_dd_nng06nnk02: >-
+    #     bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+    #     iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+    #     iso_nnk1, iso_nnk2, iso_nnk3, 0.2, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.6
+    #     )
+    # is_dd_nng05nnk02: >-
+    #     bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+    #     iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+    #     iso_nnk1, iso_nnk2, iso_nnk3, 0.2, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.5
+    #     )
+    # is_dd_nng04nnk02: >-
+    #     bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+    #     iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+    #     iso_nnk1, iso_nnk2, iso_nnk3, 0.2, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.4
+    #     )
+    # is_dd_nng03nnk02: >-
+    #     bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+    #     iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+    #     iso_nnk1, iso_nnk2, iso_nnk3, 0.2, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.3
+    #     )
+    # is_dd_nng02nnk02: >-
+    #     bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+    #     iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+    #     iso_nnk1, iso_nnk2, iso_nnk3, 0.2, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.2
+    #     )
+    # is_dd_nng01nnk02: >-
+    #     bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+    #     iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+    #     iso_nnk1, iso_nnk2, iso_nnk3, 0.2, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.1
+    #     )
+    # is_dd_nng10nnk03: >-
+    #     bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+    #     iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+    #     iso_nnk1, iso_nnk2, iso_nnk3, 0.3, iso_nnghost1, iso_nnghost2, iso_nnghost3, 1.0
+    #     )
+    # is_dd_nng09nnk03: >-
+    #     bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+    #     iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+    #     iso_nnk1, iso_nnk2, iso_nnk3, 0.3, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.9
+    #     )
+    # is_dd_nng08nnk03: >-
+    #     bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+    #     iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+    #     iso_nnk1, iso_nnk2, iso_nnk3, 0.3, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.8
+    #     )
+    # is_dd_nng07nnk03: >-
+    #     bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+    #     iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+    #     iso_nnk1, iso_nnk2, iso_nnk3, 0.3, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.7
+    #     )
+    # is_dd_nng06nnk03: >-
+    #     bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+    #     iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+    #     iso_nnk1, iso_nnk2, iso_nnk3, 0.3, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.6
+    #     )
+    # is_dd_nng05nnk03: >-
+    #     bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+    #     iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+    #     iso_nnk1, iso_nnk2, iso_nnk3, 0.3, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.5
+    #     )
+    # is_dd_nng04nnk03: >-
+    #     bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+    #     iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+    #     iso_nnk1, iso_nnk2, iso_nnk3, 0.3, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.4
+    #     )
+    # is_dd_nng03nnk03: >-
+    #     bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+    #     iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+    #     iso_nnk1, iso_nnk2, iso_nnk3, 0.3, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.3
+    #     )
+    # is_dd_nng02nnk03: >-
+    #     bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+    #     iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+    #     iso_nnk1, iso_nnk2, iso_nnk3, 0.3, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.2
+    #     )
+    # is_dd_nng01nnk03: >-
+    #     bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+    #     iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+    #     iso_nnk1, iso_nnk2, iso_nnk3, 0.3, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.1
+    #     )
+    # is_dd_nng10nnk04: >-
+    #     bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+    #     iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+    #     iso_nnk1, iso_nnk2, iso_nnk3, 0.4, iso_nnghost1, iso_nnghost2, iso_nnghost3, 1.0
+    #     )
+    # is_dd_nng09nnk04: >-
+    #     bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+    #     iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+    #     iso_nnk1, iso_nnk2, iso_nnk3, 0.4, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.9
+    #     )
+    # is_dd_nng08nnk04: >-
+    #     bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+    #     iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+    #     iso_nnk1, iso_nnk2, iso_nnk3, 0.4, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.8
+    #     )
+    # is_dd_nng07nnk04: >-
+    #     bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+    #     iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+    #     iso_nnk1, iso_nnk2, iso_nnk3, 0.4, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.7
+    #     )
+    # is_dd_nng06nnk04: >-
+    #     bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+    #     iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+    #     iso_nnk1, iso_nnk2, iso_nnk3, 0.4, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.6
+    #     )
+    # is_dd_nng05nnk04: >-
+    #     bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+    #     iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+    #     iso_nnk1, iso_nnk2, iso_nnk3, 0.4, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.5
+    #     )
+    # is_dd_nng04nnk04: >-
+    #     bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+    #     iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+    #     iso_nnk1, iso_nnk2, iso_nnk3, 0.4, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.4
+    #     )
+    # is_dd_nng03nnk04: >-
+    #     bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+    #     iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+    #     iso_nnk1, iso_nnk2, iso_nnk3, 0.4, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.3
+    #     )
+    # is_dd_nng02nnk04: >-
+    #     bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+    #     iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+    #     iso_nnk1, iso_nnk2, iso_nnk3, 0.4, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.2
+    #     )
+    # is_dd_nng01nnk04: >-
+    #     bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+    #     iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+    #     iso_nnk1, iso_nnk2, iso_nnk3, 0.4, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.1
+    #     )
+    # is_dd_nng10nnk05: >-
+    #     bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+    #     iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+    #     iso_nnk1, iso_nnk2, iso_nnk3, 0.5, iso_nnghost1, iso_nnghost2, iso_nnghost3, 1.0
+    #     )
+    # is_dd_nng09nnk05: >-
+    #     bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+    #     iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+    #     iso_nnk1, iso_nnk2, iso_nnk3, 0.5, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.9
+    #     )
+    # is_dd_nng08nnk05: >-
+    #     bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+    #     iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+    #     iso_nnk1, iso_nnk2, iso_nnk3, 0.5, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.8
+    #     )
+    # is_dd_nng07nnk05: >-
+    #     bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+    #     iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+    #     iso_nnk1, iso_nnk2, iso_nnk3, 0.5, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.7
+    #     )
+    # is_dd_nng06nnk05: >-
+    #     bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+    #     iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+    #     iso_nnk1, iso_nnk2, iso_nnk3, 0.5, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.6
+    #     )
+    # is_dd_nng05nnk05: >-
+    #     bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+    #     iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+    #     iso_nnk1, iso_nnk2, iso_nnk3, 0.5, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.5
+    #     )
+    # is_dd_nng04nnk05: >-
+    #     bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+    #     iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+    #     iso_nnk1, iso_nnk2, iso_nnk3, 0.5, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.4
+    #     )
+    # is_dd_nng03nnk05: >-
+    #     bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+    #     iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+    #     iso_nnk1, iso_nnk2, iso_nnk3, 0.5, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.3
+    #     )
+    # is_dd_nng02nnk05: >-
+    #     bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+    #     iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+    #     iso_nnk1, iso_nnk2, iso_nnk3, 0.5, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.2
+    #     )
+    # is_dd_nng01nnk05: >-
+    #     bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+    #     iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+    #     iso_nnk1, iso_nnk2, iso_nnk3, 0.5, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.1
+    #     )
+    # is_dd_nng10nnk06: >-
+    #     bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+    #     iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+    #     iso_nnk1, iso_nnk2, iso_nnk3, 0.6, iso_nnghost1, iso_nnghost2, iso_nnghost3, 1.0
+    #     )
+    # is_dd_nng09nnk06: >-
+    #     bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+    #     iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+    #     iso_nnk1, iso_nnk2, iso_nnk3, 0.6, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.9
+    #     )
+    # is_dd_nng08nnk06: >-
+    #     bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+    #     iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+    #     iso_nnk1, iso_nnk2, iso_nnk3, 0.6, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.8
+    #     )
+    # is_dd_nng07nnk06: >-
+    #     bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+    #     iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+    #     iso_nnk1, iso_nnk2, iso_nnk3, 0.6, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.7
+    #     )
+    # is_dd_nng06nnk06: >-
+    #     bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+    #     iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+    #     iso_nnk1, iso_nnk2, iso_nnk3, 0.6, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.6
+    #     )
+    # is_dd_nng05nnk06: >-
+    #     bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+    #     iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+    #     iso_nnk1, iso_nnk2, iso_nnk3, 0.6, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.5
+    #     )
+    # is_dd_nng04nnk06: >-
+    #     bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+    #     iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+    #     iso_nnk1, iso_nnk2, iso_nnk3, 0.6, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.4
+    #     )
+    # is_dd_nng03nnk06: >-
+    #     bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+    #     iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+    #     iso_nnk1, iso_nnk2, iso_nnk3, 0.6, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.3
+    #     )
+    # is_dd_nng02nnk06: >-
+    #     bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+    #     iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+    #     iso_nnk1, iso_nnk2, iso_nnk3, 0.6, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.2
+    #     )
+    # is_dd_nng01nnk06: >-
+    #     bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+    #     iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+    #     iso_nnk1, iso_nnk2, iso_nnk3, 0.6, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.1
+    #     )
+    # is_dd_nng10nnk07: >-
+    #     bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+    #     iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+    #     iso_nnk1, iso_nnk2, iso_nnk3, 0.7, iso_nnghost1, iso_nnghost2, iso_nnghost3, 1.0
+    #     )
+    # is_dd_nng09nnk07: >-
+    #     bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+    #     iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+    #     iso_nnk1, iso_nnk2, iso_nnk3, 0.7, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.9
+    #     )
+    # is_dd_nng08nnk07: >-
+    #     bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+    #     iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+    #     iso_nnk1, iso_nnk2, iso_nnk3, 0.7, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.8
+    #     )
+    # is_dd_nng07nnk07: >-
+    #     bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+    #     iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+    #     iso_nnk1, iso_nnk2, iso_nnk3, 0.7, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.7
+    #     )
+    # is_dd_nng06nnk07: >-
+    #     bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+    #     iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+    #     iso_nnk1, iso_nnk2, iso_nnk3, 0.7, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.6
+    #     )
+    # is_dd_nng05nnk07: >-
+    #     bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+    #     iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+    #     iso_nnk1, iso_nnk2, iso_nnk3, 0.7, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.5
+    #     )
+    # is_dd_nng04nnk07: >-
+    #     bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+    #     iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+    #     iso_nnk1, iso_nnk2, iso_nnk3, 0.7, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.4
+    #     )
+    # is_dd_nng03nnk07: >-
+    #     bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+    #     iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+    #     iso_nnk1, iso_nnk2, iso_nnk3, 0.7, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.3
+    #     )
+    # is_dd_nng02nnk07: >-
+    #     bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+    #     iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+    #     iso_nnk1, iso_nnk2, iso_nnk3, 0.7, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.2
+    #     )
+    # is_dd_nng01nnk07: >-
+    #     bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+    #     iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+    #     iso_nnk1, iso_nnk2, iso_nnk3, 0.7, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.1
+    #     )
+    # is_dd_nng10nnk08: >-
+    #     bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+    #     iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+    #     iso_nnk1, iso_nnk2, iso_nnk3, 0.8, iso_nnghost1, iso_nnghost2, iso_nnghost3, 1.0
+    #     )
+    # is_dd_nng09nnk08: >-
+    #     bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+    #     iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+    #     iso_nnk1, iso_nnk2, iso_nnk3, 0.8, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.9
+    #     )
+    # is_dd_nng08nnk08: >-
+    #     bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+    #     iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+    #     iso_nnk1, iso_nnk2, iso_nnk3, 0.8, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.8
+    #     )
+    # is_dd_nng07nnk08: >-
+    #     bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+    #     iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+    #     iso_nnk1, iso_nnk2, iso_nnk3, 0.8, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.7
+    #     )
+    # is_dd_nng06nnk08: >-
+    #     bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+    #     iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+    #     iso_nnk1, iso_nnk2, iso_nnk3, 0.8, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.6
+    #     )
+    # is_dd_nng05nnk08: >-
+    #     bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+    #     iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+    #     iso_nnk1, iso_nnk2, iso_nnk3, 0.8, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.5
+    #     )
+    # is_dd_nng04nnk08: >-
+    #     bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+    #     iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+    #     iso_nnk1, iso_nnk2, iso_nnk3, 0.8, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.4
+    #     )
+    # is_dd_nng03nnk08: >-
+    #     bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+    #     iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+    #     iso_nnk1, iso_nnk2, iso_nnk3, 0.8, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.3
+    #     )
+    # is_dd_nng02nnk08: >-
+    #     bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+    #     iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+    #     iso_nnk1, iso_nnk2, iso_nnk3, 0.8, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.2
+    #     )
+    # is_dd_nng01nnk08: >-
+    #     bool; skim_global_ok && FLAG_DD(true, iso_bdt1, iso_bdt2, iso_bdt3, 
+    #     iso_type1, iso_type2, iso_type3, iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+    #     iso_nnk1, iso_nnk2, iso_nnk3, 0.8, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.1
+    #     )
+    ###
+    is_iso_loose: bool; FLAG_ISO(true, iso_bdt1)
+    is_dd_loose: >-
+        bool; FLAG_DD(
+        true,
+        iso_bdt1, iso_bdt2, iso_bdt3, iso_type1, iso_type2, iso_type3,
+        iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+        iso_nnk1, iso_nnk2, iso_nnk3, 0.2, 0.0, 0.0, 0.0, 1.0
+        )
+    is_2os_loose: >-
+        bool; FLAG_2OS(
+        true,
+        iso_bdt1, iso_bdt2, iso_bdt3, iso_type1, iso_type2,
+        iso_p1, iso_p2, iso_pt1, iso_pt2,
+        iso_chrg1, iso_chrg2,
+        iso_nnk1, iso_nnk2, 0.2,
+        0.0, 0.0, 1.0
+        )
+    is_1os_loose: >-
+        bool;
+        FLAG_1OS(
+        true,
+        iso_bdt1, iso_bdt2, iso_type1,
+        iso_p1, iso_pt1,
+        iso_chrg1,
+        iso_nnk1, 0.2,
+        0.0, 1.0,
+        dst_id, dst_iso_deltam
+        );
+        FLAG_1OS(
+        true,
+        iso_bdt1, iso_bdt2, iso_type1,
+        iso_p1, iso_pt1,
+        iso_chrg1,
+        iso_nnk1, 0.2,
+        0.0, 1.0,
+        d0_id
+        )
+    is_prot_loose: >-
+        bool;
+        FLAG_PROT(
+        true,
+        iso_bdt1, iso_bdt2, iso_type1,
+        iso_p1, iso_pt1,
+        iso_chrg1,
+        iso_nnp1,
+        d0_id
+        )
+    
+    is_dd_loose_nnk02_nng03:  >-
+        bool; FLAG_DD(
+        true, iso_bdt1, iso_bdt2, iso_bdt3, iso_type1, iso_type2, iso_type3,
+        iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+        iso_nnk1, iso_nnk2, iso_nnk3, 0.2, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.3
+        )
+    is_2os_loose_nnk02_nng03: >-
+        bool; FLAG_2OS(
+        true, iso_bdt1, iso_bdt2, iso_bdt3, iso_type1, iso_type2,
+        iso_p1, iso_p2, iso_pt1, iso_pt2, iso_chrg1, iso_chrg2,
+        iso_nnk1, iso_nnk2, 0.2, iso_nnghost1, iso_nnghost2, 0.3
+        )
+    is_1os_loose_nnk02_nng03: >-
+        bool;
+        FLAG_1OS(true,
+        iso_bdt1, iso_bdt2, iso_type1,
+        iso_p1, iso_pt1, iso_chrg1,
+        iso_nnk1, 0.2, iso_nnghost1, 0.3,
+        dst_id, dst_iso_deltam
+        );
+        FLAG_1OS(true,
+        iso_bdt1, iso_bdt2, iso_type1,
+        iso_p1, iso_pt1, iso_chrg1,
+        iso_nnk1, 0.2, iso_nnghost1, 0.3,
+        d0_id
+        )
+    
+    ## skim definitions mimicking angular R(D*) (just missing 4th iso track info)
+    is_iso_loose_ang: >-
+        bool; FLAG_ISO_ANG(
+        true, iso_type1, iso_bdt1, iso_type2, iso_bdt2, iso_type3, iso_bdt3
+        )
+    is_dd_loose_ang:  >-
+        bool; FLAG_DD_ANG(
+        true, iso_bdt1, iso_bdt2, iso_type1, iso_type2, iso_nnk1, iso_nnk2, iso_nnghost1, iso_nnghost2
+        )
+    is_2os_loose_ang: >-
+        bool; FLAG_2OS_ANG(
+        true, iso_bdt1, iso_bdt2, iso_bdt3, iso_type1, iso_type2,
+        iso_chrg1, iso_chrg2, iso_nnk1, iso_nnk2, iso_nnghost1, iso_nnghost2
+        )
+    is_1os_loose_ang: >-
+        bool; 
+        FLAG_1OS_ANG(
+        true, iso_bdt1, iso_bdt2, iso_bdt3, iso_type1, iso_type2,
+        iso_p1, iso_pt1, iso_p2, iso_pt2, iso_chrg1, iso_chrg2,
+        iso_nnk1, iso_nnk2, iso_nnghost1, iso_nnghost2,
+        dst_id, true
+        );
+        FLAG_1OS_ANG(
+        true, iso_bdt1, iso_bdt2, iso_bdt3, iso_type1, iso_type2,
+        iso_p1, iso_pt1, iso_p2, iso_pt2, iso_chrg1, iso_chrg2,
+        iso_nnk1, iso_nnk2, iso_nnghost1, iso_nnghost2,
+        d0_id, false
+        )
+
+    ###########
+    # Weights #
+    ###########
+    # Branching fraction weights for DD MC
+    wbr_dd: double; IF(is_ddx_mu, WT_DD_BF(mu_MC_MOTHER_ID), 1.0)
+    # Weights to correct production stats for missing DDX to keep relative DD BFs consistent
+    w_missDDX: double; IF(is_miss_ddx, WT_MISS_DDX(cli_mc_year), 1.0) # 1 if mc_id != 11895400
+    # Dalitz-inspired variational weights for DD MC
+    tmp_dal: >-
+        ^vector<double>;
+        IF(is_dal_variable, WT_DALITZ(dd_msq, dd_m_min, dd_m_max), BUILD_VEC(1.0, 1.0, 1.0, 1.0))
+    wdal_lp: double; EXTRACT_ELEM(tmp_dal, 0)
+    wdal_lm: double; EXTRACT_ELEM(tmp_dal, 1)
+    wdal_qp: double; EXTRACT_ELEM(tmp_dal, 2)
+    wdal_qm: double; EXTRACT_ELEM(tmp_dal, 3)
+    # Dalitz-inspired variational weights for DD MC, but separated by DD charge
+    tmp_dal_neut: >-
+        ^vector<double>;
+        IF(is_dal_neutral_dd, WT_DALITZ(dd_msq, dd_m_min, dd_m_max), BUILD_VEC(1.0, 1.0, 1.0, 1.0))
+    wdal_neut_lp: double; EXTRACT_ELEM(tmp_dal_neut, 0)
+    wdal_neut_lm: double; EXTRACT_ELEM(tmp_dal_neut, 1)
+    wdal_neut_qp: double; EXTRACT_ELEM(tmp_dal_neut, 2)
+    wdal_neut_qm: double; EXTRACT_ELEM(tmp_dal_neut, 3)
+    tmp_dal_charg: >-
+        ^vector<double>;
+        IF(is_dal_charged_dd, WT_DALITZ(dd_msq, dd_m_min, dd_m_max), BUILD_VEC(1.0, 1.0, 1.0, 1.0))
+    wdal_charg_lp: double; EXTRACT_ELEM(tmp_dal_charg, 0)
+    wdal_charg_lm: double; EXTRACT_ELEM(tmp_dal_charg, 1)
+    wdal_charg_qp: double; EXTRACT_ELEM(tmp_dal_charg, 2)
+    wdal_charg_qm: double; EXTRACT_ELEM(tmp_dal_charg, 3)
+
+    # K/K* variation weights (these weight up/down the K* events)
+    is_kst: bool; IF(mx_m > 620, true, false)
+    wkst_m: double; IF(is_kst, 0.0, 1.0)
+    wkst_p: double; IF(is_kst, 2.0, 1.0)
+
+    # Phenomenological correction based on true q2 in D** heavy
+    wq2p: double; 1 + 2*(((q2_true - 105*105)/8e6) - 0.5)
+    wq2m: double; 1 - 2*(((q2_true - 105*105)/8e6) - 0.5)
+
+    # misID weights
+    in_deltam_sb: "^bool; d0_m_ok && !dst_m_ok"
+    # 'wmis' is the NON-DiF-SMEARED misID weights
+    wmis: >-
+        double;
+        wmis_norm*skim_global_ok +
+        wmis_bsb*(dx_m_ok && b_m_sb) +
+        wmis_dsb*(in_deltam_sb && b_m_ok && in_fit_range) +
+        wmis_dsb_bsb*(in_deltam_sb && b_m_sb);
+        wmis_norm*skim_global_ok + wmis_bsb*(dx_m_ok && b_m_sb)
+    wmis_smr_k: >-
+        double;
+        wmis*(wmis_norm_smr_k*skim_global_ok_smr_k +
+        wmis_bsb_smr_k*(dx_m_ok && b_m_sb) +
+        wmis_dsb_smr_k*(in_deltam_sb && b_m_ok && in_fit_range_smr_k) +
+        wmis_dsb_bsb_smr_k*(in_deltam_sb && b_m_sb)
+        );
+        wmis*(wmis_norm_smr_k*skim_global_ok_smr_k + wmis_bsb_smr_k*(dx_m_ok && b_m_sb))
+    wmis_smr_pi: >-
+        double;
+        wmis*(wmis_norm_smr_pi*skim_global_ok_smr_pi +
+        wmis_bsb_smr_pi*(dx_m_ok && b_m_sb) +
+        wmis_dsb_smr_pi*(in_deltam_sb && b_m_ok && in_fit_range_smr_pi) +
+        wmis_dsb_bsb_smr_pi*(in_deltam_sb && b_m_sb)
+        );
+        wmis*(wmis_norm_smr_pi*skim_global_ok_smr_pi + wmis_bsb_smr_pi*(dx_m_ok && b_m_sb))
+    wmis_no_smr: >-
+        double;
+        wmis*(wmis_norm_no_smr*skim_global_ok_no_smr +
+        wmis_bsb_no_smr*(dx_m_ok && b_m_sb) +
+        wmis_dsb_no_smr*(in_deltam_sb && b_m_ok && in_fit_range_no_smr) +
+        wmis_dsb_bsb_no_smr*(in_deltam_sb && b_m_sb)
+        );
+        wmis*(wmis_norm_no_smr*skim_global_ok_no_smr + wmis_bsb_no_smr*(dx_m_ok && b_m_sb))
+
+    # Weight representing the global cut (BEFORE applying the skim cuts)
+    wpid_base: ^double; wpid_k*wpid_pi
+    # wpid: double; wpid_base*wpid_mu                      # PID w/o UBDT, typically unused
+    wpid_ubdt: double; wpid_base*wpid_mu_ubdt            # PID w/ UBDT
+    wpid_ubdt_veto: double; wpid_base*wpid_mu_ubdt_veto  # PID w/ UBDT veto
+    ####
+    l0_hadron_tos_emu: ^double; d0_l0_hadron_tos_emu
+    l0_global_tis_emu: ^double; b0_l0_global_tis_emu; b_l0_global_tis_emu
+    wtrg: float; l0_hadron_tos_emu + l0_global_tis_emu - l0_hadron_tos_emu*l0_global_tis_emu
+    wtrk: double; wtrk_k*wtrk_pi*wtrk_mu*wtrk_spi; wtrk_k*wtrk_pi*wtrk_mu
+    wjk: double; wjk_kin*wjk_occ
+
+    w_base: double; wtrg*wtrk*wjk*wbr_dd*w_missDDX # no PID cuts for the base weights
+    w_w_ubdt: double; w_base*wpid_ubdt             # default PID cuts incl. UBDT
+    w_w_ubdt_veto: double; w_base*wpid_ubdt_veto   # misID validation sample maybe
+    wff: double; wff; 1.0                          # FF weight. default to 1
+    w: double; w_w_ubdt*wff                        # form factor weights last
+    # Skim weights, including the 'w'
+    wiso: double; w*wskim_iso*skim_global_ok; TO_TYPE(is_iso, 1.0)
+    wdd: double; w*wskim_dd*skim_global_ok; TO_TYPE(is_dd, 1.0)
+    w2os: double; w*wskim_2os*skim_global_ok; TO_TYPE(is_2os, 1.0)
+    w1os: double; w*wskim_1os*skim_global_ok; TO_TYPE(is_1os, 1.0)
+    wprot: double; TO_TYPE(is_prot, 1.0)  # TODO: Add PIDCalib weights for MC
+    wdd_nnk02_nng03: double; w*wskim_dd_nnk02_nng03*skim_global_ok; TO_TYPE(is_dd_nnk02_nng03, 1.0)
+    w2os_nnk02_nng03: double; w*wskim_2os_nnk02_nng03*skim_global_ok; TO_TYPE(is_2os_nnk02_nng03, 1.0)
+    w1os_nnk02_nng03: double; w*wskim_1os_nnk02_nng03*skim_global_ok; TO_TYPE(is_1os_nnk02_nng03, 1.0)
+    wiso_ang: double; w*wskim_iso_ang*skim_global_ok; TO_TYPE(is_iso_ang, 1.0)
+    wdd_ang: double; w*wskim_dd_ang*skim_global_ok; TO_TYPE(is_dd_ang, 1.0)
+    w2os_ang: double; w*wskim_2os_ang*skim_global_ok; TO_TYPE(is_2os_ang, 1.0)
+    w1os_ang: double; w*wskim_1os_ang*skim_global_ok; TO_TYPE(is_1os_ang, 1.0)
+
+    # PID for isolation tracks
+    wpid_iso_nnk1_gt02: >-
+        double;
+        WT_ISO_NNK(iso_true_id1,
+        wpid_iso_nnk1_gt02_pi, wpid_iso_nnk1_gt02_k, wpid_iso_nnk1_gt02_p,
+        wpid_iso_nnk1_gt02_e, wpid_iso_nnk1_gt02_mu, wpid_iso_nnk1_gt02_g
+        )
+    wpid_iso_nnk2_gt02: >-
+        double;
+        WT_ISO_NNK(iso_true_id2,
+        wpid_iso_nnk2_gt02_pi, wpid_iso_nnk2_gt02_k, wpid_iso_nnk2_gt02_p,
+        wpid_iso_nnk2_gt02_e, wpid_iso_nnk2_gt02_mu, wpid_iso_nnk2_gt02_g
+        )
+    wpid_iso_nnk3_gt02: >-
+        double;
+        WT_ISO_NNK(iso_true_id3,
+        wpid_iso_nnk3_gt02_pi, wpid_iso_nnk3_gt02_k, wpid_iso_nnk3_gt02_p,
+        wpid_iso_nnk3_gt02_e, wpid_iso_nnk3_gt02_mu, wpid_iso_nnk3_gt02_g
+        )
+    wpid_iso_nnk1_lt02: double; 1 - wpid_iso_nnk1_gt02
+    wpid_iso_nnk2_lt02: double; 1 - wpid_iso_nnk2_gt0202
+    wpid_iso_nnk3_lt02: double; 1 - wpid_iso_nnk3_gt0202
+
+    wpid_iso_nnknng1_gt02lt03: >-
+        double;
+        WT_ISO_NNK(iso_true_id1,
+        wpid_iso_nnknng1_gt02lt03_pi, wpid_iso_nnknng1_gt02lt03_k, wpid_iso_nnknng1_gt02lt03_p,
+        wpid_iso_nnknng1_gt02lt03_e, wpid_iso_nnknng1_gt02lt03_mu, wpid_iso_nnknng1_gt02lt03_g
+        )
+    wpid_iso_nnknng2_gt02lt03: >-
+        double;
+        WT_ISO_NNK(iso_true_id2,
+        wpid_iso_nnknng2_gt02lt03_pi, wpid_iso_nnknng2_gt02lt03_k, wpid_iso_nnknng2_gt02lt03_p,
+        wpid_iso_nnknng2_gt02lt03_e, wpid_iso_nnknng2_gt02lt03_mu, wpid_iso_nnknng2_gt02lt03_g
+        )
+    wpid_iso_nnknng3_gt02lt03: >-
+        double;
+        WT_ISO_NNK(iso_true_id3,
+        wpid_iso_nnknng3_gt02lt03_pi, wpid_iso_nnknng3_gt02lt03_k, wpid_iso_nnknng3_gt02lt03_p,
+        wpid_iso_nnknng3_gt02lt03_e, wpid_iso_nnknng3_gt02lt03_mu, wpid_iso_nnknng3_gt02lt03_g
+        )
+    wpid_iso_nnknng1_lt02lt03: >-
+        double;
+        WT_ISO_NNK(iso_true_id1,
+        wpid_iso_nnknng1_lt02lt03_pi, wpid_iso_nnknng1_lt02lt03_k, wpid_iso_nnknng1_lt02lt03_p,
+        wpid_iso_nnknng1_lt02lt03_e, wpid_iso_nnknng1_lt02lt03_mu, wpid_iso_nnknng1_lt02lt03_g
+        )
+    wpid_iso_nnknng2_lt02lt03: >-
+        double;
+        WT_ISO_NNK(iso_true_id2,
+        wpid_iso_nnknng2_lt02lt03_pi, wpid_iso_nnknng2_lt02lt03_k, wpid_iso_nnknng2_lt02lt03_p,
+        wpid_iso_nnknng2_lt02lt03_e, wpid_iso_nnknng2_lt02lt03_mu, wpid_iso_nnknng2_lt02lt03_g
+        )
+    wpid_iso_nnknng3_lt02lt03: >-
+        double;
+        WT_ISO_NNK(iso_true_id3,
+        wpid_iso_nnknng3_lt02lt03_pi, wpid_iso_nnknng3_lt02lt03_k, wpid_iso_nnknng3_lt02lt03_p,
+        wpid_iso_nnknng3_lt02lt03_e, wpid_iso_nnknng3_lt02lt03_mu, wpid_iso_nnknng3_lt02lt03_g
+        )
+
+    wpid_iso_nnknng1_gt02lt02: >-
+        double;
+        WT_ISO_NNK(iso_true_id1,
+        wpid_iso_nnknng1_gt02lt02_pi, wpid_iso_nnknng1_gt02lt02_k, wpid_iso_nnknng1_gt02lt02_p,
+        wpid_iso_nnknng1_gt02lt02_e, wpid_iso_nnknng1_gt02lt02_mu, wpid_iso_nnknng1_gt02lt02_g
+        )
+    wpid_iso_nnknng2_gt02lt02: >-
+        double;
+        WT_ISO_NNK(iso_true_id2,
+        wpid_iso_nnknng2_gt02lt02_pi, wpid_iso_nnknng2_gt02lt02_k, wpid_iso_nnknng2_gt02lt02_p,
+        wpid_iso_nnknng2_gt02lt02_e, wpid_iso_nnknng2_gt02lt02_mu, wpid_iso_nnknng2_gt02lt02_g
+        )
+    wpid_iso_nnknng3_gt02lt02: >-
+        double;
+        WT_ISO_NNK(iso_true_id3,
+        wpid_iso_nnknng3_gt02lt02_pi, wpid_iso_nnknng3_gt02lt02_k, wpid_iso_nnknng3_gt02lt02_p,
+        wpid_iso_nnknng3_gt02lt02_e, wpid_iso_nnknng3_gt02lt02_mu, wpid_iso_nnknng3_gt02lt02_g
+        )
+    wpid_iso_nnknng1_lt02lt02: >-
+        double;
+        WT_ISO_NNK(iso_true_id1,
+        wpid_iso_nnknng1_lt02lt02_pi, wpid_iso_nnknng1_lt02lt02_k, wpid_iso_nnknng1_lt02lt02_p,
+        wpid_iso_nnknng1_lt02lt02_e, wpid_iso_nnknng1_lt02lt02_mu, wpid_iso_nnknng1_lt02lt02_g
+        )
+    wpid_iso_nnknng2_lt02lt02: >-
+        double;
+        WT_ISO_NNK(iso_true_id2,
+        wpid_iso_nnknng2_lt02lt02_pi, wpid_iso_nnknng2_lt02lt02_k, wpid_iso_nnknng2_lt02lt02_p,
+        wpid_iso_nnknng2_lt02lt02_e, wpid_iso_nnknng2_lt02lt02_mu, wpid_iso_nnknng2_lt02lt02_g
+        )
+    wpid_iso_nnknng3_lt02lt02: >-
+        double;
+        WT_ISO_NNK(iso_true_id3,
+        wpid_iso_nnknng3_lt02lt02_pi, wpid_iso_nnknng3_lt02lt02_k, wpid_iso_nnknng3_lt02lt02_p,
+        wpid_iso_nnknng3_lt02lt02_e, wpid_iso_nnknng3_lt02lt02_mu, wpid_iso_nnknng3_lt02lt02_g
+        )
+
+    # Skims, but in weights, for MC
+    wskim_iso: double; WT_ISO(true, iso_bdt1)
+    wskim_dd: >-
+        double; WT_DD(
+        true,
+        iso_bdt1, iso_bdt2, iso_bdt3, iso_type1, iso_type2, iso_type3,
+        iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+        wpid_iso_nnk1_gt02, wpid_iso_nnk2_gt02, wpid_iso_nnk3_gt02
+        )
+    wskim_2os: >-
+        double; WT_2OS(
+        true,
+        iso_bdt1, iso_bdt2, iso_bdt3, iso_type1, iso_type2,
+        iso_p1, iso_p2, iso_pt1, iso_pt2,
+        iso_chrg1, iso_chrg2,
+        wpid_iso_nnk1_lt02, wpid_iso_nnk2_lt02
+        )
+    wskim_1os: >-
+        double;
+        WT_1OS(
+        true,
+        iso_bdt1, iso_bdt2,
+        iso_type1,
+        iso_p1, iso_pt1,
+        iso_chrg1,
+        wpid_iso_nnk1_lt02,
+        dst_id, dst_iso_deltam
+        );
+        WT_1OS(
+        true,
+        iso_bdt1, iso_bdt2,
+        iso_type1,
+        iso_p1, iso_pt1,
+        iso_chrg1,
+        wpid_iso_nnk1_lt02,
+        d0_id
+        )
+
+    wskim_dd_nnk02_nng03: >-
+        double; WT_DD(
+        true,
+        iso_bdt1, iso_bdt2, iso_bdt3, iso_type1, iso_type2, iso_type3,
+        iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+        wpid_iso_nnknng1_gt02lt03, wpid_iso_nnknng2_gt02lt03, wpid_iso_nnknng3_gt02lt03
+        )
+    wskim_2os_nnk02_nng03: >-
+        double; WT_2OS(
+        true,
+        iso_bdt1, iso_bdt2, iso_bdt3, iso_type1, iso_type2,
+        iso_p1, iso_p2, iso_pt1, iso_pt2,
+        iso_chrg1, iso_chrg2,
+        wpid_iso_nnknng1_lt02lt03, wpid_iso_nnknng2_lt02lt03
+        )
+    wskim_1os_nnk02_nng03: >-
+        double;
+        WT_1OS(
+        true,
+        iso_bdt1, iso_bdt2,
+        iso_type1,
+        iso_p1, iso_pt1,
+        iso_chrg1,
+        wpid_iso_nnknng1_lt02lt03,
+        dst_id, dst_iso_deltam
+        );
+        WT_1OS(
+        true,
+        iso_bdt1, iso_bdt2,
+        iso_type1,
+        iso_p1, iso_pt1,
+        iso_chrg1,
+        wpid_iso_nnknng1_lt02lt03,
+        d0_id
+        )
+
+    wskim_iso_ang: 
+        double; WT_ISO_ANG(
+        true, iso_type1, iso_bdt1, iso_type2, iso_bdt2, iso_type3, iso_bdt3
+        )
+    wskim_dd_ang: >-
+        double; WT_DD_ANG(
+        true, iso_bdt1, iso_bdt2, iso_type1, iso_type2, wpid_iso_nnknng1_gt02lt02, wpid_iso_nnknng2_gt02lt02
+        )
+    wskim_2os_ang: >-
+        double; WT_2OS_ANG(
+        true, iso_bdt1, iso_bdt2, iso_bdt3, iso_type1, iso_type2, iso_chrg1, iso_chrg2,
+        wpid_iso_nnknng1_lt02lt02, wpid_iso_nnknng2_lt02lt02
+        )
+    wskim_1os_ang: >-
+        double;
+        WT_1OS_ANG(
+        true, iso_bdt1, iso_bdt2, iso_bdt3, iso_type1, iso_type2, iso_p1, iso_pt1, iso_p2, iso_pt2,
+        iso_chrg1, iso_chrg2, wpid_iso_nnknng1_lt02lt02, wpid_iso_nnknng2_lt02lt02, dst_id, true
+        );
+        WT_1OS_ANG(
+        true, iso_bdt1, iso_bdt2, iso_bdt3, iso_type1, iso_type2, iso_p1, iso_pt1, iso_p2, iso_pt2,
+        iso_chrg1, iso_chrg2, wpid_iso_nnknng1_lt02lt02, wpid_iso_nnknng2_lt02lt02, d0_id, false
+        )
+
+    ###############
+    # Global cuts #
+    ###############
+    # These are defined so that we can turn them on/off with external variables
+    # supplied in babymaker cli arguments
+    trg_ok: bool; cli_cutflow; l0 && hlt1 && hlt2
+    global_cut_ok: bool; cli_cutflow; dstmu_ok; d0mu_ok
+
+global_selection:
+    - trg_ok
+    - global_cut_ok
+    - truthmatch > 0
+    - "!is_ddx || ddx_add_tm"
+    - ham_ok
+
+one_cand_only:
+    enable: true
+    branch: calculation_prs_in
+
+global_mute:
+    - ".*_true.*"
+    - "w.*"
+    - "mc_.*"
+    - "ff_.*"
+    - truthmatch
+    - is_ddx
+    - is_strange
+    - ham_ok
+    - P
+    - ETA
+    - nTracks
+    - IsMuon
+    - InMuonAcc
+    - "MC15TuneV1_ProbNN.*"
+    - "DLL.*"
+    - "b_M"
+    - "b_P.*"
+    - "b?_OWNPV.*"
+    - "b?_ENDVERTEX.*"
+    - "FitVar_.*"
+    - ".*_M"
+    - "iso_nn.*"
+    - ".*_is_.*"
+    - ".*_pid_.*"
+    - "is_(iso|dd|1os|2os|prot)(_loose)?"
+    - "(dd|mx|pair_dd_mx)_mass(_phoebe)?"
+    - "is_kst(_phoebe)?"
+    - "in_(deltam|deltam_sb)"
+    - "tmp_(dal|dal_phoebe)"
+    - ".*_smr_(k|pi)"
+    - ".*_no_smr"
+
+output:
+    Dst:
+        input: TupleB0/DecayTree
+        mute:
+            - "d0_dst_veto_deltam"
+            - "d0_dst_veto_ok"
+            - "d0mu_ok"
+    D0:
+        input: TupleBminus/DecayTree
+        mute:
+            - "^spi_.*"
+            - "^dst_.*"
+            - "trk_spi"
+            - "dstmu_ok"
+
+    Dst_ws_Mu:
+        input: TupleB0WSMu/DecayTree
+        mute:
+            - "d0_dst_veto_deltam"
+            - "d0_dst_veto_ok"
+            - "d0mu_ok"
+    Dst_ws_Pi:
+        input: TupleB0WSPi/DecayTree
+        mute:
+            - "d0_dst_veto_deltam"
+            - "d0_dst_veto_ok"
+            - "d0mu_ok"
+    D0_ws_Mu:
+        input: TupleBminusWS/DecayTree
+        mute:
+            - "^spi_.*"
+            - "^dst_.*"
+            - "trk_spi"
+            - "dstmu_ok"
