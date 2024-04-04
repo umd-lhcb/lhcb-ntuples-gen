@@ -33,7 +33,7 @@ REWEIGHT_PROCEDURE = {
 
 DATA_WTS = ['sw_sig']
 MC_WTS = ['wtrk']
-MC_CUTS = {'k_pid_k': 4, 'mu_pid_mu': 2, 'amu_pid_mu': 2}
+MC_CUTS = {'k_pid_k': 4, 'mu_pid_mu': 2, 'amu_pid_mu': 2, 'mu_ismu': 0, 'amu_ismu': 0, 'l0': 0, 'l0mupt': 0}
 
 #######################
 # Command line parser #

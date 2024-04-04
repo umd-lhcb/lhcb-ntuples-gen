@@ -65,8 +65,10 @@ calculation:
     k_pid_k: double; k_PIDK
     # Mu
     mu_pid_mu: double; mu_PIDmu
+    mu_ismu: double; mu_isMuon
     # anti-Mu
     amu_pid_mu: double; amu_PIDmu
+    amu_ismu: double; amu_isMuon
 
     ######################
     # Tracking variables #
@@ -134,7 +136,6 @@ calculation:
     w: double; wpid*wtrk*wjk
 
 global_selection:
-    - l0 && l0mupt
     - hlt1 && hlt2
     - pt_ok && b_mass_ok && j_mass_ok
     - vtx_ok

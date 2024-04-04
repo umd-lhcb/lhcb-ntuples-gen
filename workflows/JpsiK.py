@@ -161,7 +161,7 @@ JOBS = {
     ),
     'JpsiK-ntuple-run2-mc': partial(
         workflow_split,
-        '../ntuples/0.9.6-2016_production/JpsiK-mc',
+        '../ntuples/0.9.9-JpsiK_noPID/JpsiK-mc',
         '../postprocess/JpsiK-run2/JpsiK-run2.yml'
     ),
     # Run 2 debug
