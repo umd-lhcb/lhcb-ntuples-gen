@@ -577,6 +577,23 @@ JOBS = {
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
         cli_vars={'cli_no_dst_veto': '100.0'}
     ),
+    'rdx-ntuple-run2-mc-to-sig-norm-no-Dst-veto': partial(
+        workflow_split,
+        [
+            # D0
+            '../ntuples/0.9.6-2016_production/Dst_D0-mc-tracker_only/*12573012*.DST', # norm
+            '../ntuples/0.9.6-2016_production/Dst_D0-mc-tracker_only/*12573001*.DST', # sig
+            # D*
+            '../ntuples/0.9.6-2016_production/Dst_D0-mc-tracker_only/*11574021*.DST', # norm, D*
+            '../ntuples/0.9.6-2016_production/Dst_D0-mc-tracker_only/*12773410*.DST', # norm, D*0
+            '../ntuples/0.9.6-2016_production/Dst_D0-mc-tracker_only/*11574011*.DST', # sig, D*
+            '../ntuples/0.9.6-2016_production/Dst_D0-mc-tracker_only/*12773400*.DST', # sig, D*0
+        ],
+        '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
+        use_hammer=False,
+        num_of_workers=20,
+        cli_vars={'cli_no_dst_veto': '100.0'}
+    ),
     'rdx-ntuple-run2-mc-demo': partial(
         workflow_mc,
         '../ntuples/0.9.5-bugfix/Dst_D0-mc/*MagDown*11574011*.root',

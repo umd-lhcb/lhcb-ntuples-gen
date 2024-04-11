@@ -149,6 +149,9 @@ rdx-ntuple-run2-data-demo:
 rdx-ntuple-run2-data-no-Dst-veto:
 	workflows/rdx.py $@
 
+rdx-ntuple-run2-mc-to-sig-norm-no-Dst-veto:
+	workflows/rdx.py $@
+
 rdx-ntuple-run2-data-debug:
 	workflows/rdx.py $@
 
