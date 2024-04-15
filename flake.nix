@@ -6,10 +6,33 @@
     nixpkgs.follows = "root-curated/nixpkgs";
     flake-utils.follows = "root-curated/flake-utils";
 
-    MuonBDTPid.url = "github:umd-lhcb/MuonBDTPid";
-    hammer-reweight.url = "github:umd-lhcb/hammer-reweight";
-    misid-unfold.url = "github:umd-lhcb/misid-unfold";
-    vertex-resolution.url = "github:umd-lhcb/vertex-resolution";
+    MuonBDTPid = {
+      url = "github:umd-lhcb/MuonBDTPid";
+      inputs.root-curated.follows = "root-curated";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.flake-utils.follows = "flake-utils";
+    };
+
+    hammer-reweight = {
+      url = "github:umd-lhcb/hammer-reweight";
+      inputs.root-curated.follows = "root-curated";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.flake-utils.follows = "flake-utils";
+    };
+
+    misid-unfold = {
+      url = "github:umd-lhcb/misid-unfold";
+      inputs.root-curated.follows = "root-curated";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.flake-utils.follows = "flake-utils";
+    };
+
+    vertex-resolution = {
+      url = "github:umd-lhcb/vertex-resolution";
+      inputs.root-curated.follows = "root-curated";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.flake-utils.follows = "flake-utils";
+    };
 
     flake-compat = {
       url = "github:edolstra/flake-compat";
