@@ -103,6 +103,10 @@
             # matplotlib gloabl config
             export MPLBACKEND=agg  # the backend w/o a UI
             export MPLCONFIGDIR=$(pwd)/.matplotlib
+
+            # cppyy export (macOS users might need this)
+            # NOTE: the '3_8' part of the filename needs updating once the accompying python is updated!!
+            export CPPYY_BACKEND_LIBRARY=${pkgs.root}/lib/libcppyy_backend3_8.so
           '';
         };
       });
