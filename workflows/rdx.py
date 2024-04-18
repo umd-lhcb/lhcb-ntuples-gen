@@ -37,6 +37,9 @@ def parse_input():
     parser.add_argument('-d', '--debug', action='store_true',
                         help='enable debug mode.')
 
+    parser.add_argument("--ctrl-sample", action="store_true",
+                        help="Use control sample uBDT cut.")
+
     return parser.parse_args()
 
 
@@ -188,17 +191,36 @@ def workflow_jk(
 
 @smart_kwarg
 def workflow_misid(
-        input_ntp, output_ntp='misid.root',
-        misid_aux_ntp='../run2-rdx/reweight/misid/histos/dif.root',
+        input_ntp,
+        # output_ntp='misid.root',
+        # misid_aux_ntp='../run2-rdx/reweight/misid/histos/dif.root',
         misid_config='../run2-rdx/reweight/misid/run2-rdx.yml',
         k_smr_name='k_smr',
         pi_smr_name='pi_smr',
         **kwargs):
+    ctrl_sample=kwargs["ctrl_sample"]
+    if ctrl_sample:
+        misid_aux_ntp='../run2-rdx/reweight/misid/histos/ctrl_sample/dif_misid_ctrl.root'
+        output_ntp='misid_ctrl.root'
+    else:
+        misid_aux_ntp='../run2-rdx/reweight/misid/histos/default/dif.root'
+        output_ntp='misid.root'
     aux_ntp = abs_path(misid_aux_ntp)
     config = abs_path(misid_config)
     year = find_year(input_ntp)
 
+    print("\n== workflow_misid ==")
+    print("input_ntp: "+input_ntp)
+    print("misid_config: "+misid_config)
+    print("ctrl_sample: "+ctrl_sample)
+    print("misid_aux_ntp: "+misid_aux_ntp)
+    print("output_ntp: "+output_ntp)
+    print("aux_ntp: "+aux_ntp)
+    print("config: "+config)
+    print("year: "+year)
+
     cmd = f'ApplyMisIDWeight -a -i {input_ntp} -o {output_ntp} -x {aux_ntp} -c {config} -Y {year} --kSmrBrName {k_smr_name} --piSmrBrName {pi_smr_name}'
+    print("cmd: "+cmd)
     return workflow_cached_ntuple(
         cmd, input_ntp, output_ntp, '--aux_misid', **kwargs)
 
@@ -280,6 +302,7 @@ def workflow_generic_single(maindir, subdir,
 
 def workflow_data(inputs, input_yml, job_name='data', use_ubdt=True,
                   use_misid=False, date=None, num_of_workers=12,
+                  ctrl_sample=False,
                   trees=[
                       'TupleB0/DecayTree',
                       'TupleB0WSMu/DecayTree',
@@ -301,7 +324,8 @@ def workflow_data(inputs, input_yml, job_name='data', use_ubdt=True,
             'input_ntp': input_ntp,
             'input_yml': input_yml,
             'aux_workflows': aux_workflows,
-            'trees': trees
+            'trees': trees,
+            'ctrl_sample': ctrl_sample
         }
         for subdir, input_ntp in subworkdirs.items()
     ]
@@ -377,7 +401,7 @@ def workflow_mc(inputs, input_yml, job_name='mc', date=None,
         aux_workflows.append(workflow_hammer_run1)
     if use_hammer_no_rescale:
         aux_workflows.append(workflow_hammer_norescale)
-    
+
     subworkdirs, workdir = workflow_prep_dir(job_name, inputs, **kwargs)
 
     job_directives = [
@@ -782,6 +806,6 @@ if __name__ == '__main__':
     args = parse_input()
 
     if args.job_name in JOBS:
-        JOBS[args.job_name](job_name=args.job_name, debug=args.debug)
+        JOBS[args.job_name](job_name=args.job_name, debug=args.debug, ctrl_sample=args.ctrl_sample)
     else:
         print('Unknown job name: {}'.format(args.job_name))

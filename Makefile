@@ -12,6 +12,14 @@ PWD := $(shell pwd)
 LIB_PY := $(wildcard lib/python/*)
 DAVINCI_VERSION=DaVinci-v45r6-SL
 
+CTRL_SAMPLE_FLAG :=
+ifdef USE_CTRL_SAMPLE
+  ifeq ($(USE_CTRL_SAMPLE), true)
+    CTRL_SAMPLE_FLAG = --ctrl-sample
+  else
+    $(warning Unexpected value assigned to USE_CTRL_SAMPLE. Using default uBDT file.)
+  endif
+endif
 
 .PHONY: all clean history tagdate install-dep
 
@@ -85,7 +93,7 @@ rdx-ntuple-run2-data-cut_opt:
 	workflows/rdx.py $@
 
 rdx-ntuple-run2-mu_misid:
-	workflows/rdx.py $@
+	workflows/rdx.py $@ $(CTRL_SAMPLE_FLAG)
 
 # this is FullSim
 rdx-ntuple-run2-mc:
@@ -95,7 +103,7 @@ rdx-ntuple-run2-mc-cut_opt:
 	workflows/rdx.py $@
 
 rdx-ntuple-run2-misid_study:
-	workflows/rdx.py $@
+	workflows/rdx.py $@ $(CTRL_SAMPLE_FLAG)
 
 # this is for MC ghost study
 rdx-ntuple-run2-mc_ghost:
@@ -153,10 +161,10 @@ rdx-ntuple-run2-data-debug:
 	workflows/rdx.py $@
 
 rdx-ntuple-run2-misid_study-demo:
-	workflows/rdx.py $@
+	workflows/rdx.py $@ $(CTRL_SAMPLE_FLAG)
 
 rdx-ntuple-run2-mu_misid-demo:
-	workflows/rdx.py $@
+	workflows/rdx.py $@ $(CTRL_SAMPLE_FLAG)
 
 rdx-ntuple-run2-mc-to-sig-norm-demo:
 	workflows/rdx.py $@

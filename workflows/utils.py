@@ -426,6 +426,9 @@ def workflow_cached_ntuple(cmd, input_ntp, output_ntp, cache_suffix,
                            **kwargs):
     cached_ntp = with_suffix(input_ntp, '') + cache_suffix + '.root'
 
+    print("\n== workflow_cached_ntuple ==")
+    print("cached_ntp: "+cached_ntp)
+
     if op.isfile(cached_ntp):
         print('Aux ntuple already cached!')
         run_cmd(f'ln -s {cached_ntp} {output_ntp}', **kwargs)
