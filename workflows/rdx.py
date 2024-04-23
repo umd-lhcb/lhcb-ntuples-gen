@@ -37,6 +37,9 @@ def parse_input():
     parser.add_argument('-d', '--debug', action='store_true',
                         help='enable debug mode.')
 
+    parser.add_argument("--ctrl-sample", action="store_true",
+                        help="Use control sample uBDT cut.")
+
     return parser.parse_args()
 
 
@@ -188,17 +191,25 @@ def workflow_jk(
 
 @smart_kwarg
 def workflow_misid(
-        input_ntp, output_ntp='misid.root',
-        misid_aux_ntp='../run2-rdx/reweight/misid/histos/dif.root',
+        input_ntp,
         misid_config='../run2-rdx/reweight/misid/run2-rdx.yml',
         k_smr_name='k_smr',
         pi_smr_name='pi_smr',
+        ctrl_sample=False,
         **kwargs):
+    if ctrl_sample:
+        misid_aux_ntp='../run2-rdx/reweight/misid/histos/ctrl_sample/dif_misid_ctrl.root'
+        output_ntp='misid_ctrl.root'
+        ctrl_sample_flag='--ctrl-sample'
+    else:
+        misid_aux_ntp='../run2-rdx/reweight/misid/histos/default/dif.root'
+        output_ntp='misid.root'
+        ctrl_sample_flag=''
     aux_ntp = abs_path(misid_aux_ntp)
     config = abs_path(misid_config)
     year = find_year(input_ntp)
 
-    cmd = f'ApplyMisIDWeight -a -i {input_ntp} -o {output_ntp} -x {aux_ntp} -c {config} -Y {year} --kSmrBrName {k_smr_name} --piSmrBrName {pi_smr_name}'
+    cmd = f'ApplyMisIDWeight -a -i {input_ntp} -o {output_ntp} -x {aux_ntp} -c {config} -Y {year} {ctrl_sample_flag} --kSmrBrName {k_smr_name} --piSmrBrName {pi_smr_name}'
     return workflow_cached_ntuple(
         cmd, input_ntp, output_ntp, '--aux_misid', **kwargs)
 
@@ -377,7 +388,7 @@ def workflow_mc(inputs, input_yml, job_name='mc', date=None,
         aux_workflows.append(workflow_hammer_run1)
     if use_hammer_no_rescale:
         aux_workflows.append(workflow_hammer_norescale)
-    
+
     subworkdirs, workdir = workflow_prep_dir(job_name, inputs, **kwargs)
 
     job_directives = [
@@ -799,6 +810,6 @@ if __name__ == '__main__':
     args = parse_input()
 
     if args.job_name in JOBS:
-        JOBS[args.job_name](job_name=args.job_name, debug=args.debug)
+        JOBS[args.job_name](job_name=args.job_name, debug=args.debug, ctrl_sample=args.ctrl_sample)
     else:
         print('Unknown job name: {}'.format(args.job_name))
