@@ -6,6 +6,16 @@ We use a `git` addon, `git-annex`, to manage large files. `git-annex` stores all
 tracked files under `<project_root>/.git/annex`, and link/copy these files to
 the expected locations.
 
+A typical workflow to add a file to the `annex`, commit it, and sync the remotes, is
+```
+git annex add <file>  ## Moves file to the annex, and replaces it with a soft link in the git repo
+git add <file>
+git commit -m "Committed <file> (well, a soft link to it)"
+git push
+git annex copy --to glacier <file>  ## Copies the actual file to glacier
+## Make sure you do not have uncommitted changes in the repo, because the sync commits everything
+git annex sync 
+```
 
 ## Initialize `git-annex` repository
 
