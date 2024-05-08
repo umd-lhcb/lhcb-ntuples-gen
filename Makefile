@@ -6,19 +6,19 @@ VPATH := postprocess:test:scripts:ntuples
 VPATH := run1-rdx/cutflow:run2-rdx/cutflow:$(VPATH)
 
 # System env
-OS := $(shell uname)
+OS  := $(shell uname)
 PWD := $(shell pwd)
 # In-house Python libraries
 LIB_PY := $(wildcard lib/python/*)
-DAVINCI_VERSION=DaVinci-v45r6-SL
+DAVINCI_VERSION = DaVinci-v45r6-SL
 
 CTRL_SAMPLE_FLAG :=
 ifdef USE_CTRL_SAMPLE
-  ifeq ($(USE_CTRL_SAMPLE), true)
-    CTRL_SAMPLE_FLAG = --ctrl-sample
-  else
-    $(warning Unexpected value assigned to USE_CTRL_SAMPLE. Using default uBDT file.)
-  endif
+	ifeq ($(USE_CTRL_SAMPLE), true)
+		CTRL_SAMPLE_FLAG = --ctrl-sample
+	else
+		$(warning Unexpected value assigned to USE_CTRL_SAMPLE. Using default uBDT file.)
+	endif
 endif
 
 .PHONY: all clean history tagdate install-dep
@@ -111,11 +111,11 @@ rdx-ntuple-run2-mc_ghost:
 
 # this is tracker-only
 rdx-ntuple-run2-mc-to-all: \
-    rdx-ntuple-run2-mc-to-sig-norm \
-    rdx-ntuple-run2-mc-to-ddx \
-    rdx-ntuple-run2-mc-to-dstst \
-    rdx-ntuple-run2-mc-to-dstst-heavy \
-    rdx-ntuple-run2-mc-to-d_s
+	rdx-ntuple-run2-mc-to-sig-norm \
+	rdx-ntuple-run2-mc-to-ddx \
+	rdx-ntuple-run2-mc-to-dstst \
+	rdx-ntuple-run2-mc-to-dstst-heavy \
+	rdx-ntuple-run2-mc-to-d_s
 
 rdx-ntuple-run2-mc-to-sig-norm:
 	workflows/rdx.py $@
