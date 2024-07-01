@@ -192,17 +192,16 @@ def workflow_jk(
 @smart_kwarg
 def workflow_misid(
         input_ntp,
+        misid_aux_ntp='../run2-rdx/reweight/misid/histos/default/dif.root',
         misid_config='../run2-rdx/reweight/misid/run2-rdx.yml',
         k_smr_name='k_smr',
         pi_smr_name='pi_smr',
         ctrl_sample=False,
         **kwargs):
     if ctrl_sample:
-        misid_aux_ntp='../run2-rdx/reweight/misid/histos/ctrl_sample/dif_misid_ctrl.root'
         output_ntp='misid_ctrl.root'
         ctrl_sample_flag='--ctrl-sample'
     else:
-        misid_aux_ntp='../run2-rdx/reweight/misid/histos/default/dif.root'
         output_ntp='misid.root'
         ctrl_sample_flag=''
     aux_ntp = abs_path(misid_aux_ntp)
