@@ -128,6 +128,9 @@ calculation:
     b_p: double; GEV(b_P); GEV(b0_P)
     b_pt: double; GEV(b_PT); GEV(b0_PT)
     b_eta: double; ETA(b_P, b_PZ); ETA(b0_P, b0_PZ)
+    # True momenta for L0 lookup
+    b_true_pt: double; GEV(b_TRUEPT); GEV(b0_TRUEPT)
+    b_true_pz: double; GEV(b_TRUEP_Z); GEV(b0_TRUEP_Z)
     # D*
     dst_d0_deltam: double; dst_M - d0_M
     dst_m: double; dst_M
@@ -149,6 +152,8 @@ calculation:
     k_pz: double; GEV(k_PZ)
     k_pt: double; GEV(k_PT)
     k_eta: double; ETA(k_P, k_PZ)
+    k_true_pt: double; GEV(k_TRUEPT)
+    k_true_p: double; GEV(k_TRUEP_E)
     # Pi
     pi_p: double; GEV(pi_P)
     pi_px: double; GEV(pi_PX)
@@ -156,6 +161,8 @@ calculation:
     pi_pz: double; GEV(pi_PZ)
     pi_pt: double; GEV(pi_PT)
     pi_eta: double; ETA(pi_P, pi_PZ)
+    pi_true_pt: double; GEV(pi_TRUEPT)
+    pi_true_p: double; GEV(pi_TRUEP_E)
     # slow Pi
     spi_p: double; GEV(spi_P)
     spi_px: double; GEV(spi_PX)
@@ -163,6 +170,8 @@ calculation:
     spi_pz: double; GEV(spi_PZ)
     spi_pt: double; GEV(spi_PT)
     spi_eta: double; ETA(spi_P, spi_PZ)
+    spi_true_pt: double; GEV(spi_TRUEPT)
+    spi_true_p: double; GEV(spi_TRUEP_E)
     # Mu
     mu_p: double; GEV(mu_P)
     mu_px: double; GEV(mu_PX)
@@ -170,6 +179,8 @@ calculation:
     mu_pz: double; GEV(mu_PZ)
     mu_pt: double; GEV(mu_PT)
     mu_eta: double; ETA(mu_P, mu_PZ)
+    mu_true_pt: double; GEV(mu_TRUEPT)
+    mu_true_p: double; GEV(mu_TRUEP_E)
 
     #################
     # PID variables #
@@ -344,6 +355,10 @@ calculation:
     dst_true_id: int; dst_TRUEID
     # D0
     d0_true_id: int; d0_TRUEID
+    mu_true_id: int; mu_TRUEID
+    pi_true_id: int; pi_TRUEID
+    k_true_id: int; k_TRUEID
+    spi_true_id: int; spi_TRUEID
     # FF reweighting
     ff_d_mass: >-
         double;
@@ -524,7 +539,7 @@ calculation:
     mu_ok: >-
         bool; FLAG_SEL_MU_RUN1(
         mu_pid_ok_stub, trks_ok,
-        mu_P, mu_eta,
+        mu_P, mu_eta, mu_hasMuon,
         mu_IPCHI2_OWNPV, mu_TRACK_GhostProb
         )
 
@@ -1107,8 +1122,8 @@ calculation:
     wpid_ubdt: double; wpid_base*wpid_mu_ubdt            # PID w/ UBDT
     wpid_ubdt_veto: double; wpid_base*wpid_mu_ubdt_veto  # PID w/ UBDT veto
     ####
-    l0_hadron_tos_emu: ^double; d0_l0_hadron_tos_emu
-    l0_global_tis_emu: ^double; b0_l0_global_tis_emu; b_l0_global_tis_emu
+    l0_hadron_tos_emu: double; d0_l0_hadron_tos_emu
+    l0_global_tis_emu: double; b0_l0_global_tis_emu; b_l0_global_tis_emu
     wtrg: float; l0_hadron_tos_emu + l0_global_tis_emu - l0_hadron_tos_emu*l0_global_tis_emu
     wtrk: double; wtrk_k*wtrk_pi*wtrk_mu*wtrk_spi; wtrk_k*wtrk_pi*wtrk_mu
     wjk: double; wjk_kin*wjk_occ

@@ -209,7 +209,7 @@ Bool_t FLAG_SEL_MU_PID_OK_RUN2ANG(Bool_t mu_is_mu, Double_t mu_pid_mu,
 // clang-format off
 Bool_t FLAG_SEL_MU_RUN1(Bool_t flag_mu_pid_ok, Bool_t flag_good_trks,
                         Double_t mu_p,
-                        Double_t mu_eta,
+                        Double_t mu_eta, Bool_t mu_hasMuon,
                         Double_t mu_ip_chi2, Double_t mu_gh_prob) {
   if (/* If tracks are well-separated angularly */
       flag_good_trks &&
@@ -218,7 +218,7 @@ Bool_t FLAG_SEL_MU_RUN1(Bool_t flag_mu_pid_ok, Bool_t flag_good_trks,
       /* Momentum */
       IN_RANGE(mu_p, 3.0e3, 100.0e3) &&
       /* Acceptance */
-      IN_RANGE(mu_eta, 1.7, 5.0) &&
+      IN_RANGE(mu_eta, 1.7, 5.0) && mu_hasMuon &&
       /* Track quality */
       mu_ip_chi2 > 45.0 && mu_gh_prob < 0.5
       )
