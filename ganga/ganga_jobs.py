@@ -77,6 +77,11 @@ j.outputfiles = [LocalFile('*.root')]
 options = [args.cond_file, args.reco_script]
 app = conf_job_app(args.davinci, options)
 j.application = app
+# Use CentOS7 container.
+# For more information, check
+# https://twiki.cern.ch/twiki/bin/view/LHCb/FAQ/GangaLHCbFAQ#How_do_I_run_old_Gaudi_applicati
+j.application.useApptainer = True
+j.application.containerLocation = '/cvmfs/lhcb.cern.ch/containers/os-base/centos7-devel/prod/amd64/'
 
 # Submit!
 j.submit()
