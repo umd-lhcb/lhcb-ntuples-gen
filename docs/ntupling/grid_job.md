@@ -69,7 +69,7 @@ To setup a CentOS7 container, run the following command (adapted from the [Ganga
 
 ```bash
 apptainer exec --bind $PWD --env LBENV_SOURCED=  --bind /cvmfs:/cvmfs:ro /cvmfs/lhcb.cern.ch/containers/os-base/centos7-devel/prod/amd64/ bash --rcfile /cvmfs/lhcb.cern.ch/lib/LbEnv
-lb-set-platform {{ davinci_ver }}
+lb-set-platform {{ davinci_runtime }}
 export LCG_hostos=x86_64-centos7
 ```
 
