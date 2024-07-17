@@ -8,7 +8,7 @@
 
     MuonBDTPid.url = "github:umd-lhcb/MuonBDTPid";
     hammer-reweight.url = "github:umd-lhcb/hammer-reweight";
-    misid-unfold.url = "github:umd-lhcb/misid-unfold/lmg_misid_validation_fit";
+    misid-unfold.url = "github:umd-lhcb/misid-unfold";
     vertex-resolution.url = "github:umd-lhcb/vertex-resolution";
 
     flake-compat = {
