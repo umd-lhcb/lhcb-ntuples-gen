@@ -131,9 +131,9 @@ calculation:
     # True momenta for L0 lookup and vertex smearing
     b_true_pt: double; GEV(b_TRUEPT); GEV(b0_TRUEPT)
     b_true_pz: double; GEV(b_TRUEP_Z); GEV(b0_TRUEP_Z)
-    b_true_px: double; b_TRUEP_X; b0_TRUEP_X
-    b_true_py: double; b_TRUEP_Y; b0_TRUEP_Y
-    b_true_E: double; b_TRUEP_E; b0_TRUEP_E
+    b_true_px: double; GEV(b_TRUEP_X); GEV(b0_TRUEP_X)
+    b_true_py: double; GEV(b_TRUEP_Y); GEV(b0_TRUEP_Y)
+    b_true_E: double; GEV(b_TRUEP_E); GEV(b0_TRUEP_E)
     vtx_theta: >-
         double;
         VTX_THETA(b_ENDVERTEX_X, b_OWNPV_X, b_ENDVERTEX_Y, b_OWNPV_Y, b_ENDVERTEX_Z, b_OWNPV_Z);
