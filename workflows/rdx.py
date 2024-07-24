@@ -224,6 +224,14 @@ def workflow_vertex(
     return workflow_cached_ntuple(
         cmd, input_ntp, output_ntp, '--aux_vertex', **kwargs)
 
+@smart_kwarg
+def workflow_vertex_scale(
+        input_ntp, output_ntp='vertex_scale.root',
+        **kwargs):
+    cmd = f'GetScaledVariationWeights -i {input_ntp} -o {output_ntp}'
+    return workflow_cached_ntuple(
+        cmd, input_ntp, output_ntp, '--aux_vertex_scale', **kwargs)
+
 
 #######################
 # Workflows: wrappers #
@@ -371,7 +379,7 @@ def workflow_mc(inputs, input_yml, job_name='mc', date=None,
                 num_of_workers=12, **kwargs):
     aux_workflows = [
         workflow_trigger_emu, workflow_pid, workflow_trk, workflow_jk,
-        workflow_vertex,
+        workflow_vertex, workflow_vertex_scale
     ]
     if use_hammer:
         aux_workflows.append(workflow_hammer)
@@ -604,6 +612,13 @@ JOBS = {
         num_of_workers=20,
         cli_vars={'cli_no_dst_veto': '100.0'}
     ),
+    'rdx-ntuple-run2-mc-to-dst0norm-for-vertexsmear': partial(
+        workflow_split,
+        '../ntuples/0.9.6-2016_production/Dst_D0-mc-tracker_only/*12773410*.DST', # norm, D*0
+        '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
+        cli_vars={'cli_misid_study': 'true'},
+        num_of_workers=20
+    ),
     'rdx-ntuple-run2-mc-demo': partial(
         workflow_mc,
         '../ntuples/0.9.5-bugfix/Dst_D0-mc/*MagDown*11574011*.root',
@@ -746,6 +761,14 @@ JOBS = {
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
         blocked_patterns=['--aux', r'--([1-9][0-9][0-9])-dv', 'MagUp'],
         use_hammer_no_rescale=True,
+        num_of_workers=20
+    ),
+    'rdx-ntuple-run2-mc-to-dst0normsubsamp-for-vertexsmear': partial(
+        workflow_split,
+        '../ntuples/0.9.6-2016_production/Dst_D0-mc-tracker_only/*12773410*.DST', # norm, D*0
+        '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
+        blocked_patterns=['--aux', r'--([1-9][0-9][0-9])-dv', 'MagUp'],
+        cli_vars={'cli_misid_study': 'true'},
         num_of_workers=20
     ),
     # Run 1

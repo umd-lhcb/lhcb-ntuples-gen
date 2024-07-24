@@ -160,6 +160,12 @@ rdx-ntuple-run2-data-no-Dst-veto:
 rdx-ntuple-run2-mc-to-sig-norm-no-Dst-veto:
 	workflows/rdx.py $@
 
+rdx-ntuple-run2-mc-to-dst0norm-for-vertexsmear:
+	workflows/rdx.py $@
+
+rdx-ntuple-run2-mc-to-dst0normsubsamp-for-vertexsmear:
+	workflows/rdx.py $@
+
 rdx-ntuple-run2-data-debug:
 	workflows/rdx.py $@
 
