@@ -456,6 +456,16 @@ class DstTruthMatch : public TruthMatch {
           tau_expect  = false;
           if (TRUTH_MATCH_DD()) truthmatch = dd_bu + mu + added;
           break;
+        case 11894400: // missing DDX (D*Dspi)
+          b_expect_id = PDG_ID_B0;
+          tau_expect  = false;
+          if (TRUTH_MATCH_DD()) truthmatch = dd_bd + mu + added;
+          break;
+        case 12895410: // missing DDX (D*Dspi)
+          b_expect_id = PDG_ID_Bu;
+          tau_expect  = false;
+          if (TRUTH_MATCH_DD()) truthmatch = dd_bd + mu + added;
+          break;
         case 11894210:
           b_expect_id = PDG_ID_B0;
           tau_expect  = true;
@@ -937,7 +947,7 @@ class D0TruthMatch : public TruthMatch {
           tau_expect  = false;
           if (TRUTH_MATCH_DD()) truthmatch = dd_bd + mu + added;
           break;
-        case 11895400: // missing DDX
+        case 11895400: // missing DDX (D*DK)
           b_expect_id = PDG_ID_B0;
           tau_expect  = false;
           if (TRUTH_MATCH_DD()) truthmatch = dd_bd + mu + added;

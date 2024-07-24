@@ -531,6 +531,13 @@ JOBS = {
     #     use_hammer=False,
     #     num_of_workers=20
     # ),
+    'rdx-ntuple-run2-mc-to-missing-ddx-DstDspi': partial(
+        workflow_split,
+        [f'/home/manuelf/code/lhcb-ntuples-gen/ntuples/0.9.10-DstDspi/Dst_D0-mc-tracker_only/*{i}*.DST' for i in [11894400, 12895410]],
+        '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
+        use_hammer=False,
+        num_of_workers=20
+    ),
     'rdx-ntuple-run2-mc-to-dstst': partial(
         workflow_split,
         [
