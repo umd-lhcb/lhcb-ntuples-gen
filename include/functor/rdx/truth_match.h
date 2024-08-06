@@ -86,14 +86,17 @@ class TruthMatch {
   int d2S     = 20;
   int d2750   = 30;
   int d3000   = 40;
-  // TODO DD cocktail codes
+  int dd_2body     = 1000;
+  int dd_2body_Ds  = 2000;
+  int dd_3body_k   = 10000;
+  int dd_34body_pi = 20000;
   int dd_bd               = 100000;
   int dd_bu               = 200000;
   int dstst_higher_to_dst = 300000;
   int dstst_higher_to_d   = 400000;
   int dstst_twopi         = 500000;
 
-  // useful to have a map as a reference for D** cocktails (PDG MC ID -> our
+  // useful to have a map as a reference for D** species (PDG MC ID -> our
   // code)
   map<int, int> pdg_to_code{{PDG_ID_D0st_0, d0st},    {PDG_ID_D1_0, d1},
                             {PDG_ID_D1p_0, d1p},      {PDG_ID_D2st_0, d2st},
@@ -121,6 +124,13 @@ class TruthMatch {
   vector<int> d1_d10{PDG_ID_D1, PDG_ID_D1_0};
   vector<int> d_mesons{PDG_ID_D, PDG_ID_D0, PDG_ID_Ds};
   vector<int> dstst_s_1_mesons{PDG_ID_D1_s, PDG_ID_D1p_s};
+  vector<int> d_dst{PDG_ID_D, PDG_ID_D0, PDG_ID_Dst, PDG_ID_Dst0};
+  vector<int> d_dst_dstst{PDG_ID_D, PDG_ID_D0, PDG_ID_Dst, PDG_ID_Dst0, 
+                          PDG_ID_D0st, PDG_ID_D1, PDG_ID_D1p, PDG_ID_D2st,
+                          PDG_ID_D0st_0, PDG_ID_D1_0, PDG_ID_D1p_0, PDG_ID_D2st_0};
+  vector<int> ds_dsst_dsstst{PDG_ID_Ds, PDG_ID_Dst0_s, PDG_ID_D1_s, PDG_ID_D1p_s};
+  vector<int> kaons{PDG_ID_K, PDG_ID_K0, PDG_ID_Kst, PDG_ID_Kst0};
+  vector<int> pions{PDG_ID_pi, PDG_ID_pi0};
 
  public:
   int truthmatch = 0;
@@ -154,12 +164,11 @@ class TruthMatch {
   }
   virtual bool TWO_PI() = 0;  // differs between D0/D* samples (see comments
                               // for DSTST_TWOPI_ADDED)
-  virtual bool B_BKGCAT_OKAY() {
-    return false;
-  }  // different between D0/D* samples; TODO should implement this func for D*
-     // sample too
+  virtual bool B_BKGCAT_OKAY() { // differs D0/D* samples; TODO should implement this func
+    return false;                // for D* sample too
+  } 
   void DSTST_COCKTAIL_ADDED(int dstst_id) {  // same between D0/D* samples
-    // nominally add cocktail info for D**, Ds**, not done for D**H unless
+    // nominally add species info for D**, Ds**, not done for D**H unless
     // specified otherwise
     if ((!dstst_higher && b_expect_id != PDG_ID_Bs &&
          !debug_dstst_all_cocktail) ||
@@ -190,6 +199,23 @@ class TruthMatch {
     //                      (via flagBmu/flagtaumu).
     if (b_expect_id != PDG_ID_Bs && !dstst_higher && TWO_PI())
       added += dstst_twopi;
+  }
+  void DDX_COCKTAIL_ADDED(int d1_id, int d2_id, int d3_id) {  
+    // same between D0/D* samples (and mu/tau)
+    // nominally add cocktail info for DD decays
+    if (VEC_OR_EQ(d_dst, d1_id) && VEC_OR_EQ(d_dst, d2_id) && d3_id==0) {
+      added += dd_2body;
+    } else if (((VEC_OR_EQ(d_dst_dstst, d1_id) && VEC_OR_EQ(ds_dsst_dsstst, d2_id)) ||
+                (VEC_OR_EQ(d_dst_dstst, d2_id) && VEC_OR_EQ(ds_dsst_dsstst, d1_id)))
+               && d3_id==0) {
+      added += dd_2body_Ds;
+    } else if (VEC_OR_EQ(d_dst, d1_id) && VEC_OR_EQ(d_dst, d2_id) && VEC_OR_EQ(kaons, d3_id)) {
+      added += dd_3body_k;
+    } else if (((VEC_OR_EQ(d_dst_dstst, d1_id) && VEC_OR_EQ(ds_dsst_dsstst, d2_id)) ||
+                (VEC_OR_EQ(d_dst_dstst, d2_id) && VEC_OR_EQ(ds_dsst_dsstst, d1_id)))
+               && VEC_OR_EQ(pions, d3_id)) {
+      added += dd_34body_pi;
+    }
   }
 
   virtual bool TRUTH_MATCH_NORMSIG() = 0;
@@ -225,6 +251,9 @@ class DstTruthMatch : public TruthMatch {
   int            dst_bkgcat;
   int            d0_bkgcat;
   int            b_bkgcat;
+  int            b_hadchild1_id;
+  int            b_hadchild2_id;
+  int            b_hadchild3_id;
 
  public:
   ///////// Helpers
@@ -266,7 +295,7 @@ class DstTruthMatch : public TruthMatch {
 
   // D**, D_H**, D_s**
   // Phoebe redoHistos_Dst.C: flagBmu/flagtaumu>0 && JustDst<1  && DstOk>0. &&
-  // Btype==[b_expect_id] && Dststtype==[D** cocktail] && muPID == 1.
+  // Btype==[b_expect_id] && Dststtype==[D** species] && muPID == 1.
   // Note: I don't implement Phoebe's ishigher, instead just using the variable
   // dstst_higher to keep track of the considered decay ID.
   // Note: compared to the D0 sample, this selection is simpler because here the
@@ -316,9 +345,9 @@ class DstTruthMatch : public TruthMatch {
   // truth-matching we were always explicitly ensuring that that common ancestor
   // was the B. In fact, for the tauonic DD decays, no key matching is done at
   // all.
-  // I won't implement a cocktail selection here for now: it isn't possible
-  // without more information about daughters (which will come for us via
-  // TupleToolSLTruth)
+  // Additional cocktail info (for muonic decay: 2-body, 2-body w/ Ds, 3-body with K, 
+  // 3- or 4-body with pi; for tauonic decay: 2-body with Ds, 3- or 4-body with pi)
+  // added using TupleToolSLTruth B daughter info
   bool TRUTH_MATCH_DD() {
     // For a DD decay with no tau, ensure at least that the mu came from a (spin
     // 0) charm meson and that mu and D* have some ancesteor in common, OR, as
@@ -342,8 +371,9 @@ class DstTruthMatch : public TruthMatch {
       mu_ancestry_ok_or_special = dd_tau_ok;
     }
 
-    // TODO separate cocktails
-    if (!debug_dd_all_cocktail) added += 0;
+    if (!debug_dd_all_cocktail) {
+      DDX_COCKTAIL_ADDED(b_hadchild1_id, b_hadchild2_id, b_hadchild3_id);
+    }
 
     // Also, just ensure that there is a B somewhere within three generations of
     // the D*
@@ -361,7 +391,9 @@ class DstTruthMatch : public TruthMatch {
                 double dst_mom_truePx_, double dst_mom_truePy_,
                 double dst_mom_truePz_, double dst_trueE_, double dst_truePx_,
                 double dst_truePy_, double dst_truePz_, int dst_bkgcat_,
-                int d0_bkgcat_, int b_bkgcat_, bool debug_dstst_all_cocktail_,
+                int d0_bkgcat_, int b_bkgcat_, 
+                int b_hadchild1_id_, int b_hadchild2_id_, int b_hadchild3_id_, 
+                bool debug_dstst_all_cocktail_,
                 bool debug_dstst_higher_separate_cocktail_,
                 bool debug_dstst_s_all_cocktail_, bool debug_dd_all_cocktail_) {
     // set simple fields; ensure all IDs are positive- not looking for wrong
@@ -386,6 +418,9 @@ class DstTruthMatch : public TruthMatch {
     dst_bkgcat               = dst_bkgcat_;
     d0_bkgcat                = d0_bkgcat_;
     b_bkgcat                 = b_bkgcat_;
+    b_hadchild1_id           = abs(b_hadchild1_id_);
+    b_hadchild2_id           = abs(b_hadchild2_id_);
+    b_hadchild3_id           = abs(b_hadchild3_id_);
     debug_dstst_all_cocktail = debug_dstst_all_cocktail_;
     debug_dstst_higher_separate_cocktail =
         debug_dstst_higher_separate_cocktail_;
@@ -513,7 +548,9 @@ class D0TruthMatch : public TruthMatch {
   TLorentzVector d_mom_truep4;
   TLorentzVector d_gdmom_truep4;
   int            b_bkgcat;
-  double         d_m;
+  int            b_hadchild1_id;
+  int            b_hadchild2_id;
+  int            b_hadchild3_id;
   // special variables used for D** truth-matching: copied from Phoebe's code
   int  Btype       = 0;
   int  Dststtype   = 0;
@@ -686,7 +723,7 @@ class D0TruthMatch : public TruthMatch {
 
   // D**, D_H**, D_s**
   // Phoebe redoHistos_D0.C: flagBmu/flagtaumu>0 && JustDst<1 &&
-  // Btype==[b_expect_id] && Dststtype==[D** cocktail] (not for D**H) &&
+  // Btype==[b_expect_id] && Dststtype==[D** species] (not for D**H) &&
   // muPID==1 && simpleDstst (simpleDstst not referenced for D**H,s, and allowed
   // to be false for D**=D1 for the pipi template).
   // Note: I don't implement Phoebe's ishigher, instead just using the variable
@@ -702,7 +739,7 @@ class D0TruthMatch : public TruthMatch {
   // decay goes B->D**->D0 or B->D**->X->D0) then B key matches between mu/D0.
   bool TRUTH_MATCH_DSTST() {
     // Once the B and D** are found, make sure the D** is one of the possible
-    // cocktails for the decay mode, and check that Btype is as expected
+    // species for the decay mode, and check that Btype is as expected
     SET_BTYPE_DSTSTTYPE_SIMPLEDSTST();
     bool b_and_dstst_id_ok = false;
     if (DSTST_OKAY(Dststtype) && Btype == b_expect_id) {
@@ -756,9 +793,9 @@ class D0TruthMatch : public TruthMatch {
   // have SOME common ancestor, whereas for the other truth-matching we were
   // always explicitly ensuring that that common ancestor was the B. In fact,
   // for the tauonic DD decays, no key matching is done at all.
-  // I won't implement a cocktail selection here for now: it isn't possible
-  // without more information about daughters (which will come for us via
-  // TupleToolSLTruth).
+  // Additional cocktail info (for muonic decay: 2-body, 2-body w/ Ds, 3-body with K, 
+  // 3- or 4-body with pi; for tauonic decay: 2-body with Ds, 3- or 4-body with pi)
+  // added using TupleToolSLTruth B daughter info
   bool TRUTH_MATCH_DD() {
     // For a DD decay with no tau, ensure at least that the mu came from a (spin
     // 0) charm meson and that mu and D0 have some ancesteor in common; also
@@ -780,8 +817,9 @@ class D0TruthMatch : public TruthMatch {
       mu_ancestry_ok = dd_tau_ok;
     }
 
-    // TODO separate cocktails
-    if (!debug_dd_all_cocktail) added += 0;
+    if (!debug_dd_all_cocktail) {
+      DDX_COCKTAIL_ADDED(b_hadchild1_id, b_hadchild2_id, b_hadchild3_id);
+    }
 
     // Also, just check that the B ID is as expected for the decay
     return mu_ancestry_ok && b_id == b_expect_id;
@@ -800,11 +838,12 @@ class D0TruthMatch : public TruthMatch {
                double d_mom_truePy_, double d_mom_truePz_,
                double d_gdmom_trueE_, double d_gdmom_truePx_,
                double d_gdmom_truePy_, double d_gdmom_truePz_, int b_bkgcat_,
+               int b_hadchild1_id_, int b_hadchild2_id_, int b_hadchild3_id_,
                bool debug_dstst_all_cocktail_,
                bool debug_dstst_higher_separate_cocktail_,
                bool debug_dstst_s_all_cocktail_, bool debug_dd_all_cocktail_) {
-    // set simple fields; ensure all IDs (except maybe cocktail_id) are
-    // positive- not looking for wrong signs when truth-matching
+    // set simple fields; ensure all IDs are positive- not looking for wrong signs 
+    // when truth-matching
     decay_id         = decay_id_;
     b_id             = abs(b_id_);
     mu_id            = abs(mu_id_);
@@ -830,6 +869,9 @@ class D0TruthMatch : public TruthMatch {
     d_gdmom_truep4.SetPxPyPzE(d_gdmom_truePx_, d_gdmom_truePy_, d_gdmom_truePz_,
                               d_gdmom_trueE_);
     b_bkgcat                 = b_bkgcat_;
+    b_hadchild1_id   = abs(b_hadchild1_id_);
+    b_hadchild2_id   = abs(b_hadchild2_id_);
+    b_hadchild3_id   = abs(b_hadchild3_id_);
     debug_dstst_all_cocktail = debug_dstst_all_cocktail_;
     debug_dstst_higher_separate_cocktail =
         debug_dstst_higher_separate_cocktail_;
@@ -1000,10 +1042,11 @@ int MC_TRUTH_MATCH_DST(int decay_id, int mu_id, int mu_mom_id, int mu_gdmom_id,
                        double dst_mom_truePz, double dst_trueE,
                        double dst_truePx, double dst_truePy, double dst_truePz,
                        int dst_bkgcat, int d0_bkgcat, int b_bkgcat,
+                       int b_hadchild1_id, int b_hadchild2_id, int b_hadchild3_id,
                        bool debug_dstst_all_cocktail             = false,
                        bool debug_dstst_higher_separate_cocktail = false,
                        bool debug_dstst_s_all_cocktail           = false,
-                       bool debug_dd_all_cocktail                = true) {
+                       bool debug_dd_all_cocktail                = false) {
   // create object for event truth-matching; truth-matching will be done
   // internally when object created
   DstTruthMatch event(
@@ -1012,6 +1055,7 @@ int MC_TRUTH_MATCH_DST(int decay_id, int mu_id, int mu_mom_id, int mu_gdmom_id,
       dst_mom_key, dst_gdmom_key, dst_gdgdmom_key, dst_mom_trueE,
       dst_mom_truePx, dst_mom_truePy, dst_mom_truePz, dst_trueE, dst_truePx,
       dst_truePy, dst_truePz, dst_bkgcat, d0_bkgcat, b_bkgcat,
+      b_hadchild1_id, b_hadchild2_id, b_hadchild3_id,
       debug_dstst_all_cocktail, debug_dstst_higher_separate_cocktail,
       debug_dstst_s_all_cocktail, debug_dd_all_cocktail);
   return event.truthmatch;
@@ -1030,10 +1074,12 @@ int MC_TRUTH_MATCH_D0(int decay_id, int b_id, int mu_id, int mu_mom_id,
                       double d_mom_truePy, double d_mom_truePz,
                       double d_gdmom_trueE, double d_gdmom_truePx,
                       double d_gdmom_truePy, double d_gdmom_truePz,
-                      int b_bkgcat, bool debug_dstst_all_cocktail = false,
+                      int b_bkgcat,
+                      int b_hadchild1_id, int b_hadchild2_id, int b_hadchild3_id,
+                      bool debug_dstst_all_cocktail = false,
                       bool debug_dstst_higher_separate_cocktail = false,
                       bool debug_dstst_s_all_cocktail           = false,
-                      bool debug_dd_all_cocktail                = true) {
+                      bool debug_dd_all_cocktail                = false) {
   D0TruthMatch event(
       decay_id, b_id, mu_id, mu_mom_id, mu_gdmom_id, mu_gdgdmom_id,
       mu_gdgdgdmom_id, mu_mom_key, mu_gdmom_key, mu_gdgdmom_key,
@@ -1041,6 +1087,7 @@ int MC_TRUTH_MATCH_D0(int decay_id, int b_id, int mu_id, int mu_mom_id,
       d_mom_key, d_gdmom_key, d_gdgdmom_key, d_gdgdgdmom_key, d_trueE, d_truePx,
       d_truePy, d_truePz, d_mom_trueE, d_mom_truePx, d_mom_truePy, d_mom_truePz,
       d_gdmom_trueE, d_gdmom_truePx, d_gdmom_truePy, d_gdmom_truePz, b_bkgcat,
+      b_hadchild1_id, b_hadchild2_id, b_hadchild3_id,
       debug_dstst_all_cocktail, debug_dstst_higher_separate_cocktail,
       debug_dstst_s_all_cocktail, debug_dd_all_cocktail);
   return event.truthmatch;

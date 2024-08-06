@@ -44,3 +44,9 @@
 #define FAKE_ID_D2750_0 PDG_ID_D2st_0
 #define FAKE_ID_D3000 PDG_ID_D1
 #define FAKE_ID_D3000_0 PDG_ID_D1_0
+#define PDG_ID_K0 311
+#define PDG_ID_K 321
+#define PDG_ID_Kst0 313
+#define PDG_ID_Kst 323
+#define PDG_ID_pi0 111
+#define PDG_ID_pi 211

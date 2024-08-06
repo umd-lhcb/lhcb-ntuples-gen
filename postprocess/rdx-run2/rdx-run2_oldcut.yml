@@ -421,7 +421,8 @@ calculation:
         dst_MC_MOTHER_KEY, dst_MC_GD_MOTHER_KEY, dst_MC_GD_GD_MOTHER_KEY,
         dst_MC_MOTHER_TRUEPE, dst_MC_MOTHER_TRUEPX, dst_MC_MOTHER_TRUEPY, dst_MC_MOTHER_TRUEPZ,
         dst_TRUEP_E, dst_TRUEP_X, dst_TRUEP_Y, dst_TRUEP_Z,
-        dst_BKGCAT, d0_BKGCAT, b0_BKGCAT
+        dst_BKGCAT, d0_BKGCAT, b0_BKGCAT,
+        b0_TrueHadron_D0_ID, b0_TrueHadron_D1_ID, b0_TrueHadron_D2_ID
         );
         MC_TRUTH_MATCH_D0(
         mc_id, b_TRUEID,
@@ -432,8 +433,12 @@ calculation:
         d0_TRUEP_E, d0_TRUEP_X, d0_TRUEP_Y, d0_TRUEP_Z,
         d0_MC_MOTHER_TRUEPE, d0_MC_MOTHER_TRUEPX, d0_MC_MOTHER_TRUEPY, d0_MC_MOTHER_TRUEPZ,
         d0_MC_GD_MOTHER_TRUEPE, d0_MC_GD_MOTHER_TRUEPX, d0_MC_GD_MOTHER_TRUEPY, d0_MC_GD_MOTHER_TRUEPZ,
-        b_BKGCAT
+        b_BKGCAT,
+        b_TrueHadron_D0_ID, b_TrueHadron_D1_ID, b_TrueHadron_D2_ID
         )
+    b_hadchild1_id: int; abs(b0_TrueHadron_D0_ID); abs(b_TrueHadron_D0_ID)
+    b_hadchild2_id: int; abs(b0_TrueHadron_D1_ID); abs(b_TrueHadron_D1_ID)
+    b_hadchild3_id: int; abs(b0_TrueHadron_D2_ID); abs(b_TrueHadron_D2_ID)
     is_ddx: bool; IS_DDX(mc_id)
     is_ddx_mu: bool; IS_DDX_MU(mc_id)
     # this is a naive filter:
@@ -941,7 +946,7 @@ global_selection:
     - trg_ok
     - global_cut_ok
     - truthmatch > 0
-    - "!is_ddx || ddx_add_tm"
+    # - "!is_ddx || ddx_add_tm"
     - ham_ok
 
 one_cand_only:
