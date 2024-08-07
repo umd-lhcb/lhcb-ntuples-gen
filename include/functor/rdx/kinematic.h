@@ -11,6 +11,7 @@
 #include <Math/VectorUtil.h>
 #include <TMath.h>
 #include <TROOT.h>
+#include <TLorentzVector.h>
 
 #include "functor/basic.h"
 #include "functor/basic_kinematic.h"
@@ -115,4 +116,29 @@ template <typename T>
 Double_t VTX_THETA(T b_vtx_x, T pv_x, T b_vtx_y, T pv_y, T b_vtx_z, T pv_z) {
   auto flight = XYZVector(b_vtx_x - pv_x, b_vtx_y - pv_y, b_vtx_z - pv_z);
   return flight.Theta();
+}
+
+
+// Reconstruct mass of phi candidate with the least isolated opposite-sign long tracks assumming
+// they are kaons. To be used with is_iso or wdd to ensure there is at least a kaon
+// among the 3 tracks
+Float_t MASS_PHI(Int_t type1, Int_t chrg1, Float_t px1, Float_t py1, Float_t pz1,
+                Int_t type2, Int_t chrg2, Float_t px2, Float_t py2, Float_t pz2,
+                Int_t type3, Int_t chrg3, Float_t px3, Float_t py3, Float_t pz3){
+
+  TLorentzVector phiKaon1, phiKaon2;
+  if (type1 == 3 && type2 == 3 && chrg1*chrg2 < 0) {
+    phiKaon1 = TLorentzVector(px1, py1, pz1, sqrt(pow(494, 2) + pow(px1, 2) + pow(py1, 2) + pow(pz1, 2)));
+    phiKaon2 = TLorentzVector(px2, py2, pz2, sqrt(pow(494, 2) + pow(px2, 2) + pow(py2, 2) + pow(pz2, 2)));
+  } else if (type1 == 3 && type3 == 3 && chrg1*chrg3 < 0) {
+    phiKaon1 = TLorentzVector(px1, py1, pz1, sqrt(pow(494, 2) + pow(px1, 2) + pow(py1, 2) + pow(pz1, 2)));
+    phiKaon2 = TLorentzVector(px3, py3, pz3, sqrt(pow(494, 2) + pow(px3, 2) + pow(py3, 2) + pow(pz3, 2)));
+  } else if (type2 == 3 && type3 == 3 && chrg2*chrg2 < 0) {
+    phiKaon1 = TLorentzVector(px2, py2, pz2, sqrt(pow(494, 2) + pow(px2, 2) + pow(py2, 2) + pow(pz2, 2)));
+    phiKaon2 = TLorentzVector(px3, py3, pz3, sqrt(pow(494, 2) + pow(px3, 2) + pow(py3, 2) + pow(pz3, 2)));
+  } else {
+    return -99.;
+  }
+  
+  return (phiKaon1 + phiKaon2).M();
 }

@@ -23,7 +23,7 @@ def parse_input():
                         help='MC IDs of sample.')
 
     parser.add_argument('-m', '--mode',
-                        default='run',
+                        default='detail',
                         choices=['run', 'year', 'detail'],
                         help='group output')
 
