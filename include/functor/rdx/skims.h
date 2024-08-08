@@ -305,7 +305,25 @@ Double_t WT_1OS_ANG(Bool_t add_flags, Double_t iso_bdt1, Double_t iso_bdt2, Doub
 }
 
 // clang-format off
-// For D** in D*mu sample
+// For D**
+Bool_t FLAG_1OS(Bool_t add_flags,
+                Double_t iso_bdt1, Double_t iso_bdt2,
+                Int_t iso_type1,
+                Float_t iso_p1, Float_t iso_pt1,
+                Int_t iso_chrg1,
+                Float_t iso_nnk1, Float_t k_cut,
+                Float_t iso_nnghost1, Float_t ghost_cut,
+                Int_t dst_id, Double_t dst_iso_deltam) {
+  // clang-format on
+  return add_flags && (iso_bdt1 > 0.15) && (iso_bdt2 < 0.15) &&
+         (iso_type1 == 3) && (iso_p1 > 5.0) && (iso_pt1 > 0.15) &&
+         (iso_chrg1 * dst_id < 0) && (iso_nnk1 < k_cut) && (iso_nnghost1 < ghost_cut) &&
+         IN_RANGE(dst_iso_deltam, 0.36, 0.6);  // Phoebe's cut
+         // IN_RANGE(dst_iso_invm, 2.4, 2.52)  // Greg's cut
+}
+
+// clang-format off
+// For D**
 Double_t WT_1OS(Bool_t add_flags,
                 Double_t iso_bdt1, Double_t iso_bdt2,
                 Int_t iso_type1,
