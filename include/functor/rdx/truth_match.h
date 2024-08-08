@@ -128,7 +128,7 @@ class TruthMatch {
   vector<int> d_dst_dstst{PDG_ID_D, PDG_ID_D0, PDG_ID_Dst, PDG_ID_Dst0, 
                           PDG_ID_D0st, PDG_ID_D1, PDG_ID_D1p, PDG_ID_D2st,
                           PDG_ID_D0st_0, PDG_ID_D1_0, PDG_ID_D1p_0, PDG_ID_D2st_0};
-  vector<int> ds_dsst_dsstst{PDG_ID_Ds, PDG_ID_Dst0_s, PDG_ID_D1_s, PDG_ID_D1p_s};
+  vector<int> ds_dsst_dsstst{PDG_ID_Ds, PDG_ID_Dst0_s, PDG_ID_D1_s, PDG_ID_D1p_s, PDG_ID_D0st_s};
   vector<int> kaons{PDG_ID_K, PDG_ID_K0, PDG_ID_Kst, PDG_ID_Kst0};
   vector<int> pions{PDG_ID_pi, PDG_ID_pi0};
 
