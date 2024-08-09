@@ -1045,7 +1045,7 @@ calculation:
     # Branching fraction weights for DD MC
     wbr_dd: double; IF(is_ddx_mu, WT_DD_BF(mu_MC_MOTHER_ID), 1.0)
     # Weights to correct production stats for missing DDX to keep relative DD BFs consistent
-    w_missDDX: double; IF(is_miss_ddx, WT_MISS_DDX(cli_mc_year), 1.0) # 1 if mc_id != 11895400
+    w_missDDX: double; IF(is_miss_ddx, WT_MISS_DstDK(cli_mc_year), 1.0) # 1 if mc_id != 11895400
     # Dalitz-inspired variational weights for DD MC
     tmp_dal: >-
         ^vector<double>;

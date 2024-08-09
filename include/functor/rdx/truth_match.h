@@ -49,8 +49,13 @@ bool IS_STRANGE(int decay_id) {
   return true;
 }
 
-bool IS_MISS_DDX(int decay_id) {
+bool IS_MISS_DstDK(int decay_id) {
   if (decay_id == 11895400) return true;
+  return false;
+}
+
+bool IS_MISS_DstDspi(int decay_id) {
+  if (decay_id == 11894400 !! decay_id == 12895410) return true;
   return false;
 }
 

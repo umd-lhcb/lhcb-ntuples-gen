@@ -400,11 +400,11 @@ Double_t WT_DD_BF(int mu_mom_id) {
   return wt;
 }
 
-Double_t WT_MISS_DDX(int year) {
-  // Missing DDX needs to be reweighted to reflect rel BFs of related modes in already produced DDX
+Double_t WT_MISS_DstDK(int year) {
+  // Missing DstDK needs to be reweighted to reflect rel BFs of related modes in already produced DDX
   // [what was requested is in square brackets]
   // Previously simulated 11894600- 2015: 37.68 [26.82], 2016: 208.89 [154.36], 2017: 214.13 [160.93], 2018: 282.22 [205.26] (million)
-  // Simulated 11895400 (missing DDX) [expect 1.5*0.066 x above]- 2015: 0?, 2016: 25.03 [15.26], 2017: 25.32 [15.91], 2018: 25.52 [20.29]
+  // Simulated 11895400 (missing DstDK) [expect 1.5*0.066 x above]- 2015: 0?, 2016: 25.03 [15.26], 2017: 25.32 [15.91], 2018: 25.52 [20.29]
   double rel_bf_sum = (0.0020+0.0018+0.0033) / 
                         (0.0118+0.0053+0.0020+0.0079+0.0118+0.0018+0.0018+0.0033+0.0017+0.0033+0.000203+0.000406+0.000547+
                          0.0006+0.0012+0.0012+0.0024+0.0042+0.0040+0.00107+0.0003+0.0005+0.0011+0.0024+0.0025+0.0025+0.0005+
@@ -420,6 +420,35 @@ Double_t WT_MISS_DDX(int year) {
   if (year==2016) return (isospin_fac * rel_bf_sum * n_2016_prev)/n_2016;
   if (year==2017) return (isospin_fac * rel_bf_sum * n_2017_prev)/n_2017;
   if (year==2018) return (isospin_fac * rel_bf_sum * n_2018_prev)/n_2018;
+  assert(false); // shouldn't be looking at any other year than these
+}
+
+Double_t WT_MISS_DstDspi(int year, int mc_id) {
+  // Missing DstDspi needs to be reweighted relative to already produced DDX
+  // Missing DstDspi is used for both D* and D0 sample (D0 sample already contained DDspi, which doesn't
+  // need to be reweighted); naively, choose to reweight missing DstDspi to be 10% of D* DDX BF
+  // (so x/(1+x)=0.1 => x=0.111, ie. 11.1% of current total D* DDX MC))
+  // [what was requested is in square brackets]
+  // Previously simulated 11894610- 2015: 13.98 [9.51], 2016: 94.37 [54.70], 2017: 78.58 [57.03], 2018: 98.34 [72.74] (million)
+  // Previously simulated 12895400- 2015: 6.04 [3.84], 2016: 39.35 [22.11], 2017: 41.90 [23.05], 2018: 38.25 [29.40] (million)
+  // Simulated 11894400 (missing D*Dspi)- 2015: 0?, 2016: 12.34 [xx], 2017: 18.00 [xx], 2018: 14.17 [xx]
+  // Simulated 12895410 (missing D*Dspi)- 2015: 0?, 2016: 12.57 [xx], 2017: 16.53 [xx], 2018: 12.94 [xx]
+  double frac = 0.111;
+  if (year==2016) {
+    if (mc_id==11894400) return frac * 94.37 / 12.34;
+    if (mc_id==12895410) return frac * 39.35 / 12.57;
+    assert(false); // shouldn't be looking at any other mc IDs than these
+  }
+  if (year==2017) {
+    if (mc_id==11894400) return frac * 78.58 / 18.00;
+    if (mc_id==12895410) return frac * 41.90 / 16.53;
+    assert(false); // shouldn't be looking at any other mc IDs than these
+  }
+  if (year==2018) {
+    if (mc_id==11894400) return frac * 98.34 / 14.17;
+    if (mc_id==12895410) return frac * 38.25 / 12.94;
+    assert(false); // shouldn't be looking at any other mc IDs than these
+  }
   assert(false); // shouldn't be looking at any other year than these
 }
 
