@@ -811,7 +811,7 @@ calculation:
     wdd: double; w*wskim_dd*skim_global_ok; TO_TYPE(is_dd, 1.0)
     w2os: double; w*wskim_2os*skim_global_ok; TO_TYPE(is_2os, 1.0)
     w1os: double; w*wskim_1os*skim_global_ok; TO_TYPE(is_1os, 1.0)
-    wprot: double; TO_TYPE(is_prot, 1.0)  # TODO: Add PIDCalib weights for MC
+    wprot: double; w*wskim_prot*skim_global_ok; TO_TYPE(is_prot, 1.0)
     wdd_new: double; w*wskim_dd_new*skim_global_ok; TO_TYPE(is_dd_new, 1.0)
     w2os_new: double; w*wskim_2os_new*skim_global_ok; TO_TYPE(is_2os_new, 1.0)
     w1os_new: double; w*wskim_1os_new*skim_global_ok; TO_TYPE(is_1os_new, 1.0)
@@ -911,6 +911,17 @@ calculation:
         iso_p1, iso_pt1,
         iso_chrg1,
         wpid_iso_nnk1_lt,
+        d0_id
+        )
+    wskim_prot: >- # only defined for D0 sample
+        double;
+        WT_1OS(
+        true,
+        iso_bdt1, iso_bdt2,
+        iso_type1,
+        iso_p1, iso_pt1,
+        iso_chrg1,
+        wpid_iso_prot,
         d0_id
         )
 
