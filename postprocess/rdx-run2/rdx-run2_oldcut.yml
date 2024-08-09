@@ -804,7 +804,7 @@ calculation:
     wtrk: double; wtrk_k*wtrk_pi*wtrk_mu*wtrk_spi; wtrk_k*wtrk_pi*wtrk_mu
     wjk: double; wjk_kin*wjk_occ
 
-    w_base: double; wtrg*wtrk*wjk*wbr_dd*w_missDstDK # no PID cuts for the base weights
+    w_base: double; wtrg*wtrk*wjk*wbr_dd*w_missDstDK*w_missDstDspi # no PID cuts for the base weights
     w_w_ubdt: double; w_base*wpid_ubdt             # default PID cuts incl. UBDT
     w_w_ubdt_veto: double; w_base*wpid_ubdt_veto   # misID validation sample maybe
     wff: double; wff; 1.0                          # FF weight. default to 1
