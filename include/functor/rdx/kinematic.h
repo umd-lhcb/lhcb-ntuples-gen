@@ -133,7 +133,7 @@ Float_t MASS_PHI(Int_t type1, Int_t chrg1, Float_t px1, Float_t py1, Float_t pz1
   } else if (type1 == 3 && type3 == 3 && chrg1*chrg3 < 0) {
     phiKaon1 = TLorentzVector(px1, py1, pz1, sqrt(pow(494, 2) + pow(px1, 2) + pow(py1, 2) + pow(pz1, 2)));
     phiKaon2 = TLorentzVector(px3, py3, pz3, sqrt(pow(494, 2) + pow(px3, 2) + pow(py3, 2) + pow(pz3, 2)));
-  } else if (type2 == 3 && type3 == 3 && chrg2*chrg2 < 0) {
+  } else if (type2 == 3 && type3 == 3 && chrg2*chrg3 < 0) {
     phiKaon1 = TLorentzVector(px2, py2, pz2, sqrt(pow(494, 2) + pow(px2, 2) + pow(py2, 2) + pow(pz2, 2)));
     phiKaon2 = TLorentzVector(px3, py3, pz3, sqrt(pow(494, 2) + pow(px3, 2) + pow(py3, 2) + pow(pz3, 2)));
   } else {

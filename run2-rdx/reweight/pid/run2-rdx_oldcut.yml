@@ -35,6 +35,17 @@ config:
             - ETA(pi_P, pi_PZ)
             - nTracks
 
+    wpid_iso_prot:
+        particle: P
+        vars:
+            - >-
+              P(b0_ISOLATION_PX, b0_ISOLATION_PY, b0_ISOLATION_PZ);
+              P(b_ISOLATION_PX, b_ISOLATION_PY, b_ISOLATION_PZ)
+            - >-
+              ETA(b0_ISOLATION_PX, b0_ISOLATION_PY, b0_ISOLATION_PZ);
+              ETA(b_ISOLATION_PX, b_ISOLATION_PY, b_ISOLATION_PZ)
+            - nTracks
+
     wpid_iso_nnk1_gt_pi:
         particle: Pi_nnk_gt
         vars:

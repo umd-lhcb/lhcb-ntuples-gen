@@ -92,3 +92,15 @@ The other auxiliary ntuples are calculated on the fly if not cached:
 
 The step-2 ntuples (outputted to `ntuple_merged` folders) can then be copied to `rdx-run2-analysis/ntuples` and annexed, and will be used in that
 repository to produce the fit templates and other studies.
+
+### Updating PID weights in Monte Carlo
+
+MC weights are saved in histograms that we store
+in [`run2-rdx/reweight/pid/root-run2-rdx_oldcut-shifted`](https://github.com/umd-lhcb/lhcb-ntuples-gen/tree/e8d90f19de802f3fb786486cbf28db7914201dc1/run2-rdx/reweight/pid/root-run2-rdx_oldcut-shifted). These histograms
+are calculated with the `pidcalib2` package. We have three sets of scripts
+- `pidcalib2/efficiency_gen/rdx-run2-ubdt.sh` for the muon PID, that is to be run in `glacier` and takes 15 min to run.
+- `lhcb-ntuples-gen/reweight/pid/run2-rdx_oldcut.sh` for the kaon and pion PID, run in `lxplus` and takes 50 min to run.
+- `misid-unfold/spec/rdx-run2.yml` for the misID unfold species.
+
+If you want add new weights, you should calculate the histogram, copy it to that folder, and include
+a branch by modifying `run2-rdx/reweight/pid/run2-rdx_oldcut.yml`.

@@ -339,3 +339,19 @@ Bool_t FLAG_PROT(Bool_t add_flags,
          (iso_type1 == 3) && (iso_p1 > 15.6) && (iso_pt1 > 0.15) &&
          (iso_chrg1 * d0_id) > 0 && (iso_nnp1 > 0.4);
 }
+
+Double_t WT_PROT(Bool_t add_flags,
+                 Double_t iso_bdt1, Double_t iso_bdt2,
+                 Int_t iso_type1,
+                 Float_t iso_p1, Float_t iso_pt1,
+                 Int_t iso_chrg1,
+                 Float_t wpid_iso_prot,
+                 Int_t d0_id) {
+  // clang-format on
+  auto prefac = static_cast<Double_t>(
+               add_flags && (iso_bdt1 > 0.15) && (iso_bdt2 < 0.15) &&
+               (iso_type1 == 3) && (iso_p1 > 15.6) && (iso_pt1 > 0.15) &&
+               (iso_chrg1 * d0_id) > 0
+                                      );
+  return wpid_iso_prot * prefac;
+}
