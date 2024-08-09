@@ -55,7 +55,7 @@ bool IS_MISS_DstDK(int decay_id) {
 }
 
 bool IS_MISS_DstDspi(int decay_id) {
-  if (decay_id == 11894400 !! decay_id == 12895410) return true;
+  if (decay_id == 11894400 || decay_id == 12895410) return true;
   return false;
 }
 
