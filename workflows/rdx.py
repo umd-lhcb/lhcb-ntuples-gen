@@ -224,13 +224,13 @@ def workflow_vertex(
     return workflow_cached_ntuple(
         cmd, input_ntp, output_ntp, '--aux_vertex', **kwargs)
 
-@smart_kwarg
-def workflow_vertex_scale(
-        input_ntp, output_ntp='vertex_scale.root',
-        **kwargs):
-    cmd = f'GetScaledVariationWeights -i {input_ntp} -o {output_ntp}'
-    return workflow_cached_ntuple(
-        cmd, input_ntp, output_ntp, '--aux_vertex_scale', **kwargs)
+# @smart_kwarg
+# def workflow_vertex_scale(
+#         input_ntp, output_ntp='vertex_scale.root',
+#         **kwargs):
+#     cmd = f'GetScaledVariationWeights -i {input_ntp} -o {output_ntp}'
+#     return workflow_cached_ntuple(
+#         cmd, input_ntp, output_ntp, '--aux_vertex_scale', **kwargs)
 
 
 #######################
@@ -379,7 +379,7 @@ def workflow_mc(inputs, input_yml, job_name='mc', date=None,
                 num_of_workers=12, **kwargs):
     aux_workflows = [
         workflow_trigger_emu, workflow_pid, workflow_trk, workflow_jk,
-        workflow_vertex, workflow_vertex_scale
+        workflow_vertex#, workflow_vertex_scale
     ]
     if use_hammer:
         aux_workflows.append(workflow_hammer)
@@ -641,6 +641,17 @@ JOBS = {
         '../ntuples/0.9.6-2016_production/Dst_D0-mc-tracker_only/*MagDown*11574021*.DST',
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
         blocked_patterns=['--aux', r'--([1-9][0-9][0-9]|0[1-9][0-9])-dv']
+    ),
+    'rdx-ntuple-run2-mc-to-ddx-test': partial(
+        workflow_split,
+        [f'../ntuples/0.9.6-2016_production/Dst_D0-mc-tracker_only/*{i}*.DST' for i in \
+                [11894600, 12893600, 11894200, 12893610,
+                 11894610, 12895400, 11894210, 12895000,
+                 11895400]],
+        '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
+        use_hammer=False,
+        blocked_patterns=[r'--([1-9][0-9]|[1-9][0-9][0-9]|[0-9][1-9][0-9])-dv'],
+        num_of_workers=20
     ),
     'rdx-ntuple-run2-mc-dss': partial(
         workflow_mc,

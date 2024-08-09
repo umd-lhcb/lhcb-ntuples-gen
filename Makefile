@@ -129,6 +129,9 @@ rdx-ntuple-run2-mc-to-ddx:
 rdx-ntuple-run2-mc-to-missing-ddx-DstDspi:
 	workflows/rdx.py $@
 
+rdx-ntuple-run2-mc-to-ddx-test:
+	workflows/rdx.py $@
+
 rdx-ntuple-run2-mc-to-dstst:
 	workflows/rdx.py $@
 
