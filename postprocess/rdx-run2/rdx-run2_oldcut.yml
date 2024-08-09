@@ -444,9 +444,6 @@ calculation:
         b_BKGCAT,
         b_TrueHadron_D0_ID, b_TrueHadron_D1_ID, b_TrueHadron_D2_ID
         )
-    b_hadchild1_id: int; abs(b0_TrueHadron_D0_ID); abs(b_TrueHadron_D0_ID)
-    b_hadchild2_id: int; abs(b0_TrueHadron_D1_ID); abs(b_TrueHadron_D1_ID)
-    b_hadchild3_id: int; abs(b0_TrueHadron_D2_ID); abs(b_TrueHadron_D2_ID)
     is_ddx: bool; IS_DDX(mc_id)
     is_ddx_mu: bool; IS_DDX_MU(mc_id)
     # this is a naive filter:
@@ -965,7 +962,7 @@ global_selection:
     - trg_ok
     - global_cut_ok
     - truthmatch > 0
-    # - "!is_ddx || ddx_add_tm"
+    # - "!is_ddx || ddx_add_tm" # this shouldn't do anything on top of the nominal truthmatching
     - ham_ok
 
 one_cand_only:
