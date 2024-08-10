@@ -626,8 +626,7 @@ calculation:
     is_2os_new: bool; skim_global_ok && is_2os_loose_new
     is_1os_new: bool; skim_global_ok && is_1os_loose_new
     is_prot: bool; skim_global_ok && is_prot_loose
-
-    # for phi-enriched ctrl sample (to be able to perform fit to phi mass peak)
+    # for phi-enriched ctrl sample (keep to be able to perform fit to phi mass peak)
     phi_m:  >-
         float; MASS_PHI(b_ISOLATION_Type, b_ISOLATION_CHARGE, b_ISOLATION_PX, b_ISOLATION_PY, b_ISOLATION_PZ, 
         b_ISOLATION_Type2, b_ISOLATION_CHARGE2, b_ISOLATION_PX2, b_ISOLATION_PY2, b_ISOLATION_PZ2,
@@ -635,35 +634,7 @@ calculation:
         MASS_PHI(b0_ISOLATION_Type, b0_ISOLATION_CHARGE, b0_ISOLATION_PX, b0_ISOLATION_PY, b0_ISOLATION_PZ, 
         b0_ISOLATION_Type2, b0_ISOLATION_CHARGE2, b0_ISOLATION_PX2, b0_ISOLATION_PY2, b0_ISOLATION_PZ2,
         b0_ISOLATION_Type3, b0_ISOLATION_CHARGE3, b0_ISOLATION_PX3, b0_ISOLATION_PY3, b0_ISOLATION_PZ3)
-
-    ### Try out DD skim with ProbNNghost cuts and (potentially) different min ProbNNk: here choosing NNghost<0.3, and keeping NNK at 0.2
-    is_dd_loose_new:  >-
-        bool; FLAG_DD(
-        true, iso_bdt1, iso_bdt2, iso_bdt3, iso_type1, iso_type2, iso_type3,
-        iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
-        iso_nnk1, iso_nnk2, iso_nnk3, 0.2, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.3
-        )
-    is_2os_loose_new: >-
-        bool; FLAG_2OS(
-        true, iso_bdt1, iso_bdt2, iso_bdt3, iso_type1, iso_type2,
-        iso_p1, iso_p2, iso_pt1, iso_pt2, iso_chrg1, iso_chrg2,
-        iso_nnk1, iso_nnk2, 0.2, iso_nnghost1, iso_nnghost2, 0.3
-        )
-    is_1os_loose_new: >-
-        bool;
-        FLAG_1OS(true,
-        iso_bdt1, iso_bdt2, iso_type1,
-        iso_p1, iso_pt1, iso_chrg1,
-        iso_nnk1, 0.2, iso_nnghost1, 0.3,
-        dst_id, dst_iso_deltam
-        );
-        FLAG_1OS(true,
-        iso_bdt1, iso_bdt2, iso_type1,
-        iso_p1, iso_pt1, iso_chrg1,
-        iso_nnk1, 0.2, iso_nnghost1, 0.3,
-        d0_id
-        )
-    ###
+    is_phi: bool; skim_global_ok && is_phi_loose
 
     is_iso_loose: bool; FLAG_ISO(true, iso_bdt1)
     is_dd_loose: >-
@@ -702,7 +673,7 @@ calculation:
         0.0, 1.0,
         d0_id
         )
-    is_prot_loose: >-
+    is_prot_loose: >- # only defined for D0 sample
         bool;
         FLAG_PROT(
         true,
@@ -712,6 +683,35 @@ calculation:
         iso_nnp1,
         d0_id
         )
+    is_phi_loose: bool; is_dd_loose && 1015 < phi_m && phi_m < 1023
+    ### Try out DD skim with ProbNNghost cuts and (potentially) different min ProbNNk: here choosing NNghost<0.3, and keeping NNK at 0.2
+    is_dd_loose_new:  >-
+        bool; FLAG_DD(
+        true, iso_bdt1, iso_bdt2, iso_bdt3, iso_type1, iso_type2, iso_type3,
+        iso_p1, iso_p2, iso_p3, iso_pt1, iso_pt2, iso_pt3,
+        iso_nnk1, iso_nnk2, iso_nnk3, 0.2, iso_nnghost1, iso_nnghost2, iso_nnghost3, 0.3
+        )
+    is_2os_loose_new: >-
+        bool; FLAG_2OS(
+        true, iso_bdt1, iso_bdt2, iso_bdt3, iso_type1, iso_type2,
+        iso_p1, iso_p2, iso_pt1, iso_pt2, iso_chrg1, iso_chrg2,
+        iso_nnk1, iso_nnk2, 0.2, iso_nnghost1, iso_nnghost2, 0.3
+        )
+    is_1os_loose_new: >-
+        bool;
+        FLAG_1OS(true,
+        iso_bdt1, iso_bdt2, iso_type1,
+        iso_p1, iso_pt1, iso_chrg1,
+        iso_nnk1, 0.2, iso_nnghost1, 0.3,
+        dst_id, dst_iso_deltam
+        );
+        FLAG_1OS(true,
+        iso_bdt1, iso_bdt2, iso_type1,
+        iso_p1, iso_pt1, iso_chrg1,
+        iso_nnk1, 0.2, iso_nnghost1, 0.3,
+        d0_id
+        )
+    ###
 
     ###########
     # Weights #
@@ -812,6 +812,7 @@ calculation:
     w2os: double; w*wskim_2os*skim_global_ok; TO_TYPE(is_2os, 1.0)
     w1os: double; w*wskim_1os*skim_global_ok; TO_TYPE(is_1os, 1.0)
     wprot: double; w*wskim_prot*skim_global_ok; TO_TYPE(is_prot, 1.0)
+    wphi: double; w*wskim_phi*skim_global_ok; TO_TYPE(is_phi, 1.0)
     wdd_new: double; w*wskim_dd_new*skim_global_ok; TO_TYPE(is_dd_new, 1.0)
     w2os_new: double; w*wskim_2os_new*skim_global_ok; TO_TYPE(is_2os_new, 1.0)
     w1os_new: double; w*wskim_1os_new*skim_global_ok; TO_TYPE(is_1os_new, 1.0)
@@ -924,6 +925,7 @@ calculation:
         wpid_iso_prot,
         d0_id
         )
+    wskim_phi: double; wskim_dd * (1015 < phi_m && phi_m < 1023)
 
     wskim_dd_new: >-
         double; WT_DD(
