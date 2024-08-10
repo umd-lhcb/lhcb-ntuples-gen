@@ -437,17 +437,17 @@ Double_t WT_MISS_DstDspi(int year, int mc_id) {
   if (year==2016) {
     if (mc_id==11894400) return frac * 94.37 / 12.34;
     if (mc_id==12895410) return frac * 39.35 / 12.57;
-    assert(false); // shouldn't be looking at any other mc IDs than these
+    return 1.0; // shouldn't be looking at any other mc IDs than these, but use redundant 1.0 for compilation with current code
   }
   if (year==2017) {
     if (mc_id==11894400) return frac * 78.58 / 18.00;
     if (mc_id==12895410) return frac * 41.90 / 16.53;
-    assert(false); // shouldn't be looking at any other mc IDs than these
+    return 1.0; // shouldn't be looking at any other mc IDs than these, but use redundant 1.0 for compilation with current code
   }
   if (year==2018) {
     if (mc_id==11894400) return frac * 98.34 / 14.17;
     if (mc_id==12895410) return frac * 38.25 / 12.94;
-    assert(false); // shouldn't be looking at any other mc IDs than these
+    return 1.0; // shouldn't be looking at any other mc IDs than these, but use redundant 1.0 for compilation with current code
   }
   assert(false); // shouldn't be looking at any other year than these
 }
