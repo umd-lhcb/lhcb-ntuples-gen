@@ -327,13 +327,14 @@ Double_t WT_1OS(Bool_t add_flags,
   return prefac * iso_wt1;
 }
 // clang-format off
+// Only define proton-enriched skim for D0 sample
 Bool_t FLAG_PROT(Bool_t add_flags,
-                Double_t iso_bdt1, Double_t iso_bdt2,
-                Int_t iso_type1,
-                Float_t iso_p1, Float_t iso_pt1,
-                Int_t iso_chrg1,
-                Float_t iso_nnp1,
-                Int_t d0_id) {
+                 Double_t iso_bdt1, Double_t iso_bdt2,
+                 Int_t iso_type1,
+                 Float_t iso_p1, Float_t iso_pt1,
+                 Int_t iso_chrg1,
+                 Float_t iso_nnp1,
+                 Int_t d0_id) {
   // clang-format on
   return add_flags && (iso_bdt1 > 0.15) && (iso_bdt2 < 0.15) &&
          (iso_type1 == 3) && (iso_p1 > 15.6) && (iso_pt1 > 0.15) &&
