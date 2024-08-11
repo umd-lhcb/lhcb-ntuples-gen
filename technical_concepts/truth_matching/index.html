@@ -1464,7 +1464,7 @@ for an overview on these strategies.</p>
 <p>It finds the <code>ProtoParticle</code> of the reconstructed <code>Particle</code>. Then use the standard
 truth-matching table to find the linked <code>MCParticle</code>.</p>
 <h2 id="truth-matching-for-rdx-run-2">Truth-Matching for RDX run 2</h2>
-<p>For the run 2 RDX analysis, when postprocessing our MC ntuples, we perform truth-matching copied from Phoebe's code for
+<p>For the run 2 RDX analysis, when postprocessing our MC ntuples, we perform truth-matching <em>mostly</em> copied from Phoebe's code for
 the run 1 analysis.</p>
 <div class="admonition info">
 <p class="admonition-title">Info</p>
@@ -1492,12 +1492,12 @@ postprocessed ntuples.</p>
     (eg. an event for <span class="arithmatex">\(B^0 \rightarrow D^* \mu\nu\)</span> MC could pass the truth-
     matching requirements and thus be filled in for the template
     corresponding to <span class="arithmatex">\(B^0 \rightarrow D^* X_c(\rightarrow \mu\nu X')X\)</span>),</p>
-<p>And indeed this is seen to occur for a fraction of a percent of all
+<p>And indeed I see this happening for a fraction of a percent of all
 events.</p>
 </li>
 <li>
-<p>Our truth-matching: Takes in the decay mode that the user wants to truth-
-    match against as an input and will only set <code>truthmatch</code> to a corresponding
+<p>Our truth-matching: Takes in the decay mode that the user wants to apply truth-
+    matching to as an input and will only set <code>truthmatch</code> to a corresponding
     value for that decay mode.</p>
 <p>Additionally, our implementation will never fill in multiple templates
 with the same event.</p>
@@ -1506,10 +1506,9 @@ with the same event.</p>
 </div>
 <p>To apply our truth-matching when postprocessing ntuples:</p>
 <ol>
-<li>Use the header <a href="https://github.com/umd-lhcb/lhcb-ntuples-gen/blob/master/include/functor/rdx/truth_match.h"><code>truth_match.h</code></a></li>
+<li>Main code is in <a href="https://github.com/umd-lhcb/lhcb-ntuples-gen/blob/master/include/functor/rdx/truth_match.h"><code>truth_match.h</code></a></li>
 <li>
-<p>In a postprocessing configuration <code>YAML</code><sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup>, add a <code>calculation</code> integer
-    variable (nominally called <code>truthmatch</code>) that is calculated using:</p>
+<p>In a postprocessing configuration <code>YAML</code><sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup>, add <code>truthmatch</code> integer that is calculated using:</p>
 <ul>
 <li><code>MC_TRUTH_MATCH_DST(...)</code> (for <span class="arithmatex">\(D^*\)</span> sample)</li>
 <li><code>MC_TRUTH_MATCH_D0(...)</code> (for <span class="arithmatex">\(D^0\)</span> sample)</li>
@@ -1525,19 +1524,15 @@ truth-matching script linked above.</p>
 <div class="admonition info">
 <p class="admonition-title">Optional debugging flags for truth-matching</p>
 <p>The truth-matching code has some optional debugging flags that can be set
-if one:</p>
+if one wants to:</p>
 <ul>
-<li>Wants to not separate <span class="arithmatex">\(D^{**}_{(s)}\)</span> cocktails</li>
-<li>Want to separate <span class="arithmatex">\(D^{**}H\)</span> cocktails</li>
-<li>Doesn't want to separate <span class="arithmatex">\(DD\)</span> cocktails</li>
+<li><strong>not</strong> separate <span class="arithmatex">\(D^{**}_{(s)}\)</span> cocktails</li>
+<li>separate <span class="arithmatex">\(D^{**}H\)</span> cocktails</li>
+<li><strong>not</strong> separate <span class="arithmatex">\(DD\)</span> cocktails</li>
 </ul>
-<p>For now, the <span class="arithmatex">\(DD\)</span> debug flag is set to true until the code is
-developed to actually separate those cocktails (and, in fact, Phoebe does
-not separate the cocktails for her templates).</p>
-<p>In the encoding scheme below, this means that temporarily <code>truthmatch</code> will
-have <code>b1b2=0</code>. Without setting these flags, the coded <code>truthmatch</code> int is
-nominally set to encode all information that should be relevant for
-building the run 2 RDX templates.</p>
+<p>Nominally, for run2 our <code>truthmatch</code> int is separating <span class="arithmatex">\(D^{**}_{(s)}\)</span>, not separating <span class="arithmatex">\(D^{**}H\)</span>,
+and partially separating <span class="arithmatex">\(DD\)</span>. Without setting these flags, <code>truthmatch</code> is set to encode all 
+information that should be relevant for building the run 2 RDX templates.</p>
 </div>
 <p>Once this is done, the postprocessed ntuples will contain a <code>truthmatch</code> branch
 that encodes what type of decay the event was successfully truth-matched to, or
@@ -1547,16 +1542,15 @@ where</p>
 <ol>
 <li>
 <p><code>d1</code>=</p>
-<ol>
-<li>0 if normalization(-like) (i.e. without <span class="arithmatex">\(\tau\)</span>)</li>
-<li>1 if signal(-like)</li>
-</ol>
+<ul>
+<li><code>0</code> if normalization(-like) (i.e. without <span class="arithmatex">\(\tau\)</span>)</li>
+<li><code>1</code> if signal(-like)</li>
+</ul>
 </li>
 <li>
-<p><code>c1c2</code> are two digits referring to the "primary" <span class="arithmatex">\(D\)</span> meson. For non-<span class="arithmatex">\(DD\)</span>
-    decays, this is just the <span class="arithmatex">\(D\)</span> that the <span class="arithmatex">\(B\)</span> decays to; for now, for <span class="arithmatex">\(DD\)</span>
-    decays,  <code>c1c2=00</code>. Otherwise, <code>c1c2=</code>:</p>
-<ol>
+<p><code>c1c2</code> are two digits referring to the "primary" <span class="arithmatex">\(D\)</span> meson (ie. coming from the <span class="arithmatex">\(B\)</span>). For <span class="arithmatex">\(DD\)</span> 
+    decays, this is ambiguous, so <code>c1c2=00</code>. For non-<span class="arithmatex">\(DD\)</span> decays, <code>c1c2=</code>:</p>
+<ul>
 <li>
 <p><code>01</code> for <span class="arithmatex">\(D^0\)</span>,
     <code>02</code> for <span class="arithmatex">\(D^+\)</span>,
@@ -1565,31 +1559,30 @@ where</p>
 </li>
 <li>
 <p><code>10</code> for all (light) <span class="arithmatex">\(D^{**0}\)</span>
-    (i.e. cocktail not separated, but it's required that the specific event
-    <span class="arithmatex">\(D^{**}\)</span> is possible for the considered decay),
+    (i.e. cocktail not separated, but it's required that the specific
+    <span class="arithmatex">\(D^{**}\)</span> is possible [included in the dec file] for the considered decay), or if separated:
     <code>11</code> for <span class="arithmatex">\(D_0^{*0}\)</span>,
     <code>12</code> for <span class="arithmatex">\(D_1^0\)</span>,
     <code>13</code> for <span class="arithmatex">\(D_1'^0\)</span>,
     <code>14</code> for <span class="arithmatex">\(D_2^{*0}\)</span></p>
 </li>
 <li>
-<p><code>20</code> for all (light) <span class="arithmatex">\(D^{**+}\)</span>,
+<p><code>20</code> for all (light) <span class="arithmatex">\(D^{**+}\)</span>, or if separated:
     <code>21</code> for <span class="arithmatex">\(D_0^{*+}\)</span>,
     <code>22</code> for <span class="arithmatex">\(D_1^+\)</span>,
     <code>23</code> for <span class="arithmatex">\(D_1'^+\)</span>,
     <code>24</code> for <span class="arithmatex">\(D_2^{*+}\)</span></p>
 </li>
 <li>
-<p><code>30</code> for all heavy <span class="arithmatex">\(D^{**}H^0\)</span>
-    (again, it's internally required that the <span class="arithmatex">\(D^{**}H\)</span> is possible),
-    and (for debugging)
+<p><code>30</code> for all heavy <span class="arithmatex">\(D^{**0}_H\)</span>
+    (again, internally required that the decay is possible), or if separated:
     <code>31</code> for <span class="arithmatex">\(D(2S)^{*+}\)</span>,
     <code>32</code> for <span class="arithmatex">\(D(2S)^+\)</span>,
     <code>33</code> for <span class="arithmatex">\(D(2750)^+\)</span>,
     <code>34</code> for <span class="arithmatex">\(D(3000)^+\)</span></p>
 </li>
 <li>
-<p><code>40</code> for all heavy <span class="arithmatex">\(D^{**}H^+\)</span>, and
+<p><code>40</code> for all heavy <span class="arithmatex">\(D^{**+}_H\)</span>, or if separated:
     <code>41</code> for <span class="arithmatex">\(D(2S)^{*+}\)</span>,
     <code>42</code> for <span class="arithmatex">\(D(2S)^+\)</span>,
     <code>43</code> for <span class="arithmatex">\(D(2750)^+\)</span>,
@@ -1597,33 +1590,37 @@ where</p>
 </li>
 <li>
 <p><code>50</code> for all strange <span class="arithmatex">\(D^{**}_s\)</span>
-    (again, internally require specific <span class="arithmatex">\(D^{**}_s\)</span> to be possible), and
+    (again, internally require the <span class="arithmatex">\(D^{**}_s\)</span> is possible), or if separated:
     <code>53</code> for <span class="arithmatex">\(D_{1s}'\)</span>,
     <code>54</code> for <span class="arithmatex">\(D_{2s}^*\)</span>
     (to keep consistent with <span class="arithmatex">\(D^{**}\)</span> scheme; there aren't any "<span class="arithmatex">\(D_{0s}^*, D_{1s}\)</span>")</p>
 </li>
-</ol>
+</ul>
 </li>
 <li>
-<p><code>b1b2</code> are used to separate <code>DD</code> cocktails, and will nominally be set to nonzero values for every <code>DD</code> decay. For now, this feature is not
-implemented, so it will always be that <code>b1b2=00</code></p>
+<p><code>b1b2</code> are used to (partially, at least for now) separate <code>DD</code> cocktails, equal to</p>
+<ul>
+<li>
+<p><code>01</code> for a 2-body <span class="arithmatex">\(B\rightarrow D^{(*)}D^{(*)}\)</span>, <code>02</code> for a 2-body <span class="arithmatex">\(B\rightarrow D^{(*)(**)}D^{(*)(**)}_s\)</span></p>
+</li>
+<li>
+<p><code>10</code> for a 3-body <span class="arithmatex">\(B\rightarrow D^{(*)}D^{(*)}K^{(*)}\)</span>, <code>20</code> for a 3- or 4-body <span class="arithmatex">\(B\rightarrow D^{(*)}_sD^{(*)(**)}\pi(\pi)\)</span></p>
+</li>
+</ul>
 </li>
 <li>
 <p><code>a1</code>=</p>
-<ol>
-<li><code>0</code> if not a <span class="arithmatex">\(D^{**}H\)</span> or <span class="arithmatex">\(DD\)</span> decay,
-    and <span class="arithmatex">\(D^{**} \rightarrow D^{(*)}\pi\pi\)</span> decays are cut out if a (light)
-   <span class="arithmatex">\(D^{**}\)</span> decay</li>
+<ul>
+<li><code>0</code> if not a <span class="arithmatex">\(D^{**}_H\)</span>, <span class="arithmatex">\(DD\)</span>, or (light) <span class="arithmatex">\(D^{**} \rightarrow D^{(*)}\pi\pi\)</span> decay</li>
 <li><code>1</code> if a <span class="arithmatex">\(DD\)</span> decay from a <span class="arithmatex">\(B^0\)</span></li>
 <li><code>2</code> if a <span class="arithmatex">\(DD\)</span> decay from a <span class="arithmatex">\(B^+\)</span></li>
-<li><code>3</code> if a <span class="arithmatex">\(D^{**}H\)</span> decay where <span class="arithmatex">\(D^{**}H \rightarrow D* \rightarrow D\)</span>
+<li><code>3</code> if a <span class="arithmatex">\(D^{**}_H\)</span> decay where <span class="arithmatex">\(D^{**}_H \rightarrow D^* \rightarrow D\)</span>
     (useful because Phoebe separates this topology from
-    <span class="arithmatex">\(D^{**}H \rightarrow D^0\)</span> directly in her templates for the
+    <span class="arithmatex">\(D^{**}_H \rightarrow D\)</span> directly in her templates for the
     <span class="arithmatex">\(D^0\)</span> sample)</li>
-<li><code>4</code> if a <span class="arithmatex">\(D^{**}H\)</span> decay where <span class="arithmatex">\(D^{**}H \rightarrow D\)</span></li>
-<li><code>5</code> if a (light) <span class="arithmatex">\(D^{**}\)</span> decay explicitly with two pion decays
-    (<span class="arithmatex">\(D^{**} \rightarrow D^{(*)}\pi\pi\)</span>) kept</li>
-</ol>
+<li><code>4</code> if a <span class="arithmatex">\(D^{**}_H\)</span> decay where <span class="arithmatex">\(D^{**}_H \rightarrow D\)</span></li>
+<li><code>5</code> if a (light) <span class="arithmatex">\(D^{**} \rightarrow D^{(*)}\pi\pi\)</span> decay</li>
+</ul>
 </li>
 </ol>
 <div class="admonition example">
@@ -1634,8 +1631,11 @@ implemented, so it will always be that <code>b1b2=00</code></p>
 <li><span class="arithmatex">\(B^0 \rightarrow D^0 \tau\nu\)</span> as <code>000011</code></li>
 <li><span class="arithmatex">\(B^0 \rightarrow D_1' \tau\nu\)</span> (no <span class="arithmatex">\(2\pi\)</span>) as <code>000231</code></li>
 <li><span class="arithmatex">\(B^+ \rightarrow D_2^*(\rightarrow D^*\pi\pi)\mu\nu\)</span> as <code>500140</code></li>
-<li><span class="arithmatex">\(B^0 \rightarrow D^{**}H(\rightarrow D\pi\pi)\mu\nu\)</span> as <code>400400</code></li>
-<li><span class="arithmatex">\(B^+ \rightarrow D^0X(\rightarrow \mu\nu X')X\)</span> as <code>200000</code></li>
+<li><span class="arithmatex">\(B^0 \rightarrow D^{**}_H(\rightarrow D\pi\pi)\mu\nu\)</span> as <code>400400</code></li>
+<li><span class="arithmatex">\(B^0 \rightarrow D^{*+}D^-(\rightarrow \mu\nu X)\)</span> as <code>101000</code></li>
+<li><span class="arithmatex">\(B^0 \rightarrow D^{*+}D_s(\rightarrow \tau\nu)\)</span> as <code>102001</code></li>
+<li><span class="arithmatex">\(B^0 \rightarrow D^{0}D^{*-}(\rightarrow \mu\nu X)K^+\)</span> as <code>110000</code></li>
+<li><span class="arithmatex">\(B^+ \rightarrow D^{*-}D_s(\rightarrow \mu\nu X)\pi^+\)</span> as <code>220000</code></li>
 </ul>
 </div>
 <div class="footnote">
