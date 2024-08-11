@@ -61,7 +61,7 @@ truth-matching table to find the linked `MCParticle`.
 
 ## Truth-Matching for RDX run 2
 
-For the run 2 RDX analysis, when postprocessing our MC ntuples, we perform truth-matching copied from Phoebe's code for
+For the run 2 RDX analysis, when postprocessing our MC ntuples, we perform truth-matching _mostly_ copied from Phoebe's code for
 the run 1 analysis.
 
 !!! info
@@ -90,11 +90,11 @@ postprocessed ntuples.
         matching requirements and thus be filled in for the template
         corresponding to $B^0 \rightarrow D^* X_c(\rightarrow \mu\nu X')X$),
 
-        And indeed this is seen to occur for a fraction of a percent of all
+        And indeed I see this happening for a fraction of a percent of all
         events.
 
-    - Our truth-matching: Takes in the decay mode that the user wants to truth-
-        match against as an input and will only set `truthmatch` to a corresponding
+    - Our truth-matching: Takes in the decay mode that the user wants to apply truth-
+        matching to as an input and will only set `truthmatch` to a corresponding
         value for that decay mode.
 
         Additionally, our implementation will never fill in multiple templates
@@ -102,9 +102,8 @@ postprocessed ntuples.
 
 To apply our truth-matching when postprocessing ntuples:
 
-1. Use the header [`truth_match.h`](https://github.com/umd-lhcb/lhcb-ntuples-gen/blob/master/include/functor/rdx/truth_match.h)
-2. In a postprocessing configuration `YAML`[^1], add a `calculation` integer
-    variable (nominally called `truthmatch`) that is calculated using:
+1. Main code is in [`truth_match.h`](https://github.com/umd-lhcb/lhcb-ntuples-gen/blob/master/include/functor/rdx/truth_match.h)
+2. In a postprocessing configuration `YAML`[^1], add `truthmatch` integer that is calculated using:
 
     - `MC_TRUTH_MATCH_DST(...)` (for $D^*$ sample)
     - `MC_TRUTH_MATCH_D0(...)` (for $D^0$ sample)
@@ -121,20 +120,15 @@ To apply our truth-matching when postprocessing ntuples:
 !!! info "Optional debugging flags for truth-matching"
 
     The truth-matching code has some optional debugging flags that can be set
-    if one:
+    if one wants to:
 
-    - Wants to not separate $D^{**}_{(s)}$ cocktails
-    - Want to separate $D^{**}H$ cocktails
-    - Doesn't want to separate $DD$ cocktails
+    - **not** separate $D^{**}_{(s)}$ cocktails
+    - separate $D^{**}H$ cocktails
+    - **not** separate $DD$ cocktails
 
-    For now, the $DD$ debug flag is set to true until the code is
-    developed to actually separate those cocktails (and, in fact, Phoebe does
-    not separate the cocktails for her templates).
-
-    In the encoding scheme below, this means that temporarily `truthmatch` will
-    have `b1b2=0`. Without setting these flags, the coded `truthmatch` int is
-    nominally set to encode all information that should be relevant for
-    building the run 2 RDX templates.
+    Nominally, for run2 our `truthmatch` int is separating $D^{**}_{(s)}$, not separating $D^{**}H$,
+    and partially separating $DD$. Without setting these flags, `truthmatch` is set to encode all 
+    information that should be relevant for building the run 2 RDX templates.
 
 Once this is done, the postprocessed ntuples will contain a `truthmatch` branch
 that encodes what type of decay the event was successfully truth-matched to, or
@@ -143,67 +137,64 @@ encoding scheme for `truthmatch` works as follows: `truthmatch=a1b1b2c1c2d1`
 where
 
 1. `d1`=
-    1. 0 if normalization(-like) (i.e. without $\tau$)
-    2. 1 if signal(-like)
+    - `0` if normalization(-like) (i.e. without $\tau$)
+    - `1` if signal(-like)
 
-2. `c1c2` are two digits referring to the "primary" $D$ meson. For non-$DD$
-    decays, this is just the $D$ that the $B$ decays to; for now, for $DD$
-    decays,  `c1c2=00`. Otherwise, `c1c2=`:
-    1. `01` for $D^0$,
+2. `c1c2` are two digits referring to the "primary" $D$ meson (ie. coming from the $B$). For $DD$ 
+    decays, this is ambiguous, so `c1c2=00`. For non-$DD$ decays, `c1c2=`:
+    - `01` for $D^0$,
         `02` for $D^+$,
         `03` for $D^{*0}$,
         `04` for $D^{*+}$
 
-    2. `10` for all (light) $D^{**0}$
-        (i.e. cocktail not separated, but it's required that the specific event
-        $D^{**}$ is possible for the considered decay),
+    - `10` for all (light) $D^{**0}$
+        (i.e. cocktail not separated, but it's required that the specific
+        $D^{**}$ is possible [included in the dec file] for the considered decay), or if separated:
         `11` for $D_0^{*0}$,
         `12` for $D_1^0$,
         `13` for $D_1'^0$,
         `14` for $D_2^{*0}$
 
-    3. `20` for all (light) $D^{**+}$,
+    - `20` for all (light) $D^{**+}$, or if separated:
         `21` for $D_0^{*+}$,
         `22` for $D_1^+$,
         `23` for $D_1'^+$,
         `24` for $D_2^{*+}$
 
-    4. `30` for all heavy $D^{**}H^0$
-        (again, it's internally required that the $D^{**}H$ is possible),
-        and (for debugging)
+    - `30` for all heavy $D^{**0}_H$
+        (again, internally required that the decay is possible), or if separated:
         `31` for $D(2S)^{*+}$,
         `32` for $D(2S)^+$,
         `33` for $D(2750)^+$,
         `34` for $D(3000)^+$
 
-    5. `40` for all heavy $D^{**}H^+$, and
+    - `40` for all heavy $D^{**+}_H$, or if separated:
         `41` for $D(2S)^{*+}$,
         `42` for $D(2S)^+$,
         `43` for $D(2750)^+$,
         `44` for $D(3000)^+$
 
-    6. `50` for all strange $D^{**}_s$
-        (again, internally require specific $D^{**}_s$ to be possible), and
+    - `50` for all strange $D^{**}_s$
+        (again, internally require the $D^{**}_s$ is possible), or if separated:
         `53` for $D_{1s}'$,
         `54` for $D_{2s}^*$
         (to keep consistent with $D^{**}$ scheme; there aren't any "$D_{0s}^*, D_{1s}$")
 
-3. `b1b2` are used to separate `DD` cocktails, and will nominally be set to nonzero values for every `DD` decay. For now, this feature is not
-implemented, so it will always be that `b1b2=00`
+3. `b1b2` are used to (partially, at least for now) separate `DD` cocktails, equal to
+    - `01` for a 2-body $B\rightarrow D^{(*)}D^{(*)}$, `02` for a 2-body $B\rightarrow D^{(*)(**)}D^{(*)(**)}_s$
+
+    - `10` for a 3-body $B\rightarrow D^{(*)}D^{(*)}K^{(*)}$, `20` for a 3- or 4-body $B\rightarrow D^{(*)}_sD^{(*)(**)}\pi(\pi)$
 
 4. `a1`=
-    1. `0` if not a $D^{**}H$ or $DD$ decay,
-        and $D^{**} \rightarrow D^{(*)}\pi\pi$ decays are cut out if a (light)
-       $D^{**}$ decay
-    2. `1` if a $DD$ decay from a $B^0$
-    3. `2` if a $DD$ decay from a $B^+$
-    4. `3` if a $D^{**}H$ decay where $D^{**}H \rightarrow D* \rightarrow D$
+    - `0` if not a $D^{**}_H$, $DD$, or (light) $D^{**} \rightarrow D^{(*)}\pi\pi$ decay
+    - `1` if a $DD$ decay from a $B^0$
+    - `2` if a $DD$ decay from a $B^+$
+    - `3` if a $D^{**}_H$ decay where $D^{**}_H \rightarrow D^* \rightarrow D$
         (useful because Phoebe separates this topology from
-        $D^{**}H \rightarrow D^0$ directly in her templates for the
+        $D^{**}_H \rightarrow D$ directly in her templates for the
         $D^0$ sample)
-    5. `4` if a $D^{**}H$ decay where $D^{**}H \rightarrow D$
-    6. `5` if a (light) $D^{**}$ decay explicitly with two pion decays
-        ($D^{**} \rightarrow D^{(*)}\pi\pi$) kept
+    - `4` if a $D^{**}_H$ decay where $D^{**}_H \rightarrow D$
+    - `5` if a (light) $D^{**} \rightarrow D^{(*)}\pi\pi$ decay
 
 !!! example
 
@@ -212,5 +203,8 @@ implemented, so it will always be that `b1b2=00`
     - $B^0 \rightarrow D^0 \tau\nu$ as `000011`
     - $B^0 \rightarrow D_1' \tau\nu$ (no $2\pi$) as `000231`
     - $B^+ \rightarrow D_2^*(\rightarrow D^*\pi\pi)\mu\nu$ as `500140`
-    - $B^0 \rightarrow D^{**}H(\rightarrow D\pi\pi)\mu\nu$ as `400400`
-    - $B^+ \rightarrow D^0X(\rightarrow \mu\nu X')X$ as `200000`
+    - $B^0 \rightarrow D^{**}_H(\rightarrow D\pi\pi)\mu\nu$ as `400400`
+    - $B^0 \rightarrow D^{*+}D^-(\rightarrow \mu\nu X)$ as `101000`
+    - $B^0 \rightarrow D^{*+}D_s(\rightarrow \tau\nu)$ as `102001`
+    - $B^0 \rightarrow D^{0}D^{*-}(\rightarrow \mu\nu X)K^+$ as `110000`
+    - $B^+ \rightarrow D^{*-}D_s(\rightarrow \mu\nu X)\pi^+$ as `220000`
