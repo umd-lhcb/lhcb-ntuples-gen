@@ -631,6 +631,10 @@ calculation:
     is_dd: bool; skim_global_ok && is_dd_loose
     is_2os: bool; skim_global_ok && is_2os_loose
     is_1os: bool; skim_global_ok && is_1os_loose
+    is_iso_ang: bool; skim_global_ok && is_iso_ang_loose
+    is_dd_ang: bool; skim_global_ok && is_dd_ang_loose
+    is_2os_ang: bool; skim_global_ok && is_2os_ang_loose
+    is_1os_ang: bool; skim_global_ok && is_1os_ang_loose
     is_dd_new: bool; skim_global_ok && is_dd_loose_new
     is_2os_new: bool; skim_global_ok && is_2os_loose_new
     is_1os_new: bool; skim_global_ok && is_1os_loose_new
@@ -693,6 +697,35 @@ calculation:
         d0_id
         )
     is_phi_loose: bool; is_dd_loose && 1015 < phi_m && phi_m < 1023
+    ## skim definitions mimicking angular R(D*) (just missing 4th iso track info)
+    is_iso_ang_loose: >-
+        bool; FLAG_ISO_ANG(
+        true, iso_type1, iso_bdt1, iso_type2, iso_bdt2, iso_type3, iso_bdt3
+        )
+    is_dd_ang_loose:  >-
+        bool; FLAG_DD_ANG(
+        true, iso_bdt1, iso_bdt2, iso_type1, iso_type2, iso_nnk1, iso_nnk2, iso_nnghost1, iso_nnghost2
+        )
+    is_2os_ang_loose: >-
+        bool; FLAG_2OS_ANG(
+        true, iso_bdt1, iso_bdt2, iso_bdt3, iso_type1, iso_type2,
+        iso_chrg1, iso_chrg2, iso_nnk1, iso_nnk2, iso_nnghost1, iso_nnghost2
+        )
+    is_1os_ang_loose: >-
+        bool; 
+        FLAG_1OS_ANG(
+        true, iso_bdt1, iso_bdt2, iso_bdt3, iso_type1, iso_type2,
+        iso_p1, iso_pt1, iso_p2, iso_pt2, iso_chrg1, iso_chrg2,
+        iso_nnk1, iso_nnk2, iso_nnghost1, iso_nnghost2,
+        dst_id, true
+        );
+        FLAG_1OS_ANG(
+        true, iso_bdt1, iso_bdt2, iso_bdt3, iso_type1, iso_type2,
+        iso_p1, iso_pt1, iso_p2, iso_pt2, iso_chrg1, iso_chrg2,
+        iso_nnk1, iso_nnk2, iso_nnghost1, iso_nnghost2,
+        d0_id, false
+        )
+    
     ### Try out DD skim with ProbNNghost cuts and (potentially) different min ProbNNk: here choosing NNghost<0.3, and keeping NNK at 0.2
     is_dd_loose_new:  >-
         bool; FLAG_DD(
@@ -825,6 +858,10 @@ calculation:
     wdd_new: double; w*wskim_dd_new*skim_global_ok; TO_TYPE(is_dd_new, 1.0)
     w2os_new: double; w*wskim_2os_new*skim_global_ok; TO_TYPE(is_2os_new, 1.0)
     w1os_new: double; w*wskim_1os_new*skim_global_ok; TO_TYPE(is_1os_new, 1.0)
+    wiso_ang: double; w*wskim_iso_ang*skim_global_ok; TO_TYPE(is_iso_ang, 1.0)
+    wdd_ang: double; w*wskim_dd_ang*skim_global_ok; TO_TYPE(is_dd_ang, 1.0)
+    w2os_ang: double; w*wskim_2os_ang*skim_global_ok; TO_TYPE(is_2os_ang, 1.0)
+    w1os_ang: double; w*wskim_1os_ang*skim_global_ok; TO_TYPE(is_1os_ang, 1.0)
 
     # PID for isolation tracks
     wpid_iso_nnk1_gt: >-
@@ -933,7 +970,29 @@ calculation:
         wpid_iso_prot1_gt_e, wpid_iso_prot1_gt_mu, wpid_iso_nnk1_gt_g, mc_id
         )
     wskim_phi: double; wskim_dd * (1015 < phi_m && phi_m < 1023)
-
+    wskim_iso_ang: 
+        double; WT_ISO_ANG(
+        true, iso_type1, iso_bdt1, iso_type2, iso_bdt2, iso_type3, iso_bdt3
+        )
+    wskim_dd_ang: >-
+        double; WT_DD_ANG(
+        true, iso_bdt1, iso_bdt2, iso_type1, iso_type2, wpid_iso_nnknng1_gt02lt02, wpid_iso_nnknng2_gt02lt02
+        )
+    wskim_2os_ang: >-
+        double; WT_2OS_ANG(
+        true, iso_bdt1, iso_bdt2, iso_bdt3, iso_type1, iso_type2, iso_chrg1, iso_chrg2,
+        wpid_iso_nnknng1_lt02lt02, wpid_iso_nnknng2_lt02lt02
+        )
+    wskim_1os_ang: >-
+        double;
+        WT_1OS_ANG(
+        true, iso_bdt1, iso_bdt2, iso_bdt3, iso_type1, iso_type2, iso_p1, iso_pt1, iso_p2, iso_pt2,
+        iso_chrg1, iso_chrg2, wpid_iso_nnknng1_lt02lt02, wpid_iso_nnknng2_lt02lt02, dst_id, true
+        );
+        WT_1OS_ANG(
+        true, iso_bdt1, iso_bdt2, iso_bdt3, iso_type1, iso_type2, iso_p1, iso_pt1, iso_p2, iso_pt2,
+        iso_chrg1, iso_chrg2, wpid_iso_nnknng1_lt02lt02, wpid_iso_nnknng2_lt02lt02, d0_id, false
+        )
     wskim_dd_new: >-
         double; WT_DD(
         true,
