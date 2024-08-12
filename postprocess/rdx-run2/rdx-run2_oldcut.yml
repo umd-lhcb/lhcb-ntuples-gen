@@ -914,16 +914,14 @@ calculation:
         wpid_iso_nnk1_lt,
         d0_id
         )
-    wskim_prot: >- # only defined for D0 sample
+    wskim_prot: >- # only defined for D0 sample. FIXME: find proton ghost eff
         double;
-        WT_1OS(
-        true,
+        WT_PROT(true,
         iso_bdt1, iso_bdt2,
-        iso_type1,
-        iso_p1, iso_pt1,
-        iso_chrg1,
-        wpid_iso_prot,
-        d0_id
+        iso_type1, iso_p1, iso_pt1,
+        iso_chrg1, d0_id,
+        iso_true_id1, wpid_iso_prot1_gt_pi, wpid_iso_prot1_gt_k, wpid_iso_prot1_gt_p,
+        wpid_iso_prot1_gt_e, wpid_iso_prot1_gt_mu, wpid_iso_nnk1_gt_g, mc_id
         )
     wskim_phi: double; wskim_dd * (1015 < phi_m && phi_m < 1023)
 

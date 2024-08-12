@@ -341,18 +341,30 @@ Bool_t FLAG_PROT(Bool_t add_flags,
          (iso_chrg1 * d0_id) > 0 && (iso_nnp1 > 0.4);
 }
 
+// Efficiency for proton PID cut, mocking up D** as Lambdas
+Double_t WT_ISO_PROT(Int_t true_id, Double_t w_pi, Double_t w_k, Double_t w_p,
+                    Double_t w_e, Double_t w_mu, Double_t w_ghost, int mc_id) {
+  true_id = ABS(true_id);
+  if(mc_id==11874430 || mc_id==11874440 || mc_id==12873450 || mc_id==12873460) return w_p;
+  if (true_id == 2212) return w_p;
+  if (true_id == 211) return w_pi;
+  if (true_id == 321) return w_k;
+  if (true_id == 11) return w_e;
+  if (true_id == 13) return w_mu;
+  return w_ghost;
+}
+
 Double_t WT_PROT(Bool_t add_flags,
                  Double_t iso_bdt1, Double_t iso_bdt2,
-                 Int_t iso_type1,
-                 Float_t iso_p1, Float_t iso_pt1,
-                 Int_t iso_chrg1,
-                 Float_t wpid_iso_prot,
-                 Int_t d0_id) {
+                 Int_t iso_type1, Float_t iso_p1, Float_t iso_pt1,
+                 Int_t iso_chrg1, Int_t d0_id,
+                 Int_t true_id, Double_t w_pi, Double_t w_k, Double_t w_p,
+                 Double_t w_e, Double_t w_mu, Double_t w_ghost, int mc_id) {
   // clang-format on
   auto prefac = static_cast<Double_t>(
                add_flags && (iso_bdt1 > 0.15) && (iso_bdt2 < 0.15) &&
                (iso_type1 == 3) && (iso_p1 > 15.6) && (iso_pt1 > 0.15) &&
                (iso_chrg1 * d0_id) > 0
                                       );
-  return wpid_iso_prot * prefac;
+  return prefac * WT_ISO_PROT(true_id, w_pi, w_k, w_p, w_e, w_mu, w_ghost, mc_id);
 }

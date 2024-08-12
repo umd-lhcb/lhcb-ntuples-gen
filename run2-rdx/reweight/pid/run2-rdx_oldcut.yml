@@ -35,8 +35,9 @@ config:
             - ETA(pi_P, pi_PZ)
             - nTracks
 
-    wpid_iso_prot:
-        particle: P
+    ### Proton PID for first isolated track        
+    wpid_iso_prot1_gt_pi:
+        particle: Pi_nnp_gt
         vars:
             - >-
               P(b0_ISOLATION_PX, b0_ISOLATION_PY, b0_ISOLATION_PZ);
@@ -45,7 +46,59 @@ config:
               ETA(b0_ISOLATION_PX, b0_ISOLATION_PY, b0_ISOLATION_PZ);
               ETA(b_ISOLATION_PX, b_ISOLATION_PY, b_ISOLATION_PZ)
             - nTracks
+    wpid_iso_prot1_gt_k:
+        particle: K_nnp_gt
+        vars:
+            - >-
+              P(b0_ISOLATION_PX, b0_ISOLATION_PY, b0_ISOLATION_PZ);
+              P(b_ISOLATION_PX, b_ISOLATION_PY, b_ISOLATION_PZ)
+            - >-
+              ETA(b0_ISOLATION_PX, b0_ISOLATION_PY, b0_ISOLATION_PZ);
+              ETA(b_ISOLATION_PX, b_ISOLATION_PY, b_ISOLATION_PZ)
+            - nTracks
+    wpid_iso_prot1_gt_p:
+        particle: P_nnp_gt
+        vars:
+            - >-
+              P(b0_ISOLATION_PX, b0_ISOLATION_PY, b0_ISOLATION_PZ);
+              P(b_ISOLATION_PX, b_ISOLATION_PY, b_ISOLATION_PZ)
+            - >-
+              ETA(b0_ISOLATION_PX, b0_ISOLATION_PY, b0_ISOLATION_PZ);
+              ETA(b_ISOLATION_PX, b_ISOLATION_PY, b_ISOLATION_PZ)
+            - nTracks
+    wpid_iso_prot1_gt_e:
+        particle: e_B_Jpsi_nnp_gt
+        vars:
+            - >-
+              P(b0_ISOLATION_PX, b0_ISOLATION_PY, b0_ISOLATION_PZ);
+              P(b_ISOLATION_PX, b_ISOLATION_PY, b_ISOLATION_PZ)
+            - >-
+              ETA(b0_ISOLATION_PX, b0_ISOLATION_PY, b0_ISOLATION_PZ);
+              ETA(b_ISOLATION_PX, b_ISOLATION_PY, b_ISOLATION_PZ)
+            - nTracks
+    wpid_iso_prot1_gt_mu:
+        particle: Mu_nopt_nnp_gt
+        vars:
+            - >-
+              P(b0_ISOLATION_PX, b0_ISOLATION_PY, b0_ISOLATION_PZ);
+              P(b_ISOLATION_PX, b_ISOLATION_PY, b_ISOLATION_PZ)
+            - >-
+              ETA(b0_ISOLATION_PX, b0_ISOLATION_PY, b0_ISOLATION_PZ);
+              ETA(b_ISOLATION_PX, b_ISOLATION_PY, b_ISOLATION_PZ)
+            - nTracks
+    #wpid_iso_prot1_gt_g:
+    #    particle: ghost_nnp_gt
+    #    vars:
+    #        - >-
+    #          P(b0_ISOLATION_PX, b0_ISOLATION_PY, b0_ISOLATION_PZ);
+    #          P(b_ISOLATION_PX, b_ISOLATION_PY, b_ISOLATION_PZ)
+    #        - >-
+    #          ETA(b0_ISOLATION_PX, b0_ISOLATION_PY, b0_ISOLATION_PZ);
+    #          ETA(b_ISOLATION_PX, b_ISOLATION_PY, b_ISOLATION_PZ)
+    #        - nTracks
 
+
+    ### Kaon PID for isolated tracks      
     wpid_iso_nnk1_gt_pi:
         particle: Pi_nnk_gt
         vars:
