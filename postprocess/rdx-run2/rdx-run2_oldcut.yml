@@ -98,6 +98,15 @@ calculation:
     iso_type1: int; b0_ISOLATION_Type; b_ISOLATION_Type
     iso_type2: int; b0_ISOLATION_Type2; b_ISOLATION_Type2
     iso_type3: int; b0_ISOLATION_Type3; b_ISOLATION_Type3
+    # Invariant masses
+    d_iso1_m: >-
+        float;
+        MASS_DX_ISO1(d0_PE, d0_PX, d0_PY, d0_PZ, b_ISOLATION_PX, b_ISOLATION_PY, b_ISOLATION_PZ);
+        MASS_DX_ISO1(dst_PE, dst_PX, dst_PY, dst_PZ, b0_ISOLATION_PX, b0_ISOLATION_PY, b0_ISOLATION_PZ)
+    d_iso1_iso2_m: >-
+        float;
+        MASS_DX_ISO1_ISO2(d0_PE, d0_PX, d0_PY, d0_PZ, b_ISOLATION_PX, b_ISOLATION_PY, b_ISOLATION_PZ, b_ISOLATION_PX2, b_ISOLATION_PY2, b_ISOLATION_PZ2);
+        MASS_DX_ISO1_ISO2(dst_PE, dst_PX, dst_PY, dst_PZ, b0_ISOLATION_PX, b0_ISOLATION_PY, b0_ISOLATION_PZ, b0_ISOLATION_PX2, b0_ISOLATION_PY2, b0_ISOLATION_PZ2)
 
     #################
     # Fit variables #
@@ -133,7 +142,7 @@ calculation:
     b_true_px: double; GEV(b_TRUEP_X); GEV(b0_TRUEP_X)
     b_true_py: double; GEV(b_TRUEP_Y); GEV(b0_TRUEP_Y)
     b_true_pz: double; GEV(b_TRUEP_Z); GEV(b0_TRUEP_Z)
-    b_true_E: double; GEV(b_TRUEP_E); GEV(b0_TRUEP_E)
+    b_true_e: double; GEV(b_TRUEP_E); GEV(b0_TRUEP_E)
     vtx_theta: >-
         double;
         VTX_THETA(b_ENDVERTEX_X, b_OWNPV_X, b_ENDVERTEX_Y, b_OWNPV_Y, b_ENDVERTEX_Z, b_OWNPV_Z);
@@ -162,7 +171,7 @@ calculation:
     k_true_px: double; GEV(k_TRUEP_X)
     k_true_py: double; GEV(k_TRUEP_Y)
     k_true_pz: double; GEV(k_TRUEP_Z)
-    k_true_E: double; GEV(k_TRUEP_E)
+    k_true_e: double; GEV(k_TRUEP_E)
     # Pi
     pi_p: double; GEV(pi_P)
     pi_px: double; GEV(pi_PX)
@@ -173,7 +182,7 @@ calculation:
     pi_true_px: double; GEV(pi_TRUEP_X)
     pi_true_py: double; GEV(pi_TRUEP_Y)
     pi_true_pz: double; GEV(pi_TRUEP_Z)
-    pi_true_E: double; GEV(pi_TRUEP_E)
+    pi_true_e: double; GEV(pi_TRUEP_E)
     # slow Pi
     spi_p: double; GEV(spi_P)
     spi_px: double; GEV(spi_PX)
@@ -184,7 +193,7 @@ calculation:
     spi_true_px: double; GEV(spi_TRUEP_X)
     spi_true_py: double; GEV(spi_TRUEP_Y)
     spi_true_pz: double; GEV(spi_TRUEP_Z)
-    spi_true_E: double; GEV(spi_TRUEP_E)
+    spi_true_e: double; GEV(spi_TRUEP_E)
     # Mu
     mu_p: double; GEV(mu_P)
     mu_px: double; GEV(mu_PX)
@@ -195,7 +204,7 @@ calculation:
     mu_true_px: double; GEV(mu_TRUEP_X)
     mu_true_py: double; GEV(mu_TRUEP_Y)
     mu_true_pz: double; GEV(mu_TRUEP_Z)
-    mu_true_E: double; GEV(mu_TRUEP_E)
+    mu_true_e: double; GEV(mu_TRUEP_E)
 
     #################
     # PID variables #

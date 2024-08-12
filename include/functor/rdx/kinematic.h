@@ -142,3 +142,29 @@ Float_t MASS_PHI(Int_t type1, Int_t chrg1, Float_t px1, Float_t py1, Float_t pz1
   
   return (phiKaon1 + phiKaon2).M();
 }
+
+// Reconstruct mass of the D0/D* and the least isolated track under the pion mass assumption
+Float_t MASS_DX_ISO1(Float_t dx_e, Float_t dx_px, Float_t dx_py, Float_t dx_pz,
+                     Float_t px1, Float_t py1, Float_t pz1){
+
+  TLorentzVector pDx(dx_px, dx_py, dx_pz, dx_e);
+  Float_t mpi = 139.57;
+  Float_t p3Iso1 = sqrt(pow(px1,2) + pow(py1,2) + pow(pz1,2));
+  TLorentzVector pIso1(px1, py1, pz1, sqrt(pow(mpi,2) + pow(p3Iso1,2)));
+
+  return (pDx + pIso1).M();
+}
+
+// Reconstruct mass of the D0/D* and the two least isolated tracks under the pion mass assumption
+Float_t MASS_DX_ISO1_ISO2(Float_t dx_e, Float_t dx_px, Float_t dx_py, Float_t dx_pz,
+                          Float_t px1, Float_t py1, Float_t pz1, Float_t px2, Float_t py2, Float_t pz2){
+
+  TLorentzVector pDx(dx_px, dx_py, dx_pz, dx_e);
+  Float_t mpi = 139.57;
+  Float_t p3Iso1 = sqrt(pow(px1,2) + pow(py1,2) + pow(pz1,2));
+  TLorentzVector pIso1(px1, py1, pz1, sqrt(pow(mpi,2) + pow(p3Iso1,2)));
+  Float_t p3Iso2 = sqrt(pow(px2,2) + pow(py2,2) + pow(pz2,2));
+  TLorentzVector pIso2(px2, py2, pz2, sqrt(pow(mpi,2) + pow(p3Iso2,2)));
+
+  return (pDx + pIso1 + pIso2).M();
+}

@@ -364,7 +364,7 @@ Double_t WT_PROT(Bool_t add_flags,
   auto prefac = static_cast<Double_t>(
                add_flags && (iso_bdt1 > 0.15) && (iso_bdt2 < 0.15) &&
                (iso_type1 == 3) && (iso_p1 > 15.6) && (iso_pt1 > 0.15) &&
-               (iso_chrg1 * d0_id) > 0
-                                      );
+               (iso_chrg1 * d0_id) > 0);
+  
   return prefac * WT_ISO_PROT(true_id, w_pi, w_k, w_p, w_e, w_mu, w_ghost, mc_id);
 }
