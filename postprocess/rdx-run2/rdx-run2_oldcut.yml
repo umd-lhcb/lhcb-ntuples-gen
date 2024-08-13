@@ -639,6 +639,7 @@ calculation:
     is_2os_new: bool; skim_global_ok && is_2os_loose_new
     is_1os_new: bool; skim_global_ok && is_1os_loose_new
     is_prot: bool; skim_global_ok && is_prot_loose
+    is_prot_new: bool; skim_global_ok && is_prot_loose_new
     # for phi-enriched ctrl sample (keep to be able to perform fit to phi mass peak)
     phi_m:  >-
         float; MASS_PHI(b_ISOLATION_Type, b_ISOLATION_CHARGE, b_ISOLATION_PX, b_ISOLATION_PY, b_ISOLATION_PZ, 
@@ -694,6 +695,7 @@ calculation:
         iso_p1, iso_pt1,
         iso_chrg1,
         iso_nnp1,
+        0.0, 1.0,
         d0_id
         )
     is_phi_loose: bool; is_dd_loose && 1015 < phi_m && phi_m < 1023
@@ -751,6 +753,17 @@ calculation:
         iso_bdt1, iso_bdt2, iso_type1,
         iso_p1, iso_pt1, iso_chrg1,
         iso_nnk1, 0.2, iso_nnghost1, 0.3,
+        d0_id
+        )
+    is_prot_loose_new: >- # only defined for D0 sample
+        bool;
+        FLAG_PROT(
+        true,
+        iso_bdt1, iso_bdt2, iso_type1,
+        iso_p1, iso_pt1,
+        iso_chrg1,
+        iso_nnp1,
+        iso_nnghost1, 0.3,
         d0_id
         )
     ###
@@ -858,6 +871,7 @@ calculation:
     wdd_new: double; w*wskim_dd_new*skim_global_ok; TO_TYPE(is_dd_new, 1.0)
     w2os_new: double; w*wskim_2os_new*skim_global_ok; TO_TYPE(is_2os_new, 1.0)
     w1os_new: double; w*wskim_1os_new*skim_global_ok; TO_TYPE(is_1os_new, 1.0)
+    wprot_new: double; w*wskim_prot_new*skim_global_ok; TO_TYPE(is_prot_new, 1.0)
     wiso_ang: double; w*wskim_iso_ang*skim_global_ok; TO_TYPE(is_iso_ang, 1.0)
     wdd_ang: double; w*wskim_dd_ang*skim_global_ok; TO_TYPE(is_dd_ang, 1.0)
     w2os_ang: double; w*wskim_2os_ang*skim_global_ok; TO_TYPE(is_2os_ang, 1.0)
@@ -922,6 +936,43 @@ calculation:
         wpid_iso_nnknng3_ltlt_pi, wpid_iso_nnknng3_ltlt_k, wpid_iso_nnknng3_ltlt_p,
         wpid_iso_nnknng3_ltlt_e, wpid_iso_nnknng3_ltlt_mu, wpid_iso_nnknng3_ltlt_g
         )
+    
+    wpid_iso_nnknng1_gt02lt02: >-
+        double;
+        WT_ISO_NNK(iso_true_id1,
+        wpid_iso_nnknng1_gt02lt02_pi, wpid_iso_nnknng1_gt02lt02_k, wpid_iso_nnknng1_gt02lt02_p,
+        wpid_iso_nnknng1_gt02lt02_e, wpid_iso_nnknng1_gt02lt02_mu, wpid_iso_nnknng1_gt02lt02_g
+        )
+    wpid_iso_nnknng2_gt02lt02: >-
+        double;
+        WT_ISO_NNK(iso_true_id2,
+        wpid_iso_nnknng2_gt02lt02_pi, wpid_iso_nnknng2_gt02lt02_k, wpid_iso_nnknng2_gt02lt02_p,
+        wpid_iso_nnknng2_gt02lt02_e, wpid_iso_nnknng2_gt02lt02_mu, wpid_iso_nnknng2_gt02lt02_g
+        )
+    wpid_iso_nnknng3_gt02lt02: >-
+        double;
+        WT_ISO_NNK(iso_true_id3,
+        wpid_iso_nnknng3_gt02lt02_pi, wpid_iso_nnknng3_gt02lt02_k, wpid_iso_nnknng3_gt02lt02_p,
+        wpid_iso_nnknng3_gt02lt02_e, wpid_iso_nnknng3_gt02lt02_mu, wpid_iso_nnknng3_gt02lt02_g
+        )
+    wpid_iso_nnknng1_lt02lt02: >-
+        double;
+        WT_ISO_NNK(iso_true_id1,
+        wpid_iso_nnknng1_lt02lt02_pi, wpid_iso_nnknng1_lt02lt02_k, wpid_iso_nnknng1_lt02lt02_p,
+        wpid_iso_nnknng1_lt02lt02_e, wpid_iso_nnknng1_lt02lt02_mu, wpid_iso_nnknng1_lt02lt02_g
+        )
+    wpid_iso_nnknng2_lt02lt02: >-
+        double;
+        WT_ISO_NNK(iso_true_id2,
+        wpid_iso_nnknng2_lt02lt02_pi, wpid_iso_nnknng2_lt02lt02_k, wpid_iso_nnknng2_lt02lt02_p,
+        wpid_iso_nnknng2_lt02lt02_e, wpid_iso_nnknng2_lt02lt02_mu, wpid_iso_nnknng2_lt02lt02_g
+        )
+    wpid_iso_nnknng3_lt02lt02: >-
+        double;
+        WT_ISO_NNK(iso_true_id3,
+        wpid_iso_nnknng3_lt02lt02_pi, wpid_iso_nnknng3_lt02lt02_k, wpid_iso_nnknng3_lt02lt02_p,
+        wpid_iso_nnknng3_lt02lt02_e, wpid_iso_nnknng3_lt02lt02_mu, wpid_iso_nnknng3_lt02lt02_g
+        )
 
     # Skims, but in weights, for MC
     wskim_iso: double; WT_ISO(true, iso_bdt1)
@@ -960,14 +1011,14 @@ calculation:
         wpid_iso_nnk1_lt,
         d0_id
         )
-    wskim_prot: >- # only defined for D0 sample. FIXME: find proton ghost eff
+    wskim_prot: >- # only defined for D0 sample
         double;
         WT_PROT(true,
         iso_bdt1, iso_bdt2,
         iso_type1, iso_p1, iso_pt1,
         iso_chrg1, d0_id,
-        iso_true_id1, wpid_iso_prot1_gt_pi, wpid_iso_prot1_gt_k, wpid_iso_prot1_gt_p,
-        wpid_iso_prot1_gt_e, wpid_iso_prot1_gt_mu, wpid_iso_nnk1_gt_g, mc_id
+        iso_true_id1, wpid_iso_nnp1_gt_pi, wpid_iso_nnp1_gt_k, wpid_iso_nnp1_gt_p,
+        wpid_iso_nnp1_gt_e, wpid_iso_nnp1_gt_mu, wpid_iso_nnp1_gt_g, mc_id
         )
     wskim_phi: double; wskim_dd * (1015 < phi_m && phi_m < 1023)
     wskim_iso_ang: 
@@ -1027,6 +1078,15 @@ calculation:
         iso_chrg1,
         wpid_iso_nnknng1_ltlt,
         d0_id
+        )
+    wskim_prot_new: >- # only defined for D0 sample
+        double;
+        WT_PROT(true,
+        iso_bdt1, iso_bdt2,
+        iso_type1, iso_p1, iso_pt1,
+        iso_chrg1, d0_id,
+        iso_true_id1, wpid_iso_nnpnng1_gtlt_pi, wpid_iso_nnpnng1_gtlt_k, wpid_iso_nnpnng1_gtlt_p,
+        wpid_iso_nnpnng1_gtlt_e, wpid_iso_nnpnng1_gtlt_mu, wpid_iso_nnpnng1_gtlt_g, mc_id
         )
 
     ###############

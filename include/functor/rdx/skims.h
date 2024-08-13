@@ -334,11 +334,12 @@ Bool_t FLAG_PROT(Bool_t add_flags,
                  Float_t iso_p1, Float_t iso_pt1,
                  Int_t iso_chrg1,
                  Float_t iso_nnp1,
+                 Float_t iso_nnghost1, Float_t ghost_cut,
                  Int_t d0_id) {
   // clang-format on
   return add_flags && (iso_bdt1 > 0.15) && (iso_bdt2 < 0.15) &&
          (iso_type1 == 3) && (iso_p1 > 15.6) && (iso_pt1 > 0.15) &&
-         (iso_chrg1 * d0_id) > 0 && (iso_nnp1 > 0.4);
+         (iso_chrg1 * d0_id) > 0 && (iso_nnp1 > 0.4) && (iso_nnghost1 < ghost_cut);
 }
 
 // Efficiency for proton PID cut, mocking up D** as Lambdas
