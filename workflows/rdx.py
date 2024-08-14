@@ -650,7 +650,7 @@ JOBS = {
                  11895400]],
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
         use_hammer=False,
-        blocked_patterns=[r'--([1-9][0-9]|[1-9][0-9][0-9]|[0-9][1-9][0-9])-dv'],
+        blocked_patterns=['--aux', r'--([1-9][0-9]|[1-9][0-9][0-9]|[0-9][1-9][0-9])-dv'],
         num_of_workers=20
     ),
     'rdx-ntuple-run2-mc-dss': partial(
