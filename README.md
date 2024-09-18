@@ -11,7 +11,7 @@ Type in a terminal
 ```shell
 git clone git@github.com:umd-lhcb/lhcb-ntuples-gen
 cd lhcb-ntuples-gen
-git remote add julian git@lhcb.physics.umd.edu:lhcb-ntuples-gen 
+git remote add julian git@lhcb.physics.umd.edu:lhcb-ntuples-gen
 git remote add glacier git@10.229.60.85:lhcb-ntuples-gen
 git annex init --version=7
 git submodule update --init  # Do this before git annex sync to avoid potential mess-up of submodule pointers!
@@ -27,7 +27,7 @@ make install-dep-pip ## To install packages needed for JpsiK reweighting, includ
 Development of the DaVinci scripts can be done locally in your laptop by running our `docker`
 image of DaVinci. Install `docker` as described in the
 [wiki](https://umd-lhcb.github.io/lhcb-ntuples-gen/ntupling/installation/#install-docker-to-run-davinci-locally) and pull the image with
-```
+```shell
 docker pull umdlhcb/lhcb-stack-cc7:DaVinci-v45r6-SL
 ```
 
@@ -62,19 +62,21 @@ The generation of the step-2 babies can be quite slow, currently taking about tw
 tmux
 cd workflows
 ## Takes 37 hours, output is 422GB
-./rdx.py rdx-ntuple-run2-mc-to-sig-norm    | tee step2-ntuple_mc-to-sig-norm.log 
+./rdx.py rdx-ntuple-run2-mc-to-sig-norm    | tee step2-ntuple_mc-to-sig-norm.log
 ## Takes 75 min, output is 58GB
 ./rdx.py rdx-ntuple-run2-mc-to-ddx         | tee step2-ntuple_mc-to-ddx.log
 ## Takes 11hours, output is 81GB
-./rdx.py rdx-ntuple-run2-mc-to-dstst       | tee step2-ntuple_mc-to-dstst.log 
+./rdx.py rdx-ntuple-run2-mc-to-dstst       | tee step2-ntuple_mc-to-dstst.log
 ## Takes 45 min, output is 2.7GB
 ./rdx.py rdx-ntuple-run2-mc-to-d_s         | tee step2-ntuple_mc-to-d_s.log
 ## Takes 45 min, output is 23GB
-./rdx.py rdx-ntuple-run2-mc-to-dstst-heavy | tee step2-ntuple_mc-to-dstst-heavy.log 
+./rdx.py rdx-ntuple-run2-mc-to-dstst-heavy | tee step2-ntuple_mc-to-dstst-heavy.log
 ## Takes ??, output is 10GB
 ./rdx.py rdx-ntuple-run2-data              | tee step2-ntuple_data.log
-## Takes ??, output is 22GB
+## Takes 65 min, output is 22GB
 ./rdx.py rdx-ntuple-run2-mu_misid          | tee step2-ntuple_mu_misid.log
+## Takes 65 min, output is 22GB
+./rdx.py rdx-ntuple-run2-mu_misid-vmu      | tee step2-ntuple_mu_misid-vmu.log
 ```
 
 This generation relies on various auxiliary ntuples and weights. **Some aux ntuples need to be generated prior to running the above commands**. Namely:

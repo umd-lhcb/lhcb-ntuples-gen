@@ -37,9 +37,6 @@ def parse_input():
     parser.add_argument('-d', '--debug', action='store_true',
                         help='enable debug mode.')
 
-    parser.add_argument("--ctrl-sample", action="store_true",
-                        help="Use control sample uBDT cut.")
-
     return parser.parse_args()
 
 
@@ -465,6 +462,15 @@ JOBS = {
         use_misid=True,
         use_ubdt=False
     ),
+    'rdx-ntuple-run2-mu_misid-vmu': partial(
+        workflow_split,
+        '../ntuples/0.9.6-2016_production/Dst_D0-mu_misid',
+        '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
+        cli_vars={'cli_misid': 'true'},
+        use_misid=True,
+        use_ubdt=False,
+        ctrl_sample=True
+    ),
     'rdx-ntuple-run2-misid_study': partial(
         workflow_split,
         '../ntuples/0.9.6-2016_production/Dst_D0-mu_misid',
@@ -850,6 +856,6 @@ if __name__ == '__main__':
     args = parse_input()
 
     if args.job_name in JOBS:
-        JOBS[args.job_name](job_name=args.job_name, debug=args.debug, ctrl_sample=args.ctrl_sample)
+        JOBS[args.job_name](job_name=args.job_name, debug=args.debug)
     else:
         print('Unknown job name: {}'.format(args.job_name))
