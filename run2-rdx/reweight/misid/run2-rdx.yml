@@ -33,85 +33,85 @@ weight_brs:
         TupleBminus/DecayTree:
             - prefix: D0
               file:
-                default:    "./histos/default/unfolded-2016.root"
+                default:    "./histos/default/unfolded.root"
                 misid_ctrl: "./histos/ctrl_sample/unfolded_misid_ctrl.root"
               name: wmis_norm
             - prefix: D0_bsb
               file:
-                default:    "./histos/default/unfolded-2016.root"
+                default:    "./histos/default/unfolded.root"
                 misid_ctrl: "./histos/ctrl_sample/unfolded_misid_ctrl.root"
               name: wmis_bsb
         TupleBminusWS/DecayTree:
             - prefix: D0_ws_Mu
               file:
-                default:    "./histos/default/unfolded-2016.root"
+                default:    "./histos/default/unfolded.root"
                 misid_ctrl: "./histos/ctrl_sample/unfolded_misid_ctrl.root"
               name: wmis_norm
             - prefix: D0_ws_Mu_bsb
               file:
-                default:    "./histos/default/unfolded-2016.root"
+                default:    "./histos/default/unfolded.root"
                 misid_ctrl: "./histos/ctrl_sample/unfolded_misid_ctrl.root"
               name: wmis_bsb
         TupleB0/DecayTree:
             - prefix: Dst
               file:
-                default:    "./histos/default/unfolded-2016.root"
+                default:    "./histos/default/unfolded.root"
                 misid_ctrl: "./histos/ctrl_sample/unfolded_misid_ctrl.root"
               name: wmis_norm
             - prefix: Dst_bsb
               file:
-                default:    "./histos/default/unfolded-2016.root"
+                default:    "./histos/default/unfolded.root"
                 misid_ctrl: "./histos/ctrl_sample/unfolded_misid_ctrl.root"
               name: wmis_bsb
             - prefix: Dst_dsb
               file:
-                default:    "./histos/default/unfolded-2016.root"
+                default:    "./histos/default/unfolded.root"
                 misid_ctrl: "./histos/ctrl_sample/unfolded_misid_ctrl.root"
               name: wmis_dsb
             - prefix: Dst_dsb_bsb
               file:
-                default:    "./histos/default/unfolded-2016.root"
+                default:    "./histos/default/unfolded.root"
                 misid_ctrl: "./histos/ctrl_sample/unfolded_misid_ctrl.root"
               name: wmis_dsb_bsb
         TupleB0WSMu/DecayTree:
             - prefix: Dst_ws_Mu
               file:
-                default:    "./histos/default/unfolded-2016.root"
+                default:    "./histos/default/unfolded.root"
                 misid_ctrl: "./histos/ctrl_sample/unfolded_misid_ctrl.root"
               name: wmis_norm
             - prefix: Dst_ws_Mu_bsb
               file:
-                default:    "./histos/default/unfolded-2016.root"
+                default:    "./histos/default/unfolded.root"
                 misid_ctrl: "./histos/ctrl_sample/unfolded_misid_ctrl.root"
               name: wmis_bsb
             - prefix: Dst_ws_Mu_dsb
               file:
-                default:    "./histos/default/unfolded-2016.root"
+                default:    "./histos/default/unfolded.root"
                 misid_ctrl: "./histos/ctrl_sample/unfolded_misid_ctrl.root"
               name: wmis_dsb
             - prefix: Dst_ws_Mu_dsb_bsb
               file:
-                default:    "./histos/default/unfolded-2016.root"
+                default:    "./histos/default/unfolded.root"
                 misid_ctrl: "./histos/ctrl_sample/unfolded_misid_ctrl.root"
               name: wmis_dsb_bsb
         TupleB0WSPi/DecayTree:
             - prefix: Dst_ws_Pi
               file:
-                default:    "./histos/default/unfolded-2016.root"
+                default:    "./histos/default/unfolded.root"
                 misid_ctrl: "./histos/ctrl_sample/unfolded_misid_ctrl.root"
               name: wmis_norm
             - prefix: Dst_ws_Pi_bsb
               file:
-                default:    "./histos/default/unfolded-2016.root"
+                default:    "./histos/default/unfolded.root"
                 misid_ctrl: "./histos/ctrl_sample/unfolded_misid_ctrl.root"
               name: wmis_bsb
             - prefix: Dst_ws_Pi_dsb
               file:
-                default:    "./histos/default/unfolded-2016.root"
+                default:    "./histos/default/unfolded.root"
                 misid_ctrl: "./histos/ctrl_sample/unfolded_misid_ctrl.root"
               name: wmis_dsb
             - prefix: Dst_ws_Pi_dsb_bsb
               file:
-                default:    "./histos/default/unfolded-2016.root"
+                default:    "./histos/default/unfolded.root"
                 misid_ctrl: "./histos/ctrl_sample/unfolded_misid_ctrl.root"
               name: wmis_dsb_bsb
