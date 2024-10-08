@@ -201,9 +201,8 @@ Bool_t FLAG_SEL_MU_PID_OK_RUN1(Bool_t mu_is_mu, Double_t mu_pid_mu,
   return mu_is_mu && mu_pid_mu > 2.0 && mu_pid_e < 1.0;
 }
 
-Bool_t FLAG_SEL_MU_PID_OK_RUN2ANG(Bool_t mu_is_mu, Double_t mu_pid_mu,
-                                  Double_t mu_pid_e) {
-  return mu_is_mu && mu_pid_mu > 2.0 && mu_pid_e < 1.0;
+Bool_t FLAG_SEL_MU_PID_OK_RUN2ANG(Bool_t mu_is_mu, Double_t mu_pid_e) {
+  return mu_is_mu && mu_pid_e < 1.0;
 }
 
 // clang-format off

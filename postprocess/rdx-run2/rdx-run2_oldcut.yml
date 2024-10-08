@@ -510,33 +510,37 @@ calculation:
     d0_pid_ok_stub: ^bool; cli_cutflow; d0_pid_ok
     # Note that the EMULATED trigger lines take precedence.
     d0_ok: >-
-        bool;
-        FLAG_SEL_D0_RUN1(
+        bool; FLAG_SEL_D0_RUN2ANG(
         d0_pid_ok_stub,
-        k_PT, pi_PT,
-        k_hlt1_trackmva_tos_emu, pi_hlt1_trackmva_tos_emu,
-        k_IPCHI2_OWNPV, pi_IPCHI2_OWNPV,
-        k_TRACK_GhostProb, pi_TRACK_GhostProb,
-        d0_PT,
-        true,
-        d0_ENDVERTEX_CHI2, d0_ENDVERTEX_NDOF,
-        d0_IP_OWNPV, d0_IPCHI2_OWNPV,
-        d0_DIRA_OWNPV,
-        d0_FDCHI2_OWNPV
-        );
-        FLAG_SEL_D0_RUN1(
-        d0_pid_ok_stub,
-        k_PT, pi_PT,
-        k_Hlt1TrackMVADecision_TOS, pi_Hlt1TrackMVADecision_TOS,
-        k_IPCHI2_OWNPV, pi_IPCHI2_OWNPV,
-        k_TRACK_GhostProb, pi_TRACK_GhostProb,
-        d0_PT,
-        true,
-        d0_ENDVERTEX_CHI2, d0_ENDVERTEX_NDOF,
-        d0_IP_OWNPV, d0_IPCHI2_OWNPV,
-        d0_DIRA_OWNPV,
-        d0_FDCHI2_OWNPV
+        d0_IP_OWNPV, d0_IPCHI2_OWNPV
         )
+    # bool;
+    # FLAG_SEL_D0_RUN1(
+    # d0_pid_ok_stub,
+    # k_PT, pi_PT,
+    # k_hlt1_trackmva_tos_emu, pi_hlt1_trackmva_tos_emu,
+    # k_IPCHI2_OWNPV, pi_IPCHI2_OWNPV,
+    # k_TRACK_GhostProb, pi_TRACK_GhostProb,
+    # d0_PT,
+    # true,
+    # d0_ENDVERTEX_CHI2, d0_ENDVERTEX_NDOF,
+    # d0_IP_OWNPV, d0_IPCHI2_OWNPV,
+    # d0_DIRA_OWNPV,
+    # d0_FDCHI2_OWNPV
+    # );
+    # FLAG_SEL_D0_RUN1(
+    # d0_pid_ok_stub,
+    # k_PT, pi_PT,
+    # k_Hlt1TrackMVADecision_TOS, pi_Hlt1TrackMVADecision_TOS,
+    # k_IPCHI2_OWNPV, pi_IPCHI2_OWNPV,
+    # k_TRACK_GhostProb, pi_TRACK_GhostProb,
+    # d0_PT,
+    # true,
+    # d0_ENDVERTEX_CHI2, d0_ENDVERTEX_NDOF,
+    # d0_IP_OWNPV, d0_IPCHI2_OWNPV,
+    # d0_DIRA_OWNPV,
+    # d0_FDCHI2_OWNPV
+    # )
     d0_m_ok: bool; FLAG_SEL_D0_MASS(d0_M)
     d0_m_hypo_ok: bool; FLAG_SEL_D0_MASS_HYPO(mu_PX, mu_PY, mu_PZ, d0_PX, d0_PY, d0_PZ, d0_M)
 
@@ -554,42 +558,60 @@ calculation:
         IF_VAR_EXISTS(mc_id, true);
         IF_VAR_EXISTS(cli_misid, true);
         IF_VAR_EXISTS(cli_misid_study, true);
-        FLAG_SEL_MU_PID_OK_RUN1(mu_isMuon, mu_PIDmu, mu_PIDe)
+        FLAG_SEL_MU_PID_OK_RUN2ANG(mu_isMuon, mu_PIDe)
     mu_pid_ok_stub: ^bool; cli_cutflow; mu_pid_ok
     mu_ubdt_ok: bool; mu_ubdt > 0.25; true
     mu_ubdt_veto: bool; mu_ubdt < 0.25; true
 
     mu_ok: >-
-        bool; FLAG_SEL_MU_RUN1(
-        mu_pid_ok_stub, trks_ok,
-        mu_P, mu_eta, mu_hasMuon,
-        mu_IPCHI2_OWNPV, mu_TRACK_GhostProb
+        bool; FLAG_SEL_MU_RUN2ANG(
+        mu_pid_ok_loose_stub, trks_ok,
+        mu_P, mu_eta
         )
+    # bool; FLAG_SEL_MU_RUN1(
+    # mu_pid_ok_stub, trks_ok,
+    # mu_P, mu_eta, mu_hasMuon,
+    # mu_IPCHI2_OWNPV, mu_TRACK_GhostProb
+    # )
 
     # D0Mu combo selection
     d0_dst_veto_ok: bool; d0_dst_veto_deltam > 4.0
     d0mu_ok: >-
-        bool; FLAG_SEL_BMINUSD0_RUN1(
+        bool; FLAG_SEL_BMINUSD0_RUN2ANG(
         d0_ok, mu_ok,
         b_ENDVERTEX_CHI2, b_ENDVERTEX_NDOF,
         b_fd_trans,
         b_DIRA_OWNPV,
         d0_dst_veto_deltam_stub
         )
+    # bool; FLAG_SEL_BMINUSD0_RUN1(
+    # d0_ok, mu_ok,
+    # b_ENDVERTEX_CHI2, b_ENDVERTEX_NDOF,
+    # b_fd_trans,
+    # b_DIRA_OWNPV,
+    # d0_dst_veto_deltam_stub
+    # )
 
     # D*Mu combo selection
     # NOTE: The 'b_fd_trans' and 'b_discard_mu_chi2' are step-2 vars defined in this YAML,
     #       and they have the same names for B/B0 trees
     dstmu_ok: >-
-        bool; FLAG_SEL_B0DST_RUN1(
+        bool; FLAG_SEL_B0DST_RUN2ANG(
         d0_ok, mu_ok,
-        spi_TRACK_GhostProb,
         dst_ENDVERTEX_CHI2, dst_ENDVERTEX_NDOF,
-        b_discard_mu_chi2,
         b0_ENDVERTEX_CHI2, b0_ENDVERTEX_NDOF,
         b_fd_trans,
         b0_DIRA_OWNPV
         )
+    # bool; FLAG_SEL_B0DST_RUN1(
+    # d0_ok, mu_ok,
+    # spi_TRACK_GhostProb,
+    # dst_ENDVERTEX_CHI2, dst_ENDVERTEX_NDOF,
+    # b_discard_mu_chi2,
+    # b0_ENDVERTEX_CHI2, b0_ENDVERTEX_NDOF,
+    # b_fd_trans,
+    # b0_DIRA_OWNPV
+    # )
     dst_m_ok: bool; FLAG_SEL_DST_MASS(dst_m, d0_m)
 
     ###############################
