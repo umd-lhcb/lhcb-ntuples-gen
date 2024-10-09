@@ -161,7 +161,7 @@ def workflow_trigger_emu(input_ntp, output_ntp='trg_emu.root',
 @smart_kwarg
 def workflow_pid(
         input_ntp, output_ntp='pid.root',
-        pid_histo_folder='../run2-rdx/reweight/pid/root-run2-rdx_oldcut-shifted',
+        pid_histo_folder='../run2-rdx/reweight/pid/root-run2-rdx_noDLLMu-shifted',
         pid_config='../run2-rdx/reweight/pid/run2-rdx_oldcut.yml',
         **kwargs):
     return workflow_apply_weight(input_ntp, pid_histo_folder, pid_config,
