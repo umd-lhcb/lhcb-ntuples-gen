@@ -642,10 +642,10 @@ calculation:
     is_prot_new: bool; skim_global_ok && is_prot_loose_new
     # for phi-enriched ctrl sample (keep to be able to perform fit to phi mass peak)
     phi_m:  >-
-        float; MASS_PHI(b_ISOLATION_Type, b_ISOLATION_CHARGE, b_ISOLATION_PX, b_ISOLATION_PY, b_ISOLATION_PZ, 
+        float; MASS_PHI(b_ISOLATION_Type, b_ISOLATION_CHARGE, b_ISOLATION_PX, b_ISOLATION_PY, b_ISOLATION_PZ,
         b_ISOLATION_Type2, b_ISOLATION_CHARGE2, b_ISOLATION_PX2, b_ISOLATION_PY2, b_ISOLATION_PZ2,
         b_ISOLATION_Type3, b_ISOLATION_CHARGE3, b_ISOLATION_PX3, b_ISOLATION_PY3, b_ISOLATION_PZ3);
-        MASS_PHI(b0_ISOLATION_Type, b0_ISOLATION_CHARGE, b0_ISOLATION_PX, b0_ISOLATION_PY, b0_ISOLATION_PZ, 
+        MASS_PHI(b0_ISOLATION_Type, b0_ISOLATION_CHARGE, b0_ISOLATION_PX, b0_ISOLATION_PY, b0_ISOLATION_PZ,
         b0_ISOLATION_Type2, b0_ISOLATION_CHARGE2, b0_ISOLATION_PX2, b0_ISOLATION_PY2, b0_ISOLATION_PZ2,
         b0_ISOLATION_Type3, b0_ISOLATION_CHARGE3, b0_ISOLATION_PX3, b0_ISOLATION_PY3, b0_ISOLATION_PZ3)
     is_phi: bool; skim_global_ok && is_phi_loose
@@ -714,7 +714,7 @@ calculation:
         iso_chrg1, iso_chrg2, iso_nnk1, iso_nnk2, iso_nnghost1, iso_nnghost2
         )
     is_1os_ang_loose: >-
-        bool; 
+        bool;
         FLAG_1OS_ANG(
         true, iso_bdt1, iso_bdt2, iso_bdt3, iso_type1, iso_type2,
         iso_p1, iso_pt1, iso_p2, iso_pt2, iso_chrg1, iso_chrg2,
@@ -727,7 +727,7 @@ calculation:
         iso_nnk1, iso_nnk2, iso_nnghost1, iso_nnghost2,
         d0_id, false
         )
-    
+
     ### Try out DD skim with ProbNNghost cuts and (potentially) different min ProbNNk: here choosing NNghost<0.3, and keeping NNK at 0.2
     is_dd_loose_new:  >-
         bool; FLAG_DD(
@@ -843,6 +843,42 @@ calculation:
         wmis_dsb_bsb_no_smr*(in_deltam_sb && b_m_sb)
         );
         wmis*(wmis_norm_no_smr*skim_global_ok_no_smr + wmis_bsb_no_smr*(dx_m_ok && b_m_sb))
+    # "Fractional" misid weights to check contribution of each true species
+    wmis_pi: >-
+        double;
+        wmis_norm_pi*skim_global_ok +
+        wmis_bsb_pi*(dx_m_ok && b_m_sb) +
+        wmis_dsb_pi*(in_deltam_sb && b_m_ok && in_fit_range) +
+        wmis_dsb_bsb_pi*(in_deltam_sb && b_m_sb);
+        wmis_norm_pi*skim_global_ok + wmis_bsb_pi*(dx_m_ok && b_m_sb)
+    wmis_k: >-
+        double;
+        wmis_norm_k*skim_global_ok +
+        wmis_bsb_k*(dx_m_ok && b_m_sb) +
+        wmis_dsb_k*(in_deltam_sb && b_m_ok && in_fit_range) +
+        wmis_dsb_bsb_k*(in_deltam_sb && b_m_sb);
+        wmis_norm_k*skim_global_ok + wmis_bsb_k*(dx_m_ok && b_m_sb)
+    wmis_p: >-
+        double;
+        wmis_norm_p*skim_global_ok +
+        wmis_bsb_p*(dx_m_ok && b_m_sb) +
+        wmis_dsb_p*(in_deltam_sb && b_m_ok && in_fit_range) +
+        wmis_dsb_bsb_p*(in_deltam_sb && b_m_sb);
+        wmis_norm_p*skim_global_ok + wmis_bsb_p*(dx_m_ok && b_m_sb)
+    wmis_e: >-
+        double;
+        wmis_norm_e*skim_global_ok +
+        wmis_bsb_e*(dx_m_ok && b_m_sb) +
+        wmis_dsb_e*(in_deltam_sb && b_m_ok && in_fit_range) +
+        wmis_dsb_bsb_e*(in_deltam_sb && b_m_sb);
+        wmis_norm_e*skim_global_ok + wmis_bsb_e*(dx_m_ok && b_m_sb)
+    wmis_g: >-
+        double;
+        wmis_norm_g*skim_global_ok +
+        wmis_bsb_g*(dx_m_ok && b_m_sb) +
+        wmis_dsb_g*(in_deltam_sb && b_m_ok && in_fit_range) +
+        wmis_dsb_bsb_g*(in_deltam_sb && b_m_sb);
+        wmis_norm_g*skim_global_ok + wmis_bsb_g*(dx_m_ok && b_m_sb)
 
     # Weight representing the global cut (BEFORE applying the skim cuts)
     wpid_base: ^double; wpid_k*wpid_pi
@@ -936,7 +972,7 @@ calculation:
         wpid_iso_nnknng3_ltlt_pi, wpid_iso_nnknng3_ltlt_k, wpid_iso_nnknng3_ltlt_p,
         wpid_iso_nnknng3_ltlt_e, wpid_iso_nnknng3_ltlt_mu, wpid_iso_nnknng3_ltlt_g
         )
-    
+
     wpid_iso_nnknng1_gt02lt02: >-
         double;
         WT_ISO_NNK(iso_true_id1,
@@ -1021,7 +1057,7 @@ calculation:
         wpid_iso_nnp1_gt_e, wpid_iso_nnp1_gt_mu, wpid_iso_nnp1_gt_g, mc_id
         )
     wskim_phi: double; wskim_dd * (1015 < phi_m && phi_m < 1023)
-    wskim_iso_ang: 
+    wskim_iso_ang:
         double; WT_ISO_ANG(
         true, iso_type1, iso_bdt1, iso_type2, iso_bdt2, iso_type3, iso_bdt3
         )
