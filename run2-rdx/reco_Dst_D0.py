@@ -625,6 +625,9 @@ def add_hlt1_info(sel_seq):
 from Configurables import DecayTreeTuple, MCDecayTreeTuple
 from DecayTreeTuple.Configuration import *  # to use addTupleTool
 
+# tool to get truth info for particles related to mu
+from Configurables import TupleToolMCDaughters
+
 # Additional TupleTool for addTool only
 from Configurables import BackgroundCategory
 
@@ -837,6 +840,11 @@ def tuple_postprocess_mc(tp,
             key = '{}_{}_{}'.format(var, i, j)
             tt_hlt1_emu.Variables[key] = \
                 'RELINFO("{}", "{}", 0)'.format(relinfo_output, key)
+    
+    # Additional branches for particles related to mu (to keep track of D SL decay for DDX FF reweight)
+    getattr(tp, "mu").addTool(TupleToolMCDaughters, name="TupleToolMCDaughters2")
+    getattr(tp, "mu").TupleToolMCDaughters2.Mother = True
+    getattr(tp, "mu").ToolList+=["TupleToolMCDaughters/TupleToolMCDaughters2"]
 
 
 if not DaVinci().Simulation:
