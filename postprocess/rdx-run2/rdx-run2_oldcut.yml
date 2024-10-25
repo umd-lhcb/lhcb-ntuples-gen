@@ -859,39 +859,49 @@ calculation:
     # "Fractional" misid weights to check contribution of each true species
     wmis_pi: >-
         double;
-        wmis_norm_pi*skim_global_ok +
-        wmis_bsb_pi*(dx_m_ok && b_m_sb) +
-        wmis_dsb_pi*(in_deltam_sb && b_m_ok && in_fit_range) +
-        wmis_dsb_bsb_pi*(in_deltam_sb && b_m_sb);
-        wmis_norm_pi*skim_global_ok + wmis_bsb_pi*(dx_m_ok && b_m_sb)
+        wmis_norm_pi    *skim_global_ok +
+        wmis_bsb_pi     * (dx_m_ok && b_m_sb) +
+        wmis_dsb_pi     * (in_deltam_sb && b_m_ok && in_fit_range) +
+        wmis_dsb_bsb_pi * (in_deltam_sb && b_m_sb)
+        ;
+        wmis_norm_pi * skim_global_ok +
+        wmis_bsb_pi  * (dx_m_ok && b_m_sb)
     wmis_k: >-
         double;
-        wmis_norm_k*skim_global_ok +
-        wmis_bsb_k*(dx_m_ok && b_m_sb) +
-        wmis_dsb_k*(in_deltam_sb && b_m_ok && in_fit_range) +
-        wmis_dsb_bsb_k*(in_deltam_sb && b_m_sb);
-        wmis_norm_k*skim_global_ok + wmis_bsb_k*(dx_m_ok && b_m_sb)
+        wmis_norm_k    * skim_global_ok +
+        wmis_bsb_k     * (dx_m_ok && b_m_sb) +
+        wmis_dsb_k     * (in_deltam_sb && b_m_ok && in_fit_range) +
+        wmis_dsb_bsb_k * (in_deltam_sb && b_m_sb)
+        ;
+        wmis_norm_k * skim_global_ok +
+        wmis_bsb_k  * (dx_m_ok && b_m_sb)
     wmis_p: >-
         double;
-        wmis_norm_p*skim_global_ok +
-        wmis_bsb_p*(dx_m_ok && b_m_sb) +
-        wmis_dsb_p*(in_deltam_sb && b_m_ok && in_fit_range) +
-        wmis_dsb_bsb_p*(in_deltam_sb && b_m_sb);
-        wmis_norm_p*skim_global_ok + wmis_bsb_p*(dx_m_ok && b_m_sb)
+        wmis_norm_p    * skim_global_ok +
+        wmis_bsb_p     * (dx_m_ok && b_m_sb) +
+        wmis_dsb_p     * (in_deltam_sb && b_m_ok && in_fit_range) +
+        wmis_dsb_bsb_p * (in_deltam_sb && b_m_sb)
+        ;
+        wmis_norm_p * skim_global_ok +
+        wmis_bsb_p  * (dx_m_ok && b_m_sb)
     wmis_e: >-
         double;
-        wmis_norm_e*skim_global_ok +
-        wmis_bsb_e*(dx_m_ok && b_m_sb) +
-        wmis_dsb_e*(in_deltam_sb && b_m_ok && in_fit_range) +
-        wmis_dsb_bsb_e*(in_deltam_sb && b_m_sb);
-        wmis_norm_e*skim_global_ok + wmis_bsb_e*(dx_m_ok && b_m_sb)
+        wmis_norm_e    * skim_global_ok +
+        wmis_bsb_e     * (dx_m_ok && b_m_sb) +
+        wmis_dsb_e     * (in_deltam_sb && b_m_ok && in_fit_range) +
+        wmis_dsb_bsb_e * (in_deltam_sb && b_m_sb)
+        ;
+        wmis_norm_e * skim_global_ok +
+        wmis_bsb_e  * (dx_m_ok && b_m_sb)
     wmis_g: >-
         double;
-        wmis_norm_g*skim_global_ok +
-        wmis_bsb_g*(dx_m_ok && b_m_sb) +
-        wmis_dsb_g*(in_deltam_sb && b_m_ok && in_fit_range) +
-        wmis_dsb_bsb_g*(in_deltam_sb && b_m_sb);
-        wmis_norm_g*skim_global_ok + wmis_bsb_g*(dx_m_ok && b_m_sb)
+        wmis_norm_g    * skim_global_ok +
+        wmis_bsb_g     * (dx_m_ok && b_m_sb) +
+        wmis_dsb_g     * (in_deltam_sb && b_m_ok && in_fit_range) +
+        wmis_dsb_bsb_g * (in_deltam_sb && b_m_sb)
+        ;
+        wmis_norm_g * skim_global_ok +
+        wmis_bsb_g  * (dx_m_ok && b_m_sb)
 
     # Weight representing the global cut (BEFORE applying the skim cuts)
     wpid_base: ^double; wpid_k*wpid_pi
