@@ -125,7 +125,7 @@ Bool_t FLAG_2OS(Bool_t add_flags,
                 Float_t iso_p1, Float_t iso_p2,
                 Float_t iso_pt1, Float_t iso_pt2,
                 Int_t iso_chrg1, Int_t iso_chrg2,
-                Float_t iso_nnk1, Float_t iso_nnk2, Float_t k_cut,
+                Float_t iso_nnk1, Float_t iso_nnk2, Float_t iso_nnk3, Float_t k_cut,
                 Float_t iso_nnghost1, Float_t iso_nnghost2, Float_t ghost_cut) {
   // clang-format on
   return add_flags && (iso_bdt1 > 0.15) && (iso_bdt2 > 0.15) &&
@@ -133,6 +133,7 @@ Bool_t FLAG_2OS(Bool_t add_flags,
          (MAX(iso_p1 * (iso_pt1 > 0.15), iso_p2 * (iso_pt2 > 0.15)) > 5.0) &&
          (iso_chrg1 != iso_chrg2) && (iso_chrg1 * iso_chrg2 != 0) &&
          (iso_chrg1 < 100) && (iso_nnk1 < k_cut) && (iso_nnk2 < k_cut) &&
+         (iso_bdt3<-1.1 || iso_nnk3<k_cut) &&
          (iso_nnghost1 < ghost_cut) && (iso_nnghost2 < ghost_cut);
 }
 
@@ -177,7 +178,7 @@ Double_t WT_2OS(Bool_t add_flags,
                 Float_t iso_p1, Float_t iso_p2,
                 Float_t iso_pt1, Float_t iso_pt2,
                 Int_t iso_chrg1, Int_t iso_chrg2,
-                Double_t iso_wt1, Double_t iso_wt2) {
+                Double_t iso_wt1, Double_t iso_wt2, Double_t iso_wt3) {
   auto prefac = static_cast<Double_t>(
       FLAG_2OS(add_flags,
                iso_bdt1, iso_bdt2, iso_bdt3,
@@ -185,13 +186,14 @@ Double_t WT_2OS(Bool_t add_flags,
                iso_p1, iso_p2,
                iso_pt1, iso_pt2,
                iso_chrg1, iso_chrg2,
-               0.0f, 0.0f, 1.0f,
+               0.0f, 0.0f, 0.0f, 1.0f,
                0.0f, 0.0f, 1.0f));
   // clang-format on
   // need track 1 and 2 to both pass PID cuts here, so take the intersection weight (if no ghost cuts,
   // iso_wti is prob that track i isn't K; if ghost cuts, iso_wti is prob that track i isn't K and
   // isn't ghost)
-  return prefac * iso_wt1 * iso_wt2;
+  Double_t iso_wt3_or = (iso_bdt3<-1.1 ? 1. : iso_wt3);
+  return prefac * iso_wt1 * iso_wt2 * iso_wt3_or;
 }
 
 Double_t WT_2OS_ANG(Bool_t add_flags, Double_t iso_bdt1, Double_t iso_bdt2, Double_t iso_bdt3,
@@ -207,34 +209,36 @@ Double_t WT_2OS_ANG(Bool_t add_flags, Double_t iso_bdt1, Double_t iso_bdt2, Doub
 // clang-format off
 // For D** in D0mu sample
 Bool_t FLAG_1OS(Bool_t add_flags,
-                Double_t iso_bdt1, Double_t iso_bdt2,
+                Double_t iso_bdt1, Double_t iso_bdt2, Double_t iso_bdt3,
                 Int_t iso_type1,
                 Float_t iso_p1, Float_t iso_pt1,
                 Int_t iso_chrg1,
-                Float_t iso_nnk1, Float_t k_cut,
+                Float_t iso_nnk1, Float_t iso_nnk2, Float_t iso_nnk3, Float_t k_cut,
                 Float_t iso_nnghost1, Float_t ghost_cut,
                 Int_t d0_id) {
   // clang-format on
   return add_flags && (iso_bdt1 > 0.15) && (iso_bdt2 < 0.15) &&
-         (iso_type1 == 3) && (iso_p1 > 5.0) && (iso_pt1 > 0.15) &&
-         (iso_chrg1 * d0_id) > 0 && (iso_nnk1 < k_cut) && (iso_nnghost1 < ghost_cut);
+    (iso_type1 == 3) && (iso_p1 > 5.0) && (iso_pt1 > 0.15) &&
+    (iso_bdt2<-1.1 || iso_nnk2<k_cut) && (iso_bdt3<-1.1 || iso_nnk3<k_cut) &&
+    (iso_chrg1 * d0_id) > 0 && (iso_nnk1 < k_cut) && (iso_nnghost1 < ghost_cut);
 }
 
 // clang-format off
 // For D** in D*mu sample
 Bool_t FLAG_1OS(Bool_t add_flags,
-                Double_t iso_bdt1, Double_t iso_bdt2,
+                Double_t iso_bdt1, Double_t iso_bdt2, Double_t iso_bdt3,
                 Int_t iso_type1,
                 Float_t iso_p1, Float_t iso_pt1,
                 Int_t iso_chrg1,
-                Float_t iso_nnk1, Float_t k_cut,
+                Float_t iso_nnk1, Float_t iso_nnk2, Float_t iso_nnk3, Float_t k_cut,
                 Float_t iso_nnghost1, Float_t ghost_cut,
                 Int_t dst_id, Double_t dst_iso_deltam) {
   // clang-format on
   return add_flags && (iso_bdt1 > 0.15) && (iso_bdt2 < 0.15) &&
-         (iso_type1 == 3) && (iso_p1 > 5.0) && (iso_pt1 > 0.15) &&
-         (iso_chrg1 * dst_id < 0) && (iso_nnk1 < k_cut) && (iso_nnghost1 < ghost_cut) &&
-         IN_RANGE(dst_iso_deltam, 0.36, 0.6);  // Phoebe's cut
+    (iso_type1 == 3) && (iso_p1 > 5.0) && (iso_pt1 > 0.15) &&
+    (iso_chrg1 * dst_id < 0) && (iso_nnk1 < k_cut) && (iso_nnghost1 < ghost_cut) &&
+    (iso_bdt2<-1.1 || iso_nnk2<k_cut) && (iso_bdt3<-1.1 || iso_nnk3<k_cut) &&
+    IN_RANGE(dst_iso_deltam, 0.36, 0.6);  // Phoebe's cut
          // IN_RANGE(dst_iso_invm, 2.4, 2.52)  // Greg's cut
 }
 
@@ -268,23 +272,25 @@ Bool_t FLAG_1OS_ANG(Bool_t add_flags, Double_t iso_bdt1, Double_t iso_bdt2, Doub
 
 // clang-format off
 Double_t WT_1OS(Bool_t add_flags,
-                Double_t iso_bdt1, Double_t iso_bdt2,
+                Double_t iso_bdt1, Double_t iso_bdt2, Double_t iso_bdt3,
                 Int_t iso_type1,
                 Float_t iso_p1, Float_t iso_pt1,
                 Int_t iso_chrg1,
-                Double_t iso_wt1,
+                Double_t iso_wt1, Double_t iso_wt2, Double_t iso_wt3, 
                 Int_t d0_id) {
   auto prefac = static_cast<Double_t>(
       FLAG_1OS(add_flags,
-               iso_bdt1, iso_bdt2,
+               iso_bdt1, iso_bdt2, iso_bdt3,
                iso_type1,
                iso_p1, iso_pt1,
                iso_chrg1,
-               0.0f, 1.0f,
+               0.0f, 0.0f, 0.0f, 1.0f,
                0.0f, 1.0f,
                d0_id));
   // clang-format on
-  return prefac * iso_wt1;
+  Double_t iso_wt2_or = (iso_bdt2<-1.1 ? 1. : iso_wt2);
+  Double_t iso_wt3_or = (iso_bdt3<-1.1 ? 1. : iso_wt3);
+  return prefac * iso_wt1 * iso_wt2_or * iso_wt3_or;
 }
 
 Double_t WT_1OS_ANG(Bool_t add_flags, Double_t iso_bdt1, Double_t iso_bdt2, Double_t iso_bdt3,
@@ -307,24 +313,26 @@ Double_t WT_1OS_ANG(Bool_t add_flags, Double_t iso_bdt1, Double_t iso_bdt2, Doub
 // clang-format off
 // For D** in D*mu sample
 Double_t WT_1OS(Bool_t add_flags,
-                Double_t iso_bdt1, Double_t iso_bdt2,
+                Double_t iso_bdt1, Double_t iso_bdt2, Double_t iso_bdt3,
                 Int_t iso_type1,
                 Float_t iso_p1, Float_t iso_pt1,
                 Int_t iso_chrg1,
-                Double_t iso_wt1,
+                Double_t iso_wt1, Double_t iso_wt2, Double_t iso_wt3, 
                 Int_t dst_id, Double_t dst_iso_deltam) {
   auto prefac = static_cast<Double_t>(
       FLAG_1OS(add_flags,
-               iso_bdt1, iso_bdt2,
+               iso_bdt1, iso_bdt2, iso_bdt3,
                iso_type1,
                iso_p1, iso_pt1,
                iso_chrg1,
-               0.0f, 1.0f,
+               0.0f, 0.0f, 0.0f, 1.0f,
                0.0f, 1.0f,
                dst_id, dst_iso_deltam)
       );
   // clang-format on
-  return prefac * iso_wt1;
+  Double_t iso_wt2_or = (iso_bdt2<-1.1 ? 1. : iso_wt2);
+  Double_t iso_wt3_or = (iso_bdt3<-1.1 ? 1. : iso_wt3);
+  return prefac * iso_wt1 * iso_wt2_or * iso_wt3_or;
 }
 // clang-format off
 // Only define proton-enriched skim for D0 sample

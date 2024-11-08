@@ -62,21 +62,21 @@ The generation of the step-2 babies can be quite slow, currently taking about tw
 tmux
 cd workflows
 ## Takes 37 hours, output is 422GB
-./rdx.py rdx-ntuple-run2-mc-to-sig-norm    | tee step2-ntuple_mc-to-sig-norm.log
+./rdx.py rdx-ntuple-run2-mc-to-sig-norm    2>&1 | tee step2-ntuple_mc-to-sig-norm.log
 ## Takes 75 min, output is 58GB
-./rdx.py rdx-ntuple-run2-mc-to-ddx         | tee step2-ntuple_mc-to-ddx.log
+./rdx.py rdx-ntuple-run2-mc-to-ddx         2>&1 | tee step2-ntuple_mc-to-ddx.log
 ## Takes 11hours, output is 81GB
-./rdx.py rdx-ntuple-run2-mc-to-dstst       | tee step2-ntuple_mc-to-dstst.log
+./rdx.py rdx-ntuple-run2-mc-to-dstst       2>&1 | tee step2-ntuple_mc-to-dstst.log
 ## Takes 45 min, output is 2.7GB
-./rdx.py rdx-ntuple-run2-mc-to-d_s         | tee step2-ntuple_mc-to-d_s.log
+./rdx.py rdx-ntuple-run2-mc-to-d_s         2>&1 | tee step2-ntuple_mc-to-d_s.log
 ## Takes 45 min, output is 23GB
-./rdx.py rdx-ntuple-run2-mc-to-dstst-heavy | tee step2-ntuple_mc-to-dstst-heavy.log
+./rdx.py rdx-ntuple-run2-mc-to-dstst-heavy 2>&1 | tee step2-ntuple_mc-to-dstst-heavy.log
 ## Takes ??, output is 10GB
-./rdx.py rdx-ntuple-run2-data              | tee step2-ntuple_data.log
+./rdx.py rdx-ntuple-run2-data              2>&1 | tee step2-ntuple_data.log
 ## Takes 65 min, output is 22GB
-./rdx.py rdx-ntuple-run2-mu_misid          | tee step2-ntuple_mu_misid.log
+./rdx.py rdx-ntuple-run2-mu_misid          2>&1 | tee step2-ntuple_mu_misid.log
 ## Takes 65 min, output is 22GB
-./rdx.py rdx-ntuple-run2-mu_misid-vmu      | tee step2-ntuple_mu_misid-vmu.log
+./rdx.py rdx-ntuple-run2-mu_misid-vmu      2>&1 | tee step2-ntuple_mu_misid-vmu.log
 ```
 
 This generation relies on various auxiliary ntuples and weights. **Some aux ntuples need to be generated prior to running the above commands**. Namely:

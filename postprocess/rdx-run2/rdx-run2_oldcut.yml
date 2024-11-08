@@ -664,26 +664,26 @@ calculation:
         iso_bdt1, iso_bdt2, iso_bdt3, iso_type1, iso_type2,
         iso_p1, iso_p2, iso_pt1, iso_pt2,
         iso_chrg1, iso_chrg2,
-        iso_nnk1, iso_nnk2, 0.2,
+        iso_nnk1, iso_nnk2, iso_nnk3, 0.2,
         0.0, 0.0, 1.0
         )
     is_1os_loose: >-
         bool;
         FLAG_1OS(
         true,
-        iso_bdt1, iso_bdt2, iso_type1,
+        iso_bdt1, iso_bdt2, iso_bdt3, iso_type1,
         iso_p1, iso_pt1,
         iso_chrg1,
-        iso_nnk1, 0.2,
+        iso_nnk1, iso_nnk2, iso_nnk3, 0.2,
         0.0, 1.0,
         dst_id, dst_iso_deltam
         );
         FLAG_1OS(
         true,
-        iso_bdt1, iso_bdt2, iso_type1,
+        iso_bdt1, iso_bdt2, iso_bdt3, iso_type1,
         iso_p1, iso_pt1,
         iso_chrg1,
-        iso_nnk1, 0.2,
+        iso_nnk1, iso_nnk2, iso_nnk3, 0.2,
         0.0, 1.0,
         d0_id
         )
@@ -739,20 +739,20 @@ calculation:
         bool; FLAG_2OS(
         true, iso_bdt1, iso_bdt2, iso_bdt3, iso_type1, iso_type2,
         iso_p1, iso_p2, iso_pt1, iso_pt2, iso_chrg1, iso_chrg2,
-        iso_nnk1, iso_nnk2, 0.2, iso_nnghost1, iso_nnghost2, 0.3
+        iso_nnk1, iso_nnk2, iso_nnk3, 0.2, iso_nnghost1, iso_nnghost2, 0.3
         )
     is_1os_loose_new: >-
         bool;
         FLAG_1OS(true,
-        iso_bdt1, iso_bdt2, iso_type1,
+        iso_bdt1, iso_bdt2, iso_bdt3, iso_type1,
         iso_p1, iso_pt1, iso_chrg1,
-        iso_nnk1, 0.2, iso_nnghost1, 0.3,
+        iso_nnk1, iso_nnk2, iso_nnk3, 0.2, iso_nnghost1, 0.3,
         dst_id, dst_iso_deltam
         );
         FLAG_1OS(true,
-        iso_bdt1, iso_bdt2, iso_type1,
+        iso_bdt1, iso_bdt2, iso_bdt3, iso_type1,
         iso_p1, iso_pt1, iso_chrg1,
-        iso_nnk1, 0.2, iso_nnghost1, 0.3,
+        iso_nnk1, iso_nnk2, iso_nnk3, 0.2, iso_nnghost1, 0.3,
         d0_id
         )
     is_prot_loose_new: >- # only defined for D0 sample
@@ -1031,26 +1031,26 @@ calculation:
         iso_bdt1, iso_bdt2, iso_bdt3, iso_type1, iso_type2,
         iso_p1, iso_p2, iso_pt1, iso_pt2,
         iso_chrg1, iso_chrg2,
-        wpid_iso_nnk1_lt, wpid_iso_nnk2_lt
+        wpid_iso_nnk1_lt, wpid_iso_nnk2_lt, wpid_iso_nnk3_lt
         )
     wskim_1os: >-
         double;
         WT_1OS(
         true,
-        iso_bdt1, iso_bdt2,
+        iso_bdt1, iso_bdt2, iso_bdt3,
         iso_type1,
         iso_p1, iso_pt1,
         iso_chrg1,
-        wpid_iso_nnk1_lt,
+        wpid_iso_nnk1_lt, wpid_iso_nnk2_lt, wpid_iso_nnk3_lt,
         dst_id, dst_iso_deltam
         );
         WT_1OS(
         true,
-        iso_bdt1, iso_bdt2,
+        iso_bdt1, iso_bdt2, iso_bdt3,
         iso_type1,
         iso_p1, iso_pt1,
         iso_chrg1,
-        wpid_iso_nnk1_lt,
+        wpid_iso_nnk1_lt, wpid_iso_nnk2_lt, wpid_iso_nnk3_lt,
         d0_id
         )
     wskim_prot: >- # only defined for D0 sample
@@ -1099,26 +1099,26 @@ calculation:
         iso_bdt1, iso_bdt2, iso_bdt3, iso_type1, iso_type2,
         iso_p1, iso_p2, iso_pt1, iso_pt2,
         iso_chrg1, iso_chrg2,
-        wpid_iso_nnknng1_ltlt, wpid_iso_nnknng2_ltlt
+        wpid_iso_nnknng1_ltlt, wpid_iso_nnknng2_ltlt, wpid_iso_nnknng3_ltlt
         )
     wskim_1os_new: >-
         double;
         WT_1OS(
         true,
-        iso_bdt1, iso_bdt2,
+        iso_bdt1, iso_bdt2, iso_bdt3,
         iso_type1,
         iso_p1, iso_pt1,
         iso_chrg1,
-        wpid_iso_nnknng1_ltlt,
+        wpid_iso_nnknng1_ltlt, wpid_iso_nnknng2_ltlt, wpid_iso_nnknng3_ltlt, 
         dst_id, dst_iso_deltam
         );
         WT_1OS(
         true,
-        iso_bdt1, iso_bdt2,
+        iso_bdt1, iso_bdt2, iso_bdt3,
         iso_type1,
         iso_p1, iso_pt1,
         iso_chrg1,
-        wpid_iso_nnknng1_ltlt,
+        wpid_iso_nnknng1_ltlt, wpid_iso_nnknng2_ltlt, wpid_iso_nnknng3_ltlt, 
         d0_id
         )
     wskim_prot_new: >- # only defined for D0 sample

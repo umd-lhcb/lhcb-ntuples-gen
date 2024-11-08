@@ -273,24 +273,27 @@ calculation:
         iso_bdt1, iso_bdt2, iso_bdt3, iso_type1, iso_type2,
         iso_p1, iso_p2, iso_pt1, iso_pt2,
         iso_chrg1, iso_chrg2,
-        iso_nnk1, iso_nnk2
+        iso_nnk1, iso_nnk2, iso_nnk3, 0.2,
+        0.0, 0.0, 1.0
         )
     is_1os_loose: >-
         bool;
         FLAG_1OS(
         true,
-        iso_bdt1, iso_bdt2, iso_type1,
+        iso_bdt1, iso_bdt2, iso_bdt3, iso_type1,
         iso_p1, iso_pt1,
         iso_chrg1,
-        iso_nnk1,
+        iso_nnk1, iso_nnk2, iso_nnk3, 0.2,
+        0.0, 1.0,
         dst_id, dst_iso_deltam
         );
         FLAG_1OS(
         true,
-        iso_bdt1, iso_bdt2, iso_type1,
+        iso_bdt1, iso_bdt2, iso_bdt3 iso_type1,
         iso_p1, iso_pt1,
         iso_chrg1,
-        iso_nnk1,
+        iso_nnk1, iso_nnk2, iso_nnk3, 0.2,
+        0.0, 1.0,
         d0_id
         )
 
