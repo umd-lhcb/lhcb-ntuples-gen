@@ -226,7 +226,7 @@ Bool_t FLAG_SEL_MU_RUN1(Bool_t flag_mu_pid_ok, Bool_t flag_good_trks,
   return false;
 }
 
-Bool_t FLAG_SEL_MU_RUN2ANG(Bool_t flag_mu_pid_ok_loose, Bool_t flag_good_trks,
+Bool_t FLAG_SEL_MU_RUN2ANG(Bool_t flag_mu_pid_ok, Bool_t flag_good_trks,
                            Double_t mu_p,
                            Double_t mu_eta) {
                         //   Double_t mu_ip_chi2,
@@ -234,7 +234,7 @@ Bool_t FLAG_SEL_MU_RUN2ANG(Bool_t flag_mu_pid_ok_loose, Bool_t flag_good_trks,
   if (/* If tracks are well-separated angularly */
       flag_good_trks &&
       /* Mu PID related */
-      flag_mu_pid_ok_loose &&
+      flag_mu_pid_ok &&
       /* Momentum */
       IN_RANGE(mu_p, 3.0e3, 100.0e3) &&
       /* Acceptance */

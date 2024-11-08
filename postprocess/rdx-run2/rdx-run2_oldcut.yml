@@ -565,7 +565,7 @@ calculation:
 
     mu_ok: >-
         bool; FLAG_SEL_MU_RUN2ANG(
-        mu_pid_ok_loose_stub, trks_ok,
+        mu_pid_ok_stub, trks_ok,
         mu_P, mu_eta
         )
     # bool; FLAG_SEL_MU_RUN1(
