@@ -466,7 +466,10 @@ JOBS = {
         workflow_split,
         '../ntuples/0.9.6-2016_production/Dst_D0-mu_misid/*/*dv.root',
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
-        cli_vars={'cli_misid': 'true'},
+        cli_vars={
+            'cli_misid': 'true',
+            'cli_vmu': 'true'
+        },
         use_misid=True,
         use_ubdt=False,
         ctrl_sample=True
