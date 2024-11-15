@@ -56,6 +56,7 @@ def ensure_dir(path, delete_if_exist=True, make_absolute=True, **kwargs):
     path = abs_path(path, **kwargs) if make_absolute else path
 
     if delete_if_exist and op.isdir(path):
+        print(f'<{path}> already exists, deleting and creating anew')
         rmtree(path)
 
     try:
@@ -492,9 +493,12 @@ def workflow_split_base(inputs, input_yml, job_name='split', prefix='Dst_D0',
                         **kwargs):
     date = gen_date()  # NOTE: Need a consistent date!
     subworkdirs, workdir = workflow_prep_dir(
-        job_name, inputs, patterns=['*.DST'], **kwargs)
+        date + '_' + job_name, inputs, patterns=['*.DST'], **kwargs)
 
+    print(f'Writing ntuples to {workdir}')
+    
     for subjob, input_dir in subworkdirs.items():
+        print(f"Doing {subjob}")
         subflow = workflow_mc if 'MC_' in subjob or 'mc' in subjob \
             else workflow_data
         subflow(
@@ -510,7 +514,8 @@ def workflow_split_base(inputs, input_yml, job_name='split', prefix='Dst_D0',
         run_cmd(f'mv {sj}/ntuple_aux ntuple_aux/{sj}', **kwargs)
 
     # Also merge ntuples
-    makedirs('ntuple_merged')
+    mergeDir = f'ntuple_merged/{job_name}'
+    makedirs(mergeDir)
     uniq_names = set(generate_step2_name(sj+'.root', keep_index=False,
                                          date=date)
                      for sj in subworkdirs)
@@ -522,4 +527,4 @@ def workflow_split_base(inputs, input_yml, job_name='split', prefix='Dst_D0',
         for p in merge_prefix:
             if glob(f'ntuple/*/{p}--{name}--*.root'):
                 print(f'Merging prefix {p} of {name}...')
-                run_cmd(f'hadd -fk ntuple_merged/{p}--{name}.root ntuple/*/{p}--{name}--*.root', **kwargs)
+                run_cmd(f'hadd -fk {mergeDir}/{p}--{name}.root ntuple/*/{p}--{name}--*.root', **kwargs)

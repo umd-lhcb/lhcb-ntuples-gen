@@ -443,20 +443,20 @@ JOBS = {
         particle='BachMu'
     ),
     # Run 2 data
-    'rdx-ntuple-run2-data': partial(
+    'Dst_D0-std': partial(
         workflow_split,
-        '../ntuples/0.9.6-2016_production/Dst_D0-std',
+        '../ntuples/0.9.6-2016_production/Dst_D0-std/*/*dv.root',
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
     ),
     'rdx-ntuple-run2-data-cut_opt': partial(
         workflow_split,
-        '../ntuples/0.9.6-2016_production/Dst_D0-std',
+        '../ntuples/0.9.6-2016_production/Dst_D0-std/*/*dv.root',
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
         cli_vars={'cli_cutflow': 'true'}
     ),
-    'rdx-ntuple-run2-mu_misid': partial(
+    'Dst_D0-mu_misid': partial(
         workflow_split,
-        '../ntuples/0.9.6-2016_production/Dst_D0-mu_misid',
+        '../ntuples/0.9.6-2016_production/Dst_D0-mu_misid/*/*dv.root',
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
         cli_vars={'cli_misid': 'true'},
         use_misid=True,
@@ -464,7 +464,7 @@ JOBS = {
     ),
     'rdx-ntuple-run2-mu_misid-vmu': partial(
         workflow_split,
-        '../ntuples/0.9.6-2016_production/Dst_D0-mu_misid',
+        '../ntuples/0.9.6-2016_production/Dst_D0-mu_misid/*/*dv.root',
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
         cli_vars={'cli_misid': 'true'},
         use_misid=True,
@@ -473,7 +473,7 @@ JOBS = {
     ),
     'rdx-ntuple-run2-misid_study': partial(
         workflow_split,
-        '../ntuples/0.9.6-2016_production/Dst_D0-mu_misid',
+        '../ntuples/0.9.6-2016_production/Dst_D0-mu_misid/*/*dv.root',
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
         cli_vars={'cli_misid_study': 'true'},
         use_ubdt=False
@@ -499,7 +499,7 @@ JOBS = {
         blocked_patterns=['--aux', 'MC_2012']
     ),
     # Run 2 MC tracker only
-    'rdx-ntuple-run2-mc-to-sig-norm': partial(
+    'Dst_D0-mc-tracker_only-sig_norm': partial(
         workflow_split,
         [
             # D0
@@ -516,16 +516,19 @@ JOBS = {
         use_hammer_dstrun1=True,
         num_of_workers=20
     ),
-    'rdx-ntuple-run2-mc-to-ddx': partial(
+    ### DDX including DDspi for the D* (unused D0 ntuples with DDspi also produced)
+    'Dst_D0-mc-tracker_only-DDX': partial(
         workflow_split,
-        [
-            f'../ntuples/0.9.6-2016_production/Dst_D0-mc-tracker_only/*{i}*.DST'
+        [f'../ntuples/0.9.6-2016_production/Dst_D0-mc-tracker_only/*{i}*.DST'
             for i in [
                 11894600, 12893600, 11894200, 12893610,
                 11894610, 12895400, 11894210, 12895000,
                 11895400
             ]
-        ],
+         ]
+         +
+         [f'../ntuples/0.9.10-DstDspi/Dst_D0-mc-tracker_only/*{i}*.DST' for i in [11894400, 12895410]]
+        ,
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
         use_hammer=False,
         num_of_workers=20
@@ -544,7 +547,7 @@ JOBS = {
         use_hammer=False,
         num_of_workers=20
     ),
-    'rdx-ntuple-run2-mc-to-dstst': partial(
+    'Dst_D0-mc-tracker_only-Dstst': partial(
         workflow_split,
         [
             f'../ntuples/0.9.6-2016_production/Dst_D0-mc-tracker_only/*{i}*.DST'
@@ -555,7 +558,7 @@ JOBS = {
         use_hammer_no_rescale=True, # not nominally used for D**
         num_of_workers=20
     ),
-    'rdx-ntuple-run2-mc-to-dstst-heavy': partial(
+    'Dst_D0-mc-tracker_only-Dstst_heavy': partial(
         workflow_split,
         [
             f'../ntuples/0.9.6-2016_production/Dst_D0-mc-tracker_only/*{i}*.DST'
@@ -565,7 +568,7 @@ JOBS = {
         use_hammer=False,
         num_of_workers=20
     ),
-    'rdx-ntuple-run2-mc-to-d_s': partial(
+    'Dst_D0-mc-tracker_only-D_s': partial(
         workflow_split,
         [
             f'../ntuples/0.9.6-2016_production/Dst_D0-mc-tracker_only/*{i}*.DST'
@@ -590,7 +593,7 @@ JOBS = {
         cli_vars={'cli_misid_study': 'true'}
     ),
     'rdx-ntuple-run2-data-demo': partial(
-        workflow_data,
+        workflow_split,
         '../ntuples/0.9.6-2016_production/Dst_D0-std/*MagDown*.DST/*--000-dv.root',
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
     ),

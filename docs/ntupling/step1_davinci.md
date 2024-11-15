@@ -20,6 +20,8 @@ Launch `DaVinci` with additional `TupleTool` with this command, inside
 ```
 run gaudirun.py <ntuple_options1> <ntuple_options2> ...
 ```
+If you want to modify the `TupleTools` used in DaVinci, check the `README` on local development at
+[https://github.com/umd-lhcb/TupleToolSemiLeptonic/tree/master](https://github.com/umd-lhcb/TupleToolSemiLeptonic/tree/master).
 
 We often have scripts that facilitate this. For instance, to run on Run 2
 data, type in the `docker`:
