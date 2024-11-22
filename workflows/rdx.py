@@ -498,6 +498,17 @@ JOBS = {
         cli_vars={'cli_cutflow': 'true'},
         blocked_patterns=['--aux', 'MC_2012']
     ),
+    # Run 2 MC full sim for Lb
+    'rdx-ntuple-run2-mc-to-Lb-fullsim': partial(
+        workflow_split,
+        [
+            f'../ntuples/0.9.11-Lb-mc-fullsim/*{i}*.DST'
+            for i in [15574081, 15574082, 15574083]
+        ],
+        '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
+        use_hammer=False,
+        num_of_workers=20
+    ),
     # Run 2 MC tracker only
     'Dst_D0-mc-tracker_only-sig_norm': partial(
         workflow_split,
