@@ -1024,6 +1024,14 @@ class D0TruthMatch : public TruthMatch {
           tau_expect  = true;
           if (TRUTH_MATCH_DD()) truthmatch = dd_bu + tau + added;
           break;
+        case 15574081:
+        case 15574082:
+        case 15574083:
+          b_expect_id = 5122;
+          dst_expect_id = 4124;
+          tau_expect  = false;
+          if (TRUTH_MATCH_NORMSIG()) truthmatch = dstp + mu;
+          break;
       }
     }
   }
