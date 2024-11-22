@@ -155,6 +155,18 @@ Float_t MASS_DX_ISO1(Float_t dx_e, Float_t dx_px, Float_t dx_py, Float_t dx_pz,
   return (pDx + pIso1).M();
 }
 
+// Reconstruct mass of the D0/D* and the least isolated track under the proton mass assumption
+Float_t MASS_DX_ISO1_PROT(Float_t dx_e, Float_t dx_px, Float_t dx_py, Float_t dx_pz,
+                          Float_t px1, Float_t py1, Float_t pz1){
+
+  TLorentzVector pDx(dx_px, dx_py, dx_pz, dx_e);
+  Float_t mpr = 938.27;
+  Float_t p3Iso1 = sqrt(pow(px1,2) + pow(py1,2) + pow(pz1,2));
+  TLorentzVector pIso1(px1, py1, pz1, sqrt(pow(mpr,2) + pow(p3Iso1,2)));
+  
+  return (pDx + pIso1).M();
+}
+
 // Reconstruct mass of the D0/D* and the two least isolated tracks under the pion mass assumption
 Float_t MASS_DX_ISO1_ISO2(Float_t dx_e, Float_t dx_px, Float_t dx_py, Float_t dx_pz,
                           Float_t px1, Float_t py1, Float_t pz1, Float_t px2, Float_t py2, Float_t pz2){
