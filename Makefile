@@ -75,18 +75,18 @@ RJpsi-ntuple-run2-mc_ghost:
 # RDX run 2 ntuple generation #
 ###############################
 
-rdx-ntuple-run2-all: rdx-ntuple-run2-data rdx-ntuple-run2-mu_misid rdx-ntuple-run2-mu_misid-vmu rdx-ntuple-run2-mc
+rdx-ntuple-run2-all: Dst_D0-std Dst_D0-mu_misid Dst_D0-mu_misid-vmu rdx-ntuple-run2-mc
 
-rdx-ntuple-run2-data:
+Dst_D0-std:
 	workflows/rdx.py $@
 
 rdx-ntuple-run2-data-cut_opt:
 	workflows/rdx.py $@
 
-rdx-ntuple-run2-mu_misid:
+Dst_D0-mu_misid:
 	workflows/rdx.py $@
 
-rdx-ntuple-run2-mu_misid-vmu:
+Dst_D0-mu_misid-vmu:
 	workflows/rdx.py $@
 
 # this is FullSim
@@ -105,16 +105,16 @@ rdx-ntuple-run2-mc_ghost:
 
 # this is tracker-only
 rdx-ntuple-run2-mc-to-all: \
-	rdx-ntuple-run2-mc-to-sig-norm \
-	rdx-ntuple-run2-mc-to-ddx \
-	rdx-ntuple-run2-mc-to-dstst \
-	rdx-ntuple-run2-mc-to-dstst-heavy \
-	rdx-ntuple-run2-mc-to-d_s
+	Dst_D0-mc-tracker_only-sig_norm  \
+	Dst_D0-mc-tracker_only-DDX  \
+	Dst_D0-mc-tracker_only-Dstst \
+	Dst_D0-mc-tracker_only-Dstst_heavy \
+	Dst_D0-mc-tracker_only-D_s
 
-rdx-ntuple-run2-mc-to-sig-norm:
+Dst_D0-mc-tracker_only-sig_norm :
 	workflows/rdx.py $@
 
-rdx-ntuple-run2-mc-to-ddx:
+Dst_D0-mc-tracker_only-DDX :
 	workflows/rdx.py $@
 
 # rdx-ntuple-run2-mc-to-missing-ddx:
@@ -126,13 +126,13 @@ rdx-ntuple-run2-mc-to-missing-ddx-DstDspi:
 rdx-ntuple-run2-mc-to-ddx-test:
 	workflows/rdx.py $@
 
-rdx-ntuple-run2-mc-to-dstst:
+Dst_D0-mc-tracker_only-Dstst:
 	workflows/rdx.py $@
 
-rdx-ntuple-run2-mc-to-dstst-heavy:
+Dst_D0-mc-tracker_only-Dstst_heavy:
 	workflows/rdx.py $@
 
-rdx-ntuple-run2-mc-to-d_s:
+Dst_D0-mc-tracker_only-D_s:
 	workflows/rdx.py $@
 
 # Debug

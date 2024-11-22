@@ -462,7 +462,7 @@ JOBS = {
         use_misid=True,
         use_ubdt=False
     ),
-    'rdx-ntuple-run2-mu_misid-vmu': partial(
+    'Dst_D0-mu_misid-vmu': partial(
         workflow_split,
         '../ntuples/0.9.6-2016_production/Dst_D0-mu_misid/*/*dv.root',
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
