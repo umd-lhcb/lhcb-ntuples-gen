@@ -107,6 +107,13 @@ calculation:
         float;
         MASS_DX_ISO1_ISO2(d0_PE, d0_PX, d0_PY, d0_PZ, b_ISOLATION_PX, b_ISOLATION_PY, b_ISOLATION_PZ, b_ISOLATION_PX2, b_ISOLATION_PY2, b_ISOLATION_PZ2);
         MASS_DX_ISO1_ISO2(dst_PE, dst_PX, dst_PY, dst_PZ, b0_ISOLATION_PX, b0_ISOLATION_PY, b0_ISOLATION_PZ, b0_ISOLATION_PX2, b0_ISOLATION_PY2, b0_ISOLATION_PZ2)
+    d_iso1_prot_m: >-
+        float;
+        MASS_DX_ISO1_PROT(d0_PE, d0_PX, d0_PY, d0_PZ, b_ISOLATION_PX, b_ISOLATION_PY, b_ISOLATION_PZ);
+        MASS_DX_ISO1_PROT(dst_PE, dst_PX, dst_PY, dst_PZ, b0_ISOLATION_PX, b0_ISOLATION_PY, b0_ISOLATION_PZ)
+    # log(IP chi2)
+    iso1_logipchi2: >-
+        float; log(b_ISOLATION_CHI2); log(b0_ISOLATION_CHI2)
 
     #################
     # Fit variables #
