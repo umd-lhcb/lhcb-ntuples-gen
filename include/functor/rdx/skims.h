@@ -354,7 +354,7 @@ Bool_t FLAG_PROT(Bool_t add_flags,
 Double_t WT_ISO_PROT(Int_t true_id, Double_t w_pi, Double_t w_k, Double_t w_p,
                     Double_t w_e, Double_t w_mu, Double_t w_ghost, int mc_id) {
   true_id = ABS(true_id);
-  if(mc_id==11874430 || mc_id==11874440 || mc_id==12873450 || mc_id==12873460) return w_p;
+  //if(mc_id==11874430 || mc_id==11874440 || mc_id==12873450 || mc_id==12873460) return w_p;
   if (true_id == 2212) return w_p;
   if (true_id == 211) return w_pi;
   if (true_id == 321) return w_k;

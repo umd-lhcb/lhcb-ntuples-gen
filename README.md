@@ -61,21 +61,25 @@ The generation of the step-2 babies can be quite slow, currently taking about tw
 ```shell
 tmux
 cd workflows
-## Takes 37 hours, output is 422GB
+## Takes 7:11, output is 299GB
 ./rdx.py Dst_D0-mc-tracker_only-sig_norm    2>&1 | tee step2-ntuple_mc-to-sig-norm.log
-## Takes 75 min, output is 58GB
-./rdx.py Dst_D0-mc-tracker_only-DDX         2>&1 | tee step2-ntuple_mc-to-ddx.log
-## Takes 11hours, output is 81GB
-./rdx.py Dst_D0-mc-tracker_only-Dstst       2>&1 | tee step2-ntuple_mc-to-dstst.log
-## Takes 45 min, output is 2.7GB
+
+## Takes 0:09, output is 2.9GB
 ./rdx.py Dst_D0-mc-tracker_only-D_s         2>&1 | tee step2-ntuple_mc-to-d_s.log
-## Takes 45 min, output is 23GB
+## Takes 1:13, output is 1.3GB
+./rdx.py Dst_D0-mc-fullsim-Lb               2>&1 | tee step2-ntuple_mc-fullsim-lb.log
+## Takes 1:05, output is 31GB
 ./rdx.py Dst_D0-mc-tracker_only-Dstst_heavy 2>&1 | tee step2-ntuple_mc-to-dstst-heavy.log
-## Takes ??, output is 10GB
+## Takes 1:56, output is 83GB
+./rdx.py Dst_D0-mc-tracker_only-DDX         2>&1 | tee step2-ntuple_mc-to-ddx.log
+## Takes 3:29, output is 82GB
+./rdx.py Dst_D0-mc-tracker_only-Dstst       2>&1 | tee step2-ntuple_mc-to-dstst.log
+
+## Takes 9:26, output is 9.7GB
 ./rdx.py Dst_D0-std                         2>&1 | tee step2-ntuple_data.log
-## Takes 65 min, output is 22GB
+## Takes 12:34, output is 27GB
 ./rdx.py Dst_D0-mu_misid                    2>&1 | tee step2-ntuple_mu_misid.log
-## Takes 65 min, output is 22GB
+## Takes 12:14, output is 27GB
 ./rdx.py Dst_D0-mu_misid-vmu                2>&1 | tee step2-ntuple_mu_misid-vmu.log
 ```
 

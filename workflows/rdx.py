@@ -499,7 +499,7 @@ JOBS = {
         blocked_patterns=['--aux', 'MC_2012']
     ),
     # Run 2 MC full sim for Lb
-    'rdx-ntuple-run2-mc-to-Lb-fullsim': partial(
+    'Dst_D0-mc-fullsim-Lb': partial(
         workflow_split,
         [
             f'../ntuples/0.9.11-Lb-mc-fullsim/*{i}*.DST'
