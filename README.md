@@ -75,11 +75,11 @@ cd workflows
 ## Takes 3:29, output is 82GB
 ./rdx.py Dst_D0-mc-tracker_only-Dstst       2>&1 | tee step2-ntuple_mc-to-dstst.log
 
-## Takes 9:26, output is 9.7GB
+## Takes 0:40, output is 9.7GB
 ./rdx.py Dst_D0-std                         2>&1 | tee step2-ntuple_data.log
-## Takes 12:34, output is 27GB
+## Takes 1:40, output is 27GB
 ./rdx.py Dst_D0-mu_misid                    2>&1 | tee step2-ntuple_mu_misid.log
-## Takes 12:14, output is 27GB
+## Takes 1:40, output is 27GB
 ./rdx.py Dst_D0-mu_misid-vmu                2>&1 | tee step2-ntuple_mu_misid-vmu.log
 ```
 

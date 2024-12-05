@@ -818,6 +818,178 @@ calculation:
 
     # misID weights
     in_deltam_sb: "^bool; d0_m_ok && !dst_m_ok"
+    # Automatically assign correct weight depending on skim
+    wmis_norm: >-
+        ^double;
+        IF_VAR_EXISTS(cli_vmu, wmis_norm_iso);
+        wmis_norm_iso    * is_iso_loose +
+        wmis_norm_1os    * is_1os_loose +
+        wmis_norm_2os    * is_2os_loose +
+        wmis_norm_dd     * is_dd_loose
+    wmis_norm_pi: >-
+        ^double;
+        IF_VAR_EXISTS(cli_vmu, wmis_norm_iso_pi);
+        wmis_norm_iso_pi * is_iso_loose +
+        wmis_norm_1os_pi * is_1os_loose +
+        wmis_norm_2os_pi * is_2os_loose +
+        wmis_norm_dd_pi  * is_dd_loose
+    wmis_norm_k: >-
+        ^double;
+        IF_VAR_EXISTS(cli_vmu, wmis_norm_iso_k);
+        wmis_norm_iso_k  * is_iso_loose +
+        wmis_norm_1os_k  * is_1os_loose +
+        wmis_norm_2os_k  * is_2os_loose +
+        wmis_norm_dd_k   * is_dd_loose
+    wmis_norm_p: >-
+        ^double;
+        IF_VAR_EXISTS(cli_vmu, wmis_norm_iso_p);
+        wmis_norm_iso_p  * is_iso_loose +
+        wmis_norm_1os_p  * is_1os_loose +
+        wmis_norm_2os_p  * is_2os_loose +
+        wmis_norm_dd_p   * is_dd_loose
+    wmis_norm_e: >-
+        ^double;
+        IF_VAR_EXISTS(cli_vmu, wmis_norm_iso_e);
+        wmis_norm_iso_e  * is_iso_loose +
+        wmis_norm_1os_e  * is_1os_loose +
+        wmis_norm_2os_e  * is_2os_loose +
+        wmis_norm_dd_e   * is_dd_loose
+    wmis_norm_g: >-
+        ^double;
+        IF_VAR_EXISTS(cli_vmu, wmis_norm_iso_g);
+        wmis_norm_iso_g  * is_iso_loose +
+        wmis_norm_1os_g  * is_1os_loose +
+        wmis_norm_2os_g  * is_2os_loose +
+        wmis_norm_dd_g   * is_dd_loose
+    #
+    wmis_bsb: >-
+        ^double;
+        IF_VAR_EXISTS(cli_vmu, wmis_bsb_iso);
+        wmis_bsb_iso    * is_iso_loose +
+        wmis_bsb_1os    * is_1os_loose +
+        wmis_bsb_2os    * is_2os_loose +
+        wmis_bsb_dd     * is_dd_loose
+    wmis_bsb_pi: >-
+        ^double;
+        IF_VAR_EXISTS(cli_vmu, wmis_bsb_iso_pi);
+        wmis_bsb_iso_pi * is_iso_loose +
+        wmis_bsb_1os_pi * is_1os_loose +
+        wmis_bsb_2os_pi * is_2os_loose +
+        wmis_bsb_dd_pi  * is_dd_loose
+    wmis_bsb_k: >-
+        ^double;
+        IF_VAR_EXISTS(cli_vmu, wmis_bsb_iso_k);
+        wmis_bsb_iso_k  * is_iso_loose +
+        wmis_bsb_1os_k  * is_1os_loose +
+        wmis_bsb_2os_k  * is_2os_loose +
+        wmis_bsb_dd_k   * is_dd_loose
+    wmis_bsb_p: >-
+        ^double;
+        IF_VAR_EXISTS(cli_vmu, wmis_bsb_iso_p);
+        wmis_bsb_iso_p  * is_iso_loose +
+        wmis_bsb_1os_p  * is_1os_loose +
+        wmis_bsb_2os_p  * is_2os_loose +
+        wmis_bsb_dd_p   * is_dd_loose
+    wmis_bsb_e: >-
+        ^double;
+        IF_VAR_EXISTS(cli_vmu, wmis_bsb_iso_e);
+        wmis_bsb_iso_e  * is_iso_loose +
+        wmis_bsb_1os_e  * is_1os_loose +
+        wmis_bsb_2os_e  * is_2os_loose +
+        wmis_bsb_dd_e   * is_dd_loose
+    wmis_bsb_g: >-
+        ^double;
+        IF_VAR_EXISTS(cli_vmu, wmis_bsb_iso_g);
+        wmis_bsb_iso_g  * is_iso_loose +
+        wmis_bsb_1os_g  * is_1os_loose +
+        wmis_bsb_2os_g  * is_2os_loose +
+        wmis_bsb_dd_g   * is_dd_loose
+    #
+    wmis_dsb: >-
+        ^double;
+        IF_VAR_EXISTS(cli_vmu, wmis_dsb_iso);
+        wmis_dsb_iso    * is_iso_loose +
+        wmis_dsb_1os    * is_1os_loose +
+        wmis_dsb_2os    * is_2os_loose +
+        wmis_dsb_dd     * is_dd_loose
+    wmis_dsb_pi: >-
+        ^double;
+        IF_VAR_EXISTS(cli_vmu, wmis_dsb_iso_pi);
+        wmis_dsb_iso_pi * is_iso_loose +
+        wmis_dsb_1os_pi * is_1os_loose +
+        wmis_dsb_2os_pi * is_2os_loose +
+        wmis_dsb_dd_pi  * is_dd_loose
+    wmis_dsb_k: >-
+        ^double;
+        IF_VAR_EXISTS(cli_vmu, wmis_dsb_iso_k);
+        wmis_dsb_iso_k  * is_iso_loose +
+        wmis_dsb_1os_k  * is_1os_loose +
+        wmis_dsb_2os_k  * is_2os_loose +
+        wmis_dsb_dd_k   * is_dd_loose
+    wmis_dsb_e: >-
+        ^double;
+        IF_VAR_EXISTS(cli_vmu, wmis_dsb_iso_e);
+        wmis_dsb_iso_e  * is_iso_loose +
+        wmis_dsb_1os_e  * is_1os_loose +
+        wmis_dsb_2os_e  * is_2os_loose +
+        wmis_dsb_dd_e   * is_dd_loose
+    wmis_dsb_p: >-
+        ^double;
+        IF_VAR_EXISTS(cli_vmu, wmis_dsb_iso_p);
+        wmis_dsb_iso_p  * is_iso_loose +
+        wmis_dsb_1os_p  * is_1os_loose +
+        wmis_dsb_2os_p  * is_2os_loose +
+        wmis_dsb_dd_p   * is_dd_loose
+    wmis_dsb_g: >-
+        ^double;
+        IF_VAR_EXISTS(cli_vmu, wmis_dsb_iso_g);
+        wmis_dsb_iso_g  * is_iso_loose +
+        wmis_dsb_1os_g  * is_1os_loose +
+        wmis_dsb_2os_g  * is_2os_loose +
+        wmis_dsb_dd_g   * is_dd_loose
+    #
+    wmis_bsb_dsb: >-
+        ^double;
+        IF_VAR_EXISTS(cli_vmu, wmis_bsb_dsb_iso);
+        wmis_bsb_dsb_iso    * is_iso_loose +
+        wmis_bsb_dsb_1os    * is_1os_loose +
+        wmis_bsb_dsb_2os    * is_2os_loose +
+        wmis_bsb_dsb_dd     * is_dd_loose
+    wmis_bsb_dsb_pi: >-
+        ^double;
+        IF_VAR_EXISTS(cli_vmu, wmis_bsb_dsb_iso_pi);
+        wmis_bsb_dsb_iso_pi * is_iso_loose +
+        wmis_bsb_dsb_1os_pi * is_1os_loose +
+        wmis_bsb_dsb_2os_pi * is_2os_loose +
+        wmis_bsb_dsb_dd_pi  * is_dd_loose
+    wmis_bsb_dsb_k: >-
+        ^double;
+        IF_VAR_EXISTS(cli_vmu, wmis_bsb_dsb_iso_k);
+        wmis_bsb_dsb_iso_k  * is_iso_loose +
+        wmis_bsb_dsb_1os_k  * is_1os_loose +
+        wmis_bsb_dsb_2os_k  * is_2os_loose +
+        wmis_bsb_dsb_dd_k   * is_dd_loose
+    wmis_bsb_dsb_p: >-
+        ^double;
+        IF_VAR_EXISTS(cli_vmu, wmis_bsb_dsb_iso_p);
+        wmis_bsb_dsb_iso_p  * is_iso_loose +
+        wmis_bsb_dsb_1os_p  * is_1os_loose +
+        wmis_bsb_dsb_2os_p  * is_2os_loose +
+        wmis_bsb_dsb_dd_p   * is_dd_loose
+    wmis_bsb_dsb_e: >-
+        ^double;
+        IF_VAR_EXISTS(cli_vmu, wmis_bsb_dsb_iso_e);
+        wmis_bsb_dsb_iso_e  * is_iso_loose +
+        wmis_bsb_dsb_1os_e  * is_1os_loose +
+        wmis_bsb_dsb_2os_e  * is_2os_loose +
+        wmis_bsb_dsb_dd_e   * is_dd_loose
+    wmis_bsb_dsb_g: >-
+        ^double;
+        IF_VAR_EXISTS(cli_vmu, wmis_bsb_dsb_iso_g);
+        wmis_bsb_dsb_iso_g  * is_iso_loose +
+        wmis_bsb_dsb_1os_g  * is_1os_loose +
+        wmis_bsb_dsb_2os_g  * is_2os_loose +
+        wmis_bsb_dsb_dd_g   * is_dd_loose
     # 'wmis' is the NON-DiF-SMEARED misID weights
     wmis: >-
         double;
@@ -859,39 +1031,49 @@ calculation:
     # "Fractional" misid weights to check contribution of each true species
     wmis_pi: >-
         double;
-        wmis_norm_pi*skim_global_ok +
-        wmis_bsb_pi*(dx_m_ok && b_m_sb) +
-        wmis_dsb_pi*(in_deltam_sb && b_m_ok && in_fit_range) +
-        wmis_dsb_bsb_pi*(in_deltam_sb && b_m_sb);
-        wmis_norm_pi*skim_global_ok + wmis_bsb_pi*(dx_m_ok && b_m_sb)
+        wmis_norm_pi    * skim_global_ok +
+        wmis_bsb_pi     * (dx_m_ok && b_m_sb) +
+        wmis_dsb_pi     * (in_deltam_sb && b_m_ok && in_fit_range) +
+        wmis_dsb_bsb_pi * (in_deltam_sb && b_m_sb)
+        ;
+        wmis_norm_pi * skim_global_ok +
+        wmis_bsb_pi  * (dx_m_ok && b_m_sb)
     wmis_k: >-
         double;
-        wmis_norm_k*skim_global_ok +
-        wmis_bsb_k*(dx_m_ok && b_m_sb) +
-        wmis_dsb_k*(in_deltam_sb && b_m_ok && in_fit_range) +
-        wmis_dsb_bsb_k*(in_deltam_sb && b_m_sb);
-        wmis_norm_k*skim_global_ok + wmis_bsb_k*(dx_m_ok && b_m_sb)
+        wmis_norm_k    * skim_global_ok +
+        wmis_bsb_k     * (dx_m_ok && b_m_sb) +
+        wmis_dsb_k     * (in_deltam_sb && b_m_ok && in_fit_range) +
+        wmis_dsb_bsb_k * (in_deltam_sb && b_m_sb)
+        ;
+        wmis_norm_k * skim_global_ok +
+        wmis_bsb_k  * (dx_m_ok && b_m_sb)
     wmis_p: >-
         double;
-        wmis_norm_p*skim_global_ok +
-        wmis_bsb_p*(dx_m_ok && b_m_sb) +
-        wmis_dsb_p*(in_deltam_sb && b_m_ok && in_fit_range) +
-        wmis_dsb_bsb_p*(in_deltam_sb && b_m_sb);
-        wmis_norm_p*skim_global_ok + wmis_bsb_p*(dx_m_ok && b_m_sb)
+        wmis_norm_p    * skim_global_ok +
+        wmis_bsb_p     * (dx_m_ok && b_m_sb) +
+        wmis_dsb_p     * (in_deltam_sb && b_m_ok && in_fit_range) +
+        wmis_dsb_bsb_p * (in_deltam_sb && b_m_sb)
+        ;
+        wmis_norm_p * skim_global_ok +
+        wmis_bsb_p  * (dx_m_ok && b_m_sb)
     wmis_e: >-
         double;
-        wmis_norm_e*skim_global_ok +
-        wmis_bsb_e*(dx_m_ok && b_m_sb) +
-        wmis_dsb_e*(in_deltam_sb && b_m_ok && in_fit_range) +
-        wmis_dsb_bsb_e*(in_deltam_sb && b_m_sb);
-        wmis_norm_e*skim_global_ok + wmis_bsb_e*(dx_m_ok && b_m_sb)
+        wmis_norm_e    * skim_global_ok +
+        wmis_bsb_e     * (dx_m_ok && b_m_sb) +
+        wmis_dsb_e     * (in_deltam_sb && b_m_ok && in_fit_range) +
+        wmis_dsb_bsb_e * (in_deltam_sb && b_m_sb)
+        ;
+        wmis_norm_e * skim_global_ok +
+        wmis_bsb_e  * (dx_m_ok && b_m_sb)
     wmis_g: >-
         double;
-        wmis_norm_g*skim_global_ok +
-        wmis_bsb_g*(dx_m_ok && b_m_sb) +
-        wmis_dsb_g*(in_deltam_sb && b_m_ok && in_fit_range) +
-        wmis_dsb_bsb_g*(in_deltam_sb && b_m_sb);
-        wmis_norm_g*skim_global_ok + wmis_bsb_g*(dx_m_ok && b_m_sb)
+        wmis_norm_g    * skim_global_ok +
+        wmis_bsb_g     * (dx_m_ok && b_m_sb) +
+        wmis_dsb_g     * (in_deltam_sb && b_m_ok && in_fit_range) +
+        wmis_dsb_bsb_g * (in_deltam_sb && b_m_sb)
+        ;
+        wmis_norm_g * skim_global_ok +
+        wmis_bsb_g  * (dx_m_ok && b_m_sb)
 
     # Weight representing the global cut (BEFORE applying the skim cuts)
     wpid_base: ^double; wpid_k*wpid_pi
