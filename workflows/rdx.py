@@ -6,6 +6,7 @@
 
 import sys
 import os.path as op
+import time
 
 from argparse import ArgumentParser
 from os import chdir
@@ -445,18 +446,18 @@ JOBS = {
     # Run 2 data
     'Dst_D0-std': partial(
         workflow_split,
-        '../ntuples/0.9.6-2016_production/Dst_D0-std/*/*dv.root',
+        '../ntuples/0.9.6-2016_production/Dst_D0-std/',
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
     ),
     'rdx-ntuple-run2-data-cut_opt': partial(
         workflow_split,
-        '../ntuples/0.9.6-2016_production/Dst_D0-std/*/*dv.root',
+        '../ntuples/0.9.6-2016_production/Dst_D0-std/',
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
         cli_vars={'cli_cutflow': 'true'}
     ),
     'Dst_D0-mu_misid': partial(
         workflow_split,
-        '../ntuples/0.9.6-2016_production/Dst_D0-mu_misid/*/*dv.root',
+        '../ntuples/0.9.6-2016_production/Dst_D0-mu_misid/',
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
         cli_vars={'cli_misid': 'true'},
         use_misid=True,
@@ -464,7 +465,7 @@ JOBS = {
     ),
     'Dst_D0-mu_misid-vmu': partial(
         workflow_split,
-        '../ntuples/0.9.6-2016_production/Dst_D0-mu_misid/*/*dv.root',
+        '../ntuples/0.9.6-2016_production/Dst_D0-mu_misid/',
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
         cli_vars={
             'cli_misid': 'true',
@@ -476,7 +477,7 @@ JOBS = {
     ),
     'rdx-ntuple-run2-misid_study': partial(
         workflow_split,
-        '../ntuples/0.9.6-2016_production/Dst_D0-mu_misid/*/*dv.root',
+        '../ntuples/0.9.6-2016_production/Dst_D0-mu_misid/',
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
         cli_vars={'cli_misid_study': 'true'},
         use_ubdt=False
@@ -870,9 +871,17 @@ JOBS = {
 }
 
 if __name__ == '__main__':
+    start = time.time()
     args = parse_input()
 
     if args.job_name in JOBS:
         JOBS[args.job_name](job_name=args.job_name, debug=args.debug)
     else:
         print('Unknown job name: {}'.format(args.job_name))
+
+    end = time.time()
+    d = (end - start) / 3600
+    h = int(d)
+    m = int((d - h) * 60)
+    s = int(((d - h) * 60 - m) * 60)
+    print(f'\nFinished processing {args.job_name} in {h}h {m}m {s}s')
