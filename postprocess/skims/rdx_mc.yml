@@ -6,7 +6,7 @@
 TupleB0/DecayTree:
     deactivate:
         # Event diagnostic
-        - "*RoutingBits*"
+        # - "*RoutingBits*"
         - "EventInSequence"
         - "GpsTime"
         - "OdinTCK"

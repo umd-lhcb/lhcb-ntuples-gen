@@ -5,6 +5,7 @@
 # Last Change: Sun Feb 13, 2022 at 01:37 PM -0500
 
 import os
+import sys
 
 from argparse import ArgumentParser
 from glob import glob
@@ -57,15 +58,18 @@ def pad_idx(idxs):
     return max(len(i) for i in idxs)
 
 
-def find_ntp_name(folders):
-    return basename(glob(f'{folders[0]}/*.root')[0])
-
-
+## Returns the root files that actually exist
 def fltr_subjob_ntps(job_folder):
     raw = [i for i in glob(f'{job_folder}/*') if is_num(basename(i))]
     folders = [i+'/output' for i in raw]
-    ntp_name = find_ntp_name(folders)
-    return [i+f'/{ntp_name}' for i in folders], [basename(i) for i in raw]
+    ntps, subfolders = [], []
+    for folder in folders:
+        rootfiles = glob(f'{folder}/*.root')
+        if len(rootfiles) == 0: print(f'\nWARNING: No .root files in {folder}\n')
+        for f in rootfiles:
+            ntps.append(f)
+            subfolders.append(f.split('/')[-3])
+    return ntps, subfolders
 
 
 def output_idx_gen(input_ntp_folder, padding):
@@ -124,6 +128,7 @@ if __name__ == '__main__':
     exe = run_skim(args.debug) if not args.copy else run_cp(args.debug)
 
     input_ntps, folder_idx = fltr_subjob_ntps(args.input_folder)
+
     padding = pad_idx(folder_idx)
     for ntp, idx in zip(input_ntps, folder_idx):
         output_ntp = f'{output_folder}/{output_ntp_name_gen(output_folder, idx, padding)}'
