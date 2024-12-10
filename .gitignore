@@ -7,7 +7,6 @@ __pycache__
 *.d
 *.so
 *.pcm
-
 gen
 site
 run*/*.root
@@ -20,7 +19,6 @@ studies/**/*.pdf
 *.csv
 *.pickle
 .matplotlib
-
 compile_commands.json
 batch_skim.sh
 .lvimrc
@@ -28,5 +26,5 @@ batch_skim.sh
 .ccls-cache
 .virtualenv
 .direnv
-
 **/cond*lxplus.py
+glacier_links
