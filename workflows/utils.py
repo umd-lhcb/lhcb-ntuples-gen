@@ -9,7 +9,9 @@ import yaml
 import shlex
 import sys
 import fnmatch
+import os
 import os.path as op  # NOTE: Can't use pathlib because that doesn't handle symbolic link well
+import socket
 
 from os import makedirs, chdir, system
 from datetime import datetime
@@ -68,21 +70,46 @@ def ensure_dir(path, delete_if_exist=True, make_absolute=True, **kwargs):
 
 
 def download_file(path, fail_on_download_error=True):
-    print(f'{path} not present locally, downloading with git-annex...')
-    ret_val = run_cmd(f'git annex get {path}')
-
-    if ret_val:
-        print(f'Failed to download: {path}')
-
-        if fail_on_download_error:
-            sys.exit(255)
+    print(f'{path} not present for user locally, checking if working on glacier (and for copy of file) and, if not, downloading with git-annex...')
+    if socket.gethostbyname(socket.gethostname()) == '10.229.60.85': # glacier IP (as of 12/6/2024...)
+        linkPath = path.replace('/ntuples/', '/ntuples/glacier_links/') # to be created and point to file in glacier git/repositories/lhcb-ntuples-gen
+        if op.islink(linkPath): return linkPath # actually, already found the file on glacier and created soft link, so you're done!
+        annexKey = os.readlink(path).split('/')[-1]
+        annex_path_glacier = '/home/git/repositories/lhcb-ntuples-gen.git/annex/objects'
+        glacier_file = []
+        for dir,_,_ in os.walk(annex_path_glacier): glacier_file.extend(glob(op.join(dir,annexKey)))
+        glacier_file = [f for f in glacier_file if op.isfile(f)]
+        if len(glacier_file)==0:
+            print(f'Couldnt find {path} in {annex_path_glacier}... maybe it wasnt copied to glacier?')
+            if fail_on_download_error: sys.exit(255)
+            return path
+        if len(glacier_file)>1:
+            print(f'Found multiple {path} in {annex_path_glacier}... unsure which to use')
+            if fail_on_download_error: sys.exit(255)
+            return path
+        # else, found the file successfully on glacier
+        glacier_file = glacier_file[0]
+        if not Path(glacier_file).exists():
+            print(f'{glacier_file} doesnt exist? Maybe copied to glacier incorrectly?')
+            if fail_on_download_error: sys.exit(255)
+            return path
+        else:
+            run_cmd(f'mkdir -p {"/".join(linkPath.split("/")[:-1])}')
+            run_cmd(f'ln -s {glacier_file} {linkPath}')
+            return linkPath
+    else:
+        ret_val = run_cmd(f'git annex get {path}')
+        if ret_val:
+            print(f'Failed to download: {path}')
+            if fail_on_download_error: sys.exit(255)
+        return path
 
 
 def ensure_file(path):
     if Path(path).exists():
         return path
     if not op.exists(path):
-        download_file(path)
+        path = download_file(path)
         return path
 
 
@@ -431,7 +458,14 @@ def workflow_cached_ntuple(cmd, input_ntp, output_ntp, cache_suffix,
         print('Aux ntuple already cached!')
         run_cmd(f'ln -s {cached_ntp} {output_ntp}', **kwargs)
     elif op.islink(cached_ntp):
-        download_file(cached_ntp)
+        cached_ntp = download_file(cached_ntp)
+        print('Aux ntuple cached and downloaded')
+        run_cmd(f'ln -s {cached_ntp} {output_ntp}', **kwargs)
+    elif op.isfile(cached_ntp.replace('/ntuples/glacier_links/', '/ntuples/')): # in case working on glacier and file path has been redirected to glacier_links
+        print('Aux ntuple already cached!')
+        run_cmd(f'ln -s {cached_ntp.replace("/ntuples/glacier_links/", "/ntuples/")} {output_ntp}', **kwargs)
+    elif op.islink(cached_ntp.replace('/ntuples/glacier_links/', '/ntuples/')):
+        cached_ntp = download_file(cached_ntp.replace('/ntuples/glacier_links/', '/ntuples/'))
         print('Aux ntuple cached and downloaded')
         run_cmd(f'ln -s {cached_ntp} {output_ntp}', **kwargs)
     else:
