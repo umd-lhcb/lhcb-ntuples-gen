@@ -168,3 +168,18 @@ def hadd_completed_job_output(
             instructions.append((j.id, len(j.subjobs), normalize_hadd_filename(j)))
 
     gen_hadd_script(instructions, output_script)
+
+def resubmit_remaining(JobID, fpj=1):
+	"""
+	Resubmit failed subjobs in a new job, with fpj files per subjob.
+	"""
+	print("Creating copy of job " + str(JobID))
+	j = jobs(JobID).copy()
+	ds = LHCbDataset()
+	for sj in jobs(JobID).subjobs.select(status="failed"):
+		ds.extend(sj.inputdata)
+	print("Filled input dataset of job " + str(j.id) + "\n")
+	j.inputdata = ds
+	j.splitter = SplitByFiles(filesPerJob=fpj)
+	print("Set job " + str(j.id) + " splitter with " + str(fpj) + " files per subjob\n")
+	j.submit()
