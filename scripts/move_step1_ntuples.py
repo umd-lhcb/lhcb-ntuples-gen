@@ -19,7 +19,8 @@ SPEC_YML = BASE_PATH + '/../rdx-run2-analysis/fit/spec/histos.yml'
 def parseInput():
     parser = ArgumentParser(description='Move step1 ntuples to folders.')
 
-    parser.add_argument('folder', help='specify folder containing folders with ntuples.')
+    parser.add_argument('inFolder', help='specify folder containing folders with ntuples.')
+    parser.add_argument('outFolder', help='specify folder containing folders with ntuples.')
     parser.add_argument('-s', '--histoSpec', default=SPEC_YML, help='histo spec YAML.')
 
     return parser.parse_args()
@@ -67,8 +68,7 @@ if __name__ == '__main__':
     with open(args.histoSpec) as f:
         spec = yaml.safe_load(f)
 
-    baseFolder = op.dirname(args.folder.rstrip('/'))
-    for folder in glob(f'{args.folder}/*'):
+    for folder in glob(f'{args.inFolder}/*'):
         if '.DST' not in folder: continue
 
         ## Checking if folder is empty
@@ -94,7 +94,7 @@ if __name__ == '__main__':
         if 'MC_2018' in folder or 'Collision18' in folder: year = '2018'
 
         ## Group folder
-        groupFolder = f'{baseFolder}/{year}/{group}'
+        groupFolder = f'{args.outFolder}/{year}/{group}'
         if not op.isdir(groupFolder): runCmd(['mkdir', '-p', groupFolder])
 
         ## Folder to which sample is going to be moved
@@ -106,7 +106,9 @@ if __name__ == '__main__':
         ## Fixing the annex if files inside are symlinks, otherwise, moving the folder
         if op.islink(ntps[0]):
             runCmd(['mkdir', newFolder])
-            runCmd(['git', 'mv', f'{folder}/*root', newFolder])
+            ## Have to git mv each ntuple because * does not work
+            for ntp in ntps:
+                runCmd(['git', 'mv', ntp, newFolder])
             runCmd(['git', 'annex', 'add', newFolder+'/*root'])
             runCmd(['git', 'annex', 'fix'])
         else: runCmd(['mv', folder, newFolder])
