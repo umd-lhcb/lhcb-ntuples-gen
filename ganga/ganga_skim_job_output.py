@@ -65,8 +65,13 @@ def fltr_subjob_ntps(job_folder):
     ntps, subfolders = [], []
     for folder in folders:
         rootfiles = glob(f'{folder}/*.root')
-        if len(rootfiles) == 0: print(f'\nWARNING: No .root files in {folder}\n')
+        if len(rootfiles) == 0: # this is ok... just skip this subjob (that must have failed)
+            print(f'\nWARNING: No .root files in {folder}\n')
+        if len(rootfiles) > 1:
+            assert False, f'\nERROR: More than one .root files in {folder}, unexpected behavior\n'
         for f in rootfiles:
+            if os.stat(f).st_size < 500 * 1024: # < 500KB file is suspicious
+                assert False, f'\nERROR: Something wrong with {f}, too small\n'
             ntps.append(f)
             subfolders.append(f.split('/')[-3])
     return ntps, subfolders
@@ -78,7 +83,14 @@ def output_idx_gen(input_ntp_folder, padding):
 
 def output_ntp_name_gen(output_folder, input_ntp_folder, padding):
     suffix = OUTPUT_NTP_SUFFIX.format(output_idx_gen(input_ntp_folder, padding))
-    return f'{basename(output_folder)}--{suffix}.root'
+    outfile = f'{basename(output_folder)}--{suffix}.root'
+    existing_files = os.listdir(output_folder)
+    sub_count = 2
+    while outfile in existing_files: # happens when re-submitted a job and re-started subjob counter
+        suffix = OUTPUT_NTP_SUFFIX.format(output_idx_gen(input_ntp_folder, padding) + f'j{sub_count}')
+        outfile = f'{basename(output_folder)}--{suffix}.root'
+        sub_count += 1
+    return outfile
 
 
 def run_skim(debug=False):
