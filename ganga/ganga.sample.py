@@ -7,6 +7,33 @@
 POLARITY = {'Up': 'mag_up', 'Down': 'mag_down'}
 SIMULATION = {'Pythia6': 'py6', 'Pythia8': 'py8'}
 
+## Resubmit jobs that actually produced a root file, but it is smaller than 100 kB and produced no log file 
+def resubmit_empty_jobs(jobID, gangadir):
+    from glob import glob
+    import os
+
+    for subjob in glob(f'{gangadir}/{jobID}/*'):
+        sjobNumber = os.path.basename(subjob)
+        if not sjobNumber.isdigit(): continue
+        ## Checking that there is an ouput folder  
+        outDir = f'{subjob}/output/'
+        if not os.path.isdir(outDir): continue
+        ## Finding size of root file and whether a log file was produced  
+        foundLog = False
+        ntpSize = -99.
+        for outFile in glob(f'{outDir}/*'):
+            if '.root' in outFile: ntpSize = os.path.getsize(outFile)/1024.
+            if os.path.basename(outFile) == 'std.out': foundLog = True
+
+	    ## Resubmitting jobs that actually produced a root file, but it is smaller than 100 kB   
+        ## and produced no log file                                                   
+        if ntpSize > 0 and ntpSize < 100 and not foundLog:
+            print(f'Job {jobID}.{sjobNumber} produced {ntpSize:.0f} kB .root file, resubmitting')
+            sj = jobs(jobID).subjobs(int(sjobNumber))
+            sj.force_status('failed')
+            sj.resubmit()
+
+
 
 def normalize_hadd_filename(job):
     # For newer jobs, the canonical job filename is stored in the 'comment'
@@ -110,6 +137,7 @@ def ban_site_for_job(idx, sites):
         sites = [sites]
 
     for sj in jobs(idx).subjobs.select(status='failed'):
+        if 'BannedSites' not in sj.backend.settings: sj.backend.settings['BannedSites'] = []
         sj.backend.settings['BannedSites'] += sites
 
 
