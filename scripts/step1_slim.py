@@ -33,8 +33,8 @@ ROOT.gErrorIgnoreLevel = ROOT.kFatal ## Suppressing output
 BASE_PATH = op.abspath(op.dirname(op.abspath(__file__)) + '/..')
 SPEC_YML = BASE_PATH + '/../rdx-run2-analysis/fit/spec/histos.yml' # this is an assumption... hopefully a safe one
 
-trees = {'TupleBminus/DecayTree': 'D0', 'TupleBminusWS/DecayTree': 'D0-BComb',
-         'TupleB0WSMu/DecayTree': 'Dst-BComb', 'TupleB0/DecayTree': 'Dst', 'TupleB0WSPi/DecayTree': 'Dst:DstComb'}
+trees = {'TupleBminus/DecayTree': 'D0', 'TupleBminusWS/DecayTree': 'D0_BComb',
+         'TupleB0WSMu/DecayTree': 'Dst_BComb', 'TupleB0/DecayTree': 'Dst', 'TupleB0WSPi/DecayTree': 'Dst_DstComb'}
 
 def parseInput():
     parser = ArgumentParser(description='slim/merge (and keep log of) DaVinci output, and annex to glacier')
@@ -131,7 +131,7 @@ if __name__ == '__main__':
                     prod_chain = ROOT.TChain(tree,tree.split('/')[0]+'chain')
                     prod_chain.Add(f'{outdir}/*dv.root') # will just not add anything if tree doesnt exist
                     entries = prod_chain.GetEntries()
-                    if entries>0: job_summary[f'{trees[tree]}_entries'] = entries
+                    if entries>0: job_summary[f'{trees[tree]}-entries'] = entries
                 good_sjs, bad_sjs = find_good_and_bad_subjobs(f"{args.jobFolder}/{props['job_id']}")
                 for badsj in bad_sjs:
                     sjnum = f"{props['job_id']}.{badsj}"
