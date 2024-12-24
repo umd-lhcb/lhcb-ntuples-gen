@@ -594,11 +594,6 @@ JOBS = {
         num_of_workers=20
     ),
     # Run 2 debug
-    'alex-test-download-link': partial(
-        workflow_data,
-        '../ntuples/0.9.6-2016_production/Dst_D0-std/Dst_D0--22_02_07--std--LHCb_Collision16_Beam6500GeV-VeloClosed-MagDown_Real_Data_Reco16_Stripping28r2_90000000_SEMILEPTONIC.DST/Dst_D0--22_02_07--std--LHCb_Collision16_Beam6500GeV-VeloClosed-MagDown_Real_Data_Reco16_Stripping28r2_90000000_SEMILEPTONIC.DST--001-dv.root',
-        '../postprocess/rdx-run2/rdx-run2_oldcut.yml'
-    ),
     'rdx-ntuple-run2-mu_misid-demo': partial(
         workflow_data,
         '../ntuples/0.9.6-2016_production/Dst_D0-mu_misid/*MagDown*.DST/*--000-dv.root',
