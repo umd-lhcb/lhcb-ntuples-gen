@@ -33,9 +33,14 @@ def parseInput():
 def pdfFromMCID(mcID, spec):
     if mcID == '90000000': return 'data', 'data'
     
+    # D** have multiple templates per MC ID: name these guys by hand rather than using pdf name
+    dststIDs = {'13874020': 'Ds2D0', '13674000': 'Ds2Dst',
+                '11874430': 'DststMu', '11874440': 'DststTau', '12873450': 'Dstst0Mu', '12873460': 'Dstst0Tau'}
     for channel, pdfs in spec.items():
         for pdfName, pdf in pdfs.items():
-            if mcID in str(pdf['file_filtering']): return pdfName, pdf['plot_group']
+            if mcID in str(pdf['file_filtering']):
+                if mcID in dststIDs: return dststIDs[mcID], pdf['plot_group']
+                return pdfName, pdf['plot_group']
 
     return 'unknown'
 
