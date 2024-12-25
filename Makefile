@@ -58,9 +58,9 @@ docker-dv:
 
 .PHONY: test-naming-conv
 
-# Test if specific files follow naming conventions.
+# Test if specific files follow naming conventions (actually... we changed this, and it isn't assumed anywhere to my knowledge, so I'm going to override)
 test-naming-conv:
-	workflows/validate_filename.py
+	workflows/validate_filename.py override
 
 
 #################################

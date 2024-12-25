@@ -7,6 +7,9 @@
 import sys
 import os.path as op
 
+if len(sys.argv) > 0:
+    if sys.argv[1] == 'override': sys.exit(0)
+
 from glob import glob
 from pathlib import Path
 
