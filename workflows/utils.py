@@ -69,8 +69,8 @@ def ensure_dir(path, delete_if_exist=True, make_absolute=True, **kwargs):
     return path
 
 
-def download_file(path, fail_on_download_error=True):
-    print(f'{path} not present for user locally, checking if working on glacier (and for copy of file; MAKE SURE GLACIER REPO annex/objects FULLY READABLE/EXECUTABLE) and, if not, downloading with git-annex...')
+def download_file(path, fail_on_download_error=True, suppress_printout=False):
+    if not suppress_printout: print(f'{path} not present for user locally, checking if working on glacier (and for copy of file; MAKE SURE GLACIER REPO annex/objects FULLY READABLE/EXECUTABLE) and, if not, downloading with git-annex...')
     if socket.gethostbyname(socket.gethostname()) == '10.229.60.85': # glacier IP (as of 12/6/2024...)
         linkPath = path.replace('/ntuples/', '/ntuples/glacier_links/') # to be created and point to file in glacier git/repositories/lhcb-ntuples-gen
         if op.islink(linkPath): return linkPath # actually, already found the file on glacier and created soft link, so you're done!
@@ -80,17 +80,17 @@ def download_file(path, fail_on_download_error=True):
         for dir,_,_ in os.walk(annex_path_glacier): glacier_file.extend(glob(op.join(dir,annexKey)))
         glacier_file = [f for f in glacier_file if op.isfile(f)]
         if len(glacier_file)==0:
-            print(f'Couldnt find {path} in {annex_path_glacier}... maybe it wasnt copied to glacier?')
+            if not suppress_printout: print(f'Couldnt find {path} in {annex_path_glacier}... maybe it wasnt copied to glacier?')
             if fail_on_download_error: sys.exit(255)
             return path
         if len(glacier_file)>1:
-            print(f'Found multiple {path} in {annex_path_glacier}... unsure which to use')
+            if not suppress_printout: print(f'Found multiple {path} in {annex_path_glacier}... unsure which to use')
             if fail_on_download_error: sys.exit(255)
             return path
         # else, found the file successfully on glacier
         glacier_file = glacier_file[0]
         if not Path(glacier_file).exists():
-            print(f'{glacier_file} doesnt exist? Maybe copied to glacier incorrectly?')
+            if not suppress_printout: print(f'{glacier_file} doesnt exist? Maybe copied to glacier incorrectly?')
             if fail_on_download_error: sys.exit(255)
             return path
         else:
@@ -100,7 +100,7 @@ def download_file(path, fail_on_download_error=True):
     else:
         ret_val = run_cmd(f'git annex get {path}')
         if ret_val:
-            print(f'Failed to download: {path}')
+            if not suppress_printout: print(f'Failed to download: {path}')
             if fail_on_download_error: sys.exit(255)
         return path
 
