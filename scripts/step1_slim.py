@@ -14,7 +14,7 @@
 # step1_slim.py ../../ntuples_to_merge ../ntuples/0.9.12-all_years ../batch_skim.sh
 #
 # beyond putting the slimmed tuples in the correct locations (defined in move_step1_ntuples.py),
-# this script will also annex the files (copying them to our server glacier), keep track
+# this script will also annex the files (copying them to our server glacier) if requested, keep track
 # of the problematic subjobs, and count the number of events in the output (this additional info 
 # will be stored in the log, defined below, to be placed in the output ntuples/<tag>/ folder)
 
@@ -93,8 +93,8 @@ if __name__ == '__main__':
                 props['expected_subjobs'] = line.split()[2]
                 props['outroot_name'] = line.split()[3]
                 props['year'] = '2016'
-                if '2017' in props['outroot_name']: props['year'] = '2017'
-                if '2018' in props['outroot_name']: props['year'] = '2018'
+                if ('2017' in props['outroot_name']) or ('Collision17' in props['outroot_name']): props['year'] = '2017'
+                if ('2018' in props['outroot_name']) or ('Collision18' in props['outroot_name']): props['year'] = '2018'
                 props['pol'] = 'MagDown'
                 if 'MagUp' in props['outroot_name']: props['pol'] = 'MagUp'
                 props['mc_id'] = props['outroot_name'].split('_')[-2]
@@ -115,18 +115,27 @@ if __name__ == '__main__':
                 slim_config = '../postprocess/skims/rdx_mc.yml'
                 if pdf=='data': slim_config = '../postprocess/skims/rdx_data.yml'
                 os.system(f"../ganga/ganga_skim_job_output.py {outdir} {args.jobFolder}/{props['job_id']} {slim_config}")
-                # rename contents of this folder to follow Yipeng's naming scheme
+                # rename contents of this folder to follow Yipeng's naming scheme (slimming script names files using name of folder that holds them, which we've changed)
                 for sjf in os.listdir(outdir):
                     suffix = sjf.split('--')[-1]
-                    new_name = f"{outdir}/{props['outroot_name'][:-5]}--{suffix}"
-                    if new_name in os.listdir(outdir): assert False, f'{outdir}/{new_name} already exists, dont replace it!'
-                    os.system(f"mv {outdir}/{sjf} {new_name}")
+                    new_name = f"{props['outroot_name'][:-5]}--{suffix}"
+                    existing_files = os.listdir(outdir)
+                    sub_count = 1
+                    while new_name in existing_files: # happens sometimes when re-submitted a job and re-started subjob counter
+                        sub_count += 1
+                        if not 'j' in suffix: suffix = suffix.replace('-dv', f'j{sub_count}-dv')
+                        else: suffix = suffix.replace(f'j{sub_count-1}-dv', f'j{sub_count}-dv')
+                        new_name = f"{props['outroot_name'][:-5]}--{suffix}"
+                    os.system(f"mv {outdir}/{sjf} {outdir}/{new_name}")
                 # get stats and record them
-                if not props['mc_id'] in summary: summary[props['mc_id']] = {}
-                mc_id_summary = summary[props['mc_id']]
+                mode = props['mc_id']
+                if mode=='std': mode = 'Data'
+                if mode=='fake_mu': mode = 'Fake Mu Data'
+                if not mode in summary: summary[mode] = {}
+                mode_summary = summary[mode]
                 entry = f"{props['year']}-{props['pol']}"
-                if not entry in mc_id_summary: mc_id_summary[entry] = {}
-                job_summary = mc_id_summary[entry]
+                if not entry in mode_summary: mode_summary[entry] = {}
+                job_summary = mode_summary[entry]
                 for tree in trees:
                     prod_chain = ROOT.TChain(tree,tree.split('/')[0]+'chain')
                     prod_chain.Add(f'{outdir}/*dv.root') # will just not add anything if tree doesnt exist
