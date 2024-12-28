@@ -111,15 +111,16 @@ if __name__ == '__main__':
                 # make the destination dir
                 outdir = f"{args.outFolder}/{props['year']}/{props['group']}/{props['pdf']}-{props['mc_id']}-{props['pol']}"
                 os.system(f'mkdir -p {outdir}')
+                existing_files = os.listdir(outdir)
                 # run the slimming for this job
                 slim_config = '../postprocess/skims/rdx_mc.yml'
                 if pdf=='data': slim_config = '../postprocess/skims/rdx_data.yml'
                 os.system(f"../ganga/ganga_skim_job_output.py {outdir} {args.jobFolder}/{props['job_id']} {slim_config}")
                 # rename contents of this folder to follow Yipeng's naming scheme (slimming script names files using name of folder that holds them, which we've changed)
-                for sjf in os.listdir(outdir):
+                added_files = [f for f in os.listdir(outdir) if f not in existing_files]
+                for sjf in added_files:
                     suffix = sjf.split('--')[-1]
                     new_name = f"{props['outroot_name'][:-5]}--{suffix}"
-                    existing_files = os.listdir(outdir)
                     sub_count = 1
                     while new_name in existing_files: # happens sometimes when re-submitted a job and re-started subjob counter
                         sub_count += 1
