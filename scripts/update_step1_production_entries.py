@@ -102,7 +102,7 @@ for year in years:
                 if ('WS' in tree) and (not 'Data' in m): continue # no comb for MC
                 entry = f'{trees[tree]}-entries'
                 if (entry in job_summary) and (not recount): continue # if already counted don't count again
-                print(f'...updating {m} {y} {p}...')
+                print(f'...updating {m} {y} {p} {tree}...')
                 chain = ROOT.TChain(tree, 'dummy_name')
                 for rf in subset:
                     if not op.isfile(rf): # either doesn't exist, or soft link pointing to empty file (not downloaded annexed file)
@@ -139,7 +139,15 @@ def reorganize_summary_for_table(s):
         for col in headers:
             fields = col.split()
             yr, pol, reco_mode = fields[0], fields[1], fields[2]
-            if mode in unused and unused[mode] in reco_mode: rows[-1].append('-')
+            if 'Data' in mode:
+                check_if_missing = f"{yr.replace('20', 'Collision')} {pol} {mode.replace('Fake Mu Data', 'mu_misid').replace('Data', 'std')}"
+            else:
+                check_if_missing = f'{yr} {pol} {mode}'
+            is_missing = False
+            for miss in missing:
+                if miss in check_if_missing: is_missing = True
+            if is_missing: rows[-1].append('NA')
+            elif mode in unused and unused[mode] in reco_mode: rows[-1].append('-')
             else: rows[-1].append(summary[mode][f'{yr}-{pol}'][f'{reco_mode}-entries'])
 
     return (mc_rows, mc_headers), (data_rows, data_headers)
