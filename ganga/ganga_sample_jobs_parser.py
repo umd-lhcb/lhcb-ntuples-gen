@@ -64,6 +64,8 @@ LFN_PATH['run2-rdx-cutflow_data-2016'] = LFN_PATH['run2-rdx-std-2016']
 
 LFN_PATH['run2-rdx-mu_misid-2015'] = LFN_PATH['run2-rdx-std-2015']
 LFN_PATH['run2-rdx-mu_misid-2016'] = LFN_PATH['run2-rdx-std-2016']
+LFN_PATH['run2-rdx-mu_misid-2017'] = LFN_PATH['run2-rdx-std-2017']
+LFN_PATH['run2-rdx-mu_misid-2018'] = LFN_PATH['run2-rdx-std-2018']
 
 MC_PYTHIA = ['Pythia6', 'Pythia8']
 MC_POLARITY = {'mu': 'Up', 'md': 'Down'}
