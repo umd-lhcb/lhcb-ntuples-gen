@@ -5,6 +5,9 @@
   2016-MagUp:
     D0-entries: 6968862
     Dst-entries: 4497975
+  2017-MagDown:
+    D0-entries: 7337732
+    Dst-entries: 4737550
   2017-MagUp:
     D0-entries: 7194590
     Dst-entries: 4645491
@@ -21,6 +24,18 @@
   2016-MagUp:
     D0-entries: 36092592
     Dst-entries: 24184676
+  2017-MagDown:
+    D0-entries: 34296476
+    Dst-entries: 22987518
+  2017-MagUp:
+    D0-entries: 34206692
+    Dst-entries: 22928133
+  2018-MagDown:
+    D0-entries: 43598673
+    Dst-entries: 29203988
+  2018-MagUp:
+    D0-entries: 43555575
+    Dst-entries: 29172074
 '11674401':
   2016-MagDown:
     D0-entries: 2941078
@@ -53,6 +68,12 @@
   2017-MagUp:
     D0-entries: 2014445
     Dst-entries: 1345619
+  2018-MagDown:
+    D0-entries: 3647368
+    Dst-entries: 2435428
+  2018-MagUp:
+    D0-entries: 3334031
+    Dst-entries: 2224991
 '11874430':
   2016-MagDown:
     D0-entries: 20590331
@@ -279,6 +300,18 @@
   2016-MagUp:
     D0-entries: 19737805
     Dst-entries: 239454
+  2017-MagDown:
+    D0-entries: 20923444
+    Dst-entries: 254062
+  2017-MagUp:
+    D0-entries: 20681383
+    Dst-entries: 251439
+  2018-MagDown:
+    D0-entries: 28872171
+    Dst-entries: 349666
+  2018-MagUp:
+    D0-entries: 26892028
+    Dst-entries: 324833
 '12675011':
   2016-MagDown:
     D0-entries: 2461674
@@ -311,6 +344,9 @@
   2017-MagUp:
     D0-entries: 2020097
     Dst-entries: 1323134
+  2018-MagDown:
+    D0-entries: 2635023
+    Dst-entries: 1722747
   2018-MagUp:
     D0-entries: 2542480
     Dst-entries: 1663462
@@ -390,6 +426,12 @@
   2017-MagUp:
     D0-entries: 3276619
     Dst-entries: 131642
+  2018-MagDown:
+    D0-entries: 4237249
+    Dst-entries: 169291
+  2018-MagUp:
+    D0-entries: 4191252
+    Dst-entries: 168095
 '12893600':
   2016-MagDown:
     D0-entries: 9077324
@@ -482,6 +524,9 @@
   2018-MagDown:
     D0-entries: 1037182
     Dst-entries: 662561
+  2018-MagUp:
+    D0-entries: 1035186
+    Dst-entries: 661484
 '13674000':
   2016-MagDown:
     D0-entries: 603851
@@ -558,6 +603,14 @@ Data:
     Dst-entries: 3798355
     Dst_BComb-entries: 1403261
     Dst_DstComb-entries: 1185503
+  2018-MagUp:
+    Bad Subjobs (no output):
+    - '317.338'
+    D0-entries: 19027315
+    D0_BComb-entries: 8527678
+    Dst-entries: 4070818
+    Dst_BComb-entries: 1493942
+    Dst_DstComb-entries: 1265080
 Fake Mu Data:
   2016-MagDown:
     D0-entries: 13023071
@@ -573,3 +626,152 @@ Fake Mu Data:
     Dst-entries: 2411908
     Dst_BComb-entries: 1734651
     Dst_DstComb-entries: 912704
+  2017-MagDown:
+    Bad Subjobs (no output):
+    - '318.186'
+    - '318.266'
+    - '318.110'
+    - '318.89'
+    D0-entries: 13225726
+    D0_BComb-entries: 11470426
+    Dst-entries: 2702646
+    Dst_BComb-entries: 1960442
+    Dst_DstComb-entries: 1026061
+  2017-MagUp:
+    Bad Subjobs (no output):
+    - '319.270'
+    - '319.231'
+    - '319.41'
+    - '319.292'
+    - '319.196'
+    - '319.82'
+    - '319.121'
+    - '319.156'
+    - '319.261'
+    - '341.50'
+    - '341.67'
+    - '341.63'
+    - '341.24'
+    - '341.46'
+    - '341.74'
+    - '341.42'
+    - '341.27'
+    - '341.10'
+    - '341.19'
+    - '349.25'
+    - '349.20'
+    - '349.5'
+    - '349.28'
+    - '349.15'
+    - '349.11'
+    - '349.7'
+    - '349.2'
+    - '349.34'
+    - '349.16'
+    - '349.38'
+    D0-entries: 12733123
+    D0_BComb-entries: 11040819
+    Dst-entries: 2600598
+    Dst_BComb-entries: 1886352
+    Dst_DstComb-entries: 990963
+  2018-MagDown:
+    Bad Subjobs (no output):
+    - '321.101'
+    - '321.192'
+    - '321.145'
+    - '321.195'
+    - '321.114'
+    - '321.126'
+    - '321.50'
+    - '321.225'
+    - '321.41'
+    - '321.340'
+    - '321.282'
+    - '321.342'
+    - '321.359'
+    - '321.37'
+    - '321.305'
+    - '321.135'
+    - '321.221'
+    - '321.286'
+    - '321.260'
+    - '321.346'
+    - '321.185'
+    - '321.216'
+    - '321.320'
+    - '321.212'
+    - '321.154'
+    - '321.298'
+    - '321.361'
+    - '321.257'
+    - '321.229'
+    - '321.302'
+    - '321.241'
+    - '321.159'
+    - '321.351'
+    - '321.87'
+    - '321.28'
+    - '321.78'
+    - '321.99'
+    - '321.331'
+    - '321.181'
+    - '321.55'
+    - '321.324'
+    - '321.46'
+    - '321.92'
+    - '321.81'
+    - '321.141'
+    - '321.106'
+    - '321.167'
+    - '321.248'
+    - '321.109'
+    - '321.238'
+    - '321.235'
+    - '321.1'
+    - '321.153'
+    - '321.336'
+    - '321.147'
+    - '321.310'
+    - '321.123'
+    - '321.11'
+    - '321.279'
+    - '321.118'
+    - '321.72'
+    - '321.34'
+    - '321.264'
+    - '321.209'
+    - '321.60'
+    - '321.199'
+    - '321.170'
+    - '321.163'
+    - '321.315'
+    - '321.274'
+    - '321.271'
+    - '321.177'
+    - '321.291'
+    - '321.204'
+    - '321.132'
+    D0-entries: 14357306
+    D0_BComb-entries: 12195003
+    Dst-entries: 2915974
+    Dst_BComb-entries: 2085311
+    Dst_DstComb-entries: 1102475
+  2018-MagUp:
+    Bad Subjobs (no output):
+    - '322.165'
+    - '322.205'
+    - '322.136'
+    - '322.39'
+    - '322.28'
+    - '322.209'
+    - '322.293'
+    - '322.16'
+    - '322.57'
+    - '322.10'
+    - '322.347'
+    - '322.273'
+    D0-entries: 15461282
+    D0_BComb-entries: 13128332
+    Dst-entries: 3127894
+    Dst_BComb-entries: 2233654
+    Dst_DstComb-entries: 1179595
