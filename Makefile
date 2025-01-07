@@ -75,7 +75,7 @@ RJpsi-ntuple-run2-mc_ghost:
 # RDX run 2 ntuple generation #
 ###############################
 
-rdx-ntuple-run2-all: Dst_D0-std Dst_D0-mu_misid Dst_D0-mu_misid-vmu rdx-ntuple-run2-mc
+rdx-ntuple-run2-all: Dst_D0-std Dst_D0-mu_misid rdx-ntuple-run2-mc
 
 Dst_D0-std:
 	workflows/rdx.py $@
@@ -84,9 +84,6 @@ rdx-ntuple-run2-data-cut_opt:
 	workflows/rdx.py $@
 
 Dst_D0-mu_misid:
-	workflows/rdx.py $@
-
-Dst_D0-mu_misid-vmu:
 	workflows/rdx.py $@
 
 # this is FullSim
