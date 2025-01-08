@@ -190,23 +190,17 @@ def workflow_jk(
 @smart_kwarg
 def workflow_misid(
         input_ntp,
-        misid_aux_ntp='../run2-rdx/reweight/misid/histos/default/dif.root',
+        misid_aux_ntp='../run2-rdx/reweight/misid/histos/dif.root',
         misid_config='../run2-rdx/reweight/misid/run2-rdx.yml',
         k_smr_name='k_smr',
         pi_smr_name='pi_smr',
-        ctrl_sample=False,
         **kwargs):
-    if ctrl_sample:
-        output_ntp='misid_ctrl.root'
-        ctrl_sample_flag='--ctrl-sample'
-    else:
-        output_ntp='misid.root'
-        ctrl_sample_flag=''
+    output_ntp = 'misid.root'
     aux_ntp = abs_path(misid_aux_ntp)
     config = abs_path(misid_config)
     year = find_year(input_ntp)
 
-    cmd = f'ApplyMisIDWeight -a -i {input_ntp} -o {output_ntp} -x {aux_ntp} -c {config} -Y {year} {ctrl_sample_flag} --kSmrBrName {k_smr_name} --piSmrBrName {pi_smr_name}'
+    cmd = f'ApplyMisIDWeight -a -i {input_ntp} -o {output_ntp} -x {aux_ntp} -c {config} -Y {year} --kSmrBrName {k_smr_name} --piSmrBrName {pi_smr_name}'
     return workflow_cached_ntuple(
         cmd, input_ntp, output_ntp, '--aux_misid', **kwargs)
 
@@ -462,18 +456,6 @@ JOBS = {
         cli_vars={'cli_misid': 'true'},
         use_misid=True,
         use_ubdt=False
-    ),
-    'Dst_D0-mu_misid-vmu': partial(
-        workflow_split,
-        '../ntuples/0.9.6-2016_production/Dst_D0-mu_misid/',
-        '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
-        cli_vars={
-            'cli_misid': 'true',
-            'cli_vmu': 'true'
-        },
-        use_misid=True,
-        use_ubdt=False,
-        ctrl_sample=True
     ),
     'rdx-ntuple-run2-misid_study': partial(
         workflow_split,

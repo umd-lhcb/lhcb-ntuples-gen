@@ -27,12 +27,14 @@ make install-dep-pip ## To install packages needed for JpsiK reweighting, includ
 Development of the DaVinci scripts can be done locally in your laptop by running our `docker`
 image of DaVinci. Install `docker` as described in the
 [wiki](https://umd-lhcb.github.io/lhcb-ntuples-gen/ntupling/installation/#install-docker-to-run-davinci-locally) and pull the image with
+
 ```shell
 docker pull umdlhcb/lhcb-stack-cc7:DaVinci-v45r6-SL
 ```
 
 For instance, to test the standard data script you would first pull the example `.dst` files,
 would then enter `docker`, and run the script
+
 ```shell
 git annex get run2-rdx/data/data-2016-md/00102837*
 make docker-dv
@@ -53,11 +55,14 @@ configured in YAML files.
 For instance, the tracker-only MC ntuples used to produce the fit templates use [`postprocess/rdx-run2/rdx-run2_oldcut.yml`](https://github.com/umd-lhcb/lhcb-ntuples-gen/blob/master/postprocess/rdx-run2/rdx-run2_oldcut.yml).
 These ntuples are currently produced by first downloading the step-1 ntuples from the `annex`. Since these are
 over 1 TB, this is typically done in `glacier` inside a `tmux`
+
 ```shell
 tmux
 git annex get ntuples/0.9.6-2016_production/Dst_D0-mc-tracker_only
 ```
+
 The generation of the step-2 babies can be quite slow, currently taking about two days to run, mainly because of the normalization (and likely becaue HAMMER FF weights are recalculated each time--**TODO** to avoid this, these ought to be cached by saving them to the subfolders in `ntuples/0.9.6-2016_production/Dst_D0-mc-tracker_only`). The ntupling is run with the following (specific options can be found inside `workflows/rdx.py`):
+
 ```shell
 tmux
 cd workflows
@@ -77,13 +82,12 @@ cd workflows
 
 ## Takes 0:40, output is 9.7GB
 ./rdx.py Dst_D0-std                         2>&1 | tee step2-ntuple_data.log
-## Takes 1:40, output is 27GB
+## Takes 1:56, output is 27GB
 ./rdx.py Dst_D0-mu_misid                    2>&1 | tee step2-ntuple_mu_misid.log
-## Takes 1:40, output is 27GB
-./rdx.py Dst_D0-mu_misid-vmu                2>&1 | tee step2-ntuple_mu_misid-vmu.log
 ```
 
 After the ntuple generation, ntuples are moved to `rdx-run2-analysis` with something like
+
 ```shell
 mkdir ../../rdx-run2-analysis/ntuples/<folder>
 mv ../gen/<date>*/ntuple_merged/* ../../rdx-run2-analysis/ntuples/<folder>
@@ -110,6 +114,7 @@ repository to produce the fit templates and other studies.
 MC weights are saved in histograms that we store
 in [`run2-rdx/reweight/pid/root-run2-rdx_oldcut-shifted`](https://github.com/umd-lhcb/lhcb-ntuples-gen/tree/e8d90f19de802f3fb786486cbf28db7914201dc1/run2-rdx/reweight/pid/root-run2-rdx_oldcut-shifted). These histograms
 are calculated with the `pidcalib2` package. We have three sets of scripts
+
 - `pidcalib2/efficiency_gen/rdx-run2-ubdt.sh` for the muon PID, that is to be run in `glacier` and takes 15 min to run.
 - `lhcb-ntuples-gen/reweight/pid/run2-rdx_oldcut.sh` for the kaon and pion PID, run in `lxplus` and takes 50 min to run.
 - `misid-unfold/spec/rdx-run2.yml` for the misID unfold species.
