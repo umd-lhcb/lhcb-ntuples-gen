@@ -1186,19 +1186,19 @@ calculation:
     # PID for isolation tracks
     wpid_iso_nnk1_gt: >-
         double;
-        WT_ISO_NNK(iso_true_id1,
+        WT_ISO(iso_true_id1,
         wpid_iso_nnk1_gt_pi, wpid_iso_nnk1_gt_k, wpid_iso_nnk1_gt_p,
         wpid_iso_nnk1_gt_e, wpid_iso_nnk1_gt_mu, wpid_iso_nnk1_gt_g
         )
     wpid_iso_nnk2_gt: >-
         double;
-        WT_ISO_NNK(iso_true_id2,
+        WT_ISO(iso_true_id2,
         wpid_iso_nnk2_gt_pi, wpid_iso_nnk2_gt_k, wpid_iso_nnk2_gt_p,
         wpid_iso_nnk2_gt_e, wpid_iso_nnk2_gt_mu, wpid_iso_nnk2_gt_g
         )
     wpid_iso_nnk3_gt: >-
         double;
-        WT_ISO_NNK(iso_true_id3,
+        WT_ISO(iso_true_id3,
         wpid_iso_nnk3_gt_pi, wpid_iso_nnk3_gt_k, wpid_iso_nnk3_gt_p,
         wpid_iso_nnk3_gt_e, wpid_iso_nnk3_gt_mu, wpid_iso_nnk3_gt_g
         )
@@ -1208,74 +1208,74 @@ calculation:
 
     wpid_iso_nnknng1_gtlt: >-
         double;
-        WT_ISO_NNK(iso_true_id1,
+        WT_ISO(iso_true_id1,
         wpid_iso_nnknng1_gtlt_pi, wpid_iso_nnknng1_gtlt_k, wpid_iso_nnknng1_gtlt_p,
         wpid_iso_nnknng1_gtlt_e, wpid_iso_nnknng1_gtlt_mu, wpid_iso_nnknng1_gtlt_g
         )
     wpid_iso_nnknng2_gtlt: >-
         double;
-        WT_ISO_NNK(iso_true_id2,
+        WT_ISO(iso_true_id2,
         wpid_iso_nnknng2_gtlt_pi, wpid_iso_nnknng2_gtlt_k, wpid_iso_nnknng2_gtlt_p,
         wpid_iso_nnknng2_gtlt_e, wpid_iso_nnknng2_gtlt_mu, wpid_iso_nnknng2_gtlt_g
         )
     wpid_iso_nnknng3_gtlt: >-
         double;
-        WT_ISO_NNK(iso_true_id3,
+        WT_ISO(iso_true_id3,
         wpid_iso_nnknng3_gtlt_pi, wpid_iso_nnknng3_gtlt_k, wpid_iso_nnknng3_gtlt_p,
         wpid_iso_nnknng3_gtlt_e, wpid_iso_nnknng3_gtlt_mu, wpid_iso_nnknng3_gtlt_g
         )
     wpid_iso_nnknng1_ltlt: >-
         double;
-        WT_ISO_NNK(iso_true_id1,
+        WT_ISO(iso_true_id1,
         wpid_iso_nnknng1_ltlt_pi, wpid_iso_nnknng1_ltlt_k, wpid_iso_nnknng1_ltlt_p,
         wpid_iso_nnknng1_ltlt_e, wpid_iso_nnknng1_ltlt_mu, wpid_iso_nnknng1_ltlt_g
         )
     wpid_iso_nnknng2_ltlt: >-
         double;
-        WT_ISO_NNK(iso_true_id2,
+        WT_ISO(iso_true_id2,
         wpid_iso_nnknng2_ltlt_pi, wpid_iso_nnknng2_ltlt_k, wpid_iso_nnknng2_ltlt_p,
         wpid_iso_nnknng2_ltlt_e, wpid_iso_nnknng2_ltlt_mu, wpid_iso_nnknng2_ltlt_g
         )
     wpid_iso_nnknng3_ltlt: >-
         double;
-        WT_ISO_NNK(iso_true_id3,
+        WT_ISO(iso_true_id3,
         wpid_iso_nnknng3_ltlt_pi, wpid_iso_nnknng3_ltlt_k, wpid_iso_nnknng3_ltlt_p,
         wpid_iso_nnknng3_ltlt_e, wpid_iso_nnknng3_ltlt_mu, wpid_iso_nnknng3_ltlt_g
         )
 
     wpid_iso_nnknng1_gt02lt02: >-
         double;
-        WT_ISO_NNK(iso_true_id1,
+        WT_ISO(iso_true_id1,
         wpid_iso_nnknng1_gt02lt02_pi, wpid_iso_nnknng1_gt02lt02_k, wpid_iso_nnknng1_gt02lt02_p,
         wpid_iso_nnknng1_gt02lt02_e, wpid_iso_nnknng1_gt02lt02_mu, wpid_iso_nnknng1_gt02lt02_g
         )
     wpid_iso_nnknng2_gt02lt02: >-
         double;
-        WT_ISO_NNK(iso_true_id2,
+        WT_ISO(iso_true_id2,
         wpid_iso_nnknng2_gt02lt02_pi, wpid_iso_nnknng2_gt02lt02_k, wpid_iso_nnknng2_gt02lt02_p,
         wpid_iso_nnknng2_gt02lt02_e, wpid_iso_nnknng2_gt02lt02_mu, wpid_iso_nnknng2_gt02lt02_g
         )
     wpid_iso_nnknng3_gt02lt02: >-
         double;
-        WT_ISO_NNK(iso_true_id3,
+        WT_ISO(iso_true_id3,
         wpid_iso_nnknng3_gt02lt02_pi, wpid_iso_nnknng3_gt02lt02_k, wpid_iso_nnknng3_gt02lt02_p,
         wpid_iso_nnknng3_gt02lt02_e, wpid_iso_nnknng3_gt02lt02_mu, wpid_iso_nnknng3_gt02lt02_g
         )
     wpid_iso_nnknng1_lt02lt02: >-
         double;
-        WT_ISO_NNK(iso_true_id1,
+        WT_ISO(iso_true_id1,
         wpid_iso_nnknng1_lt02lt02_pi, wpid_iso_nnknng1_lt02lt02_k, wpid_iso_nnknng1_lt02lt02_p,
         wpid_iso_nnknng1_lt02lt02_e, wpid_iso_nnknng1_lt02lt02_mu, wpid_iso_nnknng1_lt02lt02_g
         )
     wpid_iso_nnknng2_lt02lt02: >-
         double;
-        WT_ISO_NNK(iso_true_id2,
+        WT_ISO(iso_true_id2,
         wpid_iso_nnknng2_lt02lt02_pi, wpid_iso_nnknng2_lt02lt02_k, wpid_iso_nnknng2_lt02lt02_p,
         wpid_iso_nnknng2_lt02lt02_e, wpid_iso_nnknng2_lt02lt02_mu, wpid_iso_nnknng2_lt02lt02_g
         )
     wpid_iso_nnknng3_lt02lt02: >-
         double;
-        WT_ISO_NNK(iso_true_id3,
+        WT_ISO(iso_true_id3,
         wpid_iso_nnknng3_lt02lt02_pi, wpid_iso_nnknng3_lt02lt02_k, wpid_iso_nnknng3_lt02lt02_p,
         wpid_iso_nnknng3_lt02lt02_e, wpid_iso_nnknng3_lt02lt02_mu, wpid_iso_nnknng3_lt02lt02_g
         )
