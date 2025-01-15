@@ -474,8 +474,8 @@ vector<Double_t> WT_DALITZ(Double_t dd_msq, Double_t dd_m_min,
   return {Daltweightp, Daltweightm, Daltweightqp, Daltweightqm};
 }
 
-Double_t WT_ISO_NNK(Int_t true_id, Double_t w_pi, Double_t w_k, Double_t w_p,
-                    Double_t w_e, Double_t w_mu, Double_t w_ghost) {
+Double_t WT_ISO(Int_t true_id, Double_t w_pi, Double_t w_k, Double_t w_p,
+                Double_t w_e, Double_t w_mu, Double_t w_ghost) {
   true_id = ABS(true_id);
   if (true_id == 211) return w_pi;
   if (true_id == 321) return w_k;
