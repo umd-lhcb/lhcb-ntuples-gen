@@ -139,19 +139,9 @@ if __name__ == "__main__":
         empty = True
         for h in inputNtp.GetListOfKeys():
             name = h.GetName()
-            if name != "eff":
-                if "eff" in name: # pidcalib2 must have updated and started naming the hists like "eff_<pid cut>"
-                    # it's assumed later in workflow (and here) that there's a hist named eff... so create one
-                    histo = inputNtp.Get(name)
-                    histoNewEffName = copy.deepcopy(histo) # I'm just going to rely on Python rather than ROOT to copy
-                    histoNewEffName.SetName("eff")
-                    inputNtp.cd()
-                    histoNewEffName.Write()
-                    print(f"  WARNING: Had to add histo named eff (copy of {name}) to {n}")
-                    name = "eff"
-                else:
-                    print(f"  WARNING: Skipping {name}")
-                    continue
+            if not ("eff" in name):
+                print(f"  WARNING: Skipping {name}")
+                continue
 
             histo = inputNtp.Get(name)
             binIdxes = getHistoBinIdxFlattened(histo)
@@ -168,6 +158,7 @@ if __name__ == "__main__":
 
                 meanShifted = shiftEff(idx, mean, std, verbose=args.verbose)
                 histo.SetBinContent(idx, meanShifted)
+            histo.SetName("eff") # later we assume the eff histo is named eff, not with the PID cut like PIDCalib outputs
             histo.Write()
             empty = False
             outputNtp.Close()
