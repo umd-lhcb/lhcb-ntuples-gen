@@ -54,7 +54,7 @@ j = Job(name=job_name, comment=ntuple_name)
 
 # Get input data from DIRAC
 data = BKQuery(lfn, dqflag=['OK']).getDataset()
-j.inputdata = data
+j.inputdata = data[:2]
 
 # Provide weight file
 weight_file = path_join(dirname(realpath(args.reco_script)), WEIGHT_FILE)
@@ -63,9 +63,9 @@ j.inputfiles = [LocalFile(weight_file)]
 # Use DIRAC backend
 j.backend = Dirac()
 j.backend.settings['BannedSites'] = [
-    'LCG.NCBJ.pl',
-    'LCG.NIPNE-07.ro',
-    'LCG.Beijing.cn'
+    # 'LCG.NCBJ.pl',
+    # 'LCG.NIPNE-07.ro',
+    # 'LCG.Beijing.cn'
 ]
 
 files_per_job = FILES_PER_JOB_MC if 'MC' in lfn else FILES_PER_JOB_DATA

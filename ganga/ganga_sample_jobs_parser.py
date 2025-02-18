@@ -51,6 +51,8 @@ LFN_PATH = {
     'run2-rdx-ghost_norm-2016-sim09': '/MC/2016/Beam6500GeV-2016-Mag{polarity}-Nu1.6-25ns-Pythia8/{simcond}/Trig0x6139160F/Reco16/Turbo03a/Filtered/11574021/D0TAUNU.SAFESTRIPTRIG.DST',
     # run 2 J/psi K data
     'run2-JpsiK-std-2016': '/LHCb/Collision16/Beam6500GeV-VeloClosed-Mag{polarity}/Real Data/Reco16/Stripping28r2/90000000/DIMUON.DST',
+    'run2-JpsiK-std-2017': '/LHCb/Collision17/Beam6500GeV-VeloClosed-Mag{polarity}/Real Data/Reco17/Stripping29r2/90000000/DIMUON.DST',
+    'run2-JpsiK-std-2018': '/LHCb/Collision18/Beam6500GeV-VeloClosed-Mag{polarity}/Real Data/Reco18/Stripping34/90000000/DIMUON.DST',
     # run 2 J/psi K MC
     'run2-JpsiK-mc-2016-sim09': '/MC/2016/Beam6500GeV-2016-Mag{polarity}-Nu1.6-25ns-Pythia8/{simcond}/Trig0x6139160F/Reco16/Turbo03a/Stripping28r2NoPrescalingFlagged/12143001/ALLSTREAMS.DST',
     # run 2 RDX Missing DDX MC
