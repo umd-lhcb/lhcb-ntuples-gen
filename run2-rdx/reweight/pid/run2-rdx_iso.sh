@@ -33,7 +33,7 @@ NTRACKS_ALIAS[e_B_Jpsi]="nTracks"
 
 rm -rf pidcalib_iso
 
-for year in 16; do
+for year in 16 17 18; do
     for polarity in "up" "down"; do
         for part in "${SAMPLES[@]}"; do
             for name in "${!CUTS[@]}"; do

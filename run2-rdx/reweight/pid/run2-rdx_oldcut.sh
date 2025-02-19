@@ -14,7 +14,7 @@ POLARITY[down]="md"
 
 rm -rf pidcalib_oldcut
 
-for year in 16; do
+for year in 16 17 18; do
     for polarity in "up" "down"; do
         for part in "${!SAMPLES[@]}"; do
             folder_name="pidcalib_oldcut/run2-rdx-20${year}-${POLARITY[${polarity}]}-${part}-p_eta_ntracks"
