@@ -444,9 +444,25 @@ def workflow_split_mc_ghost(inputs, input_yml, job_name='split', **kwargs):
 
 JOBS = {
     # External Run 2
-    'RJpsi-ntuple-run2-mc_ghost': partial(
+    'RJpsi-ntuple-run2-mc_ghost-16': partial(
         workflow_mc_ghost,
-        '../ntuples/ref-RJpsi-run2/Jpsi-ghost',
+        '../ntuples/ref-RJpsi-run2/IncJpsi/*2016*',
+        '../postprocess/rdx-run2/rdx-run2_ghost.yml',
+        trees=['JpsiRecTuple/DecayTree'],
+        prefix='Jpsi',
+        particle='BachMu'
+    ),
+    'RJpsi-ntuple-run2-mc_ghost-17': partial(
+        workflow_mc_ghost,
+        '../ntuples/ref-RJpsi-run2/IncJpsi/*2017*',
+        '../postprocess/rdx-run2/rdx-run2_ghost.yml',
+        trees=['JpsiRecTuple/DecayTree'],
+        prefix='Jpsi',
+        particle='BachMu'
+    ),
+    'RJpsi-ntuple-run2-mc_ghost-18': partial(
+        workflow_mc_ghost,
+        '../ntuples/ref-RJpsi-run2/IncJpsi/*2018*',
         '../postprocess/rdx-run2/rdx-run2_ghost.yml',
         trees=['JpsiRecTuple/DecayTree'],
         prefix='Jpsi',
