@@ -60,7 +60,11 @@ LFN_PATH = {
     # run 2 RDX Missing DDX MC
     'run2-rdx-mc-2016-sim10-tracker_only': '/MC/2016/Beam6500GeV-2016-Mag{polarity}-TrackerOnly-Nu1.6-25ns-Pythia8/{simcond}/Reco16/CustomFiltered/11895400/D0TAUNU.SAFESTRIPTRIG.DST',
     'run2-rdx-mc-2017-sim10-tracker_only': '/MC/2017/Beam6500GeV-2017-Mag{polarity}-TrackerOnly-Nu1.6-25ns-Pythia8/{simcond}/Reco17/CustomFiltered/11895400/D0TAUNU.SAFESTRIPTRIG.DST',
-    'run2-rdx-mc-2018-sim10-tracker_only': '/MC/2018/Beam6500GeV-2018-Mag{polarity}-TrackerOnly-Nu1.6-25ns-Pythia8/{simcond}/Reco18/CustomFiltered/11895400/D0TAUNU.SAFESTRIPTRIG.DST'
+    'run2-rdx-mc-2018-sim10-tracker_only': '/MC/2018/Beam6500GeV-2018-Mag{polarity}-TrackerOnly-Nu1.6-25ns-Pythia8/{simcond}/Reco18/CustomFiltered/11895400/D0TAUNU.SAFESTRIPTRIG.DST',
+    # run 2 RDX Lambda_b MC
+    'run2-rdx-mc-2016-sim10': '/MC/2016/Beam6500GeV-2016-Mag{polarity}-Nu1.6-25ns-Pythia8/{simcond}/Trig0x6139160F/Reco16/Turbo03a/Stripping28r2NoPrescalingFlagged/{decay}/ALLSTREAMS.DST',
+    'run2-rdx-mc-2017-sim10': '/MC/2017/Beam6500GeV-2017-Mag{polarity}-Nu1.6-25ns-Pythia8/{simcond}/Trig0x62661709/Reco17/Turbo04a-WithTurcal/Stripping29r2NoPrescalingFlagged/{decay}/ALLSTREAMS.DST',
+    'run2-rdx-mc-2018-sim10': '/MC/2018/Beam6500GeV-2018-Mag{polarity}-Nu1.6-25ns-Pythia8/{simcond}/Trig0x617d18a4/Reco18/Turbo05-WithTurcal/Stripping34NoPrescalingFlagged/{decay}/ALLSTREAMS.DST'
 }
 
 LFN_PATH['run1-rdx-cutflow_data-2012'] = LFN_PATH['run1-rdx-std-2012']
