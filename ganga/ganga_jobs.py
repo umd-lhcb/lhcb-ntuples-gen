@@ -55,6 +55,7 @@ j = Job(name=job_name, comment=ntuple_name)
 # Get input data from DIRAC
 data = BKQuery(lfn, dqflag=['OK']).getDataset()
 j.inputdata = data
+# data = data[:2] # for testing
 
 # Provide weight file
 weight_file = path_join(dirname(realpath(args.reco_script)), WEIGHT_FILE)

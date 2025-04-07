@@ -41,6 +41,8 @@ LFN_PATH = {
     'run2-rdx-std-2018': '/LHCb/Collision18/Beam6500GeV-VeloClosed-Mag{polarity}/Real Data/Reco18/Stripping34/90000000/SEMILEPTONIC.DST',
     # run 2 RDX MC
     'run2-rdx-mc-2016-sim09': '/MC/2016/Beam6500GeV-2016-Mag{polarity}-Nu1.6-25ns-Pythia8/{simcond}/Trig0x6139160F/Reco16/Turbo03a/Filtered/{decay}/D0TAUNU.SAFESTRIPTRIG.DST',
+    'run2-rdx-mc-2017-sim09': '/MC/2017/Beam6500GeV-2017-Mag{polarity}-Nu1.6-25ns-Pythia8/{simcond}/Trig0x62661709/Reco17/Turbo04a-WithTurcal/Stripping29r2Filtered/{decay}/D0TAUNU.SAFESTRIPTRIG.DST',
+    'run2-rdx-mc-2018-sim09': '/MC/2018/Beam6500GeV-2018-Mag{polarity}-Nu1.6-25ns-Pythia8/{simcond}/Trig0x617d18a4/Reco18/Turbo05-WithTurcal/Stripping34Filtered/{decay}/D0TAUNU.SAFESTRIPTRIG.DST',
     'run2-rdx-mc-2016-sim09-tracker_only': '/MC/2016/Beam6500GeV-2016-Mag{polarity}-TrackerOnly-Nu1.6-25ns-Pythia8/{simcond}/Reco16/Filtered/{decay}/D0TAUNU.SAFESTRIPTRIG.DST',
     'run2-rdx-mc-2017-sim09-tracker_only': '/MC/2017/Beam6500GeV-2017-Mag{polarity}-TrackerOnly-Nu1.6-25ns-Pythia8/{simcond}/Reco17/Filtered/{decay}/D0TAUNU.SAFESTRIPTRIG.DST',
     'run2-rdx-mc-2018-sim09-tracker_only': '/MC/2018/Beam6500GeV-2018-Mag{polarity}-TrackerOnly-Nu1.6-25ns-Pythia8/{simcond}/Reco18/Filtered/{decay}/D0TAUNU.SAFESTRIPTRIG.DST',
