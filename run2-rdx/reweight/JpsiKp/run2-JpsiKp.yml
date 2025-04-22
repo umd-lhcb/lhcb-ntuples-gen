@@ -1,0 +1,17 @@
+trees:
+    - TupleB0/DecayTree
+    - TupleBminus/DecayTree
+
+config:
+    wjk_kin:
+        histo_name: h_kinematic
+        particle: B
+        vars:
+            - GUARD(P(b0_TRUEP_X, b0_TRUEP_Y, b0_TRUEP_Z), 0, 500000.00000000006); GUARD(P(b_TRUEP_X, b_TRUEP_Y, b_TRUEP_Z), 0, 500000.00000000006)
+            - GUARD(b0_TRUEPT, 0, 35000); GUARD(b_TRUEPT, 0, 35000)
+    wjk_occ:
+        histo_name: h_occupancy
+        particle: B
+        vars:
+            - GUARD(b0_OWNPV_NDOF, 1, 1000); GUARD(b_OWNPV_NDOF, 1, 1000)
+            - GUARD(nTracks, 0, 1800)

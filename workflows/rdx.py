@@ -162,7 +162,7 @@ def workflow_trigger_emu(input_ntp, output_ntp='trg_emu.root',
 @smart_kwarg
 def workflow_pid(
         input_ntp, output_ntp='pid.root',
-        pid_histo_folder='../run2-rdx/reweight/pid/root-run2-rdx_oldcut-shifted',
+        pid_histo_folder='../run2-rdx/reweight/pid/old/root-run2-rdx_oldcut-shifted',
         pid_config='../run2-rdx/reweight/pid/run2-rdx_oldcut.yml',
         **kwargs):
     return workflow_apply_weight(input_ntp, pid_histo_folder, pid_config,
@@ -183,6 +183,15 @@ def workflow_jk(
         input_ntp, output_ntp='jk.root',
         trk_histo_folder='../run2-rdx/reweight/JpsiK/root-run2-JpsiK',
         trk_config='../run2-rdx/reweight/JpsiK/run2-JpsiK.yml',
+        **kwargs):
+    return workflow_apply_weight(input_ntp, trk_histo_folder, trk_config,
+                                 output_ntp, '--aux_jk', **kwargs)
+
+@smart_kwarg
+def workflow_jkp(
+        input_ntp, output_ntp='jk.root',
+        trk_histo_folder='../run2-rdx/reweight/JpsiKp/root-run2-JpsiKp',
+        trk_config='../run2-rdx/reweight/JpsiKp/run2-JpsiKp.yml',
         **kwargs):
     return workflow_apply_weight(input_ntp, trk_histo_folder, trk_config,
                                  output_ntp, '--aux_jk', **kwargs)
@@ -369,10 +378,16 @@ def workflow_mc(inputs, input_yml, job_name='mc', date=None,
                 use_hammer_dstnocorr=False, use_hammer_dst10signocorr=False,
                 use_hammer_dstrun1=False, use_hammer_no_rescale=False,
                 num_of_workers=12, **kwargs):
-    aux_workflows = [
-        workflow_trigger_emu, workflow_pid, workflow_trk, workflow_jk,
-        workflow_vertex#, workflow_vertex_scale
-    ]
+    if (any(elem in inputs for elem in ["15574081", "15574082", "15574083"])):
+        aux_workflows = [
+            workflow_trigger_emu, workflow_pid, workflow_trk, workflow_jkp,
+            workflow_vertex#, workflow_vertex_scale
+        ]
+    else:
+        aux_workflows = [
+            workflow_trigger_emu, workflow_pid, workflow_trk, workflow_jk,
+            workflow_vertex#, workflow_vertex_scale
+        ]
     if use_hammer:
         aux_workflows.append(workflow_hammer)
     if use_hammer_alt:
