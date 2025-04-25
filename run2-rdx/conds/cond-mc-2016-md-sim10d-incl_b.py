@@ -9,4 +9,4 @@ DaVinci().TupleFile = 'mc.root'
 from Configurables import LHCbApp
 
 LHCbApp().CondDBtag = "sim-20201113-6-vc-md100-Sim10"
-LHCbApp().DDDBtag = "dddb-20210528-6"
+LHCbApp().DDDBtag = "dddb-20220927-2016"
