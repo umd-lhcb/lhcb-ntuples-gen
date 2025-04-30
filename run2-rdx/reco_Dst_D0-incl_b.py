@@ -87,7 +87,7 @@ dttDstK.addTupleTool('TupleToolRecoStats')
 dttDstK.addTupleTool('TupleToolMCBackgroundInfo')
 dttDstK.addTupleTool('TupleToolMCTruth')
 dttDstK.TupleToolMCTruth.ToolList = [
-    'MCTupleToolKinematic',
+    # 'MCTupleToolKinematic',
     'MCTupleToolPID',
     'MCTupleToolHierarchy'
 ]
@@ -103,7 +103,7 @@ dttDstPi.addTupleTool('TupleToolRecoStats')
 dttDstPi.addTupleTool('TupleToolMCBackgroundInfo')
 dttDstPi.addTupleTool('TupleToolMCTruth')
 dttDstPi.TupleToolMCTruth.ToolList = [
-    'MCTupleToolKinematic',
+    # 'MCTupleToolKinematic',
     'MCTupleToolPID',
     'MCTupleToolHierarchy'
 ]
@@ -176,9 +176,9 @@ dttGhost.setDescriptorTemplate('${mu}[mu+]CC')
 dttGhost.Inputs = [selectionGhost.outputLocation()]
 dttGhost.addTupleTool('TupleToolMCTruth')
 dttGhost.TupleToolMCTruth.ToolList = [
-    'MCTupleToolKinematic',
-    'MCTupleToolPID',
-    'MCTupleToolHierarchy'
+    # 'MCTupleToolKinematic',
+    'MCTupleToolPID'#,
+    # 'MCTupleToolHierarchy'
 ]
 dttGhost.mu.addTupleTool('TupleToolANNPIDTraining')
 
