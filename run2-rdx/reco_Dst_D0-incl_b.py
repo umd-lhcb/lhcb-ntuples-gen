@@ -19,35 +19,39 @@ mc_match_preambulo = [
     'from LoKiPhysMC.functions import *'
 ]
 
-# Define truth-matching requirements cuts
+# Define truth-matching requirements
 fromSignal = 'MCSELMATCH( MCFROMSIGNAL )'
+fromDecay  = 'MCSELMATCH( MCFROMDECAYS )'
 fromD0     = 'MCSELMATCH( MCINANCESTORS( MCABSID == "D0" ) )'
 fromDst    = 'MCSELMATCH( MCINANCESTORS( MCABSID == "D*(2010)+" ) )'
 fromPi     = 'MCSELMATCH( MCINANCESTORS( MCABSID == "pi+" ) )'
 fromK      = 'MCSELMATCH( MCINANCESTORS( MCABSID == "K+" ) )'
+notFromD0  = f'(NINTREE( {fromD0} ) < 1)'
 isK        = 'mcMatch("[K+]cc")'
 isPi       = 'mcMatch("[pi+]cc")'
 isP        = 'mcMatch("[p+]cc")'
 isE        = 'mcMatch("[e-]cc")'
 isMu       = 'mcMatch("[mu-]cc")'
 isGhost    = f'(NINTREE( {isK} | {isPi} | {isP} | {isE} | {isMu} ) < 1)'
-isKLoose   = f'({isK} | {fromK})'
-isPiLoose  = f'({isPi} | {fromPi})'
+isKLoose   = f'( {isK}  | ({isMu} & {fromK} ) )'
+isPiLoose  = f'( {isPi} | ({isMu} & {fromPi}) )'
 
 
 #################################################################
 # D* -> D0(-> K pi) pi ntuples for study K/pi misid corrections #
 #################################################################
 
-filterK  = FilterDesktop('FilterK',  Code=f'ISLONG & {fromSignal} & {fromDst}', Preambulo=mc_match_preambulo)
-filterPi = FilterDesktop('FilterPi', Code=f'ISLONG & {fromSignal} & {fromDst}', Preambulo=mc_match_preambulo)
+filterK      = FilterDesktop('FilterK'     , Code=f'ISLONG & {fromSignal} & {fromDst} & {fromD0}    & {isKLoose}' , Preambulo=mc_match_preambulo)
+filterPi     = FilterDesktop('FilterPi'    , Code=f'ISLONG & {fromSignal} & {fromDst} & {fromD0}    & {isPiLoose}', Preambulo=mc_match_preambulo)
+filterPiSoft = FilterDesktop('FilterPiSoft', Code=f'ISLONG & {fromSignal} & {fromDst} & {notFromD0} & {isPiLoose}', Preambulo=mc_match_preambulo)
 
-selectionK  = Selection('SelK',  Algorithm=filterK, RequiredSelections=[StdAllNoPIDsKaons])
-selectionPi = Selection('SelPi', Algorithm=filterPi, RequiredSelections=[StdAllNoPIDsPions])
+selectionK      = Selection('SelK'     , Algorithm=filterK     , RequiredSelections=[StdAllNoPIDsKaons])
+selectionPi     = Selection('SelPi'    , Algorithm=filterPi    , RequiredSelections=[StdAllNoPIDsPions])
+selectionPiSoft = Selection('SelPiSoft', Algorithm=filterPiSoft, RequiredSelections=[StdAllNoPIDsPions])
 
 # define D0 -> K pi decay
-D02KPiDauCuts = {'K-':  fromD0, 'pi+': fromD0}
-D02KPiComCuts = 'AALL'
+D02KPiDauCuts = {'K-':  'ALL', 'pi+': 'ALL'}
+D02KPiComCuts = 'AHASCHILD( (TRGHOSTPROB < 0.5) & HASMUON & in_range(3000, P, 100000) )'
 D02KPiMotCuts = 'ALL'
 D02KPiCombination = CombineParticles(
     'CombD02KPi',
@@ -55,7 +59,6 @@ D02KPiCombination = CombineParticles(
     MotherCut=D02KPiMotCuts,
     DaughtersCuts=D02KPiDauCuts,
     CombinationCut=D02KPiComCuts)
-D02KPiCombination.Preambulo += mc_match_preambulo
 D02KPi = Selection(
     'SelD02KPi',
     Algorithm=D02KPiCombination,
@@ -71,11 +74,10 @@ Dst2D0PiCombination = CombineParticles(
     MotherCut=Dst2D0PiMotCuts,
     DaughtersCuts=Dst2D0PiDauCuts,
     CombinationCut=Dst2D0PiComCuts)
-# Dst2D0PiCombination.Preambulo += mc_match_preambulo
 Dst2D0Pi = Selection(
     'SelDst2D0Pi',
     Algorithm=Dst2D0PiCombination,
-    RequiredSelections=[D02KPi, selectionPi])
+    RequiredSelections=[D02KPi, selectionPiSoft])
 
 # Define decay tree tuple with uBDT input for K candidate
 dttDstK = DecayTreeTuple('TupleDstANNK')
@@ -87,8 +89,7 @@ dttDstK.addTupleTool('TupleToolRecoStats')
 dttDstK.addTupleTool('TupleToolMCBackgroundInfo')
 dttDstK.addTupleTool('TupleToolMCTruth')
 dttDstK.TupleToolMCTruth.ToolList = [
-    # 'MCTupleToolKinematic',
-    'MCTupleToolPID',
+    'MCTupleToolKinematic',
     'MCTupleToolHierarchy'
 ]
 dttDstK.k.addTupleTool('TupleToolANNPIDTraining')
@@ -103,8 +104,7 @@ dttDstPi.addTupleTool('TupleToolRecoStats')
 dttDstPi.addTupleTool('TupleToolMCBackgroundInfo')
 dttDstPi.addTupleTool('TupleToolMCTruth')
 dttDstPi.TupleToolMCTruth.ToolList = [
-    # 'MCTupleToolKinematic',
-    'MCTupleToolPID',
+    'MCTupleToolKinematic',
     'MCTupleToolHierarchy'
 ]
 dttDstPi.pi.addTupleTool('TupleToolANNPIDTraining') # This is the only difference between the two tuples
@@ -122,7 +122,9 @@ DaVinci().UserAlgorithms += [sequenceDstK.sequence(), sequenceDstPi.sequence()]
 #########################################
 
 # Loosely select true Kaons satisfying ISMUON
-filterKDiF  = FilterDesktop('FilterKDiF',  Code=f'ISLONG & ISMUON & {isKLoose}', Preambulo=mc_match_preambulo)
+filterKDiF  = FilterDesktop('FilterKDiF',
+                            Code=f'ISLONG & ISMUON & (TRGHOSTPROB < 0.5) & in_range(3000, P, 100000) & {isKLoose} & {fromDecay}',
+                            Preambulo=mc_match_preambulo)
 
 selectionKDiF = Selection('SelKDiF', Algorithm=filterKDiF, RequiredSelections=[StdAllNoPIDsKaons])
 
@@ -132,7 +134,6 @@ dttKDiF.Inputs = [selectionKDiF.outputLocation()]
 dttKDiF.addTupleTool('TupleToolMCTruth')
 dttKDiF.TupleToolMCTruth.ToolList = [
     'MCTupleToolKinematic',
-    'MCTupleToolPID',
     'MCTupleToolHierarchy'
 ]
 dttKDiF.k.addTupleTool('TupleToolANNPIDTraining')
@@ -141,7 +142,9 @@ sequenceK_dif = SelectionSequence(
     'SeqKDiF', TopSelection=selectionKDiF, PostSelectionAlgs=[dttKDiF])
 
 # Loosely select true Pions satisfying ISMUON
-filterPiDiF = FilterDesktop('FilterPiDiF', Code=f'ISLONG & ISMUON & {isPiLoose}', Preambulo=mc_match_preambulo)
+filterPiDiF = FilterDesktop('FilterPiDiF',
+                            Code=f'ISLONG & ISMUON & (TRGHOSTPROB < 0.5) & in_range(3000, P, 100000) & {isPiLoose} & {fromDecay}',
+                            Preambulo=mc_match_preambulo)
 
 selectionPiDiF = Selection('SelPiDiF', Algorithm=filterPiDiF, RequiredSelections=[StdAllNoPIDsPions])
 
@@ -151,7 +154,6 @@ dttPiDiF.Inputs = [selectionPiDiF.outputLocation()]
 dttPiDiF.addTupleTool('TupleToolMCTruth')
 dttPiDiF.TupleToolMCTruth.ToolList = [
     'MCTupleToolKinematic',
-    'MCTupleToolPID',
     'MCTupleToolHierarchy'
 ]
 dttPiDiF.pi.addTupleTool('TupleToolANNPIDTraining')
@@ -167,22 +169,65 @@ DaVinci().UserAlgorithms += [sequenceK_dif.sequence(), sequencePi_dif.sequence()
 ################
 
 # Select true ghost tracks
-filterGhost = FilterDesktop('FilterGhost',  Code=f'ISLONG & {isGhost}', Preambulo=mc_match_preambulo)
+filterGhost = FilterDesktop('FilterGhost',  Code=f'ISLONG & {isGhost} & (TRGHOSTPROB < 0.5) & in_range(3000, P, 100000)', Preambulo=mc_match_preambulo)
 
 selectionGhost = Selection('SelGhost', Algorithm=filterGhost, RequiredSelections=[StdAllNoPIDsMuons])
 
+# define D0 -> K pi decay
+D02KPiDauCutsGhost = {'K-':  'ALL', 'pi+': 'ALL'}
+D02KPiComCutsGhost = 'AALL'
+D02KPiMotCutsGhost = 'ALL'
+D02KPiCombinationGhost = CombineParticles(
+    'CombD02KPiGhost',
+    DecayDescriptor='[D0 -> K- pi+]cc',
+    MotherCut=D02KPiMotCutsGhost,
+    DaughtersCuts=D02KPiDauCutsGhost,
+    CombinationCut=D02KPiComCutsGhost)
+D02KPiGhost = Selection(
+    'SelD02KPiGhost',
+    Algorithm=D02KPiCombinationGhost,
+    RequiredSelections=[selectionK, selectionPi])
+
+# define D* -> D0 pi decay
+Dst2D0PiDauCutsGhost = {'D0':  'ALL', 'pi+': 'ALL'}
+Dst2D0PiComCutsGhost = 'AALL'
+Dst2D0PiMotCutsGhost = 'ALL'
+Dst2D0PiCombinationGhost = CombineParticles(
+    'CombDst2D0PiGhost',
+    DecayDescriptor='[D*(2010)+ -> D0 pi+]cc',
+    MotherCut=Dst2D0PiMotCutsGhost,
+    DaughtersCuts=Dst2D0PiDauCutsGhost,
+    CombinationCut=Dst2D0PiComCutsGhost)
+Dst2D0PiGhost = Selection(
+    'SelDst2D0PiGhost',
+    Algorithm=Dst2D0PiCombinationGhost,
+    RequiredSelections=[D02KPiGhost, selectionPiSoft])
+
+# define ghost B -> D* mu decay (with signal D* + ghost track as mu)
+B02DstMuDauCuts = {'D*(2010)+':  'ALL', 'mu-': 'ALL'}
+B02DstMuComCuts = 'AALL'
+B02DstMuMotCuts = 'VFASPF(VCHI2/VDOF) < 6.0'
+B02DstMuCombination = CombineParticles(
+    'CombB02DstGhost',
+    DecayDescriptor='[B~0 -> D*(2010)+ mu-]cc',
+    MotherCut=B02DstMuMotCuts,
+    DaughtersCuts=B02DstMuDauCuts,
+    CombinationCut=B02DstMuComCuts)
+# B02DstMuCombination.Preambulo += mc_match_preambulo
+B02DstMu = Selection(
+    'SelB02DstGhost',
+    Algorithm=B02DstMuCombination,
+    RequiredSelections=[Dst2D0PiGhost, selectionGhost])
+
 dttGhost = DecayTreeTuple('Ghost')
-dttGhost.setDescriptorTemplate('${mu}[mu+]CC')
-dttGhost.Inputs = [selectionGhost.outputLocation()]
+dttGhost.setDescriptorTemplate('${b0}[B~0 -> ${dst}(D*(2010)+ -> ${d0}(D0 -> ${k}K- ${pi}pi+) ${spi}pi+) ${mu}mu-]CC')
+dttGhost.Inputs = [B02DstMu.outputLocation()]
+dttGhost.addTool(BackgroundCategory)
 dttGhost.addTupleTool('TupleToolMCTruth')
-dttGhost.TupleToolMCTruth.ToolList = [
-    # 'MCTupleToolKinematic',
-    'MCTupleToolPID'#,
-    # 'MCTupleToolHierarchy'
-]
+dttGhost.TupleToolMCTruth.ToolList = [] # Produces only TRUEID branch
 dttGhost.mu.addTupleTool('TupleToolANNPIDTraining')
 
 sequence_g = SelectionSequence(
-    'SeqGhost', TopSelection=selectionGhost, PostSelectionAlgs=[dttGhost])
+    'SeqGhost', TopSelection=B02DstMu, PostSelectionAlgs=[dttGhost])
 
 DaVinci().UserAlgorithms += [sequence_g.sequence()]
