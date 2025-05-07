@@ -96,10 +96,10 @@ dttDstK = DecayTreeTuple('TupleDstANNK')
 dttDstK.setDescriptorTemplate(
     '${dst}[(D*(2010)+ -> ${d0}(D0 -> ${k}K- ${pi}pi+) ${spi}pi+)]CC')
 dttDstK.Inputs = [Dst2D0Pi.outputLocation()]
-dttDstK.addTool(BackgroundCategory)
 dttDstK.addTupleTool('TupleToolTISTOS')
 dttDstK.addTupleTool('TupleToolRecoStats')
 dttDstK.addTupleTool('TupleToolMCBackgroundInfo')
+dttDstK.TupleToolMCBackgroundInfo.addTool(BackgroundCategory)
 dttDstK.addTupleTool('TupleToolMCTruth')
 dttDstK.TupleToolMCTruth.ToolList = [
     'MCTupleToolKinematic',
@@ -112,10 +112,10 @@ dttDstPi = DecayTreeTuple('TupleDstANNPi')
 dttDstPi.setDescriptorTemplate(
     '${dst}[(D*(2010)+ -> ${d0}(D0 -> ${k}K- ${pi}pi+) ${spi}pi+)]CC')
 dttDstPi.Inputs = [Dst2D0Pi.outputLocation()]
-dttDstPi.addTool(BackgroundCategory)
 dttDstPi.addTupleTool('TupleToolTISTOS')
 dttDstPi.addTupleTool('TupleToolRecoStats')
 dttDstPi.addTupleTool('TupleToolMCBackgroundInfo')
+dttDstPi.TupleToolMCBackgroundInfo.addTool(BackgroundCategory)
 dttDstPi.addTupleTool('TupleToolMCTruth')
 dttDstPi.TupleToolMCTruth.ToolList = [
     'MCTupleToolKinematic',
@@ -254,7 +254,8 @@ dttGhost.setDescriptorTemplate(
     '${b0}[B~0 -> ${dst}(D*(2010)+ -> ${d0}(D0 -> ${k}K- ${pi}pi+) ${spi}pi+) ${mu}mu-]CC'
 )
 dttGhost.Inputs = [B02DstMu.outputLocation()]
-dttGhost.addTool(BackgroundCategory)
+dttGhost.addTupleTool('TupleToolMCBackgroundInfo')
+dttGhost.TupleToolMCBackgroundInfo.addTool(BackgroundCategory)
 dttGhost.addTupleTool('TupleToolMCTruth')
 dttGhost.TupleToolMCTruth.ToolList = []  # Produces only TRUEID branch
 dttGhost.mu.addTupleTool('TupleToolANNPIDTraining')
