@@ -101,6 +101,7 @@ dttDstK.addTupleTool('TupleToolRecoStats')
 dttDstK.addTupleTool('TupleToolMCBackgroundInfo')
 dttDstK.TupleToolMCBackgroundInfo.addTool(BackgroundCategory)
 dttDstK.addTupleTool('TupleToolMCTruth')
+dttDstK.TupleToolMCTruth.IP2MCPAssociatorTypes = ['DaVinciSmartAssociator']
 dttDstK.TupleToolMCTruth.ToolList = [
     'MCTupleToolKinematic',
     'MCTupleToolHierarchy'
@@ -117,6 +118,10 @@ dttDstPi.addTupleTool('TupleToolRecoStats')
 dttDstPi.addTupleTool('TupleToolMCBackgroundInfo')
 dttDstPi.TupleToolMCBackgroundInfo.addTool(BackgroundCategory)
 dttDstPi.addTupleTool('TupleToolMCTruth')
+# TupleToolMCTruth default behavior is to try DaVinciSmartAssociator and, if not
+# succesfull, try again with MCMatchObjP2MCRelator. Since I still don't understand
+# MCMatchObjP2MCRelator very well, let's use only DaVinciSmartAssociator.
+dttDstPi.TupleToolMCTruth.IP2MCPAssociatorTypes = ['DaVinciSmartAssociator']
 dttDstPi.TupleToolMCTruth.ToolList = [
     'MCTupleToolKinematic',
     'MCTupleToolHierarchy'
@@ -152,6 +157,7 @@ dttKDiF = DecayTreeTuple('TupleKDiF')
 dttKDiF.setDescriptorTemplate('${k}[K+]CC')
 dttKDiF.Inputs = [selectionKDiF.outputLocation()]
 dttKDiF.addTupleTool('TupleToolMCTruth')
+dttKDiF.TupleToolMCTruth.IP2MCPAssociatorTypes = ['DaVinciSmartAssociator']
 dttKDiF.TupleToolMCTruth.ToolList = [
     'MCTupleToolKinematic',
     'MCTupleToolHierarchy'
@@ -177,6 +183,7 @@ dttPiDiF = DecayTreeTuple('TuplePiDiF')
 dttPiDiF.setDescriptorTemplate('${pi}[pi+]CC')
 dttPiDiF.Inputs = [selectionPiDiF.outputLocation()]
 dttPiDiF.addTupleTool('TupleToolMCTruth')
+dttPiDiF.TupleToolMCTruth.IP2MCPAssociatorTypes = ['DaVinciSmartAssociator']
 dttPiDiF.TupleToolMCTruth.ToolList = [
     'MCTupleToolKinematic',
     'MCTupleToolHierarchy'
@@ -254,10 +261,12 @@ dttGhost.setDescriptorTemplate(
     '${b0}[B~0 -> ${dst}(D*(2010)+ -> ${d0}(D0 -> ${k}K- ${pi}pi+) ${spi}pi+) ${mu}mu-]CC'
 )
 dttGhost.Inputs = [B02DstMu.outputLocation()]
+dttGhost.addTupleTool('TupleToolTISTOS')
 dttGhost.addTupleTool('TupleToolMCBackgroundInfo')
 dttGhost.TupleToolMCBackgroundInfo.addTool(BackgroundCategory)
 dttGhost.addTupleTool('TupleToolMCTruth')
-dttGhost.TupleToolMCTruth.ToolList = []  # Produces only TRUEID branch
+dttGhost.TupleToolMCTruth.IP2MCPAssociatorTypes = ['DaVinciSmartAssociator']
+dttGhost.TupleToolMCTruth.ToolList = [] # Produces only TRUEID branch
 dttGhost.mu.addTupleTool('TupleToolANNPIDTraining')
 
 sequence_g = SelectionSequence('SeqGhost',
