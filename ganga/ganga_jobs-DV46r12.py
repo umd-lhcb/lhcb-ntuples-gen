@@ -66,7 +66,7 @@ j.inputdata = data
 j.backend = Dirac()
 
 j.splitter = SplitByFiles(filesPerJob=1)
-j.outputfiles = [LocalFile('*.root')]
+j.outputfiles = [DiracFile('*.root')]
 
 # Get path to option files, also prepare DaVinci
 options = [args.cond_file, args.reco_script]
