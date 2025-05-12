@@ -96,6 +96,7 @@ dttDstK = DecayTreeTuple('TupleDstANNK')
 dttDstK.setDescriptorTemplate(
     '${dst}[(D*(2010)+ -> ${d0}(D0 -> ${k}K- ${pi}pi+) ${spi}pi+)]CC')
 dttDstK.Inputs = [Dst2D0Pi.outputLocation()]
+dttDstK.TupleToolPid.Verbose = True
 dttDstK.addTupleTool('TupleToolTISTOS')
 dttDstK.addTupleTool('TupleToolRecoStats')
 dttDstK.addTupleTool('TupleToolMCBackgroundInfo')
@@ -113,6 +114,7 @@ dttDstPi = DecayTreeTuple('TupleDstANNPi')
 dttDstPi.setDescriptorTemplate(
     '${dst}[(D*(2010)+ -> ${d0}(D0 -> ${k}K- ${pi}pi+) ${spi}pi+)]CC')
 dttDstPi.Inputs = [Dst2D0Pi.outputLocation()]
+dttDstPi.TupleToolPid.Verbose = True
 dttDstPi.addTupleTool('TupleToolTISTOS')
 dttDstPi.addTupleTool('TupleToolRecoStats')
 dttDstPi.addTupleTool('TupleToolMCBackgroundInfo')
@@ -156,6 +158,7 @@ selectionKDiF = Selection('SelKDiF',
 dttKDiF = DecayTreeTuple('TupleKDiF')
 dttKDiF.setDescriptorTemplate('${k}[K+]CC')
 dttKDiF.Inputs = [selectionKDiF.outputLocation()]
+dttKDif.TupleToolPid.Verbose = True
 dttKDiF.addTupleTool('TupleToolMCTruth')
 dttKDiF.TupleToolMCTruth.IP2MCPAssociatorTypes = ['DaVinciSmartAssociator']
 dttKDiF.TupleToolMCTruth.ToolList = [
@@ -182,6 +185,7 @@ selectionPiDiF = Selection('SelPiDiF',
 dttPiDiF = DecayTreeTuple('TuplePiDiF')
 dttPiDiF.setDescriptorTemplate('${pi}[pi+]CC')
 dttPiDiF.Inputs = [selectionPiDiF.outputLocation()]
+dttPiDif.TupleToolPid.Verbose = True
 dttPiDiF.addTupleTool('TupleToolMCTruth')
 dttPiDiF.TupleToolMCTruth.IP2MCPAssociatorTypes = ['DaVinciSmartAssociator']
 dttPiDiF.TupleToolMCTruth.ToolList = [
@@ -261,6 +265,7 @@ dttGhost.setDescriptorTemplate(
     '${b0}[B~0 -> ${dst}(D*(2010)+ -> ${d0}(D0 -> ${k}K- ${pi}pi+) ${spi}pi+) ${mu}mu-]CC'
 )
 dttGhost.Inputs = [B02DstMu.outputLocation()]
+dttGhost.TupleToolPid.Verbose = True
 dttGhost.addTupleTool('TupleToolTISTOS')
 dttGhost.addTupleTool('TupleToolMCBackgroundInfo')
 dttGhost.TupleToolMCBackgroundInfo.addTool(BackgroundCategory)
