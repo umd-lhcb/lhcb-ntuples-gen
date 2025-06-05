@@ -299,6 +299,17 @@ To use it:
 3. Copy `batch_skim.sh` to your `lhcb-ntuples-gen` root folder on `glacier`,
     then give it execution permission with `chmod +x batch_skim.sh`.
 
+    !!! info "Alternative slimming"
+        At some point, we decided to change our folder structure for storing our rdx tuples (to be easier to find files, but note that this procedure won't work for other tuples, eg. `JpsiK`). This can be achieved by either continuing with this procedure and following the (new) step 6, or alternatively you can use `scripts/step1_slim.py` to do this more easily (and also automatically keep track of your total events + failed `ganga` subjobs!). To use this script, with your copied `batch_skim.sh` inside `lhcb-ntuples-gen/`, run
+
+        ```shell
+        python scripts/step1_slim.py <ganga_output_dir> <new_slimmed_ntuple_dir> batch_skim.sh
+        (eg. python scripts/step1_slim.py ../ntuples_to_merge ntuples/0.9.12-all_years batch_skim.sh)
+        ```
+
+        This script automatically chooses `postprocess/skims/rdx_mc.yml` for the slimming. If you run this, the rdx folder structure should be correct, and you can skip steps 4-6.
+
+
 4. Set the input folder and postprocessing rules as needed in `batch_skim.sh`:
 
     ```bash
@@ -334,12 +345,23 @@ To use it:
     0.9.6-2016-production/Dst_D0-mc-tracker-only
     ```
 
+6. We decided to change our folder naming scheme, so before annexing (in principle this works after annexing too, but it's safer to do it before annexing), if not following the alternative slimming procedure above, run
+    
+    ```
+    python scripts/move_step1_ntuples.py <step1_tuple_dir_old_paths> <output_dir>
+    (eg. python scripts/move_step1_ntuples.py ntuples/0.9.100-new_rdx_tuples ntuples/0.9.100-new_rdx_tuples)
+    ```
+
+    This script assumes your `rdx-run2-analysis` and `lhcb-ntuples-gen` repos live in the same directories; if they don't, you'll have to specify an additional parameter when running the above command `-s <path_to_rdx-run2-analysis>/fit/spec/histos.yml` (the script references our rdx templates to create the new folder naming scheme).
+
 
 ### Annex ntuples
 
 !!! info
     We decide to use a pull-request-based workflow for ntuple annexation to
     minimize errors.
+
+    ...but if you consider yourself a trusted user (ie. are comfortable enough adding tuples to the annex), you can ignore this section and just annex+commit the tuples on your own.
 
 1. Create a new branch on your `lhcb-ntuples-gen` project on `glacier`, then checkout that branch:
 
