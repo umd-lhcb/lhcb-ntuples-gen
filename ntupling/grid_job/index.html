@@ -18,7 +18,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.12">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.14">
     
     
       
@@ -26,7 +26,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.2afb09e1.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.342714a4.min.css">
       
       
 
@@ -1963,6 +1963,14 @@ jobs with a index that is greater or equal to the specified index.</p>
 <li>
 <p>Copy <code>batch_skim.sh</code> to your <code>lhcb-ntuples-gen</code> root folder on <code>glacier</code>,
     then give it execution permission with <code>chmod +x batch_skim.sh</code>.</p>
+<div class="admonition info">
+<p class="admonition-title">Alternative slimming</p>
+<p>At some point, we decided to change our folder structure for storing our rdx tuples (to be easier to find files, but note that this procedure won't work for other tuples, eg. <code>JpsiK</code>). This can be achieved by either continuing with this procedure and following the (new) step 6, or alternatively you can use <code>scripts/step1_slim.py</code> to do this more easily (and also automatically keep track of your total events + failed <code>ganga</code> subjobs!). To use this script, with your copied <code>batch_skim.sh</code> inside <code>lhcb-ntuples-gen/</code>, run</p>
+<div class="highlight"><pre><span></span><code>python<span class="w"> </span>scripts/step1_slim.py<span class="w"> </span>&lt;ganga_output_dir&gt;<span class="w"> </span>&lt;new_slimmed_ntuple_dir&gt;<span class="w"> </span>batch_skim.sh
+<span class="o">(</span>eg.<span class="w"> </span>python<span class="w"> </span>scripts/step1_slim.py<span class="w"> </span>../ntuples_to_merge<span class="w"> </span>ntuples/0.9.12-all_years<span class="w"> </span>batch_skim.sh<span class="o">)</span>
+</code></pre></div>
+<p>This script automatically chooses <code>postprocess/skims/rdx_mc.yml</code> for the slimming. If you run this, the rdx folder structure should be correct, and you can skip steps 4-6.</p>
+</div>
 </li>
 <li>
 <p>Set the input folder and postprocessing rules as needed in <code>batch_skim.sh</code>:</p>
@@ -1989,12 +1997,20 @@ jobs with a index that is greater or equal to the specified index.</p>
 <div class="highlight"><pre><span></span><code>0.9.6-2016-production/Dst_D0-mc-tracker-only
 </code></pre></div>
 </li>
+<li>
+<p>We decided to change our folder naming scheme, so before annexing (in principle this works after annexing too, but it's safer to do it before annexing), if not following the alternative slimming procedure above, run</p>
+<div class="highlight"><pre><span></span><code>python scripts/move_step1_ntuples.py &lt;step1_tuple_dir_old_paths&gt; &lt;output_dir&gt;
+(eg. python scripts/move_step1_ntuples.py ntuples/0.9.100-new_rdx_tuples ntuples/0.9.100-new_rdx_tuples)
+</code></pre></div>
+<p>This script assumes your <code>rdx-run2-analysis</code> and <code>lhcb-ntuples-gen</code> repos live in the same directories; if they don't, you'll have to specify an additional parameter when running the above command <code>-s &lt;path_to_rdx-run2-analysis&gt;/fit/spec/histos.yml</code> (the script references our rdx templates to create the new folder naming scheme).</p>
+</li>
 </ol>
 <h3 id="annex-ntuples">Annex ntuples</h3>
 <div class="admonition info">
 <p class="admonition-title">Info</p>
 <p>We decide to use a pull-request-based workflow for ntuple annexation to
 minimize errors.</p>
+<p>...but if you consider yourself a trusted user (ie. are comfortable enough adding tuples to the annex), you can ignore this section and just annex+commit the tuples on your own.</p>
 </div>
 <ol>
 <li>
@@ -2185,10 +2201,10 @@ The script is located at: <a href="https://github.com/umd-lhcb/lhcb-ntuples-gen/
     
     
       
-      <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.f8cc74c7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.c8b220af.min.js"></script>
+      <script src="../../assets/javascripts/bundle.13a4f30d.min.js"></script>
       
         <script src="../../javascripts/config.js"></script>
       
