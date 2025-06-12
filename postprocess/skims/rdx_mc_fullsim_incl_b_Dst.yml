@@ -1,0 +1,203 @@
+#######################
+# Reconstructed trees #
+#######################
+
+TupleDstANNK/DecayTree:
+    deactivate:
+        # Event diagnostic
+        - "EventInSequence"
+        - "GpsTime"
+        - "OdinTCK"
+        - "BCType"
+        - "BCID"
+        # Global event stuff
+        - "nMuonCoordsS*"
+        # MC Tunes
+        - "*_MC12Tune*"
+        - "*_MC15Tune*"
+        # Kinematics
+        - "*_MM*"
+        # End vertex stuff
+        - "*_ENDVERTEX_COV_"
+        - "*_ENDVERTEX_X*"
+        - "*_ENDVERTEX_Y*"
+        - "*_ENDVERTEX_Z*"
+        # Own PV stuff
+        - "*_OWNPV_COV_"
+        - "*_OWNPV_X*"
+        - "*_OWNPV_Y*"
+        - "*_OWNPV_Z*"
+        # Original vertex stuff
+        - "*_ORIVX_COV_"
+        - "*_ORIVX_X*"
+        - "*_ORIVX_Y*"
+        - "*_ORIVX_Z*"
+        # Detector stuff
+        - "*_Rich*"
+        - "*_MuonBkgLL"
+        - "*_MuonMuLL"
+        - "*_MuonNShared"
+        - '*_MuonChi2Corr'
+        - "*_InAcc*"
+        - "*_EcalPID*"
+        - "*_HcalPID*"
+        - "*_PrsPID*"
+        - "*_BremPID*"
+        - "*_VeloCharge"
+        - "*_isMuonLoose"
+        - "*_UsedRich*"
+        - "*_Calo*"
+
+TupleDstANNPi/DecayTree:
+    deactivate:
+        # Event diagnostic
+        - "EventInSequence"
+        - "GpsTime"
+        - "OdinTCK"
+        - "BCType"
+        - "BCID"
+        # Global event stuff
+        - "nMuonCoordsS*"
+        # MC Tunes
+        - "*_MC12Tune*"
+        - "*_MC15Tune*"
+        # Kinematics
+        - "*_MM*"
+        # End vertex stuff
+        - "*_ENDVERTEX_X*"
+        - "*_ENDVERTEX_Y*"
+        - "*_ENDVERTEX_Z*"
+        - "*_ENDVERTEX_COV_"
+        # Own PV stuff
+        - "*_OWNPV_X*"
+        - "*_OWNPV_Y*"
+        - "*_OWNPV_Z*"
+        - "*_OWNPV_COV_"
+        # Original vertex stuff
+        - "*_ORIVX_X*"
+        - "*_ORIVX_Y*"
+        - "*_ORIVX_Z*"
+        - "*_ORIVX_COV_"
+        # Detector stuff
+        - "*_Rich*"
+        - "*_MuonBkgLL"
+        - "*_MuonMuLL"
+        - "*_MuonNShared"
+        - '*_MuonChi2Corr'
+        - "*_InAcc*"
+        - "*_EcalPID*"
+        - "*_HcalPID*"
+        - "*_PrsPID*"
+        - "*_BremPID*"
+        - "*_VeloCharge"
+        - "*_isMuonLoose"
+        - "*_UsedRich*"
+        - "*_Calo*"
+
+TuplePiDiF/DecayTree:
+    deactivate:
+        # Event diagnostic
+        - "EventInSequence"
+        - "GpsTime"
+        - "OdinTCK"
+        - "BCType"
+        - "BCID"
+        # MC Tunes
+        - "*_MC12Tune*"
+        - "*_MC15Tune*"
+        # Own PV stuff
+        - "*_OWNPV_X*"
+        - "*_OWNPV_Y*"
+        - "*_OWNPV_Z*"
+        - "*_OWNPV_COV_"
+        # Detector stuff
+        - "*_Rich*"
+        - "*_MuonBkgLL"
+        - "*_MuonMuLL"
+        - "*_MuonNShared"
+        - '*_MuonChi2Corr'
+        - "*_InAcc*"
+        - "*_EcalPID*"
+        - "*_HcalPID*"
+        - "*_PrsPID*"
+        - "*_BremPID*"
+        - "*_VeloCharge"
+        - "*_isMuonLoose"
+        - "*_UsedRich*"
+        - "*_Calo*"
+
+TupleKDiF/DecayTree:
+    deactivate:
+        # Event diagnostic
+        - "EventInSequence"
+        - "GpsTime"
+        - "OdinTCK"
+        - "BCType"
+        - "BCID"
+        # MC Tunes
+        - "*_MC12Tune*"
+        - "*_MC15Tune*"
+        # Own PV stuff
+        - "*_OWNPV_X*"
+        - "*_OWNPV_Y*"
+        - "*_OWNPV_Z*"
+        - "*_OWNPV_COV_"
+        # Detector stuff
+        - "*_Rich*"
+        - "*_MuonBkgLL"
+        - "*_MuonMuLL"
+        - "*_MuonNShared"
+        - '*_MuonChi2Corr'
+        - "*_InAcc*"
+        - "*_EcalPID*"
+        - "*_HcalPID*"
+        - "*_PrsPID*"
+        - "*_BremPID*"
+        - "*_VeloCharge"
+        - "*_isMuonLoose"
+        - "*_UsedRich*"
+        - "*_Calo*"
+
+Ghost/DecayTree:
+    deactivate:
+        # Event diagnostic
+        - "EventInSequence"
+        - "GpsTime"
+        - "OdinTCK"
+        - "BCType"
+        - "BCID"
+        # MC Tunes
+        - "*_MC12Tune*"
+        - "*_MC15Tune*"
+        # Kinematics
+        - "*_MM*"
+        # End vertex stuff
+        - "*_ENDVERTEX_X*"
+        - "*_ENDVERTEX_Y*"
+        - "*_ENDVERTEX_Z*"
+        - "*_ENDVERTEX_COV_"
+        # Own PV stuff
+        - "*_OWNPV_X*"
+        - "*_OWNPV_Y*"
+        - "*_OWNPV_Z*"
+        - "*_OWNPV_COV_"
+        # Original vertex stuff
+        - "*_ORIVX_X*"
+        - "*_ORIVX_Y*"
+        - "*_ORIVX_Z*"
+        - "*_ORIVX_COV_"
+        # Detector stuff
+        - "*_Rich*"
+        - "*_MuonBkgLL"
+        - "*_MuonMuLL"
+        - "*_MuonNShared"
+        - '*_MuonChi2Corr'
+        - "*_InAcc*"
+        - "*_EcalPID*"
+        - "*_HcalPID*"
+        - "*_PrsPID*"
+        - "*_BremPID*"
+        - "*_VeloCharge"
+        - "*_isMuonLoose"
+        - "*_UsedRich*"
+        - "*_Calo*"
