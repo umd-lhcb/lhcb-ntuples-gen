@@ -1,0 +1,10 @@
+keep:
+    - ".*"
+
+one_cand_only:
+    enable: false
+    branch: calculation_prs_in
+
+output:
+    Ghost:
+        input: Ghost/DecayTree
