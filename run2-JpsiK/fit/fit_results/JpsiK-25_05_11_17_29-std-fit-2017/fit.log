@@ -1,0 +1,61 @@
+/home/alex/lhcb-ntuples-gen/.virtualenv/lib/python3.8/site-packages/tensorflow_addons/utils/ensure_tf_install.py:53: UserWarning: Tensorflow Addons supports using Python ops for all Tensorflow versions above or equal to 2.7.0 and strictly below 2.10.0 (nightly versions are not supported). 
+ The versions of TensorFlow you are currently using is 2.6.5 and is not supported. 
+Some things might work, some things might not.
+If you were to encounter a bug, do not file an issue.
+If you want to make sure you're using a tested and supported configuration, either change the TensorFlow version or the TensorFlow Addons's version. 
+You can find the compatibility matrix in TensorFlow Addon's readme:
+https://github.com/tensorflow/addons
+  warnings.warn(
+Total events in data: 854635
+Initialize fit model...
+y range is: -18.9085543833089, 31.027749061975978
+y major ticks are: -0.12198431194182179,0.3786534660905962,0.8792912441230141,1.3799290221554321
+Max y tick is at: 0.8792912441230141
+Added y pad. Now y max is: 43.527749061975975
+Start to fit...
+Compute errors...
+Fit & error computation took a total of 27.22 sec.
+Fit result:
+FitResult of
+<ExtendedUnbinnedNLL model=[<zfit.<class 'zfit.models.functor.SumPDF'>  params=[Composed_autoparam_3, Composed_autoparam_4]] data=[<zfit.core.data.Data object at 0x7f947c237bb0>] constraints=[]> 
+with
+<Minuit Minuit tol=0.001>
+
+╒═════════╤═════════════╤══════════════════╤═════════╤═════════════╕
+│ valid   │ converged   │ param at limit   │ edm     │ min value   │
+╞═════════╪═════════════╪══════════════════╪═════════╪═════════════╡
+│ True    │ True        │ False            │ 0.00055 │ -948.5      │
+╘═════════╧═════════════╧══════════════════╧═════════╧═════════════╛
+
+Parameters
+name              value    minuit_hesse    at limit
+-------------  --------  --------------  ----------
+yld_bkg_ratio    0.2232     +/- 0.00077       False
+yld_sig_ratio    0.7768     +/-  0.0011       False
+expc           -0.00156     +/- 3.2e-05       False
+frac_sig_cb      0.3362     +/-   0.084       False
+frac_sig_g       0.6919     +/-   0.013       False
+alpha             1.743     +/-   0.089       False
+peak               5280     +/-   0.012       False
+n_cb              6.379     +/-       2       False
+width_cb          13.75     +/-    0.23       False
+width_g_sig       7.547     +/-   0.048       False
+width_g2_sig      13.91     +/-     1.1       False
+Compute sWeights...
+Dump result...
+Plot fitting results...
+y range is: -5.054125396751384, 5.986796784431472
+y major ticks are: -0.4479584695993887,0.004902253259571935,0.45776297611853256,0.9106236989774932,1.363484421836454
+Max y tick is at: 0.9106236989774932
+Added y pad. Now y max is: 8.486796784431473
+y range is: -5.054125396751384, 5.986796784431472
+y major ticks are: -0.4479584695993887,0.004902253259571935,0.45776297611853256,0.9106236989774932,1.363484421836454
+Max y tick is at: 0.9106236989774932
+Added y pad. Now y max is: 8.486796784431473
+
+ntuple with s-weights at gen//JpsiK-25_05_11_17_29-std-fit-2017/fit.root
+
+
+ open gen//JpsiK-25_05_11_17_29-std-fit-2017/fit_final.pdf
+ open gen//JpsiK-25_05_11_17_29-std-fit-2017/fit_final_log_scale.pdf
+

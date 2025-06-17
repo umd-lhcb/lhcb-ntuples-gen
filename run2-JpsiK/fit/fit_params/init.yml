@@ -39,7 +39,7 @@ frac_sig_g:
 
 # bkg
 expc:
-    value: -0.0018
+    value: -0.0015
     lower: -0.01
     upper: 0
 
@@ -53,11 +53,11 @@ expc:
 
 # yield ratios
 yld_sig_ratio:
-    value: 0.81
+    value: 0.77
     lower: 0
     upper: 1.0
 yld_bkg_ratio:
-    value: 0.18
+    value: 0.23
     lower: 0
     upper: 0.35
 #yld_tail_ratio:

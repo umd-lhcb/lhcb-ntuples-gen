@@ -30,7 +30,7 @@ from pyTuplingUtils.plot import (
 # Config #
 ##########
 
-MODEL_BDY = (5150, 5350)
+MODEL_BDY = (5150, 5450)
 
 
 #######################
@@ -82,6 +82,8 @@ def parse_input():
                             'b_p',
                             'b_pt',
                             'b_eta',
+                            'l0_mu_tos_pt',
+                            'nspdhits'
                         ],
                         help='specify extra branches to save in output ntuple.')
 
@@ -97,8 +99,8 @@ def filter_dict(dct):
     value = dct['value']
     return {
         'value': value,
-        'lower': value + dct['minuit_minos']['lower'],
-        'upper': value + dct['minuit_minos']['upper'],
+        'lower': value - float(dct['minuit_hesse']['error']),
+        'upper': value + float(dct['minuit_hesse']['error']),
     }
 
 
@@ -298,7 +300,8 @@ def fit(obs, fit_var, fit_model):
     result = minimizer.minimize(loss=nll)
 
     print('Compute errors...')
-    result.errors(method='minuit_minos')
+    result.hesse()
+    # result.errors(method='minuit_minos')
 
     print(f'Fit & error computation took a total of {time.time() - time_start:.2f} sec.')
     return result, nll
