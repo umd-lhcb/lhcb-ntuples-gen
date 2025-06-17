@@ -153,7 +153,8 @@ def workflow_trigger_emu(input_ntp, output_ntp='trg_emu.root',
                          trees=['TupleB0/DecayTree', 'TupleBminus/DecayTree'],
                          **kwargs):
     Bmeson = lambda tree: 'b0' if 'B0' in tree else 'b'
-    cmd = [f'run2-rdx-trg_emu.py {input_ntp} {output_ntp} -t {t} -B {Bmeson(t)}'
+    year = find_year(input_ntp)
+    cmd = [f'run2-rdx-trg_emu.py {input_ntp} {output_ntp} -t {t} -B {Bmeson(t)} -y {year} -c -l <triggers/l0/xgb4-{year}.pickle>'
            for t in trees]
     return workflow_cached_ntuple(
         cmd, input_ntp, output_ntp, '--aux_trg_emu', **kwargs)
