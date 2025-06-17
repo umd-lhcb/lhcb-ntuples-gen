@@ -1,0 +1,16 @@
+trees:
+    - tree
+
+config:
+    wpid_mu:
+        particle: Mu_nopt
+        vars:
+            - GUARD(mu_P, 3000.0, 300000.0)
+            - GUARD(ETA(mu_P, mu_PZ), 1.5, 5.0)
+            - GUARD(nTracks, 0, 500)
+    wpid_amu:
+        particle: Mu_nopt
+        vars:
+            - GUARD(amu_P, 3000.0, 300000.0)
+            - GUARD(ETA(amu_P, amu_PZ), 1.5, 5.0)
+            - GUARD(nTracks, 0, 500)
