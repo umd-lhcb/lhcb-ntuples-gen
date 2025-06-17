@@ -1,0 +1,151 @@
+#######################
+# Reconstructed trees #
+#######################
+# NOTE: This is for TO MC!
+
+TupleB0/DecayTree:
+    keep: true
+    # deactivate:
+    #     # Event diagnostic
+    #     # - "*RoutingBits*"
+    #     - "EventInSequence"
+    #     - "GpsTime"
+    #     - "OdinTCK"
+    #     # Generic MC stuff
+    #     - "MCVertex*"
+    #     - "MCVirtualMass"
+    #     # Global event stuff
+    #     - "NumPVs"
+    #     - "NumProtoParticles"
+    #     - "NumMuonCoordsS*"
+    #     - "NumGhosts"
+    #     # MC Tunes
+    #     - "*_MC12Tune*"
+    #     - "*_MC15Tune*"
+    #     # Discard Mu
+    #     - "*_DISCARDMu_*ERR"
+    #     # Kinematics
+    #     - "*_MMERR"
+    #     # End vertex stuff
+    #     - "*_ENDVERTEX_COV_"
+    #     - "*_ENDVERTEX_X*"
+    #     - "*_ENDVERTEX_Y*"
+    #     - "*_ENDVERTEX_Z*"
+    #     - "*_TRUEENDVERTEX_*"
+    #     # Own PV stuff
+    #     - "*_OWNPV_COV_"
+    #     - "*_OWNPV_X*"
+    #     - "*_OWNPV_Y*"
+    #     - "*_OWNPV_Z*"
+    #     # Original vertex stuff
+    #     - "*_ORIVX_COV_"
+    #     - "*_ORIVX_X*"
+    #     - "*_ORIVX_Y*"
+    #     - "*_ORIVX_Z*"
+    #     - "*_TRUEORIGINVERTEX_*"
+    #     # Track stuff
+    #     - "*_TRACK_FirstMeasurement*"
+    #     - "*_TRACK_CloneDist"
+    #     - "*_TRACK_*_UTID"
+    #     - "*_TRACK_History"
+    #     # Detector stuff
+    #     - "*_Rich*"
+    #     - "*_MuonBkgLL"
+    #     - "*_MuonMuLL"
+    #     - "*_MuonNShared"
+    #     - "*_InAcc*"
+    #     - "*_EcalPID*"
+    #     - "*_HcalPID*"
+    #     - "*_PrsPID*"
+    #     - "*_BremPID*"
+    #     - "*_VeloCharge"
+    #     - "*_isMuonLoose"
+    #     - "*_UsedRich*"
+    #     - "*_Calo*"
+    #     # L0Calo
+    #     - '*_L0Calo_HCAL_*Trigger*'
+    #     # Additional removal for TO
+    #     - 'RecoPIDcode'
+    #     - 'Rich*'
+    #     - 'Prs*'
+    #     - 'Calo*'
+    #     - 'InAcc*'
+    #     - 'Ecal*'
+    #     - 'Hcal*'
+    #     # Triggers
+    #     - '*L0*Decision*'
+    #     - '*Hlt1*Decision*'
+    #     - '*Hlt2*Decision*'
+    #     - '*L0Global*'
+    #     - '*Hlt1Global*'
+    #     - '*Hlt2Global*'
+    #     - '*Hlt1Phys*'
+    #     - 'L0nSelections'
+    #     - 'Hlt1nSelections'
+    #     - 'Hlt2nSelections'
+    #     # PID
+    #     - 'MuonIs*'
+    #     - 'CombDLL*'
+    #     - 'BremPID*'
+    #     - '*_ISOLATION_NNk*'
+    #     - '*_ISOLATION_NNp*'
+    #     - '*_ISOLATION_NNpi*'
+    #     - '*_ISOLATION_IsMuon*'
+    #     - '*_PID*'
+    #     - '*_ProbNN*'
+    #     - '*_isMuon*'
+    #     - '*_MuonChi2Corr'
+    #     - '*_MuonDist2'
+    #     - '*_MuonLL*'
+    #     - '*_CombDLL*'
+    #     # Diagnostics for Hlt1TwoTrackMVA BDT
+    #     - '*_Matrixnet_*chi2'
+    #     - '*_Matrixnet_*nlt'
+    #     - '*_Matrixnet_*sumpt'
+
+    # activate:
+    #     - "b0_ENDVERTEX_X"
+    #     - "b0_ENDVERTEX_Y"
+    #     - "b0_ENDVERTEX_Z"
+    #     - "b0_OWNPV_X"
+    #     - "b0_OWNPV_Y"
+    #     - "b0_OWNPV_Z"
+
+TupleBminus/DecayTree:
+    keep: false
+#     deactivate: TupleB0/DecayTree
+#     activate:
+#         - "b_ENDVERTEX_X"
+#         - "b_ENDVERTEX_Y"
+#         - "b_ENDVERTEX_Z"
+#         - "b_OWNPV_X"
+#         - "b_OWNPV_Y"
+#         - "b_OWNPV_Z"
+
+##################
+# MC truth trees #
+##################
+
+# MCTupleB0Tau/MCDecayTree:
+#     deactivate:
+#         - "EventInSequence"
+#         - "GpsTime"
+#         - "*TCK"
+#         - "*_TRUEENDVERTEX_*"
+#         - "*_TRUEORIGINVERTEX_*"
+
+# MCTupleB0Mu/MCDecayTree:
+#     deactivate: MCTupleB0Tau/MCDecayTree
+
+# MCTupleBminusTau/MCDecayTree:
+#     deactivate: MCTupleB0Tau/MCDecayTree
+
+# MCTupleBminusMu/MCDecayTree:
+#     deactivate: MCTupleB0Tau/MCDecayTree
+
+########
+# MISC #
+########
+
+GetIntegratedLuminosity/LumiTuple:
+    keep: false
