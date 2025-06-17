@@ -162,7 +162,7 @@ def workflow_trigger_emu(input_ntp, output_ntp='trg_emu.root',
 @smart_kwarg
 def workflow_pid(
         input_ntp, output_ntp='pid.root',
-        pid_histo_folder='../run2-rdx/reweight/pid/old/root-run2-rdx_oldcut-shifted',
+        pid_histo_folder='../run2-rdx/reweight/pid/all-run2-pid',
         pid_config='../run2-rdx/reweight/pid/run2-rdx_oldcut.yml',
         **kwargs):
     return workflow_apply_weight(input_ntp, pid_histo_folder, pid_config,
@@ -217,7 +217,7 @@ def workflow_misid(
 @smart_kwarg
 def workflow_vertex(
         input_ntp, output_ntp='vertex.root',
-        vertex_aux_ntp='../run2-rdx/reweight/vertex/smearing_vec.root',
+        vertex_aux_ntp='../run2-rdx/reweight/vertex/run2_vertex_smear.root',
         **kwargs):
     aux_ntp = abs_path(vertex_aux_ntp)
 
@@ -525,6 +525,20 @@ JOBS = {
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
         use_hammer=False,
         num_of_workers=20
+    ),
+    # Run 2 fullsim MC D*(mu/tau)nu
+    'Dst_D0-mc-fullsim-1718-Dstlnu': partial(
+        workflow_split,
+        '../ntuples/0.9.13-JpsiK_and_Dstlnu_fullsim_for_L0emu_initrwgt/Dstlnu-mc/20*/*/*/*',
+        '../postprocess/rdx-run2/rdx-run2_fullsim.yml',
+        num_of_workers=20
+    ),
+    'Dst_D0-mc-fullsim-16-Dstlnu': partial(
+        workflow_split,
+        '../ntuples/0.9.4-trigger_emulation/Dst_D0-mc/*--mc--MC_2016_*',
+        '../postprocess/rdx-run2/rdx-run2_fullsim.yml',
+        num_of_workers=20,
+        use_hammer=False # I think step1 produced before figured out how to use HAMMER correctly... these tuples only used to verify TIS portability from JpsiK, so I'll just ignore wff here
     ),
     # Run 2 MC tracker only
     'Dst_D0-mc-tracker_only-sig_norm': partial(

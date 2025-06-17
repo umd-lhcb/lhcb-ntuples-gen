@@ -37,7 +37,10 @@ calculation:
     # B
     b_m: double; b_M
     b_p: double; b_P
+    b_pz: double; b_PZ
     b_pt: double; b_PT
+    b_true_pz: double; b_TRUEP_Z
+    b_true_pt: double; b_TRUEPT
     b_eta: double; ETA(b_P, b_PZ)
     # J/psi
     # For M vs MM, see https://github.com/lhcb/first-analysis-steps/pull/148
@@ -105,17 +108,20 @@ calculation:
     # Selection flags, basic #
     ##########################
     # Trigger
-    l0: bool; b_l0_muon_tos
-    l0mupt: bool; L0MUPT(mu_pt, mu_L0MuonDecision_TOS, amu_pt, amu_L0MuonDecision_TOS)
+    l0_mu_tos: bool; b_l0_muon_tos
+    l0_mu_tos_pt: bool; L0MUPT(mu_pt, mu_L0MuonDecision_TOS, amu_pt, amu_L0MuonDecision_TOS)
+    l0: bool; l0_mu_tos_pt || b_l0_global_tis
     hlt1: bool; b_hlt1_trackmu_tos
     hlt2: bool; b_hlt2_dimuon_heavy_tos
+    nspd_ok: bool; nspdhits < 450 # L0 DiMuon has nspd cut at 900, whereas all other lines have it at 450; this cut mostly removes
+                                  # inconsistency due to underlying occupancy distributions when combining Global TIS + Muon TOS samples
 
     # Kinematic
     pt_ok: bool; mu_pt > 500.0 && amu_pt > 500.0 && k_pt > 500.0
-    b_mass_ok: bool; b_m > 5150.0 && b_m < 5350.0  # fit range
+    b_mass_ok: bool; b_m > 5150.0 && b_m < 5450.0  # fit range
     j_mass_ok: bool; j_mm > 3060.0 && j_mm < 3140.0
 
-    # PID
+    # PID- note: stripping has PIDK,mu>0, isMuon (all applied to both mu, amu). Better to use PIDCalib weights for MC if possible, so set this to true
     pid_ok: >-
         bool; IF_VAR_EXISTS(mc_id, true);
         k_pid_k > 4.0 && mu_pid_mu > 2.0 && amu_pid_mu > 2.0
@@ -130,14 +136,18 @@ calculation:
     ###########
     # Weights #
     ###########
-    wpid: "double; IF(wpid_k > 1.0, 1.0, wpid_k)*IF(wpid_mu > 1.0, 1.0, wpid_mu)*IF(wpid_amu > 1.0, 1.0, wpid_amu)"
+    wpid: double; IF(wpid_k > 1.0, 1.0, wpid_k)*IF(wpid_mu > 1.0, 1.0, wpid_mu)*IF(wpid_amu > 1.0, 1.0, wpid_amu) # these should be shifted into [0,1] already, but double-check
     wtrk: double; wtrk_k*wtrk_mu*wtrk_amu
-    wjk: double; wjk_occ*wjk_kin
-    w: double; wpid*wtrk*wjk
+    # nominally use JpsiK weights where, for PID, used weights for DLLK and DLLmu, cuts for isMuon (L0 Muon TOS highly correlated with the isMuon)
+    wjk_occ: double; wjk_PIDweights_IsMuonCut_occ
+    wjk_kin: double; wjk_PIDweights_IsMuonCut_kin
+    wjk: double; IF(wjk_occ*wjk_kin > 100.0, 100.0, wjk_occ*wjk_kin)
+    pid_mc_ok: bool; mu_ismu && amu_ismu # && mu_pid_mu > 2.0 && amu_pid_mu > 2.0
+    w: double; wpid*wtrk*wjk*pid_mc_ok
 
 global_selection:
-    - hlt1 && hlt2
-    - pt_ok && b_mass_ok && j_mass_ok
+    - l0 && hlt1 && hlt2 # comment out if producing trigger-less sample for real L0 Global TIS measurements!
+    - nspd_ok && pt_ok && b_mass_ok && j_mass_ok
     - vtx_ok
     - pid_ok  # This is set to be always true for MC
     - truthmatch
