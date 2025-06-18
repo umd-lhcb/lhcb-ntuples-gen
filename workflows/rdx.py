@@ -154,7 +154,7 @@ def workflow_trigger_emu(input_ntp, output_ntp='trg_emu.root',
                          **kwargs):
     Bmeson = lambda tree: 'b0' if 'B0' in tree else 'b'
     year = find_year(input_ntp)
-    cmd = [f'run2-rdx-trg_emu.py {input_ntp} {output_ntp} -t {t} -B {Bmeson(t)} -y {year} -c -l <triggers/l0/xgb4-{year}.pickle>'
+    cmd = [f'run2-rdx-trg_emu.py {input_ntp} {output_ntp} -t {t} -B {Bmeson(t)} -y {year} -c -l \"<triggers/l0/xgb4-{year}.pickle>\"'
            for t in trees]
     return workflow_cached_ntuple(
         cmd, input_ntp, output_ntp, '--aux_trg_emu', **kwargs)
@@ -221,7 +221,7 @@ def workflow_vertex(
         vertex_aux_ntp='../run2-rdx/reweight/vertex/run2_vertex_smear.root',
         **kwargs):
     aux_ntp = abs_path(vertex_aux_ntp)
-    year = find_year(input_ntp)
+    year = find_year(input_ntp)[-2:] # use 16,17,18 for tree name defs here
 
     cmd = f'ApplyVertexSmear -i {input_ntp} -o {output_ntp} -x {aux_ntp} -y {year}'
     return workflow_cached_ntuple(
@@ -470,7 +470,40 @@ JOBS = {
         prefix='Jpsi',
         particle='BachMu'
     ),
-    # Run 2 data
+    # Run 2 data (all years)
+    'Dst_D0-std-all': partial(
+        workflow_split,
+        '../ntuples/0.9.12-all_years/201*/data/*std*',
+        '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
+    ),
+    'Dst_D0-mu_misid-all': partial(
+        workflow_split,
+        '../ntuples/0.9.12-all_years/201*/data/*fake_mu*',
+        '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
+        cli_vars={'cli_misid': 'true'},
+        use_misid=True,
+        use_ubdt=False
+    ),
+    'Dst_D0-mu_misid-vmu-all': partial(
+        workflow_split,
+        '../ntuples/0.9.12-all_years/201*/data/*fake_mu*',
+        '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
+        cli_vars={
+            'cli_misid': 'true',
+            'cli_vmu': 'true'
+        },
+        use_misid=True,
+        use_ubdt=False,
+        ctrl_sample=True
+    ),
+    'rdx-ntuple-run2-misid_study-all': partial(
+        workflow_split,
+        '../ntuples/0.9.12-all_years/201*/data/*fake_mu*',
+        '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
+        cli_vars={'cli_misid_study': 'true'},
+        use_ubdt=False
+    ),
+    # Run 2 data (old, only 2016)
     'Dst_D0-std': partial(
         workflow_split,
         '../ntuples/0.9.6-2016_production/Dst_D0-std/',
@@ -497,7 +530,7 @@ JOBS = {
         cli_vars={'cli_misid_study': 'true'},
         use_ubdt=False
     ),
-    # Run 2 MC
+    # Some special run 2 MC
     'rdx-ntuple-run2-mc_ghost': partial(
         workflow_split_mc_ghost,
         '../ntuples/0.9.7-rdx_production/Dst_D0-ghost/Dst_D0--*ghost_norm*',
@@ -543,6 +576,71 @@ JOBS = {
         use_hammer=False # I think step1 produced before figured out how to use HAMMER correctly... these tuples only used to verify TIS portability from JpsiK, so I'll just ignore wff here
     ),
     # Run 2 MC tracker only
+    'Dst_D0-mc-tracker_only-sig_norm-all': partial(
+        workflow_split,
+        [
+            # D0
+            '../ntuples/0.9.12-all_years/201*/norm_D0Mu/*12573012*', # norm
+            '../ntuples/0.9.12-all_years/201*/sig/*12573001*', # sig
+            # D*
+            '../ntuples/0.9.12-all_years/201*/norm_DstMu/*11574021*', # norm, D*
+            '../ntuples/0.9.12-all_years/201*/norm_Dst0Mu/*12773410*', # norm, D*0
+            '../ntuples/0.9.12-all_years/201*/sig/*11574011*', # sig, D*
+            '../ntuples/0.9.12-all_years/201*/sig/*12773400*', # sig, D*0
+        ],
+        '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
+        # use_hammer_alt=True,
+        use_hammer_dstrun1=True,
+        num_of_workers=20
+    ),
+    'Dst_D0-mc-tracker_only-DDX-all': partial(
+        workflow_split,
+        [f'../ntuples/0.9.12-all_years/201*/DDX/*{i}*'
+            for i in [
+                11894600, 12893600, 11894200, 12893610,
+                11894610, 12895400, 11894210, 12895000,
+                11895400
+            ]
+         ]
+         +
+         [f'../ntuples/0.9.12-all_years/201*/DDX/*{i}*' for i in [11894400, 12895410]] # DDspi for the D* (unused D0 ntuples with DDspi also produced)
+        ,
+        '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
+        use_hammer=False,
+        num_of_workers=20
+    ),
+    'Dst_D0-mc-tracker_only-Dstst-all': partial(
+        workflow_split,
+        [
+            f'../ntuples/0.9.12-all_years/201*/Dstst/*{i}*'
+            for i in [11874430, 11874440, 12873450, 12873460]
+        ],
+        '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
+        # use_hammer_alt=True,
+        use_hammer_no_rescale=True, # not nominally used for D**
+        num_of_workers=20
+    ),
+    'Dst_D0-mc-tracker_only-Dstst_heavy-all': partial(
+        workflow_split,
+        [
+            f'../ntuples/0.9.12-all_years/201*/Dstst_heavy/*{i}*'
+            for i in [12675011, 11674401, 12675402, 11676012, 12875440]
+        ],
+        '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
+        use_hammer=False,
+        num_of_workers=20
+    ),
+    'Dst_D0-mc-tracker_only-D_s-all': partial(
+        workflow_split,
+        [
+            f'../ntuples/0.9.12-all_years/201*/Ds/*{i}*'
+            for i in [13874020, 13674000]
+        ],
+        '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
+        # use_hammer_alt=True,
+        num_of_workers=20
+    ),
+    # Run 2 MC tracker only (old, only 2016)
     'Dst_D0-mc-tracker_only-sig_norm': partial(
         workflow_split,
         [
