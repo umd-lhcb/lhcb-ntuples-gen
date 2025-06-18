@@ -221,8 +221,9 @@ def workflow_vertex(
         vertex_aux_ntp='../run2-rdx/reweight/vertex/run2_vertex_smear.root',
         **kwargs):
     aux_ntp = abs_path(vertex_aux_ntp)
+    year = find_year(input_ntp)
 
-    cmd = f'ApplyVertexSmear -i {input_ntp} -o {output_ntp} -x {aux_ntp}'
+    cmd = f'ApplyVertexSmear -i {input_ntp} -o {output_ntp} -x {aux_ntp} -y {year}'
     return workflow_cached_ntuple(
         cmd, input_ntp, output_ntp, '--aux_vertex', **kwargs)
 
