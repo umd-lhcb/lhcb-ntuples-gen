@@ -2,7 +2,7 @@
   description = "ntuple generation with DaVinci and babymaker.";
 
   inputs = {
-    root-curated.url = "github:umd-lhcb/root-curated";
+    root-curated.url = "github:umd-lhcb/root-curated/lmg_misid_validation_fit";
     nixpkgs.follows = "root-curated/nixpkgs";
     flake-utils.follows = "root-curated/flake-utils";
 
