@@ -32,7 +32,7 @@ isPi       = 'mcMatch("[pi+]cc")'
 isP        = 'mcMatch("[p+]cc")'
 isE        = 'mcMatch("[e-]cc")'
 isMu       = 'mcMatch("[mu-]cc")'
-isGhost    = f'(NINTREE( {isK} | {isPi} | {isP} | {isE} | {isMu} ) < 1)'
+isEorGhost    = f'(NINTREE( {isK} | {isPi} | {isP} | {isMu} ) < 1)'
 isKLoose   = f'( {isK}  | ({isMu} & {fromK} ) )'
 isPiLoose  = f'( {isPi} | ({isMu} & {fromPi}) )'
 
@@ -208,79 +208,79 @@ DaVinci().UserAlgorithms += [
 ]
 
 
-################
-# ghost tracks #
-################
+######################
+# e and ghost tracks #
+######################
 
-# Select true ghost tracks
-filterGhost = FilterDesktop(
-    'FilterGhost',
+# Select true e and ghost tracks
+filterEorGhost = FilterDesktop(
+    'FilterEorGhost',
     Code=
-    f'ISLONG & {isGhost} & (TRGHOSTPROB < 0.5) & in_range(3000, P, 100000)',
+    f'ISLONG & {isEorGhost} & (TRGHOSTPROB < 0.5) & in_range(3000, P, 100000)',
     Preambulo=mc_match_preambulo)
 
-selectionGhost = Selection('SelGhost',
-                           Algorithm=filterGhost,
-                           RequiredSelections=[StdAllNoPIDsMuons])
+selectionEorGhost = Selection('SelEorGhost',
+                              Algorithm=filterEorGhost,
+                              RequiredSelections=[StdAllNoPIDsMuons])
 
 # define D0 -> K pi decay
-D02KPiDauCutsGhost = {'K-': 'ALL', 'pi+': 'ALL'}
-D02KPiComCutsGhost = 'AALL'
-D02KPiMotCutsGhost = 'ALL'
-D02KPiCombinationGhost = CombineParticles('CombD02KPiGhost',
-                                          DecayDescriptor='[D0 -> K- pi+]cc',
-                                          MotherCut=D02KPiMotCutsGhost,
-                                          DaughtersCuts=D02KPiDauCutsGhost,
-                                          CombinationCut=D02KPiComCutsGhost)
-D02KPiGhost = Selection('SelD02KPiGhost',
-                        Algorithm=D02KPiCombinationGhost,
-                        RequiredSelections=[selectionK, selectionPi])
+D02KPiDauCutsEorGhost = {'K-': 'ALL', 'pi+': 'ALL'}
+D02KPiComCutsEorGhost = 'AALL'
+D02KPiMotCutsEorGhost = 'ALL'
+D02KPiCombinationEorGhost = CombineParticles('CombD02KPiEorGhost',
+                                             DecayDescriptor='[D0 -> K- pi+]cc',
+                                             MotherCut=D02KPiMotCutsEorGhost,
+                                             DaughtersCuts=D02KPiDauCutsEorGhost,
+                                             CombinationCut=D02KPiComCutsEorGhost)
+D02KPiEorGhost = Selection('SelD02KPiEorGhost',
+                           Algorithm=D02KPiCombinationEorGhost,
+                           RequiredSelections=[selectionK, selectionPi])
 
 # define D* -> D0 pi decay
-Dst2D0PiDauCutsGhost = {'D0': 'ALL', 'pi+': 'ALL'}
-Dst2D0PiComCutsGhost = 'AALL'
-Dst2D0PiMotCutsGhost = 'ALL'
-Dst2D0PiCombinationGhost = CombineParticles(
-    'CombDst2D0PiGhost',
+Dst2D0PiDauCutsEorGhost = {'D0': 'ALL', 'pi+': 'ALL'}
+Dst2D0PiComCutsEorGhost = 'AALL'
+Dst2D0PiMotCutsEorGhost = 'ALL'
+Dst2D0PiCombinationEorGhost = CombineParticles(
+    'CombDst2D0PiEorGhost',
     DecayDescriptor='[D*(2010)+ -> D0 pi+]cc',
-    MotherCut=Dst2D0PiMotCutsGhost,
-    DaughtersCuts=Dst2D0PiDauCutsGhost,
-    CombinationCut=Dst2D0PiComCutsGhost)
-Dst2D0PiGhost = Selection('SelDst2D0PiGhost',
-                          Algorithm=Dst2D0PiCombinationGhost,
-                          RequiredSelections=[D02KPiGhost, selectionPiSoft])
+    MotherCut=Dst2D0PiMotCutsEorGhost,
+    DaughtersCuts=Dst2D0PiDauCutsEorGhost,
+    CombinationCut=Dst2D0PiComCutsEorGhost)
+Dst2D0PiEorGhost = Selection('SelDst2D0PiEorGhost',
+                             Algorithm=Dst2D0PiCombinationEorGhost,
+                             RequiredSelections=[D02KPiEorGhost, selectionPiSoft])
 
-# define ghost B -> D* mu decay (with signal D* + ghost track as mu)
+# define e/ghost B -> D* mu decay (with signal D* + e/ghost track as mu)
 B02DstMuDauCuts = {'D*(2010)+': 'ALL', 'mu-': 'ALL'}
 B02DstMuComCuts = 'AALL'
 B02DstMuMotCuts = 'VFASPF(VCHI2/VDOF) < 6.0'
 B02DstMuCombination = CombineParticles(
-    'CombB02DstGhost',
+    'CombB02DstEorGhost',
     DecayDescriptor='[B~0 -> D*(2010)+ mu-]cc',
     MotherCut=B02DstMuMotCuts,
     DaughtersCuts=B02DstMuDauCuts,
     CombinationCut=B02DstMuComCuts)
-B02DstMu = Selection('SelB02DstGhost',
+B02DstMu = Selection('SelB02DstEorGhost',
                      Algorithm=B02DstMuCombination,
-                     RequiredSelections=[Dst2D0PiGhost, selectionGhost])
+                     RequiredSelections=[Dst2D0PiEorGhost, selectionEorGhost])
 
-dttGhost = DecayTreeTuple('Ghost')
-dttGhost.setDescriptorTemplate(
+dttEorGhost = DecayTreeTuple('EorGhost')
+dttEorGhost.setDescriptorTemplate(
     '${b0}[B~0 -> ${dst}(D*(2010)+ -> ${d0}(D0 -> ${k}K- ${pi}pi+) ${spi}pi+) ${mu}mu-]CC'
 )
-dttGhost.Inputs = [B02DstMu.outputLocation()]
-dttGhost.mu.addTupleTool('TupleToolPid')
-dttGhost.mu.TupleToolPid.Verbose = True
-dttGhost.addTupleTool('TupleToolTISTOS')
-dttGhost.addTupleTool('TupleToolMCBackgroundInfo')
-dttGhost.TupleToolMCBackgroundInfo.addTool(BackgroundCategory)
-dttGhost.addTupleTool('TupleToolMCTruth')
-dttGhost.TupleToolMCTruth.IP2MCPAssociatorTypes = ['DaVinciSmartAssociator']
-dttGhost.TupleToolMCTruth.ToolList = [] # Produces only TRUEID branch
-dttGhost.mu.addTupleTool('TupleToolANNPIDTraining')
+dttEorGhost.Inputs = [B02DstMu.outputLocation()]
+dttEorGhost.mu.addTupleTool('TupleToolPid')
+dttEorGhost.mu.TupleToolPid.Verbose = True
+dttEorGhost.addTupleTool('TupleToolTISTOS')
+dttEorGhost.addTupleTool('TupleToolMCBackgroundInfo')
+dttEorGhost.TupleToolMCBackgroundInfo.addTool(BackgroundCategory)
+dttEorGhost.addTupleTool('TupleToolMCTruth')
+dttEorGhost.TupleToolMCTruth.IP2MCPAssociatorTypes = ['DaVinciSmartAssociator']
+dttEorGhost.TupleToolMCTruth.ToolList = [] # Produces only TRUEID branch
+dttEorGhost.mu.addTupleTool('TupleToolANNPIDTraining')
 
-sequence_g = SelectionSequence('SeqGhost',
+sequence_g = SelectionSequence('SeqEorGhost',
                                TopSelection=B02DstMu,
-                               PostSelectionAlgs=[dttGhost])
+                               PostSelectionAlgs=[dttEorGhost])
 
 DaVinci().UserAlgorithms += [sequence_g.sequence()]
