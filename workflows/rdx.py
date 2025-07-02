@@ -516,7 +516,7 @@ JOBS = {
     # K, pi misid corrections for pidcalib
     'incl_b_dst_mc-misid_corrections-k': partial(
         workflow_split_mc_ghost,
-        '../ntuples/0.9.13-incl_b-Dst-fullsim/2017/*',
+        '../ntuples/0.9.14-incl_b-Dst-fullsim/*',
         '../postprocess/rdx-run2/rdx-run2_incl_b_dst_k.yml',
         trees=['TupleDstANNK/DecayTree'],
         particle='k',
@@ -524,7 +524,7 @@ JOBS = {
     ),
     'incl_b_dst_mc-misid_corrections-pi': partial(
         workflow_split_mc_ghost,
-        '../ntuples/0.9.13-incl_b-Dst-fullsim/2017/*',
+        '../ntuples/0.9.14-incl_b-Dst-fullsim/*',
         '../postprocess/rdx-run2/rdx-run2_incl_b_dst_pi.yml',
         trees=['TupleDstANNPi/DecayTree'],
         particle='pi',
@@ -532,7 +532,7 @@ JOBS = {
     ),
     'incl_b_dst_mc-misid_smearing-k': partial(
         workflow_split_mc_ghost,
-        '../ntuples/0.9.13-incl_b-Dst-fullsim/2016/*',
+        '../ntuples/0.9.14-incl_b-Dst-fullsim/*',
         '../postprocess/rdx-run2/rdx-run2_incl_b_k_smr.yml',
         trees=['TupleKDiF/DecayTree'],
         particle='k',
@@ -540,7 +540,7 @@ JOBS = {
     ),
     'incl_b_dst_mc-misid_smearing-pi': partial(
         workflow_split_mc_ghost,
-        '../ntuples/0.9.13-incl_b-Dst-fullsim/2016/*',
+        '../ntuples/0.9.14-incl_b-Dst-fullsim/*',
         '../postprocess/rdx-run2/rdx-run2_incl_b_pi_smr.yml',
         trees=['TuplePiDiF/DecayTree'],
         particle='pi',
@@ -548,7 +548,7 @@ JOBS = {
     ),
     'incl_b_dst_mc-eghost-unfolding': partial(
         workflow_split_mc_ghost,
-        '../ntuples/0.9.14-incl_b-Dst-fullsim_EorGhost/*',
+        '../ntuples/0.9.14-incl_b-Dst-fullsim/*',
         '../postprocess/rdx-run2/rdx-run2_incl_b_eghost.yml',
         trees=['EorGhost/DecayTree'],
         particle='mu',
