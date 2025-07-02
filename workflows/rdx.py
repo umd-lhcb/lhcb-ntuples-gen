@@ -512,7 +512,7 @@ JOBS = {
         num_of_workers=20
     ),
     # Run 2 b-inclusive D* production fullsim MC
-    # Needed for ghost misid unfolging, misid DiF smearing and
+    # Needed for ghost misid unfolding, misid DiF smearing and
     # K, pi misid corrections for pidcalib
     'incl_b_dst_mc-misid_corrections-k': partial(
         workflow_split_mc_ghost,
@@ -546,13 +546,13 @@ JOBS = {
         particle='pi',
         cache_suffix='--aux_ubdt-pi_smr'
     ),
-    'incl_b_dst_mc-ghost-unfolding': partial(
+    'incl_b_dst_mc-eghost-unfolding': partial(
         workflow_split_mc_ghost,
-        '../ntuples/0.9.13-incl_b-Dst-fullsim/2016/*',
-        '../postprocess/rdx-run2/rdx-run2_incl_b_ghost.yml',
-        trees=['Ghost/DecayTree'],
+        '../ntuples/0.9.14-incl_b-Dst-fullsim_EorGhost/*',
+        '../postprocess/rdx-run2/rdx-run2_incl_b_eghost.yml',
+        trees=['EorGhost/DecayTree'],
         particle='mu',
-        cache_suffix='--aux_ubdt-ghost'
+        cache_suffix='--aux_ubdt-eghost'
     ),
     # Run 2 MC tracker only
     'Dst_D0-mc-tracker_only-sig_norm': partial(

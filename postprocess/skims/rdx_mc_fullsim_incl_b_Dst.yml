@@ -158,7 +158,7 @@ TupleKDiF/DecayTree:
         - "*_UsedRich*"
         - "*_Calo*"
 
-Ghost/DecayTree:
+EorGhost/DecayTree:
     deactivate:
         # Event diagnostic
         - "EventInSequence"
