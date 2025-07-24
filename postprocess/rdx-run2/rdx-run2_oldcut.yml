@@ -278,24 +278,28 @@ calculation:
     d0_comp2: double; LOG(1 - d0_dira)
     # K
     k_gh_prob: double; k_TRACK_GhostProb
+    k_chi2ndof: double; k_TRACK_CHI2NDOF
     k_ip_chi2: double; k_IPCHI2_OWNPV
     k_log_ip_chi2: double; LOG(k_ip_chi2)
     k_ip: double; k_IP_OWNPV
     k_comp: double; SQRT(k_ip_chi2) / k_ip
     # Pi
     pi_gh_prob: double; pi_TRACK_GhostProb
+    pi_chi2ndof: double; pi_TRACK_CHI2NDOF
     pi_ip_chi2: double; pi_IPCHI2_OWNPV
     pi_log_ip_chi2: double; LOG(pi_ip_chi2)
     pi_ip: double; pi_IP_OWNPV
     pi_comp: double; SQRT(pi_ip_chi2) / pi_ip
     # slow Pi
     spi_gh_prob: double; spi_TRACK_GhostProb
+    spi_chi2ndof: double; spi_TRACK_CHI2NDOF
     spi_ip_chi2: double; spi_IPCHI2_OWNPV
     spi_log_ip_chi2: double; LOG(spi_ip_chi2)
     spi_ip: double; spi_IP_OWNPV
     spi_comp: double; SQRT(spi_ip_chi2) / spi_ip
     # Mu
     mu_gh_prob: double; mu_TRACK_GhostProb
+    mu_chi2ndof: double; mu_TRACK_CHI2NDOF
     mu_ip_chi2: double; mu_IPCHI2_OWNPV
     mu_log_ip_chi2: double; LOG(mu_ip_chi2)
     mu_ip: double; mu_IP_OWNPV
@@ -604,6 +608,12 @@ calculation:
         b0_DIRA_OWNPV
         )
     dst_m_ok: bool; FLAG_SEL_DST_MASS(dst_m, d0_m)
+
+    # Track quality flag
+    tracks_chi2ndof_ok: >-
+        bool;
+        TRACKS_CHI2NDOF_OK_DST(mu_chi2ndof, k_chi2ndof, pi_chi2ndof, spi_chi2ndof);
+        TRACKS_CHI2NDOF_OK_D0(mu_chi2ndof, k_chi2ndof, pi_chi2ndof)
 
     ###############################
     # Selection flags, additional #
