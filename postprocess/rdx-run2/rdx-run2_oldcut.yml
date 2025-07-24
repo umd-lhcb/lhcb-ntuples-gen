@@ -948,42 +948,42 @@ calculation:
         wmis_dsb_2os_g  * is_2os_loose +
         wmis_dsb_dd_g   * is_dd_loose
     #
-    wmis_bsb_dsb: >-
+    wmis_dsb_bsb: >-
         ^double;
-        wmis_bsb_dsb_iso    * is_iso_loose +
-        wmis_bsb_dsb_1os    * is_1os_loose +
-        wmis_bsb_dsb_2os    * is_2os_loose +
-        wmis_bsb_dsb_dd     * is_dd_loose
-    wmis_bsb_dsb_pi: >-
+        wmis_dsb_bsb_iso    * is_iso_loose +
+        wmis_dsb_bsb_1os    * is_1os_loose +
+        wmis_dsb_bsb_2os    * is_2os_loose +
+        wmis_dsb_bsb_dd     * is_dd_loose
+    wmis_dsb_bsb_pi: >-
         ^double;
-        wmis_bsb_dsb_iso_pi * is_iso_loose +
-        wmis_bsb_dsb_1os_pi * is_1os_loose +
-        wmis_bsb_dsb_2os_pi * is_2os_loose +
-        wmis_bsb_dsb_dd_pi  * is_dd_loose
-    wmis_bsb_dsb_k: >-
+        wmis_dsb_bsb_iso_pi * is_iso_loose +
+        wmis_dsb_bsb_1os_pi * is_1os_loose +
+        wmis_dsb_bsb_2os_pi * is_2os_loose +
+        wmis_dsb_bsb_dd_pi  * is_dd_loose
+    wmis_dsb_bsb_k: >-
         ^double;
-        wmis_bsb_dsb_iso_k  * is_iso_loose +
-        wmis_bsb_dsb_1os_k  * is_1os_loose +
-        wmis_bsb_dsb_2os_k  * is_2os_loose +
-        wmis_bsb_dsb_dd_k   * is_dd_loose
-    wmis_bsb_dsb_p: >-
+        wmis_dsb_bsb_iso_k  * is_iso_loose +
+        wmis_dsb_bsb_1os_k  * is_1os_loose +
+        wmis_dsb_bsb_2os_k  * is_2os_loose +
+        wmis_dsb_bsb_dd_k   * is_dd_loose
+    wmis_dsb_bsb_p: >-
         ^double;
-        wmis_bsb_dsb_iso_p  * is_iso_loose +
-        wmis_bsb_dsb_1os_p  * is_1os_loose +
-        wmis_bsb_dsb_2os_p  * is_2os_loose +
-        wmis_bsb_dsb_dd_p   * is_dd_loose
-    wmis_bsb_dsb_e: >-
+        wmis_dsb_bsb_iso_p  * is_iso_loose +
+        wmis_dsb_bsb_1os_p  * is_1os_loose +
+        wmis_dsb_bsb_2os_p  * is_2os_loose +
+        wmis_dsb_bsb_dd_p   * is_dd_loose
+    wmis_dsb_bsb_e: >-
         ^double;
-        wmis_bsb_dsb_iso_e  * is_iso_loose +
-        wmis_bsb_dsb_1os_e  * is_1os_loose +
-        wmis_bsb_dsb_2os_e  * is_2os_loose +
-        wmis_bsb_dsb_dd_e   * is_dd_loose
-    wmis_bsb_dsb_g: >-
+        wmis_dsb_bsb_iso_e  * is_iso_loose +
+        wmis_dsb_bsb_1os_e  * is_1os_loose +
+        wmis_dsb_bsb_2os_e  * is_2os_loose +
+        wmis_dsb_bsb_dd_e   * is_dd_loose
+    wmis_dsb_bsb_g: >-
         ^double;
-        wmis_bsb_dsb_iso_g  * is_iso_loose +
-        wmis_bsb_dsb_1os_g  * is_1os_loose +
-        wmis_bsb_dsb_2os_g  * is_2os_loose +
-        wmis_bsb_dsb_dd_g   * is_dd_loose
+        wmis_dsb_bsb_iso_g  * is_iso_loose +
+        wmis_dsb_bsb_1os_g  * is_1os_loose +
+        wmis_dsb_bsb_2os_g  * is_2os_loose +
+        wmis_dsb_bsb_dd_g   * is_dd_loose
     # 'wmis' is the NON-DiF-SMEARED misID weights
     wmis: >-
         double;
