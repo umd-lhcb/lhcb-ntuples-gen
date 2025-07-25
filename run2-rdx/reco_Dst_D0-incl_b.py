@@ -1,5 +1,6 @@
 from Configurables import (DecayTreeTuple, CombineParticles, FilterDesktop,
-                           BackgroundCategory, DaVinci, TrackSmearState)
+                           BackgroundCategory, DaVinci, TrackSmearState,
+                           TupleToolMCDaughters)
 from DecayTreeTuple.Configuration import *
 from PhysSelPython.Wrappers import Selection, SelectionSequence
 from StandardParticles import (StdAllNoPIDsKaons, StdAllNoPIDsPions,
@@ -100,15 +101,19 @@ dttDstK.k.addTupleTool('TupleToolPid')
 dttDstK.k.TupleToolPid.Verbose = True
 dttDstK.addTupleTool('TupleToolTISTOS')
 dttDstK.addTupleTool('TupleToolRecoStats')
+dttDstK.addTupleTool('TupleToolTrackInfo')
 dttDstK.addTupleTool('TupleToolMCBackgroundInfo')
 dttDstK.TupleToolMCBackgroundInfo.addTool(BackgroundCategory)
 dttDstK.addTupleTool('TupleToolMCTruth')
 dttDstK.TupleToolMCTruth.IP2MCPAssociatorTypes = ['DaVinciSmartAssociator']
 dttDstK.TupleToolMCTruth.ToolList = [
     'MCTupleToolKinematic',
-    'MCTupleToolHierarchy'
+    'MCTupleToolHierarchyExt'
 ]
 dttDstK.k.addTupleTool('TupleToolANNPIDTraining')
+
+dttDstK.k.addTool(TupleToolMCDaughters, name="TupleToolMCDaughtersK")
+dttDstK.k.ToolList+=["TupleToolMCDaughters/TupleToolMCDaughtersK"]
 
 # Now define decay tree tuple with uBDT input for pi candidate
 dttDstPi = DecayTreeTuple('TupleDstANNPi')
@@ -119,6 +124,7 @@ dttDstPi.pi.addTupleTool('TupleToolPid')
 dttDstPi.pi.TupleToolPid.Verbose = True
 dttDstPi.addTupleTool('TupleToolTISTOS')
 dttDstPi.addTupleTool('TupleToolRecoStats')
+dttDstPi.addTupleTool('TupleToolTrackInfo')
 dttDstPi.addTupleTool('TupleToolMCBackgroundInfo')
 dttDstPi.TupleToolMCBackgroundInfo.addTool(BackgroundCategory)
 dttDstPi.addTupleTool('TupleToolMCTruth')
@@ -128,9 +134,12 @@ dttDstPi.addTupleTool('TupleToolMCTruth')
 dttDstPi.TupleToolMCTruth.IP2MCPAssociatorTypes = ['DaVinciSmartAssociator']
 dttDstPi.TupleToolMCTruth.ToolList = [
     'MCTupleToolKinematic',
-    'MCTupleToolHierarchy'
+    'MCTupleToolHierarchyExt'
 ]
 dttDstPi.pi.addTupleTool('TupleToolANNPIDTraining')
+
+dttDstPi.pi.addTool(TupleToolMCDaughters, name="TupleToolMCDaughtersPi")
+dttDstPi.pi.ToolList+=["TupleToolMCDaughters/TupleToolMCDaughtersPi"]
 
 sequenceDstK = SelectionSequence('SeqDstK',
                                  TopSelection=Dst2D0Pi,
@@ -162,13 +171,19 @@ dttKDiF.setDescriptorTemplate('${k}[K+]CC')
 dttKDiF.Inputs = [selectionKDiF.outputLocation()]
 dttKDiF.k.addTupleTool('TupleToolPid')
 dttKDiF.k.TupleToolPid.Verbose = True
+dttKDiF.addTupleTool('TupleToolTISTOS')
+dttKDiF.addTupleTool('TupleToolRecoStats')
+dttKDiF.addTupleTool('TupleToolTrackInfo')
 dttKDiF.addTupleTool('TupleToolMCTruth')
 dttKDiF.TupleToolMCTruth.IP2MCPAssociatorTypes = ['DaVinciSmartAssociator']
 dttKDiF.TupleToolMCTruth.ToolList = [
     'MCTupleToolKinematic',
-    'MCTupleToolHierarchy'
+    'MCTupleToolHierarchyExt'
 ]
 dttKDiF.k.addTupleTool('TupleToolANNPIDTraining')
+
+dttKDiF.k.addTool(TupleToolMCDaughters, name="TupleToolMCDaughtersKDiF")
+dttKDiF.k.ToolList+=["TupleToolMCDaughters/TupleToolMCDaughtersKDiF"]
 
 sequenceK_dif = SelectionSequence('SeqKDiF',
                                   TopSelection=selectionKDiF,
@@ -190,13 +205,19 @@ dttPiDiF.setDescriptorTemplate('${pi}[pi+]CC')
 dttPiDiF.Inputs = [selectionPiDiF.outputLocation()]
 dttPiDiF.pi.addTupleTool('TupleToolPid')
 dttPiDiF.pi.TupleToolPid.Verbose = True
+dttPiDiF.addTupleTool('TupleToolTISTOS')
+dttPiDiF.addTupleTool('TupleToolRecoStats')
+dttPiDiF.addTupleTool('TupleToolTrackInfo')
 dttPiDiF.addTupleTool('TupleToolMCTruth')
 dttPiDiF.TupleToolMCTruth.IP2MCPAssociatorTypes = ['DaVinciSmartAssociator']
 dttPiDiF.TupleToolMCTruth.ToolList = [
     'MCTupleToolKinematic',
-    'MCTupleToolHierarchy'
+    'MCTupleToolHierarchyExt'
 ]
 dttPiDiF.pi.addTupleTool('TupleToolANNPIDTraining')
+
+dttPiDiF.pi.addTool(TupleToolMCDaughters, name="TupleToolMCDaughtersPiDif")
+dttPiDiF.pi.ToolList+=["TupleToolMCDaughters/TupleToolMCDaughtersPiDiF"]
 
 sequencePi_dif = SelectionSequence('SeqPiDiF',
                                    TopSelection=selectionPiDiF,
@@ -272,6 +293,8 @@ dttEorGhost.Inputs = [B02DstMu.outputLocation()]
 dttEorGhost.mu.addTupleTool('TupleToolPid')
 dttEorGhost.mu.TupleToolPid.Verbose = True
 dttEorGhost.addTupleTool('TupleToolTISTOS')
+dttEorGhost.addTupleTool('TupleToolRecoStats')
+dttEorGhost.addTupleTool('TupleToolTrackInfo')
 dttEorGhost.addTupleTool('TupleToolMCBackgroundInfo')
 dttEorGhost.TupleToolMCBackgroundInfo.addTool(BackgroundCategory)
 dttEorGhost.addTupleTool('TupleToolMCTruth')
