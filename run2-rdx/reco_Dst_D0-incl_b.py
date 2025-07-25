@@ -6,6 +6,15 @@ from PhysSelPython.Wrappers import Selection, SelectionSequence
 from StandardParticles import (StdAllNoPIDsKaons, StdAllNoPIDsPions,
                                StdAllNoPIDsMuons)
 
+def really_add_tool(tp, tool_name):
+    try:
+        tp.ToolList.remove(tool_name)
+    except (ValueError, AttributeError):
+        pass
+    finally:
+        tool = tp.addTupleTool(tool_name)
+    return tool
+
 ms_smear = TrackSmearState('StateSmear')
 DaVinci().appendToMainSequence([ms_smear])
 
@@ -292,6 +301,11 @@ dttEorGhost.setDescriptorTemplate(
 dttEorGhost.Inputs = [B02DstMu.outputLocation()]
 dttEorGhost.mu.addTupleTool('TupleToolPid')
 dttEorGhost.mu.TupleToolPid.Verbose = True
+trig_list = ['L0HadronDecision', 'L0MuonDecision', 'Hlt1TrackMVADecision', 'Hlt1TwoTrackMVADecision',
+             'Hlt2XcMuXForTauB2XcMuDecision', 'Hlt2XcMuXForTauB2XcFakeMuDecision'] # should really only need L0
+tt_tistos = really_add_tool(dttEorGhost, 'TupleToolTISTOS')
+tt_tistos.Verbose = True
+tt_tistos.TriggerList = trig_list
 dttEorGhost.addTupleTool('TupleToolTISTOS')
 dttEorGhost.addTupleTool('TupleToolRecoStats')
 dttEorGhost.addTupleTool('TupleToolTrackInfo')
