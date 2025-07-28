@@ -3,13 +3,6 @@
 # Author: Yipeng Sun, Lucas Meyer Garcia
 # License: BSD 2-clause
 #
-# Description: A demonstration on ganga option file with parser.
-#              This demo runs stand-alone, provided that Python is installed:
-#                  python ./ganga_jobs_parser.py [options]
-#
-#              Alternatively, in lxplus:
-#                  ganga ./ganga_job_parser.py [options]
-#
 #              Mostly adapted from ganga_jobs.py
 
 from os.path import expanduser, realpath, dirname, basename, isdir, abspath

@@ -46,6 +46,16 @@ isEorGhost    = f'(NINTREE( {isK} | {isPi} | {isP} | {isMu} ) < 1)'
 isKLoose   = f'( {isK}  | ({isMu} & {fromK} ) )'
 isPiLoose  = f'( {isPi} | ({isMu} & {fromPi}) )'
 
+# Define trigger list for TupleToolTISTOS
+# Should really only need L0
+trig_list = [
+    'L0HadronDecision',
+    'L0MuonDecision',
+    'Hlt1TrackMVADecision',
+    'Hlt1TwoTrackMVADecision',
+    'Hlt2XcMuXForTauB2XcMuDecision',
+    'Hlt2XcMuXForTauB2XcFakeMuDecision'
+]
 
 #################################################################
 # D* -> D0(-> K pi) pi ntuples for study K/pi misid corrections #
@@ -108,7 +118,9 @@ dttDstK.setDescriptorTemplate(
 dttDstK.Inputs = [Dst2D0Pi.outputLocation()]
 dttDstK.k.addTupleTool('TupleToolPid')
 dttDstK.k.TupleToolPid.Verbose = True
-dttDstK.addTupleTool('TupleToolTISTOS')
+really_add_tool(dttDstK, 'TupleToolTISTOS')
+dttDstK.TupleToolTISTOS.Verbose = True
+dttDstK.TupleToolTISTOS.TriggerList = trig_list
 dttDstK.addTupleTool('TupleToolRecoStats')
 dttDstK.addTupleTool('TupleToolTrackInfo')
 dttDstK.addTupleTool('TupleToolMCBackgroundInfo')
@@ -131,7 +143,9 @@ dttDstPi.setDescriptorTemplate(
 dttDstPi.Inputs = [Dst2D0Pi.outputLocation()]
 dttDstPi.pi.addTupleTool('TupleToolPid')
 dttDstPi.pi.TupleToolPid.Verbose = True
-dttDstPi.addTupleTool('TupleToolTISTOS')
+really_add_tool(dttDstPi, 'TupleToolTISTOS')
+dttDstPi.TupleToolTISTOS.Verbose = True
+dttDstPi.TupleToolTISTOS.TriggerList = trig_list
 dttDstPi.addTupleTool('TupleToolRecoStats')
 dttDstPi.addTupleTool('TupleToolTrackInfo')
 dttDstPi.addTupleTool('TupleToolMCBackgroundInfo')
@@ -180,7 +194,9 @@ dttKDiF.setDescriptorTemplate('${k}[K+]CC')
 dttKDiF.Inputs = [selectionKDiF.outputLocation()]
 dttKDiF.k.addTupleTool('TupleToolPid')
 dttKDiF.k.TupleToolPid.Verbose = True
-dttKDiF.addTupleTool('TupleToolTISTOS')
+really_add_tool(dttKDiF, 'TupleToolTISTOS')
+dttKDiF.TupleToolTISTOS.Verbose = True
+dttKDiF.TupleToolTISTOS.TriggerList = trig_list
 dttKDiF.addTupleTool('TupleToolRecoStats')
 dttKDiF.addTupleTool('TupleToolTrackInfo')
 dttKDiF.addTupleTool('TupleToolMCTruth')
@@ -214,7 +230,9 @@ dttPiDiF.setDescriptorTemplate('${pi}[pi+]CC')
 dttPiDiF.Inputs = [selectionPiDiF.outputLocation()]
 dttPiDiF.pi.addTupleTool('TupleToolPid')
 dttPiDiF.pi.TupleToolPid.Verbose = True
-dttPiDiF.addTupleTool('TupleToolTISTOS')
+really_add_tool(dttPiDiF, 'TupleToolTISTOS')
+dttPiDiF.TupleToolTISTOS.Verbose = True
+dttPiDiF.TupleToolTISTOS.TriggerList = trig_list
 dttPiDiF.addTupleTool('TupleToolRecoStats')
 dttPiDiF.addTupleTool('TupleToolTrackInfo')
 dttPiDiF.addTupleTool('TupleToolMCTruth')
@@ -301,12 +319,9 @@ dttEorGhost.setDescriptorTemplate(
 dttEorGhost.Inputs = [B02DstMu.outputLocation()]
 dttEorGhost.mu.addTupleTool('TupleToolPid')
 dttEorGhost.mu.TupleToolPid.Verbose = True
-trig_list = ['L0HadronDecision', 'L0MuonDecision', 'Hlt1TrackMVADecision', 'Hlt1TwoTrackMVADecision',
-             'Hlt2XcMuXForTauB2XcMuDecision', 'Hlt2XcMuXForTauB2XcFakeMuDecision'] # should really only need L0
-tt_tistos = really_add_tool(dttEorGhost, 'TupleToolTISTOS')
-tt_tistos.Verbose = True
-tt_tistos.TriggerList = trig_list
-dttEorGhost.addTupleTool('TupleToolTISTOS')
+really_add_tool(dttEorGhost, 'TupleToolTISTOS')
+dttEorGhost.TupleToolTISTOS.Verbose = True
+dttEorGhost.TupleToolTISTOS.TriggerList = trig_list
 dttEorGhost.addTupleTool('TupleToolRecoStats')
 dttEorGhost.addTupleTool('TupleToolTrackInfo')
 dttEorGhost.addTupleTool('TupleToolMCBackgroundInfo')
