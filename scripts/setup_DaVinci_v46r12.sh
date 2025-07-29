@@ -5,7 +5,7 @@
 
 DAVINCI_VERSION=v46r12
 PHYS_VERSION=v27r10
-# TUPLETOOL_SL_VERSION=0.2.5
+TUPLETOOL_SL_VERSION=dv_46_new_cmake_style
 # TRACKER_ONLY_EMU_VERSION=0.2.2
 
 # Typically not needed.
@@ -30,7 +30,7 @@ git lb-checkout Phys/${PHYS_VERSION} Phys/LoKiPhys
 # git lb-checkout Phys/${PHYS_VERSION} Phys/RelatedInfoTools
 
 git lb-use TupleToolSemiLeptonic https://github.com/umd-lhcb/TupleToolSemiLeptonic.git
-git lb-checkout TupleToolSemiLeptonic/dv_46_new_cmake_style Phys/TupleToolSemiLeptonic
+git lb-checkout TupleToolSemiLeptonic/${TUPLETOOL_SL_VERSION} Phys/TupleToolSemiLeptonic
 
 # git clone https://github.com/umd-lhcb/TrackerOnlyEmu.git \
 #     --branch ${TRACKER_ONLY_EMU_VERSION} --depth 1
