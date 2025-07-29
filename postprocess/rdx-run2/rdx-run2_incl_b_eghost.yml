@@ -19,7 +19,7 @@ calculation:
     # Selection flags, MC-specific #
     ################################
     # Truth-matching
-    mu_unbiased: bool; b_L0Global_TIS || d0_L0HadronDecision_TOS
+    mu_unbiased: bool; b0_L0Global_TIS || d0_L0HadronDecision_TOS
     is_ghost: bool; mu_true_id == 0
     is_electron: bool; ABS(mu_true_id) == 11
 
