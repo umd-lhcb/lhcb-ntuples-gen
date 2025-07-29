@@ -12,9 +12,6 @@ TupleDstANNK/DecayTree:
         - "BCID"
         # Global event stuff
         - "nMuonCoordsS*"
-        # MC Tunes
-        - "*_MC12Tune*"
-        - "*_MC15Tune*"
         # Kinematics
         - "*_MM*"
         # End vertex stuff
@@ -32,11 +29,15 @@ TupleDstANNK/DecayTree:
         - "*_ORIVX_X*"
         - "*_ORIVX_Y*"
         - "*_ORIVX_Z*"
+        # Track stuff
+        - "*_TRACK_Type"
+        - "*_TRACK_Key"
+        - "*_TRACK_CloneDist"
+        - "*_TRACK_Likelihood"
         # Detector stuff
         - "*_Rich*"
         - "*_MuonBkgLL"
         - "*_MuonMuLL"
-        - "*_MuonNShared"
         - '*_MuonChi2Corr'
         - "*_InAcc*"
         - "*_EcalPID*"
@@ -58,9 +59,6 @@ TupleDstANNPi/DecayTree:
         - "BCID"
         # Global event stuff
         - "nMuonCoordsS*"
-        # MC Tunes
-        - "*_MC12Tune*"
-        - "*_MC15Tune*"
         # Kinematics
         - "*_MM*"
         # End vertex stuff
@@ -78,11 +76,15 @@ TupleDstANNPi/DecayTree:
         - "*_ORIVX_Y*"
         - "*_ORIVX_Z*"
         - "*_ORIVX_COV_"
+        # Track stuff
+        - "*_TRACK_Type"
+        - "*_TRACK_Key"
+        - "*_TRACK_CloneDist"
+        - "*_TRACK_Likelihood"
         # Detector stuff
         - "*_Rich*"
         - "*_MuonBkgLL"
         - "*_MuonMuLL"
-        - "*_MuonNShared"
         - '*_MuonChi2Corr'
         - "*_InAcc*"
         - "*_EcalPID*"
@@ -102,19 +104,22 @@ TuplePiDiF/DecayTree:
         - "OdinTCK"
         - "BCType"
         - "BCID"
-        # MC Tunes
-        - "*_MC12Tune*"
-        - "*_MC15Tune*"
+        # Global event stuff
+        - "nMuonCoordsS*"
         # Own PV stuff
         - "*_OWNPV_X*"
         - "*_OWNPV_Y*"
         - "*_OWNPV_Z*"
         - "*_OWNPV_COV_"
+        # Track stuff
+        - "*_TRACK_Type"
+        - "*_TRACK_Key"
+        - "*_TRACK_CloneDist"
+        - "*_TRACK_Likelihood"
         # Detector stuff
         - "*_Rich*"
         - "*_MuonBkgLL"
         - "*_MuonMuLL"
-        - "*_MuonNShared"
         - '*_MuonChi2Corr'
         - "*_InAcc*"
         - "*_EcalPID*"
@@ -134,19 +139,22 @@ TupleKDiF/DecayTree:
         - "OdinTCK"
         - "BCType"
         - "BCID"
-        # MC Tunes
-        - "*_MC12Tune*"
-        - "*_MC15Tune*"
+        # Global event stuff
+        - "nMuonCoordsS*"
         # Own PV stuff
         - "*_OWNPV_X*"
         - "*_OWNPV_Y*"
         - "*_OWNPV_Z*"
         - "*_OWNPV_COV_"
+        # Track stuff
+        - "*_TRACK_Type"
+        - "*_TRACK_Key"
+        - "*_TRACK_CloneDist"
+        - "*_TRACK_Likelihood"
         # Detector stuff
         - "*_Rich*"
         - "*_MuonBkgLL"
         - "*_MuonMuLL"
-        - "*_MuonNShared"
         - '*_MuonChi2Corr'
         - "*_InAcc*"
         - "*_EcalPID*"
@@ -166,6 +174,8 @@ EorGhost/DecayTree:
         - "OdinTCK"
         - "BCType"
         - "BCID"
+        # Global event stuff
+        - "nMuonCoordsS*"
         # Kinematics
         - "*_MM*"
         # End vertex stuff
@@ -183,11 +193,15 @@ EorGhost/DecayTree:
         - "*_ORIVX_Y*"
         - "*_ORIVX_Z*"
         - "*_ORIVX_COV_"
+        # Track stuff
+        - "*_TRACK_Type"
+        - "*_TRACK_Key"
+        - "*_TRACK_CloneDist"
+        - "*_TRACK_Likelihood"
         # Detector stuff
         - "*_Rich*"
         - "*_MuonBkgLL"
         - "*_MuonMuLL"
-        - "*_MuonNShared"
         - '*_MuonChi2Corr'
         - "*_InAcc*"
         - "*_EcalPID*"
