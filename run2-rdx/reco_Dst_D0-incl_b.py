@@ -6,15 +6,6 @@ from PhysSelPython.Wrappers import Selection, SelectionSequence
 from StandardParticles import (StdAllNoPIDsKaons, StdAllNoPIDsPions,
                                StdAllNoPIDsMuons)
 
-def really_add_tool(tp, tool_name):
-    try:
-        tp.ToolList.remove(tool_name)
-    except (ValueError, AttributeError):
-        pass
-    finally:
-        tool = tp.addTupleTool(tool_name)
-    return tool
-
 ms_smear = TrackSmearState('StateSmear')
 DaVinci().appendToMainSequence([ms_smear])
 
@@ -118,7 +109,7 @@ dttDstK.setDescriptorTemplate(
 dttDstK.Inputs = [Dst2D0Pi.outputLocation()]
 dttDstK.k.addTupleTool('TupleToolPid')
 dttDstK.k.TupleToolPid.Verbose = True
-really_add_tool(dttDstK, 'TupleToolTISTOS')
+dttDstK.addTupleTool('TupleToolTISTOS')
 dttDstK.TupleToolTISTOS.Verbose = True
 dttDstK.TupleToolTISTOS.TriggerList = trig_list
 dttDstK.addTupleTool('TupleToolRecoStats')
@@ -143,7 +134,7 @@ dttDstPi.setDescriptorTemplate(
 dttDstPi.Inputs = [Dst2D0Pi.outputLocation()]
 dttDstPi.pi.addTupleTool('TupleToolPid')
 dttDstPi.pi.TupleToolPid.Verbose = True
-really_add_tool(dttDstPi, 'TupleToolTISTOS')
+dttDstPi.addTupleTool('TupleToolTISTOS')
 dttDstPi.TupleToolTISTOS.Verbose = True
 dttDstPi.TupleToolTISTOS.TriggerList = trig_list
 dttDstPi.addTupleTool('TupleToolRecoStats')
@@ -194,7 +185,7 @@ dttKDiF.setDescriptorTemplate('${k}[K+]CC')
 dttKDiF.Inputs = [selectionKDiF.outputLocation()]
 dttKDiF.k.addTupleTool('TupleToolPid')
 dttKDiF.k.TupleToolPid.Verbose = True
-really_add_tool(dttKDiF, 'TupleToolTISTOS')
+dttKDiF.addTupleTool('TupleToolTISTOS')
 dttKDiF.TupleToolTISTOS.Verbose = True
 dttKDiF.TupleToolTISTOS.TriggerList = trig_list
 dttKDiF.addTupleTool('TupleToolRecoStats')
@@ -230,7 +221,7 @@ dttPiDiF.setDescriptorTemplate('${pi}[pi+]CC')
 dttPiDiF.Inputs = [selectionPiDiF.outputLocation()]
 dttPiDiF.pi.addTupleTool('TupleToolPid')
 dttPiDiF.pi.TupleToolPid.Verbose = True
-really_add_tool(dttPiDiF, 'TupleToolTISTOS')
+dttPiDiF.addTupleTool('TupleToolTISTOS')
 dttPiDiF.TupleToolTISTOS.Verbose = True
 dttPiDiF.TupleToolTISTOS.TriggerList = trig_list
 dttPiDiF.addTupleTool('TupleToolRecoStats')
@@ -319,7 +310,7 @@ dttEorGhost.setDescriptorTemplate(
 dttEorGhost.Inputs = [B02DstMu.outputLocation()]
 dttEorGhost.mu.addTupleTool('TupleToolPid')
 dttEorGhost.mu.TupleToolPid.Verbose = True
-really_add_tool(dttEorGhost, 'TupleToolTISTOS')
+dttEorGhost.addTupleTool('TupleToolTISTOS')
 dttEorGhost.TupleToolTISTOS.Verbose = True
 dttEorGhost.TupleToolTISTOS.TriggerList = trig_list
 dttEorGhost.addTupleTool('TupleToolRecoStats')
