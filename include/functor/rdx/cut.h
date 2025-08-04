@@ -138,7 +138,7 @@ Bool_t FLAG_SEL_D0_RUN1(Bool_t flag_d0_pid_ok,
                         Double_t d0_fd_chi2) {
   if (flag_d0_pid_ok &&
       /* K, pi */
-      ((k_hlt1_tos && k_pt > 1700.0) || (pi_hlt1_tos && pi_pt > 1700.0)) &&
+      // ((k_hlt1_tos && k_pt > 1700.0) || (pi_hlt1_tos && pi_pt > 1700.0)) &&
       k_pt > 500.0 && pi_pt > 500.0 && k_pt+pi_pt > 1400.0 &&
       k_ip_chi2 > 45.0 && pi_ip_chi2 > 45.0 &&
       k_gh_prob < 0.5 && pi_gh_prob < 0.5 &&

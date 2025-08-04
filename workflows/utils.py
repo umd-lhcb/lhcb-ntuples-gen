@@ -527,7 +527,7 @@ def workflow_split_base(inputs, input_yml, job_name='split', prefix='Dst_D0',
                         **kwargs):
     date = gen_date()  # NOTE: Need a consistent date!
     subworkdirs, workdir = workflow_prep_dir(
-        date + '_' + job_name, inputs, patterns=['*.DST'], **kwargs)
+        date + '_' + job_name, inputs, **kwargs)
 
     print(f'Writing ntuples to {workdir}')
     
