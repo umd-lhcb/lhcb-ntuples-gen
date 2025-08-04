@@ -12,6 +12,8 @@ PWD := $(shell pwd)
 LIB_PY := $(wildcard lib/python/*)
 DAVINCI_VERSION = DaVinci-v45r6-SL
 
+TIMESTAMP := $(shell date +"%y_%m_%d_%H_%M")
+
 .PHONY: all clean history tagdate install-dep
 
 clean:
@@ -75,26 +77,30 @@ RJpsi-ntuple-run2-mc_ghost:
 # RDX run 2 ntuple generation #
 ###############################
 
-rdx-ntuple-run2-all: Dst_D0-std Dst_D0-mu_misid rdx-ntuple-run2-mc
+rdx-ntuple-run2-all:  Dst_D0-mc-fullsim-Lb Dst_D0-std Dst_D0-mu_misid rdx-ntuple-run2-mc-to-all
 
 Dst_D0-std:
-	workflows/rdx.py $@
+	workflows/rdx.py $@ 2>&1 | tee ${TIMESTAMP}-step2-ntuple_data.log
 
 rdx-ntuple-run2-data-cut_opt:
 	workflows/rdx.py $@
 
 Dst_D0-mu_misid:
-	workflows/rdx.py $@
+	workflows/rdx.py $@ 2>&1 | tee ${TIMESTAMP}-step2-ntuple_mu_misid.log
 
 # this is FullSim
 rdx-ntuple-run2-mc:
 	workflows/rdx.py $@
 
+Dst_D0-mc-fullsim-Lb:
+	workflows/rdx.py $@ 2>&1 | tee ${TIMESTAMP}-step2-ntuple_mc-fullsim-lb.log
+
 rdx-ntuple-run2-mc-cut_opt:
 	workflows/rdx.py $@
 
 rdx-ntuple-run2-misid_study:
-	workflows/rdx.py $@
+	workflows/rdx.py $@ 2>&1 | tee ${TIMESTAMP}-step2-ntuple_misid_study.log
+
 
 # this is for MC ghost study
 rdx-ntuple-run2-mc_ghost:
@@ -109,10 +115,10 @@ rdx-ntuple-run2-mc-to-all: \
 	Dst_D0-mc-tracker_only-D_s
 
 Dst_D0-mc-tracker_only-sig_norm :
-	workflows/rdx.py $@
+	workflows/rdx.py $@ 2>&1 | tee ${TIMESTAMP}-step2-ntuple_mc-to-sig-norm.log
 
 Dst_D0-mc-tracker_only-DDX :
-	workflows/rdx.py $@
+	workflows/rdx.py $@ 2>&1 | tee ${TIMESTAMP}-step2-ntuple_mc-to-ddx.log
 
 # rdx-ntuple-run2-mc-to-missing-ddx:
 # 	workflows/rdx.py $@
@@ -124,13 +130,29 @@ rdx-ntuple-run2-mc-to-ddx-test:
 	workflows/rdx.py $@
 
 Dst_D0-mc-tracker_only-Dstst:
-	workflows/rdx.py $@
+	workflows/rdx.py $@ 2>&1 | tee ${TIMESTAMP}-step2-ntuple_mc-to-dstst.log
 
 Dst_D0-mc-tracker_only-Dstst_heavy:
-	workflows/rdx.py $@
+	workflows/rdx.py $@ 2>&1 | tee ${TIMESTAMP}-step2-ntuple_mc-to-dstst-heavy.log
 
 Dst_D0-mc-tracker_only-D_s:
-	workflows/rdx.py $@
+	workflows/rdx.py $@ 2>&1 | tee ${TIMESTAMP}-step2-ntuple_mc-to-d_s.log
+
+# b-inclusive D* ntuplesfor misid studies
+incl_b_dst_mc-misid_corrections-k:
+	workflows/rdx.py $@ 2>&1 | tee ${TIMESTAMP}-step2-incl_b_dst_mc-misid-k.log
+
+incl_b_dst_mc-misid_corrections-pi:
+	workflows/rdx.py $@ 2>&1 | tee ${TIMESTAMP}-step2-incl_b_dst_mc-misid-pi.log
+
+incl_b_dst_mc-misid_smearing-k:
+	workflows/rdx.py $@ 2>&1 | tee ${TIMESTAMP}-step2-incl_b_dst_mc-smr-k.log
+
+incl_b_dst_mc-misid_smearing-pi:
+	workflows/rdx.py $@ 2>&1 | tee ${TIMESTAMP}-step2-incl_b_dst_mc-smr-pi.log
+
+incl_b_dst_mc-eghost-unfolding:
+	workflows/rdx.py $@ 2>&1 | tee ${TIMESTAMP}-step2-incl_b_dst_mc-eghost.log
 
 # Debug
 rdx-ntuple-run2-mc-demo:

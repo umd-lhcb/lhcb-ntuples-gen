@@ -78,10 +78,11 @@ def rdx_mc_blocked_trees(decay_mode):
 def workflow_ubdt(input_ntp, output_ntp='ubdt.root',
                   trees=['TupleB0/DecayTree', 'TupleBminus/DecayTree'],
                   particle='mu',
+                  cache_suffix='--aux_ubdt',
                   **kwargs):
     cmd = f'AddUBDTBranch -i {input_ntp} -o {output_ntp} -t {",".join(trees)} -p {particle}'
     return workflow_cached_ntuple(
-        cmd, input_ntp, output_ntp, '--aux_ubdt', **kwargs)
+        cmd, input_ntp, output_ntp, cache_suffix, **kwargs)
 
 
 @smart_kwarg
@@ -560,6 +561,49 @@ JOBS = {
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
         use_hammer=False,
         num_of_workers=20
+    ),
+    # Run 2 b-inclusive D* production fullsim MC
+    # Needed for ghost misid unfolding, misid DiF smearing and
+    # K, pi misid corrections for pidcalib
+    'incl_b_dst_mc-misid_corrections-k': partial(
+        workflow_split_mc_ghost,
+        '../ntuples/0.9.14-incl_b-Dst-fullsim/*',
+        '../postprocess/rdx-run2/rdx-run2_incl_b_dst_k.yml',
+        trees=['TupleDstANNK/DecayTree'],
+        particle='k',
+        cache_suffix='--aux_ubdt-k_corr'
+    ),
+    'incl_b_dst_mc-misid_corrections-pi': partial(
+        workflow_split_mc_ghost,
+        '../ntuples/0.9.14-incl_b-Dst-fullsim/*',
+        '../postprocess/rdx-run2/rdx-run2_incl_b_dst_pi.yml',
+        trees=['TupleDstANNPi/DecayTree'],
+        particle='pi',
+        cache_suffix='--aux_ubdt-pi_corr'
+    ),
+    'incl_b_dst_mc-misid_smearing-k': partial(
+        workflow_split_mc_ghost,
+        '../ntuples/0.9.14-incl_b-Dst-fullsim/*',
+        '../postprocess/rdx-run2/rdx-run2_incl_b_k_smr.yml',
+        trees=['TupleKDiF/DecayTree'],
+        particle='k',
+        cache_suffix='--aux_ubdt-k_smr'
+    ),
+    'incl_b_dst_mc-misid_smearing-pi': partial(
+        workflow_split_mc_ghost,
+        '../ntuples/0.9.14-incl_b-Dst-fullsim/*',
+        '../postprocess/rdx-run2/rdx-run2_incl_b_pi_smr.yml',
+        trees=['TuplePiDiF/DecayTree'],
+        particle='pi',
+        cache_suffix='--aux_ubdt-pi_smr'
+    ),
+    'incl_b_dst_mc-eghost-unfolding': partial(
+        workflow_split_mc_ghost,
+        '../ntuples/0.9.14-incl_b-Dst-fullsim/*',
+        '../postprocess/rdx-run2/rdx-run2_incl_b_eghost.yml',
+        trees=['EorGhost/DecayTree'],
+        particle='mu',
+        cache_suffix='--aux_ubdt-eghost'
     ),
     # Run 2 fullsim MC D*(mu/tau)nu
     'Dst_D0-mc-fullsim-1718-Dstlnu': partial(

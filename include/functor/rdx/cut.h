@@ -502,3 +502,28 @@ Double_t FAKE_ISO_BDT(Int_t truthmatch, Double_t raw_bdt, Int_t true_id1,
   if (rand <= 33) return -2;
   return raw_bdt;
 }
+
+// Veto tracks with large chi2ndof /////////////////////////////////////////////
+
+Bool_t TRACKS_CHI2NDOF_OK_D0(Double_t mu_chi2ndof, Double_t k_chi2ndof,
+                             Double_t pi_chi2ndof) {
+  const double chi2ndof_max = 3.0;
+
+  const bool mu_ok = mu_chi2ndof < chi2ndof_max;
+  const bool k_ok  = k_chi2ndof < chi2ndof_max;
+  const bool pi_ok = pi_chi2ndof < chi2ndof_max;
+
+  return mu_ok && k_ok && pi_ok;
+}
+
+Bool_t TRACKS_CHI2NDOF_OK_DST(Double_t mu_chi2ndof, Double_t k_chi2ndof,
+                              Double_t pi_chi2ndof, Double_t spi_chi2ndof) {
+  const double chi2ndof_max = 3.0;
+
+  const bool mu_ok  = mu_chi2ndof < chi2ndof_max;
+  const bool k_ok   = k_chi2ndof < chi2ndof_max;
+  const bool pi_ok  = pi_chi2ndof < chi2ndof_max;
+  const bool spi_ok = spi_chi2ndof < chi2ndof_max;
+
+  return mu_ok && k_ok && pi_ok && spi_ok;
+}
