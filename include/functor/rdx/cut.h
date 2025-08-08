@@ -528,6 +528,8 @@ Bool_t TRACKS_CHI2NDOF_OK_DST(Double_t mu_chi2ndof, Double_t k_chi2ndof,
   const bool spi_ok = spi_chi2ndof < chi2ndof_max;
 
   return mu_ok && k_ok && pi_ok && spi_ok;
+}
+
 // Potential option for applying trig emu: apply as a cut, with prob to pass the cut given by the trigger weight
 
 Bool_t TRIG_EMU_CUT(Double_t wtrg) {

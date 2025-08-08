@@ -129,12 +129,12 @@ Bool_t FLAG_2OS(Bool_t add_flags,
 
 Bool_t FLAG_2OS_ANG(Bool_t add_flags, vector<IsoTrack> nvtracks) {
   // note: angular analysis uses normal 0.15 cutoff for first iso track bdt, but then uses 0.0 for
-  // second and third tracks--probably because of a transcription error (run1 RD(*) has 0.0 in the
-  // ANA note table); I'm going to fix this
+  // second and third tracks--assumedly because run1 RD(*) ANA note not updated (0.0 used to try for higher
+  // stats); I'm going to use 0.0 in the hopes of comparing to them
   // also, again angular analysis removes kinematic cleaning cuts
   // charge requirement is also different vs run1 2OS- allows both pions to be neutral, but this should never happen, so irrelevant
   if (nvtracks.size()<3) return false;
-  return add_flags && (nvtracks[0].iso_bdt>0.15) && (nvtracks[1].iso_bdt>0.15) && (nvtracks[2].iso_bdt<0.15) && 
+  return add_flags && (nvtracks[0].iso_bdt>0.15) && (nvtracks[1].iso_bdt>0.0) && (nvtracks[2].iso_bdt<0.0) && 
          (nvtracks[0].type==3) && (nvtracks[1].type==3) && (nvtracks[0].charge+nvtracks[1].charge==0) && 
          (nvtracks[0].NNk<0.2) && (nvtracks[1].NNk<0.2) && (nvtracks[0].NNghost<0.2) && (nvtracks[1].NNghost<0.2);
 }
@@ -167,7 +167,7 @@ Double_t WT_2OS(Bool_t add_flags,
 Double_t WT_2OS_ANG(Bool_t add_flags, vector<IsoTrack> nvtracks) {
   if (nvtracks.size()<3) return 0.0;
   return nvtracks[0].wpid * nvtracks[1].wpid * 
-         (add_flags && (nvtracks[0].iso_bdt>0.15) && (nvtracks[1].iso_bdt>0.15) && (nvtracks[2].iso_bdt<0.15) && 
+         (add_flags && (nvtracks[0].iso_bdt>0.15) && (nvtracks[1].iso_bdt>0.0) && (nvtracks[2].iso_bdt<0.0) && 
           (nvtracks[0].type==3) && (nvtracks[1].type==3) && (nvtracks[0].charge+nvtracks[1].charge==0));
 }
 
