@@ -581,9 +581,26 @@ calculation:
     # MC true variables #
     #####################
     # B daughters
-    # b_dau1_true_id: ^int; b0_TrueHadron_D0_ID; b0_TrueHadron_D0_ID;
-    # b_dau2_true_id: ^int; b0_TrueHadron_D1_ID; b0_TrueHadron_D1_ID;
-    # b_dau3_true_id: ^int; b0_TrueHadron_D2_ID; b0_TrueHadron_D2_ID;
+    b_dau1_true_id: ^int; b0_TrueHadron_D0_ID; b_TrueHadron_D0_ID;
+    b_dau1_true_e: ^int; b0_TrueHadron_D0_PE; b_TrueHadron_D0_PE;
+    b_dau1_true_px: ^int; b0_TrueHadron_D0_PX; b_TrueHadron_D0_PX;
+    b_dau1_true_py: ^int; b0_TrueHadron_D0_PY; b_TrueHadron_D0_PY;
+    b_dau1_true_pz: ^int; b0_TrueHadron_D0_PZ; b_TrueHadron_D0_PZ;
+    b_dau2_true_id: ^int; b0_TrueHadron_D1_ID; b_TrueHadron_D1_ID;
+    b_dau2_true_e: ^int; b0_TrueHadron_D1_PE; b_TrueHadron_D1_PE;
+    b_dau2_true_px: ^int; b0_TrueHadron_D1_PX; b_TrueHadron_D1_PX;
+    b_dau2_true_py: ^int; b0_TrueHadron_D1_PY; b_TrueHadron_D1_PY;
+    b_dau2_true_pz: ^int; b0_TrueHadron_D1_PZ; b_TrueHadron_D1_PZ;
+    b_dau3_true_id: ^int; b0_TrueHadron_D2_ID; b_TrueHadron_D2_ID;
+    b_dau3_true_e: ^int; b0_TrueHadron_D2_PE; b_TrueHadron_D2_PE;
+    b_dau3_true_px: ^int; b0_TrueHadron_D2_PX; b_TrueHadron_D2_PX;
+    b_dau3_true_py: ^int; b0_TrueHadron_D2_PY; b_TrueHadron_D2_PY;
+    b_dau3_true_pz: ^int; b0_TrueHadron_D2_PZ; b_TrueHadron_D2_PZ;
+    b_dau4_true_id: ^int; b0_TrueHadron_D3_ID; b_TrueHadron_D3_ID;
+    b_dau4_true_e: ^int; b0_TrueHadron_D3_PE; b_TrueHadron_D3_PE;
+    b_dau4_true_px: ^int; b0_TrueHadron_D3_PX; b_TrueHadron_D3_PX;
+    b_dau4_true_py: ^int; b0_TrueHadron_D3_PY; b_TrueHadron_D3_PY;
+    b_dau4_true_pz: ^int; b0_TrueHadron_D3_PZ; b_TrueHadron_D3_PZ;
     b_dau1_gd1_true_id: ^int; b0_TrueHadron_D0_GD0_ID; b_TrueHadron_D0_GD0_ID
     b_dau1_gd2_true_id: ^int; b0_TrueHadron_D0_GD1_ID; b_TrueHadron_D0_GD1_ID
     b_dau1_gd3_true_id: ^int; b0_TrueHadron_D0_GD2_ID; b_TrueHadron_D0_GD2_ID
