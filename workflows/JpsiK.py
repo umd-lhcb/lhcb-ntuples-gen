@@ -59,11 +59,20 @@ JpsiK_default_output_fltrs = {
 @smart_kwarg
 def workflow_pid(
         input_ntp, output_ntp='pid.root',
-        pid_histo_folder='../run2-JpsiK/reweight/pid/root-run2-JpsiK_oldcut',
-        pid_config='../run2-JpsiK/reweight/pid/run2-JpsiK_oldcut.yml',
+        pid_histo_folder='../run2-JpsiK/reweight/pid/root-run2-JpsiK_DLLmu_conditional_on_isMuon-shifted',
+        pid_config='../run2-JpsiK/reweight/pid/run2-JpsiK_DLLmu_conditional_on_isMuon.yml',
         **kwargs):
     return workflow_apply_weight(input_ntp, pid_histo_folder, pid_config,
                                  output_ntp, '--aux_pid', **kwargs)
+
+@smart_kwarg
+def workflow_pid_withIsMuon(
+        input_ntp, output_ntp='pid_withIsMuon.root',
+        pid_histo_folder='../run2-JpsiK/reweight/pid/root-run2-JpsiK_withIsMuon-shifted',
+        pid_config='../run2-JpsiK/reweight/pid/run2-JpsiK_withIsMuon.yml',
+        **kwargs):
+    return workflow_apply_weight(input_ntp, pid_histo_folder, pid_config,
+                                 output_ntp, '--aux_pid_withIsMuon', **kwargs)
 
 
 @smart_kwarg
@@ -77,13 +86,40 @@ def workflow_trk(
 
 
 @smart_kwarg
-def workflow_jk(
-        input_ntp, output_ntp='jk.root',
-        jk_histo_folder='../run2-JpsiK/reweight/JpsiK/root-run2-JpsiK_oldcut',
-        jk_config='../run2-JpsiK/reweight/JpsiK/run2-JpsiK_oldcut.yml',
+def workflow_jk_PIDcuts_DLLKweight(
+        input_ntp, output_ntp='jk_PIDcuts_DLLKweight.root',
+        jk_histo_folder='../run2-JpsiK/reweight/JpsiK/root-run2-JpsiK_PIDcuts_DLLKweight',
+        jk_config='../run2-JpsiK/reweight/JpsiK/run2-JpsiK_PIDcuts_DLLKweight.yml',
         **kwargs):
     return workflow_apply_weight(input_ntp, jk_histo_folder, jk_config,
-                                 output_ntp, '--aux_jk', **kwargs)
+                                 output_ntp, '--aux_jk_PIDcuts_DLLKweight', **kwargs)
+
+@smart_kwarg
+def workflow_jk_PIDcuts(
+        input_ntp, output_ntp='jk_PIDcuts.root',
+        jk_histo_folder='../run2-JpsiK/reweight/JpsiK/root-run2-JpsiK_PIDcuts',
+        jk_config='../run2-JpsiK/reweight/JpsiK/run2-JpsiK_PIDcuts.yml',
+        **kwargs):
+    return workflow_apply_weight(input_ntp, jk_histo_folder, jk_config,
+                                 output_ntp, '--aux_jk_PIDcuts', **kwargs)
+
+@smart_kwarg
+def workflow_jk_PIDweights(
+        input_ntp, output_ntp='jk_PIDweights.root',
+        jk_histo_folder='../run2-JpsiK/reweight/JpsiK/root-run2-JpsiK_PIDweights',
+        jk_config='../run2-JpsiK/reweight/JpsiK/run2-JpsiK_PIDweights.yml',
+        **kwargs):
+    return workflow_apply_weight(input_ntp, jk_histo_folder, jk_config,
+                                 output_ntp, '--aux_jk_PIDweights', **kwargs)
+
+@smart_kwarg
+def workflow_jk_PIDweights_IsMuonCut(
+        input_ntp, output_ntp='jk_PIDweights_IsMuonCut.root',
+        jk_histo_folder='../run2-JpsiK/reweight/JpsiK/root-run2-JpsiK_PIDweights_IsMuonCut',
+        jk_config='../run2-JpsiK/reweight/JpsiK/run2-JpsiK_PIDweights_IsMuonCut.yml',
+        **kwargs):
+    return workflow_apply_weight(input_ntp, jk_histo_folder, jk_config,
+                                 output_ntp, '--aux_jk_PIDweights_IsMuonCut', **kwargs)
 
 
 #######################
@@ -120,7 +156,8 @@ def workflow_data(inputs, input_yml, job_name='data', date=None, **kwargs):
 
 
 def workflow_mc(inputs, input_yml, job_name='mc', date=None, **kwargs):
-    aux_workflows = [workflow_pid, workflow_trk, workflow_jk]
+    aux_workflows = [workflow_pid, workflow_pid_withIsMuon, workflow_trk, 
+                     workflow_jk_PIDcuts_DLLKweight, workflow_jk_PIDcuts, workflow_jk_PIDweights, workflow_jk_PIDweights_IsMuonCut]
     subworkdirs, workdir = workflow_prep_dir(job_name, inputs, **kwargs)
     chdir(workdir)
 
@@ -156,12 +193,14 @@ JOBS = {
     # Run 2
     'JpsiK-ntuple-run2-data': partial(
         workflow_split,
-        '../ntuples/0.9.6-2016_production/JpsiK-std',
+        # '../ntuples/0.9.6-2016_production/JpsiK-std',
+        '../ntuples/0.9.13-JpsiK_and_Dstlnu_fullsim_for_L0emu_initrwgt/JpsiK-data/*--std--*',
         '../postprocess/JpsiK-run2/JpsiK-run2.yml'
     ),
     'JpsiK-ntuple-run2-mc': partial(
         workflow_split,
-        '../ntuples/0.9.9-JpsiK_noPID/JpsiK-mc',
+        # '../ntuples/0.9.9-JpsiK_noPID/JpsiK-mc',
+        '../ntuples/0.9.13-JpsiK_and_Dstlnu_fullsim_for_L0emu_initrwgt/JpsiK-mc/*--mc--*',
         '../postprocess/JpsiK-run2/JpsiK-run2.yml'
     ),
     # Run 2 debug

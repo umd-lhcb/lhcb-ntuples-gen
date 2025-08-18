@@ -1,6 +1,4 @@
-// Author: Yipeng Sun
-// License: BSD 2-clause
-// Last Change: Thu Sep 29, 2022 at 01:06 AM -0400
+// Author: Yipeng Sun, Alex Fernez
 // NOTE: All kinematic variables are in MeV
 
 #pragma once
@@ -8,6 +6,7 @@
 #include <TDataType.h>
 
 #include "functor/basic.h"
+#include "functor/basic_iso.h"
 
 // Skims ///////////////////////////////////////////////////////////////////////
 // NOTE: Units are in GeV!
@@ -16,21 +15,20 @@ Bool_t FLAG_ISO(Bool_t add_flags, Double_t iso_bdt1) {
   return add_flags && iso_bdt1 < 0.15;
 }
 
-Bool_t FLAG_ISO_ANG(Bool_t add_flags, Int_t iso_type1, Double_t iso_bdt1, Int_t iso_type2, Double_t iso_bdt2,
-                    Int_t iso_type3, Double_t iso_bdt3) {
-  // note: if all iso tracks are VELO, returns true!
+Bool_t FLAG_ISO_ANG(Bool_t add_flags, vector<IsoTrack> nvtracks) {
+  // note: nvtracks are all nonvelo tracks, by construction
   // recall iso tracks ordered largest (least isolated) to smallest bdt score
-  return add_flags && MAX((iso_type1 != 1) * iso_bdt1, (iso_type2 != 1) * iso_bdt2,
-                          (iso_type3 != 1) * iso_bdt3) < 0.15;
+  // this is slightly different than angular analysis; look at all 5 iso tracks, and if all are VELO, return False
+  if (nvtracks.size()==0) return false;
+  return add_flags && nvtracks[0].iso_bdt<0.15;
 }
 
 Double_t WT_ISO(Bool_t add_flags, Double_t iso_bdt1) {
   return static_cast<Double_t>(FLAG_ISO(add_flags, iso_bdt1));
 }
 
-Double_t WT_ISO_ANG(Bool_t add_flags, Int_t iso_type1, Double_t iso_bdt1, Int_t iso_type2, Double_t iso_bdt2,
-                    Int_t iso_type3, Double_t iso_bdt3) {
-  return static_cast<Double_t>(FLAG_ISO_ANG(add_flags, iso_type1, iso_bdt1, iso_type2, iso_bdt2, iso_type3, iso_bdt3));
+Double_t WT_ISO_ANG(Bool_t add_flags, vector<IsoTrack> nvtracks) {
+  return static_cast<Double_t>(FLAG_ISO_ANG(add_flags, nvtracks));
 }
 
 // clang-format off
@@ -55,19 +53,16 @@ Bool_t FLAG_DD(Bool_t add_flags,
   return add_flags && (iso_bdt1 > 0.15) && pid_ok && kinematic_ok;
 }
 
-Bool_t FLAG_DD_ANG(Bool_t add_flags, Double_t iso_bdt1, Double_t iso_bdt2,
-                   Int_t iso_type1, Int_t iso_type2, Float_t iso_nnk1, Float_t iso_nnk2,
-                   Float_t iso_nnghost1, Float_t iso_nnghost2) {
-  // note: I'm getting rid of the iso_bdt > -1.1 check! Phoebe only does this for the DD it seems,
-  // and the angular analysis doesn't check it anywhere (TODO consider if this is what you really
-  // want... iso_bdt=-2 means no track was found...)
-  auto pid_ok = MAX(iso_nnk1 * (iso_type1 == 3) * (iso_nnghost1 < 0.2),
-                    iso_nnk2 * (iso_type2 == 3) * (iso_nnghost2 < 0.2)) > 0.2;
-
-  auto iso_bdt_ok = MAX(iso_bdt1 * (iso_type1 != 1), iso_bdt2 * (iso_type2 != 1)) > 0.15;
-
-  // note: angular analysis doesn't have the kinematic cleaning cuts for DD
-  return add_flags && iso_bdt_ok && pid_ok;
+Bool_t FLAG_DD_ANG(Bool_t add_flags, vector<IsoTrack> nvtracks) {
+  // note: no kinematic cleaning cuts as were done for run1 DD
+  // only considering two least isolated nonvelo tracks to be kaon, vs 3 least iso for run1 DD
+  if (nvtracks.size()<1) return false;
+  auto pid_ok = false;
+  for (size_t i=0; i<min(size_t(2),nvtracks.size()); i++) {
+    pid_ok = nvtracks[i].type==3 && nvtracks[i].NNk>0.2 && nvtracks[i].NNghost<0.2;
+    if (pid_ok) break;
+  }
+  return add_flags && pid_ok && nvtracks[0].iso_bdt>0.15;
 }
 
 // clang-format off
@@ -102,20 +97,15 @@ Double_t WT_DD(Bool_t add_flags,
   return prefac * wt_pid;
 }
 
-Double_t WT_DD_ANG(Bool_t add_flags, Double_t iso_bdt1, Double_t iso_bdt2,
-                   Int_t iso_type1, Int_t iso_type2,
-                   Double_t iso_wt1, Double_t iso_wt2) {
-  auto iso_bdt_ok = MAX(iso_bdt1 * (iso_type1 != 1), iso_bdt2 * (iso_type2 != 1)) > 0.15;
-  auto prefac = static_cast<Double_t>(add_flags && iso_bdt_ok);
-
-  // This is to translate the 'MAX' PID lines.
-  // Think in terms of Venn diagram!
-  iso_wt1 = iso_wt1 * (iso_type1 == 3);
-  iso_wt2 = iso_wt2 * (iso_type2 == 3);
-
-  Double_t wt_pid = iso_wt1 + iso_wt2 - iso_wt1 * iso_wt2;
-
-  return prefac * wt_pid;
+Double_t WT_DD_ANG(Bool_t add_flags, vector<IsoTrack> nvtracks) {
+  // note: no kinematic cleaning cuts as were done for run1 DD
+  // only considering two least isolated nonvelo tracks to be kaon, vs 3 least iso for run1 DD
+  if (nvtracks.size()<1) return 0.0;
+  double wpid;
+  if (nvtracks.size()==1) wpid = nvtracks[0].wpid * nvtracks[0].type==3;
+  else {wpid = (nvtracks[0].wpid * nvtracks[0].type==3) + (nvtracks[1].wpid * nvtracks[1].type==3) -
+               (nvtracks[0].wpid * nvtracks[0].type==3)*(nvtracks[1].wpid * nvtracks[1].type==3);}
+  return wpid * add_flags * nvtracks[0].iso_bdt>0.15;
 }
 
 // clang-format off
@@ -137,38 +127,16 @@ Bool_t FLAG_2OS(Bool_t add_flags,
          (iso_nnghost1 < ghost_cut) && (iso_nnghost2 < ghost_cut);
 }
 
-Bool_t FLAG_2OS_ANG(Bool_t add_flags, Double_t iso_bdt1, Double_t iso_bdt2, Double_t iso_bdt3,
-                    Int_t iso_type1, Int_t iso_type2,
-                    Int_t iso_chrg1, Int_t iso_chrg2,
-                    Float_t iso_nnk1, Float_t iso_nnk2,
-                    Float_t iso_nnghost1, Float_t iso_nnghost2) {
-  // note: we don't keep a fourth iso track, so cut won't be exactly the same as angular analysis
-  // also, angular analysis uses normal 0.15 cutoff for first iso track bdt, but then uses 0.0 for
-  // second and third tracks--probably because of a transcription error (run1 RD(*) has 0.0 in the
-  // ANA note table), but I'll follow along with it
+Bool_t FLAG_2OS_ANG(Bool_t add_flags, vector<IsoTrack> nvtracks) {
+  // note: angular analysis uses normal 0.15 cutoff for first iso track bdt, but then uses 0.0 for
+  // second and third tracks--assumedly because run1 RD(*) ANA note not updated (0.0 used to try for higher
+  // stats); I'm going to use 0.0 in the hopes of comparing to them
   // also, again angular analysis removes kinematic cleaning cuts
-  // Double_t bdt1 = -2.0; Double_t bdt2 = -2.0; Double_t bdt3 = -2.0;
-  // Bool_t pid_ok = false;
-  // Bool_t chrg_ok = false;
-  // if (iso_type1==3 && iso_type2==3) {
-  //   bdt1 = iso_bdt1; bdt2 = iso_bdt2;
-  //   if (iso_type3!=1 && iso_nnghost3 < 0.2) bdt3 = iso_bdt3; ...
-  //   pid_ok = iso_nnk1 < 0.2 && iso_nnghost1 < 0.2 && iso_nnk2 < 0.2 && iso_nnghost2 < 0.2;
-  //   chrg_ok = (iso_chrg1 + iso_chrg2 == 0);
-  // } else if (iso_type1==3 && iso_type3==3) {
-  //   bdt1 = iso_bdt1; bdt2 = iso_bdt3;
-  //   pid_ok = iso_nnk1 < 0.2 && iso_nnghost1 < 0.2 && iso_nnk3 < 0.2 && iso_nnghost3 < 0.2;
-  //   chrg_ok = (iso_chrg1 + iso_chrg3 == 0);
-  // } else if (iso_type2==3 && iso_type3==3) {
-  //   bdt1 = iso_bdt2; bdt2 = iso_bdt3;
-  //   pid_ok = iso_nnk2 < 0.2 && iso_nnghost2 < 0.2 && iso_nnk3 < 0.2 && iso_nnghost3 < 0.2;
-  //   chrg_ok = (iso_chrg2 + iso_chrg3 == 0);
-  // }
-  // return add_flags && bdt1 > 0.15 && bdt2 > 0.0 && bdt3 < 0.0 && chrg_ok && pid_ok;
-  return add_flags && (iso_bdt1 > 0.15) && (iso_bdt2 > 0.0) &&
-         (iso_bdt3 < 0.0) && (iso_type1 == 3) && (iso_type2 == 3) &&
-         (iso_chrg1 + iso_chrg2 == 0) && (iso_nnk1 < 0.2) && (iso_nnk2 < 0.2) &&
-         (iso_nnghost1 < 0.2) && (iso_nnghost2 < 0.2);
+  // charge requirement is also different vs run1 2OS- allows both pions to be neutral, but this should never happen, so irrelevant
+  if (nvtracks.size()<3) return false;
+  return add_flags && (nvtracks[0].iso_bdt>0.15) && (nvtracks[1].iso_bdt>0.0) && (nvtracks[2].iso_bdt<0.0) && 
+         (nvtracks[0].type==3) && (nvtracks[1].type==3) && (nvtracks[0].charge+nvtracks[1].charge==0) && 
+         (nvtracks[0].NNk<0.2) && (nvtracks[1].NNk<0.2) && (nvtracks[0].NNghost<0.2) && (nvtracks[1].NNghost<0.2);
 }
 
 // clang-format off
@@ -196,14 +164,11 @@ Double_t WT_2OS(Bool_t add_flags,
   return prefac * iso_wt1 * iso_wt2 * iso_wt3_or;
 }
 
-Double_t WT_2OS_ANG(Bool_t add_flags, Double_t iso_bdt1, Double_t iso_bdt2, Double_t iso_bdt3,
-                    Int_t iso_type1, Int_t iso_type2,
-                    Int_t iso_chrg1, Int_t iso_chrg2,
-                    Double_t iso_wt1, Double_t iso_wt2) {
-  auto prefac = static_cast<Double_t>(
-      FLAG_2OS_ANG(add_flags, iso_bdt1, iso_bdt2, iso_bdt3, iso_type1, iso_type2,
-                   iso_chrg1, iso_chrg2, 0.0f, 0.0f, 0.0f, 0.0f));
-  return prefac * iso_wt1 * iso_wt2;
+Double_t WT_2OS_ANG(Bool_t add_flags, vector<IsoTrack> nvtracks) {
+  if (nvtracks.size()<3) return 0.0;
+  return nvtracks[0].wpid * nvtracks[1].wpid * 
+         (add_flags && (nvtracks[0].iso_bdt>0.15) && (nvtracks[1].iso_bdt>0.0) && (nvtracks[2].iso_bdt<0.0) && 
+          (nvtracks[0].type==3) && (nvtracks[1].type==3) && (nvtracks[0].charge+nvtracks[1].charge==0));
 }
 
 // clang-format off
@@ -242,32 +207,13 @@ Bool_t FLAG_1OS(Bool_t add_flags,
          // IN_RANGE(dst_iso_invm, 2.4, 2.52)  // Greg's cut
 }
 
-Bool_t FLAG_1OS_ANG(Bool_t add_flags, Double_t iso_bdt1, Double_t iso_bdt2, Double_t iso_bdt3,
-                    Int_t iso_type1, Int_t iso_type2, Float_t iso_p1, Float_t iso_pt1, 
-                    Float_t iso_p2, Float_t iso_pt2, Int_t iso_chrg1, Int_t iso_chrg2,
-                    Float_t iso_nnk1, Float_t iso_nnk2, Float_t iso_nnghost1, Float_t iso_nnghost2,
-                    Int_t d_id, Bool_t d_is_dst) {
-  // note: we don't keep a fourth iso track, so cut won't be exactly the same as angular analysis
-  // also, angular analysis removes D* mass window cut (so now selection is identical for D0 and
+Bool_t FLAG_1OS_ANG(Bool_t add_flags, vector<IsoTrack> nvtracks, Int_t d_id, Bool_t is_d0) {
+  // angular analysis removes D* mass window cut (so now selection is identical for D0 and
   // D* samples, except for D* you want the extra pi and the D*+ to have opposite charge)
-  Double_t bdt1 = -2.0; Double_t bdt2 = 1.0;
-  Int_t type1 = 0;
-  Double_t p1 = 0.0; Double_t pt1 = 0.0;
-  Int_t chrg1 = 0;
-  Float_t nnk1 = 1.0; Float_t nnghost1 = 1.0;
-  if (iso_type1 != 1) {
-    bdt1 = iso_bdt1; type1 = iso_type1; p1 = iso_p1; pt1 = iso_pt1; chrg1 = iso_chrg1;
-    nnk1 = iso_nnk1; nnghost1 = iso_nnghost1;
-    if (iso_type2 != 1) bdt2 = iso_bdt2;
-    else bdt2 = iso_bdt3;
-  } else if (iso_type2 != 1) {
-    bdt1 = iso_bdt2; type1 = iso_type2; p1 = iso_p2; pt1 = iso_pt2; chrg1 = iso_chrg2;
-    nnk1 = iso_nnk2; nnghost1 = iso_nnghost2;
-    bdt2 = iso_bdt3;
-  }
-  if (d_is_dst) chrg1 *= -1;
-  return add_flags && (bdt1 > 0.15) && (bdt2 < 0.15) && (type1 == 3) && 
-         (p1 > 5.0) && (pt1 > 0.15) && (chrg1 * d_id) > 0 && (nnk1 < 0.2) && (nnghost1 < 0.2);
+  if (nvtracks.size()<2) return false;
+  return add_flags && (nvtracks[0].iso_bdt>0.15) && (nvtracks[1].iso_bdt<0.15) && (nvtracks[0].type==3) && 
+         (nvtracks[0].p.P()>5.0) && (nvtracks[0].p.Pt()>0.15) && nvtracks[0].charge*d_id*(2*is_d0-1)>0 &&
+         (nvtracks[0].NNk<0.2) && (nvtracks[0].NNghost<0.2);
 }
 
 // clang-format off
@@ -293,21 +239,10 @@ Double_t WT_1OS(Bool_t add_flags,
   return prefac * iso_wt1 * iso_wt2_or * iso_wt3_or;
 }
 
-Double_t WT_1OS_ANG(Bool_t add_flags, Double_t iso_bdt1, Double_t iso_bdt2, Double_t iso_bdt3,
-                    Int_t iso_type1, Int_t iso_type2, Float_t iso_p1, Float_t iso_pt1, 
-                    Float_t iso_p2, Float_t iso_pt2, Int_t iso_chrg1, Int_t iso_chrg2,
-                    Double_t iso_wt1, Double_t iso_wt2, Int_t d_id, Bool_t d_is_dst) {
-  auto prefac = static_cast<Double_t>(
-      FLAG_1OS_ANG(add_flags, iso_bdt1, iso_bdt2, iso_bdt3, iso_type1, iso_type2,
-                   iso_p1, iso_pt1, iso_p2, iso_pt2, iso_chrg1, iso_chrg2,
-                    0.0f, 0.0f, 0.0f, 0.0f, d_id, d_is_dst));
-  // clang-format on
-  if (iso_type1 != 1) { // first iso track is considered to be pi in FLAG_1OS_ANG
-    return prefac * iso_wt1;
-  } else if (iso_type2 != 1) { // second iso track is considered to be pi in FLAG_1OS_ANG
-    return prefac * iso_wt2;
-  } // else reject event for 1OS (prefac should also be 0)
-  return 0.0;
+Double_t WT_1OS_ANG(Bool_t add_flags, vector<IsoTrack> nvtracks, Int_t d_id, Bool_t is_d0) {
+  if (nvtracks.size()<2) return false;
+  return nvtracks[0].wpid * (add_flags && (nvtracks[0].iso_bdt>0.15) && (nvtracks[1].iso_bdt<0.15) && (nvtracks[0].type==3) && 
+                             (nvtracks[0].p.P()>5.0) && (nvtracks[0].p.Pt()>0.15) && nvtracks[0].charge*d_id*(2*is_d0-1)>0);
 }
 
 // clang-format off

@@ -66,7 +66,11 @@ LFN_PATH = {
     # run 2 RDX Lambda_b MC
     'run2-rdx-mc-2016-sim10': '/MC/2016/Beam6500GeV-2016-Mag{polarity}-Nu1.6-25ns-Pythia8/{simcond}/Trig0x6139160F/Reco16/Turbo03a/Stripping28r2NoPrescalingFlagged/{decay}/ALLSTREAMS.DST',
     'run2-rdx-mc-2017-sim10': '/MC/2017/Beam6500GeV-2017-Mag{polarity}-Nu1.6-25ns-Pythia8/{simcond}/Trig0x62661709/Reco17/Turbo04a-WithTurcal/Stripping29r2NoPrescalingFlagged/{decay}/ALLSTREAMS.DST',
-    'run2-rdx-mc-2018-sim10': '/MC/2018/Beam6500GeV-2018-Mag{polarity}-Nu1.6-25ns-Pythia8/{simcond}/Trig0x617d18a4/Reco18/Turbo05-WithTurcal/Stripping34NoPrescalingFlagged/{decay}/ALLSTREAMS.DST'
+    'run2-rdx-mc-2018-sim10': '/MC/2018/Beam6500GeV-2018-Mag{polarity}-Nu1.6-25ns-Pythia8/{simcond}/Trig0x617d18a4/Reco18/Turbo05-WithTurcal/Stripping34NoPrescalingFlagged/{decay}/ALLSTREAMS.DST',
+    # run 2 RDX incl_b D*+ -> D0 (-> K pi) pi for misid
+    'run2-rdx-mc-2016-sim10-incl_b': '/MC/2016/Beam6500GeV-2016-Mag{polarity}-Nu1.6-25ns-Pythia8/{simcond}/Trig0x6139160F/Reco16/Turbo03a/Stripping28r2Filtered/{decay}/DSTAR2D02KPINOPID.DST',
+    'run2-rdx-mc-2017-sim10-incl_b': '/MC/2017/Beam6500GeV-2017-Mag{polarity}-Nu1.6-25ns-Pythia8/{simcond}/Trig0x62661709/Reco17/Turbo04a-WithTurcal/Stripping29r2Filtered/{decay}/DSTAR2D02KPINOPID.DST',
+    'run2-rdx-mc-2018-sim10-incl_b': '/MC/2018/Beam6500GeV-2018-Mag{polarity}-Nu1.6-25ns-Pythia8/{simcond}/Trig0x617d18a4/Reco18/Turbo05-WithTurcal/Stripping34Filtered/{decay}/DSTAR2D02KPINOPID.DST',
 }
 
 LFN_PATH['run1-rdx-cutflow_data-2012'] = LFN_PATH['run1-rdx-std-2012']
@@ -80,7 +84,8 @@ LFN_PATH['run2-rdx-mu_misid-2018'] = LFN_PATH['run2-rdx-std-2018']
 MC_PYTHIA = ['Pythia6', 'Pythia8']
 MC_POLARITY = {'mu': 'Up', 'md': 'Down'}
 KEY_ADD_FIELDS = [
-    'tracker_only'
+    'tracker_only',
+    'incl_b'
 ]
 
 

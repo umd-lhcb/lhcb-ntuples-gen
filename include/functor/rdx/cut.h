@@ -138,7 +138,7 @@ Bool_t FLAG_SEL_D0_RUN1(Bool_t flag_d0_pid_ok,
                         Double_t d0_fd_chi2) {
   if (flag_d0_pid_ok &&
       /* K, pi */
-      ((k_hlt1_tos && k_pt > 1700.0) || (pi_hlt1_tos && pi_pt > 1700.0)) &&
+      // ((k_hlt1_tos && k_pt > 1700.0) || (pi_hlt1_tos && pi_pt > 1700.0)) &&
       k_pt > 500.0 && pi_pt > 500.0 && k_pt+pi_pt > 1400.0 &&
       k_ip_chi2 > 45.0 && pi_ip_chi2 > 45.0 &&
       k_gh_prob < 0.5 && pi_gh_prob < 0.5 &&
@@ -254,7 +254,7 @@ Bool_t FLAG_SEL_BMINUSD0_RUN1(Bool_t flag_sel_d0, Bool_t flag_sel_mu,
                               Double_t b_endvtx_chi2, Double_t b_endvtx_ndof,
                               Double_t b_fd_trans,
                               Double_t b_dira,
-                              Double_t d0_dst_veto_deltam) {
+                              Double_t d0_dst_veto_deltam, Bool_t mcgen_ok) {
   // clang-format off
   if (/* Daughter particles */
       flag_sel_d0 && flag_sel_mu &&
@@ -263,7 +263,8 @@ Bool_t FLAG_SEL_BMINUSD0_RUN1(Bool_t flag_sel_d0, Bool_t flag_sel_mu,
       /* Vertex quality */
       b_endvtx_chi2 / b_endvtx_ndof < 6.0 && b_dira > 0.9995 &&
       /* Veto D* in D0 sample */
-      d0_dst_veto_deltam > 4.0  // MeV!
+      d0_dst_veto_deltam > 4.0 &&  // MeV!
+      mcgen_ok
       )
     // clang-format on
     return true;
@@ -302,7 +303,7 @@ Bool_t FLAG_SEL_B0DST_RUN1(Bool_t flag_sel_d0, Bool_t flag_sel_mu,
                            Double_t b0_discard_mu_chi2,
                            Double_t b0_endvtx_chi2, Double_t b0_endvtx_ndof,
                            Double_t b0_fd_trans,
-                           Double_t b0_dira) {
+                           Double_t b0_dira, Bool_t mcgen_ok) {
   // clang-format off
   if (flag_sel_d0 && flag_sel_mu &&
       /* slow Pi */
@@ -315,7 +316,8 @@ Bool_t FLAG_SEL_B0DST_RUN1(Bool_t flag_sel_d0, Bool_t flag_sel_mu,
       b0_endvtx_chi2 < 24.0 &&
       b0_endvtx_chi2 / b0_endvtx_ndof < 6.0 &&
       b0_fd_trans < 7.0 &&
-      b0_dira > 0.9995
+      b0_dira > 0.9995 &&
+      mcgen_ok
       )
     // clang-format on
     return true;
@@ -501,4 +503,51 @@ Double_t FAKE_ISO_BDT(Int_t truthmatch, Double_t raw_bdt, Int_t true_id1,
   Double_t rand = gRandom->Uniform(0, 100);
   if (rand <= 33) return -2;
   return raw_bdt;
+}
+
+// Veto tracks with large chi2ndof /////////////////////////////////////////////
+
+Bool_t TRACKS_CHI2NDOF_OK_D0(Double_t mu_chi2ndof, Double_t k_chi2ndof,
+                             Double_t pi_chi2ndof) {
+  const double chi2ndof_max = 3.0;
+
+  const bool mu_ok = mu_chi2ndof < chi2ndof_max;
+  const bool k_ok  = k_chi2ndof < chi2ndof_max;
+  const bool pi_ok = pi_chi2ndof < chi2ndof_max;
+
+  return mu_ok && k_ok && pi_ok;
+}
+
+Bool_t TRACKS_CHI2NDOF_OK_DST(Double_t mu_chi2ndof, Double_t k_chi2ndof,
+                              Double_t pi_chi2ndof, Double_t spi_chi2ndof) {
+  const double chi2ndof_max = 3.0;
+
+  const bool mu_ok  = mu_chi2ndof < chi2ndof_max;
+  const bool k_ok   = k_chi2ndof < chi2ndof_max;
+  const bool pi_ok  = pi_chi2ndof < chi2ndof_max;
+  const bool spi_ok = spi_chi2ndof < chi2ndof_max;
+
+  return mu_ok && k_ok && pi_ok && spi_ok;
+}
+
+// Potential option for applying trig emu: apply as a cut, with prob to pass the cut given by the trigger weight
+
+Bool_t TRIG_EMU_CUT(Double_t wtrg) {
+  if (wtrg>1 || wtrg<0) assert(false); // safety
+  if (gRandom->Uniform() < wtrg) return true;
+  return false;
+}
+
+// Partially account for TupleToolApplyIsolation bug affecting 4th/5th iso tracks: ensure tracks are ordered least->most isolated
+// note: if bug is fixed and production re-run, the tracks should already be ordered correctly, and this function won't change anything
+
+template <typename T>
+T ISO45_BUG_ADHOC_REORDER(Double_t iso_bdt4, Double_t iso_bdt5, T val4, T val5, bool want_less_iso) {
+  if (iso_bdt4 < iso_bdt5) { // wrong ordering
+    if (want_less_iso) return val5;
+    return val4;
+  }
+  // else, ordering is fine
+  if (want_less_iso) return val4;
+  return val5;
 }

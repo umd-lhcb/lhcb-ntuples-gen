@@ -1,0 +1,80 @@
+headers:
+    user:
+        - functor/basic.h
+        - functor/basic_kinematic.h
+
+keep:
+    - runNumber
+    - eventNumber
+    - GpsTime
+
+calculation:
+    #####################
+    # MC true variables #
+    #####################
+    # Mu
+    mu_true_id: int; mu_TRUEID
+
+    ################################
+    # Selection flags, MC-specific #
+    ################################
+    # Truth-matching
+    mu_unbiased: bool; b0_L0Global_TIS || d0_L0HadronDecision_TOS
+    is_ghost: bool; mu_true_id == 0
+    is_electron: bool; ABS(mu_true_id) == 11
+
+    ############################
+    # Mu misID study variables #
+    ############################
+    # PIDCalib stub
+    Brunel_MC15TuneV1_ProbNNpi: double; mu_MC15TuneV1_ProbNNpi
+    Brunel_MC15TuneV1_ProbNNk: double; mu_MC15TuneV1_ProbNNk
+    Brunel_MC15TuneV1_ProbNNp: double; mu_MC15TuneV1_ProbNNp
+    Brunel_MC15TuneV1_ProbNNe: double; mu_MC15TuneV1_ProbNNe
+    Brunel_MC15TuneV1_ProbNNmu: double; mu_MC15TuneV1_ProbNNmu
+    Brunel_MC15TuneV1_ProbNNghost: double; mu_MC15TuneV1_ProbNNghost
+    Brunel_DLLK: double; mu_PIDK
+    Brunel_DLLp: double; mu_PIDp
+    Brunel_DLLe: double; mu_PIDe
+    Brunel_DLLmu: double; mu_PIDmu
+    Brunel_DLLd: double; mu_PIDd
+    Brunel_IsMuon: double; TO_TYPE(mu_isMuon, 1.0)
+    Brunel_InMuonAcc: double; mu_InMuonAcc; 1.0
+    Brunel_MuonUnbiased: double; TO_TYPE(mu_unbiased, 1.0)
+    Brunel_UBDT: double; mu_bdt_mu
+    # PIDCalib aliaes
+    TRACK_GHOSTPROB: double; mu_TRACK_GhostProb
+    MC15TuneV1_ProbNNpi: double; Brunel_MC15TuneV1_ProbNNpi
+    MC15TuneV1_ProbNNk: double; Brunel_MC15TuneV1_ProbNNk
+    MC15TuneV1_ProbNNp: double; Brunel_MC15TuneV1_ProbNNp
+    MC15TuneV1_ProbNNe: double; Brunel_MC15TuneV1_ProbNNe
+    MC15TuneV1_ProbNNmu: double; Brunel_MC15TuneV1_ProbNNmu
+    MC15TuneV1_ProbNNghost: double; Brunel_MC15TuneV1_ProbNNghost
+    DLLK: double; Brunel_DLLK
+    DLLp: double; Brunel_DLLp
+    DLLe: double; Brunel_DLLe
+    DLLmu: double; Brunel_DLLmu
+    DLLd: double; Brunel_DLLd
+    IsMuon: double; Brunel_IsMuon
+    InMuonAcc: double; Brunel_InMuonAcc
+    MuonUnbiased: double; Brunel_MuonUnbiased
+    UBDT: double; Brunel_UBDT
+    # Binning variables
+    P: double; mu_P
+    ETA: double; ETA(mu_P, mu_PZ)
+    nTracks: double; nTracks
+    Brunel_P: double; P
+    Brunel_ETA: double; ETA
+    nTracks_Brunel: double; nTracks
+
+one_cand_only:
+    enable: false
+    branch: calculation_prs_in
+
+output:
+    ghost:
+        input: EorGhost/DecayTree
+        selection: [is_ghost]
+    e:
+        input: EorGhost/DecayTree
+        selection: [is_electron]

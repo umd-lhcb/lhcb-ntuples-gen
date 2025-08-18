@@ -32,8 +32,8 @@ REWEIGHT_PROCEDURE = {
 }
 
 DATA_WTS = ['sw_sig']
-MC_WTS = ['wtrk']
-MC_CUTS = {'k_pid_k': 4, 'mu_pid_mu': 2, 'amu_pid_mu': 2, 'mu_ismu': 0, 'amu_ismu': 0, 'l0': 0, 'l0mupt': 0}
+MC_WTS = ['wtrk', 'wpid_k', 'wpid_mu', 'wpid_amu'] # wpid_k * wpid_mu * wpid_amu = wpid (with mu, amu weights taking isMuon conditional into account), but want to be explicit
+MC_CUTS = {'mu_ismu': 0, 'amu_ismu': 0} #, 'mu_pid_mu': 2, 'amu_pid_mu': 2} #, 'k_pid_k': 4} #, 'l0_mu_tos_pt': 0} #, 'l0': 0} # mu_ismu && amu_ismu = pid_mc_ok, but again want to be explicit here
 
 #######################
 # Command line parser #

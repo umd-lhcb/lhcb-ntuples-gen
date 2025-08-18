@@ -2,7 +2,7 @@ trees:  # This is optional
     - TupleB0/DecayTree
     - TupleBminus/DecayTree
 
-# NOTE!! If cut values are not specified, NNk cut is at 0.2 and NNg cut is at 0.3
+# NOTE!! If cut values are not specified in name, NNk cut is at 0.2, NNg cut is at 0.3, NNp cut is at 0.4
 # To emulate angular analysis, also have variables for NNk at 0.2 and NNg at 0.2 (numbers should be specified for these variables)
 
 config:
@@ -38,7 +38,7 @@ config:
             - ETA(pi_P, pi_PZ)
             - nTracks
 
-    ### Proton PID for first isolated track        
+    ### Proton PID for isolated tracks
     wpid_iso_nnp1_gt_pi:
         particle: Pi_nnp_gt
         vars:
@@ -151,14 +151,502 @@ config:
               ETA(b_ISOLATION_PX, b_ISOLATION_PY, b_ISOLATION_PZ)
             - nTracks
     wpid_iso_nnpnng1_gtlt_g:
+        particle: ghost_nnpnng_gtlt
+        vars:
+            - >-
+              P(b0_ISOLATION_PX, b0_ISOLATION_PY, b0_ISOLATION_PZ);
+              P(b_ISOLATION_PX, b_ISOLATION_PY, b_ISOLATION_PZ)
+            - >-
+              ETA(b0_ISOLATION_PX, b0_ISOLATION_PY, b0_ISOLATION_PZ);
+              ETA(b_ISOLATION_PX, b_ISOLATION_PY, b_ISOLATION_PZ)
+            - nTracks
+    
+    wpid_iso_nnp2_gt_pi:
+        particle: Pi_nnp_gt
+        vars:
+            - >-
+              P(b0_ISOLATION_PX2, b0_ISOLATION_PY2, b0_ISOLATION_PZ2);
+              P(b_ISOLATION_PX2, b_ISOLATION_PY2, b_ISOLATION_PZ2)
+            - >-
+              ETA(b0_ISOLATION_PX2, b0_ISOLATION_PY2, b0_ISOLATION_PZ2);
+              ETA(b_ISOLATION_PX2, b_ISOLATION_PY2, b_ISOLATION_PZ2)
+            - nTracks
+    wpid_iso_nnp2_gt_k:
+        particle: K_nnp_gt
+        vars:
+            - >-
+              P(b0_ISOLATION_PX2, b0_ISOLATION_PY2, b0_ISOLATION_PZ2);
+              P(b_ISOLATION_PX2, b_ISOLATION_PY2, b_ISOLATION_PZ2)
+            - >-
+              ETA(b0_ISOLATION_PX2, b0_ISOLATION_PY2, b0_ISOLATION_PZ2);
+              ETA(b_ISOLATION_PX2, b_ISOLATION_PY2, b_ISOLATION_PZ2)
+            - nTracks
+    wpid_iso_nnp2_gt_p:
+        particle: P_nnp_gt
+        vars:
+            - >-
+              P(b0_ISOLATION_PX2, b0_ISOLATION_PY2, b0_ISOLATION_PZ2);
+              P(b_ISOLATION_PX2, b_ISOLATION_PY2, b_ISOLATION_PZ2)
+            - >-
+              ETA(b0_ISOLATION_PX2, b0_ISOLATION_PY2, b0_ISOLATION_PZ2);
+              ETA(b_ISOLATION_PX2, b_ISOLATION_PY2, b_ISOLATION_PZ2)
+            - nTracks
+    wpid_iso_nnp2_gt_e:
+        particle: e_B_Jpsi_nnp_gt
+        vars:
+            - >-
+              P(b0_ISOLATION_PX2, b0_ISOLATION_PY2, b0_ISOLATION_PZ2);
+              P(b_ISOLATION_PX2, b_ISOLATION_PY2, b_ISOLATION_PZ2)
+            - >-
+              ETA(b0_ISOLATION_PX2, b0_ISOLATION_PY2, b0_ISOLATION_PZ2);
+              ETA(b_ISOLATION_PX2, b_ISOLATION_PY2, b_ISOLATION_PZ2)
+            - nTracks
+    wpid_iso_nnp2_gt_mu:
+        particle: Mu_nopt_nnp_gt
+        vars:
+            - >-
+              P(b0_ISOLATION_PX2, b0_ISOLATION_PY2, b0_ISOLATION_PZ2);
+              P(b_ISOLATION_PX2, b_ISOLATION_PY2, b_ISOLATION_PZ2)
+            - >-
+              ETA(b0_ISOLATION_PX2, b0_ISOLATION_PY2, b0_ISOLATION_PZ2);
+              ETA(b_ISOLATION_PX2, b_ISOLATION_PY2, b_ISOLATION_PZ2)
+            - nTracks
+    wpid_iso_nnp2_gt_g:
+       particle: ghost_nnp_gt
+       vars:
+           - >-
+             P(b0_ISOLATION_PX2, b0_ISOLATION_PY2, b0_ISOLATION_PZ2);
+             P(b_ISOLATION_PX2, b_ISOLATION_PY2, b_ISOLATION_PZ2)
+           - >-
+             ETA(b0_ISOLATION_PX2, b0_ISOLATION_PY2, b0_ISOLATION_PZ2);
+             ETA(b_ISOLATION_PX2, b_ISOLATION_PY2, b_ISOLATION_PZ2)
+           - nTracks
+
+    wpid_iso_nnpnng2_gtlt_pi:
+        particle: Pi_nnpnng_gtlt
+        vars:
+            - >-
+              P(b0_ISOLATION_PX2, b0_ISOLATION_PY2, b0_ISOLATION_PZ2);
+              P(b_ISOLATION_PX2, b_ISOLATION_PY2, b_ISOLATION_PZ2)
+            - >-
+              ETA(b0_ISOLATION_PX2, b0_ISOLATION_PY2, b0_ISOLATION_PZ2);
+              ETA(b_ISOLATION_PX2, b_ISOLATION_PY2, b_ISOLATION_PZ2)
+            - nTracks
+    wpid_iso_nnpnng2_gtlt_k:
+        particle: K_nnpnng_gtlt
+        vars:
+            - >-
+              P(b0_ISOLATION_PX2, b0_ISOLATION_PY2, b0_ISOLATION_PZ2);
+              P(b_ISOLATION_PX2, b_ISOLATION_PY2, b_ISOLATION_PZ2)
+            - >-
+              ETA(b0_ISOLATION_PX2, b0_ISOLATION_PY2, b0_ISOLATION_PZ2);
+              ETA(b_ISOLATION_PX2, b_ISOLATION_PY2, b_ISOLATION_PZ2)
+            - nTracks
+    wpid_iso_nnpnng2_gtlt_p:
+        particle: P_nnpnng_gtlt
+        vars:
+            - >-
+              P(b0_ISOLATION_PX2, b0_ISOLATION_PY2, b0_ISOLATION_PZ2);
+              P(b_ISOLATION_PX2, b_ISOLATION_PY2, b_ISOLATION_PZ2)
+            - >-
+              ETA(b0_ISOLATION_PX2, b0_ISOLATION_PY2, b0_ISOLATION_PZ2);
+              ETA(b_ISOLATION_PX2, b_ISOLATION_PY2, b_ISOLATION_PZ2)
+            - nTracks
+    wpid_iso_nnpnng2_gtlt_e:
+        particle: e_B_Jpsi_nnpnng_gtlt
+        vars:
+            - >-
+              P(b0_ISOLATION_PX2, b0_ISOLATION_PY2, b0_ISOLATION_PZ2);
+              P(b_ISOLATION_PX2, b_ISOLATION_PY2, b_ISOLATION_PZ2)
+            - >-
+              ETA(b0_ISOLATION_PX2, b0_ISOLATION_PY2, b0_ISOLATION_PZ2);
+              ETA(b_ISOLATION_PX2, b_ISOLATION_PY2, b_ISOLATION_PZ2)
+            - nTracks
+    wpid_iso_nnpnng2_gtlt_mu:
+        particle: Mu_nopt_nnpnng_gtlt
+        vars:
+            - >-
+              P(b0_ISOLATION_PX2, b0_ISOLATION_PY2, b0_ISOLATION_PZ2);
+              P(b_ISOLATION_PX2, b_ISOLATION_PY2, b_ISOLATION_PZ2)
+            - >-
+              ETA(b0_ISOLATION_PX2, b0_ISOLATION_PY2, b0_ISOLATION_PZ2);
+              ETA(b_ISOLATION_PX2, b_ISOLATION_PY2, b_ISOLATION_PZ2)
+            - nTracks
+    wpid_iso_nnpnng2_gtlt_g:
+        particle: ghost_nnpnng_gtlt
+        vars:
+            - >-
+              P(b0_ISOLATION_PX2, b0_ISOLATION_PY2, b0_ISOLATION_PZ2);
+              P(b_ISOLATION_PX2, b_ISOLATION_PY2, b_ISOLATION_PZ2)
+            - >-
+              ETA(b0_ISOLATION_PX2, b0_ISOLATION_PY2, b0_ISOLATION_PZ2);
+              ETA(b_ISOLATION_PX2, b_ISOLATION_PY2, b_ISOLATION_PZ2)
+            - nTracks
+
+    wpid_iso_nnp3_gt_pi:
+        particle: Pi_nnp_gt
+        vars:
+            - >-
+              P(b0_ISOLATION_PX3, b0_ISOLATION_PY3, b0_ISOLATION_PZ3);
+              P(b_ISOLATION_PX3, b_ISOLATION_PY3, b_ISOLATION_PZ3)
+            - >-
+              ETA(b0_ISOLATION_PX3, b0_ISOLATION_PY3, b0_ISOLATION_PZ3);
+              ETA(b_ISOLATION_PX3, b_ISOLATION_PY3, b_ISOLATION_PZ3)
+            - nTracks
+    wpid_iso_nnp3_gt_k:
+        particle: K_nnp_gt
+        vars:
+            - >-
+              P(b0_ISOLATION_PX3, b0_ISOLATION_PY3, b0_ISOLATION_PZ3);
+              P(b_ISOLATION_PX3, b_ISOLATION_PY3, b_ISOLATION_PZ3)
+            - >-
+              ETA(b0_ISOLATION_PX3, b0_ISOLATION_PY3, b0_ISOLATION_PZ3);
+              ETA(b_ISOLATION_PX3, b_ISOLATION_PY3, b_ISOLATION_PZ3)
+            - nTracks
+    wpid_iso_nnp3_gt_p:
+        particle: P_nnp_gt
+        vars:
+            - >-
+              P(b0_ISOLATION_PX3, b0_ISOLATION_PY3, b0_ISOLATION_PZ3);
+              P(b_ISOLATION_PX3, b_ISOLATION_PY3, b_ISOLATION_PZ3)
+            - >-
+              ETA(b0_ISOLATION_PX3, b0_ISOLATION_PY3, b0_ISOLATION_PZ3);
+              ETA(b_ISOLATION_PX3, b_ISOLATION_PY3, b_ISOLATION_PZ3)
+            - nTracks
+    wpid_iso_nnp3_gt_e:
+        particle: e_B_Jpsi_nnp_gt
+        vars:
+            - >-
+              P(b0_ISOLATION_PX3, b0_ISOLATION_PY3, b0_ISOLATION_PZ3);
+              P(b_ISOLATION_PX3, b_ISOLATION_PY3, b_ISOLATION_PZ3)
+            - >-
+              ETA(b0_ISOLATION_PX3, b0_ISOLATION_PY3, b0_ISOLATION_PZ3);
+              ETA(b_ISOLATION_PX3, b_ISOLATION_PY3, b_ISOLATION_PZ3)
+            - nTracks
+    wpid_iso_nnp3_gt_mu:
+        particle: Mu_nopt_nnp_gt
+        vars:
+            - >-
+              P(b0_ISOLATION_PX3, b0_ISOLATION_PY3, b0_ISOLATION_PZ3);
+              P(b_ISOLATION_PX3, b_ISOLATION_PY3, b_ISOLATION_PZ3)
+            - >-
+              ETA(b0_ISOLATION_PX3, b0_ISOLATION_PY3, b0_ISOLATION_PZ3);
+              ETA(b_ISOLATION_PX3, b_ISOLATION_PY3, b_ISOLATION_PZ3)
+            - nTracks
+    wpid_iso_nnp3_gt_g:
+       particle: ghost_nnp_gt
+       vars:
+           - >-
+             P(b0_ISOLATION_PX3, b0_ISOLATION_PY3, b0_ISOLATION_PZ3);
+             P(b_ISOLATION_PX3, b_ISOLATION_PY3, b_ISOLATION_PZ3)
+           - >-
+             ETA(b0_ISOLATION_PX3, b0_ISOLATION_PY3, b0_ISOLATION_PZ3);
+             ETA(b_ISOLATION_PX3, b_ISOLATION_PY3, b_ISOLATION_PZ3)
+           - nTracks
+
+    wpid_iso_nnpnng3_gtlt_pi:
+        particle: Pi_nnpnng_gtlt
+        vars:
+            - >-
+              P(b0_ISOLATION_PX3, b0_ISOLATION_PY3, b0_ISOLATION_PZ3);
+              P(b_ISOLATION_PX3, b_ISOLATION_PY3, b_ISOLATION_PZ3)
+            - >-
+              ETA(b0_ISOLATION_PX3, b0_ISOLATION_PY3, b0_ISOLATION_PZ3);
+              ETA(b_ISOLATION_PX3, b_ISOLATION_PY3, b_ISOLATION_PZ3)
+            - nTracks
+    wpid_iso_nnpnng3_gtlt_k:
+        particle: K_nnpnng_gtlt
+        vars:
+            - >-
+              P(b0_ISOLATION_PX3, b0_ISOLATION_PY3, b0_ISOLATION_PZ3);
+              P(b_ISOLATION_PX3, b_ISOLATION_PY3, b_ISOLATION_PZ3)
+            - >-
+              ETA(b0_ISOLATION_PX3, b0_ISOLATION_PY3, b0_ISOLATION_PZ3);
+              ETA(b_ISOLATION_PX3, b_ISOLATION_PY3, b_ISOLATION_PZ3)
+            - nTracks
+    wpid_iso_nnpnng3_gtlt_p:
+        particle: P_nnpnng_gtlt
+        vars:
+            - >-
+              P(b0_ISOLATION_PX3, b0_ISOLATION_PY3, b0_ISOLATION_PZ3);
+              P(b_ISOLATION_PX3, b_ISOLATION_PY3, b_ISOLATION_PZ3)
+            - >-
+              ETA(b0_ISOLATION_PX3, b0_ISOLATION_PY3, b0_ISOLATION_PZ3);
+              ETA(b_ISOLATION_PX3, b_ISOLATION_PY3, b_ISOLATION_PZ3)
+            - nTracks
+    wpid_iso_nnpnng3_gtlt_e:
+        particle: e_B_Jpsi_nnpnng_gtlt
+        vars:
+            - >-
+              P(b0_ISOLATION_PX3, b0_ISOLATION_PY3, b0_ISOLATION_PZ3);
+              P(b_ISOLATION_PX3, b_ISOLATION_PY3, b_ISOLATION_PZ3)
+            - >-
+              ETA(b0_ISOLATION_PX3, b0_ISOLATION_PY3, b0_ISOLATION_PZ3);
+              ETA(b_ISOLATION_PX3, b_ISOLATION_PY3, b_ISOLATION_PZ3)
+            - nTracks
+    wpid_iso_nnpnng3_gtlt_mu:
+        particle: Mu_nopt_nnpnng_gtlt
+        vars:
+            - >-
+              P(b0_ISOLATION_PX3, b0_ISOLATION_PY3, b0_ISOLATION_PZ3);
+              P(b_ISOLATION_PX3, b_ISOLATION_PY3, b_ISOLATION_PZ3)
+            - >-
+              ETA(b0_ISOLATION_PX3, b0_ISOLATION_PY3, b0_ISOLATION_PZ3);
+              ETA(b_ISOLATION_PX3, b_ISOLATION_PY3, b_ISOLATION_PZ3)
+            - nTracks
+    wpid_iso_nnpnng3_gtlt_g:
        particle: ghost_nnpnng_gtlt
        vars:
            - >-
-             P(b0_ISOLATION_PX, b0_ISOLATION_PY, b0_ISOLATION_PZ);
-             P(b_ISOLATION_PX, b_ISOLATION_PY, b_ISOLATION_PZ)
+             P(b0_ISOLATION_PX3, b0_ISOLATION_PY3, b0_ISOLATION_PZ3);
+             P(b_ISOLATION_PX3, b_ISOLATION_PY3, b_ISOLATION_PZ3)
            - >-
-             ETA(b0_ISOLATION_PX, b0_ISOLATION_PY, b0_ISOLATION_PZ);
-             ETA(b_ISOLATION_PX, b_ISOLATION_PY, b_ISOLATION_PZ)
+             ETA(b0_ISOLATION_PX3, b0_ISOLATION_PY3, b0_ISOLATION_PZ3);
+             ETA(b_ISOLATION_PX3, b_ISOLATION_PY3, b_ISOLATION_PZ3)
+           - nTracks
+
+    wpid_iso_nnp4_gt_pi:
+        particle: Pi_nnp_gt
+        vars:
+            - >-
+              P(b0_ISOLATION_PX4, b0_ISOLATION_PY4, b0_ISOLATION_PZ4);
+              P(b_ISOLATION_PX4, b_ISOLATION_PY4, b_ISOLATION_PZ4)
+            - >-
+              ETA(b0_ISOLATION_PX4, b0_ISOLATION_PY4, b0_ISOLATION_PZ4);
+              ETA(b_ISOLATION_PX4, b_ISOLATION_PY4, b_ISOLATION_PZ4)
+            - nTracks
+    wpid_iso_nnp4_gt_k:
+        particle: K_nnp_gt
+        vars:
+            - >-
+              P(b0_ISOLATION_PX4, b0_ISOLATION_PY4, b0_ISOLATION_PZ4);
+              P(b_ISOLATION_PX4, b_ISOLATION_PY4, b_ISOLATION_PZ4)
+            - >-
+              ETA(b0_ISOLATION_PX4, b0_ISOLATION_PY4, b0_ISOLATION_PZ4);
+              ETA(b_ISOLATION_PX4, b_ISOLATION_PY4, b_ISOLATION_PZ4)
+            - nTracks
+    wpid_iso_nnp4_gt_p:
+        particle: P_nnp_gt
+        vars:
+            - >-
+              P(b0_ISOLATION_PX4, b0_ISOLATION_PY4, b0_ISOLATION_PZ4);
+              P(b_ISOLATION_PX4, b_ISOLATION_PY4, b_ISOLATION_PZ4)
+            - >-
+              ETA(b0_ISOLATION_PX4, b0_ISOLATION_PY4, b0_ISOLATION_PZ4);
+              ETA(b_ISOLATION_PX4, b_ISOLATION_PY4, b_ISOLATION_PZ4)
+            - nTracks
+    wpid_iso_nnp4_gt_e:
+        particle: e_B_Jpsi_nnp_gt
+        vars:
+            - >-
+              P(b0_ISOLATION_PX4, b0_ISOLATION_PY4, b0_ISOLATION_PZ4);
+              P(b_ISOLATION_PX4, b_ISOLATION_PY4, b_ISOLATION_PZ4)
+            - >-
+              ETA(b0_ISOLATION_PX4, b0_ISOLATION_PY4, b0_ISOLATION_PZ4);
+              ETA(b_ISOLATION_PX4, b_ISOLATION_PY4, b_ISOLATION_PZ4)
+            - nTracks
+    wpid_iso_nnp4_gt_mu:
+        particle: Mu_nopt_nnp_gt
+        vars:
+            - >-
+              P(b0_ISOLATION_PX4, b0_ISOLATION_PY4, b0_ISOLATION_PZ4);
+              P(b_ISOLATION_PX4, b_ISOLATION_PY4, b_ISOLATION_PZ4)
+            - >-
+              ETA(b0_ISOLATION_PX4, b0_ISOLATION_PY4, b0_ISOLATION_PZ4);
+              ETA(b_ISOLATION_PX4, b_ISOLATION_PY4, b_ISOLATION_PZ4)
+            - nTracks
+    wpid_iso_nnp4_gt_g:
+       particle: ghost_nnp_gt
+       vars:
+           - >-
+             P(b0_ISOLATION_PX4, b0_ISOLATION_PY4, b0_ISOLATION_PZ4);
+             P(b_ISOLATION_PX4, b_ISOLATION_PY4, b_ISOLATION_PZ4)
+           - >-
+             ETA(b0_ISOLATION_PX4, b0_ISOLATION_PY4, b0_ISOLATION_PZ4);
+             ETA(b_ISOLATION_PX4, b_ISOLATION_PY4, b_ISOLATION_PZ4)
+           - nTracks
+
+    wpid_iso_nnpnng4_gtlt_pi:
+        particle: Pi_nnpnng_gtlt
+        vars:
+            - >-
+              P(b0_ISOLATION_PX4, b0_ISOLATION_PY4, b0_ISOLATION_PZ4);
+              P(b_ISOLATION_PX4, b_ISOLATION_PY4, b_ISOLATION_PZ4)
+            - >-
+              ETA(b0_ISOLATION_PX4, b0_ISOLATION_PY4, b0_ISOLATION_PZ4);
+              ETA(b_ISOLATION_PX4, b_ISOLATION_PY4, b_ISOLATION_PZ4)
+            - nTracks
+    wpid_iso_nnpnng4_gtlt_k:
+        particle: K_nnpnng_gtlt
+        vars:
+            - >-
+              P(b0_ISOLATION_PX4, b0_ISOLATION_PY4, b0_ISOLATION_PZ4);
+              P(b_ISOLATION_PX4, b_ISOLATION_PY4, b_ISOLATION_PZ4)
+            - >-
+              ETA(b0_ISOLATION_PX4, b0_ISOLATION_PY4, b0_ISOLATION_PZ4);
+              ETA(b_ISOLATION_PX4, b_ISOLATION_PY4, b_ISOLATION_PZ4)
+            - nTracks
+    wpid_iso_nnpnng4_gtlt_p:
+        particle: P_nnpnng_gtlt
+        vars:
+            - >-
+              P(b0_ISOLATION_PX4, b0_ISOLATION_PY4, b0_ISOLATION_PZ4);
+              P(b_ISOLATION_PX4, b_ISOLATION_PY4, b_ISOLATION_PZ4)
+            - >-
+              ETA(b0_ISOLATION_PX4, b0_ISOLATION_PY4, b0_ISOLATION_PZ4);
+              ETA(b_ISOLATION_PX4, b_ISOLATION_PY4, b_ISOLATION_PZ4)
+            - nTracks
+    wpid_iso_nnpnng4_gtlt_e:
+        particle: e_B_Jpsi_nnpnng_gtlt
+        vars:
+            - >-
+              P(b0_ISOLATION_PX4, b0_ISOLATION_PY4, b0_ISOLATION_PZ4);
+              P(b_ISOLATION_PX4, b_ISOLATION_PY4, b_ISOLATION_PZ4)
+            - >-
+              ETA(b0_ISOLATION_PX4, b0_ISOLATION_PY4, b0_ISOLATION_PZ4);
+              ETA(b_ISOLATION_PX4, b_ISOLATION_PY4, b_ISOLATION_PZ4)
+            - nTracks
+    wpid_iso_nnpnng4_gtlt_mu:
+        particle: Mu_nopt_nnpnng_gtlt
+        vars:
+            - >-
+              P(b0_ISOLATION_PX4, b0_ISOLATION_PY4, b0_ISOLATION_PZ4);
+              P(b_ISOLATION_PX4, b_ISOLATION_PY4, b_ISOLATION_PZ4)
+            - >-
+              ETA(b0_ISOLATION_PX4, b0_ISOLATION_PY4, b0_ISOLATION_PZ4);
+              ETA(b_ISOLATION_PX4, b_ISOLATION_PY4, b_ISOLATION_PZ4)
+            - nTracks
+    wpid_iso_nnpnng4_gtlt_g:
+       particle: ghost_nnpnng_gtlt
+       vars:
+           - >-
+             P(b0_ISOLATION_PX4, b0_ISOLATION_PY4, b0_ISOLATION_PZ4);
+             P(b_ISOLATION_PX4, b_ISOLATION_PY4, b_ISOLATION_PZ4)
+           - >-
+             ETA(b0_ISOLATION_PX4, b0_ISOLATION_PY4, b0_ISOLATION_PZ4);
+             ETA(b_ISOLATION_PX4, b_ISOLATION_PY4, b_ISOLATION_PZ4)
+           - nTracks
+
+    wpid_iso_nnp5_gt_pi:
+        particle: Pi_nnp_gt
+        vars:
+            - >-
+              P(b0_ISOLATION_PX5, b0_ISOLATION_PY5, b0_ISOLATION_PZ5);
+              P(b_ISOLATION_PX5, b_ISOLATION_PY5, b_ISOLATION_PZ5)
+            - >-
+              ETA(b0_ISOLATION_PX5, b0_ISOLATION_PY5, b0_ISOLATION_PZ5);
+              ETA(b_ISOLATION_PX5, b_ISOLATION_PY5, b_ISOLATION_PZ5)
+            - nTracks
+    wpid_iso_nnp5_gt_k:
+        particle: K_nnp_gt
+        vars:
+            - >-
+              P(b0_ISOLATION_PX5, b0_ISOLATION_PY5, b0_ISOLATION_PZ5);
+              P(b_ISOLATION_PX5, b_ISOLATION_PY5, b_ISOLATION_PZ5)
+            - >-
+              ETA(b0_ISOLATION_PX5, b0_ISOLATION_PY5, b0_ISOLATION_PZ5);
+              ETA(b_ISOLATION_PX5, b_ISOLATION_PY5, b_ISOLATION_PZ5)
+            - nTracks
+    wpid_iso_nnp5_gt_p:
+        particle: P_nnp_gt
+        vars:
+            - >-
+              P(b0_ISOLATION_PX5, b0_ISOLATION_PY5, b0_ISOLATION_PZ5);
+              P(b_ISOLATION_PX5, b_ISOLATION_PY5, b_ISOLATION_PZ5)
+            - >-
+              ETA(b0_ISOLATION_PX5, b0_ISOLATION_PY5, b0_ISOLATION_PZ5);
+              ETA(b_ISOLATION_PX5, b_ISOLATION_PY5, b_ISOLATION_PZ5)
+            - nTracks
+    wpid_iso_nnp5_gt_e:
+        particle: e_B_Jpsi_nnp_gt
+        vars:
+            - >-
+              P(b0_ISOLATION_PX5, b0_ISOLATION_PY5, b0_ISOLATION_PZ5);
+              P(b_ISOLATION_PX5, b_ISOLATION_PY5, b_ISOLATION_PZ5)
+            - >-
+              ETA(b0_ISOLATION_PX5, b0_ISOLATION_PY5, b0_ISOLATION_PZ5);
+              ETA(b_ISOLATION_PX5, b_ISOLATION_PY5, b_ISOLATION_PZ5)
+            - nTracks
+    wpid_iso_nnp5_gt_mu:
+        particle: Mu_nopt_nnp_gt
+        vars:
+            - >-
+              P(b0_ISOLATION_PX5, b0_ISOLATION_PY5, b0_ISOLATION_PZ5);
+              P(b_ISOLATION_PX5, b_ISOLATION_PY5, b_ISOLATION_PZ5)
+            - >-
+              ETA(b0_ISOLATION_PX5, b0_ISOLATION_PY5, b0_ISOLATION_PZ5);
+              ETA(b_ISOLATION_PX5, b_ISOLATION_PY5, b_ISOLATION_PZ5)
+            - nTracks
+    wpid_iso_nnp5_gt_g:
+       particle: ghost_nnp_gt
+       vars:
+           - >-
+             P(b0_ISOLATION_PX5, b0_ISOLATION_PY5, b0_ISOLATION_PZ5);
+             P(b_ISOLATION_PX5, b_ISOLATION_PY5, b_ISOLATION_PZ5)
+           - >-
+             ETA(b0_ISOLATION_PX5, b0_ISOLATION_PY5, b0_ISOLATION_PZ5);
+             ETA(b_ISOLATION_PX5, b_ISOLATION_PY5, b_ISOLATION_PZ5)
+           - nTracks
+
+    wpid_iso_nnpnng5_gtlt_pi:
+        particle: Pi_nnpnng_gtlt
+        vars:
+            - >-
+              P(b0_ISOLATION_PX5, b0_ISOLATION_PY5, b0_ISOLATION_PZ5);
+              P(b_ISOLATION_PX5, b_ISOLATION_PY5, b_ISOLATION_PZ5)
+            - >-
+              ETA(b0_ISOLATION_PX5, b0_ISOLATION_PY5, b0_ISOLATION_PZ5);
+              ETA(b_ISOLATION_PX5, b_ISOLATION_PY5, b_ISOLATION_PZ5)
+            - nTracks
+    wpid_iso_nnpnng5_gtlt_k:
+        particle: K_nnpnng_gtlt
+        vars:
+            - >-
+              P(b0_ISOLATION_PX5, b0_ISOLATION_PY5, b0_ISOLATION_PZ5);
+              P(b_ISOLATION_PX5, b_ISOLATION_PY5, b_ISOLATION_PZ5)
+            - >-
+              ETA(b0_ISOLATION_PX5, b0_ISOLATION_PY5, b0_ISOLATION_PZ5);
+              ETA(b_ISOLATION_PX5, b_ISOLATION_PY5, b_ISOLATION_PZ5)
+            - nTracks
+    wpid_iso_nnpnng5_gtlt_p:
+        particle: P_nnpnng_gtlt
+        vars:
+            - >-
+              P(b0_ISOLATION_PX5, b0_ISOLATION_PY5, b0_ISOLATION_PZ5);
+              P(b_ISOLATION_PX5, b_ISOLATION_PY5, b_ISOLATION_PZ5)
+            - >-
+              ETA(b0_ISOLATION_PX5, b0_ISOLATION_PY5, b0_ISOLATION_PZ5);
+              ETA(b_ISOLATION_PX5, b_ISOLATION_PY5, b_ISOLATION_PZ5)
+            - nTracks
+    wpid_iso_nnpnng5_gtlt_e:
+        particle: e_B_Jpsi_nnpnng_gtlt
+        vars:
+            - >-
+              P(b0_ISOLATION_PX5, b0_ISOLATION_PY5, b0_ISOLATION_PZ5);
+              P(b_ISOLATION_PX5, b_ISOLATION_PY5, b_ISOLATION_PZ5)
+            - >-
+              ETA(b0_ISOLATION_PX5, b0_ISOLATION_PY5, b0_ISOLATION_PZ5);
+              ETA(b_ISOLATION_PX5, b_ISOLATION_PY5, b_ISOLATION_PZ5)
+            - nTracks
+    wpid_iso_nnpnng5_gtlt_mu:
+        particle: Mu_nopt_nnpnng_gtlt
+        vars:
+            - >-
+              P(b0_ISOLATION_PX5, b0_ISOLATION_PY5, b0_ISOLATION_PZ5);
+              P(b_ISOLATION_PX5, b_ISOLATION_PY5, b_ISOLATION_PZ5)
+            - >-
+              ETA(b0_ISOLATION_PX5, b0_ISOLATION_PY5, b0_ISOLATION_PZ5);
+              ETA(b_ISOLATION_PX5, b_ISOLATION_PY5, b_ISOLATION_PZ5)
+            - nTracks
+    wpid_iso_nnpnng5_gtlt_g:
+       particle: ghost_nnpnng_gtlt
+       vars:
+           - >-
+             P(b0_ISOLATION_PX5, b0_ISOLATION_PY5, b0_ISOLATION_PZ5);
+             P(b_ISOLATION_PX5, b_ISOLATION_PY5, b_ISOLATION_PZ5)
+           - >-
+             ETA(b0_ISOLATION_PX5, b0_ISOLATION_PY5, b0_ISOLATION_PZ5);
+             ETA(b_ISOLATION_PX5, b_ISOLATION_PY5, b_ISOLATION_PZ5)
            - nTracks
 
 
@@ -346,6 +834,128 @@ config:
               ETA(b_ISOLATION_PX3, b_ISOLATION_PY3, b_ISOLATION_PZ3)
             - nTracks
 
+    wpid_iso_nnk4_gt_pi:
+        particle: Pi_nnk_gt
+        vars:
+            - >-
+              P(b0_ISOLATION_PX4, b0_ISOLATION_PY4, b0_ISOLATION_PZ4);
+              P(b_ISOLATION_PX4, b_ISOLATION_PY4, b_ISOLATION_PZ4)
+            - >-
+              ETA(b0_ISOLATION_PX4, b0_ISOLATION_PY4, b0_ISOLATION_PZ4);
+              ETA(b_ISOLATION_PX4, b_ISOLATION_PY4, b_ISOLATION_PZ4)
+            - nTracks
+    wpid_iso_nnk4_gt_k:
+        particle: K_nnk_gt
+        vars:
+            - >-
+              P(b0_ISOLATION_PX4, b0_ISOLATION_PY4, b0_ISOLATION_PZ4);
+              P(b_ISOLATION_PX4, b_ISOLATION_PY4, b_ISOLATION_PZ4)
+            - >-
+              ETA(b0_ISOLATION_PX4, b0_ISOLATION_PY4, b0_ISOLATION_PZ4);
+              ETA(b_ISOLATION_PX4, b_ISOLATION_PY4, b_ISOLATION_PZ4)
+            - nTracks
+    wpid_iso_nnk4_gt_p:
+        particle: P_nnk_gt
+        vars:
+            - >-
+              P(b0_ISOLATION_PX4, b0_ISOLATION_PY4, b0_ISOLATION_PZ4);
+              P(b_ISOLATION_PX4, b_ISOLATION_PY4, b_ISOLATION_PZ4)
+            - >-
+              ETA(b0_ISOLATION_PX4, b0_ISOLATION_PY4, b0_ISOLATION_PZ4);
+              ETA(b_ISOLATION_PX4, b_ISOLATION_PY4, b_ISOLATION_PZ4)
+            - nTracks
+    wpid_iso_nnk4_gt_e:
+        particle: e_B_Jpsi_nnk_gt
+        vars:
+            - >-
+              P(b0_ISOLATION_PX4, b0_ISOLATION_PY4, b0_ISOLATION_PZ4);
+              P(b_ISOLATION_PX4, b_ISOLATION_PY4, b_ISOLATION_PZ4)
+            - >-
+              ETA(b0_ISOLATION_PX4, b0_ISOLATION_PY4, b0_ISOLATION_PZ4);
+              ETA(b_ISOLATION_PX4, b_ISOLATION_PY4, b_ISOLATION_PZ4)
+            - nTracks
+    wpid_iso_nnk4_gt_mu:
+        particle: Mu_nopt_nnk_gt
+        vars:
+            - >-
+              P(b0_ISOLATION_PX4, b0_ISOLATION_PY4, b0_ISOLATION_PZ4);
+              P(b_ISOLATION_PX4, b_ISOLATION_PY4, b_ISOLATION_PZ4)
+            - >-
+              ETA(b0_ISOLATION_PX4, b0_ISOLATION_PY4, b0_ISOLATION_PZ4);
+              ETA(b_ISOLATION_PX4, b_ISOLATION_PY4, b_ISOLATION_PZ4)
+            - nTracks
+    wpid_iso_nnk4_gt_g:
+        particle: ghost_nnk_gt
+        vars:
+            - >-
+              P(b0_ISOLATION_PX4, b0_ISOLATION_PY4, b0_ISOLATION_PZ4);
+              P(b_ISOLATION_PX4, b_ISOLATION_PY4, b_ISOLATION_PZ4)
+            - >-
+              ETA(b0_ISOLATION_PX4, b0_ISOLATION_PY4, b0_ISOLATION_PZ4);
+              ETA(b_ISOLATION_PX4, b_ISOLATION_PY4, b_ISOLATION_PZ4)
+            - nTracks
+
+    wpid_iso_nnk5_gt_pi:
+        particle: Pi_nnk_gt
+        vars:
+            - >-
+              P(b0_ISOLATION_PX5, b0_ISOLATION_PY5, b0_ISOLATION_PZ5);
+              P(b_ISOLATION_PX5, b_ISOLATION_PY5, b_ISOLATION_PZ5)
+            - >-
+              ETA(b0_ISOLATION_PX5, b0_ISOLATION_PY5, b0_ISOLATION_PZ5);
+              ETA(b_ISOLATION_PX5, b_ISOLATION_PY5, b_ISOLATION_PZ5)
+            - nTracks
+    wpid_iso_nnk5_gt_k:
+        particle: K_nnk_gt
+        vars:
+            - >-
+              P(b0_ISOLATION_PX5, b0_ISOLATION_PY5, b0_ISOLATION_PZ5);
+              P(b_ISOLATION_PX5, b_ISOLATION_PY5, b_ISOLATION_PZ5)
+            - >-
+              ETA(b0_ISOLATION_PX5, b0_ISOLATION_PY5, b0_ISOLATION_PZ5);
+              ETA(b_ISOLATION_PX5, b_ISOLATION_PY5, b_ISOLATION_PZ5)
+            - nTracks
+    wpid_iso_nnk5_gt_p:
+        particle: P_nnk_gt
+        vars:
+            - >-
+              P(b0_ISOLATION_PX5, b0_ISOLATION_PY5, b0_ISOLATION_PZ5);
+              P(b_ISOLATION_PX5, b_ISOLATION_PY5, b_ISOLATION_PZ5)
+            - >-
+              ETA(b0_ISOLATION_PX5, b0_ISOLATION_PY5, b0_ISOLATION_PZ5);
+              ETA(b_ISOLATION_PX5, b_ISOLATION_PY5, b_ISOLATION_PZ5)
+            - nTracks
+    wpid_iso_nnk5_gt_e:
+        particle: e_B_Jpsi_nnk_gt
+        vars:
+            - >-
+              P(b0_ISOLATION_PX5, b0_ISOLATION_PY5, b0_ISOLATION_PZ5);
+              P(b_ISOLATION_PX5, b_ISOLATION_PY5, b_ISOLATION_PZ5)
+            - >-
+              ETA(b0_ISOLATION_PX5, b0_ISOLATION_PY5, b0_ISOLATION_PZ5);
+              ETA(b_ISOLATION_PX5, b_ISOLATION_PY5, b_ISOLATION_PZ5)
+            - nTracks
+    wpid_iso_nnk5_gt_mu:
+        particle: Mu_nopt_nnk_gt
+        vars:
+            - >-
+              P(b0_ISOLATION_PX5, b0_ISOLATION_PY5, b0_ISOLATION_PZ5);
+              P(b_ISOLATION_PX5, b_ISOLATION_PY5, b_ISOLATION_PZ5)
+            - >-
+              ETA(b0_ISOLATION_PX5, b0_ISOLATION_PY5, b0_ISOLATION_PZ5);
+              ETA(b_ISOLATION_PX5, b_ISOLATION_PY5, b_ISOLATION_PZ5)
+            - nTracks
+    wpid_iso_nnk5_gt_g:
+        particle: ghost_nnk_gt
+        vars:
+            - >-
+              P(b0_ISOLATION_PX5, b0_ISOLATION_PY5, b0_ISOLATION_PZ5);
+              P(b_ISOLATION_PX5, b_ISOLATION_PY5, b_ISOLATION_PZ5)
+            - >-
+              ETA(b0_ISOLATION_PX5, b0_ISOLATION_PY5, b0_ISOLATION_PZ5);
+              ETA(b_ISOLATION_PX5, b_ISOLATION_PY5, b_ISOLATION_PZ5)
+            - nTracks
+
     wpid_iso_nnknng1_gtlt_pi:
         particle: Pi_nnknng_gtlt
         vars:
@@ -527,6 +1137,128 @@ config:
             - >-
               ETA(b0_ISOLATION_PX3, b0_ISOLATION_PY3, b0_ISOLATION_PZ3);
               ETA(b_ISOLATION_PX3, b_ISOLATION_PY3, b_ISOLATION_PZ3)
+            - nTracks
+
+    wpid_iso_nnknng4_gtlt_pi:
+        particle: Pi_nnknng_gtlt
+        vars:
+            - >-
+              P(b0_ISOLATION_PX4, b0_ISOLATION_PY4, b0_ISOLATION_PZ4);
+              P(b_ISOLATION_PX4, b_ISOLATION_PY4, b_ISOLATION_PZ4)
+            - >-
+              ETA(b0_ISOLATION_PX4, b0_ISOLATION_PY4, b0_ISOLATION_PZ4);
+              ETA(b_ISOLATION_PX4, b_ISOLATION_PY4, b_ISOLATION_PZ4)
+            - nTracks
+    wpid_iso_nnknng4_gtlt_k:
+        particle: K_nnknng_gtlt
+        vars:
+            - >-
+              P(b0_ISOLATION_PX4, b0_ISOLATION_PY4, b0_ISOLATION_PZ4);
+              P(b_ISOLATION_PX4, b_ISOLATION_PY4, b_ISOLATION_PZ4)
+            - >-
+              ETA(b0_ISOLATION_PX4, b0_ISOLATION_PY4, b0_ISOLATION_PZ4);
+              ETA(b_ISOLATION_PX4, b_ISOLATION_PY4, b_ISOLATION_PZ4)
+            - nTracks
+    wpid_iso_nnknng4_gtlt_p:
+        particle: P_nnknng_gtlt
+        vars:
+            - >-
+              P(b0_ISOLATION_PX4, b0_ISOLATION_PY4, b0_ISOLATION_PZ4);
+              P(b_ISOLATION_PX4, b_ISOLATION_PY4, b_ISOLATION_PZ4)
+            - >-
+              ETA(b0_ISOLATION_PX4, b0_ISOLATION_PY4, b0_ISOLATION_PZ4);
+              ETA(b_ISOLATION_PX4, b_ISOLATION_PY4, b_ISOLATION_PZ4)
+            - nTracks
+    wpid_iso_nnknng4_gtlt_e:
+        particle: e_B_Jpsi_nnknng_gtlt
+        vars:
+            - >-
+              P(b0_ISOLATION_PX4, b0_ISOLATION_PY4, b0_ISOLATION_PZ4);
+              P(b_ISOLATION_PX4, b_ISOLATION_PY4, b_ISOLATION_PZ4)
+            - >-
+              ETA(b0_ISOLATION_PX4, b0_ISOLATION_PY4, b0_ISOLATION_PZ4);
+              ETA(b_ISOLATION_PX4, b_ISOLATION_PY4, b_ISOLATION_PZ4)
+            - nTracks
+    wpid_iso_nnknng4_gtlt_mu:
+        particle: Mu_nopt_nnknng_gtlt
+        vars:
+            - >-
+              P(b0_ISOLATION_PX4, b0_ISOLATION_PY4, b0_ISOLATION_PZ4);
+              P(b_ISOLATION_PX4, b_ISOLATION_PY4, b_ISOLATION_PZ4)
+            - >-
+              ETA(b0_ISOLATION_PX4, b0_ISOLATION_PY4, b0_ISOLATION_PZ4);
+              ETA(b_ISOLATION_PX4, b_ISOLATION_PY4, b_ISOLATION_PZ4)
+            - nTracks
+    wpid_iso_nnknng4_gtlt_g:
+        particle: ghost_nnknng_gtlt
+        vars:
+            - >-
+              P(b0_ISOLATION_PX4, b0_ISOLATION_PY4, b0_ISOLATION_PZ4);
+              P(b_ISOLATION_PX4, b_ISOLATION_PY4, b_ISOLATION_PZ4)
+            - >-
+              ETA(b0_ISOLATION_PX4, b0_ISOLATION_PY4, b0_ISOLATION_PZ4);
+              ETA(b_ISOLATION_PX4, b_ISOLATION_PY4, b_ISOLATION_PZ4)
+            - nTracks
+
+    wpid_iso_nnknng5_gtlt_pi:
+        particle: Pi_nnknng_gtlt
+        vars:
+            - >-
+              P(b0_ISOLATION_PX5, b0_ISOLATION_PY5, b0_ISOLATION_PZ5);
+              P(b_ISOLATION_PX5, b_ISOLATION_PY5, b_ISOLATION_PZ5)
+            - >-
+              ETA(b0_ISOLATION_PX5, b0_ISOLATION_PY5, b0_ISOLATION_PZ5);
+              ETA(b_ISOLATION_PX5, b_ISOLATION_PY5, b_ISOLATION_PZ5)
+            - nTracks
+    wpid_iso_nnknng5_gtlt_k:
+        particle: K_nnknng_gtlt
+        vars:
+            - >-
+              P(b0_ISOLATION_PX5, b0_ISOLATION_PY5, b0_ISOLATION_PZ5);
+              P(b_ISOLATION_PX5, b_ISOLATION_PY5, b_ISOLATION_PZ5)
+            - >-
+              ETA(b0_ISOLATION_PX5, b0_ISOLATION_PY5, b0_ISOLATION_PZ5);
+              ETA(b_ISOLATION_PX5, b_ISOLATION_PY5, b_ISOLATION_PZ5)
+            - nTracks
+    wpid_iso_nnknng5_gtlt_p:
+        particle: P_nnknng_gtlt
+        vars:
+            - >-
+              P(b0_ISOLATION_PX5, b0_ISOLATION_PY5, b0_ISOLATION_PZ5);
+              P(b_ISOLATION_PX5, b_ISOLATION_PY5, b_ISOLATION_PZ5)
+            - >-
+              ETA(b0_ISOLATION_PX5, b0_ISOLATION_PY5, b0_ISOLATION_PZ5);
+              ETA(b_ISOLATION_PX5, b_ISOLATION_PY5, b_ISOLATION_PZ5)
+            - nTracks
+    wpid_iso_nnknng5_gtlt_e:
+        particle: e_B_Jpsi_nnknng_gtlt
+        vars:
+            - >-
+              P(b0_ISOLATION_PX5, b0_ISOLATION_PY5, b0_ISOLATION_PZ5);
+              P(b_ISOLATION_PX5, b_ISOLATION_PY5, b_ISOLATION_PZ5)
+            - >-
+              ETA(b0_ISOLATION_PX5, b0_ISOLATION_PY5, b0_ISOLATION_PZ5);
+              ETA(b_ISOLATION_PX5, b_ISOLATION_PY5, b_ISOLATION_PZ5)
+            - nTracks
+    wpid_iso_nnknng5_gtlt_mu:
+        particle: Mu_nopt_nnknng_gtlt
+        vars:
+            - >-
+              P(b0_ISOLATION_PX5, b0_ISOLATION_PY5, b0_ISOLATION_PZ5);
+              P(b_ISOLATION_PX5, b_ISOLATION_PY5, b_ISOLATION_PZ5)
+            - >-
+              ETA(b0_ISOLATION_PX5, b0_ISOLATION_PY5, b0_ISOLATION_PZ5);
+              ETA(b_ISOLATION_PX5, b_ISOLATION_PY5, b_ISOLATION_PZ5)
+            - nTracks
+    wpid_iso_nnknng5_gtlt_g:
+        particle: ghost_nnknng_gtlt
+        vars:
+            - >-
+              P(b0_ISOLATION_PX5, b0_ISOLATION_PY5, b0_ISOLATION_PZ5);
+              P(b_ISOLATION_PX5, b_ISOLATION_PY5, b_ISOLATION_PZ5)
+            - >-
+              ETA(b0_ISOLATION_PX5, b0_ISOLATION_PY5, b0_ISOLATION_PZ5);
+              ETA(b_ISOLATION_PX5, b_ISOLATION_PY5, b_ISOLATION_PZ5)
             - nTracks
 
     wpid_iso_nnknng1_ltlt_pi:
@@ -712,6 +1444,128 @@ config:
               ETA(b_ISOLATION_PX3, b_ISOLATION_PY3, b_ISOLATION_PZ3)
             - nTracks
 
+    wpid_iso_nnknng4_ltlt_pi:
+        particle: Pi_nnknng_ltlt
+        vars:
+            - >-
+              P(b0_ISOLATION_PX4, b0_ISOLATION_PY4, b0_ISOLATION_PZ4);
+              P(b_ISOLATION_PX4, b_ISOLATION_PY4, b_ISOLATION_PZ4)
+            - >-
+              ETA(b0_ISOLATION_PX4, b0_ISOLATION_PY4, b0_ISOLATION_PZ4);
+              ETA(b_ISOLATION_PX4, b_ISOLATION_PY4, b_ISOLATION_PZ4)
+            - nTracks
+    wpid_iso_nnknng4_ltlt_k:
+        particle: K_nnknng_ltlt
+        vars:
+            - >-
+              P(b0_ISOLATION_PX4, b0_ISOLATION_PY4, b0_ISOLATION_PZ4);
+              P(b_ISOLATION_PX4, b_ISOLATION_PY4, b_ISOLATION_PZ4)
+            - >-
+              ETA(b0_ISOLATION_PX4, b0_ISOLATION_PY4, b0_ISOLATION_PZ4);
+              ETA(b_ISOLATION_PX4, b_ISOLATION_PY4, b_ISOLATION_PZ4)
+            - nTracks
+    wpid_iso_nnknng4_ltlt_p:
+        particle: P_nnknng_ltlt
+        vars:
+            - >-
+              P(b0_ISOLATION_PX4, b0_ISOLATION_PY4, b0_ISOLATION_PZ4);
+              P(b_ISOLATION_PX4, b_ISOLATION_PY4, b_ISOLATION_PZ4)
+            - >-
+              ETA(b0_ISOLATION_PX4, b0_ISOLATION_PY4, b0_ISOLATION_PZ4);
+              ETA(b_ISOLATION_PX4, b_ISOLATION_PY4, b_ISOLATION_PZ4)
+            - nTracks
+    wpid_iso_nnknng4_ltlt_e:
+        particle: e_B_Jpsi_nnknng_ltlt
+        vars:
+            - >-
+              P(b0_ISOLATION_PX4, b0_ISOLATION_PY4, b0_ISOLATION_PZ4);
+              P(b_ISOLATION_PX4, b_ISOLATION_PY4, b_ISOLATION_PZ4)
+            - >-
+              ETA(b0_ISOLATION_PX4, b0_ISOLATION_PY4, b0_ISOLATION_PZ4);
+              ETA(b_ISOLATION_PX4, b_ISOLATION_PY4, b_ISOLATION_PZ4)
+            - nTracks
+    wpid_iso_nnknng4_ltlt_mu:
+        particle: Mu_nopt_nnknng_ltlt
+        vars:
+            - >-
+              P(b0_ISOLATION_PX4, b0_ISOLATION_PY4, b0_ISOLATION_PZ4);
+              P(b_ISOLATION_PX4, b_ISOLATION_PY4, b_ISOLATION_PZ4)
+            - >-
+              ETA(b0_ISOLATION_PX4, b0_ISOLATION_PY4, b0_ISOLATION_PZ4);
+              ETA(b_ISOLATION_PX4, b_ISOLATION_PY4, b_ISOLATION_PZ4)
+            - nTracks
+    wpid_iso_nnknng4_ltlt_g:
+        particle: ghost_nnknng_ltlt
+        vars:
+            - >-
+              P(b0_ISOLATION_PX4, b0_ISOLATION_PY4, b0_ISOLATION_PZ4);
+              P(b_ISOLATION_PX4, b_ISOLATION_PY4, b_ISOLATION_PZ4)
+            - >-
+              ETA(b0_ISOLATION_PX4, b0_ISOLATION_PY4, b0_ISOLATION_PZ4);
+              ETA(b_ISOLATION_PX4, b_ISOLATION_PY4, b_ISOLATION_PZ4)
+            - nTracks
+
+    wpid_iso_nnknng5_ltlt_pi:
+        particle: Pi_nnknng_ltlt
+        vars:
+            - >-
+              P(b0_ISOLATION_PX5, b0_ISOLATION_PY5, b0_ISOLATION_PZ5);
+              P(b_ISOLATION_PX5, b_ISOLATION_PY5, b_ISOLATION_PZ5)
+            - >-
+              ETA(b0_ISOLATION_PX5, b0_ISOLATION_PY5, b0_ISOLATION_PZ5);
+              ETA(b_ISOLATION_PX5, b_ISOLATION_PY5, b_ISOLATION_PZ5)
+            - nTracks
+    wpid_iso_nnknng5_ltlt_k:
+        particle: K_nnknng_ltlt
+        vars:
+            - >-
+              P(b0_ISOLATION_PX5, b0_ISOLATION_PY5, b0_ISOLATION_PZ5);
+              P(b_ISOLATION_PX5, b_ISOLATION_PY5, b_ISOLATION_PZ5)
+            - >-
+              ETA(b0_ISOLATION_PX5, b0_ISOLATION_PY5, b0_ISOLATION_PZ5);
+              ETA(b_ISOLATION_PX5, b_ISOLATION_PY5, b_ISOLATION_PZ5)
+            - nTracks
+    wpid_iso_nnknng5_ltlt_p:
+        particle: P_nnknng_ltlt
+        vars:
+            - >-
+              P(b0_ISOLATION_PX5, b0_ISOLATION_PY5, b0_ISOLATION_PZ5);
+              P(b_ISOLATION_PX5, b_ISOLATION_PY5, b_ISOLATION_PZ5)
+            - >-
+              ETA(b0_ISOLATION_PX5, b0_ISOLATION_PY5, b0_ISOLATION_PZ5);
+              ETA(b_ISOLATION_PX5, b_ISOLATION_PY5, b_ISOLATION_PZ5)
+            - nTracks
+    wpid_iso_nnknng5_ltlt_e:
+        particle: e_B_Jpsi_nnknng_ltlt
+        vars:
+            - >-
+              P(b0_ISOLATION_PX5, b0_ISOLATION_PY5, b0_ISOLATION_PZ5);
+              P(b_ISOLATION_PX5, b_ISOLATION_PY5, b_ISOLATION_PZ5)
+            - >-
+              ETA(b0_ISOLATION_PX5, b0_ISOLATION_PY5, b0_ISOLATION_PZ5);
+              ETA(b_ISOLATION_PX5, b_ISOLATION_PY5, b_ISOLATION_PZ5)
+            - nTracks
+    wpid_iso_nnknng5_ltlt_mu:
+        particle: Mu_nopt_nnknng_ltlt
+        vars:
+            - >-
+              P(b0_ISOLATION_PX5, b0_ISOLATION_PY5, b0_ISOLATION_PZ5);
+              P(b_ISOLATION_PX5, b_ISOLATION_PY5, b_ISOLATION_PZ5)
+            - >-
+              ETA(b0_ISOLATION_PX5, b0_ISOLATION_PY5, b0_ISOLATION_PZ5);
+              ETA(b_ISOLATION_PX5, b_ISOLATION_PY5, b_ISOLATION_PZ5)
+            - nTracks
+    wpid_iso_nnknng5_ltlt_g:
+        particle: ghost_nnknng_ltlt
+        vars:
+            - >-
+              P(b0_ISOLATION_PX5, b0_ISOLATION_PY5, b0_ISOLATION_PZ5);
+              P(b_ISOLATION_PX5, b_ISOLATION_PY5, b_ISOLATION_PZ5)
+            - >-
+              ETA(b0_ISOLATION_PX5, b0_ISOLATION_PY5, b0_ISOLATION_PZ5);
+              ETA(b_ISOLATION_PX5, b_ISOLATION_PY5, b_ISOLATION_PZ5)
+            - nTracks
+
     wpid_iso_nnknng1_gt02lt02_pi:
         particle: Pi_nnknng_gt02lt02
         vars:
@@ -895,6 +1749,128 @@ config:
               ETA(b_ISOLATION_PX3, b_ISOLATION_PY3, b_ISOLATION_PZ3)
             - nTracks
 
+    wpid_iso_nnknng4_gt02lt02_pi:
+        particle: Pi_nnknng_gt02lt02
+        vars:
+            - >-
+              P(b0_ISOLATION_PX4, b0_ISOLATION_PY4, b0_ISOLATION_PZ4);
+              P(b_ISOLATION_PX4, b_ISOLATION_PY4, b_ISOLATION_PZ4)
+            - >-
+              ETA(b0_ISOLATION_PX4, b0_ISOLATION_PY4, b0_ISOLATION_PZ4);
+              ETA(b_ISOLATION_PX4, b_ISOLATION_PY4, b_ISOLATION_PZ4)
+            - nTracks
+    wpid_iso_nnknng4_gt02lt02_k:
+        particle: K_nnknng_gt02lt02
+        vars:
+            - >-
+              P(b0_ISOLATION_PX4, b0_ISOLATION_PY4, b0_ISOLATION_PZ4);
+              P(b_ISOLATION_PX4, b_ISOLATION_PY4, b_ISOLATION_PZ4)
+            - >-
+              ETA(b0_ISOLATION_PX4, b0_ISOLATION_PY4, b0_ISOLATION_PZ4);
+              ETA(b_ISOLATION_PX4, b_ISOLATION_PY4, b_ISOLATION_PZ4)
+            - nTracks
+    wpid_iso_nnknng4_gt02lt02_p:
+        particle: P_nnknng_gt02lt02
+        vars:
+            - >-
+              P(b0_ISOLATION_PX4, b0_ISOLATION_PY4, b0_ISOLATION_PZ4);
+              P(b_ISOLATION_PX4, b_ISOLATION_PY4, b_ISOLATION_PZ4)
+            - >-
+              ETA(b0_ISOLATION_PX4, b0_ISOLATION_PY4, b0_ISOLATION_PZ4);
+              ETA(b_ISOLATION_PX4, b_ISOLATION_PY4, b_ISOLATION_PZ4)
+            - nTracks
+    wpid_iso_nnknng4_gt02lt02_e:
+        particle: e_B_Jpsi_nnknng_gt02lt02
+        vars:
+            - >-
+              P(b0_ISOLATION_PX4, b0_ISOLATION_PY4, b0_ISOLATION_PZ4);
+              P(b_ISOLATION_PX4, b_ISOLATION_PY4, b_ISOLATION_PZ4)
+            - >-
+              ETA(b0_ISOLATION_PX4, b0_ISOLATION_PY4, b0_ISOLATION_PZ4);
+              ETA(b_ISOLATION_PX4, b_ISOLATION_PY4, b_ISOLATION_PZ4)
+            - nTracks
+    wpid_iso_nnknng4_gt02lt02_mu:
+        particle: Mu_nopt_nnknng_gt02lt02
+        vars:
+            - >-
+              P(b0_ISOLATION_PX4, b0_ISOLATION_PY4, b0_ISOLATION_PZ4);
+              P(b_ISOLATION_PX4, b_ISOLATION_PY4, b_ISOLATION_PZ4)
+            - >-
+              ETA(b0_ISOLATION_PX4, b0_ISOLATION_PY4, b0_ISOLATION_PZ4);
+              ETA(b_ISOLATION_PX4, b_ISOLATION_PY4, b_ISOLATION_PZ4)
+            - nTracks
+    wpid_iso_nnknng4_gt02lt02_g:
+        particle: ghost_nnknng_gt02lt02
+        vars:
+            - >-
+              P(b0_ISOLATION_PX4, b0_ISOLATION_PY4, b0_ISOLATION_PZ4);
+              P(b_ISOLATION_PX4, b_ISOLATION_PY4, b_ISOLATION_PZ4)
+            - >-
+              ETA(b0_ISOLATION_PX4, b0_ISOLATION_PY4, b0_ISOLATION_PZ4);
+              ETA(b_ISOLATION_PX4, b_ISOLATION_PY4, b_ISOLATION_PZ4)
+            - nTracks
+
+    wpid_iso_nnknng5_gt02lt02_pi:
+        particle: Pi_nnknng_gt02lt02
+        vars:
+            - >-
+              P(b0_ISOLATION_PX5, b0_ISOLATION_PY5, b0_ISOLATION_PZ5);
+              P(b_ISOLATION_PX5, b_ISOLATION_PY5, b_ISOLATION_PZ5)
+            - >-
+              ETA(b0_ISOLATION_PX5, b0_ISOLATION_PY5, b0_ISOLATION_PZ5);
+              ETA(b_ISOLATION_PX5, b_ISOLATION_PY5, b_ISOLATION_PZ5)
+            - nTracks
+    wpid_iso_nnknng5_gt02lt02_k:
+        particle: K_nnknng_gt02lt02
+        vars:
+            - >-
+              P(b0_ISOLATION_PX5, b0_ISOLATION_PY5, b0_ISOLATION_PZ5);
+              P(b_ISOLATION_PX5, b_ISOLATION_PY5, b_ISOLATION_PZ5)
+            - >-
+              ETA(b0_ISOLATION_PX5, b0_ISOLATION_PY5, b0_ISOLATION_PZ5);
+              ETA(b_ISOLATION_PX5, b_ISOLATION_PY5, b_ISOLATION_PZ5)
+            - nTracks
+    wpid_iso_nnknng5_gt02lt02_p:
+        particle: P_nnknng_gt02lt02
+        vars:
+            - >-
+              P(b0_ISOLATION_PX5, b0_ISOLATION_PY5, b0_ISOLATION_PZ5);
+              P(b_ISOLATION_PX5, b_ISOLATION_PY5, b_ISOLATION_PZ5)
+            - >-
+              ETA(b0_ISOLATION_PX5, b0_ISOLATION_PY5, b0_ISOLATION_PZ5);
+              ETA(b_ISOLATION_PX5, b_ISOLATION_PY5, b_ISOLATION_PZ5)
+            - nTracks
+    wpid_iso_nnknng5_gt02lt02_e:
+        particle: e_B_Jpsi_nnknng_gt02lt02
+        vars:
+            - >-
+              P(b0_ISOLATION_PX5, b0_ISOLATION_PY5, b0_ISOLATION_PZ5);
+              P(b_ISOLATION_PX5, b_ISOLATION_PY5, b_ISOLATION_PZ5)
+            - >-
+              ETA(b0_ISOLATION_PX5, b0_ISOLATION_PY5, b0_ISOLATION_PZ5);
+              ETA(b_ISOLATION_PX5, b_ISOLATION_PY5, b_ISOLATION_PZ5)
+            - nTracks
+    wpid_iso_nnknng5_gt02lt02_mu:
+        particle: Mu_nopt_nnknng_gt02lt02
+        vars:
+            - >-
+              P(b0_ISOLATION_PX5, b0_ISOLATION_PY5, b0_ISOLATION_PZ5);
+              P(b_ISOLATION_PX5, b_ISOLATION_PY5, b_ISOLATION_PZ5)
+            - >-
+              ETA(b0_ISOLATION_PX5, b0_ISOLATION_PY5, b0_ISOLATION_PZ5);
+              ETA(b_ISOLATION_PX5, b_ISOLATION_PY5, b_ISOLATION_PZ5)
+            - nTracks
+    wpid_iso_nnknng5_gt02lt02_g:
+        particle: ghost_nnknng_gt02lt02
+        vars:
+            - >-
+              P(b0_ISOLATION_PX5, b0_ISOLATION_PY5, b0_ISOLATION_PZ5);
+              P(b_ISOLATION_PX5, b_ISOLATION_PY5, b_ISOLATION_PZ5)
+            - >-
+              ETA(b0_ISOLATION_PX5, b0_ISOLATION_PY5, b0_ISOLATION_PZ5);
+              ETA(b_ISOLATION_PX5, b_ISOLATION_PY5, b_ISOLATION_PZ5)
+            - nTracks
+
     wpid_iso_nnknng1_lt02lt02_pi:
         particle: Pi_nnknng_lt02lt02
         vars:
@@ -1076,4 +2052,126 @@ config:
             - >-
               ETA(b0_ISOLATION_PX3, b0_ISOLATION_PY3, b0_ISOLATION_PZ3);
               ETA(b_ISOLATION_PX3, b_ISOLATION_PY3, b_ISOLATION_PZ3)
+            - nTracks
+
+    wpid_iso_nnknng4_lt02lt02_pi:
+        particle: Pi_nnknng_lt02lt02
+        vars:
+            - >-
+              P(b0_ISOLATION_PX4, b0_ISOLATION_PY4, b0_ISOLATION_PZ4);
+              P(b_ISOLATION_PX4, b_ISOLATION_PY4, b_ISOLATION_PZ4)
+            - >-
+              ETA(b0_ISOLATION_PX4, b0_ISOLATION_PY4, b0_ISOLATION_PZ4);
+              ETA(b_ISOLATION_PX4, b_ISOLATION_PY4, b_ISOLATION_PZ4)
+            - nTracks
+    wpid_iso_nnknng4_lt02lt02_k:
+        particle: K_nnknng_lt02lt02
+        vars:
+            - >-
+              P(b0_ISOLATION_PX4, b0_ISOLATION_PY4, b0_ISOLATION_PZ4);
+              P(b_ISOLATION_PX4, b_ISOLATION_PY4, b_ISOLATION_PZ4)
+            - >-
+              ETA(b0_ISOLATION_PX4, b0_ISOLATION_PY4, b0_ISOLATION_PZ4);
+              ETA(b_ISOLATION_PX4, b_ISOLATION_PY4, b_ISOLATION_PZ4)
+            - nTracks
+    wpid_iso_nnknng4_lt02lt02_p:
+        particle: P_nnknng_lt02lt02
+        vars:
+            - >-
+              P(b0_ISOLATION_PX4, b0_ISOLATION_PY4, b0_ISOLATION_PZ4);
+              P(b_ISOLATION_PX4, b_ISOLATION_PY4, b_ISOLATION_PZ4)
+            - >-
+              ETA(b0_ISOLATION_PX4, b0_ISOLATION_PY4, b0_ISOLATION_PZ4);
+              ETA(b_ISOLATION_PX4, b_ISOLATION_PY4, b_ISOLATION_PZ4)
+            - nTracks
+    wpid_iso_nnknng4_lt02lt02_e:
+        particle: e_B_Jpsi_nnknng_lt02lt02
+        vars:
+            - >-
+              P(b0_ISOLATION_PX4, b0_ISOLATION_PY4, b0_ISOLATION_PZ4);
+              P(b_ISOLATION_PX4, b_ISOLATION_PY4, b_ISOLATION_PZ4)
+            - >-
+              ETA(b0_ISOLATION_PX4, b0_ISOLATION_PY4, b0_ISOLATION_PZ4);
+              ETA(b_ISOLATION_PX4, b_ISOLATION_PY4, b_ISOLATION_PZ4)
+            - nTracks
+    wpid_iso_nnknng4_lt02lt02_mu:
+        particle: Mu_nopt_nnknng_lt02lt02
+        vars:
+            - >-
+              P(b0_ISOLATION_PX4, b0_ISOLATION_PY4, b0_ISOLATION_PZ4);
+              P(b_ISOLATION_PX4, b_ISOLATION_PY4, b_ISOLATION_PZ4)
+            - >-
+              ETA(b0_ISOLATION_PX4, b0_ISOLATION_PY4, b0_ISOLATION_PZ4);
+              ETA(b_ISOLATION_PX4, b_ISOLATION_PY4, b_ISOLATION_PZ4)
+            - nTracks
+    wpid_iso_nnknng4_lt02lt02_g:
+        particle: ghost_nnknng_lt02lt02
+        vars:
+            - >-
+              P(b0_ISOLATION_PX4, b0_ISOLATION_PY4, b0_ISOLATION_PZ4);
+              P(b_ISOLATION_PX4, b_ISOLATION_PY4, b_ISOLATION_PZ4)
+            - >-
+              ETA(b0_ISOLATION_PX4, b0_ISOLATION_PY4, b0_ISOLATION_PZ4);
+              ETA(b_ISOLATION_PX4, b_ISOLATION_PY4, b_ISOLATION_PZ4)
+            - nTracks
+
+    wpid_iso_nnknng5_lt02lt02_pi:
+        particle: Pi_nnknng_lt02lt02
+        vars:
+            - >-
+              P(b0_ISOLATION_PX5, b0_ISOLATION_PY5, b0_ISOLATION_PZ5);
+              P(b_ISOLATION_PX5, b_ISOLATION_PY5, b_ISOLATION_PZ5)
+            - >-
+              ETA(b0_ISOLATION_PX5, b0_ISOLATION_PY5, b0_ISOLATION_PZ5);
+              ETA(b_ISOLATION_PX5, b_ISOLATION_PY5, b_ISOLATION_PZ5)
+            - nTracks
+    wpid_iso_nnknng5_lt02lt02_k:
+        particle: K_nnknng_lt02lt02
+        vars:
+            - >-
+              P(b0_ISOLATION_PX5, b0_ISOLATION_PY5, b0_ISOLATION_PZ5);
+              P(b_ISOLATION_PX5, b_ISOLATION_PY5, b_ISOLATION_PZ5)
+            - >-
+              ETA(b0_ISOLATION_PX5, b0_ISOLATION_PY5, b0_ISOLATION_PZ5);
+              ETA(b_ISOLATION_PX5, b_ISOLATION_PY5, b_ISOLATION_PZ5)
+            - nTracks
+    wpid_iso_nnknng5_lt02lt02_p:
+        particle: P_nnknng_lt02lt02
+        vars:
+            - >-
+              P(b0_ISOLATION_PX5, b0_ISOLATION_PY5, b0_ISOLATION_PZ5);
+              P(b_ISOLATION_PX5, b_ISOLATION_PY5, b_ISOLATION_PZ5)
+            - >-
+              ETA(b0_ISOLATION_PX5, b0_ISOLATION_PY5, b0_ISOLATION_PZ5);
+              ETA(b_ISOLATION_PX5, b_ISOLATION_PY5, b_ISOLATION_PZ5)
+            - nTracks
+    wpid_iso_nnknng5_lt02lt02_e:
+        particle: e_B_Jpsi_nnknng_lt02lt02
+        vars:
+            - >-
+              P(b0_ISOLATION_PX5, b0_ISOLATION_PY5, b0_ISOLATION_PZ5);
+              P(b_ISOLATION_PX5, b_ISOLATION_PY5, b_ISOLATION_PZ5)
+            - >-
+              ETA(b0_ISOLATION_PX5, b0_ISOLATION_PY5, b0_ISOLATION_PZ5);
+              ETA(b_ISOLATION_PX5, b_ISOLATION_PY5, b_ISOLATION_PZ5)
+            - nTracks
+    wpid_iso_nnknng5_lt02lt02_mu:
+        particle: Mu_nopt_nnknng_lt02lt02
+        vars:
+            - >-
+              P(b0_ISOLATION_PX5, b0_ISOLATION_PY5, b0_ISOLATION_PZ5);
+              P(b_ISOLATION_PX5, b_ISOLATION_PY5, b_ISOLATION_PZ5)
+            - >-
+              ETA(b0_ISOLATION_PX5, b0_ISOLATION_PY5, b0_ISOLATION_PZ5);
+              ETA(b_ISOLATION_PX5, b_ISOLATION_PY5, b_ISOLATION_PZ5)
+            - nTracks
+    wpid_iso_nnknng5_lt02lt02_g:
+        particle: ghost_nnknng_lt02lt02
+        vars:
+            - >-
+              P(b0_ISOLATION_PX5, b0_ISOLATION_PY5, b0_ISOLATION_PZ5);
+              P(b_ISOLATION_PX5, b_ISOLATION_PY5, b_ISOLATION_PZ5)
+            - >-
+              ETA(b0_ISOLATION_PX5, b0_ISOLATION_PY5, b0_ISOLATION_PZ5);
+              ETA(b_ISOLATION_PX5, b_ISOLATION_PY5, b_ISOLATION_PZ5)
             - nTracks

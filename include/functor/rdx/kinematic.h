@@ -12,8 +12,10 @@
 #include <TMath.h>
 #include <TROOT.h>
 #include <TLorentzVector.h>
+#include <TRandom.h>
 
 #include "functor/basic.h"
+#include "functor/basic_iso.h"
 #include "functor/basic_kinematic.h"
 
 using std::vector;
@@ -179,4 +181,73 @@ Float_t MASS_DX_ISO1_ISO2(Float_t dx_e, Float_t dx_px, Float_t dx_py, Float_t dx
   TLorentzVector pIso2(px2, py2, pz2, sqrt(pow(mpi,2) + pow(p3Iso2,2)));
 
   return (pDx + pIso1 + pIso2).M();
+}
+
+// proxy for D** mass: if only one non-iso track, assume it's a pion, else search for track that has correct charge to
+// pair with the D(*) to have come from D**->D(*)pi
+// iso tracks reconstructed with pion mass hypothesis, but use it again explicitly here
+// note: momenta in GeV here, 'tracks' has 2 iso tracks ordered least->most iso
+double MASS_DX_PI(double d_px, double d_py, double d_pz, double d_e, int d_id, bool is_d0, vector<IsoTrack> tracks) {
+  TLorentzVector p_d(d_px, d_py, d_pz, d_e);
+  bool found_pi = false;
+  TLorentzVector p_pi; // apply pion mass hypothesis on this
+  TLorentzVector p_track;
+  double m_pi = 0.13957;
+  double no_cand = -0.099;
+  int num_noniso = 0;
+  for (auto i=0; i<tracks.size(); i++) {
+    if (tracks[i].iso_bdt>0.15) num_noniso++;
+  }
+  if (num_noniso==1) {
+    found_pi = true;
+    p_track = tracks[0].p;
+  }
+  if (num_noniso>1) {
+    // take the least iso track that has correct charge
+    for (int i=0; i<num_noniso; i++) {
+      if (tracks[i].charge*d_id*(2*is_d0-1)>0) {
+        found_pi = true;
+        p_track = tracks[i].p;
+        break;
+      }
+    }
+  }
+  if (!found_pi) return no_cand;
+  double pmag2 = pow(p_track.Px(),2)+pow(p_track.Py(),2)+pow(p_track.Pz(),2);
+  p_pi.SetPxPyPzE(p_track.Px(), p_track.Py(), p_track.Pz(), sqrt(pow(m_pi,2)+pmag2));
+  return (p_d + p_pi).M();
+}
+
+// proxy for D**s mass: consider track with highest NNk score (for MC, highest prob to pass NNk>0.2) to be kaon track
+// iso tracks reconstructed with pion mass hypothesis, use kaon mass hypothesis here instead
+// note: momenta in GeV here, 'tracks' has 3 iso tracks ordered least->most iso
+double MASS_DX_K(double d_px, double d_py, double d_pz, double d_e, int d_id, vector<IsoTrack> tracks) {
+  TLorentzVector p_d(d_px, d_py, d_pz, d_e);
+  TLorentzVector p_k; // apply kaon mass hypothesis on this
+  bool found_k = false;
+  TLorentzVector p_track;
+  double max_nnk = -1.0;
+  double m_k = 0.49368;
+  double no_cand = -0.099;
+  for (auto i=0; i<tracks.size(); i++) {
+    if (tracks[i].is_data) {
+      assert(tracks[i].wpid==-1.0); // just checking that isotracks created correctly...
+      if (tracks[i].NNk>max_nnk) {
+        found_k = true;
+        p_track = tracks[i].p;
+        max_nnk = tracks[i].NNk;
+      }
+    } else { // looking at MC tracks
+      assert(tracks[i].wpid>=0.0 && tracks[i].wpid<=1.0); // should be shifted already, just a check before referencing the value
+      if (tracks[i].wpid>max_nnk) {
+        found_k = true;
+        p_track = tracks[i].p;
+        max_nnk = tracks[i].wpid; // wpid should be prob that track satifies NNk>0.2
+      }
+    }
+  }
+  if (!found_k) return no_cand;
+  double pmag2 = pow(p_track.Px(),2)+pow(p_track.Py(),2)+pow(p_track.Pz(),2);
+  p_k.SetPxPyPzE(p_track.Px(), p_track.Py(), p_track.Pz(), sqrt(pow(m_k,2)+pmag2));
+  return (p_d + p_k).M();
 }

@@ -5,6 +5,7 @@ headers:
         - functor/rdx/kinematic.h
         - functor/rdx/truth_match.h
         - functor/basic.h
+        - functor/basic_iso.h
 
 keep:
     - runNumber
@@ -64,53 +65,251 @@ calculation:
         iso_bdt1_raw
     iso_bdt2: double; b0_ISOLATION_BDT2; b_ISOLATION_BDT2
     iso_bdt3: double; b0_ISOLATION_BDT3; b_ISOLATION_BDT3
+    iso_bdt4: >-
+        double;
+        ISO45_BUG_ADHOC_REORDER(b0_ISOLATION_BDT4, b0_ISOLATION_BDT5, b0_ISOLATION_BDT4, b0_ISOLATION_BDT5, true);
+        ISO45_BUG_ADHOC_REORDER(b_ISOLATION_BDT4, b_ISOLATION_BDT5, b_ISOLATION_BDT4, b_ISOLATION_BDT5, true)
+    iso_bdt5: >-
+        double;
+        ISO45_BUG_ADHOC_REORDER(b0_ISOLATION_BDT4, b0_ISOLATION_BDT5, b0_ISOLATION_BDT4, b0_ISOLATION_BDT5, false);
+        ISO45_BUG_ADHOC_REORDER(b_ISOLATION_BDT4, b_ISOLATION_BDT5, b_ISOLATION_BDT4, b_ISOLATION_BDT5, false)
     # PID
     iso_nnk1: float; b0_ISOLATION_NNk; b_ISOLATION_NNk
     iso_nnk2: float; b0_ISOLATION_NNk2; b_ISOLATION_NNk2
     iso_nnk3: float; b0_ISOLATION_NNk3; b_ISOLATION_NNk3
+    iso_nnk4: >-
+        float;
+        ISO45_BUG_ADHOC_REORDER(b0_ISOLATION_BDT4, b0_ISOLATION_BDT5, b0_ISOLATION_NNk4, b0_ISOLATION_NNk5, true);
+        ISO45_BUG_ADHOC_REORDER(b_ISOLATION_BDT4, b_ISOLATION_BDT5, b_ISOLATION_NNk4, b_ISOLATION_NNk5, true)
+    iso_nnk5: >-
+        float;
+        ISO45_BUG_ADHOC_REORDER(b0_ISOLATION_BDT4, b0_ISOLATION_BDT5, b0_ISOLATION_NNk4, b0_ISOLATION_NNk5, false);
+        ISO45_BUG_ADHOC_REORDER(b_ISOLATION_BDT4, b_ISOLATION_BDT5, b_ISOLATION_NNk4, b_ISOLATION_NNk5, false)
     iso_nnp1: float; b0_ISOLATION_NNp; b_ISOLATION_NNp
     iso_nnp2: float; b0_ISOLATION_NNp2; b_ISOLATION_NNp2
     iso_nnp3: float; b0_ISOLATION_NNp3; b_ISOLATION_NNp3
+    iso_nnp4: >-
+        float;
+        ISO45_BUG_ADHOC_REORDER(b0_ISOLATION_BDT4, b0_ISOLATION_BDT5, b0_ISOLATION_NNp4, b0_ISOLATION_NNp5, true);
+        ISO45_BUG_ADHOC_REORDER(b_ISOLATION_BDT4, b_ISOLATION_BDT5, b_ISOLATION_NNp4, b_ISOLATION_NNp5, true)
+    iso_nnp5: >-
+        float;
+        ISO45_BUG_ADHOC_REORDER(b0_ISOLATION_BDT4, b0_ISOLATION_BDT5, b0_ISOLATION_NNp4, b0_ISOLATION_NNp5, false);
+        ISO45_BUG_ADHOC_REORDER(b_ISOLATION_BDT4, b_ISOLATION_BDT5, b_ISOLATION_NNp4, b_ISOLATION_NNp5, false)
     iso_nnghost1: float; b0_ISOLATION_NNghost; b_ISOLATION_NNghost
     iso_nnghost2: float; b0_ISOLATION_NNghost2; b_ISOLATION_NNghost2
     iso_nnghost3: float; b0_ISOLATION_NNghost3; b_ISOLATION_NNghost3
+    iso_nnghost4: >-
+        float;
+        ISO45_BUG_ADHOC_REORDER(b0_ISOLATION_BDT4, b0_ISOLATION_BDT5, b0_ISOLATION_NNghost4, b0_ISOLATION_NNghost5, true);
+        ISO45_BUG_ADHOC_REORDER(b_ISOLATION_BDT4, b_ISOLATION_BDT5, b_ISOLATION_NNghost4, b_ISOLATION_NNghost5, true)
+    iso_nnghost5: >-
+        float;
+        ISO45_BUG_ADHOC_REORDER(b0_ISOLATION_BDT4, b0_ISOLATION_BDT5, b0_ISOLATION_NNghost4, b0_ISOLATION_NNghost5, false);
+        ISO45_BUG_ADHOC_REORDER(b_ISOLATION_BDT4, b_ISOLATION_BDT5, b_ISOLATION_NNghost4, b_ISOLATION_NNghost5, false)
     iso_pidk1: float; b0_ISOLATION_PIDK; b_ISOLATION_PIDK
     iso_pidk2: float; b0_ISOLATION_PIDK2; b_ISOLATION_PIDK2
     iso_pidk3: float; b0_ISOLATION_PIDK3; b_ISOLATION_PIDK3
+    iso_pidk4: >-
+        float;
+        ISO45_BUG_ADHOC_REORDER(b0_ISOLATION_BDT4, b0_ISOLATION_BDT5, b0_ISOLATION_PIDK4, b0_ISOLATION_PIDK5, true);
+        ISO45_BUG_ADHOC_REORDER(b_ISOLATION_BDT4, b_ISOLATION_BDT5, b_ISOLATION_PIDK4, b_ISOLATION_PIDK5, true)
+    iso_pidk5: >-
+        float;
+        ISO45_BUG_ADHOC_REORDER(b0_ISOLATION_BDT4, b0_ISOLATION_BDT5, b0_ISOLATION_PIDK4, b0_ISOLATION_PIDK5, false);
+        ISO45_BUG_ADHOC_REORDER(b_ISOLATION_BDT4, b_ISOLATION_BDT5, b_ISOLATION_PIDK4, b_ISOLATION_PIDK5, false)
     iso_pidp1: float; b0_ISOLATION_PIDp; b_ISOLATION_PIDp
     iso_pidp2: float; b0_ISOLATION_PIDp2; b_ISOLATION_PIDp2
     iso_pidp3: float; b0_ISOLATION_PIDp3; b_ISOLATION_PIDp3
+    iso_pidp4: >-
+        float;
+        ISO45_BUG_ADHOC_REORDER(b0_ISOLATION_BDT4, b0_ISOLATION_BDT5, b0_ISOLATION_PIDp4, b0_ISOLATION_PIDp5, true);
+        ISO45_BUG_ADHOC_REORDER(b_ISOLATION_BDT4, b_ISOLATION_BDT5, b_ISOLATION_PIDp4, b_ISOLATION_PIDp5, true)
+    iso_pidp5: >-
+        float;
+        ISO45_BUG_ADHOC_REORDER(b0_ISOLATION_BDT4, b0_ISOLATION_BDT5, b0_ISOLATION_PIDp4, b0_ISOLATION_PIDp5, false);
+        ISO45_BUG_ADHOC_REORDER(b_ISOLATION_BDT4, b_ISOLATION_BDT5, b_ISOLATION_PIDp4, b_ISOLATION_PIDp5, false)
     # ID
     iso_true_id1: int; b0_ISOLATION_TRUEID; b_ISOLATION_TRUEID
     iso_true_id2: int; b0_ISOLATION_TRUEID2; b_ISOLATION_TRUEID2
     iso_true_id3: int; b0_ISOLATION_TRUEID3; b_ISOLATION_TRUEID3
+    iso_true_id4: >-
+        int;
+        ISO45_BUG_ADHOC_REORDER(b0_ISOLATION_BDT4, b0_ISOLATION_BDT5, b0_ISOLATION_TRUEID4, b0_ISOLATION_TRUEID5, true);
+        ISO45_BUG_ADHOC_REORDER(b_ISOLATION_BDT4, b_ISOLATION_BDT5, b_ISOLATION_TRUEID4, b_ISOLATION_TRUEID5, true)
+    iso_true_id5: >-
+        int;
+        ISO45_BUG_ADHOC_REORDER(b0_ISOLATION_BDT4, b0_ISOLATION_BDT5, b0_ISOLATION_TRUEID4, b0_ISOLATION_TRUEID5, false);
+        ISO45_BUG_ADHOC_REORDER(b_ISOLATION_BDT4, b_ISOLATION_BDT5, b_ISOLATION_TRUEID4, b_ISOLATION_TRUEID5, false)
     # Charge
     iso_chrg1: int; b0_ISOLATION_CHARGE;  b_ISOLATION_CHARGE
     iso_chrg2: int; b0_ISOLATION_CHARGE2; b_ISOLATION_CHARGE2
+    iso_chrg3: int; b0_ISOLATION_CHARGE3; b_ISOLATION_CHARGE3
+    iso_chrg4: >-
+        int;
+        ISO45_BUG_ADHOC_REORDER(b0_ISOLATION_BDT4, b0_ISOLATION_BDT5, b0_ISOLATION_CHARGE4, b0_ISOLATION_CHARGE5, true);
+        ISO45_BUG_ADHOC_REORDER(b_ISOLATION_BDT4, b_ISOLATION_BDT5, b_ISOLATION_CHARGE4, b_ISOLATION_CHARGE5, true)
+    iso_chrg5: >-
+        int;
+        ISO45_BUG_ADHOC_REORDER(b0_ISOLATION_BDT4, b0_ISOLATION_BDT5, b0_ISOLATION_CHARGE4, b0_ISOLATION_CHARGE5, false);
+        ISO45_BUG_ADHOC_REORDER(b_ISOLATION_BDT4, b_ISOLATION_BDT5, b_ISOLATION_CHARGE4, b_ISOLATION_CHARGE5, false)
     # Kinematic
     iso_p1: float; GEV(MAG(b0_ISOLATION_PX, b0_ISOLATION_PY, b0_ISOLATION_PZ)); GEV(MAG(b_ISOLATION_PX, b_ISOLATION_PY, b_ISOLATION_PZ))
     iso_p2: float; GEV(MAG(b0_ISOLATION_PX2, b0_ISOLATION_PY2, b0_ISOLATION_PZ2)); GEV(MAG(b_ISOLATION_PX2, b_ISOLATION_PY2, b_ISOLATION_PZ2))
     iso_p3: float; GEV(MAG(b0_ISOLATION_PX3, b0_ISOLATION_PY3, b0_ISOLATION_PZ3)); GEV(MAG(b_ISOLATION_PX3, b_ISOLATION_PY3, b_ISOLATION_PZ3))
+    iso_p4: >-
+        float;
+        ISO45_BUG_ADHOC_REORDER(b0_ISOLATION_BDT4, b0_ISOLATION_BDT5, GEV(MAG(b0_ISOLATION_PX4, b0_ISOLATION_PY4, b0_ISOLATION_PZ4)), GEV(MAG(b0_ISOLATION_PX5, b0_ISOLATION_PY5, b0_ISOLATION_PZ5)), true);
+        ISO45_BUG_ADHOC_REORDER(b_ISOLATION_BDT4, b_ISOLATION_BDT5, GEV(MAG(b_ISOLATION_PX4, b_ISOLATION_PY4, b_ISOLATION_PZ4)), GEV(MAG(b_ISOLATION_PX5, b_ISOLATION_PY5, b_ISOLATION_PZ5)), true)
+    iso_p5: >-
+        float;
+        ISO45_BUG_ADHOC_REORDER(b0_ISOLATION_BDT4, b0_ISOLATION_BDT5, GEV(MAG(b0_ISOLATION_PX4, b0_ISOLATION_PY4, b0_ISOLATION_PZ4)), GEV(MAG(b0_ISOLATION_PX5, b0_ISOLATION_PY5, b0_ISOLATION_PZ5)), false);
+        ISO45_BUG_ADHOC_REORDER(b_ISOLATION_BDT4, b_ISOLATION_BDT5, GEV(MAG(b_ISOLATION_PX4, b_ISOLATION_PY4, b_ISOLATION_PZ4)), GEV(MAG(b_ISOLATION_PX5, b_ISOLATION_PY5, b_ISOLATION_PZ5)), false)
     iso_pt1: float; GEV(MAG(b0_ISOLATION_PX, b0_ISOLATION_PY)); GEV(MAG(b_ISOLATION_PX, b_ISOLATION_PY))
     iso_pt2: float; GEV(MAG(b0_ISOLATION_PX2, b0_ISOLATION_PY2)); GEV(MAG(b_ISOLATION_PX2, b_ISOLATION_PY2))
     iso_pt3: float; GEV(MAG(b0_ISOLATION_PX3, b0_ISOLATION_PY3)); GEV(MAG(b_ISOLATION_PX3, b_ISOLATION_PY3))
+    iso_pt4: >-
+        float;
+        ISO45_BUG_ADHOC_REORDER(b0_ISOLATION_BDT4, b0_ISOLATION_BDT5, GEV(MAG(b0_ISOLATION_PX4, b0_ISOLATION_PY4)), GEV(MAG(b0_ISOLATION_PX5, b0_ISOLATION_PY5)), true);
+        ISO45_BUG_ADHOC_REORDER(b_ISOLATION_BDT4, b_ISOLATION_BDT5, GEV(MAG(b_ISOLATION_PX4, b_ISOLATION_PY4)), GEV(MAG(b_ISOLATION_PX5, b_ISOLATION_PY5)), true)
+    iso_pt5: >-
+        float;
+        ISO45_BUG_ADHOC_REORDER(b0_ISOLATION_BDT4, b0_ISOLATION_BDT5, GEV(MAG(b0_ISOLATION_PX4, b0_ISOLATION_PY4)), GEV(MAG(b0_ISOLATION_PX5, b0_ISOLATION_PY5)), false);
+        ISO45_BUG_ADHOC_REORDER(b_ISOLATION_BDT4, b_ISOLATION_BDT5, GEV(MAG(b_ISOLATION_PX4, b_ISOLATION_PY4)), GEV(MAG(b_ISOLATION_PX5, b_ISOLATION_PY5)), false)
     # Track types
     iso_type1: int; b0_ISOLATION_Type; b_ISOLATION_Type
     iso_type2: int; b0_ISOLATION_Type2; b_ISOLATION_Type2
     iso_type3: int; b0_ISOLATION_Type3; b_ISOLATION_Type3
-    # Invariant masses
+    iso_type4: >-
+        int;
+        ISO45_BUG_ADHOC_REORDER(b0_ISOLATION_BDT4, b0_ISOLATION_BDT5, b0_ISOLATION_Type4, b0_ISOLATION_Type5, true);
+        ISO45_BUG_ADHOC_REORDER(b_ISOLATION_BDT4, b_ISOLATION_BDT5, b_ISOLATION_Type4, b_ISOLATION_Type5, true)
+    iso_type5: >-
+        int;
+        ISO45_BUG_ADHOC_REORDER(b0_ISOLATION_BDT4, b0_ISOLATION_BDT5, b0_ISOLATION_Type4, b0_ISOLATION_Type5, false);
+        ISO45_BUG_ADHOC_REORDER(b_ISOLATION_BDT4, b_ISOLATION_BDT5, b_ISOLATION_Type4, b_ISOLATION_Type5, false)
+    
+    # Combinations of invariant masses of D(*)+iso
+    iso_px1: float; GEV(b0_ISOLATION_PX); GEV(b_ISOLATION_PX)
+    iso_px2: float; GEV(b0_ISOLATION_PX2); GEV(b_ISOLATION_PX2)
+    iso_px3: float; GEV(b0_ISOLATION_PX3); GEV(b_ISOLATION_PX3)
+    iso_px4: >-
+        float;
+        ISO45_BUG_ADHOC_REORDER(b0_ISOLATION_BDT4, b0_ISOLATION_BDT5, GEV(b0_ISOLATION_PX4), GEV(b0_ISOLATION_PX5), true);
+        ISO45_BUG_ADHOC_REORDER(b_ISOLATION_BDT4, b_ISOLATION_BDT5, GEV(b_ISOLATION_PX4), GEV(b_ISOLATION_PX5), true)
+    iso_px5: >-
+        float;
+        ISO45_BUG_ADHOC_REORDER(b0_ISOLATION_BDT4, b0_ISOLATION_BDT5, GEV(b0_ISOLATION_PX4), GEV(b0_ISOLATION_PX5), false);
+        ISO45_BUG_ADHOC_REORDER(b_ISOLATION_BDT4, b_ISOLATION_BDT5, GEV(b_ISOLATION_PX4), GEV(b_ISOLATION_PX5), false)
+    iso_py1: float; GEV(b0_ISOLATION_PY); GEV(b_ISOLATION_PY)
+    iso_py2: float; GEV(b0_ISOLATION_PY2); GEV(b_ISOLATION_PY2)
+    iso_py3: float; GEV(b0_ISOLATION_PY3); GEV(b_ISOLATION_PY3)
+    iso_py4: >-
+        float;
+        ISO45_BUG_ADHOC_REORDER(b0_ISOLATION_BDT4, b0_ISOLATION_BDT5, GEV(b0_ISOLATION_PY4), GEV(b0_ISOLATION_PY5), true);
+        ISO45_BUG_ADHOC_REORDER(b_ISOLATION_BDT4, b_ISOLATION_BDT5, GEV(b_ISOLATION_PY4), GEV(b_ISOLATION_PY5), true)
+    iso_py5: >-
+        float;
+        ISO45_BUG_ADHOC_REORDER(b0_ISOLATION_BDT4, b0_ISOLATION_BDT5, GEV(b0_ISOLATION_PY4), GEV(b0_ISOLATION_PY5), false);
+        ISO45_BUG_ADHOC_REORDER(b_ISOLATION_BDT4, b_ISOLATION_BDT5, GEV(b_ISOLATION_PY4), GEV(b_ISOLATION_PY5), false)
+    iso_pz1: float; GEV(b0_ISOLATION_PZ); GEV(b_ISOLATION_PZ)
+    iso_pz2: float; GEV(b0_ISOLATION_PZ2); GEV(b_ISOLATION_PZ2)
+    iso_pz3: float; GEV(b0_ISOLATION_PZ3); GEV(b_ISOLATION_PZ3)
+    iso_pz4: >-
+        float;
+        ISO45_BUG_ADHOC_REORDER(b0_ISOLATION_BDT4, b0_ISOLATION_BDT5, GEV(b0_ISOLATION_PZ4), GEV(b0_ISOLATION_PZ5), true);
+        ISO45_BUG_ADHOC_REORDER(b_ISOLATION_BDT4, b_ISOLATION_BDT5, GEV(b_ISOLATION_PZ4), GEV(b_ISOLATION_PZ5), true)
+    iso_pz5: >-
+        float;
+        ISO45_BUG_ADHOC_REORDER(b0_ISOLATION_BDT4, b0_ISOLATION_BDT5, GEV(b0_ISOLATION_PZ4), GEV(b0_ISOLATION_PZ5), false);
+        ISO45_BUG_ADHOC_REORDER(b_ISOLATION_BDT4, b_ISOLATION_BDT5, GEV(b_ISOLATION_PZ4), GEV(b_ISOLATION_PZ5), false)
+    iso_e1: float; GEV(b0_ISOLATION_PE); GEV(b_ISOLATION_PE)
+    iso_e2: float; GEV(b0_ISOLATION_PE2); GEV(b_ISOLATION_PE2)
+    iso_e3: float; GEV(b0_ISOLATION_PE3); GEV(b_ISOLATION_PE3)
+    iso_e4: >-
+        float;
+        ISO45_BUG_ADHOC_REORDER(b0_ISOLATION_BDT4, b0_ISOLATION_BDT5, GEV(b0_ISOLATION_PE4), GEV(b0_ISOLATION_PE5), true);
+        ISO45_BUG_ADHOC_REORDER(b_ISOLATION_BDT4, b_ISOLATION_BDT5, GEV(b_ISOLATION_PE4), GEV(b_ISOLATION_PE5), true)
+    iso_e5: >-
+        float;
+        ISO45_BUG_ADHOC_REORDER(b0_ISOLATION_BDT4, b0_ISOLATION_BDT5, GEV(b0_ISOLATION_PE4), GEV(b0_ISOLATION_PE5), false);
+        ISO45_BUG_ADHOC_REORDER(b_ISOLATION_BDT4, b_ISOLATION_BDT5, GEV(b_ISOLATION_PE4), GEV(b_ISOLATION_PE5), false) 
     d_iso1_m: >-
         float;
-        MASS_DX_ISO1(d0_PE, d0_PX, d0_PY, d0_PZ, b_ISOLATION_PX, b_ISOLATION_PY, b_ISOLATION_PZ);
-        MASS_DX_ISO1(dst_PE, dst_PX, dst_PY, dst_PZ, b0_ISOLATION_PX, b0_ISOLATION_PY, b0_ISOLATION_PZ)
+        MASS_DX_ISO1(dst_PE, dst_PX, dst_PY, dst_PZ, b0_ISOLATION_PX, b0_ISOLATION_PY, b0_ISOLATION_PZ);
+        MASS_DX_ISO1(d0_PE, d0_PX, d0_PY, d0_PZ, b_ISOLATION_PX, b_ISOLATION_PY, b_ISOLATION_PZ)
+    isotracks2_mcNNklt: >-
+        ^vector<IsoTrack>;
+        GET_N_ISOTRACKS(
+        2, false,
+        iso_true_id1, iso_type1, iso_bdt1, iso_px1, iso_py1, iso_pz1, iso_e1,
+        iso_chrg1, -1.0, -1.0, -1.0, wpid_iso_nnk1_lt,
+        iso_true_id2, iso_type2, iso_bdt2, iso_px2, iso_py2, iso_pz2, iso_e2,
+        iso_chrg2, -1.0, -1.0, -1.0, wpid_iso_nnk2_lt,
+        iso_true_id3, iso_type3, iso_bdt3, iso_px3, iso_py3, iso_pz3, iso_e3,
+        iso_chrg3, -1.0, -1.0, -1.0, wpid_iso_nnk3_lt,
+        iso_true_id4, iso_type4, iso_bdt4, iso_px4, iso_py4, iso_pz4, iso_e4,
+        iso_chrg4, -1.0, -1.0, -1.0, wpid_iso_nnk4_lt,
+        iso_true_id5, iso_type5, iso_bdt5, iso_px5, iso_py5, iso_pz5, iso_e5,
+        iso_chrg5, -1.0, -1.0, -1.0, wpid_iso_nnk5_lt
+        );
+        GET_N_ISOTRACKS(
+        3, true,
+        -1, iso_type1, iso_bdt1, iso_px1, iso_py1, iso_pz1, iso_e1,
+        iso_chrg1, iso_nnk1, iso_nnghost1, iso_nnp1, -1.0,
+        -1, iso_type2, iso_bdt2, iso_px2, iso_py2, iso_pz2, iso_e2,
+        iso_chrg2, iso_nnk2, iso_nnghost2, iso_nnp2, -1.0,
+        -1, iso_type3, iso_bdt3, iso_px3, iso_py3, iso_pz3, iso_e3,
+        iso_chrg3, iso_nnk3, iso_nnghost3, iso_nnp3, -1.0,
+        -1, iso_type4, iso_bdt4, iso_px4, iso_py4, iso_pz4, iso_e4,
+        iso_chrg4, iso_nnk4, iso_nnghost4, iso_nnp4, -1.0,
+        -1, iso_type5, iso_bdt5, iso_px5, iso_py5, iso_pz5, iso_e5,
+        iso_chrg5, iso_nnk5, iso_nnghost5, iso_nnp5, -1.0
+        )
+    d_isopi_m: >-
+        float;
+        1000.0*MASS_DX_PI(GEV(dst_PX), GEV(dst_PY), GEV(dst_PZ), GEV(dst_PE), dst_id, false, isotracks2_mcNNklt);
+        1000.0*MASS_DX_PI(GEV(d0_PX), GEV(d0_PY), GEV(d0_PZ), GEV(d0_PE), d0_id, true, isotracks2_mcNNklt)
+    isotracks3_mcNNkgt: >-
+        ^vector<IsoTrack>;
+        GET_N_ISOTRACKS(
+        3, false,
+        iso_true_id1, iso_type1, iso_bdt1, iso_px1, iso_py1, iso_pz1, iso_e1,
+        iso_chrg1, -1.0, -1.0, -1.0, wpid_iso_nnk1_gt,
+        iso_true_id2, iso_type2, iso_bdt2, iso_px2, iso_py2, iso_pz2, iso_e2,
+        iso_chrg2, -1.0, -1.0, -1.0, wpid_iso_nnk2_gt,
+        iso_true_id3, iso_type3, iso_bdt3, iso_px3, iso_py3, iso_pz3, iso_e3,
+        iso_chrg3, -1.0, -1.0, -1.0, wpid_iso_nnk3_gt,
+        iso_true_id4, iso_type4, iso_bdt4, iso_px4, iso_py4, iso_pz4, iso_e4,
+        iso_chrg4, -1.0, -1.0, -1.0, wpid_iso_nnk4_gt,
+        iso_true_id5, iso_type5, iso_bdt5, iso_px5, iso_py5, iso_pz5, iso_e5,
+        iso_chrg5, -1.0, -1.0, -1.0, wpid_iso_nnk5_gt
+        );
+        GET_N_ISOTRACKS(
+        3, true,
+        -1, iso_type1, iso_bdt1, iso_px1, iso_py1, iso_pz1, iso_e1,
+        iso_chrg1, iso_nnk1, iso_nnghost1, iso_nnp1, -1.0,
+        -1, iso_type2, iso_bdt2, iso_px2, iso_py2, iso_pz2, iso_e2,
+        iso_chrg2, iso_nnk2, iso_nnghost2, iso_nnp2, -1.0,
+        -1, iso_type3, iso_bdt3, iso_px3, iso_py3, iso_pz3, iso_e3,
+        iso_chrg3, iso_nnk3, iso_nnghost3, iso_nnp3, -1.0,
+        -1, iso_type4, iso_bdt4, iso_px4, iso_py4, iso_pz4, iso_e4,
+        iso_chrg4, iso_nnk4, iso_nnghost4, iso_nnp4, -1.0,
+        -1, iso_type5, iso_bdt5, iso_px5, iso_py5, iso_pz5, iso_e5,
+        iso_chrg5, iso_nnk5, iso_nnghost5, iso_nnp5, -1.0
+        )
+    d_isok_m: >-
+        float;
+        1000.0*MASS_DX_K(GEV(dst_PX), GEV(dst_PY), GEV(dst_PZ), GEV(dst_PE), dst_id, isotracks3_mcNNkgt);
+        1000.0*MASS_DX_K(GEV(d0_PX), GEV(d0_PY), GEV(d0_PZ), GEV(d0_PE), d0_id, isotracks3_mcNNkgt)
     d_iso1_iso2_m: >-
         float;
-        MASS_DX_ISO1_ISO2(d0_PE, d0_PX, d0_PY, d0_PZ, b_ISOLATION_PX, b_ISOLATION_PY, b_ISOLATION_PZ, b_ISOLATION_PX2, b_ISOLATION_PY2, b_ISOLATION_PZ2);
-        MASS_DX_ISO1_ISO2(dst_PE, dst_PX, dst_PY, dst_PZ, b0_ISOLATION_PX, b0_ISOLATION_PY, b0_ISOLATION_PZ, b0_ISOLATION_PX2, b0_ISOLATION_PY2, b0_ISOLATION_PZ2)
+        MASS_DX_ISO1_ISO2(dst_PE, dst_PX, dst_PY, dst_PZ, b0_ISOLATION_PX, b0_ISOLATION_PY, b0_ISOLATION_PZ, b0_ISOLATION_PX2, b0_ISOLATION_PY2, b0_ISOLATION_PZ2);
+        MASS_DX_ISO1_ISO2(d0_PE, d0_PX, d0_PY, d0_PZ, b_ISOLATION_PX, b_ISOLATION_PY, b_ISOLATION_PZ, b_ISOLATION_PX2, b_ISOLATION_PY2, b_ISOLATION_PZ2)
     d_iso1_prot_m: >-
         float;
-        MASS_DX_ISO1_PROT(d0_PE, d0_PX, d0_PY, d0_PZ, b_ISOLATION_PX, b_ISOLATION_PY, b_ISOLATION_PZ);
-        MASS_DX_ISO1_PROT(dst_PE, dst_PX, dst_PY, dst_PZ, b0_ISOLATION_PX, b0_ISOLATION_PY, b0_ISOLATION_PZ)
+        MASS_DX_ISO1_PROT(dst_PE, dst_PX, dst_PY, dst_PZ, b0_ISOLATION_PX, b0_ISOLATION_PY, b0_ISOLATION_PZ);
+        MASS_DX_ISO1_PROT(d0_PE, d0_PX, d0_PY, d0_PZ, b_ISOLATION_PX, b_ISOLATION_PY, b_ISOLATION_PZ)
     # log(IP chi2)
     iso1_logipchi2: >-
         float; log(b_ISOLATION_CHI2); log(b0_ISOLATION_CHI2)
@@ -278,24 +477,28 @@ calculation:
     d0_comp2: double; LOG(1 - d0_dira)
     # K
     k_gh_prob: double; k_TRACK_GhostProb
+    k_chi2ndof: double; k_TRACK_CHI2NDOF
     k_ip_chi2: double; k_IPCHI2_OWNPV
     k_log_ip_chi2: double; LOG(k_ip_chi2)
     k_ip: double; k_IP_OWNPV
     k_comp: double; SQRT(k_ip_chi2) / k_ip
     # Pi
     pi_gh_prob: double; pi_TRACK_GhostProb
+    pi_chi2ndof: double; pi_TRACK_CHI2NDOF
     pi_ip_chi2: double; pi_IPCHI2_OWNPV
     pi_log_ip_chi2: double; LOG(pi_ip_chi2)
     pi_ip: double; pi_IP_OWNPV
     pi_comp: double; SQRT(pi_ip_chi2) / pi_ip
     # slow Pi
     spi_gh_prob: double; spi_TRACK_GhostProb
+    spi_chi2ndof: double; spi_TRACK_CHI2NDOF
     spi_ip_chi2: double; spi_IPCHI2_OWNPV
     spi_log_ip_chi2: double; LOG(spi_ip_chi2)
     spi_ip: double; spi_IP_OWNPV
     spi_comp: double; SQRT(spi_ip_chi2) / spi_ip
     # Mu
     mu_gh_prob: double; mu_TRACK_GhostProb
+    mu_chi2ndof: double; mu_TRACK_CHI2NDOF
     mu_ip_chi2: double; mu_IPCHI2_OWNPV
     mu_log_ip_chi2: double; LOG(mu_ip_chi2)
     mu_ip: double; mu_IP_OWNPV
@@ -378,9 +581,26 @@ calculation:
     # MC true variables #
     #####################
     # B daughters
-    # b_dau1_true_id: ^int; b0_TrueHadron_D0_ID; b0_TrueHadron_D0_ID;
-    # b_dau2_true_id: ^int; b0_TrueHadron_D1_ID; b0_TrueHadron_D1_ID;
-    # b_dau3_true_id: ^int; b0_TrueHadron_D2_ID; b0_TrueHadron_D2_ID;
+    b_dau1_true_id: ^int; b0_TrueHadron_D0_ID; b_TrueHadron_D0_ID;
+    b_dau1_true_e: ^int; b0_TrueHadron_D0_PE; b_TrueHadron_D0_PE;
+    b_dau1_true_px: ^int; b0_TrueHadron_D0_PX; b_TrueHadron_D0_PX;
+    b_dau1_true_py: ^int; b0_TrueHadron_D0_PY; b_TrueHadron_D0_PY;
+    b_dau1_true_pz: ^int; b0_TrueHadron_D0_PZ; b_TrueHadron_D0_PZ;
+    b_dau2_true_id: ^int; b0_TrueHadron_D1_ID; b_TrueHadron_D1_ID;
+    b_dau2_true_e: ^int; b0_TrueHadron_D1_PE; b_TrueHadron_D1_PE;
+    b_dau2_true_px: ^int; b0_TrueHadron_D1_PX; b_TrueHadron_D1_PX;
+    b_dau2_true_py: ^int; b0_TrueHadron_D1_PY; b_TrueHadron_D1_PY;
+    b_dau2_true_pz: ^int; b0_TrueHadron_D1_PZ; b_TrueHadron_D1_PZ;
+    b_dau3_true_id: ^int; b0_TrueHadron_D2_ID; b_TrueHadron_D2_ID;
+    b_dau3_true_e: ^int; b0_TrueHadron_D2_PE; b_TrueHadron_D2_PE;
+    b_dau3_true_px: ^int; b0_TrueHadron_D2_PX; b_TrueHadron_D2_PX;
+    b_dau3_true_py: ^int; b0_TrueHadron_D2_PY; b_TrueHadron_D2_PY;
+    b_dau3_true_pz: ^int; b0_TrueHadron_D2_PZ; b_TrueHadron_D2_PZ;
+    b_dau4_true_id: ^int; b0_TrueHadron_D3_ID; b_TrueHadron_D3_ID;
+    b_dau4_true_e: ^int; b0_TrueHadron_D3_PE; b_TrueHadron_D3_PE;
+    b_dau4_true_px: ^int; b0_TrueHadron_D3_PX; b_TrueHadron_D3_PX;
+    b_dau4_true_py: ^int; b0_TrueHadron_D3_PY; b_TrueHadron_D3_PY;
+    b_dau4_true_pz: ^int; b0_TrueHadron_D3_PZ; b_TrueHadron_D3_PZ;
     b_dau1_gd1_true_id: ^int; b0_TrueHadron_D0_GD0_ID; b_TrueHadron_D0_GD0_ID
     b_dau1_gd2_true_id: ^int; b0_TrueHadron_D0_GD1_ID; b_TrueHadron_D0_GD1_ID
     b_dau1_gd3_true_id: ^int; b0_TrueHadron_D0_GD2_ID; b_TrueHadron_D0_GD2_ID
@@ -452,8 +672,8 @@ calculation:
         dst_MC_MOTHER_TRUEPE, dst_MC_MOTHER_TRUEPX, dst_MC_MOTHER_TRUEPY, dst_MC_MOTHER_TRUEPZ,
         dst_TRUEP_E, dst_TRUEP_X, dst_TRUEP_Y, dst_TRUEP_Z,
         dst_BKGCAT, d0_BKGCAT, b0_BKGCAT,
-        b0_TrueHadron_D0_ID, b0_TrueHadron_D1_ID, b0_TrueHadron_D2_ID
-        );
+        b0_TrueHadron_D0_ID, b0_TrueHadron_D1_ID, b0_TrueHadron_D2_ID,
+        false, true, false, false);
         MC_TRUTH_MATCH_D0(
         mc_id, b_TRUEID,
         mu_TRUEID, mu_MC_MOTHER_ID, mu_MC_GD_MOTHER_ID, mu_MC_GD_GD_MOTHER_ID, mu_MC_GD_GD_GD_MOTHER_ID,
@@ -464,7 +684,8 @@ calculation:
         d0_MC_MOTHER_TRUEPE, d0_MC_MOTHER_TRUEPX, d0_MC_MOTHER_TRUEPY, d0_MC_MOTHER_TRUEPZ,
         d0_MC_GD_MOTHER_TRUEPE, d0_MC_GD_MOTHER_TRUEPX, d0_MC_GD_MOTHER_TRUEPY, d0_MC_GD_MOTHER_TRUEPZ,
         b_BKGCAT,
-        b_TrueHadron_D0_ID, b_TrueHadron_D1_ID, b_TrueHadron_D2_ID
+        b_TrueHadron_D0_ID, b_TrueHadron_D1_ID, b_TrueHadron_D2_ID,
+        false, true, false, false
         )
     is_ddx: bool; IS_DDX(mc_id)
     is_ddx_mu: bool; IS_DDX_MU(mc_id)
@@ -500,6 +721,7 @@ calculation:
     ##########################
     # Selection flags, basic #
     ##########################
+    mcgen_ok: bool; (k_p+pi_p) > 15.0
     # Trigger
     # NOTE: For MC, L0 are applied as weight, and HLT2 is already applied at DV level
     l0: >-
@@ -587,7 +809,7 @@ calculation:
         b_ENDVERTEX_CHI2, b_ENDVERTEX_NDOF,
         b_fd_trans,
         b_DIRA_OWNPV,
-        d0_dst_veto_deltam_stub
+        d0_dst_veto_deltam_stub, mcgen_ok
         )
 
     # D*Mu combo selection
@@ -601,9 +823,15 @@ calculation:
         b_discard_mu_chi2,
         b0_ENDVERTEX_CHI2, b0_ENDVERTEX_NDOF,
         b_fd_trans,
-        b0_DIRA_OWNPV
+        b0_DIRA_OWNPV, mcgen_ok
         )
     dst_m_ok: bool; FLAG_SEL_DST_MASS(dst_m, d0_m)
+
+    # Track quality flag
+    tracks_chi2ndof_ok: >-
+        bool;
+        TRACKS_CHI2NDOF_OK_DST(mu_chi2ndof, k_chi2ndof, pi_chi2ndof, spi_chi2ndof);
+        TRACKS_CHI2NDOF_OK_D0(mu_chi2ndof, k_chi2ndof, pi_chi2ndof)
 
     ###############################
     # Selection flags, additional #
@@ -724,34 +952,48 @@ calculation:
         d0_id
         )
     is_phi_loose: bool; is_dd_loose && 1015 < phi_m && phi_m < 1023
-    ## skim definitions mimicking angular R(D*) (just missing 4th iso track info)
-    is_iso_ang_loose: >-
-        bool; FLAG_ISO_ANG(
-        true, iso_type1, iso_bdt1, iso_type2, iso_bdt2, iso_type3, iso_bdt3
+    ## skim definitions mimicking angular R(D*)
+    nonvelo_isotracks_data: >-
+        ^vector<IsoTrack>;
+        GET_N_NONVELO_ISOTRACKS(
+        5, true,
+        -1, iso_type1, iso_bdt1, iso_px1, iso_py1, iso_pz1, iso_e1,
+        iso_chrg1, iso_nnk1, iso_nnghost1, iso_nnp1, -1.0,
+        -1, iso_type2, iso_bdt2, iso_px2, iso_py2, iso_pz2, iso_e2,
+        iso_chrg2, iso_nnk2, iso_nnghost2, iso_nnp2, -1.0,
+        -1, iso_type3, iso_bdt3, iso_px3, iso_py3, iso_pz3, iso_e3,
+        iso_chrg3, iso_nnk3, iso_nnghost3, iso_nnp3, -1.0,
+        -1, iso_type4, iso_bdt4, iso_px4, iso_py4, iso_pz4, iso_e4,
+        iso_chrg4, iso_nnk4, iso_nnghost4, iso_nnp4, -1.0,
+        -1, iso_type5, iso_bdt5, iso_px5, iso_py5, iso_pz5, iso_e5,
+        iso_chrg5, iso_nnk5, iso_nnghost5, iso_nnp5, -1.0
         )
-    is_dd_ang_loose:  >-
-        bool; FLAG_DD_ANG(
-        true, iso_bdt1, iso_bdt2, iso_type1, iso_type2, iso_nnk1, iso_nnk2, iso_nnghost1, iso_nnghost2
+    is_iso_ang_loose: bool; FLAG_ISO_ANG(true, nonvelo_isotracks_data)
+    is_dd_ang_loose: bool; FLAG_DD_ANG(true, nonvelo_isotracks_data)
+    is_2os_ang_loose: bool; FLAG_2OS_ANG(true, nonvelo_isotracks_data)
+    is_1os_ang_loose: bool; FLAG_1OS_ANG(true, nonvelo_isotracks_data, dst_id, false); FLAG_1OS_ANG(true, nonvelo_isotracks_data, d0_id, true)
+    ## if you only want to consider the first 3 iso tracks (because of bug in 4th/5th), alternative skim defs like angular analysis
+    # (implement by setting iso_type4,5=1, so GET_N_NONVELO_ISOTRACKS will never pick them up)
+    nonvelo_isotracks3_data: >-
+        ^vector<IsoTrack>;
+        GET_N_NONVELO_ISOTRACKS(
+        5, true,
+        -1, iso_type1, iso_bdt1, iso_px1, iso_py1, iso_pz1, iso_e1,
+        iso_chrg1, iso_nnk1, iso_nnghost1, iso_nnp1, -1.0,
+        -1, iso_type2, iso_bdt2, iso_px2, iso_py2, iso_pz2, iso_e2,
+        iso_chrg2, iso_nnk2, iso_nnghost2, iso_nnp2, -1.0,
+        -1, iso_type3, iso_bdt3, iso_px3, iso_py3, iso_pz3, iso_e3,
+        iso_chrg3, iso_nnk3, iso_nnghost3, iso_nnp3, -1.0,
+        -1, 1, iso_bdt4, iso_px4, iso_py4, iso_pz4, iso_e4,
+        iso_chrg4, iso_nnk4, iso_nnghost4, iso_nnp4, -1.0,
+        -1, 1, iso_bdt5, iso_px5, iso_py5, iso_pz5, iso_e5,
+        iso_chrg5, iso_nnk5, iso_nnghost5, iso_nnp5, -1.0
         )
-    is_2os_ang_loose: >-
-        bool; FLAG_2OS_ANG(
-        true, iso_bdt1, iso_bdt2, iso_bdt3, iso_type1, iso_type2,
-        iso_chrg1, iso_chrg2, iso_nnk1, iso_nnk2, iso_nnghost1, iso_nnghost2
-        )
-    is_1os_ang_loose: >-
-        bool;
-        FLAG_1OS_ANG(
-        true, iso_bdt1, iso_bdt2, iso_bdt3, iso_type1, iso_type2,
-        iso_p1, iso_pt1, iso_p2, iso_pt2, iso_chrg1, iso_chrg2,
-        iso_nnk1, iso_nnk2, iso_nnghost1, iso_nnghost2,
-        dst_id, true
-        );
-        FLAG_1OS_ANG(
-        true, iso_bdt1, iso_bdt2, iso_bdt3, iso_type1, iso_type2,
-        iso_p1, iso_pt1, iso_p2, iso_pt2, iso_chrg1, iso_chrg2,
-        iso_nnk1, iso_nnk2, iso_nnghost1, iso_nnghost2,
-        d0_id, false
-        )
+    is_iso_ang_loose3: bool; FLAG_ISO_ANG(true, nonvelo_isotracks3_data)
+    is_dd_ang_loose3: bool; FLAG_DD_ANG(true, nonvelo_isotracks3_data)
+    is_2os_ang_loose3: bool; FLAG_2OS_ANG(true, nonvelo_isotracks3_data)
+    is_1os_ang_loose3: bool; FLAG_1OS_ANG(true, nonvelo_isotracks3_data, dst_id, false); FLAG_1OS_ANG(true, nonvelo_isotracks_data, d0_id, true)
+    
 
     ### Try out DD skim with ProbNNghost cuts and (potentially) different min ProbNNk: here choosing NNghost<0.3, and keeping NNK at 0.2
     is_dd_loose_new:  >-
@@ -948,42 +1190,42 @@ calculation:
         wmis_dsb_2os_g  * is_2os_loose +
         wmis_dsb_dd_g   * is_dd_loose
     #
-    wmis_bsb_dsb: >-
+    wmis_dsb_bsb: >-
         ^double;
-        wmis_bsb_dsb_iso    * is_iso_loose +
-        wmis_bsb_dsb_1os    * is_1os_loose +
-        wmis_bsb_dsb_2os    * is_2os_loose +
-        wmis_bsb_dsb_dd     * is_dd_loose
-    wmis_bsb_dsb_pi: >-
+        wmis_dsb_bsb_iso    * is_iso_loose +
+        wmis_dsb_bsb_1os    * is_1os_loose +
+        wmis_dsb_bsb_2os    * is_2os_loose +
+        wmis_dsb_bsb_dd     * is_dd_loose
+    wmis_dsb_bsb_pi: >-
         ^double;
-        wmis_bsb_dsb_iso_pi * is_iso_loose +
-        wmis_bsb_dsb_1os_pi * is_1os_loose +
-        wmis_bsb_dsb_2os_pi * is_2os_loose +
-        wmis_bsb_dsb_dd_pi  * is_dd_loose
-    wmis_bsb_dsb_k: >-
+        wmis_dsb_bsb_iso_pi * is_iso_loose +
+        wmis_dsb_bsb_1os_pi * is_1os_loose +
+        wmis_dsb_bsb_2os_pi * is_2os_loose +
+        wmis_dsb_bsb_dd_pi  * is_dd_loose
+    wmis_dsb_bsb_k: >-
         ^double;
-        wmis_bsb_dsb_iso_k  * is_iso_loose +
-        wmis_bsb_dsb_1os_k  * is_1os_loose +
-        wmis_bsb_dsb_2os_k  * is_2os_loose +
-        wmis_bsb_dsb_dd_k   * is_dd_loose
-    wmis_bsb_dsb_p: >-
+        wmis_dsb_bsb_iso_k  * is_iso_loose +
+        wmis_dsb_bsb_1os_k  * is_1os_loose +
+        wmis_dsb_bsb_2os_k  * is_2os_loose +
+        wmis_dsb_bsb_dd_k   * is_dd_loose
+    wmis_dsb_bsb_p: >-
         ^double;
-        wmis_bsb_dsb_iso_p  * is_iso_loose +
-        wmis_bsb_dsb_1os_p  * is_1os_loose +
-        wmis_bsb_dsb_2os_p  * is_2os_loose +
-        wmis_bsb_dsb_dd_p   * is_dd_loose
-    wmis_bsb_dsb_e: >-
+        wmis_dsb_bsb_iso_p  * is_iso_loose +
+        wmis_dsb_bsb_1os_p  * is_1os_loose +
+        wmis_dsb_bsb_2os_p  * is_2os_loose +
+        wmis_dsb_bsb_dd_p   * is_dd_loose
+    wmis_dsb_bsb_e: >-
         ^double;
-        wmis_bsb_dsb_iso_e  * is_iso_loose +
-        wmis_bsb_dsb_1os_e  * is_1os_loose +
-        wmis_bsb_dsb_2os_e  * is_2os_loose +
-        wmis_bsb_dsb_dd_e   * is_dd_loose
-    wmis_bsb_dsb_g: >-
+        wmis_dsb_bsb_iso_e  * is_iso_loose +
+        wmis_dsb_bsb_1os_e  * is_1os_loose +
+        wmis_dsb_bsb_2os_e  * is_2os_loose +
+        wmis_dsb_bsb_dd_e   * is_dd_loose
+    wmis_dsb_bsb_g: >-
         ^double;
-        wmis_bsb_dsb_iso_g  * is_iso_loose +
-        wmis_bsb_dsb_1os_g  * is_1os_loose +
-        wmis_bsb_dsb_2os_g  * is_2os_loose +
-        wmis_bsb_dsb_dd_g   * is_dd_loose
+        wmis_dsb_bsb_iso_g  * is_iso_loose +
+        wmis_dsb_bsb_1os_g  * is_1os_loose +
+        wmis_dsb_bsb_2os_g  * is_2os_loose +
+        wmis_dsb_bsb_dd_g   * is_dd_loose
     # 'wmis' is the NON-DiF-SMEARED misID weights
     wmis: >-
         double;
@@ -1202,9 +1444,23 @@ calculation:
         wpid_iso_nnk3_gt_pi, wpid_iso_nnk3_gt_k, wpid_iso_nnk3_gt_p,
         wpid_iso_nnk3_gt_e, wpid_iso_nnk3_gt_mu, wpid_iso_nnk3_gt_g
         )
+    wpid_iso_nnk4_gt: >-
+        double;
+        WT_ISO(iso_true_id4,
+        wpid_iso_nnk4_gt_pi, wpid_iso_nnk4_gt_k, wpid_iso_nnk4_gt_p,
+        wpid_iso_nnk4_gt_e, wpid_iso_nnk4_gt_mu, wpid_iso_nnk4_gt_g
+        )
+    wpid_iso_nnk5_gt: >-
+        double;
+        WT_ISO(iso_true_id5,
+        wpid_iso_nnk5_gt_pi, wpid_iso_nnk5_gt_k, wpid_iso_nnk5_gt_p,
+        wpid_iso_nnk5_gt_e, wpid_iso_nnk5_gt_mu, wpid_iso_nnk5_gt_g
+        )
     wpid_iso_nnk1_lt: double; 1 - wpid_iso_nnk1_gt
     wpid_iso_nnk2_lt: double; 1 - wpid_iso_nnk2_gt
     wpid_iso_nnk3_lt: double; 1 - wpid_iso_nnk3_gt
+    wpid_iso_nnk4_lt: double; 1 - wpid_iso_nnk4_gt
+    wpid_iso_nnk5_lt: double; 1 - wpid_iso_nnk5_gt
 
     wpid_iso_nnknng1_gtlt: >-
         double;
@@ -1224,6 +1480,18 @@ calculation:
         wpid_iso_nnknng3_gtlt_pi, wpid_iso_nnknng3_gtlt_k, wpid_iso_nnknng3_gtlt_p,
         wpid_iso_nnknng3_gtlt_e, wpid_iso_nnknng3_gtlt_mu, wpid_iso_nnknng3_gtlt_g
         )
+    wpid_iso_nnknng4_gtlt: >-
+        double;
+        WT_ISO(iso_true_id4,
+        wpid_iso_nnknng4_gtlt_pi, wpid_iso_nnknng4_gtlt_k, wpid_iso_nnknng4_gtlt_p,
+        wpid_iso_nnknng4_gtlt_e, wpid_iso_nnknng4_gtlt_mu, wpid_iso_nnknng4_gtlt_g
+        )
+    wpid_iso_nnknng5_gtlt: >-
+        double;
+        WT_ISO(iso_true_id5,
+        wpid_iso_nnknng5_gtlt_pi, wpid_iso_nnknng5_gtlt_k, wpid_iso_nnknng5_gtlt_p,
+        wpid_iso_nnknng5_gtlt_e, wpid_iso_nnknng5_gtlt_mu, wpid_iso_nnknng5_gtlt_g
+        )
     wpid_iso_nnknng1_ltlt: >-
         double;
         WT_ISO(iso_true_id1,
@@ -1241,6 +1509,18 @@ calculation:
         WT_ISO(iso_true_id3,
         wpid_iso_nnknng3_ltlt_pi, wpid_iso_nnknng3_ltlt_k, wpid_iso_nnknng3_ltlt_p,
         wpid_iso_nnknng3_ltlt_e, wpid_iso_nnknng3_ltlt_mu, wpid_iso_nnknng3_ltlt_g
+        )
+    wpid_iso_nnknng4_ltlt: >-
+        double;
+        WT_ISO(iso_true_id4,
+        wpid_iso_nnknng4_ltlt_pi, wpid_iso_nnknng4_ltlt_k, wpid_iso_nnknng4_ltlt_p,
+        wpid_iso_nnknng4_ltlt_e, wpid_iso_nnknng4_ltlt_mu, wpid_iso_nnknng4_ltlt_g
+        )
+    wpid_iso_nnknng5_ltlt: >-
+        double;
+        WT_ISO(iso_true_id5,
+        wpid_iso_nnknng5_ltlt_pi, wpid_iso_nnknng5_ltlt_k, wpid_iso_nnknng5_ltlt_p,
+        wpid_iso_nnknng5_ltlt_e, wpid_iso_nnknng5_ltlt_mu, wpid_iso_nnknng5_ltlt_g
         )
 
     wpid_iso_nnknng1_gt02lt02: >-
@@ -1261,6 +1541,18 @@ calculation:
         wpid_iso_nnknng3_gt02lt02_pi, wpid_iso_nnknng3_gt02lt02_k, wpid_iso_nnknng3_gt02lt02_p,
         wpid_iso_nnknng3_gt02lt02_e, wpid_iso_nnknng3_gt02lt02_mu, wpid_iso_nnknng3_gt02lt02_g
         )
+    wpid_iso_nnknng4_gt02lt02: >-
+        double;
+        WT_ISO(iso_true_id4,
+        wpid_iso_nnknng4_gt02lt02_pi, wpid_iso_nnknng4_gt02lt02_k, wpid_iso_nnknng4_gt02lt02_p,
+        wpid_iso_nnknng4_gt02lt02_e, wpid_iso_nnknng4_gt02lt02_mu, wpid_iso_nnknng4_gt02lt02_g
+        )
+    wpid_iso_nnknng5_gt02lt02: >-
+        double;
+        WT_ISO(iso_true_id5,
+        wpid_iso_nnknng5_gt02lt02_pi, wpid_iso_nnknng5_gt02lt02_k, wpid_iso_nnknng5_gt02lt02_p,
+        wpid_iso_nnknng5_gt02lt02_e, wpid_iso_nnknng5_gt02lt02_mu, wpid_iso_nnknng5_gt02lt02_g
+        )
     wpid_iso_nnknng1_lt02lt02: >-
         double;
         WT_ISO(iso_true_id1,
@@ -1278,6 +1570,18 @@ calculation:
         WT_ISO(iso_true_id3,
         wpid_iso_nnknng3_lt02lt02_pi, wpid_iso_nnknng3_lt02lt02_k, wpid_iso_nnknng3_lt02lt02_p,
         wpid_iso_nnknng3_lt02lt02_e, wpid_iso_nnknng3_lt02lt02_mu, wpid_iso_nnknng3_lt02lt02_g
+        )
+    wpid_iso_nnknng4_lt02lt02: >-
+        double;
+        WT_ISO(iso_true_id4,
+        wpid_iso_nnknng4_lt02lt02_pi, wpid_iso_nnknng4_lt02lt02_k, wpid_iso_nnknng4_lt02lt02_p,
+        wpid_iso_nnknng4_lt02lt02_e, wpid_iso_nnknng4_lt02lt02_mu, wpid_iso_nnknng4_lt02lt02_g
+        )
+    wpid_iso_nnknng5_lt02lt02: >-
+        double;
+        WT_ISO(iso_true_id5,
+        wpid_iso_nnknng5_lt02lt02_pi, wpid_iso_nnknng5_lt02lt02_k, wpid_iso_nnknng5_lt02lt02_p,
+        wpid_iso_nnknng5_lt02lt02_e, wpid_iso_nnknng5_lt02lt02_mu, wpid_iso_nnknng5_lt02lt02_g
         )
 
     # Skims, but in weights, for MC
@@ -1327,29 +1631,77 @@ calculation:
         wpid_iso_nnp1_gt_e, wpid_iso_nnp1_gt_mu, wpid_iso_nnp1_gt_g, mc_id
         )
     wskim_phi: double; wskim_dd * (1015 < phi_m && phi_m < 1023)
-    wskim_iso_ang:
-        double; WT_ISO_ANG(
-        true, iso_type1, iso_bdt1, iso_type2, iso_bdt2, iso_type3, iso_bdt3
+    # skims like angular R(D*)
+    nonvelo_isotracks_mcNNkNNg_gtlt: >-
+        ^vector<IsoTrack>;
+        GET_N_NONVELO_ISOTRACKS(
+        5, false,
+        iso_true_id1, iso_type1, iso_bdt1, iso_px1, iso_py1, iso_pz1, iso_e1,
+        iso_chrg1, -1.0, -1.0, -1.0, wpid_iso_nnknng1_gtlt,
+        iso_true_id2, iso_type2, iso_bdt2, iso_px2, iso_py2, iso_pz2, iso_e2,
+        iso_chrg2, -1.0, -1.0, -1.0, wpid_iso_nnknng2_gtlt,
+        iso_true_id3, iso_type3, iso_bdt3, iso_px3, iso_py3, iso_pz3, iso_e3,
+        iso_chrg3, -1.0, -1.0, -1.0, wpid_iso_nnknng3_gtlt,
+        iso_true_id4, iso_type4, iso_bdt4, iso_px4, iso_py4, iso_pz4, iso_e4,
+        iso_chrg4, -1.0, -1.0, -1.0, wpid_iso_nnknng4_gtlt,
+        iso_true_id5, iso_type5, iso_bdt5, iso_px5, iso_py5, iso_pz5, iso_e5,
+        iso_chrg5, -1.0, -1.0, -1.0, wpid_iso_nnknng5_gtlt
         )
-    wskim_dd_ang: >-
-        double; WT_DD_ANG(
-        true, iso_bdt1, iso_bdt2, iso_type1, iso_type2, wpid_iso_nnknng1_gt02lt02, wpid_iso_nnknng2_gt02lt02
+    nonvelo_isotracks_mcNNkNNg_ltlt: >-
+        ^vector<IsoTrack>;
+        GET_N_NONVELO_ISOTRACKS(
+        5, false,
+        iso_true_id1, iso_type1, iso_bdt1, iso_px1, iso_py1, iso_pz1, iso_e1,
+        iso_chrg1, -1.0, -1.0, -1.0, wpid_iso_nnknng1_ltlt,
+        iso_true_id2, iso_type2, iso_bdt2, iso_px2, iso_py2, iso_pz2, iso_e2,
+        iso_chrg2, -1.0, -1.0, -1.0, wpid_iso_nnknng2_ltlt,
+        iso_true_id3, iso_type3, iso_bdt3, iso_px3, iso_py3, iso_pz3, iso_e3,
+        iso_chrg3, -1.0, -1.0, -1.0, wpid_iso_nnknng3_ltlt,
+        iso_true_id4, iso_type4, iso_bdt4, iso_px4, iso_py4, iso_pz4, iso_e4,
+        iso_chrg4, -1.0, -1.0, -1.0, wpid_iso_nnknng4_ltlt,
+        iso_true_id5, iso_type5, iso_bdt5, iso_px5, iso_py5, iso_pz5, iso_e5,
+        iso_chrg5, -1.0, -1.0, -1.0, wpid_iso_nnknng5_ltlt
         )
-    wskim_2os_ang: >-
-        double; WT_2OS_ANG(
-        true, iso_bdt1, iso_bdt2, iso_bdt3, iso_type1, iso_type2, iso_chrg1, iso_chrg2,
-        wpid_iso_nnknng1_lt02lt02, wpid_iso_nnknng2_lt02lt02
+    wskim_iso_ang: double; WT_ISO_ANG(true, nonvelo_isotracks_mcNNkNNg_gtlt)
+    wskim_dd_ang: double; WT_DD_ANG(true, nonvelo_isotracks_mcNNkNNg_gtlt)
+    wskim_2os_ang: double; WT_2OS_ANG(true, nonvelo_isotracks_mcNNkNNg_ltlt)
+    wskim_1os_ang: double; WT_1OS_ANG(true, nonvelo_isotracks_mcNNkNNg_ltlt, dst_id, false); WT_1OS_ANG(true, nonvelo_isotracks_mcNNkNNg_ltlt, d0_id, false)
+    # and skims like angular R(D*) but only looking at 3 least iso tracks
+    nonvelo_isotracks3_mcNNkNNg_gtlt: >-
+        ^vector<IsoTrack>;
+        GET_N_NONVELO_ISOTRACKS(
+        5, false,
+        iso_true_id1, iso_type1, iso_bdt1, iso_px1, iso_py1, iso_pz1, iso_e1,
+        iso_chrg1, -1.0, -1.0, -1.0, wpid_iso_nnknng1_gtlt,
+        iso_true_id2, iso_type2, iso_bdt2, iso_px2, iso_py2, iso_pz2, iso_e2,
+        iso_chrg2, -1.0, -1.0, -1.0, wpid_iso_nnknng2_gtlt,
+        iso_true_id3, iso_type3, iso_bdt3, iso_px3, iso_py3, iso_pz3, iso_e3,
+        iso_chrg3, -1.0, -1.0, -1.0, wpid_iso_nnknng3_gtlt,
+        iso_true_id4, 1, iso_bdt4, iso_px4, iso_py4, iso_pz4, iso_e4,
+        iso_chrg4, -1.0, -1.0, -1.0, wpid_iso_nnknng4_gtlt,
+        iso_true_id5, 1, iso_bdt5, iso_px5, iso_py5, iso_pz5, iso_e5,
+        iso_chrg5, -1.0, -1.0, -1.0, wpid_iso_nnknng5_gtlt
         )
-    wskim_1os_ang: >-
-        double;
-        WT_1OS_ANG(
-        true, iso_bdt1, iso_bdt2, iso_bdt3, iso_type1, iso_type2, iso_p1, iso_pt1, iso_p2, iso_pt2,
-        iso_chrg1, iso_chrg2, wpid_iso_nnknng1_lt02lt02, wpid_iso_nnknng2_lt02lt02, dst_id, true
-        );
-        WT_1OS_ANG(
-        true, iso_bdt1, iso_bdt2, iso_bdt3, iso_type1, iso_type2, iso_p1, iso_pt1, iso_p2, iso_pt2,
-        iso_chrg1, iso_chrg2, wpid_iso_nnknng1_lt02lt02, wpid_iso_nnknng2_lt02lt02, d0_id, false
+    nonvelo_isotracks3_mcNNkNNg_ltlt: >-
+        ^vector<IsoTrack>;
+        GET_N_NONVELO_ISOTRACKS(
+        5, false,
+        iso_true_id1, iso_type1, iso_bdt1, iso_px1, iso_py1, iso_pz1, iso_e1,
+        iso_chrg1, -1.0, -1.0, -1.0, wpid_iso_nnknng1_ltlt,
+        iso_true_id2, iso_type2, iso_bdt2, iso_px2, iso_py2, iso_pz2, iso_e2,
+        iso_chrg2, -1.0, -1.0, -1.0, wpid_iso_nnknng2_ltlt,
+        iso_true_id3, iso_type3, iso_bdt3, iso_px3, iso_py3, iso_pz3, iso_e3,
+        iso_chrg3, -1.0, -1.0, -1.0, wpid_iso_nnknng3_ltlt,
+        iso_true_id4, 1, iso_bdt4, iso_px4, iso_py4, iso_pz4, iso_e4,
+        iso_chrg4, -1.0, -1.0, -1.0, wpid_iso_nnknng4_ltlt,
+        iso_true_id5, 1, iso_bdt5, iso_px5, iso_py5, iso_pz5, iso_e5,
+        iso_chrg5, -1.0, -1.0, -1.0, wpid_iso_nnknng5_ltlt
         )
+    wskim_iso_ang3: double; WT_ISO_ANG(true, nonvelo_isotracks3_mcNNkNNg_gtlt)
+    wskim_dd_ang3: double; WT_DD_ANG(true, nonvelo_isotracks3_mcNNkNNg_gtlt)
+    wskim_2os_ang3: double; WT_2OS_ANG(true, nonvelo_isotracks3_mcNNkNNg_ltlt)
+    wskim_1os_ang3: double; WT_1OS_ANG(true, nonvelo_isotracks3_mcNNkNNg_ltlt, dst_id, false); WT_1OS_ANG(true, nonvelo_isotracks3_mcNNkNNg_ltlt, d0_id, false)
+    
     wskim_dd_new: >-
         double; WT_DD(
         true,

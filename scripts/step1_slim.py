@@ -6,12 +6,12 @@
 # subjobs have an output, and if not warn the user + keep track of subjobs without output; 
 # also make sure that all output is nonempty, and if not warn the user + keep track of these subjobs too)
 #
-# usage: step1_slim.py <job folder location> <output ntuple dir> <batch_skim.sh location>
+# usage: step1_slim.py <job folder location> <output ntuple dir> <batch_skim.sh with job IDs> <slimming yml>
 #                      (-s <spec file for ID to template map> --annex)
 # eg. if you want to slim the jobs 100, 101 outputs stored in ../../ntuples_to_merge/ and put the
 # output in ../ntuples/0.9.12-all_years, and the corresponding batch_skim.sh produced for these jobs
-# is in ../, then run:
-# step1_slim.py ../../ntuples_to_merge ../ntuples/0.9.12-all_years ../batch_skim.sh
+# is in ../, and you want to use the yml ../postprocess/skims/rdx_mc.yml to define what to be dropped, then run:
+# step1_slim.py ../../ntuples_to_merge ../ntuples/0.9.12-all_years ../batch_skim.sh ../postprocess/skims/rdx_mc.yml
 #
 # beyond putting the slimmed tuples in the correct locations (defined in move_step1_ntuples.py),
 # this script will also annex the files (copying them to our server glacier) if requested, keep track
@@ -41,6 +41,7 @@ def parseInput():
     parser.add_argument('jobFolder', help='specify folder with DaVinci job output')
     parser.add_argument('outFolder', help='specify folder where slimmed ntuples should go')
     parser.add_argument('batch_skim', help='specify location of script produced in ganga that contains job info')
+    parser.add_argument('slim_config', help='specify slimming yml (defines what can be dropped)')
     parser.add_argument('-s', '--histoSpec', default=SPEC_YML, help='histo spec YAML.')
     parser.add_argument('--annex', default=False, action='store_true', help='specify if you want to automatically annex slimmed tuples')
     return parser.parse_args()
@@ -113,9 +114,7 @@ if __name__ == '__main__':
                 os.system(f'mkdir -p {outdir}')
                 existing_files = os.listdir(outdir)
                 # run the slimming for this job
-                slim_config = '../postprocess/skims/rdx_mc.yml'
-                if pdf=='data': slim_config = '../postprocess/skims/rdx_data.yml'
-                os.system(f"../ganga/ganga_skim_job_output.py {outdir} {args.jobFolder}/{props['job_id']} {slim_config}")
+                os.system(f"../ganga/ganga_skim_job_output.py {outdir} {args.jobFolder}/{props['job_id']} {args.slim_config}")
                 # rename contents of this folder to follow Yipeng's naming scheme (slimming script names files using name of folder that holds them, which we've changed)
                 added_files = [f for f in os.listdir(outdir) if f not in existing_files]
                 for sjf in added_files:
