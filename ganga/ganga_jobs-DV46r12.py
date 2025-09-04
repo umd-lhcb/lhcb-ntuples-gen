@@ -22,7 +22,8 @@ from ganga_sample_jobs_parser import args, lfn, job_name, ntuple_name
 
 DV_VERSION = 'v46r12' # Used in last step (merging) of b-inclusive D* MC (27163974)
 PLATFORM = 'x86_64_v2-el9-gcc13-opt'
-
+FILES_PER_JOB_MC = 5
+TEST = False
 
 ###########
 # Helpers #
@@ -53,13 +54,20 @@ j = Job(name=job_name, comment=ntuple_name)
 
 # Get input data from DIRAC
 data = BKQuery(lfn, dqflag=['OK']).getDataset()
-j.inputdata = data
+if TEST:
+    j.inputdata = data[0:3]
+else:
+    j.inputdata = data
 
 # Use DIRAC backend
 j.backend = Dirac()
 
-j.splitter = SplitByFiles(filesPerJob=1)
-j.outputfiles = [DiracFile('*.root')]
+if TEST:
+    j.splitter = SplitByFiles(filesPerJob=1)
+    j.outputfiles = [LocalFile('*.root')]
+else:
+    j.splitter = SplitByFiles(filesPerJob=FILES_PER_JOB_MC)
+    j.outputfiles = [DiracFile('*.root')]
 
 # Get path to option files, also prepare DaVinci
 options = [args.cond_file, args.reco_script]
