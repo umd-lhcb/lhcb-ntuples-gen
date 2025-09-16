@@ -1,0 +1,303 @@
+#!/usr/bin/env python3
+import glob
+import mimetypes
+import os
+import os.path
+import shutil
+import subprocess
+import sys
+import tarfile
+import tempfile
+import time
+
+###########################################################################################
+
+"""
+Sandbox functions used in the job wrapper script on the worker node.
+The text of this module is sourced into the job wrapper script.
+It therefore may use ###TAGS###  which are expanded in the wrapper script.
+"""
+
+INPUT_TARBALL_NAME = '_input_sandbox.tgz'
+OUTPUT_TARBALL_NAME = '_output_sandbox.tgz'
+PYTHON_DIR = '_python'
+
+import os
+import mimetypes
+
+import tarfile
+from contextlib import closing
+
+
+def multi_glob(pats, exclude=None):
+    """ glob using a list of patterns and removing duplicate files, exclude name in the list for which the callback exclude(name) return true
+    example: advanced_glob(['*.jpg','*.gif'],exclude=lambda n:len(n)>20) return a list of all JPG and GIF files which have names shorter then 20 characters
+    """
+
+    unique = {}
+    if exclude is None:
+        def exclude(n): return 0
+
+    for p in pats:
+        for f in glob.glob(p):
+            unique[f] = 1
+
+    return [name for name in unique.keys() if not exclude(name)]
+
+
+def recursive_copy(src, dest):
+    """ copy src file (or a directory tree if src specifies a directory) to dest directory. dest must be a directory and must exist.
+    if src is a relative path, then the src directory structure is preserved in dest.
+    """
+
+    if not os.path.isdir(dest):
+        raise ValueError(
+            'resursive_copy: destination %s must specify a directory (which exists)' % dest)
+
+    if os.path.isdir(src):
+        destdir = dest
+        srcdir, srcbase = os.path.split(src.rstrip('/'))
+        if not srcdir == '' and not os.path.isabs(src):
+            destdir = os.path.join(destdir, srcdir)
+            if not os.path.isdir(destdir):
+                os.makedirs(destdir)
+        shutil.copytree(src, os.path.join(destdir, srcbase))
+    else:
+
+        srcdir = os.path.dirname(src.rstrip('/'))
+        if srcdir == '' or os.path.isabs(src):
+            shutil.copy(src, dest)
+        else:
+            destdir = os.path.join(dest, srcdir)
+            if not os.path.isdir(destdir):
+                os.makedirs(destdir)
+            shutil.copy(src, destdir)
+
+
+def getPackedInputSandbox(tarpath, dest_dir='.'):
+    """Get all sandbox_files from tarball and write them to the workdir.
+       This function is called by wrapper script at the run time.
+    Arguments:
+      'tarpath': a path to the tarball
+      'dest_dir': a destination directory
+    """
+
+    try:
+        with closing(tarfile.open(tarpath, "r:*")) as tf:
+            tf.extractall(dest_dir)
+    except:
+        raise Exception("Error opening tar file: %s" % tarpath)
+
+
+def createOutputSandbox(output_patterns, filter, dest_dir):
+    """Get all files matching output patterns except filtered with filter and
+       write them to the destination directory.
+       This function is called by wrapper script at the run time.
+    Arguments:
+      'output_patterns': list of filenames or patterns.
+      'filter': function to filter files (return True to except) 
+      'dest_dir': destination directory for output files
+    """
+
+    for f in multi_glob(output_patterns, filter):
+        try:
+            if not os.path.exists(dest_dir):
+                os.makedirs(dest_dir)
+            recursive_copy(f, dest_dir)
+        except Exception as x:
+            print("ERROR: (job '490' createOutput )", x)
+
+
+def createPackedOutputSandbox(output_patterns, _filter, dest_dir):
+    """Get all files matching output patterns except filtered with filter and
+       put them to the Sandbox tarball in destination directory.
+       This function is called by wrapper script at the run time.
+    Arguments:
+      'output_patterns': list of filenames or patterns.
+      'filter': function to filter files (return True to except) 
+      'dest_dir': destination directory for tarball
+    """
+
+    tgzfile = os.path.join(dest_dir, OUTPUT_TARBALL_NAME)
+
+    outputlist = multi_glob(output_patterns, _filter)
+
+    if outputlist:
+        if mimetypes.guess_type(tgzfile)[1] in ['gzip']:
+            file_format = 'gz'
+        elif mimetypes.guess_type(tgzfile)[1] in ['bzip2']:
+            file_format = 'bz2'
+        else:
+            file_format = ''
+        with closing(tarfile.open(tgzfile, "w:%s" % file_format)) as tf:
+            tf.dereference = True
+            for f in outputlist:
+                tf.add(f)
+
+
+############################################################################################
+def failurereport(filehandle, message):
+    errfile = open('stderr', 'w' )
+    errfile.close()
+    print('EXITCODE: %d' % -9999, file=filehandle)
+    print('FAILED: %s'%time.strftime('%a %b %d %H:%M:%S %Y'), file=filehandle)
+    print('PROBLEM STARTING THE APPLICATION SCRIPT: \'%s\' \'%s\''%(execmd,str(x)), file=filehandle)
+    print('FILES FOUND ARE: %s' % os.listdir('.'), file=filehandle)
+    filehandle.close()
+    sys.exit()
+
+input_sandbox = ['/afs/cern.ch/work/a/afernez/gangadir/workspace/afernez/LocalXML/490/input/_input_sandbox_490.tgz']
+sharedoutputpath= '/afs/cern.ch/work/a/afernez/gangadir/workspace/afernez/LocalXML/490/output/'
+outputpatterns = []
+execmd = ['echo', 'Hello World']
+environment = {}
+workdir = '/tmp/afernez/tmpwd9xsi6a'
+
+statusfilename = os.path.join(sharedoutputpath,'__jobstatus__')
+
+try:
+    statusfile=open(statusfilename,'w')
+except IOError as x:
+    print('ERROR: not able to write a status file: ', statusfilename)
+    print('ERROR: ',x)
+    raise
+
+line='START: '+ time.strftime('%a %b %d %H:%M:%S %Y',time.gmtime(time.time())) + os.linesep
+statusfile.writelines(line)
+statusfile.flush()
+
+if not os.path.exists(workdir):
+    os.makedirs(workdir)
+os.chdir(workdir)
+
+##-- WARNING: get the input files including the python modules BEFORE sys.path.insert()
+
+for f in input_sandbox:
+    if mimetypes.guess_type(f)[1] in ['gzip', 'bzip2']:
+        getPackedInputSandbox(f)
+    else:
+        shutil.copy(f, os.path.join(os.getcwd(), os.path.basename(f)))
+
+# -- END OF MOVED CODE BLOCK
+
+#get input files
+
+
+# create inputdata list
+
+
+open("__GangaInputData.txt__", "w").write( "\n".join( [] ) )
+
+gangadir = '/cvmfs/ganga.cern.ch/Ganga/install/8.7.12/lib/python3.11/site-packages/ganga'
+
+sys.path.insert(0, gangadir)
+sys.path.insert(0,os.path.join(os.getcwd(),PYTHON_DIR))
+
+runenv = dict()
+result = subprocess.run(["env -i HOME=\"$HOME\" bash -lc '(set -o posix; set)'"], 
+                        capture_output=True, encoding='utf-8',
+                        shell=True)
+for line in result.stdout.split('\\n'):
+    varval = line.strip().split('=')
+    if len(varval) < 2:
+        pass
+    else:
+        content = ''.join(varval[1:])
+        if not str(content).startswith('() {'):
+            runenv[varval[0]] = content
+
+outfile=open('stdout','w')
+errorfile=open('stderr','w')
+
+sys.stdout=open('./__syslog__','w')
+sys.stderr=sys.stdout
+
+###VIRTUALIZATION###
+
+try:
+    child = subprocess.Popen(execmd, shell=False, stdout=outfile, stderr=errorfile, env=runenv)
+except OSError as x:
+    failurereport(statusfile, 'PROBLEM STARTING THE APPLICATION SCRIPT: \'%s\' \'%s\''%(execmd,str(x)))
+                
+print('WRAPPER: %d'% os.getpid(), file=statusfile)
+print('PID: %d'%child.pid, file=statusfile)
+statusfile.flush()
+
+result = -1
+
+try:
+    while 1:
+        result = child.poll()
+        if result is not None:
+            break
+        outfile.flush()
+        errorfile.flush()
+        time.sleep(0.3)
+finally:
+    pass
+
+    sys.stdout=sys.__stdout__
+    sys.stderr=sys.__stderr__
+
+
+outfile.flush()
+errorfile.flush()
+
+createOutputSandbox(outputpatterns,None,sharedoutputpath)
+
+def printError(message):
+    errorfile.write(message + os.linesep)
+    errorfile.flush()
+
+def printInfo(message):
+    outfile.write(message + os.linesep)
+    outfile.flush()
+
+
+
+
+outfile.close()
+errorfile.close()
+
+
+
+import glob
+import os
+
+f_to_copy = ['stdout', 'stderr', '__syslog__']
+
+for patternToSandbox in []:
+    for currentFile in glob.glob(patternToSandbox):
+        f_to_copy.append(currentFile)
+
+filesToZip = []
+
+for patternToZip in []:
+    for currentFile in glob.glob(patternToZip):
+        os.system("gzip %s" % currentFile)
+        filesToZip.append(currentFile)
+            
+final_list_to_copy = []
+
+for f in f_to_copy:
+    if f in filesToZip:
+        final_list_to_copy.append('%s.gz' % f)  
+    else:       
+        final_list_to_copy.append(f)            
+
+for fn in final_list_to_copy:
+    try:
+        if not os.path.exists(sharedoutputpath):
+            os.makedirs(sharedoutputpath)
+        if os.path.exists(fn):
+            recursive_copy(fn, sharedoutputpath)
+    except Exception as x:
+        print('ERROR: (job'+'490'+')',x)
+
+
+line="EXITCODE: " + repr(result) + os.linesep
+line+='STOP: '+time.strftime('%a %b %d %H:%M:%S %Y',time.gmtime(time.time())) + os.linesep
+statusfile.writelines(line)
+statusfile.close()
+sys.exit()
+

@@ -1,0 +1,1000 @@
+<<<<<<<<<< jobScript/GaudiExec_afernez_Job_519.0_95ac0898-b1e3-4ba2-8db7-a0e9916ec57f_script.py Standard Output >>>>>>>>>>
+
+Hello from GaudiExec
+Arrived at workernode: /tmp/1164942997
+#\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/#
+
+CWD: /tmp/1164942997
+Files found on WN: ['pilot.cfg', 'job.info', 'jobDescription.xml', 'diracInputFiles_519_95ac0898-b1e3-4ba2-8db7-a0e9916ec57f.tgz', 'jobScripts-519_65f62a0d-2c50-4891-ab75-3af88186799e.tar.gz', 'cmake-input-sandbox.tgz', 'cond-mc-2016-md-sim10b.py', 'reco_Dst_D0-testIso45Bug.py', 'weights_soft.xml', '__timestamp__', 'opts', 'jobScript', 'pool_xml_catalog.xml', 'pool_xml_catalog.xml.temp', 'std.out', 'data.py']
+examining: pilot.cfg
+examining: job.info
+examining: jobDescription.xml
+examining: diracInputFiles_519_95ac0898-b1e3-4ba2-8db7-a0e9916ec57f.tgz
+Extracting: diracInputFiles_519_95ac0898-b1e3-4ba2-8db7-a0e9916ec57f.tgz
+examining: jobScripts-519_65f62a0d-2c50-4891-ab75-3af88186799e.tar.gz
+Extracting: jobScripts-519_65f62a0d-2c50-4891-ab75-3af88186799e.tar.gz
+examining: cmake-input-sandbox.tgz
+Extracting: cmake-input-sandbox.tgz
+examining: cond-mc-2016-md-sim10b.py
+examining: reco_Dst_D0-testIso45Bug.py
+examining: weights_soft.xml
+examining: __timestamp__
+examining: opts
+examining: jobScript
+examining: pool_xml_catalog.xml
+examining: pool_xml_catalog.xml.temp
+examining: std.out
+examining: data.py
+Executing: source /cvmfs/lhcb.cern.ch/lib/LbEnv && export BINARY_TAG=x86_64-centos7-gcc9-opt && export CMTCONFIG=x86_64-centos7-gcc9-opt &&  export ganga_jobid=519.0 && ./run  gaudirun.py cond-mc-2016-md-sim10b.py reco_Dst_D0-testIso45Bug.py data.py 
+# --> Including file '/tmp/1164942997/cond-mc-2016-md-sim10b.py'
+# <-- End of file '/tmp/1164942997/cond-mc-2016-md-sim10b.py'
+# --> Including file '/tmp/1164942997/reco_Dst_D0-testIso45Bug.py'
+# DaVinci                   INFO    Append to Main Sequence has been called
+# DaVinci                   INFO    Append to Main Sequence has been called
+# <-- End of file '/tmp/1164942997/reco_Dst_D0-testIso45Bug.py'
+# --> Including file '/tmp/1164942997/data.py'
+# <-- End of file '/tmp/1164942997/data.py'
+# applying configuration of RawEventFormatConf
+# /***** User RawEventFormatConf/RawEventFormatConf **************************************************
+# |-RecoDict               = {'Stripping17': 1.0, 'Reco12': 1.0, 'Reco14': 2.0, 'Reco15': 4.2, 'LHCb': 0.1, 'Reconstruction12': 1.0, 'Hlt': 0.1, 'S17': 1.0, 'R14': 2.0, 'Reconstruction14': 2.0, 'Boole': 0.0, 'S20': 2.0, 'S21': 4.0, 'Stripping20': 2.0, 'Moore': 0.3, 'L0': 0.0, 'R12': 1.0, 'Strip20': 2.0, 'Pit': 0.1, 'Strip17': 1.0}
+# |                        (default: None)
+# |-Locations              = {0.0: {'HltSelReports': 'DAQ/RawEvent', 'OTError': 'DAQ/RawEvent', 'VeloError': 'DAQ/RawEvent', 'UTFull': 'DAQ/RawEvent', 'UTPedestal': 'DAQ/RawEvent', 'PrsTrig': 'DAQ/RawEvent', 'HcalPackedError': 'DAQ/RawEvent', 'L0PUFull': 'DAQ/RawEvent', 'HltDecReports': 'DAQ/RawEvent', 'Rich': 'DAQ/RawEvent', 'VeloProcFull': 'DAQ/RawEvent', 'HltRoutingBits': 'DAQ/RawEvent', 'L0MuonError': 'DAQ/RawEvent', 'VL': 'DAQ/RawEvent', 'L0MuonProcCand': 'DAQ/RawEvent', 'TTPedestal': 'DAQ/RawEvent', 'L0DUError': 'DAQ/RawEvent', 'DstBank': 'DAQ/RawEvent', 'TT': 'DAQ/RawEvent', 'L0MuonProcData': 'DAQ/RawEvent', 'OTRaw': 'DAQ/RawEvent', 'EcalPacked': 'DAQ/RawEvent', 'PrsPacked': 'DAQ/RawEvent', 'VeloPedestal': 'DAQ/RawEvent', 'DAQ': 'DAQ/RawEvent', 'ITError': 'DAQ/RawEvent', 'FileID': 'DAQ/RawEvent', 'EcalTrig': 'DAQ/RawEvent', 'FTCluster': 'DAQ/RawEvent', 'L0PUError': 'DAQ/RawEvent', 'L0Calo': 'DAQ/RawEvent', 'VeloFull': 'DAQ/RawEvent', 'L0MuonCtrlAll': 'DAQ/RawEvent', 'HltVertexReports': 'DAQ/RawEvent', 'EcalE': 'DAQ/RawEvent', 'ITProcFull': 'DAQ/RawEvent', 'HltLumiSummary': 'DAQ/RawEvent', 'TestDet': 'DAQ/RawEvent', 'IT': 'DAQ/RawEvent', 'VP': 'DAQ/RawEvent', 'HcalTrig': 'DAQ/RawEvent', 'HcalE': 'DAQ/RawEvent', 'L0PU': 'DAQ/RawEvent', 'DstAddress': 'DAQ/RawEvent', 'UT': 'DAQ/RawEvent', 'TAEHeader': 'DAQ/RawEvent', 'ODIN': 'DAQ/RawEvent', 'PrsE': 'DAQ/RawEvent', 'PrsPackedError': 'DAQ/RawEvent', 'Velo': 'DAQ/RawEvent', 'Muon': 'DAQ/RawEvent', 'ITPedestal': 'DAQ/RawEvent', 'TTProcFull': 'DAQ/RawEvent', 'DstData': 'DAQ/RawEvent', 'GaudiSerialize': 'DAQ/RawEvent', 'TTFull': 'DAQ/RawEvent', 'L0MuonRaw': 'DAQ/RawEvent', 'UTError': 'DAQ/RawEvent', 'TTError': 'DAQ/RawEvent', 'EcalPackedError': 'DAQ/RawEvent', 'HcalPacked': 'DAQ/RawEvent', 'MuonFull': 'DAQ/RawEvent', 'L0CaloError': 'DAQ/RawEvent', 'GaudiHeader': 'DAQ/RawEvent', 'L0DU': 'DAQ/RawEvent', 'ITFull': 'DAQ/RawEvent', 'OT': 'DAQ/RawEvent', 'MuonError': 'DAQ/RawEvent', 'L0CaloFull': 'DAQ/RawEvent', 'L0Muon': 'DAQ/RawEvent'}, 0.5: {'HltSelReports': 'DAQ/RawEvent', 'OTError': 'DAQ/RawEvent', 'VeloError': 'DAQ/RawEvent', 'UTFull': 'DAQ/RawEvent', 'UTPedestal': 'DAQ/RawEvent', 'PrsTrig': 'DAQ/RawEvent', 'HcalPackedError': 'DAQ/RawEvent', 'L0PUFull': 'DAQ/RawEvent', 'HltDecReports': 'DAQ/RawEvent', 'Rich': 'DAQ/RawEvent', 'VeloProcFull': 'DAQ/RawEvent', 'HltRoutingBits': 'DAQ/RawEvent', 'L0MuonError': 'DAQ/RawEvent', 'VL': 'DAQ/RawEvent', 'L0MuonProcCand': 'DAQ/RawEvent', 'TTPedestal': 'DAQ/RawEvent', 'L0DUError': 'DAQ/RawEvent', 'VPRetinaCluster': 'DAQ/RawEvent', 'HC': 'DAQ/RawEvent', 'DstBank': 'DAQ/RawEvent', 'TT': 'DAQ/RawEvent', 'L0MuonProcData': 'DAQ/RawEvent', 'OTRaw': 'DAQ/RawEvent', 'EcalPacked': 'DAQ/RawEvent', 'PrsPacked': 'DAQ/RawEvent', 'VeloPedestal': 'DAQ/RawEvent', 'DAQ': 'DAQ/RawEvent', 'ITError': 'DAQ/RawEvent', 'FileID': 'DAQ/RawEvent', 'EcalTrig': 'DAQ/RawEvent', 'FTCluster': 'DAQ/RawEvent', 'L0PUError': 'DAQ/RawEvent', 'L0Calo': 'DAQ/RawEvent', 'VeloFull': 'DAQ/RawEvent', 'L0MuonCtrlAll': 'DAQ/RawEvent', 'HltVertexReports': 'DAQ/RawEvent', 'EcalE': 'DAQ/RawEvent', 'ITProcFull': 'DAQ/RawEvent', 'HltLumiSummary': 'DAQ/RawEvent', 'TestDet': 'DAQ/RawEvent', 'IT': 'DAQ/RawEvent', 'VP': 'DAQ/RawEvent', 'HcalTrig': 'DAQ/RawEvent', 'HcalE': 'DAQ/RawEvent', 'L0PU': 'DAQ/RawEvent', 'DstAddress': 'DAQ/RawEvent', 'UT': 'DAQ/RawEvent', 'TAEHeader': 'DAQ/RawEvent', 'ODIN': 'DAQ/RawEvent', 'PrsE': 'DAQ/RawEvent', 'PrsPackedError': 'DAQ/RawEvent', 'Velo': 'DAQ/RawEvent', 'Muon': 'DAQ/RawEvent', 'ITPedestal': 'DAQ/RawEvent', 'TTProcFull': 'DAQ/RawEvent', 'DstData': 'DAQ/RawEvent', 'GaudiSerialize': 'DAQ/RawEvent', 'TTFull': 'DAQ/RawEvent', 'L0MuonRaw': 'DAQ/RawEvent', 'UTError': 'DAQ/RawEvent', 'TTError': 'DAQ/RawEvent', 'EcalPackedError': 'DAQ/RawEvent', 'HcalPacked': 'DAQ/RawEvent', 'MuonFull': 'DAQ/RawEvent', 'L0CaloError': 'DAQ/RawEvent', 'GaudiHeader': 'DAQ/RawEvent', 'L0DU': 'DAQ/RawEvent', 'ITFull': 'DAQ/RawEvent', 'OT': 'DAQ/RawEvent', 'MuonError': 'DAQ/RawEvent', 'HltTrackReports': 'DAQ/RawEvent', 'L0CaloFull': 'DAQ/RawEvent', 'L0Muon': 'DAQ/RawEvent'}, 2.0: {'HltSelReports': 'Trigger/RawEvent', 'OTError': 'Other/RawEvent', 'VeloError': 'Other/RawEvent', 'UTFull': 'Other/RawEvent', 'UTPedestal': 'Other/RawEvent', 'PrsTrig': 'Calo/RawEvent', 'HcalPackedError': 'Calo/RawEvent', 'L0PUFull': 'Other/RawEvent', 'HltDecReports': 'Trigger/RawEvent', 'Rich': 'Rich/RawEvent', 'VeloProcFull': 'Other/RawEvent', 'HltRoutingBits': 'Trigger/RawEvent', 'L0MuonError': 'Other/RawEvent', 'VL': 'Other/RawEvent', 'L0MuonProcCand': 'Trigger/RawEvent', 'TTPedestal': 'Other/RawEvent', 'L0DUError': 'Other/RawEvent', 'DstBank': 'Other/RawEvent', 'TT': 'Other/RawEvent', 'L0MuonProcData': 'Other/RawEvent', 'OTRaw': 'Other/RawEvent', 'EcalPacked': 'Calo/RawEvent', 'PrsPacked': 'Calo/RawEvent', 'VeloPedestal': 'Other/RawEvent', 'DAQ': 'Other/RawEvent', 'ITError': 'Other/RawEvent', 'FileID': 'Other/RawEvent', 'EcalTrig': 'Calo/RawEvent', 'FTCluster': 'Other/RawEvent', 'L0PUError': 'Other/RawEvent', 'L0Calo': 'Trigger/RawEvent', 'VeloFull': 'Other/RawEvent', 'L0MuonCtrlAll': 'Other/RawEvent', 'HltVertexReports': 'Trigger/RawEvent', 'EcalE': 'Calo/RawEvent', 'ITProcFull': 'Other/RawEvent', 'HltLumiSummary': 'Other/RawEvent', 'TestDet': 'Other/RawEvent', 'IT': 'Other/RawEvent', 'VP': 'Other/RawEvent', 'HcalTrig': 'Calo/RawEvent', 'HcalE': 'Calo/RawEvent', 'L0PU': 'Trigger/RawEvent', 'DstAddress': 'Other/RawEvent', 'UT': 'Other/RawEvent', 'TAEHeader': 'Other/RawEvent', 'ODIN': 'Trigger/RawEvent', 'PrsE': 'Calo/RawEvent', 'PrsPackedError': 'Calo/RawEvent', 'Velo': 'Other/RawEvent', 'Muon': 'Muon/RawEvent', 'ITPedestal': 'Other/RawEvent', 'TTProcFull': 'Other/RawEvent', 'DstData': 'Other/RawEvent', 'GaudiSerialize': 'Other/RawEvent', 'TTFull': 'Other/RawEvent', 'L0MuonRaw': 'Other/RawEvent', 'UTError': 'Other/RawEvent', 'TTError': 'Other/RawEvent', 'EcalPackedError': 'Calo/RawEvent', 'HcalPacked': 'Calo/RawEvent', 'MuonFull': 'Other/RawEvent', 'L0CaloError': 'Other/RawEvent', 'GaudiHeader': 'Other/RawEvent', 'L0DU': 'Trigger/RawEvent', 'ITFull': 'Other/RawEvent', 'OT': 'Other/RawEvent', 'MuonError': 'Other/RawEvent', 'L0CaloFull': 'Trigger/RawEvent', 'L0Muon': 'Trigger/RawEvent'}, 3.0: {'HltSelReports': 'Trigger/#TCK#/RawEvent', 'OTError': 'DAQ/RawEvent', 'VeloError': 'DAQ/RawEvent', 'UTFull': 'DAQ/RawEvent', 'UTPedestal': 'DAQ/RawEvent', 'PrsTrig': 'DAQ/RawEvent', 'HcalPackedError': 'DAQ/RawEvent', 'L0PUFull': 'DAQ/RawEvent', 'HltDecReports': 'Trigger/#TCK#/RawEvent', 'Rich': 'DAQ/RawEvent', 'VeloProcFull': 'DAQ/RawEvent', 'HltRoutingBits': 'Trigger/#TCK#/RawEvent', 'L0MuonError': 'DAQ/RawEvent', 'VL': 'DAQ/RawEvent', 'L0MuonProcCand': 'Trigger/#TCK#/RawEvent', 'TTPedestal': 'DAQ/RawEvent', 'L0DUError': 'DAQ/RawEvent', 'DstBank': 'DAQ/RawEvent', 'TT': 'DAQ/RawEvent', 'L0MuonProcData': 'DAQ/RawEvent', 'OTRaw': 'DAQ/RawEvent', 'EcalPacked': 'DAQ/RawEvent', 'PrsPacked': 'DAQ/RawEvent', 'VeloPedestal': 'DAQ/RawEvent', 'DAQ': 'DAQ/RawEvent', 'ITError': 'DAQ/RawEvent', 'FileID': 'DAQ/RawEvent', 'EcalTrig': 'DAQ/RawEvent', 'FTCluster': 'DAQ/RawEvent', 'L0PUError': 'DAQ/RawEvent', 'L0Calo': 'Trigger/#TCK#/RawEvent', 'VeloFull': 'DAQ/RawEvent', 'L0MuonCtrlAll': 'DAQ/RawEvent', 'HltVertexReports': 'Trigger/#TCK#/RawEvent', 'EcalE': 'DAQ/RawEvent', 'ITProcFull': 'DAQ/RawEvent', 'HltLumiSummary': 'DAQ/RawEvent', 'TestDet': 'DAQ/RawEvent', 'IT': 'DAQ/RawEvent', 'VP': 'DAQ/RawEvent', 'HcalTrig': 'DAQ/RawEvent', 'HcalE': 'DAQ/RawEvent', 'L0PU': 'Trigger/#TCK#/RawEvent', 'DstAddress': 'DAQ/RawEvent', 'UT': 'DAQ/RawEvent', 'TAEHeader': 'DAQ/RawEvent', 'ODIN': 'DAQ/RawEvent', 'PrsE': 'DAQ/RawEvent', 'PrsPackedError': 'DAQ/RawEvent', 'Velo': 'DAQ/RawEvent', 'Muon': 'DAQ/RawEvent', 'ITPedestal': 'DAQ/RawEvent', 'TTProcFull': 'DAQ/RawEvent', 'DstData': 'DAQ/RawEvent', 'GaudiSerialize': 'DAQ/RawEvent', 'TTFull': 'DAQ/RawEvent', 'L0MuonRaw': 'DAQ/RawEvent', 'UTError': 'DAQ/RawEvent', 'TTError': 'DAQ/RawEvent', 'EcalPackedError': 'DAQ/RawEvent', 'HcalPacked': 'DAQ/RawEvent', 'MuonFull': 'DAQ/RawEvent', 'L0CaloError': 'DAQ/RawEvent', 'GaudiHeader': 'DAQ/RawEvent', 'L0DU': 'Trigger/#TCK#/RawEvent', 'ITFull': 'DAQ/RawEvent', 'OT': 'DAQ/RawEvent', 'MuonError': 'DAQ/RawEvent', 'L0CaloFull': 'Trigger/#TCK#/RawEvent', 'L0Muon': 'Trigger/#TCK#/RawEvent'}, 4.0: {'HltSelReports': 'Trigger/RawEvent', 'OTError': 'Unstripped/RawEvent', 'VeloError': 'Unstripped/RawEvent', 'UTFull': 'Unstripped/RawEvent', 'UTPedestal': 'Unstripped/RawEvent', 'PrsTrig': 'Calo/RawEvent', 'HcalPackedError': 'Unstripped/RawEvent', 'L0PUFull': 'Unstripped/RawEvent', 'HltDecReports': 'Trigger/RawEvent', 'Rich': 'Rich/RawEvent', 'VeloProcFull': 'Unstripped/RawEvent', 'HltRoutingBits': 'Trigger/RawEvent', 'L0MuonError': 'Unstripped/RawEvent', 'VL': 'Unstripped/RawEvent', 'L0MuonProcCand': 'Trigger/RawEvent', 'TTPedestal': 'Unstripped/RawEvent', 'L0DUError': 'Unstripped/RawEvent', 'DstBank': 'Unstripped/RawEvent', 'TT': 'Tracker/RawEvent', 'L0MuonProcData': 'Unstripped/RawEvent', 'OTRaw': 'Unstripped/RawEvent', 'EcalPacked': 'Calo/RawEvent', 'PrsPacked': 'Calo/RawEvent', 'VeloPedestal': 'Unstripped/RawEvent', 'DAQ': 'Unstripped/RawEvent', 'ITError': 'Unstripped/RawEvent', 'FileID': 'Unstripped/RawEvent', 'EcalTrig': 'Calo/RawEvent', 'FTCluster': 'Tracker/RawEvent', 'L0PUError': 'Unstripped/RawEvent', 'L0Calo': 'Trigger/RawEvent', 'VeloFull': 'Unstripped/RawEvent', 'L0MuonCtrlAll': 'Unstripped/RawEvent', 'HltVertexReports': 'Trigger/RawEvent', 'EcalE': 'Calo/RawEvent', 'ITProcFull': 'Unstripped/RawEvent', 'HltLumiSummary': 'Unstripped/RawEvent', 'TestDet': 'Unstripped/RawEvent', 'IT': 'Tracker/RawEvent', 'VP': 'Velo/RawEvent', 'HcalTrig': 'Calo/RawEvent', 'HcalE': 'Calo/RawEvent', 'L0PU': 'Trigger/RawEvent', 'DstAddress': 'Unstripped/RawEvent', 'UT': 'Tracker/RawEvent', 'TAEHeader': 'Unstripped/RawEvent', 'ODIN': ['Trigger/RawEvent'], 'PrsE': 'Calo/RawEvent', 'PrsPackedError': 'Unstripped/RawEvent', 'Velo': 'Velo/RawEvent', 'Muon': 'Muon/RawEvent', 'ITPedestal': 'Unstripped/RawEvent', 'TTProcFull': 'Unstripped/RawEvent', 'DstData': 'Unstripped/RawEvent', 'GaudiSerialize': 'Unstripped/RawEvent', 'TTFull': 'Unstripped/RawEvent', 'L0MuonRaw': 'Unstripped/RawEvent', 'UTError': 'Unstripped/RawEvent', 'TTError': 'Unstripped/RawEvent', 'EcalPackedError': 'Unstripped/RawEvent', 'HcalPacked': 'Calo/RawEvent', 'MuonFull': 'Unstripped/RawEvent', 'L0CaloError': 'Unstripped/RawEvent', 'GaudiHeader': 'Unstripped/RawEvent', 'L0DU': 'Trigger/RawEvent', 'ITFull': 'Unstripped/RawEvent', 'OT': 'Tracker/RawEvent', 'MuonError': 'Unstripped/RawEvent', 'HltTrackReports': 'Trigger/RawEvent', 'L0CaloFull': 'Trigger/RawEvent', 'L0Muon': 'Trigger/RawEvent'}, 0.2: {'HltRoutingBits': 'DAQ/RawEvent', 'L0PUFull': 'DAQ/RawEvent', 'HltDecReports': 'DAQ/RawEvent', 'HltSelReports': 'DAQ/RawEvent', 'L0MuonError': 'DAQ/RawEvent', 'DstBank': 'DAQ/RawEvent', 'L0MuonProcCand': 'DAQ/RawEvent', 'L0CaloError': 'DAQ/RawEvent', 'TAEHeader': 'DAQ/RawEvent', 'L0MuonProcData': 'DAQ/RawEvent', 'DAQ': 'DAQ/RawEvent', 'DstAddress': 'DAQ/RawEvent', 'L0PUError': 'DAQ/RawEvent', 'L0Calo': 'DAQ/RawEvent', 'L0MuonCtrlAll': 'DAQ/RawEvent', 'HltVertexReports': 'DAQ/RawEvent', 'HltLumiSummary': 'DAQ/RawEvent', 'TestDet': 'DAQ/RawEvent', 'L0PU': 'DAQ/RawEvent', 'L0DUError': 'DAQ/RawEvent', 'ODIN': 'DAQ/RawEvent', 'FileID': 'DAQ/RawEvent', 'DstData': 'DAQ/RawEvent', 'GaudiSerialize': 'DAQ/RawEvent', 'L0MuonRaw': 'DAQ/RawEvent', 'GaudiHeader': 'DAQ/RawEvent', 'L0DU': 'DAQ/RawEvent', 'L0CaloFull': 'DAQ/RawEvent', 'L0Muon': 'DAQ/RawEvent'}, 0.1: {'HltSelReports': 'DAQ/RawEvent', 'OTError': 'DAQ/RawEvent', 'VeloError': 'DAQ/RawEvent', 'UTFull': 'DAQ/RawEvent', 'UTPedestal': 'DAQ/RawEvent', 'PrsTrig': 'DAQ/RawEvent', 'HcalPackedError': 'DAQ/RawEvent', 'L0PUFull': 'DAQ/RawEvent', 'HltDecReports': 'DAQ/RawEvent', 'Rich': 'DAQ/RawEvent', 'VeloProcFull': 'DAQ/RawEvent', 'HltRoutingBits': 'DAQ/RawEvent', 'L0MuonError': 'DAQ/RawEvent', 'VL': 'DAQ/RawEvent', 'L0MuonProcCand': 'DAQ/RawEvent', 'TTPedestal': 'DAQ/RawEvent', 'L0DUError': 'DAQ/RawEvent', 'DstBank': 'DAQ/RawEvent', 'TT': 'DAQ/RawEvent', 'L0MuonProcData': 'DAQ/RawEvent', 'OTRaw': 'DAQ/RawEvent', 'EcalPacked': 'DAQ/RawEvent', 'PrsPacked': 'DAQ/RawEvent', 'VeloPedestal': 'DAQ/RawEvent', 'DAQ': 'DAQ/RawEvent', 'ITError': 'DAQ/RawEvent', 'FileID': 'DAQ/RawEvent', 'EcalTrig': 'DAQ/RawEvent', 'FTCluster': 'DAQ/RawEvent', 'L0PUError': 'DAQ/RawEvent', 'L0Calo': 'DAQ/RawEvent', 'VeloFull': 'DAQ/RawEvent', 'L0MuonCtrlAll': 'DAQ/RawEvent', 'HltVertexReports': 'DAQ/RawEvent', 'EcalE': 'DAQ/RawEvent', 'ITProcFull': 'DAQ/RawEvent', 'HltLumiSummary': 'DAQ/RawEvent', 'TestDet': 'DAQ/RawEvent', 'IT': 'DAQ/RawEvent', 'VP': 'DAQ/RawEvent', 'HcalTrig': 'DAQ/RawEvent', 'HcalE': 'DAQ/RawEvent', 'L0PU': 'DAQ/RawEvent', 'DstAddress': 'DAQ/RawEvent', 'UT': 'DAQ/RawEvent', 'TAEHeader': 'DAQ/RawEvent', 'ODIN': 'DAQ/RawEvent', 'PrsE': 'DAQ/RawEvent', 'PrsPackedError': 'DAQ/RawEvent', 'Velo': 'DAQ/RawEvent', 'Muon': 'DAQ/RawEvent', 'ITPedestal': 'DAQ/RawEvent', 'TTProcFull': 'DAQ/RawEvent', 'DstData': 'DAQ/RawEvent', 'GaudiSerialize': 'DAQ/RawEvent', 'TTFull': 'DAQ/RawEvent', 'L0MuonRaw': 'DAQ/RawEvent', 'UTError': 'DAQ/RawEvent', 'TTError': 'DAQ/RawEvent', 'EcalPackedError': 'DAQ/RawEvent', 'HcalPacked': 'DAQ/RawEvent', 'MuonFull': 'DAQ/RawEvent', 'L0CaloError': 'DAQ/RawEvent', 'GaudiHeader': 'DAQ/RawEvent', 'L0DU': 'DAQ/RawEvent', 'ITFull': 'DAQ/RawEvent', 'OT': 'DAQ/RawEvent', 'MuonError': 'DAQ/RawEvent', 'HltTrackReports': 'DAQ/RawEvent', 'L0CaloFull': 'DAQ/RawEvent', 'L0Muon': 'DAQ/RawEvent'}, 1.0: {'HltSelReports': ['Trigger/RawEvent', 'DAQ/RawEvent'], 'OTError': 'DAQ/RawEvent', 'VeloError': 'DAQ/RawEvent', 'UTFull': 'DAQ/RawEvent', 'UTPedestal': 'DAQ/RawEvent', 'PrsTrig': 'DAQ/RawEvent', 'HcalPackedError': 'DAQ/RawEvent', 'L0PUFull': 'DAQ/RawEvent', 'HltDecReports': ['Trigger/RawEvent', 'DAQ/RawEvent'], 'Rich': 'DAQ/RawEvent', 'VeloProcFull': 'DAQ/RawEvent', 'HltRoutingBits': ['Trigger/RawEvent', 'DAQ/RawEvent'], 'L0MuonError': 'DAQ/RawEvent', 'VL': 'DAQ/RawEvent', 'L0MuonProcCand': ['Trigger/RawEvent', 'DAQ/RawEvent'], 'TTPedestal': 'DAQ/RawEvent', 'L0DUError': 'DAQ/RawEvent', 'DstBank': 'DAQ/RawEvent', 'TT': 'DAQ/RawEvent', 'L0MuonProcData': 'DAQ/RawEvent', 'OTRaw': 'DAQ/RawEvent', 'EcalPacked': 'DAQ/RawEvent', 'PrsPacked': 'DAQ/RawEvent', 'VeloPedestal': 'DAQ/RawEvent', 'DAQ': 'DAQ/RawEvent', 'ITError': 'DAQ/RawEvent', 'FileID': 'DAQ/RawEvent', 'EcalTrig': 'DAQ/RawEvent', 'FTCluster': 'DAQ/RawEvent', 'L0PUError': 'DAQ/RawEvent', 'L0Calo': ['Trigger/RawEvent', 'DAQ/RawEvent'], 'VeloFull': 'DAQ/RawEvent', 'L0MuonCtrlAll': 'DAQ/RawEvent', 'HltVertexReports': ['Trigger/RawEvent', 'DAQ/RawEvent'], 'EcalE': 'DAQ/RawEvent', 'ITProcFull': 'DAQ/RawEvent', 'HltLumiSummary': 'DAQ/RawEvent', 'TestDet': 'DAQ/RawEvent', 'IT': 'DAQ/RawEvent', 'VP': 'DAQ/RawEvent', 'HcalTrig': 'DAQ/RawEvent', 'HcalE': 'DAQ/RawEvent', 'L0PU': ['Trigger/RawEvent', 'DAQ/RawEvent'], 'DstAddress': 'DAQ/RawEvent', 'UT': 'DAQ/RawEvent', 'TAEHeader': 'DAQ/RawEvent', 'ODIN': ['Trigger/RawEvent', 'DAQ/RawEvent'], 'PrsE': 'DAQ/RawEvent', 'PrsPackedError': 'DAQ/RawEvent', 'Velo': 'DAQ/RawEvent', 'Muon': 'DAQ/RawEvent', 'ITPedestal': 'DAQ/RawEvent', 'TTProcFull': 'DAQ/RawEvent', 'DstData': 'DAQ/RawEvent', 'GaudiSerialize': 'DAQ/RawEvent', 'TTFull': 'DAQ/RawEvent', 'L0MuonRaw': 'DAQ/RawEvent', 'UTError': 'DAQ/RawEvent', 'TTError': 'DAQ/RawEvent', 'EcalPackedError': 'DAQ/RawEvent', 'HcalPacked': 'DAQ/RawEvent', 'MuonFull': 'DAQ/RawEvent', 'L0CaloError': 'DAQ/RawEvent', 'GaudiHeader': 'DAQ/RawEvent', 'L0DU': ['Trigger/RawEvent', 'DAQ/RawEvent'], 'ITFull': 'DAQ/RawEvent', 'OT': 'DAQ/RawEvent', 'MuonError': 'DAQ/RawEvent', 'L0CaloFull': ['Trigger/RawEvent', 'DAQ/RawEvent'], 'L0Muon': ['Trigger/RawEvent', 'DAQ/RawEvent']}, 2.2: {'HltSelReports': 'Trigger/RawEvent', 'OTError': 'Other/RawEvent', 'VeloError': 'Other/RawEvent', 'UTFull': 'Other/RawEvent', 'UTPedestal': 'Other/RawEvent', 'PrsTrig': 'Calo/RawEvent', 'HcalPackedError': 'Calo/RawEvent', 'L0PUFull': 'Other/RawEvent', 'HltDecReports': 'Trigger/RawEvent', 'Rich': 'Rich/RawEvent', 'VeloProcFull': 'Other/RawEvent', 'HltRoutingBits': 'Trigger/RawEvent', 'L0MuonError': 'Other/RawEvent', 'VL': 'Other/RawEvent', 'L0MuonProcCand': 'Trigger/RawEvent', 'TTPedestal': 'Other/RawEvent', 'L0DUError': 'Other/RawEvent', 'HC': 'Other/RawEvent', 'DstBank': 'Other/RawEvent', 'TT': 'Other/RawEvent', 'L0MuonProcData': 'Other/RawEvent', 'OTRaw': 'Other/RawEvent', 'EcalPacked': 'Calo/RawEvent', 'PrsPacked': 'Calo/RawEvent', 'VeloPedestal': 'Other/RawEvent', 'DAQ': 'Other/RawEvent', 'ITError': 'Other/RawEvent', 'FileID': 'Other/RawEvent', 'EcalTrig': 'Calo/RawEvent', 'FTCluster': 'Other/RawEvent', 'L0PUError': 'Other/RawEvent', 'L0Calo': 'Trigger/RawEvent', 'VeloFull': 'Other/RawEvent', 'L0MuonCtrlAll': 'Other/RawEvent', 'HltVertexReports': 'Trigger/RawEvent', 'EcalE': 'Calo/RawEvent', 'ITProcFull': 'Other/RawEvent', 'HltLumiSummary': 'Other/RawEvent', 'TestDet': 'Other/RawEvent', 'IT': 'Other/RawEvent', 'VP': 'Other/RawEvent', 'HcalTrig': 'Calo/RawEvent', 'HcalE': 'Calo/RawEvent', 'L0PU': 'Trigger/RawEvent', 'DstAddress': 'Other/RawEvent', 'UT': 'Other/RawEvent', 'TAEHeader': 'Other/RawEvent', 'ODIN': 'Trigger/RawEvent', 'PrsE': 'Calo/RawEvent', 'PrsPackedError': 'Calo/RawEvent', 'Velo': 'Other/RawEvent', 'Muon': 'Muon/RawEvent', 'ITPedestal': 'Other/RawEvent', 'TTProcFull': 'Other/RawEvent', 'DstData': 'Other/RawEvent', 'GaudiSerialize': 'Other/RawEvent', 'TTFull': 'Other/RawEvent', 'L0MuonRaw': 'Other/RawEvent', 'UTError': 'Other/RawEvent', 'TTError': 'Other/RawEvent', 'EcalPackedError': 'Calo/RawEvent', 'HcalPacked': 'Calo/RawEvent', 'MuonFull': 'Other/RawEvent', 'L0CaloError': 'Other/RawEvent', 'GaudiHeader': 'Other/RawEvent', 'L0DU': 'Trigger/RawEvent', 'ITFull': 'Other/RawEvent', 'OT': 'Other/RawEvent', 'MuonError': 'Other/RawEvent', 'HltTrackReports': 'Trigger/RawEvent', 'L0CaloFull': 'Trigger/RawEvent', 'L0Muon': 'Trigger/RawEvent'}, 3.1: {'HltSelReports': 'Trigger/#TCK#/RawEvent', 'OTError': 'Other/RawEvent', 'VeloError': 'Other/RawEvent', 'UTFull': 'Other/RawEvent', 'UTPedestal': 'Other/RawEvent', 'PrsTrig': 'Calo/RawEvent', 'HcalPackedError': 'Calo/RawEvent', 'L0PUFull': 'Other/RawEvent', 'HltDecReports': 'Trigger/#TCK#/RawEvent', 'Rich': 'Rich/RawEvent', 'VeloProcFull': 'Other/RawEvent', 'HltRoutingBits': 'Trigger/#TCK#/RawEvent', 'L0MuonError': 'Other/RawEvent', 'VL': 'Other/RawEvent', 'L0MuonProcCand': 'Trigger/#TCK#/RawEvent', 'TTPedestal': 'Other/RawEvent', 'L0DUError': 'Other/RawEvent', 'DstBank': 'Other/RawEvent', 'TT': 'Other/RawEvent', 'L0MuonProcData': 'Other/RawEvent', 'OTRaw': 'Other/RawEvent', 'EcalPacked': 'Calo/RawEvent', 'PrsPacked': 'Calo/RawEvent', 'VeloPedestal': 'Other/RawEvent', 'DAQ': 'Other/RawEvent', 'ITError': 'Other/RawEvent', 'FileID': 'Other/RawEvent', 'EcalTrig': 'Calo/RawEvent', 'FTCluster': 'Other/RawEvent', 'L0PUError': 'Other/RawEvent', 'L0Calo': 'Trigger/#TCK#/RawEvent', 'VeloFull': 'Other/RawEvent', 'L0MuonCtrlAll': 'Other/RawEvent', 'HltVertexReports': 'Trigger/#TCK#/RawEvent', 'EcalE': 'Calo/RawEvent', 'ITProcFull': 'Other/RawEvent', 'HltLumiSummary': 'Other/RawEvent', 'TestDet': 'Other/RawEvent', 'IT': 'Other/RawEvent', 'VP': 'Other/RawEvent', 'HcalTrig': 'Calo/RawEvent', 'HcalE': 'Calo/RawEvent', 'L0PU': 'Trigger/#TCK#/RawEvent', 'DstAddress': 'Other/RawEvent', 'UT': 'Other/RawEvent', 'TAEHeader': 'Other/RawEvent', 'ODIN': 'Trigger/#TCK#/RawEvent', 'PrsE': 'Calo/RawEvent', 'PrsPackedError': 'Calo/RawEvent', 'Velo': 'Other/RawEvent', 'Muon': 'Muon/RawEvent', 'ITPedestal': 'Other/RawEvent', 'TTProcFull': 'Other/RawEvent', 'DstData': 'Other/RawEvent', 'GaudiSerialize': 'Other/RawEvent', 'TTFull': 'Other/RawEvent', 'L0MuonRaw': 'Other/RawEvent', 'UTError': 'Other/RawEvent', 'TTError': 'Other/RawEvent', 'EcalPackedError': 'Calo/RawEvent', 'HcalPacked': 'Calo/RawEvent', 'MuonFull': 'Other/RawEvent', 'L0CaloError': 'Other/RawEvent', 'GaudiHeader': 'Other/RawEvent', 'L0DU': 'Trigger/#TCK#/RawEvent', 'ITFull': 'Other/RawEvent', 'OT': 'Other/RawEvent', 'MuonError': 'Other/RawEvent', 'L0CaloFull': 'Trigger/#TCK#/RawEvent', 'L0Muon': 'Trigger/#TCK#/RawEvent'}, 0.3: {'HltSelReports': 'DAQ/RawEvent', 'OTError': 'DAQ/RawEvent', 'VeloError': 'DAQ/RawEvent', 'UTFull': 'DAQ/RawEvent', 'UTPedestal': 'DAQ/RawEvent', 'PrsTrig': 'DAQ/RawEvent', 'HcalPackedError': 'DAQ/RawEvent', 'L0PUFull': 'DAQ/RawEvent', 'HltDecReports': 'DAQ/RawEvent', 'Rich': 'DAQ/RawEvent', 'VeloProcFull': 'DAQ/RawEvent', 'HltRoutingBits': 'DAQ/RawEvent', 'L0MuonError': 'DAQ/RawEvent', 'VL': 'DAQ/RawEvent', 'L0MuonProcCand': 'DAQ/RawEvent', 'TTPedestal': 'DAQ/RawEvent', 'L0DUError': 'DAQ/RawEvent', 'HC': 'DAQ/RawEvent', 'DstBank': 'DAQ/RawEvent', 'TT': 'DAQ/RawEvent', 'L0MuonProcData': 'DAQ/RawEvent', 'OTRaw': 'DAQ/RawEvent', 'EcalPacked': 'DAQ/RawEvent', 'PrsPacked': 'DAQ/RawEvent', 'VeloPedestal': 'DAQ/RawEvent', 'DAQ': 'DAQ/RawEvent', 'ITError': 'DAQ/RawEvent', 'FileID': 'DAQ/RawEvent', 'EcalTrig': 'DAQ/RawEvent', 'FTCluster': 'DAQ/RawEvent', 'L0PUError': 'DAQ/RawEvent', 'L0Calo': 'DAQ/RawEvent', 'VeloFull': 'DAQ/RawEvent', 'L0MuonCtrlAll': 'DAQ/RawEvent', 'HltVertexReports': 'DAQ/RawEvent', 'EcalE': 'DAQ/RawEvent', 'ITProcFull': 'DAQ/RawEvent', 'HltLumiSummary': 'DAQ/RawEvent', 'TestDet': 'DAQ/RawEvent', 'IT': 'DAQ/RawEvent', 'VP': 'DAQ/RawEvent', 'HcalTrig': 'DAQ/RawEvent', 'HcalE': 'DAQ/RawEvent', 'L0PU': 'DAQ/RawEvent', 'DstAddress': 'DAQ/RawEvent', 'UT': 'DAQ/RawEvent', 'TAEHeader': 'DAQ/RawEvent', 'ODIN': 'DAQ/RawEvent', 'PrsE': 'DAQ/RawEvent', 'PrsPackedError': 'DAQ/RawEvent', 'Velo': 'DAQ/RawEvent', 'Muon': 'DAQ/RawEvent', 'ITPedestal': 'DAQ/RawEvent', 'TTProcFull': 'DAQ/RawEvent', 'DstData': 'DAQ/RawEvent', 'GaudiSerialize': 'DAQ/RawEvent', 'TTFull': 'DAQ/RawEvent', 'L0MuonRaw': 'DAQ/RawEvent', 'UTError': 'DAQ/RawEvent', 'TTError': 'DAQ/RawEvent', 'EcalPackedError': 'DAQ/RawEvent', 'HcalPacked': 'DAQ/RawEvent', 'MuonFull': 'DAQ/RawEvent', 'L0CaloError': 'DAQ/RawEvent', 'GaudiHeader': 'DAQ/RawEvent', 'L0DU': 'DAQ/RawEvent', 'ITFull': 'DAQ/RawEvent', 'OT': 'DAQ/RawEvent', 'MuonError': 'DAQ/RawEvent', 'HltTrackReports': 'DAQ/RawEvent', 'L0CaloFull': 'DAQ/RawEvent', 'L0Muon': 'DAQ/RawEvent'}, 0.4: {'HltRoutingBits': 'DAQ/RawEvent', 'L0PUFull': 'DAQ/RawEvent', 'HltDecReports': 'DAQ/RawEvent', 'HC': 'DAQ/RawEvent', 'HltSelReports': 'DAQ/RawEvent', 'L0MuonError': 'DAQ/RawEvent', 'DstBank': 'DAQ/RawEvent', 'L0MuonProcCand': 'DAQ/RawEvent', 'L0CaloError': 'DAQ/RawEvent', 'TAEHeader': 'DAQ/RawEvent', 'L0MuonProcData': 'DAQ/RawEvent', 'DAQ': 'DAQ/RawEvent', 'DstAddress': 'DAQ/RawEvent', 'L0PUError': 'DAQ/RawEvent', 'L0Calo': 'DAQ/RawEvent', 'L0MuonCtrlAll': 'DAQ/RawEvent', 'HltVertexReports': 'DAQ/RawEvent', 'HltLumiSummary': 'DAQ/RawEvent', 'TestDet': 'DAQ/RawEvent', 'L0PU': 'DAQ/RawEvent', 'L0DUError': 'DAQ/RawEvent', 'ODIN': 'DAQ/RawEvent', 'FileID': 'DAQ/RawEvent', 'DstData': 'DAQ/RawEvent', 'GaudiSerialize': 'DAQ/RawEvent', 'L0MuonRaw': 'DAQ/RawEvent', 'GaudiHeader': 'DAQ/RawEvent', 'L0DU': 'DAQ/RawEvent', 'L0CaloFull': 'DAQ/RawEvent', 'L0Muon': 'DAQ/RawEvent'}, 4.3: {'HltSelReports': 'Trigger/RawEvent', 'OTError': 'Unstripped/RawEvent', 'VeloError': 'Unstripped/RawEvent', 'UTFull': 'Unstripped/RawEvent', 'UTPedestal': 'Unstripped/RawEvent', 'PrsTrig': 'Calo/RawEvent', 'HcalPackedError': 'Unstripped/RawEvent', 'L0PUFull': 'Unstripped/RawEvent', 'HltDecReports': 'Trigger/RawEvent', 'Rich': 'Rich/RawEvent', 'VeloProcFull': 'Unstripped/RawEvent', 'HltRoutingBits': 'Trigger/RawEvent', 'L0MuonError': 'Unstripped/RawEvent', 'VL': 'Unstripped/RawEvent', 'L0MuonProcCand': 'Trigger/RawEvent', 'TTPedestal': 'Unstripped/RawEvent', 'L0DUError': 'Unstripped/RawEvent', 'HC': 'HC/RawEvent', 'DstBank': 'Unstripped/RawEvent', 'TT': 'Tracker/RawEvent', 'L0MuonProcData': 'Unstripped/RawEvent', 'OTRaw': 'Unstripped/RawEvent', 'EcalPacked': 'Calo/RawEvent', 'PrsPacked': 'Calo/RawEvent', 'VeloPedestal': 'Unstripped/RawEvent', 'DAQ': 'Unstripped/RawEvent', 'ITError': 'Tracker/RawEvent', 'FileID': 'Unstripped/RawEvent', 'EcalTrig': 'Calo/RawEvent', 'FTCluster': 'Tracker/RawEvent', 'L0PUError': 'Unstripped/RawEvent', 'L0Calo': 'Trigger/RawEvent', 'VeloFull': 'Unstripped/RawEvent', 'L0MuonCtrlAll': 'Unstripped/RawEvent', 'HltVertexReports': 'Trigger/RawEvent', 'EcalE': 'Calo/RawEvent', 'ITProcFull': 'Unstripped/RawEvent', 'HltLumiSummary': 'Unstripped/RawEvent', 'TestDet': 'Unstripped/RawEvent', 'IT': 'Tracker/RawEvent', 'VP': 'Velo/RawEvent', 'HcalTrig': 'Calo/RawEvent', 'HcalE': 'Calo/RawEvent', 'L0PU': 'Trigger/RawEvent', 'DstAddress': 'Unstripped/RawEvent', 'UT': 'Tracker/RawEvent', 'TAEHeader': 'Unstripped/RawEvent', 'ODIN': ['Trigger/RawEvent'], 'PrsE': 'Calo/RawEvent', 'PrsPackedError': 'Unstripped/RawEvent', 'Velo': 'Velo/RawEvent', 'Muon': 'Muon/RawEvent', 'ITPedestal': 'Unstripped/RawEvent', 'TTProcFull': 'Unstripped/RawEvent', 'DstData': 'PersistReco/RawEvent', 'GaudiSerialize': 'Unstripped/RawEvent', 'TTFull': 'Unstripped/RawEvent', 'L0MuonRaw': 'Unstripped/RawEvent', 'UTError': 'Unstripped/RawEvent', 'TTError': 'Tracker/RawEvent', 'EcalPackedError': 'Unstripped/RawEvent', 'HcalPacked': 'Calo/RawEvent', 'MuonFull': 'Unstripped/RawEvent', 'L0CaloError': 'Unstripped/RawEvent', 'GaudiHeader': 'Unstripped/RawEvent', 'L0DU': 'Trigger/RawEvent', 'ITFull': 'Unstripped/RawEvent', 'OT': 'Tracker/RawEvent', 'MuonError': 'Unstripped/RawEvent', 'HltTrackReports': 'Trigger/RawEvent', 'L0CaloFull': 'Trigger/RawEvent', 'L0Muon': 'Trigger/RawEvent'}, 2.1: {'HltSelReports': 'Trigger/RawEvent', 'OTError': 'Other/RawEvent', 'VeloError': 'Other/RawEvent', 'UTFull': 'Other/RawEvent', 'UTPedestal': 'Other/RawEvent', 'PrsTrig': 'Calo/RawEvent', 'HcalPackedError': 'Calo/RawEvent', 'L0PUFull': 'Other/RawEvent', 'HltDecReports': 'Trigger/RawEvent', 'Rich': 'Rich/RawEvent', 'VeloProcFull': 'Other/RawEvent', 'HltRoutingBits': 'Trigger/RawEvent', 'L0MuonError': 'Other/RawEvent', 'VL': 'Other/RawEvent', 'L0MuonProcCand': 'Trigger/RawEvent', 'TTPedestal': 'Other/RawEvent', 'L0DUError': 'Other/RawEvent', 'DstBank': 'Other/RawEvent', 'TT': 'Other/RawEvent', 'L0MuonProcData': 'Other/RawEvent', 'OTRaw': 'Other/RawEvent', 'EcalPacked': 'Calo/RawEvent', 'PrsPacked': 'Calo/RawEvent', 'VeloPedestal': 'Other/RawEvent', 'DAQ': 'Other/RawEvent', 'ITError': 'Other/RawEvent', 'FileID': 'Other/RawEvent', 'EcalTrig': 'Calo/RawEvent', 'FTCluster': 'Other/RawEvent', 'L0PUError': 'Other/RawEvent', 'L0Calo': 'Trigger/RawEvent', 'VeloFull': 'Other/RawEvent', 'L0MuonCtrlAll': 'Other/RawEvent', 'HltVertexReports': 'Trigger/RawEvent', 'EcalE': 'Calo/RawEvent', 'ITProcFull': 'Other/RawEvent', 'HltLumiSummary': 'Other/RawEvent', 'TestDet': 'Other/RawEvent', 'IT': 'Other/RawEvent', 'VP': 'Other/RawEvent', 'HcalTrig': 'Calo/RawEvent', 'HcalE': 'Calo/RawEvent', 'L0PU': 'Trigger/RawEvent', 'DstAddress': 'Other/RawEvent', 'UT': 'Other/RawEvent', 'TAEHeader': 'Other/RawEvent', 'ODIN': 'Trigger/RawEvent', 'PrsE': 'Calo/RawEvent', 'PrsPackedError': 'Calo/RawEvent', 'Velo': 'Other/RawEvent', 'Muon': 'Muon/RawEvent', 'ITPedestal': 'Other/RawEvent', 'TTProcFull': 'Other/RawEvent', 'DstData': 'Other/RawEvent', 'GaudiSerialize': 'Other/RawEvent', 'TTFull': 'Other/RawEvent', 'L0MuonRaw': 'Other/RawEvent', 'UTError': 'Other/RawEvent', 'TTError': 'Other/RawEvent', 'EcalPackedError': 'Calo/RawEvent', 'HcalPacked': 'Calo/RawEvent', 'MuonFull': 'Other/RawEvent', 'L0CaloError': 'Other/RawEvent', 'GaudiHeader': 'Other/RawEvent', 'L0DU': 'Trigger/RawEvent', 'ITFull': 'Other/RawEvent', 'OT': 'Other/RawEvent', 'MuonError': 'Other/RawEvent', 'HltTrackReports': 'Trigger/RawEvent', 'L0CaloFull': 'Trigger/RawEvent', 'L0Muon': 'Trigger/RawEvent'}, 4.1: {'HltSelReports': 'Trigger/RawEvent', 'OTError': 'Unstripped/RawEvent', 'VeloError': 'Unstripped/RawEvent', 'UTFull': 'Unstripped/RawEvent', 'UTPedestal': 'Unstripped/RawEvent', 'PrsTrig': 'Calo/RawEvent', 'HcalPackedError': 'Unstripped/RawEvent', 'L0PUFull': 'Unstripped/RawEvent', 'HltDecReports': 'Trigger/RawEvent', 'Rich': 'Rich/RawEvent', 'VeloProcFull': 'Unstripped/RawEvent', 'HltRoutingBits': 'Trigger/RawEvent', 'L0MuonError': 'Unstripped/RawEvent', 'VL': 'Unstripped/RawEvent', 'L0MuonProcCand': 'Trigger/RawEvent', 'TTPedestal': 'Unstripped/RawEvent', 'L0DUError': 'Unstripped/RawEvent', 'HC': 'HC/RawEvent', 'DstBank': 'Unstripped/RawEvent', 'TT': 'Tracker/RawEvent', 'L0MuonProcData': 'Unstripped/RawEvent', 'OTRaw': 'Unstripped/RawEvent', 'EcalPacked': 'Calo/RawEvent', 'PrsPacked': 'Calo/RawEvent', 'VeloPedestal': 'Unstripped/RawEvent', 'DAQ': 'Unstripped/RawEvent', 'ITError': 'Unstripped/RawEvent', 'FileID': 'Unstripped/RawEvent', 'EcalTrig': 'Calo/RawEvent', 'FTCluster': 'Tracker/RawEvent', 'L0PUError': 'Unstripped/RawEvent', 'L0Calo': 'Trigger/RawEvent', 'VeloFull': 'Unstripped/RawEvent', 'L0MuonCtrlAll': 'Unstripped/RawEvent', 'HltVertexReports': 'Trigger/RawEvent', 'EcalE': 'Calo/RawEvent', 'ITProcFull': 'Unstripped/RawEvent', 'HltLumiSummary': 'Unstripped/RawEvent', 'TestDet': 'Unstripped/RawEvent', 'IT': 'Tracker/RawEvent', 'VP': 'Velo/RawEvent', 'HcalTrig': 'Calo/RawEvent', 'HcalE': 'Calo/RawEvent', 'L0PU': 'Trigger/RawEvent', 'DstAddress': 'Unstripped/RawEvent', 'UT': 'Tracker/RawEvent', 'TAEHeader': 'Unstripped/RawEvent', 'ODIN': ['Trigger/RawEvent'], 'PrsE': 'Calo/RawEvent', 'PrsPackedError': 'Unstripped/RawEvent', 'Velo': 'Velo/RawEvent', 'Muon': 'Muon/RawEvent', 'ITPedestal': 'Unstripped/RawEvent', 'TTProcFull': 'Unstripped/RawEvent', 'DstData': 'Unstripped/RawEvent', 'GaudiSerialize': 'Unstripped/RawEvent', 'TTFull': 'Unstripped/RawEvent', 'L0MuonRaw': 'Unstripped/RawEvent', 'UTError': 'Unstripped/RawEvent', 'TTError': 'Unstripped/RawEvent', 'EcalPackedError': 'Unstripped/RawEvent', 'HcalPacked': 'Calo/RawEvent', 'MuonFull': 'Unstripped/RawEvent', 'L0CaloError': 'Unstripped/RawEvent', 'GaudiHeader': 'Unstripped/RawEvent', 'L0DU': 'Trigger/RawEvent', 'ITFull': 'Unstripped/RawEvent', 'OT': 'Tracker/RawEvent', 'MuonError': 'Unstripped/RawEvent', 'HltTrackReports': 'Trigger/RawEvent', 'L0CaloFull': 'Trigger/RawEvent', 'L0Muon': 'Trigger/RawEvent'}, 3.3: {'HltSelReports': 'Trigger/#TCK#/RawEvent', 'OTError': 'Other/RawEvent', 'VeloError': 'Other/RawEvent', 'UTFull': 'Other/RawEvent', 'UTPedestal': 'Other/RawEvent', 'PrsTrig': 'Calo/RawEvent', 'HcalPackedError': 'Calo/RawEvent', 'L0PUFull': 'Other/RawEvent', 'HltDecReports': 'Trigger/#TCK#/RawEvent', 'Rich': 'Rich/RawEvent', 'VeloProcFull': 'Other/RawEvent', 'HltRoutingBits': 'Trigger/#TCK#/RawEvent', 'L0MuonError': 'Other/RawEvent', 'VL': 'Other/RawEvent', 'L0MuonProcCand': 'Trigger/#L0TCK#/RawEvent', 'TTPedestal': 'Other/RawEvent', 'L0DUError': 'Other/RawEvent', 'DstBank': 'Other/RawEvent', 'TT': 'Other/RawEvent', 'L0MuonProcData': 'Other/RawEvent', 'OTRaw': 'Other/RawEvent', 'EcalPacked': 'Calo/RawEvent', 'PrsPacked': 'Calo/RawEvent', 'VeloPedestal': 'Other/RawEvent', 'DAQ': 'Other/RawEvent', 'ITError': 'Other/RawEvent', 'FileID': 'Other/RawEvent', 'EcalTrig': 'Calo/RawEvent', 'FTCluster': 'Other/RawEvent', 'L0PUError': 'Other/RawEvent', 'L0Calo': 'Trigger/#L0TCK#/RawEvent', 'VeloFull': 'Other/RawEvent', 'L0MuonCtrlAll': 'Other/RawEvent', 'HltVertexReports': 'Trigger/#TCK#/RawEvent', 'EcalE': 'Calo/RawEvent', 'ITProcFull': 'Other/RawEvent', 'HltLumiSummary': 'Other/RawEvent', 'TestDet': 'Other/RawEvent', 'IT': 'Other/RawEvent', 'VP': 'Other/RawEvent', 'HcalTrig': 'Calo/RawEvent', 'HcalE': 'Calo/RawEvent', 'L0PU': 'Trigger/#L0TCK#/RawEvent', 'DstAddress': 'Other/RawEvent', 'UT': 'Other/RawEvent', 'TAEHeader': 'Other/RawEvent', 'ODIN': ['Trigger/#TCK#/RawEvent', 'Trigger/#L0TCK#/RawEvent'], 'PrsE': 'Calo/RawEvent', 'PrsPackedError': 'Calo/RawEvent', 'Velo': 'Other/RawEvent', 'Muon': 'Muon/RawEvent', 'ITPedestal': 'Other/RawEvent', 'TTProcFull': 'Other/RawEvent', 'DstData': 'Other/RawEvent', 'GaudiSerialize': 'Other/RawEvent', 'TTFull': 'Other/RawEvent', 'L0MuonRaw': 'Other/RawEvent', 'UTError': 'Other/RawEvent', 'TTError': 'Other/RawEvent', 'EcalPackedError': 'Calo/RawEvent', 'HcalPacked': 'Calo/RawEvent', 'MuonFull': 'Other/RawEvent', 'L0CaloError': 'Other/RawEvent', 'GaudiHeader': 'Other/RawEvent', 'L0DU': 'Trigger/#L0TCK#/RawEvent', 'ITFull': 'Other/RawEvent', 'OT': 'Other/RawEvent', 'MuonError': 'Other/RawEvent', 'L0CaloFull': 'Trigger/#L0TCK#/RawEvent', 'L0Muon': 'Trigger/#L0TCK#/RawEvent'}, 4.2: {'HltSelReports': 'Trigger/RawEvent', 'OTError': 'Unstripped/RawEvent', 'VeloError': 'Unstripped/RawEvent', 'UTFull': 'Unstripped/RawEvent', 'UTPedestal': 'Unstripped/RawEvent', 'PrsTrig': 'Calo/RawEvent', 'HcalPackedError': 'Unstripped/RawEvent', 'L0PUFull': 'Unstripped/RawEvent', 'HltDecReports': 'Trigger/RawEvent', 'Rich': 'Rich/RawEvent', 'VeloProcFull': 'Unstripped/RawEvent', 'HltRoutingBits': 'Trigger/RawEvent', 'L0MuonError': 'Unstripped/RawEvent', 'VL': 'Unstripped/RawEvent', 'L0MuonProcCand': 'Trigger/RawEvent', 'TTPedestal': 'Unstripped/RawEvent', 'L0DUError': 'Unstripped/RawEvent', 'HC': 'HC/RawEvent', 'DstBank': 'Unstripped/RawEvent', 'TT': 'Tracker/RawEvent', 'L0MuonProcData': 'Unstripped/RawEvent', 'OTRaw': 'Unstripped/RawEvent', 'EcalPacked': 'Calo/RawEvent', 'PrsPacked': 'Calo/RawEvent', 'VeloPedestal': 'Unstripped/RawEvent', 'DAQ': 'Unstripped/RawEvent', 'ITError': 'Tracker/RawEvent', 'FileID': 'Unstripped/RawEvent', 'EcalTrig': 'Calo/RawEvent', 'FTCluster': 'Tracker/RawEvent', 'L0PUError': 'Unstripped/RawEvent', 'L0Calo': 'Trigger/RawEvent', 'VeloFull': 'Unstripped/RawEvent', 'L0MuonCtrlAll': 'Unstripped/RawEvent', 'HltVertexReports': 'Trigger/RawEvent', 'EcalE': 'Calo/RawEvent', 'ITProcFull': 'Unstripped/RawEvent', 'HltLumiSummary': 'Unstripped/RawEvent', 'TestDet': 'Unstripped/RawEvent', 'IT': 'Tracker/RawEvent', 'VP': 'Velo/RawEvent', 'HcalTrig': 'Calo/RawEvent', 'HcalE': 'Calo/RawEvent', 'L0PU': 'Trigger/RawEvent', 'DstAddress': 'Unstripped/RawEvent', 'UT': 'Tracker/RawEvent', 'TAEHeader': 'Unstripped/RawEvent', 'ODIN': ['Trigger/RawEvent'], 'PrsE': 'Calo/RawEvent', 'PrsPackedError': 'Unstripped/RawEvent', 'Velo': 'Velo/RawEvent', 'Muon': 'Muon/RawEvent', 'ITPedestal': 'Unstripped/RawEvent', 'TTProcFull': 'Unstripped/RawEvent', 'DstData': 'Unstripped/RawEvent', 'GaudiSerialize': 'Unstripped/RawEvent', 'TTFull': 'Unstripped/RawEvent', 'L0MuonRaw': 'Unstripped/RawEvent', 'UTError': 'Unstripped/RawEvent', 'TTError': 'Tracker/RawEvent', 'EcalPackedError': 'Unstripped/RawEvent', 'HcalPacked': 'Calo/RawEvent', 'MuonFull': 'Unstripped/RawEvent', 'L0CaloError': 'Unstripped/RawEvent', 'GaudiHeader': 'Unstripped/RawEvent', 'L0DU': 'Trigger/RawEvent', 'ITFull': 'Unstripped/RawEvent', 'OT': 'Tracker/RawEvent', 'MuonError': 'Unstripped/RawEvent', 'HltTrackReports': 'Trigger/RawEvent', 'L0CaloFull': 'Trigger/RawEvent', 'L0Muon': 'Trigger/RawEvent'}, 3.2: {'OTError': 'Other/RawEvent', 'VeloError': 'Other/RawEvent', 'UTFull': 'Other/RawEvent', 'UTPedestal': 'Other/RawEvent', 'PrsTrig': 'Calo/RawEvent', 'HcalPackedError': 'Calo/RawEvent', 'L0PUFull': 'Other/RawEvent', 'UT': 'Other/RawEvent', 'Rich': 'Rich/RawEvent', 'VeloProcFull': 'Other/RawEvent', 'L0MuonError': 'Other/RawEvent', 'VL': 'Other/RawEvent', 'L0MuonProcCand': 'Trigger/#L0TCK#/RawEvent', 'TTPedestal': 'Other/RawEvent', 'L0DUError': 'Other/RawEvent', 'DstBank': 'Other/RawEvent', 'TT': 'Other/RawEvent', 'OTRaw': 'Other/RawEvent', 'EcalPacked': 'Calo/RawEvent', 'PrsPacked': 'Calo/RawEvent', 'VeloPedestal': 'Other/RawEvent', 'DAQ': 'Other/RawEvent', 'ITError': 'Other/RawEvent', 'FileID': 'Other/RawEvent', 'EcalTrig': 'Calo/RawEvent', 'FTCluster': 'Other/RawEvent', 'L0PUError': 'Other/RawEvent', 'L0Calo': 'Trigger/#L0TCK#/RawEvent', 'VeloFull': 'Other/RawEvent', 'L0MuonCtrlAll': 'Other/RawEvent', 'L0MuonProcData': 'Other/RawEvent', 'EcalE': 'Calo/RawEvent', 'ITProcFull': 'Other/RawEvent', 'HltLumiSummary': 'Other/RawEvent', 'TestDet': 'Other/RawEvent', 'IT': 'Other/RawEvent', 'VP': 'Other/RawEvent', 'HcalTrig': 'Calo/RawEvent', 'HcalE': 'Calo/RawEvent', 'L0PU': 'Trigger/#L0TCK#/RawEvent', 'DstAddress': 'Other/RawEvent', 'TAEHeader': 'Other/RawEvent', 'ODIN': 'Trigger/#L0TCK#/RawEvent', 'PrsE': 'Calo/RawEvent', 'PrsPackedError': 'Calo/RawEvent', 'Velo': 'Other/RawEvent', 'Muon': 'Muon/RawEvent', 'ITPedestal': 'Other/RawEvent', 'TTProcFull': 'Other/RawEvent', 'DstData': 'Other/RawEvent', 'GaudiSerialize': 'Other/RawEvent', 'TTFull': 'Other/RawEvent', 'L0MuonRaw': 'Other/RawEvent', 'UTError': 'Other/RawEvent', 'TTError': 'Other/RawEvent', 'EcalPackedError': 'Calo/RawEvent', 'HcalPacked': 'Calo/RawEvent', 'MuonFull': 'Other/RawEvent', 'L0CaloError': 'Other/RawEvent', 'GaudiHeader': 'Other/RawEvent', 'L0DU': 'Trigger/#L0TCK#/RawEvent', 'ITFull': 'Other/RawEvent', 'OT': 'Other/RawEvent', 'MuonError': 'Other/RawEvent', 'L0CaloFull': 'Trigger/#L0TCK#/RawEvent', 'L0Muon': 'Trigger/#L0TCK#/RawEvent'}}
+# |                        (default: None)
+# |-TCKReplacePattern      = '#TCK#'
+# |-GenericReplacePatterns = {}  (default: {})
+# |-TCK                    = None
+# \----- (End of User RawEventFormatConf/RawEventFormatConf) -----------------------------------------
+# applying configuration of DaVinci
+# DaVinci                   INFO    Applying DaVinci configuration
+# DaVinci                   INFO    /***** User DaVinci/DaVinci ************************************************************************
+|-MainOptions          = ''
+|-TupleFile            = 'mc.root'  (default: '')
+|-SkipEvents           = 0  (default: 0)
+|-RootCompressionLevel = 'LZMA:6'
+|-Input                = []  (default: [])
+|-Turbo                = False
+|-DDDBtag              = ''
+|-UserAlgorithms       = [GaudiSequencer('SeqMyB-'), GaudiSequencer('SeqMyB0'), AddRelatedInfo('RelInfo_HLT1_SeqMyB-'), AddRelatedInfo('RelInfo_HLT1_SeqMyB0'), DecayTreeTuple('TupleBminus'), DecayTreeTuple('TupleB0')]
+|                      (default: [])
+|-RootInTES            = ''
+|-DQFLAGStag           = ''
+|-Lumi                 = False  (default: False)
+|-MoniSequence         = []  (default: [])
+|-VerboseMessages      = False
+|-InputType            = 'DST'  (default: 'DST')
+|-ProductionType       = 'None'
+|-PrintFreq            = 10000  (default: 1000)
+|-Detectors            = ['Velo', 'PuVeto', 'Rich1', 'Rich2', 'TT', 'IT', 'OT', 'Spd', 'Prs', 'Ecal', 'Hcal', 'Muon', 'Magnet', 'Tr']
+|                      (default: ['Velo', 'PuVeto', 'Rich1', 'Rich2', 'TT', 'IT', 'OT', 'Spd', 'Prs', 'Ecal', 'Hcal', 'Muon', 'Magnet', 'Tr'])
+|-EvtMax               = -1  (default: -1)
+|-Simulation           = True  (default: False)
+|-MergeGenFSR          = False
+|-StrippingStream      = None
+|-TurboStream          = None
+|-CondDBtag            = ''
+|-DataType             = '2016'  (default: '')
+|-RedoMCLinks          = False
+|-IgnoreDQFlags        = False
+|-HistogramFile        = ''
+|-WriteFSR             = True
+|-EnableUnpack         = None
+|-EventPreFilters      = []  (default: [])
+\----- (End of User DaVinci/DaVinci) ---------------------------------------------------------------
+# DaVinci                   WARNING ``DDDBtag''   is not specified for simulated data
+# DaVinci                   WARNING ``CondDBtag'' is not specified for simulated data
+# --> Including file '/cvmfs/lhcb.cern.ch/lib/lhcb/LHCB/LHCB_v45r5/GaudiConf/options/PreloadUnits.opts'
+# --> Including file '/cvmfs/lhcb.cern.ch/lib/lhcb/LHCB/LHCB_v45r5/GaudiConf/options/units.opts'
+# <-- End of file '/cvmfs/lhcb.cern.ch/lib/lhcb/LHCB/LHCB_v45r5/GaudiConf/options/units.opts'
+# <-- End of file '/cvmfs/lhcb.cern.ch/lib/lhcb/LHCB/LHCB_v45r5/GaudiConf/options/PreloadUnits.opts'
+# Apply CaloProcessor configuration for ['Digits', 'Clusters'] and ['InAcceptance', 'Match', 'Energy', 'Chi2', 'DLL', 'NeutralPID']
+# Configurabe : Counter level is 1 
+# CaloDigits onDemand for ['Ecal', 'Hcal', 'Prs', 'Spd']
+# ClusterReco onDemand
+# Configured Ecal Clusters Reco : ClusterReco 
+# Configured Calo PIDs           : CaloPIDsCaloPIDsForCaloProcessor 
+# CaloProcessor onDemand enabled
+# CaloReProcessing cannot be processed on reduced (m)DST data
+# DaVinci                   INFO    Creating Lumi Algorithms
+# DaVinci                   INFO    No MainOptions specified. DaVinci() will import no options file!
+# DaVinci                   INFO    Creating User Algorithms
+# DaVinci                   INFO    Append to Main Sequence has been called
+# DaVinci                   INFO    Creating Moni Algorithms
+# DaVinci                   INFO    Append to Moni Sequence has been called
+# /***** User DaVinci/DaVinci ************************************************************************
+# |-MainOptions          = ''
+# |-TupleFile            = 'mc.root'  (default: '')
+# |-SkipEvents           = 0  (default: 0)
+# |-RootCompressionLevel = 'LZMA:6'
+# |-Input                = []  (default: [])
+# |-Turbo                = False
+# |-DDDBtag              = ''
+# |-UserAlgorithms       = [GaudiSequencer('SeqMyB-'), GaudiSequencer('SeqMyB0'), AddRelatedInfo('RelInfo_HLT1_SeqMyB-'), AddRelatedInfo('RelInfo_HLT1_SeqMyB0'), DecayTreeTuple('TupleBminus'), DecayTreeTuple('TupleB0')]
+# |                      (default: [])
+# |-RootInTES            = ''
+# |-DQFLAGStag           = ''
+# |-Lumi                 = False  (default: False)
+# |-MoniSequence         = []  (default: [])
+# |-VerboseMessages      = False
+# |-InputType            = 'DST'  (default: 'DST')
+# |-ProductionType       = 'None'
+# |-PrintFreq            = 10000  (default: 1000)
+# |-Detectors            = ['Velo', 'PuVeto', 'Rich1', 'Rich2', 'TT', 'IT', 'OT', 'Spd', 'Prs', 'Ecal', 'Hcal', 'Muon', 'Magnet', 'Tr']
+# |                      (default: ['Velo', 'PuVeto', 'Rich1', 'Rich2', 'TT', 'IT', 'OT', 'Spd', 'Prs', 'Ecal', 'Hcal', 'Muon', 'Magnet', 'Tr'])
+# |-EvtMax               = -1  (default: -1)
+# |-Simulation           = True  (default: False)
+# |-MergeGenFSR          = False
+# |-StrippingStream      = None
+# |-TurboStream          = None
+# |-CondDBtag            = ''
+# |-DataType             = '2016'  (default: '')
+# |-RedoMCLinks          = False
+# |-IgnoreDQFlags        = True  (default: False)
+# |-HistogramFile        = ''
+# |-WriteFSR             = True
+# |-EnableUnpack         = None
+# |-EventPreFilters      = []  (default: [])
+# \----- (End of User DaVinci/DaVinci) ---------------------------------------------------------------
+# applying configuration of TrackSys
+# /***** User TrackSys/TrackSys **********************************************************************
+# |-FilterBeforeFit          = True
+# |-TrackingSequence         = []  (default: [])
+# |-ExpertTracking           = []  (default: [])
+# |-ExpertHistos             = False
+# |-TrackExtraInfoAlgorithms = ['CloneFlagging']  (default: [])
+# |-DataType                 = '2016'  (default: '2011')
+# |-WithMC                   = False
+# |-TrackTypes               = ['Velo', 'Upstream', 'Forward', 'Seeding', 'Match', 'Downstream']  (default: [])
+# |-OutputType               = ''
+# |-Simulation               = False
+# |-OldCloneKiller           = False
+# |-ForceNewSeq              = False
+# |-GlobalCuts               = {'Velo': 6000, 'OT': 15000, 'IT': 999999}  (default: {})
+# |-ExcludedLayers           = []  (default: [])
+# |-ForceOldSeq              = False
+# |-SpecialData              = []  (default: [])
+# |-HltMode                  = False
+# |-TrackPatRecAlgorithms    = ['FastVelo', 'ForwardHLT1', 'ForwardHLT2', 'PatSeed', 'PatMatch', 'PatLongLivedTracking', 'VeloTT']
+# |                          (default: [])
+# \----- (End of User TrackSys/TrackSys) -------------------------------------------------------------
+# applying configuration of DefaultTrackingCuts
+# /***** User DefaultTrackingCuts/DefaultTrackingCuts ************************************************
+# |-Types = ['Long']  (default: ['Long'])
+# |-Cuts  = {'CloneDistCut': [5000, 9e+99], 'Chi2Cut': [0, 5]}
+# |       (default: {'CloneDistCut': [5000, 9e+99], 'Chi2Cut': [0, 5]})
+# \----- (End of User DefaultTrackingCuts/DefaultTrackingCuts) ---------------------------------------
+# skipping configuration of LumiIntegratorConf
+# applying configuration of LHCbApp
+# /***** User LHCbApp/LHCbApp ************************************************************************
+# |-Persistency    = None
+# |-OutputLevel    = 3
+# |-DataType       = '2016'  (default: '2012')
+# |-TimeStamp      = False
+# |-SkipEvents     = 0  (default: 0)
+# |-EvtMax         = -1  (default: -1)
+# |-CondDBtag      = 'sim-20201113-6-vc-md100-Sim10'  (default: '')
+# |-DQFLAGStag     = ''
+# |-IgnoreDQFlags  = True  (default: True)
+# |-Monitors       = []  (default: [])
+# |-Detectors      = []  (default: [])
+# |-LocalDataTypes = []  (default: [])
+# |-XMLSummary     = None
+# |-Simulation     = True  (default: False)
+# |-DDDBtag        = 'dddb-20210528-6'  (default: '')
+# |-OnlineMode     = False
+# \----- (End of User LHCbApp/LHCbApp) ---------------------------------------------------------------
+# skipping configuration of XMLSummary
+# applying configuration of PhysConf
+# Applying Phys configuration
+# PhysConf: Configuring EventClockSvc to use RecHeader
+# /***** User PhysConf/PhysConf **********************************************************************
+# |-CaloReProcessing  = False
+# |-DataType          = '2016'  (default: '')
+# |-AllowPIDRecalib   = True
+# |-OutputLevel       = 3
+# |-Simulation        = True  (default: False)
+# |-UpdateCaloMCLinks = True
+# |-Detectors         = ['Velo', 'PuVeto', 'Rich1', 'Rich2', 'TT', 'IT', 'OT', 'Spd', 'Prs', 'Ecal', 'Hcal', 'Muon', 'Magnet', 'Tr']
+# |                   (default: ['Velo', 'PuVeto', 'Rich1', 'Rich2', 'TT', 'IT', 'OT', 'Spd', 'Prs', 'Ecal', 'Hcal', 'Muon', 'Magnet', 'Tr'])
+# |-EnableUnpack      = ['Reconstruction', 'Stripping']  (default: None)
+# |-InputType         = 'DST'  (default: 'DST')
+# |-AllowPIDRerunning = True
+# \----- (End of User PhysConf/PhysConf) -------------------------------------------------------------
+# applying configuration of AnalysisConf
+# Applying Analysis configuration
+# /***** User AnalysisConf/AnalysisConf **************************************************************
+# |-DataType    = '2016'  (default: '')
+# |-OutputLevel = 3
+# |-RedoMCLinks = False  (default: False)
+# |-RootInTES   = ''
+# |-Simulation  = True  (default: False)
+# |-InputType   = 'DST'  (default: '')
+# \----- (End of User AnalysisConf/AnalysisConf) -----------------------------------------------------
+# WARNING: something else configured a decoder already, Raw/Spd/Digits CaloDigitsFromRaw/SpdFromRaw
+# WARNING: something else configured a decoder already, Trig/L0/Calo L0CaloCandidatesFromRaw/L0CaloFromRaw
+# WARNING: something else configured a decoder already, Trig/L0/FullCalo L0CaloCandidatesFromRaw/L0CaloFromRaw
+# WARNING: something else configured a decoder already, Trig/L0/L0DUReport L0DUFromRawAlg/L0DUFromRaw
+# WARNING: something else configured a decoder already, Raw/Prs/Digits CaloDigitsFromRaw/PrsFromRaw
+# WARNING: something else configured a decoder already, Raw/Ecal/Digits CaloZSupAlg/EcalZSup
+# WARNING: something else configured a decoder already, Raw/Hcal/Digits CaloZSupAlg/HcalZSup
+# WARNING: something else configured a decoder already, Trig/L0/MuonCtrl L0MuonCandidatesFromRaw/L0MuonFromRaw
+# WARNING: something else configured a decoder already, Trig/L0/MuonBCSU L0MuonCandidatesFromRaw/L0MuonFromRaw
+# WARNING: something else configured a decoder already, Trig/L0/MuonData L0MuonCandidatesFromRaw/L0MuonFromRaw
+# WARNING: Property 'EnableUnpack' is set in both 'DigiConf' and 'SimConf', using 'DigiConf.EnableUnpack'
+# WARNING: Property 'DataType' is set in both 'DigiConf' and 'SimConf', using 'DigiConf.DataType'
+# No Writer defined for DIGI
+ApplicationMgr    SUCCESS 
+====================================================================================================================================
+                                                   Welcome to DaVinciDev version v45r6
+                                          running on wn-db-02.gina.surf.nl on Wed Aug 27 02:11:09 2025
+====================================================================================================================================
+ApplicationMgr       INFO Application Manager Configured successfully
+ToolSvc.GitDDDB      INFO opening Git repository '/cvmfs/lhcb.cern.ch/lib/lhcb/git-conddb/DDDB.git'
+ToolSvc.GitDDDB      INFO using commit 'dddb-20210528-6' corresponding to e4b7955161d3a91de01bca7495f2a8ea902a98c5
+ToolSvc.GitSIMCOND   INFO opening Git repository '/cvmfs/lhcb.cern.ch/lib/lhcb/git-conddb/SIMCOND.git'
+ToolSvc.GitSIMCOND   INFO using commit 'sim-20201113-6-vc-md100-Sim10' corresponding to dfb7d2ea6c6bea9d373af0edf1ad76b1b8c21a6f
+DetectorPersist...   INFO Added successfully Conversion service:XmlCnvSvc
+DetectorDataSvc   SUCCESS Detector description database: git:/lhcb.xml
+RndmGenSvc.Engine    INFO Generator engine type:CLHEP::RanluxEngine
+RndmGenSvc.Engine    INFO Current Seed:1234567 Luxury:3
+RndmGenSvc           INFO Using Random engine:HepRndm::Engine<CLHEP::RanluxEngine>
+TimingAuditor.T...   INFO This machine has a speed about   2.78 times the speed of a 2.8 GHz Xeon.
+NTupleSvc            INFO Added stream file:mc.root as FILE1
+TransportSvc         INFO Initialize the static pointer to DetDesc::IGeometryErrorSvc
+TransportSvc         INFO Recovery of geometry errors is  ENABLED
+DaVinciEventSeq      INFO Member list: DaVinciInit/DaVinciInitAlg, GaudiSequencer/FilteredEventSeq, GaudiSequencer/LumiSeq
+DaVinciInitAlg    SUCCESS ==================================================================
+DaVinciInitAlg    SUCCESS Requested to process all events on input file(s)
+DaVinciInitAlg    SUCCESS ==================================================================
+RootHistSvc          INFO Writing ROOT histograms to: UndefinedROOTOutputFileName
+HistogramPersis...   INFO Added successfully Conversion service:RootHistSvc
+HistogramDataSvc     INFO Added stream file:/cvmfs/lhcb.cern.ch/lib/lhcb/PARAM/ParamFiles/v8r62/data/PhotonPdf.root as CaloNeutralPIDs
+HistogramDataSvc     INFO Added stream file:/cvmfs/lhcb.cern.ch/lib/lhcb/PARAM/ParamFiles/v8r62/data/CaloPIDs_DC09_v1.root as CaloPIDs
+HistogramDataSvc     INFO Added stream file:/cvmfs/lhcb.cern.ch/lib/lhcb/PARAM/ParamFiles/v8r62/data/JetEnergyCorrections_R05_v3.root as JEC14R05
+HistogramDataSvc     INFO Added stream file:/cvmfs/lhcb.cern.ch/lib/lhcb/PARAM/ParamFiles/v8r62/data/JetEnergyCorrections_R07_v3.root as JEC14R07
+HistogramDataSvc     INFO Added stream file:/cvmfs/lhcb.cern.ch/lib/lhcb/PARAM/ParamFiles/v8r62/data/JetEnergyCorrections_R05_hlt_Run2.root as JECR05RUN2HLT
+HistogramDataSvc     INFO Added stream file:/cvmfs/lhcb.cern.ch/lib/lhcb/PARAM/ParamFiles/v8r62/data/JetEnergyCorrections_R05_std_Run2.root as JECRO5RUN2STD
+HistogramDataSvc     INFO Added stream file:/cvmfs/lhcb.cern.ch/lib/lhcb/PARAM/ParamFiles/v8r62/data/JetEnergyCorrections_R05_std_Turbo.root as JECRO5RUN2TURBO
+FilteredEventSeq     INFO Member list: GaudiSequencer/DaVinciEventInitSeq, GaudiSequencer/DaVinciAnalysisSeq
+DaVinciEventIni...   INFO Member list: GaudiSequencer/PhysInitSeq, GaudiSequencer/AnalysisInitSeq
+PhysInitSeq          INFO Member list: 
+AnalysisInitSeq      INFO Member list: 
+DaVinciAnalysisSeq   INFO Member list: GaudiSequencer/DaVinciUserSequence, GaudiSequencer/MonitoringSequence
+DaVinciUserSequ...   INFO Member list: TrackSmearState/StateSmear, ChargedProtoParticleMaker/MyProtoPMaker, NoPIDsParticleMaker/StdNoPIDsVeloPions, GaudiSequencer/SeqMyB-, GaudiSequencer/SeqMyB0, AddRelatedInfo/RelInfo_HLT1_SeqMyB-, AddRelatedInfo/RelInfo_HLT1_SeqMyB0, DecayTreeTuple/TupleBminus, DecayTreeTuple/TupleB0
+StateSmear           INFO  Condition: /MomentumSmear     Valid;   Validity: Thu Jan  1 01:00:00 1970 -> Sat Apr 12 01:47:16 2262
+StateSmear           INFO Use the momentum smearing from CONDDB
+MagneticFieldSvc     INFO Opened magnetic field file : /cvmfs/lhcb.cern.ch/lib/lhcb/DBASE/FieldMap/v5r11/cdf/field.v5r0.c1.down.cdf
+MagneticFieldSvc     INFO Opened magnetic field file : /cvmfs/lhcb.cern.ch/lib/lhcb/DBASE/FieldMap/v5r11/cdf/field.v5r0.c2.down.cdf
+MagneticFieldSvc     INFO Opened magnetic field file : /cvmfs/lhcb.cern.ch/lib/lhcb/DBASE/FieldMap/v5r11/cdf/field.v5r0.c3.down.cdf
+MagneticFieldSvc     INFO Opened magnetic field file : /cvmfs/lhcb.cern.ch/lib/lhcb/DBASE/FieldMap/v5r11/cdf/field.v5r0.c4.down.cdf
+MagneticFieldSvc     INFO Map scaled by factor 1 with polarity internally used: -1 signed relative current: -1
+StdNoPIDsVeloPions   INFO Particle/AntiParticle to be created : 'pi+'/'pi-'
+SeqMyB-              INFO Member list: LoKi::VoidFilter/SELECT:Phys/StdAllNoPIDsKaons, LoKi::VoidFilter/SELECT:Phys/StdAllNoPIDsPions, CombineParticles/SelMyD0, LoKi::VoidFilter/SELECT:Phys/StdAllNoPIDsMuons, CombineParticles/SelMyB-, FitDecayTrees/SelMyRefitB-2D0Mu
+SeqMyB0              INFO Member list: LoKi::VoidFilter/SELECT:Phys/StdAllNoPIDsKaons, LoKi::VoidFilter/SELECT:Phys/StdAllNoPIDsPions, CombineParticles/SelMyD0, LoKi::VoidFilter/SELECT:Phys/StdAllNoPIDsMuons, CombineParticles/SelMyB-, FilterInTrees/SelMyComboD0, CombineParticles/SelMyDst, FitDecayTrees/SelMyRefitDst2D0Pi, FilterInTrees/SelMyComboMu, CombineParticles/SelMyB0
+RelInfo_HLT1_Se...   INFO Option for Optimised Kalman Filter fit is activated 
+RelInfo_HLT1_Se...   INFO NLT threshold in RelInfoHLT1Emulation tool is : 16
+RelInfo_HLT1_Se...   INFO Option for Optimised Kalman Filter fit is activated 
+RelInfo_HLT1_Se...   INFO NLT threshold in RelInfoHLT1Emulation tool is : 16
+TupleBminus          INFO Will look for  ( ( B-  -> ^( ( D0  -> ^( K- ) ^( pi+ )) ) ^( mu- )) || ( B+  -> ^( ( D~0  -> ^( K+ ) ^( pi- )) ) ^( mu+ )) ) 
+TupleBminus          INFO Explicit sub decays :5
+TupleBminus.b        INFO TupleBminus.b : ( ( B-  -> ( D0  -> K-  pi+ )  mu- ) || ( B+  -> ( D~0  -> K+  pi- )  mu+ ) ) 
+TupleBminus.d0       INFO TupleBminus.d0 : ( ( B-  -> ^( ( D0  -> K-  pi+ ) ) mu- ) || ( B+  -> ^( ( D~0  -> K+  pi- ) ) mu+ ) ) 
+TupleBminus.k        INFO TupleBminus.k : ( ( B-  -> ( D0  -> ^( K- ) pi+ )  mu- ) || ( B+  -> ( D~0  -> ^( K+ ) pi- )  mu+ ) ) 
+TupleBminus.mu       INFO TupleBminus.mu : ( ( B-  -> ( D0  -> K-  pi+ )  ^( mu- )) || ( B+  -> ( D~0  -> K+  pi- )  ^( mu+ )) ) 
+TupleBminus.pi       INFO TupleBminus.pi : ( ( B-  -> ( D0  -> K-  ^( pi+ ))  mu- ) || ( B+  -> ( D~0  -> K+  ^( pi- ))  mu+ ) ) 
+TupleB0              INFO Will look for  ( ( B~0  -> ^( ( D*(2010)+  -> ^( ( D0  -> ^( K- ) ^( pi+ )) ) ^( pi+ )) ) ^( mu- )) || ( B0  -> ^( ( D*(2010)-  -> ^( ( D~0  -> ^( K+ ) ^( pi- )) ) ^( pi- )) ) ^( mu+ )) ) 
+TupleB0              INFO Explicit sub decays :7
+TupleB0.b0           INFO TupleB0.b0 : ( ( B~0  -> ( D*(2010)+  -> ( D0  -> K-  pi+ )  pi+ )  mu- ) || ( B0  -> ( D*(2010)-  -> ( D~0  -> K+  pi- )  pi- )  mu+ ) ) 
+TupleB0.d0           INFO TupleB0.d0 : ( ( B~0  -> ( D*(2010)+  -> ^( ( D0  -> K-  pi+ ) ) pi+ )  mu- ) || ( B0  -> ( D*(2010)-  -> ^( ( D~0  -> K+  pi- ) ) pi- )  mu+ ) ) 
+TupleB0.dst          INFO TupleB0.dst : ( ( B~0  -> ^( ( D*(2010)+  -> ( D0  -> K-  pi+ )  pi+ ) ) mu- ) || ( B0  -> ^( ( D*(2010)-  -> ( D~0  -> K+  pi- )  pi- ) ) mu+ ) ) 
+TupleB0.k            INFO TupleB0.k : ( ( B~0  -> ( D*(2010)+  -> ( D0  -> ^( K- ) pi+ )  pi+ )  mu- ) || ( B0  -> ( D*(2010)-  -> ( D~0  -> ^( K+ ) pi- )  pi- )  mu+ ) ) 
+TupleB0.mu           INFO TupleB0.mu : ( ( B~0  -> ( D*(2010)+  -> ( D0  -> K-  pi+ )  pi+ )  ^( mu- )) || ( B0  -> ( D*(2010)-  -> ( D~0  -> K+  pi- )  pi- )  ^( mu+ )) ) 
+TupleB0.pi           INFO TupleB0.pi : ( ( B~0  -> ( D*(2010)+  -> ( D0  -> K-  ^( pi+ ))  pi+ )  mu- ) || ( B0  -> ( D*(2010)-  -> ( D~0  -> K+  ^( pi- ))  pi- )  mu+ ) ) 
+TupleB0.spi          INFO TupleB0.spi : ( ( B~0  -> ( D*(2010)+  -> ( D0  -> K-  pi+ )  ^( pi+ ))  mu- ) || ( B0  -> ( D*(2010)-  -> ( D~0  -> K+  pi- )  ^( pi- ))  mu+ ) ) 
+MonitoringSequence   INFO Member list: 
+LumiSeq              INFO OR Member list: EventAccounting/EventAccount
+EventPersistenc...   INFO Added successfully Conversion service:RootCnvSvc
+EventSelector        INFO Stream:EventSelector.DataStreamTool_1 Def:DATAFILE='LFN:/lhcb/MC/2016/ALLSTREAMS.DST/00173814/0000/00173814_00000193_7.AllStreams.dst' SVC='Gaudi::RootEvtSelector' OPT='READ'
+ApplicationMgr       INFO Application Manager Initialized successfully
+ApplicationMgr       INFO Application Manager Started successfully
+FileRecordPersi...   INFO Added successfully Conversion service:FileRecordCnvSvc
+EventSelector     SUCCESS Reading Event record 1. Record number within stream 1: 1
+StdAllNoPIDsKaons    INFO Particle/AntiParticle to be created : 'K+'/'K-'
+UnpackChargedPr...   INFO Member list: UnpackProtoParticle/UnpackChargedProtos, GaudiSequencer/ProtoParticleCombDLLs
+ProtoParticleCo...   INFO Member list: TESCheck/CheckChargedProtosExist, ChargedProtoParticleAddMuonInfo/ChargedProtoPAddMuon, ChargedProtoParticleAddRichInfo/ChargedProtoPAddRich, ChargedProtoCombineDLLsAlg/ChargedProtoPCombDLL
+ChargedProtoPCo...   INFO Using retuned RICH el and mu DLL values in combined DLLs
+UnpackMuonPIDSeq     INFO Member list: DataPacking::Unpack<LHCb::MuonPIDPacker>/UnpackMuonPIDs, MuonPIDsFromProtoParticlesAlg/CheckMuonPIDs
+CheckMuonPIDs        INFO Creating MuonPIDs 'Rec/Muon/MuonPID' from ProtoParticles at 'Rec/ProtoP/Charged'
+UnpackRichPIDSeq     INFO Member list: DataPacking::Unpack<LHCb::RichPIDPacker>/UnpackRichPIDs, RichPIDsFromProtoParticlesAlg/CheckRichPIDs
+CheckRichPIDs        INFO Creating RichPIDs 'Rec/Rich/PIDs' from ProtoParticles at 'Rec/ProtoP/Charged'
+StdAllNoPIDsPions    INFO Particle/AntiParticle to be created : 'pi+'/'pi-'
+LoKiSvc.REPORT      ERROR LoKi::PhysMCParticles::MCTreeMatch: 	No valid relation table at 'Relations/Rec/ProtoP/Upstream' [SelMyD0] StatusCode=FAILURE
+CaloDigitMCTruth     INFO Member list: CaloZSupAlg/EcalZSup, CaloDigit2MCLinks2Table/CaloDigitMCLinks2Table, with context 'Offline'
+EcalZSup             INFO Calorimeter has 6016 cells. Zsup method 2D Threshold 20
+ClusterReco          INFO Member list: GaudiSequencer/CaloDigits, CaloDigitFilterAlg/CaloDigitFilter, CellularAutomatonAlg/EcalClust, CaloShowerOverlap/EcalShare, CaloClusterCovarianceAlg/EcalCovar, with context 'Offline'
+CaloDigits           INFO Member list: CaloDigitsFromRaw/SpdFromRaw, CaloDigitsFromRaw/PrsFromRaw, CaloZSupAlg/EcalZSup, CaloZSupAlg/HcalZSup, with context 'Offline'
+HcalZSup             INFO Calorimeter has 1488 cells. Zsup method 1D Threshold 4
+EcalShare.EcalC...   INFO  Energy   mask : [3x3, 3x3, 3x3] (from DB) 
+EcalShare.EcalC...   INFO  Position mask : [3x3, 3x3, 3x3] (from DB) 
+EcalCovar.EcalC...   INFO  Energy   mask : [3x3, 3x3, 3x3] (from DB) 
+EcalCovar.EcalC...   INFO  Position mask : [3x3, 3x3, 3x3] (from DB) 
+EcalCovar.EcalC...   INFO  Has initialized with parameters: 
+EcalCovar.EcalC...   INFO  	 'Detector'         = '/dd/Structure/LHCb/DownstreamRegion/Ecal'
+EcalCovar.EcalC...   INFO  	 ==  Parameters for covariance estimation ==
+EcalCovar.EcalC...   INFO Stochastic 	 : [0.21, 0.14, 0.14] Sqrt(GeV)	 : from Covariance DB
+EcalCovar.EcalC...   INFO GainError 	 : [0.045, 0.025, 0.025] 	 : from Covariance DB
+EcalCovar.EcalC...   INFO IncoherentNoise 	 : [2.2, 2.2, 2.2] ADC	 : from Covariance DB
+EcalCovar.EcalC...   INFO CoherentNoise 	 : [1.3, 1.3, 1.3] ADC	 : from Covariance DB
+EcalCovar.EcalC...   INFO ConstantE 	 : [0, 0, 0] MeV	 : from Covariance DB
+EcalCovar.EcalC...   INFO ConstantX 	 : [9, 2, 0.5] mm	 : from Covariance DB
+EcalCovar.EcalC...   INFO ConstantY 	 : [9, 2, 0.5] mm	 : from Covariance DB
+SplitClusterReco     INFO Member list: CaloMergedPi0/SplitClustersRec
+SplitClustersRec     INFO Producing SplitClusters only
+SplitClustersRe...   INFO  Has initialized with parameters: 
+SplitClustersRe...   INFO  	 'Detector'         = '/dd/Structure/LHCb/DownstreamRegion/Ecal'
+SplitClustersRe...   INFO  	 ==  Parameters for covariance estimation ==
+SplitClustersRe...   INFO Stochastic 	 : [0.21, 0.14, 0.14] Sqrt(GeV)	 : from Covariance DB
+SplitClustersRe...   INFO GainError 	 : [0.045, 0.025, 0.025] 	 : from Covariance DB
+SplitClustersRe...   INFO IncoherentNoise 	 : [2.2, 2.2, 2.2] ADC	 : from Covariance DB
+SplitClustersRe...   INFO CoherentNoise 	 : [1.3, 1.3, 1.3] ADC	 : from Covariance DB
+SplitClustersRe...   INFO ConstantE 	 : [0, 0, 0] MeV	 : from Covariance DB
+SplitClustersRe...   INFO ConstantX 	 : [9, 2, 0.5] mm	 : from Covariance DB
+SplitClustersRe...   INFO ConstantY 	 : [9, 2, 0.5] mm	 : from Covariance DB
+SplitClustersRe...   INFO  Energy   mask : [3x3, 3x3, 3x3] (from DB) 
+SplitClustersRe...   INFO  Position mask : [3x3, 3x3, 3x3] (from DB) 
+LoKiSvc.REPORT      ERROR LoKi::PhysMCParticles::MCSelMatch: 	No valid relation table at 'Relations/Rec/ProtoP/Upstream' [SelMyD0] StatusCode=FAILURE
+LoKiSvc.REPORT      ERROR The   ERROR message is suppressed : 'LoKi::PhysMCParticles::MCTreeMatch: 	No valid relation table at 'Relations/Rec/ProtoP/Upstream' [SelMyD0]' StatusCode=FAILURE
+LoKiSvc.REPORT      ERROR The   ERROR message is suppressed : 'LoKi::PhysMCParticles::MCSelMatch: 	No valid relation table at 'Relations/Rec/ProtoP/Upstream' [SelMyD0]' StatusCode=FAILURE
+ToolSvc.LoKi::V...   INFO Option for Optimised Kalman Filter fit is activated 
+CaloClusterMCTruthWARNING CaloClusterMCTruth:: The WARNING message is suppressed : ' No MC information for the cluster is found'
+StdAllNoPIDsMuons    INFO Particle/AntiParticle to be created : 'mu+'/'mu-'
+LoKiSvc.REPORT      ERROR LoKi::PhysMCParticles::MCTreeMatch: 	No valid relation table at 'Relations/Rec/ProtoP/Upstream' [SelMyB-] StatusCode=FAILURE
+LoKiSvc.REPORT      ERROR The   ERROR message is suppressed : 'LoKi::PhysMCParticles::MCTreeMatch: 	No valid relation table at 'Relations/Rec/ProtoP/Upstream' [SelMyB-]' StatusCode=FAILURE
+LoKiSvc.REPORT      ERROR LoKi::PhysMCParticles::MCSelMatch: 	No valid relation table at 'Relations/Rec/ProtoP/Upstream' [SelMyDst] StatusCode=FAILURE
+LoKiSvc.REPORT      ERROR The   ERROR message is suppressed : 'LoKi::PhysMCParticles::MCSelMatch: 	No valid relation table at 'Relations/Rec/ProtoP/Upstream' [SelMyDst]' StatusCode=FAILURE
+TupleBminus          INFO The head of chain is a B- : Will change to its antiparticle. Will change daughters to antiparticles. 
+TupleBminus.b.T...WARNING AdaptivePVReFitter is no longer maintained and thus depreciated.
+TupleBminus.b.T...   INFO Option for Optimised Kalman Filter fit is activated 
+create data set info Default
+                         : Booking "BDT method" of type "BDT" from ./weights_soft.xml.
+                         : Reading weight file: ./weights_soft.xml
+<HEADER> DataSetInfo              : [Default] : Added class "Signal"
+<HEADER> DataSetInfo              : [Default] : Added class "Background"
+                         : Booked classifier "BDT" of type: "BDT"
+TupleBminus.b.T...WARNING AdaptivePVReFitter is no longer maintained and thus depreciated.
+TupleBminus.b.T...   INFO Option for Optimised Kalman Filter fit is activated 
+create data set info Default
+                         : Booking "BDT method" of type "BDT" from ./weights_soft.xml.
+                         : Reading weight file: ./weights_soft.xml
+<HEADER> DataSetInfo              : [Default] : Added class "Signal"
+<HEADER> DataSetInfo              : [Default] : Added class "Background"
+                         : Booked classifier "BDT" of type: "BDT"
+TupleBminus.b.T...WARNING duplicated property name 'Verbose', see https://its.cern.ch/jira/browse/GAUDI-1023
+TupleBminus.b.T...WARNING AdaptivePVReFitter is no longer maintained and thus depreciated.
+TupleBminus.b.T...   INFO Option for Optimised Kalman Filter fit is activated 
+create data set info Default
+                         : Booking "BDT method" of type "BDT" from ./weights_soft.xml.
+                         : Reading weight file: ./weights_soft.xml
+<HEADER> DataSetInfo              : [Default] : Added class "Signal"
+<HEADER> DataSetInfo              : [Default] : Added class "Background"
+                         : Booked classifier "BDT" of type: "BDT"
+TupleBminus.b.T...   INFO Option for Optimised Kalman Filter fit is activated 
+TupleBminus.b.T...WARNING PropertimeFitter is no longer maintained and thus depreciated.
+TupleBminus          INFO Tree DecayTree initialized :-
+TupleBminus          INFO  Event related tools : [LoKi::Hybrid::EvtTupleTool, TupleToolEventInfo, TupleToolTrigger]
+TupleBminus          INFO  Particle related stuffers :- 
+TupleBminus          INFO   B+ (b)                      : TupleToolANNPID, TupleToolAngles, TupleToolGeometry, TupleToolKinematic, TupleToolL0Calo, TupleToolMCBackgroundInfo, TupleToolMCTruth, TupleToolMuonPid, TupleToolPid, TupleToolTISTOS, TupleToolTrackInfo, LoKi::Hybrid::Dict2Tuple, LoKi::Hybrid::Dict2Tuple, LoKi::Hybrid::Dict2Tuple, LoKi::Hybrid::Dict2Tuple, LoKi::Hybrid::Dict2Tuple, LoKi::Hybrid::Dict2Tuple, LoKi::Hybrid::Dict2Tuple, LoKi::Hybrid::Dict2Tuple, LoKi::Hybrid::Dict2Tuple, LoKi::Hybrid::Dict2Tuple, LoKi::Hybrid::Dict2Tuple, LoKi::Hybrid::Dict2Tuple, LoKi::Hybrid::TupleTool, TupleToolApplyIsolation, TupleToolApplyIsolationNew, TupleToolApplyIsolationVetoDst, TupleToolSLTruth, TupleToolTagDiscardDstMu, TupleToolTauMuDiscrVars
+TupleBminus          INFO      D~0 (d0)                 : TupleToolANNPID, TupleToolAngles, TupleToolGeometry, TupleToolKinematic, TupleToolL0Calo, TupleToolMCBackgroundInfo, TupleToolMCTruth, TupleToolMuonPid, TupleToolPid, TupleToolTISTOS, TupleToolTrackInfo
+TupleBminus          INFO         K+ (k)                : TupleToolANNPID, TupleToolAngles, TupleToolGeometry, TupleToolKinematic, TupleToolL0Calo, TupleToolMCBackgroundInfo, TupleToolMCTruth, TupleToolMuonPid, TupleToolPid, TupleToolTISTOS, TupleToolTrackInfo
+TupleBminus          INFO         pi- (pi)              : TupleToolANNPID, TupleToolAngles, TupleToolGeometry, TupleToolKinematic, TupleToolL0Calo, TupleToolMCBackgroundInfo, TupleToolMCTruth, TupleToolMuonPid, TupleToolPid, TupleToolTISTOS, TupleToolTrackInfo
+TupleBminus          INFO      mu+ (mu)                 : TupleToolANNPID, TupleToolAngles, TupleToolGeometry, TupleToolKinematic, TupleToolL0Calo, TupleToolMCBackgroundInfo, TupleToolMCTruth, TupleToolMuonPid, TupleToolPid, TupleToolTISTOS, TupleToolTrackInfo, TupleToolANNPIDTraining, TupleToolMCDaughters
+ToolSvc.L0DUConfig   INFO Creating the TEMPLATE configuration tools : ToolSvc.L0DUConfig.Template for time slot :  'T0'
+ToolSvc.L0CondD...   INFO Registered RAM(BCID) versions = {}
+ToolSvc.L0DUCon...   INFO --------------- TCK = 0x10000------------------
+ToolSvc.L0DUCon...   INFO **** L0DU Config loading : L0TCK = 0x10000 for slot T0 ==> OK 
+ToolSvc.L0DUCon...   INFO Short description :: NO DESCRIPTION (L0DUConfig.Template)
+ToolSvc.L0DUCon...   INFO --------------- TCK = 0x160F------------------
+ToolSvc.L0DUCon...   INFO **** L0DU Config loading : L0TCK = 0x160F for slot T0 ==> OK 
+ToolSvc.L0DUCon...   INFO Short description :: TCK 0X160F: TCK for 2036 colliding bx, CEP DiHadron with sumEt,prev, removed obsolete channels for luminosity
+ToolSvc.L0DUCon...   INFO The configuration 0x160F matches the hardware limitations 
+ToolSvc.L0DUCon...   INFO - Usage : #Channels   : 17 [53.1% ]    
+ToolSvc.L0DUCon...   INFO - Usage : #Conditions : 32 [25.0% ]; order : OK ; reported  : 32/32
+ToolSvc.L0DUCon...   INFO - Usage : #Conditions/type (max)  :[Spd(Mult) : 7/8]
+ToolSvc.L0DUCon...   INFO - Info    : the condition 'SumEtPrev<250' relies on BX=[-1]
+L0MuonFromRaw        INFO XML config file = /cvmfs/lhcb.cern.ch/lib/lhcb/PARAM/ParamFiles/v8r62/data/L0MuonKernel.xml
+ConfigCDBAccessSvc   INFO  opening /cvmfs/lhcb.cern.ch/lib/lhcb/DBASE/TCK/HltTCK/v3r19p29/config.cdb in mode ReadOnly
+PropertyConfigSvc    INFO  resolved TCK/0x5138160f to 99ad4d410f304072edb74b1779bc5fda
+PropertyConfigSvc    INFO  resolved TCK/0x6139160f to 6e158b1bec0de9c0ee8077b079bfde9d
+StdNoPIDsUpPions     INFO Particle/AntiParticle to be created : 'pi+'/'pi-'
+ToolSvc.Charged...   INFO ANNPID : Tune=MC12TuneV2    TrackType=Long         Particle=electron    
+ToolSvc.Charged...   INFO ANNPID : Tune=MC12TuneV2    TrackType=Long         Particle=muon        
+ToolSvc.Charged...   INFO ANNPID : Tune=MC12TuneV2    TrackType=Long         Particle=pion        
+ToolSvc.Charged...   INFO ANNPID : Tune=MC12TuneV2    TrackType=Long         Particle=kaon        
+ToolSvc.Charged...   INFO ANNPID : Tune=MC12TuneV2    TrackType=Long         Particle=proton      
+ToolSvc.Charged...   INFO ANNPID : Tune=MC12TuneV2    TrackType=Long         Particle=ghost       
+ToolSvc.Charged...   INFO ANNPID : Tune=MC12TuneV3    TrackType=Long         Particle=electron    
+ToolSvc.Charged...   INFO ANNPID : Tune=MC12TuneV3    TrackType=Long         Particle=muon        
+ToolSvc.Charged...   INFO ANNPID : Tune=MC12TuneV3    TrackType=Long         Particle=pion        
+ToolSvc.Charged...   INFO ANNPID : Tune=MC12TuneV3    TrackType=Long         Particle=kaon        
+ToolSvc.Charged...   INFO ANNPID : Tune=MC12TuneV3    TrackType=Long         Particle=proton      
+ToolSvc.Charged...   INFO ANNPID : Tune=MC12TuneV3    TrackType=Long         Particle=ghost       
+ToolSvc.Charged...   INFO ANNPID : Tune=MC12TuneV4    TrackType=Long         Particle=electron    
+ToolSvc.Charged...   INFO ANNPID : Tune=MC12TuneV4    TrackType=Long         Particle=muon        
+ToolSvc.Charged...   INFO ANNPID : Tune=MC12TuneV4    TrackType=Long         Particle=pion        
+ToolSvc.Charged...   INFO ANNPID : Tune=MC12TuneV4    TrackType=Long         Particle=kaon        
+ToolSvc.Charged...   INFO ANNPID : Tune=MC12TuneV4    TrackType=Long         Particle=proton      
+ToolSvc.Charged...   INFO ANNPID : Tune=MC12TuneV4    TrackType=Long         Particle=ghost       
+ToolSvc.Charged...   INFO ANNPID : Tune=MC15TuneV1    TrackType=Long         Particle=electron    
+ToolSvc.Charged...   INFO ANNPID : Tune=MC15TuneV1    TrackType=Long         Particle=muon        
+ToolSvc.Charged...   INFO ANNPID : Tune=MC15TuneV1    TrackType=Long         Particle=pion        
+ToolSvc.Charged...   INFO ANNPID : Tune=MC15TuneV1    TrackType=Long         Particle=kaon        
+ToolSvc.Charged...   INFO ANNPID : Tune=MC15TuneV1    TrackType=Long         Particle=proton      
+ToolSvc.Charged...   INFO ANNPID : Tune=MC15TuneV1    TrackType=Long         Particle=ghost       
+RCWNTupleCnv         INFO Booked TTree with ID: DecayTree "DecayTree" in directory mc.root:/TupleBminus
+LoKiSvc.REPORT    WARNING LoKi::Vertices::SourceDesktop: 	 No input primary vertices from IDVAlgorithm [SelMyD0] StatusCode=FAILURE
+LoKiSvc.REPORT    WARNING LoKi::Vertices::SourceDesktop: 	 No vertices are selected by 'PRIMARY' [SelMyD0] StatusCode=FAILURE
+LoKiSvc.REPORT      ERROR LoKi::Particles::MinImpParChi2DV: 	Empty list of vertices is loaded! [SelMyD0] StatusCode=FAILURE
+LoKiSvc.REPORT    WARNING LoKi::Particles::MinImpParChi2DV: 	  Empty list of vertices, return 'InvalidChi2' [SelMyD0] StatusCode=FAILURE
+LoKiSvc.REPORT    WARNING The WARNING message is suppressed : 'LoKi::Particles::MinImpParChi2DV: 	  Empty list of vertices, return 'InvalidChi2' [SelMyD0]' StatusCode=FAILURE
+LoKiSvc.REPORT    WARNING The WARNING message is suppressed : 'LoKi::Vertices::SourceDesktop: 	 No input primary vertices from IDVAlgorithm [SelMyD0]' StatusCode=FAILURE
+LoKiSvc.REPORT    WARNING The WARNING message is suppressed : 'LoKi::Vertices::SourceDesktop: 	 No vertices are selected by 'PRIMARY' [SelMyD0]' StatusCode=FAILURE
+LoKiSvc.REPORT      ERROR The   ERROR message is suppressed : 'LoKi::Particles::MinImpParChi2DV: 	Empty list of vertices is loaded! [SelMyD0]' StatusCode=FAILURE
+TupleB0              INFO The head of chain is a B~0 : Will change to its antiparticle. Will change daughters to antiparticles. 
+TupleB0.b0.Tupl...WARNING AdaptivePVReFitter is no longer maintained and thus depreciated.
+TupleB0.b0.Tupl...   INFO Option for Optimised Kalman Filter fit is activated 
+create data set info Default
+                         : Booking "BDT method" of type "BDT" from ./weights_soft.xml.
+                         : Reading weight file: ./weights_soft.xml
+<HEADER> DataSetInfo              : [Default] : Added class "Signal"
+<HEADER> DataSetInfo              : [Default] : Added class "Background"
+                         : Booked classifier "BDT" of type: "BDT"
+TupleB0.b0.Tupl...WARNING AdaptivePVReFitter is no longer maintained and thus depreciated.
+TupleB0.b0.Tupl...   INFO Option for Optimised Kalman Filter fit is activated 
+create data set info Default
+                         : Booking "BDT method" of type "BDT" from ./weights_soft.xml.
+                         : Reading weight file: ./weights_soft.xml
+<HEADER> DataSetInfo              : [Default] : Added class "Signal"
+<HEADER> DataSetInfo              : [Default] : Added class "Background"
+                         : Booked classifier "BDT" of type: "BDT"
+TupleB0.b0.Tupl...   INFO Option for Optimised Kalman Filter fit is activated 
+TupleB0.b0.Tupl...WARNING PropertimeFitter is no longer maintained and thus depreciated.
+TupleB0              INFO Tree DecayTree initialized :-
+TupleB0              INFO  Event related tools : [LoKi::Hybrid::EvtTupleTool, TupleToolEventInfo, TupleToolTrigger]
+TupleB0              INFO  Particle related stuffers :- 
+TupleB0              INFO   B0 (b0)                     : TupleToolANNPID, TupleToolAngles, TupleToolGeometry, TupleToolKinematic, TupleToolL0Calo, TupleToolMCBackgroundInfo, TupleToolMCTruth, TupleToolMuonPid, TupleToolPid, TupleToolTISTOS, TupleToolTrackInfo, LoKi::Hybrid::Dict2Tuple, LoKi::Hybrid::Dict2Tuple, LoKi::Hybrid::Dict2Tuple, LoKi::Hybrid::Dict2Tuple, LoKi::Hybrid::Dict2Tuple, LoKi::Hybrid::Dict2Tuple, LoKi::Hybrid::Dict2Tuple, LoKi::Hybrid::Dict2Tuple, LoKi::Hybrid::Dict2Tuple, LoKi::Hybrid::Dict2Tuple, LoKi::Hybrid::Dict2Tuple, LoKi::Hybrid::Dict2Tuple, LoKi::Hybrid::TupleTool, TupleToolApplyIsolation, TupleToolApplyIsolationNew, TupleToolSLTruth, TupleToolTagDiscardDstMu, TupleToolTauMuDiscrVars
+TupleB0              INFO      D*(2010)- (dst)          : TupleToolANNPID, TupleToolAngles, TupleToolGeometry, TupleToolKinematic, TupleToolL0Calo, TupleToolMCBackgroundInfo, TupleToolMCTruth, TupleToolMuonPid, TupleToolPid, TupleToolTISTOS, TupleToolTrackInfo
+TupleB0              INFO         D~0 (d0)              : TupleToolANNPID, TupleToolAngles, TupleToolGeometry, TupleToolKinematic, TupleToolL0Calo, TupleToolMCBackgroundInfo, TupleToolMCTruth, TupleToolMuonPid, TupleToolPid, TupleToolTISTOS, TupleToolTrackInfo
+TupleB0              INFO            K+ (k)             : TupleToolANNPID, TupleToolAngles, TupleToolGeometry, TupleToolKinematic, TupleToolL0Calo, TupleToolMCBackgroundInfo, TupleToolMCTruth, TupleToolMuonPid, TupleToolPid, TupleToolTISTOS, TupleToolTrackInfo
+TupleB0              INFO            pi- (pi)           : TupleToolANNPID, TupleToolAngles, TupleToolGeometry, TupleToolKinematic, TupleToolL0Calo, TupleToolMCBackgroundInfo, TupleToolMCTruth, TupleToolMuonPid, TupleToolPid, TupleToolTISTOS, TupleToolTrackInfo
+TupleB0              INFO         pi- (spi)             : TupleToolANNPID, TupleToolAngles, TupleToolGeometry, TupleToolKinematic, TupleToolL0Calo, TupleToolMCBackgroundInfo, TupleToolMCTruth, TupleToolMuonPid, TupleToolPid, TupleToolTISTOS, TupleToolTrackInfo
+TupleB0              INFO      mu+ (mu)                 : TupleToolANNPID, TupleToolAngles, TupleToolGeometry, TupleToolKinematic, TupleToolL0Calo, TupleToolMCBackgroundInfo, TupleToolMCTruth, TupleToolMuonPid, TupleToolPid, TupleToolTISTOS, TupleToolTrackInfo, TupleToolANNPIDTraining, TupleToolMCDaughters
+TupleB0.TupleTo...WARNING MCTupleToolKinematic:: NULL end vertex for b0 StatusCode=FAILURE
+TupleB0.b0.Tupl...WARNING MCTupleToolKinematic:: NULL end vertex for b0 StatusCode=FAILURE
+TupleB0.TupleTo...WARNING MCTupleToolKinematic:: NULL end vertex for dst StatusCode=FAILURE
+RCWNTupleCnv         INFO Booked TTree with ID: DecayTree "DecayTree" in directory mc.root:/TupleB0
+EventSelector        INFO Stream:EventSelector.DataStreamTool_2 Def:DATAFILE='LFN:/lhcb/MC/2016/ALLSTREAMS.DST/00173814/0000/00173814_00000203_7.AllStreams.dst' SVC='Gaudi::RootEvtSelector' OPT='READ'
+IODataManager        INFO Disconnect from dataset root://proxy@xrootd.grid.surfsara.nl//pnfs/grid.sara.nl/data/lhcb/LHCb-Disk/lhcb/MC/2016/ALLSTREAMS.DST/00173814/0000/00173814_00000193_7.AllStreams.dst [8CF18A76-5B86-ED11-B484-3CECEF0DE998]
+EventSelector        INFO Stream:EventSelector.DataStreamTool_3 Def:DATAFILE='LFN:/lhcb/MC/2016/ALLSTREAMS.DST/00173814/0000/00173814_00000239_7.AllStreams.dst' SVC='Gaudi::RootEvtSelector' OPT='READ'
+IODataManager        INFO Disconnect from dataset root://proxy@xrootd.grid.surfsara.nl//pnfs/grid.sara.nl/data/lhcb/LHCb-Disk/lhcb/MC/2016/ALLSTREAMS.DST/00173814/0000/00173814_00000203_7.AllStreams.dst [3C2D84F3-6286-ED11-8B28-FA163E33A874]
+TupleB0.TupleTo...WARNING MCTupleToolKinematic:: NULL end vertex for b0 StatusCode=FAILURE
+TupleB0.b0.Tupl...WARNING MCTupleToolKinematic:: NULL end vertex for b0 StatusCode=FAILURE
+TupleB0.TupleTo...WARNING MCTupleToolKinematic:: NULL end vertex for dst StatusCode=FAILURE
+EventLoopMgr         INFO No more events in event selection 
+CaloClusterMCTruth   INFO Number of counters : 1
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ | "#CC2MC links"                                  |      9503 |1.813135e+07 |     1908.0 |     1693.3 |      7.0000 |     20519.0 |
+CaloDigitMCLink...   INFO Number of counters : 1
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ | "#CD2MC links"                                  |      9503 |6.099301e+07 |     6418.3 |     4916.0 |      47.000 |     49322.0 |
+ChargedPP2MC         INFO Number of counters : 1
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ | "#/Event/Relations/Rec/ProtoP/Charged"          |    618921 |2.26132e+07 |     36.536 |     25.266 |      0.0000 |      164.00 |
+ChargedProtoPAd...   INFO Number of counters : 1
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ | "Rec/Muon/MuonPID ==> Rec/ProtoP/Charged"       |      9511 |     618957 |     65.078 |     35.608 |      0.0000 |      260.00 |
+ChargedProtoPAd...   INFO Number of counters : 1
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ | "Rec/Rich/PIDs ==> Rec/ProtoP/Charged"          |      9511 |     618957 |     65.078 |     35.608 |      0.0000 |      260.00 |
+ChargedProtoPCo...   INFO Number of counters : 1
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ | "CombineDLL ==> Rec/ProtoP/Charged"             |      9511 |     618957 |     65.078 |     35.608 |      0.0000 |      260.00 |
+DaVinciInitAlg....   INFO Number of counters : 2
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ | "Delta Memory/MB"                               |      9501 |    559.288 |   0.058866 |     4.5279 |     -21.952 |      428.83 |
+ | "Total Memory/MB"                               |      9511 |2.790251e+07 |     2933.7 |     65.936 |      2354.2 |      2969.7 |
+EcalClust            INFO Number of counters : 1
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ | "#clusters => 'Rec/Calo/EcalClusters'"          |      9503 |     939206 |     98.833 |     48.639 |      2.0000 |      334.00 |
+EcalCovar            INFO Number of counters : 1
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ | "#Clusters from 'Rec/Calo/EcalClusters'"        |      9503 |     939206 |     98.833 |     48.639 |      2.0000 |      334.00 |
+EcalShare.Photo...   INFO Number of counters : 1
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ | "Delta(Z)"                                      |  12661702 |1.432341e+09 |     113.12 |     11.712 |      73.004 |      179.50 |
+EcalShare.Photo...   INFO Number of counters : 2
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ | "Delta(X)"                                      |  12661702 |   -1598137 |   -0.12622 |     13.224 |     -40.689 |      44.143 |
+ | "Delta(Y)"                                      |  12661702 |   -2501293 |   -0.19755 |     13.173 |     -37.122 |      40.170 |
+L0DUFromRaw          INFO Number of counters : 1
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ | "L0DU RawBank Size (Bytes)"                     |       396 |      33264 |     84.000 |     0.0000 |      84.000 |      84.000 |
+MyProtoPMaker        INFO Number of counters : 1
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ | "Rec/Track/Best ==> Rec/ProtoP/MyProtoPMaker/ProtoParticles"|      9511 |    1382928 |     145.40 |     83.388 |      0.0000 |      698.00 |
+RelInfo_HLT1_Se...   INFO Number of counters : 3
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ | "# Phys/SelMyRefitB-2D0Mu"                      |      9511 |       1980 |    0.20818 |    0.99878 |      0.0000 |      5.0000 |
+ | "# input particles"                             |      9511 |       1980 |    0.20818 |    0.99878 |      0.0000 |      5.0000 |
+ |*"#accept"                                       |      9511 |       9511 |( 100.0000 +- 0.000000)% |
+RelInfo_HLT1_Se...   INFO Number of counters : 3
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ | "#iterations/1"                                 |      1443 |       2114 |     1.4650 |    0.53238 |      1.0000 |      3.0000 |
+ | "#iterations/2"                                 |       787 |       1602 |     2.0356 |    0.19197 |      2.0000 |      4.0000 |
+ | "#iterations/Opt"                               |      1584 |        815 |    0.51452 |    0.53517 |      0.0000 |      3.0000 |
+RelInfo_HLT1_Se...   INFO Number of counters : 3
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ | "# Phys/SelMyB0"                                |      9511 |          8 | 0.00084113 |    0.02899 |      0.0000 |      1.0000 |
+ | "# input particles"                             |      9511 |          8 | 0.00084113 |    0.02899 |      0.0000 |      1.0000 |
+ |*"#accept"                                       |      9511 |       9511 |( 100.0000 +- 0.000000)% |
+RelInfo_HLT1_Se...   INFO Number of counters : 3
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ | "#iterations/1"                                 |        37 |         67 |     1.8108 |    0.45547 |      1.0000 |      3.0000 |
+ | "#iterations/2"                                 |        40 |         81 |     2.0250 |    0.15612 |      2.0000 |      3.0000 |
+ | "#iterations/Opt"                               |        48 |         41 |    0.85417 |    0.40772 |      0.0000 |      2.0000 |
+SELECT:Phys/Std...   INFO Number of counters : 1
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ |*"#passed"                                       |      9511 |       9508 |( 99.96846 +- 0.01820815)% |
+SELECT:Phys/Std...   INFO Number of counters : 1
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ |*"#passed"                                       |       735 |        735 |( 100.0000 +- 0.000000)% |
+SELECT:Phys/Std...   INFO Number of counters : 1
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ |*"#passed"                                       |      9508 |       9508 |( 100.0000 +- 0.000000)% |
+SelMyB-              INFO Number of counters : 13
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ | "# B+ -> D~0  mu+ "                             |       735 |        197 |    0.26803 |    0.44293 |      0.0000 |      1.0000 |
+ | "# B- -> D0  mu- "                              |       735 |        199 |    0.27075 |    0.44435 |      0.0000 |      1.0000 |
+ | "# D0"                                          |       735 |        351 |    0.47755 |     0.4995 |      0.0000 |      1.0000 |
+ | "# D~0"                                         |       735 |        385 |    0.52381 |    0.49943 |      0.0000 |      1.0000 |
+ | "# Phys/SelMyD0"                                |       735 |        736 |     1.0014 |    0.03686 |      1.0000 |      2.0000 |
+ | "# Phys/StdAllNoPIDsMuons"                      |       735 |      31272 |     42.547 |     20.545 |      7.0000 |      128.00 |
+ | "# input particles"                             |       735 |      32008 |     43.548 |     20.546 |      8.0000 |      129.00 |
+ | "# mu+"                                         |       735 |        294 |        0.4 |    0.54009 |      0.0000 |      3.0000 |
+ | "# mu-"                                         |       735 |        279 |    0.37959 |    0.54846 |      0.0000 |      3.0000 |
+ | "# selected"                                    |       735 |        396 |    0.53878 |    0.49849 |      0.0000 |      1.0000 |
+ |*"#accept"                                       |       735 |        396 |( 53.87755 +- 1.838724)% |
+ |*"#pass combcut"                                 |       512 |        484 |( 94.53125 +- 1.004840)% |
+ |*"#pass mother cut"                              |       484 |        396 |( 81.81818 +- 1.753157)% |
+SelMyB0              INFO Number of counters : 13
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ | "# B0 -> D*(2010)-  mu+ "                       |         8 |          3 |      0.375 |    0.48412 |      0.0000 |      1.0000 |
+ | "# B~0 -> D*(2010)+  mu- "                      |         8 |          5 |      0.625 |    0.48412 |      0.0000 |      1.0000 |
+ | "# D*(2010)+"                                   |         8 |          5 |      0.625 |    0.48412 |      0.0000 |      1.0000 |
+ | "# D*(2010)-"                                   |         8 |          3 |      0.375 |    0.48412 |      0.0000 |      1.0000 |
+ | "# Phys/SelMyComboMu"                           |         8 |          8 |     1.0000 |     0.0000 |      1.0000 |      1.0000 |
+ | "# Phys/SelMyRefitDst2D0Pi"                     |         8 |         40 |     5.0000 |     0.0000 |      5.0000 |      5.0000 |
+ | "# input particles"                             |         8 |         48 |     6.0000 |     0.0000 |      6.0000 |      6.0000 |
+ | "# mu+"                                         |         8 |          3 |      0.375 |    0.48412 |      0.0000 |      1.0000 |
+ | "# mu-"                                         |         8 |          5 |      0.625 |    0.48412 |      0.0000 |      1.0000 |
+ | "# selected"                                    |         8 |          8 |     1.0000 |     0.0000 |      1.0000 |      1.0000 |
+ |*"#accept"                                       |         8 |          8 |( 100.0000 +- 0.000000)% |
+ |*"#pass combcut"                                 |         8 |          8 |( 100.0000 +- 0.000000)% |
+ |*"#pass mother cut"                              |         8 |          8 |( 100.0000 +- 0.000000)% |
+SelMyComboD0         INFO Number of counters : 4
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ | "# Phys/SelMyB-"                                |       396 |        396 |     1.0000 |     0.0000 |      1.0000 |      1.0000 |
+ | "# input particles"                             |       396 |        396 |     1.0000 |     0.0000 |      1.0000 |      1.0000 |
+ |*"#accept"                                       |       396 |        396 |( 100.0000 +- 0.000000)% |
+ |*"#passed"                                       |       396 |        396 |( 100.0000 +- 0.000000)% |
+SelMyComboMu         INFO Number of counters : 4
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ | "# Phys/SelMyB-"                                |         8 |          8 |     1.0000 |     0.0000 |      1.0000 |      1.0000 |
+ | "# input particles"                             |         8 |          8 |     1.0000 |     0.0000 |      1.0000 |      1.0000 |
+ |*"#accept"                                       |         8 |          8 |( 100.0000 +- 0.000000)% |
+ |*"#passed"                                       |         8 |          8 |( 100.0000 +- 0.000000)% |
+SelMyD0              INFO Number of counters : 13
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ | "# D0 -> K-  pi+ "                              |      9508 |        351 |   0.036916 |    0.18856 |      0.0000 |      1.0000 |
+ | "# D~0 -> K+  pi- "                             |      9508 |        385 |   0.040492 |    0.19711 |      0.0000 |      1.0000 |
+ | "# K+"                                          |      9508 |       2526 |    0.26567 |    0.47849 |      0.0000 |      3.0000 |
+ | "# K-"                                          |      9508 |       2464 |    0.25915 |    0.47191 |      0.0000 |      3.0000 |
+ | "# Phys/StdAllNoPIDsKaons"                      |      9508 |     390718 |     41.094 |     22.668 |      1.0000 |      166.00 |
+ | "# Phys/StdAllNoPIDsPions"                      |      9508 |     390718 |     41.094 |     22.668 |      1.0000 |      166.00 |
+ | "# input particles"                             |      9508 |     781436 |     82.187 |     45.337 |      2.0000 |      332.00 |
+ | "# pi+"                                         |      9508 |      11081 |     1.1654 |     1.1442 |      0.0000 |      8.0000 |
+ | "# pi-"                                         |      9508 |      11001 |     1.1570 |     1.1282 |      0.0000 |      8.0000 |
+ | "# selected"                                    |      9508 |        736 |   0.077408 |    0.26763 |      0.0000 |      2.0000 |
+ |*"#accept"                                       |      9508 |        735 |( 7.730332 +- 0.2738949)% |
+ |*"#pass combcut"                                 |      8055 |        868 |( 10.77592 +- 0.3454899)% |
+ |*"#pass mother cut"                              |       868 |        736 |( 84.79263 +- 1.218839)% |
+SelMyDst             INFO Number of counters : 14
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ | "# D*(2010)+ -> D0  pi+ "                       |       396 |          5 |   0.012626 |    0.11166 |      0.0000 |      1.0000 |
+ | "# D*(2010)- -> D~0  pi- "                      |       396 |          3 |  0.0075758 |   0.086709 |      0.0000 |      1.0000 |
+ | "# D0"                                          |       396 |        199 |    0.50253 |    0.49999 |      0.0000 |      1.0000 |
+ | "# D~0"                                         |       396 |        197 |    0.49747 |    0.49999 |      0.0000 |      1.0000 |
+ | "# Phys/SelMyComboD0"                           |       396 |        396 |     1.0000 |     0.0000 |      1.0000 |      1.0000 |
+ | "# Phys/StdAllNoPIDsPions"                      |       396 |      16735 |     42.260 |     19.654 |      9.0000 |      128.00 |
+ | "# input particles"                             |       396 |      17131 |     43.260 |     19.654 |      10.000 |      129.00 |
+ | "# pi+"                                         |       396 |       2180 |     5.5051 |     2.7956 |      1.0000 |      18.000 |
+ | "# pi-"                                         |       396 |       2140 |     5.4040 |     2.5836 |      0.0000 |      15.000 |
+ | "# selected"                                    |       396 |          8 |   0.020202 |    0.14069 |      0.0000 |      1.0000 |
+ |*"#accept"                                       |       396 |          8 |( 2.020202 +- 0.7069978)% |
+ |*"#pass combcut"                                 |      2091 |        195 |( 9.325681 +- 0.6359243)% |
+ |*"#pass mother cut"                              |       195 |          8 |( 4.102564 +- 1.420411)% |
+ | "Error from IParticleCombiner, skip the combination"|         1 |          1 |     1.0000 |     0.0000 |      1.0000 |      1.0000 |
+SelMyRefitB-2D0Mu    INFO Number of counters : 4
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ | "# Phys/SelMyB-"                                |       396 |        396 |     1.0000 |     0.0000 |      1.0000 |      1.0000 |
+ | "# input particles"                             |       396 |        396 |     1.0000 |     0.0000 |      1.0000 |      1.0000 |
+ |*"#accept"                                       |       396 |        396 |( 100.0000 +- 0.000000)% |
+ |*"#passed"                                       |       396 |        396 |( 100.0000 +- 0.000000)% |
+SelMyRefitDst2D0Pi   INFO Number of counters : 4
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ | "# Phys/SelMyDst"                               |         8 |          8 |     1.0000 |     0.0000 |      1.0000 |      1.0000 |
+ | "# input particles"                             |         8 |          8 |     1.0000 |     0.0000 |      1.0000 |      1.0000 |
+ |*"#accept"                                       |         8 |          8 |( 100.0000 +- 0.000000)% |
+ |*"#passed"                                       |         8 |          8 |( 100.0000 +- 0.000000)% |
+SplitClustersRec     INFO Number of counters : 4
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ | "Fails to set covariance (2)"                   |         1 |          1 |     1.0000 |     0.0000 |      1.0000 |      1.0000 |
+ | "Fails to set spread (1)"                       |         1 |          1 |     1.0000 |     0.0000 |      1.0000 |      1.0000 |
+ | "Fails to set spread (2)"                       |         3 |          3 |     1.0000 |     0.0000 |      1.0000 |      1.0000 |
+ | "Rec/Calo/EcalClusters=>Rec/Calo/EcalSplitClusters"|      9503 |      36890 |     3.8819 |     4.4756 |      0.0000 |      54.000 |
+SplitClustersRe...   INFO Number of counters : 1
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ | "Cluster position failed"                       |        36 |         36 |     1.0000 |     0.0000 |      1.0000 |      1.0000 |
+SplitClustersRe...   INFO Number of counters : 1
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ | "Delta(Z)"                                      |   1420265 |1.783166e+08 |     125.55 |     11.021 |     -60.503 |      174.01 |
+SplitClustersRe...   INFO Number of counters : 2
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ | "Delta(X)"                                      |   1420265 |    -163502 |   -0.11512 |     13.554 |     -48.511 |      49.107 |
+ | "Delta(Y)"                                      |   1420265 |  -13379.46 | -0.0094204 |     13.527 |     -49.229 |      48.083 |
+StateSmear           INFO Number of counters : 2
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ | "#CONDB update"                                 |         1 |          1 |     1.0000 |     0.0000 |      1.0000 |      1.0000 |
+ | "SMEAR[%]"                                      |   1200131 |     209320 |    0.17441 |    0.12239 |     0.10866 |      15.872 |
+StdAllNoPIDsKaons    INFO Number of counters : 1
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ |*"#accept"                                       |      9511 |       9508 |( 99.96846 +- 0.01820815)% |
+StdAllNoPIDsMuons    INFO Number of counters : 1
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ |*"#accept"                                       |       735 |        735 |( 100.0000 +- 0.000000)% |
+StdAllNoPIDsPions    INFO Number of counters : 1
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ |*"#accept"                                       |      9508 |       9508 |( 100.0000 +- 0.000000)% |
+StdNoPIDsUpPions     INFO Number of counters : 1
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ |*"#accept"                                       |       396 |        396 |( 100.0000 +- 0.000000)% |
+StdNoPIDsVeloPions   INFO Number of counters : 1
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ |*"#accept"                                       |      9511 |       9503 |( 99.91589 +- 0.02972597)% |
+ToolSvc.CoreFac...   INFO Number of counters : 1
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ | "# loaded from PYTHON"                          |         5 |          5 |     1.0000 |     0.0000 |      1.0000 |      1.0000 |
+ToolSvc.FilterTool   INFO Number of counters : 1
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ | "offset scale (SpdMult)"                        |     38012 |1.165396e+07 |     306.59 |     163.55 |      4.0000 |      1255.0 |
+ToolSvc.HybridF...   INFO Number of counters : 1
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ | "# loaded from PYTHON"                          |       256 |        256 |     1.0000 |     0.0000 |      1.0000 |      1.0000 |
+ToolSvc.LoKi::V...   INFO Number of counters : 4
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ | "#iterations/1"                                 |      1521 |       2537 |     1.6680 |    0.47094 |      1.0000 |      2.0000 |
+ | "#iterations/2"                                 |      1049 |       2108 |     2.0095 |    0.22244 |      2.0000 |      9.0000 |
+ | "#iterations/Opt"                               |      1554 |       1059 |    0.68147 |    0.50692 |      0.0000 |      8.0000 |
+ | "Seed:case(3)"                                  |         1 |          1 |     1.0000 |     0.0000 |      1.0000 |      1.0000 |
+TupleB0              INFO Number of counters : 4
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ | "# Phys/SelMyB0"                                |      9511 |          8 | 0.00084113 |    0.02899 |      0.0000 |      1.0000 |
+ | "# input particles"                             |      9511 |          8 | 0.00084113 |    0.02899 |      0.0000 |      1.0000 |
+ |*"#accept"                                       |      9511 |          8 |(0.08411313 +- 0.02972597)% |
+ | "Event"                                         |      9511 |       9511 |     1.0000 |     0.0000 |      1.0000 |      1.0000 |
+TupleB0.b0.Tupl...   INFO Number of counters : 5
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ | "#iterations/1"                                 |       209 |        449 |     2.1483 |    0.55511 |      1.0000 |      5.0000 |
+ | "#iterations/2"                                 |       351 |        833 |     2.3732 |    0.80261 |      2.0000 |      8.0000 |
+ | "#iterations/Gen"                               |        56 |        170 |     3.0357 |     0.7062 |      2.0000 |      5.0000 |
+ | "#iterations/Opt"                               |       305 |        368 |     1.2066 |    0.77668 |      0.0000 |      7.0000 |
+ | "Seed:case(2)"                                  |        61 |         61 |     1.0000 |     0.0000 |      1.0000 |      1.0000 |
+TupleB0.b0.Tupl...   INFO Number of counters : 5
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ | "#iterations/1"                                 |       209 |        449 |     2.1483 |    0.55511 |      1.0000 |      5.0000 |
+ | "#iterations/2"                                 |       351 |        833 |     2.3732 |    0.80261 |      2.0000 |      8.0000 |
+ | "#iterations/Gen"                               |        56 |        170 |     3.0357 |     0.7062 |      2.0000 |      5.0000 |
+ | "#iterations/Opt"                               |       305 |        368 |     1.2066 |    0.77668 |      0.0000 |      7.0000 |
+ | "Seed:case(2)"                                  |        61 |         61 |     1.0000 |     0.0000 |      1.0000 |      1.0000 |
+TupleB0.b0.Tupl...   INFO Number of counters : 3
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ | "#iterations/1"                                 |         8 |         13 |     1.6250 |    0.48412 |      1.0000 |      2.0000 |
+ | "#iterations/2"                                 |         5 |         10 |     2.0000 |     0.0000 |      2.0000 |      2.0000 |
+ | "#iterations/Opt"                               |         8 |          5 |      0.625 |    0.48412 |      0.0000 |      1.0000 |
+TupleBminus          INFO Number of counters : 4
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ | "# Phys/SelMyRefitB-2D0Mu"                      |      9511 |       1980 |    0.20818 |    0.99878 |      0.0000 |      5.0000 |
+ | "# input particles"                             |      9511 |       1980 |    0.20818 |    0.99878 |      0.0000 |      5.0000 |
+ |*"#accept"                                       |      9511 |        396 |( 4.163600 +- 0.2048267)% |
+ | "Event"                                         |      9511 |       9511 |     1.0000 |     0.0000 |      1.0000 |      1.0000 |
+TupleBminus.b.T...   INFO Number of counters : 6
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ | "#iterations/1"                                 |      8443 |      17083 |     2.0233 |    0.49687 |      1.0000 |      11.000 |
+ | "#iterations/2"                                 |     15646 |      38120 |     2.4364 |     1.0432 |      2.0000 |      11.000 |
+ | "#iterations/Gen"                               |      3259 |       8271 |     2.5379 |     1.1746 |      1.0000 |      10.000 |
+ | "#iterations/Opt"                               |     13047 |      17464 |     1.3385 |     1.0259 |      0.0000 |      10.000 |
+ | "Seed:case(1)"                                  |      3279 |       3279 |     1.0000 |     0.0000 |      1.0000 |      1.0000 |
+ | "Seed:case(3)"                                  |       138 |        138 |     1.0000 |     0.0000 |      1.0000 |      1.0000 |
+TupleBminus.b.T...   INFO Number of counters : 6
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ | "#iterations/1"                                 |      8443 |      17083 |     2.0233 |    0.49687 |      1.0000 |      11.000 |
+ | "#iterations/2"                                 |     15646 |      38120 |     2.4364 |     1.0432 |      2.0000 |      11.000 |
+ | "#iterations/Gen"                               |      3259 |       8271 |     2.5379 |     1.1746 |      1.0000 |      10.000 |
+ | "#iterations/Opt"                               |     13047 |      17464 |     1.3385 |     1.0259 |      0.0000 |      10.000 |
+ | "Seed:case(1)"                                  |      3279 |       3279 |     1.0000 |     0.0000 |      1.0000 |      1.0000 |
+ | "Seed:case(3)"                                  |       138 |        138 |     1.0000 |     0.0000 |      1.0000 |      1.0000 |
+TupleBminus.b.T...   INFO Number of counters : 7
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ | "#iterations/1"                                 |     16038 |      30986 |     1.9320 |    0.48931 |      1.0000 |      11.000 |
+ | "#iterations/2"                                 |     22859 |      53080 |     2.3221 |    0.91545 |      2.0000 |      11.000 |
+ | "#iterations/Gen"                               |      3260 |       8274 |     2.5380 |     1.1744 |      1.0000 |      10.000 |
+ | "#iterations/Opt"                               |     21709 |      25209 |     1.1612 |    0.90121 |      0.0000 |      10.000 |
+ | "Seed:case(0)"                                  |        30 |         30 |     1.0000 |     0.0000 |      1.0000 |      1.0000 |
+ | "Seed:case(1)"                                  |      3279 |       3279 |     1.0000 |     0.0000 |      1.0000 |      1.0000 |
+ | "Seed:case(3)"                                  |       139 |        139 |     1.0000 |     0.0000 |      1.0000 |      1.0000 |
+TupleBminus.b.T...   INFO Number of counters : 3
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ | "#iterations/1"                                 |       318 |        643 |     2.0220 |    0.21607 |      1.0000 |      3.0000 |
+ | "#iterations/2"                                 |       392 |        797 |     2.0332 |    0.19278 |      2.0000 |      4.0000 |
+ | "#iterations/Opt"                               |       396 |        405 |     1.0227 |    0.21786 |      0.0000 |      3.0000 |
+TupleBminus.b.T...   INFO Number of counters : 1
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ | "Negative Mass covariance"                      |       174 |        174 |     1.0000 |     0.0000 |      1.0000 |      1.0000 |
+UnpackMuonPIDs       INFO Number of counters : 1
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ | "# UnPackedData"                                |      9511 |     396450 |     41.683 |     23.540 |      0.0000 |      177.00 |
+UnpackMuonTracks     INFO Number of counters : 1
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ | "# Unpacked Tracks"                             |       369 |       1732 |     4.6938 |     4.4266 |      1.0000 |      36.000 |
+UnpackRichPIDs       INFO Number of counters : 1
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ | "# UnPackedData"                                |      9511 |     576305 |     60.594 |     33.259 |      0.0000 |      245.00 |
+UnpackTrack          INFO Number of counters : 1
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ | "# Unpacked Tracks"                             |      9511 |    1382928 |     145.40 |     83.388 |      0.0000 |      698.00 |
+unpackFittedVel...   INFO Number of counters : 1
+ |    Counter                                      |     #     |    sum     | mean/eff^* | rms/err^*  |     min     |     max     |
+ | "# Unpacked Tracks"                             |      9503 |     647652 |     68.152 |     35.798 |      4.0000 |      242.00 |
+ApplicationMgr       INFO Application Manager Stopped successfully
+StdAllNoPIDsKaons    INFO ********************************************************************************
+StdAllNoPIDsKaons    INFO  created 'K+' and 'K- : 390718 per 9511 calls (41.0806+-22.6766)/event
+StdAllNoPIDsPions    INFO ********************************************************************************
+StdAllNoPIDsPions    INFO  created 'pi+' and 'pi- : 390718 per 9508 calls (41.0936+-22.6684)/event
+CaloClusterMCTruthSUCCESS Exceptions/Errors/Warnings/Infos Statistics : 0/0/1/0
+CaloClusterMCTruthSUCCESS  #WARNINGS   = 1159     Message = ' No MC information for the cluster is found'
+EcalClust            INFO Built <98.8326> cellular automaton clusters/event  with <3.29254> iterations (min,max)=(1,8) on average 
+StdAllNoPIDsMuons    INFO ********************************************************************************
+StdAllNoPIDsMuons    INFO  created 'mu+' and 'mu- : 31272 per 735 calls (42.5469+-20.5454)/event
+L0MuonFromRaw        INFO --- L0Muon decoding error summary
+L0MuonFromRaw        INFO L0MuonCtrlCand Side A -> nb of banks seen     : 396
+L0MuonFromRaw        INFO L0MuonCtrlCand Side C -> nb of banks seen     : 396
+L0MuonFromRaw        INFO L0MuonProcCand Q1     -> nb of banks seen     : 396
+L0MuonFromRaw        INFO L0MuonProcCand Q1 PB 7 ERROR 
+L0MuonFromRaw        INFO   l0EventNumber        :   1
+L0MuonFromRaw        INFO   l0_B_Id              :   1
+L0MuonFromRaw        INFO   errJ                 :   1
+L0MuonFromRaw        INFO   errK                 :   1
+L0MuonFromRaw        INFO   errH                 :   1
+L0MuonFromRaw        INFO   bcsu_status          :   1
+L0MuonFromRaw        INFO   PU0 pus_status       :   1
+L0MuonFromRaw        INFO   PU0 pus_bcid         :   1
+L0MuonFromRaw        INFO   PU1 pus_status       :   1
+L0MuonFromRaw        INFO   PU1 pus_bcid         :   1
+L0MuonFromRaw        INFO   PU2 pus_status       :   1
+L0MuonFromRaw        INFO   PU2 pus_bcid         :   1
+L0MuonFromRaw        INFO   PU3 pus_status       :   1
+L0MuonFromRaw        INFO L0MuonProcCand Q2     -> nb of banks seen     : 396
+L0MuonFromRaw        INFO L0MuonProcCand Q3     -> nb of banks seen     : 396
+L0MuonFromRaw        INFO L0MuonProcCand Q4     -> nb of banks seen     : 396
+L0MuonFromRaw        INFO --- End of L0Muon decoding error summary
+L0MuonFromRaw        INFO - ------------------------------------------------------------------
+L0MuonFromRaw        INFO - ========> Final summary of the L0Muon trigger (from raw) <========
+L0MuonFromRaw        INFO - Total number of events processed           :      396
+L0MuonFromRaw        INFO - Total number of bunch crossings processed  :      396
+L0MuonFromRaw        INFO - Total number of candidates                 :      391
+L0MuonFromRaw        INFO - Number of Bx with at least 1 candidate     :      278  ( 70.20%)
+L0MuonFromRaw        INFO - Number of candidate per Bx                 :        0.99
+L0MuonFromRaw        INFO - Average Pt of the candidates               :     2079.18 MeV
+L0MuonFromRaw        INFO - Average charge of the candidates           :        1.00 (+/-0.00)
+L0MuonFromRaw        INFO - Average raw banks size                     :      627.9 Bytes
+L0MuonFromRaw        INFO - ------------------------------------------------------------------
+StdNoPIDsUpPions     INFO ********************************************************************************
+StdNoPIDsUpPions     INFO  created 'pi+' and 'pi- : 4547 per 396 calls (11.4823+-6.11111)/event
+DaVinciInitAlg    SUCCESS ==================================================================
+DaVinciInitAlg    SUCCESS 9511 events processed
+DaVinciInitAlg    SUCCESS ==================================================================
+StdNoPIDsVeloPions   INFO ********************************************************************************
+StdNoPIDsVeloPions   INFO  created 'pi+' and 'pi- : 215204 per 9511 calls (22.6269+-14.929)/event
+TupleBminus       SUCCESS Booked 1 N-Tuples and 0 Event Tag Collections
+TupleBminus       SUCCESS List of booked N-Tuples in directory "FILE1/TupleBminus"
+TupleBminus       SUCCESS  ID=DecayTree     Title="DecayTree"                               #items=1506{b_ENDVERTEX_X,b_ENDVERTEX_Y,b_ENDVERTEX_Z,b_ENDVERTEX_XERR,b_ENDVERTEX_YERR,b_END}
+TupleB0           SUCCESS Booked 1 N-Tuples and 0 Event Tag Collections
+TupleB0           SUCCESS List of booked N-Tuples in directory "FILE1/TupleB0"
+TupleB0           SUCCESS  ID=DecayTree     Title="DecayTree"                               #items=1842{b0_ENDVERTEX_X,b0_ENDVERTEX_Y,b0_ENDVERTEX_Z,b0_ENDVERTEX_XERR,b0_ENDVERTEX_YERR,}
+RootHistSvc       WARNING no ROOT output file name, Histograms cannot be persistified
+EventLoopMgr         INFO Histograms converted successfully according to request.
+DataOnDemandSvc      INFO Handled "DataFault" incidents: 499492/155220/5187415(Alg/Node/Total).
+FileRecordCnvSvc     INFO Disconnected data IO:3C2D84F3-6286-ED11-8B28-FA163E33A874 [root://proxy@xrootd.grid.surfsara.nl//pnfs/grid.sara.nl/data/lhcb/LHCb-Disk/lhcb/MC/2016/ALLSTREAMS.DST/00173814/0000/00173814_00000203_7.AllStreams.dst]
+FileRecordCnvSvc     INFO Disconnected data IO:8CF18A76-5B86-ED11-B484-3CECEF0DE998 [root://proxy@xrootd.grid.surfsara.nl//pnfs/grid.sara.nl/data/lhcb/LHCb-Disk/lhcb/MC/2016/ALLSTREAMS.DST/00173814/0000/00173814_00000193_7.AllStreams.dst]
+RootCnvSvc           INFO Disconnected data IO:4E67A2FB-C286-ED11-9799-00259059DBB2 [root://proxy@xrootd.grid.surfsara.nl//pnfs/grid.sara.nl/data/lhcb/LHCb-Disk/lhcb/MC/2016/ALLSTREAMS.DST/00173814/0000/00173814_00000239_7.AllStreams.dst]
+TransportSvc      SUCCESS  GEOMETRY ERRORS: 'Skip'     map has the size 0
+
+TransportSvc      SUCCESS  GEOMETRY ERRORS: 'Recover'  map has the size 0
+
+TransportSvc      SUCCESS  GEOMETRY ERRORS: 'Codes'    map has the size 0
+
+TransportSvc         INFO Reset the static pointer to DetDesc::IGeometyrErrorSvc
+ToolSvc              INFO Removing all tools created by ToolSvc
+ToolSvc.LoKi::V...SUCCESS Exceptions/Errors/Warnings/Infos Statistics : 0/0/4/0
+ToolSvc.LoKi::V...SUCCESS  #WARNINGS   = 1        Message = 'No convergency has been reached [SelMyDst]'
+ToolSvc.LoKi::V...SUCCESS  #WARNINGS   = 1        Message = '_iterate_opt: No convergency has been reached [SelMyDst]'
+ToolSvc.LoKi::V...SUCCESS  #WARNINGS   = 1        Message = 'fit(): failure from _iterate() [SelMyDst]'
+ToolSvc.LoKi::V...SUCCESS  #WARNINGS   = 1        Message = 'fit(): failure from fit [SelMyDst]'
+DaVinciInitAlg....SUCCESS Booked 4 Histogram(s) : 1D=4 
+DaVinciInitAlg....SUCCESS Exceptions/Errors/Warnings/Infos Statistics : 0/0/2/0
+DaVinciInitAlg....SUCCESS  #WARNINGS   = 4        Message = 'Delta Memory for the event exceeds 3*sigma'
+DaVinciInitAlg....SUCCESS  #WARNINGS   = 8        Message = 'Total Memory for the event exceeds 3*sigma'
+LoKiSvc.REPORT    SUCCESS Exceptions/Errors/Warnings/Infos Statistics : 0/5/3/0
+LoKiSvc.REPORT    SUCCESS  #ERRORS     = 15       Message = 'LoKi::Particles::MinImpParChi2DV: 	Empty list of vertices is loaded! [SelMyD0]'
+LoKiSvc.REPORT    SUCCESS  #ERRORS     = 33783    Message = 'LoKi::PhysMCParticles::MCSelMatch: 	No valid relation table at 'Relations/Rec/ProtoP/Upstream' [SelMyD0]'
+LoKiSvc.REPORT    SUCCESS  #ERRORS     = 792      Message = 'LoKi::PhysMCParticles::MCSelMatch: 	No valid relation table at 'Relations/Rec/ProtoP/Upstream' [SelMyDst]'
+LoKiSvc.REPORT    SUCCESS  #ERRORS     = 1470     Message = 'LoKi::PhysMCParticles::MCTreeMatch: 	No valid relation table at 'Relations/Rec/ProtoP/Upstream' [SelMyB-]'
+LoKiSvc.REPORT    SUCCESS  #ERRORS     = 19817    Message = 'LoKi::PhysMCParticles::MCTreeMatch: 	No valid relation table at 'Relations/Rec/ProtoP/Upstream' [SelMyD0]'
+LoKiSvc.REPORT    SUCCESS  #WARNINGS   = 28       Message = 'LoKi::Particles::MinImpParChi2DV: 	  Empty list of vertices, return 'InvalidChi2' [SelMyD0]'
+LoKiSvc.REPORT    SUCCESS  #WARNINGS   = 15       Message = 'LoKi::Vertices::SourceDesktop: 	 No input primary vertices from IDVAlgorithm [SelMyD0]'
+LoKiSvc.REPORT    SUCCESS  #WARNINGS   = 15       Message = 'LoKi::Vertices::SourceDesktop: 	 No vertices are selected by 'PRIMARY' [SelMyD0]'
+TupleB0.b0.Tupl...SUCCESS Exceptions/Errors/Warnings/Infos Statistics : 0/0/1/0
+TupleB0.b0.Tupl...SUCCESS  #WARNINGS   = 2        Message = 'NULL end vertex for b0'
+TupleB0.b0.Tupl...SUCCESS Exceptions/Errors/Warnings/Infos Statistics : 0/0/3/0
+TupleB0.b0.Tupl...SUCCESS  #WARNINGS   = 5        Message = 'No convergency has been reached'
+TupleB0.b0.Tupl...SUCCESS  #WARNINGS   = 4        Message = '_iterate_opt: No convergency has been reached'
+TupleB0.b0.Tupl...SUCCESS  #WARNINGS   = 5        Message = 'fit(): failure from _iterate()'
+TupleB0.b0.Tupl...SUCCESS Exceptions/Errors/Warnings/Infos Statistics : 0/0/3/0
+TupleB0.b0.Tupl...SUCCESS  #WARNINGS   = 5        Message = 'No convergency has been reached'
+TupleB0.b0.Tupl...SUCCESS  #WARNINGS   = 4        Message = '_iterate_opt: No convergency has been reached'
+TupleB0.b0.Tupl...SUCCESS  #WARNINGS   = 5        Message = 'fit(): failure from _iterate()'
+TupleB0.TupleTo...SUCCESS Exceptions/Errors/Warnings/Infos Statistics : 0/0/2/0
+TupleB0.TupleTo...SUCCESS  #WARNINGS   = 2        Message = 'NULL end vertex for b0'
+TupleB0.TupleTo...SUCCESS  #WARNINGS   = 2        Message = 'NULL end vertex for dst'
+TupleBminus.b.T...SUCCESS Exceptions/Errors/Warnings/Infos Statistics : 0/0/4/0
+TupleBminus.b.T...SUCCESS  #WARNINGS   = 188      Message = 'No convergency has been reached'
+TupleBminus.b.T...SUCCESS  #WARNINGS   = 169      Message = '_iterate_opt: No convergency has been reached'
+TupleBminus.b.T...SUCCESS  #WARNINGS   = 188      Message = 'fit(): failure from _iterate()'
+TupleBminus.b.T...SUCCESS  #WARNINGS   = 30       Message = 'fit(): failure from fit'
+TupleBminus.b.T...SUCCESS Exceptions/Errors/Warnings/Infos Statistics : 0/0/3/0
+TupleBminus.b.T...SUCCESS  #WARNINGS   = 158      Message = 'No convergency has been reached'
+TupleBminus.b.T...SUCCESS  #WARNINGS   = 138      Message = '_iterate_opt: No convergency has been reached'
+TupleBminus.b.T...SUCCESS  #WARNINGS   = 158      Message = 'fit(): failure from _iterate()'
+TupleBminus.b.T...SUCCESS Exceptions/Errors/Warnings/Infos Statistics : 0/0/3/0
+TupleBminus.b.T...SUCCESS  #WARNINGS   = 158      Message = 'No convergency has been reached'
+TupleBminus.b.T...SUCCESS  #WARNINGS   = 138      Message = '_iterate_opt: No convergency has been reached'
+TupleBminus.b.T...SUCCESS  #WARNINGS   = 158      Message = 'fit(): failure from _iterate()'
+ToolSvc.P2PVWit...WARNING Unclassified particles : 
+ ------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ | #    |        Name       |     PdgID    |   Q  |        Mass       |    (c*)Tau/Gamma  |  MaxWidth  |        EvtGen        |  PythiaID  |     Antiparticle     |
+ ------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ ------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+ToolSvc.L0DUCon...   INFO --------------- TCK = 0x160F------------------
+ToolSvc.L0DUCon...   INFO The configuration 0x160F matches the hardware limitations 
+ToolSvc.L0DUCon...   INFO - Usage : #Channels   : 17 [53.1% ]    
+ToolSvc.L0DUCon...   INFO - Usage : #Conditions : 32 [25.0% ]; order : OK ; reported  : 32/32
+ToolSvc.L0DUCon...   INFO - Usage : #Conditions/type (max)  :[Spd(Mult) : 7/8]
+ToolSvc.L0DUCon...   INFO - Info    : the condition 'SumEtPrev<250' relies on BX=[-1]
+ToolSvc.L0DUCon...   INFO --------------- TCK = 0x10000------------------
+TimingAuditor.T...   INFO ----------------------------------------------------------------------------------------------------------------------
+TimingAuditor.T...   INFO This machine has a speed about   2.78 times the speed of a 2.8 GHz Xeon.
+TimingAuditor.T...   INFO Algorithm                              (millisec) |    <user> |   <clock> |      min       max    sigma | entries | total (s) |
+TimingAuditor.T...   INFO ----------------------------------------------------------------------------------------------------------------------
+TimingAuditor.T...   INFO EVENT LOOP                                        |    81.837 |    82.463 |    3.249    4547.4    69.82 |    9511 |   784.306 |
+TimingAuditor.T...   INFO  DaVinciEventSeq                                  |    80.809 |    81.404 |    2.518    4547.0    69.76 |    9511 |   774.235 |
+TimingAuditor.T...   INFO   DaVinciInitAlg                                  |     0.235 |     0.237 |    0.108       2.5     0.06 |    9511 |     2.261 |
+TimingAuditor.T...   INFO   FilteredEventSeq                                |    80.527 |    81.132 |    2.186    4546.8    69.75 |    9511 |   771.656 |
+TimingAuditor.T...   INFO    DaVinciEventInitSeq                            |     0.015 |     0.013 |    0.010       0.4     0.01 |    9511 |     0.131 |
+TimingAuditor.T...   INFO     PhysInitSeq                                   |     0.002 |     0.003 |    0.002       0.0     0.00 |    9511 |     0.029 |
+TimingAuditor.T...   INFO     AnalysisInitSeq                               |     0.004 |     0.003 |    0.002       0.2     0.00 |    9511 |     0.029 |
+TimingAuditor.T...   INFO    DaVinciAnalysisSeq                             |    80.503 |    81.108 |    2.159    4546.8    69.75 |    9511 |   771.419 |
+TimingAuditor.T...   INFO     DaVinciUserSequence                           |    80.492 |    81.092 |    2.145    4546.7    69.75 |    9511 |   771.275 |
+TimingAuditor.T...   INFO      StateSmear                                   |     2.743 |     2.813 |    0.225     224.5     4.52 |    9511 |    26.763 |
+TimingAuditor.T...   INFO      MyProtoPMaker                                |     0.469 |     0.484 |    0.185       3.0     0.16 |    9511 |     4.604 |
+TimingAuditor.T...   INFO      StdNoPIDsVeloPions                           |     0.084 |     0.076 |    0.007       0.7     0.04 |    9511 |     0.724 |
+TimingAuditor.T...   INFO      SeqMyB-                                      |    69.412 |    69.760 |    0.837     656.2    37.82 |    9511 |   663.488 |
+TimingAuditor.T...   INFO       SELECT:Phys/StdAllNoPIDsKaons               |     3.528 |     3.518 |    0.576      42.8     2.19 |    9511 |    33.460 |
+TimingAuditor.T...   INFO       SELECT:Phys/StdAllNoPIDsPions               |     1.124 |     1.094 |    0.055       5.9     0.68 |    9508 |    10.407 |
+TimingAuditor.T...   INFO       SelMyD0                                     |    64.285 |    64.695 |    0.426     609.7    35.89 |    9508 |   615.122 |
+TimingAuditor.T...   INFO       SELECT:Phys/StdAllNoPIDsMuons               |     1.251 |     1.324 |    0.277       5.4     0.70 |     735 |     0.974 |
+TimingAuditor.T...   INFO       SelMyB-                                     |     2.925 |     2.967 |    0.834       9.8     1.52 |     735 |     2.181 |
+TimingAuditor.T...   INFO       SelMyRefitB-2D0Mu                           |     0.353 |     0.308 |    0.228       4.4     0.22 |     396 |     0.122 |
+TimingAuditor.T...   INFO      SeqMyB0                                      |     0.871 |     0.891 |    0.004     114.1     5.54 |    9511 |     8.479 |
+TimingAuditor.T...   INFO       SelMyComboD0                                |     0.000 |     0.009 |    0.005       0.1     0.00 |     396 |     0.004 |
+TimingAuditor.T...   INFO       SelMyDst                                    |    20.681 |    20.991 |    2.227     113.9    17.52 |     396 |     8.313 |
+TimingAuditor.T...   INFO       SelMyRefitDst2D0Pi                          |     1.250 |     0.323 |    0.245       0.4     0.07 |       8 |     0.003 |
+TimingAuditor.T...   INFO       SelMyComboMu                                |     0.000 |     0.009 |    0.007       0.0     0.00 |       8 |     0.000 |
+TimingAuditor.T...   INFO       SelMyB0                                     |     0.000 |     0.185 |    0.116       0.2     0.04 |       8 |     0.001 |
+TimingAuditor.T...   INFO      RelInfo_HLT1_SeqMyB-                         |     0.050 |     0.055 |    0.019       1.5     0.14 |    9511 |     0.527 |
+TimingAuditor.T...   INFO      RelInfo_HLT1_SeqMyB0                         |     0.016 |     0.016 |    0.014       0.6     0.01 |    9511 |     0.160 |
+TimingAuditor.T...   INFO      TupleBminus                                  |     3.983 |     4.139 |    0.005    4395.8    49.37 |    9511 |    39.373 |
+TimingAuditor.T...   INFO      TupleB0                                      |     0.375 |     0.382 |    0.002     906.0    15.16 |    9511 |     3.641 |
+TimingAuditor.T...   INFO     MonitoringSequence                            |     0.002 |     0.003 |    0.002       0.1     0.00 |    9511 |     0.029 |
+TimingAuditor.T...   INFO   LumiSeq                                         |     0.015 |     0.015 |    0.009       0.6     0.01 |    9511 |     0.145 |
+TimingAuditor.T...   INFO    EventAccount                                   |     0.003 |     0.005 |    0.003       0.4     0.01 |    9511 |     0.048 |
+TimingAuditor.T...   INFO * createODIN                                      |     0.579 |     0.579 |    0.070       8.1     1.00 |    9511 |     5.511 |
+TimingAuditor.T...   INFO *      UnpackTrack                                |     2.632 |     2.693 |    0.173     224.4     4.51 |    9511 |    25.618 |
+TimingAuditor.T...   INFO *     UnpackRecVertex                             |     0.960 |     0.965 |    0.112       5.7     1.07 |    9511 |     9.186 |
+TimingAuditor.T...   INFO *      unpackFittedVeloTracks                     |     0.695 |     0.668 |    0.046       5.1     1.02 |    9503 |     6.353 |
+TimingAuditor.T...   INFO *       StdAllNoPIDsKaons                         |     0.187 |     0.188 |    0.004       1.5     0.10 |    9511 |     1.789 |
+TimingAuditor.T...   INFO *       UnpackChargedProtosSeq                    |     2.139 |     2.122 |    0.399      10.5     1.82 |    9511 |    20.188 |
+TimingAuditor.T...   INFO *        UnpackChargedProtos                      |     1.122 |     1.160 |    0.092       8.1     1.67 |    9511 |    11.038 |
+TimingAuditor.T...   INFO *        ProtoParticleCombDLLs                    |     0.997 |     0.942 |    0.295       7.7     0.32 |    9511 |     8.962 |
+TimingAuditor.T...   INFO *         CheckChargedProtosExist                 |     0.008 |     0.009 |    0.004       0.2     0.00 |    9511 |     0.092 |
+TimingAuditor.T...   INFO *         ChargedProtoPAddMuon                    |     0.437 |     0.416 |    0.140       3.7     0.16 |    9511 |     3.958 |
+TimingAuditor.T...   INFO *         ChargedProtoPAddRich                    |     0.455 |     0.414 |    0.108       3.7     0.16 |    9511 |     3.946 |
+TimingAuditor.T...   INFO *         ChargedProtoPCombDLL                    |     0.071 |     0.076 |    0.007       0.8     0.04 |    9511 |     0.730 |
+TimingAuditor.T...   INFO *          UnpackMuonPIDSeq                       |     0.259 |     0.265 |    0.089       1.7     0.11 |    9511 |     2.521 |
+TimingAuditor.T...   INFO *           UnpackMuonPIDs                        |     0.239 |     0.239 |    0.071       1.7     0.11 |    9511 |     2.279 |
+TimingAuditor.T...   INFO *           CheckMuonPIDs                         |     0.006 |     0.009 |    0.005       0.5     0.01 |    9511 |     0.095 |
+TimingAuditor.T...   INFO *          UnpackRichPIDSeq                       |     0.313 |     0.287 |    0.074       2.9     0.13 |    9511 |     2.733 |
+TimingAuditor.T...   INFO *           UnpackRichPIDs                        |     0.290 |     0.268 |    0.063       2.7     0.12 |    9511 |     2.553 |
+TimingAuditor.T...   INFO *           CheckRichPIDs                         |     0.003 |     0.005 |    0.003       1.1     0.01 |    9511 |     0.053 |
+TimingAuditor.T...   INFO *       StdAllNoPIDsPions                         |     0.106 |     0.111 |    0.007       0.9     0.09 |    9508 |     1.062 |
+TimingAuditor.T...   INFO *       ChargedPP2MC                              |     0.293 |     0.297 |    0.029      23.9     1.53 |  309999 |    92.294 |
+TimingAuditor.T...   INFO *        UnpackMCParticles                        |     6.777 |     6.899 |    0.208      21.7     3.29 |    9503 |    65.571 |
+TimingAuditor.T...   INFO *       NeutralPP2MC                              |    22.744 |    22.934 |    2.262     511.8    15.16 |    9503 |   217.947 |
+TimingAuditor.T...   INFO *        CaloClusterMCTruth                       |    18.252 |    18.357 |    1.603     480.5    11.31 |    9503 |   174.455 |
+TimingAuditor.T...   INFO *         CaloDigitMCTruth                        |     9.725 |     9.833 |    0.873      54.0     5.29 |    9503 |    93.443 |
+TimingAuditor.T...   INFO *          EcalZSup                               |     2.068 |     2.109 |    0.553      13.0     1.82 |    9503 |    20.051 |
+TimingAuditor.T...   INFO *          CaloDigitMCLinks2Table                 |     7.577 |     7.655 |    0.220      51.3     4.70 |    9503 |    72.748 |
+TimingAuditor.T...   INFO *         ClusterReco                             |     6.403 |     6.417 |    0.538      39.2     4.33 |    9503 |    60.987 |
+TimingAuditor.T...   INFO *          CaloDigits                             |     0.660 |     0.672 |    0.215       3.3     0.21 |    9503 |     6.392 |
+TimingAuditor.T...   INFO *           SpdFromRaw                            |     0.177 |     0.187 |    0.051       1.0     0.06 |    9503 |     1.784 |
+TimingAuditor.T...   INFO *           PrsFromRaw                            |     0.230 |     0.239 |    0.043       2.7     0.10 |    9503 |     2.272 |
+TimingAuditor.T...   INFO *           HcalZSup                              |     0.220 |     0.221 |    0.085       2.1     0.07 |    9503 |     2.102 |
+TimingAuditor.T...   INFO *          CaloDigitFilter                        |     0.349 |     0.329 |    0.059       4.3     0.15 |    9503 |     3.135 |
+TimingAuditor.T...   INFO *          EcalClust                              |     1.299 |     1.273 |    0.121       6.4     0.66 |    9503 |    12.103 |
+TimingAuditor.T...   INFO *          EcalShare                              |     3.555 |     3.638 |    0.018      30.2     3.20 |    9503 |    34.577 |
+TimingAuditor.T...   INFO *          EcalCovar                              |     0.466 |     0.444 |    0.032       2.4     0.27 |    9503 |     4.221 |
+TimingAuditor.T...   INFO *         SplitClusterReco                        |     0.611 |     0.590 |    0.053       5.5     0.50 |    9503 |     5.615 |
+TimingAuditor.T...   INFO *          SplitClustersRec                       |     0.596 |     0.575 |    0.047       5.4     0.49 |    9503 |     5.470 |
+TimingAuditor.T...   INFO *        UnpackNeutralProtos                      |     0.791 |     0.805 |    0.073       4.4     0.88 |    9503 |     7.654 |
+TimingAuditor.T...   INFO *        UnpackPhotons                            |     0.473 |     0.476 |    0.042       3.3     0.44 |    9503 |     4.530 |
+TimingAuditor.T...   INFO *       UnpackMCVertices                          |     7.347 |     7.301 |    0.266      27.9     4.26 |    9503 |    69.390 |
+TimingAuditor.T...   INFO *        UnpackMergedPi0s                         |     0.220 |     0.239 |    0.079       2.0     0.10 |    6657 |     1.592 |
+TimingAuditor.T...   INFO *        UnpackSplitPhotons                       |     0.240 |     0.233 |    0.035       1.5     0.15 |    6657 |     1.558 |
+TimingAuditor.T...   INFO *       StdAllNoPIDsMuons                         |     0.217 |     0.228 |    0.059       0.9     0.10 |     735 |     0.168 |
+TimingAuditor.T...   INFO *      UnpackMuonTracks                           |     0.569 |     0.562 |    0.252       1.3     0.14 |     369 |     0.208 |
+TimingAuditor.T...   INFO *      L0DecReportsMaker                          |     0.404 |     0.655 |    0.285      86.3     4.33 |     396 |     0.260 |
+TimingAuditor.T...   INFO *       L0DUFromRaw                               |     0.252 |     0.382 |    0.236       5.7     0.37 |     396 |     0.151 |
+TimingAuditor.T...   INFO *      L0SelReportsMaker                          |     3.080 |     3.237 |    0.454     993.5    49.89 |     396 |     1.282 |
+TimingAuditor.T...   INFO *       L0MuonFromRaw                             |     0.404 |     0.351 |    0.208       3.4     0.18 |     396 |     0.139 |
+TimingAuditor.T...   INFO *       L0CaloFromRaw                             |     0.202 |     0.151 |    0.077       0.8     0.05 |     396 |     0.060 |
+TimingAuditor.T...   INFO *      Hlt1DecReportsDecoder                      |     0.151 |     0.169 |    0.041      37.8     1.90 |     396 |     0.067 |
+TimingAuditor.T...   INFO *      Hlt1SelReportsDecoder                      |     0.378 |     0.219 |    0.019       1.4     0.19 |     396 |     0.087 |
+TimingAuditor.T...   INFO *      Hlt2SelReportsDecoder                      |     2.095 |     2.098 |    0.037     469.7    23.60 |     396 |     0.831 |
+TimingAuditor.T...   INFO *      Hlt2DecReportsDecoder                      |     0.176 |     0.326 |    0.223       1.1     0.07 |     396 |     0.129 |
+TimingAuditor.T...   INFO *      StdNoPIDsUpPions                           |     0.101 |     0.137 |    0.034       1.0     0.08 |     396 |     0.054 |
+TimingAuditor.T...   INFO ----------------------------------------------------------------------------------------------------------------------
+ToolSvc.LoKi::D...WARNING Unclassified particles : 
+ ------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ | #    |        Name       |     PdgID    |   Q  |        Mass       |    (c*)Tau/Gamma  |  MaxWidth  |        EvtGen        |  PythiaID  |     Antiparticle     |
+ ------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ ------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+NTupleSvc            INFO NTuples saved successfully
+ApplicationMgr       INFO Application Manager Finalized successfully
+ApplicationMgr       INFO Application Manager Terminated successfully
+
+#\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/#
+Goodbye from GaudiExec
+ <<<<<<<<<< jobScript/GaudiExec_afernez_Job_519.0_95ac0898-b1e3-4ba2-8db7-a0e9916ec57f_script.py Standard Error >>>>>>>>>>
+
+WARNING:lb-run:Decided best container to use is apptainer
+WARNING: While bind mounting '/cvmfs:/cvmfs': destination is already in the mount point list
+ 

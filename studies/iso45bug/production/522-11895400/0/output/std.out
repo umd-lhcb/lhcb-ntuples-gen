@@ -1,0 +1,45 @@
+WARNING: Parsing of '.cfg' files as command line arguments is changing!
+          Set the environment variable 'export DIRAC_NO_CFG=1' to pass the file as a positional
+          argument (this will become the default).
+          To modify the local configuration use '--cfg <configfile>' instead.
+2025-08-27T00:19:05,950963Z dirac-jobexec INFO: JobID: 1164943189
+2025-08-27T00:19:05,962592Z dirac-jobexec INFO: DIRAC JobID 1164943189 is running at site LCG.RAL.uk
+Executing StepInstance RunScriptStep1 of type ScriptStep1 ['ScriptStep1']
+2025-08-27T00:19:08,921514Z dirac-jobexec/CreateDataFile INFO: ===== Executing 12.0.0a30 ===== 
+2025-08-27T00:19:08,924116Z dirac-jobexec INFO: Running in MultiProcessor is not allowed here
+2025-08-27T00:19:08,924328Z dirac-jobexec/CreateDataFile INFO: Creating Ganga data file data.py from scratch
+2025-08-27T00:19:09,258990Z dirac-jobexec/CreateDataFile INFO: Created Ganga data file data.py
+2025-08-27T00:19:09,259327Z dirac-jobexec/CreateDataFile INFO: ===== Terminating 12.0.0a30 ===== 
+2025-08-27T00:19:09,268965Z dirac-jobexec/LHCbScript INFO: Command is: /cvmfs/lhcb.cern.ch/lhcbdirac/versions/v12.0.0a30-1755085183/Linux-x86_64/bin/python3 jobScript/GaudiExec_afernez_Job_522.0_8ef90270-7c26-46b5-bdf6-1c75313126db_script.py
+2025-08-27T05:01:19,725017Z dirac-jobexec/LHCbScript INFO: /cvmfs/lhcb.cern.ch/lhcbdirac/versions/v12.0.0a30-1755085183/Linux-x86_64/bin/python3 jobScript/GaudiExec_afernez_Job_522.0_8ef90270-7c26-46b5-bdf6-1c75313126db_script.py execution completed with status 0
+2025-08-27T05:01:19,726240Z dirac-jobexec/LHCbScript INFO: Output written to Script1_Ganga_GaudiExec.log, execution complete.
+2025-08-27T05:01:20,129785Z dirac-jobexec/LHCbScript INFO: GaudiExec successful
+2025-08-27T05:01:20,135815Z dirac-jobexec/LHCbScript INFO: ===== Terminating <class 'LHCbDIRAC.Workflow.Modules.LHCbScript.LHCbScript'> ===== 
+2025-08-27T05:01:20,415277Z dirac-jobexec/FileUsage INFO: ===== Executing 12.0.0a30 ===== 
+2025-08-27T05:01:20,415801Z dirac-jobexec/FileUsage INFO: Popularity report =  {'/lhcb/MC/2016/D0TAUNU.SAFESTRIPTRIG.DST/00202746/0000/': 3}
+2025-08-27T05:01:20,604253Z dirac-jobexec/FileUsage INFO: Reporting input file usage successful!
+2025-08-27T05:01:20,605006Z dirac-jobexec/FileUsage INFO: ===== Terminating 12.0.0a30 ===== 
+2025-08-27T05:01:20,615175Z dirac-jobexec/UserJobFinalization INFO: ===== Executing 12.0.0a30 ===== 
+2025-08-27T05:01:20,615599Z dirac-jobexec/DIRAC.DataManagementSystem.Utilities.ResolveSE INFO: Resolving workflow output SE description Tier1-USER
+2025-08-27T05:01:20,626239Z dirac-jobexec/DIRAC.DataManagementSystem.Utilities.ResolveSE INFO: Found SEs, local first: ['RAL-USER', 'PIC-USER', 'GRIDKA-USER', 'SARA-USER', 'CNAF-USER', 'IN2P3-USER', 'CERN-USER']
+2025-08-27T05:01:20,627058Z dirac-jobexec/DIRAC.DataManagementSystem.Utilities.ResolveSE INFO: Resolving workflow output SE description Tier1-Failover
+2025-08-27T05:01:20,632697Z dirac-jobexec/DIRAC.DataManagementSystem.Utilities.ResolveSE INFO: Found SEs, local first: ['RAL-FAILOVER', 'SARA-FAILOVER', 'GRIDKA-FAILOVER', 'CERN-EOS-FAILOVER', 'PIC-FAILOVER', 'IN2P3-FAILOVER', 'CNAF-FAILOVER']
+2025-08-27T05:01:20,633769Z dirac-jobexec/UserJobFinalization INFO: User specified output file list is: *.root
+2025-08-27T05:01:20,634741Z dirac-jobexec/UserJobFinalization INFO: Found a pattern in the output data file list,           extra files to upload are: mc.root
+2025-08-27T05:01:20,635213Z dirac-jobexec/UserJobFinalization INFO: Final list of files to upload are: mc.root
+2025-08-27T05:01:20,635416Z dirac-jobexec/UserJobFinalization INFO: Constructing user output LFN(s) for mc.root
+2025-08-27T05:01:20,824278Z dirac-jobexec/ProductionData INFO: Created the following output data LFN(s):
+/lhcb/user/a/afernez/2025_08/1164943/1164943189/mc.root
+2025-08-27T05:01:20,824919Z dirac-jobexec/UserJobFinalization INFO: No outputDataFileMask provided, the files with all the extensions will be considered
+2025-08-27T05:01:20,825075Z dirac-jobexec/UserJobFinalization INFO: No outputDataStep provided, the files output of all the steps will be considered
+2025-08-27T05:01:20,825188Z dirac-jobexec/UserJobFinalization INFO: Will search for POOL GUIDs for: mc.root
+2025-08-27T05:01:21,130351Z dirac-jobexec INFO: GUIDs not found from POOL XML Catalogue (and were generated) for: mc.root
+2025-08-27T05:01:21,130695Z dirac-jobexec/UserJobFinalization WARN: PoolXMLFile generated GUID(s) for the following files  mc.root
+2025-08-27T05:01:21,296774Z dirac-jobexec/DIRAC.DataManagementSystem.Utilities.ResolveSE INFO: Resolving workflow output SE description Tier1-USER
+2025-08-27T05:01:21,302258Z dirac-jobexec/DIRAC.DataManagementSystem.Utilities.ResolveSE INFO: Found eligible local SE ['RAL-USER']
+2025-08-27T05:01:21,302740Z dirac-jobexec/UserJobFinalization INFO: Ordered list of output SEs is: RAL-USER, CNAF-USER, CERN-USER, IN2P3-USER, SARA-USER, PIC-USER, GRIDKA-USER
+2025-08-27T05:01:21,303168Z dirac-jobexec/UserJobFinalization INFO: Creating DISABLE_WATCHDOG_CPU_WALLCLOCK_CHECK in order to disable the Watchdog
+2025-08-27T05:01:21,303829Z dirac-jobexec/UserJobFinalization INFO: Attempting to store mc.root to the following SE(s): RAL-USER, CNAF-USER, CERN-USER, IN2P3-USER, SARA-USER, PIC-USER, GRIDKA-USER
+2025-08-27T05:01:21,303945Z dirac-jobexec/FailoverTransfer INFO: Attempting dm.putAndRegister ('/lhcb/user/a/afernez/2025_08/1164943/1164943189/mc.root','/tmp/1164943189/mc.root','RAL-USER',guid='98B21749-3426-30A4-49D3-A3C57E4B1600',catalog='None', checksum = '33e2032d')
+2025-08-27T05:01:30,458286Z dirac-jobexec/FailoverTransfer INFO: dm.putAndRegister successfully uploaded and registered mc.root to RAL-USER
+2025-08-27T05:01:30,858554Z dirac-jobexec/UserJobFinalization INFO: ===== Terminating 12.0.0a30 ===== 

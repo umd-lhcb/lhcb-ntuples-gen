@@ -1,0 +1,31 @@
+WARNING: Parsing of '.cfg' files as command line arguments is changing!
+          Set the environment variable 'export DIRAC_NO_CFG=1' to pass the file as a positional
+          argument (this will become the default).
+          To modify the local configuration use '--cfg <configfile>' instead.
+2025-08-26T23:54:58,980158Z dirac-jobexec INFO: JobID: 1164942937
+2025-08-26T23:54:58,988793Z dirac-jobexec INFO: DIRAC JobID 1164942937 is running at site LCG.CERN.cern
+Executing StepInstance RunScriptStep1 of type ScriptStep1 ['ScriptStep1']
+2025-08-26T23:55:03,644975Z dirac-jobexec/CreateDataFile INFO: ===== Executing 12.0.0a30 ===== 
+2025-08-26T23:55:03,647064Z dirac-jobexec INFO: Getting numberOfProcessors from /Resources/Computing/CEDefaults/NumberOfProcessors
+2025-08-26T23:55:03,647325Z dirac-jobexec/CreateDataFile INFO: Creating Ganga data file data.py from scratch
+2025-08-26T23:55:03,824738Z dirac-jobexec/CreateDataFile INFO: Created Ganga data file data.py
+2025-08-26T23:55:03,824974Z dirac-jobexec/CreateDataFile INFO: ===== Terminating 12.0.0a30 ===== 
+2025-08-26T23:55:03,833115Z dirac-jobexec/LHCbScript INFO: Command is: /cvmfs/lhcb.cern.ch/lhcbdirac/versions/v12.0.0a30-1755085183/Linux-x86_64/bin/python3 jobScript/GaudiExec_afernez_Job_514.2_ddadf4ec-4bfc-480a-bb15-3a6c8e13ba17_script.py
+2025-08-27T07:50:06,593284Z dirac-jobexec/LHCbScript ERROR: Non-zero status while executing /cvmfs/lhcb.cern.ch/lhcbdirac/versions/v12.0.0a30-1755085183/Linux-x86_64/bin/python3 jobScript/GaudiExec_afernez_Job_514.2_ddadf4ec-4bfc-480a-bb15-3a6c8e13ba17_script.py exited with status 16
+2025-08-27T07:50:06,599831Z dirac-jobexec/LHCbScript INFO: Output written to Script1_Ganga_GaudiExec.log, execution complete.
+2025-08-27T07:50:06,600784Z dirac-jobexec/LHCbScript ERROR: 'GaudiExec' Exited With Status 16
+2025-08-27T07:50:07,154035Z dirac-jobexec/LHCbScript INFO: ===== Terminating <class 'LHCbDIRAC.Workflow.Modules.LHCbScript.LHCbScript'> ===== 
+2025-08-27T07:50:17,604988Z dirac-jobexec/FileUsage INFO: ===== Executing 12.0.0a30 ===== 
+2025-08-27T07:50:17,606562Z dirac-jobexec/FileUsage INFO: Popularity report =  {'/lhcb/MC/2016/D0TAUNU.SAFESTRIPTRIG.DST/00219698/0000/': 3}
+2025-08-27T07:50:17,731475Z dirac-jobexec/FileUsage INFO: Reporting input file usage successful!
+2025-08-27T07:50:17,731883Z dirac-jobexec/FileUsage INFO: ===== Terminating 12.0.0a30 ===== 
+2025-08-27T07:50:17,740950Z dirac-jobexec/UserJobFinalization INFO: ===== Executing 12.0.0a30 ===== 
+2025-08-27T07:50:17,741183Z dirac-jobexec/DIRAC.DataManagementSystem.Utilities.ResolveSE INFO: Resolving workflow output SE description Tier1-USER
+2025-08-27T07:50:17,751304Z dirac-jobexec/DIRAC.DataManagementSystem.Utilities.ResolveSE INFO: Found SEs, local first: ['CERN-USER', 'GRIDKA-USER', 'RAL-USER', 'IN2P3-USER', 'SARA-USER', 'CNAF-USER', 'PIC-USER']
+2025-08-27T07:50:17,751491Z dirac-jobexec/DIRAC.DataManagementSystem.Utilities.ResolveSE INFO: Resolving workflow output SE description Tier1-Failover
+2025-08-27T07:50:17,758577Z dirac-jobexec/DIRAC.DataManagementSystem.Utilities.ResolveSE INFO: Found SEs, local first: ['CERN-EOS-FAILOVER', 'IN2P3-FAILOVER', 'GRIDKA-FAILOVER', 'CNAF-FAILOVER', 'SARA-FAILOVER', 'PIC-FAILOVER', 'RAL-FAILOVER']
+2025-08-27T07:50:17,759063Z dirac-jobexec/UserJobFinalization INFO: Skip this module, failure detected in a previous step
+2025-08-27T07:50:17,759171Z dirac-jobexec/UserJobFinalization INFO: Workflow status {'OK': True, 'Value': None}
+2025-08-27T07:50:17,759290Z dirac-jobexec/UserJobFinalization INFO: Step Status {'OK': False, 'Errno': 0, 'Message': "'GaudiExec' Exited With Status 16", 'CallStack': ['  File "/cvmfs/lhcb.cern.ch/lhcbdirac/versions/v12.0.0a30-1755085183/Linux-x86_64/bin/dirac-jobexec", line 10, in <module>\n    sys.exit(main())\n', '  File "/cvmfs/lhcb.cern.ch/lhcbdirac/versions/v12.0.0a30-1755085183/Linux-x86_64/lib/python3.11/site-packages/DIRAC/Core/Base/Script.py", line 74, in __call__\n    return entrypointFunc._func()\n', '  File "/cvmfs/lhcb.cern.ch/lhcbdirac/versions/v12.0.0a30-1755085183/Linux-x86_64/lib/python3.11/site-packages/DIRAC/WorkloadManagementSystem/scripts/dirac_jobexec.py", line 92, in main\n    jobExec = jobexec(jobXMLfile, parDict)\n', '  File "/cvmfs/lhcb.cern.ch/lhcbdirac/versions/v12.0.0a30-1755085183/Linux-x86_64/lib/python3.11/site-packages/DIRAC/Core/Utilities/Proxy.py", line 162, in wrapped_fcn\n    return fcn(*args, **kwargs)\n', '  File "/cvmfs/lhcb.cern.ch/lhcbdirac/versions/v12.0.0a30-1755085183/Linux-x86_64/lib/python3.11/site-packages/DIRAC/WorkloadManagementSystem/scripts/dirac_jobexec.py", line 65, in jobexec\n    return workflow.execute()\n', '  File "/cvmfs/lhcb.cern.ch/lhcbdirac/versions/v12.0.0a30-1755085183/Linux-x86_64/lib/python3.11/site-packages/DIRAC/Core/Workflow/Workflow.py", line 352, in execute\n    result = step_inst.execute(wf_exec_steps[step_inst_name], self.step_definitions)\n', '  File "/cvmfs/lhcb.cern.ch/lhcbdirac/versions/v12.0.0a30-1755085183/Linux-x86_64/lib/python3.11/site-packages/DIRAC/Core/Workflow/Step.py", line 321, in execute\n    self.stepStatus = S_ERROR(result["Message"])\n']}
+2025-08-27T07:50:17,759377Z dirac-jobexec/UserJobFinalization INFO: ===== Terminating 12.0.0a30 ===== 
+2025-08-27T07:50:17,762998Z dirac-jobexec NOTICE: Workflow execution finished with errors, exiting
