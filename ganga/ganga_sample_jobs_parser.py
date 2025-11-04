@@ -80,13 +80,9 @@ LFN_PATH = {
     'run2-rdx-mc_s28-2016-sim09':           '/MC/2016/Beam6500GeV-2016-Mag{polarity}-Nu1.6-25ns-Pythia8/{simcond}/Trig0x6138160F/Reco16/Turbo03/Stripping28NoPrescalingFlagged/{decay}/ALLSTREAMS.DST',
     'run2-rdx-mc_s28r1-2016-sim09':         '/MC/2016/Beam6500GeV-2016-Mag{polarity}-Nu1.6-25ns-Pythia8/{simcond}/Trig0x6138160F/Reco16/Turbo03/Stripping28r1NoPrescalingFlagged/{decay}/ALLSTREAMS.DST',
     'run2-rdx-mc_s28r1_tck2-2016-sim09':    '/MC/2016/Beam6500GeV-2016-Mag{polarity}-Nu1.6-25ns-Pythia8/{simcond}/Trig0x6139160F/Reco16/Turbo03/Stripping28r1NoPrescalingFlagged/{decay}/ALLSTREAMS.DST',
-    'run2-rdx-mc_s28r1_mdst-2016-sim09':    '/MC/2016/Beam6500GeV-2016-Mag{polarity}-Nu1.6-25ns-Pythia8/{simcond}/Trig0x6139160F/Reco16/Turbo03/Stripping28r1NoPrescalingFlagged/{decay}/ALLSTREAMS.MDST',
-    'run2-rdx-mc_s28r1_turbo3a-2016-sim09': '/MC/2016/Beam6500GeV-2016-Mag{polarity}-Nu1.6-25ns-Pythia8/{simcond}/Trig0x6139160F/Reco16/Turbo03a/Stripping28r1NoPrescalingFlagged/{decay}/ALLSTREAMS.MDST',
     'run2-rdx-mc_s28r2-2016-sim09':         '/MC/2016/Beam6500GeV-2016-Mag{polarity}-Nu1.6-25ns-Pythia8/{simcond}/Trig0x6139160F/Reco16/Turbo03a/Stripping28r2NoPrescalingFlagged/{decay}/ALLSTREAMS.DST',
     'run2-rdx-mc_s29r2-2017-sim09':         '/MC/2017/Beam6500GeV-2017-Mag{polarity}-Nu1.6-25ns-Pythia8/{simcond}/Trig0x62661709/Reco17/Turbo04a-WithTurcal/Stripping29r2NoPrescalingFlagged/{decay}/ALLSTREAMS.DST',
-    'run2-rdx-mc_s29r2_mdst-2017-sim09':    '/MC/2017/Beam6500GeV-2017-Mag{polarity}-Nu1.6-25ns-Pythia8/{simcond}/Trig0x62661709/Reco17/Turbo04a-WithTurcal/Stripping29r2NoPrescalingFlagged/{decay}/ALLSTREAMS.MDST',
     'run2-rdx-mc_s34-2018-sim09':           '/MC/2018/Beam6500GeV-2018-Mag{polarity}-Nu1.6-25ns-Pythia8/{simcond}/Trig0x617d18a4/Reco18/Turbo05-WithTurcal/Stripping34NoPrescalingFlagged/{decay}/ALLSTREAMS.DST',
-    'run2-rdx-mc_s34_mdst-2018-sim09':      '/MC/2018/Beam6500GeV-2018-Mag{polarity}-Nu1.6-25ns-Pythia8/{simcond}/Trig0x617d18a4/Reco18/Turbo05-WithTurcal/Stripping34NoPrescalingFlagged/{decay}/ALLSTREAMS.MDST',
     'run2-rdx-mc_s34-2018-sim10':           '/MC/2018/Beam6500GeV-2018-Mag{polarity}-Nu1.6-25ns-Pythia8/{simcond}/Trig0x617d18a4/Reco18/Turbo05-WithTurcal/Stripping34NoPrescalingFlagged/{decay}/ALLSTREAMS.DST'
 }
 
