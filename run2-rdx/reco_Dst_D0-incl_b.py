@@ -8,22 +8,30 @@
 # Flags for run 2:
 #   KMUNU:   Configure truth-matching for D0 -> K- mu+ nu sample
 #   PIMUNU:  Configure truth-matching for D0 -> pi- mu+ nu sample
+#   KENU:    Configure truth-matching for D0 -> K- e+ nu sample
+#   PIENU:   Configure truth-matching for D0 -> pi- e+ nu sample
 #   PIPI:    Configure truth-matching for D0 -> pi+ pi- sample
 #   PIPIPI0: Configure truth-matching for D0 -> pi+ pi- pi0 sample
+#   KSPIPI:  Configure truth-matching for D0 -> K_S0 pi+ pi- sample
+#   MDST:    Configure DaVinci for micro-DST input
 #   Absence of flags configures truth-matching D0 -> K- pi+ sample
 
+
+from Configurables import (DaVinci, DecayTreeTuple, CombineParticles, FilterDesktop,
+                           BackgroundCategory, TrackSmearState,
+                           TupleToolMCDaughters)
+from DecayTreeTuple.Configuration import *
+from PhysSelPython.Wrappers import (Selection, SelectionSequence, RebuildSelection)
+from StandardParticles import (StdAllNoPIDsKaons, StdAllNoPIDsPions,
+                               StdAllNoPIDsMuons)
 
 #########################################
 # Load user-defined configuration flags #
 #########################################
 
-from Configurables import DaVinci
-
 # NOTE: We *abuse* DaVinci's MoniSequence to pass additional flags
 user_config = DaVinci().MoniSequence
 DaVinci().MoniSequence = []  # Nothing should be in the sequence after all!
-
-no_flags = (len(user_config) == 0)
 
 def has_flag(*flg):
     for f in flg:
@@ -31,23 +39,22 @@ def has_flag(*flg):
             return True
     return False
 
+d0_bkg_mc = has_flag('KMUNU', 'PIMUNU', 'KENU', 'PIENU', 'PIPI', 'PIPIPI0', 'KSPIPI')
+mdst = has_flag('MDST')
 
 #####################
 # Configure DaVinci #
 #####################
 
-from Configurables import (DecayTreeTuple, CombineParticles, FilterDesktop,
-                           BackgroundCategory, TrackSmearState,
-                           TupleToolMCDaughters)
-from DecayTreeTuple.Configuration import *
-from PhysSelPython.Wrappers import Selection, SelectionSequence
-from StandardParticles import (StdAllNoPIDsKaons, StdAllNoPIDsPions,
-                               StdAllNoPIDsMuons)
-
 ms_smear = TrackSmearState('StateSmear')
 DaVinci().appendToMainSequence([ms_smear])
 
-DaVinci().InputType = 'DST'
+if mdst:
+    stream = 'ALLSTREAMS'
+    DaVinci().RootInTES = f'/Event/{stream}'
+    DaVinci().InputType = 'MDST'
+else:
+    DaVinci().InputType = 'DST'
 DaVinci().PrintFreq = 10000
 DaVinci().SkipEvents = 0
 DaVinci().Lumi = not DaVinci().Simulation
@@ -92,18 +99,25 @@ trig_list = [
 # D* -> D0(-> K pi) pi ntuples for study K/pi misid corrections #
 #################################################################
 
+if mdst:
+    StdAllNoPIDsPions = RebuildSelection(StdAllNoPIDsPions)
+    StdAllNoPIDsKaons = RebuildSelection(StdAllNoPIDsKaons)
+    StdAllNoPIDsMuons = RebuildSelection(StdAllNoPIDsMuons)
 
-cutK  = f'ISLONG & {fromSignal} & {fromDst} & {fromD0}'
-cutPi = f'ISLONG & {fromSignal} & {fromDst} & {fromD0}'
-if no_flags:
+cutK      = f'ISLONG & {fromSignal} & {fromDst} & {fromD0}'
+cutPi     = f'ISLONG & {fromSignal} & {fromDst} & {fromD0}'
+cutPiSoft = f'ISLONG & {fromSignal} & {fromDst} & {notFromD0} & {isPiLoose}'
+if not d0_bkg_mc:
     cutK  += f' & {isKLoose}'
     cutPi += f' & {isPiLoose}'
 
 cutD0  = f'{isD0}'
 cutDst = f'{isDst}'
-if not no_flags:
+if d0_bkg_mc:
     cutD0  += ' & in_range(1735, M, 2000)'
     cutDst += ' & ((M - CHILD(M, 1)) < 168)'
+if has_flag('KSPIPI'):
+    cutD0 = 'in_range(1735, M, 2000)'
 
 filterK = FilterDesktop(
     'FilterK',
@@ -115,7 +129,7 @@ filterPi = FilterDesktop(
     Preambulo=mc_match_preambulo)
 filterPiSoft = FilterDesktop(
     'FilterPiSoft',
-    Code=f'ISLONG & {fromSignal} & {fromDst} & {notFromD0} & {isPiLoose}',
+    Code=cutPiSoft,
     Preambulo=mc_match_preambulo)
 
 selectionK = Selection('SelK',
@@ -217,7 +231,7 @@ sequenceDstPi = SelectionSequence('SeqDstPi',
 
 DaVinci().UserAlgorithms += [sequenceDstK.sequence(), sequenceDstPi.sequence()]
 
-if no_flags:
+if not d0_bkg_mc:
     #########################################
     # K/pi ntuples for DiF smearing studies #
     #########################################
