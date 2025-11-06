@@ -470,6 +470,8 @@ calculation:
     d0_dira: double; d0_DIRA_OWNPV
     d0_fd_chi2: double; d0_FDCHI2_OWNPV
     d0_log_fd_chi2: double; LOG(d0_fd_chi2)
+    d0_fd_pv: double; d0_FD_OWNPV
+    d0_tau_pv: double; d0_fd_pv * d0_M / d0_P
     d0_ip_chi2: double; d0_IPCHI2_OWNPV
     d0_log_ip_chi2: double; LOG(d0_ip_chi2)
     d0_ip: double; d0_IP_OWNPV
