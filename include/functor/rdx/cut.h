@@ -139,16 +139,16 @@ Bool_t FLAG_SEL_D0_RUN1(Bool_t flag_d0_pid_ok,
   if (flag_d0_pid_ok &&
       /* K, pi */
       // ((k_hlt1_tos && k_pt > 1700.0) || (pi_hlt1_tos && pi_pt > 1700.0)) &&
-      k_pt > 500.0 && pi_pt > 500.0 && k_pt+pi_pt > 1400.0 &&
+      // k_pt > 500.0 && pi_pt > 500.0 && k_pt+pi_pt > 1400.0 &&
       k_ip_chi2 > 45.0 && pi_ip_chi2 > 45.0 &&
       k_gh_prob < 0.5 && pi_gh_prob < 0.5 &&
       /* D0 */
-      d0_pt > 2000.0 &&
+      // d0_pt > 2000.0 &&
       d0_hlt2 && // TODO: Alex--why is this here? I assume relic debugging thing? It's manually set to true
       d0_endvtx_chi2/d0_endvtx_ndof < 4.0 &&
       TMath::Log(d0_ip) > -3.5 &&
       d0_ip_chi2 > 9.0 &&
-      d0_dira > 0.9998 &&  /* should be loosed for run 2 */
+      // d0_dira > 0.9998 &&  /* should be loosed for run 2 */
       d0_fd_chi2 > 250.0
       )
     // clang-format on
@@ -198,7 +198,7 @@ Bool_t FLAG_SEL_GOOD_TRACKS(ROOT::Math::XYZVector              ref_trk,
 
 Bool_t FLAG_SEL_MU_PID_OK_RUN1(Bool_t mu_is_mu, Double_t mu_pid_mu,
                                Double_t mu_pid_e) {
-  return mu_is_mu && mu_pid_mu > 2.0 && mu_pid_e < 1.0;
+  return mu_is_mu && mu_pid_e < 1.0; // && mu_pid_mu > 2.0
 }
 
 Bool_t FLAG_SEL_MU_PID_OK_RUN2ANG(Bool_t mu_is_mu, Double_t mu_pid_mu,
@@ -261,7 +261,7 @@ Bool_t FLAG_SEL_BMINUSD0_RUN1(Bool_t flag_sel_d0, Bool_t flag_sel_mu,
       /* FD */
       b_fd_trans < 7.0 &&
       /* Vertex quality */
-      b_endvtx_chi2 / b_endvtx_ndof < 6.0 && b_dira > 0.9995 &&
+      b_endvtx_chi2 / b_endvtx_ndof < 6.0 && // b_dira > 0.9995 &&
       /* Veto D* in D0 sample */
       d0_dst_veto_deltam > 4.0 &&  // MeV!
       mcgen_ok
@@ -316,7 +316,7 @@ Bool_t FLAG_SEL_B0DST_RUN1(Bool_t flag_sel_d0, Bool_t flag_sel_mu,
       b0_endvtx_chi2 < 24.0 &&
       b0_endvtx_chi2 / b0_endvtx_ndof < 6.0 &&
       b0_fd_trans < 7.0 &&
-      b0_dira > 0.9995 &&
+      // b0_dira > 0.9995 &&
       mcgen_ok
       )
     // clang-format on
