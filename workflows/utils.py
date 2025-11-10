@@ -12,6 +12,7 @@ import fnmatch
 import os
 import os.path as op  # NOTE: Can't use pathlib because that doesn't handle symbolic link well
 import socket
+import random
 
 from os import makedirs, chdir, system
 from datetime import datetime
@@ -114,7 +115,7 @@ def ensure_file(path):
 
 
 def find_all_input(inputs,
-                   patterns=['*.root'], blocked_patterns=['--aux'],
+                   patterns=['*.root'], blocked_patterns=['--aux'], keep_frac=1.0,
                    make_absolute=True):
     result = []
     if not isinstance(inputs, list):
@@ -136,8 +137,19 @@ def find_all_input(inputs,
                     result.append(f)
 
     # Remove files that contains blocked patterns
-    return [f for f in result if True not in
-            [bool(re.search(p, f)) for p in blocked_patterns]]
+    print(f'NOTE: not using input with patterns {blocked_patterns}')
+    result = [f for f in result if True not in
+              [bool(re.search(p, f)) for p in blocked_patterns]]
+    
+    # If user only wants a fraction of files p, randomly remove 1-p of files
+    files_to_rm = int(len(result)*(1.0-keep_frac))
+    print(f'NOTE: not using {100*(1-keep_frac)}% of input')
+    while files_to_rm>0:
+        rm_idx = random.randint(0,len(result)-1)
+        result = result[:rm_idx] + result[rm_idx+1:]
+        files_to_rm -= 1
+    
+    return result
 
 
 ################
@@ -501,12 +513,13 @@ def workflow_prep_dir(job_name, inputs,
                       patterns=['*.root'],
                       blocked_patterns=['--aux'],
                       delete_if_exist=True,
+                      keep_frac=1.0
                       ):
     TC = TermColor
     print('{}==== Job: {} ===={}'.format(TC.BOLD+TC.GREEN, job_name, TC.END))
 
     # Need to figure out the absolute path
-    input_files = find_all_input(inputs, patterns, blocked_patterns)
+    input_files = find_all_input(inputs, patterns, blocked_patterns, keep_frac)
     if not input_files:
         print("{}Can't find any file with the pattern '{}'{}".format(
             TC.BOLD+TC.RED, inputs, TC.END))
