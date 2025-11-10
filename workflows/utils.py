@@ -562,3 +562,67 @@ def workflow_split_base(inputs, input_yml, job_name='split', prefix='Dst_D0',
             if glob(f'ntuple/*/{p}--{name}--*.root'):
                 print(f'Merging prefix {p} of {name}...')
                 run_cmd(f'hadd -fk {mergeDir}/{p}--{name}.root ntuple/*/{p}--{name}--*.root', **kwargs)
+
+# note: subworkdirs is a dict from subjobs dirs inside workdir to the path the the file being used for the subjobs.
+# this would be a good place to implement aux tuple moving (or in a second function that also uses subworkdirs).
+# if warn_only==True, then safe_merge doesn't stop merging process if files don't exist, it just skips over those files
+# and logs the ones that don't exist in a yml in the merged output folder
+def safe_merge(workdir, subworkdirs, warn_only=True, **kwargs):
+    chdir(workdir)
+    # sometimes the step2 dates seem like they're messed up +/-1, so ensure everything in ntuples/ is a consistent date (set it to today)
+    date = gen_date()
+    for ntp in glob('ntuple/*'):
+        ntpnew = ntp.replace(ntp.split("--")[1],date)
+        if ntp!=ntpnew: run_cmd(f'mv {ntp} {ntp.replace(ntp.split("--")[1],date)}', **kwargs)
+    if 'trees' in kwargs:
+        trees = kwargs['trees']
+    else: # assumedly, ntuples produced for at least some subjobs, so can use them for tree names too
+        trees = set()
+        for sd in subworkdirs:
+            for rf in glob(f'ntuple/*'): trees.add(rf.split('/')[-1].split('--')[0])
+        trees = list(trees)
+
+    # assuming here that if all files expected to be produced do exist, then all expected branches do exist and hadd below is safe (seen to not always be true... but not many cases)
+    if warn_only:
+        missing_s2ntps = []
+        missing_aux = []
+    for sd in subworkdirs:
+        # check expected output exists
+        for tree in trees:
+            if not op.isfile(f'ntuple/{tree}--{generate_step2_name(sd+".root", date=date)}.root'):
+                if not warn_only:
+                    print(f'{sd} does not have output {tree}--{generate_step2_name(sd+".root", date=date)} saved in ntuple/, fix this before merging can continue')
+                    sys.exit(2)
+                else:
+                    missing_s2ntps.append(f'{tree}--{generate_step2_name(sd+".root", date=date)}.root')
+        # check for any dangling aux links
+        for rf in glob(f'{sd}/*.root'):
+            if not op.isfile(rf):
+                if not warn_only:
+                    print(f'{rf} does not exist... fix this before merging can continue')
+                    sys.exit(3)
+                else:
+                    missing_aux.append(rf)
+
+    # everything exists (assuming not warn_only, otherwise user doesn't care that everything exists), so merge ntuples
+    mergeDir = f'{"/".join(workdir.split("/")[:-1])}/{date}--merged--{workdir.split("/")[-1]}'
+    print(f'\n\nMerging results into {mergeDir}...\n')
+    if op.isdir(mergeDir):
+        print(f'{mergeDir} already exists... deleting and creating new\n')
+        run_cmd(f'rm -rf {mergeDir}', **kwargs)
+    makedirs(mergeDir)
+    uniq_names = set(generate_step2_name(sd+'.root', keep_index=False, date=date) for sd in subworkdirs)
+    for name in uniq_names:
+        for t in trees:
+            if len(glob(f'ntuple/{t}--{name}--*.root'))==0:
+                print(f'No tree {t} produced for {name}! Moving to next tree...')
+                if warn_only:
+                    # don't worry about these files being missing if none were produced!
+                    for ntp in missing_s2ntps:
+                        if f'{t}--{name}' in ntp: missing_s2ntps.remove(ntp)
+                continue
+            print(f'Merging tree {t} of {name}...')
+            run_cmd(f'hadd -fk {mergeDir}/{t}--{name}.root ntuple/{t}--{name}--*.root', **kwargs) # note that this isn't meant to go with workflow_split workflow, so one less layer of subdirs in ntuple/
+    if warn_only:
+        with open(f'{mergeDir}/missing.yml', 'w') as yml:
+            yaml.safe_dump({'ntuples': missing_s2ntps, 'aux': missing_aux}, yml, sort_keys=False)
