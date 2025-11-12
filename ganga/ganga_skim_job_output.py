@@ -5,7 +5,6 @@
 # Last Change: Sun Feb 13, 2022 at 01:37 PM -0500
 
 import os
-import sys
 
 from argparse import ArgumentParser
 from glob import glob
@@ -70,7 +69,7 @@ def fltr_subjob_ntps(job_folder):
         if len(rootfiles) > 1:
             assert False, f'\nERROR: More than one .root files in {folder}, unexpected behavior\n'
         for f in rootfiles:
-            if os.stat(f).st_size < 500 * 1024: # < 500KB file is suspicious
+            if os.stat(f).st_size < 100 * 1024: # < 100KB file is suspicious
                 assert False, f'\nERROR: Something wrong with {f}, too small\n'
             ntps.append(f)
             subfolders.append(f.split('/')[-3])

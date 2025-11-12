@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
+export PATH=$DIR/../../ganga:$PATH
+EXE=ganga_jobs-DV46r12.py
+
+# WARNING: Need to switch flags in the *-mb condition files
+
+for i in 30000000; do
+    for y in 2016 2017 2018; do
+        for p in md mu; do
+            $EXE \
+                ../reco_Dst_D0-mb.py \
+                ../conds/cond-mc-$y-$p-sim10b-mb.py \
+                -p $p -d $i
+        done
+    done
+done
