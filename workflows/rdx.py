@@ -21,7 +21,8 @@ from utils import (
     load_yaml_db, smart_kwarg,
     generate_step2_name, find_year,
     workflow_compile_cpp, workflow_cached_ntuple, workflow_apply_weight,
-    workflow_prep_dir, workflow_split_base
+    workflow_prep_dir, workflow_split_base,
+    safe_merge
 )
 from utils import TermColor as TC
 
@@ -334,6 +335,11 @@ def workflow_data(inputs, input_yml, job_name='data', use_ubdt=True,
         pool.join()
         pool.clear()
 
+    # workaround to avoid workflow_split, which seems to mess up parallelization in some cases
+    # also, the "safe" refers to checking that all tuples expected to be produced in fact exist, so some added benefit
+    # the printouts without using workflow_split are repetitive, though
+    if 'merge' in kwargs and kwargs['merge']: safe_merge(workdir, subworkdirs, **kwargs)
+
 
 # Just an alias
 def workflow_mc_ghost(*args, **kwargs):
@@ -381,7 +387,7 @@ def workflow_mc(inputs, input_yml, job_name='mc', date=None,
                 use_hammer_dstnocorr=False, use_hammer_dst10signocorr=False,
                 use_hammer_dstrun1=False, use_hammer_no_rescale=False,
                 num_of_workers=12, **kwargs):
-    if (any(elem in inputs for elem in ["15574081", "15574082", "15574083"])):
+    if (any((elem in inputs or (isinstance(inputs,list) and len(inputs)>0 and elem in inputs[0])) for elem in ["15574081", "15574082", "15574083"])):
         aux_workflows = [
             workflow_trigger_emu, workflow_pid, workflow_trk, workflow_jkp,
             workflow_vertex#, workflow_vertex_scale
@@ -425,6 +431,11 @@ def workflow_mc(inputs, input_yml, job_name='mc', date=None,
         pool.close()
         pool.join()
         pool.clear()
+    
+    # workaround to avoid workflow_split, which seems to mess up parallelization in some cases
+    # also, the "safe" refers to checking that all tuples expected to be produced in fact exist, so some added benefit
+    # the printouts without using workflow_split are repetitive, though
+    if 'merge' in kwargs and kwargs['merge']: safe_merge(workdir, subworkdirs, **kwargs)
 
 
 def workflow_split(inputs, input_yml, job_name='split', **kwargs):
@@ -446,6 +457,28 @@ def workflow_split_mc_ghost(inputs, input_yml, job_name='split', **kwargs):
 #####################
 
 JOBS = {
+    # testing
+    'Dst_D0-std-test': partial(
+        workflow_split,
+        '../ntuples/0.9.12-all_years/2016/data/*std*/*001*',
+        '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
+    ),
+    'Dst_D0-mc-test': partial(
+        workflow_split,
+        '../ntuples/0.9.12-all_years/2016/sig/DstTau*/*001*',
+        '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
+    ),
+    'rdx-ntuple-run2-mc-to-ddx-test': partial(
+        workflow_split,
+        [f'../ntuples/0.9.6-2016_production/Dst_D0-mc-tracker_only/*{i}*.DST' for i in \
+                [11894600, 12893600, 11894200, 12893610,
+                 11894610, 12895400, 11894210, 12895000,
+                 11895400]],
+        '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
+        use_hammer=False,
+        blocked_patterns=['--aux', r'--([1-9][0-9]|[1-9][0-9][0-9]|[0-9][1-9][0-9])-dv'],
+        num_of_workers=20
+    ),
     # External Run 2
     'RJpsi-ntuple-run2-mc_ghost-16': partial(
         workflow_mc_ghost,
@@ -473,36 +506,46 @@ JOBS = {
     ),
     # Run 2 data (all years)
     'Dst_D0-std-all': partial(
-        workflow_split,
+        workflow_data,
         '../ntuples/0.9.12-all_years/201*/data/*std*',
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
+        merge=True,
+        # keep_frac = 0.1,
+        num_of_workers=20
     ),
     'Dst_D0-mu_misid-all': partial(
-        workflow_split,
-        '../ntuples/0.9.12-all_years/201*/data/*fake_mu*',
+        workflow_data,
+        '../ntuples/0.9.15-misid_pid_kept/*/data/*fake_mu*',
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
+        num_of_workers=20,
         cli_vars={'cli_misid': 'true'},
+        merge=True,
+        # keep_frac = 0.1,
         use_misid=True,
         use_ubdt=False
     ),
     'Dst_D0-mu_misid-vmu-all': partial(
-        workflow_split,
-        '../ntuples/0.9.12-all_years/201*/data/*fake_mu*',
+        workflow_data,
+        '../ntuples/0.9.15-misid_pid_kept/*/data/*fake_mu*',
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
         cli_vars={
             'cli_misid': 'true',
             'cli_vmu': 'true'
         },
+        num_of_workers=20,
         use_misid=True,
         use_ubdt=False,
+        merge=True,
         ctrl_sample=True
     ),
     'rdx-ntuple-run2-misid_study-all': partial(
-        workflow_split,
-        '../ntuples/0.9.12-all_years/201*/data/*fake_mu*',
+        workflow_data,
+        '../ntuples/0.9.15-misid_pid_kept/*/data/*fake_mu*',
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
         cli_vars={'cli_misid_study': 'true'},
-        use_ubdt=False
+        merge=True,
+        use_ubdt=False,
+        num_of_workers=20
     ),
     # Run 2 data (old, only 2016)
     'Dst_D0-std': partial(
@@ -552,14 +595,16 @@ JOBS = {
         blocked_patterns=['--aux', 'MC_2012']
     ),
     # Run 2 MC full sim for Lb
-    'Dst_D0-mc-fullsim-Lb': partial(
-        workflow_split,
+    'Dst_D0-mc-fullsim-Lb-all': partial(
+        workflow_mc,
         [
-            f'../ntuples/0.9.11-Lb-mc-fullsim/*{i}*.DST'
+            f'../ntuples/0.9.12-all_years/*/Lb/*{i}*'
             for i in [15574081, 15574082, 15574083]
         ],
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
         use_hammer=False,
+        merge=True,
+        # keep_frac = 0.1,
         num_of_workers=20
     ),
     # Run 2 b-inclusive D* production fullsim MC
@@ -621,7 +666,7 @@ JOBS = {
     ),
     # Run 2 MC tracker only
     'Dst_D0-mc-tracker_only-sig_norm-all': partial(
-        workflow_split,
+        workflow_mc,
         [
             # D0
             '../ntuples/0.9.12-all_years/201*/norm_D0Mu/*12573012*', # norm
@@ -634,11 +679,13 @@ JOBS = {
         ],
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
         # use_hammer_alt=True,
-        use_hammer_dstrun1=True,
+        # use_hammer_dstrun1=True,
+        merge=True,
+        # keep_frac = 0.1,
         num_of_workers=20
     ),
     'Dst_D0-mc-tracker_only-DDX-all': partial(
-        workflow_split,
+        workflow_mc,
         [f'../ntuples/0.9.12-all_years/201*/DDX/*{i}*'
             for i in [
                 11894600, 12893600, 11894200, 12893610,
@@ -651,37 +698,45 @@ JOBS = {
         ,
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
         use_hammer=False,
+        merge=True,
+        # keep_frac = 0.1,
         num_of_workers=20
     ),
     'Dst_D0-mc-tracker_only-Dstst-all': partial(
-        workflow_split,
+        workflow_mc,
         [
             f'../ntuples/0.9.12-all_years/201*/Dstst/*{i}*'
             for i in [11874430, 11874440, 12873450, 12873460]
         ],
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
         # use_hammer_alt=True,
-        use_hammer_no_rescale=True, # not nominally used for D**
+        # use_hammer_no_rescale=True, # not nominally used for D**
+        merge=True,
+        # keep_frac = 0.1,
         num_of_workers=20
     ),
     'Dst_D0-mc-tracker_only-Dstst_heavy-all': partial(
-        workflow_split,
+        workflow_mc,
         [
             f'../ntuples/0.9.12-all_years/201*/Dstst_heavy/*{i}*'
             for i in [12675011, 11674401, 12675402, 11676012, 12875440]
         ],
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
         use_hammer=False,
+        merge=True,
+        # keep_frac = 0.1,
         num_of_workers=20
     ),
     'Dst_D0-mc-tracker_only-D_s-all': partial(
-        workflow_split,
+        workflow_mc,
         [
             f'../ntuples/0.9.12-all_years/201*/Ds/*{i}*'
             for i in [13874020, 13674000]
         ],
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
         # use_hammer_alt=True,
+        merge=True,
+        # keep_frac = 0.1,
         num_of_workers=20
     ),
     # Run 2 MC tracker only (old, only 2016)
@@ -836,17 +891,6 @@ JOBS = {
         '../ntuples/0.9.6-2016_production/Dst_D0-mc-tracker_only/*MagDown*11574021*.DST',
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
         blocked_patterns=['--aux', r'--([1-9][0-9][0-9]|0[1-9][0-9])-dv']
-    ),
-    'rdx-ntuple-run2-mc-to-ddx-test': partial(
-        workflow_split,
-        [f'../ntuples/0.9.6-2016_production/Dst_D0-mc-tracker_only/*{i}*.DST' for i in \
-                [11894600, 12893600, 11894200, 12893610,
-                 11894610, 12895400, 11894210, 12895000,
-                 11895400]],
-        '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
-        use_hammer=False,
-        blocked_patterns=['--aux', r'--([1-9][0-9]|[1-9][0-9][0-9]|[0-9][1-9][0-9])-dv'],
-        num_of_workers=20
     ),
     'rdx-ntuple-run2-mc-dss': partial(
         workflow_mc,
