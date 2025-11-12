@@ -431,7 +431,7 @@ def workflow_mc(inputs, input_yml, job_name='mc', date=None,
         pool.close()
         pool.join()
         pool.clear()
-    
+
     # workaround to avoid workflow_split, which seems to mess up parallelization in some cases
     # also, the "safe" refers to checking that all tuples expected to be produced in fact exist, so some added benefit
     # the printouts without using workflow_split are repetitive, though
@@ -524,20 +524,6 @@ JOBS = {
         use_misid=True,
         use_ubdt=False
     ),
-    'Dst_D0-mu_misid-vmu-all': partial(
-        workflow_data,
-        '../ntuples/0.9.15-misid_pid_kept/*/data/*fake_mu*',
-        '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
-        cli_vars={
-            'cli_misid': 'true',
-            'cli_vmu': 'true'
-        },
-        num_of_workers=20,
-        use_misid=True,
-        use_ubdt=False,
-        merge=True,
-        ctrl_sample=True
-    ),
     'rdx-ntuple-run2-misid_study-all': partial(
         workflow_data,
         '../ntuples/0.9.15-misid_pid_kept/*/data/*fake_mu*',
@@ -549,30 +535,38 @@ JOBS = {
     ),
     # Run 2 data (old, only 2016)
     'Dst_D0-std': partial(
-        workflow_split,
-        '../ntuples/0.9.6-2016_production/Dst_D0-std/',
+        workflow_data,
+        '../ntuples/0.9.6-2016_production/Dst_D0-std/*',
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
+        num_of_workers=16,
+        merge=True
     ),
     'rdx-ntuple-run2-data-cut_opt': partial(
-        workflow_split,
-        '../ntuples/0.9.6-2016_production/Dst_D0-std/',
+        workflow_data,
+        '../ntuples/0.9.6-2016_production/Dst_D0-std/*',
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
-        cli_vars={'cli_cutflow': 'true'}
+        cli_vars={'cli_cutflow': 'true'},
+        num_of_workers=16,
+        merge=True
     ),
     'Dst_D0-mu_misid': partial(
-        workflow_split,
-        '../ntuples/0.9.6-2016_production/Dst_D0-mu_misid/',
+        workflow_data,
+        '../ntuples/0.9.6-2016_production/Dst_D0-mu_misid/*',
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
         cli_vars={'cli_misid': 'true'},
         use_misid=True,
-        use_ubdt=False
+        use_ubdt=False,
+        num_of_workers=16,
+        merge=True
     ),
     'rdx-ntuple-run2-misid_study': partial(
-        workflow_split,
-        '../ntuples/0.9.6-2016_production/Dst_D0-mu_misid/',
+        workflow_data,
+        '../ntuples/0.9.6-2016_production/Dst_D0-mu_misid/*',
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
         cli_vars={'cli_misid_study': 'true'},
-        use_ubdt=False
+        use_ubdt=False,
+        num_of_workers=16,
+        merge=True
     ),
     # Some special run 2 MC
     'rdx-ntuple-run2-mc_ghost': partial(
@@ -611,44 +605,54 @@ JOBS = {
     # Needed for ghost misid unfolding, misid DiF smearing and
     # K, pi misid corrections for pidcalib
     'incl_b_dst_mc-misid_corrections-k': partial(
-        workflow_split_mc_ghost,
+        workflow_data,
         '../ntuples/0.9.14-incl_b-Dst-fullsim/*',
         '../postprocess/rdx-run2/rdx-run2_incl_b_dst_k.yml',
         trees=['TupleDstANNK/DecayTree'],
         particle='k',
-        cache_suffix='--aux_ubdt-k_corr'
+        cache_suffix='--aux_ubdt-k_corr',
+        num_of_workers=16,
+        merge=True
     ),
     'incl_b_dst_mc-misid_corrections-pi': partial(
-        workflow_split_mc_ghost,
+        workflow_data,
         '../ntuples/0.9.14-incl_b-Dst-fullsim/*',
         '../postprocess/rdx-run2/rdx-run2_incl_b_dst_pi.yml',
         trees=['TupleDstANNPi/DecayTree'],
         particle='pi',
-        cache_suffix='--aux_ubdt-pi_corr'
+        cache_suffix='--aux_ubdt-pi_corr',
+        num_of_workers=16,
+        merge=True
     ),
     'incl_b_dst_mc-misid_smearing-k': partial(
-        workflow_split_mc_ghost,
+        workflow_data,
         '../ntuples/0.9.14-incl_b-Dst-fullsim/*',
         '../postprocess/rdx-run2/rdx-run2_incl_b_k_smr.yml',
         trees=['TupleKDiF/DecayTree'],
         particle='k',
-        cache_suffix='--aux_ubdt-k_smr'
+        cache_suffix='--aux_ubdt-k_smr',
+        num_of_workers=16,
+        merge=True
     ),
     'incl_b_dst_mc-misid_smearing-pi': partial(
-        workflow_split_mc_ghost,
+        workflow_data,
         '../ntuples/0.9.14-incl_b-Dst-fullsim/*',
         '../postprocess/rdx-run2/rdx-run2_incl_b_pi_smr.yml',
         trees=['TuplePiDiF/DecayTree'],
         particle='pi',
-        cache_suffix='--aux_ubdt-pi_smr'
+        cache_suffix='--aux_ubdt-pi_smr',
+        num_of_workers=16,
+        merge=True
     ),
     'incl_b_dst_mc-eghost-unfolding': partial(
-        workflow_split_mc_ghost,
+        workflow_data,
         '../ntuples/0.9.14-incl_b-Dst-fullsim/*',
         '../postprocess/rdx-run2/rdx-run2_incl_b_eghost.yml',
         trees=['EorGhost/DecayTree'],
         particle='mu',
-        cache_suffix='--aux_ubdt-eghost'
+        cache_suffix='--aux_ubdt-eghost',
+        num_of_workers=16,
+        merge=True
     ),
     # Run 2 inclusive B -> D* production fullsim MC
     # Used in addition to the samples above to improve

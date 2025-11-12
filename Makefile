@@ -138,7 +138,7 @@ Dst_D0-mc-tracker_only-Dstst_heavy:
 Dst_D0-mc-tracker_only-D_s:
 	workflows/rdx.py $@ 2>&1 | tee ${TIMESTAMP}-step2-ntuple_mc-to-d_s.log
 
-# b-inclusive D* ntuplesfor misid studies
+# b-inclusive D* ntuples for misid studies
 incl_b_dst_mc-misid_corrections-k:
 	workflows/rdx.py $@ 2>&1 | tee ${TIMESTAMP}-step2-incl_b_dst_mc-misid-k.log
 
