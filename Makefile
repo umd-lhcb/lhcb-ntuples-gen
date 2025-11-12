@@ -154,6 +154,96 @@ incl_b_dst_mc-misid_smearing-pi:
 incl_b_dst_mc-eghost-unfolding:
 	workflows/rdx.py $@ 2>&1 | tee ${TIMESTAMP}-step2-incl_b_dst_mc-eghost.log
 
+# Additional inclusive D* ntuples for misid studies
+bd_dstx_mc-misid_corrections-k:
+	workflows/rdx.py $@ 2>&1 | tee ${TIMESTAMP}-step2-bd_dstx_mc-misid-k.log
+
+bd_dstx_mc-misid_corrections-pi:
+	workflows/rdx.py $@ 2>&1 | tee ${TIMESTAMP}-step2-bd_dstx_mc-misid-pi.log
+
+# inclusive D* samples with mis-reconstructed D0 decays
+d0_bkg_all: d0_bkg_k d0_bkg_pi
+
+d0_bkg_k: \
+	d0_bkg_pipipi0_phsp-misid_corrections-k \
+	d0_bkg_pipipi0_dalitz-misid_corrections-k \
+	d0_bkg_pimunu-misid_corrections-k \
+	d0_bkg_kmunu-misid_corrections-k \
+	d0_bkg_pipi-misid_corrections-k \
+	d0_bkg_kspipi-misid_corrections-k \
+	d0_bkg_pienu-misid_corrections-k \
+	d0_bkg_kenu-misid_corrections-k
+
+d0_bkg_pi: \
+	d0_bkg_pipipi0_phsp-misid_corrections-pi \
+	d0_bkg_pipipi0_dalitz-misid_corrections-pi \
+	d0_bkg_pimunu-misid_corrections-pi \
+	d0_bkg_kmunu-misid_corrections-pi \
+	d0_bkg_pipi-misid_corrections-pi \
+	d0_bkg_kspipi-misid_corrections-pi \
+	d0_bkg_pienu-misid_corrections-pi \
+	d0_bkg_kenu-misid_corrections-pi
+
+
+d0_bkg_pipipi0_phsp-misid_corrections-k:
+	workflows/rdx.py $@ 2>&1 | tee ${TIMESTAMP}-step2-d0_bkg_pipipi0_phsp_mc-misid-k.log
+
+d0_bkg_pipipi0_dalitz-misid_corrections-k:
+	workflows/rdx.py $@ 2>&1 | tee ${TIMESTAMP}-step2-d0_bkg_pipipi0_dalitz_mc-misid-k.log
+
+d0_bkg_pimunu-misid_corrections-k:
+	workflows/rdx.py $@ 2>&1 | tee ${TIMESTAMP}-step2-d0_bkg_pimunu_mc-misid-k.log
+
+d0_bkg_kmunu-misid_corrections-k:
+	workflows/rdx.py $@ 2>&1 | tee ${TIMESTAMP}-step2-d0_bkg_kmunu_mc-misid-k.log
+
+d0_bkg_pipi-misid_corrections-k:
+	workflows/rdx.py $@ 2>&1 | tee ${TIMESTAMP}-step2-d0_bkg_pipi_mc-misid-k.log
+
+d0_bkg_kspipi-misid_corrections-k:
+	workflows/rdx.py $@ 2>&1 | tee ${TIMESTAMP}-step2-d0_bkg_kspipi_mc-misid-k.log
+
+d0_bkg_pienu-misid_corrections-k:
+	workflows/rdx.py $@ 2>&1 | tee ${TIMESTAMP}-step2-d0_bkg_pienu_mc-misid-k.log
+
+d0_bkg_kenu-misid_corrections-k:
+	workflows/rdx.py $@ 2>&1 | tee ${TIMESTAMP}-step2-d0_bkg_kenu_mc-misid-k.log
+
+d0_bkg_pipipi0_phsp-misid_corrections-pi:
+	workflows/rdx.py $@ 2>&1 | tee ${TIMESTAMP}-step2-d0_bkg_pipipi0_phsp_mc-misid-pi.log
+
+d0_bkg_pipipi0_dalitz-misid_corrections-pi:
+	workflows/rdx.py $@ 2>&1 | tee ${TIMESTAMP}-step2-d0_bkg_pipipi0_dalitz_mc-misid-pi.log
+
+d0_bkg_pimunu-misid_corrections-pi:
+	workflows/rdx.py $@ 2>&1 | tee ${TIMESTAMP}-step2-d0_bkg_pimunu-misid-pi.log
+
+d0_bkg_kmunu-misid_corrections-pi:
+	workflows/rdx.py $@ 2>&1 | tee ${TIMESTAMP}-step2-d0_bkg_kmunu_mc-misid-pi.log
+
+d0_bkg_pipi-misid_corrections-pi:
+	workflows/rdx.py $@ 2>&1 | tee ${TIMESTAMP}-step2-d0_bkg_pipi_mc-misid-pi.log
+
+d0_bkg_kspipi-misid_corrections-pi:
+	workflows/rdx.py $@ 2>&1 | tee ${TIMESTAMP}-step2-d0_bkg_kspipi_mc-misid-pi.log
+
+d0_bkg_pienu-misid_corrections-pi:
+	workflows/rdx.py $@ 2>&1 | tee ${TIMESTAMP}-step2-d0_bkg_pienu_mc-misid-pi.log
+
+d0_bkg_kenu-misid_corrections-pi:
+	workflows/rdx.py $@ 2>&1 | tee ${TIMESTAMP}-step2-d0_bkg_pipi_mc-misid-pi.log
+
+# b-inclusive minimum bias samples with [D*+ -> (D0 -> X) pi+]cc candidates
+d0_bkg_mb: \
+    d0_bkg-mb-misid_corrections-k \
+    d0_bkg-mb-misid_corrections-pi
+
+d0_bkg-mb-misid_corrections-k:
+	workflows/rdx.py $@ 2>&1 | tee ${TIMESTAMP}-step2-d0_bkg_mb_mc-misid-k.log
+
+d0_bkg-mb-misid_corrections-pi:
+	workflows/rdx.py $@ 2>&1 | tee ${TIMESTAMP}-step2-d0_bkg_mb_mc-misid-pi.log
+
 # Debug
 rdx-ntuple-run2-mc-demo:
 	workflows/rdx.py $@

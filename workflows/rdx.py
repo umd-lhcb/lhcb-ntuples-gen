@@ -650,6 +650,224 @@ JOBS = {
         particle='mu',
         cache_suffix='--aux_ubdt-eghost'
     ),
+    # Run 2 inclusive B -> D* production fullsim MC
+    # Used in addition to the samples above to improve
+    # modeling of the signal D* -> (D0 -> K pi) pi decay
+    'bd_dstx_mc-misid_corrections-k': partial(
+        workflow_data,
+        '../ntuples/0.9.17-bd_dstx-fullsim/*',
+        '../postprocess/rdx-run2/rdx-run2_incl_b_dst_k.yml',
+        trees=['TupleDstANNK/DecayTree'],
+        particle='k',
+        cache_suffix='--aux_ubdt-k',
+        num_of_workers=16,
+        merge=True
+    ),
+    'bd_dstx_mc-misid_corrections-pi': partial(
+        workflow_data,
+        '../ntuples/0.9.17-bd_dstx-fullsim/*',
+        '../postprocess/rdx-run2/rdx-run2_incl_b_dst_pi.yml',
+        trees=['TupleDstANNPi/DecayTree'],
+        particle='pi',
+        cache_suffix='--aux_ubdt-pi',
+        num_of_workers=16,
+        merge=True
+    ),
+    # Run 2 inclusive D* production fullsim MC samples with background
+    # D0 decays. Needed for K, pi misid efficiencies.
+    # D*+ -> (D0 -> pi+ pi* pi0) pi+
+    'd0_bkg_pipipi0_phsp-misid_corrections-k': partial(
+        workflow_data,
+        '../ntuples/0.9.16-mc_d0_bkg_misid/27163403/*',
+        '../postprocess/rdx-run2/rdx-run2_incl_b_dst_k.yml',
+        trees=['TupleDstANNK/DecayTree'],
+        particle='k',
+        cache_suffix='--aux_ubdt-k',
+        num_of_workers=16,
+        merge=True
+    ),
+    'd0_bkg_pipipi0_dalitz-misid_corrections-k': partial(
+        workflow_data,
+        '../ntuples/0.9.16-mc_d0_bkg_misid/27163404/*',
+        '../postprocess/rdx-run2/rdx-run2_incl_b_dst_k.yml',
+        trees=['TupleDstANNK/DecayTree'],
+        particle='k',
+        cache_suffix='--aux_ubdt-k',
+        num_of_workers=16,
+        merge=True
+    ),
+    'd0_bkg_pipipi0_phsp-misid_corrections-pi': partial(
+        workflow_data,
+        '../ntuples/0.9.16-mc_d0_bkg_misid/27163403/*',
+        '../postprocess/rdx-run2/rdx-run2_incl_b_dst_pi.yml',
+        trees=['TupleDstANNPi/DecayTree'],
+        particle='pi',
+        cache_suffix='--aux_ubdt-pi',
+        num_of_workers=16,
+        merge=True
+    ),
+    'd0_bkg_pipipi0_dalitz-misid_corrections-pi': partial(
+        workflow_data,
+        '../ntuples/0.9.16-mc_d0_bkg_misid/27163404/*',
+        '../postprocess/rdx-run2/rdx-run2_incl_b_dst_pi.yml',
+        trees=['TupleDstANNPi/DecayTree'],
+        particle='pi',
+        cache_suffix='--aux_ubdt-pi',
+        num_of_workers=16,
+        merge=True
+    ),
+    # D*+ -> (D0 -> pi- mu+ nu) pi+
+    'd0_bkg_pimunu-misid_corrections-k': partial(
+        workflow_data,
+        '../ntuples/0.9.16-mc_d0_bkg_misid/27573001/*',
+        '../postprocess/rdx-run2/rdx-run2_incl_b_dst_k.yml',
+        trees=['TupleDstANNK/DecayTree'],
+        particle='k',
+        cache_suffix='--aux_ubdt-k',
+        num_of_workers=16,
+        merge=True
+    ),
+    'd0_bkg_pimunu-misid_corrections-pi': partial(
+        workflow_data,
+        '../ntuples/0.9.16-mc_d0_bkg_misid/27573001/*',
+        '../postprocess/rdx-run2/rdx-run2_incl_b_dst_pi.yml',
+        trees=['TupleDstANNPi/DecayTree'],
+        particle='pi',
+        cache_suffix='--aux_ubdt-pi',
+        num_of_workers=16,
+        merge=True
+    ),
+    # D*+ -> (D0 -> K- mu+ nu) pi+
+    'd0_bkg_kmunu-misid_corrections-k': partial(
+        workflow_data,
+        '../ntuples/0.9.16-mc_d0_bkg_misid/27173001/*',
+        '../postprocess/rdx-run2/rdx-run2_incl_b_dst_k.yml',
+        trees=['TupleDstANNK/DecayTree'],
+        particle='k',
+        cache_suffix='--aux_ubdt-k',
+        num_of_workers=16,
+        merge=True
+    ),
+    'd0_bkg_kmunu-misid_corrections-pi': partial(
+        workflow_data,
+        '../ntuples/0.9.16-mc_d0_bkg_misid/27173001/*',
+        '../postprocess/rdx-run2/rdx-run2_incl_b_dst_pi.yml',
+        trees=['TupleDstANNPi/DecayTree'],
+        particle='pi',
+        cache_suffix='--aux_ubdt-pi',
+        num_of_workers=16,
+        merge=True
+    ),
+    # D*+ -> (D0 -> pi+ pi-) pi+
+    'd0_bkg_pipi-misid_corrections-k': partial(
+        workflow_data,
+        '../ntuples/0.9.16-mc_d0_bkg_misid/27163001/*',
+        '../postprocess/rdx-run2/rdx-run2_incl_b_dst_k.yml',
+        trees=['TupleDstANNK/DecayTree'],
+        particle='k',
+        cache_suffix='--aux_ubdt-k',
+        num_of_workers=16,
+        merge=True
+    ),
+    'd0_bkg_pipi-misid_corrections-pi': partial(
+        workflow_data,
+        '../ntuples/0.9.16-mc_d0_bkg_misid/27163001/*',
+        '../postprocess/rdx-run2/rdx-run2_incl_b_dst_pi.yml',
+        trees=['TupleDstANNPi/DecayTree'],
+        particle='pi',
+        cache_suffix='--aux_ubdt-pi',
+        num_of_workers=16,
+        merge=True
+    ),
+    # D*+ -> (D0 -> (Ks -> pi+ pi-) pi+ pi-) pi+
+    # Also used to emulate
+    # D*+ -> (D0 -> (Ks -> pi0 pi0) pi+ and
+    # D*+ -> (D0 -> (Kl -> X) pi+ pi-) pi+
+    'd0_bkg_kspipi-misid_corrections-k': partial(
+        workflow_data,
+        '../ntuples/0.9.16-mc_d0_bkg_misid/27165100/*',
+        '../postprocess/rdx-run2/rdx-run2_incl_b_dst_k.yml',
+        trees=['TupleDstANNK/DecayTree'],
+        particle='k',
+        cache_suffix='--aux_ubdt-k',
+        num_of_workers=16,
+        merge=True
+    ),
+    'd0_bkg_kspipi-misid_corrections-pi': partial(
+        workflow_data,
+        '../ntuples/0.9.16-mc_d0_bkg_misid/27165100/*',
+        '../postprocess/rdx-run2/rdx-run2_incl_b_dst_pi.yml',
+        trees=['TupleDstANNPi/DecayTree'],
+        particle='pi',
+        cache_suffix='--aux_ubdt-pi',
+        num_of_workers=16,
+        merge=True
+    ),
+    # D*+ -> (D0 -> K- e+ nu) pi+
+    'd0_bkg_kenu-misid_corrections-k': partial(
+        workflow_data,
+        '../ntuples/0.9.16-mc_d0_bkg_misid/27583002/*',
+        '../postprocess/rdx-run2/rdx-run2_incl_b_dst_k.yml',
+        trees=['TupleDstANNK/DecayTree'],
+        particle='k',
+        cache_suffix='--aux_ubdt-k',
+        num_of_workers=16,
+        merge=True
+    ),
+    'd0_bkg_kenu-misid_corrections-pi': partial(
+        workflow_data,
+        '../ntuples/0.9.16-mc_d0_bkg_misid/27583002/*',
+        '../postprocess/rdx-run2/rdx-run2_incl_b_dst_pi.yml',
+        trees=['TupleDstANNPi/DecayTree'],
+        particle='pi',
+        cache_suffix='--aux_ubdt-pi',
+        num_of_workers=16,
+        merge=True
+    ),
+    # D*+ -> (D0 -> pi- e+ nu) pi+
+    'd0_bkg_pienu-misid_corrections-k': partial(
+        workflow_data,
+        '../ntuples/0.9.16-mc_d0_bkg_misid/27583000/*',
+        '../postprocess/rdx-run2/rdx-run2_incl_b_dst_k.yml',
+        trees=['TupleDstANNK/DecayTree'],
+        particle='k',
+        cache_suffix='--aux_ubdt-k',
+        num_of_workers=16,
+        merge=True
+    ),
+    'd0_bkg_pienu-misid_corrections-pi': partial(
+        workflow_data,
+        '../ntuples/0.9.16-mc_d0_bkg_misid/27583000/*',
+        '../postprocess/rdx-run2/rdx-run2_incl_b_dst_pi.yml',
+        trees=['TupleDstANNPi/DecayTree'],
+        particle='pi',
+        cache_suffix='--aux_ubdt-pi',
+        num_of_workers=16,
+        merge=True
+    ),
+    # Run 2 b-inclusive minimum bias fullsim MC
+    # Used to constrain the ratio of D0 -> not K- pi+ to
+    # D0 -> K pi in the fits to the PIDCalib sample
+    'd0_bkg-mb-misid_corrections-k': partial(
+        workflow_data,
+        '../ntuples/0.9.16-mc_d0_bkg_misid/10000000/*',
+        '../postprocess/rdx-run2/rdx-run2_incl_b_dst_k.yml',
+        trees=['TupleDstANNK/DecayTree'],
+        particle='k',
+        cache_suffix='--aux_ubdt-k',
+        num_of_workers=20,
+        merge=True
+    ),
+    'd0_bkg-mb-misid_corrections-pi': partial(
+        workflow_data,
+        '../ntuples/0.9.16-mc_d0_bkg_misid/10000000/*',
+        '../postprocess/rdx-run2/rdx-run2_incl_b_dst_pi.yml',
+        trees=['TupleDstANNPi/DecayTree'],
+        particle='pi',
+        cache_suffix='--aux_ubdt-pi',
+        num_of_workers=20,
+        merge=True
+    ),
     # Run 2 fullsim MC D*(mu/tau)nu
     'Dst_D0-mc-fullsim-1718-Dstlnu': partial(
         workflow_split,

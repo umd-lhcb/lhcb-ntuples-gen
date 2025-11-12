@@ -140,7 +140,7 @@ def find_all_input(inputs,
     print(f'NOTE: not using input with patterns {blocked_patterns}')
     result = [f for f in result if True not in
               [bool(re.search(p, f)) for p in blocked_patterns]]
-    
+
     # If user only wants a fraction of files p, randomly remove 1-p of files
     files_to_rm = int(len(result)*(1.0-keep_frac))
     print(f'NOTE: not using {100*(1-keep_frac)}% of input')
@@ -148,7 +148,7 @@ def find_all_input(inputs,
         rm_idx = random.randint(0,len(result)-1)
         result = result[:rm_idx] + result[rm_idx+1:]
         files_to_rm -= 1
-    
+
     return result
 
 
@@ -323,6 +323,10 @@ def check_ntp_name(filename):
     is_step1 = '.DST' in filename
     rules = NTP_STEP1_FIELDS if is_step1 else NTP_STEP2_FIELDS
     fields = with_suffix(filename, '').split('--')
+    for f_idx, field in enumerate(fields):
+        # Needed for D0 bkg ntuples
+        if field.startswith('mc'):
+            fields[f_idx] = 'mc'
 
     result, errors = check_rules(fields, rules)
     return result, errors, is_step1
@@ -355,7 +359,9 @@ def find_decay_mode(lfn, convert_mc_id=False):
     if 'Real_Data' in lfn:
         return 'data'
 
-    decay_mode = re.search(r'_(\d\d\d\d\d\d\d\d)_', lfn).group(1)
+    # Match either '_NNNNNNNN_' or '_NNNNNNNN.'. Second case happens for
+    # MB sample, where there is no stream to be appended to the ntuple name.
+    decay_mode = re.search(r'_(\d\d\d\d\d\d\d\d)[_\.]', lfn).group(1)
 
     if convert_mc_id:
         # NOTE: Here we convert 8-digit MC ID to a human-readable decay mode
@@ -543,7 +549,7 @@ def workflow_split_base(inputs, input_yml, job_name='split', prefix='Dst_D0',
         date + '_' + job_name, inputs, **kwargs)
 
     print(f'Writing ntuples to {workdir}')
-    
+
     for subjob, input_dir in subworkdirs.items():
         print(f"Doing {subjob}")
         subflow = workflow_mc if 'MC_' in subjob or 'mc' in subjob \
@@ -592,7 +598,7 @@ def safe_merge(workdir, subworkdirs, warn_only=True, **kwargs):
     else: # assumedly, ntuples produced for at least some subjobs, so can use them for tree names too
         trees = set()
         for sd in subworkdirs:
-            for rf in glob(f'ntuple/*'): trees.add(rf.split('/')[-1].split('--')[0])
+            for rf in glob('ntuple/*'): trees.add(rf.split('/')[-1].split('--')[0])
         trees = list(trees)
 
     # assuming here that if all files expected to be produced do exist, then all expected branches do exist and hadd below is safe (seen to not always be true... but not many cases)
