@@ -188,7 +188,7 @@ calculation:
         int;
         ISO45_BUG_ADHOC_REORDER(b0_ISOLATION_BDT4, b0_ISOLATION_BDT5, b0_ISOLATION_Type4, b0_ISOLATION_Type5, false);
         ISO45_BUG_ADHOC_REORDER(b_ISOLATION_BDT4, b_ISOLATION_BDT5, b_ISOLATION_Type4, b_ISOLATION_Type5, false)
-    
+
     # Combinations of invariant masses of D(*)+iso
     iso_px1: float; GEV(b0_ISOLATION_PX); GEV(b_ISOLATION_PX)
     iso_px2: float; GEV(b0_ISOLATION_PX2); GEV(b_ISOLATION_PX2)
@@ -233,7 +233,7 @@ calculation:
     iso_e5: >-
         float;
         ISO45_BUG_ADHOC_REORDER(b0_ISOLATION_BDT4, b0_ISOLATION_BDT5, GEV(b0_ISOLATION_PE4), GEV(b0_ISOLATION_PE5), false);
-        ISO45_BUG_ADHOC_REORDER(b_ISOLATION_BDT4, b_ISOLATION_BDT5, GEV(b_ISOLATION_PE4), GEV(b_ISOLATION_PE5), false) 
+        ISO45_BUG_ADHOC_REORDER(b_ISOLATION_BDT4, b_ISOLATION_BDT5, GEV(b_ISOLATION_PE4), GEV(b_ISOLATION_PE5), false)
     d_iso1_m: >-
         float;
         MASS_DX_ISO1(dst_PE, dst_PX, dst_PY, dst_PZ, b0_ISOLATION_PX, b0_ISOLATION_PY, b0_ISOLATION_PZ);
@@ -995,7 +995,7 @@ calculation:
     is_dd_ang_loose3: bool; FLAG_DD_ANG(true, nonvelo_isotracks3_data)
     is_2os_ang_loose3: bool; FLAG_2OS_ANG(true, nonvelo_isotracks3_data)
     is_1os_ang_loose3: bool; FLAG_1OS_ANG(true, nonvelo_isotracks3_data, dst_id, false); FLAG_1OS_ANG(true, nonvelo_isotracks_data, d0_id, true)
-    
+
 
     ### Try out DD skim with ProbNNghost cuts and (potentially) different min ProbNNk: here choosing NNghost<0.3, and keeping NNK at 0.2
     is_dd_loose_new:  >-
@@ -1247,6 +1247,15 @@ calculation:
         ;
         wmis_norm_vmu * skim_global_ok +
         wmis_bsb_vmu  * (dx_m_ok && b_m_sb)
+    wmis_prot: >-
+        double;
+        wmis_norm_prot    * skim_global_ok +
+        wmis_bsb_prot     * (dx_m_ok && b_m_sb) +
+        wmis_dsb_prot     * (in_deltam_sb && b_m_ok && in_fit_range) +
+        wmis_dsb_bsb_prot * (in_deltam_sb && b_m_sb)
+        ;
+        wmis_norm_prot * skim_global_ok +
+        wmis_bsb_prot  * (dx_m_ok && b_m_sb)
     # misid weights for smeared histograms
     wmis_smr_k: >-
         double;
@@ -1302,6 +1311,33 @@ calculation:
         ;
         (wmis_norm_vmu_p    + wmis_norm_vmu_e    + wmis_norm_vmu_g) * skim_global_ok_no_smr_vmu +
         (wmis_bsb_vmu_p     + wmis_bsb_vmu_e     + wmis_bsb_vmu_g)  * (dx_m_ok && b_m_sb_no_smr_vmu)
+    wmis_prot_smr_k: >-
+        double;
+        wmis_norm_prot_k    * skim_global_ok_smr_k +
+        wmis_bsb_prot_k     * (dx_m_ok && b_m_sb_smr_k) +
+        wmis_dsb_prot_k     * (in_deltam_sb && b_m_ok_smr_k && in_fit_range_smr_k) +
+        wmis_dsb_bsb_prot_k * (in_deltam_sb && b_m_sb_smr_k)
+        ;
+        wmis_norm_prot_k * skim_global_ok_smr_k +
+        wmis_bsb_prot_k  * (dx_m_ok && b_m_sb_smr_k)
+    wmis_prot_smr_pi: >-
+        double;
+        wmis_norm_prot_pi    * skim_global_ok_smr_pi +
+        wmis_bsb_prot_pi     * (dx_m_ok && b_m_sb_smr_pi) +
+        wmis_dsb_prot_pi     * (in_deltam_sb && b_m_ok_smr_pi && in_fit_range_smr_pi) +
+        wmis_dsb_bsb_prot_pi * (in_deltam_sb && b_m_sb_smr_pi)
+        ;
+        wmis_norm_prot_pi * skim_global_ok_smr_pi +
+        wmis_bsb_prot_pi  * (dx_m_ok && b_m_sb_smr_pi)
+    wmis_prot_no_smr: >-
+        double;
+        (wmis_norm_prot_p    + wmis_norm_prot_e    + wmis_norm_prot_g)    * skim_global_ok_no_smr +
+        (wmis_bsb_prot_p     + wmis_bsb_prot_e     + wmis_bsb_prot_g)     * (dx_m_ok && b_m_sb_no_smr) +
+        (wmis_dsb_prot_p     + wmis_dsb_prot_e     + wmis_dsb_prot_g)     * (in_deltam_sb && b_m_ok_no_smr && in_fit_range_no_smr) +
+        (wmis_dsb_bsb_prot_p + wmis_dsb_bsb_prot_e + wmis_dsb_bsb_prot_g) * (in_deltam_sb && b_m_sb_no_smr)
+        ;
+        (wmis_norm_prot_p    + wmis_norm_prot_e    + wmis_norm_prot_g) * skim_global_ok_no_smr +
+        (wmis_bsb_prot_p     + wmis_bsb_prot_e     + wmis_bsb_prot_g)  * (dx_m_ok && b_m_sb_no_smr)
     # "Fractional" misid weights to check contribution of each true species
     wmis_pi: >-
         double;
@@ -1393,6 +1429,51 @@ calculation:
         ;
         wmis_norm_vmu_g * skim_global_ok +
         wmis_bsb_vmu_g  * (dx_m_ok && b_m_sb)
+    wmis_prot_pi: >-
+        double;
+        wmis_norm_prot_pi    * skim_global_ok +
+        wmis_bsb_prot_pi     * (dx_m_ok && b_m_sb) +
+        wmis_dsb_prot_pi     * (in_deltam_sb && b_m_ok && in_fit_range) +
+        wmis_dsb_bsb_prot_pi * (in_deltam_sb && b_m_sb)
+        ;
+        wmis_norm_prot_pi * skim_global_ok +
+        wmis_bsb_prot_pi  * (dx_m_ok && b_m_sb)
+    wmis_prot_k: >-
+        double;
+        wmis_norm_prot_k    * skim_global_ok +
+        wmis_bsb_prot_k     * (dx_m_ok && b_m_sb) +
+        wmis_dsb_prot_k     * (in_deltam_sb && b_m_ok && in_fit_range) +
+        wmis_dsb_bsb_prot_k * (in_deltam_sb && b_m_sb)
+        ;
+        wmis_norm_prot_k * skim_global_ok +
+        wmis_bsb_prot_k  * (dx_m_ok && b_m_sb)
+    wmis_prot_p: >-
+        double;
+        wmis_norm_prot_p    * skim_global_ok +
+        wmis_bsb_prot_p     * (dx_m_ok && b_m_sb) +
+        wmis_dsb_prot_p     * (in_deltam_sb && b_m_ok && in_fit_range) +
+        wmis_dsb_bsb_prot_p * (in_deltam_sb && b_m_sb)
+        ;
+        wmis_norm_prot_p * skim_global_ok +
+        wmis_bsb_prot_p  * (dx_m_ok && b_m_sb)
+    wmis_prot_e: >-
+        double;
+        wmis_norm_prot_e    * skim_global_ok +
+        wmis_bsb_prot_e     * (dx_m_ok && b_m_sb) +
+        wmis_dsb_prot_e     * (in_deltam_sb && b_m_ok && in_fit_range) +
+        wmis_dsb_bsb_prot_e * (in_deltam_sb && b_m_sb)
+        ;
+        wmis_norm_prot_e * skim_global_ok +
+        wmis_bsb_prot_e  * (dx_m_ok && b_m_sb)
+    wmis_prot_g: >-
+        double;
+        wmis_norm_prot_g    * skim_global_ok +
+        wmis_bsb_prot_g     * (dx_m_ok && b_m_sb) +
+        wmis_dsb_prot_g     * (in_deltam_sb && b_m_ok && in_fit_range) +
+        wmis_dsb_bsb_prot_g * (in_deltam_sb && b_m_sb)
+        ;
+        wmis_norm_prot_g * skim_global_ok +
+        wmis_bsb_prot_g  * (dx_m_ok && b_m_sb)
 
     # Weight representing the global cut (BEFORE applying the skim cuts)
     wpid_base: ^double; wpid_k*wpid_pi
@@ -1703,7 +1784,7 @@ calculation:
     wskim_dd_ang3: double; WT_DD_ANG(true, nonvelo_isotracks3_mcNNkNNg_gtlt)
     wskim_2os_ang3: double; WT_2OS_ANG(true, nonvelo_isotracks3_mcNNkNNg_ltlt)
     wskim_1os_ang3: double; WT_1OS_ANG(true, nonvelo_isotracks3_mcNNkNNg_ltlt, dst_id, false); WT_1OS_ANG(true, nonvelo_isotracks3_mcNNkNNg_ltlt, d0_id, false)
-    
+
     wskim_dd_new: >-
         double; WT_DD(
         true,
