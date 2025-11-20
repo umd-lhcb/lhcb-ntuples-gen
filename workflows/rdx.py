@@ -215,6 +215,414 @@ def workflow_misid(
     return workflow_cached_ntuple(
         cmd, input_ntp, output_ntp, '--aux_misid', **kwargs)
 
+@smart_kwarg
+def workflow_misid_UBDT0p12(
+        input_ntp,
+        misid_aux_ntp='../run2-rdx/reweight/misid/histos/dif.root',
+        misid_config='../run2-rdx/reweight/misid/run2-rdx-UBDT0p12.yml',
+        k_smr_name='k_smr',
+        pi_smr_name='pi_smr',
+        **kwargs):
+    output_ntp = 'misid.root'
+    aux_ntp = abs_path(misid_aux_ntp)
+    config = abs_path(misid_config)
+    year = find_year(input_ntp)
+
+    cmd = f'ApplyMisIDWeight -a -i {input_ntp} -o {output_ntp} -x {aux_ntp} -c {config} -Y {year} --kSmrBrName {k_smr_name} --piSmrBrName {pi_smr_name}'
+    return workflow_cached_ntuple(
+        cmd, input_ntp, output_ntp, '--aux_misid', **kwargs)
+
+@smart_kwarg
+def workflow_misid_UBDT0p15(
+        input_ntp,
+        misid_aux_ntp='../run2-rdx/reweight/misid/histos/dif.root',
+        misid_config='../run2-rdx/reweight/misid/run2-rdx-UBDT0p15.yml',
+        k_smr_name='k_smr',
+        pi_smr_name='pi_smr',
+        **kwargs):
+    output_ntp = 'misid.root'
+    aux_ntp = abs_path(misid_aux_ntp)
+    config = abs_path(misid_config)
+    year = find_year(input_ntp)
+
+    cmd = f'ApplyMisIDWeight -a -i {input_ntp} -o {output_ntp} -x {aux_ntp} -c {config} -Y {year} --kSmrBrName {k_smr_name} --piSmrBrName {pi_smr_name}'
+    return workflow_cached_ntuple(
+        cmd, input_ntp, output_ntp, '--aux_misid', **kwargs)
+
+@smart_kwarg
+def workflow_misid_UBDT0p18(
+        input_ntp,
+        misid_aux_ntp='../run2-rdx/reweight/misid/histos/dif.root',
+        misid_config='../run2-rdx/reweight/misid/run2-rdx-UBDT0p18.yml',
+        k_smr_name='k_smr',
+        pi_smr_name='pi_smr',
+        **kwargs):
+    output_ntp = 'misid.root'
+    aux_ntp = abs_path(misid_aux_ntp)
+    config = abs_path(misid_config)
+    year = find_year(input_ntp)
+
+    cmd = f'ApplyMisIDWeight -a -i {input_ntp} -o {output_ntp} -x {aux_ntp} -c {config} -Y {year} --kSmrBrName {k_smr_name} --piSmrBrName {pi_smr_name}'
+    return workflow_cached_ntuple(
+        cmd, input_ntp, output_ntp, '--aux_misid', **kwargs)
+
+@smart_kwarg
+def workflow_misid_UBDT0p21(
+        input_ntp,
+        misid_aux_ntp='../run2-rdx/reweight/misid/histos/dif.root',
+        misid_config='../run2-rdx/reweight/misid/run2-rdx-UBDT0p21.yml',
+        k_smr_name='k_smr',
+        pi_smr_name='pi_smr',
+        **kwargs):
+    output_ntp = 'misid.root'
+    aux_ntp = abs_path(misid_aux_ntp)
+    config = abs_path(misid_config)
+    year = find_year(input_ntp)
+
+    cmd = f'ApplyMisIDWeight -a -i {input_ntp} -o {output_ntp} -x {aux_ntp} -c {config} -Y {year} --kSmrBrName {k_smr_name} --piSmrBrName {pi_smr_name}'
+    return workflow_cached_ntuple(
+        cmd, input_ntp, output_ntp, '--aux_misid', **kwargs)
+
+@smart_kwarg
+def workflow_misid_UBDT0p24(
+        input_ntp,
+        misid_aux_ntp='../run2-rdx/reweight/misid/histos/dif.root',
+        misid_config='../run2-rdx/reweight/misid/run2-rdx-UBDT0p24.yml',
+        k_smr_name='k_smr',
+        pi_smr_name='pi_smr',
+        **kwargs):
+    output_ntp = 'misid.root'
+    aux_ntp = abs_path(misid_aux_ntp)
+    config = abs_path(misid_config)
+    year = find_year(input_ntp)
+
+    cmd = f'ApplyMisIDWeight -a -i {input_ntp} -o {output_ntp} -x {aux_ntp} -c {config} -Y {year} --kSmrBrName {k_smr_name} --piSmrBrName {pi_smr_name}'
+    return workflow_cached_ntuple(
+        cmd, input_ntp, output_ntp, '--aux_misid', **kwargs)
+
+@smart_kwarg
+def workflow_misid_UBDT0p27(
+        input_ntp,
+        misid_aux_ntp='../run2-rdx/reweight/misid/histos/dif.root',
+        misid_config='../run2-rdx/reweight/misid/run2-rdx-UBDT0p27.yml',
+        k_smr_name='k_smr',
+        pi_smr_name='pi_smr',
+        **kwargs):
+    output_ntp = 'misid.root'
+    aux_ntp = abs_path(misid_aux_ntp)
+    config = abs_path(misid_config)
+    year = find_year(input_ntp)
+
+    cmd = f'ApplyMisIDWeight -a -i {input_ntp} -o {output_ntp} -x {aux_ntp} -c {config} -Y {year} --kSmrBrName {k_smr_name} --piSmrBrName {pi_smr_name}'
+    return workflow_cached_ntuple(
+        cmd, input_ntp, output_ntp, '--aux_misid', **kwargs)
+
+@smart_kwarg
+def workflow_misid_UBDT0p30(
+        input_ntp,
+        misid_aux_ntp='../run2-rdx/reweight/misid/histos/dif.root',
+        misid_config='../run2-rdx/reweight/misid/run2-rdx-UBDT0p30.yml',
+        k_smr_name='k_smr',
+        pi_smr_name='pi_smr',
+        **kwargs):
+    output_ntp = 'misid.root'
+    aux_ntp = abs_path(misid_aux_ntp)
+    config = abs_path(misid_config)
+    year = find_year(input_ntp)
+
+    cmd = f'ApplyMisIDWeight -a -i {input_ntp} -o {output_ntp} -x {aux_ntp} -c {config} -Y {year} --kSmrBrName {k_smr_name} --piSmrBrName {pi_smr_name}'
+    return workflow_cached_ntuple(
+        cmd, input_ntp, output_ntp, '--aux_misid', **kwargs)
+
+@smart_kwarg
+def workflow_misid_UBDT0p33(
+        input_ntp,
+        misid_aux_ntp='../run2-rdx/reweight/misid/histos/dif.root',
+        misid_config='../run2-rdx/reweight/misid/run2-rdx-UBDT0p33.yml',
+        k_smr_name='k_smr',
+        pi_smr_name='pi_smr',
+        **kwargs):
+    output_ntp = 'misid.root'
+    aux_ntp = abs_path(misid_aux_ntp)
+    config = abs_path(misid_config)
+    year = find_year(input_ntp)
+
+    cmd = f'ApplyMisIDWeight -a -i {input_ntp} -o {output_ntp} -x {aux_ntp} -c {config} -Y {year} --kSmrBrName {k_smr_name} --piSmrBrName {pi_smr_name}'
+    return workflow_cached_ntuple(
+        cmd, input_ntp, output_ntp, '--aux_misid', **kwargs)
+
+@smart_kwarg
+def workflow_misid_UBDT0p36(
+        input_ntp,
+        misid_aux_ntp='../run2-rdx/reweight/misid/histos/dif.root',
+        misid_config='../run2-rdx/reweight/misid/run2-rdx-UBDT0p36.yml',
+        k_smr_name='k_smr',
+        pi_smr_name='pi_smr',
+        **kwargs):
+    output_ntp = 'misid.root'
+    aux_ntp = abs_path(misid_aux_ntp)
+    config = abs_path(misid_config)
+    year = find_year(input_ntp)
+
+    cmd = f'ApplyMisIDWeight -a -i {input_ntp} -o {output_ntp} -x {aux_ntp} -c {config} -Y {year} --kSmrBrName {k_smr_name} --piSmrBrName {pi_smr_name}'
+    return workflow_cached_ntuple(
+        cmd, input_ntp, output_ntp, '--aux_misid', **kwargs)
+
+@smart_kwarg
+def workflow_misid_UBDT0p39(
+        input_ntp,
+        misid_aux_ntp='../run2-rdx/reweight/misid/histos/dif.root',
+        misid_config='../run2-rdx/reweight/misid/run2-rdx-UBDT0p39.yml',
+        k_smr_name='k_smr',
+        pi_smr_name='pi_smr',
+        **kwargs):
+    output_ntp = 'misid.root'
+    aux_ntp = abs_path(misid_aux_ntp)
+    config = abs_path(misid_config)
+    year = find_year(input_ntp)
+
+    cmd = f'ApplyMisIDWeight -a -i {input_ntp} -o {output_ntp} -x {aux_ntp} -c {config} -Y {year} --kSmrBrName {k_smr_name} --piSmrBrName {pi_smr_name}'
+    return workflow_cached_ntuple(
+        cmd, input_ntp, output_ntp, '--aux_misid', **kwargs)
+
+@smart_kwarg
+def workflow_misid_UBDT0p42(
+        input_ntp,
+        misid_aux_ntp='../run2-rdx/reweight/misid/histos/dif.root',
+        misid_config='../run2-rdx/reweight/misid/run2-rdx-UBDT0p42.yml',
+        k_smr_name='k_smr',
+        pi_smr_name='pi_smr',
+        **kwargs):
+    output_ntp = 'misid.root'
+    aux_ntp = abs_path(misid_aux_ntp)
+    config = abs_path(misid_config)
+    year = find_year(input_ntp)
+
+    cmd = f'ApplyMisIDWeight -a -i {input_ntp} -o {output_ntp} -x {aux_ntp} -c {config} -Y {year} --kSmrBrName {k_smr_name} --piSmrBrName {pi_smr_name}'
+    return workflow_cached_ntuple(
+        cmd, input_ntp, output_ntp, '--aux_misid', **kwargs)
+
+@smart_kwarg
+def workflow_misid_UBDT0p45(
+        input_ntp,
+        misid_aux_ntp='../run2-rdx/reweight/misid/histos/dif.root',
+        misid_config='../run2-rdx/reweight/misid/run2-rdx-UBDT0p45.yml',
+        k_smr_name='k_smr',
+        pi_smr_name='pi_smr',
+        **kwargs):
+    output_ntp = 'misid.root'
+    aux_ntp = abs_path(misid_aux_ntp)
+    config = abs_path(misid_config)
+    year = find_year(input_ntp)
+
+    cmd = f'ApplyMisIDWeight -a -i {input_ntp} -o {output_ntp} -x {aux_ntp} -c {config} -Y {year} --kSmrBrName {k_smr_name} --piSmrBrName {pi_smr_name}'
+    return workflow_cached_ntuple(
+        cmd, input_ntp, output_ntp, '--aux_misid', **kwargs)
+
+@smart_kwarg
+def workflow_misid_UBDT0p48(
+        input_ntp,
+        misid_aux_ntp='../run2-rdx/reweight/misid/histos/dif.root',
+        misid_config='../run2-rdx/reweight/misid/run2-rdx-UBDT0p48.yml',
+        k_smr_name='k_smr',
+        pi_smr_name='pi_smr',
+        **kwargs):
+    output_ntp = 'misid.root'
+    aux_ntp = abs_path(misid_aux_ntp)
+    config = abs_path(misid_config)
+    year = find_year(input_ntp)
+
+    cmd = f'ApplyMisIDWeight -a -i {input_ntp} -o {output_ntp} -x {aux_ntp} -c {config} -Y {year} --kSmrBrName {k_smr_name} --piSmrBrName {pi_smr_name}'
+    return workflow_cached_ntuple(
+        cmd, input_ntp, output_ntp, '--aux_misid', **kwargs)
+
+@smart_kwarg
+def workflow_misid_UBDT0p51(
+        input_ntp,
+        misid_aux_ntp='../run2-rdx/reweight/misid/histos/dif.root',
+        misid_config='../run2-rdx/reweight/misid/run2-rdx-UBDT0p51.yml',
+        k_smr_name='k_smr',
+        pi_smr_name='pi_smr',
+        **kwargs):
+    output_ntp = 'misid.root'
+    aux_ntp = abs_path(misid_aux_ntp)
+    config = abs_path(misid_config)
+    year = find_year(input_ntp)
+
+    cmd = f'ApplyMisIDWeight -a -i {input_ntp} -o {output_ntp} -x {aux_ntp} -c {config} -Y {year} --kSmrBrName {k_smr_name} --piSmrBrName {pi_smr_name}'
+    return workflow_cached_ntuple(
+        cmd, input_ntp, output_ntp, '--aux_misid', **kwargs)
+
+@smart_kwarg
+def workflow_misid_UBDT0p54(
+        input_ntp,
+        misid_aux_ntp='../run2-rdx/reweight/misid/histos/dif.root',
+        misid_config='../run2-rdx/reweight/misid/run2-rdx-UBDT0p54.yml',
+        k_smr_name='k_smr',
+        pi_smr_name='pi_smr',
+        **kwargs):
+    output_ntp = 'misid.root'
+    aux_ntp = abs_path(misid_aux_ntp)
+    config = abs_path(misid_config)
+    year = find_year(input_ntp)
+
+    cmd = f'ApplyMisIDWeight -a -i {input_ntp} -o {output_ntp} -x {aux_ntp} -c {config} -Y {year} --kSmrBrName {k_smr_name} --piSmrBrName {pi_smr_name}'
+    return workflow_cached_ntuple(
+        cmd, input_ntp, output_ntp, '--aux_misid', **kwargs)
+
+@smart_kwarg
+def workflow_misid_UBDT0p57(
+        input_ntp,
+        misid_aux_ntp='../run2-rdx/reweight/misid/histos/dif.root',
+        misid_config='../run2-rdx/reweight/misid/run2-rdx-UBDT0p57.yml',
+        k_smr_name='k_smr',
+        pi_smr_name='pi_smr',
+        **kwargs):
+    output_ntp = 'misid.root'
+    aux_ntp = abs_path(misid_aux_ntp)
+    config = abs_path(misid_config)
+    year = find_year(input_ntp)
+
+    cmd = f'ApplyMisIDWeight -a -i {input_ntp} -o {output_ntp} -x {aux_ntp} -c {config} -Y {year} --kSmrBrName {k_smr_name} --piSmrBrName {pi_smr_name}'
+    return workflow_cached_ntuple(
+        cmd, input_ntp, output_ntp, '--aux_misid', **kwargs)
+
+@smart_kwarg
+def workflow_misid_UBDT0p60(
+        input_ntp,
+        misid_aux_ntp='../run2-rdx/reweight/misid/histos/dif.root',
+        misid_config='../run2-rdx/reweight/misid/run2-rdx-UBDT0p60.yml',
+        k_smr_name='k_smr',
+        pi_smr_name='pi_smr',
+        **kwargs):
+    output_ntp = 'misid.root'
+    aux_ntp = abs_path(misid_aux_ntp)
+    config = abs_path(misid_config)
+    year = find_year(input_ntp)
+
+    cmd = f'ApplyMisIDWeight -a -i {input_ntp} -o {output_ntp} -x {aux_ntp} -c {config} -Y {year} --kSmrBrName {k_smr_name} --piSmrBrName {pi_smr_name}'
+    return workflow_cached_ntuple(
+        cmd, input_ntp, output_ntp, '--aux_misid', **kwargs)
+
+@smart_kwarg
+def workflow_misid_UBDT0p63(
+        input_ntp,
+        misid_aux_ntp='../run2-rdx/reweight/misid/histos/dif.root',
+        misid_config='../run2-rdx/reweight/misid/run2-rdx-UBDT0p63.yml',
+        k_smr_name='k_smr',
+        pi_smr_name='pi_smr',
+        **kwargs):
+    output_ntp = 'misid.root'
+    aux_ntp = abs_path(misid_aux_ntp)
+    config = abs_path(misid_config)
+    year = find_year(input_ntp)
+
+    cmd = f'ApplyMisIDWeight -a -i {input_ntp} -o {output_ntp} -x {aux_ntp} -c {config} -Y {year} --kSmrBrName {k_smr_name} --piSmrBrName {pi_smr_name}'
+    return workflow_cached_ntuple(
+        cmd, input_ntp, output_ntp, '--aux_misid', **kwargs)
+
+@smart_kwarg
+def workflow_misid_UBDT0p66(
+        input_ntp,
+        misid_aux_ntp='../run2-rdx/reweight/misid/histos/dif.root',
+        misid_config='../run2-rdx/reweight/misid/run2-rdx-UBDT0p66.yml',
+        k_smr_name='k_smr',
+        pi_smr_name='pi_smr',
+        **kwargs):
+    output_ntp = 'misid.root'
+    aux_ntp = abs_path(misid_aux_ntp)
+    config = abs_path(misid_config)
+    year = find_year(input_ntp)
+
+    cmd = f'ApplyMisIDWeight -a -i {input_ntp} -o {output_ntp} -x {aux_ntp} -c {config} -Y {year} --kSmrBrName {k_smr_name} --piSmrBrName {pi_smr_name}'
+    return workflow_cached_ntuple(
+        cmd, input_ntp, output_ntp, '--aux_misid', **kwargs)
+
+@smart_kwarg
+def workflow_misid_UBDT0p69(
+        input_ntp,
+        misid_aux_ntp='../run2-rdx/reweight/misid/histos/dif.root',
+        misid_config='../run2-rdx/reweight/misid/run2-rdx-UBDT0p69.yml',
+        k_smr_name='k_smr',
+        pi_smr_name='pi_smr',
+        **kwargs):
+    output_ntp = 'misid.root'
+    aux_ntp = abs_path(misid_aux_ntp)
+    config = abs_path(misid_config)
+    year = find_year(input_ntp)
+
+    cmd = f'ApplyMisIDWeight -a -i {input_ntp} -o {output_ntp} -x {aux_ntp} -c {config} -Y {year} --kSmrBrName {k_smr_name} --piSmrBrName {pi_smr_name}'
+    return workflow_cached_ntuple(
+        cmd, input_ntp, output_ntp, '--aux_misid', **kwargs)
+
+@smart_kwarg
+def workflow_misid_UBDT0p72(
+        input_ntp,
+        misid_aux_ntp='../run2-rdx/reweight/misid/histos/dif.root',
+        misid_config='../run2-rdx/reweight/misid/run2-rdx-UBDT0p72.yml',
+        k_smr_name='k_smr',
+        pi_smr_name='pi_smr',
+        **kwargs):
+    output_ntp = 'misid.root'
+    aux_ntp = abs_path(misid_aux_ntp)
+    config = abs_path(misid_config)
+    year = find_year(input_ntp)
+
+    cmd = f'ApplyMisIDWeight -a -i {input_ntp} -o {output_ntp} -x {aux_ntp} -c {config} -Y {year} --kSmrBrName {k_smr_name} --piSmrBrName {pi_smr_name}'
+    return workflow_cached_ntuple(
+        cmd, input_ntp, output_ntp, '--aux_misid', **kwargs)
+
+@smart_kwarg
+def workflow_misid_UBDT0p75(
+        input_ntp,
+        misid_aux_ntp='../run2-rdx/reweight/misid/histos/dif.root',
+        misid_config='../run2-rdx/reweight/misid/run2-rdx-UBDT0p75.yml',
+        k_smr_name='k_smr',
+        pi_smr_name='pi_smr',
+        **kwargs):
+    output_ntp = 'misid.root'
+    aux_ntp = abs_path(misid_aux_ntp)
+    config = abs_path(misid_config)
+    year = find_year(input_ntp)
+
+    cmd = f'ApplyMisIDWeight -a -i {input_ntp} -o {output_ntp} -x {aux_ntp} -c {config} -Y {year} --kSmrBrName {k_smr_name} --piSmrBrName {pi_smr_name}'
+    return workflow_cached_ntuple(
+        cmd, input_ntp, output_ntp, '--aux_misid', **kwargs)
+
+@smart_kwarg
+def workflow_misid_UBDT0p78(
+        input_ntp,
+        misid_aux_ntp='../run2-rdx/reweight/misid/histos/dif.root',
+        misid_config='../run2-rdx/reweight/misid/run2-rdx-UBDT0p78.yml',
+        k_smr_name='k_smr',
+        pi_smr_name='pi_smr',
+        **kwargs):
+    output_ntp = 'misid.root'
+    aux_ntp = abs_path(misid_aux_ntp)
+    config = abs_path(misid_config)
+    year = find_year(input_ntp)
+
+    cmd = f'ApplyMisIDWeight -a -i {input_ntp} -o {output_ntp} -x {aux_ntp} -c {config} -Y {year} --kSmrBrName {k_smr_name} --piSmrBrName {pi_smr_name}'
+    return workflow_cached_ntuple(
+        cmd, input_ntp, output_ntp, '--aux_misid', **kwargs)
+
+@smart_kwarg
+def workflow_misid_UBDT0p81(
+        input_ntp,
+        misid_aux_ntp='../run2-rdx/reweight/misid/histos/dif.root',
+        misid_config='../run2-rdx/reweight/misid/run2-rdx-UBDT0p81.yml',
+        k_smr_name='k_smr',
+        pi_smr_name='pi_smr',
+        **kwargs):
+    output_ntp = 'misid.root'
+    aux_ntp = abs_path(misid_aux_ntp)
+    config = abs_path(misid_config)
+    year = find_year(input_ntp)
+
+    cmd = f'ApplyMisIDWeight -a -i {input_ntp} -o {output_ntp} -x {aux_ntp} -c {config} -Y {year} --kSmrBrName {k_smr_name} --piSmrBrName {pi_smr_name}'
+    return workflow_cached_ntuple(
+        cmd, input_ntp, output_ntp, '--aux_misid', **kwargs)
+
 
 @smart_kwarg
 def workflow_vertex(
@@ -301,7 +709,15 @@ def workflow_generic_single(maindir, subdir,
 
 
 def workflow_data(inputs, input_yml, job_name='data', use_ubdt=True,
-                  use_misid=False, date=None, num_of_workers=12,
+                  use_misid=False, use_misidUBDT0p12=False, use_misidUBDT0p15=False, 
+                  use_misidUBDT0p18=False, use_misidUBDT0p21=False, use_misidUBDT0p24=False, 
+                  use_misidUBDT0p27=False, use_misidUBDT0p30=False, use_misidUBDT0p33=False, 
+                  use_misidUBDT0p36=False, use_misidUBDT0p39=False, use_misidUBDT0p42=False, 
+                  use_misidUBDT0p45=False, use_misidUBDT0p48=False, use_misidUBDT0p51=False, 
+                  use_misidUBDT0p54=False, use_misidUBDT0p57=False, use_misidUBDT0p60=False, 
+                  use_misidUBDT0p63=False, use_misidUBDT0p66=False, use_misidUBDT0p69=False, 
+                  use_misidUBDT0p72=False, use_misidUBDT0p75=False, use_misidUBDT0p78=False, 
+                  use_misidUBDT0p81=False, date=None, num_of_workers=12,
                   trees=[
                       'TupleB0/DecayTree',
                       'TupleB0WSMu/DecayTree',
@@ -311,8 +727,31 @@ def workflow_data(inputs, input_yml, job_name='data', use_ubdt=True,
                   ],
                   **kwargs):
     aux_workflows = [workflow_ubdt] if use_ubdt else []
-    if use_misid:
-        aux_workflows.append(workflow_misid)
+    if use_misid: aux_workflows.append(workflow_misid)
+    if use_misidUBDT0p12: aux_workflows.append(workflow_misid_UBDT0p12)
+    if use_misidUBDT0p15: aux_workflows.append(workflow_misid_UBDT0p15)
+    if use_misidUBDT0p18: aux_workflows.append(workflow_misid_UBDT0p18)
+    if use_misidUBDT0p21: aux_workflows.append(workflow_misid_UBDT0p21)
+    if use_misidUBDT0p24: aux_workflows.append(workflow_misid_UBDT0p24)
+    if use_misidUBDT0p27: aux_workflows.append(workflow_misid_UBDT0p27)
+    if use_misidUBDT0p30: aux_workflows.append(workflow_misid_UBDT0p30)
+    if use_misidUBDT0p33: aux_workflows.append(workflow_misid_UBDT0p33)
+    if use_misidUBDT0p36: aux_workflows.append(workflow_misid_UBDT0p36)
+    if use_misidUBDT0p39: aux_workflows.append(workflow_misid_UBDT0p39)
+    if use_misidUBDT0p42: aux_workflows.append(workflow_misid_UBDT0p42)
+    if use_misidUBDT0p45: aux_workflows.append(workflow_misid_UBDT0p45)
+    if use_misidUBDT0p48: aux_workflows.append(workflow_misid_UBDT0p48)
+    if use_misidUBDT0p51: aux_workflows.append(workflow_misid_UBDT0p51)
+    if use_misidUBDT0p54: aux_workflows.append(workflow_misid_UBDT0p54)
+    if use_misidUBDT0p57: aux_workflows.append(workflow_misid_UBDT0p57)
+    if use_misidUBDT0p60: aux_workflows.append(workflow_misid_UBDT0p60)
+    if use_misidUBDT0p63: aux_workflows.append(workflow_misid_UBDT0p63)
+    if use_misidUBDT0p66: aux_workflows.append(workflow_misid_UBDT0p66)
+    if use_misidUBDT0p69: aux_workflows.append(workflow_misid_UBDT0p69)
+    if use_misidUBDT0p72: aux_workflows.append(workflow_misid_UBDT0p72)
+    if use_misidUBDT0p75: aux_workflows.append(workflow_misid_UBDT0p75)
+    if use_misidUBDT0p78: aux_workflows.append(workflow_misid_UBDT0p78)
+    if use_misidUBDT0p81: aux_workflows.append(workflow_misid_UBDT0p81)
     subworkdirs, workdir = workflow_prep_dir(job_name, inputs, **kwargs)
 
     job_directives = [
@@ -473,63 +912,331 @@ JOBS = {
     ),
     # Run 2 data (all years)
     'Dst_D0-std-all': partial(
-        workflow_split,
+        workflow_data,
         '../ntuples/0.9.12-all_years/201*/data/*std*',
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
+        merge=True,
+        # keep_frac = 0.1,
+        num_of_workers=20
     ),
     'Dst_D0-mu_misid-all': partial(
-        workflow_split,
-        '../ntuples/0.9.12-all_years/201*/data/*fake_mu*',
+        workflow_data,
+        '../ntuples/0.9.15-misid_pid_kept/*/data/*fake_mu*',
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
+        num_of_workers=20,
         cli_vars={'cli_misid': 'true'},
+        merge=True,
+        # keep_frac = 0.1,
         use_misid=True,
         use_ubdt=False
     ),
-    'Dst_D0-mu_misid-vmu-all': partial(
-        workflow_split,
-        '../ntuples/0.9.12-all_years/201*/data/*fake_mu*',
+    'Dst_D0-mu_misid-UBDT0p12-all': partial(
+        workflow_data,
+        '../ntuples/0.9.15-misid_pid_kept/*/data/*fake_mu*',
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
-        cli_vars={
-            'cli_misid': 'true',
-            'cli_vmu': 'true'
-        },
-        use_misid=True,
-        use_ubdt=False,
-        ctrl_sample=True
+        num_of_workers=20,
+        cli_vars={'cli_misid': 'true'},
+        merge=True,
+        # keep_frac = 0.1,
+        use_misidUBDT0p12=True,
+        use_ubdt=False
+    ),
+    'Dst_D0-mu_misid-UBDT0p15-all': partial(
+        workflow_data,
+        '../ntuples/0.9.15-misid_pid_kept/*/data/*fake_mu*',
+        '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
+        num_of_workers=20,
+        cli_vars={'cli_misid': 'true'},
+        merge=True,
+        # keep_frac = 0.1,
+        use_misidUBDT0p15=True,
+        use_ubdt=False
+    ),
+    'Dst_D0-mu_misid-UBDT0p18-all': partial(
+        workflow_data,
+        '../ntuples/0.9.15-misid_pid_kept/*/data/*fake_mu*',
+        '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
+        num_of_workers=20,
+        cli_vars={'cli_misid': 'true'},
+        merge=True,
+        # keep_frac = 0.1,
+        use_misidUBDT0p18=True,
+        use_ubdt=False
+    ),
+    'Dst_D0-mu_misid-UBDT0p21-all': partial(
+        workflow_data,
+        '../ntuples/0.9.15-misid_pid_kept/*/data/*fake_mu*',
+        '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
+        num_of_workers=20,
+        cli_vars={'cli_misid': 'true'},
+        merge=True,
+        # keep_frac = 0.1,
+        use_misidUBDT0p21=True,
+        use_ubdt=False
+    ),
+    'Dst_D0-mu_misid-UBDT0p24-all': partial(
+        workflow_data,
+        '../ntuples/0.9.15-misid_pid_kept/*/data/*fake_mu*',
+        '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
+        num_of_workers=20,
+        cli_vars={'cli_misid': 'true'},
+        merge=True,
+        # keep_frac = 0.1,
+        use_misidUBDT0p24=True,
+        use_ubdt=False
+    ),
+    'Dst_D0-mu_misid-UBDT0p27-all': partial(
+        workflow_data,
+        '../ntuples/0.9.15-misid_pid_kept/*/data/*fake_mu*',
+        '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
+        num_of_workers=20,
+        cli_vars={'cli_misid': 'true'},
+        merge=True,
+        # keep_frac = 0.1,
+        use_misidUBDT0p27=True,
+        use_ubdt=False
+    ),
+    'Dst_D0-mu_misid-UBDT0p30-all': partial(
+        workflow_data,
+        '../ntuples/0.9.15-misid_pid_kept/*/data/*fake_mu*',
+        '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
+        num_of_workers=20,
+        cli_vars={'cli_misid': 'true'},
+        merge=True,
+        # keep_frac = 0.1,
+        use_misidUBDT0p30=True,
+        use_ubdt=False
+    ),
+    'Dst_D0-mu_misid-UBDT0p33-all': partial(
+        workflow_data,
+        '../ntuples/0.9.15-misid_pid_kept/*/data/*fake_mu*',
+        '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
+        num_of_workers=20,
+        cli_vars={'cli_misid': 'true'},
+        merge=True,
+        # keep_frac = 0.1,
+        use_misidUBDT0p33=True,
+        use_ubdt=False
+    ),
+    'Dst_D0-mu_misid-UBDT0p36-all': partial(
+        workflow_data,
+        '../ntuples/0.9.15-misid_pid_kept/*/data/*fake_mu*',
+        '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
+        num_of_workers=20,
+        cli_vars={'cli_misid': 'true'},
+        merge=True,
+        # keep_frac = 0.1,
+        use_misidUBDT0p36=True,
+        use_ubdt=False
+    ),
+    'Dst_D0-mu_misid-UBDT0p39-all': partial(
+        workflow_data,
+        '../ntuples/0.9.15-misid_pid_kept/*/data/*fake_mu*',
+        '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
+        num_of_workers=20,
+        cli_vars={'cli_misid': 'true'},
+        merge=True,
+        # keep_frac = 0.1,
+        use_misidUBDT0p39=True,
+        use_ubdt=False
+    ),
+    'Dst_D0-mu_misid-UBDT0p42-all': partial(
+        workflow_data,
+        '../ntuples/0.9.15-misid_pid_kept/*/data/*fake_mu*',
+        '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
+        num_of_workers=20,
+        cli_vars={'cli_misid': 'true'},
+        merge=True,
+        # keep_frac = 0.1,
+        use_misidUBDT0p42=True,
+        use_ubdt=False
+    ),
+    'Dst_D0-mu_misid-UBDT0p45-all': partial(
+        workflow_data,
+        '../ntuples/0.9.15-misid_pid_kept/*/data/*fake_mu*',
+        '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
+        num_of_workers=20,
+        cli_vars={'cli_misid': 'true'},
+        merge=True,
+        # keep_frac = 0.1,
+        use_misidUBDT0p45=True,
+        use_ubdt=False
+    ),
+    'Dst_D0-mu_misid-UBDT0p48-all': partial(
+        workflow_data,
+        '../ntuples/0.9.15-misid_pid_kept/*/data/*fake_mu*',
+        '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
+        num_of_workers=20,
+        cli_vars={'cli_misid': 'true'},
+        merge=True,
+        # keep_frac = 0.1,
+        use_misidUBDT0p48=True,
+        use_ubdt=False
+    ),
+    'Dst_D0-mu_misid-UBDT0p51-all': partial(
+        workflow_data,
+        '../ntuples/0.9.15-misid_pid_kept/*/data/*fake_mu*',
+        '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
+        num_of_workers=20,
+        cli_vars={'cli_misid': 'true'},
+        merge=True,
+        # keep_frac = 0.1,
+        use_misidUBDT0p51=True,
+        use_ubdt=False
+    ),
+    'Dst_D0-mu_misid-UBDT0p54-all': partial(
+        workflow_data,
+        '../ntuples/0.9.15-misid_pid_kept/*/data/*fake_mu*',
+        '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
+        num_of_workers=20,
+        cli_vars={'cli_misid': 'true'},
+        merge=True,
+        # keep_frac = 0.1,
+        use_misidUBDT0p54=True,
+        use_ubdt=False
+    ),
+    'Dst_D0-mu_misid-UBDT0p57-all': partial(
+        workflow_data,
+        '../ntuples/0.9.15-misid_pid_kept/*/data/*fake_mu*',
+        '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
+        num_of_workers=20,
+        cli_vars={'cli_misid': 'true'},
+        merge=True,
+        # keep_frac = 0.1,
+        use_misidUBDT0p57=True,
+        use_ubdt=False
+    ),
+    'Dst_D0-mu_misid-UBDT0p60-all': partial(
+        workflow_data,
+        '../ntuples/0.9.15-misid_pid_kept/*/data/*fake_mu*',
+        '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
+        num_of_workers=20,
+        cli_vars={'cli_misid': 'true'},
+        merge=True,
+        # keep_frac = 0.1,
+        use_misidUBDT0p60=True,
+        use_ubdt=False
+    ),
+    'Dst_D0-mu_misid-UBDT0p63-all': partial(
+        workflow_data,
+        '../ntuples/0.9.15-misid_pid_kept/*/data/*fake_mu*',
+        '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
+        num_of_workers=20,
+        cli_vars={'cli_misid': 'true'},
+        merge=True,
+        # keep_frac = 0.1,
+        use_misidUBDT0p63=True,
+        use_ubdt=False
+    ),
+    'Dst_D0-mu_misid-UBDT0p66-all': partial(
+        workflow_data,
+        '../ntuples/0.9.15-misid_pid_kept/*/data/*fake_mu*',
+        '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
+        num_of_workers=20,
+        cli_vars={'cli_misid': 'true'},
+        merge=True,
+        # keep_frac = 0.1,
+        use_misidUBDT0p66=True,
+        use_ubdt=False
+    ),
+    'Dst_D0-mu_misid-UBDT0p69-all': partial(
+        workflow_data,
+        '../ntuples/0.9.15-misid_pid_kept/*/data/*fake_mu*',
+        '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
+        num_of_workers=20,
+        cli_vars={'cli_misid': 'true'},
+        merge=True,
+        # keep_frac = 0.1,
+        use_misidUBDT0p69=True,
+        use_ubdt=False
+    ),
+    'Dst_D0-mu_misid-UBDT0p72-all': partial(
+        workflow_data,
+        '../ntuples/0.9.15-misid_pid_kept/*/data/*fake_mu*',
+        '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
+        num_of_workers=20,
+        cli_vars={'cli_misid': 'true'},
+        merge=True,
+        # keep_frac = 0.1,
+        use_misidUBDT0p72=True,
+        use_ubdt=False
+    ),
+    'Dst_D0-mu_misid-UBDT0p75-all': partial(
+        workflow_data,
+        '../ntuples/0.9.15-misid_pid_kept/*/data/*fake_mu*',
+        '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
+        num_of_workers=20,
+        cli_vars={'cli_misid': 'true'},
+        merge=True,
+        # keep_frac = 0.1,
+        use_misidUBDT0p75=True,
+        use_ubdt=False
+    ),
+    'Dst_D0-mu_misid-UBDT0p78-all': partial(
+        workflow_data,
+        '../ntuples/0.9.15-misid_pid_kept/*/data/*fake_mu*',
+        '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
+        num_of_workers=20,
+        cli_vars={'cli_misid': 'true'},
+        merge=True,
+        # keep_frac = 0.1,
+        use_misidUBDT0p78=True,
+        use_ubdt=False
+    ),
+    'Dst_D0-mu_misid-UBDT0p81-all': partial(
+        workflow_data,
+        '../ntuples/0.9.15-misid_pid_kept/*/data/*fake_mu*',
+        '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
+        num_of_workers=20,
+        cli_vars={'cli_misid': 'true'},
+        merge=True,
+        # keep_frac = 0.1,
+        use_misidUBDT0p81=True,
+        use_ubdt=False
     ),
     'rdx-ntuple-run2-misid_study-all': partial(
-        workflow_split,
-        '../ntuples/0.9.12-all_years/201*/data/*fake_mu*',
+        workflow_data,
+        '../ntuples/0.9.15-misid_pid_kept/*/data/*fake_mu*',
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
         cli_vars={'cli_misid_study': 'true'},
-        use_ubdt=False
+        merge=True,
+        use_ubdt=False,
+        num_of_workers=20
     ),
     # Run 2 data (old, only 2016)
     'Dst_D0-std': partial(
-        workflow_split,
-        '../ntuples/0.9.6-2016_production/Dst_D0-std/',
+        workflow_data,
+        '../ntuples/0.9.6-2016_production/Dst_D0-std/*',
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
+        num_of_workers=16,
+        merge=True
     ),
     'rdx-ntuple-run2-data-cut_opt': partial(
-        workflow_split,
-        '../ntuples/0.9.6-2016_production/Dst_D0-std/',
+        workflow_data,
+        '../ntuples/0.9.6-2016_production/Dst_D0-std/*',
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
-        cli_vars={'cli_cutflow': 'true'}
+        cli_vars={'cli_cutflow': 'true'},
+        num_of_workers=16,
+        merge=True
     ),
     'Dst_D0-mu_misid': partial(
-        workflow_split,
-        '../ntuples/0.9.6-2016_production/Dst_D0-mu_misid/',
+        workflow_data,
+        '../ntuples/0.9.6-2016_production/Dst_D0-mu_misid/*',
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
         cli_vars={'cli_misid': 'true'},
         use_misid=True,
-        use_ubdt=False
+        use_ubdt=False,
+        num_of_workers=16,
+        merge=True
     ),
     'rdx-ntuple-run2-misid_study': partial(
-        workflow_split,
-        '../ntuples/0.9.6-2016_production/Dst_D0-mu_misid/',
+        workflow_data,
+        '../ntuples/0.9.6-2016_production/Dst_D0-mu_misid/*',
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
         cli_vars={'cli_misid_study': 'true'},
-        use_ubdt=False
+        use_ubdt=False,
+        num_of_workers=16,
+        merge=True
     ),
     # Some special run 2 MC
     'rdx-ntuple-run2-mc_ghost': partial(
@@ -552,58 +1259,288 @@ JOBS = {
         blocked_patterns=['--aux', 'MC_2012']
     ),
     # Run 2 MC full sim for Lb
-    'Dst_D0-mc-fullsim-Lb': partial(
-        workflow_split,
+    'Dst_D0-mc-fullsim-Lb-all': partial(
+        workflow_mc,
         [
-            f'../ntuples/0.9.11-Lb-mc-fullsim/*{i}*.DST'
+            f'../ntuples/0.9.12-all_years/*/Lb/*{i}*'
             for i in [15574081, 15574082, 15574083]
         ],
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
         use_hammer=False,
+        merge=True,
+        # keep_frac = 0.1,
         num_of_workers=20
     ),
     # Run 2 b-inclusive D* production fullsim MC
     # Needed for ghost misid unfolding, misid DiF smearing and
     # K, pi misid corrections for pidcalib
     'incl_b_dst_mc-misid_corrections-k': partial(
-        workflow_split_mc_ghost,
+        workflow_data,
         '../ntuples/0.9.14-incl_b-Dst-fullsim/*',
         '../postprocess/rdx-run2/rdx-run2_incl_b_dst_k.yml',
         trees=['TupleDstANNK/DecayTree'],
         particle='k',
-        cache_suffix='--aux_ubdt-k_corr'
+        cache_suffix='--aux_ubdt-k_corr',
+        num_of_workers=16,
+        merge=True
     ),
     'incl_b_dst_mc-misid_corrections-pi': partial(
-        workflow_split_mc_ghost,
+        workflow_data,
         '../ntuples/0.9.14-incl_b-Dst-fullsim/*',
         '../postprocess/rdx-run2/rdx-run2_incl_b_dst_pi.yml',
         trees=['TupleDstANNPi/DecayTree'],
         particle='pi',
-        cache_suffix='--aux_ubdt-pi_corr'
+        cache_suffix='--aux_ubdt-pi_corr',
+        num_of_workers=16,
+        merge=True
     ),
     'incl_b_dst_mc-misid_smearing-k': partial(
-        workflow_split_mc_ghost,
+        workflow_data,
         '../ntuples/0.9.14-incl_b-Dst-fullsim/*',
         '../postprocess/rdx-run2/rdx-run2_incl_b_k_smr.yml',
         trees=['TupleKDiF/DecayTree'],
         particle='k',
-        cache_suffix='--aux_ubdt-k_smr'
+        cache_suffix='--aux_ubdt-k_smr',
+        num_of_workers=16,
+        merge=True
     ),
     'incl_b_dst_mc-misid_smearing-pi': partial(
-        workflow_split_mc_ghost,
+        workflow_data,
         '../ntuples/0.9.14-incl_b-Dst-fullsim/*',
         '../postprocess/rdx-run2/rdx-run2_incl_b_pi_smr.yml',
         trees=['TuplePiDiF/DecayTree'],
         particle='pi',
-        cache_suffix='--aux_ubdt-pi_smr'
+        cache_suffix='--aux_ubdt-pi_smr',
+        num_of_workers=16,
+        merge=True
     ),
     'incl_b_dst_mc-eghost-unfolding': partial(
-        workflow_split_mc_ghost,
+        workflow_data,
         '../ntuples/0.9.14-incl_b-Dst-fullsim/*',
         '../postprocess/rdx-run2/rdx-run2_incl_b_eghost.yml',
         trees=['EorGhost/DecayTree'],
         particle='mu',
-        cache_suffix='--aux_ubdt-eghost'
+        cache_suffix='--aux_ubdt-eghost',
+        num_of_workers=16,
+        merge=True
+    ),
+    # Run 2 inclusive B -> D* production fullsim MC
+    # Used in addition to the samples above to improve
+    # modeling of the signal D* -> (D0 -> K pi) pi decay
+    'bd_dstx_mc-misid_corrections-k': partial(
+        workflow_data,
+        '../ntuples/0.9.17-bd_dstx-fullsim/*',
+        '../postprocess/rdx-run2/rdx-run2_incl_b_dst_k.yml',
+        trees=['TupleDstANNK/DecayTree'],
+        particle='k',
+        cache_suffix='--aux_ubdt-k',
+        num_of_workers=16,
+        merge=True
+    ),
+    'bd_dstx_mc-misid_corrections-pi': partial(
+        workflow_data,
+        '../ntuples/0.9.17-bd_dstx-fullsim/*',
+        '../postprocess/rdx-run2/rdx-run2_incl_b_dst_pi.yml',
+        trees=['TupleDstANNPi/DecayTree'],
+        particle='pi',
+        cache_suffix='--aux_ubdt-pi',
+        num_of_workers=16,
+        merge=True
+    ),
+    # Run 2 inclusive D* production fullsim MC samples with background
+    # D0 decays. Needed for K, pi misid efficiencies.
+    # D*+ -> (D0 -> pi+ pi* pi0) pi+
+    'd0_bkg_pipipi0_phsp-misid_corrections-k': partial(
+        workflow_data,
+        '../ntuples/0.9.16-mc_d0_bkg_misid/27163403/*',
+        '../postprocess/rdx-run2/rdx-run2_incl_b_dst_k.yml',
+        trees=['TupleDstANNK/DecayTree'],
+        particle='k',
+        cache_suffix='--aux_ubdt-k',
+        num_of_workers=16,
+        merge=True
+    ),
+    'd0_bkg_pipipi0_dalitz-misid_corrections-k': partial(
+        workflow_data,
+        '../ntuples/0.9.16-mc_d0_bkg_misid/27163404/*',
+        '../postprocess/rdx-run2/rdx-run2_incl_b_dst_k.yml',
+        trees=['TupleDstANNK/DecayTree'],
+        particle='k',
+        cache_suffix='--aux_ubdt-k',
+        num_of_workers=16,
+        merge=True
+    ),
+    'd0_bkg_pipipi0_phsp-misid_corrections-pi': partial(
+        workflow_data,
+        '../ntuples/0.9.16-mc_d0_bkg_misid/27163403/*',
+        '../postprocess/rdx-run2/rdx-run2_incl_b_dst_pi.yml',
+        trees=['TupleDstANNPi/DecayTree'],
+        particle='pi',
+        cache_suffix='--aux_ubdt-pi',
+        num_of_workers=16,
+        merge=True
+    ),
+    'd0_bkg_pipipi0_dalitz-misid_corrections-pi': partial(
+        workflow_data,
+        '../ntuples/0.9.16-mc_d0_bkg_misid/27163404/*',
+        '../postprocess/rdx-run2/rdx-run2_incl_b_dst_pi.yml',
+        trees=['TupleDstANNPi/DecayTree'],
+        particle='pi',
+        cache_suffix='--aux_ubdt-pi',
+        num_of_workers=16,
+        merge=True
+    ),
+    # D*+ -> (D0 -> pi- mu+ nu) pi+
+    'd0_bkg_pimunu-misid_corrections-k': partial(
+        workflow_data,
+        '../ntuples/0.9.16-mc_d0_bkg_misid/27573001/*',
+        '../postprocess/rdx-run2/rdx-run2_incl_b_dst_k.yml',
+        trees=['TupleDstANNK/DecayTree'],
+        particle='k',
+        cache_suffix='--aux_ubdt-k',
+        num_of_workers=16,
+        merge=True
+    ),
+    'd0_bkg_pimunu-misid_corrections-pi': partial(
+        workflow_data,
+        '../ntuples/0.9.16-mc_d0_bkg_misid/27573001/*',
+        '../postprocess/rdx-run2/rdx-run2_incl_b_dst_pi.yml',
+        trees=['TupleDstANNPi/DecayTree'],
+        particle='pi',
+        cache_suffix='--aux_ubdt-pi',
+        num_of_workers=16,
+        merge=True
+    ),
+    # D*+ -> (D0 -> K- mu+ nu) pi+
+    'd0_bkg_kmunu-misid_corrections-k': partial(
+        workflow_data,
+        '../ntuples/0.9.16-mc_d0_bkg_misid/27173001/*',
+        '../postprocess/rdx-run2/rdx-run2_incl_b_dst_k.yml',
+        trees=['TupleDstANNK/DecayTree'],
+        particle='k',
+        cache_suffix='--aux_ubdt-k',
+        num_of_workers=16,
+        merge=True
+    ),
+    'd0_bkg_kmunu-misid_corrections-pi': partial(
+        workflow_data,
+        '../ntuples/0.9.16-mc_d0_bkg_misid/27173001/*',
+        '../postprocess/rdx-run2/rdx-run2_incl_b_dst_pi.yml',
+        trees=['TupleDstANNPi/DecayTree'],
+        particle='pi',
+        cache_suffix='--aux_ubdt-pi',
+        num_of_workers=16,
+        merge=True
+    ),
+    # D*+ -> (D0 -> pi+ pi-) pi+
+    'd0_bkg_pipi-misid_corrections-k': partial(
+        workflow_data,
+        '../ntuples/0.9.16-mc_d0_bkg_misid/27163001/*',
+        '../postprocess/rdx-run2/rdx-run2_incl_b_dst_k.yml',
+        trees=['TupleDstANNK/DecayTree'],
+        particle='k',
+        cache_suffix='--aux_ubdt-k',
+        num_of_workers=16,
+        merge=True
+    ),
+    'd0_bkg_pipi-misid_corrections-pi': partial(
+        workflow_data,
+        '../ntuples/0.9.16-mc_d0_bkg_misid/27163001/*',
+        '../postprocess/rdx-run2/rdx-run2_incl_b_dst_pi.yml',
+        trees=['TupleDstANNPi/DecayTree'],
+        particle='pi',
+        cache_suffix='--aux_ubdt-pi',
+        num_of_workers=16,
+        merge=True
+    ),
+    # D*+ -> (D0 -> (Ks -> pi+ pi-) pi+ pi-) pi+
+    # Also used to emulate
+    # D*+ -> (D0 -> (Ks -> pi0 pi0) pi+ and
+    # D*+ -> (D0 -> (Kl -> X) pi+ pi-) pi+
+    'd0_bkg_kspipi-misid_corrections-k': partial(
+        workflow_data,
+        '../ntuples/0.9.16-mc_d0_bkg_misid/27165100/*',
+        '../postprocess/rdx-run2/rdx-run2_incl_b_dst_k.yml',
+        trees=['TupleDstANNK/DecayTree'],
+        particle='k',
+        cache_suffix='--aux_ubdt-k',
+        num_of_workers=16,
+        merge=True
+    ),
+    'd0_bkg_kspipi-misid_corrections-pi': partial(
+        workflow_data,
+        '../ntuples/0.9.16-mc_d0_bkg_misid/27165100/*',
+        '../postprocess/rdx-run2/rdx-run2_incl_b_dst_pi.yml',
+        trees=['TupleDstANNPi/DecayTree'],
+        particle='pi',
+        cache_suffix='--aux_ubdt-pi',
+        num_of_workers=16,
+        merge=True
+    ),
+    # D*+ -> (D0 -> K- e+ nu) pi+
+    'd0_bkg_kenu-misid_corrections-k': partial(
+        workflow_data,
+        '../ntuples/0.9.16-mc_d0_bkg_misid/27583002/*',
+        '../postprocess/rdx-run2/rdx-run2_incl_b_dst_k.yml',
+        trees=['TupleDstANNK/DecayTree'],
+        particle='k',
+        cache_suffix='--aux_ubdt-k',
+        num_of_workers=16,
+        merge=True
+    ),
+    'd0_bkg_kenu-misid_corrections-pi': partial(
+        workflow_data,
+        '../ntuples/0.9.16-mc_d0_bkg_misid/27583002/*',
+        '../postprocess/rdx-run2/rdx-run2_incl_b_dst_pi.yml',
+        trees=['TupleDstANNPi/DecayTree'],
+        particle='pi',
+        cache_suffix='--aux_ubdt-pi',
+        num_of_workers=16,
+        merge=True
+    ),
+    # D*+ -> (D0 -> pi- e+ nu) pi+
+    'd0_bkg_pienu-misid_corrections-k': partial(
+        workflow_data,
+        '../ntuples/0.9.16-mc_d0_bkg_misid/27583000/*',
+        '../postprocess/rdx-run2/rdx-run2_incl_b_dst_k.yml',
+        trees=['TupleDstANNK/DecayTree'],
+        particle='k',
+        cache_suffix='--aux_ubdt-k',
+        num_of_workers=16,
+        merge=True
+    ),
+    'd0_bkg_pienu-misid_corrections-pi': partial(
+        workflow_data,
+        '../ntuples/0.9.16-mc_d0_bkg_misid/27583000/*',
+        '../postprocess/rdx-run2/rdx-run2_incl_b_dst_pi.yml',
+        trees=['TupleDstANNPi/DecayTree'],
+        particle='pi',
+        cache_suffix='--aux_ubdt-pi',
+        num_of_workers=16,
+        merge=True
+    ),
+    # Run 2 b-inclusive minimum bias fullsim MC
+    # Used to constrain the ratio of D0 -> not K- pi+ to
+    # D0 -> K pi in the fits to the PIDCalib sample
+    'd0_bkg-mb-misid_corrections-k': partial(
+        workflow_data,
+        '../ntuples/0.9.16-mc_d0_bkg_misid/10000000/*',
+        '../postprocess/rdx-run2/rdx-run2_incl_b_dst_k.yml',
+        trees=['TupleDstANNK/DecayTree'],
+        particle='k',
+        cache_suffix='--aux_ubdt-k',
+        num_of_workers=20,
+        merge=True
+    ),
+    'd0_bkg-mb-misid_corrections-pi': partial(
+        workflow_data,
+        '../ntuples/0.9.16-mc_d0_bkg_misid/10000000/*',
+        '../postprocess/rdx-run2/rdx-run2_incl_b_dst_pi.yml',
+        trees=['TupleDstANNPi/DecayTree'],
+        particle='pi',
+        cache_suffix='--aux_ubdt-pi',
+        num_of_workers=20,
+        merge=True
     ),
     # Run 2 fullsim MC D*(mu/tau)nu
     'Dst_D0-mc-fullsim-1718-Dstlnu': partial(
@@ -621,7 +1558,7 @@ JOBS = {
     ),
     # Run 2 MC tracker only
     'Dst_D0-mc-tracker_only-sig_norm-all': partial(
-        workflow_split,
+        workflow_mc,
         [
             # D0
             '../ntuples/0.9.12-all_years/201*/norm_D0Mu/*12573012*', # norm
@@ -634,11 +1571,13 @@ JOBS = {
         ],
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
         # use_hammer_alt=True,
-        use_hammer_dstrun1=True,
+        # use_hammer_dstrun1=True,
+        merge=True,
+        # keep_frac = 0.1,
         num_of_workers=20
     ),
     'Dst_D0-mc-tracker_only-DDX-all': partial(
-        workflow_split,
+        workflow_mc,
         [f'../ntuples/0.9.12-all_years/201*/DDX/*{i}*'
             for i in [
                 11894600, 12893600, 11894200, 12893610,
@@ -651,37 +1590,45 @@ JOBS = {
         ,
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
         use_hammer=False,
+        merge=True,
+        # keep_frac = 0.1,
         num_of_workers=20
     ),
     'Dst_D0-mc-tracker_only-Dstst-all': partial(
-        workflow_split,
+        workflow_mc,
         [
             f'../ntuples/0.9.12-all_years/201*/Dstst/*{i}*'
             for i in [11874430, 11874440, 12873450, 12873460]
         ],
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
         # use_hammer_alt=True,
-        use_hammer_no_rescale=True, # not nominally used for D**
+        # use_hammer_no_rescale=True, # not nominally used for D**
+        merge=True,
+        # keep_frac = 0.1,
         num_of_workers=20
     ),
     'Dst_D0-mc-tracker_only-Dstst_heavy-all': partial(
-        workflow_split,
+        workflow_mc,
         [
             f'../ntuples/0.9.12-all_years/201*/Dstst_heavy/*{i}*'
             for i in [12675011, 11674401, 12675402, 11676012, 12875440]
         ],
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
         use_hammer=False,
+        merge=True,
+        # keep_frac = 0.1,
         num_of_workers=20
     ),
     'Dst_D0-mc-tracker_only-D_s-all': partial(
-        workflow_split,
+        workflow_mc,
         [
             f'../ntuples/0.9.12-all_years/201*/Ds/*{i}*'
             for i in [13874020, 13674000]
         ],
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
         # use_hammer_alt=True,
+        merge=True,
+        # keep_frac = 0.1,
         num_of_workers=20
     ),
     # Run 2 MC tracker only (old, only 2016)
