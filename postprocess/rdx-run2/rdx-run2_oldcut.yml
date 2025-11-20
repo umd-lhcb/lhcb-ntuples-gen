@@ -794,6 +794,7 @@ calculation:
         FLAG_SEL_MU_PID_OK_RUN1(mu_isMuon, mu_PIDmu, mu_PIDe)
     mu_pid_ok_stub: ^bool; cli_cutflow; mu_pid_ok
     mu_ubdt_ok: bool; mu_ubdt > 0.25; true
+    mu_ubdt_cutopt_min_ok: bool; mu_ubdt > 0.12; true
     mu_ubdt_veto: bool; mu_ubdt < 0.25; true
 
     mu_ok: >-
