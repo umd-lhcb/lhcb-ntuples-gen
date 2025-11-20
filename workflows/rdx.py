@@ -913,7 +913,7 @@ JOBS = {
     # Run 2 data (all years)
     'Dst_D0-std-all': partial(
         workflow_data,
-        '../ntuples/0.9.12-all_years/201*/data/*std*',
+        '../ntuples/0.9.12-all_years/2016/data/*std*',
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
         merge=True,
         # keep_frac = 0.1,
@@ -921,7 +921,7 @@ JOBS = {
     ),
     'Dst_D0-mu_misid-all': partial(
         workflow_data,
-        '../ntuples/0.9.15-misid_pid_kept/*/data/*fake_mu*',
+        '../ntuples/glacier_links/0.9.15-misid_pid_kept/2016/data/*fake_mu*',
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
         num_of_workers=20,
         cli_vars={'cli_misid': 'true'},
@@ -932,7 +932,7 @@ JOBS = {
     ),
     'Dst_D0-mu_misid-UBDT0p12-all': partial(
         workflow_data,
-        '../ntuples/0.9.15-misid_pid_kept/*/data/*fake_mu*',
+        '../ntuples/glacier_links/0.9.15-misid_pid_kept/2016/data/*fake_mu*',
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
         num_of_workers=20,
         cli_vars={'cli_misid': 'true'},
@@ -943,7 +943,7 @@ JOBS = {
     ),
     'Dst_D0-mu_misid-UBDT0p15-all': partial(
         workflow_data,
-        '../ntuples/0.9.15-misid_pid_kept/*/data/*fake_mu*',
+        '../ntuples/glacier_links/0.9.15-misid_pid_kept/2016/data/*fake_mu*',
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
         num_of_workers=20,
         cli_vars={'cli_misid': 'true'},
@@ -954,7 +954,7 @@ JOBS = {
     ),
     'Dst_D0-mu_misid-UBDT0p18-all': partial(
         workflow_data,
-        '../ntuples/0.9.15-misid_pid_kept/*/data/*fake_mu*',
+        '../ntuples/glacier_links/0.9.15-misid_pid_kept/2016/data/*fake_mu*',
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
         num_of_workers=20,
         cli_vars={'cli_misid': 'true'},
@@ -965,7 +965,7 @@ JOBS = {
     ),
     'Dst_D0-mu_misid-UBDT0p21-all': partial(
         workflow_data,
-        '../ntuples/0.9.15-misid_pid_kept/*/data/*fake_mu*',
+        '../ntuples/glacier_links/0.9.15-misid_pid_kept/2016/data/*fake_mu*',
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
         num_of_workers=20,
         cli_vars={'cli_misid': 'true'},
@@ -976,7 +976,7 @@ JOBS = {
     ),
     'Dst_D0-mu_misid-UBDT0p24-all': partial(
         workflow_data,
-        '../ntuples/0.9.15-misid_pid_kept/*/data/*fake_mu*',
+        '../ntuples/glacier_links/0.9.15-misid_pid_kept/2016/data/*fake_mu*',
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
         num_of_workers=20,
         cli_vars={'cli_misid': 'true'},
@@ -987,7 +987,7 @@ JOBS = {
     ),
     'Dst_D0-mu_misid-UBDT0p27-all': partial(
         workflow_data,
-        '../ntuples/0.9.15-misid_pid_kept/*/data/*fake_mu*',
+        '../ntuples/glacier_links/0.9.15-misid_pid_kept/2016/data/*fake_mu*',
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
         num_of_workers=20,
         cli_vars={'cli_misid': 'true'},
@@ -998,7 +998,7 @@ JOBS = {
     ),
     'Dst_D0-mu_misid-UBDT0p30-all': partial(
         workflow_data,
-        '../ntuples/0.9.15-misid_pid_kept/*/data/*fake_mu*',
+        '../ntuples/glacier_links/0.9.15-misid_pid_kept/2016/data/*fake_mu*',
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
         num_of_workers=20,
         cli_vars={'cli_misid': 'true'},
@@ -1009,7 +1009,7 @@ JOBS = {
     ),
     'Dst_D0-mu_misid-UBDT0p33-all': partial(
         workflow_data,
-        '../ntuples/0.9.15-misid_pid_kept/*/data/*fake_mu*',
+        '../ntuples/glacier_links/0.9.15-misid_pid_kept/2016/data/*fake_mu*',
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
         num_of_workers=20,
         cli_vars={'cli_misid': 'true'},
@@ -1020,7 +1020,7 @@ JOBS = {
     ),
     'Dst_D0-mu_misid-UBDT0p36-all': partial(
         workflow_data,
-        '../ntuples/0.9.15-misid_pid_kept/*/data/*fake_mu*',
+        '../ntuples/glacier_links/0.9.15-misid_pid_kept/2016/data/*fake_mu*',
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
         num_of_workers=20,
         cli_vars={'cli_misid': 'true'},
@@ -1031,7 +1031,7 @@ JOBS = {
     ),
     'Dst_D0-mu_misid-UBDT0p39-all': partial(
         workflow_data,
-        '../ntuples/0.9.15-misid_pid_kept/*/data/*fake_mu*',
+        '../ntuples/glacier_links/0.9.15-misid_pid_kept/2016/data/*fake_mu*',
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
         num_of_workers=20,
         cli_vars={'cli_misid': 'true'},
@@ -1042,7 +1042,7 @@ JOBS = {
     ),
     'Dst_D0-mu_misid-UBDT0p42-all': partial(
         workflow_data,
-        '../ntuples/0.9.15-misid_pid_kept/*/data/*fake_mu*',
+        '../ntuples/glacier_links/0.9.15-misid_pid_kept/2016/data/*fake_mu*',
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
         num_of_workers=20,
         cli_vars={'cli_misid': 'true'},
@@ -1053,7 +1053,7 @@ JOBS = {
     ),
     'Dst_D0-mu_misid-UBDT0p45-all': partial(
         workflow_data,
-        '../ntuples/0.9.15-misid_pid_kept/*/data/*fake_mu*',
+        '../ntuples/glacier_links/0.9.15-misid_pid_kept/2016/data/*fake_mu*',
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
         num_of_workers=20,
         cli_vars={'cli_misid': 'true'},
@@ -1064,7 +1064,7 @@ JOBS = {
     ),
     'Dst_D0-mu_misid-UBDT0p48-all': partial(
         workflow_data,
-        '../ntuples/0.9.15-misid_pid_kept/*/data/*fake_mu*',
+        '../ntuples/glacier_links/0.9.15-misid_pid_kept/2016/data/*fake_mu*',
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
         num_of_workers=20,
         cli_vars={'cli_misid': 'true'},
@@ -1075,7 +1075,7 @@ JOBS = {
     ),
     'Dst_D0-mu_misid-UBDT0p51-all': partial(
         workflow_data,
-        '../ntuples/0.9.15-misid_pid_kept/*/data/*fake_mu*',
+        '../ntuples/glacier_links/0.9.15-misid_pid_kept/2016/data/*fake_mu*',
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
         num_of_workers=20,
         cli_vars={'cli_misid': 'true'},
@@ -1086,7 +1086,7 @@ JOBS = {
     ),
     'Dst_D0-mu_misid-UBDT0p54-all': partial(
         workflow_data,
-        '../ntuples/0.9.15-misid_pid_kept/*/data/*fake_mu*',
+        '../ntuples/glacier_links/0.9.15-misid_pid_kept/2016/data/*fake_mu*',
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
         num_of_workers=20,
         cli_vars={'cli_misid': 'true'},
@@ -1097,7 +1097,7 @@ JOBS = {
     ),
     'Dst_D0-mu_misid-UBDT0p57-all': partial(
         workflow_data,
-        '../ntuples/0.9.15-misid_pid_kept/*/data/*fake_mu*',
+        '../ntuples/glacier_links/0.9.15-misid_pid_kept/2016/data/*fake_mu*',
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
         num_of_workers=20,
         cli_vars={'cli_misid': 'true'},
@@ -1108,7 +1108,7 @@ JOBS = {
     ),
     'Dst_D0-mu_misid-UBDT0p60-all': partial(
         workflow_data,
-        '../ntuples/0.9.15-misid_pid_kept/*/data/*fake_mu*',
+        '../ntuples/glacier_links/0.9.15-misid_pid_kept/2016/data/*fake_mu*',
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
         num_of_workers=20,
         cli_vars={'cli_misid': 'true'},
@@ -1119,7 +1119,7 @@ JOBS = {
     ),
     'Dst_D0-mu_misid-UBDT0p63-all': partial(
         workflow_data,
-        '../ntuples/0.9.15-misid_pid_kept/*/data/*fake_mu*',
+        '../ntuples/glacier_links/0.9.15-misid_pid_kept/2016/data/*fake_mu*',
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
         num_of_workers=20,
         cli_vars={'cli_misid': 'true'},
@@ -1130,7 +1130,7 @@ JOBS = {
     ),
     'Dst_D0-mu_misid-UBDT0p66-all': partial(
         workflow_data,
-        '../ntuples/0.9.15-misid_pid_kept/*/data/*fake_mu*',
+        '../ntuples/glacier_links/0.9.15-misid_pid_kept/2016/data/*fake_mu*',
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
         num_of_workers=20,
         cli_vars={'cli_misid': 'true'},
@@ -1141,7 +1141,7 @@ JOBS = {
     ),
     'Dst_D0-mu_misid-UBDT0p69-all': partial(
         workflow_data,
-        '../ntuples/0.9.15-misid_pid_kept/*/data/*fake_mu*',
+        '../ntuples/glacier_links/0.9.15-misid_pid_kept/2016/data/*fake_mu*',
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
         num_of_workers=20,
         cli_vars={'cli_misid': 'true'},
@@ -1152,7 +1152,7 @@ JOBS = {
     ),
     'Dst_D0-mu_misid-UBDT0p72-all': partial(
         workflow_data,
-        '../ntuples/0.9.15-misid_pid_kept/*/data/*fake_mu*',
+        '../ntuples/glacier_links/0.9.15-misid_pid_kept/2016/data/*fake_mu*',
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
         num_of_workers=20,
         cli_vars={'cli_misid': 'true'},
@@ -1163,7 +1163,7 @@ JOBS = {
     ),
     'Dst_D0-mu_misid-UBDT0p75-all': partial(
         workflow_data,
-        '../ntuples/0.9.15-misid_pid_kept/*/data/*fake_mu*',
+        '../ntuples/glacier_links/0.9.15-misid_pid_kept/2016/data/*fake_mu*',
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
         num_of_workers=20,
         cli_vars={'cli_misid': 'true'},
@@ -1174,7 +1174,7 @@ JOBS = {
     ),
     'Dst_D0-mu_misid-UBDT0p78-all': partial(
         workflow_data,
-        '../ntuples/0.9.15-misid_pid_kept/*/data/*fake_mu*',
+        '../ntuples/glacier_links/0.9.15-misid_pid_kept/2016/data/*fake_mu*',
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
         num_of_workers=20,
         cli_vars={'cli_misid': 'true'},
@@ -1185,7 +1185,7 @@ JOBS = {
     ),
     'Dst_D0-mu_misid-UBDT0p81-all': partial(
         workflow_data,
-        '../ntuples/0.9.15-misid_pid_kept/*/data/*fake_mu*',
+        '../ntuples/glacier_links/0.9.15-misid_pid_kept/2016/data/*fake_mu*',
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
         num_of_workers=20,
         cli_vars={'cli_misid': 'true'},
@@ -1196,7 +1196,7 @@ JOBS = {
     ),
     'rdx-ntuple-run2-misid_study-all': partial(
         workflow_data,
-        '../ntuples/0.9.15-misid_pid_kept/*/data/*fake_mu*',
+        '../ntuples/glacier_links/0.9.15-misid_pid_kept/2016/data/*fake_mu*',
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
         cli_vars={'cli_misid_study': 'true'},
         merge=True,
@@ -1262,7 +1262,7 @@ JOBS = {
     'Dst_D0-mc-fullsim-Lb-all': partial(
         workflow_mc,
         [
-            f'../ntuples/0.9.12-all_years/*/Lb/*{i}*'
+            f'../ntuples/0.9.12-all_years/2016/Lb/*{i}*'
             for i in [15574081, 15574082, 15574083]
         ],
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
@@ -1561,13 +1561,13 @@ JOBS = {
         workflow_mc,
         [
             # D0
-            '../ntuples/0.9.12-all_years/201*/norm_D0Mu/*12573012*', # norm
-            '../ntuples/0.9.12-all_years/201*/sig/*12573001*', # sig
+            '../ntuples/0.9.12-all_years/2016/norm_D0Mu/*12573012*', # norm
+            '../ntuples/0.9.12-all_years/2016/sig/*12573001*', # sig
             # D*
-            '../ntuples/0.9.12-all_years/201*/norm_DstMu/*11574021*', # norm, D*
-            '../ntuples/0.9.12-all_years/201*/norm_Dst0Mu/*12773410*', # norm, D*0
-            '../ntuples/0.9.12-all_years/201*/sig/*11574011*', # sig, D*
-            '../ntuples/0.9.12-all_years/201*/sig/*12773400*', # sig, D*0
+            '../ntuples/0.9.12-all_years/2016/norm_DstMu/*11574021*', # norm, D*
+            '../ntuples/0.9.12-all_years/2016/norm_Dst0Mu/*12773410*', # norm, D*0
+            '../ntuples/0.9.12-all_years/2016/sig/*11574011*', # sig, D*
+            '../ntuples/0.9.12-all_years/2016/sig/*12773400*', # sig, D*0
         ],
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
         # use_hammer_alt=True,
@@ -1578,7 +1578,7 @@ JOBS = {
     ),
     'Dst_D0-mc-tracker_only-DDX-all': partial(
         workflow_mc,
-        [f'../ntuples/0.9.12-all_years/201*/DDX/*{i}*'
+        [f'../ntuples/0.9.12-all_years/2016/DDX/*{i}*'
             for i in [
                 11894600, 12893600, 11894200, 12893610,
                 11894610, 12895400, 11894210, 12895000,
@@ -1586,7 +1586,7 @@ JOBS = {
             ]
          ]
          +
-         [f'../ntuples/0.9.12-all_years/201*/DDX/*{i}*' for i in [11894400, 12895410]] # DDspi for the D* (unused D0 ntuples with DDspi also produced)
+         [f'../ntuples/0.9.12-all_years/2016/DDX/*{i}*' for i in [11894400, 12895410]] # DDspi for the D* (unused D0 ntuples with DDspi also produced)
         ,
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
         use_hammer=False,
@@ -1597,7 +1597,7 @@ JOBS = {
     'Dst_D0-mc-tracker_only-Dstst-all': partial(
         workflow_mc,
         [
-            f'../ntuples/0.9.12-all_years/201*/Dstst/*{i}*'
+            f'../ntuples/0.9.12-all_years/2016/Dstst/*{i}*'
             for i in [11874430, 11874440, 12873450, 12873460]
         ],
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
@@ -1610,7 +1610,7 @@ JOBS = {
     'Dst_D0-mc-tracker_only-Dstst_heavy-all': partial(
         workflow_mc,
         [
-            f'../ntuples/0.9.12-all_years/201*/Dstst_heavy/*{i}*'
+            f'../ntuples/0.9.12-all_years/2016/Dstst_heavy/*{i}*'
             for i in [12675011, 11674401, 12675402, 11676012, 12875440]
         ],
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
@@ -1622,7 +1622,7 @@ JOBS = {
     'Dst_D0-mc-tracker_only-D_s-all': partial(
         workflow_mc,
         [
-            f'../ntuples/0.9.12-all_years/201*/Ds/*{i}*'
+            f'../ntuples/0.9.12-all_years/2016/Ds/*{i}*'
             for i in [13874020, 13674000]
         ],
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
