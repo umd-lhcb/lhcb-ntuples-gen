@@ -162,7 +162,7 @@ config:
         vars:
             - mu_P
             - ETA(mu_P, mu_PZ)
-            - nTrack
+            - nTracks
     wpid_mu_ubdt_veto:
         particle: Mu_ubdt_veto
         vars:
