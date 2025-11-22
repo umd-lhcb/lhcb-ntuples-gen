@@ -21,7 +21,8 @@ from utils import (
     load_yaml_db, smart_kwarg,
     generate_step2_name, find_year,
     workflow_compile_cpp, workflow_cached_ntuple, workflow_apply_weight,
-    workflow_prep_dir, workflow_split_base
+    workflow_prep_dir, workflow_split_base,
+    safe_merge
 )
 from utils import TermColor as TC
 
@@ -773,6 +774,11 @@ def workflow_data(inputs, input_yml, job_name='data', use_ubdt=True,
         pool.join()
         pool.clear()
 
+    # workaround to avoid workflow_split, which seems to mess up parallelization in some cases
+    # also, the "safe" refers to checking that all tuples expected to be produced in fact exist, so some added benefit
+    # the printouts without using workflow_split are repetitive, though
+    if 'merge' in kwargs and kwargs['merge']: safe_merge(workdir, subworkdirs, **kwargs)
+
 
 # Just an alias
 def workflow_mc_ghost(*args, **kwargs):
@@ -820,7 +826,7 @@ def workflow_mc(inputs, input_yml, job_name='mc', date=None,
                 use_hammer_dstnocorr=False, use_hammer_dst10signocorr=False,
                 use_hammer_dstrun1=False, use_hammer_no_rescale=False,
                 num_of_workers=12, **kwargs):
-    if (any(elem in inputs for elem in ["15574081", "15574082", "15574083"])):
+    if (any((elem in inputs or (isinstance(inputs,list) and len(inputs)>0 and elem in inputs[0])) for elem in ["15574081", "15574082", "15574083"])): 
         aux_workflows = [
             workflow_trigger_emu, workflow_pid, workflow_trk, workflow_jkp,
             workflow_vertex#, workflow_vertex_scale
@@ -864,6 +870,11 @@ def workflow_mc(inputs, input_yml, job_name='mc', date=None,
         pool.close()
         pool.join()
         pool.clear()
+
+    # workaround to avoid workflow_split, which seems to mess up parallelization in some cases
+    # also, the "safe" refers to checking that all tuples expected to be produced in fact exist, so some added benefit
+    # the printouts without using workflow_split are repetitive, though
+    if 'merge' in kwargs and kwargs['merge']: safe_merge(workdir, subworkdirs, **kwargs)
 
 
 def workflow_split(inputs, input_yml, job_name='split', **kwargs):
