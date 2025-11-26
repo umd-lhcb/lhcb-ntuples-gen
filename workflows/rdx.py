@@ -459,25 +459,22 @@ def workflow_split_mc_ghost(inputs, input_yml, job_name='split', **kwargs):
 JOBS = {
     # testing
     'Dst_D0-std-test': partial(
-        workflow_split,
+        workflow_data,
         '../ntuples/0.9.12-all_years/2016/data/*std*/*001*',
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
+        merge=True
     ),
     'Dst_D0-mc-test': partial(
-        workflow_split,
+        workflow_mc,
         '../ntuples/0.9.12-all_years/2016/sig/DstTau*/*001*',
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
+        merge=True
     ),
-    'rdx-ntuple-run2-mc-to-ddx-test': partial(
-        workflow_split,
-        [f'../ntuples/0.9.6-2016_production/Dst_D0-mc-tracker_only/*{i}*.DST' for i in \
-                [11894600, 12893600, 11894200, 12893610,
-                 11894610, 12895400, 11894210, 12895000,
-                 11895400]],
+    'Dst_D0-mc-test2': partial(
+        workflow_mc,
+        '../ntuples/0.9.12-all_years/2016/Ds/Ds2Dst-13674000-MagDown/*-01*',
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
-        use_hammer=False,
-        blocked_patterns=['--aux', r'--([1-9][0-9]|[1-9][0-9][0-9]|[0-9][1-9][0-9])-dv'],
-        num_of_workers=20
+        merge=True
     ),
     # External Run 2
     'RJpsi-ntuple-run2-mc_ghost-16': partial(
