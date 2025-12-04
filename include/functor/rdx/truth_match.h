@@ -87,8 +87,8 @@ class TruthMatch {
   int d1      = 20;
   int d1p     = 30;
   int d2st    = 40;
-  int dst2S   = 10;
-  int d2S     = 20;
+  int dst2S   = 20;
+  int d2S     = 10;
   int d2750   = 30;
   int d3000   = 40;
   int dd_2body     = 1000;
@@ -101,17 +101,17 @@ class TruthMatch {
   int dstst_higher_to_d   = 400000;
   int dstst_twopi         = 500000;
 
-  // useful to have a map as a reference for D** species (PDG MC ID -> our
-  // code)
+  // useful to have maps as reference for D** species (PDG MC ID -> our code)
   map<int, int> pdg_to_code{{PDG_ID_D0st_0, d0st},    {PDG_ID_D1_0, d1},
                             {PDG_ID_D1p_0, d1p},      {PDG_ID_D2st_0, d2st},
                             {PDG_ID_D0st, d0st},      {PDG_ID_D1, d1},
                             {PDG_ID_D1p, d1p},        {PDG_ID_D2st, d2st},
-                            {PDG_ID_Dst2S_0, dst2S},  {PDG_ID_D2S_0, d2S},
-                            {FAKE_ID_D2750_0, d2750}, {FAKE_ID_D3000_0, d3000},
-                            {PDG_ID_Dst2S, dst2S},    {PDG_ID_D2S, d2S},
-                            {FAKE_ID_D2750, d2750},   {FAKE_ID_D3000, d3000},
                             {PDG_ID_D1p_s, d1p},      {PDG_ID_D2st_s, d2st}};
+  // need a new map for D**H, otherwise some keys will be re-used
+  map<int, int> pdg_to_code_higher{{PDG_ID_Dst2S_0, dst2S},  {PDG_ID_D2S_0, d2S},
+                                   {FAKE_ID_D2750_0, d2750}, {FAKE_ID_D3000_0, d3000},
+                                   {PDG_ID_Dst2S, dst2S},    {PDG_ID_D2S, d2S},
+                                   {FAKE_ID_D2750, d2750},   {FAKE_ID_D3000, d3000}};
 
   // Sets of particles used for some truth-matching
   vector<int> b_mesons{PDG_ID_B0, PDG_ID_Bu, PDG_ID_Bs};
@@ -177,9 +177,11 @@ class TruthMatch {
     // specified otherwise
     if ((!dstst_higher && b_expect_id != PDG_ID_Bs &&
          !debug_dstst_all_cocktail) ||
-        (dstst_higher && debug_dstst_higher_separate_cocktail) ||
-        (b_expect_id == PDG_ID_Bs && !debug_dstst_s_all_cocktail)) {
+         (b_expect_id == PDG_ID_Bs && !debug_dstst_s_all_cocktail)) {
       added += pdg_to_code[dstst_id];
+    }
+    if (dstst_higher && debug_dstst_higher_separate_cocktail) {
+      added += pdg_to_code_higher[dstst_id];
     }
   }
   void DSTST_TWOPI_ADDED() {  // same between D0/D* samples
