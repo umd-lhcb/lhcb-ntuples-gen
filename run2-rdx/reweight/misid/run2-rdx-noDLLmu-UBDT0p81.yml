@@ -1,0 +1,195 @@
+# cuts for each tagged species, used by ALL
+tags:
+    pi: >-
+        MC15TuneV1_ProbNNpi > 0.1 &
+        DLLK < 0.0 &
+        DLLp < 0.0 &
+        DLLe < 2.0 &
+        MC15TuneV1_ProbNNghost < 0.25
+    k: >-
+        MC15TuneV1_ProbNNk > 0.1 &
+        DLLK > 0.0 &
+        (DLLp - DLLK) < 0.0 &
+        (DLLe - DLLK) < -2.0 &
+        MC15TuneV1_ProbNNghost < 0.25
+    p: >-
+        MC15TuneV1_ProbNNp > 0.1 &
+        DLLp > 0.0 &
+        (DLLp - DLLK) > 2.0 &
+        (DLLe - DLLp) < -2.0 &
+        MC15TuneV1_ProbNNghost < 0.25
+    e: >-
+        DLLe > 2.0 &
+        (DLLe - DLLK) > -2.0 &
+        (DLLe - DLLp) > -2.0 &
+        MC15TuneV1_ProbNNghost < 0.25
+    g: "!pi & !k & !p & !e"  # ghost/uncategoried
+
+
+# Used by (A)
+weight_brs:
+    2016:
+        # for step-1 ntuple
+        TupleBminus/DecayTree:
+            - prefix: D0
+              file: "./histos/unfolded-noDLLmu-UBDT0p81.root"
+              name: wmis_norm
+            - prefix: D0_bsb
+              file: "./histos/unfolded-noDLLmu-UBDT0p81.root"
+              name: wmis_bsb
+        TupleBminusWS/DecayTree:
+            - prefix: D0_ws_Mu
+              file: "./histos/unfolded-noDLLmu-UBDT0p81.root"
+              name: wmis_norm
+            - prefix: D0_ws_Mu_bsb
+              file: "./histos/unfolded-noDLLmu-UBDT0p81.root"
+              name: wmis_bsb
+        TupleB0/DecayTree:
+            - prefix: Dst
+              file: "./histos/unfolded-noDLLmu-UBDT0p81.root"
+              name: wmis_norm
+            - prefix: Dst_bsb
+              file: "./histos/unfolded-noDLLmu-UBDT0p81.root"
+              name: wmis_bsb
+            - prefix: Dst_dsb
+              file: "./histos/unfolded-noDLLmu-UBDT0p81.root"
+              name: wmis_dsb
+            - prefix: Dst_dsb_bsb
+              file: "./histos/unfolded-noDLLmu-UBDT0p81.root"
+              name: wmis_dsb_bsb
+        TupleB0WSMu/DecayTree:
+            - prefix: Dst_ws_Mu
+              file: "./histos/unfolded-noDLLmu-UBDT0p81.root"
+              name: wmis_norm
+            - prefix: Dst_ws_Mu_bsb
+              file: "./histos/unfolded-noDLLmu-UBDT0p81.root"
+              name: wmis_bsb
+            - prefix: Dst_ws_Mu_dsb
+              file: "./histos/unfolded-noDLLmu-UBDT0p81.root"
+              name: wmis_dsb
+            - prefix: Dst_ws_Mu_dsb_bsb
+              file: "./histos/unfolded-noDLLmu-UBDT0p81.root"
+              name: wmis_dsb_bsb
+        TupleB0WSPi/DecayTree:
+            - prefix: Dst_ws_Pi
+              file: "./histos/unfolded-noDLLmu-UBDT0p81.root"
+              name: wmis_norm
+            - prefix: Dst_ws_Pi_bsb
+              file: "./histos/unfolded-noDLLmu-UBDT0p81.root"
+              name: wmis_bsb
+            - prefix: Dst_ws_Pi_dsb
+              file: "./histos/unfolded-noDLLmu-UBDT0p81.root"
+              name: wmis_dsb
+            - prefix: Dst_ws_Pi_dsb_bsb
+              file: "./histos/unfolded-noDLLmu-UBDT0p81.root"
+              name: wmis_dsb_bsb
+    2017:
+        # for step-1 ntuple
+        TupleBminus/DecayTree:
+            - prefix: D0
+              file: "./histos/unfolded17-vmu16.root"
+              name: wmis_norm
+            - prefix: D0_bsb
+              file: "./histos/unfolded17-vmu16.root"
+              name: wmis_bsb
+        TupleBminusWS/DecayTree:
+            - prefix: D0_ws_Mu
+              file: "./histos/unfolded17-vmu16.root"
+              name: wmis_norm
+            - prefix: D0_ws_Mu_bsb
+              file: "./histos/unfolded17-vmu16.root"
+              name: wmis_bsb
+        TupleB0/DecayTree:
+            - prefix: Dst
+              file: "./histos/unfolded17-vmu16.root"
+              name: wmis_norm
+            - prefix: Dst_bsb
+              file: "./histos/unfolded17-vmu16.root"
+              name: wmis_bsb
+            - prefix: Dst_dsb
+              file: "./histos/unfolded17-vmu16.root"
+              name: wmis_dsb
+            - prefix: Dst_dsb_bsb
+              file: "./histos/unfolded17-vmu16.root"
+              name: wmis_dsb_bsb
+        TupleB0WSMu/DecayTree:
+            - prefix: Dst_ws_Mu
+              file: "./histos/unfolded17-vmu16.root"
+              name: wmis_norm
+            - prefix: Dst_ws_Mu_bsb
+              file: "./histos/unfolded17-vmu16.root"
+              name: wmis_bsb
+            - prefix: Dst_ws_Mu_dsb
+              file: "./histos/unfolded17-vmu16.root"
+              name: wmis_dsb
+            - prefix: Dst_ws_Mu_dsb_bsb
+              file: "./histos/unfolded17-vmu16.root"
+              name: wmis_dsb_bsb
+        TupleB0WSPi/DecayTree:
+            - prefix: Dst_ws_Pi
+              file: "./histos/unfolded17-vmu16.root"
+              name: wmis_norm
+            - prefix: Dst_ws_Pi_bsb
+              file: "./histos/unfolded17-vmu16.root"
+              name: wmis_bsb
+            - prefix: Dst_ws_Pi_dsb
+              file: "./histos/unfolded17-vmu16.root"
+              name: wmis_dsb
+            - prefix: Dst_ws_Pi_dsb_bsb
+              file: "./histos/unfolded17-vmu16.root"
+              name: wmis_dsb_bsb
+    2018:
+        # for step-1 ntuple
+        TupleBminus/DecayTree:
+            - prefix: D0
+              file: "./histos/unfolded18-vmu16.root"
+              name: wmis_norm
+            - prefix: D0_bsb
+              file: "./histos/unfolded18-vmu16.root"
+              name: wmis_bsb
+        TupleBminusWS/DecayTree:
+            - prefix: D0_ws_Mu
+              file: "./histos/unfolded18-vmu16.root"
+              name: wmis_norm
+            - prefix: D0_ws_Mu_bsb
+              file: "./histos/unfolded18-vmu16.root"
+              name: wmis_bsb
+        TupleB0/DecayTree:
+            - prefix: Dst
+              file: "./histos/unfolded18-vmu16.root"
+              name: wmis_norm
+            - prefix: Dst_bsb
+              file: "./histos/unfolded18-vmu16.root"
+              name: wmis_bsb
+            - prefix: Dst_dsb
+              file: "./histos/unfolded18-vmu16.root"
+              name: wmis_dsb
+            - prefix: Dst_dsb_bsb
+              file: "./histos/unfolded18-vmu16.root"
+              name: wmis_dsb_bsb
+        TupleB0WSMu/DecayTree:
+            - prefix: Dst_ws_Mu
+              file: "./histos/unfolded18-vmu16.root"
+              name: wmis_norm
+            - prefix: Dst_ws_Mu_bsb
+              file: "./histos/unfolded18-vmu16.root"
+              name: wmis_bsb
+            - prefix: Dst_ws_Mu_dsb
+              file: "./histos/unfolded18-vmu16.root"
+              name: wmis_dsb
+            - prefix: Dst_ws_Mu_dsb_bsb
+              file: "./histos/unfolded18-vmu16.root"
+              name: wmis_dsb_bsb
+        TupleB0WSPi/DecayTree:
+            - prefix: Dst_ws_Pi
+              file: "./histos/unfolded18-vmu16.root"
+              name: wmis_norm
+            - prefix: Dst_ws_Pi_bsb
+              file: "./histos/unfolded18-vmu16.root"
+              name: wmis_bsb
+            - prefix: Dst_ws_Pi_dsb
+              file: "./histos/unfolded18-vmu16.root"
+              name: wmis_dsb
+            - prefix: Dst_ws_Pi_dsb_bsb
+              file: "./histos/unfolded18-vmu16.root"
+              name: wmis_dsb_bsb
