@@ -448,6 +448,7 @@ calculation:
     mu_pid_k: double; mu_PIDK
     mu_pid_e: double; mu_PIDe
     mu_ubdt: float; mu_bdt_mu
+    mu_ubdt_noDLLmu: float; mu_bdt_noDLLmu_mu
 
     ######################
     # Tracking variables #
@@ -794,8 +795,58 @@ calculation:
         FLAG_SEL_MU_PID_OK_RUN1(mu_isMuon, mu_PIDmu, mu_PIDe)
     mu_pid_ok_stub: ^bool; cli_cutflow; mu_pid_ok
     mu_ubdt_ok: bool; mu_ubdt > 0.25; true
-    mu_ubdt_cutopt_min_ok: bool; mu_ubdt > 0.12; true
+    dllmu_ok: bool; IF_VAR_EXISTS(cli_misid, true); mu_PIDmu > 2; true
     mu_ubdt_veto: bool; mu_ubdt < 0.25; true
+    mu_ubdt_noDLLmu_ok: bool; mu_ubdt_noDLLmu > 0.25; true
+    mu_ubdt_noDLLmu_veto: bool; mu_ubdt_noDLLmu < 0.25; true
+    mu_ubdt0p12_ok: bool; mu_ubdt > 0.12; true
+    mu_ubdt0p12_noDLLmu_ok: bool; mu_ubdt_noDLLmu > 0.12; true
+    mu_ubdt0p15_ok: bool; mu_ubdt > 0.15; true
+    mu_ubdt0p15_noDLLmu_ok: bool; mu_ubdt_noDLLmu > 0.15; true
+    mu_ubdt0p18_ok: bool; mu_ubdt > 0.18; true
+    mu_ubdt0p18_noDLLmu_ok: bool; mu_ubdt_noDLLmu > 0.18; true
+    mu_ubdt0p21_ok: bool; mu_ubdt > 0.21; true
+    mu_ubdt0p21_noDLLmu_ok: bool; mu_ubdt_noDLLmu > 0.21; true
+    mu_ubdt0p24_ok: bool; mu_ubdt > 0.24; true
+    mu_ubdt0p24_noDLLmu_ok: bool; mu_ubdt_noDLLmu > 0.24; true
+    mu_ubdt0p27_ok: bool; mu_ubdt > 0.27; true
+    mu_ubdt0p27_noDLLmu_ok: bool; mu_ubdt_noDLLmu > 0.27; true
+    mu_ubdt0p30_ok: bool; mu_ubdt > 0.30; true
+    mu_ubdt0p30_noDLLmu_ok: bool; mu_ubdt_noDLLmu > 0.30; true
+    mu_ubdt0p33_ok: bool; mu_ubdt > 0.33; true
+    mu_ubdt0p33_noDLLmu_ok: bool; mu_ubdt_noDLLmu > 0.33; true
+    mu_ubdt0p36_ok: bool; mu_ubdt > 0.36; true
+    mu_ubdt0p36_noDLLmu_ok: bool; mu_ubdt_noDLLmu > 0.36; true
+    mu_ubdt0p39_ok: bool; mu_ubdt > 0.39; true
+    mu_ubdt0p39_noDLLmu_ok: bool; mu_ubdt_noDLLmu > 0.39; true
+    mu_ubdt0p42_ok: bool; mu_ubdt > 0.42; true
+    mu_ubdt0p42_noDLLmu_ok: bool; mu_ubdt_noDLLmu > 0.42; true
+    mu_ubdt0p45_ok: bool; mu_ubdt > 0.45; true
+    mu_ubdt0p45_noDLLmu_ok: bool; mu_ubdt_noDLLmu > 0.45; true
+    mu_ubdt0p48_ok: bool; mu_ubdt > 0.48; true
+    mu_ubdt0p48_noDLLmu_ok: bool; mu_ubdt_noDLLmu > 0.48; true
+    mu_ubdt0p51_ok: bool; mu_ubdt > 0.51; true
+    mu_ubdt0p51_noDLLmu_ok: bool; mu_ubdt_noDLLmu > 0.51; true
+    mu_ubdt0p54_ok: bool; mu_ubdt > 0.54; true
+    mu_ubdt0p54_noDLLmu_ok: bool; mu_ubdt_noDLLmu > 0.54; true
+    mu_ubdt0p57_ok: bool; mu_ubdt > 0.57; true
+    mu_ubdt0p57_noDLLmu_ok: bool; mu_ubdt_noDLLmu > 0.57; true
+    mu_ubdt0p60_ok: bool; mu_ubdt > 0.60; true
+    mu_ubdt0p60_noDLLmu_ok: bool; mu_ubdt_noDLLmu > 0.60; true
+    mu_ubdt0p63_ok: bool; mu_ubdt > 0.63; true
+    mu_ubdt0p63_noDLLmu_ok: bool; mu_ubdt_noDLLmu > 0.63; true
+    mu_ubdt0p66_ok: bool; mu_ubdt > 0.66; true
+    mu_ubdt0p66_noDLLmu_ok: bool; mu_ubdt_noDLLmu > 0.66; true
+    mu_ubdt0p69_ok: bool; mu_ubdt > 0.69; true
+    mu_ubdt0p69_noDLLmu_ok: bool; mu_ubdt_noDLLmu > 0.69; true
+    mu_ubdt0p72_ok: bool; mu_ubdt > 0.72; true
+    mu_ubdt0p72_noDLLmu_ok: bool; mu_ubdt_noDLLmu > 0.72; true
+    mu_ubdt0p75_ok: bool; mu_ubdt > 0.75; true
+    mu_ubdt0p75_noDLLmu_ok: bool; mu_ubdt_noDLLmu > 0.75; true
+    mu_ubdt0p78_ok: bool; mu_ubdt > 0.78; true
+    mu_ubdt0p78_noDLLmu_ok: bool; mu_ubdt_noDLLmu > 0.78; true
+    mu_ubdt0p81_ok: bool; mu_ubdt > 0.81; true
+    mu_ubdt0p81_noDLLmu_ok: bool; mu_ubdt_noDLLmu > 0.81; true
 
     mu_ok: >-
         bool; FLAG_SEL_MU_RUN1(
