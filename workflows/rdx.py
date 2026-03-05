@@ -744,9 +744,12 @@ JOBS = {
         merge=True
     ),
     # D*+ -> (D0 -> K- mu+ nu) pi+
+    # For these, we require "Dst" to part of the path since I also store xml files
+    # in the ntuples directory. The xml files come from private runs of Gauss to
+    # estimate generator level efficiency, which was not calculated centrally for this sample.
     'd0_bkg_kmunu-misid_corrections-k': partial(
         workflow_data,
-        '../ntuples/0.9.16-mc_d0_bkg_misid/27173001/*',
+        '../ntuples/0.9.16-mc_d0_bkg_misid/27173001/Dst*',
         '../postprocess/rdx-run2/rdx-run2_incl_b_dst_k.yml',
         trees=['TupleDstANNK/DecayTree'],
         particle='k',
@@ -756,7 +759,7 @@ JOBS = {
     ),
     'd0_bkg_kmunu-misid_corrections-pi': partial(
         workflow_data,
-        '../ntuples/0.9.16-mc_d0_bkg_misid/27173001/*',
+        '../ntuples/0.9.16-mc_d0_bkg_misid/27173001/Dst*',
         '../postprocess/rdx-run2/rdx-run2_incl_b_dst_pi.yml',
         trees=['TupleDstANNPi/DecayTree'],
         particle='pi',
