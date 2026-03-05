@@ -77,7 +77,52 @@ RJpsi-ntuple-run2-mc_ghost:
 # RDX run 2 ntuple generation #
 ###############################
 
-rdx-ntuple-run2-all:  Dst_D0-mc-fullsim-Lb Dst_D0-std Dst_D0-mu_misid rdx-ntuple-run2-mc-to-all
+# All years
+
+rdx-ntuple-run2-all: \
+	rdx-ntuple-run2-std-all \
+	rdx-ntuple-run2-mc-all
+
+rdx-ntuple-run2-std-all: Dst_D0-std-all Dst_D0-mu_misid-all
+
+rdx-ntuple-run2-mc-all: \
+	Dst_D0-mc-tracker_only-sig_norm-all \
+	Dst_D0-mc-tracker_only-DDX-all \
+	Dst_D0-mc-tracker_only-Dstst-all \
+	Dst_D0-mc-tracker_only-Dstst_heavy-all \
+	Dst_D0-mc-tracker_only-D_s-all \
+	Dst_D0-mc-fullsim-Lb-all
+
+Dst_D0-std-all:
+	workflows/rdx.py $@ 2>&1 | tee gen/${TIMESTAMP}-step2-ntuple-std-all.log
+
+Dst_D0-mu_misid-all:
+	workflows/rdx.py $@ 2>&1 | tee gen/${TIMESTAMP}-step2-ntuple-mu_misid-all.log
+
+Dst_D0-mc-fullsim-Lb-all:
+	workflows/rdx.py $@ 2>&1 | tee gen/${TIMESTAMP}-step2-ntuple-Lb-all.log
+
+Dst_D0-mc-tracker_only-sig_norm-all:
+	workflows/rdx.py $@ 2>&1 | tee gen/${TIMESTAMP}-step2-ntuple-to-sig_norm-all.log
+
+Dst_D0-mc-tracker_only-DDX-all:
+	workflows/rdx.py $@ 2>&1 | tee gen/${TIMESTAMP}-step2-ntuple-to-DDX-all.log
+
+Dst_D0-mc-tracker_only-Dstst-all:
+	workflows/rdx.py $@ 2>&1 | tee gen/${TIMESTAMP}-step2-ntuple-to-Dstst-all.log
+
+Dst_D0-mc-tracker_only-Dstst_heavy-all:
+	workflows/rdx.py $@ 2>&1 | tee gen/${TIMESTAMP}-step2-ntuple-to-Dstst_heavy-all.log
+
+Dst_D0-mc-tracker_only-D_s-all:
+	workflows/rdx.py $@ 2>&1 | tee gen/${TIMESTAMP}-step2-ntuple-to-D_s-all.log
+
+rdx-ntuple-run2-misid_study-all:
+	workflows/rdx.py $@ 2>&1 | tee gen/${TIMESTAMP}-step2-ntuple_misid_study_all.log
+
+# Old 2016-only jobs
+
+rdx-ntuple-run2-2016-all:  Dst_D0-mc-fullsim-Lb Dst_D0-std Dst_D0-mu_misid rdx-ntuple-run2-mc-to-all
 
 Dst_D0-std:
 	workflows/rdx.py $@ 2>&1 | tee ${TIMESTAMP}-step2-ntuple_data.log
@@ -138,7 +183,17 @@ Dst_D0-mc-tracker_only-Dstst_heavy:
 Dst_D0-mc-tracker_only-D_s:
 	workflows/rdx.py $@ 2>&1 | tee ${TIMESTAMP}-step2-ntuple_mc-to-d_s.log
 
+# All jobs needed for pidcalib fits (Takes a long time!)
+rdx_misid_pidcalib_fits: \
+	incl_b_dst_mc-misid_corrections \
+	bd_dstx_mc-misid_corrections \
+	d0_bkg_all
+
 # b-inclusive D* ntuples for misid studies
+incl_b_dst_mc-misid_corrections: \
+	incl_b_dst_mc-misid_corrections-k \
+	incl_b_dst_mc-misid_corrections-pi
+
 incl_b_dst_mc-misid_corrections-k:
 	workflows/rdx.py $@ 2>&1 | tee ${TIMESTAMP}-step2-incl_b_dst_mc-misid-k.log
 
@@ -155,6 +210,10 @@ incl_b_dst_mc-eghost-unfolding:
 	workflows/rdx.py $@ 2>&1 | tee ${TIMESTAMP}-step2-incl_b_dst_mc-eghost.log
 
 # Additional inclusive D* ntuples for misid studies
+bd_dstx_mc-misid_corrections: \
+	bd_dstx_mc-misid_corrections-k \
+	bd_dstx_mc-misid_corrections-pi
+
 bd_dstx_mc-misid_corrections-k:
 	workflows/rdx.py $@ 2>&1 | tee ${TIMESTAMP}-step2-bd_dstx_mc-misid-k.log
 
@@ -162,7 +221,7 @@ bd_dstx_mc-misid_corrections-pi:
 	workflows/rdx.py $@ 2>&1 | tee ${TIMESTAMP}-step2-bd_dstx_mc-misid-pi.log
 
 # inclusive D* samples with mis-reconstructed D0 decays
-d0_bkg_all: d0_bkg_k d0_bkg_pi
+d0_bkg_all: d0_bkg_k d0_bkg_pi d0_bkg_mb
 
 d0_bkg_k: \
 	d0_bkg_pipipi0_phsp-misid_corrections-k \
