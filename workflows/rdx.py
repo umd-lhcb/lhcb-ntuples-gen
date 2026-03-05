@@ -265,7 +265,12 @@ def workflow_bm_cli(bm_cmd, cli_vars=None, blocked_input_trees=None,
 def workflow_single_ntuple(input_ntp, input_yml, output_suffix, aux_workflows,
                            cpp_template='../postprocess/cpp_templates/rdx.cpp',
                            **kwargs):
-    input_ntp = ensure_file(input_ntp)
+    input_ntp_tmp = ensure_file(input_ntp)
+    if input_ntp_tmp is None:
+        raise RuntimeError(f'Input ntuple {input_ntp} not available!')
+    else:
+        input_ntp = input_ntp_tmp
+
     print('{}Working on {}...{}'.format(TC.GREEN, input_ntp, TC.END))
     cpp_template = abs_path(cpp_template)
 
