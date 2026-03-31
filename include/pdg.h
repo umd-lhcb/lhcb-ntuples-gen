@@ -50,3 +50,5 @@
 #define PDG_ID_Kst 323
 #define PDG_ID_pi0 111
 #define PDG_ID_pi 211
+#define PDG_ID_Lb0 5122
+#define DV_ID_Lc2625 104124

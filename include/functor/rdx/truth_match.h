@@ -130,7 +130,7 @@ class TruthMatch {
   vector<int> d_mesons{PDG_ID_D, PDG_ID_D0, PDG_ID_Ds};
   vector<int> dstst_s_1_mesons{PDG_ID_D1_s, PDG_ID_D1p_s};
   vector<int> d_dst{PDG_ID_D, PDG_ID_D0, PDG_ID_Dst, PDG_ID_Dst0};
-  vector<int> d_dst_dstst{PDG_ID_D, PDG_ID_D0, PDG_ID_Dst, PDG_ID_Dst0, 
+  vector<int> d_dst_dstst{PDG_ID_D, PDG_ID_D0, PDG_ID_Dst, PDG_ID_Dst0,
                           PDG_ID_D0st, PDG_ID_D1, PDG_ID_D1p, PDG_ID_D2st,
                           PDG_ID_D0st_0, PDG_ID_D1_0, PDG_ID_D1p_0, PDG_ID_D2st_0};
   vector<int> ds_dsst_dsstst{PDG_ID_Ds, PDG_ID_Dst0_s, PDG_ID_D1_s, PDG_ID_D1p_s, PDG_ID_D0st_s};
@@ -171,7 +171,7 @@ class TruthMatch {
                               // for DSTST_TWOPI_ADDED)
   virtual bool B_BKGCAT_OKAY() { // differs D0/D* samples; TODO should implement this func
     return false;                // for D* sample too
-  } 
+  }
   void DSTST_COCKTAIL_ADDED(int dstst_id) {  // same between D0/D* samples
     // nominally add species info for D**, Ds**, not done for D**H unless
     // specified otherwise
@@ -207,7 +207,7 @@ class TruthMatch {
     if (b_expect_id != PDG_ID_Bs && !dstst_higher && TWO_PI())
       added += dstst_twopi;
   }
-  void DDX_COCKTAIL_ADDED(int d1_id, int d2_id, int d3_id) {  
+  void DDX_COCKTAIL_ADDED(int d1_id, int d2_id, int d3_id) {
     // same between D0/D* samples (and mu/tau)
     // nominally add cocktail info for DD decays
     if (VEC_OR_EQ(d_dst, d1_id) && VEC_OR_EQ(d_dst, d2_id) && d3_id==0) {
@@ -352,7 +352,7 @@ class DstTruthMatch : public TruthMatch {
   // truth-matching we were always explicitly ensuring that that common ancestor
   // was the B. In fact, for the tauonic DD decays, no key matching is done at
   // all.
-  // Additional cocktail info (for muonic decay: 2-body, 2-body w/ Ds, 3-body with K, 
+  // Additional cocktail info (for muonic decay: 2-body, 2-body w/ Ds, 3-body with K,
   // 3- or 4-body with pi; for tauonic decay: 2-body with Ds, 3- or 4-body with pi)
   // added using TupleToolSLTruth B daughter info
   bool TRUTH_MATCH_DD() {
@@ -398,8 +398,8 @@ class DstTruthMatch : public TruthMatch {
                 double dst_mom_truePx_, double dst_mom_truePy_,
                 double dst_mom_truePz_, double dst_trueE_, double dst_truePx_,
                 double dst_truePy_, double dst_truePz_, int dst_bkgcat_,
-                int d0_bkgcat_, int b_bkgcat_, 
-                int b_hadchild1_id_, int b_hadchild2_id_, int b_hadchild3_id_, 
+                int d0_bkgcat_, int b_bkgcat_,
+                int b_hadchild1_id_, int b_hadchild2_id_, int b_hadchild3_id_,
                 bool debug_dstst_all_cocktail_,
                 bool debug_dstst_higher_separate_cocktail_,
                 bool debug_dstst_s_all_cocktail_, bool debug_dd_all_cocktail_) {
@@ -439,10 +439,12 @@ class DstTruthMatch : public TruthMatch {
                            // first
       switch (decay_id) {
         case 11574021:
+          b_expect_id  = PDG_ID_B0;
           tau_expect = false;
           if (TRUTH_MATCH_NORMSIG()) truthmatch = dstp + mu;
           break;
         case 11574011:
+          b_expect_id  = PDG_ID_B0;
           tau_expect = true;
           if (TRUTH_MATCH_NORMSIG()) truthmatch = dstp + tau;
           break;
@@ -800,7 +802,7 @@ class D0TruthMatch : public TruthMatch {
   // have SOME common ancestor, whereas for the other truth-matching we were
   // always explicitly ensuring that that common ancestor was the B. In fact,
   // for the tauonic DD decays, no key matching is done at all.
-  // Additional cocktail info (for muonic decay: 2-body, 2-body w/ Ds, 3-body with K, 
+  // Additional cocktail info (for muonic decay: 2-body, 2-body w/ Ds, 3-body with K,
   // 3- or 4-body with pi; for tauonic decay: 2-body with Ds, 3- or 4-body with pi)
   // added using TupleToolSLTruth B daughter info
   bool TRUTH_MATCH_DD() {
@@ -849,7 +851,7 @@ class D0TruthMatch : public TruthMatch {
                bool debug_dstst_all_cocktail_,
                bool debug_dstst_higher_separate_cocktail_,
                bool debug_dstst_s_all_cocktail_, bool debug_dd_all_cocktail_) {
-    // set simple fields; ensure all IDs are positive- not looking for wrong signs 
+    // set simple fields; ensure all IDs are positive- not looking for wrong signs
     // when truth-matching
     decay_id         = decay_id_;
     b_id             = abs(b_id_);
@@ -985,12 +987,6 @@ class D0TruthMatch : public TruthMatch {
           dstst_higher = false;
           if (TRUTH_MATCH_DSTST()) truthmatch = dsstst + mu + added;
           break;
-        case 13674000:
-          b_expect_id  = PDG_ID_Bs;
-          tau_expect   = false;
-          dstst_higher = false;
-          if (TRUTH_MATCH_DSTST()) truthmatch = dsstst + mu + added;
-          break;
         case 11894600:
           b_expect_id = PDG_ID_B0;
           tau_expect  = false;
@@ -1029,8 +1025,8 @@ class D0TruthMatch : public TruthMatch {
         case 15574081:
         case 15574082:
         case 15574083:
-          b_expect_id = 5122;
-          dst_expect_id = 4124;
+          b_expect_id = PDG_ID_Lb0;
+          dst_expect_id = DV_ID_Lc2625;
           tau_expect  = false;
           if (TRUTH_MATCH_NORMSIG()) truthmatch = dstp + mu;
           break;
