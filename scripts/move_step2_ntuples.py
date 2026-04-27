@@ -158,4 +158,4 @@ if __name__ == '__main__':
             newFolder = f'{args.outFolder}/{year}/{group}/{pdf}-{mcID}-{pol}/'
             if not op.isdir(newFolder): runCmd(['mkdir', '-p', newFolder])
 
-            runCmd(['mv', ntp, newFolder], dry_run=args.dryRun)
+            runCmd(['cp', ntp, newFolder], dry_run=args.dryRun)
