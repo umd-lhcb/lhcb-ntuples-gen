@@ -119,7 +119,8 @@ Bool_t FLAG_SEL_RUN2_DV(Double_t spi_ip_chi2, Double_t spi_gh_prob,
 // Global selection flags for run 1 ////////////////////////////////////////////
 // Selections are based on Run 1 R(D(*)) ANA, v2020.07.31, p.11, Table 6.
 
-Bool_t FLAG_SEL_D0_PID_OK_RUN1(Double_t k_pid_k, Double_t pi_pid_k,
+// This is the same for Run 1 R(D(*)) and Run 2 Angular Analysis
+Bool_t FLAG_SEL_D0_PID_OK(Double_t k_pid_k, Double_t pi_pid_k,
                                Bool_t k_is_mu, Bool_t pi_is_mu) {
   return k_pid_k > 4.0 && pi_pid_k < 2.0 && !k_is_mu && !pi_is_mu;
 }
@@ -185,6 +186,22 @@ Bool_t FLAG_SEL_D0_RUN2ANG(Bool_t flag_d0_pid_ok,
   return false;
 }
 
+Bool_t FLAG_SEL_D0(Bool_t flag_d0_pid_ok, Double_t k_pt, Double_t pi_pt,
+                   Bool_t k_hlt1_tos, Bool_t pi_hlt1_tos, Double_t k_ip_chi2,
+                   Double_t pi_ip_chi2, Double_t k_gh_prob, Double_t pi_gh_prob,
+                   Double_t d0_pt, Bool_t d0_hlt2, Double_t d0_endvtx_chi2,
+                   Double_t d0_endvtx_ndof, Double_t d0_ip, Double_t d0_ip_chi2,
+                   Double_t d0_dira, Double_t d0_fd_chi2, Bool_t Run2Ang) {
+  if (Run2Ang) {
+    return FLAG_SEL_D0_RUN2ANG(flag_d0_pid_ok, d0_ip, d0_ip_chi2);
+  } else {
+    return FLAG_SEL_D0_RUN1(
+        flag_d0_pid_ok, k_pt, pi_pt, k_hlt1_tos, pi_hlt1_tos, k_ip_chi2,
+        pi_ip_chi2, k_gh_prob, pi_gh_prob, d0_pt, d0_hlt2, d0_endvtx_chi2,
+        d0_endvtx_ndof, d0_ip, d0_ip_chi2, d0_dira, d0_fd_chi2);
+  }
+}
+
 Bool_t FLAG_SEL_GOOD_TRACKS(ROOT::Math::XYZVector              ref_trk,
                             std::vector<ROOT::Math::XYZVector> other_trks) {
   for (auto v3_other : other_trks) {
@@ -201,9 +218,17 @@ Bool_t FLAG_SEL_MU_PID_OK_RUN1(Bool_t mu_is_mu, Double_t mu_pid_mu,
   return mu_is_mu && mu_pid_mu > 2.0 && mu_pid_e < 1.0;
 }
 
-Bool_t FLAG_SEL_MU_PID_OK_RUN2ANG(Bool_t mu_is_mu, Double_t mu_pid_mu,
-                                  Double_t mu_pid_e) {
-  return mu_is_mu && mu_pid_mu > 2.0 && mu_pid_e < 1.0;
+Bool_t FLAG_SEL_MU_PID_OK_RUN2ANG(Bool_t mu_is_mu, Double_t mu_pid_e) {
+  return mu_is_mu && mu_pid_e < 1.0;
+}
+
+Bool_t FLAG_SEL_MU_PID_OK(Bool_t mu_is_mu, Double_t mu_pid_mu,
+                          Double_t mu_pid_e, Bool_t Run2Ang) {
+  if (Run2Ang) {
+    return FLAG_SEL_MU_PID_OK_RUN2ANG(mu_is_mu, mu_pid_e);
+  } else {
+    return FLAG_SEL_MU_PID_OK_RUN1(mu_is_mu, mu_pid_mu, mu_pid_e);
+  }
 }
 
 // clang-format off
@@ -227,26 +252,38 @@ Bool_t FLAG_SEL_MU_RUN1(Bool_t flag_mu_pid_ok, Bool_t flag_good_trks,
   return false;
 }
 
-Bool_t FLAG_SEL_MU_RUN2ANG(Bool_t flag_mu_pid_ok_loose, Bool_t flag_good_trks,
+Bool_t FLAG_SEL_MU_RUN2ANG(Bool_t flag_mu_pid_ok, Bool_t flag_good_trks,
                            Double_t mu_p,
-                           Double_t mu_eta) {
+                           Double_t mu_eta, Bool_t mu_hasMuon,
                         //   Double_t mu_ip_chi2,
-                        //   Double_t mu_gh_prob) {
+                           Double_t mu_gh_prob) {
   if (/* If tracks are well-separated angularly */
       flag_good_trks &&
       /* Mu PID related */
-      flag_mu_pid_ok_loose &&
+      flag_mu_pid_ok &&
       /* Momentum */
       IN_RANGE(mu_p, 3.0e3, 100.0e3) &&
       /* Acceptance */
-      IN_RANGE(mu_eta, 1.7, 5.0) //&&
+      IN_RANGE(mu_eta, 1.7, 5.0) && mu_hasMuon &&
       /* Track quality */
-      // mu_ip_chi2 > 45.0 && 
-      // mu_gh_prob < 0.5
+      // mu_ip_chi2 > 45.0 &&
+      mu_gh_prob < 0.5
       )
     // clang-format on
     return true;
   return false;
+}
+
+Bool_t FLAG_SEL_MU(Bool_t flag_mu_pid_ok, Bool_t flag_good_trks, Double_t mu_p,
+                   Double_t mu_eta, Bool_t mu_hasMuon, Double_t mu_ip_chi2,
+                   Double_t mu_gh_prob, Bool_t Run2Ang) {
+  if (Run2Ang) {
+    return FLAG_SEL_MU_RUN2ANG(flag_mu_pid_ok, flag_good_trks, mu_p, mu_eta,
+                               mu_hasMuon, mu_gh_prob);
+  } else {
+    return FLAG_SEL_MU_RUN1(flag_mu_pid_ok, flag_good_trks, mu_p, mu_eta,
+                            mu_hasMuon, mu_ip_chi2, mu_gh_prob);
+  }
 }
 
 // clang-format off
@@ -254,7 +291,8 @@ Bool_t FLAG_SEL_BMINUSD0_RUN1(Bool_t flag_sel_d0, Bool_t flag_sel_mu,
                               Double_t b_endvtx_chi2, Double_t b_endvtx_ndof,
                               Double_t b_fd_trans,
                               Double_t b_dira,
-                              Double_t d0_dst_veto_deltam, Bool_t mcgen_ok) {
+                              Double_t d0_dst_veto_deltam, Bool_t mcgen_ok,
+                              Bool_t tracks_chi2ndof_ok) {
   // clang-format off
   if (/* Daughter particles */
       flag_sel_d0 && flag_sel_mu &&
@@ -264,31 +302,51 @@ Bool_t FLAG_SEL_BMINUSD0_RUN1(Bool_t flag_sel_d0, Bool_t flag_sel_mu,
       b_endvtx_chi2 / b_endvtx_ndof < 6.0 && b_dira > 0.9995 &&
       /* Veto D* in D0 sample */
       d0_dst_veto_deltam > 4.0 &&  // MeV!
-      mcgen_ok
+      mcgen_ok &&
+      tracks_chi2ndof_ok
       )
     // clang-format on
     return true;
   return false;
 }
 
-Bool_t FLAG_SEL_BMINUSD0_RUN2ANG(Bool_t flag_sel_d0_loose, Bool_t flag_sel_mu_loose,
+Bool_t FLAG_SEL_BMINUSD0_RUN2ANG(Bool_t flag_sel_d0, Bool_t flag_sel_mu,
                                  Double_t b_endvtx_chi2, Double_t b_endvtx_ndof,
                                  Double_t b_fd_trans,
                                  Double_t b_dira,
-                                 Double_t d0_dst_veto_deltam) {
+                                 Double_t d0_dst_veto_deltam, Bool_t mcgen_ok,
+                                 Bool_t tracks_chi2ndof_ok) {
   // clang-format off
   if (/* Daughter particles */
-      flag_sel_d0_loose && flag_sel_mu_loose &&
+      flag_sel_d0 && flag_sel_mu &&
       /* FD */
       b_fd_trans < 7.0 &&
       /* Vertex quality */
       b_endvtx_chi2 / b_endvtx_ndof < 6.0 && b_dira > 0.999 &&
       /* Veto D* in D0 sample */
-      d0_dst_veto_deltam > 4.0  // MeV!
+      d0_dst_veto_deltam > 4.0 && // MeV!
+      mcgen_ok &&
+      tracks_chi2ndof_ok
       )
     // clang-format on
     return true;
   return false;
+}
+
+Bool_t FLAG_SEL_BMINUSD0(Bool_t flag_sel_d0, Bool_t flag_sel_mu,
+                         Double_t b_endvtx_chi2, Double_t b_endvtx_ndof,
+                         Double_t b_fd_trans, Double_t b_dira,
+                         Double_t d0_dst_veto_deltam, Bool_t mcgen_ok,
+                         Bool_t tracks_chi2ndof_ok, Bool_t Run2Ang) {
+  if (Run2Ang) {
+    return FLAG_SEL_BMINUSD0_RUN2ANG(
+        flag_sel_d0, flag_sel_mu, b_endvtx_chi2, b_endvtx_ndof, b_fd_trans,
+        b_dira, d0_dst_veto_deltam, mcgen_ok, tracks_chi2ndof_ok);
+  } else {
+    return FLAG_SEL_BMINUSD0_RUN1(
+        flag_sel_d0, flag_sel_mu, b_endvtx_chi2, b_endvtx_ndof, b_fd_trans,
+        b_dira, d0_dst_veto_deltam, mcgen_ok, tracks_chi2ndof_ok);
+  }
 }
 
 // Selections are based on Run 1 R(D(*)) ANA, v2020.07.31, p.11, Table 8.
@@ -303,7 +361,8 @@ Bool_t FLAG_SEL_B0DST_RUN1(Bool_t flag_sel_d0, Bool_t flag_sel_mu,
                            Double_t b0_discard_mu_chi2,
                            Double_t b0_endvtx_chi2, Double_t b0_endvtx_ndof,
                            Double_t b0_fd_trans,
-                           Double_t b0_dira, Bool_t mcgen_ok) {
+                           Double_t b0_dira, Bool_t mcgen_ok,
+                           Bool_t tracks_chi2ndof_ok) {
   // clang-format off
   if (flag_sel_d0 && flag_sel_mu &&
       /* slow Pi */
@@ -317,7 +376,7 @@ Bool_t FLAG_SEL_B0DST_RUN1(Bool_t flag_sel_d0, Bool_t flag_sel_mu,
       b0_endvtx_chi2 / b0_endvtx_ndof < 6.0 &&
       b0_fd_trans < 7.0 &&
       b0_dira > 0.9995 &&
-      mcgen_ok
+      mcgen_ok && tracks_chi2ndof_ok
       )
     // clang-format on
     return true;
@@ -326,15 +385,16 @@ Bool_t FLAG_SEL_B0DST_RUN1(Bool_t flag_sel_d0, Bool_t flag_sel_mu,
 
 // RUN2ANG cuts are the cuts that the run2 angular analysis uses (which, in turn, were
 // the loosest cuts we found could be applied [TODO document presentations])
-Bool_t FLAG_SEL_B0DST_RUN2ANG(Bool_t flag_sel_d0_loose, Bool_t flag_sel_mu_loose,
+Bool_t FLAG_SEL_B0DST_RUN2ANG(Bool_t flag_sel_d0, Bool_t flag_sel_mu,
                               // Double_t spi_gh_prob,
                               Double_t dst_endvtx_chi2, Double_t dst_endvtx_ndof,
                               // Double_t b0_discard_mu_chi2,
                               Double_t b0_endvtx_chi2, Double_t b0_endvtx_ndof,
                               Double_t b0_fd_trans,
-                              Double_t b0_dira) {
+                              Double_t b0_dira, Bool_t mcgen_ok,
+                              Bool_t tracks_chi2ndof_ok) {
 
-  if (flag_sel_d0_loose && flag_sel_mu_loose &&
+  if (flag_sel_d0 && flag_sel_mu &&
       /* slow Pi */
       // spi_gh_prob < 0.25 &&
       /* D* */
@@ -344,11 +404,31 @@ Bool_t FLAG_SEL_B0DST_RUN2ANG(Bool_t flag_sel_d0_loose, Bool_t flag_sel_mu_loose
       // b0_endvtx_chi2 < 24.0 &&
       b0_endvtx_chi2 / b0_endvtx_ndof < 6.0 &&
       b0_fd_trans < 7.0 &&
-      b0_dira > 0.999
+      b0_dira > 0.999 &&
+      mcgen_ok && tracks_chi2ndof_ok
       )
     // clang-format on
     return true;
   return false;
+}
+
+Bool_t FLAG_SEL_B0DST(Bool_t flag_sel_d0, Bool_t flag_sel_mu,
+                      Double_t spi_gh_prob, Double_t dst_endvtx_chi2,
+                      Double_t dst_endvtx_ndof, Double_t b0_discard_mu_chi2,
+                      Double_t b0_endvtx_chi2, Double_t b0_endvtx_ndof,
+                      Double_t b0_fd_trans, Double_t b0_dira, Bool_t mcgen_ok,
+                      Bool_t tracks_chi2ndof_ok, Bool_t Run2Ang) {
+  if (Run2Ang) {
+    return FLAG_SEL_B0DST_RUN2ANG(flag_sel_d0, flag_sel_mu, dst_endvtx_chi2,
+                                  dst_endvtx_ndof, b0_endvtx_chi2,
+                                  b0_endvtx_ndof, b0_fd_trans, b0_dira,
+                                  mcgen_ok, tracks_chi2ndof_ok);
+  } else {
+    return FLAG_SEL_B0DST_RUN1(
+        flag_sel_d0, flag_sel_mu, spi_gh_prob, dst_endvtx_chi2, dst_endvtx_ndof,
+        b0_discard_mu_chi2, b0_endvtx_chi2, b0_endvtx_ndof, b0_fd_trans,
+        b0_dira, mcgen_ok, tracks_chi2ndof_ok);
+  }
 }
 
 // D mass-window cuts //////////////////////////////////////////////////////////
@@ -407,7 +487,7 @@ Double_t WT_MISS_DstDK(int year) {
   // [what was requested is in square brackets]
   // Previously simulated 11894600- 2015: 37.68 [26.82], 2016: 208.89 [154.36], 2017: 214.13 [160.93], 2018: 282.22 [205.26] (million)
   // Simulated 11895400 (missing DstDK) [expect 1.5*0.066 x above]- 2015: 0?, 2016: 25.03 [15.26], 2017: 25.32 [15.91], 2018: 25.52 [20.29]
-  double rel_bf_sum = (0.0020+0.0018+0.0033) / 
+  double rel_bf_sum = (0.0020+0.0018+0.0033) /
                         (0.0118+0.0053+0.0020+0.0079+0.0118+0.0018+0.0018+0.0033+0.0017+0.0033+0.000203+0.000406+0.000547+
                          0.0006+0.0012+0.0012+0.0024+0.0042+0.0040+0.00107+0.0003+0.0005+0.0011+0.0024+0.0025+0.0025+0.0005+
                          0.0005+0.0005+0.0010+0.0022+0.0022+0.0037+0.0037+0.0010+0.0062+0.00033+0.0004+0.0043+0.0054);
