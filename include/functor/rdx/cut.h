@@ -15,6 +15,7 @@
 #include "functor/basic.h"
 #include "pdg.h"
 
+using ROOT::Math::XYZVector;
 using std::vector;
 
 // Run 1 DaVinci cuts //////////////////////////////////////////////////////////
@@ -202,9 +203,9 @@ Bool_t FLAG_SEL_D0(Bool_t flag_d0_pid_ok, Double_t k_pt, Double_t pi_pt,
   }
 }
 
-Bool_t FLAG_SEL_GOOD_TRACKS(ROOT::Math::XYZVector              ref_trk,
-                            std::vector<ROOT::Math::XYZVector> other_trks) {
-  for (auto v3_other : other_trks) {
+Bool_t FLAG_SEL_GOOD_TRACKS(const XYZVector&         ref_trk,
+                            const vector<XYZVector>& other_trks) {
+  for (const auto& v3_other : other_trks) {
     auto inner_prod = ref_trk.Dot(v3_other);
     auto magnitude  = TMath::Sqrt(ref_trk.Mag2() * v3_other.Mag2());
 
@@ -232,39 +233,44 @@ Bool_t FLAG_SEL_MU_PID_OK(Bool_t mu_is_mu, Double_t mu_pid_mu,
 }
 
 // clang-format off
-Bool_t FLAG_SEL_MU_RUN1(Bool_t flag_mu_pid_ok, Bool_t flag_good_trks,
-                        Double_t mu_p,
-                        Double_t mu_eta, Bool_t mu_hasMuon,
+Bool_t FLAG_SEL_MU_RUN1(Bool_t flag_mu_pid_ok, // Bool_t flag_good_trks,
+                        // Double_t mu_p,
+                        // Double_t mu_eta,
+                        Bool_t mu_hasMuon,
                         Double_t mu_ip_chi2, Double_t mu_gh_prob) {
   if (/* If tracks are well-separated angularly */
-      flag_good_trks &&
+      // flag_good_trks && // Cutting at template construction now
       /* Mu PID related */
       flag_mu_pid_ok &&
       /* Momentum */
-      IN_RANGE(mu_p, 3.0e3, 100.0e3) &&
+      // IN_RANGE(mu_p, 3.0e3, 100.0e3) && // Cutting at template construction now
       /* Acceptance */
-      IN_RANGE(mu_eta, 1.7, 5.0) && mu_hasMuon &&
+      // IN_RANGE(mu_eta, 1.7, 5.0) && // Cutting at template construction now
+      mu_hasMuon &&
       /* Track quality */
-      mu_ip_chi2 > 45.0 && mu_gh_prob < 0.5
+      mu_ip_chi2 > 45.0 &&
+      mu_gh_prob < 0.5
       )
     // clang-format on
     return true;
   return false;
 }
 
-Bool_t FLAG_SEL_MU_RUN2ANG(Bool_t flag_mu_pid_ok, Bool_t flag_good_trks,
-                           Double_t mu_p,
-                           Double_t mu_eta, Bool_t mu_hasMuon,
+Bool_t FLAG_SEL_MU_RUN2ANG(Bool_t flag_mu_pid_ok, // Bool_t flag_good_trks,
+                          //  Double_t mu_p,
+                          //  Double_t mu_eta,
+                           Bool_t mu_hasMuon,
                         //   Double_t mu_ip_chi2,
                            Double_t mu_gh_prob) {
   if (/* If tracks are well-separated angularly */
-      flag_good_trks &&
+      // flag_good_trks &&  // Cutting at template construction now
       /* Mu PID related */
       flag_mu_pid_ok &&
       /* Momentum */
-      IN_RANGE(mu_p, 3.0e3, 100.0e3) &&
+      // IN_RANGE(mu_p, 3.0e3, 100.0e3) &&  // Cutting at template construction now
       /* Acceptance */
-      IN_RANGE(mu_eta, 1.7, 5.0) && mu_hasMuon &&
+      // IN_RANGE(mu_eta, 1.7, 5.0) &&  // Cutting at template construction now
+      mu_hasMuon &&
       /* Track quality */
       // mu_ip_chi2 > 45.0 &&
       mu_gh_prob < 0.5
@@ -274,16 +280,21 @@ Bool_t FLAG_SEL_MU_RUN2ANG(Bool_t flag_mu_pid_ok, Bool_t flag_good_trks,
   return false;
 }
 
-Bool_t FLAG_SEL_MU(Bool_t flag_mu_pid_ok, Bool_t flag_good_trks, Double_t mu_p,
-                   Double_t mu_eta, Bool_t mu_hasMuon, Double_t mu_ip_chi2,
+Bool_t FLAG_SEL_MU(Bool_t flag_mu_pid_ok, // Bool_t flag_good_trks, Double_t mu_p,
+                   // Double_t mu_eta,
+                   Bool_t mu_hasMuon, Double_t mu_ip_chi2,
                    Double_t mu_gh_prob, Bool_t Run2Ang) {
   if (Run2Ang) {
-    return FLAG_SEL_MU_RUN2ANG(flag_mu_pid_ok, flag_good_trks, mu_p, mu_eta,
+    return FLAG_SEL_MU_RUN2ANG(flag_mu_pid_ok, // flag_good_trks, mu_p, mu_eta,
                                mu_hasMuon, mu_gh_prob);
   } else {
-    return FLAG_SEL_MU_RUN1(flag_mu_pid_ok, flag_good_trks, mu_p, mu_eta,
+    return FLAG_SEL_MU_RUN1(flag_mu_pid_ok, // flag_good_trks, mu_p, mu_eta,
                             mu_hasMuon, mu_ip_chi2, mu_gh_prob);
   }
+}
+
+Bool_t FLAG_SEL_MU_TRK(Double_t mu_p, Double_t mu_eta) {
+  return IN_RANGE(mu_p, 3.0e3, 100.0e3) && IN_RANGE(mu_eta, 1.7, 5.0);
 }
 
 // clang-format off

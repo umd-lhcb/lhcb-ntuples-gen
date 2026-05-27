@@ -781,12 +781,20 @@ calculation:
     # Mu selection
     # Variables needed for Mu selection
     trk_mu:  ^XYZVector; XYZVector(mu_PX, mu_PY, mu_PZ)
+    trk_mu_smr_k:      ^XYZVector; XYZVector(v4_mu_smr_k.Px()     , v4_mu_smr_k.Py()     , v4_mu_smr_k.Pz()     )
+    trk_mu_smr_pi:     ^XYZVector; XYZVector(v4_mu_smr_pi.Px()    , v4_mu_smr_pi.Py()    , v4_mu_smr_pi.Pz()    )
+    trk_mu_smr_k_vmu:  ^XYZVector; XYZVector(v4_mu_smr_k_vmu.Px() , v4_mu_smr_k_vmu.Py() , v4_mu_smr_k_vmu.Pz() )
+    trk_mu_smr_pi_vmu: ^XYZVector; XYZVector(v4_mu_smr_pi_vmu.Px(), v4_mu_smr_pi_vmu.Py(), v4_mu_smr_pi_vmu.Pz())
     trk_k:   ^XYZVector; XYZVector(k_PX, k_PY, k_PZ)
     trk_pi:  ^XYZVector; XYZVector(pi_PX, pi_PY, pi_PZ)
     trk_spi: ^XYZVector; XYZVector(spi_PX, spi_PY, spi_PZ)
     trks_other: ^vector<XYZVector>; BUILD_VEC(trk_k, trk_pi, trk_spi); BUILD_VEC(trk_k, trk_pi)
     # Actual flags
     trks_ok: bool; FLAG_SEL_GOOD_TRACKS(trk_mu, trks_other)
+    trks_ok_smr_k:      bool; FLAG_SEL_GOOD_TRACKS(trk_mu_smr_k, trks_other)
+    trks_ok_smr_pi:     bool; FLAG_SEL_GOOD_TRACKS(trk_mu_smr_pi, trks_other)
+    trks_ok_smr_k_vmu:  bool; FLAG_SEL_GOOD_TRACKS(trk_mu_smr_k_vmu, trks_other)
+    trks_ok_smr_pi_vmu: bool; FLAG_SEL_GOOD_TRACKS(trk_mu_smr_pi_vmu, trks_other)
     mu_pid_ok: >-
         bool;
         IF_VAR_EXISTS(mc_id, true);
@@ -797,12 +805,79 @@ calculation:
     mu_ubdt_ok: bool; mu_ubdt > 0.25; true
     mu_ubdt_veto: bool; mu_ubdt < 0.25; true
 
+    mu_p_smr_k: double; trk_mu_smr_k.R()
+    mu_pt_smr_k: double; trk_mu_smr_k.Rho()
+    mu_px_smr_k: double; trk_mu_smr_k.X()
+    mu_py_smr_k: double; trk_mu_smr_k.Y()
+    mu_pz_smr_k: double; trk_mu_smr_k.Z()
+    mu_eta_smr_k: double; trk_mu_smr_k.Eta()
+
+    mu_p_smr_pi: double; trk_mu_smr_pi.R()
+    mu_pt_smr_pi: double; trk_mu_smr_pi.Rho()
+    mu_px_smr_pi: double; trk_mu_smr_pi.X()
+    mu_py_smr_pi: double; trk_mu_smr_pi.Y()
+    mu_pz_smr_pi: double; trk_mu_smr_pi.Z()
+    mu_eta_smr_pi: double; trk_mu_smr_pi.Eta()
+
+    mu_p_smr_k_vmu: double; trk_mu_smr_k_vmu.R()
+    mu_pt_smr_k_vmu: double; trk_mu_smr_k_vmu.Rho()
+    mu_px_smr_k_vmu: double; trk_mu_smr_k_vmu.X()
+    mu_py_smr_k_vmu: double; trk_mu_smr_k_vmu.Y()
+    mu_pz_smr_k_vmu: double; trk_mu_smr_k_vmu.Z()
+    mu_eta_smr_k_vmu: double; trk_mu_smr_k_vmu.Eta()
+
+    mu_p_smr_pi_vmu: double; trk_mu_smr_pi_vmu.R()
+    mu_pt_smr_pi_vmu: double; trk_mu_smr_pi_vmu.Rho()
+    mu_px_smr_pi_vmu: double; trk_mu_smr_pi_vmu.X()
+    mu_py_smr_pi_vmu: double; trk_mu_smr_pi_vmu.Y()
+    mu_pz_smr_pi_vmu: double; trk_mu_smr_pi_vmu.Z()
+    mu_eta_smr_pi_vmu: double; trk_mu_smr_pi_vmu.Eta()
+
+    trk_charm: ^XYZVector; XYZVector(dst_PX, dst_PY, dst_PZ); XYZVector(d0_PX, d0_PY, d0_PZ)
+
+    trk_b_smr_k: ^XYZVector; trk_charm + trk_mu_smr_k
+    b_p_smr_k: double; trk_b_smr_k.R()
+    b_pt_smr_k: double; trk_b_smr_k.Rho()
+    b_eta_smr_k: double; trk_b_smr_k.Eta()
+
+    trk_b_smr_pi: ^XYZVector; trk_charm + trk_mu_smr_pi
+    b_p_smr_pi: double; trk_b_smr_pi.R()
+    b_pt_smr_pi: double; trk_b_smr_pi.Rho()
+    b_eta_smr_pi: double; trk_b_smr_pi.Eta()
+
+    trk_b_smr_k_vmu: ^XYZVector; trk_charm + trk_mu_smr_k_vmu
+    b_p_smr_k_vmu: double; trk_b_smr_k_vmu.R()
+    b_pt_smr_k_vmu: double; trk_b_smr_k_vmu.Rho()
+    b_eta_smr_k_vmu: double; trk_b_smr_k_vmu.Eta()
+
+    trk_b_smr_pi_vmu: ^XYZVector; trk_charm + trk_mu_smr_pi_vmu
+    b_p_smr_pi_vmu: double; trk_b_smr_pi_vmu.R()
+    b_pt_smr_pi_vmu: double; trk_b_smr_pi_vmu.Rho()
+    b_eta_smr_pi_vmu: double; trk_b_smr_pi_vmu.Eta()
+
+    mu_trk_ok:            bool; FLAG_SEL_MU_TRK(mu_P           , mu_eta)            && trks_ok
+    mu_trk_ok_smr_k:      bool; FLAG_SEL_MU_TRK(mu_p_smr_k     , mu_eta_smr_k)      && trks_ok_smr_k
+    mu_trk_ok_smr_pi:     bool; FLAG_SEL_MU_TRK(mu_p_smr_pi    , mu_eta_smr_pi)     && trks_ok_smr_pi
+    mu_trk_ok_smr_k_vmu:  bool; FLAG_SEL_MU_TRK(mu_p_smr_k_vmu , mu_eta_smr_k_vmu)  && trks_ok_smr_k_vmu
+    mu_trk_ok_smr_pi_vmu: bool; FLAG_SEL_MU_TRK(mu_p_smr_pi_vmu, mu_eta_smr_pi_vmu) && trks_ok_smr_pi_vmu
+
+    mu_trk_ok_any: >-
+        ^bool;
+        mu_trk_ok || mu_trk_ok_smr_k || mu_trk_ok_smr_pi || mu_trk_ok_smr_k_vmu || mu_trk_ok_smr_pi_vmu
+
+    # For the misid workflow, the cuts on muon p and eta, as well as the cut on
+    # the angle between muon and K/pi, are deferred to template building stage
+    # as these cuts change for the dif-smeared misid template.
+    # For the remaining workflows, keep applying the cut here as usual.
     mu_ok: >-
-        bool; FLAG_SEL_MU(
-        mu_pid_ok_stub, trks_ok,
-        mu_P, mu_eta, mu_hasMuon,
-        mu_IPCHI2_OWNPV, mu_TRACK_GhostProb, run2ang
-        )
+        bool;
+        IF_VAR_EXISTS(cli_misid,
+        FLAG_SEL_MU(
+        mu_pid_ok_stub, mu_hasMuon,
+        mu_IPCHI2_OWNPV, mu_TRACK_GhostProb, run2ang) && mu_trk_ok_any
+        );
+        FLAG_SEL_MU(mu_pid_ok_stub, mu_hasMuon,
+        mu_IPCHI2_OWNPV, mu_TRACK_GhostProb, run2ang) && mu_trk_ok
 
     # D0Mu combo selection
     d0_dst_veto_ok: bool; d0_dst_veto_deltam > 4.0
@@ -872,12 +947,12 @@ calculation:
     # Skims #
     #########
     # don't require 'mu_ubdt_ok' as this YAML applies to misID ntuples too
-    skim_global_ok: bool; dx_m_ok && b_m_ok && in_fit_range
-    skim_global_ok_smr_k: bool; dx_m_ok && b_m_ok_smr_k && in_fit_range_smr_k
-    skim_global_ok_smr_pi: bool; dx_m_ok && b_m_ok_smr_pi && in_fit_range_smr_pi
+    skim_global_ok: bool; dx_m_ok && b_m_ok && in_fit_range && mu_trk_ok
+    skim_global_ok_smr_k: bool; dx_m_ok && b_m_ok_smr_k && in_fit_range_smr_k && mu_trk_ok_smr_k
+    skim_global_ok_smr_pi: bool; dx_m_ok && b_m_ok_smr_pi && in_fit_range_smr_pi && mu_trk_ok_smr_pi
     skim_global_ok_no_smr: bool; skim_global_ok
-    skim_global_ok_smr_k_vmu: bool; dx_m_ok && b_m_ok_smr_k_vmu && in_fit_range_smr_k_vmu
-    skim_global_ok_smr_pi_vmu: bool; dx_m_ok && b_m_ok_smr_pi_vmu && in_fit_range_smr_pi_vmu
+    skim_global_ok_smr_k_vmu: bool; dx_m_ok && b_m_ok_smr_k_vmu && in_fit_range_smr_k_vmu && mu_trk_ok_smr_k_vmu
+    skim_global_ok_smr_pi_vmu: bool; dx_m_ok && b_m_ok_smr_pi_vmu && in_fit_range_smr_pi_vmu && mu_trk_ok_smr_pi_vmu
     skim_global_ok_no_smr_vmu: bool; skim_global_ok
     ####
     skim_global_usb: bool; dx_m_ok && b_m_sb
