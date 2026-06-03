@@ -578,22 +578,186 @@ Double_t WT_ISO(Int_t true_id, Double_t w_pi, Double_t w_k, Double_t w_p,
   return w_ghost;
 }
 
-// Fake D** heavy Pi0Pi0 component /////////////////////////////////////////////
+// Fake missing D**H components /////////////////////////////////////////////
 
-Double_t FAKE_ISO_BDT(Int_t truthmatch, Double_t raw_bdt, Int_t true_id1,
-                      Int_t true_id2, Int_t true_id3) {
-  int ratio = truthmatch / 100000;
-  if (!(ratio == 4 || ratio == 3)) return raw_bdt;
+Int_t FAKE_ISO_BDT_CODE(Int_t truthmatch_raw, Int_t true_id1, Int_t true_id2,
+                        Int_t true_id3) {
+  const int ratio = truthmatch_raw / 100000;
+  if (!(ratio == 4 || ratio == 3)) {
+    // No faking
+    return 0;
+  }
 
-  // Make sure it's not a Pi+Pi0 event
-  true_id1 = TMath::Abs(true_id1);
-  true_id2 = TMath::Abs(true_id2);
-  true_id3 = TMath::Abs(true_id3);
-  if (true_id1 == 111 || true_id2 == 111 || true_id3 == 111) return raw_bdt;
+  true_id1 = ABS(true_id1);
+  true_id2 = ABS(true_id2);
+  true_id3 = ABS(true_id3);
 
-  Double_t rand = gRandom->Uniform(0, 100);
-  if (rand <= 33) return -2;
-  return raw_bdt;
+  if ((true_id1 != PDG_ID_pi0) && (true_id2 != PDG_ID_pi0) &&
+      (true_id3 != PDG_ID_pi0)) {
+    // D**H -> D(*) pi+ pi- event
+    const Double_t rand = gRandom->Uniform(0., 100.);
+
+    if ((true_id1 == PDG_ID_Dst0) || (true_id2 == PDG_ID_Dst0) ||
+        (true_id3 == PDG_ID_Dst0)) {
+      // D**H0 -> D*0 pi+ pi- events
+      // Fake D**H0 -> D*0 pi+ pi- and D**H+ -> D*0 pi+ pi0 in 1:1:2 ratio
+      if (rand <= 25.) {
+        // Fake D**H+ -> D*0 pi+ pi0
+        if (rand <= 12.5) {
+          return 3;  // Ignore most anti-isolated track
+        } else {
+          return 2;  // Ignore 2nd most anti-isolated track
+        }
+      } else if (rand <= 50.) {
+        // Fake D**H0 -> D*0 pi0 pi0
+        return 1;  // Ignore two most anti-isolated tracks
+      } else {
+        // No faking
+        return 0;
+      }
+    } else {
+      // Other D**H -> D(*) pi+ pi- events
+      // Fake corresponding D**H -> D pi0 pi0 event in 1:2 ratio
+      if (rand <= 100. / 3.) {
+        // Fake D**H -> D(*) pi0 pi0
+        return 1;  // Ignore two most anti-isolated tracks
+      } else {
+        // No faking
+        return 0;
+      }
+    }
+  }
+
+  // No faking
+  return 0;
+}
+
+Int_t FAKE_TRUTHMATCH(int truthmatch_raw, int fake_iso_bdt_code) {
+  // See truth-matching definition at
+  // https://umd-lhcb.github.io/lhcb-ntuples-gen/technical_concepts/truth_matching/
+  switch (fake_iso_bdt_code) {
+    case 0:
+      // No faking
+      return truthmatch_raw;
+    case 1:
+      // Case 1: Fake D**H -> D(*) pi0 pi0 using D**H -> D(*) pi+ pi-,
+      // so only the pion pair "changes". Change c1c2 value from 31-34 or 41-44
+      // to 35-38 or 45-48 to separate separate these events.
+      return truthmatch_raw + 40;
+    case 2:
+    case 3:
+      // Cases 2 and 3: Fake D**H+ -> D*0 pi+ pi0 using D**H0 -> D*0 pi+ pi-,
+      // so change c1 digit from 3 to 4 to separate these events.
+      return truthmatch_raw + 100;
+    default:
+      throw std::runtime_error(
+          TString::Format("Invalid fake_iso_bdt_code in FAKE_TRUTHMATCH(): %d",
+                          fake_iso_bdt_code));
+  }
+}
+
+template <typename T>
+T FAKE_ISO1(Int_t fake_iso_bdt_code, T iso_raw, T iso_prev_raw,
+            T iso_prev_prev_raw) {
+  switch (fake_iso_bdt_code) {
+    case 0:
+      // Not faking BDT
+      return iso_raw;
+    case 1:
+      // In case 1, we fake D**H -> D(*) pi0 pi0 using D**H -> D(*) pi+ pi-,
+      // so ignore two highest isolation BDTs.
+      return iso_prev_prev_raw;
+    case 2:
+      // In case 2, we fake D**H+ -> D*0 pi+ pi0 using D**H0 -> D*0 pi+ pi-
+      // by ignoring the SECOND most anti-isolated track.
+      return iso_raw;
+    case 3:
+      // In case 3, we fake D**H+ -> D*0 pi+ pi0 using D**H0 -> D*0 pi+ pi-
+      // by ignoring the most anti-isolated track.
+      return iso_prev_raw;
+    default:
+      throw std::runtime_error(TString::Format(
+          "Invalid fake_iso_bdt_code in FAKE_ISO1(): %d", fake_iso_bdt_code));
+  }
+}
+
+template <typename T>
+T FAKE_ISO2(Int_t fake_iso_bdt_code, T iso_raw, T iso_prev_raw,
+            T iso_prev_prev_raw) {
+  switch (fake_iso_bdt_code) {
+    case 0:
+      // Not faking BDT
+      return iso_raw;
+    case 1:
+      // In case 1, we fake D**H -> D(*) pi0 pi0 using D**H -> D(*) pi+ pi-,
+      // so ignore two highest isolation BDTs.
+      return iso_prev_prev_raw;
+    case 2:
+      // In case 2, we fake D**H+ -> D*0 pi+ pi0 using D**H0 -> D*0 pi+ pi-
+      // by ignoring the SECOND most anti-isolated track.
+      return iso_prev_raw;
+    case 3:
+      // In case 3, we fake D**H+ -> D*0 pi+ pi0 using D**H0 -> D*0 pi+ pi-
+      // by ignoring the most anti-isolated track.
+      return iso_prev_raw;
+    default:
+      throw std::runtime_error(TString::Format(
+          "Invalid fake_iso_bdt_code in FAKE_ISO2(): %d", fake_iso_bdt_code));
+  }
+}
+
+template <typename T>
+T FAKE_ISO3(Int_t fake_iso_bdt_code, T iso_raw, T iso_prev_raw,
+            T iso_prev_prev_raw) {
+  return FAKE_ISO2(fake_iso_bdt_code, iso_raw, iso_prev_raw, iso_prev_prev_raw);
+}
+
+template <typename T>
+T FAKE_ISO4(Int_t fake_iso_bdt_code, T iso_raw, T iso_prev_raw, T empty = 0) {
+  switch (fake_iso_bdt_code) {
+    case 0:
+      // Not faking BDT
+      return iso_raw;
+    case 1:
+      // In case 1, we fake D**H -> D(*) pi0 pi0 using D**H -> D(*) pi+ pi-,
+      // so ignore two highest isolation BDTs.
+      return empty;
+    case 2:
+      // In case 2, we fake D**H+ -> D*0 pi+ pi0 using D**H0 -> D*0 pi+ pi-
+      // by ignoring the SECOND most anti-isolated track.
+      return iso_prev_raw;
+    case 3:
+      // In case 3, we fake D**H+ -> D*0 pi+ pi0 using D**H0 -> D*0 pi+ pi-
+      // by ignoring the most anti-isolated track.
+      return iso_prev_raw;
+    default:
+      throw std::runtime_error(TString::Format(
+          "Invalid fake_iso_bdt_code in FAKE_ISO4(): %d", fake_iso_bdt_code));
+  }
+}
+
+template <typename T>
+T FAKE_ISO5(Int_t fake_iso_bdt_code, T iso_raw, T empty = 0) {
+  switch (fake_iso_bdt_code) {
+    case 0:
+      // Not faking BDT
+      return iso_raw;
+    case 1:
+      // In case 1, we fake D**H -> D(*) pi0 pi0 using D**H -> D(*) pi+ pi-,
+      // so ignore two highest isolation BDTs.
+      return empty;
+    case 2:
+      // In case 2, we fake D**H+ -> D*0 pi+ pi0 using D**H0 -> D*0 pi+ pi-
+      // by ignoring the SECOND most anti-isolated track.
+      return empty;
+    case 3:
+      // In case 3, we fake D**H+ -> D*0 pi+ pi0 using D**H0 -> D*0 pi+ pi-
+      // by ignoring the most anti-isolated track.
+      return empty;
+    default:
+      throw std::runtime_error(TString::Format(
+          "Invalid fake_iso_bdt_code in FAKE_ISO5(): %d", fake_iso_bdt_code));
+  }
 }
 
 // Veto tracks with large chi2ndof /////////////////////////////////////////////

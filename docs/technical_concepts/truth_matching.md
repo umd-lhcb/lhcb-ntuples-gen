@@ -90,14 +90,14 @@ postprocessed ntuples.
 >   (eg. an event for $B^0 \rightarrow D^* \mu\nu$ MC could pass the truth-
 >   matching requirements and thus be filled in for the template
 >   corresponding to $B^0 \rightarrow D^* X_c(\rightarrow \mu\nu X')X$),
-> 
+>
 >   And indeed I see this happening for a fraction of a percent of all
 >   events.
-> 
+>
 > - Our truth-matching: Takes in the decay mode that the user wants to apply
 >   truth-matching to as an input and will only set `truthmatch` to a corresponding
 >   value for that decay mode.
-> 
+>
 >   Additionally, our implementation will never fill in multiple templates
 >   with the same reconstructed event (the codes are chosen so that no code should be use for multiple templates for a given reconstruction).
 
@@ -115,7 +115,7 @@ To apply our truth-matching when postprocessing ntuples:
 
 > [!NOTE]
 > **Optional debugging flags for truth-matching**
-> 
+>
 > The truth-matching code has some optional debugging flags that can be set
 > if one wants to:
 >
@@ -124,7 +124,7 @@ To apply our truth-matching when postprocessing ntuples:
 > - **not** separate $DD$ cocktails
 >
 > Nominally, for run2 our `truthmatch` int is separating $D^{**}_{(s)}$, separating $D^{**}_H$,
-> and partially separating $DD$ (a full separation has not been implemented). Without setting these flags, `truthmatch` is set to encode all 
+> and partially separating $DD$ (a full separation has not been implemented). Without setting these flags, `truthmatch` is set to encode all
 > information that should be relevant for building the run 2 RDX templates.
 
 Once this is done, the postprocessed ntuples will contain a `truthmatch` branch
@@ -137,7 +137,7 @@ where
     - `0` if normalization(-like) (i.e. without $\tau$)
     - `1` if signal(-like)
 
-2. `c1c2` are two digits referring to the "primary" $D$ meson (ie. coming from the $B$). For $DD$ 
+2. `c1c2` are two digits referring to the "primary" $D$ meson (ie. coming from the $B$). For $DD$
     decays, this is ambiguous, so `c1c2=00`. For non-$DD$ decays, `c1c2=`:
     - `01` for $D^0$,
         `02` for $D^+$,
@@ -160,16 +160,28 @@ where
 
     - `30` for all heavy $D^{**0}_H$
         (again, internally required that the decay is possible), or if separated:
-        `31` for $D(2S)^{+}$,
-        `32` for $D(2S)^{*+}$,
-        `33` for $D(2750)^+$,
-        `34` for $D(3000)^+$
+        `31` for $D(2S)^{0}$,
+        `32` for $D(2S)^{*0}$,
+        `33` for $D(2750)^0$,
+        `34` for $D(3000)^0$,
+        if the $D^{**0}_H$ decay produces any charged pion, or
+        `35` for $D(2S)^{0}$,
+        `36` for $D(2S)^{*0}$,
+        `37` for $D(2750)^0$,
+        `38` for $D(3000)^0$,
+        if it produces no charged pions.
 
     - `40` for all heavy $D^{**+}_H$, or if separated:
         `41` for $D(2S)^{+}$,
         `42` for $D(2S)^{*+}$,
         `43` for $D(2750)^+$,
-        `44` for $D(3000)^+$
+        `44` for $D(3000)^+$,
+        if the $D^{**+}_H$ produces any charged pion, or
+        `45` for $D(2S)^{+}$,
+        `46` for $D(2S)^{*+}$,
+        `47` for $D(2750)^+$,
+        `48` for $D(3000)^+$,
+        if it produces no charged pions.
 
     - `50` for all strange $D^{**}_s$
         (again, internally require the $D^{**}_s$ is possible), or if separated:
