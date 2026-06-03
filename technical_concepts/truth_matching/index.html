@@ -1883,7 +1883,7 @@ if one wants to:</p>
 <li><strong>not</strong> separate <span class="arithmatex">\(DD\)</span> cocktails</li>
 </ul>
 <p>Nominally, for run2 our <code>truthmatch</code> int is separating <span class="arithmatex">\(D^{**}_{(s)}\)</span>, separating <span class="arithmatex">\(D^{**}_H\)</span>,
-and partially separating <span class="arithmatex">\(DD\)</span> (a full separation has not been implemented). Without setting these flags, <code>truthmatch</code> is set to encode all 
+and partially separating <span class="arithmatex">\(DD\)</span> (a full separation has not been implemented). Without setting these flags, <code>truthmatch</code> is set to encode all
 information that should be relevant for building the run 2 RDX templates.</p>
 </blockquote>
 <p>Once this is done, the postprocessed ntuples will contain a <code>truthmatch</code> branch
@@ -1900,7 +1900,7 @@ where</p>
 </ul>
 </li>
 <li>
-<p><code>c1c2</code> are two digits referring to the "primary" <span class="arithmatex">\(D\)</span> meson (ie. coming from the <span class="arithmatex">\(B\)</span>). For <span class="arithmatex">\(DD\)</span> 
+<p><code>c1c2</code> are two digits referring to the "primary" <span class="arithmatex">\(D\)</span> meson (ie. coming from the <span class="arithmatex">\(B\)</span>). For <span class="arithmatex">\(DD\)</span>
     decays, this is ambiguous, so <code>c1c2=00</code>. For non-<span class="arithmatex">\(DD\)</span> decays, <code>c1c2=</code>:</p>
 <ul>
 <li>
@@ -1928,17 +1928,29 @@ where</p>
 <li>
 <p><code>30</code> for all heavy <span class="arithmatex">\(D^{**0}_H\)</span>
     (again, internally required that the decay is possible), or if separated:
-    <code>31</code> for <span class="arithmatex">\(D(2S)^{+}\)</span>,
-    <code>32</code> for <span class="arithmatex">\(D(2S)^{*+}\)</span>,
-    <code>33</code> for <span class="arithmatex">\(D(2750)^+\)</span>,
-    <code>34</code> for <span class="arithmatex">\(D(3000)^+\)</span></p>
+    <code>31</code> for <span class="arithmatex">\(D(2S)^{0}\)</span>,
+    <code>32</code> for <span class="arithmatex">\(D(2S)^{*0}\)</span>,
+    <code>33</code> for <span class="arithmatex">\(D(2750)^0\)</span>,
+    <code>34</code> for <span class="arithmatex">\(D(3000)^0\)</span>,
+    if the <span class="arithmatex">\(D^{**0}_H\)</span> decay produces any charged pion, or
+    <code>35</code> for <span class="arithmatex">\(D(2S)^{0}\)</span>,
+    <code>36</code> for <span class="arithmatex">\(D(2S)^{*0}\)</span>,
+    <code>37</code> for <span class="arithmatex">\(D(2750)^0\)</span>,
+    <code>38</code> for <span class="arithmatex">\(D(3000)^0\)</span>,
+    if it produces no charged pions.</p>
 </li>
 <li>
 <p><code>40</code> for all heavy <span class="arithmatex">\(D^{**+}_H\)</span>, or if separated:
     <code>41</code> for <span class="arithmatex">\(D(2S)^{+}\)</span>,
     <code>42</code> for <span class="arithmatex">\(D(2S)^{*+}\)</span>,
     <code>43</code> for <span class="arithmatex">\(D(2750)^+\)</span>,
-    <code>44</code> for <span class="arithmatex">\(D(3000)^+\)</span></p>
+    <code>44</code> for <span class="arithmatex">\(D(3000)^+\)</span>,
+    if the <span class="arithmatex">\(D^{**+}_H\)</span> produces any charged pion, or
+    <code>45</code> for <span class="arithmatex">\(D(2S)^{+}\)</span>,
+    <code>46</code> for <span class="arithmatex">\(D(2S)^{*+}\)</span>,
+    <code>47</code> for <span class="arithmatex">\(D(2750)^+\)</span>,
+    <code>48</code> for <span class="arithmatex">\(D(3000)^+\)</span>,
+    if it produces no charged pions.</p>
 </li>
 <li>
 <p><code>50</code> for all strange <span class="arithmatex">\(D^{**}_s\)</span>
