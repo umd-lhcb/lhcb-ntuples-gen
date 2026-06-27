@@ -169,6 +169,18 @@ Float_t MASS_DX_ISO1_PROT(Float_t dx_e, Float_t dx_px, Float_t dx_py, Float_t dx
   return (pDx + pIso1).M();
 }
 
+// Reconstruct mass of the D0/D* and the least isolated track under the kaon mass assumption
+Float_t MASS_DX_ISO1_K(Float_t dx_e, Float_t dx_px, Float_t dx_py, Float_t dx_pz,
+                       Float_t px1, Float_t py1, Float_t pz1){
+
+  TLorentzVector pDx(dx_px, dx_py, dx_pz, dx_e);
+  Float_t m_k = 493.68;
+  Float_t p3Iso1 = sqrt(pow(px1,2) + pow(py1,2) + pow(pz1,2));
+  TLorentzVector pIso1(px1, py1, pz1, sqrt(pow(m_k,2) + pow(p3Iso1,2)));
+  
+  return (pDx + pIso1).M();
+}
+
 // Reconstruct mass of the D0/D* and the two least isolated tracks under the pion mass assumption
 Float_t MASS_DX_ISO1_ISO2(Float_t dx_e, Float_t dx_px, Float_t dx_py, Float_t dx_pz,
                           Float_t px1, Float_t py1, Float_t pz1, Float_t px2, Float_t py2, Float_t pz2){
@@ -251,3 +263,75 @@ double MASS_DX_K(double d_px, double d_py, double d_pz, double d_e, int d_id, ve
   p_k.SetPxPyPzE(p_track.Px(), p_track.Py(), p_track.Pz(), sqrt(pow(m_k,2)+pmag2));
   return (p_d + p_k).M();
 }
+
+// double MASS_DX_K_RS(double d_px, double d_py, double d_pz, double d_e, int d_id, vector<IsoTrack> tracks) {
+//   TLorentzVector p_d(d_px, d_py, d_pz, d_e);
+//   TLorentzVector p_k; // apply kaon mass hypothesis on this
+//   bool found_k = false;
+//   TLorentzVector p_track;
+//   double max_nnk = -1.0;
+//   double m_k = 0.49368;
+//   double no_cand = -0.099;
+//   bool ws = false;
+//   for (auto i=0; i<tracks.size(); i++) {
+//     if (tracks[i].is_data) {
+//       assert(tracks[i].wpid==-1.0); // just checking that isotracks created correctly...
+//       if (tracks[i].NNk>max_nnk) {
+//         found_k = true;
+//         if (!(d_id*tracks[i].charge>0)) ws=true;
+//         else ws=false;
+//         p_track = tracks[i].p;
+//         max_nnk = tracks[i].NNk;
+//       }
+//     } else { // looking at MC tracks
+//       assert(tracks[i].wpid>=0.0 && tracks[i].wpid<=1.0); // should be shifted already, just a check before referencing the value
+//       if (tracks[i].wpid>max_nnk) {
+//         found_k = true;
+//         if (!(d_id*tracks[i].charge>0)) ws=true;
+//         else ws=false;
+//         p_track = tracks[i].p;
+//         max_nnk = tracks[i].wpid; // wpid should be prob that track satifies NNk>0.2
+//       }
+//     }
+//   }
+//   if (!found_k || ws) return no_cand;
+//   double pmag2 = pow(p_track.Px(),2)+pow(p_track.Py(),2)+pow(p_track.Pz(),2);
+//   p_k.SetPxPyPzE(p_track.Px(), p_track.Py(), p_track.Pz(), sqrt(pow(m_k,2)+pmag2));
+//   return (p_d + p_k).M();
+// }
+
+// double MASS_DX_K_WS(double d_px, double d_py, double d_pz, double d_e, int d_id, vector<IsoTrack> tracks) {
+//   TLorentzVector p_d(d_px, d_py, d_pz, d_e);
+//   TLorentzVector p_k; // apply kaon mass hypothesis on this
+//   bool found_k = false;
+//   TLorentzVector p_track;
+//   double max_nnk = -1.0;
+//   double m_k = 0.49368;
+//   double no_cand = -0.099;
+//   bool rs = false;
+//   for (auto i=0; i<tracks.size(); i++) {
+//     if (tracks[i].is_data) {
+//       assert(tracks[i].wpid==-1.0); // just checking that isotracks created correctly...
+//       if (tracks[i].NNk>max_nnk) {
+//         found_k = true;
+//         if (d_id*tracks[i].charge>0) rs=true;
+//         else rs=false;
+//         p_track = tracks[i].p;
+//         max_nnk = tracks[i].NNk;
+//       }
+//     } else { // looking at MC tracks
+//       assert(tracks[i].wpid>=0.0 && tracks[i].wpid<=1.0); // should be shifted already, just a check before referencing the value
+//       if (tracks[i].wpid>max_nnk) {
+//         found_k = true;
+//         if (d_id*tracks[i].charge>0) rs=true;
+//         else rs=false;
+//         p_track = tracks[i].p;
+//         max_nnk = tracks[i].wpid; // wpid should be prob that track satifies NNk>0.2
+//       }
+//     }
+//   }
+//   if (!found_k || rs) return no_cand;
+//   double pmag2 = pow(p_track.Px(),2)+pow(p_track.Py(),2)+pow(p_track.Pz(),2);
+//   p_k.SetPxPyPzE(p_track.Px(), p_track.Py(), p_track.Pz(), sqrt(pow(m_k,2)+pmag2));
+//   return (p_d + p_k).M();
+// }

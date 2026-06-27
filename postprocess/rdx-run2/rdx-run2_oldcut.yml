@@ -406,6 +406,14 @@ calculation:
         float;
         1000.0*MASS_DX_K(GEV(dst_PX), GEV(dst_PY), GEV(dst_PZ), GEV(dst_PE), dst_id, isotracks3_mcNNkgt);
         1000.0*MASS_DX_K(GEV(d0_PX), GEV(d0_PY), GEV(d0_PZ), GEV(d0_PE), d0_id, isotracks3_mcNNkgt)
+    # d_isok_m_rs: >-
+    #     float;
+    #     1000.0*MASS_DX_K_RS(GEV(dst_PX), GEV(dst_PY), GEV(dst_PZ), GEV(dst_PE), dst_id, isotracks3_mcNNkgt);
+    #     1000.0*MASS_DX_K_RS(GEV(d0_PX), GEV(d0_PY), GEV(d0_PZ), GEV(d0_PE), d0_id, isotracks3_mcNNkgt)
+    # d_isok_m_ws: >-
+    #     float;
+    #     1000.0*MASS_DX_K_WS(GEV(dst_PX), GEV(dst_PY), GEV(dst_PZ), GEV(dst_PE), dst_id, isotracks3_mcNNkgt);
+    #     1000.0*MASS_DX_K_WS(GEV(d0_PX), GEV(d0_PY), GEV(d0_PZ), GEV(d0_PE), d0_id, isotracks3_mcNNkgt)
     d_iso1_iso2_m: >-
         float;
         MASS_DX_ISO1_ISO2(dst_PE, dst_PX, dst_PY, dst_PZ, b0_ISOLATION_PX, b0_ISOLATION_PY, b0_ISOLATION_PZ, b0_ISOLATION_PX2, b0_ISOLATION_PY2, b0_ISOLATION_PZ2);
@@ -414,6 +422,10 @@ calculation:
         float;
         MASS_DX_ISO1_PROT(dst_PE, dst_PX, dst_PY, dst_PZ, b0_ISOLATION_PX, b0_ISOLATION_PY, b0_ISOLATION_PZ);
         MASS_DX_ISO1_PROT(d0_PE, d0_PX, d0_PY, d0_PZ, b_ISOLATION_PX, b_ISOLATION_PY, b_ISOLATION_PZ)
+    d_iso1_k_m: >-
+        float;
+        MASS_DX_ISO1_K(dst_PE, dst_PX, dst_PY, dst_PZ, b0_ISOLATION_PX, b0_ISOLATION_PY, b0_ISOLATION_PZ);
+        MASS_DX_ISO1_K(d0_PE, d0_PX, d0_PY, d0_PZ, b_ISOLATION_PX, b_ISOLATION_PY, b_ISOLATION_PZ)
     # log(IP chi2)
     iso1_logipchi2: >-
         float; log(b_ISOLATION_CHI2); log(b0_ISOLATION_CHI2)
@@ -473,6 +485,10 @@ calculation:
     # D0
     d0_m: double; d0_M
     d0_p: double; GEV(d0_P)
+    d0_px: double; GEV(d0_PX)
+    d0_py: double; GEV(d0_PY)
+    d0_pz: double; GEV(d0_PZ)
+    d0_pe: double; GEV(d0_PE)
     d0_pt: double; GEV(d0_PT)
     d0_dst_veto_deltam: double; MIN(ABS(b_ISOLATION_DstWindowDELTAM-145.454), ABS(b_ISOLATION_DstWindowDELTAM2-145.454))  # MeV!
     d0_dst_veto_deltam_stub: ^double; cli_no_dst_veto; d0_dst_veto_deltam; 100.0
@@ -482,6 +498,7 @@ calculation:
     k_px: double; GEV(k_PX)
     k_py: double; GEV(k_PY)
     k_pz: double; GEV(k_PZ)
+    k_pe: double; GEV(k_PE)
     k_pt: double; GEV(k_PT)
     k_eta: double; ETA(k_P, k_PZ)
     k_true_px: double; GEV(k_TRUEP_X)
@@ -493,6 +510,7 @@ calculation:
     pi_px: double; GEV(pi_PX)
     pi_py: double; GEV(pi_PY)
     pi_pz: double; GEV(pi_PZ)
+    pi_pe: double; GEV(pi_PE)
     pi_pt: double; GEV(pi_PT)
     pi_eta: double; ETA(pi_P, pi_PZ)
     pi_true_px: double; GEV(pi_TRUEP_X)
