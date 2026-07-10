@@ -1900,64 +1900,90 @@ where</p>
 </ul>
 </li>
 <li>
-<p><code>c1c2</code> are two digits referring to the "primary" <span class="arithmatex">\(D\)</span> meson (ie. coming from the <span class="arithmatex">\(B\)</span>). For <span class="arithmatex">\(DD\)</span>
-    decays, this is ambiguous, so <code>c1c2=00</code>. For non-<span class="arithmatex">\(DD\)</span> decays, <code>c1c2=</code>:</p>
+<p><code>c1c2</code> are two digits referring to the "primary" <span class="arithmatex">\(D\)</span> meson (ie. coming from the <span class="arithmatex">\(B\)</span>).
+   For <span class="arithmatex">\(DD\)</span> decays, this is ambiguous, so <code>c1c2=00</code>. For non-<span class="arithmatex">\(DD\)</span> decays, <code>c1c2=</code>:</p>
 <ul>
 <li>
-<p><code>01</code> for <span class="arithmatex">\(D^0\)</span>,
-    <code>02</code> for <span class="arithmatex">\(D^+\)</span>,
-    <code>03</code> for <span class="arithmatex">\(D^{*0}\)</span>,
-    <code>04</code> for <span class="arithmatex">\(D^{*+}\)</span></p>
+<p><code>01</code> for <span class="arithmatex">\(D^0\)</span></p>
+</li>
+<li>
+<p><code>02</code> for <span class="arithmatex">\(D^+\)</span></p>
+</li>
+<li>
+<p><code>03</code> for <span class="arithmatex">\(D^{*0}\)</span></p>
+</li>
+<li>
+<p><code>04</code> for <span class="arithmatex">\(D^{*+}\)</span></p>
 </li>
 <li>
 <p><code>10</code> for all (light) <span class="arithmatex">\(D^{**0}\)</span>
     (i.e. cocktail not separated, but it's required that the specific
-    <span class="arithmatex">\(D^{**}\)</span> is possible [included in the dec file] for the considered decay), or if separated:
-    <code>11</code> for <span class="arithmatex">\(D_0^{*0}\)</span>,
-    <code>12</code> for <span class="arithmatex">\(D_1^0\)</span>,
-    <code>13</code> for <span class="arithmatex">\(D_1'^0\)</span>,
-    <code>14</code> for <span class="arithmatex">\(D_2^{*0}\)</span></p>
+    <span class="arithmatex">\(D^{**}\)</span> is possible [included in the dec file] for the considered decay), or if separated:</p>
+<ul>
+<li><code>11</code> for <span class="arithmatex">\(D_0^{*0} \to D^0 \pi^0\)</span>,</li>
+<li><code>12</code> for <span class="arithmatex">\(D_1^0 \to D^{*+} \pi^-\)</span>,</li>
+<li><code>13</code> for <span class="arithmatex">\(D_1^0 \to D^{*0} \pi^0\)</span>,</li>
+<li><code>14</code> for <span class="arithmatex">\(D_1'^0 \to D^{*+} \pi^-\)</span>,</li>
+<li><code>15</code> for <span class="arithmatex">\(D_1'^0 \to D^{*0} \pi^0\)</span>,</li>
+<li><code>16</code> for <span class="arithmatex">\(D_2^{*0} \to D^{*+} \pi^-\)</span>,</li>
+<li><code>17</code> for <span class="arithmatex">\(D_2^{*0} \to D^{*0} \pi^0\)</span>,</li>
+<li><code>18</code> for <span class="arithmatex">\(D_2^{*0} \to D^0 \pi^0\)</span>.</li>
+</ul>
 </li>
 <li>
-<p><code>20</code> for all (light) <span class="arithmatex">\(D^{**+}\)</span>, or if separated:
-    <code>21</code> for <span class="arithmatex">\(D_0^{*+}\)</span>,
-    <code>22</code> for <span class="arithmatex">\(D_1^+\)</span>,
-    <code>23</code> for <span class="arithmatex">\(D_1'^+\)</span>,
-    <code>24</code> for <span class="arithmatex">\(D_2^{*+}\)</span></p>
+<p><code>20</code> for all (light) <span class="arithmatex">\(D^{**+}\)</span>, or if separated:</p>
+<ul>
+<li><code>21</code> for <span class="arithmatex">\(D_0^{*+} \to D^0 \pi^+\)</span>,</li>
+<li><code>22</code> for <span class="arithmatex">\(D_1^+ \to D^{*+} \pi^0\)</span>,</li>
+<li><code>23</code> for <span class="arithmatex">\(D_1^+ \to D^{*0} \pi^+\)</span>,</li>
+<li><code>24</code> for <span class="arithmatex">\(D_1'^+ \to D^{*+} \pi^0\)</span>,</li>
+<li><code>25</code> for <span class="arithmatex">\(D_1'^+ \to D^{*0} \pi^+\)</span>,</li>
+<li><code>26</code> for <span class="arithmatex">\(D_2^{*+} \to D^{*+} \pi^0\)</span>,</li>
+<li><code>27</code> for <span class="arithmatex">\(D_2^{*+} \to D^{*0} \pi^+\)</span>,</li>
+<li><code>28</code> for <span class="arithmatex">\(D_2^{*+} \to D^0 \pi^+\)</span>.</li>
+</ul>
 </li>
 <li>
 <p><code>30</code> for all heavy <span class="arithmatex">\(D^{**0}_H\)</span>
-    (again, internally required that the decay is possible), or if separated:
-    <code>31</code> for <span class="arithmatex">\(D(2S)^{0}\)</span>,
-    <code>32</code> for <span class="arithmatex">\(D(2S)^{*0}\)</span>,
-    <code>33</code> for <span class="arithmatex">\(D(2750)^0\)</span>,
-    <code>34</code> for <span class="arithmatex">\(D(3000)^0\)</span>,
-    if the <span class="arithmatex">\(D^{**0}_H\)</span> decay produces any charged pion, or
-    <code>35</code> for <span class="arithmatex">\(D(2S)^{0}\)</span>,
-    <code>36</code> for <span class="arithmatex">\(D(2S)^{*0}\)</span>,
-    <code>37</code> for <span class="arithmatex">\(D(2750)^0\)</span>,
-    <code>38</code> for <span class="arithmatex">\(D(3000)^0\)</span>,
-    if it produces no charged pions.</p>
+    (again, internally required that the decay is possible), or the following codes, if separated.
+    If the <span class="arithmatex">\(D^{**0}_H\)</span> decay produces any charged pion:</p>
+<ul>
+<li><code>31</code> for <span class="arithmatex">\(D(2S)^{0}\)</span> (or <span class="arithmatex">\(D(2580)^0\)</span> in rdx-run2-analysis),</li>
+<li><code>32</code> for <span class="arithmatex">\(D(2S)^{*0}\)</span> (or <span class="arithmatex">\(D(2640)^0\)</span> in rdx-run2-analysis),</li>
+<li><code>33</code> for <span class="arithmatex">\(D(2750)^0\)</span> (or <span class="arithmatex">\(D(2737)^0\)</span> in rdx-run2-analysis),</li>
+<li><code>34</code> for <span class="arithmatex">\(D(3000)^0\)</span> (or <span class="arithmatex">\(D(2978)^0\)</span> in rdx-run2-analysis).</li>
+</ul>
+<p>And if it produces no charged pions:
+- <code>35</code> for <span class="arithmatex">\(D(2S)^{0}\)</span>,
+- <code>36</code> for <span class="arithmatex">\(D(2S)^{*0}\)</span>,
+- <code>37</code> for <span class="arithmatex">\(D(2750)^0\)</span>,
+- <code>38</code> for <span class="arithmatex">\(D(3000)^0\)</span>.</p>
 </li>
 <li>
-<p><code>40</code> for all heavy <span class="arithmatex">\(D^{**+}_H\)</span>, or if separated:
-    <code>41</code> for <span class="arithmatex">\(D(2S)^{+}\)</span>,
-    <code>42</code> for <span class="arithmatex">\(D(2S)^{*+}\)</span>,
-    <code>43</code> for <span class="arithmatex">\(D(2750)^+\)</span>,
-    <code>44</code> for <span class="arithmatex">\(D(3000)^+\)</span>,
-    if the <span class="arithmatex">\(D^{**+}_H\)</span> produces any charged pion, or
-    <code>45</code> for <span class="arithmatex">\(D(2S)^{+}\)</span>,
-    <code>46</code> for <span class="arithmatex">\(D(2S)^{*+}\)</span>,
-    <code>47</code> for <span class="arithmatex">\(D(2750)^+\)</span>,
-    <code>48</code> for <span class="arithmatex">\(D(3000)^+\)</span>,
-    if it produces no charged pions.</p>
+<p><code>40</code> for all heavy <span class="arithmatex">\(D^{**+}_H\)</span>, or the following codes, if separated.
+    If the <span class="arithmatex">\(D^{**+}_H\)</span> decay produces any charged pion:</p>
+<ul>
+<li><code>41</code> for <span class="arithmatex">\(D(2S)^{+}\)</span> (or <span class="arithmatex">\(D(2580)^+\)</span> in rdx-run2-analysis),</li>
+<li><code>42</code> for <span class="arithmatex">\(D(2S)^{*+}\)</span> (or <span class="arithmatex">\(D(2640)^+\)</span> in rdx-run2-analysis),</li>
+<li><code>43</code> for <span class="arithmatex">\(D(2750)^+\)</span> (or <span class="arithmatex">\(D(2737)^+\)</span> in rdx-run2-analysis),</li>
+<li><code>44</code> for <span class="arithmatex">\(D(3000)^+\)</span> (or <span class="arithmatex">\(D(2978)^+\)</span> in rdx-run2-analysis).</li>
+</ul>
+<p>And if it produces no charged pions:
+- <code>45</code> for <span class="arithmatex">\(D(2S)^{+}\)</span>,
+- <code>46</code> for <span class="arithmatex">\(D(2S)^{*+}\)</span>,
+- <code>47</code> for <span class="arithmatex">\(D(2750)^+\)</span>,
+- <code>48</code> for <span class="arithmatex">\(D(3000)^+\)</span>.</p>
 </li>
 <li>
 <p><code>50</code> for all strange <span class="arithmatex">\(D^{**}_s\)</span>
-    (again, internally require the <span class="arithmatex">\(D^{**}_s\)</span> is possible), or if separated:
-    <code>53</code> for <span class="arithmatex">\(D_{1s}'\)</span>,
-    <code>54</code> for <span class="arithmatex">\(D_{2s}^*\)</span>
-    (numbering is chosen to keep consistent with <span class="arithmatex">\(D^{**}\)</span> scheme; there aren't any "<span class="arithmatex">\(D_{0s}^*, D_{1s}\)</span>")</p>
+    (again, internally require the <span class="arithmatex">\(D^{**}_s\)</span> is possible), or if separated:</p>
+<ul>
+<li><code>51</code> for <span class="arithmatex">\(D'^{+}_{s1} \to D^{*+} K^0\)</span>,</li>
+<li><code>52</code> for <span class="arithmatex">\(D'^{+}_{s1} \to D^{*0} K^+\)</span>,</li>
+<li><code>53</code> for <span class="arithmatex">\(D^{*+}_{s2} \to D^{*+} K^0\)</span>,</li>
+<li><code>54</code> for <span class="arithmatex">\(D^{*+}_{s2} \to D^{*0} K^+\)</span>,</li>
+<li><code>55</code> for <span class="arithmatex">\(D^{*+}_{s2} \to D^0 K^+\)</span>.</li>
+</ul>
 </li>
 </ul>
 </li>
@@ -1986,12 +2012,12 @@ where</p>
 <blockquote>
 <p>[!TIP]
 Here are some examples:
-- <span class="arithmatex">\(B^0 \rightarrow D^* \mu\nu\)</span> will be encoded as <code>000041</code>
-- <span class="arithmatex">\(B^- \rightarrow D^{*0} \mu\nu\)</span> as <code>000031</code>
-- <span class="arithmatex">\(B^0 \rightarrow D^0 \tau\nu\)</span> as <code>000011</code>
-- <span class="arithmatex">\(B^0 \rightarrow D_1' \tau\nu\)</span> (no <span class="arithmatex">\(2\pi\)</span>) as <code>000231</code>
-- <span class="arithmatex">\(B^+ \rightarrow D_2^*(\rightarrow D^*\pi\pi)\mu\nu\)</span> as <code>500140</code>
-- <span class="arithmatex">\(B^0 \rightarrow D^{**}_H(\rightarrow D\pi\pi)\mu\nu\)</span> as <code>400400</code>
+- <span class="arithmatex">\(\overline{B}^0 \rightarrow D^{*+} \mu\nu\)</span> will be encoded as <code>000040</code>
+- <span class="arithmatex">\(B^- \rightarrow D^{*0} \mu\nu\)</span> as <code>000030</code>
+- <span class="arithmatex">\(B^- \rightarrow D^0 \tau\nu\)</span> as <code>000011</code>
+- <span class="arithmatex">\(\overline{B}^0 \rightarrow D'^+_1 (\rightarrow D^{*+} \pi^0) \tau\nu\)</span> as <code>000241</code>
+- <span class="arithmatex">\(B^- \rightarrow D_1^0 (\rightarrow D^{*+}_0 (\rightarrow D^0 \pi^+) \pi^-) \mu\nu\)</span> as <code>500120</code>
+- <span class="arithmatex">\(\overline{B}^0 \rightarrow D(2978)^{+} (\rightarrow D^0 \pi^{+}\pi^{0}) \mu\nu\)</span> as <code>400440</code>
 - <span class="arithmatex">\(B^0 \rightarrow D^{*+}D^-(\rightarrow \mu\nu X)\)</span> as <code>101000</code>
 - <span class="arithmatex">\(B^0 \rightarrow D^{*+}D_s(\rightarrow \tau\nu)\)</span> as <code>102001</code>
 - <span class="arithmatex">\(B^0 \rightarrow D^{0}D^{*-}(\rightarrow \mu\nu X)K^+\)</span> as <code>110000</code>
