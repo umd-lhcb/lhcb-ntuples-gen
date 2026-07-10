@@ -9,6 +9,8 @@
 #include <Math/Vector3D.h>
 #include <Math/Vector4D.h>
 #include <Math/VectorUtil.h>
+#include <TFile.h>
+#include <TH1D.h>
 #include <TMath.h>
 #include <TROOT.h>
 #include <TLorentzVector.h>
@@ -141,7 +143,7 @@ Float_t MASS_PHI(Int_t type1, Int_t chrg1, Float_t px1, Float_t py1, Float_t pz1
   } else {
     return -99.;
   }
-  
+
   return (phiKaon1 + phiKaon2).M();
 }
 
@@ -165,7 +167,7 @@ Float_t MASS_DX_ISO1_PROT(Float_t dx_e, Float_t dx_px, Float_t dx_py, Float_t dx
   Float_t mpr = 938.27;
   Float_t p3Iso1 = sqrt(pow(px1,2) + pow(py1,2) + pow(pz1,2));
   TLorentzVector pIso1(px1, py1, pz1, sqrt(pow(mpr,2) + pow(p3Iso1,2)));
-  
+
   return (pDx + pIso1).M();
 }
 
@@ -177,7 +179,7 @@ Float_t MASS_DX_ISO1_K(Float_t dx_e, Float_t dx_px, Float_t dx_py, Float_t dx_pz
   Float_t m_k = 493.68;
   Float_t p3Iso1 = sqrt(pow(px1,2) + pow(py1,2) + pow(pz1,2));
   TLorentzVector pIso1(px1, py1, pz1, sqrt(pow(m_k,2) + pow(p3Iso1,2)));
-  
+
   return (pDx + pIso1).M();
 }
 
@@ -262,6 +264,99 @@ double MASS_DX_K(double d_px, double d_py, double d_pz, double d_e, int d_id, ve
   double pmag2 = pow(p_track.Px(),2)+pow(p_track.Py(),2)+pow(p_track.Pz(),2);
   p_k.SetPxPyPzE(p_track.Px(), p_track.Py(), p_track.Pz(), sqrt(pow(m_k,2)+pmag2));
   return (p_d + p_k).M();
+}
+
+double DSTST_TRUE_MASS(double b_dau1_true_e, double b_dau1_true_px,
+                       double b_dau1_true_py, double b_dau1_true_pz) {
+  const TLorentzVector d(b_dau1_true_px, b_dau1_true_py, b_dau1_true_pz,
+                         b_dau1_true_e);
+  return d.M();
+}
+
+double W_EVTGEN_FIX(int mc_id, int truthmatch, double m) {
+  if ((mc_id == 11874430) || (mc_id == 11874440) || (mc_id == 12873450) ||
+      (mc_id == 12873460)) {
+    // D**
+    TString histo_name = "";
+    if (truthmatch % 10 == 0) {
+      if (truthmatch == 210) {
+        // D_0*
+        histo_name = "w_evtgen_fix_D0st_mu";
+      } else if (truthmatch == 110) {
+        // D_0*0
+        histo_name = "w_evtgen_fix_D0st0_mu";
+      } else if (truthmatch == 240 || truthmatch == 250) {
+        // D'_1
+        histo_name = "w_evtgen_fix_D1p_mu";
+      } else if (truthmatch == 140 || truthmatch == 150) {
+        // D'_10
+        histo_name = "w_evtgen_fix_D1p0_mu";
+      } else if (truthmatch == 220 || truthmatch == 230
+                 || truthmatch == 500220 || truthmatch == 500230) {
+        // D_1
+        histo_name = "w_evtgen_fix_D1_mu";
+      } else if (truthmatch == 120 || truthmatch == 130
+                 || truthmatch == 500120 || truthmatch == 500130) {
+        // D_10
+        histo_name = "w_evtgen_fix_D10_mu";
+      } else if (truthmatch == 260 || truthmatch == 270 || truthmatch == 280
+                 || truthmatch == 500260 || truthmatch == 500270) {
+        // D_2*
+        histo_name = "w_evtgen_fix_D2st_mu";
+      } else if (truthmatch == 160 || truthmatch == 170 || truthmatch == 180
+                 || truthmatch == 500160 || truthmatch == 500170) {
+        // D_2*0
+        histo_name = "w_evtgen_fix_D2st0_mu";
+      }
+    } else {
+      if (truthmatch == 211) {
+        // D_0*
+        histo_name = "w_evtgen_fix_D0st_tau";
+      } else if (truthmatch == 111) {
+        // D_0*0
+        histo_name = "w_evtgen_fix_D0st0_tau";
+      } else if (truthmatch == 241 || truthmatch == 251) {
+        // D'_1
+        histo_name = "w_evtgen_fix_D1p_tau";
+      } else if (truthmatch == 141 || truthmatch == 151) {
+        // D'_10
+        histo_name = "w_evtgen_fix_D1p0_tau";
+      } else if (truthmatch == 221 || truthmatch == 231
+                 || truthmatch == 500221 || truthmatch == 500231) {
+        // D_1
+        histo_name = "w_evtgen_fix_D1_tau";
+      } else if (truthmatch == 121 || truthmatch == 131
+                 || truthmatch == 500121 || truthmatch == 500131) {
+        // D_10
+        histo_name = "w_evtgen_fix_D10_tau";
+      } else if (truthmatch == 261 || truthmatch == 271 || truthmatch == 281
+                 || truthmatch == 500261 || truthmatch == 500271) {
+        // D_2*
+        histo_name = "w_evtgen_fix_D2st_tau";
+      } else if (truthmatch == 161 || truthmatch == 171 || truthmatch == 181
+                 || truthmatch == 500161 || truthmatch == 500171) {
+        // D_2*0
+        histo_name = "w_evtgen_fix_D2st0_tau";
+      }
+    }
+
+    if (histo_name == "") {
+      // cout << "ERROR Could not find histogram for tm code " << truthmatch << endl;
+      return 1.;
+    }
+
+    TFile f_weights("../../../run2-rdx/reweight/evtgen/evtgen_fix.root", "read");
+    TH1D* histo;
+    f_weights.GetObject(histo_name, histo);
+    if (histo == nullptr) {
+      cout << "ERROR Could not find histogram " << histo_name << " for tm code " << truthmatch << endl;
+      return 1.;
+    }
+    return histo->Interpolate(m);
+  } else {
+    // Not D**
+    return 1.;
+  }
 }
 
 // double MASS_DX_K_RS(double d_px, double d_py, double d_pz, double d_e, int d_id, vector<IsoTrack> tracks) {

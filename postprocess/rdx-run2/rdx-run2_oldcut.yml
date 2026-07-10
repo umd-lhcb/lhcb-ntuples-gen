@@ -728,6 +728,9 @@ calculation:
     b_dau1_gd1_true_id: int; b0_TrueHadron_D0_GD0_ID; b_TrueHadron_D0_GD0_ID
     b_dau1_gd2_true_id: int; b0_TrueHadron_D0_GD1_ID; b_TrueHadron_D0_GD1_ID
     b_dau1_gd3_true_id: int; b0_TrueHadron_D0_GD2_ID; b_TrueHadron_D0_GD2_ID
+    b_D_dau_true_m: >-
+        double;
+        DSTST_TRUE_MASS(b_dau1_true_e, b_dau1_true_px, b_dau1_true_py, b_dau1_true_pz)
     # D*
     dst_true_id: int; dst_TRUEID
     # D0
@@ -1728,6 +1731,7 @@ calculation:
     wtrg: float; l0_hadron_tos_emu + l0_global_tis_emu - l0_hadron_tos_emu*l0_global_tis_emu
     wtrk: double; wtrk_k*wtrk_pi*wtrk_mu*wtrk_spi; wtrk_k*wtrk_pi*wtrk_mu
     wjk: double; wjk_kin*wjk_occ
+    w_evtgen: double; W_EVTGEN_FIX(mc_id, truthmatch, GEV(b_D_dau_true_m))
 
     w_base: double; wtrg*wtrk*wjk*wbr_dd*w_missDstDK*w_missDstDspi # no PID cuts for the base weights
     w_w_ubdt: double; w_base*wpid_ubdt             # default PID cuts incl. UBDT
