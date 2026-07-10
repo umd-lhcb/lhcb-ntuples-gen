@@ -5,8 +5,10 @@
 
 #include <TLorentzVector.h>
 #include <TMath.h>
+#include <TString.h>
 #include <assert.h>
 #include <map>
+#include <iostream>
 
 #include "functor/basic.h"
 #include "pdg.h"
@@ -83,14 +85,27 @@ class TruthMatch {
   int dHstst0 = 300;
   int dHststp = 400;
   int dsstst  = 500;
-  int d0st    = 10;
-  int d1      = 20;
-  int d1p     = 30;
-  int d2st    = 40;
+  // D**
+  int d0stD0   = 10;
+  int d1Dst    = 20;
+  int d1Dst0   = 30;
+  int d1pDst   = 40;
+  int d1pDst0  = 50;
+  int d2stDst  = 60;
+  int d2stDst0 = 70;
+  int d2stD0   = 80;
+  // D**s
+  int d1psDst   = 10;
+  int d1psDst0  = 20;
+  int d2stsDst  = 30;
+  int d2stsDst0 = 40;
+  int d2stsD0   = 50;
+  // D**H
   int dst2S   = 20;
   int d2S     = 10;
   int d2750   = 30;
   int d3000   = 40;
+  // DDX
   int dd_2body     = 1000;
   int dd_2body_Ds  = 2000;
   int dd_3body_k   = 10000;
@@ -102,11 +117,18 @@ class TruthMatch {
   int dstst_twopi         = 500000;
 
   // useful to have maps as reference for D** species (PDG MC ID -> our code)
-  map<int, int> pdg_to_code{{PDG_ID_D0st_0, d0st},    {PDG_ID_D1_0, d1},
-                            {PDG_ID_D1p_0, d1p},      {PDG_ID_D2st_0, d2st},
-                            {PDG_ID_D0st, d0st},      {PDG_ID_D1, d1},
-                            {PDG_ID_D1p, d1p},        {PDG_ID_D2st, d2st},
-                            {PDG_ID_D1p_s, d1p},      {PDG_ID_D2st_s, d2st}};
+  map<int, map<int, int>> pdg_to_code{
+    {PDG_ID_D0st_0, {{PDG_ID_D0 , d0stD0}}},
+    {PDG_ID_D1_0  , {{PDG_ID_Dst, d1Dst}  , {PDG_ID_Dst0, d1Dst0}, {PDG_ID_D0st, d1Dst}, {PDG_ID_D0st_0, d1Dst0}}},
+    {PDG_ID_D1p_0 , {{PDG_ID_Dst, d1pDst} , {PDG_ID_Dst0, d1pDst0}}},
+    {PDG_ID_D2st_0, {{PDG_ID_D0 , d2stD0} , {PDG_ID_Dst , d2stDst} , {PDG_ID_Dst0, d2stDst0}, {PDG_ID_D0st, d2stDst}, {PDG_ID_D0st_0, d2stDst0}}},
+    {PDG_ID_D0st  , {{PDG_ID_D0 , d0stD0}}},
+    {PDG_ID_D1    , {{PDG_ID_Dst, d1Dst}  , {PDG_ID_Dst0, d1Dst0}, {PDG_ID_D0st, d1Dst}, {PDG_ID_D0st_0, d1Dst0}}},
+    {PDG_ID_D1p   , {{PDG_ID_Dst, d1pDst} , {PDG_ID_Dst0, d1pDst0}}},
+    {PDG_ID_D2st  , {{PDG_ID_D0 , d2stD0} , {PDG_ID_Dst , d2stDst} , {PDG_ID_Dst0, d2stDst0}, {PDG_ID_D0st, d2stDst}, {PDG_ID_D0st_0, d2stDst0}}},
+    {PDG_ID_D1p_s , {{PDG_ID_Dst, d1psDst}, {PDG_ID_Dst0, d1psDst0}}},
+    {PDG_ID_D2st_s, {{PDG_ID_D0 , d2stsD0}, {PDG_ID_Dst , d2stsDst}, {PDG_ID_Dst0, d2stsDst0}}}
+  };
   // need a new map for D**H, otherwise some keys will be re-used
   map<int, int> pdg_to_code_higher{{PDG_ID_Dst2S_0, dst2S},  {PDG_ID_D2S_0, d2S},
                                    {FAKE_ID_D2750_0, d2750}, {FAKE_ID_D3000_0, d3000},
@@ -172,13 +194,13 @@ class TruthMatch {
   virtual bool B_BKGCAT_OKAY() { // differs D0/D* samples; TODO should implement this func
     return false;                // for D* sample too
   }
-  void DSTST_COCKTAIL_ADDED(int dstst_id) {  // same between D0/D* samples
+  void DSTST_COCKTAIL_ADDED(int dstst_id, int dstst_decay) {  // same between D0/D* samples
     // nominally add species info for D**, Ds**, not done for D**H unless
     // specified otherwise
     if ((!dstst_higher && b_expect_id != PDG_ID_Bs &&
          !debug_dstst_all_cocktail) ||
          (b_expect_id == PDG_ID_Bs && !debug_dstst_s_all_cocktail)) {
-      added += pdg_to_code[dstst_id];
+      added += pdg_to_code[dstst_id][dstst_decay];
     }
     if (dstst_higher && debug_dstst_higher_separate_cocktail) {
       added += pdg_to_code_higher[dstst_id];
@@ -312,7 +334,7 @@ class DstTruthMatch : public TruthMatch {
     bool dst_mom_id_ok = false;
     if (DSTST_OKAY(dst_mom_id)) {
       dst_mom_id_ok = true;
-      DSTST_COCKTAIL_ADDED(dst_mom_id);
+      DSTST_COCKTAIL_ADDED(dst_mom_id, PDG_ID_Dst);
       if (!TWO_PI())
         assert(!VEC_OR_EQ(
             d0st_d0st0,
@@ -753,7 +775,24 @@ class D0TruthMatch : public TruthMatch {
     bool b_and_dstst_id_ok = false;
     if (DSTST_OKAY(Dststtype) && Btype == b_expect_id) {
       b_and_dstst_id_ok = true;
-      DSTST_COCKTAIL_ADDED(Dststtype);
+      int dstst_decay = 0;
+      if (d_mom_id == PDG_ID_Dst || d_mom_id == PDG_ID_Dst0){
+        // D** -> D* -> D0
+        dstst_decay = d_mom_id;
+      } else if ((d_gdmom_id == PDG_ID_D1_0 || d_gdmom_id == PDG_ID_D1) &&
+                 (d_mom_id == PDG_ID_D0st_0 || d_mom_id == PDG_ID_D0st)) {
+        // D_1 -> D_0* -> D0
+        dstst_decay = d_mom_id;
+      } else if ((d_gdmom_id == PDG_ID_D2st_0 || d_gdmom_id == PDG_ID_D2st) &&
+                 (d_mom_id == PDG_ID_D0st_0 || d_mom_id == PDG_ID_D0st)) {
+        // D_2* -> D_0* -> D0
+        // Adding a case for this just in case this is interesting for emulating D**H tau decays
+        dstst_decay = d_mom_id;
+      } else {
+        // D** -> D0
+        dstst_decay = PDG_ID_D0;
+      }
+      DSTST_COCKTAIL_ADDED(Dststtype, dstst_decay);
       // TODO as done for D* truthmatching above, should check there are no
       // unallowed D** decays with an assert statement
     }

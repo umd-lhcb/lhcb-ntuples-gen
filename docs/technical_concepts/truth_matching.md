@@ -137,57 +137,72 @@ where
     - `0` if normalization(-like) (i.e. without $\tau$)
     - `1` if signal(-like)
 
-2. `c1c2` are two digits referring to the "primary" $D$ meson (ie. coming from the $B$). For $DD$
-    decays, this is ambiguous, so `c1c2=00`. For non-$DD$ decays, `c1c2=`:
-    - `01` for $D^0$,
-        `02` for $D^+$,
-        `03` for $D^{*0}$,
-        `04` for $D^{*+}$
+2. `c1c2` are two digits referring to the "primary" $D$ meson (ie. coming from the $B$).
+   For $DD$ decays, this is ambiguous, so `c1c2=00`. For non-$DD$ decays, `c1c2=`:
+    - `01` for $D^0$
+
+    - `02` for $D^+$
+
+    - `03` for $D^{*0}$
+
+    - `04` for $D^{*+}$
 
     - `10` for all (light) $D^{**0}$
         (i.e. cocktail not separated, but it's required that the specific
         $D^{**}$ is possible [included in the dec file] for the considered decay), or if separated:
-        `11` for $D_0^{*0}$,
-        `12` for $D_1^0$,
-        `13` for $D_1'^0$,
-        `14` for $D_2^{*0}$
+        - `11` for $D_0^{*0} \to D^0 \pi^0$,
+        - `12` for $D_1^0 \to D^{*+} \pi^-$,
+        - `13` for $D_1^0 \to D^{*0} \pi^0$,
+        - `14` for $D_1'^0 \to D^{*+} \pi^-$,
+        - `15` for $D_1'^0 \to D^{*0} \pi^0$,
+        - `16` for $D_2^{*0} \to D^{*+} \pi^-$,
+        - `17` for $D_2^{*0} \to D^{*0} \pi^0$,
+        - `18` for $D_2^{*0} \to D^0 \pi^0$.
 
     - `20` for all (light) $D^{**+}$, or if separated:
-        `21` for $D_0^{*+}$,
-        `22` for $D_1^+$,
-        `23` for $D_1'^+$,
-        `24` for $D_2^{*+}$
+        - `21` for $D_0^{*+} \to D^0 \pi^+$,
+        - `22` for $D_1^+ \to D^{*+} \pi^0$,
+        - `23` for $D_1^+ \to D^{*0} \pi^+$,
+        - `24` for $D_1'^+ \to D^{*+} \pi^0$,
+        - `25` for $D_1'^+ \to D^{*0} \pi^+$,
+        - `26` for $D_2^{*+} \to D^{*+} \pi^0$,
+        - `27` for $D_2^{*+} \to D^{*0} \pi^+$,
+        - `28` for $D_2^{*+} \to D^0 \pi^+$.
 
     - `30` for all heavy $D^{**0}_H$
-        (again, internally required that the decay is possible), or if separated:
-        `31` for $D(2S)^{0}$,
-        `32` for $D(2S)^{*0}$,
-        `33` for $D(2750)^0$,
-        `34` for $D(3000)^0$,
-        if the $D^{**0}_H$ decay produces any charged pion, or
-        `35` for $D(2S)^{0}$,
-        `36` for $D(2S)^{*0}$,
-        `37` for $D(2750)^0$,
-        `38` for $D(3000)^0$,
-        if it produces no charged pions.
+        (again, internally required that the decay is possible), or the following codes, if separated.
+        If the $D^{**0}_H$ decay produces any charged pion:
+        - `31` for $D(2S)^{0}$ (or $D(2580)^0$ in rdx-run2-analysis),
+        - `32` for $D(2S)^{*0}$ (or $D(2640)^0$ in rdx-run2-analysis),
+        - `33` for $D(2750)^0$ (or $D(2737)^0$ in rdx-run2-analysis),
+        - `34` for $D(3000)^0$ (or $D(2978)^0$ in rdx-run2-analysis).
 
-    - `40` for all heavy $D^{**+}_H$, or if separated:
-        `41` for $D(2S)^{+}$,
-        `42` for $D(2S)^{*+}$,
-        `43` for $D(2750)^+$,
-        `44` for $D(3000)^+$,
-        if the $D^{**+}_H$ produces any charged pion, or
-        `45` for $D(2S)^{+}$,
-        `46` for $D(2S)^{*+}$,
-        `47` for $D(2750)^+$,
-        `48` for $D(3000)^+$,
-        if it produces no charged pions.
+        And if it produces no charged pions:
+        - `35` for $D(2S)^{0}$,
+        - `36` for $D(2S)^{*0}$,
+        - `37` for $D(2750)^0$,
+        - `38` for $D(3000)^0$.
+
+    - `40` for all heavy $D^{**+}_H$, or the following codes, if separated.
+        If the $D^{**+}_H$ decay produces any charged pion:
+        - `41` for $D(2S)^{+}$ (or $D(2580)^+$ in rdx-run2-analysis),
+        - `42` for $D(2S)^{*+}$ (or $D(2640)^+$ in rdx-run2-analysis),
+        - `43` for $D(2750)^+$ (or $D(2737)^+$ in rdx-run2-analysis),
+        - `44` for $D(3000)^+$ (or $D(2978)^+$ in rdx-run2-analysis).
+
+        And if it produces no charged pions:
+        - `45` for $D(2S)^{+}$,
+        - `46` for $D(2S)^{*+}$,
+        - `47` for $D(2750)^+$,
+        - `48` for $D(3000)^+$.
 
     - `50` for all strange $D^{**}_s$
         (again, internally require the $D^{**}_s$ is possible), or if separated:
-        `53` for $D_{1s}'$,
-        `54` for $D_{2s}^*$
-        (numbering is chosen to keep consistent with $D^{**}$ scheme; there aren't any "$D_{0s}^*, D_{1s}$")
+        - `51` for $D'^{+}_{s1} \to D^{*+} K^0$,
+        - `52` for $D'^{+}_{s1} \to D^{*0} K^+$,
+        - `53` for $D^{*+}_{s2} \to D^{*+} K^0$,
+        - `54` for $D^{*+}_{s2} \to D^{*0} K^+$,
+        - `55` for $D^{*+}_{s2} \to D^0 K^+$.
 
 3. `b1b2` are used to (partially, at least for now) separate `DD` cocktails, equal to
     - `01` for a 2-body $B\rightarrow D^{(*)}D^{(*)}$, `02` for a 2-body $B\rightarrow D^{(*)(**)}D^{(*)(**)}_s$
@@ -206,12 +221,12 @@ where
 
 > [!TIP]
 > Here are some examples:
-> - $B^0 \rightarrow D^* \mu\nu$ will be encoded as `000041`
-> - $B^- \rightarrow D^{*0} \mu\nu$ as `000031`
-> - $B^0 \rightarrow D^0 \tau\nu$ as `000011`
-> - $B^0 \rightarrow D_1' \tau\nu$ (no $2\pi$) as `000231`
-> - $B^+ \rightarrow D_2^*(\rightarrow D^*\pi\pi)\mu\nu$ as `500140`
-> - $B^0 \rightarrow D^{**}_H(\rightarrow D\pi\pi)\mu\nu$ as `400400`
+> - $\overline{B}^0 \rightarrow D^{*+} \mu\nu$ will be encoded as `000040`
+> - $B^- \rightarrow D^{*0} \mu\nu$ as `000030`
+> - $B^- \rightarrow D^0 \tau\nu$ as `000011`
+> - $\overline{B}^0 \rightarrow D'^+_1 (\rightarrow D^{*+} \pi^0) \tau\nu$ as `000241`
+> - $B^- \rightarrow D_1^0 (\rightarrow D^{*+}_0 (\rightarrow D^0 \pi^+) \pi^-) \mu\nu$ as `500120`
+> - $\overline{B}^0 \rightarrow D(2978)^{+} (\rightarrow D^0 \pi^{+}\pi^{0}) \mu\nu$ as `400440`
 > - $B^0 \rightarrow D^{*+}D^-(\rightarrow \mu\nu X)$ as `101000`
 > - $B^0 \rightarrow D^{*+}D_s(\rightarrow \tau\nu)$ as `102001`
 > - $B^0 \rightarrow D^{0}D^{*-}(\rightarrow \mu\nu X)K^+$ as `110000`
