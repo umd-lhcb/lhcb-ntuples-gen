@@ -18,7 +18,7 @@ SPEC_YML = BASE_PATH + '/../rdx-run2-analysis-v2/fit/spec/histos.yml'
 
 
 def parseInput():
-    parser = ArgumentParser(description='Move step1 ntuples to folders.')
+    parser = ArgumentParser(description='Move step2 ntuples to rdx-run2-analysis-v2 folders.')
 
     parser.add_argument(
         'inFolder',
@@ -55,7 +55,7 @@ def pdfFromMCID(mcID, spec):
         '11874440': 'DststTau',
         '12873450': 'Dstst0Mu',
         '12873460': 'Dstst0Tau'
-    }
+    } # TODO Do the same for D**
     for channel, pdfs in spec.items():
         for pdfName, pdf in pdfs.items():
             if mcID in str(pdf['file_filtering']):
