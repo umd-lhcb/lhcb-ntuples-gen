@@ -11,8 +11,9 @@ Type in a terminal
 ```shell
 git clone git@github.com:umd-lhcb/lhcb-ntuples-gen
 cd lhcb-ntuples-gen
-git remote add julian git@lhcb.physics.umd.edu:lhcb-ntuples-gen
+# git remote add julian git@lhcb.physics.umd.edu:lhcb-ntuples-gen
 git remote add glacier git@10.229.60.85:lhcb-ntuples-gen
+git remote add acadia git@acadia.physics.umd.edu:lhcb-ntuples-gen
 git annex init --version=7
 git submodule update --init  # Do this before git annex sync to avoid potential mess-up of submodule pointers!
 git annex sync
@@ -20,6 +21,12 @@ git annex sync
 nix develop  ## Can take an hour
 make install-dep
 make install-dep-pip ## To install packages needed for JpsiK reweighting, including zfit
+```
+
+If working on glacier/acadia, it's also best to not create copies of all our ntuples, so instead link to their locations already stored on the server (if they exist):
+```shell
+cd scripts
+python create_ntuple_<acadia/glacier>_links.py
 ```
 
 ## Generation of step-1 ntuples (DaVinci)
