@@ -153,6 +153,10 @@ if __name__ == "__main__":
             for i in binIdxes:
                 idx = histo.GetBin(*i)
 
+                if (histo.IsBinUnderflow(idx) or histo.IsBinOverflow(idx)):
+                    # Skip underflow and overflow bins as their contents are 0 +- 0 by definition and trigger false alarms
+                    continue
+
                 mean = histo.GetBinContent(idx)
                 std = histo.GetBinError(idx)
 
