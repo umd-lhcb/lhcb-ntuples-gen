@@ -6,12 +6,12 @@ SAMPLES=("K" "Pi" "P" "Mu_nopt" "e_B_Jpsi")
 
 declare -A CUTS
 CUTS[nnk_gt]="Brunel_MC15TuneV1_ProbNNk > 0.2"
-CUTS[nnknng_gtlt]="Brunel_MC15TuneV1_ProbNNk > 0.2 & Brunel_MC15TuneV1_ProbNNghost < 0.3"
-CUTS[nnknng_ltlt]="Brunel_MC15TuneV1_ProbNNk < 0.2 & Brunel_MC15TuneV1_ProbNNghost < 0.3"
-CUTS[nnknng_gt02lt02]="Brunel_MC15TuneV1_ProbNNk > 0.2 & Brunel_MC15TuneV1_ProbNNghost < 0.2"
-CUTS[nnknng_lt02lt02]="Brunel_MC15TuneV1_ProbNNk < 0.2 & Brunel_MC15TuneV1_ProbNNghost < 0.2"
+# CUTS[nnknng_gtlt]="Brunel_MC15TuneV1_ProbNNk > 0.2 & Brunel_MC15TuneV1_ProbNNghost < 0.3"
+# CUTS[nnknng_ltlt]="Brunel_MC15TuneV1_ProbNNk < 0.2 & Brunel_MC15TuneV1_ProbNNghost < 0.3"
+# CUTS[nnknng_gt02lt02]="Brunel_MC15TuneV1_ProbNNk > 0.2 & Brunel_MC15TuneV1_ProbNNghost < 0.2"
+# CUTS[nnknng_lt02lt02]="Brunel_MC15TuneV1_ProbNNk < 0.2 & Brunel_MC15TuneV1_ProbNNghost < 0.2"
 CUTS[nnp_gt]="Brunel_MC15TuneV1_ProbNNp > 0.4"
-CUTS[nnpnng_gtlt]="Brunel_MC15TuneV1_ProbNNp > 0.4 & Brunel_MC15TuneV1_ProbNNghost < 0.3"
+# CUTS[nnpnng_gtlt]="Brunel_MC15TuneV1_ProbNNp > 0.4 & Brunel_MC15TuneV1_ProbNNghost < 0.3"
 
 declare -A POLARITY
 POLARITY[up]="mu"
@@ -31,10 +31,12 @@ NTRACKS_ALIAS[P]="nTracks_Brunel"
 NTRACKS_ALIAS[Mu_nopt]="nTracks_Brunel"
 NTRACKS_ALIAS[e_B_Jpsi]="nTracks"
 
-rm -rf pidcalib_iso
+if [ -d "pidcalib_iso" ]; then
+    rm -r pidcalib_iso
+fi
 
-for year in 16 17 18; do
-    for polarity in "up" "down"; do
+for year in 16; do
+    for polarity in "down" "up"; do
         for part in "${SAMPLES[@]}"; do
             for name in "${!CUTS[@]}"; do
                 folder_name="pidcalib_iso/run2-rdx-20${year}-${POLARITY[${polarity}]}-${part}_${name}-p_eta_ntracks"
@@ -44,14 +46,16 @@ for year in 16 17 18; do
                     --sample "${PREFIX[${part}]}${year}" --magnet ${polarity} \
                     --particle ${part} --pid-cut "${CUTS[${name}]}" \
                     --bin-var Brunel_P --bin-var Brunel_ETA --bin-var "${NTRACKS_ALIAS[${part}]}" \
-                    --binning-file ./binning.json
+                    --binning-file ./binning_iso.json
             done
         done
     done
 done
 
 # now rename the pkls
-rm -rf pkl-run2-rdx_iso
+if [ -d "pkl-run2-rdx_iso" ]; then
+    rm -r pkl-run2-rdx_iso
+fi
 mkdir -p pkl-run2-rdx_iso
 
 for pkl in ./pidcalib_iso/*/*.pkl; do
@@ -59,3 +63,27 @@ for pkl in ./pidcalib_iso/*/*.pkl; do
     echo "Renaming $pkl to pkl-run2-rdx_iso/${new_name}..."
     cp ${pkl} pkl-run2-rdx_iso/${new_name}
 done
+
+rm -r pidcalib_iso
+
+# Convert pkls to root
+for pkl in ./pkl-run2-rdx_iso/*.pkl; do
+    echo "Converting $pkl to root..."
+    lb-conda pidcalib pidcalib2.pklhisto2root "${pkl}"
+done
+
+# Move root files to separate directory
+if [ -d "root-run2-rdx_iso-tmp" ]; then
+    rm -r root-run2-rdx_iso-tmp
+fi
+mkdir -p root-run2-rdx_iso-tmp
+
+mv ./pkl-run2-rdx_iso/*.root ./root-run2-rdx_iso-tmp/
+
+# Shift efficiencies
+if [ -d "root-run2-rdx_iso-shifted-tmp" ]; then
+    rm -r root-run2-rdx_iso-shifted-tmp
+fi
+mkdir -p root-run2-rdx_iso-shifted-tmp
+
+lb-conda pidcalib ../../../scripts/shift_histo_efficiencies.py ./root-run2-rdx_iso-tmp ./root-run2-rdx_iso-shifted-tmp
