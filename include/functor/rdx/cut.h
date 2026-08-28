@@ -786,11 +786,41 @@ Bool_t TRACKS_CHI2NDOF_OK_DST(Double_t mu_chi2ndof, Double_t k_chi2ndof,
 }
 
 // Potential option for applying trig emu: apply as a cut, with prob to pass the cut given by the trigger weight
+Bool_t TRIG_EMU_CUT(Double_t wtrg, Int_t salt, Long_t eventNumber, Int_t runNumber) {// salt is just prime number, different for different triggers
+  // if (wtrg>1 || wtrg<0) assert(false); // safety -- fails on a few cases because of TIS correction, but this is fine, just ignore it
+  // if (gRandom->Uniform() < wtrg) return true;
+  // return false;
+  // Best to do this in deterministic way: checked separately that function below produces random (tested by NIST RNG suite, at least for the TIS and TOS alone...) floats that follow uniform distribution U(0,1)
+  Long64_t eventMult = 0;
+  Long64_t runMult   = 0;
+  Long64_t mod       = 0;
 
-Bool_t TRIG_EMU_CUT(Double_t wtrg) {
-  if (wtrg>1 || wtrg<0) assert(false); // safety
-  if (gRandom->Uniform() < wtrg) return true;
-  return false;
+  if (salt == 17) {
+    // L0 global TIS
+    eventMult = 48271;
+    runMult   = 8191;
+    mod       = 1000003;
+  } else if (salt == 53) {
+    // L0 hadron TOS
+    eventMult = 69621;
+    runMult   = 31337;
+    mod       = 1000033;
+  } else if (salt == 101) {
+    // L0 hadron TOS OR L0 global TIS
+    eventMult = 104729;
+    runMult   = 65537;
+    mod       = 1000037;
+  } else if (salt == 151) {
+    // L0 hadron TOS AND L0 global TIS
+    eventMult = 130363;
+    runMult   = 98317;
+    mod       = 1000081;
+  } else {
+    return false;
+  }
+
+  double randUnif = (static_cast<double>((eventNumber * eventMult + runNumber * runMult + salt) % mod) / mod);
+  return randUnif < wtrg;
 }
 
 // Partially account for TupleToolApplyIsolation bug affecting 4th/5th iso tracks: ensure tracks are ordered least->most isolated
