@@ -6,12 +6,12 @@ SAMPLES=("K" "Pi" "P" "Mu_nopt" "e_B_Jpsi")
 
 declare -A CUTS
 CUTS[nnk_gt]="Brunel_MC15TuneV1_ProbNNk > 0.2"
-# CUTS[nnknng_gtlt]="Brunel_MC15TuneV1_ProbNNk > 0.2 & Brunel_MC15TuneV1_ProbNNghost < 0.3"
-# CUTS[nnknng_ltlt]="Brunel_MC15TuneV1_ProbNNk < 0.2 & Brunel_MC15TuneV1_ProbNNghost < 0.3"
-# CUTS[nnknng_gt02lt02]="Brunel_MC15TuneV1_ProbNNk > 0.2 & Brunel_MC15TuneV1_ProbNNghost < 0.2"
-# CUTS[nnknng_lt02lt02]="Brunel_MC15TuneV1_ProbNNk < 0.2 & Brunel_MC15TuneV1_ProbNNghost < 0.2"
+CUTS[nnknng_gtlt]="Brunel_MC15TuneV1_ProbNNk > 0.2 & Brunel_MC15TuneV1_ProbNNghost < 0.3"
+CUTS[nnknng_ltlt]="Brunel_MC15TuneV1_ProbNNk < 0.2 & Brunel_MC15TuneV1_ProbNNghost < 0.3"
+CUTS[nnknng_gt02lt02]="Brunel_MC15TuneV1_ProbNNk > 0.2 & Brunel_MC15TuneV1_ProbNNghost < 0.2"
+CUTS[nnknng_lt02lt02]="Brunel_MC15TuneV1_ProbNNk < 0.2 & Brunel_MC15TuneV1_ProbNNghost < 0.2"
 CUTS[nnp_gt]="Brunel_MC15TuneV1_ProbNNp > 0.4"
-# CUTS[nnpnng_gtlt]="Brunel_MC15TuneV1_ProbNNp > 0.4 & Brunel_MC15TuneV1_ProbNNghost < 0.3"
+CUTS[nnpnng_gtlt]="Brunel_MC15TuneV1_ProbNNp > 0.4 & Brunel_MC15TuneV1_ProbNNghost < 0.3"
 
 declare -A POLARITY
 POLARITY[up]="mu"
@@ -35,7 +35,7 @@ if [ -d "pidcalib_iso" ]; then
     rm -r pidcalib_iso
 fi
 
-for year in 16; do
+for year in 16 17 18; do
     for polarity in "down" "up"; do
         for part in "${SAMPLES[@]}"; do
             for name in "${!CUTS[@]}"; do
