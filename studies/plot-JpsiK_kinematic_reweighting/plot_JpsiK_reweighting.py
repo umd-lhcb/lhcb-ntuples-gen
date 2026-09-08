@@ -18,24 +18,35 @@ from pyTuplingUtils.plot import (
 #################
 
 mcNtps = [
-    '../../ntuples/0.9.6-2016_production/JpsiK-mc-step2/JpsiK--22_10_24--mc--12143001--2016--md.root:tree',
-    '../../ntuples/0.9.6-2016_production/JpsiK-mc-step2/JpsiK--22_10_24--mc--12143001--2016--mu.root:tree',
+    '../../ntuples/0.9.18-JpsiK-L0DiMuon/JpsiK-mc/step2/JpsiK--26_09_04--mc--12143001--2016--md.root:tree',
+    '../../ntuples/0.9.18-JpsiK-L0DiMuon/JpsiK-mc/step2/JpsiK--26_09_04--mc--12143001--2016--mu.root:tree',
 ]
 
-dataNtps = '../../run2-JpsiK/fit/fit_results/JpsiK-22_02_26_23_52-std-fit-2016/fit.root:tree'
+dataNtps = '../../run2-JpsiK/fit/fit_results/JpsiK-26_09_08_11_26-std-fit-2016-L0DiMuonCut/fit.root:tree'
 
 
 #########
 # Plots #
 #########
 
-varsToComp = ['b_ownpv_ndof', 'ntracks', 'b_pt', 'b_eta']
+varsToComp = ['b_ownpv_ndof', 'ntracks', 'b_pt', 'b_eta',
+              'b_p', 'k_p', 'k_eta', 'k_pt', 'mu_p', 'mu_eta',
+              'mu_pt', 'amu_p', 'amu_eta', 'amu_pt', 'j_mm',
+              'nspdhits', 'pt_prod_sqrt']
 weightBrs = ['wpid', 'wtrk', 'w', 'wjk_kin', 'wjk_occ']
 sweightBrs = ['sw_sig']
 
-varsLabels = [r'$B$ PV NDOF', r'nTracks', r'$B$ $p_T$ [MeV]', r'$B$ $\eta$']
-dataRanges = [[1, 250], [0, 450], [0, 30e3], [2, 6]]
-binnings = [20, 20, 20, 9]
+varsLabels = [r'$B$ PV NDOF', r'nTracks', r'$B$ $p_T$ [MeV]', r'$B$ $\eta$', r'$B$ $p$ [MeV]',
+              r'$K$ $p$ [MeV]', r'$K$ $\eta$', r'$K$ $p_T$ [MeV]',
+              r'$\mu^-$ $p$ [MeV]', r'$\mu^-$ $\eta$', r'$\mu^-$ $p_T$ [MeV]',
+              r'$\mu^+$ $p$ [MeV]', r'$\mu^+$ $\eta$', r'$\mu^+$ $p_T$ [MeV]',
+              r'$m(J/\psi)$ [MeV]', r'nSPDHits', r'pt_prod_sqrt [MeV]']
+dataRanges = [[0, 250], [0, 450], [0, 30e3], [2, 6], [0, 400e3],
+              [0, 100e3], [1.5, 5.5], [0, 15e3], [0, 100e3],
+              [1.5, 5.5], [0, 15e3], [0, 100e3], [1.5, 5.5],
+              [0, 15e3], [3050, 3150], [0, 950], [0, 10000]]
+binnings = [125, 90, 80, 80, 100, 100, 100,  75, 100,
+            100, 75, 100, 100, 75, 100, 95, 100]
 
 dataBrs = uproot.concatenate(dataNtps, varsToComp + sweightBrs, library='np')
 mcBrs = uproot.concatenate(mcNtps, varsToComp + weightBrs, library='np')

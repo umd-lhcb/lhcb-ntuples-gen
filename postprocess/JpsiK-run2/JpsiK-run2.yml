@@ -19,6 +19,7 @@ rename:
     b_L0Global_TIS: b_l0_global_tis
     b_L0MuonDecision_TOS: b_l0_muon_tos
     b_L0DiMuonDecision_TOS: b_l0_dimuon_tos
+    j_L0DiMuonDecision_TOS: j_l0_dimuon_tos
     # HLT1
     b_Hlt1TwoTrackMVADecision_TOS: b_hlt1_twotrackmva_tos
     b_Hlt1TrackMVADecision_TOS: b_hlt1_trackmva_tos
@@ -108,13 +109,15 @@ calculation:
     # Selection flags, basic #
     ##########################
     # Trigger
-    l0_mu_tos: bool; b_l0_muon_tos
-    l0_mu_tos_pt: bool; L0MUPT(mu_pt, mu_L0MuonDecision_TOS, amu_pt, amu_L0MuonDecision_TOS)
-    l0: bool; l0_mu_tos_pt || b_l0_global_tis
+    # l0_mu_tos: bool; b_l0_muon_tos
+    # l0_mu_tos_pt: bool; L0MUPT(mu_pt, mu_L0MuonDecision_TOS, amu_pt, amu_L0MuonDecision_TOS)
+    # l0: bool; l0_mu_tos_pt || b_l0_global_tis
+    l0: bool; j_l0_dimuon_tos && (amu_pt * mu_pt > 2.35e6) # This can be reduced for 2017 and 2018 (same as 2017);
+                                                           # See Table 1 of https://iopscience.iop.org/article/10.1088/1748-0221/14/04/P04013
     hlt1: bool; b_hlt1_trackmu_tos
     hlt2: bool; b_hlt2_dimuon_heavy_tos
-    nspd_ok: bool; nspdhits < 450 # L0 DiMuon has nspd cut at 900, whereas all other lines have it at 450; this cut mostly removes
-                                  # inconsistency due to underlying occupancy distributions when combining Global TIS + Muon TOS samples
+    # nspd_ok: bool; nspdhits < 450 # L0 DiMuon has nspd cut at 900, whereas all other lines have it at 450; this cut mostly removes
+    #                               # inconsistency due to underlying occupancy distributions when combining Global TIS + Muon TOS samples
 
     # Kinematic
     pt_ok: bool; mu_pt > 500.0 && amu_pt > 500.0 && k_pt > 500.0
@@ -147,7 +150,7 @@ calculation:
 
 global_selection:
     - l0 && hlt1 && hlt2 # comment out if producing trigger-less sample for real L0 Global TIS measurements!
-    - nspd_ok && pt_ok && b_mass_ok && j_mass_ok
+    - pt_ok && b_mass_ok && j_mass_ok
     - vtx_ok
     - pid_ok  # This is set to be always true for MC
     - truthmatch

@@ -19,9 +19,9 @@ def parseInput():
         description='Find reweighting for B kinematics from B -> J/Psi K.'
     )
 
-    parser.add_argument('-d', '--dataFolder', default='../ntuples/0.9.13-JpsiK_and_Dstlnu_fullsim_for_L0emu_initrwgt/JpsiK-data/step2/',
+    parser.add_argument('-d', '--dataFolder', default='../ntuples/0.9.18-JpsiK-L0DiMuon/JpsiK-data/step2/',
                         help='Folder with data ntuples.')
-    parser.add_argument('-m', '--mcFolder', default='../ntuples/0.9.13-JpsiK_and_Dstlnu_fullsim_for_L0emu_initrwgt/JpsiK-mc/step2/',
+    parser.add_argument('-m', '--mcFolder', default='../ntuples/0.9.18-JpsiK-L0DiMuon/JpsiK-mc/step2/',
                         help='Folder with MC ntuples.')
     parser.add_argument('-o', '--outFolder', default='gen/',
                         help='Folder for output files.')
@@ -66,11 +66,11 @@ def runCmd(cmd):
 
 if __name__ == '__main__':
     args = parseInput()
-    
+
     ## Executables
     fitExe    = './fit/fit_and_sweight.py'
     weightExe = './fit/gen_weights.py'
-    
+
     for year in ['2016', '2017', '2018']:
         ## Running fit
         print(f'\nWORKING ON {year}\n')
@@ -94,5 +94,3 @@ if __name__ == '__main__':
         weightFolder = 'reweight/JpsiK/root-run2-JpsiK/'
         mdFile = f'run2-JpsiK-{year}-md-B-ndof_ntracks__pt_eta.root'
         print('\n'+cTerm(f' cp -f {weightFile} {weightFolder}{mdFile}','green')+'\n')
-   
-    
