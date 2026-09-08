@@ -61,3 +61,10 @@ cp gen/run2-JpsiK-*-md-B-ndof_ntracks__pt_eta.root ../run2-rdx/reweight/JpsiK/ro
 With these files in place, the step 2 ntuples can be regenerated with the new `wjk` weights (as
 described above for `JpsiK`).
 The reprocessing of JpsiK with the new wjk is needed to produce validation plots with `studies/plot-JpsiK_kinematic_reweighting/plot_JpsiK_reweighting.py`.
+
+## Correcting nSPDHits distribution in RDx FullSim
+
+The correlation between nSPDHits and nTracks in simulation is used in the L0 TOS trigger emulation as nTracks becomes a proxy for nSPDHits.
+However, SPD activity is known to be underestimated in simulation.
+Here, we assume the missing activity in SPD can be modelled by a Poisson distribution with a parameter that scales linearly with the MC nSPDHits variable.
+The slope and offset of this distribution are determined running `make fit-nspd-2016` and will be saved in a YMAL file in `gen/JpsiK-<time_stamp>-fit-nspd-2016`.

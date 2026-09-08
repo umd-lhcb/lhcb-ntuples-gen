@@ -35,3 +35,13 @@ gen-weights-2016:
 			"../ntuples/0.9.9-JpsiK_noPID/JpsiK-mc-step2/JpsiK--24_04_03--mc--12143001--2016--md.root" \
 			"../ntuples/0.9.9-JpsiK_noPID/JpsiK-mc-step2/JpsiK--24_04_03--mc--12143001--2016--mu.root" \
 		-o ./gen/run2-JpsiK-2016-md-B-ndof_ntracks__pt_eta.root
+
+.PHONY: fit-nspd-2016
+fit-nspd-2016:
+	$(eval TIME_STAMP	:=	$(shell date +"%y_%m_%d_%H_%M"))
+	$(eval OUT_DIR	:=	gen/JpsiK-$(TIME_STAMP)-fit-nspd-2016)
+	@mkdir -p $(OUT_DIR)
+	./fit/fit_nspd.py -d fit/fit_results/JpsiK-26_09_08_11_26-std-fit-2016-L0DiMuonCut/fit.root -m \
+	../ntuples/0.9.18-JpsiK-L0DiMuon/JpsiK-mc/step2/JpsiK--26_09_04--mc--12143001--2016--md.root \
+	../ntuples/0.9.18-JpsiK-L0DiMuon/JpsiK-mc/step2/JpsiK--26_09_04--mc--12143001--2016--mu.root \
+	-o $(OUT_DIR) 2>&1 | tee $(OUT_DIR)/fit_nspd_2016.log
