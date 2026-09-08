@@ -100,9 +100,12 @@
             export TF_CPP_MIN_LOG_LEVEL=2
             export ZFIT_DISABLE_TF_WARNINGS=1
 
-            # matplotlib gloabl config
+            # matplotlib global config
             export MPLBACKEND=agg  # the backend w/o a UI
             export MPLCONFIGDIR=$(pwd)/.matplotlib
+
+            # Needed for TensorFlow in JpsiK
+            export LD_LIBRARY_PATH=$STUB_LD_LIBRARY_PATH:$LD_LIBRARY_PATH
           '';
         };
       });

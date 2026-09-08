@@ -465,20 +465,18 @@ calculation:
     b_p: double; GEV(b_P); GEV(b0_P)
     b_pt: double; GEV(b_PT); GEV(b0_PT)
     b_eta: double; ETA(b_P, b_PZ); ETA(b0_P, b0_PZ)
-    # True momenta for L0 lookup and vertex smearing
-    # b_true_pt: double; GEV(b_TRUEPT); GEV(b0_TRUEPT)
-    b_true_px: double; GEV(b_TRUEP_X); GEV(b0_TRUEP_X)
-    b_true_py: double; GEV(b_TRUEP_Y); GEV(b0_TRUEP_Y)
-    b_true_pz: double; GEV(b_TRUEP_Z); GEV(b0_TRUEP_Z)
-    b_true_e: double; GEV(b_TRUEP_E); GEV(b0_TRUEP_E)
-    vtx_theta: >-
-        double;
-        VTX_THETA(b_ENDVERTEX_X, b_OWNPV_X, b_ENDVERTEX_Y, b_OWNPV_Y, b_ENDVERTEX_Z, b_OWNPV_Z);
-        VTX_THETA(b0_ENDVERTEX_X, b0_OWNPV_X, b0_ENDVERTEX_Y, b0_OWNPV_Y, b0_ENDVERTEX_Z, b0_OWNPV_Z)
+    b_px: double; GEV(b_PX); GEV(b0_PX)
+    b_py: double; GEV(b_PY); GEV(b0_PY)
+    b_pz: double; GEV(b_PZ); GEV(b0_PZ)
+    b_e: double; GEV(b_PE); GEV(b0_PE)
     # D*
     dst_d0_deltam: double; dst_M - d0_M
     dst_m: double; dst_M
     dst_p: double; GEV(dst_P)
+    dst_px: double; GEV(dst_PX)
+    dst_py: double; GEV(dst_PY)
+    dst_pz: double; GEV(dst_PZ)
+    dst_e: double; GEV(dst_PE)
     dst_pt: double; GEV(dst_PT)
     #dst_iso_invm: double; GEV(MINV(b0_ISOLATION_PX, b0_ISOLATION_PY, b0_ISOLATION_PZ, b0_ISOLATION_PE, dst_PX, dst_PY, dst_PZ, dst_PE))
     dst_iso_deltam: double; GEV(ISO_DELTAM(b0_ISOLATION_PX, b0_ISOLATION_PY, b0_ISOLATION_PZ, b0_ISOLATION_PE, dst_PX, dst_PY, dst_PZ, dst_PE, dst_M))
@@ -488,7 +486,7 @@ calculation:
     d0_px: double; GEV(d0_PX)
     d0_py: double; GEV(d0_PY)
     d0_pz: double; GEV(d0_PZ)
-    d0_pe: double; GEV(d0_PE)
+    d0_e: double; GEV(d0_PE)
     d0_pt: double; GEV(d0_PT)
     d0_dst_veto_deltam: double; MIN(ABS(b_ISOLATION_DstWindowDELTAM-145.454), ABS(b_ISOLATION_DstWindowDELTAM2-145.454))  # MeV!
     d0_dst_veto_deltam_stub: ^double; cli_no_dst_veto; d0_dst_veto_deltam; 100.0
@@ -498,7 +496,7 @@ calculation:
     k_px: double; GEV(k_PX)
     k_py: double; GEV(k_PY)
     k_pz: double; GEV(k_PZ)
-    k_pe: double; GEV(k_PE)
+    k_e: double; GEV(k_PE)
     k_pt: double; GEV(k_PT)
     k_eta: double; ETA(k_P, k_PZ)
     k_true_px: double; GEV(k_TRUEP_X)
@@ -510,7 +508,7 @@ calculation:
     pi_px: double; GEV(pi_PX)
     pi_py: double; GEV(pi_PY)
     pi_pz: double; GEV(pi_PZ)
-    pi_pe: double; GEV(pi_PE)
+    pi_e: double; GEV(pi_PE)
     pi_pt: double; GEV(pi_PT)
     pi_eta: double; ETA(pi_P, pi_PZ)
     pi_true_px: double; GEV(pi_TRUEP_X)
@@ -522,6 +520,7 @@ calculation:
     spi_px: double; GEV(spi_PX)
     spi_py: double; GEV(spi_PY)
     spi_pz: double; GEV(spi_PZ)
+    spi_e: double; GEV(spi_PE)
     spi_pt: double; GEV(spi_PT)
     spi_eta: double; ETA(spi_P, spi_PZ)
     spi_true_px: double; GEV(spi_TRUEP_X)
@@ -575,6 +574,18 @@ calculation:
     # Tracking variables #
     ######################
     # B/B0
+    # True momenta for L0 lookup and vertex smearing
+    # b_true_pt: double; GEV(b_TRUEPT); GEV(b0_TRUEPT)
+    vtx_theta: >-
+        double;
+        VTX_THETA(b_ENDVERTEX_X, b_OWNPV_X, b_ENDVERTEX_Y, b_OWNPV_Y, b_ENDVERTEX_Z, b_OWNPV_Z);
+        VTX_THETA(b0_ENDVERTEX_X, b0_OWNPV_X, b0_ENDVERTEX_Y, b0_OWNPV_Y, b0_ENDVERTEX_Z, b0_OWNPV_Z)
+    b_endvtx_x: double; b0_ENDVERTEX_X; b_ENDVERTEX_X
+    b_endvtx_y: double; b0_ENDVERTEX_Y; b_ENDVERTEX_Y
+    b_endvtx_z: double; b0_ENDVERTEX_Z; b_ENDVERTEX_Z
+    b_pv_x: double; b0_OWNPV_X; b_OWNPV_X
+    b_pv_y: double; b0_OWNPV_Y; b_OWNPV_Y
+    b_pv_z: double; b0_OWNPV_Z; b_OWNPV_Z
     b_endvtx_chi2ndof: double; b_ENDVERTEX_CHI2 / b_ENDVERTEX_NDOF; b0_ENDVERTEX_CHI2 / b0_ENDVERTEX_NDOF
     b_fd_trans: >-
         double;
@@ -704,6 +715,10 @@ calculation:
     #####################
     # MC true variables #
     #####################
+    b_true_px: double; GEV(b_TRUEP_X); GEV(b0_TRUEP_X)
+    b_true_py: double; GEV(b_TRUEP_Y); GEV(b0_TRUEP_Y)
+    b_true_pz: double; GEV(b_TRUEP_Z); GEV(b0_TRUEP_Z)
+    b_true_e: double; GEV(b_TRUEP_E); GEV(b0_TRUEP_E)
     # B daughters
     b_dau1_true_id: int; b0_TrueHadron_D0_ID; b_TrueHadron_D0_ID
     b_dau1_true_e: double; b0_TrueHadron_D0_PE; b_TrueHadron_D0_PE
@@ -849,6 +864,7 @@ calculation:
     # Selection flags, basic #
     ##########################
     run2ang: ^bool; IF_VAR_EXISTS(cli_run2ang, true); false
+    dst_reco: ^bool; IF_VAR_EXISTS(b0_M, true); false
     mcgen_ok: ^bool; (k_p+pi_p) > 15.0
     # Trigger
     # NOTE: For MC, L0 are applied as weight, and HLT2 is already applied at DV level
@@ -1727,15 +1743,23 @@ calculation:
     wpid_ubdt_veto: double; wpid_base*wpid_mu_ubdt_veto  # PID w/ UBDT veto
     ####
     l0_hadron_tos_emu: double; d0_l0_hadron_tos_emu
+    l0_hadron_tos_emu_rand: bool; TRIG_EMU_CUT(l0_hadron_tos_emu, 53, eventNumber, runNumber)
     l0_global_tis_emu: double; b0_l0_global_tis_emu; b_l0_global_tis_emu
+    l0_global_tis_emu_rand: bool; TRIG_EMU_CUT(l0_global_tis_emu, 17, eventNumber, runNumber)
     wtrg: float; l0_hadron_tos_emu + l0_global_tis_emu - l0_hadron_tos_emu*l0_global_tis_emu
+    trg_rand: bool; l0_hadron_tos_emu_rand || l0_global_tis_emu_rand
+    trg_rand_test_or: bool; TRIG_EMU_CUT(l0_hadron_tos_emu + l0_global_tis_emu - l0_hadron_tos_emu*l0_global_tis_emu, 101, eventNumber, runNumber)
+    trg_rand_test_and: bool; TRIG_EMU_CUT(l0_hadron_tos_emu*l0_global_tis_emu, 151, eventNumber, runNumber)
     wtrk: double; wtrk_k*wtrk_pi*wtrk_mu*wtrk_spi; wtrk_k*wtrk_pi*wtrk_mu
     wjk: double; wjk_kin*wjk_occ
     w_evtgen: double; W_EVTGEN_FIX(mc_id, truthmatch, GEV(b_D_dau_true_m))
 
     w_base: double; wtrg*wtrk*wjk*wbr_dd*w_missDstDK*w_missDstDspi # no PID cuts for the base weights
+    w_base_trgRand: double; trg_rand*wtrk*wjk*wbr_dd*w_missDstDK*w_missDstDspi
     w_w_ubdt: double; w_base*wpid_ubdt             # default PID cuts incl. UBDT
+    w_w_ubdt_trgRand: double; w_base_trgRand*wpid_ubdt
     w_w_ubdt_veto: double; w_base*wpid_ubdt_veto   # misID validation sample maybe
+    w_w_ubdt_veto_trgRand: double; w_base_trgRand*wpid_ubdt_veto
     wff: double; wff; 1.0                          # FF weight. default to 1
     w: double; w_w_ubdt*wff                        # form factor weights last
     # Skim weights, including the 'w'

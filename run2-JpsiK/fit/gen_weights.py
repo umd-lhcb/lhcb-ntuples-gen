@@ -43,7 +43,7 @@ class RwtRule:
 
 
 REWEIGHT_PROCEDURE = {
-    'h_occupancy': RwtRule(['b_ownpv_ndof', 'ntracks'], [20, 20], [[1, 250], [0, 450]]),
+    'h_occupancy': RwtRule(['b_ownpv_ndof', 'ntracks'], [15, 15], [[0, 255], [0, 450]]),
     'h_kinematic': RwtRule(['b_pt', 'b_eta'], [20, 9], [[0, 30e3], [2, 6]]),
 }
 

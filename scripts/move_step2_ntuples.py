@@ -54,7 +54,12 @@ def pdfFromMCID(mcID, spec):
         '11874430': 'DststMu',
         '11874440': 'DststTau',
         '12873450': 'Dstst0Mu',
-        '12873460': 'Dstst0Tau'
+        '12873460': 'Dstst0Tau',
+        '11674401': 'DststHMuD0',
+        '12675011': 'DststHMuD0',
+        '11676012': 'DststHMuDst',
+        '12675402': 'DststHMuDst',
+        '12875440': 'DststHMuDst0'
     } # TODO Do the same for D**
     for channel, pdfs in spec.items():
         for pdfName, pdf in pdfs.items():

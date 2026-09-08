@@ -88,12 +88,6 @@
         "python.defaultInterpreterPath": "/usr/bin/python3",
         "python.languageServer": "Pylance",
         "remote.downloadExtensionsLocally": true,
-        "restructuredtext.linter.disabledLinters": [
-            "doc8",
-            "rst-lint",
-            "rstcheck"
-        ],
-        "restructuredtext.linter.run": "off",
         "telemetry.enableCrashReporter": false,
         "window.title": "${dirty}${activeEditorShort}${separator}${rootPath}"
     }

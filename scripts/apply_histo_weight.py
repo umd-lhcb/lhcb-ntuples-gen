@@ -130,6 +130,7 @@ Double_t P(Double_t px, Double_t py, Double_t pz) {
 }
 
 Double_t ETA(Double_t p, Double_t pz) {
+  if (p == 0.0) return 0.0;
   return 0.5 * TMath::Log((p + pz) / (p - pz));
 }
 
@@ -156,29 +157,37 @@ Int_t GET_BIN(Double_t x, Double_t y, Double_t z, TH3D* histo) {
   return histo->FindFixBin(x, y, z);
 }
 
-Double_t GET_WEIGHT(Double_t x, TH1D* histo) {
-  auto bin_idx = GET_BIN(x, histo);
-  Double_t wt = histo->GetBinContent(bin_idx);
-
-  if (isnan(wt) || wt < 0) return 0.0;
-  return wt;
-}
-
-Double_t GET_WEIGHT(Double_t x, Double_t y, TH2D* histo) {
-  auto bin_idx = GET_BIN(x, y, histo);
-  Double_t wt = histo->GetBinContent(bin_idx);
-
-  if (isnan(wt) || wt < 0) return 0.0;
-  return wt;
-}
-
-Double_t GET_WEIGHT(Double_t x, Double_t y, Double_t z, TH3D* histo) {
+Double_t GET_WEIGHT(Double_t x, TH1D* histo, Bool_t interpolate = false) {
   if (histo == nullptr) {
-    cout << "Histo is a nullptr!";
+    cout << "Histo (TH1) is a nullptr! Exiting." << endl;
+    exit(1);
+  }
+  auto bin_idx = GET_BIN(x, histo);
+  Double_t wt = interpolate ? histo->Interpolate(x) : histo->GetBinContent(bin_idx);
+
+  if (isnan(wt) || wt < 0) return 0.0;
+  return wt;
+}
+
+Double_t GET_WEIGHT(Double_t x, Double_t y, TH2D* histo, Bool_t interpolate = false) {
+  if (histo == nullptr) {
+    cout << "Histo (TH2) is a nullptr! Exiting." << endl;
+    exit(1);
+  }
+  auto bin_idx = GET_BIN(x, y, histo);
+  Double_t wt = interpolate ? histo->Interpolate(x, y) : histo->GetBinContent(bin_idx);
+
+  if (isnan(wt) || wt < 0) return 0.0;
+  return wt;
+}
+
+Double_t GET_WEIGHT(Double_t x, Double_t y, Double_t z, TH3D* histo, Bool_t interpolate = false) {
+  if (histo == nullptr) {
+    cout << "Histo (TH3) is a nullptr! Exiting." << endl;
     exit(1);
   }
   auto bin_idx = GET_BIN(x, y, z, histo);
-  Double_t wt = histo->GetBinContent(bin_idx);
+  Double_t wt = interpolate ? histo->Interpolate(x, y, z) : histo->GetBinContent(bin_idx);
 
   if (isnan(wt) || wt < 0) return 0.0;
   return wt;
@@ -242,11 +251,18 @@ if __name__ == '__main__':
             histo_dim = len(directive['vars'])
             debug_br = 'debug_{}_bin_idx'.format(br)
 
+            if 'interpolate' in directive:
+                interpolate = str(directive['interpolate']).lower()
+            elif 'interpolate_global' in config:
+                interpolate = str(config['interpolate_global']).lower()
+            else:
+                interpolate = False
+
             wt_histo = load_histo(
                 args.year, args.polarity, directive['particle'],
                 histo_name, histo_dim, histos, loaded_histos)
             wt_frame = frames[-1].Define(
-                br, 'GET_WEIGHT({}, {})'.format(params, wt_histo)).Define(
+                br, 'GET_WEIGHT({}, {}, {})'.format(params, wt_histo, interpolate)).Define(
                     debug_br, 'GET_BIN({}, {})'.format(params, wt_histo))
             frames.append(wt_frame)
 
