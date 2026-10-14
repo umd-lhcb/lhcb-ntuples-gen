@@ -1,6 +1,7 @@
 headers:
     user:
         - functor/rdx/cut.h
+        - functor/rdx/stat_corrections.h
         - functor/rdx/skims.h
         - functor/rdx/kinematic.h
         - functor/rdx/truth_match.h
@@ -13,7 +14,7 @@ keep:
     - GpsTime
     - "^wpid*"
     - "^wtrk*"
-    - "^wff"
+    - "^wff_"
     - "^wvtx"
     - ".*_tos_emu$"
     - "^is_misid_*"
@@ -41,6 +42,12 @@ rename:
     b_Hlt2XcMuXForTauB2XcFakeMuDecision_TOS: b_hlt2_fakeline_tos
     # Event variables
     nTracks: ntracks
+    NumTTracks: n_t_tracks
+    NumVeloTracks: n_velo_tracks
+    NumUpstreamTracks: n_up_tracks
+    NumLongTracks: n_long_tracks
+    NumDownstreamTracks: n_down_tracks
+    NumMuonTracks: n_mu_tracks
 
 calculation:
     # For pseudo-random sequence generation
@@ -532,6 +539,7 @@ calculation:
     mu_px: double; GEV(mu_PX)
     mu_py: double; GEV(mu_PY)
     mu_pz: double; GEV(mu_PZ)
+    mu_e: double; GEV(mu_PE)
     mu_pt: double; GEV(mu_PT)
     mu_eta: double; ETA(mu_P, mu_PZ)
     mu_true_px: double; GEV(mu_TRUEP_X)
@@ -863,9 +871,9 @@ calculation:
     ##########################
     # Selection flags, basic #
     ##########################
-    run2ang: ^bool; IF_VAR_EXISTS(cli_run2ang, true); false
-    dst_reco: ^bool; IF_VAR_EXISTS(b0_M, true); false
-    mcgen_ok: ^bool; (k_p+pi_p) > 15.0
+    run2ang: bool; IF_VAR_EXISTS(cli_run2ang, true); false
+    dst_reco: bool; IF_VAR_EXISTS(b0_M, true); false
+    mcgen_ok: bool; (k_p+pi_p) > 15.0
     # Trigger
     # NOTE: For MC, L0 are applied as weight, and HLT2 is already applied at DV level
     l0: >-
@@ -1253,6 +1261,8 @@ calculation:
     ###########
     # Weights #
     ###########
+    # Correcting MC polarity fractions (to data ratios)
+    wmc_pol: double; WT_MC_POL(mc_id, cli_mc_year, Polarity)
     # Branching fraction weights for DD MC
     wbr_dd: double; IF(is_ddx_mu, WT_DD_BF(mu_MC_MOTHER_ID), 1.0)
     # Weights to correct production stats for missing DDX (D*DK, D*Dspi) to keep relative DD BFs consistent
@@ -1744,9 +1754,13 @@ calculation:
     ####
     l0_hadron_tos_emu: double; d0_l0_hadron_tos_emu
     l0_hadron_tos_emu_rand: bool; TRIG_EMU_CUT(l0_hadron_tos_emu, 53, eventNumber, runNumber)
-    l0_global_tis_emu: double; b0_l0_global_tis_emu; b_l0_global_tis_emu
+    l0_global_tis_emu_ntracks_uncorrected: double; b0_l0_global_tis_emu; b_l0_global_tis_emu
+    l0_global_tis_emu: double; b0_l0_global_tis_emu_ntracks_corrected; b_l0_global_tis_emu_ntracks_corrected
     l0_global_tis_emu_rand: bool; TRIG_EMU_CUT(l0_global_tis_emu, 17, eventNumber, runNumber)
     wtrg: float; l0_hadron_tos_emu + l0_global_tis_emu - l0_hadron_tos_emu*l0_global_tis_emu
+    wtrg_ntracks_uncorrected: float; l0_hadron_tos_emu + l0_global_tis_emu_ntracks_uncorrected - l0_hadron_tos_emu*l0_global_tis_emu_ntracks_uncorrected
+    nspdlt450: float; nspdlt450_eff
+    wtrg_nspdcut_for_ntracks_corr: float; l0_hadron_tos_emu + nspdlt450*l0_global_tis_emu_ntracks_uncorrected - l0_hadron_tos_emu*l0_global_tis_emu_ntracks_uncorrected
     trg_rand: bool; l0_hadron_tos_emu_rand || l0_global_tis_emu_rand
     trg_rand_test_or: bool; TRIG_EMU_CUT(l0_hadron_tos_emu + l0_global_tis_emu - l0_hadron_tos_emu*l0_global_tis_emu, 101, eventNumber, runNumber)
     trg_rand_test_and: bool; TRIG_EMU_CUT(l0_hadron_tos_emu*l0_global_tis_emu, 151, eventNumber, runNumber)
@@ -1754,8 +1768,8 @@ calculation:
     wjk: double; wjk_kin*wjk_occ
     w_evtgen: double; W_EVTGEN_FIX(mc_id, truthmatch, GEV(b_D_dau_true_m))
 
-    w_base: double; wtrg*wtrk*wjk*wbr_dd*w_missDstDK*w_missDstDspi # no PID cuts for the base weights
-    w_base_trgRand: double; trg_rand*wtrk*wjk*wbr_dd*w_missDstDK*w_missDstDspi
+    w_base: double; wtrg*wtrk*wjk*wmc_pol*wbr_dd*w_missDstDK*w_missDstDspi # no PID cuts for the base weights
+    w_base_trgRand: double; trg_rand*wtrk*wjk*wmc_pol*wbr_dd*w_missDstDK*w_missDstDspi
     w_w_ubdt: double; w_base*wpid_ubdt             # default PID cuts incl. UBDT
     w_w_ubdt_trgRand: double; w_base_trgRand*wpid_ubdt
     w_w_ubdt_veto: double; w_base*wpid_ubdt_veto   # misID validation sample maybe
