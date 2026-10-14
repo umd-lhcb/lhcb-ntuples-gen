@@ -35,7 +35,7 @@ bool IS_DDX(int decay_id) {
 }
 
 bool IS_DDX_MU(int decay_id) {
-  auto ddx_ids = vector<int>{11894600, 11895400, 12893600, 11894610, 12895400};
+  auto ddx_ids = vector<int>{11894600, 11895400, 12893600, 11894610, 12895400, 11894400, 12895410};
 
   if (find(ddx_ids.begin(), ddx_ids.end(), decay_id) == ddx_ids.end())
     return false;

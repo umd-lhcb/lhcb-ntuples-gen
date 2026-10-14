@@ -2,6 +2,8 @@ trees:  # This is optional
     - TupleB0/DecayTree
     - TupleBminus/DecayTree
 
+interpolate_global: true
+
 config:
     wtrk_mu:
         histo_name: Ratio

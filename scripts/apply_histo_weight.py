@@ -40,22 +40,14 @@ DEFAULT_WT_CONFIG = {
 ##################
 
 def parse_input():
-    parser = ArgumentParser(description='''
-apply weights from a histogram to a ntuple.
-''')
-
+    parser = ArgumentParser(description='apply weights from a histogram to a ntuple.')
     parser.add_argument('input_ntp', help='input ntuple.')
-
-    parser.add_argument('histo_folder',
-                        help='folder that contains histo ntuples.')
-
+    parser.add_argument('histo_folder', help='folder that contains histo ntuples.')
     parser.add_argument('output_ntp', help='output ntuple.')
-
     parser.add_argument('-c', '--config', help='config file.', default=None)
-
     parser.add_argument('--year', default='2016', help='specify year.')
     parser.add_argument('--polarity', default='md', help='specify polarity.')
-
+    parser.add_argument('--trees', nargs='+', default=None, help='trees to work on')
     return parser.parse_args()
 
 
@@ -130,6 +122,7 @@ Double_t P(Double_t px, Double_t py, Double_t pz) {
 }
 
 Double_t ETA(Double_t p, Double_t pz) {
+  if (p == 0.0) return 0.0;
   return 0.5 * TMath::Log((p + pz) / (p - pz));
 }
 
@@ -156,29 +149,37 @@ Int_t GET_BIN(Double_t x, Double_t y, Double_t z, TH3D* histo) {
   return histo->FindFixBin(x, y, z);
 }
 
-Double_t GET_WEIGHT(Double_t x, TH1D* histo) {
-  auto bin_idx = GET_BIN(x, histo);
-  Double_t wt = histo->GetBinContent(bin_idx);
-
-  if (isnan(wt) || wt < 0) return 0.0;
-  return wt;
-}
-
-Double_t GET_WEIGHT(Double_t x, Double_t y, TH2D* histo) {
-  auto bin_idx = GET_BIN(x, y, histo);
-  Double_t wt = histo->GetBinContent(bin_idx);
-
-  if (isnan(wt) || wt < 0) return 0.0;
-  return wt;
-}
-
-Double_t GET_WEIGHT(Double_t x, Double_t y, Double_t z, TH3D* histo) {
+Double_t GET_WEIGHT(Double_t x, TH1D* histo, Bool_t interpolate = false) {
   if (histo == nullptr) {
-    cout << "Histo is a nullptr!";
+    cout << "Histo (TH1) is a nullptr! Exiting." << endl;
+    exit(1);
+  }
+  auto bin_idx = GET_BIN(x, histo);
+  Double_t wt = interpolate ? histo->Interpolate(x) : histo->GetBinContent(bin_idx);
+
+  if (isnan(wt) || wt < 0) return 0.0;
+  return wt;
+}
+
+Double_t GET_WEIGHT(Double_t x, Double_t y, TH2D* histo, Bool_t interpolate = false) {
+  if (histo == nullptr) {
+    cout << "Histo (TH2) is a nullptr! Exiting." << endl;
+    exit(1);
+  }
+  auto bin_idx = GET_BIN(x, y, histo);
+  Double_t wt = interpolate ? histo->Interpolate(x, y) : histo->GetBinContent(bin_idx);
+
+  if (isnan(wt) || wt < 0) return 0.0;
+  return wt;
+}
+
+Double_t GET_WEIGHT(Double_t x, Double_t y, Double_t z, TH3D* histo, Bool_t interpolate = false) {
+  if (histo == nullptr) {
+    cout << "Histo (TH3) is a nullptr! Exiting." << endl;
     exit(1);
   }
   auto bin_idx = GET_BIN(x, y, z, histo);
-  Double_t wt = histo->GetBinContent(bin_idx);
+  Double_t wt = interpolate ? histo->Interpolate(x, y, z) : histo->GetBinContent(bin_idx);
 
   if (isnan(wt) || wt < 0) return 0.0;
   return wt;
@@ -226,6 +227,7 @@ if __name__ == '__main__':
     first_write = True
 
     for idx, tree in enumerate(config['trees']):
+        if args.trees is not None and tree not in args.trees: continue
         print('Processing tree {}...'.format(tree))
         init_frame = RDataFrame(tree, args.input_ntp)
         frames = [init_frame]
@@ -242,11 +244,18 @@ if __name__ == '__main__':
             histo_dim = len(directive['vars'])
             debug_br = 'debug_{}_bin_idx'.format(br)
 
+            if 'interpolate' in directive:
+                interpolate = str(directive['interpolate']).lower()
+            elif 'interpolate_global' in config:
+                interpolate = str(config['interpolate_global']).lower()
+            else:
+                interpolate = False
+
             wt_histo = load_histo(
                 args.year, args.polarity, directive['particle'],
                 histo_name, histo_dim, histos, loaded_histos)
             wt_frame = frames[-1].Define(
-                br, 'GET_WEIGHT({}, {})'.format(params, wt_histo)).Define(
+                br, 'GET_WEIGHT({}, {}, {})'.format(params, wt_histo, interpolate)).Define(
                     debug_br, 'GET_BIN({}, {})'.format(params, wt_histo))
             frames.append(wt_frame)
 

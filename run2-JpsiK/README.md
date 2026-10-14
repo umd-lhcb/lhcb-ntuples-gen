@@ -1,10 +1,11 @@
 ## Production of `B -> J/Psi K` ntuples
 
 We reweight the production kinematics of `B` mesons with a sample of `B -> J/Psi K` events reconstructed in
-DaVinci with the `run2-JpsiK/reco_JpsiK.py` script. No cuts are applied at this level. In data we use
-the `StrippingBetaSBu2JpsiKDetached` stripping line, and 
-[`B -> JPsi K` MC (12143001)](https://gitlab.cern.ch/lhcb-datapkg/Gen/DecFiles/-/blob/v30r103/dkfiles/Bu_JpsiK,mm=DecProdCut.dec),
-recosntructed using a similar sequence as the data stripping, but without PID (to be able to use PIDCalib and include data-MC corrections).
+DaVinci with the `run2-JpsiK/reco_JpsiK.py` script. No cuts are applied at this level.
+In data we use the `StrippingBetaSBu2JpsiKDetached` stripping line.
+For MC, the
+[`B -> JPsi K` MC (12143001)](https://gitlab.cern.ch/lhcb-datapkg/Gen/DecFiles/-/blob/v30r103/dkfiles/Bu_JpsiK,mm=DecProdCut.dec) sample is used,
+reconstructed using a similar sequence as the data stripping, but without PID (to be able to use PIDCalib and include data-MC corrections).
 
 The DaVinci ntuples are processed with the following commands inside `workflows`
 
@@ -17,8 +18,8 @@ cd workflows
 This script runs `babymaker` to rename and remove branches as specified in
 `postprocess/JpsiK-run2/JpsiK-run2.yml`, and applies the following cuts
 
-- `(b_L0MuonDecision_TOS || b_L0Global_TIS) && b_Hlt1TrackMuonDecision_TOS && b_Hlt2DiMuonDetachedHeavyDecision_TOS`
-- (if `b_L0MuonDecision_TOS && !b_L0Global_TIS`) `mu_pt > 2000` for at least one of the muons satisfying L0 Muon TOS
+- `j_L0DiMuonDecision_TOS && b_Hlt1TrackMuonDecision_TOS && b_Hlt2DiMuonDetachedHeavyDecision_TOS`
+- `mu_pt * amu_pt > 2.35 GeV2` (Can be relaxed for 2017/18. See Table 1 in [LHCb-DP-2019-001](https://iopscience.iop.org/article/10.1088/1748-0221/14/04/P04013).)
 - `mu_pt > 500 && amu_pt > 500 && k_pt > 500`
 - `b_m > 5150 && b_m < 5450`
 - `j_mm > 3060 && j_mm < 3140`
@@ -49,11 +50,21 @@ The recipes can take 10 minutes (per year) and are run with
 
 (if trouble importing tensorflow, ensure you've somehow run `export LD_LIBRARY_PATH	:=	${STUB_LD_LIBRARY_PATH}:${LD_LIBRARY_PATH}` in your nix shell).
 
-The output weightfiles should then be placed in the proper folder(s; these weights get used for both `JpsiK` and rdx)
+The output weight files should then be placed in the proper folders.
+These weights get used for both `JpsiK` and rdx
+
 ```shell
 cp gen/run2-JpsiK-*-md-B-ndof_ntracks__pt_eta.root reweight/JpsiK/root-run2-JpsiK_PIDweights_IsMuonCut/
 cp gen/run2-JpsiK-*-md-B-ndof_ntracks__pt_eta.root ../run2-rdx/reweight/JpsiK/root-run2-JpsiK/
 ```
+
 With these files in place, the step 2 ntuples can be regenerated with the new `wjk` weights (as
 described above for `JpsiK`).
-   
+The reprocessing of JpsiK with the new wjk is needed to produce validation plots with `studies/plot-JpsiK_kinematic_reweighting/plot_JpsiK_reweighting.py`.
+
+## Correcting nSPDHits distribution in RDx FullSim
+
+The correlation between nSPDHits and nTracks in simulation is used in the L0 TOS trigger emulation as nTracks becomes a proxy for nSPDHits.
+However, SPD activity is known to be underestimated in simulation.
+Here, we assume the missing activity in SPD can be modelled by a Poisson distribution with a parameter that scales linearly with the MC nSPDHits variable.
+The slope and offset of this distribution are determined running `make fit-nspd-2016` and will be saved in a YMAL file in `gen/JpsiK-<time_stamp>-fit-nspd-2016`.

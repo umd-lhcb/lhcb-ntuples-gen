@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
+export PATH=$DIR/../../ganga:$PATH
+EXE=ganga_jobs-DV46r12.py
+
+for y in 2016 2017 2018; do
+    for p in md mu; do
+        $EXE \
+            ../reco_Dst_D0-noBias.py \
+            ../conds/cond-nobias-$y.py \
+            -p $p
+    done
+done

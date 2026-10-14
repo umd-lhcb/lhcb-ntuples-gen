@@ -483,68 +483,6 @@ Bool_t FLAG_SEL_B0_MASS(Double_t b0_m) { return b0_m < 5280.0; }
 
 Bool_t FLAG_SEL_B0_MASS_SB(Double_t b0_m) { return b0_m > 5400.0; }
 
-// DD branching fraction weights ////////////////////////////////////////////////
-
-Double_t WT_DD_BF(int mu_mom_id) {
-  Double_t wt = 0.0;
-  if (ABS(mu_mom_id) == 411) wt = 0.1607;
-  if (ABS(mu_mom_id) == 421) wt = 0.0649;
-  if (ABS(mu_mom_id) == 431) wt = 0.0709;
-  return wt;
-}
-
-Double_t WT_MISS_DstDK(int year) {
-  // Missing DstDK needs to be reweighted to reflect rel BFs of related modes in already produced DDX
-  // [what was requested is in square brackets]
-  // Previously simulated 11894600- 2015: 37.68 [26.82], 2016: 208.89 [154.36], 2017: 214.13 [160.93], 2018: 282.22 [205.26] (million)
-  // Simulated 11895400 (missing DstDK) [expect 1.5*0.066 x above]- 2015: 0?, 2016: 25.03 [15.26], 2017: 25.32 [15.91], 2018: 25.52 [20.29]
-  double rel_bf_sum = (0.0020+0.0018+0.0033) /
-                        (0.0118+0.0053+0.0020+0.0079+0.0118+0.0018+0.0018+0.0033+0.0017+0.0033+0.000203+0.000406+0.000547+
-                         0.0006+0.0012+0.0012+0.0024+0.0042+0.0040+0.00107+0.0003+0.0005+0.0011+0.0024+0.0025+0.0025+0.0005+
-                         0.0005+0.0005+0.0010+0.0022+0.0022+0.0037+0.0037+0.0010+0.0062+0.00033+0.0004+0.0043+0.0054);
-  double isospin_fac = 1.5;
-  double n_2015_prev = 18643389 + 19035403;
-  double n_2016_prev = 108049987 + 100838019;
-  double n_2017_prev = 109024813 + 105104194;
-  double n_2018_prev = 140117141 + 142106832;
-  double n_2016 = 12314931 + 12717396;
-  double n_2017 = 12518386 + 12797493;
-  double n_2018 = 12787255 + 12731332;
-  if (year==2016) return (isospin_fac * rel_bf_sum * n_2016_prev)/n_2016;
-  if (year==2017) return (isospin_fac * rel_bf_sum * n_2017_prev)/n_2017;
-  if (year==2018) return (isospin_fac * rel_bf_sum * n_2018_prev)/n_2018;
-  assert(false); // shouldn't be looking at any other year than these
-}
-
-Double_t WT_MISS_DstDspi(int year, int mc_id) {
-  // Missing DstDspi needs to be reweighted relative to already produced DDX
-  // Missing DstDspi is used for both D* and D0 sample (D0 sample already contained DDspi, which doesn't
-  // need to be reweighted); naively, choose to reweight missing DstDspi to be 10% of D* DDX BF
-  // (so x/(1+x)=0.1 => x=0.111, ie. 11.1% of current total D* DDX MC))
-  // [what was requested is in square brackets]
-  // Previously simulated 11894610- 2015: 13.98 [9.51], 2016: 94.37 [54.70], 2017: 78.58 [57.03], 2018: 98.34 [72.74] (million)
-  // Previously simulated 12895400- 2015: 6.04 [3.84], 2016: 39.35 [22.11], 2017: 41.90 [23.05], 2018: 38.25 [29.40] (million)
-  // Simulated 11894400 (missing D*Dspi)- 2015: 0?, 2016: 12.34 [xx], 2017: 18.00 [xx], 2018: 14.17 [xx]
-  // Simulated 12895410 (missing D*Dspi)- 2015: 0?, 2016: 12.57 [xx], 2017: 16.53 [xx], 2018: 12.94 [xx]
-  double frac = 0.111;
-  if (year==2016) {
-    if (mc_id==11894400) return frac * 94.37 / 12.34;
-    if (mc_id==12895410) return frac * 39.35 / 12.57;
-    return 1.0; // shouldn't be looking at any other mc IDs than these, but use redundant 1.0 for compilation with current code
-  }
-  if (year==2017) {
-    if (mc_id==11894400) return frac * 78.58 / 18.00;
-    if (mc_id==12895410) return frac * 41.90 / 16.53;
-    return 1.0; // shouldn't be looking at any other mc IDs than these, but use redundant 1.0 for compilation with current code
-  }
-  if (year==2018) {
-    if (mc_id==11894400) return frac * 98.34 / 14.17;
-    if (mc_id==12895410) return frac * 38.25 / 12.94;
-    return 1.0; // shouldn't be looking at any other mc IDs than these, but use redundant 1.0 for compilation with current code
-  }
-  assert(false); // shouldn't be looking at any other year than these
-}
-
 // DD Dalitz-inspired weights //////////////////////////////////////////////////
 
 vector<Double_t> WT_DALITZ(Double_t dd_msq, Double_t dd_m_min,
@@ -786,11 +724,41 @@ Bool_t TRACKS_CHI2NDOF_OK_DST(Double_t mu_chi2ndof, Double_t k_chi2ndof,
 }
 
 // Potential option for applying trig emu: apply as a cut, with prob to pass the cut given by the trigger weight
+Bool_t TRIG_EMU_CUT(Double_t wtrg, Int_t salt, Long_t eventNumber, Int_t runNumber) {// salt is just prime number, different for different triggers
+  // if (wtrg>1 || wtrg<0) assert(false); // safety -- fails on a few cases because of TIS correction, but this is fine, just ignore it
+  // if (gRandom->Uniform() < wtrg) return true;
+  // return false;
+  // Best to do this in deterministic way: checked separately that function below produces random (tested by NIST RNG suite, at least for the TIS and TOS alone...) floats that follow uniform distribution U(0,1)
+  Long64_t eventMult = 0;
+  Long64_t runMult   = 0;
+  Long64_t mod       = 0;
 
-Bool_t TRIG_EMU_CUT(Double_t wtrg) {
-  if (wtrg>1 || wtrg<0) assert(false); // safety
-  if (gRandom->Uniform() < wtrg) return true;
-  return false;
+  if (salt == 17) {
+    // L0 global TIS
+    eventMult = 48271;
+    runMult   = 8191;
+    mod       = 1000003;
+  } else if (salt == 53) {
+    // L0 hadron TOS
+    eventMult = 69621;
+    runMult   = 31337;
+    mod       = 1000033;
+  } else if (salt == 101) {
+    // L0 hadron TOS OR L0 global TIS
+    eventMult = 104729;
+    runMult   = 65537;
+    mod       = 1000037;
+  } else if (salt == 151) {
+    // L0 hadron TOS AND L0 global TIS
+    eventMult = 130363;
+    runMult   = 98317;
+    mod       = 1000081;
+  } else {
+    return false;
+  }
+
+  double randUnif = (static_cast<double>((eventNumber * eventMult + runNumber * runMult + salt) % mod) / mod);
+  return randUnif < wtrg;
 }
 
 // Partially account for TupleToolApplyIsolation bug affecting 4th/5th iso tracks: ensure tracks are ordered least->most isolated

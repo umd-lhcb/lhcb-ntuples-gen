@@ -1,0 +1,209 @@
+
+[1mRooFit v3.60 -- Developed by Wouter Verkerke and David Kirkby[0m 
+                Copyright (C) 2000-2013 NIKHEF, University of California & Stanford University
+                All rights reserved, please read http://roofit.sourceforge.net/license.txt
+
+[#1] INFO:Eval -- RooRealVar::setRange(nspdhits) new range named 'fit_full' created with bounds [30,870]
+Opening tree "tree" in data file(s) ['fit/fit_results/JpsiK-26_09_08_11_26-std-fit-2016-L0DiMuonCut/fit.root']
+INFO Opening tree "tree" in MC file(s) ['../ntuples/0.9.18-JpsiK-L0DiMuon/JpsiK-mc/step2/JpsiK--26_09_04--mc--12143001--2016--md.root', '../ntuples/0.9.18-JpsiK-L0DiMuon/JpsiK-mc/step2/JpsiK--26_09_04--mc--12143001--2016--mu.root']
+INFO Creating MC dataset
+[#1] INFO:DataHandling -- RooAbsReal::attachToTree(nspdhits) TTree Int_t branch nspdhits will be converted to double precision.
+INFO Creating MC PDF
+INFO Plotting MC dataset and PDF
+[#1] INFO:InputArguments -- RooAbsData::plotOn(dataset_mc) INFO: dataset has non-integer weights, auto-selecting SumW2 errors instead of Poisson errors
+[#1] INFO:Plotting -- RooAbsPdf::plotOn(model_nspdhits_mc) p.d.f. curve is normalized using explicit choice of ranges 'fit_full'
+Info in <TCanvas::Print>: pdf file gen/JpsiK-26_09_08_14_27-fit-nspd-2016/nSPD_mc.pdf has been created
+[#1] INFO:Minization -- RooMinimizer::optimizeConst: activating const optimization
+[#1] INFO:Fitting -- RooAbsOptTestStatistic::ctor(chi2_model_nspdhits_mc_shifted_datahist) constructing test statistic for sub-range named fit_full
+[#1] INFO:Eval -- RooRealVar::setRange(nspdhits) new range named 'NormalizationRangeForfit_full' created with bounds [0,900]
+[#1] INFO:Eval -- RooRealVar::setRange(nspdhits) new range named 'fit_chi2_model_nspdhits_mc_shifted_datahist' created with bounds [30,870]
+[#1] INFO:Fitting -- RooAbsOptTestStatistic::ctor(chi2_model_nspdhits_mc_shifted_datahist) fixing interpretation of coefficients of any RooAddPdf to full domain of observables 
+[#1] INFO:Eval -- RooRealVar::setRange(nspdhits) new range named 'refrange_fft_model_nspdhits_mc_shifted' created with bounds [0,900]
+[#1] INFO:Caching -- RooAbsCachedPdf::getCache(model_nspdhits_mc_shifted) creating new cache 0x268f0fd0 with pdf model_nspdhits_mc_CONV_poisson_CACHE_Obs[nspdhits]_NORM_nspdhits for nset (nspdhits) with code 0
+[#1] INFO:NumericIntegration -- RooRealIntegral::init(model_nspdhits_mc_CONV_poisson_CACHE_Obs[nspdhits]_NORM_nspdhits_Int[nspdhits]) using numeric integrator RooIntegrator1D to calculate Int(nspdhits)
+[#1] INFO:Eval -- RooAbsTestStatistic::initMPMode: started 4 remote server process.
+ **********
+ **    1 **SET PRINT           1
+ **********
+ **********
+ **    2 **SET NOGRAD
+ **********
+ PARAMETER DEFINITIONS:
+    NO.   NAME         VALUE      STEP SIZE      LIMITS
+     1 lambda       5.00000e+01  2.00000e+01    0.00000e+00  2.00000e+02
+ **********
+ **    3 **SET ERR           1
+ **********
+ **********
+ **    4 **SET PRINT           1
+ **********
+ **********
+ **    5 **SET STR           2
+ **********
+ NOW USING STRATEGY  2: MAKE SURE MINIMUM TRUE, ERRORS CORRECT  
+ **********
+ **    6 **MIGRAD         500           1
+ **********
+ FIRST CALL TO USER FUNCTION AT NEW START POINT, WITH IFLAG=4.
+[#1] INFO:Caching -- RooAbsCachedPdf::getCache(model_nspdhits_mc_shifted) creating new cache 0x268f0fd0 with pdf model_nspdhits_mc_CONV_poisson_CACHE_Obs[nspdhits]_NORM_nspdhits for nset (nspdhits) with code 0[#1] INFO:Caching -- RooAbsCachedPdf::getCache(model_nspdhits_mc_shifted) creating new cache 0x268f0fd0 with pdf model_nspdhits_mc_CONV_poisson_CACHE_Obs[nspdhits]_NORM_nspdhits for nset (nspdhits) with code 0 from preexisting content.[#1] INFO:Caching -- RooAbsCachedPdf::getCache(model_nspdhits_mc_shifted) creating new cache 0x268f0fd0 with pdf model_nspdhits_mc_CONV_poisson_CACHE_Obs[nspdhits]_NORM_nspdhits for nset (nspdhits) with code 0[#1] INFO:Caching -- RooAbsCachedPdf::getCache(model_nspdhits_mc_shifted) creating new cache 0x268f0fd0 with pdf model_nspdhits_mc_CONV_poisson_CACHE_Obs[nspdhits]_NORM_nspdhits for nset (nspdhits) with code 0
+ from preexisting content. from preexisting content. from preexisting content.
+
+
+[#1] INFO:NumericIntegration -- RooRealIntegral::init(model_nspdhits_mc_CONV_poisson_CACHE_Obs[nspdhits]_NORM_nspdhits_Int[nspdhits]) using numeric integrator RooIntegrator1D to calculate Int(nspdhits)
+[#1] INFO:NumericIntegration -- RooRealIntegral::init(model_nspdhits_mc_CONV_poisson_CACHE_Obs[nspdhits]_NORM_nspdhits_Int[nspdhits]) using numeric integrator RooIntegrator1D to calculate Int(nspdhits)
+[#1] INFO:NumericIntegration -- RooRealIntegral::init(model_nspdhits_mc_CONV_poisson_CACHE_Obs[nspdhits]_NORM_nspdhits_Int[nspdhits]) using numeric integrator RooIntegrator1D to calculate Int(nspdhits)
+[#1] INFO:NumericIntegration -- RooRealIntegral::init(model_nspdhits_mc_CONV_poisson_CACHE_Obs[nspdhits]_NORM_nspdhits_Int[nspdhits]) using numeric integrator RooIntegrator1D to calculate Int(nspdhits)
+[#1] INFO:Minization --  The following expressions have been identified as constant and will be precalculated and cached: (model_nspdhits_mc)
+[#1] INFO:Minization --  The following expressions have been identified as constant and will be precalculated and cached: (model_nspdhits_mc)
+[#1] INFO:Minization --  The following expressions have been identified as constant and will be precalculated and cached: (model_nspdhits_mc)
+[#1] INFO:Minization --  The following expressions have been identified as constant and will be precalculated and cached: (model_nspdhits_mc)
+ START MIGRAD MINIMIZATION.  STRATEGY  2.  CONVERGENCE WHEN EDM .LT. 1.00e-03
+ COVARIANCE MATRIX CALCULATED SUCCESSFULLY
+ FCN=16652 FROM HESSE     STATUS=OK              7 CALLS           8 TOTAL
+                     EDM=4245.82    STRATEGY= 2      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  lambda       5.00000e+01   2.37472e-01   5.52899e-03   4.75257e+04
+ MIGRAD MINIMIZATION HAS CONVERGED.
+ MIGRAD WILL VERIFY CONVERGENCE AND ERROR MATRIX.
+ COVARIANCE MATRIX CALCULATED SUCCESSFULLY
+ FCN=12317.8 FROM MIGRAD    STATUS=CONVERGED      19 CALLS          20 TOTAL
+                     EDM=1.07485e-05    STRATEGY= 2      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  lambda       3.49364e+01   2.17459e-01   1.54736e-04   1.61910e+00
+ EXTERNAL ERROR MATRIX.    NDIM=  25    NPAR=  1    ERR DEF=1
+  4.729e-02 
+ **********
+ **    7 **SET ERR           1
+ **********
+ **********
+ **    8 **SET PRINT           1
+ **********
+ **********
+ **    9 **HESSE         500
+ **********
+ COVARIANCE MATRIX CALCULATED SUCCESSFULLY
+ FCN=12317.8 FROM HESSE     STATUS=OK              5 CALLS          25 TOTAL
+                     EDM=1.07479e-05    STRATEGY= 2      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                INTERNAL      INTERNAL  
+  NO.   NAME      VALUE            ERROR       STEP SIZE       VALUE   
+   1  lambda       3.49364e+01   2.17459e-01   3.09473e-05  -7.08421e-01
+ EXTERNAL ERROR MATRIX.    NDIM=  25    NPAR=  1    ERR DEF=1
+  4.729e-02 
+[#1] INFO:InputArguments -- RooAbsData::plotOn(datahist) INFO: dataset has non-integer weights, auto-selecting SumW2 errors instead of Poisson errors
+[#1] INFO:Plotting -- RooAbsPdf::plotOn(model_nspdhits_mc) p.d.f. curve is normalized using explicit choice of ranges 'fit_full'
+[#1] INFO:Plotting -- RooAbsPdf::plotOn(model_nspdhits_mc_shifted) p.d.f was fitted in a subrange and no explicit Range() and NormRange() was specified. Plotting / normalising in fit range. To override, do one of the following
+	- Clear the automatic fit range attribute: <pdf>.setStringAttribute("fitrange", nullptr);
+	- Explicitly specify the plotting range: Range("<rangeName>").
+	- Explicitly specify where to compute the normalisation: NormRange("<rangeName>").
+	The default (full) range can be denoted with Range("") / NormRange("").
+[#1] INFO:Plotting -- RooAbsPdf::plotOn(model_nspdhits_mc_shifted) only plotting range 'fit_chi2_model_nspdhits_mc_shifted_datahist'
+[#1] INFO:Plotting -- RooAbsPdf::plotOn(model_nspdhits_mc_shifted) p.d.f. curve is normalized using explicit choice of ranges 'fit_chi2_model_nspdhits_mc_shifted_datahist'
+[#1] INFO:Caching -- RooAbsCachedPdf::getCache(model_nspdhits_mc_shifted) creating new cache 0x21794500 with pdf model_nspdhits_mc_CONV_poisson_CACHE_Obs[nspdhits]_NORM_nspdhits for nset (nspdhits) with code 0
+[#1] INFO:NumericIntegration -- RooRealIntegral::init(model_nspdhits_mc_shifted_Int[nspdhits|fit_chi2_model_nspdhits_mc_shifted_datahist]_Norm[nspdhits]) using numeric integrator RooIntegrator1D to calculate Int(nspdhits)
+Info in <TCanvas::Print>: pdf file gen/JpsiK-26_09_08_14_27-fit-nspd-2016/nSPD_fit.pdf has been created
+
+
+INFO Fitting with nSPDHits-dependant Poisson parameter
+
+
+[#1] INFO:Minization -- RooMinimizer::optimizeConst: activating const optimization
+[#1] INFO:Fitting -- RooAbsOptTestStatistic::ctor(chi2_model_nspdhits_mc_shifted_nd_datahist) constructing test statistic for sub-range named fit_full
+[#1] INFO:Eval -- RooRealVar::setRange(nspdhits) new range named 'fit_chi2_model_nspdhits_mc_shifted_nd_datahist' created with bounds [30,870]
+[#1] INFO:Fitting -- RooAbsOptTestStatistic::ctor(chi2_model_nspdhits_mc_shifted_nd_datahist) fixing interpretation of coefficients of any RooAddPdf to full domain of observables 
+[#1] INFO:Eval -- RooRealVar::setRange(nspdhits) new range named 'refrange_fft_model_nspdhits_mc_shifted_nd' created with bounds [0,900]
+[#1] INFO:NumericIntegration -- RooRealIntegral::init(poisson_nd_fft_Int[nspdhits]) using numeric integrator RooIntegrator1D to calculate Int(nspdhits)
+[#1] INFO:Caching -- RooAbsCachedPdf::getCache(model_nspdhits_mc_shifted_nd) creating new cache 0x26ed6940 with pdf model_nspdhits_mc_CONV_poisson_nd_CACHE_Obs[nspdhits]_NORM_nspdhits for nset (nspdhits) with code 0
+[#1] INFO:NumericIntegration -- RooRealIntegral::init(model_nspdhits_mc_CONV_poisson_nd_CACHE_Obs[nspdhits]_NORM_nspdhits_Int[nspdhits]) using numeric integrator RooIntegrator1D to calculate Int(nspdhits)
+[#1] INFO:Eval -- RooAbsTestStatistic::initMPMode: started 4 remote server process.
+ **********
+ **   10 **SET PRINT           1
+ **********
+ **********
+ **   11 **SET NOGRAD
+ **********
+ PARAMETER DEFINITIONS:
+    NO.   NAME         VALUE      STEP SIZE      LIMITS
+     1 a            1.00000e+00  4.50000e-01    1.00000e-01  5.00000e+00
+ **********
+ **   12 **SET ERR           1
+ **********
+ **********
+ **   13 **SET PRINT           1
+ **********
+ **********
+ **   14 **SET STR           2
+ **********
+ NOW USING STRATEGY  2: MAKE SURE MINIMUM TRUE, ERRORS CORRECT  
+ **********
+ **   15 **MIGRAD         500           1
+ **********
+ FIRST CALL TO USER FUNCTION AT NEW START POINT, WITH IFLAG=4.
+[#1] INFO:Caching -- RooAbsCachedPdf::getCache(model_nspdhits_mc_shifted_nd) creating new cache 0x26ed6940 with pdf model_nspdhits_mc_CONV_poisson_nd_CACHE_Obs[nspdhits]_NORM_nspdhits for nset (nspdhits) with code 0 from preexisting content.
+[#1] INFO:NumericIntegration -- RooRealIntegral::init(model_nspdhits_mc_CONV_poisson_nd_CACHE_Obs[nspdhits]_NORM_nspdhits_Int[nspdhits]) using numeric integrator RooIntegrator1D to calculate Int(nspdhits)
+[#1] INFO:Minization --  The following expressions have been identified as constant and will be precalculated and cached: (model_nspdhits_mc)
+[#1] INFO:Caching -- RooAbsCachedPdf::getCache(model_nspdhits_mc_shifted_nd) creating new cache 0x26ed6940 with pdf model_nspdhits_mc_CONV_poisson_nd_CACHE_Obs[nspdhits]_NORM_nspdhits for nset (nspdhits) with code 0 from preexisting content.
+[#1] INFO:NumericIntegration -- RooRealIntegral::init(model_nspdhits_mc_CONV_poisson_nd_CACHE_Obs[nspdhits]_NORM_nspdhits_Int[nspdhits]) using numeric integrator RooIntegrator1D to calculate Int(nspdhits)
+[#1] INFO:Minization --  The following expressions have been identified as constant and will be precalculated and cached: (model_nspdhits_mc)
+[#1] INFO:Caching -- RooAbsCachedPdf::getCache(model_nspdhits_mc_shifted_nd) creating new cache 0x26ed6940 with pdf model_nspdhits_mc_CONV_poisson_nd_CACHE_Obs[nspdhits]_NORM_nspdhits for nset (nspdhits) with code 0[#1] INFO:Caching -- RooAbsCachedPdf::getCache(model_nspdhits_mc_shifted_nd) creating new cache 0x26ed6940 with pdf model_nspdhits_mc_CONV_poisson_nd_CACHE_Obs[nspdhits]_NORM_nspdhits for nset (nspdhits) with code 0 from preexisting content. from preexisting content.
+
+[#1] INFO:NumericIntegration -- RooRealIntegral::init(model_nspdhits_mc_CONV_poisson_nd_CACHE_Obs[nspdhits]_NORM_nspdhits_Int[nspdhits]) using numeric integrator RooIntegrator1D to calculate Int(nspdhits)
+[#1] INFO:NumericIntegration -- RooRealIntegral::init(model_nspdhits_mc_CONV_poisson_nd_CACHE_Obs[nspdhits]_NORM_nspdhits_Int[nspdhits]) using numeric integrator RooIntegrator1D to calculate Int(nspdhits)
+[#1] INFO:Minization --  The following expressions have been identified as constant and will be precalculated and cached: (model_nspdhits_mc)
+[#1] INFO:Minization --  The following expressions have been identified as constant and will be precalculated and cached: (model_nspdhits_mc)
+ START MIGRAD MINIMIZATION.  STRATEGY  2.  CONVERGENCE WHEN EDM .LT. 1.00e-03
+[#1] INFO:NumericIntegration -- RooRealIntegral::init(poisson_nd_fft_Int[nspdhits]) using numeric integrator RooIntegrator1D to calculate Int(nspdhits)
+[#1] INFO:NumericIntegration -- RooRealIntegral::init(poisson_nd_fft_Int[nspdhits]) using numeric integrator RooIntegrator1D to calculate Int(nspdhits)
+[#1] INFO:NumericIntegration -- RooRealIntegral::init(poisson_nd_fft_Int[nspdhits]) using numeric integrator RooIntegrator1D to calculate Int(nspdhits)
+[#1] INFO:NumericIntegration -- RooRealIntegral::init(poisson_nd_fft_Int[nspdhits]) using numeric integrator RooIntegrator1D to calculate Int(nspdhits)
+ MINUIT WARNING IN HESSE   
+ ============== Negative diagonal element 1 in Error Matrix
+ MINUIT WARNING IN HESSE   
+ ============== 1.68877e+08 added to diagonal of error matrix
+ COVARIANCE MATRIX CALCULATED SUCCESSFULLY
+ FCN=111413 FROM HESSE     STATUS=OK             13 CALLS          14 TOTAL
+                     EDM=1.28841e-07    STRATEGY= 2      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  a            1.00000e+00   2.73293e+00   5.68040e-04   5.07624e-04
+ MIGRAD MINIMIZATION HAS CONVERGED.
+ MIGRAD WILL VERIFY CONVERGENCE AND ERROR MATRIX.
+ COVARIANCE MATRIX CALCULATED SUCCESSFULLY
+ FCN=1409.47 FROM MIGRAD    STATUS=CONVERGED      52 CALLS          53 TOTAL
+                     EDM=1.16885e-12    STRATEGY= 2      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                   STEP         FIRST   
+  NO.   NAME      VALUE            ERROR          SIZE      DERIVATIVE 
+   1  a            1.12981e+00   4.06455e-04   3.73354e-06   7.50977e-03
+ EXTERNAL ERROR MATRIX.    NDIM=  25    NPAR=  1    ERR DEF=1
+  1.652e-07 
+ **********
+ **   16 **SET ERR           1
+ **********
+ **********
+ **   17 **SET PRINT           1
+ **********
+ **********
+ **   18 **HESSE         500
+ **********
+ COVARIANCE MATRIX CALCULATED SUCCESSFULLY
+ FCN=1409.47 FROM HESSE     STATUS=OK              5 CALLS          58 TOTAL
+                     EDM=1.18789e-12    STRATEGY= 2      ERROR MATRIX ACCURATE 
+  EXT PARAMETER                                INTERNAL      INTERNAL  
+  NO.   NAME      VALUE            ERROR       STEP SIZE       VALUE   
+   1  a            1.12981e+00   4.06458e-04   1.49342e-07  -6.18323e-01
+ EXTERNAL ERROR MATRIX.    NDIM=  25    NPAR=  1    ERR DEF=1
+  1.652e-07 
+[#1] INFO:InputArguments -- RooAbsData::plotOn(datahist) INFO: dataset has non-integer weights, auto-selecting SumW2 errors instead of Poisson errors
+[#1] INFO:Plotting -- RooAbsPdf::plotOn(model_nspdhits_mc) p.d.f. curve is normalized using explicit choice of ranges 'fit_full'
+[#1] INFO:Plotting -- RooAbsPdf::plotOn(model_nspdhits_mc_shifted_nd) p.d.f was fitted in a subrange and no explicit Range() and NormRange() was specified. Plotting / normalising in fit range. To override, do one of the following
+	- Clear the automatic fit range attribute: <pdf>.setStringAttribute("fitrange", nullptr);
+	- Explicitly specify the plotting range: Range("<rangeName>").
+	- Explicitly specify where to compute the normalisation: NormRange("<rangeName>").
+	The default (full) range can be denoted with Range("") / NormRange("").
+[#1] INFO:Plotting -- RooAbsPdf::plotOn(model_nspdhits_mc_shifted_nd) only plotting range 'fit_chi2_model_nspdhits_mc_shifted_nd_datahist'
+[#1] INFO:Plotting -- RooAbsPdf::plotOn(model_nspdhits_mc_shifted_nd) p.d.f. curve is normalized using explicit choice of ranges 'fit_chi2_model_nspdhits_mc_shifted_nd_datahist'
+[#1] INFO:NumericIntegration -- RooRealIntegral::init(poisson_nd_fft_Int[nspdhits]) using numeric integrator RooIntegrator1D to calculate Int(nspdhits)
+[#1] INFO:Caching -- RooAbsCachedPdf::getCache(model_nspdhits_mc_shifted_nd) creating new cache 0x26eeb020 with pdf model_nspdhits_mc_CONV_poisson_nd_CACHE_Obs[nspdhits]_NORM_nspdhits for nset (nspdhits) with code 0
+[#1] INFO:NumericIntegration -- RooRealIntegral::init(model_nspdhits_mc_shifted_nd_Int[nspdhits|fit_chi2_model_nspdhits_mc_shifted_nd_datahist]_Norm[nspdhits]) using numeric integrator RooIntegrator1D to calculate Int(nspdhits)
+Info in <TCanvas::Print>: pdf file gen/JpsiK-26_09_08_14_27-fit-nspd-2016/nSPD_fit_ND.pdf has been created

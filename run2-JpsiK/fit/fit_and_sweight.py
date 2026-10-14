@@ -75,15 +75,10 @@ def parse_input():
 
     parser.add_argument('-e', '--extraBranches',
                         default=[
-                            'runNumber',
-                            'eventNumber',
-                            'b_ownpv_ndof',
-                            'ntracks',
-                            'b_p',
-                            'b_pt',
-                            'b_eta',
-                            'l0_mu_tos_pt',
-                            'nspdhits'
+                            'runNumber', 'eventNumber', 'b_ownpv_ndof', 'ntracks',
+                             'b_p', 'b_pt', 'b_eta', 'nspdhits', 'k_p', 'k_eta',
+                            'k_pt', 'mu_p', 'mu_eta', 'mu_pt', 'amu_p', 'amu_eta',
+                            'amu_pt', 'j_mm', 'pt_prod_sqrt'
                         ],
                         help='specify extra branches to save in output ntuple.')
 
@@ -388,4 +383,3 @@ if __name__ == '__main__':
     print('\n' + cTerm(f'ntuple with s-weights at {ntp_path}','green') + '\n')
     print('\n' + cTerm(f' open {plotLin}','green'))
     print(cTerm(f' open {plotLog}','green') + '\n')
-    
