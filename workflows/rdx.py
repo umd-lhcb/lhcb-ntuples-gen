@@ -19,7 +19,7 @@ from utils import (
     run_cmd, abs_path, ensure_dir, ensure_file,
     aggregate_fltr, aggregate_output, check_ntp_name, find_decay_mode,
     load_yaml_db, smart_kwarg,
-    generate_step2_name, find_year,
+    generate_step2_name, find_year, find_polarity,
     workflow_compile_cpp, workflow_cached_ntuple, workflow_apply_weight,
     workflow_prep_dir, workflow_split_base,
     safe_merge
@@ -76,11 +76,8 @@ def rdx_mc_blocked_trees(decay_mode):
 ####################################
 
 @smart_kwarg
-def workflow_ubdt(input_ntp,
-                  trees=['TupleB0/DecayTree', 'TupleBminus/DecayTree'],
-                  particle='mu',
-                  add_cache_suffix_ubdt=None,
-                  run2ang=False,
+def workflow_ubdt(input_ntp, trees=['TupleB0/DecayTree', 'TupleBminus/DecayTree'],
+                  particle='mu', add_cache_suffix_ubdt=None, run2ang=False,
                   **kwargs):
     if run2ang:
         weight_file = 'ubdt_run2_no_cut.xml'
@@ -95,8 +92,7 @@ def workflow_ubdt(input_ntp,
         cache_suffix += add_cache_suffix_ubdt
 
     cmd = f'AddUBDTBranch -x {weight_file} -i {input_ntp} -o {output_ntp} -t {",".join(trees)} -p {particle}'
-    return workflow_cached_ntuple(
-        cmd, input_ntp, output_ntp, cache_suffix, **kwargs)
+    return workflow_cached_ntuple(cmd, input_ntp, output_ntp, cache_suffix, **kwargs)
 
 
 @smart_kwarg
@@ -105,8 +101,7 @@ def workflow_hammer(input_ntp, output_ntp='hammer.root',
                     **kwargs):
     run = 'run1' if '2011' in input_ntp or '2012' in input_ntp else 'run2'
     cmd = [f'ReweightRDX {input_ntp} {output_ntp} {t} {run}' for t in trees]
-    return workflow_cached_ntuple(
-        cmd, input_ntp, output_ntp, '--aux_hammer', **kwargs)
+    return workflow_cached_ntuple(cmd, input_ntp, output_ntp, '--aux_hammer', **kwargs)
 
 
 @smart_kwarg
@@ -115,8 +110,7 @@ def workflow_hammer_alt(input_ntp, output_ntp='hammer_alt.root',
                         **kwargs):
     run = 'run1' if '2011' in input_ntp or '2012' in input_ntp else 'run2'
     cmd = [f'ReweightRDXDefault {input_ntp} {output_ntp} {t} {run}' for t in trees]
-    return workflow_cached_ntuple(
-        cmd, input_ntp, output_ntp, '--aux_hammer_alt', **kwargs)
+    return workflow_cached_ntuple(cmd, input_ntp, output_ntp, '--aux_hammer_alt', **kwargs)
 
 @smart_kwarg
 def workflow_hammer_dst10sig(input_ntp, output_ntp='hammer_dst10sig.root',
@@ -124,8 +118,7 @@ def workflow_hammer_dst10sig(input_ntp, output_ntp='hammer_dst10sig.root',
                              **kwargs):
     run = 'run1' if '2011' in input_ntp or '2012' in input_ntp else 'run2'
     cmd = [f'ReweightRDXDst10Sig {input_ntp} {output_ntp} {t} {run}' for t in trees]
-    return workflow_cached_ntuple(
-        cmd, input_ntp, output_ntp, '--aux_hammer_dst10sig', **kwargs)
+    return workflow_cached_ntuple(cmd, input_ntp, output_ntp, '--aux_hammer_dst10sig', **kwargs)
 
 @smart_kwarg
 def workflow_hammer_dstnocorr(input_ntp, output_ntp='hammer_dstnocorr.root',
@@ -133,8 +126,7 @@ def workflow_hammer_dstnocorr(input_ntp, output_ntp='hammer_dstnocorr.root',
                               **kwargs):
     run = 'run1' if '2011' in input_ntp or '2012' in input_ntp else 'run2'
     cmd = [f'ReweightRDXDstNoCorr {input_ntp} {output_ntp} {t} {run}' for t in trees]
-    return workflow_cached_ntuple(
-        cmd, input_ntp, output_ntp, '--aux_hammer_dstnocorr', **kwargs)
+    return workflow_cached_ntuple(cmd, input_ntp, output_ntp, '--aux_hammer_dstnocorr', **kwargs)
 
 @smart_kwarg
 def workflow_hammer_dst10signocorr(input_ntp, output_ntp='hammer_dst10signocorr.root',
@@ -142,8 +134,7 @@ def workflow_hammer_dst10signocorr(input_ntp, output_ntp='hammer_dst10signocorr.
                                    **kwargs):
     run = 'run1' if '2011' in input_ntp or '2012' in input_ntp else 'run2'
     cmd = [f'ReweightRDXDstNoCorr10Sig {input_ntp} {output_ntp} {t} {run}' for t in trees]
-    return workflow_cached_ntuple(
-        cmd, input_ntp, output_ntp, '--aux_hammer_dst10signocorr', **kwargs)
+    return workflow_cached_ntuple(cmd, input_ntp, output_ntp, '--aux_hammer_dst10signocorr', **kwargs)
 
 @smart_kwarg
 def workflow_hammer_run1(input_ntp, output_ntp='hammer_dstrun1.root',
@@ -151,8 +142,7 @@ def workflow_hammer_run1(input_ntp, output_ntp='hammer_dstrun1.root',
                          **kwargs):
     run = 'run1' if '2011' in input_ntp or '2012' in input_ntp else 'run2'
     cmd = [f'ReweightRDXDstRun1 {input_ntp} {output_ntp} {t} {run}' for t in trees]
-    return workflow_cached_ntuple(
-        cmd, input_ntp, output_ntp, '--aux_hammer_dstrun1', **kwargs)
+    return workflow_cached_ntuple(cmd, input_ntp, output_ntp, '--aux_hammer_dstrun1', **kwargs)
 
 @smart_kwarg
 def workflow_hammer_norescale(input_ntp, output_ntp='hammer_norescale.root',
@@ -160,8 +150,7 @@ def workflow_hammer_norescale(input_ntp, output_ntp='hammer_norescale.root',
                               **kwargs):
     run = 'run1' if '2011' in input_ntp or '2012' in input_ntp else 'run2'
     cmd = [f'ReweightRDXRemoveRescale {input_ntp} {output_ntp} {t} {run}' for t in trees]
-    return workflow_cached_ntuple(
-        cmd, input_ntp, output_ntp, '--aux_hammer_norescale', **kwargs)
+    return workflow_cached_ntuple(cmd, input_ntp, output_ntp, '--aux_hammer_norescale', **kwargs)
 
 @smart_kwarg
 def workflow_trigger_emu(input_ntp, output_ntp='trg_emu.root',
@@ -169,62 +158,66 @@ def workflow_trigger_emu(input_ntp, output_ntp='trg_emu.root',
                          **kwargs):
     Bmeson = lambda tree: 'b0' if 'B0' in tree else 'b'
     year = find_year(input_ntp)
-    cmd = [f'run2-rdx-trg_emu.py {input_ntp} {output_ntp} -t {t} -B {Bmeson(t)} -y {year} -c -l \"<triggers/l0/xgb4-{year}.pickle>\"'
+    cmd = [f'run2-rdx-trg_emu.py {input_ntp} {output_ntp} -t {t} -B {Bmeson(t)} -y {year} -c -l \"<triggers/l0/xgb4_nspd_corrected-{year}.pickle>\"'
            for t in trees]
-    return workflow_cached_ntuple(
-        cmd, input_ntp, output_ntp, '--aux_trg_emu', **kwargs)
+    return workflow_cached_ntuple(cmd, input_ntp, output_ntp, '--aux_trg_emu', **kwargs)
 
 
 @smart_kwarg
-def workflow_pid(input_ntp,
-                 pid_config='../run2-rdx/reweight/pid/run2-rdx_oldcut.yml',
-                 run2ang=False,
+def workflow_pid(input_ntp, pid_config='../run2-rdx/reweight/pid/run2-rdx_oldcut.yml',
+                 trees=['TupleB0/DecayTree', 'TupleBminus/DecayTree'], run2ang=False, fullsim_Dstlnu=False,
                  **kwargs):
     if run2ang:
         output_ntp = 'pid_run2ang.root'
         pid_histo_folder = '../run2-rdx/reweight/pid/all-run2-pid-noDLLMu'
         cache_suffix = '--aux_pid_run2ang'
     else:
+        if fullsim_Dstlnu: pid_config='../run2-rdx/reweight/pid/run2-rdx_fullsim.yml'
         output_ntp = 'pid.root'
         pid_histo_folder = '../run2-rdx/reweight/pid/all-run2-pid'
         cache_suffix = '--aux_pid'
 
-    return workflow_apply_weight(input_ntp, pid_histo_folder, pid_config,
-                                 output_ntp, cache_suffix, **kwargs)
+    return workflow_apply_weight(input_ntp, pid_histo_folder, pid_config, output_ntp, cache_suffix, trees=trees, **kwargs)
 
 
 @smart_kwarg
-def workflow_trk(
-        input_ntp, output_ntp='trk.root',
+def workflow_trk(input_ntp, output_ntp='trk.root',
         trk_histo_folder='../run2-rdx/reweight/tracking/root-run2-general',
         trk_config='../run2-rdx/reweight/tracking/run2-general.yml',
+        trees=['TupleB0/DecayTree', 'TupleBminus/DecayTree'],
         **kwargs):
-    return workflow_apply_weight(input_ntp, trk_histo_folder, trk_config,
-                                 output_ntp, '--aux_trk', **kwargs)
+    return workflow_apply_weight(input_ntp, trk_histo_folder, trk_config, output_ntp, '--aux_trk', trees=trees, **kwargs)
 
 @smart_kwarg
-def workflow_jk(
-        input_ntp, output_ntp='jk.root',
+def workflow_jk(input_ntp, output_ntp='jk.root',
         trk_histo_folder='../run2-rdx/reweight/JpsiK/root-run2-JpsiK',
         trk_config='../run2-rdx/reweight/JpsiK/run2-JpsiK.yml',
+        trees=['TupleB0/DecayTree', 'TupleBminus/DecayTree'],
         **kwargs):
-    return workflow_apply_weight(input_ntp, trk_histo_folder, trk_config,
-                                 output_ntp, '--aux_jk', **kwargs)
+    return workflow_apply_weight(input_ntp, trk_histo_folder, trk_config, output_ntp, '--aux_jk', trees=trees, **kwargs)
 
 @smart_kwarg
-def workflow_jkp(
-        input_ntp, output_ntp='jk.root',
+def workflow_jkp(input_ntp, output_ntp='jk.root',
         trk_histo_folder='../run2-rdx/reweight/JpsiKp/root-run2-JpsiKp',
         trk_config='../run2-rdx/reweight/JpsiKp/run2-JpsiKp.yml',
+        trees=['TupleBminus/DecayTree'],
         **kwargs):
-    return workflow_apply_weight(input_ntp, trk_histo_folder, trk_config,
-                                 output_ntp, '--aux_jk', **kwargs)
+    return workflow_apply_weight(input_ntp, trk_histo_folder, trk_config, output_ntp, '--aux_jk', trees=trees, **kwargs)
+
 
 @smart_kwarg
-def workflow_misid(input_ntp,
-                   k_smr_name='k_smr',
-                   pi_smr_name='pi_smr',
-                   run2ang=False,
+def workflow_jk_nspd_correction(input_ntp, output_ntp='jk_nspd_correction.root',
+                                nspd_params='../run2-JpsiK/fit/nspd_correction_results/JpsiK-26_09_23_23_56-fit-nspd-2016/nspd_conditional_poisson.yml',
+                                trees=['TupleB0/DecayTree', 'TupleBminus/DecayTree'], **kwargs):
+    params = abs_path(nspd_params)
+    script = abs_path('../scripts/apply_nspdhits_JpsiK_correction.py')
+    cmd = f'{sys.executable} {script} {input_ntp} {output_ntp} --params {params} --trees ' + ' '.join(trees)
+    print(f'Applying JpsiK conditional-Poisson NSPD correction: {params}')
+    return workflow_cached_ntuple(cmd, input_ntp, output_ntp, '--aux_jk_nspd_correction', **kwargs)
+
+
+@smart_kwarg
+def workflow_misid(input_ntp, k_smr_name='k_smr', pi_smr_name='pi_smr', run2ang=False,
                    **kwargs):
     if run2ang:
         misid_config = '../run2-rdx/reweight/misid/run2-rdx-run2ang.yml'
@@ -242,29 +235,25 @@ def workflow_misid(input_ntp,
     year = find_year(input_ntp)
 
     cmd = f'ApplyMisIDWeight -a -i {input_ntp} -o {output_ntp} -x {aux_ntp} -c {config} -Y {year} --kSmrBrName {k_smr_name} --piSmrBrName {pi_smr_name}'
-    return workflow_cached_ntuple(cmd, input_ntp, output_ntp, cache_suffix,
-                                  **kwargs)
+    return workflow_cached_ntuple(cmd, input_ntp, output_ntp, cache_suffix, **kwargs)
 
 
 @smart_kwarg
-def workflow_vertex(
-        input_ntp, output_ntp='vertex.root',
+def workflow_vertex(input_ntp, output_ntp='vertex.root',
         vertex_aux_ntp='../run2-rdx/reweight/vertex/run2_vertex_smear.root',
+        trees=['TupleB0/DecayTree', 'TupleBminus/DecayTree'],
         **kwargs):
     aux_ntp = abs_path(vertex_aux_ntp)
     year = find_year(input_ntp)[-2:] # use 16,17,18 for tree name defs here
 
-    cmd = f'ApplyVertexSmear -i {input_ntp} -o {output_ntp} -x {aux_ntp} -y {year}'
-    return workflow_cached_ntuple(
-        cmd, input_ntp, output_ntp, '--aux_vertex', **kwargs)
+    cmd = f'ApplyVertexSmear -i {input_ntp} -o {output_ntp} -x {aux_ntp} -y {year} -t ' + ','.join(trees)
+    return workflow_cached_ntuple(cmd, input_ntp, output_ntp, '--aux_vertex', **kwargs)
 
 # @smart_kwarg
-# def workflow_vertex_scale(
-#         input_ntp, output_ntp='vertex_scale.root',
+# def workflow_vertex_scale(input_ntp, output_ntp='vertex_scale.root',
 #         **kwargs):
 #     cmd = f'GetScaledVariationWeights -i {input_ntp} -o {output_ntp}'
-#     return workflow_cached_ntuple(
-#         cmd, input_ntp, output_ntp, '--aux_vertex_scale', **kwargs)
+#     return workflow_cached_ntuple(cmd, input_ntp, output_ntp, '--aux_vertex_scale', **kwargs)
 
 
 #######################
@@ -395,9 +384,9 @@ def workflow_mc_single(maindir, subdir,
 
     trees = ['TupleBminus/DecayTree', 'TupleB0/DecayTree']
     if blocked_input_trees is not None:
-        if 'D0' in blocked_input_trees:
+        if 'TupleBminus/DecayTree' in blocked_input_trees:
             trees = ['TupleB0/DecayTree']
-        elif 'Dst' in blocked_input_trees:
+        elif 'TupleB0/DecayTree' in blocked_input_trees:
             trees =  ['TupleBminus/DecayTree']
 
     output_suffix = generate_step2_name(input_ntp, date=date)
@@ -420,17 +409,15 @@ def workflow_mc(inputs, input_yml, job_name='mc', date=None,
                 use_hammer=True, use_hammer_alt=False, use_hammer_dst10sig=False,
                 use_hammer_dstnocorr=False, use_hammer_dst10signocorr=False,
                 use_hammer_dstrun1=False, use_hammer_no_rescale=False,
+                use_jk_nspd_correction=False,
                 num_of_workers=12, **kwargs):
+    aux_workflows = [
+        workflow_trigger_emu, workflow_pid, workflow_trk, workflow_jk,
+        workflow_vertex#, workflow_vertex_scale
+    ]
     if (any((elem in inputs or (isinstance(inputs,list) and len(inputs)>0 and elem in inputs[0])) for elem in ["15574081", "15574082", "15574083"])):
-        aux_workflows = [
-            workflow_trigger_emu, workflow_pid, workflow_trk, workflow_jkp,
-            workflow_vertex#, workflow_vertex_scale
-        ]
-    else:
-        aux_workflows = [
-            workflow_trigger_emu, workflow_pid, workflow_trk, workflow_jk,
-            workflow_vertex#, workflow_vertex_scale
-        ]
+        aux_workflows.remove(workflow_jk)
+        aux_workflows.append(workflow_jkp)
     if use_hammer:
         aux_workflows.append(workflow_hammer)
     if use_hammer_alt:
@@ -445,6 +432,8 @@ def workflow_mc(inputs, input_yml, job_name='mc', date=None,
         aux_workflows.append(workflow_hammer_run1)
     if use_hammer_no_rescale:
         aux_workflows.append(workflow_hammer_norescale)
+    if use_jk_nspd_correction:
+        aux_workflows.append(workflow_jk_nspd_correction)
 
     subworkdirs, workdir = workflow_prep_dir(job_name, inputs, **kwargs)
 
@@ -544,11 +533,30 @@ JOBS = {
         # keep_frac = 0.1,
         num_of_workers=20
     ),
+    'Dst_D0-std-16': partial(
+        workflow_data,
+        '../ntuples/0.9.12-all_years/2016/data/*std*',
+        '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
+        merge=True,
+        # keep_frac = 0.1,
+        num_of_workers=50
+    ),
     'Dst_D0-mu_misid-all': partial(
         workflow_data,
         '../ntuples/0.9.15-misid_pid_kept/*/data/*fake_mu*',
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
         num_of_workers=20,
+        cli_vars={'cli_misid': 'true'},
+        merge=True,
+        # keep_frac = 0.1,
+        use_misid=True,
+        use_ubdt=False
+    ),
+    'Dst_D0-mu_misid-16': partial(
+        workflow_data,
+        '../ntuples/0.9.15-misid_pid_kept/2016/data/*fake_mu*',
+        '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
+        num_of_workers=50,
         cli_vars={'cli_misid': 'true'},
         merge=True,
         # keep_frac = 0.1,
@@ -664,6 +672,18 @@ JOBS = {
         merge=True,
         # keep_frac = 0.1,
         num_of_workers=20
+    ),
+    'Dst_D0-mc-fullsim-Lb-16': partial(
+        workflow_mc,
+        [
+            f'../ntuples/0.9.12-all_years/2016/Lb/*{i}*'
+            for i in [15574081, 15574082, 15574083]
+        ],
+        '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
+        use_hammer=False,
+        merge=True,
+        # keep_frac = 0.1,
+        num_of_workers=50
     ),
     # Run 2 MC full sim for Lb with Run2Ang cuts
     'Dst_D0-mc-fullsim-Lb-all-run2ang': partial(
@@ -1267,18 +1287,34 @@ JOBS = {
     ),
     # Run 2 fullsim MC D*(mu/tau)nu
     'Dst_D0-mc-fullsim-1718-Dstlnu': partial(
-        workflow_split,
+        workflow_mc,
         '../ntuples/0.9.13-JpsiK_and_Dstlnu_fullsim_for_L0emu_initrwgt/Dstlnu-mc/20*/*/*/*',
         '../postprocess/rdx-run2/rdx-run2_fullsim.yml',
-        num_of_workers=20
+        use_jk_nspd_correction=True,
+        merge=True,
+        fullsim_Dstlnu=True
     ),
     'Dst_D0-mc-fullsim-16-Dstlnu': partial(
         workflow_split,
         '../ntuples/0.9.4-trigger_emulation/Dst_D0-mc/*--mc--MC_2016_*',
         '../postprocess/rdx-run2/rdx-run2_fullsim.yml',
-        num_of_workers=20,
-        use_hammer=False # I think step1 produced before figured out how to use HAMMER correctly... these tuples only used to verify TIS portability from JpsiK, so I'll just ignore wff here
+        use_jk_nspd_correction=True,
+        use_hammer=False, # I think step1 produced before figured out how to use HAMMER correctly... these tuples only used to verify TIS portability from JpsiK, so I'll just ignore wff here
+        fullsim_Dstlnu=True
     ),
+    # 'Dst_D0-mc-fullsim-16-DDX': partial(
+    #     workflow_split,
+    #     [f'../ntuples/0.9.3-production_for_validation/Dst_D0-mc/*{i}*'
+    #         for i in [
+    #             11894600, 12893600, 11894200, 12893610,
+    #             11894610, 12895400, 11894210, 12895000
+    #         ]
+    #      ]
+    #     '../postprocess/rdx-run2/rdx-run2_fullsim.yml',
+    #     use_jk_nspd_correction=True,
+    #     use_hammer=False,
+    #     fullsim_Dstlnu=True
+    # ),
     # Run 2 MC tracker only
     'Dst_D0-mc-tracker_only-sig_norm-all': partial(
         workflow_mc,
@@ -1299,6 +1335,25 @@ JOBS = {
         # keep_frac = 0.1,
         num_of_workers=20
     ),
+    'Dst_D0-mc-tracker_only-sig_norm-16': partial(
+        workflow_mc,
+        [
+            # D0
+            '../ntuples/0.9.12-all_years/2016/norm_D0Mu/*12573012*', # norm
+            '../ntuples/0.9.12-all_years/2016/sig/*12573001*', # sig
+            # D*
+            '../ntuples/0.9.12-all_years/2016/norm_DstMu/*11574021*', # norm, D*
+            '../ntuples/0.9.12-all_years/2016/norm_Dst0Mu/*12773410*', # norm, D*0
+            '../ntuples/0.9.12-all_years/2016/sig/*11574011*', # sig, D*
+            '../ntuples/0.9.12-all_years/2016/sig/*12773400*', # sig, D*0
+        ],
+        '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
+        # use_hammer_alt=True,
+        # use_hammer_dstrun1=True,
+        merge=True,
+        # keep_frac = 0.1,
+        num_of_workers=50
+    ),
     'Dst_D0-mc-tracker_only-DDX-all': partial(
         workflow_mc,
         [f'../ntuples/0.9.12-all_years/201*/DDX/*{i}*'
@@ -1317,6 +1372,24 @@ JOBS = {
         # keep_frac = 0.1,
         num_of_workers=20
     ),
+    'Dst_D0-mc-tracker_only-DDX-16': partial(
+        workflow_mc,
+        [f'../ntuples/0.9.12-all_years/2016/DDX/*{i}*'
+            for i in [
+                11894600, 12893600, 11894200, 12893610,
+                11894610, 12895400, 11894210, 12895000,
+                11895400
+            ]
+         ]
+         +
+         [f'../ntuples/0.9.12-all_years/2016/DDX/*{i}*' for i in [11894400, 12895410]] # DDspi for the D* (unused D0 ntuples with DDspi also produced)
+        ,
+        '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
+        use_hammer=False,
+        merge=True,
+        # keep_frac = 0.1,
+        num_of_workers=50
+    ),
     'Dst_D0-mc-tracker_only-Dstst-all': partial(
         workflow_mc,
         [
@@ -1330,10 +1403,46 @@ JOBS = {
         # keep_frac = 0.1,
         num_of_workers=20
     ),
+    'Dst_D0-mc-tracker_only-Dstst-16': partial(
+        workflow_mc,
+        [
+            f'../ntuples/0.9.12-all_years/2016/Dstst/*{i}*'
+            for i in [11874430, 11874440, 12873450, 12873460]
+        ],
+        '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
+        # use_hammer_alt=True,
+        # use_hammer_no_rescale=True, # not nominally used for D**
+        merge=True,
+        # keep_frac = 0.1,
+        num_of_workers=50
+    ),
+    'Dst_D0-mc-tracker_only-DDX-test': partial(
+        workflow_mc,
+        [
+            f'../ntuples/acadia_links/0.9.12-all_years/2016/DDX/dDDMu-11894610-MagUp/Dst_D0--24_12_15--mc--tracker_only--MC_2016_Beam6500GeV-2016-MagUp-TrackerOnly-Nu1.6-25ns-Pythia8_Sim09k_Reco16_Filtered_11894610_D0TAUNU.SAFESTRIPTRIG.DST--131-dv.root'
+        ],
+        '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
+        use_hammer=False,
+        merge=True,
+        # keep_frac = 0.1,
+        num_of_workers=1
+    ),
     'Dst_D0-mc-tracker_only-Dstst_heavy-all': partial(
         workflow_mc,
         [
             f'../ntuples/0.9.12-all_years/201*/Dstst_heavy/*{i}*'
+            for i in [12675011, 11674401, 12675402, 11676012, 12875440]
+        ],
+        '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
+        use_hammer=False,
+        merge=True,
+        # keep_frac = 0.1,
+        num_of_workers=20
+    ),
+    'Dst_D0-mc-tracker_only-Dstst_heavy-16': partial(
+        workflow_mc,
+        [
+            f'../ntuples/0.9.12-all_years/2016/Dstst_heavy/*{i}*'
             for i in [12675011, 11674401, 12675402, 11676012, 12875440]
         ],
         '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
@@ -1353,6 +1462,18 @@ JOBS = {
         merge=True,
         # keep_frac = 0.1,
         num_of_workers=20
+    ),
+    'Dst_D0-mc-tracker_only-D_s-16': partial(
+        workflow_mc,
+        [
+            f'../ntuples/0.9.12-all_years/2016/Ds/*{i}*'
+            for i in [13874020, 13674000]
+        ],
+        '../postprocess/rdx-run2/rdx-run2_oldcut.yml',
+        # use_hammer_alt=True,
+        merge=True,
+        # keep_frac = 0.1,
+        num_of_workers=50
     ),
     # Run 2 MC tracker only (with Run2Ang cuts)
     'Dst_D0-mc-tracker_only-sig_norm-all-run2ang': partial(

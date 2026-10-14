@@ -40,22 +40,14 @@ DEFAULT_WT_CONFIG = {
 ##################
 
 def parse_input():
-    parser = ArgumentParser(description='''
-apply weights from a histogram to a ntuple.
-''')
-
+    parser = ArgumentParser(description='apply weights from a histogram to a ntuple.')
     parser.add_argument('input_ntp', help='input ntuple.')
-
-    parser.add_argument('histo_folder',
-                        help='folder that contains histo ntuples.')
-
+    parser.add_argument('histo_folder', help='folder that contains histo ntuples.')
     parser.add_argument('output_ntp', help='output ntuple.')
-
     parser.add_argument('-c', '--config', help='config file.', default=None)
-
     parser.add_argument('--year', default='2016', help='specify year.')
     parser.add_argument('--polarity', default='md', help='specify polarity.')
-
+    parser.add_argument('--trees', nargs='+', default=None, help='trees to work on')
     return parser.parse_args()
 
 
@@ -235,6 +227,7 @@ if __name__ == '__main__':
     first_write = True
 
     for idx, tree in enumerate(config['trees']):
+        if args.trees is not None and tree not in args.trees: continue
         print('Processing tree {}...'.format(tree))
         init_frame = RDataFrame(tree, args.input_ntp)
         frames = [init_frame]

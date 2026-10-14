@@ -70,38 +70,66 @@ def ensure_dir(path, delete_if_exist=True, make_absolute=True, **kwargs):
     return path
 
 def download_file(path, suppress_printout=False):
-    if not suppress_printout:
-        print(f'{path} not present for user locally, checking if working on glacier and, if not, downloading with git-annex...')
-        print('For copy of file; MAKE SURE GLACIER REPO annex/objects FULLY READABLE/EXECUTABLE')
-    if socket.gethostbyname(socket.gethostname()) == '10.229.60.85': # glacier IP (as of 12/6/2024...)
-        linkPath = path.replace('/ntuples/', '/ntuples/glacier_links/') # to be created and point to file in glacier git/repositories/lhcb-ntuples-gen
-        if op.islink(linkPath): return linkPath # actually, already found the file on glacier and created soft link, so you're done!
-        annexKey = os.readlink(path).split('/')[-1]
-        annex_path_glacier = '/home/git/repositories/lhcb-ntuples-gen.git/annex/objects'
-        glacier_file = []
-        for dir,_,_ in os.walk(annex_path_glacier): glacier_file.extend(glob(op.join(dir,annexKey)))
-        glacier_file = [f for f in glacier_file if op.isfile(f)]
-        if len(glacier_file)==0:
-            if not suppress_printout: print(f'Could not find {path} in {annex_path_glacier}... maybe it was not copied to glacier?')
-            return None
-        if len(glacier_file)>1:
-            if not suppress_printout: print(f'Found multiple {path} in {annex_path_glacier}... unsure which to use')
-            return None
-        # else, found the file successfully on glacier
-        glacier_file = glacier_file[0]
-        if not Path(glacier_file).exists():
-            if not suppress_printout: print(f'{glacier_file} does not exist? Maybe copied to glacier incorrectly?')
-            return None
-        else:
-            run_cmd(f'mkdir -p {"/".join(linkPath.split("/")[:-1])}')
-            run_cmd(f'ln -s {glacier_file} {linkPath}')
-            return linkPath
+    hostname = socket.gethostname()
+    server = None
+    if hostname.split('.')[0] == 'physldren267322':  # Acadia; same check as create_ntuple_acadia_links.py
+        server = 'acadia'
     else:
-        ret_val = run_cmd(f'git annex get {path}')
-        if ret_val:
-            if not suppress_printout: print(f'Failed to download: {path}')
+        try:
+            if socket.gethostbyname(hostname) == '10.229.60.85':
+                server = 'glacier'
+        except OSError:
+            pass  # DNS failure should not prevent the git-annex fallback.
+
+    path = op.abspath(path)
+    # Recover the tracked path, including when given a server-specific link.
+    tracked_path = path.replace('/ntuples/acadia_links/', '/ntuples/', 1)
+    tracked_path = tracked_path.replace('/ntuples/glacier_links/', '/ntuples/', 1)
+    if op.isfile(tracked_path):
+        return tracked_path
+
+    if server is not None and '/ntuples/' in tracked_path:
+        link_path = tracked_path.replace('/ntuples/', f'/ntuples/{server}_links/', 1)
+        if op.isfile(link_path):
+            return link_path
+        if not suppress_printout:
+            print(f'{path} not present locally; checking annex storage on {server}...')
+        # Never read an annex key from a missing ordinary path.
+        key_source = tracked_path if op.islink(tracked_path) else link_path
+        if not op.islink(key_source):
+            if not suppress_printout:
+                print(f'No annex symlink found for {tracked_path}')
             return None
-        return path
+        annex_key = op.basename(os.readlink(key_source))
+        annex_storage = '/home/git/repositories/lhcb-ntuples-gen.git/annex/objects'
+        matches = []
+        for directory, _, files in os.walk(annex_storage):
+            if annex_key in files:
+                candidate = op.join(directory, annex_key)
+                if op.isfile(candidate):
+                    matches.append(candidate)
+        if len(matches) != 1:
+            if not suppress_printout:
+                print(f'Expected one copy of {annex_key} in {annex_storage} on {server}; found {len(matches)}. Check storage availability and permissions.')
+            return None
+        makedirs(op.dirname(link_path), exist_ok=True)
+        if op.islink(link_path):
+            os.unlink(link_path)  # Replace a broken link, not a valid cached tuple.
+        try:
+            os.symlink(matches[0], link_path)
+        except FileExistsError:
+            if not op.isfile(link_path):
+                raise
+        return link_path
+
+    if not suppress_printout:
+        print(f'Not on Acadia or Glacier; downloading {tracked_path} with git-annex...')
+    ret_val = run_cmd(f'git annex get {tracked_path}')
+    if ret_val or not op.isfile(tracked_path):
+        if not suppress_printout:
+            print(f'Failed to download: {tracked_path}')
+        return None
+    return tracked_path
 
 
 def ensure_file(path):
@@ -310,9 +338,9 @@ NTP_STEP2_FIELDS = [
     ('decay_mode', False, lambda x: True),
     ('year', False, validate_year),
     ('polarity', False, lambda x: x in ['md', 'mu', 'md-mu']),
-    ('additional_flags', True, lambda x: True),
-    ('index', True, lambda x: x.isdecimal()),
+    ('index', True, lambda x: re.fullmatch(r'\d+(?:j\d+)?', x) is not None),
     ('aux', True, lambda x: x.startswith('aux')),
+    ('additional_flags', True, lambda x: True),
 ]
 
 
@@ -396,7 +424,8 @@ def generate_step2_name(ntp_name,
     if 'additional_flags' in fields:
         output.append(fields['additional_flags'])
     if keep_index and 'index' in fields:
-        step2_idx = re.search(r'(\d+)', fields['index']).group(1)
+        step2_idx = fields['index']
+        if is_step1: step2_idx = step2_idx.split('-dv', 1)[0]
         output.append(step2_idx)
     return '--'.join(output)
 
@@ -508,9 +537,8 @@ def workflow_cached_ntuple(cmd, input_ntp, output_ntp, cache_suffix,
     return output_ntp
 
 
-def workflow_apply_weight(input_ntp, histo_folder, config,
-                          output_ntp, cache_suffix,
-                          **kwargs):
+def workflow_apply_weight(input_ntp, histo_folder, config, output_ntp, cache_suffix,
+                          trees=['TupleB0/DecayTree', 'TupleBminus/DecayTree'], **kwargs):
     histo_folder = abs_path(histo_folder)
     config = abs_path(config)
 
@@ -519,8 +547,9 @@ def workflow_apply_weight(input_ntp, histo_folder, config,
 
     # NOTE: The 'apply_histo_weight.py' is in 'scripts' folder!
     cmd = f'apply_histo_weight.py {input_ntp} {histo_folder} {output_ntp} -c {config} --year {year} --polarity {polarity}'
-    return workflow_cached_ntuple(
-        cmd, input_ntp, output_ntp, cache_suffix, **kwargs)
+    if trees!=None and trees!=[]: cmd += ' --trees ' + ' '.join(trees)
+    else: raise ValueError('No trees selected for histogram weighting')
+    return workflow_cached_ntuple(cmd, input_ntp, output_ntp, cache_suffix, **kwargs)
 
 
 @smart_kwarg([])
@@ -647,8 +676,11 @@ def safe_merge(workdir, subworkdirs, warn_only=True, **kwargs):
                 print(f'No tree {t} produced for {name}! Moving to next tree...')
                 if warn_only:
                     # don't worry about these files being missing if none were produced!
+                    no_worry = []
                     for ntp in missing_s2ntps:
-                        if f'{t}--{name}' in ntp: missing_s2ntps.remove(ntp)
+                        if f'{t}--{name}' in ntp: no_worry.append(ntp)
+                    for ntp in no_worry:
+                        missing_s2ntps.remove(ntp)
                 continue
             print(f'Merging tree {t} of {name}...')
             run_cmd(f'hadd -fk {mergeDir}/{t}--{name}.root ntuple/{t}--{name}--*.root', **kwargs) # note that this isn't meant to go with workflow_split workflow, so one less layer of subdirs in ntuple/
