@@ -82,11 +82,18 @@ def glob_histos(root_dir):
 
 
 def find_histo(histos, year, polarity, particle):
-    # NOTE: We add '-' around 'particle' to make sure the match is exact
-    particle = '-{}-'.format(particle)
-    # Always return the first match
-    return [h for h in histos
-            if year in h and polarity in h and particle in h][0]
+    # Match the filename, never directory names (e.g. "DLLmu" contains "mu").
+    # The year/polarity/particle fields are adjacent, hyphen-delimited tokens.
+    token = '-{}-{}-{}-'.format(year, polarity, particle)
+    matches = [h for h in histos
+               if token in str(h).rsplit('/', 1)[-1]]
+    if not matches:
+        raise ValueError('No histogram file matches {}. Candidates: {}'.format(
+            token, ', '.join(str(h) for h in histos)))
+    if len(matches) != 1:
+        raise ValueError('Multiple histogram files match {}: {}'.format(
+            token, ', '.join(str(h) for h in matches)))
+    return matches[0]
 
 
 def resolve_params(params, idx):

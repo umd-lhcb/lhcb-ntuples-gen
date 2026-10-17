@@ -72,6 +72,10 @@ def parse_input():
 
     parser.add_argument('-t', '--tree', default='tree',
                         help='specify the tree name in the input ntuple.')
+    parser.add_argument('--data-cut', default=None,
+                        help='optional uproot selection for the sWeighted data input.')
+    parser.add_argument('--mc-cut', default=None,
+                        help='optional uproot selection for MC (e.g. nspd_ok), in addition to existing MC cuts.')
 
     parser.add_argument('--n-bins', type=int, default=100,
                         help='hep_ml BinsReweighter n_bins per dimension. Default: 100')
@@ -128,7 +132,7 @@ def unique_preserve_order(items):
     return list(dict.fromkeys(items))
 
 
-def load_brs(ntp, tree, add_brs=None, extra_brs=None):
+def load_brs(ntp, tree, add_brs=None, extra_brs=None, cut=None):
     br_names = [] if not add_brs else deepcopy(add_brs)
     for r in REWEIGHT_PROCEDURE.values():
         br_names += r.vars
@@ -137,7 +141,7 @@ def load_brs(ntp, tree, add_brs=None, extra_brs=None):
             br_names += [var]
 
     br_names = unique_preserve_order(br_names)
-    return concatenate([f'{i}:{tree}' for i in ntp], br_names, library='np')
+    return concatenate([f'{i}:{tree}' for i in ntp], br_names, cut=cut, library='np')
 
 
 def gen_cut_original_upper_only(brs, rule, extraCuts=None):
@@ -351,8 +355,8 @@ if __name__ == '__main__':
     histos = dict()
 
     print('Loading branches ...')
-    brs_data_raw = load_brs(args.dataNtp, args.tree, add_brs=DATA_WTS)
-    brs_mc_raw = load_brs(args.mcNtp, args.tree, add_brs=MC_WTS, extra_brs=MC_CUTS)
+    brs_data_raw = load_brs(args.dataNtp, args.tree, add_brs=DATA_WTS, cut=args.data_cut)
+    brs_mc_raw = load_brs(args.mcNtp, args.tree, add_brs=MC_WTS, extra_brs=MC_CUTS, cut=args.mc_cut)
 
     for idx, (name, r) in enumerate(REWEIGHT_PROCEDURE.items()):
         print(f'\nProcessing {name} with hep_ml method = {args.method}')

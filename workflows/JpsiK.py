@@ -218,14 +218,14 @@ JOBS = {
     'JpsiK-ntuple-run2-data': partial(
         workflow_data,
         # '../ntuples/0.9.6-2016_production/JpsiK-std',
-        '../ntuples/0.9.13-JpsiK_and_Dstlnu_fullsim_for_L0emu_initrwgt/JpsiK-data/*--std--LHCb_Collision16*',
+        '../ntuples/0.9.13-JpsiK_and_Dstlnu_fullsim_for_L0emu_initrwgt/JpsiK-data/*--std--*',
         '../postprocess/JpsiK-run2/JpsiK-run2.yml',
         merge=True
     ),
     'JpsiK-ntuple-run2-mc': partial(
         workflow_mc,
         # '../ntuples/0.9.9-JpsiK_noPID/JpsiK-mc',
-        '../ntuples/0.9.13-JpsiK_and_Dstlnu_fullsim_for_L0emu_initrwgt/JpsiK-mc/*--mc--MC_2016*',
+        '../ntuples/0.9.13-JpsiK_and_Dstlnu_fullsim_for_L0emu_initrwgt/JpsiK-mc/*--mc--*',
         '../postprocess/JpsiK-run2/JpsiK-run2.yml',
         merge=True
     ),

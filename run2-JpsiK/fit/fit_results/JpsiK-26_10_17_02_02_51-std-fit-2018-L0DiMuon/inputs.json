@@ -1,0 +1,25 @@
+{
+  "data": [
+    "../gen/26_10_17--merged--JpsiK-ntuple-run2-data/JpsiK--26_10_17--std--data--2018--md.root",
+    "../gen/26_10_17--merged--JpsiK-ntuple-run2-data/JpsiK--26_10_17--std--data--2018--mu.root"
+  ],
+  "mc": [
+    "../gen/26_10_17--merged--JpsiK-ntuple-run2-mc/JpsiK--26_10_17--mc--12143001--2018--md.root",
+    "../gen/26_10_17--merged--JpsiK-ntuple-run2-mc/JpsiK--26_10_17--mc--12143001--2018--mu.root"
+  ],
+  "settings": {
+    "dataFolder": "../gen/26_10_17--merged--JpsiK-ntuple-run2-data",
+    "mcFolder": "../gen/26_10_17--merged--JpsiK-ntuple-run2-mc",
+    "outFolder": "gen/JpsiK-L0DiMuon-noSPDcut-26_10_17_02_01_35",
+    "years": [
+      "2016",
+      "2017",
+      "2018"
+    ],
+    "cut": null,
+    "method": "bins",
+    "n_bins": 100,
+    "n_neighs": 5.0,
+    "bins_min_in_bin": 0.1
+  }
+}

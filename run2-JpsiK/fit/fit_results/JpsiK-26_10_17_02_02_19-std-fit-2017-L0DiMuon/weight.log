@@ -1,0 +1,119 @@
+Loading branches ...
+
+Processing h_occupancy with hep_ml method = bins
+  variables: ['b_ownpv_ndof', 'ntracks']
+
+h_occupancy data weights before hep_ml
+--------------------------------------
+entries: 717831
+finite:  717831
+min:     -0.290604
+p01:     -0.290604
+median:  1.03854
+p99:     1.05773
+max:     1.05773
+sum:     554347
+n < 0:   122476
+n == 0:  0
+
+h_occupancy MC weights before hep_ml
+------------------------------------
+entries: 451404
+finite:  451404
+min:     0.00831625
+p01:     0.0672825
+median:  0.816011
+p99:     0.952968
+max:     0.973629
+sum:     334564
+n < 0:   0
+n == 0:  0
+h_occupancy data: before training clean = 717831, after = 717831
+h_occupancy MC: before training clean = 451404, after = 451404
+Using BinsReweighter: n_bins=100, n_neighs=5.0, min_in_the_bin=0.1
+
+h_occupancy hep_ml output ratio values
+--------------------------------------
+entries: 225
+finite:  225
+min:     0.32743
+p01:     0.36939
+median:  2.19269
+p99:     6.63273
+max:     6.72814
+sum:     642.371
+n < 0:   0
+n == 0:  0
+
+h_occupancy old-style raw ratio values
+--------------------------------------
+entries: 225
+finite:  225
+min:     0
+p01:     0
+median:  1.37242
+p99:     6.83788
+max:     9.11037
+sum:     426.991
+n < 0:   0
+n == 0:  36
+
+Processing h_kinematic with hep_ml method = bins
+  variables: ['b_pt', 'b_eta']
+
+h_kinematic data weights before hep_ml
+--------------------------------------
+entries: 743757
+finite:  743757
+min:     -0.290604
+p01:     -0.290604
+median:  1.03814
+p99:     1.05773
+max:     1.05773
+sum:     570511
+n < 0:   129735
+n == 0:  0
+
+h_kinematic MC weights before hep_ml
+------------------------------------
+entries: 448853
+finite:  448853
+min:     0
+p01:     0.0681127
+median:  0.982213
+p99:     4.24651
+max:     6.22314
+sum:     524293
+n < 0:   0
+n == 0:  2614
+h_kinematic data: before training clean = 743757, after = 743757
+h_kinematic MC: before training clean = 448853, after = 448853
+Using BinsReweighter: n_bins=100, n_neighs=5.0, min_in_the_bin=0.1
+
+h_kinematic hep_ml output ratio values
+--------------------------------------
+entries: 180
+finite:  180
+min:     0.82448
+p01:     0.82448
+median:  1.25481
+p99:     2.08446
+max:     2.12536
+sum:     227.896
+n < 0:   0
+n == 0:  0
+
+h_kinematic old-style raw ratio values
+--------------------------------------
+entries: 180
+finite:  180
+min:     0
+p01:     0
+median:  0.722994
+p99:     1.24956
+max:     1.29611
+sum:     106.115
+n < 0:   0
+n == 0:  49
+
+Wrote gen/JpsiK-L0DiMuon-noSPDcut-26_10_17_02_01_35/run2-JpsiK-2017-md-B-ndof_ntracks__pt_eta.root

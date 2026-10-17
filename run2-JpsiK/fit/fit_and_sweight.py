@@ -42,6 +42,8 @@ def parse_input():
 
     parser.add_argument('-i', '--input', nargs='+', required=True,
                         help='specify input ntuples and trees of uproot spec.')
+    parser.add_argument('--cut', default=None,
+                        help='optional uproot selection applied before fitting and computing sWeights (e.g. nspd_ok).')
 
     parser.add_argument('-p', '--params', required=True,
                         help='specify fit initial parameters.')
@@ -318,7 +320,7 @@ if __name__ == '__main__':
     fit_params = load_params(args.params)
 
     ntp_brs = concatenate(
-        args.input, [args.branch]+args.extraBranches, library='np')
+        args.input, [args.branch]+args.extraBranches, cut=args.cut, library='np')
     fit_var = ntp_brs[args.branch]
     print(f'Total events in data: {fit_var.size}')
 
